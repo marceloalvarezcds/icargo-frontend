@@ -10,6 +10,7 @@
     "lint:fix": "ng lint --fix",
     "lint:styles": "stylelint ./src/**/*.scss",
     "lint:ci": "npm run lint && npm run lint:styles",
+    "test:ci": "ng test --watch=false --browsers=ChromeHeadlessNoSandbox",
     "test": "ng test"
   },
   "private": true,
