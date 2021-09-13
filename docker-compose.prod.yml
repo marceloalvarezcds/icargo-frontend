@@ -1,0 +1,9 @@
+version: '3'
+
+services:
+  icargo-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.production
+    ports:
+      - '21000:80'
