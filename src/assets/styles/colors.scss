@@ -1,0 +1,38 @@
+$lightblue: #95caff;
+$blue: #3399ff;
+$dark-blue: #0054a9;
+$gray: #575756;
+$error-color: #d50000;
+
+$icargo-blue-palette: (
+  50: $lightblue,
+  100: $lightblue,
+  200: $lightblue,
+  300: $blue,
+  400: $blue,
+  500: $blue,
+  600: $blue,
+  700: $blue,
+  800: $blue,
+  900: $blue,
+  A100: $dark-blue,
+  A200: $dark-blue,
+  A400: $dark-blue,
+  A700: $dark-blue,
+  contrast: (
+    50: white,
+    100: white,
+    200: white,
+    300: white,
+    400: white,
+    500: white,
+    600: white,
+    700: white,
+    800: white,
+    900: white,
+    A100: white,
+    A200: white,
+    A400: white,
+    A700: white,
+  )
+);
