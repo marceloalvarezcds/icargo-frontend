@@ -1,0 +1,30 @@
+@import "~src/assets/styles/colors.scss";
+
+.loader {
+  border: 7px solid $gray;
+  border-radius: 50%;
+  border-top: 7px solid $blue;
+  width: 45px;
+  height: 45px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+::ng-deep {
+  .loading-dialog .mat-dialog-container {
+    background-color: transparent;
+    border-radius: 50%;
+    overflow: hidden;
+    padding: 0;
+    width: auto;
+  }
+}

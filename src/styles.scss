@@ -46,8 +46,8 @@ html body {
   }
 }
 
-.cdk-overlay-pane {
-  position: relative !important;
+.mat-dialog-container {
+  position: relative;
 
   .close {
     position: absolute;
