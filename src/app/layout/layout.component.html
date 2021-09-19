@@ -1,0 +1,56 @@
+<div class="layout-global-container">
+  <app-header></app-header>
+  <mat-sidenav-container autosize class="sidebar content">
+    <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2">
+      <!--app menu-->
+      <mat-nav-list>
+        <ng-container *ngFor="let item of menuConfigService.getMenuItemListObservable() | async">
+          <ng-container *ngIf="item.active">
+            <ng-container *ngIf="!(item.children && item.children.length)">
+              <a
+                mat-list-item
+                routerLinkActive="active"
+                [routerLink]="item.path"
+                [routerLinkActiveOptions]="{ exact: !!item.isRouteExact }"
+                (click)="closeSidebarMenu()"
+              >
+                <mat-icon mat-list-icon *ngIf="item.iconName">{{item.iconName}}</mat-icon>
+                <span mat-list-text>{{item.name}}</span>
+              </a>
+            </ng-container>
+            <ng-container *ngIf="item.children && item.children.length">
+              <mat-accordion>
+                <mat-expansion-panel class="mat-elevation-z0">
+                  <mat-expansion-panel-header>
+                    <mat-panel-title>
+                      <mat-icon mat-list-icon *ngIf="item.iconName">{{item.iconName}}</mat-icon>
+                      <span>{{ item.name }}</span>
+                    </mat-panel-title>
+                  </mat-expansion-panel-header>
+                  <ng-container *ngFor="let child of item.children">
+                    <!-- Entradas de cada submenú  -->
+                    <mat-nav-list class="mat-nav-list-no-pt">
+                      <a
+                        mat-list-item
+                        routerLinkActive="active"
+                        [routerLink]="[child.path]"
+                        [routerLinkActiveOptions]="{ exact: !!child.isRouteExact }"
+                        (click)="closeSidebarMenu()"
+                      >
+                        <mat-icon mat-list-icon *ngIf="child.iconName">{{child.iconName}}</mat-icon>
+                        <div mat-list-text>{{ child.name }}</div>
+                      </a>
+                    </mat-nav-list>
+                  </ng-container>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </ng-container>
+          </ng-container>
+        </ng-container>
+      </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <router-outlet></router-outlet>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
