@@ -9,10 +9,12 @@
 // Be sure that you only ever include this mixin once!
 @include mat.core();
 
+@import "~src/assets/styles/colors.scss";
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$icargo-frontend-primary: mat.define-palette(mat.$indigo-palette);
+$icargo-frontend-primary: mat.define-palette($icargo-blue-palette);
 $icargo-frontend-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
@@ -37,3 +39,53 @@ $icargo-frontend-theme: mat.define-light-theme((
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html body {
+  *[hidden] {
+    display: none !important;
+  }
+}
+
+.mat-dialog-container {
+  position: relative;
+
+  .close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+  }
+}
+
+.col, .col-auto {
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.col {
+  flex-basis: 0;
+  flex-grow: 1;
+  max-width: 100%;
+}
+
+.col-auto {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: none;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.text-center {
+  text-align: center;
+}

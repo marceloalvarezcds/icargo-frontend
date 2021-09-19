@@ -1,0 +1,10 @@
+<span class="row">
+  <span class="spacer">
+    <div *ngFor="let errorMessage of errors"
+      [innerHTML]="replaceNewLineByBreak(errorMessage)"
+    ></div>
+  </span>
+  <button mat-icon-button class="close" (click)="snackBarRef.dismiss()">
+    <mat-icon>close</mat-icon>
+  </button>
+</span>
