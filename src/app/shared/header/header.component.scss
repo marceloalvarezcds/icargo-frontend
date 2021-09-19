@@ -1,0 +1,50 @@
+@import "~src/assets/styles/colors.scss";
+
+.mat-toolbar {
+  background-color: $blue;
+  color: white;
+}
+
+.menu-container {
+  display: flex;
+  align-items: center;
+  margin-right: 2rem;
+}
+
+.logo-container {
+  display: inline-block;
+  margin-left: 8px;
+  height: 30px;
+  width: 100px;
+}
+
+.logo {
+  fill: white;
+  height: auto;
+  width: 100%;
+}
+
+.header-title {
+  font-size: 1rem;
+  font-weight: normal;
+}
+
+.account-icon {
+  font-size: 30px;
+  height: 30px;
+  width: 30px;
+}
+
+.account-name {
+  display: none;
+  font-size: 16px;
+  font-weight: normal;
+  margin-right: 10px;
+  vertical-align: sub;
+}
+
+@media screen and (min-width: 380px) {
+  .account-name {
+    display: inline-block;
+  }
+}
