@@ -11,17 +11,20 @@ import { AppComponent } from './app.component';
 import { DialogsModule } from './dialogs/dialogs.module';
 import { MaterialModule } from './material/material.module';
 import { SharedModule } from './shared/shared.module';
+import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './guards/auth.guard';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-
+import { HomeComponent } from './home/home.component';
 
 registerLocaleData(es);
 
 @NgModule({
   declarations: [
     AppComponent,
+    LayoutComponent,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
