@@ -1,0 +1,87 @@
+<main class="login-container">
+  <div class="half-logo-container">
+    <svg
+      class="half-logo"
+      x="0px" y="0px"
+      width="177.847px" height="351.106px"
+      viewBox="0 0 177.847 351.106"
+      enable-background="new 0 0 177.847 351.106"
+      xml:space="preserve">
+      <g>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M105.076,234.138c-4.608-29.634-18.572-53.841-43.076-71.374
+          c-19.15-13.689-39.945-20.712-62-20.386v70.608c4.772,0.071,9.606,0.56,14.493,1.432c9.815,1.761,18.598,6.247,26.95,11.55
+          c0.291,0.324,0.521,0.708,0.849,0.961c13.247,9.937,21.863,23.04,26.614,38.803c2.65,10.049,2.966,20.211,1.577,30.471
+          c-2.652,12.63-7.831,24.077-15.97,34.143c-3.824,3.002-6.744,6.965-10.632,9.936c-5.553,4.271-11.56,7.738-17.847,10.826
+          c10.964-2.575,21.382-6.382,30.611-13.007c0,0.004,0,0.004,0,0.004c8.469-5.037,16.053-11.112,22.15-18.925
+          c3.544-3.909,7.262-7.701,9.741-12.463c2.24-3.855,5.124-7.371,6.402-11.751c2.999-3.53,3.801-8.066,5.247-12.219
+          c1.844-5.265,3.932-10.589,3.844-16.351c1.024-0.695,0.818-1.885,0.966-2.841C106.481,253.761,106.597,243.9,105.076,234.138z"/>
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M176.138,153.342c-6.427-44.202-26.25-81.369-60.262-110.344
+          C81.627,13.83,42.776-0.26,0,0.003V70.93c5.933,0.048,11.961,0.446,18.086,1.205c29.355,3.635,54.959,15.611,76.952,35.4
+          c12.178,10.957,22.159,23.625,30.23,37.842c0.529,1.156,1.006,2.327,1.578,3.456c10.294,20.476,15.442,42.155,15.418,65.088
+          c-0.01,9.925-1.631,19.666-2.958,29.45c-3.634,14.326-8.716,28.096-15.87,41.06c-7.668,12.264-16.495,23.587-27.134,33.435
+          c-11.029,10.001-23.15,18.403-36.733,24.591c-4.386,2.004-8.88,3.769-13.327,5.643c0.787,0.238,1.456,0.146,2.107-0.037
+          c8.609-2.327,16.971-5.405,25.052-9.126c8.725-4.001,17.375-8.165,25.007-14.099c4.355-2.414,8.271-5.48,12.138-8.574
+          c6.561-5.254,13.095-10.562,18.343-17.221c7.938-7.393,14.314-16.021,20.108-25.119c1.7-2.824,3.419-5.647,5.122-8.478
+          c7.285-12.154,12.854-25.05,16.508-38.76c1.394-5.643,3.057-11.247,4.132-16.955C178.262,191.021,178.873,172.182,176.138,153.342z
+          "/>
+      </g>
+    </svg>
+  </div>
+  <form [formGroup]="loginForm" (ngSubmit)="login()">
+    <mat-card class="login-card">
+      <div class="mat-card-header">
+      <mat-icon
+        class="logo"
+        color="primary"
+        svgIcon="icargo-logo">
+      </mat-icon>
+    </div>
+      <mat-card-content>
+        <mat-form-field>
+          <mat-label>Usuario</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            type="text"
+          />
+          <mat-error *ngIf="loginForm.controls['username'].hasError('required')">
+            El usuario es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="password">
+          <mat-label>Contraseña</mat-label>
+          <input
+            matInput
+            formControlName="password"
+            [type]="showPassword ? 'text' : 'password'"
+          />
+          <button
+            type="button"
+            matSuffix
+            mat-icon-button
+            (click)="showPassword = !showPassword"
+          >
+            <mat-icon>
+              {{showPassword ? "visibility_off" : "visibility"}}
+            </mat-icon>
+          </button>
+          <mat-error *ngIf="loginForm.controls['password'].hasError('required')">
+            La contraseña es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button
+          mat-raised-button
+          type="submit"
+          class="full-width gradient"
+          color="primary"
+          [class.spinner]="isLoading$ | async"
+          [disabled]="isLoading$ | async"
+        >
+          Iniciar Sesión
+        </button>
+      </mat-card-actions>
+    </mat-card>
+  </form>
+</main>

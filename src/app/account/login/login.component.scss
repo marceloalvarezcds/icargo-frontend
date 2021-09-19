@@ -1,0 +1,47 @@
+@import "~src/assets/styles/colors.scss";
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.login-card {
+  background-color: rgba(255, 255, 255, 0.8);
+  box-shadow: none;
+  max-width: 280px;
+  min-width: 150px;
+  width: 100%;
+}
+
+.mat-card-header {
+  justify-content: center;
+  margin-bottom: 36px;
+}
+
+.mat-card-actions {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.logo {
+  width: 200px;
+  height: auto;
+}
+
+.logo-title {
+  font-size: 130%;
+}
+
+.half-logo-container {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.half-logo {
+  fill: $blue;
+  opacity: 0.3;
+}
