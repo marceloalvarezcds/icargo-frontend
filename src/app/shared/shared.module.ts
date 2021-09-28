@@ -4,10 +4,17 @@ import { HttpErrorSnackBarComponent } from './http-error-snack-bar/http-error-sn
 import { MaterialModule } from '../material/material.module';
 import { HeaderComponent } from './header/header.component';
 import { RouterModule } from '@angular/router';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
+import { PageComponent } from './page/page.component';
+import { TableComponent } from './table/table.component';
 
 const modules = [
   HeaderComponent,
-  HttpErrorSnackBarComponent
+  CheckboxFilterComponent,
+  HttpErrorSnackBarComponent,
+  PageComponent,
+  TableComponent,
 ];
 
 @NgModule({
@@ -15,7 +22,9 @@ const modules = [
   exports: modules.slice(),
   imports: [
     CommonModule,
+    FormsModule,
     MaterialModule,
+    ReactiveFormsModule,
     RouterModule,
   ]
 })

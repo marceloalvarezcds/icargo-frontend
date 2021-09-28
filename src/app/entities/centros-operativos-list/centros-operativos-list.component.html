@@ -1,0 +1,64 @@
+<app-page
+  class="centro-operativo-page"
+  module="Entidades"
+  submodule="Centros Operativos"
+  (downloadClick)="downloadCSV()"
+>
+  <div filterMenu>
+    <mat-accordion #accordion="matAccordion" [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Clasificación
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            [value]="clasificacionFiltered"
+            [list]="clasificacion"
+            (valueChanges)="clasificacionFiltered = $event"
+            (filtered)="searchService.search(clasificacionFiltered.join(' ')); accordion.closeAll()"
+          >
+          </app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Ciudad
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            [value]="cuidadesFiltered"
+            [list]="cuidades"
+            (valueChanges)="cuidadesFiltered = $event"
+            (filtered)="searchService.search(cuidadesFiltered.join(' ')); accordion.closeAll()"
+          >
+          </app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            País
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            [value]="paisesFiltered"
+            [list]="paises"
+            (valueChanges)="paisesFiltered = $event"
+            (filtered)="searchService.search(paisesFiltered.join(' ')); accordion.closeAll()"
+          >
+          </app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <app-table
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+  ></app-table>
+</app-page>

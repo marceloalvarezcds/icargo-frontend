@@ -89,3 +89,133 @@ html body {
 .text-center {
   text-align: center;
 }
+
+.page {
+  padding: 1rem;
+}
+
+.page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+
+  .title {
+    font-size: 10px;
+    @media (min-width: 399px) {
+      font-size: 12px;
+    }
+    @media (min-width: 499px) {
+      font-size: 14px;
+    }
+    @media (min-width: 599px) {
+      font-size: 1rem;
+    }
+  }
+}
+
+.page-title-buttons {
+  button {
+    margin-bottom: 5px;
+    margin-right: 5px;
+  }
+  button:last-of-type {
+    margin-right: 0;
+  }
+  @media screen and (min-width: 780px) {
+    button {
+      margin-bottom: 0;
+      margin-right: 1rem;
+    }
+  }
+}
+
+.page-content {
+  background-color: white;
+  border-radius: 10px;
+}
+
+$search-width: 250px;
+
+.search {
+  width: 100%;
+  .mat-form-field-outline {
+    border-radius: 10px;
+    background-color: white;
+  }
+  &.mat-form-field-appearance-outline {
+    &:not(.mat-form-field-appearance-legacy) {
+      .mat-form-field-prefix,
+      .mat-form-field-suffix {
+        .mat-icon {
+          color: rgba(0, 0, 0, 0.87);
+          font-size: 120%;
+        }
+        .mat-icon-button {
+          height: 1.5em;
+          width: 1.5em;
+        }
+      }
+    } 
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-end {
+      border-width: 0;
+    }
+    .mat-form-field-wrapper {
+      margin: 0;
+      padding-bottom: 0;
+    }
+    .mat-form-field-infix {
+      border-top-width: 6px;
+      padding: 6px;
+      width: 100%;
+      @media (max-width: 599px) {
+        padding: 3px;
+      }
+    }
+  }
+  @media screen and (min-width: 480px) {
+    width: $search-width;
+  }
+}
+
+.table-container {
+  width: 100%;
+  overflow: auto;
+
+  .mat-table {
+    width: 100%;
+  }
+
+  tr.mat-header-row,
+  tr.mat-row, tr.mat-footer-row {
+    height: 42px;
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    padding: 0 8px;
+    span {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
+
+  .mat-cell,
+  .mat-header-cell {
+    border-right: 1px solid rgba(0, 0, 0, 0.12);
+    &:not(:nth-child(1)) {
+      padding: 0 10px;
+    }
+  }
+
+  .mat-table-sticky-border-elem-right {
+    border-left: 1px solid #e0e0e0;
+  }
+
+  .mat-table-sticky-border-elem-left {
+    border-right: 1px solid #e0e0e0;
+  } 
+}

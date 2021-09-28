@@ -4,11 +4,13 @@ import { ChangeDetectionStrategy, Component, CUSTOM_ELEMENTS_SCHEMA } from '@ang
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { MenuConfigService } from 'src/app/services/menu-config.service';
+import { SearchService } from 'src/app/services/search.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 import { SharedModule } from '../shared.module';
@@ -28,6 +30,7 @@ describe('HeaderComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
+        BrowserAnimationsModule,
         CommonModule,
         HttpClientTestingModule,
         MaterialModule,
@@ -40,6 +43,7 @@ describe('HeaderComponent', () => {
       providers: [
         AuthService,
         MenuConfigService,
+        SearchService,
         UserService,
         { provide: MatDialogRef, useValue: MatDialog },
       ],
