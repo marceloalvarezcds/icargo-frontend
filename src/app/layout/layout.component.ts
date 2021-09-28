@@ -14,11 +14,24 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   sidebarMode: MatDrawerMode = 'side';
   menuList: MenuItem[] = [
     {
-      name: 'Escritorio',
+      name: 'Inicio',
       iconName: 'speed',
       path: '',
       active: true,
       isRouteExact: true,
+    },
+    {
+      name: 'Entidades',
+      iconName: 'business',
+      active: true,
+      children: [
+        {
+          name: 'Centros Operativos',
+          iconName: 'public',
+          path: '/entities/centros-operativos/list',
+          active: true,
+        },
+      ],
     },
   ];
 

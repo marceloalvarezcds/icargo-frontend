@@ -24,6 +24,11 @@ const routes: Routes = [
         path: '',
         component: HomeComponent,
       },
+      {
+        path: 'entities',
+        loadChildren: () =>
+          import('./entities/entities.module').then((m) => m.EntitiesModule),
+      },
     ],
   },
 ];

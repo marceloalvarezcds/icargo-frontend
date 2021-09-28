@@ -47,5 +47,6 @@ registerLocaleData(es);
 export class AppModule {
   constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
     matIconRegistry.addSvgIcon('icargo-logo', domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/logo-icargo.svg'));
+    matIconRegistry.addSvgIcon('icargo-logo2', domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/logo.svg'));
   }
 }

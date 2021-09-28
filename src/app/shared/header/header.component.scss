@@ -5,28 +5,36 @@
   color: white;
 }
 
+.mat-input-element {
+  color: rgba(0, 0, 0, 0.87);
+}
+
 .menu-container {
   display: flex;
   align-items: center;
-  margin-right: 2rem;
 }
 
 .logo-container {
   display: inline-block;
   margin-left: 8px;
   height: 30px;
-  width: 100px;
 }
 
 .logo {
   fill: white;
   height: auto;
-  width: 100%;
+  display: none;
+  width: 100px;
 }
 
 .header-title {
   font-size: 1rem;
   font-weight: normal;
+}
+
+.avatar-container {
+  padding: 0;
+  min-width: 36px;
 }
 
 .account-icon {
@@ -43,8 +51,18 @@
   vertical-align: sub;
 }
 
-@media screen and (min-width: 380px) {
+.spacer {
+  display: flex;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+@media screen and (min-width: 630px) {
   .account-name {
+    display: inline-block;
+  }
+
+  .logo {
     display: inline-block;
   }
 }

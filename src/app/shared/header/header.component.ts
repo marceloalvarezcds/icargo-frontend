@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 import { MenuConfigService } from 'src/app/services/menu-config.service';
+import { SearchService } from 'src/app/services/search.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -14,6 +15,7 @@ export class HeaderComponent {
 
   constructor(
     public menuConfigService: MenuConfigService,
+    public searchService: SearchService,
     private authService: AuthService,
     private userService: UserService,
   ) { }

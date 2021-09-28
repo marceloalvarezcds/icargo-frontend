@@ -1,0 +1,7 @@
+$header-heigth: 64px;
+
+.sidebar-filter {
+  background-color: #eff2f5;
+  height: calc(100vh - #{$header-heigth});
+  overflow: auto;
+}

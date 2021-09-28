@@ -1,0 +1,57 @@
+<div
+  class="checkbox-filter-container"
+  (click)="$event.stopPropagation()"
+  (keydown.tab)="$event.stopPropagation()"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Buscar"
+      [formControl]="searchFormControl"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <section>
+    <span>
+      <mat-checkbox
+        class="all-ckecked"
+        color="primary"
+        [checked]="allChecked"
+        [indeterminate]="someChecked()"
+        (change)="setAll($event.checked)"
+      >
+        Todos
+      </mat-checkbox>
+    </span>
+    <span>
+      <ul>
+        <li *ngFor="let item of filteredList">
+          <mat-checkbox
+            color="primary"
+            [(ngModel)]="filteredCheckboxModel[item]"
+            (ngModelChange)="updateAllChecked()"
+          >
+            {{ item }}
+          </mat-checkbox>
+        </li>
+      </ul>
+    </span>
+  </section>
+  <div class="buttons">
+    <button
+      type="button"
+      mat-raised-button
+      (click)="reset()"
+    >
+      Restablecer
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="apply()"
+    >
+      Aplicar
+    </button>
+  </div>
+</div>

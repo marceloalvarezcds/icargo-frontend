@@ -1,0 +1,35 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  max-height: 200px;
+  min-height: 32px;
+  height: auto;
+  overflow: auto;
+  padding-inline-start: 20px;
+}
+
+.checkbox-filter-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 280px;
+  padding: 0 1rem;
+}
+
+.all-checked {
+  margin-left: -12px;
+  padding-left: 12px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
+
+.mat-button-base {
+  min-width: 120px;
+
+  &:first-of-type {
+    margin-right: 1rem;
+  }
+}

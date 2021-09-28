@@ -8,7 +8,13 @@
     </a>
   </div>
   <div class="spacer">
-    <span class="header-title">|</span>
+    <mat-form-field class="search">
+      <mat-icon matPrefix color="primary">search</mat-icon>
+      <input #search matInput placeholder="Buscar" (keyup)="searchService.search(search.value)" autocomplete="off">
+      <button *ngIf="search.value" matSuffix mat-icon-button aria-label="Clear" (click)="search.value = '';searchService.search('')">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
   </div>
   <ng-container *ngIf="userObservable$ | async as user">
     <button mat-button class="avatar-container" [matMenuTriggerFor]="menu">
