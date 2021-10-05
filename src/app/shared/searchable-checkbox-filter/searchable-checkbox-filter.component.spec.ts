@@ -5,11 +5,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
 
-import { CheckboxFilterComponent } from './checkbox-filter.component';
+import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter.component';
 
-describe('CheckboxFilterComponent', () => {
-  let component: CheckboxFilterComponent;
-  let fixture: ComponentFixture<CheckboxFilterComponent>;
+describe('SearchableCheckboxFilterComponent', () => {
+  let component: SearchableCheckboxFilterComponent;
+  let fixture: ComponentFixture<SearchableCheckboxFilterComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -18,15 +18,16 @@ describe('CheckboxFilterComponent', () => {
         CommonModule,
         FormsModule,
         MaterialModule,
+        ReactiveFormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ CheckboxFilterComponent ]
+      declarations: [ SearchableCheckboxFilterComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CheckboxFilterComponent);
+    fixture = TestBed.createComponent(SearchableCheckboxFilterComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,8 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
+import { saveAs } from 'file-saver';
 import { CentroOperativo } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
+import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
+import { getFilterList } from 'src/app/utils/filter';
+
+type Filter = {
+  clasificacion?: string;
+  ciudad?: string;
+  pais?: string;
+}
 
 @Component({
   selector: 'app-centros-operativos-list',
@@ -12,48 +23,108 @@ import { SearchService } from 'src/app/services/search.service';
 export class CentrosOperativosListComponent implements OnInit {
 
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativo) => `${element.nombre}`, sticky: true },
-    { def: 'tipo', title: 'Tipo', value: (element: CentroOperativo) => `${element.nombre_corto}` },
-    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativo) => `${element.direccion}` },
-    { def: 'ciudad', title: 'Ciudad', value: (element: CentroOperativo) => `${element.ciudad}` },
-    { def: 'localidad', title: 'Localidad', value: (element: CentroOperativo) => `${element.localidad}` },
-    { def: 'pais', title: 'País', value: (element: CentroOperativo) => `${element.pais}` },
-    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativo) => `${element.clasificacion}` },
-    { def: 'moderado', title: 'Moderado', value: (element: CentroOperativo) => `${element.moderado}` },
+    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativo) => element.nombre, sticky: true },
+    { def: 'nombre_corto', title: 'Nombre Corto', value: (element: CentroOperativo) => element.nombre_corto },
+    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativo) => element.direccion },
+    { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativo) => `${element.ciudad.nombre}/${element.ciudad.localidad.nombre}/${element.ciudad.localidad.pais.nombre_corto}` },
+    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativo) => element.clasificacion.nombre },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
+  isFiltered = false;
   list: CentroOperativo[] = [];
-  clasificacion: string[] = [];
+  clasificacionFilterList: string[] = [];
   clasificacionFiltered: string[] = [];
-  cuidades: string[] = [];
-  cuidadesFiltered: string[] = [];
-  paises: string[] = [];
-  paisesFiltered: string[] = [];
+  ciudadFilterList: string[] = [];
+  ciudadFiltered: string[] = [];
+  paisFilterList: string[] = [];
+  paisFiltered: string[] = [];
+
+  get isFilteredByClasificacion(): boolean {
+    return this.clasificacionFiltered.length !== this.clasificacionFilterList.length
+  }
+
+  get isFilteredByCiudad(): boolean {
+    return this.ciudadFiltered.length !== this.ciudadFilterList.length
+  }
+
+  get isFilteredByPais(): boolean {
+    return this.paisFiltered.length !== this.paisFilterList.length
+  }
+
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
+  @ViewChild('clasificacionCheckboxFilter') clasificacionCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('ciudadesCheckboxFilter') ciudadesCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('paisesCheckboxFilter') paisesCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
-    public searchService: SearchService,
     private centroOperativoService: CentroOperativoService,
+    private reportsService: ReportsService,
+    private searchService: SearchService,
   ) { }
 
   ngOnInit(): void {
     this.centroOperativoService.getList().subscribe(list => {
       this.list = list;
-      this.clasificacion = list.map(x => x.clasificacion).filter((x, i, a) => a.indexOf(x) === i);
-      this.cuidades = list.map(x => x.ciudad).filter((x, i, a) => a.indexOf(x) === i);
-      this.paises = list.map(x => x.pais).filter((x, i, a) => a.indexOf(x) === i);
+      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion.nombre);
+      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad.nombre);
+      this.paisFilterList = getFilterList(list, (x) => x.ciudad.localidad.pais.nombre);
+      this.resetFilterList();
     });
   }
 
-  downloadCSV(): void {}
+  downloadCSV(): void {
+    this.centroOperativoService.generateReports().subscribe(filename => {
+      this.reportsService.downloadFile(filename).subscribe(file => {
+        saveAs(file, filename);
+      });
+    });
+  }
 
-  filterPredicate(obj: CentroOperativo, filter: string): boolean {
-    return filter.split(' ').some(
-      item => (
-        obj.clasificacion.toLowerCase().indexOf(item) >= 0 ||
-        obj.ciudad.toLowerCase().indexOf(item) >= 0 ||
-        obj.pais.toLowerCase().indexOf(item) >= 0
-      )
+  filterPredicate(obj: CentroOperativo, filterJson: string): boolean {
+    const filter: Filter = JSON.parse(filterJson);
+    return (
+      (filter.clasificacion?.split('|').some(x => obj.clasificacion.nombre.toLowerCase().indexOf(x) >= 0) ?? true) &&
+      (filter.ciudad?.split('|').some((x: string) => obj.ciudad.nombre.toLowerCase().indexOf(x) >= 0) ?? true) &&
+      (filter.pais?.split('|').some((x: string) => obj.ciudad.localidad.pais.nombre.toLowerCase().indexOf(x) >= 0) ?? true)
     );
+  }
+
+  applyFilter(): void {
+    let filter: Filter = {};
+    this.isFiltered = false;
+    this.clasificacionFiltered = this.clasificacionCheckboxFilter.getFilteredList();
+    this.ciudadFiltered = this.ciudadesCheckboxFilter.getFilteredList();
+    this.paisFiltered = this.paisesCheckboxFilter.getFilteredList();
+    if (this.isFilteredByClasificacion) {
+      filter.clasificacion = this.clasificacionFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByCiudad) {
+      filter.ciudad = this.ciudadFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByPais) {
+      filter.pais = this.paisFiltered.join('|');
+      this.isFiltered = true;
+    }
+    this.filter(this.isFiltered ? JSON.stringify(filter) : '');
+  }
+
+  resetFilter(): void {
+    this.resetFilterList();
+    this.filter('');
+  }
+
+  private filter(filter: string): void {
+    this.searchService.search(filter, false);
+    this.accordion.closeAll();
+  }
+
+  private resetFilterList(): void {
+    this.isFiltered = false;
+    this.clasificacionFiltered = this.clasificacionFilterList.slice();
+    this.ciudadFiltered = this.ciudadFilterList.slice();
+    this.paisFiltered = this.paisFilterList.slice();
   }
 }

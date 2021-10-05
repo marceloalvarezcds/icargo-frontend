@@ -2,7 +2,9 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { filter } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
+import { SearchOptions } from 'src/app/interfaces/filter';
 import { SearchService } from 'src/app/services/search.service';
 
 @Component({
@@ -19,8 +21,11 @@ export class TableComponent implements OnInit, OnDestroy {
   columnsToShowFilteredList: string[] = [];
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
+  defaultFilterPredicate = this.dataSource.filterPredicate.bind(this.dataSource);
   filteredColumns: Column[] = [];
-  searchSubscription = this.searchService.getSearchText().subscribe((search) => this.filterData(search));
+  searchSubscription = this.searchService.getSearchOptions()
+                        .pipe(filter(() => !!this.dataSource.paginator))
+                        .subscribe((search) => this.filterData(search));
 
   @Input() set columns(list: Column[]) {
     this.allColumns = list.slice();
@@ -38,12 +43,11 @@ export class TableComponent implements OnInit, OnDestroy {
     }
   }
 
-  @Input() set filterPredicate(predicate: (d: any, filter: string) => boolean) {
-    this.dataSource.filterPredicate = predicate;
-  }
+  @Input() filterPredicate = this.defaultFilterPredicate.bind(this.dataSource);
 
   @Output() editClick = new EventEmitter<any>();
   @Output() deleteClick = new EventEmitter<any>();
+  @Output() showClick = new EventEmitter<any>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
@@ -68,8 +72,13 @@ export class TableComponent implements OnInit, OnDestroy {
     this.displayedColumns = this.filteredColumns.map(c => c.def);
   }
 
-  filterData(filterValue: string): void {
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  filterData(searchOptions: SearchOptions): void {
+    if (searchOptions.isFilteredByGlobalSearch) {
+      this.dataSource.filterPredicate = this.defaultFilterPredicate;
+    } else {
+      this.dataSource.filterPredicate = this.filterPredicate;
+    }
+    this.dataSource.filter = searchOptions.textToSearch.trim().toLowerCase();
     this.dataSource.paginator!.firstPage();
   }
 }
