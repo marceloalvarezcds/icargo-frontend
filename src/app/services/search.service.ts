@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { defaultSearchOptions, SearchOptions } from '../interfaces/filter';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SearchService {
 
-  private searchBehaviorSubject = new BehaviorSubject<string>('');
+  private searchBehaviorSubject = new BehaviorSubject<SearchOptions>(defaultSearchOptions);
 
-  search(search: string): void {
-    this.searchBehaviorSubject.next(search);
+  search(textToSearch: string, isFilteredByGlobalSearch: boolean = true): void {
+    this.searchBehaviorSubject.next({ textToSearch, isFilteredByGlobalSearch });
   }
 
-  getSearchText(): Observable<string> {
+  getSearchOptions(): Observable<SearchOptions> {
     return this.searchBehaviorSubject.asObservable();
   }
 }

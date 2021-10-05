@@ -14,7 +14,9 @@ export class PageComponent {
   @Input() module: string = '';
   @Input() submodule: string = '';
 
+  @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
+  @Output() resetClick = new EventEmitter<MouseEvent>();
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 

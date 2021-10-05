@@ -17,13 +17,13 @@
         </button>
         <mat-menu #filterColumn>
           <div mat-menu-item disableRipple>
-            <app-checkbox-filter
+            <app-searchable-checkbox-filter
               [value]="columnsToShowFilteredList"
               [list]="columnsToShowList"
               (valueChanges)="columnsToShowFilteredList = $event"
               (filtered)="filterColumns(); filterColumnTrigger._elementRef.nativeElement.click()"
             >
-            </app-checkbox-filter>
+            </app-searchable-checkbox-filter>
           </div>
         </mat-menu>
       </th>
@@ -32,6 +32,10 @@
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="showClick.emit(row)">
+            <mat-icon color="primary">visibility</mat-icon>
+            <span>Ver</span>
+          </button>
           <button mat-menu-item (click)="editClick.emit(row)">
             <mat-icon color="primary">edit</mat-icon>
             <span>Editar</span>

@@ -3,5 +3,40 @@ $header-heigth: 64px;
 .sidebar-filter {
   background-color: #eff2f5;
   height: calc(100vh - #{$header-heigth});
+  overflow-y: auto;
+
+  &::ng-deep {
+    .checkbox-filter-container {
+      padding: 0 1rem;
+    }
+  }
+}
+
+.filter-values {
   overflow: auto;
+  padding: 4px;
+  margin-bottom: 0.5rem;
+  margin-top: -0.5rem;
+
+  &::ng-deep {
+    .mat-chip-list-wrapper {
+      display: flex;
+      flex-wrap: nowrap;
+      .mat-standard-chip {
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.buttons {
+  .mat-button-base {
+    min-width: 100px;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    &:first-of-type {
+      margin-right: 0;
+    }
+  }  
 }

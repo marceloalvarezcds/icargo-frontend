@@ -34,7 +34,8 @@
               "./node_modules/flexboxgrid/dist/flexboxgrid.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "allowedCommonJsDependencies": ["file-saver"]
           },
           "configurations": {
             "production": {

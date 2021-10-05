@@ -8,12 +8,14 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
 import { PageComponent } from './page/page.component';
 import { TableComponent } from './table/table.component';
+import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
 
 const modules = [
   HeaderComponent,
   CheckboxFilterComponent,
   HttpErrorSnackBarComponent,
   PageComponent,
+  SearchableCheckboxFilterComponent,
   TableComponent,
 ];
 

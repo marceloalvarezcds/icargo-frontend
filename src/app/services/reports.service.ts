@@ -2,18 +2,19 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { User } from '../interfaces/user';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UserService {
+export class ReportsService {
 
-  private url = `${environment.api}/user`;
+  url = `${environment.api}/reports`;
 
   constructor(private http: HttpClient) { }
 
-  getLoggedUser(): Observable<User> {
-    return this.http.get<User>(`${this.url}/me/`);
+  downloadFile(filename: string): Observable<Blob> {
+    return this.http.get(`${this.url}/${filename}`, {
+      responseType: 'blob'
+    });
   }
 }

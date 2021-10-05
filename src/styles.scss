@@ -135,7 +135,11 @@ html body {
   border-radius: 10px;
 }
 
-$search-width: 250px;
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 1rem;
+}
 
 .search {
   width: 100%;
@@ -160,6 +164,7 @@ $search-width: 250px;
     .mat-form-field-outline-start,
     .mat-form-field-outline-end {
       border-width: 0;
+      border-color: $blue;
     }
     .mat-form-field-wrapper {
       margin: 0;
@@ -175,7 +180,7 @@ $search-width: 250px;
     }
   }
   @media screen and (min-width: 480px) {
-    width: $search-width;
+    width: 50%;
   }
 }
 

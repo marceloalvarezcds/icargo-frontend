@@ -1,48 +1,29 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { CheckboxFilterEvent, CheckboxModel } from 'src/app/interfaces/filter';
+import { Component, Input } from '@angular/core';
+import { CheckboxModel } from 'src/app/interfaces/filter';
 
 @Component({
   selector: 'app-checkbox-filter',
   templateUrl: './checkbox-filter.component.html',
   styleUrls: ['./checkbox-filter.component.scss']
 })
-export class CheckboxFilterComponent implements OnDestroy {
+export class CheckboxFilterComponent {
 
   allChecked = true;
   allCheckboxModel: CheckboxModel = {};
   allList: string[] = [];
   filteredList: string[] = [];
   filteredCheckboxModel: CheckboxModel = {};
-  searchFormControl = new FormControl(null);
-  searchSubscription = this.searchFormControl.valueChanges.subscribe((search) => this.filterData(search));
 
-  @Input() value: string[] = [];
-  @Input() set list(val: string[]) {
-    this.allList = val.slice();
+  @Input() set value(val: string[]) {
+    this.allChecked = true;
     this.filteredList = val.slice();
-    Object.values(val).forEach((key) => (this.allCheckboxModel[key] = true));
     this.filteredCheckboxModel = this.mergeCheckboxModelWithInitial();
   }
-  @Output() filtered = new EventEmitter<CheckboxFilterEvent>();
-  @Output() valueChanges = new EventEmitter<string[]>();
 
-  ngOnDestroy(): void {
-    this.searchSubscription.unsubscribe();
-  }
-
-  reset(): void {
-    this.filteredList = this.allList.slice();
-    this.filteredCheckboxModel = this.clonedCheckboxModel();
-    this.searchFormControl.setValue(null);
-    this.updateAllChecked();
-    this.apply(true);
-  }
-
-  apply(isResetPressed: boolean = false): void {
-    const list = this.transformCheckboxModelToStringList(this.filteredCheckboxModel);
-    this.valueChanges.emit(list);
-    this.filtered.emit({ filteredList: list, isResetPressed });
+  @Input() set list(val: string[]) {
+    this.allList = val.slice();
+    Object.values(val).forEach((key) => (this.allCheckboxModel[key] = true));
+    this.filteredCheckboxModel = this.mergeCheckboxModelWithInitial();
   }
 
   updateAllChecked(): void {
@@ -69,14 +50,13 @@ export class CheckboxFilterComponent implements OnDestroy {
     }
   }
 
-  private filterData(filterValue: string): void {
-    const list = this.allList.slice();
-    if (filterValue) {
-      const regex = new RegExp(filterValue, 'gi');
-      this.filteredList = list.filter((city) => regex.test(city));
-    } else {
-      this.filteredList = list.slice();
-    }
+  reset(): void {
+    this.filteredCheckboxModel = this.clonedCheckboxModel();
+    this.updateAllChecked();
+  }
+
+  getFilteredList(): string[] {
+    return this.transformCheckboxModelToStringList(this.filteredCheckboxModel);
   }
 
   private clonedCheckboxModel(): CheckboxModel {
@@ -85,10 +65,10 @@ export class CheckboxFilterComponent implements OnDestroy {
 
   private mergeCheckboxModelWithInitial(): CheckboxModel {
     const checkboxModel = this.clonedCheckboxModel();
-    if (!this.value.length) {
+    if (!this.filteredList.length) {
       return checkboxModel;
     }
-    this.allList.filter(x => !this.value.includes(x)).forEach(key => {
+    this.allList.filter(x => !this.filteredList.includes(x)).forEach(key => {
       this.allChecked = false;
       checkboxModel[key] = false;
     });

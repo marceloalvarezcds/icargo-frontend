@@ -1,6 +1,23 @@
 <mat-sidenav-container class="sidebar-filter" from="right">
   <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2" position="end">
-    <ng-content select="[filterMenu]"></ng-content>  
+    <ng-content select="[filterMenu]"></ng-content>
+    <div class="buttons">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="resetClick.emit($event)"
+      >
+        Limpiar
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="applyClick.emit($event)"
+      >
+        Filtrar
+      </button>
+    </div>
   </mat-sidenav>
   <mat-sidenav-content>
     <div class="page">
@@ -17,6 +34,9 @@
             <mat-icon>add</mat-icon>
           </button>
         </div>
+      </div>
+      <div class="filter-values">
+        <ng-content select="[filterValues]"></ng-content>
       </div>
       <div class="page-content">
         <div class="table-container">
