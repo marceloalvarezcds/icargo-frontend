@@ -37,10 +37,8 @@ export class TableComponent implements OnInit, OnDestroy {
     this.filterColumns();
   };
 
-  @Input() set data(values: any[] | null) {
-    if (values) {
-      this.dataSource.data = values.slice();
-    }
+  @Input() set data(values: any[]) {
+    this.dataSource.data = values.slice();
   }
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(this.dataSource);

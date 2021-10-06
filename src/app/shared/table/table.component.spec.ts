@@ -6,6 +6,7 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SearchService } from 'src/app/services/search.service';
+import { SearchableCheckboxFilterComponent } from '../searchable-checkbox-filter/searchable-checkbox-filter.component';
 import { SharedModule } from '../shared.module';
 
 import { TableComponent } from './table.component';
@@ -26,7 +27,7 @@ describe('TableComponent', () => {
       ],
       providers: [ SearchService ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ TableComponent ]
+      declarations: [ TableComponent, SearchableCheckboxFilterComponent ]
     })
     .compileComponents();
   });
@@ -39,6 +40,7 @@ describe('TableComponent', () => {
   });
 
   it('should create', () => {
+    component.columnsToShowList = ['filter'];
     expect(component).toBeTruthy();
   });
 });

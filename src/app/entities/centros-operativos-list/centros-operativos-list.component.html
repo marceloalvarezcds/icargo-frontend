@@ -3,7 +3,7 @@
   module="Entidades"
   submodule="Centros Operativos"
   (applyClick)="applyFilter()"
-  (downloadClick)="downloadCSV()"
+  (downloadClick)="downloadFile()"
   (resetClick)="resetFilter()"
 >
   <div filterMenu>
@@ -26,7 +26,7 @@
         </mat-expansion-panel-header>
         <div>
           <app-checkbox-filter
-            #paisesCheckboxFilter
+            #paisCheckboxFilter
             [value]="paisFiltered"
             [list]="paisFilterList"
           ></app-checkbox-filter>
@@ -38,7 +38,7 @@
         </mat-expansion-panel-header>
         <div>
           <app-checkbox-filter
-            #ciudadesCheckboxFilter
+            #ciudadCheckboxFilter
             [value]="ciudadFiltered"
             [list]="ciudadFilterList"
           ></app-checkbox-filter>

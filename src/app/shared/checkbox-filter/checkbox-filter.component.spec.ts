@@ -34,4 +34,14 @@ describe('CheckboxFilterComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  it('should execute setAll', () => {
+    component.list = ['filter1', 'filter2'];
+    component.value = ['filter1'];
+    component.updateAllChecked();
+    component.setAll(true);
+    component.setAll(false);
+    const filtered = component.getFilteredList();
+    expect(filtered).toEqual([]);
+  });
 });

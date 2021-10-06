@@ -103,19 +103,19 @@ export const mockCentroOperativoList: CentroOperativo[] = [
       nombre: 'Puerto multimodal',
       es_moderado: true
     },
-    ciudad_id: 11,
+    ciudad_id: 400,
     ciudad: {
-      id: 11,
-      nombre: 'Hernandarias',
-      localidad_id: 2,
+      id: 400,
+      nombre: "Paso de Indios",
+      localidad_id: 21,
       localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
+        id: 21,
+        nombre: "Chubut",
+        pais_id: 2,
         pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY'
+          id: 2,
+          nombre: "Argentina",
+          nombre_corto: "AR"
         }
       }
     },

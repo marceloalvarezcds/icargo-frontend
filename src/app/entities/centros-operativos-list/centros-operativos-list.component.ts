@@ -54,8 +54,8 @@ export class CentrosOperativosListComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('clasificacionCheckboxFilter') clasificacionCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('ciudadesCheckboxFilter') ciudadesCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('paisesCheckboxFilter') paisesCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('ciudadCheckboxFilter') ciudadCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private centroOperativoService: CentroOperativoService,
@@ -73,7 +73,7 @@ export class CentrosOperativosListComponent implements OnInit {
     });
   }
 
-  downloadCSV(): void {
+  downloadFile(): void {
     this.centroOperativoService.generateReports().subscribe(filename => {
       this.reportsService.downloadFile(filename).subscribe(file => {
         saveAs(file, filename);
@@ -83,19 +83,18 @@ export class CentrosOperativosListComponent implements OnInit {
 
   filterPredicate(obj: CentroOperativo, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    return (
-      (filter.clasificacion?.split('|').some(x => obj.clasificacion.nombre.toLowerCase().indexOf(x) >= 0) ?? true) &&
-      (filter.ciudad?.split('|').some((x: string) => obj.ciudad.nombre.toLowerCase().indexOf(x) >= 0) ?? true) &&
-      (filter.pais?.split('|').some((x: string) => obj.ciudad.localidad.pais.nombre.toLowerCase().indexOf(x) >= 0) ?? true)
-    );
+    const filterByClasificacion = filter.clasificacion?.split('|').some(x => obj.clasificacion.nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad.nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByPais = filter.pais?.split('|').some(x => obj.ciudad.localidad.pais.nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    return filterByClasificacion && filterByCiudad && filterByPais;
   }
 
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
     this.clasificacionFiltered = this.clasificacionCheckboxFilter.getFilteredList();
-    this.ciudadFiltered = this.ciudadesCheckboxFilter.getFilteredList();
-    this.paisFiltered = this.paisesCheckboxFilter.getFilteredList();
+    this.ciudadFiltered = this.ciudadCheckboxFilter.getFilteredList();
+    this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
     if (this.isFilteredByClasificacion) {
       filter.clasificacion = this.clasificacionFiltered.join('|');
       this.isFiltered = true;
@@ -108,7 +107,7 @@ export class CentrosOperativosListComponent implements OnInit {
       filter.pais = this.paisFiltered.join('|');
       this.isFiltered = true;
     }
-    this.filter(this.isFiltered ? JSON.stringify(filter) : '');
+    this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
   }
 
   resetFilter(): void {
@@ -116,8 +115,8 @@ export class CentrosOperativosListComponent implements OnInit {
     this.filter('');
   }
 
-  private filter(filter: string): void {
-    this.searchService.search(filter, false);
+  private filter(filter: string, isFilteredByGlobalSearch: boolean = true): void {
+    this.searchService.search(filter, isFilteredByGlobalSearch);
     this.accordion.closeAll();
   }
 
