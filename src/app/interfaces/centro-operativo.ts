@@ -19,7 +19,15 @@ export interface CentroOperativo {
   contacto?: Contacto | null;
 }
 
-export const mockCentroOperativoList: CentroOperativo[] = [
+export interface CentroOperativoList extends CentroOperativo {
+  clasificacion_nombre: string;
+  ciudad_nombre: string;
+  localidad_nombre: string;
+  pais_nombre: string;
+  pais_nombre_corto: string;
+}
+
+export const mockCentroOperativoList: CentroOperativoList[] = [
   {
     id: 1,
     nombre: 'CARGILL CEDRALES',
@@ -52,7 +60,12 @@ export const mockCentroOperativoList: CentroOperativo[] = [
       }
     },
     contacto_id: null,
-    contacto: null
+    contacto: null,
+    clasificacion_nombre: 'Silo',
+    ciudad_nombre: 'Los Cedrales',
+    localidad_nombre: 'Alto Parana',
+    pais_nombre: 'Paraguay',
+    pais_nombre_corto: 'PY',
   },
   {
     id: 2,
@@ -86,7 +99,12 @@ export const mockCentroOperativoList: CentroOperativo[] = [
       }
     },
     contacto_id: null,
-    contacto: null
+    contacto: null,
+    clasificacion_nombre: 'Puerto seco',
+    ciudad_nombre: 'Santa Rita',
+    localidad_nombre: 'Alto Parana',
+    pais_nombre: 'Paraguay',
+    pais_nombre_corto: 'PY',
   },
   {
     id: 3,
@@ -103,23 +121,28 @@ export const mockCentroOperativoList: CentroOperativo[] = [
       nombre: 'Puerto multimodal',
       es_moderado: true
     },
-    ciudad_id: 11,
+    ciudad_id: 400,
     ciudad: {
-      id: 11,
-      nombre: 'Hernandarias',
-      localidad_id: 2,
+      id: 400,
+      nombre: 'Paso de Indios',
+      localidad_id: 21,
       localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
+        id: 21,
+        nombre: 'Chubut',
+        pais_id: 2,
         pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY'
+          id: 2,
+          nombre: 'Argentina',
+          nombre_corto: 'AR'
         }
       }
     },
     contacto_id: null,
-    contacto: null
+    contacto: null,
+    clasificacion_nombre: 'Puerto multimodal',
+    ciudad_nombre: 'Paso de Indios',
+    localidad_nombre: 'Chubut',
+    pais_nombre: 'Argentina',
+    pais_nombre_corto: 'AR',
   },
 ];

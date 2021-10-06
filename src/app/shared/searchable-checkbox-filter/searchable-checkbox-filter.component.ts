@@ -43,12 +43,11 @@ export class SearchableCheckboxFilterComponent implements OnDestroy {
   }
 
   private filterData(filterValue: string): void {
-    const list = this.allList.slice();
     if (filterValue) {
       const regex = new RegExp(filterValue, 'gi');
-      this.filteredList = list.filter((city) => regex.test(city));
+      this.filteredList = this.allList.filter(x => regex.test(x));
     } else {
-      this.filteredList = list;
+      this.filteredList = this.allList.slice();
     }
   }
 }

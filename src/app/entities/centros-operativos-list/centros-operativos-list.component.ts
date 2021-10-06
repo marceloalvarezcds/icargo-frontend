@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { saveAs } from 'file-saver';
-import { CentroOperativo } from 'src/app/interfaces/centro-operativo';
+import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -23,16 +23,16 @@ type Filter = {
 export class CentrosOperativosListComponent implements OnInit {
 
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativo) => element.nombre, sticky: true },
-    { def: 'nombre_corto', title: 'Nombre Corto', value: (element: CentroOperativo) => element.nombre_corto },
-    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativo) => element.direccion },
-    { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativo) => `${element.ciudad.nombre}/${element.ciudad.localidad.nombre}/${element.ciudad.localidad.pais.nombre_corto}` },
-    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativo) => element.clasificacion.nombre },
+    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativoList) => element.nombre, sticky: true },
+    { def: 'nombre_corto', title: 'Nombre Corto', value: (element: CentroOperativoList) => element.nombre_corto },
+    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativoList) => element.direccion },
+    { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativoList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
+    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativoList) => element.clasificacion_nombre },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: CentroOperativo[] = [];
+  list: CentroOperativoList[] = [];
   clasificacionFilterList: string[] = [];
   clasificacionFiltered: string[] = [];
   ciudadFilterList: string[] = [];
@@ -54,8 +54,8 @@ export class CentrosOperativosListComponent implements OnInit {
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('clasificacionCheckboxFilter') clasificacionCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('ciudadesCheckboxFilter') ciudadesCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('paisesCheckboxFilter') paisesCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('ciudadCheckboxFilter') ciudadCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private centroOperativoService: CentroOperativoService,
@@ -66,14 +66,14 @@ export class CentrosOperativosListComponent implements OnInit {
   ngOnInit(): void {
     this.centroOperativoService.getList().subscribe(list => {
       this.list = list;
-      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion.nombre);
-      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad.nombre);
-      this.paisFilterList = getFilterList(list, (x) => x.ciudad.localidad.pais.nombre);
+      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion_nombre);
+      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
+      this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
       this.resetFilterList();
     });
   }
 
-  downloadCSV(): void {
+  downloadFile(): void {
     this.centroOperativoService.generateReports().subscribe(filename => {
       this.reportsService.downloadFile(filename).subscribe(file => {
         saveAs(file, filename);
@@ -81,21 +81,20 @@ export class CentrosOperativosListComponent implements OnInit {
     });
   }
 
-  filterPredicate(obj: CentroOperativo, filterJson: string): boolean {
+  filterPredicate(obj: CentroOperativoList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    return (
-      (filter.clasificacion?.split('|').some(x => obj.clasificacion.nombre.toLowerCase().indexOf(x) >= 0) ?? true) &&
-      (filter.ciudad?.split('|').some((x: string) => obj.ciudad.nombre.toLowerCase().indexOf(x) >= 0) ?? true) &&
-      (filter.pais?.split('|').some((x: string) => obj.ciudad.localidad.pais.nombre.toLowerCase().indexOf(x) >= 0) ?? true)
-    );
+    const filterByClasificacion = filter.clasificacion?.split('|').some(x => obj.clasificacion_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByPais = filter.pais?.split('|').some(x => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    return filterByClasificacion && filterByCiudad && filterByPais;
   }
 
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
     this.clasificacionFiltered = this.clasificacionCheckboxFilter.getFilteredList();
-    this.ciudadFiltered = this.ciudadesCheckboxFilter.getFilteredList();
-    this.paisFiltered = this.paisesCheckboxFilter.getFilteredList();
+    this.ciudadFiltered = this.ciudadCheckboxFilter.getFilteredList();
+    this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
     if (this.isFilteredByClasificacion) {
       filter.clasificacion = this.clasificacionFiltered.join('|');
       this.isFiltered = true;
@@ -108,7 +107,7 @@ export class CentrosOperativosListComponent implements OnInit {
       filter.pais = this.paisFiltered.join('|');
       this.isFiltered = true;
     }
-    this.filter(this.isFiltered ? JSON.stringify(filter) : '');
+    this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
   }
 
   resetFilter(): void {
@@ -116,8 +115,8 @@ export class CentrosOperativosListComponent implements OnInit {
     this.filter('');
   }
 
-  private filter(filter: string): void {
-    this.searchService.search(filter, false);
+  private filter(filter: string, isFilteredByGlobalSearch: boolean = true): void {
+    this.searchService.search(filter, isFilteredByGlobalSearch);
     this.accordion.closeAll();
   }
 
