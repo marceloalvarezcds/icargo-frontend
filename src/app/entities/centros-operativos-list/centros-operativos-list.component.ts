@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { saveAs } from 'file-saver';
-import { CentroOperativo } from 'src/app/interfaces/centro-operativo';
+import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -23,16 +23,16 @@ type Filter = {
 export class CentrosOperativosListComponent implements OnInit {
 
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativo) => element.nombre, sticky: true },
-    { def: 'nombre_corto', title: 'Nombre Corto', value: (element: CentroOperativo) => element.nombre_corto },
-    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativo) => element.direccion },
-    { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativo) => `${element.ciudad.nombre}/${element.ciudad.localidad.nombre}/${element.ciudad.localidad.pais.nombre_corto}` },
-    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativo) => element.clasificacion.nombre },
+    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativoList) => element.nombre, sticky: true },
+    { def: 'nombre_corto', title: 'Nombre Corto', value: (element: CentroOperativoList) => element.nombre_corto },
+    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativoList) => element.direccion },
+    { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativoList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
+    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativoList) => element.clasificacion_nombre },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: CentroOperativo[] = [];
+  list: CentroOperativoList[] = [];
   clasificacionFilterList: string[] = [];
   clasificacionFiltered: string[] = [];
   ciudadFilterList: string[] = [];
@@ -66,9 +66,9 @@ export class CentrosOperativosListComponent implements OnInit {
   ngOnInit(): void {
     this.centroOperativoService.getList().subscribe(list => {
       this.list = list;
-      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion.nombre);
-      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad.nombre);
-      this.paisFilterList = getFilterList(list, (x) => x.ciudad.localidad.pais.nombre);
+      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion_nombre);
+      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
+      this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
       this.resetFilterList();
     });
   }
@@ -81,11 +81,11 @@ export class CentrosOperativosListComponent implements OnInit {
     });
   }
 
-  filterPredicate(obj: CentroOperativo, filterJson: string): boolean {
+  filterPredicate(obj: CentroOperativoList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    const filterByClasificacion = filter.clasificacion?.split('|').some(x => obj.clasificacion.nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad.nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByPais = filter.pais?.split('|').some(x => obj.ciudad.localidad.pais.nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByClasificacion = filter.clasificacion?.split('|').some(x => obj.clasificacion_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByPais = filter.pais?.split('|').some(x => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     return filterByClasificacion && filterByCiudad && filterByPais;
   }
 
