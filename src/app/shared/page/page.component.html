@@ -1,5 +1,6 @@
 <mat-sidenav-container class="sidebar-filter" from="right">
   <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2" position="end">
+    <strong class="sidebar-filter-title">Filtros</strong>
     <ng-content select="[filterMenu]"></ng-content>
     <div class="buttons">
       <button
@@ -30,7 +31,7 @@
           <button mat-mini-fab color="primary" matTooltip="Exportar lista" (click)="downloadClick.emit($event)">
             <mat-icon>download</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" matTooltip="Crear">
+          <button mat-mini-fab color="primary" matTooltip="Crear" (click)="createClick.emit($event)">
             <mat-icon>add</mat-icon>
           </button>
         </div>

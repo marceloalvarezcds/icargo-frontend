@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
@@ -61,6 +62,7 @@ export class CentrosOperativosListComponent implements OnInit {
     private centroOperativoService: CentroOperativoService,
     private reportsService: ReportsService,
     private searchService: SearchService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -72,6 +74,8 @@ export class CentrosOperativosListComponent implements OnInit {
       this.resetFilterList();
     });
   }
+
+  redirectToCreate(): void { }
 
   downloadFile(): void {
     this.centroOperativoService.generateReports().subscribe(filename => {

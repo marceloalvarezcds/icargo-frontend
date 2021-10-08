@@ -90,6 +90,18 @@ html body {
   text-align: center;
 }
 
+.pa-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
 .page {
   padding: 1rem;
 }
@@ -192,9 +204,16 @@ html body {
     width: 100%;
   }
 
-  tr.mat-header-row,
-  tr.mat-row, tr.mat-footer-row {
+  tr.mat-header-row {
     height: 42px;
+  }
+
+  tr.mat-row, tr.mat-footer-row {
+    height: 31px;
+  }
+
+  .mat-header-cell {
+    font-size: 14px;
   }
 
   .mat-cell,
