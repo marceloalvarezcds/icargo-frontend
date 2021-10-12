@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
@@ -61,6 +62,7 @@ export class CentrosOperativosListComponent implements OnInit {
     private centroOperativoService: CentroOperativoService,
     private reportsService: ReportsService,
     private searchService: SearchService,
+    private router: Router,
   ) { }
 
   ngOnInit(): void {
@@ -71,6 +73,10 @@ export class CentrosOperativosListComponent implements OnInit {
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
       this.resetFilterList();
     });
+  }
+
+  redirectToCreate(): void {
+    this.router.navigate(['/entities/centros-operativos/create']);
   }
 
   downloadFile(): void {

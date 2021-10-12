@@ -12,6 +12,12 @@ $header-heigth: 64px;
   }
 }
 
+.sidebar-filter-title {
+  padding: 1rem;
+  font-size: 1rem;
+  display: inline-block;
+}
+
 .filter-values {
   overflow: auto;
   padding: 4px;

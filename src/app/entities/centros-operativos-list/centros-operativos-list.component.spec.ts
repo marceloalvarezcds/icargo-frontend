@@ -5,6 +5,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testi
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
@@ -14,6 +15,7 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { TableComponent } from 'src/app/shared/table/table.component';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
+import { CentrosOperativosFormComponent } from '../centros-operativos-form/centros-operativos-form.component';
 
 import { CentrosOperativosListComponent } from './centros-operativos-list.component';
 
@@ -35,6 +37,12 @@ describe('CentrosOperativosListComponent', () => {
         MaterialModule,
         MatIconTestingModule,
         ReactiveFormsModule,
+        RouterTestingModule.withRoutes([
+          {
+            path: 'entities/centros-operativos/create',
+            component: CentrosOperativosFormComponent,
+          },
+        ]),
         SharedModule,
       ],
       providers: [ CentroOperativoService, ReportsService, SearchService ],
@@ -59,11 +67,14 @@ describe('CentrosOperativosListComponent', () => {
   });
 
   it('listens for app-page changes', () => {
+    const redirectToCreateSpy = spyOn(component, 'redirectToCreate').and.callThrough();
     const applyFilterSpy = spyOn(component, 'applyFilter').and.callThrough();
     const resetFilterSpy = spyOn(component, 'resetFilter').and.callThrough();
     const searchSpy = spyOn(searchService, 'search').and.callThrough();
+    pageComponent.triggerEventHandler('createClick', new MouseEvent('click'));
     pageComponent.triggerEventHandler('applyClick', new MouseEvent('click'));
     pageComponent.triggerEventHandler('resetClick', new MouseEvent('click'));
+    expect(redirectToCreateSpy).toHaveBeenCalled();
     expect(applyFilterSpy).toHaveBeenCalled();
     expect(resetFilterSpy).toHaveBeenCalled();
     expect(searchSpy).toHaveBeenCalled();

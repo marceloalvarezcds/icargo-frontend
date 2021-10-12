@@ -78,6 +78,12 @@ html body {
   width: 100%;
 }
 
+.input-style {
+  cursor: pointer;
+  line-height: 3;
+  border-block-end: 1px solid;
+}
+
 .mat-form-field {
   width: 100%;
 }
@@ -88,6 +94,18 @@ html body {
 
 .text-center {
   text-align: center;
+}
+
+.pa-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
 }
 
 .page {
@@ -135,6 +153,12 @@ html body {
   border-radius: 10px;
 }
 
+.page-form-row {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -160,7 +184,7 @@ html body {
           width: 1.5em;
         }
       }
-    } 
+    }
     .mat-form-field-outline-start,
     .mat-form-field-outline-end {
       border-width: 0;
@@ -192,9 +216,16 @@ html body {
     width: 100%;
   }
 
-  tr.mat-header-row,
-  tr.mat-row, tr.mat-footer-row {
+  tr.mat-header-row {
     height: 42px;
+  }
+
+  tr.mat-row, tr.mat-footer-row {
+    height: 31px;
+  }
+
+  .mat-header-cell {
+    font-size: 14px;
   }
 
   .mat-cell,

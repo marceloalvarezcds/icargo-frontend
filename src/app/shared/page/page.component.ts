@@ -15,6 +15,7 @@ export class PageComponent {
   @Input() submodule: string = '';
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
+  @Output() createClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
 

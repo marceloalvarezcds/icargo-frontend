@@ -6,11 +6,16 @@ import { EntitiesRoutingModule } from './entities-routing.module';
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
 import { MaterialModule } from '../material/material.module';
 import { SharedModule } from '../shared/shared.module';
+import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
+import { PipesModule } from '../pipes/pipes.module';
+import { CentrosOperativosFormContactosComponent } from './centros-operativos-form-contactos/centros-operativos-form-contactos.component';
 
 
 @NgModule({
   declarations: [
-    CentrosOperativosListComponent
+    CentrosOperativosListComponent,
+    CentrosOperativosFormComponent,
+    CentrosOperativosFormContactosComponent
   ],
   imports: [
     CommonModule,
@@ -18,6 +23,7 @@ import { SharedModule } from '../shared/shared.module';
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
+    PipesModule,
     SharedModule,
   ],
 })

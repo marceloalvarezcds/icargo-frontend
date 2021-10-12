@@ -7,6 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
 import { PageComponent } from './page/page.component';
+import { PageFormComponent } from './page-form/page-form.component';
 import { TableComponent } from './table/table.component';
 import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
 
@@ -15,6 +16,7 @@ const modules = [
   CheckboxFilterComponent,
   HttpErrorSnackBarComponent,
   PageComponent,
+  PageFormComponent,
   SearchableCheckboxFilterComponent,
   TableComponent,
 ];
