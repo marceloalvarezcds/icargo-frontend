@@ -75,7 +75,9 @@ export class CentrosOperativosListComponent implements OnInit {
     });
   }
 
-  redirectToCreate(): void { }
+  redirectToCreate(): void {
+    this.router.navigate(['/entities/centros-operativos/create']);
+  }
 
   downloadFile(): void {
     this.centroOperativoService.generateReports().subscribe(filename => {

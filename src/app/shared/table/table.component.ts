@@ -5,6 +5,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { filter } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
+import { TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
 
 @Component({
@@ -42,10 +43,12 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(this.dataSource);
+  @Input() hidePaginator =  false;
+  @Input() hideShow =  false;
 
-  @Output() editClick = new EventEmitter<any>();
-  @Output() deleteClick = new EventEmitter<any>();
-  @Output() showClick = new EventEmitter<any>();
+  @Output() editClick = new EventEmitter<TableEvent<any>>();
+  @Output() deleteClick = new EventEmitter<TableEvent<any>>();
+  @Output() showClick = new EventEmitter<TableEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;

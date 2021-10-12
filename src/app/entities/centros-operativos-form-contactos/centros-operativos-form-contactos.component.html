@@ -1,0 +1,19 @@
+<div>
+  <div class="row page-form-row">
+    <div class="col-xs-12 table-container" *ngIf="list && list.length">
+      <app-table
+        [columns]="columns"
+        [data]="list"
+        [hidePaginator]="true"
+        [hideShow]="true"
+        (editClick)="editContacto($event)"
+        (deleteClick)="removeContacto($event)"
+      ></app-table>
+    </div>
+    <div class="col-xs-12">
+      <button mat-raised-button class="outline round" color="primary" type="button" (click)="addContacto()">
+        Nuevo contacto
+      </button>
+    </div>
+  </div>
+</div>

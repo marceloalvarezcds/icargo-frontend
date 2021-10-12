@@ -1,5 +1,7 @@
+import { EstadoEnum } from "../enums/estado-enum";
+
 export interface CentroOperativoClasificacion {
   id: number;
   nombre: string;
-  es_moderado: boolean;
+  estado: EstadoEnum;
 }

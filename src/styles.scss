@@ -78,6 +78,12 @@ html body {
   width: 100%;
 }
 
+.input-style {
+  cursor: pointer;
+  line-height: 3;
+  border-block-end: 1px solid;
+}
+
 .mat-form-field {
   width: 100%;
 }
@@ -147,6 +153,12 @@ html body {
   border-radius: 10px;
 }
 
+.page-form-row {
+  margin-left: 1rem;
+  margin-right: 1rem;
+  margin-bottom: 1rem;
+}
+
 .buttons {
   display: flex;
   justify-content: space-between;
@@ -172,7 +184,7 @@ html body {
           width: 1.5em;
         }
       }
-    } 
+    }
     .mat-form-field-outline-start,
     .mat-form-field-outline-end {
       border-width: 0;

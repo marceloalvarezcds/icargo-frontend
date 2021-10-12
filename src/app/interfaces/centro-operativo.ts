@@ -1,3 +1,4 @@
+import { EstadoEnum } from '../enums/estado-enum';
 import { CentroOperativoClasificacion } from './centro-operativo-clasificacion';
 import { Ciudad } from './ciudad';
 import { Contacto } from './contacto';
@@ -7,7 +8,7 @@ export interface CentroOperativo {
   nombre: string;
   nombre_corto?: string | null;
   logo?: string | null;
-  es_moderado: boolean;
+  estado: EstadoEnum;
   direccion?: string | null;
   latitud: number;
   longitud: number;
@@ -33,7 +34,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     nombre: 'CARGILL CEDRALES',
     nombre_corto: null,
     logo: null,
-    es_moderado: true,
+    estado: EstadoEnum.ACTIVO,
     direccion: 'CEDRALES',
     latitud: -25.658948139894708,
     longitud: -54.717514329980474,
@@ -41,7 +42,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     clasificacion: {
       id: 1,
       nombre: 'Silo',
-      es_moderado: true
+      estado: EstadoEnum.ACTIVO,
     },
     ciudad_id: 13,
     ciudad: {
@@ -72,7 +73,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     nombre: 'ADM SANTA RITA',
     nombre_corto: null,
     logo: null,
-    es_moderado: true,
+    estado: EstadoEnum.ACTIVO,
     direccion: 'SANTA RITA',
     latitud: -25.7917136,
     longitud: -55.08793379999997,
@@ -80,7 +81,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     clasificacion: {
       id: 2,
       nombre: 'Puerto seco',
-      es_moderado: true
+      estado: EstadoEnum.ACTIVO,
     },
     ciudad_id: 7,
     ciudad: {
@@ -111,7 +112,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     nombre: 'GICAL KM12',
     nombre_corto: null,
     logo: null,
-    es_moderado: true,
+    estado: EstadoEnum.ACTIVO,
     direccion: 'GICAL KM 12',
     latitud: -25.4921592,
     longitud: -54.72833349999996,
@@ -119,7 +120,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     clasificacion: {
       id: 3,
       nombre: 'Puerto multimodal',
-      es_moderado: true
+      estado: EstadoEnum.ACTIVO,
     },
     ciudad_id: 400,
     ciudad: {
