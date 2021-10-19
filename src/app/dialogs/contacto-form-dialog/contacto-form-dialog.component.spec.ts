@@ -1,22 +1,29 @@
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { mockCargoList } from 'src/app/interfaces/cargo';
 import { mockCentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { MaterialModule } from 'src/app/material/material.module';
+import { environment } from 'src/environments/environment';
 
 import { ContactoFormDialogComponent } from './contacto-form-dialog.component';
 
 describe('ContactoFormDialogComponent', () => {
   let component: ContactoFormDialogComponent;
   let fixture: ComponentFixture<ContactoFormDialogComponent>;
+  let httpController: HttpTestingController;
+  const cargo1 = mockCargoList[0];
+  const cargo2 = mockCargoList[1];
   const contacto = mockCentroOperativoContactoGestorCargaList[0];
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
+        HttpClientTestingModule,
         ReactiveFormsModule,
         MaterialModule,
       ],
@@ -34,7 +41,10 @@ describe('ContactoFormDialogComponent', () => {
     fixture = TestBed.createComponent(ContactoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    httpController = TestBed.inject(HttpTestingController);
+    httpController.expectOne(`${environment.api}/cargo/`).flush(mockCargoList);
     expect(component).toBeTruthy();
+    httpController.verify();
   });
 
   it('should submitted', fakeAsync(() => {
@@ -95,6 +105,10 @@ describe('ContactoFormDialogComponent', () => {
     fixture.detectChanges();
     const compareWithSpy = spyOn(component, 'compareWith').and.callThrough();
     expect(component.compareWith()).toBeTruthy();
+    expect(component.compareWith(cargo1, cargo1)).toBeTruthy();
+    expect(component.compareWith(cargo1)).toBeFalsy();
+    expect(component.compareWith(cargo1, cargo2)).toBeFalsy();
+    expect(component.compareWith(undefined, cargo2)).toBeFalsy();
     expect(compareWithSpy).toHaveBeenCalled();
   });
 });

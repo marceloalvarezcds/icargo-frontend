@@ -1,9 +1,10 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Cargo, mockCargoList } from 'src/app/interfaces/cargo';
+import { Cargo } from 'src/app/interfaces/cargo';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { Contacto } from 'src/app/interfaces/contacto';
+import { CargoService } from 'src/app/services/cargo.service';
 
 @Component({
   selector: 'app-contacto-form-dialog',
@@ -12,7 +13,7 @@ import { Contacto } from 'src/app/interfaces/contacto';
 })
 export class ContactoFormDialogComponent {
 
-  cargoList = mockCargoList.slice();
+  cargoList$ = this.cargoService.getList();
 
   form = this.fb.group({
     nombre: [this.data?.contacto_nombre, Validators.required],
@@ -29,6 +30,7 @@ export class ContactoFormDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ContactoFormDialogComponent>,
     private fb: FormBuilder,
+    private cargoService: CargoService,
     @Inject(MAT_DIALOG_DATA) private data?: CentroOperativoContactoGestorCargaList,
   ) {}
 
