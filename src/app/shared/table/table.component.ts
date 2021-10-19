@@ -45,6 +45,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() filterPredicate = this.defaultFilterPredicate.bind(this.dataSource);
   @Input() hidePaginator =  false;
   @Input() hideShow =  false;
+  @Input() isShow = false;
 
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();

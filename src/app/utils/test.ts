@@ -9,7 +9,21 @@ export function findElement<T>(
   return fixture.debugElement.query(By.css(selector));
 }
 
+const blobOptions: BlobPropertyBag = {
+  type: 'image/png',
+};
+const blob = new Blob([''], blobOptions);
+
 export const fakeFile = (): File => {
-  const blob = new Blob([''], { type: 'xls' });
   return blob as File;
 };
+
+const blobParts: BlobPart[] = ['content'];
+const fileOptions: FilePropertyBag = {
+  lastModified: 1634603497,
+}
+const file: File = new File(blobParts, 'test.png', fileOptions);
+const dataTransfer = new DataTransfer();
+dataTransfer.items.add(file);
+
+export const fakeFileList: FileList = dataTransfer.files;

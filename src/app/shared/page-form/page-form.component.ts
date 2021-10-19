@@ -16,6 +16,7 @@ export class PageFormComponent {
   ) { }
 
   @Input() formGroup!: FormGroup;
+  @Input() isShow = false;
   @Input() module: string = '';
   @Input() submodule: string = '';
   @Input() viewTitle: string = '';
@@ -24,16 +25,20 @@ export class PageFormComponent {
   @Output() submitEvent = new EventEmitter();
 
   back(): void {
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: '¿Desea guardar los cambios realizados?',
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => confirmed !== null))
-      .subscribe((confirmed) => {
-        this.backClick.emit(confirmed);
-      });
+    if (this.isShow) {
+      this.backClick.emit(false);
+    } else {
+      this.dialog
+        .open(ConfirmationDialogComponent, {
+          data: {
+            message: '¿Desea guardar los cambios realizados?',
+          },
+        })
+        .afterClosed()
+        .pipe(filter((confirmed: boolean) => confirmed !== null))
+        .subscribe((confirmed) => {
+          this.backClick.emit(confirmed);
+        });
+    }
   }
 }

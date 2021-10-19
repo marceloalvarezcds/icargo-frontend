@@ -1,7 +1,9 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Cargo, Contacto, mockCargoList } from 'src/app/interfaces/contacto';
+import { Cargo, mockCargoList } from 'src/app/interfaces/cargo';
+import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
+import { Contacto } from 'src/app/interfaces/contacto';
 
 @Component({
   selector: 'app-contacto-form-dialog',
@@ -13,28 +15,46 @@ export class ContactoFormDialogComponent {
   cargoList = mockCargoList.slice();
 
   form = this.fb.group({
-    nombre: [this.contacto?.nombre, Validators.required],
-    apellido: [this.contacto?.apellido, Validators.required],
-    telefono: [this.contacto?.telefono, Validators.required],
-    email: [this.contacto?.email, [Validators.required, Validators.email]],
-    cargo: [this.contacto?.cargo, Validators.required],
+    nombre: [this.data?.contacto_nombre, Validators.required],
+    apellido: [this.data?.contacto_apellido, Validators.required],
+    telefono: [this.data?.contacto_telefono, Validators.required],
+    email: [this.data?.contacto_email, [Validators.required, Validators.email]],
+    cargo: [this.data?.cargo, Validators.required],
   });
 
   get actionText(): string {
-    return this.contacto ? 'Editar' : 'Crear'
+    return this.data ? 'Editar' : 'Crear'
   }
 
   constructor(
     public dialogRef: MatDialogRef<ContactoFormDialogComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private contacto?: Contacto,
+    @Inject(MAT_DIALOG_DATA) private data?: CentroOperativoContactoGestorCargaList,
   ) {}
 
-  create() {
+  submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      this.dialogRef.close(this.form.value);
+      const value = JSON.parse(JSON.stringify(this.form.value));
+      const cargo: Cargo = value.cargo;
+      delete value.cargo;
+      const contacto: Contacto = value;
+      const data: CentroOperativoContactoGestorCargaList = {
+        id: this.data?.id,
+        cargo_id: cargo.id,
+        cargo,
+        centro_operativo_id: this.data?.centro_operativo_id,
+        contacto_id: this.data?.contacto_id,
+        contacto,
+        gestor_carga_id: 1,
+        cargo_descripcion: cargo.descripcion,
+        contacto_nombre: contacto.nombre,
+        contacto_apellido: contacto.apellido,
+        contacto_telefono: contacto.telefono,
+        contacto_email: contacto.email,
+      }
+      this.dialogRef.close(data);
     }
   }
 

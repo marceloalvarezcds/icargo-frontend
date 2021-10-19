@@ -1,7 +1,7 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { CentroOperativoClasificacion } from './centro-operativo-clasificacion';
+import { CentroOperativoContactoGestorCargaList, mockCentroOperativoContactoGestorCargaList } from './centro-operativo-contacto-gestor-carga';
 import { Ciudad } from './ciudad';
-import { Contacto } from './contacto';
 
 export interface CentroOperativo {
   id: number;
@@ -16,8 +16,7 @@ export interface CentroOperativo {
   clasificacion: CentroOperativoClasificacion;
   ciudad_id: number;
   ciudad: Ciudad;
-  contacto_id?: number | null;
-  contacto?: Contacto | null;
+  contactos: CentroOperativoContactoGestorCargaList[];
 }
 
 export interface CentroOperativoList extends CentroOperativo {
@@ -32,8 +31,8 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
   {
     id: 1,
     nombre: 'CARGILL CEDRALES',
-    nombre_corto: null,
-    logo: null,
+    nombre_corto: 'cargill',
+    logo: 'http://localhost:8103/api/bura26.png',
     estado: EstadoEnum.ACTIVO,
     direccion: 'CEDRALES',
     latitud: -25.658948139894708,
@@ -60,8 +59,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         }
       }
     },
-    contacto_id: null,
-    contacto: null,
+    contactos: mockCentroOperativoContactoGestorCargaList.slice(),
     clasificacion_nombre: 'Silo',
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
@@ -99,8 +97,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         }
       }
     },
-    contacto_id: null,
-    contacto: null,
+    contactos: [],
     clasificacion_nombre: 'Puerto seco',
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
@@ -138,8 +135,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         }
       }
     },
-    contacto_id: null,
-    contacto: null,
+    contactos: [],
     clasificacion_nombre: 'Puerto multimodal',
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',

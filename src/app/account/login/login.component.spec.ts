@@ -73,7 +73,7 @@ describe('LoginComponent', () => {
     component.loginForm.controls['username'].setValue('user');
     component.loginForm.controls['password'].setValue('123');
     loginElement.triggerEventHandler('ngSubmit', null);
-  
+
     expect(loginSpy).toHaveBeenCalledTimes(1);
     fixture.detectChanges();
 
