@@ -3,6 +3,7 @@
   module="Entidades"
   submodule="Centros Operativos"
   viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  [class.page-form-show]="isShow"
   [formGroup]="form"
   [isShow]="isShow"
   (backClick)="back($event)"
