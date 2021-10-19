@@ -63,5 +63,8 @@
     [columns]="columns"
     [data]="list"
     [filterPredicate]="filterPredicate"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    (deleteClick)="deleteRow($event)"
   ></app-table>
 </app-page>

@@ -12,6 +12,14 @@ const routes: Routes = [
     path: 'centros-operativos/create',
     component: CentrosOperativosFormComponent,
   },
+  {
+    path: 'centros-operativos/edit/:id',
+    component: CentrosOperativosFormComponent,
+  },
+  {
+    path: 'centros-operativos/show/:id',
+    component: CentrosOperativosFormComponent,
+  },
 ];
 
 @NgModule({

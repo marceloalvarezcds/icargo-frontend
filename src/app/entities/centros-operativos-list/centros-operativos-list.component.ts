@@ -1,9 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { filter } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
+import { TableEvent } from 'src/app/interfaces/table';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -62,6 +67,8 @@ export class CentrosOperativosListComponent implements OnInit {
     private centroOperativoService: CentroOperativoService,
     private reportsService: ReportsService,
     private searchService: SearchService,
+    private snackbar: MatSnackBar,
+    private dialog: MatDialog,
     private router: Router,
   ) { }
 
@@ -77,6 +84,32 @@ export class CentrosOperativosListComponent implements OnInit {
 
   redirectToCreate(): void {
     this.router.navigate(['/entities/centros-operativos/create']);
+  }
+
+  redirectToEdit(event: TableEvent<CentroOperativoList>): void {
+    this.router.navigate(['/entities/centros-operativos/edit', event.row.id]);
+  }
+
+  redirectToShow(event: TableEvent<CentroOperativoList>): void {
+    this.router.navigate(['/entities/centros-operativos/show', event.row.id]);
+  }
+
+  deleteRow(event: TableEvent<CentroOperativoList>): void {
+    const row = event.row;
+    this.dialog
+      .open(ConfirmationDialogComponent, {
+        data: {
+          message: `¿Está seguro que desea eliminar el Centro Operativo
+          ${row.nombre}?`,
+        },
+      })
+      .afterClosed()
+      .pipe(filter((confirmed: boolean) => confirmed))
+      .subscribe(() => {
+        this.centroOperativoService.delete(row.id).subscribe(() => {
+          this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
+        });
+      });
   }
 
   downloadFile(): void {

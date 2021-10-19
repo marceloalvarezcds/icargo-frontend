@@ -1,12 +1,15 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
+import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
+import { of } from 'rxjs';
+import { CentroOperativoList, mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
+import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -23,9 +26,16 @@ describe('CentrosOperativosListComponent', () => {
   let component: CentrosOperativosListComponent;
   let fixture: ComponentFixture<CentrosOperativosListComponent>;
   let httpController: HttpTestingController;
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let reportsService: ReportsService;
   let searchService: SearchService;
   let pageComponent: DebugElement;
+  let tableComponent: DebugElement;
+  const centroOperativo = mockCentroOperativoList[0];
+  const tableEvent: TableEvent<CentroOperativoList> = {
+    row: centroOperativo,
+    index: 0,
+  }
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -42,10 +52,23 @@ describe('CentrosOperativosListComponent', () => {
             path: 'entities/centros-operativos/create',
             component: CentrosOperativosFormComponent,
           },
+          {
+            path: 'entities/centros-operativos/edit/:id',
+            component: CentrosOperativosFormComponent,
+          },
+          {
+            path: 'entities/centros-operativos/show/:id',
+            component: CentrosOperativosFormComponent,
+          },
         ]),
         SharedModule,
       ],
-      providers: [ CentroOperativoService, ReportsService, SearchService ],
+      providers: [
+        CentroOperativoService,
+        ReportsService,
+        SearchService,
+        { provide: MatSnackBarRef, useValue: MatSnackBar },
+      ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ CentrosOperativosListComponent, TableComponent ],
     })
@@ -59,6 +82,7 @@ describe('CentrosOperativosListComponent', () => {
     searchService = TestBed.inject(SearchService);
     component = fixture.componentInstance;
     pageComponent = findElement(fixture, 'app-page');
+    tableComponent = findElement(fixture, 'app-table');
     fixture.detectChanges();
   });
 
@@ -79,6 +103,30 @@ describe('CentrosOperativosListComponent', () => {
     expect(resetFilterSpy).toHaveBeenCalled();
     expect(searchSpy).toHaveBeenCalled();
   });
+
+  it('listens for app-table changes', fakeAsync(() => {
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
+    const redirectToShowSpy = spyOn(component, 'redirectToShow').and.callThrough();
+    const deleteRowSpy = spyOn(component, 'deleteRow').and.callThrough();
+    tableComponent.triggerEventHandler('editClick', tableEvent);
+    tableComponent.triggerEventHandler('showClick', tableEvent);
+    tableComponent.triggerEventHandler('deleteClick', tableEvent);
+
+    tick();
+
+    httpController.expectOne(`${environment.api}/centro_operativo/`).flush(mockCentroOperativoList);
+    const req = httpController.expectOne(`${environment.api}/centro_operativo/${centroOperativo.id}`)
+    expect(req.request.method).toBe('DELETE');
+    req.flush({});
+    flush();
+
+    expect(redirectToEditSpy).toHaveBeenCalled();
+    expect(redirectToShowSpy).toHaveBeenCalled();
+    expect(deleteRowSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
+    httpController.verify();
+  }));
 
   it('should make an http call to get the list', fakeAsync(() => {
     const spy = spyOn((component as any), 'resetFilterList').and.callThrough();
