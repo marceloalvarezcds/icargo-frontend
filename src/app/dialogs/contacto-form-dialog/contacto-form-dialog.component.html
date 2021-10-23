@@ -36,7 +36,7 @@
     <mat-form-field>
       <mat-label>Cargo</mat-label>
       <mat-select formControlName="cargo" [compareWith]="compareWith">
-        <ng-container *ngFor="let o of cargoList">
+        <ng-container *ngFor="let o of cargoList$ | async">
           <mat-option [value]="o">{{o.descripcion}}</mat-option>
         </ng-container>
       </mat-select>
