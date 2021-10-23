@@ -2,16 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
-import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
-import { Localidad } from 'src/app/interfaces/localidad';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
-import { CiudadService } from 'src/app/services/ciudad.service';
-import { LocalidadService } from 'src/app/services/localidad.service';
-import { PaisService } from 'src/app/services/pais.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -24,12 +18,10 @@ export class CentrosOperativosFormComponent implements OnInit {
   id?: number;
   isEdit = false;
   isShow = false;
+  isPanelOpen = false;
   backUrl = '/entities/centros-operativos/list';
   centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
 
-  paisList$ = this.paisService.getList();
-  localidadList: Localidad[] = [];
-  ciudadList: Ciudad[] = [];
   contactoList: CentroOperativoContactoGestorCargaList[] = [];
 
   file: File | null = null;
@@ -45,42 +37,19 @@ export class CentrosOperativosFormComponent implements OnInit {
     pais_id: [null, Validators.required],
     localidad_id: [null, Validators.required],
     ciudad_id: [null, Validators.required],
-    latitud: [-25.658948139894708, Validators.required],
-    longitud: [-54.717514329980474, Validators.required],
+    latitud: [null, Validators.required],
+    longitud: [null, Validators.required],
     direccion: [null, Validators.required],
-  });
-
-  paisSubscription = this.paisControl.valueChanges.pipe(filter(v => !!v)).subscribe(paisId => {
-    this.localidadService.getList(paisId).subscribe(list => {
-      this.localidadList = list;
-    });
-  });
-
-  localidadSubscription = this.localidadControl.valueChanges.pipe(filter(v => !!v)).subscribe(localidadId => {
-    this.ciudadService.getList(localidadId).subscribe(list => {
-      this.ciudadList = list;
-    });
   });
 
   get fileControl(): FormControl {
     return this.form.get('logo') as FormControl;
   }
 
-  get localidadControl(): FormControl {
-    return this.form.get('localidad_id') as FormControl;
-  }
-
-  get paisControl(): FormControl {
-    return this.form.get('pais_id') as FormControl;
-  }
-
   constructor(
     private fb: FormBuilder,
     private centroOperativoClasificacionService:  CentroOperativoClasificacionService,
     private centroOperativoService:  CentroOperativoService,
-    private ciudadService: CiudadService,
-    private localidadService: LocalidadService,
-    private paisService: PaisService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,

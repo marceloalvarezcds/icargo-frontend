@@ -4,6 +4,7 @@
 module.exports = function (config) {
   config.set({
     basePath: '',
+    files: ['./google-maps-mock.js'],
     frameworks: ['jasmine', '@angular-devkit/build-angular', 'viewport'],
     plugins: [
       require('karma-jasmine'),

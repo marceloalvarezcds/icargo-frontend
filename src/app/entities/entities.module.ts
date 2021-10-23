@@ -9,13 +9,15 @@ import { SharedModule } from '../shared/shared.module';
 import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
 import { PipesModule } from '../pipes/pipes.module';
 import { CentrosOperativosFormContactosComponent } from './centros-operativos-form-contactos/centros-operativos-form-contactos.component';
+import { CentrosOperativosFormGeoComponent } from './centros-operativos-form-geo/centros-operativos-form-geo.component';
 
 
 @NgModule({
   declarations: [
     CentrosOperativosListComponent,
     CentrosOperativosFormComponent,
-    CentrosOperativosFormContactosComponent
+    CentrosOperativosFormContactosComponent,
+    CentrosOperativosFormGeoComponent,
   ],
   imports: [
     CommonModule,

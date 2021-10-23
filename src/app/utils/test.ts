@@ -27,3 +27,10 @@ const dataTransfer = new DataTransfer();
 dataTransfer.items.add(file);
 
 export const fakeFileList: FileList = dataTransfer.files;
+
+const latLng = new google.maps.LatLng(-24, -51);
+export const mockMapMouseEvent: google.maps.MapMouseEvent = {
+  latLng, domEvent: new MouseEvent('click'), stop: () => {},
+};
+
+mockMapMouseEvent.stop();

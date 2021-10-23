@@ -1,0 +1,9 @@
+.click-on-map-button {
+  margin: 10px;
+}
+
+.google-map-container.on::ng-deep {
+  div[aria-label="Map"] {
+    cursor: cell !important;
+  }
+}

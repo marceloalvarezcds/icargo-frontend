@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { of } from 'rxjs';
 import { CentroOperativoContactoGestorCargaList, mockCentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
@@ -29,9 +28,6 @@ describe('CentrosOperativosFormContactosComponent', () => {
         BrowserAnimationsModule,
         ReactiveFormsModule,
         MaterialModule,
-      ],
-      providers: [
-        { provide: MatDialogRef, useValue: MatDialog },
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ CentrosOperativosFormContactosComponent ]
