@@ -42,7 +42,7 @@
             La clasificación es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!user?.gestor_carga_id">
           <mat-label>Alias</mat-label>
           <input matInput formControlName="alias" />
           <mat-error *ngIf="form.controls['alias'].hasError('required')">
@@ -86,7 +86,7 @@
       </div>
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Libreta de Contactos

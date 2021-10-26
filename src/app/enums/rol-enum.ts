@@ -1,0 +1,4 @@
+export enum CodigoRolEnum {
+  ADMIN_ICARGO = 'ADMIN_ICARGO',
+  ADMIN_GESTOR_CARGA = 'ADMIN_GESTOR_CARGA',
+}

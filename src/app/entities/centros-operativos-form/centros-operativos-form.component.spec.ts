@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { mockCentroOperativoClasificacionList } from 'src/app/interfaces/centro-operativo-clasificacion';
+import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
@@ -117,6 +118,7 @@ describe('CentrosOperativosFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     const req = httpController.expectOne(`${environment.api}/centro_operativo/`)
     expect(req.request.method).toBe('POST');
     req.flush(centroOperativo);
@@ -141,6 +143,7 @@ describe('CentrosOperativosFormComponent', () => {
     tick();
     httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(centroOperativo);
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     flush();
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
