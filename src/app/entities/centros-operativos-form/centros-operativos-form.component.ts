@@ -1,11 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
+import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -13,7 +15,7 @@ import { openSnackbar } from 'src/app/utils/snackbar';
   templateUrl: './centros-operativos-form.component.html',
   styleUrls: ['./centros-operativos-form.component.scss']
 })
-export class CentrosOperativosFormComponent implements OnInit {
+export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   id?: number;
   isEdit = false;
@@ -21,6 +23,10 @@ export class CentrosOperativosFormComponent implements OnInit {
   isPanelOpen = false;
   backUrl = '/entities/centros-operativos/list';
   centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
+  user?: User;
+  userSubscription = this.userService.getLoggedUser().subscribe((user) => {
+    this.user = user;
+  });
 
   contactoList: CentroOperativoContactoGestorCargaList[] = [];
 
@@ -50,6 +56,7 @@ export class CentrosOperativosFormComponent implements OnInit {
     private fb: FormBuilder,
     private centroOperativoClasificacionService:  CentroOperativoClasificacionService,
     private centroOperativoService:  CentroOperativoService,
+    private userService: UserService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
@@ -57,6 +64,10 @@ export class CentrosOperativosFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  ngOnDestroy(): void {
+    this.userSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {

@@ -1,3 +1,6 @@
+import { GestorCarga, mockGestorCargaList } from "./gestor-carga";
+import { mockRolList, Rol } from "./rol";
+
 export interface User {
   id: number;
   token: string;
@@ -20,6 +23,9 @@ export interface User {
   last_seen: string | null;
   created_ip_address: string;
   last_ip_address: string;
+  gestor_carga_id: number;
+  gestor_carga: GestorCarga;
+  roles: Rol[];
 }
 
 export const mockUser: User = {
@@ -42,5 +48,8 @@ export const mockUser: User = {
   last_activity: null,
   last_seen: null,
   created_ip_address: "172.19.0.1",
-  last_ip_address: "172.19.0.1"
+  last_ip_address: "172.19.0.1",
+  gestor_carga_id: 1,
+  gestor_carga: mockGestorCargaList[0],
+  roles: mockRolList.slice(),
 }
