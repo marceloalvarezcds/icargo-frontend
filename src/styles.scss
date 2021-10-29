@@ -253,5 +253,10 @@ html body {
 
   .mat-table-sticky-border-elem-left {
     border-right: 1px solid #e0e0e0;
-  } 
+  }
+}
+
+.has-error {
+  color: $error-color;
+  margin-left: 1rem;
 }

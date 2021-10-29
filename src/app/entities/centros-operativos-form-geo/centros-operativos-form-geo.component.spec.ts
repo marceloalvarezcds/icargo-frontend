@@ -62,13 +62,17 @@ describe('CentrosOperativosFormGeoComponent', () => {
     const localidadServiceSpy = spyOn(localidadService, 'getList').and.callThrough();
     const updateMarkerPositionSpy = spyOn(component, 'updateMarkerPosition').and.callThrough();
     component.form = new FormGroup({
-      nombre: new FormControl(null),
-      pais_id: new FormControl(null),
-      localidad_id: new FormControl(null),
-      ciudad_id: new FormControl(null),
-      latitud: new FormControl(null),
-      longitud: new FormControl(null),
-      direccion: new FormControl(null),
+      info: new FormGroup({
+        nombre: new FormControl(null),
+      }),
+      geo: new FormGroup({
+        pais_id: new FormControl(null),
+        localidad_id: new FormControl(null),
+        ciudad_id: new FormControl(null),
+        latitud: new FormControl(null),
+        longitud: new FormControl(null),
+        direccion: new FormControl(null),
+      }),
     });
     fixture.detectChanges();
     component.paisControl.setValue(centroOperativo.ciudad.localidad.pais_id);

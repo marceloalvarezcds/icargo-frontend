@@ -1,11 +1,24 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { Ciudad } from './ciudad';
+import { ComposicionJuridica, mockComposicionJuridicaList } from './composicion-juridica';
+import { mockMonedaList, Moneda } from './moneda';
+import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 
 export interface GestorCarga {
   id: number;
   nombre: string;
   nombre_corto?: string | null;
+  tipo_documento_id: number;
+  tipo_documento: TipoDocumento;
+  numero_documento: string;
+  digito_verificador: string;
+  composicion_juridica_id: number;
+  composicion_juridica: ComposicionJuridica;
+  moneda_id: number;
+  moneda: Moneda;
   logo?: string | null;
+  pagina_web: string;
+  info_complementaria: string;
   estado: EstadoEnum;
   direccion?: string | null;
   latitud: number;
@@ -22,12 +35,31 @@ export interface GestorCargaList extends GestorCarga {
   pais_nombre_corto: string;
 }
 
+const tipoDocumento0 = mockTipoDocumentoList[0];
+const tipoDocumento1 = mockTipoDocumentoList[1];
+const tipoDocumento2 = mockTipoDocumentoList[2];
+const composicionJuridica0 = mockComposicionJuridicaList[0];
+const composicionJuridica1 = mockComposicionJuridicaList[1];
+const composicionJuridica2 = mockComposicionJuridicaList[2];
+const moneda0 =  mockMonedaList[0];
+const moneda1 =  mockMonedaList[1];
+
 export const mockGestorCargaList: GestorCargaList[] = [
   {
     id: 1,
     nombre: 'CARGILL CEDRALES',
     nombre_corto: 'cargill',
+    tipo_documento_id: tipoDocumento0.id,
+    tipo_documento: tipoDocumento0,
+    numero_documento: '800100100',
+    digito_verificador: '1',
+    composicion_juridica_id: composicionJuridica0.id,
+    composicion_juridica: composicionJuridica0,
+    moneda_id: moneda0.id,
+    moneda: moneda0,
     logo: 'http://localhost:8103/api/bura26.png',
+    pagina_web: '',
+    info_complementaria: '',
     estado: EstadoEnum.ACTIVO,
     direccion: 'CEDRALES',
     latitud: -25.658948139894708,
@@ -58,7 +90,17 @@ export const mockGestorCargaList: GestorCargaList[] = [
     id: 2,
     nombre: 'ADM SANTA RITA',
     nombre_corto: null,
+    tipo_documento_id: tipoDocumento1.id,
+    tipo_documento: tipoDocumento1,
+    numero_documento: '800100100',
+    digito_verificador: '1',
+    composicion_juridica_id: composicionJuridica1.id,
+    composicion_juridica: composicionJuridica1,
+    moneda_id: moneda1.id,
+    moneda: moneda1,
     logo: null,
+    pagina_web: '',
+    info_complementaria: '',
     estado: EstadoEnum.ACTIVO,
     direccion: 'SANTA RITA',
     latitud: -25.7917136,
@@ -89,7 +131,17 @@ export const mockGestorCargaList: GestorCargaList[] = [
     id: 3,
     nombre: 'GICAL KM12',
     nombre_corto: null,
+    tipo_documento_id: tipoDocumento2.id,
+    tipo_documento: tipoDocumento2,
+    numero_documento: '800100100',
+    digito_verificador: '1',
+    composicion_juridica_id: composicionJuridica2.id,
+    composicion_juridica: composicionJuridica2,
+    moneda_id: moneda0.id,
+    moneda: moneda0,
     logo: null,
+    pagina_web: '',
+    info_complementaria: '',
     estado: EstadoEnum.ACTIVO,
     direccion: 'GICAL KM 12',
     latitud: -25.4921592,

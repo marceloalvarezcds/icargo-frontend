@@ -9,6 +9,7 @@ export interface CentroOperativoContactoGestorCarga {
   contacto_id?: number;
   contacto: Contacto;
   gestor_carga_id?: number;
+  alias?: string;
 }
 
 export interface CentroOperativoContactoGestorCargaList extends CentroOperativoContactoGestorCarga {
@@ -41,6 +42,7 @@ export const mockCentroOperativoContactoGestorCargaList: CentroOperativoContacto
     contacto_id: 1,
     contacto: mockContacto,
     gestor_carga_id: 1,
+    alias: mockContacto.nombre,
     cargo_descripcion: cargo1.descripcion,
     contacto_nombre: mockContacto.nombre,
     contacto_apellido: mockContacto.apellido,
@@ -55,6 +57,7 @@ export const mockCentroOperativoContactoGestorCargaList: CentroOperativoContacto
     contacto_id: 1,
     contacto: mockContacto,
     gestor_carga_id: 1,
+    alias: mockContacto.nombre,
     cargo_descripcion: cargo2.descripcion,
     contacto_nombre: mockContacto.nombre,
     contacto_apellido: mockContacto.apellido,

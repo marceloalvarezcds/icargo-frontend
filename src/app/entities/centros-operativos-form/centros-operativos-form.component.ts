@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
@@ -21,6 +21,8 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
+  isInfoTouched = false;
+  isGeoTouched = false;
   backUrl = '/entities/centros-operativos/list';
   centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
   user?: User;
@@ -34,22 +36,41 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   logo: string | null = null;
 
   form = this.fb.group({
-    nombre: [null, Validators.required],
-    nombre_corto: [null, Validators.required],
-    clasificacion_id: [null, Validators.required],
-    alias: null,
-    logo: [null, Validators.required],
+    info: this.fb.group({
+      nombre: [null, Validators.required],
+      nombre_corto: [null, Validators.required],
+      clasificacion_id: [null, Validators.required],
+      alias: null,
+      logo: [null, Validators.required],
+      telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
+      email: null,
+      pagina_web: null,
+    }),
     contactos: this.fb.array([]),
-    pais_id: [null, Validators.required],
-    localidad_id: [null, Validators.required],
-    ciudad_id: [null, Validators.required],
-    latitud: [null, Validators.required],
-    longitud: [null, Validators.required],
-    direccion: [null, Validators.required],
+    geo: this.fb.group({
+      pais_id: [null, Validators.required],
+      localidad_id: [null, Validators.required],
+      ciudad_id: [null, Validators.required],
+      latitud: [null, Validators.required],
+      longitud: [null, Validators.required],
+      direccion: [null, Validators.required],
+    }),
   });
 
+  get info(): FormGroup {
+    return this.form.get('info') as FormGroup;
+  }
+
+  get contactos(): FormArray {
+    return this.form.get('contactos') as FormArray;
+  }
+
+  get geo(): FormGroup {
+    return this.form.get('geo') as FormGroup;
+  }
+
   get fileControl(): FormControl {
-    return this.form.get('logo') as FormControl;
+    return this.info.get('logo') as FormControl;
   }
 
   constructor(
@@ -89,7 +110,11 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify(this.form.value));
+      const data = JSON.parse(JSON.stringify({
+        ...this.info.value,
+        ...this.geo.value,
+        contactos: this.contactos.value,
+      }));
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
@@ -100,10 +125,22 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
-        this.centroOperativoService.create(formData).subscribe(() => {
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
+        this.centroOperativoService.create(formData).subscribe((centroOperativo) => {
+          this.snackbar
+            .open('Datos guardados satisfactoriamente', 'Ok')
+            .afterDismissed()
+            .subscribe(() => {
+              if (confirmed) {
+                this.router.navigate([this.backUrl]);
+              } else {
+                this.router.navigate(['/entities/centros-operativos/edit', centroOperativo.id]);
+              }
+            });
         });
       }
+    } else {
+      this.isInfoTouched = this.info.invalid;
+      this.isGeoTouched = this.geo.invalid;
     }
   }
 
@@ -120,17 +157,24 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       }
       this.centroOperativoService.getById(this.id).subscribe(data => {
         this.form.setValue({
-          alias: 'Alias', // Cambiar cuando haya roles
-          nombre: data.nombre,
-          nombre_corto: data.nombre_corto,
-          clasificacion_id: data.clasificacion_id,
-          pais_id: data.ciudad.localidad.pais_id,
-          localidad_id: data.ciudad.localidad_id,
-          ciudad_id: data.ciudad_id,
-          latitud: data.latitud,
-          longitud: data.longitud,
-          direccion: data.direccion,
-          logo: null,
+          info: {
+            alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
+            nombre: data.nombre,
+            nombre_corto: data.nombre_corto,
+            clasificacion_id: data.clasificacion_id,
+            telefono: data.telefono,
+            email: data.email,
+            pagina_web: data.pagina_web,
+            logo: null,
+          },
+          geo: {
+            pais_id: data.ciudad.localidad.pais_id,
+            localidad_id: data.ciudad.localidad_id,
+            ciudad_id: data.ciudad_id,
+            latitud: data.latitud,
+            longitud: data.longitud,
+            direccion: data.direccion,
+          },
           contactos: [],
         });
         this.contactoList = data.contactos.slice();

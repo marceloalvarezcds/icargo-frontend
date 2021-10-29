@@ -37,12 +37,12 @@ describe('CentrosOperativosFormComponent', () => {
     ...router, url: 'entities/centros-operativos/create',
   }
   const editRouter = {
-    ...router, url: 'entities/centros-operativos/edit',
+    ...router, url: 'entities/centros-operativos/edit/:id',
   }
   const showRouter = {
     ...router, url: 'entities/centros-operativos/show',
   }
-  const id = 1;
+  const id = centroOperativo.id;
   const route = {
     snapshot: {
       params: {
@@ -57,18 +57,25 @@ describe('CentrosOperativosFormComponent', () => {
   };
   function formSetValue(component: CentrosOperativosFormComponent, logo: string | null = null): void {
     component.form.setValue({
-      alias: 'Alias',
-      nombre: centroOperativo.nombre,
-      nombre_corto: centroOperativo.nombre_corto,
-      clasificacion_id: centroOperativo.clasificacion_id,
-      pais_id: centroOperativo.ciudad.localidad.pais_id,
-      localidad_id: centroOperativo.ciudad.localidad_id,
-      ciudad_id: centroOperativo.ciudad_id,
-      latitud: centroOperativo.latitud,
-      longitud: centroOperativo.longitud,
-      direccion: centroOperativo.direccion,
-      logo,
+      info: {
+        alias: 'Alias',
+        nombre: centroOperativo.nombre,
+        nombre_corto: centroOperativo.nombre_corto,
+        clasificacion_id: centroOperativo.clasificacion_id,
+        telefono: centroOperativo.telefono,
+        email: centroOperativo.email,
+        pagina_web: centroOperativo.pagina_web,
+        logo,
+      },
       contactos: [],
+      geo: {
+        pais_id: centroOperativo.ciudad.localidad.pais_id,
+        localidad_id: centroOperativo.ciudad.localidad_id,
+        ciudad_id: centroOperativo.ciudad_id,
+        latitud: centroOperativo.latitud,
+        longitud: centroOperativo.longitud,
+        direccion: centroOperativo.direccion,
+      },
     });
   }
 
@@ -128,6 +135,27 @@ describe('CentrosOperativosFormComponent', () => {
     httpController.verify();
   }));
 
+  it('should open create view with submitEvent', fakeAsync(() => {
+    TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
+    TestBed.overrideProvider(Router, { useValue: createRouter });
+    httpController = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
+    component = fixture.componentInstance;
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    fixture.detectChanges();
+    pageFormComponent = findElement(fixture, 'app-page-form');
+    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    formSetValue(component, 'logo');
+    pageFormComponent.triggerEventHandler('submitEvent', null);
+    const req = httpController.expectOne(`${environment.api}/centro_operativo/`);
+    expect(req.request.method).toBe('POST');
+    req.flush(centroOperativo);
+    flush();
+    expect(submitSpy).toHaveBeenCalled();
+    httpController.verify();
+  }));
+
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
@@ -138,24 +166,40 @@ describe('CentrosOperativosFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    pageFormComponent = findElement(fixture, 'app-page-form');
-    pageFormComponent.triggerEventHandler('backClick', true);
-    tick();
     httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(centroOperativo);
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    pageFormComponent = findElement(fixture, 'app-page-form');
+    pageFormComponent.triggerEventHandler('backClick', true);
+    tick();
     flush();
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
     tick();
-    formSetValue(component);
+    formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     const req = httpController.expectOne(`${environment.api}/centro_operativo/${id}`)
     expect(req.request.method).toBe('PUT');
     req.flush(centroOperativo);
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    httpController.verify();
+  }));
+
+  it('should open edit view with alias null', fakeAsync(() => {
+    TestBed.overrideProvider(Router, { useValue: editRouter });
+    httpController = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
+    centroOperativoService = TestBed.inject(CentroOperativoService);
+    component = fixture.componentInstance;
+    const getByIdSpy = spyOn(centroOperativoService, 'getById').and.callThrough();
+    fixture.detectChanges();
+    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(mockCentroOperativoList[1]);
+    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    flush();
+    expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
   }));
 
