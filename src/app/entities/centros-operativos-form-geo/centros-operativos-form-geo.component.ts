@@ -24,20 +24,28 @@ export class CentrosOperativosFormGeoComponent implements OnDestroy {
   formGroup?: FormGroup;
   markerPosition?: google.maps.LatLngLiteral;
 
+  get info(): FormGroup {
+    return this.formGroup!.get('info') as FormGroup;
+  }
+
+  get geo(): FormGroup {
+    return this.formGroup!.get('geo') as FormGroup;
+  }
+
   get paisControl(): FormControl {
-    return this.formGroup!.get('pais_id') as FormControl;
+    return this.geo!.get('pais_id') as FormControl;
   }
 
   get localidadControl(): FormControl {
-    return this.formGroup!.get('localidad_id') as FormControl;
+    return this.geo!.get('localidad_id') as FormControl;
   }
 
   get latitudControl(): FormControl {
-    return this.formGroup!.get('latitud') as FormControl;
+    return this.geo!.get('latitud') as FormControl;
   }
 
   get longitudControl(): FormControl {
-    return this.formGroup!.get('longitud') as FormControl;
+    return this.geo!.get('longitud') as FormControl;
   }
 
   @Input() set form(f: FormGroup) {
@@ -74,7 +82,7 @@ export class CentrosOperativosFormGeoComponent implements OnDestroy {
   }
 
   updateMarkerPosition(event: google.maps.MapMouseEvent): void {
-    this.formGroup!.controls['latitud'].setValue(event.latLng.lat());
-    this.formGroup!.controls['longitud'].setValue(event.latLng.lng());
+    this.geo!.controls['latitud'].setValue(event.latLng.lat());
+    this.geo!.controls['longitud'].setValue(event.latLng.lng());
   }
 }

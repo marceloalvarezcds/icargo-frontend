@@ -73,13 +73,7 @@ export class CentrosOperativosListComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.centroOperativoService.getList().subscribe(list => {
-      this.list = list;
-      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion_nombre);
-      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
-      this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
-      this.resetFilterList();
-    });
+    this.getList();
   }
 
   redirectToCreate(): void {
@@ -108,6 +102,10 @@ export class CentrosOperativosListComponent implements OnInit {
       .subscribe(() => {
         this.centroOperativoService.delete(row.id).subscribe(() => {
           this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
+            .afterDismissed()
+            .subscribe(() => {
+              this.getList();
+            });
         });
       });
   }
@@ -152,6 +150,16 @@ export class CentrosOperativosListComponent implements OnInit {
   resetFilter(): void {
     this.resetFilterList();
     this.filter('');
+  }
+
+  private getList(): void {
+    this.centroOperativoService.getList().subscribe(list => {
+      this.list = list;
+      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion_nombre);
+      this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
+      this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
+      this.resetFilterList();
+    });
   }
 
   private filter(filter: string, isFilteredByGlobalSearch: boolean = true): void {

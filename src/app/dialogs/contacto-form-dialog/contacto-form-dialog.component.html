@@ -7,21 +7,13 @@
   </h1>
   <div mat-dialog-content>
     <mat-form-field>
-      <input matInput  formControlName="nombre" placeholder="Nombre" />
-      <mat-error *ngIf="form.get('nombre')?.hasError('required')">
-        El nombre es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput formControlName="apellido" placeholder="Apellido" />
-      <mat-error *ngIf="form.get('apellido')?.hasError('required')">
-        El apellido es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput  formControlName="telefono" placeholder="Teléfono" />
+      <input matInput formControlName="telefono" placeholder="Teléfono" />
+      <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
       <mat-error *ngIf="form.get('telefono')?.hasError('required')">
         El teléfono es <strong>requerido</strong>
+      </mat-error>
+      <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
+        El teléfono es <strong>inválido</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field>
@@ -31,6 +23,25 @@
       </mat-error>
       <mat-error *ngIf="form.get('email')?.hasError('email')">
         El e-mail es <strong>inválido</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="nombre" placeholder="Nombre" [readonly]="isExistContacto"/>
+      <mat-error *ngIf="form.get('nombre')?.hasError('required')">
+        El nombre es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <input matInput formControlName="apellido" placeholder="Apellido" [readonly]="isExistContacto"/>
+      <mat-error *ngIf="form.get('apellido')?.hasError('required')">
+        El apellido es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field>
+      <mat-label>Alias</mat-label>
+      <input matInput formControlName="alias" />
+      <mat-error *ngIf="form.controls['alias'].hasError('required')">
+        El alias es <strong>requerido</strong>
       </mat-error>
     </mat-form-field>
     <mat-form-field>

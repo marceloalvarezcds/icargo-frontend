@@ -2,6 +2,7 @@ import { EstadoEnum } from '../enums/estado-enum';
 import { CentroOperativoClasificacion } from './centro-operativo-clasificacion';
 import { CentroOperativoContactoGestorCargaList, mockCentroOperativoContactoGestorCargaList } from './centro-operativo-contacto-gestor-carga';
 import { Ciudad } from './ciudad';
+import { GestorCargaCentroOperativo, mockGestorCargaCentroOperativoList } from './gestor-carga-centro-operativo';
 
 export interface CentroOperativo {
   id: number;
@@ -9,6 +10,9 @@ export interface CentroOperativo {
   nombre_corto?: string | null;
   logo?: string | null;
   estado: EstadoEnum;
+  telefono: string;
+  email?: string | null;
+  pagina_web?: string | null;
   direccion?: string | null;
   latitud: number;
   longitud: number;
@@ -17,7 +21,11 @@ export interface CentroOperativo {
   ciudad_id: number;
   ciudad: Ciudad;
   contactos: CentroOperativoContactoGestorCargaList[];
+  gestor_carga_centro_operativo?: GestorCargaCentroOperativo;
 }
+
+const gestorCargaCentroOperativo0 = mockGestorCargaCentroOperativoList[0];
+const gestorCargaCentroOperativo1 = mockGestorCargaCentroOperativoList[1];
 
 export interface CentroOperativoList extends CentroOperativo {
   clasificacion_nombre: string;
@@ -34,6 +42,9 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     nombre_corto: 'cargill',
     logo: 'http://localhost:8103/api/bura26.png',
     estado: EstadoEnum.ACTIVO,
+    telefono: '0982444444',
+    email: 'contacto@cargill-cedrales.com',
+    pagina_web: 'cargill-cedrales.com',
     direccion: 'CEDRALES',
     latitud: -25.658948139894708,
     longitud: -54.717514329980474,
@@ -60,6 +71,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
       }
     },
     contactos: mockCentroOperativoContactoGestorCargaList.slice(),
+    gestor_carga_centro_operativo: gestorCargaCentroOperativo0,
     clasificacion_nombre: 'Silo',
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
@@ -72,6 +84,9 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     nombre_corto: null,
     logo: null,
     estado: EstadoEnum.ACTIVO,
+    telefono: '0981111111',
+    email: 'contacto@adm-santa-rita.com',
+    pagina_web: 'adm-santa-rita.com',
     direccion: 'SANTA RITA',
     latitud: -25.7917136,
     longitud: -55.08793379999997,
@@ -110,6 +125,9 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     nombre_corto: null,
     logo: null,
     estado: EstadoEnum.ACTIVO,
+    telefono: '0981222222',
+    email: 'contacto@gical-km12.com',
+    pagina_web: 'gical-km12.com',
     direccion: 'GICAL KM 12',
     latitud: -25.4921592,
     longitud: -54.72833349999996,
@@ -136,6 +154,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
       }
     },
     contactos: [],
+    gestor_carga_centro_operativo: undefined,
     clasificacion_nombre: 'Puerto multimodal',
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',

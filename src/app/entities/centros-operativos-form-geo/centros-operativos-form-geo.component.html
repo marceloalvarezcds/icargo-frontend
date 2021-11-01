@@ -1,54 +1,56 @@
 <ng-container *ngIf="formGroup">
   <div class="row page-form-row" [formGroup]="formGroup">
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <mat-label>País</mat-label>
-      <mat-select formControlName="pais_id" id="pais-select">
-        <ng-container *ngFor="let o of paisList$ | async">
-          <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-        </ng-container>
-      </mat-select>
-      <mat-error *ngIf="paisControl?.hasError('required')">
-        El pais es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!paisControl?.value">
-      <mat-label>Localidad</mat-label>
-      <mat-select formControlName="localidad_id" id="localidad-select">
-        <ng-container *ngFor="let o of localidadList">
-          <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-        </ng-container>
-      </mat-select>
-      <mat-error *ngIf="localidadControl?.hasError('required')">
-        La localidad es <strong>requerida</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="localidadControl?.value">
-      <mat-label>Ciudad</mat-label>
-      <mat-select formControlName="ciudad_id">
-        <ng-container *ngFor="let o of ciudadList">
-          <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-        </ng-container>
-      </mat-select>
-      <mat-error *ngIf="formGroup.controls['ciudad_id'].hasError('required')">
-        La dirección es <strong>requerida</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <mat-label>Dirección</mat-label>
-      <input matInput formControlName="direccion" />
-      <mat-error *ngIf="formGroup.controls['direccion'].hasError('required')">
-        La dirección es <strong>requerida</strong>
-      </mat-error>
-    </mat-form-field>
-    <div class="col-xs-12">
-      <app-google-map
-        [title]="formGroup.controls['nombre'].value"
-        [center]="markerPosition"
-        [isShow]="isShow"
-        [isPanelOpen]="isPanelOpen"
-        [showMarker]="!!markerPosition"
-        (mapClick)="updateMarkerPosition($event)">
-      </app-google-map>
+    <div formGroupName="geo">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="pais_id" id="pais-select">
+          <ng-container *ngFor="let o of paisList$ | async">
+            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="paisControl?.hasError('required')">
+          El pais es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!paisControl?.value">
+        <mat-label>Localidad</mat-label>
+        <mat-select formControlName="localidad_id" id="localidad-select">
+          <ng-container *ngFor="let o of localidadList">
+            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="localidadControl?.hasError('required')">
+          La localidad es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="localidadControl?.value">
+        <mat-label>Ciudad</mat-label>
+        <mat-select formControlName="ciudad_id">
+          <ng-container *ngFor="let o of ciudadList">
+            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="geo.controls['ciudad_id'].hasError('required')">
+          La dirección es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Dirección</mat-label>
+        <input matInput formControlName="direccion" />
+        <mat-error *ngIf="geo.controls['direccion'].hasError('required')">
+          La dirección es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+      <div class="col-xs-12">
+        <app-google-map
+          [title]="info.controls['nombre'].value"
+          [center]="markerPosition"
+          [isShow]="isShow"
+          [isPanelOpen]="isPanelOpen"
+          [showMarker]="!!markerPosition"
+          (mapClick)="updateMarkerPosition($event)">
+        </app-google-map>
+      </div>
     </div>
   </div>
 </ng-container>

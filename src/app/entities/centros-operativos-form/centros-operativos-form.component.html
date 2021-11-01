@@ -9,8 +9,8 @@
   (backClick)="back($event)"
   (submitEvent)="submit(false)"
 >
-  <mat-accordion>
-    <mat-expansion-panel>
+  <mat-accordion multi>
+    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Información principal
@@ -20,14 +20,14 @@
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <mat-label>Nombre</mat-label>
           <input matInput formControlName="nombre" />
-          <mat-error *ngIf="form.controls['nombre'].hasError('required')">
+          <mat-error *ngIf="info.controls['nombre'].hasError('required')">
             El nombre es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Nombre Corto</mat-label>
+          <mat-label>Nombre de Fantasía</mat-label>
           <input matInput formControlName="nombre_corto" />
-          <mat-error *ngIf="form.controls['nombre_corto'].hasError('required')">
+          <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
             El nombre corto es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
@@ -38,14 +38,36 @@
               <mat-option [value]="o.id">{{o.nombre}}</mat-option>
             </ng-container>
           </mat-select>
-          <mat-error *ngIf="form.controls['clasificacion_id'].hasError('required')">
+          <mat-error *ngIf="info.controls['clasificacion_id'].hasError('required')">
             La clasificación es <strong>requerida</strong>
           </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" />
+          <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
+          <mat-error *ngIf="info.controls['telefono'].hasError('required')">
+            El teléfono es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="info.controls['telefono'].hasError('pattern')">
+            El teléfono es <strong>inválido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput formControlName="email" />
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            El correo es <strong>inválido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Página web</mat-label>
+          <input matInput formControlName="pagina_web" />
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!user?.gestor_carga_id">
           <mat-label>Alias</mat-label>
           <input matInput formControlName="alias" />
-          <mat-error *ngIf="form.controls['alias'].hasError('required')">
+          <mat-error *ngIf="info.controls['alias'].hasError('required')">
             El alias es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
@@ -99,7 +121,7 @@
       ></app-centros-operativos-form-contactos>
     </mat-expansion-panel>
 
-    <mat-expansion-panel (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+    <mat-expansion-panel formGroupName="geo" [expanded]="isGeoTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Geolocalización

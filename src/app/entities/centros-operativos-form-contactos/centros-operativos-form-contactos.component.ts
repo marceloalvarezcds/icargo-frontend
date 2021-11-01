@@ -20,6 +20,7 @@ export class CentrosOperativosFormContactosComponent {
     { def: 'apellido', title: 'Apellido', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_apellido },
     { def: 'telefono', title: 'Teléfono', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_telefono },
     { def: 'email', title: 'Correo electrónico', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_email },
+    { def: 'alias', title: 'Alias', value: (element: CentroOperativoContactoGestorCargaList) => element.alias },
     { def: 'cargo', title: 'Cargo', value: (element: CentroOperativoContactoGestorCargaList) => element.cargo_descripcion },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -94,6 +95,7 @@ export class CentrosOperativosFormContactosComponent {
       apellido: [contacto.contacto_apellido, Validators.required],
       telefono: [contacto.contacto_telefono, Validators.required],
       email: [contacto.contacto_email, Validators.required],
+      alias: [contacto.alias, Validators.required],
       cargo: [contacto.cargo, Validators.required],
     });
   }
