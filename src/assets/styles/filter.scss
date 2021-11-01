@@ -1,0 +1,12 @@
+.mat-menu-item {
+  height: auto;
+  padding: 0 5px;
+
+  @media (min-width: 599px) {
+    padding: 0 1rem;
+  }
+
+  &:hover:not([disabled]) {
+    background: transparent;
+  }
+}

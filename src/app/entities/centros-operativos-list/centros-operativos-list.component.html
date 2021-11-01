@@ -1,0 +1,70 @@
+<app-page
+  class="centro-operativo-page"
+  module="Entidades"
+  submodule="Centros Operativos"
+  (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Clasificación</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #clasificacionCheckboxFilter
+            [value]="clasificacionFiltered"
+            [list]="clasificacionFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>País</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #paisCheckboxFilter
+            [value]="paisFiltered"
+            [list]="paisFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Ciudad</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #ciudadCheckboxFilter
+            [value]="ciudadFiltered"
+            [list]="ciudadFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByClasificacion">
+      <mat-chip *ngFor="let item of clasificacionFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByCiudad">
+      <mat-chip *ngFor="let item of ciudadFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByPais">
+      <mat-chip *ngFor="let item of paisFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    (deleteClick)="deleteRow($event)"
+  ></app-table>
+</app-page>

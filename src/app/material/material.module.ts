@@ -126,7 +126,7 @@ const modules = [
     {
       provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
       useValue: {
-        appearance: 'standard'
+        appearance: 'outline'
       },
     },
     {

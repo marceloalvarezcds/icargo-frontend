@@ -1,0 +1,21 @@
+ul {
+  list-style-type: none;
+  margin: 0;
+  max-height: 200px;
+  min-height: 32px;
+  height: auto;
+  overflow: auto;
+  padding-inline-start: 20px;
+  padding-bottom: 8px;
+}
+
+.checkbox-filter-container {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 280px;
+}
+
+.all-checked {
+  margin-left: -12px;
+  padding-left: 12px;
+}

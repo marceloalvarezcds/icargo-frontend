@@ -1,0 +1,49 @@
+<mat-sidenav-container class="sidebar-filter" from="right">
+  <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2" position="end">
+    <strong class="sidebar-filter-title">Filtros</strong>
+    <ng-content select="[filterMenu]"></ng-content>
+    <div class="buttons">
+      <button
+        type="button"
+        mat-raised-button
+        (click)="resetClick.emit($event)"
+      >
+        Limpiar
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        (click)="applyClick.emit($event)"
+      >
+        Filtrar
+      </button>
+    </div>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <div class="page">
+      <div class="page-title">
+        <span class="title">{{module}} > <strong>{{submodule}}</strong></span>
+        <div class="page-title-buttons">
+          <button mat-mini-fab color="primary" matTooltip="Filtrar" (click)="sidenav?.toggle()">
+            <mat-icon>filter_alt</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" matTooltip="Exportar lista" (click)="downloadClick.emit($event)">
+            <mat-icon>download</mat-icon>
+          </button>
+          <button mat-mini-fab color="primary" matTooltip="Crear" (click)="createClick.emit($event)">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+      <div class="filter-values">
+        <ng-content select="[filterValues]"></ng-content>
+      </div>
+      <div class="page-content">
+        <div class="table-container">
+          <ng-content></ng-content>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

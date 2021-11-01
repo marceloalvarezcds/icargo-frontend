@@ -1,0 +1,30 @@
+<div
+  class="checkbox-filter-container"
+  (click)="$event.stopPropagation()"
+  (keydown.tab)="$event.stopPropagation()"
+>
+  <span>
+    <mat-checkbox
+      class="all-ckecked"
+      color="primary"
+      [checked]="allChecked"
+      [indeterminate]="someChecked()"
+      (change)="setAll($event.checked)"
+    >
+      Todos
+    </mat-checkbox>
+  </span>
+  <span>
+    <ul>
+      <li *ngFor="let item of allList">
+        <mat-checkbox
+          color="primary"
+          [(ngModel)]="filteredCheckboxModel[item]"
+          (ngModelChange)="updateAllChecked()"
+        >
+          {{ item }}
+        </mat-checkbox>
+      </li>
+    </ul>
+  </span>
+</div>

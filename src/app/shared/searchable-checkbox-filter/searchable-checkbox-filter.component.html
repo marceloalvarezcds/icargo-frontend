@@ -1,0 +1,37 @@
+<div
+  class="searchable-checkbox-filter.component"
+  (click)="$event.stopPropagation()"
+  (keydown.tab)="$event.stopPropagation()"
+>
+  <mat-form-field>
+    <input
+      matInput
+      placeholder="Buscar"
+      [formControl]="searchFormControl"
+      autocomplete="off"
+    />
+  </mat-form-field>
+  <app-checkbox-filter
+    [value]="value"
+    [list]="filteredList"
+  ></app-checkbox-filter>
+  <div class="buttons">
+    <button
+      class="reset-button"
+      type="button"
+      mat-raised-button
+      (click)="reset()"
+    >
+      Restablecer
+    </button>
+    <button
+      class="apply-button"
+      type="button"
+      mat-raised-button
+      color="primary"
+      (click)="apply()"
+    >
+      Aplicar
+    </button>
+  </div>
+</div>

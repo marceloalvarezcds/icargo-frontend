@@ -9,11 +9,11 @@ import { User } from '../interfaces/user';
 })
 export class UserService {
 
-  private url = `${environment.api}/user/`;
+  private url = `${environment.api}/user`;
 
   constructor(private http: HttpClient) { }
 
   getLoggedUser(): Observable<User> {
-    return this.http.get<User>(this.url);
+    return this.http.get<User>(`${this.url}/me/`);
   }
 }
