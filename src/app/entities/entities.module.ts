@@ -10,6 +10,7 @@ import { CentrosOperativosFormComponent } from './centros-operativos-form/centro
 import { PipesModule } from '../pipes/pipes.module';
 import { CentrosOperativosFormContactosComponent } from './centros-operativos-form-contactos/centros-operativos-form-contactos.component';
 import { CentrosOperativosFormGeoComponent } from './centros-operativos-form-geo/centros-operativos-form-geo.component';
+import { RemitenteListComponent } from './remitente-list/remitente-list.component';
 
 
 @NgModule({
@@ -18,6 +19,7 @@ import { CentrosOperativosFormGeoComponent } from './centros-operativos-form-geo
     CentrosOperativosFormComponent,
     CentrosOperativosFormContactosComponent,
     CentrosOperativosFormGeoComponent,
+    RemitenteListComponent,
   ],
   imports: [
     CommonModule,

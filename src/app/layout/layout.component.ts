@@ -31,6 +31,12 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           path: '/entities/centros-operativos/list',
           active: true,
         },
+        {
+          name: 'Remitentes',
+          iconName: 'open_with',
+          path: '/entities/remitente/list',
+          active: true,
+        },
       ],
     },
   ];

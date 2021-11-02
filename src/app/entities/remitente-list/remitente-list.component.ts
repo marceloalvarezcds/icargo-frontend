@@ -3,68 +3,77 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
+import { RemitenteList } from 'src/app/interfaces/remitente';
 import { TableEvent } from 'src/app/interfaces/table';
-import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { RemitenteService } from 'src/app/services/remitente.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
-  clasificacion?: string;
   ciudad?: string;
+  composicion_juridica?: string;
   pais?: string;
+  tipo_documento?: string;
 }
 
 @Component({
-  selector: 'app-centros-operativos-list',
-  templateUrl: './centros-operativos-list.component.html',
-  styleUrls: ['./centros-operativos-list.component.scss']
+  selector: 'app-remitente-list',
+  templateUrl: './remitente-list.component.html',
+  styleUrls: ['./remitente-list.component.scss']
 })
-export class CentrosOperativosListComponent implements OnInit {
+export class RemitenteListComponent implements OnInit {
 
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativoList) => element.nombre, sticky: true },
-    { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: CentroOperativoList) => element.nombre_corto },
-    { def: 'direccion', title: 'Dirección', value: (element: CentroOperativoList) => element.direccion },
-    { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativoList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
-    { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativoList) => element.clasificacion_nombre },
+    { def: 'nombre', title: 'Nombre', value: (element: RemitenteList) => element.nombre, sticky: true },
+    { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: RemitenteList) => element.nombre_corto },
+    { def: 'tipo_documento', title: 'Tipo de Documento', value: (element: RemitenteList) => element.tipo_documento_descripcion },
+    { def: 'numero_documento', title: 'Número de Documento', value: (element: RemitenteList) => element.numero_documento },
+    { def: 'composicion_juridica', title: 'Composición Jurídica', value: (element: RemitenteList) => element.composicion_juridica_nombre },
+    { def: 'direccion', title: 'Dirección', value: (element: RemitenteList) => element.direccion },
+    { def: 'ubicacion', title: 'Ubicación', value: (element: RemitenteList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: CentroOperativoList[] = [];
-  clasificacionFilterList: string[] = [];
-  clasificacionFiltered: string[] = [];
+  list: RemitenteList[] = [];
   ciudadFilterList: string[] = [];
   ciudadFiltered: string[] = [];
+  composicionJuridicaFilterList: string[] = [];
+  composicionJuridicaFiltered: string[] = [];
   paisFilterList: string[] = [];
   paisFiltered: string[] = [];
-
-  get isFilteredByClasificacion(): boolean {
-    return this.clasificacionFiltered.length !== this.clasificacionFilterList.length
-  }
+  tipoDocumentoFilterList: string[] = [];
+  tipoDocumentoFiltered: string[] = [];
 
   get isFilteredByCiudad(): boolean {
     return this.ciudadFiltered.length !== this.ciudadFilterList.length
+  }
+
+  get isFilteredByComposicionJuridica(): boolean {
+    return this.composicionJuridicaFiltered.length !== this.composicionJuridicaFilterList.length
   }
 
   get isFilteredByPais(): boolean {
     return this.paisFiltered.length !== this.paisFilterList.length
   }
 
+  get isFilteredByTipoDocumento(): boolean {
+    return this.tipoDocumentoFiltered.length !== this.tipoDocumentoFilterList.length
+  }
+
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  @ViewChild('clasificacionCheckboxFilter') clasificacionCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('ciudadCheckboxFilter') ciudadCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('composicionJuridicaCheckboxFilter') composicionJuridicaCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('tipoDocumentoCheckboxFilter') tipoDocumentoCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
-    private centroOperativoService: CentroOperativoService,
+    private remitenteService: RemitenteService,
     private reportsService: ReportsService,
     private searchService: SearchService,
     private snackbar: MatSnackBar,
@@ -80,27 +89,26 @@ export class CentrosOperativosListComponent implements OnInit {
     this.router.navigate(['/entities/centros-operativos/create']);
   }
 
-  redirectToEdit(event: TableEvent<CentroOperativoList>): void {
+  redirectToEdit(event: TableEvent<RemitenteList>): void {
     this.router.navigate(['/entities/centros-operativos/edit', event.row.id]);
   }
 
-  redirectToShow(event: TableEvent<CentroOperativoList>): void {
+  redirectToShow(event: TableEvent<RemitenteList>): void {
     this.router.navigate(['/entities/centros-operativos/show', event.row.id]);
   }
 
-  deleteRow(event: TableEvent<CentroOperativoList>): void {
+  deleteRow(event: TableEvent<RemitenteList>): void {
     const row = event.row;
     this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          message: `¿Está seguro que desea eliminar el Centro Operativo
-          ${row.nombre}?`,
+          message: "¿Está seguro que desea eliminar el Remitente ${row.nombre}?",
         },
       })
       .afterClosed()
       .pipe(filter((confirmed: boolean) => confirmed))
       .subscribe(() => {
-        this.centroOperativoService.delete(row.id).subscribe(() => {
+        this.remitenteService.delete(row.id).subscribe(() => {
           this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
@@ -111,37 +119,43 @@ export class CentrosOperativosListComponent implements OnInit {
   }
 
   downloadFile(): void {
-    this.centroOperativoService.generateReports().subscribe(filename => {
+    this.remitenteService.generateReports().subscribe(filename => {
       this.reportsService.downloadFile(filename).subscribe(file => {
         saveAs(file, filename);
       });
     });
   }
 
-  filterPredicate(obj: CentroOperativoList, filterJson: string): boolean {
+  filterPredicate(obj: RemitenteList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    const filterByClasificacion = filter.clasificacion?.split('|').some(x => obj.clasificacion_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByComposicionJuridica = filter.composicion_juridica?.split('|').some(x => obj.composicion_juridica_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByPais = filter.pais?.split('|').some(x => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    return filterByClasificacion && filterByCiudad && filterByPais;
+    const filterByTipoDocumento = filter.tipo_documento?.split('|').some(x => obj.tipo_documento_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+    return filterByComposicionJuridica && filterByCiudad && filterByPais && filterByTipoDocumento;
   }
 
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
-    this.clasificacionFiltered = this.clasificacionCheckboxFilter.getFilteredList();
     this.ciudadFiltered = this.ciudadCheckboxFilter.getFilteredList();
+    this.composicionJuridicaFiltered = this.composicionJuridicaCheckboxFilter.getFilteredList();
     this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
-    if (this.isFilteredByClasificacion) {
-      filter.clasificacion = this.clasificacionFiltered.join('|');
-      this.isFiltered = true;
-    }
+    this.tipoDocumentoFiltered = this.tipoDocumentoCheckboxFilter.getFilteredList();
     if (this.isFilteredByCiudad) {
       filter.ciudad = this.ciudadFiltered.join('|');
       this.isFiltered = true;
     }
+    if (this.isFilteredByComposicionJuridica) {
+      filter.composicion_juridica = this.composicionJuridicaFiltered.join('|');
+      this.isFiltered = true;
+    }
     if (this.isFilteredByPais) {
       filter.pais = this.paisFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByTipoDocumento) {
+      filter.tipo_documento = this.tipoDocumentoFiltered.join('|');
       this.isFiltered = true;
     }
     this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
@@ -153,11 +167,12 @@ export class CentrosOperativosListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.centroOperativoService.getList().subscribe(list => {
+    this.remitenteService.getList().subscribe(list => {
       this.list = list;
-      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion_nombre);
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
+      this.composicionJuridicaFilterList = getFilterList(list, (x) => x.composicion_juridica_nombre);
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
+      this.tipoDocumentoFilterList = getFilterList(list, (x) => x.tipo_documento_descripcion);
       this.resetFilterList();
     });
   }
@@ -169,8 +184,9 @@ export class CentrosOperativosListComponent implements OnInit {
 
   private resetFilterList(): void {
     this.isFiltered = false;
-    this.clasificacionFiltered = this.clasificacionFilterList.slice();
     this.ciudadFiltered = this.ciudadFilterList.slice();
+    this.composicionJuridicaFiltered = this.composicionJuridicaFilterList.slice();
     this.paisFiltered = this.paisFilterList.slice();
+    this.tipoDocumentoFiltered = this.tipoDocumentoFilterList.slice();
   }
 }
