@@ -95,7 +95,7 @@ export class CentrosOperativosFormContactosComponent {
       apellido: [contacto.contacto_apellido, Validators.required],
       telefono: [contacto.contacto_telefono, Validators.required],
       email: [contacto.contacto_email, Validators.required],
-      alias: [contacto.alias, Validators.required],
+      alias: contacto.alias,
       cargo: [contacto.cargo, Validators.required],
     });
   }

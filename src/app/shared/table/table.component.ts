@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -43,6 +44,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(this.dataSource);
+  @Input() formArray = new FormArray([]);
   @Input() hidePaginator =  false;
   @Input() hideShow =  false;
   @Input() isShow = false;

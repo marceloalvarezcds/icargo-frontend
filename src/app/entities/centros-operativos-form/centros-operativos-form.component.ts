@@ -21,7 +21,8 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
-  isInfoTouched = false;
+  isInfoTouched = true;
+  isContactoTouched = false;
   isGeoTouched = false;
   backUrl = '/entities/centros-operativos/list';
   centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
@@ -140,6 +141,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       }
     } else {
       this.isInfoTouched = this.info.invalid;
+      this.isContactoTouched = this.contactos.invalid;
       this.isGeoTouched = this.geo.invalid;
     }
   }

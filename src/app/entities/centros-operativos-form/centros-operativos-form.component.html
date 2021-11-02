@@ -108,7 +108,7 @@
       </div>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id">
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Libreta de Contactos
