@@ -1,13 +1,20 @@
 import { EstadoEnum } from '../enums/estado-enum';
-import { CentroOperativoClasificacion } from './centro-operativo-clasificacion';
-import { CentroOperativoContactoGestorCargaList, mockCentroOperativoContactoGestorCargaList } from './centro-operativo-contacto-gestor-carga';
+import { RemitenteContactoGestorCargaList, mockRemitenteContactoGestorCargaList } from './remitente-contacto-gestor-carga';
 import { Ciudad } from './ciudad';
-import { GestorCargaCentroOperativo, mockGestorCargaCentroOperativoList } from './gestor-carga-centro-operativo';
+import { ComposicionJuridica, mockComposicionJuridicaList } from './composicion-juridica';
+import { GestorCargaRemitente, mockGestorCargaRemitenteList } from './gestor-carga-remitente';
+import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 
-export interface CentroOperativo {
+export interface Remitente {
   id: number;
   nombre: string;
   nombre_corto?: string | null;
+  tipo_documento_id: number;
+  tipo_documento: TipoDocumento;
+  numero_documento: string;
+  digito_verificador: string;
+  composicion_juridica_id: number;
+  composicion_juridica: ComposicionJuridica;
   logo?: string | null;
   estado: EstadoEnum;
   telefono: string;
@@ -16,29 +23,41 @@ export interface CentroOperativo {
   direccion?: string | null;
   latitud: number;
   longitud: number;
-  clasificacion_id: number;
-  clasificacion: CentroOperativoClasificacion;
   ciudad_id: number;
   ciudad: Ciudad;
-  contactos: CentroOperativoContactoGestorCargaList[];
-  gestor_carga_centro_operativo?: GestorCargaCentroOperativo;
+  contactos: RemitenteContactoGestorCargaList[];
+  gestor_carga_centro_operativo?: GestorCargaRemitente;
 }
 
-const gestorCargaCentroOperativo0 = mockGestorCargaCentroOperativoList[0];
+const gestorCargaRemitente0 = mockGestorCargaRemitenteList[0];
 
-export interface CentroOperativoList extends CentroOperativo {
-  clasificacion_nombre: string;
+const tipoDocumento0 = mockTipoDocumentoList[0];
+const tipoDocumento1 = mockTipoDocumentoList[1];
+const tipoDocumento2 = mockTipoDocumentoList[2];
+const composicionJuridica0 = mockComposicionJuridicaList[0];
+const composicionJuridica1 = mockComposicionJuridicaList[1];
+const composicionJuridica2 = mockComposicionJuridicaList[2];
+
+export interface RemitenteList extends Remitente {
+  composicion_juridica_nombre: string;
   ciudad_nombre: string;
   localidad_nombre: string;
   pais_nombre: string;
   pais_nombre_corto: string;
+  tipo_documento_descripcion: string;
 }
 
-export const mockCentroOperativoList: CentroOperativoList[] = [
+export const mockRemitenteList: RemitenteList[] = [
   {
     id: 1,
     nombre: 'CARGILL CEDRALES',
     nombre_corto: 'cargill',
+    tipo_documento_id: tipoDocumento0.id,
+    tipo_documento: tipoDocumento0,
+    numero_documento: '800100100',
+    digito_verificador: '1',
+    composicion_juridica_id: composicionJuridica0.id,
+    composicion_juridica: composicionJuridica0,
     logo: 'http://localhost:8103/api/bura26.png',
     estado: EstadoEnum.ACTIVO,
     telefono: '0982444444',
@@ -47,12 +66,6 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     direccion: 'CEDRALES',
     latitud: -25.658948139894708,
     longitud: -54.717514329980474,
-    clasificacion_id: 1,
-    clasificacion: {
-      id: 1,
-      nombre: 'Silo',
-      estado: EstadoEnum.ACTIVO,
-    },
     ciudad_id: 13,
     ciudad: {
       id: 13,
@@ -69,18 +82,25 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         }
       }
     },
-    contactos: mockCentroOperativoContactoGestorCargaList.slice(),
-    gestor_carga_centro_operativo: gestorCargaCentroOperativo0,
-    clasificacion_nombre: 'Silo',
+    contactos: mockRemitenteContactoGestorCargaList.slice(),
+    gestor_carga_centro_operativo: gestorCargaRemitente0,
+    composicion_juridica_nombre: composicionJuridica0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    tipo_documento_descripcion: tipoDocumento0.descripcion,
   },
   {
     id: 2,
     nombre: 'ADM SANTA RITA',
     nombre_corto: null,
+    tipo_documento_id: tipoDocumento1.id,
+    tipo_documento: tipoDocumento1,
+    numero_documento: '800100100',
+    digito_verificador: '1',
+    composicion_juridica_id: composicionJuridica1.id,
+    composicion_juridica: composicionJuridica1,
     logo: null,
     estado: EstadoEnum.ACTIVO,
     telefono: '0981111111',
@@ -89,12 +109,6 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     direccion: 'SANTA RITA',
     latitud: -25.7917136,
     longitud: -55.08793379999997,
-    clasificacion_id: 2,
-    clasificacion: {
-      id: 2,
-      nombre: 'Puerto seco',
-      estado: EstadoEnum.ACTIVO,
-    },
     ciudad_id: 7,
     ciudad: {
       id: 7,
@@ -112,16 +126,23 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
       }
     },
     contactos: [],
-    clasificacion_nombre: 'Puerto seco',
+    composicion_juridica_nombre: composicionJuridica1.nombre,
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    tipo_documento_descripcion: tipoDocumento1.descripcion,
   },
   {
     id: 3,
     nombre: 'GICAL KM12',
     nombre_corto: null,
+    tipo_documento_id: tipoDocumento2.id,
+    tipo_documento: tipoDocumento2,
+    numero_documento: '800100100',
+    digito_verificador: '1',
+    composicion_juridica_id: composicionJuridica2.id,
+    composicion_juridica: composicionJuridica2,
     logo: null,
     estado: EstadoEnum.ACTIVO,
     telefono: '0981222222',
@@ -130,12 +151,6 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     direccion: 'GICAL KM 12',
     latitud: -25.4921592,
     longitud: -54.72833349999996,
-    clasificacion_id: 3,
-    clasificacion: {
-      id: 3,
-      nombre: 'Puerto multimodal',
-      estado: EstadoEnum.ACTIVO,
-    },
     ciudad_id: 400,
     ciudad: {
       id: 400,
@@ -154,10 +169,11 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     },
     contactos: [],
     gestor_carga_centro_operativo: undefined,
-    clasificacion_nombre: 'Puerto multimodal',
+    composicion_juridica_nombre: composicionJuridica2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
+    tipo_documento_descripcion: tipoDocumento2.descripcion,
   },
 ];
