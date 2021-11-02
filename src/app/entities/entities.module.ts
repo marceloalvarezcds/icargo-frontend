@@ -11,6 +11,7 @@ import { PipesModule } from '../pipes/pipes.module';
 import { CentrosOperativosFormContactosComponent } from './centros-operativos-form-contactos/centros-operativos-form-contactos.component';
 import { CentrosOperativosFormGeoComponent } from './centros-operativos-form-geo/centros-operativos-form-geo.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { RemitenteListComponent } from './remitente-list/remitente-list.componen
   imports: [
     CommonModule,
     EntitiesRoutingModule,
+    DirectivesModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,
