@@ -57,9 +57,9 @@ describe('GoogleMapComponent', () => {
 
   it('test menuConfigService', fakeAsync(() => {
     menuConfigService.setSidebarMenu(true);
-    flushMicrotasks();
+    tick(500);
     menuConfigService.setSidebarMenu(false);
-    flushMicrotasks();
+    tick(500);
     fixture.detectChanges();
     expect(updateWidthSpy).toHaveBeenCalled();
   }));
