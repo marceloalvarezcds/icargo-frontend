@@ -5,6 +5,7 @@
   viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
+  [hasChange]="hasChange"
   [isShow]="isShow"
   (backClick)="back($event)"
   (submitEvent)="submit(false)"

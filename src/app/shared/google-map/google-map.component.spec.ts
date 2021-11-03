@@ -1,5 +1,5 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { PARAGUAY_LATLNG, PRINCIPAL_BREAKPOINT } from 'src/app/contanst';
 import { GoogleMapService } from 'src/app/services/google-map.service';
@@ -57,10 +57,13 @@ describe('GoogleMapComponent', () => {
 
   it('test menuConfigService', fakeAsync(() => {
     menuConfigService.setSidebarMenu(true);
-    tick(500);
+    tick(1);
     menuConfigService.setSidebarMenu(false);
-    tick(500);
+    tick(1);
     fixture.detectChanges();
+    flushMicrotasks();
+    flush();
+    tick(500);
     expect(updateWidthSpy).toHaveBeenCalled();
   }));
 

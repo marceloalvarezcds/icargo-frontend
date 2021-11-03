@@ -40,21 +40,32 @@ describe('PageFormComponent', () => {
   });
 
   it('should back', fakeAsync(() => {
+    const backSpy = spyOn(component, 'back').and.callThrough();
+    const button = fixture.debugElement.nativeElement.querySelector('#back-button');
+    button.click();
+    tick();
+    expect(backSpy).toHaveBeenCalled();
+  }));
+
+  it('should back and isShow = true and hasChange = true', fakeAsync(() => {
+    component.isShow = true;
+    component.hasChange = true;
+    const backSpy = spyOn(component, 'back').and.callThrough();
+    const button = fixture.debugElement.nativeElement.querySelector('#back-button');
+    button.click();
+    tick();
+    expect(backSpy).toHaveBeenCalled();
+  }));
+
+  it('should back and isShow = false and hasChange = true', fakeAsync(() => {
     const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    component.isShow = false;
+    component.hasChange = true;
     const backSpy = spyOn(component, 'back').and.callThrough();
     const button = fixture.debugElement.nativeElement.querySelector('#back-button');
     button.click();
     tick();
     expect(backSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
-  }));
-
-  it('should back and isShow = true', fakeAsync(() => {
-    component.isShow = true;
-    const backSpy = spyOn(component, 'back').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#back-button');
-    button.click();
-    tick();
-    expect(backSpy).toHaveBeenCalled();
   }));
 });

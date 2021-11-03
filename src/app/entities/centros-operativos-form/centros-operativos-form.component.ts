@@ -58,6 +58,12 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     }),
   });
 
+  initialFormValue = this.form.value;
+  hasChange = false;
+  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+    this.hasChange = Object.keys(this.initialFormValue).some(key => value[key] != this.initialFormValue[key])
+  });
+
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
   }
@@ -89,6 +95,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.hasChangeSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
   }
 
@@ -123,10 +130,14 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       if (this.file) { formData.append('file', this.file); }
       if (this.isEdit && this.id) {
         this.centroOperativoService.edit(this.id, formData).subscribe(() => {
+          this.hasChange = false;
+          this.initialFormValue = this.form.value;
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.centroOperativoService.create(formData).subscribe((centroOperativo) => {
+          this.hasChange = false;
+          this.initialFormValue = this.form.value;
           this.snackbar
             .open('Datos guardados satisfactoriamente', 'Ok')
             .afterDismissed()
@@ -181,6 +192,10 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         });
         this.contactoList = data.contactos.slice();
         this.logo = data.logo!;
+        setTimeout(() => {
+          this.hasChange = false;
+          this.initialFormValue = this.form.value;
+        }, 500);
       });
     }
   }
