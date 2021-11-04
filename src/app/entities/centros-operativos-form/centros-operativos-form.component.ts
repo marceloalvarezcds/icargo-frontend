@@ -114,6 +114,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   }
 
   submit(confirmed: boolean): void {
+    this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -151,9 +152,11 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         });
       }
     } else {
-      this.isInfoTouched = this.info.invalid;
-      this.isContactoTouched = this.contactos.invalid;
-      this.isGeoTouched = this.geo.invalid;
+      setTimeout(() => {
+        this.isInfoTouched = this.info.invalid;
+        this.isContactoTouched = this.contactos.invalid;
+        this.isGeoTouched = this.geo.invalid;
+      });
     }
   }
 

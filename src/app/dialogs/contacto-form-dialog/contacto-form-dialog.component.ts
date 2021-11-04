@@ -4,8 +4,8 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BehaviorSubject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Cargo } from 'src/app/interfaces/cargo';
-import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { Contacto, ContactoInfo } from 'src/app/interfaces/contacto';
+import { ContactoGestorCargaList } from 'src/app/interfaces/contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { CargoService } from 'src/app/services/cargo.service';
 import { ContactoService } from 'src/app/services/contacto.service';
@@ -83,7 +83,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
     private cargoService: CargoService,
     private contactoService: ContactoService,
     private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) private data?: CentroOperativoContactoGestorCargaList,
+    @Inject(MAT_DIALOG_DATA) private data?: ContactoGestorCargaList,
   ) {}
 
   ngOnDestroy(): void {
@@ -101,11 +101,10 @@ export class ContactoFormDialogComponent implements OnDestroy {
       const cargo: Cargo = value.cargo;
       delete value.cargo;
       const contacto: Contacto = value;
-      const data: CentroOperativoContactoGestorCargaList = {
+      const data: ContactoGestorCargaList = {
         id: this.data?.id,
         cargo_id: cargo.id,
         cargo,
-        centro_operativo_id: this.data?.centro_operativo_id,
         contacto_id: this.data?.contacto_id,
         contacto,
         gestor_carga_id: this.user?.gestor_carga_id,
