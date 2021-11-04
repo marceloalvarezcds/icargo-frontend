@@ -1,0 +1,18 @@
+<app-table
+  [dataSource]="dataSource"
+  [columns]="columns"
+  [data]="data"
+  [filterPredicate]="filterPredicate"
+  [filterPredicate]="filterPredicate"
+  [hideShow]="hideShow"
+  [isShow]="isShow"
+  (editClick)="editClick.emit($event)"
+  (showClick)="showClick.emit($event)"
+  (deleteClick)="deleteClick.emit($event)"
+></app-table>
+<mat-paginator
+  [pageSizeOptions]="[10, 20, 50, 100]"
+  [pageSize]="pageOptions?.pageSize"
+  [pageIndex]="pageOptions?.pageIndex"
+  (page)="setPageOptions($event)"
+></mat-paginator>

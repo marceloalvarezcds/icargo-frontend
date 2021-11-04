@@ -82,7 +82,7 @@ describe('CentrosOperativosListComponent', () => {
     searchService = TestBed.inject(SearchService);
     component = fixture.componentInstance;
     pageComponent = findElement(fixture, 'app-page');
-    tableComponent = findElement(fixture, 'app-table');
+    tableComponent = findElement(fixture, 'app-table-paginator');
     fixture.detectChanges();
   });
 
@@ -179,13 +179,13 @@ describe('CentrosOperativosListComponent', () => {
     };
     const filterStr = JSON.stringify(filter);
     pageComponent.triggerEventHandler('applyClick', new MouseEvent('click'));
+    tick(500);
     expect(searchSpy).toHaveBeenCalledWith(filterStr, false);
 
     const centroOperativo = mockCentroOperativoList.find((_, i) => i === 0)!;
     component.filterPredicate(centroOperativo, filterStr);
     component.filterPredicate(centroOperativo, '{}');
     component.columns.forEach(c => c.value && c.value(centroOperativo));
-    searchService.search(''); // Ignorar en las otras pruebas de componentes de listas
     httpController.verify();
   }));
 });

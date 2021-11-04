@@ -74,12 +74,12 @@
       <mat-chip *ngFor="let item of paisFiltered">{{item}}</mat-chip>
     </ng-container>
   </mat-chip-list>
-  <app-table
+  <app-table-paginator
     [columns]="columns"
     [data]="list"
     [filterPredicate]="filterPredicate"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     (deleteClick)="deleteRow($event)"
-  ></app-table>
+  ></app-table-paginator>
 </app-page>

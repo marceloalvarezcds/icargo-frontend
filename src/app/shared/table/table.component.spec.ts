@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -42,4 +42,12 @@ describe('TableComponent', () => {
     component.columnsToShowList = ['filter'];
     expect(component).toBeTruthy();
   });
+
+  it('should apply empty filter', fakeAsync(() => {
+    const filterDataSpy = spyOn(component, 'filterData').and.callThrough();
+    searchService.search('');
+    flush();
+    tick(500);
+    expect(filterDataSpy).toHaveBeenCalled();
+  }));
 });

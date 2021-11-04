@@ -11,6 +11,10 @@ import { PipesModule } from '../pipes/pipes.module';
 import { CentrosOperativosFormContactosComponent } from './centros-operativos-form-contactos/centros-operativos-form-contactos.component';
 import { CentrosOperativosFormGeoComponent } from './centros-operativos-form-geo/centros-operativos-form-geo.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
+import { DirectivesModule } from '../directives/directives.module';
+import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
+import { RemitenteFormContactosComponent } from './remitente-form-contactos/remitente-form-contactos.component';
+import { RemitenteFormGeoComponent } from './remitente-form-geo/remitente-form-geo.component';
 
 
 @NgModule({
@@ -20,10 +24,14 @@ import { RemitenteListComponent } from './remitente-list/remitente-list.componen
     CentrosOperativosFormContactosComponent,
     CentrosOperativosFormGeoComponent,
     RemitenteListComponent,
+    RemitenteFormComponent,
+    RemitenteFormContactosComponent,
+    RemitenteFormGeoComponent,
   ],
   imports: [
     CommonModule,
     EntitiesRoutingModule,
+    DirectivesModule,
     FormsModule,
     ReactiveFormsModule,
     MaterialModule,

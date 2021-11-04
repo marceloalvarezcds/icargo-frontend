@@ -1,45 +1,44 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
-import { mockCentroOperativoClasificacionList } from 'src/app/interfaces/centro-operativo-clasificacion';
+import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
+import { mockRemitenteList } from 'src/app/interfaces/remitente';
+import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
-import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
-import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
+import { RemitenteService } from 'src/app/services/remitente.service';
+import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { fakeFileList, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
-import { CentrosOperativosFormComponent } from './centros-operativos-form.component';
+import { RemitenteFormComponent } from './remitente-form.component';
 
-@Component({ template: '' })
-class TestComponent { }
-
-describe('CentrosOperativosFormComponent', () => {
-  let component: CentrosOperativosFormComponent;
-  let fixture: ComponentFixture<CentrosOperativosFormComponent>;
+describe('RemitenteFormComponent', () => {
+  let component: RemitenteFormComponent;
+  let fixture: ComponentFixture<RemitenteFormComponent>;
   let httpController: HttpTestingController;
-  let centroOperativoService: CentroOperativoService;
+  let remitenteService: RemitenteService;
   let pageFormComponent: DebugElement;
-  const centroOperativo = mockCentroOperativoList[0];
+  const remitente = mockRemitenteList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
   }
   const createRouter = {
-    ...router, url: 'entities/centros-operativos/create',
+    ...router, url: 'entities/remitente/create',
   }
   const editRouter = {
-    ...router, url: 'entities/centros-operativos/edit/:id',
+    ...router, url: 'entities/remitente/edit/:id',
   }
   const showRouter = {
-    ...router, url: 'entities/centros-operativos/show',
+    ...router, url: 'entities/remitente/show',
   }
-  const id = centroOperativo.id;
+  const id = remitente.id;
   const route = {
     snapshot: {
       params: {
@@ -52,26 +51,29 @@ describe('CentrosOperativosFormComponent', () => {
       params: { },
     },
   };
-  function formSetValue(component: CentrosOperativosFormComponent, logo: string | null = null): void {
+  function formSetValue(component: RemitenteFormComponent, logo: string | null = null): void {
     component.form.setValue({
       info: {
         alias: 'Alias',
-        nombre: centroOperativo.nombre,
-        nombre_corto: centroOperativo.nombre_corto,
-        clasificacion_id: centroOperativo.clasificacion_id,
-        telefono: centroOperativo.telefono,
-        email: centroOperativo.email,
-        pagina_web: centroOperativo.pagina_web,
+        nombre: remitente.nombre,
+        nombre_corto: remitente.nombre_corto,
+        tipo_documento_id: remitente.tipo_documento_id,
+        numero_documento: remitente.numero_documento,
+        digito_verificador: remitente.digito_verificador,
+        composicion_juridica_id: remitente.composicion_juridica_id,
+        telefono: remitente.telefono,
+        email: remitente.email,
+        pagina_web: remitente.pagina_web,
         logo,
       },
       contactos: [],
       geo: {
-        pais_id: centroOperativo.ciudad.localidad.pais_id,
-        localidad_id: centroOperativo.ciudad.localidad_id,
-        ciudad_id: centroOperativo.ciudad_id,
-        latitud: centroOperativo.latitud,
-        longitud: centroOperativo.longitud,
-        direccion: centroOperativo.direccion,
+        pais_id: remitente.ciudad.localidad.pais_id,
+        localidad_id: remitente.ciudad.localidad_id,
+        ciudad_id: remitente.ciudad_id,
+        latitud: remitente.latitud,
+        longitud: remitente.longitud,
+        direccion: remitente.direccion,
       },
     });
   }
@@ -84,20 +86,21 @@ describe('CentrosOperativosFormComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: 'entities/centros-operativos/create', component: TestComponent },
-          { path: 'entities/centros-operativos/edit', component: TestComponent },
-          { path: 'entities/centros-operativos/show', component: TestComponent },
+          { path: 'entities/remitente/create', component: RemitenteFormComponent },
+          { path: 'entities/remitente/edit', component: RemitenteFormComponent },
+          { path: 'entities/remitente/show', component: RemitenteFormComponent },
         ]),
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
-        CentroOperativoService,
-        CentroOperativoClasificacionService,
+        RemitenteService,
+        ComposicionJuridicaService,
+        TipoDocumentoService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
         { provide: Router, useValue: router }
       ],
-      declarations: [ CentrosOperativosFormComponent ]
+      declarations: [ RemitenteFormComponent ]
     })
     .compileComponents();
   });
@@ -106,7 +109,7 @@ describe('CentrosOperativosFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
+    fixture = TestBed.createComponent(RemitenteFormComponent);
     component = fixture.componentInstance;
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -118,11 +121,12 @@ describe('CentrosOperativosFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
-    const req = httpController.expectOne(`${environment.api}/centro_operativo/`)
+    const req = httpController.expectOne(`${environment.api}/remitente/`)
     expect(req.request.method).toBe('POST');
-    req.flush(centroOperativo);
+    req.flush(remitente);
     flush();
     expect(fileChangeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
@@ -133,18 +137,19 @@ describe('CentrosOperativosFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
+    fixture = TestBed.createComponent(RemitenteFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
-    const req = httpController.expectOne(`${environment.api}/centro_operativo/`);
+    const req = httpController.expectOne(`${environment.api}/remitente/`);
     expect(req.request.method).toBe('POST');
-    req.flush(centroOperativo);
+    req.flush(remitente);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -153,15 +158,16 @@ describe('CentrosOperativosFormComponent', () => {
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
-    centroOperativoService = TestBed.inject(CentroOperativoService);
+    fixture = TestBed.createComponent(RemitenteFormComponent);
+    remitenteService = TestBed.inject(RemitenteService);
     component = fixture.componentInstance;
-    const getByIdSpy = spyOn(centroOperativoService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(remitenteService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(centroOperativo);
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController.expectOne(`${environment.api}/remitente/${id}`).flush(remitente);
+    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
@@ -173,9 +179,9 @@ describe('CentrosOperativosFormComponent', () => {
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    const req = httpController.expectOne(`${environment.api}/centro_operativo/${id}`)
+    const req = httpController.expectOne(`${environment.api}/remitente/${id}`)
     expect(req.request.method).toBe('PUT');
-    req.flush(centroOperativo);
+    req.flush(remitente);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -184,13 +190,14 @@ describe('CentrosOperativosFormComponent', () => {
   it('should open edit view with alias null', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
-    centroOperativoService = TestBed.inject(CentroOperativoService);
+    fixture = TestBed.createComponent(RemitenteFormComponent);
+    remitenteService = TestBed.inject(RemitenteService);
     component = fixture.componentInstance;
-    const getByIdSpy = spyOn(centroOperativoService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(remitenteService, 'getById').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
-    httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(mockCentroOperativoList[1]);
+    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/remitente/${id}`).flush(mockRemitenteList[1]);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
@@ -199,7 +206,7 @@ describe('CentrosOperativosFormComponent', () => {
 
   it('should open show view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: showRouter });
-    fixture = TestBed.createComponent(CentrosOperativosFormComponent);
+    fixture = TestBed.createComponent(RemitenteFormComponent);
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();

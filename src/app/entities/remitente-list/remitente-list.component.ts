@@ -86,15 +86,15 @@ export class RemitenteListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate(['/entities/centros-operativos/create']);
+    this.router.navigate(['/entities/remitente/create']);
   }
 
   redirectToEdit(event: TableEvent<RemitenteList>): void {
-    this.router.navigate(['/entities/centros-operativos/edit', event.row.id]);
+    this.router.navigate(['/entities/remitente/edit', event.row.id]);
   }
 
   redirectToShow(event: TableEvent<RemitenteList>): void {
-    this.router.navigate(['/entities/centros-operativos/show', event.row.id]);
+    this.router.navigate(['/entities/remitente/show', event.row.id]);
   }
 
   deleteRow(event: TableEvent<RemitenteList>): void {
