@@ -47,15 +47,15 @@ describe('RemitenteListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/centros-operativos/create',
+            path: 'entities/remitente/create',
             component: RemitenteListComponent,
           },
           {
-            path: 'entities/centros-operativos/edit/:id',
+            path: 'entities/remitente/edit/:id',
             component: RemitenteListComponent,
           },
           {
-            path: 'entities/centros-operativos/show/:id',
+            path: 'entities/remitente/show/:id',
             component: RemitenteListComponent,
           },
         ]),
@@ -183,10 +183,10 @@ describe('RemitenteListComponent', () => {
     tick(500);
     expect(searchSpy).toHaveBeenCalledWith(filterStr, false);
 
-    const centroOperativo = mockRemitenteList.find((_, i) => i === 0)!;
-    component.filterPredicate(centroOperativo, filterStr);
-    component.filterPredicate(centroOperativo, '{}');
-    component.columns.forEach(c => c.value && c.value(centroOperativo));
+    const remitente = mockRemitenteList.find((_, i) => i === 0)!;
+    component.filterPredicate(remitente, filterStr);
+    component.filterPredicate(remitente, '{}');
+    component.columns.forEach(c => c.value && c.value(remitente));
     httpController.verify();
   }));
 });

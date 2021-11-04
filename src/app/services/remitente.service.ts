@@ -17,21 +17,21 @@ export class RemitenteService {
     return this.http.get<RemitenteList[]>(`${this.url}/`);
   }
 
-  // getById(id: number): Observable<Remitente> {
-  //   return this.http.get<Remitente>(`${this.url}/${id}`);
-  // }
+  getById(id: number): Observable<Remitente> {
+    return this.http.get<Remitente>(`${this.url}/${id}`);
+  }
 
   generateReports(): Observable<string> {
     return this.http.get<string>(`${this.url}/reports/`);
   }
 
-  // create(formData: FormData): Observable<Remitente> {
-  //   return this.http.post<Remitente>(`${this.url}/`, formData);
-  // }
+  create(formData: FormData): Observable<Remitente> {
+    return this.http.post<Remitente>(`${this.url}/`, formData);
+  }
 
-  // edit(id: number, formData: FormData): Observable<Remitente> {
-  //   return this.http.put<Remitente>(`${this.url}/${id}`, formData);
-  // }
+  edit(id: number, formData: FormData): Observable<Remitente> {
+    return this.http.put<Remitente>(`${this.url}/${id}`, formData);
+  }
 
   delete(id: number): Observable<Remitente> {
     return this.http.delete<Remitente>(`${this.url}/${id}`);
