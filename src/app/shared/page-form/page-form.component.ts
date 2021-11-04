@@ -17,6 +17,7 @@ export class PageFormComponent {
 
   @Input() formGroup!: FormGroup;
   @Input() isShow = false;
+  @Input() hasChange = false;
   @Input() module: string = '';
   @Input() submodule: string = '';
   @Input() viewTitle: string = '';
@@ -25,7 +26,7 @@ export class PageFormComponent {
   @Output() submitEvent = new EventEmitter();
 
   back(): void {
-    if (this.isShow) {
+    if (this.isShow || !this.hasChange) {
       this.backClick.emit(false);
     } else {
       this.dialog

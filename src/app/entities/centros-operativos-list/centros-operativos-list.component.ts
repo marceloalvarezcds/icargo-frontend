@@ -30,7 +30,7 @@ export class CentrosOperativosListComponent implements OnInit {
 
   columns: Column[] = [
     { def: 'nombre', title: 'Nombre', value: (element: CentroOperativoList) => element.nombre, sticky: true },
-    { def: 'nombre_corto', title: 'Nombre Corto', value: (element: CentroOperativoList) => element.nombre_corto },
+    { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: CentroOperativoList) => element.nombre_corto },
     { def: 'direccion', title: 'Dirección', value: (element: CentroOperativoList) => element.direccion },
     { def: 'ubicacion', title: 'Ubicación', value: (element: CentroOperativoList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
     { def: 'categoria', title: 'Clasificación', value: (element: CentroOperativoList) => element.clasificacion_nombre },

@@ -1,7 +1,7 @@
 <app-page
-  class="centro-operativo-page"
+  class="remitente-page"
   module="Entidades"
-  submodule="Centros Operativos"
+  submodule="Remitente"
   (applyClick)="applyFilter()"
   (createClick)="redirectToCreate()"
   (downloadClick)="downloadFile()"
@@ -11,13 +11,25 @@
     <mat-accordion [multi]="true">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Clasificación</mat-panel-title>
+          <mat-panel-title>Tipo de Documento</mat-panel-title>
         </mat-expansion-panel-header>
         <div>
           <app-checkbox-filter
-            #clasificacionCheckboxFilter
-            [value]="clasificacionFiltered"
-            [list]="clasificacionFilterList"
+            #tipoDocumentoCheckboxFilter
+            [value]="tipoDocumentoFiltered"
+            [list]="tipoDocumentoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Composición Jurídica</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #composicionJuridicaCheckboxFilter
+            [value]="composicionJuridicaFiltered"
+            [list]="composicionJuridicaFilterList"
           ></app-checkbox-filter>
         </div>
       </mat-expansion-panel>
@@ -49,8 +61,11 @@
   </div>
   <mat-chip-list filterValues>
     <ng-container *ngIf="isFiltered">Filtros:</ng-container>
-    <ng-container *ngIf="isFilteredByClasificacion">
-      <mat-chip *ngFor="let item of clasificacionFiltered">{{item}}</mat-chip>
+    <ng-container *ngIf="isFilteredByTipoDocumento">
+      <mat-chip *ngFor="let item of tipoDocumentoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByComposicionJuridica">
+      <mat-chip *ngFor="let item of composicionJuridicaFiltered">{{item}}</mat-chip>
     </ng-container>
     <ng-container *ngIf="isFilteredByCiudad">
       <mat-chip *ngFor="let item of ciudadFiltered">{{item}}</mat-chip>

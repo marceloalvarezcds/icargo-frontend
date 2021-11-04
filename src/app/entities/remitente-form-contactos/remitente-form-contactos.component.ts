@@ -5,31 +5,31 @@ import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ContactoFormDialogComponent } from 'src/app/dialogs/contacto-form-dialog/contacto-form-dialog.component';
 import { Column } from 'src/app/interfaces/column';
+import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
-import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 
 @Component({
-  selector: 'app-centros-operativos-form-contactos',
-  templateUrl: './centros-operativos-form-contactos.component.html',
-  styleUrls: ['./centros-operativos-form-contactos.component.scss']
+  selector: 'app-remitente-form-contactos',
+  templateUrl: './remitente-form-contactos.component.html',
+  styleUrls: ['./remitente-form-contactos.component.scss']
 })
-export class CentrosOperativosFormContactosComponent {
+export class RemitenteFormContactosComponent {
 
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_nombre, sticky: true },
-    { def: 'apellido', title: 'Apellido', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_apellido },
-    { def: 'telefono', title: 'Teléfono', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_telefono },
-    { def: 'email', title: 'Correo electrónico', value: (element: CentroOperativoContactoGestorCargaList) => element.contacto_email },
-    { def: 'alias', title: 'Alias', value: (element: CentroOperativoContactoGestorCargaList) => element.alias },
-    { def: 'cargo', title: 'Cargo', value: (element: CentroOperativoContactoGestorCargaList) => element.cargo_descripcion },
+    { def: 'nombre', title: 'Nombre', value: (element: RemitenteContactoGestorCargaList) => element.contacto_nombre, sticky: true },
+    { def: 'apellido', title: 'Apellido', value: (element: RemitenteContactoGestorCargaList) => element.contacto_apellido },
+    { def: 'telefono', title: 'Teléfono', value: (element: RemitenteContactoGestorCargaList) => element.contacto_telefono },
+    { def: 'email', title: 'Correo electrónico', value: (element: RemitenteContactoGestorCargaList) => element.contacto_email },
+    { def: 'alias', title: 'Alias', value: (element: RemitenteContactoGestorCargaList) => element.alias },
+    { def: 'cargo', title: 'Cargo', value: (element: RemitenteContactoGestorCargaList) => element.cargo_descripcion },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
-  list: CentroOperativoContactoGestorCargaList[] = [];
+  list: RemitenteContactoGestorCargaList[] = [];
 
   @Input() form!: FormGroup;
   @Input() isShow = false;
-  @Input() set contactoList(list: CentroOperativoContactoGestorCargaList[]) {
+  @Input() set contactoList(list: RemitenteContactoGestorCargaList[]) {
     list.forEach((contacto) => {
       this.contactoArray.push(this.createConactoForm(contacto));
     });
@@ -50,27 +50,27 @@ export class CentrosOperativosFormContactosComponent {
       .open(ContactoFormDialogComponent)
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
-      .subscribe((contacto: CentroOperativoContactoGestorCargaList) => {
+      .subscribe((contacto: RemitenteContactoGestorCargaList) => {
         this.list = this.list.concat([contacto]);
         this.contactoArray.push(this.createConactoForm(contacto));
       });
   }
 
-  editContacto(event: TableEvent<CentroOperativoContactoGestorCargaList>): void {
+  editContacto(event: TableEvent<RemitenteContactoGestorCargaList>): void {
     const data = event.row;
     const index = event.index;
     this.dialog
       .open(ContactoFormDialogComponent, { data })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
-      .subscribe((contacto: CentroOperativoContactoGestorCargaList) => {
+      .subscribe((contacto: RemitenteContactoGestorCargaList) => {
         this.list[index] = contacto;
         this.list = this.list.slice();
         this.contactoArray.setControl(index, this.createConactoForm(contacto));
       });
   }
 
-  removeContacto(event: TableEvent<CentroOperativoContactoGestorCargaList>): void {
+  removeContacto(event: TableEvent<RemitenteContactoGestorCargaList>): void {
     const contacto = event.row;
     const index = event.index;
     this.dialog
@@ -88,7 +88,7 @@ export class CentrosOperativosFormContactosComponent {
       });
   }
 
-  private createConactoForm(contacto: CentroOperativoContactoGestorCargaList): FormGroup {
+  private createConactoForm(contacto: RemitenteContactoGestorCargaList): FormGroup {
     return this.fb.group({
       id: contacto.contacto_id,
       nombre: [contacto.contacto_nombre, Validators.required],

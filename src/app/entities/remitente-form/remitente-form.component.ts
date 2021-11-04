@@ -1,21 +1,22 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
+import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
-import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
-import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
+import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
+import { RemitenteService } from 'src/app/services/remitente.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
-  selector: 'app-centros-operativos-form',
-  templateUrl: './centros-operativos-form.component.html',
-  styleUrls: ['./centros-operativos-form.component.scss']
+  selector: 'app-remitente-form',
+  templateUrl: './remitente-form.component.html',
+  styleUrls: ['./remitente-form.component.scss']
 })
-export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
+export class RemitenteFormComponent implements OnInit, OnDestroy {
 
   id?: number;
   isEdit = false;
@@ -24,14 +25,15 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/centros-operativos/list';
-  centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
+  backUrl = '/entities/remitente/list';
+  composicionJuridicaList$ = this.composicionJuridicaService.getList();
+  tipoDocumentoList$ = this.tipoDocumentoService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
   });
 
-  contactoList: CentroOperativoContactoGestorCargaList[] = [];
+  contactoList: RemitenteContactoGestorCargaList[] = [];
 
   file: File | null = null;
   logo: string | null = null;
@@ -40,7 +42,10 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: [null, Validators.required],
-      clasificacion_id: [null, Validators.required],
+      tipo_documento_id: [null, Validators.required],
+      numero_documento: [null, Validators.required],
+      digito_verificador: null,
+      composicion_juridica_id: [null, Validators.required],
       alias: null,
       logo: [null, Validators.required],
       telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
@@ -82,8 +87,9 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private centroOperativoClasificacionService:  CentroOperativoClasificacionService,
-    private centroOperativoService:  CentroOperativoService,
+    private composicionJuridicaService: ComposicionJuridicaService,
+    private tipoDocumentoService: TipoDocumentoService,
+    private remitenteService: RemitenteService,
     private userService: UserService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
@@ -130,13 +136,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       formData.append('data', JSON.stringify(data));
       if (this.file) { formData.append('file', this.file); }
       if (this.isEdit && this.id) {
-        this.centroOperativoService.edit(this.id, formData).subscribe(() => {
+        this.remitenteService.edit(this.id, formData).subscribe(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
-        this.centroOperativoService.create(formData).subscribe((centroOperativo) => {
+        this.remitenteService.create(formData).subscribe((remitente) => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           this.snackbar
@@ -146,7 +152,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/centros-operativos/edit', centroOperativo.id]);
+                this.router.navigate(['/entities/remitente/edit', remitente.id]);
               }
             });
         });
@@ -171,13 +177,16 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.centroOperativoService.getById(this.id).subscribe(data => {
+      this.remitenteService.getById(this.id).subscribe(data => {
         this.form.setValue({
           info: {
             alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
-            clasificacion_id: data.clasificacion_id,
+            tipo_documento_id: data.tipo_documento_id,
+            numero_documento: data.numero_documento,
+            digito_verificador: data.digito_verificador,
+            composicion_juridica_id: data.composicion_juridica_id,
             telefono: data.telefono,
             email: data.email,
             pagina_web: data.pagina_web,

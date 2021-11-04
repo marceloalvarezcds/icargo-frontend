@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
+import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
+import { RemitenteListComponent } from './remitente-list/remitente-list.component';
 
 const routes: Routes = [
   {
@@ -19,6 +21,22 @@ const routes: Routes = [
   {
     path: 'centros-operativos/show/:id',
     component: CentrosOperativosFormComponent,
+  },
+  {
+    path: 'remitente/list',
+    component: RemitenteListComponent,
+  },
+  {
+    path: 'remitente/create',
+    component: RemitenteFormComponent,
+  },
+  {
+    path: 'remitente/edit/:id',
+    component: RemitenteFormComponent,
+  },
+  {
+    path: 'remitente/show/:id',
+    component: RemitenteFormComponent,
   },
 ];
 

@@ -12,6 +12,7 @@ import { PageFormComponent } from './page-form/page-form.component';
 import { TableComponent } from './table/table.component';
 import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
+import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
 
 const modules = [
   HeaderComponent,
@@ -22,6 +23,7 @@ const modules = [
   PageFormComponent,
   SearchableCheckboxFilterComponent,
   TableComponent,
+  TablePaginatorComponent,
 ];
 
 @NgModule({

@@ -1,12 +1,13 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { filter } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
 import { TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
+import { delay } from 'src/app/utils/observable';
 
 @Component({
   selector: 'app-table',
@@ -21,12 +22,17 @@ export class TableComponent implements OnInit, OnDestroy {
   columnsToShowList: string[] = [];
   columnsToShowFilteredList: string[] = [];
   displayedColumns: string[] = [];
-  dataSource = new MatTableDataSource<any>();
-  defaultFilterPredicate = this.dataSource.filterPredicate.bind(this.dataSource);
+  tableDataSource = new MatTableDataSource<any>();
+  defaultFilterPredicate = this.tableDataSource.filterPredicate.bind(this.tableDataSource);
   filteredColumns: Column[] = [];
   searchSubscription = this.searchService.getSearchOptions()
-                        .pipe(filter(() => !!this.dataSource.paginator))
-                        .subscribe((search) => this.filterData(search));
+    .pipe(delay(500))
+    .subscribe((search) => this.filterData(search));
+
+  @Input() set dataSource(source: MatTableDataSource<any>) {
+    this.tableDataSource = source;
+    this.tableDataSource.sort = this.sort;
+  }
 
   @Input() set columns(list: Column[]) {
     this.allColumns = list.slice();
@@ -39,12 +45,12 @@ export class TableComponent implements OnInit, OnDestroy {
   };
 
   @Input() set data(values: any[]) {
-    this.dataSource.data = values.slice();
+    this.tableDataSource.data = values.slice();
   }
 
-  @Input() filterPredicate = this.defaultFilterPredicate.bind(this.dataSource);
-  @Input() hidePaginator =  false;
-  @Input() hideShow =  false;
+  @Input() filterPredicate = this.defaultFilterPredicate.bind(this.tableDataSource);
+  @Input() formArray = new FormArray([]);
+  @Input() hideShow = false;
   @Input() isShow = false;
 
   @Output() editClick = new EventEmitter<TableEvent<any>>();
@@ -59,8 +65,7 @@ export class TableComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.tableDataSource.sort = this.sort;
   }
 
   ngOnDestroy(): void {
@@ -76,11 +81,13 @@ export class TableComponent implements OnInit, OnDestroy {
 
   filterData(searchOptions: SearchOptions): void {
     if (searchOptions.isFilteredByGlobalSearch) {
-      this.dataSource.filterPredicate = this.defaultFilterPredicate;
+      this.tableDataSource.filterPredicate = this.defaultFilterPredicate;
     } else {
-      this.dataSource.filterPredicate = this.filterPredicate;
+      this.tableDataSource.filterPredicate = this.filterPredicate;
     }
-    this.dataSource.filter = searchOptions.textToSearch.trim().toLowerCase();
-    this.dataSource.paginator!.firstPage();
+    this.tableDataSource.filter = searchOptions.textToSearch.trim().toLowerCase();
+    if (searchOptions.textToSearch.trim().length) {
+      this.tableDataSource.paginator!.firstPage();
+    }
   }
 }
