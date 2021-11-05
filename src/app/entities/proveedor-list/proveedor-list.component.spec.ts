@@ -8,30 +8,30 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { mockRemitenteList, RemitenteList } from 'src/app/interfaces/remitente';
+import { mockProveedorList, ProveedorList } from 'src/app/interfaces/proveedor';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
-import { RemitenteService } from 'src/app/services/remitente.service';
+import { ProveedorService } from 'src/app/services/proveedor.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-import { RemitenteFormComponent } from '../remitente-form/remitente-form.component';
+import { ProveedorFormComponent } from '../proveedor-form/proveedor-form.component';
 
-import { RemitenteListComponent } from './remitente-list.component';
+import { ProveedorListComponent } from './proveedor-list.component';
 
-describe('RemitenteListComponent', () => {
-  let component: RemitenteListComponent;
-  let fixture: ComponentFixture<RemitenteListComponent>;
+describe('ProveedorListComponent', () => {
+  let component: ProveedorListComponent;
+  let fixture: ComponentFixture<ProveedorListComponent>;
   let httpController: HttpTestingController;
   let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let reportsService: ReportsService;
   let searchService: SearchService;
   let pageComponent: DebugElement;
   let tableComponent: DebugElement;
-  const row = mockRemitenteList[0];
-  const tableEvent: TableEvent<RemitenteList> = {
+  const row = mockProveedorList[0];
+  const tableEvent: TableEvent<ProveedorList> = {
     row, index: 0,
   }
 
@@ -47,34 +47,34 @@ describe('RemitenteListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/remitente/create',
-            component: RemitenteFormComponent,
+            path: 'entities/proveedor/create',
+            component: ProveedorFormComponent,
           },
           {
-            path: 'entities/remitente/edit/:id',
-            component: RemitenteFormComponent,
+            path: 'entities/proveedor/edit/:id',
+            component: ProveedorFormComponent,
           },
           {
-            path: 'entities/remitente/show/:id',
-            component: RemitenteFormComponent,
+            path: 'entities/proveedor/show/:id',
+            component: ProveedorFormComponent,
           },
         ]),
         SharedModule,
       ],
       providers: [
-        RemitenteService,
+        ProveedorService,
         ReportsService,
         SearchService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ RemitenteListComponent ],
+      declarations: [ ProveedorListComponent ],
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RemitenteListComponent);
+    fixture = TestBed.createComponent(ProveedorListComponent);
     httpController = TestBed.inject(HttpTestingController);
     reportsService = TestBed.inject(ReportsService);
     searchService = TestBed.inject(SearchService);
@@ -113,8 +113,8 @@ describe('RemitenteListComponent', () => {
 
     tick();
 
-    httpController.expectOne(`${environment.api}/remitente/`).flush(mockRemitenteList);
-    const req = httpController.expectOne(`${environment.api}/remitente/${row.id}`)
+    httpController.expectOne(`${environment.api}/proveedor/`).flush(mockProveedorList);
+    const req = httpController.expectOne(`${environment.api}/proveedor/${row.id}`)
     expect(req.request.method).toBe('DELETE');
     req.flush({});
     flush();
@@ -129,7 +129,7 @@ describe('RemitenteListComponent', () => {
   it('should make an http call to get the list', fakeAsync(() => {
     const spy = spyOn((component as any), 'resetFilterList').and.callThrough();
 
-    httpController.expectOne(`${environment.api}/remitente/`).flush(mockRemitenteList);
+    httpController.expectOne(`${environment.api}/proveedor/`).flush(mockProveedorList);
 
     flush();
 
@@ -140,15 +140,15 @@ describe('RemitenteListComponent', () => {
 
   it('should make an http call to download the list', fakeAsync(() => {
 
-    const filename = 'remitente_reports.xls';
+    const filename = 'proveedor_reports.xls';
     const componentDownloadFileSpy = spyOn(component, 'downloadFile').and.callThrough();
     const serviceDownloadFileSpy = spyOn(reportsService, 'downloadFile').and.callThrough();
     pageComponent.triggerEventHandler('downloadClick', new MouseEvent('click'));
 
     expect(componentDownloadFileSpy).toHaveBeenCalled();
 
-    httpController.expectOne(`${environment.api}/remitente/`).flush([]);
-    httpController.expectOne(`${environment.api}/remitente/reports/`).flush(filename);
+    httpController.expectOne(`${environment.api}/proveedor/`).flush([]);
+    httpController.expectOne(`${environment.api}/proveedor/reports/`).flush(filename);
     httpController.expectOne(`${environment.api}/reports/${filename}`).flush(fakeFile());
 
     flush();
@@ -160,7 +160,7 @@ describe('RemitenteListComponent', () => {
 
   it('should apply filter', fakeAsync(() => {
     const searchSpy = spyOn(searchService, 'search').and.callThrough();
-    httpController.expectOne(`${environment.api}/remitente/`).flush(mockRemitenteList);
+    httpController.expectOne(`${environment.api}/proveedor/`).flush(mockProveedorList);
     flush();
 
     const ciudadFiltered = component.ciudadFilterList.filter((_, i) => i === 0);
@@ -183,10 +183,10 @@ describe('RemitenteListComponent', () => {
     tick(500);
     expect(searchSpy).toHaveBeenCalledWith(filterStr, false);
 
-    const remitente = mockRemitenteList.find((_, i) => i === 0)!;
-    component.filterPredicate(remitente, filterStr);
-    component.filterPredicate(remitente, '{}');
-    component.columns.forEach(c => c.value && c.value(remitente));
+    const proveedor = mockProveedorList.find((_, i) => i === 0)!;
+    component.filterPredicate(proveedor, filterStr);
+    component.filterPredicate(proveedor, '{}');
+    component.columns.forEach(c => c.value && c.value(proveedor));
     httpController.verify();
   }));
 });

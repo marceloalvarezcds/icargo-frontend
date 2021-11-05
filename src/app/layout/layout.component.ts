@@ -38,6 +38,12 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           active: true,
         },
         {
+          name: 'Proveedores',
+          iconName: 'event_available',
+          path: '/entities/proveedor/list',
+          active: true,
+        },
+        {
           name: 'Gestores de Carga',
           iconName: 'directions_bus',
           path: '/entities/gestor-carga/list',

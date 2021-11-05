@@ -15,6 +15,9 @@ import { RemitenteFormComponent } from './remitente-form/remitente-form.componen
 import { RemitenteFormContactosComponent } from './remitente-form-contactos/remitente-form-contactos.component';
 import { GestorCargaListComponent } from './gestor-carga-list/gestor-carga-list.component';
 import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.component';
+import { ProveedorListComponent } from './proveedor-list/proveedor-list.component';
+import { ProveedorFormContactosComponent } from './proveedor-form-contactos/proveedor-form-contactos.component';
+import { ProveedorFormComponent } from './proveedor-form/proveedor-form.component';
 
 
 @NgModule({
@@ -27,6 +30,9 @@ import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.
     RemitenteFormContactosComponent,
     GestorCargaListComponent,
     GestorCargaFormComponent,
+    ProveedorListComponent,
+    ProveedorFormContactosComponent,
+    ProveedorFormComponent,
   ],
   imports: [
     CommonModule,
