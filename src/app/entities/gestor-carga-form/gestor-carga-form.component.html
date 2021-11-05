@@ -1,7 +1,7 @@
 <app-page-form
-  class="centro-operativo-page"
+  class="remitente-page"
   module="Entidades"
-  submodule="Centros Operativos"
+  submodule="Remitente"
   viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -34,14 +34,50 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Clasificación</mat-label>
-          <mat-select formControlName="clasificacion_id">
-            <ng-container *ngFor="let o of centroOperativoClasificacionList$ | async">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select formControlName="tipo_documento_id">
+            <ng-container *ngFor="let o of tipoDocumentoList$ | async">
+              <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required')">
+            El tipo de documento es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Número de Documento</mat-label>
+          <input matInput formControlName="numero_documento" />
+          <mat-error *ngIf="info.controls['numero_documento'].hasError('required')">
+            El número de documento es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Dígito verificador</mat-label>
+          <input matInput formControlName="digito_verificador" />
+          <mat-error *ngIf="info.controls['digito_verificador'].hasError('required')">
+            El dígito verificador es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Composición Jurídica</mat-label>
+          <mat-select formControlName="composicion_juridica_id">
+            <ng-container *ngFor="let o of composicionJuridicaList$ | async">
               <mat-option [value]="o.id">{{o.nombre}}</mat-option>
             </ng-container>
           </mat-select>
-          <mat-error *ngIf="info.controls['clasificacion_id'].hasError('required')">
-            La clasificación es <strong>requerida</strong>
+          <mat-error *ngIf="info.controls['composicion_juridica_id'].hasError('required')">
+            La composición jurídica es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Moneda</mat-label>
+          <mat-select formControlName="moneda_id">
+            <ng-container *ngFor="let o of monedaList$ | async">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="info.controls['moneda_id'].hasError('required')">
+            La moneda es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -66,11 +102,11 @@
           <mat-label>Página web</mat-label>
           <input matInput formControlName="pagina_web" />
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!user?.gestor_carga_id">
-          <mat-label>Alias</mat-label>
-          <input matInput formControlName="alias" />
-          <mat-error *ngIf="info.controls['alias'].hasError('required')">
-            El alias es <strong>requerido</strong>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Información complementaria</mat-label>
+          <input matInput formControlName="info_complementaria" />
+          <mat-error *ngIf="info.controls['info_complementaria'].hasError('required')">
+            La información complementaria es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
       </div>
@@ -108,19 +144,6 @@
           </mat-form-field>
         </div>
       </div>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title>
-          Libreta de Contactos
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-centros-operativos-form-contactos
-        [form]="form"
-        [isShow]="isShow"
-        [contactoList]="contactoList"
-      ></app-centros-operativos-form-contactos>
     </mat-expansion-panel>
 
     <mat-expansion-panel formGroupName="geo" [expanded]="isGeoTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">

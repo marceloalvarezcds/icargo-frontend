@@ -8,6 +8,7 @@
   [hasChange]="hasChange"
   [isShow]="isShow"
   (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
   <mat-accordion multi>
@@ -153,11 +154,11 @@
           Geolocalización
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-remitente-form-geo
+      <app-page-form-geo
         [form]="form"
         [isShow]="isShow"
         [isPanelOpen]="isPanelOpen"
-      ></app-remitente-form-geo>
+      ></app-page-form-geo>
     </mat-expansion-panel>
   </mat-accordion>
 </app-page-form>

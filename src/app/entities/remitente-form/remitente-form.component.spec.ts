@@ -214,8 +214,11 @@ describe('RemitenteFormComponent', () => {
     const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
+    const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
+    pageFormComponent.triggerEventHandler('editClick', null);
     expect(backSpy).toHaveBeenCalled();
+    expect(redirectToEditSpy).toHaveBeenCalled();
     expect(fileChangeSpy).toHaveBeenCalled();
   }));
 });

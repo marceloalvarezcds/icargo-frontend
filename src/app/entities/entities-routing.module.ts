@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
+import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.component';
+import { GestorCargaListComponent } from './gestor-carga-list/gestor-carga-list.component';
 import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
 
@@ -21,6 +23,22 @@ const routes: Routes = [
   {
     path: 'centros-operativos/show/:id',
     component: CentrosOperativosFormComponent,
+  },
+  {
+    path: 'gestor-carga/list',
+    component: GestorCargaListComponent,
+  },
+  {
+    path: 'gestor-carga/create',
+    component: GestorCargaFormComponent,
+  },
+  {
+    path: 'gestor-carga/edit/:id',
+    component: GestorCargaFormComponent,
+  },
+  {
+    path: 'gestor-carga/show/:id',
+    component: GestorCargaFormComponent,
   },
   {
     path: 'remitente/list',

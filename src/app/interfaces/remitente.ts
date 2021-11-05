@@ -26,7 +26,7 @@ export interface Remitente {
   ciudad_id: number;
   ciudad: Ciudad;
   contactos: RemitenteContactoGestorCargaList[];
-  gestor_carga_centro_operativo?: GestorCargaRemitente;
+  gestor_carga_remitente?: GestorCargaRemitente;
 }
 
 const gestorCargaRemitente0 = mockGestorCargaRemitenteList[0];
@@ -83,7 +83,7 @@ export const mockRemitenteList: RemitenteList[] = [
       }
     },
     contactos: mockRemitenteContactoGestorCargaList.slice(),
-    gestor_carga_centro_operativo: gestorCargaRemitente0,
+    gestor_carga_remitente: gestorCargaRemitente0,
     composicion_juridica_nombre: composicionJuridica0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
@@ -168,7 +168,7 @@ export const mockRemitenteList: RemitenteList[] = [
       }
     },
     contactos: [],
-    gestor_carga_centro_operativo: undefined,
+    gestor_carga_remitente: undefined,
     composicion_juridica_nombre: composicionJuridica2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',

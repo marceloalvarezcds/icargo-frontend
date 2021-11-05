@@ -23,6 +23,7 @@ export class PageFormComponent {
   @Input() viewTitle: string = '';
 
   @Output() backClick = new EventEmitter<boolean>();
+  @Output() editClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
 
   back(): void {

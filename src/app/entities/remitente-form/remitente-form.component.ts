@@ -113,6 +113,10 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  redirectToEdit(): void {
+    this.router.navigate(['/entities/remitente/edit', this.id]);
+  }
+
   fileChange(fileEvent: FileChangeEvent): void {
     this.logo = null;
     this.file = fileEvent.target!.files!.item(0);
@@ -180,7 +184,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       this.remitenteService.getById(this.id).subscribe(data => {
         this.form.setValue({
           info: {
-            alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_remitente?.alias ?? data.nombre_corto,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,

@@ -9,11 +9,11 @@ import { LocalidadService } from 'src/app/services/localidad.service';
 import { PaisService } from 'src/app/services/pais.service';
 
 @Component({
-  selector: 'app-remitente-form-geo',
-  templateUrl: './remitente-form-geo.component.html',
-  styleUrls: ['./remitente-form-geo.component.scss']
+  selector: 'app-page-form-geo',
+  templateUrl: './page-form-geo.component.html',
+  styleUrls: ['./page-form-geo.component.scss']
 })
-export class RemitenteFormGeoComponent implements OnDestroy {
+export class PageFormGeoComponent implements OnDestroy {
 
   paisList$ = this.paisService.getList();
   paisSubscription?: Subscription;

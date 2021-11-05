@@ -13,6 +13,7 @@ import { TableComponent } from './table/table.component';
 import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
+import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 
 const modules = [
   HeaderComponent,
@@ -21,6 +22,7 @@ const modules = [
   HttpErrorSnackBarComponent,
   PageComponent,
   PageFormComponent,
+  PageFormGeoComponent,
   SearchableCheckboxFilterComponent,
   TableComponent,
   TablePaginatorComponent,

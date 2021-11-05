@@ -6,6 +6,9 @@
         <button type="button" mat-mini-fab color="primary" matTooltip="Volver al listado" (click)="back()" id="back-button">
           <mat-icon>arrow_back</mat-icon>
         </button>
+        <button type="button" mat-mini-fab color="primary" matTooltip="Editar" (click)="editClick.emit($event)" *ngIf="isShow">
+          <mat-icon>edit</mat-icon>
+        </button>
         <button type="submit" mat-mini-fab color="primary" matTooltip="Guardar" *ngIf="!isShow">
           <mat-icon>save</mat-icon>
         </button>
