@@ -1,37 +1,37 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
-import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
-import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
+import { GestorCargaService } from 'src/app/services/gestor-carga.service';
+import { MonedaService } from 'src/app/services/moneda.service';
+import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
-  selector: 'app-centros-operativos-form',
-  templateUrl: './centros-operativos-form.component.html',
-  styleUrls: ['./centros-operativos-form.component.scss']
+  selector: 'app-gestor-carga-form',
+  templateUrl: './gestor-carga-form.component.html',
+  styleUrls: ['./gestor-carga-form.component.scss']
 })
-export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
+export class GestorCargaFormComponent implements OnInit, OnDestroy {
 
   id?: number;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
   isInfoTouched = true;
-  isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/centros-operativos/list';
-  centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
+  backUrl = '/entities/gestor-carga/list';
+  composicionJuridicaList$ = this.composicionJuridicaService.getList();
+  tipoDocumentoList$ = this.tipoDocumentoService.getList();
+  monedaList$ = this.monedaService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
   });
-
-  contactoList: CentroOperativoContactoGestorCargaList[] = [];
 
   file: File | null = null;
   logo: string | null = null;
@@ -40,14 +40,17 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: [null, Validators.required],
-      clasificacion_id: [null, Validators.required],
-      alias: null,
+      tipo_documento_id: [null, Validators.required],
+      numero_documento: [null, Validators.required],
+      digito_verificador: null,
+      composicion_juridica_id: [null, Validators.required],
+      moneda_id: [null, Validators.required],
       logo: [null, Validators.required],
       telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
       email: null,
       pagina_web: null,
+      info_complementaria: null,
     }),
-    contactos: this.fb.array([]),
     geo: this.fb.group({
       pais_id: [null, Validators.required],
       localidad_id: [null, Validators.required],
@@ -68,10 +71,6 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     return this.form.get('info') as FormGroup;
   }
 
-  get contactos(): FormArray {
-    return this.form.get('contactos') as FormArray;
-  }
-
   get geo(): FormGroup {
     return this.form.get('geo') as FormGroup;
   }
@@ -82,8 +81,10 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private centroOperativoClasificacionService:  CentroOperativoClasificacionService,
-    private centroOperativoService:  CentroOperativoService,
+    private composicionJuridicaService: ComposicionJuridicaService,
+    private tipoDocumentoService: TipoDocumentoService,
+    private monedaService: MonedaService,
+    private remitenteService: GestorCargaService,
     private userService: UserService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
@@ -108,7 +109,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/centros-operativos/edit', this.id]);
+    this.router.navigate(['/entities/gestor-carga/edit', this.id]);
   }
 
   fileChange(fileEvent: FileChangeEvent): void {
@@ -126,7 +127,6 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       const data = JSON.parse(JSON.stringify({
         ...this.info.value,
         ...this.geo.value,
-        contactos: this.contactos.value,
       }));
       delete data.logo;
       delete data.pais_id;
@@ -134,13 +134,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       formData.append('data', JSON.stringify(data));
       if (this.file) { formData.append('file', this.file); }
       if (this.isEdit && this.id) {
-        this.centroOperativoService.edit(this.id, formData).subscribe(() => {
+        this.remitenteService.edit(this.id, formData).subscribe(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
-        this.centroOperativoService.create(formData).subscribe((centroOperativo) => {
+        this.remitenteService.create(formData).subscribe((remitente) => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           this.snackbar
@@ -150,7 +150,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/centros-operativos/edit', centroOperativo.id]);
+                this.router.navigate(['/entities/gestor-carga/edit', remitente.id]);
               }
             });
         });
@@ -158,7 +158,6 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
-        this.isContactoTouched = this.contactos.invalid;
         this.isGeoTouched = this.geo.invalid;
       });
     }
@@ -175,16 +174,20 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.centroOperativoService.getById(this.id).subscribe(data => {
+      this.remitenteService.getById(this.id).subscribe(data => {
         this.form.setValue({
           info: {
-            alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
-            clasificacion_id: data.clasificacion_id,
+            tipo_documento_id: data.tipo_documento_id,
+            numero_documento: data.numero_documento,
+            digito_verificador: data.digito_verificador,
+            composicion_juridica_id: data.composicion_juridica_id,
+            moneda_id: data.moneda_id,
             telefono: data.telefono,
             email: data.email,
             pagina_web: data.pagina_web,
+            info_complementaria: data.info_complementaria,
             logo: null,
           },
           geo: {
@@ -195,9 +198,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
             longitud: data.longitud,
             direccion: data.direccion,
           },
-          contactos: [],
         });
-        this.contactoList = data.contactos.slice();
         this.logo = data.logo!;
         setTimeout(() => {
           this.hasChange = false;

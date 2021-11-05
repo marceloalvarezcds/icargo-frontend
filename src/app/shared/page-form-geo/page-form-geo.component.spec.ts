@@ -14,11 +14,11 @@ import { PaisService } from 'src/app/services/pais.service';
 import { findElement, mockMapMouseEvent } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
-import { RemitenteFormGeoComponent } from './remitente-form-geo.component';
+import { PageFormGeoComponent } from './page-form-geo.component';
 
-describe('RemitenteFormGeoComponent', () => {
-  let component: RemitenteFormGeoComponent;
-  let fixture: ComponentFixture<RemitenteFormGeoComponent>;
+describe('PageFormGeoComponent', () => {
+  let component: PageFormGeoComponent;
+  let fixture: ComponentFixture<PageFormGeoComponent>;
   let httpController: HttpTestingController;
   let ciudadService: CiudadService;
   let localidadService: LocalidadService;
@@ -39,7 +39,7 @@ describe('RemitenteFormGeoComponent', () => {
         PaisService,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ RemitenteFormGeoComponent ]
+      declarations: [ PageFormGeoComponent ]
     })
     .compileComponents();
   });
@@ -48,7 +48,7 @@ describe('RemitenteFormGeoComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     ciudadService = TestBed.inject(CiudadService);
     localidadService = TestBed.inject(LocalidadService);
-    fixture = TestBed.createComponent(RemitenteFormGeoComponent);
+    fixture = TestBed.createComponent(PageFormGeoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

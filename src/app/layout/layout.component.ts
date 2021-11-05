@@ -37,6 +37,12 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
           path: '/entities/remitente/list',
           active: true,
         },
+        {
+          name: 'Gestores de Carga',
+          iconName: 'directions_bus',
+          path: '/entities/gestor-carga/list',
+          active: true,
+        },
       ],
     },
   ];

@@ -17,6 +17,8 @@ export interface GestorCarga {
   moneda_id: number;
   moneda: Moneda;
   logo?: string | null;
+  telefono: string;
+  email?: string | null;
   pagina_web: string;
   info_complementaria: string;
   estado: EstadoEnum;
@@ -28,11 +30,13 @@ export interface GestorCarga {
 }
 
 export interface GestorCargaList extends GestorCarga {
-  clasificacion_nombre: string;
+  composicion_juridica_nombre: string;
   ciudad_nombre: string;
   localidad_nombre: string;
+  moneda_nombre: string;
   pais_nombre: string;
   pais_nombre_corto: string;
+  tipo_documento_descripcion: string;
 }
 
 const tipoDocumento0 = mockTipoDocumentoList[0];
@@ -58,6 +62,8 @@ export const mockGestorCargaList: GestorCargaList[] = [
     moneda_id: moneda0.id,
     moneda: moneda0,
     logo: 'http://localhost:8103/api/bura26.png',
+    telefono: '0981111111',
+    email: 'contacto@adm-santa-rita.com',
     pagina_web: '',
     info_complementaria: '',
     estado: EstadoEnum.ACTIVO,
@@ -80,11 +86,13 @@ export const mockGestorCargaList: GestorCargaList[] = [
         }
       }
     },
-    clasificacion_nombre: 'Silo',
+    composicion_juridica_nombre: composicionJuridica0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
+    moneda_nombre: moneda0.nombre,
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    tipo_documento_descripcion: tipoDocumento0.descripcion,
   },
   {
     id: 2,
@@ -99,6 +107,8 @@ export const mockGestorCargaList: GestorCargaList[] = [
     moneda_id: moneda1.id,
     moneda: moneda1,
     logo: null,
+    telefono: '0981222222',
+    email: 'contacto@gical-km12.com',
     pagina_web: '',
     info_complementaria: '',
     estado: EstadoEnum.ACTIVO,
@@ -121,11 +131,13 @@ export const mockGestorCargaList: GestorCargaList[] = [
         }
       }
     },
-    clasificacion_nombre: 'Puerto seco',
+    composicion_juridica_nombre: composicionJuridica1.nombre,
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
+    moneda_nombre: moneda1.nombre,
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    tipo_documento_descripcion: tipoDocumento1.descripcion,
   },
   {
     id: 3,
@@ -140,6 +152,8 @@ export const mockGestorCargaList: GestorCargaList[] = [
     moneda_id: moneda0.id,
     moneda: moneda0,
     logo: null,
+    telefono: '0982444444',
+    email: 'contacto@cargill-cedrales.com',
     pagina_web: '',
     info_complementaria: '',
     estado: EstadoEnum.ACTIVO,
@@ -162,10 +176,12 @@ export const mockGestorCargaList: GestorCargaList[] = [
         }
       }
     },
-    clasificacion_nombre: 'Puerto multimodal',
+    composicion_juridica_nombre: composicionJuridica2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',
+    moneda_nombre: moneda1.nombre,
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
+    tipo_documento_descripcion: tipoDocumento2.descripcion,
   },
 ];

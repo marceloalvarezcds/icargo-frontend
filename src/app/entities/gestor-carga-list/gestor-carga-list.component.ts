@@ -6,9 +6,9 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { Column } from 'src/app/interfaces/column';
-import { RemitenteList } from 'src/app/interfaces/remitente';
+import { GestorCargaList } from 'src/app/interfaces/gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
-import { RemitenteService } from 'src/app/services/remitente.service';
+import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
@@ -17,34 +17,38 @@ import { getFilterList } from 'src/app/utils/filter';
 type Filter = {
   ciudad?: string;
   composicion_juridica?: string;
+  moneda?: string;
   pais?: string;
   tipo_documento?: string;
 }
 
 @Component({
-  selector: 'app-remitente-list',
-  templateUrl: './remitente-list.component.html',
-  styleUrls: ['./remitente-list.component.scss']
+  selector: 'app-gestor-carga-list',
+  templateUrl: './gestor-carga-list.component.html',
+  styleUrls: ['./gestor-carga-list.component.scss']
 })
-export class RemitenteListComponent implements OnInit {
+export class GestorCargaListComponent implements OnInit {
 
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: RemitenteList) => element.nombre, sticky: true },
-    { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: RemitenteList) => element.nombre_corto },
-    { def: 'tipo_documento', title: 'Tipo de Documento', value: (element: RemitenteList) => element.tipo_documento_descripcion },
-    { def: 'numero_documento', title: 'Número de Documento', value: (element: RemitenteList) => element.numero_documento },
-    { def: 'composicion_juridica', title: 'Composición Jurídica', value: (element: RemitenteList) => element.composicion_juridica_nombre },
-    { def: 'direccion', title: 'Dirección', value: (element: RemitenteList) => element.direccion },
-    { def: 'ubicacion', title: 'Ubicación', value: (element: RemitenteList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
+    { def: 'nombre', title: 'Nombre', value: (element: GestorCargaList) => element.nombre, sticky: true },
+    { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: GestorCargaList) => element.nombre_corto },
+    { def: 'tipo_documento', title: 'Tipo de Documento', value: (element: GestorCargaList) => element.tipo_documento_descripcion },
+    { def: 'numero_documento', title: 'Número de Documento', value: (element: GestorCargaList) => element.numero_documento },
+    { def: 'composicion_juridica', title: 'Composición Jurídica', value: (element: GestorCargaList) => element.composicion_juridica_nombre },
+    { def: 'moneda', title: 'Moneda', value: (element: GestorCargaList) => element.moneda_nombre },
+    { def: 'direccion', title: 'Dirección', value: (element: GestorCargaList) => element.direccion },
+    { def: 'ubicacion', title: 'Ubicación', value: (element: GestorCargaList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: RemitenteList[] = [];
+  list: GestorCargaList[] = [];
   ciudadFilterList: string[] = [];
   ciudadFiltered: string[] = [];
   composicionJuridicaFilterList: string[] = [];
   composicionJuridicaFiltered: string[] = [];
+  monedaFilterList: string[] = [];
+  monedaFiltered: string[] = [];
   paisFilterList: string[] = [];
   paisFiltered: string[] = [];
   tipoDocumentoFilterList: string[] = [];
@@ -58,6 +62,10 @@ export class RemitenteListComponent implements OnInit {
     return this.composicionJuridicaFiltered.length !== this.composicionJuridicaFilterList.length
   }
 
+  get isFilteredByMoneda(): boolean {
+    return this.monedaFiltered.length !== this.monedaFilterList.length
+  }
+
   get isFilteredByPais(): boolean {
     return this.paisFiltered.length !== this.paisFilterList.length
   }
@@ -69,11 +77,12 @@ export class RemitenteListComponent implements OnInit {
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('ciudadCheckboxFilter') ciudadCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('composicionJuridicaCheckboxFilter') composicionJuridicaCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('monedaCheckboxFilter') monedaCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('tipoDocumentoCheckboxFilter') tipoDocumentoCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
-    private remitenteService: RemitenteService,
+    private gestorCargaService: GestorCargaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
     private snackbar: MatSnackBar,
@@ -86,29 +95,29 @@ export class RemitenteListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate(['/entities/remitente/create']);
+    this.router.navigate(['/entities/gestor-carga/create']);
   }
 
-  redirectToEdit(event: TableEvent<RemitenteList>): void {
-    this.router.navigate(['/entities/remitente/edit', event.row.id]);
+  redirectToEdit(event: TableEvent<GestorCargaList>): void {
+    this.router.navigate(['/entities/gestor-carga/edit', event.row.id]);
   }
 
-  redirectToShow(event: TableEvent<RemitenteList>): void {
-    this.router.navigate(['/entities/remitente/show', event.row.id]);
+  redirectToShow(event: TableEvent<GestorCargaList>): void {
+    this.router.navigate(['/entities/gestor-carga/show', event.row.id]);
   }
 
-  deleteRow(event: TableEvent<RemitenteList>): void {
+  deleteRow(event: TableEvent<GestorCargaList>): void {
     const row = event.row;
     this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          message: `¿Está seguro que desea eliminar el Remitente ${row.nombre}`,
+          message: `¿Está seguro que desea eliminar el Gestor ${row.nombre}?`,
         },
       })
       .afterClosed()
       .pipe(filter((confirmed: boolean) => confirmed))
       .subscribe(() => {
-        this.remitenteService.delete(row.id).subscribe(() => {
+        this.gestorCargaService.delete(row.id).subscribe(() => {
           this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
@@ -119,20 +128,21 @@ export class RemitenteListComponent implements OnInit {
   }
 
   downloadFile(): void {
-    this.remitenteService.generateReports().subscribe(filename => {
+    this.gestorCargaService.generateReports().subscribe(filename => {
       this.reportsService.downloadFile(filename).subscribe(file => {
         saveAs(file, filename);
       });
     });
   }
 
-  filterPredicate(obj: RemitenteList, filterJson: string): boolean {
+  filterPredicate(obj: GestorCargaList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
     const filterByComposicionJuridica = filter.composicion_juridica?.split('|').some(x => obj.composicion_juridica_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByMoneda = filter.moneda?.split('|').some(x => obj.moneda_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByPais = filter.pais?.split('|').some(x => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByTipoDocumento = filter.tipo_documento?.split('|').some(x => obj.tipo_documento_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
-    return filterByComposicionJuridica && filterByCiudad && filterByPais && filterByTipoDocumento;
+    return filterByComposicionJuridica && filterByCiudad && filterByMoneda && filterByPais && filterByTipoDocumento;
   }
 
   applyFilter(): void {
@@ -140,6 +150,7 @@ export class RemitenteListComponent implements OnInit {
     this.isFiltered = false;
     this.ciudadFiltered = this.ciudadCheckboxFilter.getFilteredList();
     this.composicionJuridicaFiltered = this.composicionJuridicaCheckboxFilter.getFilteredList();
+    this.monedaFiltered = this.monedaCheckboxFilter.getFilteredList();
     this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
     this.tipoDocumentoFiltered = this.tipoDocumentoCheckboxFilter.getFilteredList();
     if (this.isFilteredByCiudad) {
@@ -148,6 +159,10 @@ export class RemitenteListComponent implements OnInit {
     }
     if (this.isFilteredByComposicionJuridica) {
       filter.composicion_juridica = this.composicionJuridicaFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByMoneda) {
+      filter.moneda = this.monedaFiltered.join('|');
       this.isFiltered = true;
     }
     if (this.isFilteredByPais) {
@@ -167,10 +182,11 @@ export class RemitenteListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.remitenteService.getList().subscribe(list => {
+    this.gestorCargaService.getList().subscribe(list => {
       this.list = list;
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.composicionJuridicaFilterList = getFilterList(list, (x) => x.composicion_juridica_nombre);
+      this.monedaFilterList = getFilterList(list, (x) => x.moneda_nombre);
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
       this.tipoDocumentoFilterList = getFilterList(list, (x) => x.tipo_documento_descripcion);
       this.resetFilterList();
@@ -186,6 +202,7 @@ export class RemitenteListComponent implements OnInit {
     this.isFiltered = false;
     this.ciudadFiltered = this.ciudadFilterList.slice();
     this.composicionJuridicaFiltered = this.composicionJuridicaFilterList.slice();
+    this.monedaFiltered = this.monedaFilterList.slice();
     this.paisFiltered = this.paisFilterList.slice();
     this.tipoDocumentoFiltered = this.tipoDocumentoFilterList.slice();
   }
