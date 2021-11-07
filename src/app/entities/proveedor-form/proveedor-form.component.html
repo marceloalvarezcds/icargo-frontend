@@ -1,0 +1,164 @@
+<app-page-form
+  class="proveedor-page"
+  module="Entidades"
+  submodule="Proveedor"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isShow]="isShow"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+>
+  <mat-accordion multi>
+    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Información principal
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row page-form-row">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="nombre" appAutofocus />
+          <mat-error *ngIf="info.controls['nombre'].hasError('required')">
+            El nombre es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Nombre de Fantasía</mat-label>
+          <input matInput formControlName="nombre_corto" />
+          <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
+            El nombre corto es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select formControlName="tipo_documento_id">
+            <ng-container *ngFor="let o of tipoDocumentoList$ | async">
+              <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required')">
+            El tipo de documento es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Número de Documento</mat-label>
+          <input matInput formControlName="numero_documento" />
+          <mat-error *ngIf="info.controls['numero_documento'].hasError('required')">
+            El número de documento es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Dígito verificador</mat-label>
+          <input matInput formControlName="digito_verificador" />
+          <mat-error *ngIf="info.controls['digito_verificador'].hasError('required')">
+            El dígito verificador es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Composición Jurídica</mat-label>
+          <mat-select formControlName="composicion_juridica_id">
+            <ng-container *ngFor="let o of composicionJuridicaList$ | async">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="info.controls['composicion_juridica_id'].hasError('required')">
+            La composición jurídica es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" />
+          <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
+          <mat-error *ngIf="info.controls['telefono'].hasError('required')">
+            El teléfono es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="info.controls['telefono'].hasError('pattern')">
+            <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Correo electrónico</mat-label>
+          <input matInput formControlName="email" />
+          <mat-error *ngIf="form.get('email')?.hasError('email')">
+            El correo es <strong>inválido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <mat-label>Página web</mat-label>
+          <input matInput formControlName="pagina_web" />
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!user?.gestor_carga_id">
+          <mat-label>Alias</mat-label>
+          <input matInput formControlName="alias" />
+          <mat-error *ngIf="info.controls['alias'].hasError('required')">
+            El alias es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row page-form-row">
+        <div class="row col-xs-12 col-sm-6 pr-0">
+          <div class="col-xs-12" *ngIf="isShow && logo"><strong>Logo</strong></div>
+          <div class="col-xs-12 logo-image-container">
+            <img *ngIf="file" [src]="file | imageFileBase64 | async" alt="" class="logo-image" />
+            <img *ngIf="logo" [src]="logo" alt="" class="logo-image" />
+          </div>
+          <input
+            id="file-input"
+            #fileInput
+            type="file"
+            accept="images/*"
+            (change)="fileChange($event)"
+            style="display: none"
+          />
+          <mat-form-field class="logo-form-field pr-0" *ngIf="!isShow">
+            <mat-label>Logo</mat-label>
+            <input matInput readonly formControlName="logo" (click)="fileInput.click()"/>
+            <button
+              type="button"
+              color="primary"
+              matSuffix
+              mat-icon-button
+              (click)="fileInput.click()"
+            >
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <mat-error *ngIf="fileControl.hasError('required')">
+              El logo es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Libreta de Contactos
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-proveedor-form-contactos
+        [form]="form"
+        [isShow]="isShow"
+        [contactoList]="contactoList"
+      ></app-proveedor-form-contactos>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel formGroupName="geo" [expanded]="isGeoTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Geolocalización
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-geo
+        [form]="form"
+        [isShow]="isShow"
+        [isPanelOpen]="isPanelOpen"
+      ></app-page-form-geo>
+    </mat-expansion-panel>
+  </mat-accordion>
+</app-page-form>

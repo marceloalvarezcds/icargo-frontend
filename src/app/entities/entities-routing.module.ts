@@ -4,6 +4,8 @@ import { CentrosOperativosFormComponent } from './centros-operativos-form/centro
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
 import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.component';
 import { GestorCargaListComponent } from './gestor-carga-list/gestor-carga-list.component';
+import { ProveedorFormComponent } from './proveedor-form/proveedor-form.component';
+import { ProveedorListComponent } from './proveedor-list/proveedor-list.component';
 import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
 
@@ -39,6 +41,22 @@ const routes: Routes = [
   {
     path: 'gestor-carga/show/:id',
     component: GestorCargaFormComponent,
+  },
+  {
+    path: 'proveedor/list',
+    component: ProveedorListComponent,
+  },
+  {
+    path: 'proveedor/create',
+    component: ProveedorFormComponent,
+  },
+  {
+    path: 'proveedor/edit/:id',
+    component: ProveedorFormComponent,
+  },
+  {
+    path: 'proveedor/show/:id',
+    component: ProveedorFormComponent,
   },
   {
     path: 'remitente/list',
