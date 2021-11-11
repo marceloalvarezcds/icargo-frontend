@@ -18,6 +18,8 @@ import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.
 import { ProveedorListComponent } from './proveedor-list/proveedor-list.component';
 import { ProveedorFormContactosComponent } from './proveedor-form-contactos/proveedor-form-contactos.component';
 import { ProveedorFormComponent } from './proveedor-form/proveedor-form.component';
+import { PuntoVentaListComponent } from './punto-venta-list/punto-venta-list.component';
+import { PuntoVentaFormComponent } from './punto-venta-form/punto-venta-form.component';
 
 
 @NgModule({
@@ -33,6 +35,8 @@ import { ProveedorFormComponent } from './proveedor-form/proveedor-form.componen
     ProveedorListComponent,
     ProveedorFormContactosComponent,
     ProveedorFormComponent,
+    PuntoVentaListComponent,
+    PuntoVentaFormComponent,
   ],
   imports: [
     CommonModule,

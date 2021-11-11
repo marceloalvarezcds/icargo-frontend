@@ -1,14 +1,16 @@
 import { EstadoEnum } from '../enums/estado-enum';
-import { ProveedorContactoGestorCargaList, mockProveedorContactoGestorCargaList } from './proveedor-contacto-gestor-carga';
+import { PuntoVentaContactoGestorCargaList, mockPuntoVentaContactoGestorCargaList } from './punto-venta-contacto-gestor-carga';
 import { Ciudad } from './ciudad';
 import { ComposicionJuridica, mockComposicionJuridicaList } from './composicion-juridica';
-import { GestorCargaProveedor, mockGestorCargaProveedorList } from './gestor-carga-proveedor';
+import { GestorCargaPuntoVenta, mockGestorCargaPuntoVentaList } from './gestor-carga-punto-venta';
 import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
+import { mockProveedorList } from './proveedor';
 
-export interface Proveedor {
+export interface PuntoVenta {
   id: number;
   nombre: string;
   nombre_corto?: string | null;
+  proveedor_id: number;
   tipo_documento_id: number;
   tipo_documento: TipoDocumento;
   numero_documento: string;
@@ -26,11 +28,11 @@ export interface Proveedor {
   longitud: number;
   ciudad_id: number;
   ciudad: Ciudad;
-  contactos: ProveedorContactoGestorCargaList[];
-  gestor_carga_proveedor?: GestorCargaProveedor;
+  contactos: PuntoVentaContactoGestorCargaList[];
+  gestor_carga_punto_venta?: GestorCargaPuntoVenta;
 }
 
-const gestorCargaProveedor0 = mockGestorCargaProveedorList[0];
+const gestorCargaPuntoVenta0 = mockGestorCargaPuntoVentaList[0];
 
 const tipoDocumento0 = mockTipoDocumentoList[0];
 const tipoDocumento1 = mockTipoDocumentoList[1];
@@ -39,7 +41,7 @@ const composicionJuridica0 = mockComposicionJuridicaList[0];
 const composicionJuridica1 = mockComposicionJuridicaList[1];
 const composicionJuridica2 = mockComposicionJuridicaList[2];
 
-export interface ProveedorList extends Proveedor {
+export interface PuntoVentaList extends PuntoVenta {
   composicion_juridica_nombre: string;
   ciudad_nombre: string;
   localidad_nombre: string;
@@ -48,11 +50,12 @@ export interface ProveedorList extends Proveedor {
   tipo_documento_descripcion: string;
 }
 
-export const mockProveedorList: ProveedorList[] = [
+export const mockPuntoVentaList: PuntoVentaList[] = [
   {
     id: 1,
     nombre: 'CARGILL CEDRALES',
     nombre_corto: 'cargill',
+    proveedor_id: mockProveedorList[0].id,
     tipo_documento_id: tipoDocumento0.id,
     tipo_documento: tipoDocumento0,
     numero_documento: '800100100',
@@ -84,8 +87,8 @@ export const mockProveedorList: ProveedorList[] = [
         }
       }
     },
-    contactos: mockProveedorContactoGestorCargaList.slice(),
-    gestor_carga_proveedor: gestorCargaProveedor0,
+    contactos: mockPuntoVentaContactoGestorCargaList.slice(),
+    gestor_carga_punto_venta: gestorCargaPuntoVenta0,
     composicion_juridica_nombre: composicionJuridica0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
@@ -97,6 +100,7 @@ export const mockProveedorList: ProveedorList[] = [
     id: 2,
     nombre: 'ADM SANTA RITA',
     nombre_corto: null,
+    proveedor_id: mockProveedorList[1].id,
     tipo_documento_id: tipoDocumento1.id,
     tipo_documento: tipoDocumento1,
     numero_documento: '800100100',
@@ -140,6 +144,7 @@ export const mockProveedorList: ProveedorList[] = [
     id: 3,
     nombre: 'GICAL KM12',
     nombre_corto: null,
+    proveedor_id: mockProveedorList[2].id,
     tipo_documento_id: tipoDocumento2.id,
     tipo_documento: tipoDocumento2,
     numero_documento: '800100100',
@@ -172,7 +177,7 @@ export const mockProveedorList: ProveedorList[] = [
       }
     },
     contactos: [],
-    gestor_carga_proveedor: undefined,
+    gestor_carga_punto_venta: undefined,
     composicion_juridica_nombre: composicionJuridica2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',

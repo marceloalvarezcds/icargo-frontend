@@ -1,7 +1,7 @@
 <app-page-form
-  class="gestor-carga-page"
+  class="punto-venta-page"
   module="Entidades"
-  submodule="Gestor de Carga"
+  submodule="Proveedor > Punto de Venta"
   viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -73,17 +73,6 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Moneda</mat-label>
-          <mat-select formControlName="moneda_id">
-            <ng-container *ngFor="let o of monedaList$ | async">
-              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-            </ng-container>
-          </mat-select>
-          <mat-error *ngIf="info.controls['moneda_id'].hasError('required')">
-            La moneda es <strong>requerida</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
           <mat-label>Teléfono</mat-label>
           <input matInput formControlName="telefono" />
           <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
@@ -105,12 +94,24 @@
           <mat-label>Página web</mat-label>
           <input matInput formControlName="pagina_web" />
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Información complementaria</mat-label>
-          <input matInput formControlName="info_complementaria" />
-          <mat-error *ngIf="info.controls['info_complementaria'].hasError('required')">
-            La información complementaria es <strong>requerida</strong>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!user?.gestor_carga_id">
+          <mat-label>Alias</mat-label>
+          <input matInput formControlName="alias" />
+          <mat-error *ngIf="info.controls['alias'].hasError('required')">
+            El alias es <strong>requerido</strong>
           </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="row page-form-row">
+        <mat-form-field class="col-xs-12 col-sm-6">
+          <mat-label>Información complementaria</mat-label>
+          <textarea matInput
+            formControlName="info_complementaria"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+          ></textarea>
         </mat-form-field>
       </div>
 
@@ -147,6 +148,19 @@
           </mat-form-field>
         </div>
       </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Libreta de Contactos
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-contactos
+        [form]="form"
+        [isShow]="isShow"
+        [contactoList]="contactoList"
+      ></app-page-form-contactos>
     </mat-expansion-panel>
 
     <mat-expansion-panel formGroupName="geo" [expanded]="isGeoTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">

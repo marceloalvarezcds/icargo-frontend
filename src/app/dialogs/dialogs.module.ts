@@ -5,6 +5,7 @@ import { MaterialModule } from '../material/material.module';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ContactoFormDialogComponent } from './contacto-form-dialog/contacto-form-dialog.component';
+import { DirectivesModule } from '../directives/directives.module';
 
 const modules = [
   LoadingDialogComponent,
@@ -17,6 +18,7 @@ const modules = [
   entryComponents: modules.slice(),
   imports: [
     CommonModule,
+    DirectivesModule,
     FormsModule,
     MaterialModule,
     ReactiveFormsModule,

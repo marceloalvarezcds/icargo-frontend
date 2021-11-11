@@ -7,7 +7,7 @@
   </h1>
   <div mat-dialog-content>
     <mat-form-field>
-      <input matInput formControlName="telefono" placeholder="Teléfono" />
+      <input matInput formControlName="telefono" placeholder="Teléfono" appAutofocus />
       <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
       <mat-error *ngIf="form.get('telefono')?.hasError('required')">
         El teléfono es <strong>requerido</strong>

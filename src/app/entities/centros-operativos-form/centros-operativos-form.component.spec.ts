@@ -204,12 +204,14 @@ describe('CentrosOperativosFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     fixture.detectChanges();
+    tick(500);
     const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
     const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
     pageFormComponent.triggerEventHandler('editClick', null);
+    tick(1);
     expect(backSpy).toHaveBeenCalled();
     expect(redirectToEditSpy).toHaveBeenCalled();
     expect(fileChangeSpy).toHaveBeenCalled();
