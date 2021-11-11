@@ -52,6 +52,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() formArray = new FormArray([]);
   @Input() hideShow = false;
   @Input() isShow = false;
+  @Input() addShowButton = false;
 
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();

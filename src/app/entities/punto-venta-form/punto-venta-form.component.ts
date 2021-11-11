@@ -3,33 +3,31 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
-import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
+import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
+import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
-import { ProveedorService } from 'src/app/services/proveedor.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { filter } from 'rxjs/operators';
 import { deepCompare } from 'src/app/utils/object';
+import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
-  selector: 'app-proveedor-form',
-  templateUrl: './proveedor-form.component.html',
-  styleUrls: ['./proveedor-form.component.scss']
+  selector: 'app-punto-venta-form',
+  templateUrl: './punto-venta-form.component.html',
+  styleUrls: ['./punto-venta-form.component.scss']
 })
-export class ProveedorFormComponent implements OnInit, OnDestroy {
+export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   id?: number;
+  proveedorId?: number;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/proveedor/list';
+  backUrl = '/entities/proveedor/create';
   composicionJuridicaList$ = this.composicionJuridicaService.getList();
   tipoDocumentoList$ = this.tipoDocumentoService.getList();
   user?: User;
@@ -37,7 +35,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
 
-  contactoList: ProveedorContactoGestorCargaList[] = [];
+  contactoList: PuntoVentaContactoGestorCargaList[] = [];
 
   file: File | null = null;
   logo: string | null = null;
@@ -46,6 +44,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: [null, Validators.required],
+      proveedor_id: [null, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
@@ -92,17 +91,12 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     return this.info.get('logo') as FormControl;
   }
 
-  get puntoVentaBackUrl(): string {
-    return this.router.url;
-  }
-
   constructor(
     private fb: FormBuilder,
     private composicionJuridicaService: ComposicionJuridicaService,
     private tipoDocumentoService: TipoDocumentoService,
-    private proveedorService: ProveedorService,
+    private puntoVentaService: PuntoVentaService,
     private userService: UserService,
-    private dialog: MatDialog,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
@@ -119,26 +113,14 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
 
   back(confirmed: boolean): void {
     if (confirmed) {
-      this.submit(confirmed, false);
+      this.submit(confirmed);
     } else {
       this.router.navigate([this.backUrl]);
     }
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/proveedor/edit', this.id]);
-  }
-
-  createPuntoVenta(): void {
-    if (this.id) {
-      if (this.hasChange) {
-        this.createPuntoVentaDialgoConfirmation();
-      } else {
-        this.router.navigate(['/entities/punto-venta/create', this.id], { queryParams: { backUrl: this.puntoVentaBackUrl }});
-      }
-    } else {
-      this.createPuntoVentaDialgoConfirmation();
-    }
+    this.router.navigate(['/entities/punto-venta/edit', this.proveedorId, this.id, { queryParams: { backUrl: this.backUrl }}]);
   }
 
   fileChange(fileEvent: FileChangeEvent): void {
@@ -147,7 +129,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     this.fileControl.setValue(this.file?.name);
   }
 
-  submit(confirmed: boolean, redirectToCreatePuntoVenta: boolean): void {
+  submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
@@ -164,29 +146,23 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       formData.append('data', JSON.stringify(data));
       if (this.file) { formData.append('file', this.file); }
       if (this.isEdit && this.id) {
-        this.proveedorService.edit(this.id, formData).subscribe(() => {
+        this.puntoVentaService.edit(this.id, formData).subscribe(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
-          if (redirectToCreatePuntoVenta) {
-            this.router.navigate(['/entities/punto-venta/create', this.id]);
-          } else {
-            openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
-          }
+          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
-        this.proveedorService.create(formData).subscribe((proveedor) => {
+        this.puntoVentaService.create(formData).subscribe((puntoVenta) => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           this.snackbar
             .open('Datos guardados satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
-              if (redirectToCreatePuntoVenta) {
-                this.router.navigate(['/entities/punto-venta/create', proveedor.id]);
-              } else if (confirmed) {
+              if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/proveedor/edit', proveedor.id]);
+                this.router.navigate(['/entities/punto-venta/edit', this.proveedorId, puntoVenta.id, { queryParams: { backUrl: this.backUrl }}]);
               }
             });
         });
@@ -201,7 +177,12 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   }
 
   private getData(): void {
-    this.id = +this.route.snapshot.params.id;
+    this.id  = +this.route.snapshot.params.id;
+    this.proveedorId = +this.route.snapshot.params.proveedorId;
+    this.backUrl = this.route.snapshot.queryParams.backUrl;
+    if (this.proveedorId) {
+      this.info.get('proveedor_id')!.setValue(this.proveedorId);
+    }
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /show/.test(this.router.url);
@@ -211,12 +192,13 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.proveedorService.getById(this.id).subscribe(data => {
+      this.puntoVentaService.getById(this.id).subscribe(data => {
         this.form.setValue({
           info: {
-            alias: data.gestor_carga_proveedor?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_punto_venta?.alias ?? data.nombre_corto,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
+            proveedor_id: data.proveedor_id,
             tipo_documento_id: data.tipo_documento_id,
             numero_documento: data.numero_documento,
             digito_verificador: data.digito_verificador,
@@ -245,19 +227,5 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
         }, 500);
       });
     }
-  }
-
-  private createPuntoVentaDialgoConfirmation(): void {
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: 'Para crear un punto de venta debe guardar los cambios ¿Desea guardarlos?',
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => !!confirmed))
-      .subscribe(() => {
-        this.submit(false, true);
-      });
   }
 }

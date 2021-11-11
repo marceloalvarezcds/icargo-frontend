@@ -12,24 +12,34 @@
           El pais es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!paisControl?.value">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Localidad</mat-label>
-        <mat-select formControlName="localidad_id" id="localidad-select">
-          <ng-container *ngFor="let o of localidadList">
-            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-          </ng-container>
-        </mat-select>
+        <ng-container *ngIf="paisControl?.value; else localidadReadonly">
+          <mat-select formControlName="localidad_id" id="localidad-select">
+            <ng-container *ngFor="let o of localidadList">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </ng-container>
+        <ng-template #localidadReadonly>
+          <input matInput formControlName="localidad_id" readonly/>
+        </ng-template>
         <mat-error *ngIf="localidadControl?.hasError('required')">
           La localidad es <strong>requerida</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="localidadControl?.value">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Ciudad</mat-label>
-        <mat-select formControlName="ciudad_id">
-          <ng-container *ngFor="let o of ciudadList">
-            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-          </ng-container>
-        </mat-select>
+        <ng-container *ngIf="localidadControl?.value; else ciudadReadonly">
+          <mat-select formControlName="ciudad_id">
+            <ng-container *ngFor="let o of ciudadList">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </ng-container>
+        <ng-template #ciudadReadonly>
+          <input matInput formControlName="ciudad_id" readonly/>
+        </ng-template>
         <mat-error *ngIf="geo.controls['ciudad_id'].hasError('required')">
           La dirección es <strong>requerida</strong>
         </mat-error>
@@ -42,6 +52,9 @@
         </mat-error>
       </mat-form-field>
       <div class="col-xs-12">
+        <mat-error class="latlng-error" *ngIf="geo.controls['latitud'].touched && geo.controls['latitud'].hasError('required')">
+          La latitud y longitud son <strong>requeridas</strong>, favor ubicar un punto en el mapa
+        </mat-error>
         <app-google-map
           [title]="info.controls['nombre'].value"
           [center]="markerPosition"

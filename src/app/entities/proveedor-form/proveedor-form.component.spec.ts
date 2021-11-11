@@ -3,9 +3,11 @@ import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
+import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockProveedorList } from 'src/app/interfaces/proveedor';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
@@ -25,6 +27,7 @@ describe('ProveedorFormComponent', () => {
   let httpController: HttpTestingController;
   let proveedorService: ProveedorService;
   let pageFormComponent: DebugElement;
+  const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   const proveedor = mockProveedorList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
@@ -64,6 +67,7 @@ describe('ProveedorFormComponent', () => {
         telefono: proveedor.telefono,
         email: proveedor.email,
         pagina_web: proveedor.pagina_web,
+        info_complementaria: proveedor.info_complementaria,
         logo,
       },
       contactos: [],
@@ -211,14 +215,61 @@ describe('ProveedorFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     fixture.detectChanges();
+    tick(500);
     const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
     const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
     pageFormComponent.triggerEventHandler('editClick', null);
+    tick(1);
     expect(backSpy).toHaveBeenCalled();
     expect(redirectToEditSpy).toHaveBeenCalled();
     expect(fileChangeSpy).toHaveBeenCalled();
+  }));
+
+  it('should redirect to create punto-venta in create view', fakeAsync(() => {
+    TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
+    TestBed.overrideProvider(Router, { useValue: createRouter });
+    httpController = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(ProveedorFormComponent);
+    component = fixture.componentInstance;
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
+    fixture.detectChanges();
+    const createPuntoVentaButton = fixture.debugElement.query(By.css('.create-punto-venta'));
+    createPuntoVentaButton.triggerEventHandler('click', new MouseEvent('click'));
+    tick();
+    expect(createPuntoVentaSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
+  }));
+
+  it('should redirect to create punto-venta in edit view', fakeAsync(() => {
+    TestBed.overrideProvider(Router, { useValue: editRouter });
+    httpController = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(ProveedorFormComponent);
+    component = fixture.componentInstance;
+    const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
+    fixture.detectChanges();
+    const createPuntoVentaButton = fixture.debugElement.query(By.css('.create-punto-venta'));
+    createPuntoVentaButton.triggerEventHandler('click', new MouseEvent('click'));
+    tick();
+    expect(createPuntoVentaSpy).toHaveBeenCalled();
+  }));
+
+  it('should redirect to create punto-venta in edit view', fakeAsync(() => {
+    TestBed.overrideProvider(Router, { useValue: editRouter });
+    httpController = TestBed.inject(HttpTestingController);
+    fixture = TestBed.createComponent(ProveedorFormComponent);
+    component = fixture.componentInstance;
+    component.hasChange = true;
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
+    fixture.detectChanges();
+    const createPuntoVentaButton = fixture.debugElement.query(By.css('.create-punto-venta'));
+    createPuntoVentaButton.triggerEventHandler('click', new MouseEvent('click'));
+    tick();
+    expect(createPuntoVentaSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
   }));
 });

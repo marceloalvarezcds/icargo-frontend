@@ -7,73 +7,86 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
-import { mockRemitenteList } from 'src/app/interfaces/remitente';
+import { mockPuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
-import { RemitenteService } from 'src/app/services/remitente.service';
+import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { fakeFileList, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
-import { RemitenteFormComponent } from './remitente-form.component';
 
-describe('RemitenteFormComponent', () => {
-  let component: RemitenteFormComponent;
-  let fixture: ComponentFixture<RemitenteFormComponent>;
+import { PuntoVentaFormComponent } from './punto-venta-form.component';
+
+describe('PuntoVentaFormComponent', () => {
+  let component: PuntoVentaFormComponent;
+  let fixture: ComponentFixture<PuntoVentaFormComponent>;
   let httpController: HttpTestingController;
-  let remitenteService: RemitenteService;
+  let puntoVentaService: PuntoVentaService;
   let pageFormComponent: DebugElement;
-  const remitente = mockRemitenteList[0];
+  const backUrl = 'entities/proveedor/edit/1';
+  const proveedorId = 1;
+  const puntoVenta = mockPuntoVentaList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
   }
   const createRouter = {
-    ...router, url: 'entities/remitente/create',
+    ...router, url: 'entities/punto-venta/create/:proveedorId',
   }
   const editRouter = {
-    ...router, url: 'entities/remitente/edit/:id',
+    ...router, url: 'entities/punto-venta/edit/:proveedorId/:id',
   }
   const showRouter = {
-    ...router, url: 'entities/remitente/show',
+    ...router, url: 'entities/punto-venta/show/:proveedorId/:id',
   }
-  const id = remitente.id;
+  const id = puntoVenta.id;
   const route = {
     snapshot: {
       params: {
         id,
       },
+      queryParams: {
+        backUrl,
+      },
     },
   };
   const createRoute = {
     snapshot: {
-      params: { },
+      params: {
+        proveedorId
+      },
+      queryParams: {
+        backUrl,
+      },
     },
   };
-  function formSetValue(component: RemitenteFormComponent, logo: string | null = null): void {
+  function formSetValue(component: PuntoVentaFormComponent, logo: string | null = null): void {
     component.form.setValue({
       info: {
         alias: 'Alias',
-        nombre: remitente.nombre,
-        nombre_corto: remitente.nombre_corto,
-        tipo_documento_id: remitente.tipo_documento_id,
-        numero_documento: remitente.numero_documento,
-        digito_verificador: remitente.digito_verificador,
-        composicion_juridica_id: remitente.composicion_juridica_id,
-        telefono: remitente.telefono,
-        email: remitente.email,
-        pagina_web: remitente.pagina_web,
+        nombre: puntoVenta.nombre,
+        nombre_corto: puntoVenta.nombre_corto,
+        proveedor_id: puntoVenta.proveedor_id,
+        tipo_documento_id: puntoVenta.tipo_documento_id,
+        numero_documento: puntoVenta.numero_documento,
+        digito_verificador: puntoVenta.digito_verificador,
+        composicion_juridica_id: puntoVenta.composicion_juridica_id,
+        telefono: puntoVenta.telefono,
+        email: puntoVenta.email,
+        pagina_web: puntoVenta.pagina_web,
+        info_complementaria: puntoVenta.info_complementaria,
         logo,
       },
       contactos: [],
       geo: {
-        pais_id: remitente.ciudad.localidad.pais_id,
-        localidad_id: remitente.ciudad.localidad_id,
-        ciudad_id: remitente.ciudad_id,
-        latitud: remitente.latitud,
-        longitud: remitente.longitud,
-        direccion: remitente.direccion,
+        pais_id: puntoVenta.ciudad.localidad.pais_id,
+        localidad_id: puntoVenta.ciudad.localidad_id,
+        ciudad_id: puntoVenta.ciudad_id,
+        latitud: puntoVenta.latitud,
+        longitud: puntoVenta.longitud,
+        direccion: puntoVenta.direccion,
       },
     });
   }
@@ -86,21 +99,21 @@ describe('RemitenteFormComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: 'entities/remitente/create', component: RemitenteFormComponent },
-          { path: 'entities/remitente/edit', component: RemitenteFormComponent },
-          { path: 'entities/remitente/show', component: RemitenteFormComponent },
+          { path: 'entities/punto-venta/create/:proveedorId', component: PuntoVentaFormComponent },
+          { path: 'entities/punto-venta/edit/:proveedorId/:id', component: PuntoVentaFormComponent },
+          { path: 'entities/punto-venta/show/:proveedorId/:id', component: PuntoVentaFormComponent },
         ]),
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
-        RemitenteService,
+        PuntoVentaService,
         ComposicionJuridicaService,
         TipoDocumentoService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
         { provide: Router, useValue: router }
       ],
-      declarations: [ RemitenteFormComponent ]
+      declarations: [ PuntoVentaFormComponent ]
     })
     .compileComponents();
   });
@@ -109,7 +122,7 @@ describe('RemitenteFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(RemitenteFormComponent);
+    fixture = TestBed.createComponent(PuntoVentaFormComponent);
     component = fixture.componentInstance;
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -124,9 +137,9 @@ describe('RemitenteFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
-    const req = httpController.expectOne(`${environment.api}/remitente/`)
+    const req = httpController.expectOne(`${environment.api}/punto_venta/`)
     expect(req.request.method).toBe('POST');
-    req.flush(remitente);
+    req.flush(puntoVenta);
     flush();
     expect(fileChangeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
@@ -137,7 +150,7 @@ describe('RemitenteFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(RemitenteFormComponent);
+    fixture = TestBed.createComponent(PuntoVentaFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
@@ -147,9 +160,9 @@ describe('RemitenteFormComponent', () => {
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
-    const req = httpController.expectOne(`${environment.api}/remitente/`);
+    const req = httpController.expectOne(`${environment.api}/punto_venta/`);
     expect(req.request.method).toBe('POST');
-    req.flush(remitente);
+    req.flush(puntoVenta);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -158,14 +171,14 @@ describe('RemitenteFormComponent', () => {
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(RemitenteFormComponent);
-    remitenteService = TestBed.inject(RemitenteService);
+    fixture = TestBed.createComponent(PuntoVentaFormComponent);
+    puntoVentaService = TestBed.inject(PuntoVentaService);
     component = fixture.componentInstance;
-    const getByIdSpy = spyOn(remitenteService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(puntoVentaService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/remitente/${id}`).flush(remitente);
+    httpController.expectOne(`${environment.api}/punto_venta/detail/${id}`).flush(puntoVenta);
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
@@ -179,9 +192,9 @@ describe('RemitenteFormComponent', () => {
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    const req = httpController.expectOne(`${environment.api}/remitente/${id}`)
+    const req = httpController.expectOne(`${environment.api}/punto_venta/${id}`)
     expect(req.request.method).toBe('PUT');
-    req.flush(remitente);
+    req.flush(puntoVenta);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -190,14 +203,14 @@ describe('RemitenteFormComponent', () => {
   it('should open edit view with alias null', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(RemitenteFormComponent);
-    remitenteService = TestBed.inject(RemitenteService);
+    fixture = TestBed.createComponent(PuntoVentaFormComponent);
+    puntoVentaService = TestBed.inject(PuntoVentaService);
     component = fixture.componentInstance;
-    const getByIdSpy = spyOn(remitenteService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(puntoVentaService, 'getById').and.callThrough();
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/remitente/${id}`).flush(mockRemitenteList[1]);
+    httpController.expectOne(`${environment.api}/punto_venta/detail/${id}`).flush(mockPuntoVentaList[1]);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
@@ -206,7 +219,7 @@ describe('RemitenteFormComponent', () => {
 
   it('should open show view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: showRouter });
-    fixture = TestBed.createComponent(RemitenteFormComponent);
+    fixture = TestBed.createComponent(PuntoVentaFormComponent);
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();

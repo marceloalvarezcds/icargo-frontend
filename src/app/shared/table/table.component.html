@@ -11,7 +11,7 @@
       </td>
     </ng-container>
     <ng-container *ngIf="column.def === 'actions'">
-      <th mat-header-cell *matHeaderCellDef [hidden]="isShow">
+      <th mat-header-cell *matHeaderCellDef [hidden]="isShow && !addShowButton">
         <button type="button" mat-icon-button [matMenuTriggerFor]="filterColumn" #filterColumnTrigger>
           <mat-icon>list</mat-icon>
         </button>
@@ -27,8 +27,11 @@
           </div>
         </mat-menu>
       </th>
-      <td mat-cell *matCellDef="let row; let index = index" [hidden]="isShow">
-        <button type="button" class="row_menu" mat-icon-button [matMenuTriggerFor]="menu">
+      <td mat-cell *matCellDef="let row; let index = index" [hidden]="isShow && !addShowButton">
+        <button type="button" class="row_menu" mat-icon-button matTooltip="Ver" (click)="showClick.emit({ row, index })" [hidden]="!addShowButton">
+          <mat-icon>visibility</mat-icon>
+        </button>
+        <button type="button" class="row_menu" mat-icon-button [matMenuTriggerFor]="menu" [hidden]="isShow">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">

@@ -9,6 +9,7 @@ import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
+import { deepCompare } from 'src/app/utils/object';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -42,7 +43,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       nombre_corto: [null, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
-      digito_verificador: null,
+      digito_verificador: [null, Validators.min(0)],
       composicion_juridica_id: [null, Validators.required],
       moneda_id: [null, Validators.required],
       logo: [null, Validators.required],
@@ -64,7 +65,9 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
-    this.hasChange = Object.keys(this.initialFormValue).some(key => value[key] != this.initialFormValue[key])
+    setTimeout(() => {
+      this.hasChange = !deepCompare(this.initialFormValue, value);
+    });
   });
 
   get info(): FormGroup {

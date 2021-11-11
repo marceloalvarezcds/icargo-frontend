@@ -9,6 +9,7 @@ import { ComposicionJuridicaService } from 'src/app/services/composicion-juridic
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { UserService } from 'src/app/services/user.service';
+import { deepCompare } from 'src/app/utils/object';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -44,7 +45,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       nombre_corto: [null, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
-      digito_verificador: null,
+      digito_verificador: [null, Validators.min(0)],
       composicion_juridica_id: [null, Validators.required],
       alias: null,
       logo: [null, Validators.required],
@@ -66,7 +67,9 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
-    this.hasChange = Object.keys(this.initialFormValue).some(key => value[key] != this.initialFormValue[key])
+    setTimeout(() => {
+      this.hasChange = !deepCompare(this.initialFormValue, value);
+    });
   });
 
   get info(): FormGroup {

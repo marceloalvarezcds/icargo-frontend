@@ -8,6 +8,7 @@ import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { UserService } from 'src/app/services/user.service';
+import { deepCompare } from 'src/app/utils/object';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -61,7 +62,9 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
-    this.hasChange = Object.keys(this.initialFormValue).some(key => value[key] != this.initialFormValue[key])
+    setTimeout(() => {
+      this.hasChange = !deepCompare(this.initialFormValue, value);
+    });
   });
 
   get info(): FormGroup {

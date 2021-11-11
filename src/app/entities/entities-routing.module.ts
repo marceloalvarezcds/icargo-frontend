@@ -6,6 +6,7 @@ import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.
 import { GestorCargaListComponent } from './gestor-carga-list/gestor-carga-list.component';
 import { ProveedorFormComponent } from './proveedor-form/proveedor-form.component';
 import { ProveedorListComponent } from './proveedor-list/proveedor-list.component';
+import { PuntoVentaFormComponent } from './punto-venta-form/punto-venta-form.component';
 import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
 
@@ -57,6 +58,18 @@ const routes: Routes = [
   {
     path: 'proveedor/show/:id',
     component: ProveedorFormComponent,
+  },
+  {
+    path: 'punto-venta/create/:proveedorId',
+    component: PuntoVentaFormComponent,
+  },
+  {
+    path: 'punto-venta/edit/:proveedorId/:id',
+    component: PuntoVentaFormComponent,
+  },
+  {
+    path: 'punto-venta/show/:proveedorId/:id',
+    component: PuntoVentaFormComponent,
   },
   {
     path: 'remitente/list',
