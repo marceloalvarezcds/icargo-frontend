@@ -8,7 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
+import { mockLocalidadList } from 'src/app/interfaces/localidad';
+import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockProveedorList } from 'src/app/interfaces/proveedor';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUser } from 'src/app/interfaces/user';
@@ -16,7 +19,8 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
-import { fakeFileList, findElement } from 'src/app/utils/test';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
 import { ProveedorFormComponent } from './proveedor-form.component';
@@ -94,6 +98,7 @@ describe('ProveedorFormComponent', () => {
           { path: 'entities/proveedor/edit', component: ProveedorFormComponent },
           { path: 'entities/proveedor/show', component: ProveedorFormComponent },
         ]),
+        SharedModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
@@ -115,12 +120,8 @@ describe('ProveedorFormComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
-    const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
-    fileInput.files = fakeFileList;
-    fileInput.dispatchEvent(new Event('change'));
     expect(component).toBeTruthy();
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
@@ -128,11 +129,13 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/proveedor/`)
     expect(req.request.method).toBe('POST');
     req.flush(proveedor);
     flush();
-    expect(fileChangeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
   }));
@@ -149,11 +152,16 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/proveedor/`);
     expect(req.request.method).toBe('POST');
     req.flush(proveedor);
+    flush();
+    tick();
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -165,6 +173,7 @@ describe('ProveedorFormComponent', () => {
     fixture = TestBed.createComponent(ProveedorFormComponent);
     proveedorService = TestBed.inject(ProveedorService);
     component = fixture.componentInstance;
+    const fileSpy = spyOnProperty(component, 'file').and.returnValue(fakeFile);
     const getByIdSpy = spyOn(proveedorService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
@@ -173,6 +182,9 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -180,12 +192,15 @@ describe('ProveedorFormComponent', () => {
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
+    expect(fileSpy).toHaveBeenCalled();
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     const req = httpController.expectOne(`${environment.api}/proveedor/${id}`)
     expect(req.request.method).toBe('PUT');
     req.flush(proveedor);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -203,6 +218,9 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/proveedor/${id}`).flush(mockProveedorList[1]);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
@@ -213,11 +231,8 @@ describe('ProveedorFormComponent', () => {
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
-    const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     fixture.detectChanges();
     tick(500);
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
-    fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
     const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
@@ -225,7 +240,6 @@ describe('ProveedorFormComponent', () => {
     tick(1);
     expect(backSpy).toHaveBeenCalled();
     expect(redirectToEditSpy).toHaveBeenCalled();
-    expect(fileChangeSpy).toHaveBeenCalled();
   }));
 
   it('should redirect to create punto-venta in create view', fakeAsync(() => {
@@ -234,14 +248,29 @@ describe('ProveedorFormComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
     const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
     const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
     fixture.detectChanges();
+    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    flush();
+    formSetValue(component, 'logo');
     const createPuntoVentaButton = fixture.debugElement.query(By.css('.create-punto-venta'));
     createPuntoVentaButton.triggerEventHandler('click', new MouseEvent('click'));
     tick();
+    const req = httpController.expectOne(`${environment.api}/proveedor/`);
+    expect(req.request.method).toBe('POST');
+    req.flush(proveedor);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
+    flush();
     expect(createPuntoVentaSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
+    expect(submitSpy).toHaveBeenCalled();
+    httpController.verify();
   }));
 
   it('should redirect to create punto-venta in edit view', fakeAsync(() => {
@@ -257,19 +286,42 @@ describe('ProveedorFormComponent', () => {
     expect(createPuntoVentaSpy).toHaveBeenCalled();
   }));
 
-  it('should redirect to create punto-venta in edit view', fakeAsync(() => {
+  it('should redirect to create punto-venta in edit view hasChange = true', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ProveedorFormComponent);
+    proveedorService = TestBed.inject(ProveedorService);
     component = fixture.componentInstance;
+    const getByIdSpy = spyOn(proveedorService, 'getById').and.callThrough();
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
+    fixture.detectChanges();
+    httpController.expectOne(`${environment.api}/proveedor/${id}`).flush(proveedor);
+    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
+    flush();
+    formSetValue(component, 'logo');
+    component.info.controls['telefono'].setValue(proveedor.telefono.trim());
+    expect(getByIdSpy).toHaveBeenCalled();
+    tick();
     component.hasChange = true;
-    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
-    const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
-    fixture.detectChanges();
     const createPuntoVentaButton = fixture.debugElement.query(By.css('.create-punto-venta'));
     createPuntoVentaButton.triggerEventHandler('click', new MouseEvent('click'));
     tick();
+    const req = httpController.expectOne(`${environment.api}/proveedor/${id}`)
+    expect(req.request.method).toBe('PUT');
+    req.flush(proveedor);
+    httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
+    flush();
     expect(createPuntoVentaSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
+    expect(submitSpy).toHaveBeenCalled();
+    httpController.verify();
   }));
 });

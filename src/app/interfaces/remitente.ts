@@ -20,6 +20,7 @@ export interface Remitente {
   telefono: string;
   email?: string | null;
   pagina_web?: string | null;
+  info_complementaria?: string | null;
   direccion?: string | null;
   latitud: number;
   longitud: number;
@@ -63,6 +64,7 @@ export const mockRemitenteList: RemitenteList[] = [
     telefono: '0982444444',
     email: 'contacto@cargill-cedrales.com',
     pagina_web: 'cargill-cedrales.com',
+    info_complementaria: null,
     direccion: 'CEDRALES',
     latitud: -25.658948139894708,
     longitud: -54.717514329980474,
@@ -106,6 +108,7 @@ export const mockRemitenteList: RemitenteList[] = [
     telefono: '0981111111',
     email: 'contacto@adm-santa-rita.com',
     pagina_web: 'adm-santa-rita.com',
+    info_complementaria: null,
     direccion: 'SANTA RITA',
     latitud: -25.7917136,
     longitud: -55.08793379999997,
@@ -148,6 +151,7 @@ export const mockRemitenteList: RemitenteList[] = [
     telefono: '0981222222',
     email: 'contacto@gical-km12.com',
     pagina_web: 'gical-km12.com',
+    info_complementaria: null,
     direccion: 'GICAL KM 12',
     latitud: -25.4921592,
     longitud: -54.72833349999996,

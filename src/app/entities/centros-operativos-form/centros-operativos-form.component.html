@@ -116,11 +116,11 @@
           Libreta de Contactos
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-centros-operativos-form-contactos
+      <app-page-form-contactos
         [form]="form"
         [isShow]="isShow"
         [contactoList]="contactoList"
-      ></app-centros-operativos-form-contactos>
+      ></app-page-form-contactos>
     </mat-expansion-panel>
 
     <mat-expansion-panel formGroupName="geo" [expanded]="isGeoTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">

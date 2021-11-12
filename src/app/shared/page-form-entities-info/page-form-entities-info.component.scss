@@ -1,0 +1,19 @@
+.title {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0;
+}
+
+.logo-image-container {
+  display: flex;
+  justify-content: center;
+}
+
+.logo-image {
+  width: 100%;
+  margin: 8px;
+}
+
+.logo-form-field {
+  padding-left: 8px;
+}

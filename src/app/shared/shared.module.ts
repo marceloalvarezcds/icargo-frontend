@@ -15,6 +15,8 @@ import { GoogleMapComponent } from './google-map/google-map.component';
 import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
 import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 import { PageFormContactosComponent } from './page-form-contactos/page-form-contactos.component';
+import { PageFormEntitiesInfoComponent } from './page-form-entities-info/page-form-entities-info.component';
+import { PipesModule } from '../pipes/pipes.module';
 
 const modules = [
   HeaderComponent,
@@ -28,6 +30,7 @@ const modules = [
   TableComponent,
   TablePaginatorComponent,
   PageFormContactosComponent,
+  PageFormEntitiesInfoComponent,
 ];
 
 @NgModule({
@@ -38,6 +41,7 @@ const modules = [
     GoogleMapsModule,
     FormsModule,
     MaterialModule,
+    PipesModule,
     ReactiveFormsModule,
     RouterModule,
   ]

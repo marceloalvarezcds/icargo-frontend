@@ -34,31 +34,14 @@
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Tipo de Documento</mat-label>
-          <mat-select formControlName="tipo_documento_id">
-            <ng-container *ngFor="let o of tipoDocumentoList$ | async">
-              <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
+          <mat-label>Moneda</mat-label>
+          <mat-select formControlName="moneda_id">
+            <ng-container *ngFor="let o of monedaList$ | async">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
             </ng-container>
           </mat-select>
-          <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required')">
-            El tipo de documento es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Número de Documento</mat-label>
-          <input matInput formControlName="numero_documento" />
-          <mat-error *ngIf="info.controls['numero_documento'].hasError('required')">
-            El número de documento es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Dígito verificador</mat-label>
-          <input matInput formControlName="digito_verificador" type="number" />
-          <mat-error *ngIf="info.controls['digito_verificador'].hasError('required')">
-            El dígito verificador es <strong>requerido</strong>
-          </mat-error>
-          <mat-error *ngIf="info.controls['digito_verificador'].hasError('min')">
-            El valor <strong>mínimo</strong> es 0
+          <mat-error *ngIf="info.controls['moneda_id'].hasError('required')">
+            La moneda es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
@@ -72,18 +55,39 @@
             La composición jurídica es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Moneda</mat-label>
-          <mat-select formControlName="moneda_id">
-            <ng-container *ngFor="let o of monedaList$ | async">
-              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+      </div>
+      <div class="row page-form-row">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select formControlName="tipo_documento_id">
+            <ng-container *ngFor="let o of tipoDocumentoList">
+              <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
             </ng-container>
           </mat-select>
-          <mat-error *ngIf="info.controls['moneda_id'].hasError('required')">
-            La moneda es <strong>requerida</strong>
+          <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required')">
+            El tipo de documento es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+          <mat-label>Número de Documento</mat-label>
+          <input matInput formControlName="numero_documento" />
+          <mat-error *ngIf="info.controls['numero_documento'].hasError('required')">
+            El número de documento es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4" [class.mat-form-field-disabled]="!isRucSelected">
+          <mat-label>Dígito verificador</mat-label>
+          <input matInput formControlName="digito_verificador" type="number" [readonly]="!isRucSelected" />
+          <mat-error *ngIf="info.controls['digito_verificador'].hasError('required')">
+            El dígito verificador es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="info.controls['digito_verificador'].hasError('min')">
+            El valor <strong>mínimo</strong> es 0
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="row page-form-row">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
           <mat-label>Teléfono</mat-label>
           <input matInput formControlName="telefono" />
           <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
@@ -94,20 +98,27 @@
             <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
           <mat-label>Correo electrónico</mat-label>
           <input matInput formControlName="email" />
           <mat-error *ngIf="form.get('email')?.hasError('email')">
             El correo es <strong>inválido</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
           <mat-label>Página web</mat-label>
           <input matInput formControlName="pagina_web" />
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      </div>
+      <div class="row page-form-row">
+        <mat-form-field class="col-xs-12 col-sm-6">
           <mat-label>Información complementaria</mat-label>
-          <input matInput formControlName="info_complementaria" />
+          <textarea matInput
+            formControlName="info_complementaria"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+          ></textarea>
           <mat-error *ngIf="info.controls['info_complementaria'].hasError('required')">
             La información complementaria es <strong>requerida</strong>
           </mat-error>

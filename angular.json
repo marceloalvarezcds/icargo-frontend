@@ -35,7 +35,7 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["file-saver"]
+            "allowedCommonJsDependencies": ["lodash", "file-saver"]
           },
           "configurations": {
             "production": {

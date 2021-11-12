@@ -6,7 +6,10 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
+import { mockLocalidadList } from 'src/app/interfaces/localidad';
+import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockPuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUser } from 'src/app/interfaces/user';
@@ -14,7 +17,8 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
-import { fakeFileList, findElement } from 'src/app/utils/test';
+import { SharedModule } from 'src/app/shared/shared.module';
+import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
 
@@ -103,6 +107,7 @@ describe('PuntoVentaFormComponent', () => {
           { path: 'entities/punto-venta/edit/:proveedorId/:id', component: PuntoVentaFormComponent },
           { path: 'entities/punto-venta/show/:proveedorId/:id', component: PuntoVentaFormComponent },
         ]),
+        SharedModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
@@ -124,12 +129,8 @@ describe('PuntoVentaFormComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(PuntoVentaFormComponent);
     component = fixture.componentInstance;
-    const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
-    fileInput.files = fakeFileList;
-    fileInput.dispatchEvent(new Event('change'));
     expect(component).toBeTruthy();
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
@@ -137,11 +138,13 @@ describe('PuntoVentaFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${puntoVenta.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${puntoVenta.ciudad.localidad_id}/`).flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/punto_venta/`)
     expect(req.request.method).toBe('POST');
     req.flush(puntoVenta);
     flush();
-    expect(fileChangeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
   }));
@@ -158,11 +161,16 @@ describe('PuntoVentaFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/punto_venta/`);
     expect(req.request.method).toBe('POST');
     req.flush(puntoVenta);
+    flush();
+    tick();
+    httpController.expectOne(`${environment.api}/localidad/${puntoVenta.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${puntoVenta.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -174,6 +182,7 @@ describe('PuntoVentaFormComponent', () => {
     fixture = TestBed.createComponent(PuntoVentaFormComponent);
     puntoVentaService = TestBed.inject(PuntoVentaService);
     component = fixture.componentInstance;
+    const fileSpy = spyOnProperty(component, 'file').and.returnValue(fakeFile);
     const getByIdSpy = spyOn(puntoVentaService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
@@ -182,6 +191,9 @@ describe('PuntoVentaFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${puntoVenta.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${puntoVenta.ciudad.localidad_id}/`).flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -189,12 +201,15 @@ describe('PuntoVentaFormComponent', () => {
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
+    expect(fileSpy).toHaveBeenCalled();
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     const req = httpController.expectOne(`${environment.api}/punto_venta/${id}`)
     expect(req.request.method).toBe('PUT');
     req.flush(puntoVenta);
+    httpController.expectOne(`${environment.api}/localidad/${puntoVenta.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${puntoVenta.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -212,6 +227,9 @@ describe('PuntoVentaFormComponent', () => {
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/punto_venta/detail/${id}`).flush(mockPuntoVentaList[1]);
     httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController.expectOne(`${environment.api}/localidad/${puntoVenta.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
+    httpController.expectOne(`${environment.api}/ciudad/${puntoVenta.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
@@ -222,11 +240,8 @@ describe('PuntoVentaFormComponent', () => {
     fixture = TestBed.createComponent(PuntoVentaFormComponent);
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
-    const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     fixture.detectChanges();
     tick(500);
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
-    fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
     const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
@@ -234,6 +249,5 @@ describe('PuntoVentaFormComponent', () => {
     tick(1);
     expect(backSpy).toHaveBeenCalled();
     expect(redirectToEditSpy).toHaveBeenCalled();
-    expect(fileChangeSpy).toHaveBeenCalled();
   }));
 });

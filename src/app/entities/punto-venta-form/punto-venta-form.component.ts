@@ -1,7 +1,8 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { isEqual } from 'lodash';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
@@ -9,7 +10,7 @@ import { ComposicionJuridicaService } from 'src/app/services/composicion-juridic
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
-import { deepCompare } from 'src/app/utils/object';
+import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -28,8 +29,6 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   isContactoTouched = false;
   isGeoTouched = false;
   backUrl = '/entities/proveedor/create';
-  composicionJuridicaList$ = this.composicionJuridicaService.getList();
-  tipoDocumentoList$ = this.tipoDocumentoService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
@@ -37,7 +36,6 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   contactoList: PuntoVentaContactoGestorCargaList[] = [];
 
-  file: File | null = null;
   logo: string | null = null;
 
   form = this.fb.group({
@@ -71,7 +69,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
     setTimeout(() => {
-      this.hasChange = !deepCompare(this.initialFormValue, value);
+      this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
@@ -87,14 +85,18 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     return this.form.get('geo') as FormGroup;
   }
 
+  get file(): File | null {
+    return this.pageInfo!.file;
+  }
+
   get fileControl(): FormControl {
     return this.info.get('logo') as FormControl;
   }
 
+  @ViewChild(PageFormEntitiesInfoComponent) pageInfo?: PageFormEntitiesInfoComponent;
+
   constructor(
     private fb: FormBuilder,
-    private composicionJuridicaService: ComposicionJuridicaService,
-    private tipoDocumentoService: TipoDocumentoService,
     private puntoVentaService: PuntoVentaService,
     private userService: UserService,
     private snackbar: MatSnackBar,
@@ -121,12 +123,6 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   redirectToEdit(): void {
     this.router.navigate(['/entities/punto-venta/edit', this.proveedorId, this.id, { queryParams: { backUrl: this.backUrl }}]);
-  }
-
-  fileChange(fileEvent: FileChangeEvent): void {
-    this.logo = null;
-    this.file = fileEvent.target!.files!.item(0);
-    this.fileControl.setValue(this.file?.name);
   }
 
   submit(confirmed: boolean): void {

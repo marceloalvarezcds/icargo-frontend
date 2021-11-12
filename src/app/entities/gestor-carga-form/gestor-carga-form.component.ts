@@ -2,15 +2,17 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { isEqual } from 'lodash';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
+import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { User } from 'src/app/interfaces/user';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
-import { deepCompare } from 'src/app/utils/object';
 import { openSnackbar } from 'src/app/utils/snackbar';
+import { isRuc } from 'src/app/utils/tipo-documento';
 
 @Component({
   selector: 'app-gestor-carga-form',
@@ -27,7 +29,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   isGeoTouched = false;
   backUrl = '/entities/gestor-carga/list';
   composicionJuridicaList$ = this.composicionJuridicaService.getList();
-  tipoDocumentoList$ = this.tipoDocumentoService.getList();
+  tipoDocumentoList: TipoDocumento[] = [];
+  tipoDocumentoSubscription = this.tipoDocumentoService.getList().subscribe(list => {
+    this.tipoDocumentoList = list.slice();
+  });
   monedaList$ = this.monedaService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
@@ -66,7 +71,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
     setTimeout(() => {
-      this.hasChange = !deepCompare(this.initialFormValue, value);
+      this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
@@ -80,6 +85,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
 
   get fileControl(): FormControl {
     return this.info.get('logo') as FormControl;
+  }
+
+  get isRucSelected(): boolean {
+    return isRuc(this.tipoDocumentoList, this.info.controls['tipo_documento_id'].value);
   }
 
   constructor(

@@ -1,19 +1,17 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
+import { isEqual } from 'lodash';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
-import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
-import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { filter } from 'rxjs/operators';
-import { deepCompare } from 'src/app/utils/object';
+import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 
 @Component({
   selector: 'app-proveedor-form',
@@ -30,8 +28,6 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   isContactoTouched = false;
   isGeoTouched = false;
   backUrl = '/entities/proveedor/list';
-  composicionJuridicaList$ = this.composicionJuridicaService.getList();
-  tipoDocumentoList$ = this.tipoDocumentoService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
@@ -39,7 +35,6 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
 
   contactoList: ProveedorContactoGestorCargaList[] = [];
 
-  file: File | null = null;
   logo: string | null = null;
 
   form = this.fb.group({
@@ -72,7 +67,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
     setTimeout(() => {
-      this.hasChange = !deepCompare(this.initialFormValue, value);
+      this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
@@ -88,6 +83,10 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     return this.form.get('geo') as FormGroup;
   }
 
+  get file(): File | null {
+    return this.pageInfo!.file;
+  }
+
   get fileControl(): FormControl {
     return this.info.get('logo') as FormControl;
   }
@@ -96,10 +95,10 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     return this.router.url;
   }
 
+  @ViewChild(PageFormEntitiesInfoComponent) pageInfo?: PageFormEntitiesInfoComponent;
+
   constructor(
     private fb: FormBuilder,
-    private composicionJuridicaService: ComposicionJuridicaService,
-    private tipoDocumentoService: TipoDocumentoService,
     private proveedorService: ProveedorService,
     private userService: UserService,
     private dialog: MatDialog,
@@ -139,12 +138,6 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     } else {
       this.createPuntoVentaDialgoConfirmation();
     }
-  }
-
-  fileChange(fileEvent: FileChangeEvent): void {
-    this.logo = null;
-    this.file = fileEvent.target!.files!.item(0);
-    this.fileControl.setValue(this.file?.name);
   }
 
   submit(confirmed: boolean, redirectToCreatePuntoVenta: boolean): void {

@@ -2,13 +2,13 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { isEqual } from 'lodash';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { UserService } from 'src/app/services/user.service';
-import { deepCompare } from 'src/app/utils/object';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
@@ -63,7 +63,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe(value => {
     setTimeout(() => {
-      this.hasChange = !deepCompare(this.initialFormValue, value);
+      this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
