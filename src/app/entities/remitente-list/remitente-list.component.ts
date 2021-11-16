@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { RemitenteList } from 'src/app/interfaces/remitente';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -28,6 +29,7 @@ type Filter = {
 })
 export class RemitenteListComponent implements OnInit {
 
+  modelo = m.REMITENTE;
   columns: Column[] = [
     { def: 'nombre', title: 'Nombre', value: (element: RemitenteList) => element.nombre, sticky: true },
     { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: RemitenteList) => element.nombre_corto },
@@ -86,15 +88,15 @@ export class RemitenteListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate(['/entities/remitente/create']);
+    this.router.navigate([`/entities/${m.REMITENTE}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<RemitenteList>): void {
-    this.router.navigate(['/entities/remitente/edit', event.row.id]);
+    this.router.navigate([`/entities/${m.REMITENTE}/${a.EDITAR}`, event.row.id]);
   }
 
   redirectToShow(event: TableEvent<RemitenteList>): void {
-    this.router.navigate(['/entities/remitente/show', event.row.id]);
+    this.router.navigate([`/entities/${m.REMITENTE}/${a.VER}`, event.row.id]);
   }
 
   deleteRow(event: TableEvent<RemitenteList>): void {

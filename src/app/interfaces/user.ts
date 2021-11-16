@@ -1,4 +1,5 @@
 import { GestorCarga, mockGestorCargaList } from "./gestor-carga";
+import { mockPermisoList, Permiso } from "./permiso";
 import { mockRolList, Rol } from "./rol";
 
 export interface User {
@@ -28,6 +29,10 @@ export interface User {
   roles: Rol[];
 }
 
+export interface UserAccount extends User {
+  permisos: Permiso[];
+}
+
 export const mockUser: User = {
   id: 1,
   token: "5bb189b95ced4d7182108b5c04d293e7",
@@ -52,4 +57,9 @@ export const mockUser: User = {
   gestor_carga_id: 1,
   gestor_carga: mockGestorCargaList[0],
   roles: mockRolList.slice(),
+}
+
+export const mockUserAccount: UserAccount = {
+  ...mockUser,
+  permisos: mockPermisoList,
 }

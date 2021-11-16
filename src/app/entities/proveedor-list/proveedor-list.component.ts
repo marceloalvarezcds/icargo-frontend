@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { ProveedorList } from 'src/app/interfaces/proveedor';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -28,6 +29,7 @@ type Filter = {
 })
 export class ProveedorListComponent implements OnInit {
 
+  modelo = m.PROVEEDOR;
   columns: Column[] = [
     { def: 'nombre', title: 'Nombre', value: (element: ProveedorList) => element.nombre, sticky: true },
     { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: ProveedorList) => element.nombre_corto },
@@ -86,15 +88,15 @@ export class ProveedorListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate(['/entities/proveedor/create']);
+    this.router.navigate([`/entities/${m.PROVEEDOR}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<ProveedorList>): void {
-    this.router.navigate(['/entities/proveedor/edit', event.row.id]);
+    this.router.navigate([`/entities/${m.PROVEEDOR}/${a.EDITAR}`, event.row.id]);
   }
 
   redirectToShow(event: TableEvent<ProveedorList>): void {
-    this.router.navigate(['/entities/proveedor/show', event.row.id]);
+    this.router.navigate([`/entities/${m.PROVEEDOR}/${a.VER}`, event.row.id]);
   }
 
   deleteRow(event: TableEvent<ProveedorList>): void {

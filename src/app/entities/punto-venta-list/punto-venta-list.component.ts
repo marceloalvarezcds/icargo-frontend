@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -17,6 +18,8 @@ import { ReportsService } from 'src/app/services/reports.service';
 })
 export class PuntoVentaListComponent {
 
+  a = PermisoAccionEnum;
+  modelo = m.PUNTO_VENTA;
   columns: Column[] = [
     { def: 'nombre', title: 'Nombre', value: (element: PuntoVentaList) => element.nombre, sticky: true },
     { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: PuntoVentaList) => element.nombre_corto },
@@ -50,11 +53,11 @@ export class PuntoVentaListComponent {
   ) { }
 
   redirectToEdit(event: TableEvent<PuntoVentaList>): void {
-    this.router.navigate(['/entities/punto-venta/edit', this.provId, event.row.id], { queryParams: { backUrl: this.backUrl }});
+    this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.EDITAR}`, this.provId, event.row.id], { queryParams: { backUrl: this.backUrl }});
   }
 
   redirectToShow(event: TableEvent<PuntoVentaList>): void {
-    this.router.navigate(['/entities/punto-venta/show', this.provId, event.row.id], { queryParams: { backUrl: this.backUrl }});
+    this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.VER}`, this.provId, event.row.id], { queryParams: { backUrl: this.backUrl }});
   }
 
   deleteRow(event: TableEvent<PuntoVentaList>): void {

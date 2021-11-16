@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { RemitenteService } from 'src/app/services/remitente.service';
@@ -17,6 +18,7 @@ import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities
 })
 export class RemitenteFormComponent implements OnInit, OnDestroy {
 
+  a = PermisoAccionEnum;
   id?: number;
   isEdit = false;
   isShow = false;
@@ -24,11 +26,12 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/remitente/list';
+  backUrl = `/entities/${m.REMITENTE}/${a.LISTAR}`;
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
   });
+  modelo = m.REMITENTE;
 
   contactoList: RemitenteContactoGestorCargaList[] = [];
 
@@ -117,7 +120,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/remitente/edit', this.id]);
+    this.router.navigate([`/entities/${m.REMITENTE}/${a.EDITAR}`, this.id]);
   }
 
   submit(confirmed: boolean): void {
@@ -153,7 +156,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/remitente/edit', remitente.id]);
+                this.router.navigate([`/entities/${m.REMITENTE}/${a.EDITAR}`, remitente.id]);
               }
             });
         });
@@ -171,7 +174,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /show/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

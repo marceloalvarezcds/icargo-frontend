@@ -6,12 +6,16 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { mockCentroOperativoClasificacionList } from 'src/app/interfaces/centro-operativo-clasificacion';
-import { mockUser } from 'src/app/interfaces/user';
+import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AuthService } from 'src/app/services/auth.service';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { UserService } from 'src/app/services/user.service';
 import { fakeFileList, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
@@ -25,19 +29,20 @@ describe('CentrosOperativosFormComponent', () => {
   let fixture: ComponentFixture<CentrosOperativosFormComponent>;
   let httpController: HttpTestingController;
   let centroOperativoService: CentroOperativoService;
+  let userService: UserService;
   let pageFormComponent: DebugElement;
   const centroOperativo = mockCentroOperativoList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
   }
   const createRouter = {
-    ...router, url: 'entities/centros-operativos/create',
+    ...router, url: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`,
   }
   const editRouter = {
-    ...router, url: 'entities/centros-operativos/edit/:id',
+    ...router, url: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/:id`,
   }
   const showRouter = {
-    ...router, url: 'entities/centros-operativos/show',
+    ...router, url: `entities/${m.CENTRO_OPERATIVO}/${a.VER}`,
   }
   const id = centroOperativo.id;
   const route = {
@@ -82,15 +87,18 @@ describe('CentrosOperativosFormComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
         MaterialModule,
+        PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: 'entities/centros-operativos/create', component: TestComponent },
-          { path: 'entities/centros-operativos/edit', component: TestComponent },
-          { path: 'entities/centros-operativos/show', component: TestComponent },
+          { path: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`, component: TestComponent },
+          { path: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, component: TestComponent },
+          { path: `entities/${m.CENTRO_OPERATIVO}/${a.VER}`, component: TestComponent },
         ]),
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
+        AuthService,
+        UserService,
         CentroOperativoService,
         CentroOperativoClasificacionService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
@@ -119,7 +127,6 @@ describe('CentrosOperativosFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     const req = httpController.expectOne(`${environment.api}/centro_operativo/`)
     expect(req.request.method).toBe('POST');
     req.flush(centroOperativo);
@@ -139,7 +146,6 @@ describe('CentrosOperativosFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/centro_operativo/`);
@@ -153,6 +159,8 @@ describe('CentrosOperativosFormComponent', () => {
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(CentrosOperativosFormComponent);
     centroOperativoService = TestBed.inject(CentroOperativoService);
     component = fixture.componentInstance;
@@ -162,7 +170,6 @@ describe('CentrosOperativosFormComponent', () => {
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(centroOperativo);
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -191,7 +198,6 @@ describe('CentrosOperativosFormComponent', () => {
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
     httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(mockCentroOperativoList[1]);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();

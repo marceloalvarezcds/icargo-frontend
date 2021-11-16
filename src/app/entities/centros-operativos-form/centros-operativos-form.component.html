@@ -7,6 +7,7 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [modelo]="modelo"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
@@ -66,7 +67,7 @@
           <mat-label>Página web</mat-label>
           <input matInput formControlName="pagina_web" />
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!user?.gestor_carga_id">
+        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!(user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_ALIAS))">
           <mat-label>Alias</mat-label>
           <input matInput formControlName="alias" />
           <mat-error *ngIf="info.controls['alias'].hasError('required')">
@@ -110,7 +111,7 @@
       </div>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Libreta de Contactos

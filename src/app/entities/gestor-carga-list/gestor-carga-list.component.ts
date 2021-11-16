@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { GestorCargaList } from 'src/app/interfaces/gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -29,6 +30,7 @@ type Filter = {
 })
 export class GestorCargaListComponent implements OnInit {
 
+  modelo = m.GESTOR_CARGA;
   columns: Column[] = [
     { def: 'nombre', title: 'Nombre', value: (element: GestorCargaList) => element.nombre, sticky: true },
     { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: GestorCargaList) => element.nombre_corto },
@@ -95,15 +97,15 @@ export class GestorCargaListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate(['/entities/gestor-carga/create']);
+    this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<GestorCargaList>): void {
-    this.router.navigate(['/entities/gestor-carga/edit', event.row.id]);
+    this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.EDITAR}`, event.row.id]);
   }
 
   redirectToShow(event: TableEvent<GestorCargaList>): void {
-    this.router.navigate(['/entities/gestor-carga/show', event.row.id]);
+    this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.VER}`, event.row.id]);
   }
 
   deleteRow(event: TableEvent<GestorCargaList>): void {

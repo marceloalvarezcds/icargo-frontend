@@ -44,7 +44,7 @@ describe('AuthGuard', () => {
     const url = `${environment.api}/login/`;
     const httpRequest = httpController.expectOne(url);
     httpRequest.flush({ access_token: 'token', token_type: 'bearer' });
-  
+
     // spyOnProperty(authService, 'isAuthenticated').and.returnValue(true);
     expect(authGuard.canActivate()).toBe(true);
   });

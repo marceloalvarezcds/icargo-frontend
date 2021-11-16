@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { User } from 'src/app/interfaces/user';
@@ -14,6 +15,7 @@ import { isRuc } from 'src/app/utils/tipo-documento';
 })
 export class PageFormEntitiesInfoComponent implements OnDestroy {
 
+  a = PermisoAccionEnum;
   file: File | null = null;
 
   composicionJuridicaList$ = this.composicionJuridicaService.getList();
@@ -53,6 +55,7 @@ export class PageFormEntitiesInfoComponent implements OnDestroy {
   @Input() isShow = false;
   @Input() logo: string | null = null;
   @Input() user?: User;
+  @Input() modelo?: PermisoModeloEnum;
 
   constructor(
     private composicionJuridicaService: ComposicionJuridicaService,

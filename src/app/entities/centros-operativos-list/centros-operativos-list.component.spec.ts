@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { CentroOperativoList, mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -49,15 +50,15 @@ describe('CentrosOperativosListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/centros-operativos/create',
+            path: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`,
             component: CentrosOperativosFormComponent,
           },
           {
-            path: 'entities/centros-operativos/edit/:id',
+            path: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/:id`,
             component: CentrosOperativosFormComponent,
           },
           {
-            path: 'entities/centros-operativos/show/:id',
+            path: `entities/${m.CENTRO_OPERATIVO}/${a.VER}/:id`,
             component: CentrosOperativosFormComponent,
           },
         ]),

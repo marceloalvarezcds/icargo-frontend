@@ -3,11 +3,15 @@ import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AuthService } from 'src/app/services/auth.service';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
+import { UserService } from 'src/app/services/user.service';
 import { fakeFileList } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
@@ -24,10 +28,14 @@ describe('PageFormEntitiesInfoComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
         MaterialModule,
+        PipesModule,
         ReactiveFormsModule,
+        RouterTestingModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
+        AuthService,
+        UserService,
         ComposicionJuridicaService,
         TipoDocumentoService,
       ],

@@ -3,14 +3,13 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
-import { User } from 'src/app/interfaces/user';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
-import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { isRuc } from 'src/app/utils/tipo-documento';
 
@@ -27,17 +26,14 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   isPanelOpen = false;
   isInfoTouched = true;
   isGeoTouched = false;
-  backUrl = '/entities/gestor-carga/list';
+  backUrl = `/entities/${m.GESTOR_CARGA}/${a.LISTAR}`;
   composicionJuridicaList$ = this.composicionJuridicaService.getList();
   tipoDocumentoList: TipoDocumento[] = [];
   tipoDocumentoSubscription = this.tipoDocumentoService.getList().subscribe(list => {
     this.tipoDocumentoList = list.slice();
   });
   monedaList$ = this.monedaService.getList();
-  user?: User;
-  userSubscription = this.userService.getLoggedUser().subscribe((user) => {
-    this.user = user;
-  });
+  modelo = m.GESTOR_CARGA;
 
   file: File | null = null;
   logo: string | null = null;
@@ -97,7 +93,6 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     private tipoDocumentoService: TipoDocumentoService,
     private monedaService: MonedaService,
     private remitenteService: GestorCargaService,
-    private userService: UserService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
@@ -109,7 +104,6 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {
@@ -121,7 +115,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/gestor-carga/edit', this.id]);
+    this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.EDITAR}`, this.id]);
   }
 
   fileChange(fileEvent: FileChangeEvent): void {
@@ -162,7 +156,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/gestor-carga/edit', remitente.id]);
+                this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.EDITAR}`, remitente.id]);
               }
             });
         });
@@ -179,7 +173,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /show/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

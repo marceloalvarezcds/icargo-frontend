@@ -3,6 +3,7 @@ import { FormArray } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -16,6 +17,7 @@ import { delay } from 'src/app/utils/observable';
 })
 export class TableComponent implements OnInit, OnDestroy {
 
+  a = PermisoAccionEnum;
   allColumns: Column[] = [];
   columnStickyList: Column[] = [];
   columnStickyEndList: Column[] = [];
@@ -53,6 +55,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
+  @Input() modelo?: PermisoModeloEnum;
 
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();

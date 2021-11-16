@@ -1,14 +1,17 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { mockCargoList } from 'src/app/interfaces/cargo';
 import { mockCentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { mockContacto } from 'src/app/interfaces/contacto';
 import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
+import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 
 import { ContactoFormDialogComponent } from './contacto-form-dialog.component';
@@ -17,6 +20,7 @@ describe('ContactoFormDialogComponent', () => {
   let component: ContactoFormDialogComponent;
   let fixture: ComponentFixture<ContactoFormDialogComponent>;
   let httpController: HttpTestingController;
+  let userService: UserService;
   const cargo1 = mockCargoList[0];
   const cargo2 = mockCargoList[1];
   const contacto = mockCentroOperativoContactoGestorCargaList[0];
@@ -27,9 +31,12 @@ describe('ContactoFormDialogComponent', () => {
         BrowserAnimationsModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
+        RouterTestingModule,
         MaterialModule,
       ],
       providers: [
+        AuthService,
+        UserService,
         { provide: MatDialogRef, useValue: { close: (v: any) => {} }},
         { provide: MAT_DIALOG_DATA, useValue: contacto },
       ],
@@ -45,14 +52,15 @@ describe('ContactoFormDialogComponent', () => {
     fixture.detectChanges();
     httpController = TestBed.inject(HttpTestingController);
     httpController.expectOne(`${environment.api}/cargo/`).flush(mockCargoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     expect(component).toBeTruthy();
     httpController.verify();
   });
 
   it('should submitted', fakeAsync(() => {
+    userService = TestBed.inject(UserService);
     fixture = TestBed.createComponent(ContactoFormDialogComponent);
     component = fixture.componentInstance;
+    (userService as any).userSubject.next(mockUser);
     fixture.detectChanges();
 
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -101,7 +109,6 @@ describe('ContactoFormDialogComponent', () => {
     });
 
     httpController.expectOne(`${environment.api}/cargo/`).flush(mockCargoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/contacto/${telefono}/${email}`).flush(mockContacto);
     button.click();
     tick();

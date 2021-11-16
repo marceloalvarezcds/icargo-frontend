@@ -55,17 +55,12 @@ describe('GoogleMapComponent', () => {
     expect(removeListenerMapClickSpy).toHaveBeenCalled();
   }));
 
-  it('test menuConfigService', fakeAsync(() => {
+  it('test menuConfigService', () => {
     menuConfigService.setSidebarMenu(true);
-    tick(1);
     menuConfigService.setSidebarMenu(false);
-    tick(1);
     fixture.detectChanges();
-    flushMicrotasks();
-    flush();
-    tick(500);
     expect(updateWidthSpy).toHaveBeenCalled();
-  }));
+  });
 
   it('should trigger onResize method when window is resized', () => {
     const spyOnResize = spyOn(component, 'onResize').and.callThrough();

@@ -3,9 +3,9 @@ import { BehaviorSubject, Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { map } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { Authentication } from '../interfaces/authentication';
-import { TOKEN_KEY } from '../contanst';
+import { TOKEN_KEY, USER_KEY } from '../contanst';
 
 const authItem = localStorage.getItem(TOKEN_KEY) || 'null';
 
@@ -29,6 +29,10 @@ export class AuthService {
     return !!this.authenticationValue;
   }
 
+  authObservable(): Observable<Authentication> {
+    return this.authenticationSubject.pipe(filter(a => !!a)) as Observable<Authentication>;
+  }
+
   login(formData: FormData): Observable<Authentication> {
     return this.http.post<Authentication>(this.url, formData)
       .pipe(map(auth => {
@@ -39,6 +43,7 @@ export class AuthService {
   }
 
   logout(): void {
+    localStorage.removeItem(USER_KEY);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.clear();
     this.authenticationSubject.next(null);

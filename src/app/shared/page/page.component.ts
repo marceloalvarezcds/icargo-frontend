@@ -1,5 +1,6 @@
 import { Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
+import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
@@ -9,10 +10,12 @@ import { ResponsiveService } from 'src/app/services/responsive.service';
 })
 export class PageComponent {
 
+  a = PermisoAccionEnum;
   sidebarMode: MatDrawerMode = 'side';
 
   @Input() module: string = '';
   @Input() submodule: string = '';
+  @Input() modelo?: PermisoModeloEnum;
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() createClick = new EventEmitter<MouseEvent>();

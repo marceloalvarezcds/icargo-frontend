@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 
 @Component({
   selector: 'app-page-form',
@@ -11,9 +12,7 @@ import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog
 })
 export class PageFormComponent {
 
-  constructor(
-    private dialog: MatDialog,
-  ) { }
+  a = PermisoAccionEnum;
 
   @Input() formGroup!: FormGroup;
   @Input() isShow = false;
@@ -21,10 +20,15 @@ export class PageFormComponent {
   @Input() module: string = '';
   @Input() submodule: string = '';
   @Input() viewTitle: string = '';
+  @Input() modelo?: PermisoModeloEnum;
 
   @Output() backClick = new EventEmitter<boolean>();
   @Output() editClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
+
+  constructor(
+    private dialog: MatDialog,
+  ) { }
 
   back(): void {
     if (this.isShow || !this.hasChange) {

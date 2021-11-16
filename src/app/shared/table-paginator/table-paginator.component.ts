@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } 
 import { FormArray } from '@angular/forms';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
 import { TableService } from 'src/app/services/table.service';
@@ -29,6 +30,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
+  @Input() modelo?: PermisoModeloEnum;
 
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();

@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { By } from '@angular/platform-browser';
@@ -8,17 +8,21 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockProveedorList } from 'src/app/interfaces/proveedor';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
-import { mockUser } from 'src/app/interfaces/user';
+import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AuthService } from 'src/app/services/auth.service';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
+import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
@@ -30,6 +34,7 @@ describe('ProveedorFormComponent', () => {
   let fixture: ComponentFixture<ProveedorFormComponent>;
   let httpController: HttpTestingController;
   let proveedorService: ProveedorService;
+  let userService: UserService;
   let pageFormComponent: DebugElement;
   const dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   const proveedor = mockProveedorList[0];
@@ -37,13 +42,13 @@ describe('ProveedorFormComponent', () => {
     navigate: jasmine.createSpy('navigate'),
   }
   const createRouter = {
-    ...router, url: 'entities/proveedor/create',
+    ...router, url: `entities/${m.PROVEEDOR}/${a.CREAR}`,
   }
   const editRouter = {
-    ...router, url: 'entities/proveedor/edit/:id',
+    ...router, url: `entities/${m.PROVEEDOR}/${a.EDITAR}/:id`,
   }
   const showRouter = {
-    ...router, url: 'entities/proveedor/show',
+    ...router, url: `entities/${m.PROVEEDOR}/${a.VER}`,
   }
   const id = proveedor.id;
   const route = {
@@ -92,16 +97,19 @@ describe('ProveedorFormComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
         MaterialModule,
+        PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: 'entities/proveedor/create', component: ProveedorFormComponent },
-          { path: 'entities/proveedor/edit', component: ProveedorFormComponent },
-          { path: 'entities/proveedor/show', component: ProveedorFormComponent },
+          { path: `entities/${m.PROVEEDOR}/${a.CREAR}`, component: ProveedorFormComponent },
+          { path: `entities/${m.PROVEEDOR}/${a.EDITAR}`, component: ProveedorFormComponent },
+          { path: `entities/${m.PROVEEDOR}/${a.VER}`, component: ProveedorFormComponent },
         ]),
         SharedModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
+        AuthService,
+        UserService,
         ProveedorService,
         ComposicionJuridicaService,
         TipoDocumentoService,
@@ -118,6 +126,8 @@ describe('ProveedorFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -128,7 +138,6 @@ describe('ProveedorFormComponent', () => {
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
@@ -138,12 +147,15 @@ describe('ProveedorFormComponent', () => {
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
+    discardPeriodicTasks();
   }));
 
   it('should open create view with submitEvent', fakeAsync(() => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -151,7 +163,6 @@ describe('ProveedorFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
@@ -165,11 +176,14 @@ describe('ProveedorFormComponent', () => {
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
+    discardPeriodicTasks();
   }));
 
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     proveedorService = TestBed.inject(ProveedorService);
     component = fixture.componentInstance;
@@ -181,7 +195,6 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/proveedor/${id}`).flush(proveedor);
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
@@ -209,6 +222,8 @@ describe('ProveedorFormComponent', () => {
   it('should open edit view with alias null', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     proveedorService = TestBed.inject(ProveedorService);
     component = fixture.componentInstance;
@@ -217,7 +232,6 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/proveedor/${id}`).flush(mockProveedorList[1]);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);
@@ -228,6 +242,8 @@ describe('ProveedorFormComponent', () => {
 
   it('should open show view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: showRouter });
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
@@ -246,15 +262,17 @@ describe('ProveedorFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
     const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
     fixture.detectChanges();
+    tick();
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     flush();
     formSetValue(component, 'logo');
@@ -271,24 +289,31 @@ describe('ProveedorFormComponent', () => {
     expect(dialogSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
+    discardPeriodicTasks();
   }));
 
   it('should redirect to create punto-venta in edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     component = fixture.componentInstance;
     const createPuntoVentaSpy = spyOn(component, 'createPuntoVenta').and.callThrough();
     fixture.detectChanges();
+    tick();
     const createPuntoVentaButton = fixture.debugElement.query(By.css('.create-punto-venta'));
     createPuntoVentaButton.triggerEventHandler('click', new MouseEvent('click'));
     tick();
     expect(createPuntoVentaSpy).toHaveBeenCalled();
+    discardPeriodicTasks();
   }));
 
   it('should redirect to create punto-venta in edit view hasChange = true', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(ProveedorFormComponent);
     proveedorService = TestBed.inject(ProveedorService);
     component = fixture.componentInstance;
@@ -300,7 +325,6 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/proveedor/${id}`).flush(proveedor);
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`).flush(mockCiudadList);

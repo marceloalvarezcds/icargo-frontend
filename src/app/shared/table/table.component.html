@@ -28,22 +28,22 @@
         </mat-menu>
       </th>
       <td mat-cell *matCellDef="let row; let index = index" [hidden]="isShow && !addShowButton">
-        <button type="button" class="row_menu" mat-icon-button matTooltip="Ver" (click)="showClick.emit({ row, index })" [hidden]="!addShowButton">
+        <button type="button" class="row_menu" mat-icon-button matTooltip="Ver" (click)="showClick.emit({ row, index })" *ngIf="modelo | puede : a.VER" [hidden]="!addShowButton">
           <mat-icon>visibility</mat-icon>
         </button>
-        <button type="button" class="row_menu" mat-icon-button [matMenuTriggerFor]="menu" [hidden]="isShow">
+        <button type="button" class="row_menu" mat-icon-button [matMenuTriggerFor]="menu" [hidden]="isShow" *ngIf="(modelo | puede : a.VER) || (modelo | puede : a.EDITAR) || (modelo | puede : a.ELIMINAR)">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
-          <button type="button" mat-menu-item (click)="showClick.emit({ row, index })" [hidden]="hideShow">
+          <button type="button" mat-menu-item (click)="showClick.emit({ row, index })" *ngIf="modelo | puede : a.VER" [hidden]="hideShow">
             <mat-icon color="primary">visibility</mat-icon>
             <span>Ver</span>
           </button>
-          <button type="button" mat-menu-item (click)="editClick.emit({ row, index })">
+          <button type="button" mat-menu-item (click)="editClick.emit({ row, index })" *ngIf="modelo | puede : a.EDITAR" >
             <mat-icon color="primary">edit</mat-icon>
             <span>Editar</span>
           </button>
-          <button type="button" mat-menu-item (click)="deleteClick.emit({ row, index })">
+          <button type="button" mat-menu-item (click)="deleteClick.emit({ row, index })" *ngIf="modelo | puede : a.ELIMINAR" >
             <mat-icon color="primary">delete</mat-icon>
             <span>Eliminar</span>
           </button>
