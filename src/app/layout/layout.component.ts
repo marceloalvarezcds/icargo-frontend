@@ -1,9 +1,11 @@
 import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { filter } from 'rxjs/operators';
-import { MenuItem } from '../interfaces/menu-item';
-import { MenuConfigService } from '../services/menu-config.service';
-import { ResponsiveService } from '../services/responsive.service';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { MenuItem } from 'src/app/interfaces/menu-item';
+import { MenuConfigService } from 'src/app/services/menu-config.service';
+import { ResponsiveService } from 'src/app/services/responsive.service';
+import { UserService } from '../services/user.service';
 
 @Component({
   selector: 'app-layout',
@@ -28,26 +30,26 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         {
           name: 'Centros Operativos',
           iconName: 'public',
-          path: '/entities/centros-operativos/list',
-          active: true,
+          path: `/entities/${m.CENTRO_OPERATIVO}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO),
         },
         {
           name: 'Remitentes',
           iconName: 'open_with',
-          path: '/entities/remitente/list',
-          active: true,
+          path: `/entities/${m.REMITENTE}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
         },
         {
           name: 'Proveedores',
           iconName: 'event_available',
-          path: '/entities/proveedor/list',
-          active: true,
+          path: `/entities/${m.PROVEEDOR}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.PROVEEDOR),
         },
         {
           name: 'Gestores de Carga',
           iconName: 'directions_bus',
-          path: '/entities/gestor-carga/list',
-          active: true,
+          path: `/entities/${m.GESTOR_CARGA}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.GESTOR_CARGA),
         },
       ],
     },
@@ -74,6 +76,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public menuConfigService: MenuConfigService,
     private responsiveService: ResponsiveService,
+    private userService: UserService,
   ) { }
 
   ngOnInit(): void {

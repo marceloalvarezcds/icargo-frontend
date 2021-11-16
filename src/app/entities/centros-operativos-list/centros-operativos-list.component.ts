@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -28,6 +29,7 @@ type Filter = {
 })
 export class CentrosOperativosListComponent implements OnInit {
 
+  modelo = m.CENTRO_OPERATIVO;
   columns: Column[] = [
     { def: 'nombre', title: 'Nombre', value: (element: CentroOperativoList) => element.nombre, sticky: true },
     { def: 'nombre_corto', title: 'Nombre de Fantasía', value: (element: CentroOperativoList) => element.nombre_corto },
@@ -77,15 +79,15 @@ export class CentrosOperativosListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate(['/entities/centros-operativos/create']);
+    this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<CentroOperativoList>): void {
-    this.router.navigate(['/entities/centros-operativos/edit', event.row.id]);
+    this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, event.row.id]);
   }
 
   redirectToShow(event: TableEvent<CentroOperativoList>): void {
-    this.router.navigate(['/entities/centros-operativos/show', event.row.id]);
+    this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.VER}`, event.row.id]);
   }
 
   deleteRow(event: TableEvent<CentroOperativoList>): void {

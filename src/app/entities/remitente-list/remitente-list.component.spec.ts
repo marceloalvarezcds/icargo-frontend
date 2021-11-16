@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockRemitenteList, RemitenteList } from 'src/app/interfaces/remitente';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -47,15 +48,15 @@ describe('RemitenteListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/remitente/create',
+            path: `entities/${m.REMITENTE}/${a.CREAR}`,
             component: RemitenteFormComponent,
           },
           {
-            path: 'entities/remitente/edit/:id',
+            path: `entities/${m.REMITENTE}/${a.EDITAR}/:id`,
             component: RemitenteFormComponent,
           },
           {
-            path: 'entities/remitente/show/:id',
+            path: `entities/${m.REMITENTE}/${a.VER}/:id`,
             component: RemitenteFormComponent,
           },
         ]),

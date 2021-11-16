@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockProveedorList, ProveedorList } from 'src/app/interfaces/proveedor';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -47,15 +48,15 @@ describe('ProveedorListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/proveedor/create',
+            path: `entities/${m.PROVEEDOR}/${a.CREAR}`,
             component: ProveedorFormComponent,
           },
           {
-            path: 'entities/proveedor/edit/:id',
+            path: `entities/${m.PROVEEDOR}/${a.EDITAR}/:id`,
             component: ProveedorFormComponent,
           },
           {
-            path: 'entities/proveedor/show/:id',
+            path: `entities/${m.PROVEEDOR}/${a.VER}/:id`,
             component: ProveedorFormComponent,
           },
         ]),

@@ -8,6 +8,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { GestorCargaList, mockGestorCargaList } from 'src/app/interfaces/gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -46,15 +47,15 @@ describe('GestorCargaListComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/gestor-carga/create',
+            path: `entities/${m.GESTOR_CARGA}/${a.CREAR}`,
             component: GestorCargaListComponent,
           },
           {
-            path: 'entities/gestor-carga/edit/:id',
+            path: `entities/${m.GESTOR_CARGA}/${a.EDITAR}/:id`,
             component: GestorCargaListComponent,
           },
           {
-            path: 'entities/gestor-carga/show/:id',
+            path: `entities/${m.GESTOR_CARGA}/${a.VER}/:id`,
             component: GestorCargaListComponent,
           },
         ]),

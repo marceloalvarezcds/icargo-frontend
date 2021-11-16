@@ -7,6 +7,7 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [modelo]="modelo"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
@@ -23,10 +24,11 @@
         [isShow]="isShow"
         [logo]="logo"
         [user]="user"
+        [modelo]="modelo"
       ></app-page-form-entities-info>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Libreta de Contactos

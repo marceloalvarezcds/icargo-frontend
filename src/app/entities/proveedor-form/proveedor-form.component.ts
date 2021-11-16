@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { ProveedorService } from 'src/app/services/proveedor.service';
@@ -20,6 +21,7 @@ import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities
 })
 export class ProveedorFormComponent implements OnInit, OnDestroy {
 
+  a = PermisoAccionEnum;
   id?: number;
   isEdit = false;
   isShow = false;
@@ -27,11 +29,13 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/proveedor/list';
+  backUrl = `/entities/${m.PROVEEDOR}/${a.LISTAR}`;
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
   });
+  modelo = m.PROVEEDOR;
+  puntoVentaModelo = m.PUNTO_VENTA;
 
   contactoList: ProveedorContactoGestorCargaList[] = [];
 
@@ -125,7 +129,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/proveedor/edit', this.id]);
+    this.router.navigate([`/entities/${m.PROVEEDOR}/${a.EDITAR}`, this.id]);
   }
 
   createPuntoVenta(): void {
@@ -133,7 +137,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       if (this.hasChange) {
         this.createPuntoVentaDialgoConfirmation();
       } else {
-        this.router.navigate(['/entities/punto-venta/create', this.id], { queryParams: { backUrl: this.puntoVentaBackUrl }});
+        this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.id], { queryParams: { backUrl: this.puntoVentaBackUrl }});
       }
     } else {
       this.createPuntoVentaDialgoConfirmation();
@@ -161,7 +165,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           if (redirectToCreatePuntoVenta) {
-            this.router.navigate(['/entities/punto-venta/create', this.id]);
+            this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.id]);
           } else {
             openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
           }
@@ -175,11 +179,11 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
             .afterDismissed()
             .subscribe(() => {
               if (redirectToCreatePuntoVenta) {
-                this.router.navigate(['/entities/punto-venta/create', proveedor.id]);
+                this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, proveedor.id]);
               } else if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/proveedor/edit', proveedor.id]);
+                this.router.navigate([`/entities/${m.PROVEEDOR}/${a.EDITAR}`, proveedor.id]);
               }
             });
         });
@@ -197,7 +201,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /show/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

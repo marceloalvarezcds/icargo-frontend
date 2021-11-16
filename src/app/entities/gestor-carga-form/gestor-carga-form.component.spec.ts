@@ -6,10 +6,10 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockGestorCargaList } from 'src/app/interfaces/gestor-carga';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
-import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
@@ -31,13 +31,13 @@ describe('GestorCargaFormComponent', () => {
     navigate: jasmine.createSpy('navigate'),
   }
   const createRouter = {
-    ...router, url: 'entities/gestor-carga/create',
+    ...router, url: `entities/${m.GESTOR_CARGA}/${a.CREAR}`,
   }
   const editRouter = {
-    ...router, url: 'entities/gestor-carga/edit/:id',
+    ...router, url: `entities/${m.GESTOR_CARGA}/${a.EDITAR}/:id`,
   }
   const showRouter = {
-    ...router, url: 'entities/gestor-carga/show',
+    ...router, url: `entities/${m.GESTOR_CARGA}/${a.VER}`,
   }
   const id = gestorCarga.id;
   const route = {
@@ -87,9 +87,9 @@ describe('GestorCargaFormComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: 'entities/gestor-carga/create', component: GestorCargaFormComponent },
-          { path: 'entities/gestor-carga/edit', component: GestorCargaFormComponent },
-          { path: 'entities/gestor-carga/show', component: GestorCargaFormComponent },
+          { path: `entities/${m.GESTOR_CARGA}/${a.CREAR}`, component: GestorCargaFormComponent },
+          { path: `entities/${m.GESTOR_CARGA}/${a.EDITAR}`, component: GestorCargaFormComponent },
+          { path: `entities/${m.GESTOR_CARGA}/${a.VER}`, component: GestorCargaFormComponent },
         ]),
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
@@ -126,7 +126,6 @@ describe('GestorCargaFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     const req = httpController.expectOne(`${environment.api}/gestor_carga/`)
     expect(req.request.method).toBe('POST');
     req.flush(gestorCarga);
@@ -148,7 +147,6 @@ describe('GestorCargaFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/gestor_carga/`);
@@ -173,7 +171,6 @@ describe('GestorCargaFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -204,7 +201,6 @@ describe('GestorCargaFormComponent', () => {
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/gestor_carga/${id}`).flush(mockGestorCargaList[1]);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();

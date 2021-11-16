@@ -3,12 +3,10 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
-import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
+import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
-import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
-import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { openSnackbar } from 'src/app/utils/snackbar';
@@ -20,6 +18,7 @@ import { openSnackbar } from 'src/app/utils/snackbar';
 })
 export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
+  a = PermisoAccionEnum;
   id?: number;
   proveedorId?: number;
   isEdit = false;
@@ -28,11 +27,12 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/proveedor/create';
+  backUrl = `/entities/${m.PROVEEDOR}/${a.CREAR}`;
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
   });
+  modelo = m.PUNTO_VENTA;
 
   contactoList: PuntoVentaContactoGestorCargaList[] = [];
 
@@ -122,7 +122,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/punto-venta/edit', this.proveedorId, this.id, { queryParams: { backUrl: this.backUrl }}]);
+    this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.EDITAR}`, this.proveedorId, this.id, { queryParams: { backUrl: this.backUrl }}]);
   }
 
   submit(confirmed: boolean): void {
@@ -158,7 +158,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/punto-venta/edit', this.proveedorId, puntoVenta.id, { queryParams: { backUrl: this.backUrl }}]);
+                this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.EDITAR}`, this.proveedorId, puntoVenta.id, { queryParams: { backUrl: this.backUrl }}]);
               }
             });
         });
@@ -181,7 +181,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     }
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /show/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

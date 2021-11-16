@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PermisoGuard } from 'src/app/guards/permiso.guard';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from '../enums/permiso-enum';
 import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
 import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.component';
@@ -12,80 +14,124 @@ import { RemitenteListComponent } from './remitente-list/remitente-list.componen
 
 const routes: Routes = [
   {
-    path: 'centros-operativos/list',
-    component: CentrosOperativosListComponent,
+    path: m.CENTRO_OPERATIVO,
+    children: [
+      {
+        path: a.LISTAR,
+        component: CentrosOperativosListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: CentrosOperativosFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: CentrosOperativosFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: CentrosOperativosFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
   },
   {
-    path: 'centros-operativos/create',
-    component: CentrosOperativosFormComponent,
+    path: m.GESTOR_CARGA,
+    children: [
+      {
+        path: a.LISTAR,
+        component: GestorCargaListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: GestorCargaFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: GestorCargaFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: GestorCargaFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
   },
   {
-    path: 'centros-operativos/edit/:id',
-    component: CentrosOperativosFormComponent,
+    path: m.PROVEEDOR,
+    children: [
+      {
+        path: a.LISTAR,
+        component: ProveedorListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: ProveedorFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: ProveedorFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: ProveedorFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
   },
   {
-    path: 'centros-operativos/show/:id',
-    component: CentrosOperativosFormComponent,
+    path: m.PUNTO_VENTA,
+    children: [
+      {
+        path: `${a.CREAR}/:proveedorId`,
+        component: PuntoVentaFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:proveedorId/:id`,
+        component: PuntoVentaFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:proveedorId/:id`,
+        component: PuntoVentaFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
   },
   {
-    path: 'gestor-carga/list',
-    component: GestorCargaListComponent,
-  },
-  {
-    path: 'gestor-carga/create',
-    component: GestorCargaFormComponent,
-  },
-  {
-    path: 'gestor-carga/edit/:id',
-    component: GestorCargaFormComponent,
-  },
-  {
-    path: 'gestor-carga/show/:id',
-    component: GestorCargaFormComponent,
-  },
-  {
-    path: 'proveedor/list',
-    component: ProveedorListComponent,
-  },
-  {
-    path: 'proveedor/create',
-    component: ProveedorFormComponent,
-  },
-  {
-    path: 'proveedor/edit/:id',
-    component: ProveedorFormComponent,
-  },
-  {
-    path: 'proveedor/show/:id',
-    component: ProveedorFormComponent,
-  },
-  {
-    path: 'punto-venta/create/:proveedorId',
-    component: PuntoVentaFormComponent,
-  },
-  {
-    path: 'punto-venta/edit/:proveedorId/:id',
-    component: PuntoVentaFormComponent,
-  },
-  {
-    path: 'punto-venta/show/:proveedorId/:id',
-    component: PuntoVentaFormComponent,
-  },
-  {
-    path: 'remitente/list',
-    component: RemitenteListComponent,
-  },
-  {
-    path: 'remitente/create',
-    component: RemitenteFormComponent,
-  },
-  {
-    path: 'remitente/edit/:id',
-    component: RemitenteFormComponent,
-  },
-  {
-    path: 'remitente/show/:id',
-    component: RemitenteFormComponent,
+    path: m.REMITENTE,
+    children: [
+      {
+        path: a.LISTAR,
+        component: RemitenteListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: RemitenteFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: RemitenteFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: RemitenteFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
   },
 ];
 

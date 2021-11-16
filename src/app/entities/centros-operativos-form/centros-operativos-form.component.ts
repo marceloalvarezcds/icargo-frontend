@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
@@ -18,6 +19,7 @@ import { openSnackbar } from 'src/app/utils/snackbar';
 })
 export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
+  a = PermisoAccionEnum;
   id?: number;
   isEdit = false;
   isShow = false;
@@ -25,12 +27,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
-  backUrl = '/entities/centros-operativos/list';
+  backUrl = `/entities/${m.CENTRO_OPERATIVO}/${a.LISTAR}`;
   centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
   });
+  modelo = m.CENTRO_OPERATIVO;
 
   contactoList: CentroOperativoContactoGestorCargaList[] = [];
 
@@ -111,7 +114,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate(['/entities/centros-operativos/edit', this.id]);
+    this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, this.id]);
   }
 
   fileChange(fileEvent: FileChangeEvent): void {
@@ -153,7 +156,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate(['/entities/centros-operativos/edit', centroOperativo.id]);
+                this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, centroOperativo.id]);
               }
             });
         });
@@ -171,7 +174,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /show/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

@@ -9,11 +9,16 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockPuntoVentaList, PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { TableEvent } from 'src/app/interfaces/table';
+import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AuthService } from 'src/app/services/auth.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
@@ -26,6 +31,7 @@ describe('PuntoVentaListComponent', () => {
   let fixture: ComponentFixture<PuntoVentaListComponent>;
   let httpController: HttpTestingController;
   let reportsService: ReportsService;
+  let userService: UserService;
   let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let tableComponent: DebugElement;
   const proveedorId = 1;
@@ -43,24 +49,27 @@ describe('PuntoVentaListComponent', () => {
         HttpClientTestingModule,
         MaterialModule,
         MatIconTestingModule,
+        PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
           {
-            path: 'entities/punto-venta/create/:proveedorId',
+            path: `entities/${m.PUNTO_VENTA}/${a.CREAR}/:proveedorId`,
             component: PuntoVentaFormComponent,
           },
           {
-            path: 'entities/punto-venta/edit/:proveedorId/:id',
+            path: `entities/${m.PUNTO_VENTA}/${a.EDITAR}/:proveedorId/:id`,
             component: PuntoVentaFormComponent,
           },
           {
-            path: 'entities/punto-venta/show/:proveedorId/:id',
+            path: `entities/${m.PUNTO_VENTA}/${a.VER}/:proveedorId/:id`,
             component: PuntoVentaFormComponent,
           },
         ]),
         SharedModule,
       ],
       providers: [
+        AuthService,
+        UserService,
         PuntoVentaService,
         ReportsService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
@@ -72,6 +81,8 @@ describe('PuntoVentaListComponent', () => {
   });
 
   beforeEach(() => {
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(PuntoVentaListComponent);
     httpController = TestBed.inject(HttpTestingController);
     reportsService = TestBed.inject(ReportsService);

@@ -1,10 +1,15 @@
 import { CommonModule } from '@angular/common';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AuthService } from 'src/app/services/auth.service';
 import { SearchService } from 'src/app/services/search.service';
+import { UserService } from 'src/app/services/user.service';
 import { SearchableCheckboxFilterComponent } from '../searchable-checkbox-filter/searchable-checkbox-filter.component';
 import { SharedModule } from '../shared.module';
 
@@ -19,12 +24,15 @@ describe('TableComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
+        HttpClientTestingModule,
         CommonModule,
         MaterialModule,
         MatIconTestingModule,
         SharedModule,
+        PipesModule,
+        RouterTestingModule,
       ],
-      providers: [ SearchService ],
+      providers: [ AuthService, SearchService, UserService ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       declarations: [ TableComponent, SearchableCheckboxFilterComponent ]
     })

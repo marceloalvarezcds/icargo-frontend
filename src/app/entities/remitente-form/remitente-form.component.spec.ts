@@ -6,17 +6,21 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockRemitenteList } from 'src/app/interfaces/remitente';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
-import { mockUser } from 'src/app/interfaces/user';
+import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
+import { AuthService } from 'src/app/services/auth.service';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
+import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
@@ -28,19 +32,20 @@ describe('RemitenteFormComponent', () => {
   let fixture: ComponentFixture<RemitenteFormComponent>;
   let httpController: HttpTestingController;
   let remitenteService: RemitenteService;
+  let userService: UserService;
   let pageFormComponent: DebugElement;
   const remitente = mockRemitenteList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
   }
   const createRouter = {
-    ...router, url: 'entities/remitente/create',
+    ...router, url: `entities/${m.REMITENTE}/${a.CREAR}`,
   }
   const editRouter = {
-    ...router, url: 'entities/remitente/edit/:id',
+    ...router, url: `entities/${m.REMITENTE}/${a.EDITAR}/:id`,
   }
   const showRouter = {
-    ...router, url: 'entities/remitente/show',
+    ...router, url: `entities/${m.REMITENTE}/${a.VER}`,
   }
   const id = remitente.id;
   const route = {
@@ -89,16 +94,19 @@ describe('RemitenteFormComponent', () => {
         HttpClientTestingModule,
         BrowserAnimationsModule,
         MaterialModule,
+        PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: 'entities/remitente/create', component: RemitenteFormComponent },
-          { path: 'entities/remitente/edit', component: RemitenteFormComponent },
-          { path: 'entities/remitente/show', component: RemitenteFormComponent },
+          { path: `entities/${m.REMITENTE}/${a.CREAR}`, component: RemitenteFormComponent },
+          { path: `entities/${m.REMITENTE}/${a.EDITAR}`, component: RemitenteFormComponent },
+          { path: `entities/${m.REMITENTE}/${a.VER}`, component: RemitenteFormComponent },
         ]),
         SharedModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
       providers: [
+        AuthService,
+        UserService,
         RemitenteService,
         ComposicionJuridicaService,
         TipoDocumentoService,
@@ -125,7 +133,6 @@ describe('RemitenteFormComponent', () => {
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
@@ -148,7 +155,6 @@ describe('RemitenteFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
@@ -167,6 +173,8 @@ describe('RemitenteFormComponent', () => {
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(RemitenteFormComponent);
     remitenteService = TestBed.inject(RemitenteService);
     component = fixture.componentInstance;
@@ -178,7 +186,6 @@ describe('RemitenteFormComponent', () => {
     httpController.expectOne(`${environment.api}/remitente/${id}`).flush(remitente);
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
@@ -214,7 +221,6 @@ describe('RemitenteFormComponent', () => {
     httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
     httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/remitente/${id}`).flush(mockRemitenteList[1]);
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
     httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);

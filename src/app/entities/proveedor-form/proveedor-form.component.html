@@ -7,6 +7,7 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [modelo]="modelo"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false, false)"
@@ -23,10 +24,11 @@
         [isShow]="isShow"
         [logo]="logo"
         [user]="user"
+        [modelo]="modelo"
       ></app-page-form-entities-info>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id" [expanded]="isContactoTouched">
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Libreta de Contactos
@@ -52,7 +54,7 @@
       ></app-page-form-geo>
     </mat-expansion-panel>
 
-    <mat-expansion-panel>
+    <mat-expansion-panel *ngIf="puntoVentaModelo | puede: a.LISTAR">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Puntos de Venta
@@ -65,7 +67,7 @@
           [backUrl]="puntoVentaBackUrl"
         ></app-punto-venta-list>
 
-        <div class="row page-form-row">
+        <div class="row page-form-row" *ngIf="puntoVentaModelo | puede: a.CREAR">
           <div class="col-xs-12" [hidden]="isShow">
             <button mat-raised-button class="outline round create-punto-venta" color="primary" type="button" (click)="createPuntoVenta()" id="add-button">
               Nuevo Punto de Venta
