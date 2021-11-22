@@ -28,10 +28,10 @@
           <button mat-mini-fab color="primary" matTooltip="Filtrar" (click)="sidenav?.toggle()">
             <mat-icon>filter_alt</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" matTooltip="Exportar lista" (click)="downloadClick.emit($event)" *ngIf="modelo | puede : a.REPORTE">
+          <button mat-mini-fab color="primary" matTooltip="Exportar lista" (click)="downloadClick.emit($event)" *ngIf="modelo | puede: a.REPORTE">
             <mat-icon>download</mat-icon>
           </button>
-          <button mat-mini-fab color="primary" matTooltip="Crear" (click)="createClick.emit($event)" *ngIf="modelo | puede : a.CREAR">
+          <button mat-mini-fab color="primary" matTooltip="Crear" (click)="createClick.emit($event)" *ngIf="modelo | puede: a.CREAR">
             <mat-icon>add</mat-icon>
           </button>
         </div>

@@ -1,4 +1,5 @@
 import { EstadoEnum } from '../enums/estado-enum';
+import { TipoDocumentoEnum } from '../enums/tipo-documento-enum';
 
 export interface TipoDocumento {
   id: number;
@@ -9,17 +10,17 @@ export interface TipoDocumento {
 export const mockTipoDocumentoList: TipoDocumento[] = [
   {
     id: 1,
-    descripcion: 'RUC',
+    descripcion: TipoDocumentoEnum.RUC,
     estado: EstadoEnum.ACTIVO,
   },
   {
     id: 2,
-    descripcion: 'Cédula',
+    descripcion: TipoDocumentoEnum.CEDULA,
     estado: EstadoEnum.ACTIVO,
   },
   {
     id: 3,
-    descripcion: 'Pasaporte',
+    descripcion: TipoDocumentoEnum.PASAPORTE,
     estado: EstadoEnum.ACTIVO,
   },
 ];

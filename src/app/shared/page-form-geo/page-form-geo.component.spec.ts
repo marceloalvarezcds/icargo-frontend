@@ -1,27 +1,20 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { mockCiudadList } from 'src/app/interfaces/ciudad';
-import { mockLocalidadList } from 'src/app/interfaces/localidad';
-import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockRemitenteList } from 'src/app/interfaces/remitente';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { findElement, mockMapMouseEvent } from 'src/app/utils/test';
-import { environment } from 'src/environments/environment';
 
 import { PageFormGeoComponent } from './page-form-geo.component';
 
 describe('PageFormGeoComponent', () => {
   let component: PageFormGeoComponent;
   let fixture: ComponentFixture<PageFormGeoComponent>;
-  let httpController: HttpTestingController;
-  let ciudadService: CiudadService;
-  let localidadService: LocalidadService;
   let googleMapComponentComponent: DebugElement;
   const remitente = mockRemitenteList[0];
 
@@ -45,9 +38,6 @@ describe('PageFormGeoComponent', () => {
   });
 
   beforeEach(() => {
-    httpController = TestBed.inject(HttpTestingController);
-    ciudadService = TestBed.inject(CiudadService);
-    localidadService = TestBed.inject(LocalidadService);
     fixture = TestBed.createComponent(PageFormGeoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -58,8 +48,6 @@ describe('PageFormGeoComponent', () => {
   }));
 
   it('should pass form input', fakeAsync(() => {
-    const ciudadServiceSpy = spyOn(ciudadService, 'getList').and.callThrough();
-    const localidadServiceSpy = spyOn(localidadService, 'getList').and.callThrough();
     const updateMarkerPositionSpy = spyOn(component, 'updateMarkerPosition').and.callThrough();
     component.form = new FormGroup({
       info: new FormGroup({
@@ -75,21 +63,13 @@ describe('PageFormGeoComponent', () => {
       }),
     });
     fixture.detectChanges();
-    component.paisControl.setValue(remitente.ciudad.localidad.pais_id);
-    component.localidadControl.setValue(remitente.ciudad.localidad_id);
     component.latitudControl.setValue(remitente.latitud);
     component.longitudControl.setValue(remitente.longitud);
     tick();
     googleMapComponentComponent = findElement(fixture, 'app-google-map');
     googleMapComponentComponent.triggerEventHandler('mapClick', mockMapMouseEvent);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
     flush();
-    expect(ciudadServiceSpy).toHaveBeenCalled();
-    expect(localidadServiceSpy).toHaveBeenCalled();
     expect(updateMarkerPositionSpy).toHaveBeenCalled();
     expect(component).toBeTruthy();
-    httpController.verify();
   }));
 });

@@ -1,0 +1,60 @@
+<app-page-form
+  class="propietario-page"
+  module="Flota"
+  submodule="Propietario"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+>
+  <mat-accordion multi>
+    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Información principal
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-propietario-form-info
+        [form]="form"
+        [isShow]="isShow"
+        [fotoDocumento]="fotoDocumento"
+        [fotoPerfil]="fotoPerfil"
+        [user]="user"
+        [modelo]="modelo"
+        [gestorCuentaId]="gestorCuentaId"
+      ></app-propietario-form-info>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Libreta de Contactos
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-contactos
+        [form]="form"
+        [isShow]="isShow"
+        [contactoList]="contactoList"
+      ></app-page-form-contactos>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel formGroupName="address" [expanded]="isAddressTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Dirección
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-address
+        groupName="address"
+        [form]="form"
+        [isShow]="isShow"
+        [isPanelOpen]="isPanelOpen"
+      ></app-page-form-address>
+    </mat-expansion-panel>
+  </mat-accordion>
+</app-page-form>

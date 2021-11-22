@@ -9,8 +9,11 @@ export class PermisoPipe implements PipeTransform {
 
   constructor(private userService: UserService) { }
 
-  transform(modelo: PermisoModeloEnum | undefined, accion: PermisoAccionEnum): boolean {
+  transform(modelo: PermisoModeloEnum | undefined, accion: PermisoAccionEnum, gestorCargaId: number | undefined = undefined): boolean {
     if (!modelo) { return false; }
+    if (gestorCargaId) {
+      return this.userService.checkPermisoAndGestorCargaId(accion, modelo, gestorCargaId);
+    }
     return this.userService.checkPermiso(accion, modelo);
   }
 }

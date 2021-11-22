@@ -65,4 +65,11 @@ export const mockPermisoList: Permiso[] = [
     autorizado: true,
     descripcion: 'Crear Punto de Venta',
   },
+  {
+    id: 9,
+    accion: PermisoAccionEnum.REPORTE,
+    modelo: PermisoModeloEnum.PROPIETARIO,
+    autorizado: true,
+    descripcion: 'Reporte de Propietario',
+  },
 ];

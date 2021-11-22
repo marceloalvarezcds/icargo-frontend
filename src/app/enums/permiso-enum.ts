@@ -21,10 +21,12 @@ export enum PermisoModeloEnum {
   MONEDA = "moneda",
   PAIS = "pais",
   PERMISO = "permiso",
+  PROPIETARIO = "propietario",
   PROVEEDOR = "proveedor",
   PUNTO_VENTA = "punto_venta",
   REMITENTE = "remitente",
   ROL = "rol",
   TIPO_DOCUMENTO = "tipo_documento",
+  TIPO_PERSONA = "tipo_persona",
   USER = "usuario",
 }

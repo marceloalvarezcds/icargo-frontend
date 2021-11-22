@@ -15,4 +15,9 @@ export const mockPaisList: Pais[] = [
     nombre: 'Argentina',
     nombre_corto: 'AR',
   },
+  {
+    id: 3,
+    nombre: 'Brasil',
+    nombre_corto: 'BR',
+  },
 ];
