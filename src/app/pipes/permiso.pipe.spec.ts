@@ -36,4 +36,14 @@ describe('PermisoPipe', () => {
     (userService as any).userSubject.next(mockUserAccount);
     expect(pipe.transform(PermisoModeloEnum.USER, PermisoAccionEnum.VER)).toBe(true);
   });
+
+  it('should return false when gestorCuentaId = 1 ', () => {
+    expect(pipe.transform(PermisoModeloEnum.USER, PermisoAccionEnum.VER, 1)).toBe(false);
+  });
+
+  it('should return true when gestorCuentaId = 1 ', () => {
+    userService = TestBed.inject(UserService);
+    (userService as any).userSubject.next(mockUserAccount);
+    expect(pipe.transform(PermisoModeloEnum.USER, PermisoAccionEnum.VER, 1)).toBe(true);
+  });
 });

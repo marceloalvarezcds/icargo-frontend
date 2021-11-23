@@ -29,6 +29,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./entities/entities.module').then((m) => m.EntitiesModule),
       },
+      {
+        path: 'flota',
+        loadChildren: () =>
+          import('./flota/flota.module').then((m) => m.FlotaModule),
+      },
     ],
   },
 ];

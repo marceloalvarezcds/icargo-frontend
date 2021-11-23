@@ -17,6 +17,7 @@ import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 import { PageFormContactosComponent } from './page-form-contactos/page-form-contactos.component';
 import { PageFormEntitiesInfoComponent } from './page-form-entities-info/page-form-entities-info.component';
 import { PipesModule } from '../pipes/pipes.module';
+import { PageFormAddressComponent } from './page-form-address/page-form-address.component';
 
 const modules = [
   HeaderComponent,
@@ -24,6 +25,7 @@ const modules = [
   GoogleMapComponent,
   HttpErrorSnackBarComponent,
   PageComponent,
+  PageFormAddressComponent,
   PageFormComponent,
   PageFormGeoComponent,
   SearchableCheckboxFilterComponent,

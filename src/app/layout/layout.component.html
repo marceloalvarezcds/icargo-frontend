@@ -14,7 +14,7 @@
                 [routerLinkActiveOptions]="{ exact: !!item.isRouteExact }"
                 (click)="closeSidebarMenu()"
               >
-                <mat-icon mat-list-icon *ngIf="item.iconName">{{item.iconName}}</mat-icon>
+                <mat-icon mat-list-icon *ngIf="item.iconName" [class.material-icons-outlined]="item.iconOutline">{{item.iconName}}</mat-icon>
                 <span mat-list-text>{{item.name}}</span>
               </a>
             </ng-container>
@@ -23,7 +23,7 @@
                 <mat-expansion-panel class="mat-elevation-z0">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      <mat-icon mat-list-icon *ngIf="item.iconName">{{item.iconName}}</mat-icon>
+                      <mat-icon mat-list-icon *ngIf="item.iconName" [class.material-icons-outlined]="item.iconOutline">{{item.iconName}}</mat-icon>
                       <span>{{ item.name }}</span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
@@ -38,7 +38,7 @@
                           [routerLinkActiveOptions]="{ exact: !!child.isRouteExact }"
                           (click)="closeSidebarMenu()"
                         >
-                          <mat-icon mat-list-icon *ngIf="child.iconName">{{child.iconName}}</mat-icon>
+                          <mat-icon mat-list-icon *ngIf="child.iconName" [class.material-icons-outlined]="child.iconOutline">{{child.iconName}}</mat-icon>
                           <div mat-list-text>{{ child.name }}</div>
                         </a>
                       </mat-nav-list>

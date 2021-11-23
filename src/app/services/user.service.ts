@@ -1,11 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { UserAccount } from '../interfaces/user';
+import { User, UserAccount } from '../interfaces/user';
 import { AuthService } from './auth.service';
 import { USER_KEY } from '../contanst';
 import { PermisoAccionEnum, PermisoModeloEnum } from '../enums/permiso-enum';
+import { checkPermiso, checkPermisoAndGestorCargaId } from '../utils/permiso';
 import { filter } from 'rxjs/operators';
 
 const userItem = localStorage.getItem(USER_KEY) || 'null';
@@ -35,9 +36,15 @@ export class UserService {
     return this.userSubject.pipe(filter(u => !!u)) as Observable<UserAccount>;
   }
 
+  getListByGestorCargaId(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.url}/gestor_carga_id/`);
+  }
+
   checkPermiso(accion: PermisoAccionEnum, modelo: PermisoModeloEnum): boolean {
-    const user = this.userSubject.value;
-    if (!user) { return false; }
-    return user.permisos.findIndex(p => p.accion === accion && p.modelo === modelo && p.autorizado) !== -1
+    return checkPermiso(this.userSubject.value, accion, modelo);
+  }
+
+  checkPermisoAndGestorCargaId(accion: PermisoAccionEnum, modelo: PermisoModeloEnum, gestorCuentaId: number | undefined): boolean {
+    return checkPermisoAndGestorCargaId(this.userSubject.value, accion, modelo, gestorCuentaId);
   }
 }

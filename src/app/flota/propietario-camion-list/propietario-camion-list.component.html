@@ -1,0 +1,11 @@
+<div class="row page-form-row">
+  <div class="table-title">Camiones</div>
+  <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+    <app-table
+      [columns]="columns"
+      [data]="list"
+      [hideShow]="true"
+      [isShow]="isShow"
+    ></app-table>
+  </div>
+</div>

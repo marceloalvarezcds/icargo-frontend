@@ -5,4 +5,5 @@ export interface MenuItem {
   isRouteExact?: boolean;
   children?: MenuItem[];
   iconName?: string;
+  iconOutline?: boolean;
 }

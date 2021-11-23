@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from '../enums/permiso-enum';
+import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
 import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.component';
