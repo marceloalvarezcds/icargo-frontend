@@ -11,6 +11,8 @@ import { PropietarioListComponent } from './propietario-list/propietario-list.co
 import { PropietarioFormComponent } from './propietario-form/propietario-form.component';
 import { PropietarioFormInfoComponent } from './propietario-form-info/propietario-form-info.component';
 import { RegistroConduccionFormComponent } from './registro-conduccion-form/registro-conduccion-form.component';
+import { PropietarioCamionListComponent } from './propietario-camion-list/propietario-camion-list.component';
+import { PropietarioSemiListComponent } from './propietario-semi-list/propietario-semi-list.component';
 
 
 @NgModule({
@@ -19,6 +21,8 @@ import { RegistroConduccionFormComponent } from './registro-conduccion-form/regi
     PropietarioFormComponent,
     PropietarioFormInfoComponent,
     RegistroConduccionFormComponent,
+    PropietarioCamionListComponent,
+    PropietarioSemiListComponent,
   ],
   imports: [
     CommonModule,

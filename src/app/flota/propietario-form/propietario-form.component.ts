@@ -35,6 +35,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.PROPIETARIO;
+  camionModelo = m.CAMION;
+  semirremolqueModelo = m.SEMIRREMOLQUE;
   gestorCuentaId?: number;
 
   contactoList: PropietarioContactoGestorCargaList[] = [];

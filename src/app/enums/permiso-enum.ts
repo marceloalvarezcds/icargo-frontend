@@ -10,9 +10,11 @@ export enum PermisoAccionEnum {
 }
 
 export enum PermisoModeloEnum {
+  CAMION = "camion",
   CARGO = "cargo",
   CENTRO_OPERATIVO_CLASIFICACION = "centro_operativo_clasificacion",
   CENTRO_OPERATIVO = "centro_operativo",
+  CHOFER = "chofer",
   CIUDAD = "ciudad",
   COMPOSICION_JURIDICA = "composicion_juridica",
   CONTACTO = "contacto",
@@ -26,6 +28,7 @@ export enum PermisoModeloEnum {
   PUNTO_VENTA = "punto_venta",
   REMITENTE = "remitente",
   ROL = "rol",
+  SEMIRREMOLQUE = "semirremolque",
   TIPO_DOCUMENTO = "tipo_documento",
   TIPO_PERSONA = "tipo_persona",
   USER = "usuario",

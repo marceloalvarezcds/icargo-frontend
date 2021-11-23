@@ -1,0 +1,8 @@
+export enum SemiClasificacionEnum {
+  CARRETA_ABIERTA = 'CARRETA ABIERTA',
+  GRANELERO = 'GRANELERO',
+  PLANCHA = 'PLANCHA',
+  SIDER = 'SIDER',
+  TANQUE = 'TANQUE',
+  TANQUE_INOX = 'TANQUE INOX',
+}
