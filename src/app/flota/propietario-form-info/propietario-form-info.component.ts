@@ -1,5 +1,6 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatSelectChange } from '@angular/material/select';
 import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
@@ -27,26 +28,6 @@ export class PropietarioFormInfoComponent implements OnDestroy {
   });
   userList$ = this.userService.getListByGestorCargaId();
 
-  get esChofer(): boolean {
-    return !!this.info.controls['es_chofer'].value;
-  }
-
-  get info(): FormGroup {
-    return this.form.get('info') as FormGroup;
-  }
-
-  get fotoDocumentoControl(): FormControl {
-    return this.info.get('foto_documento') as FormControl;
-  }
-
-  get fotoPerfilControl(): FormControl {
-    return this.info.get('foto_perfil') as FormControl;
-  }
-
-  get isFisicaSelected(): boolean {
-    return isFisica(this.tipoPersonaList, this.info.controls['tipo_persona_id'].value);
-  }
-
   @Input() form = new FormGroup({
     info: new FormGroup({
       nombre: new FormControl(null),
@@ -71,6 +52,26 @@ export class PropietarioFormInfoComponent implements OnDestroy {
   @Input() modelo?: PermisoModeloEnum;
   @Input() gestorCuentaId?: number;
 
+  get info(): FormGroup {
+    return this.form.get('info') as FormGroup;
+  }
+
+  get esChofer(): boolean {
+    return !!this.info.controls['es_chofer'].value;
+  }
+
+  get fotoDocumentoControl(): FormControl {
+    return this.info.get('foto_documento') as FormControl;
+  }
+
+  get fotoPerfilControl(): FormControl {
+    return this.info.get('foto_perfil') as FormControl;
+  }
+
+  get isFisicaSelected(): boolean {
+    return isFisica(this.tipoPersonaList, this.info.controls['tipo_persona_id'].value);
+  }
+
   constructor(
     private paisService: PaisService,
     private tipoPersonaService: TipoPersonaService,
@@ -91,5 +92,11 @@ export class PropietarioFormInfoComponent implements OnDestroy {
     this.fotoPerfil = null;
     this.fotoPerfilFile = fotoPerfilEvent.target!.files!.item(0);
     this.fotoPerfilControl.setValue(this.fotoPerfilFile?.name);
+  }
+
+  tipoPersonaIdChange(event: MatSelectChange): void {
+    if (!isFisica(this.tipoPersonaList, event.value)) {
+      this.info.controls['es_chofer'].setValue(false);
+    }
   }
 }

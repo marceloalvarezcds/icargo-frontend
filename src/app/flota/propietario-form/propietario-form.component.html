@@ -30,6 +30,19 @@
       ></app-propietario-form-info>
     </mat-expansion-panel>
 
+    <mat-expansion-panel formGroupName="registro" [expanded]="isRegistroTouched" [hidden]="!esChofer">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Registro de Conducción del Chofer
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-registro-conduccion-form
+        [form]="form"
+        [isShow]="isShow"
+        [fotoRegistro]="fotoRegistro"
+      ></app-registro-conduccion-form>
+    </mat-expansion-panel>
+
     <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>

@@ -77,6 +77,15 @@ describe('PropietarioFormComponent', () => {
         foto_documento: fileUrl,
         foto_perfil: fileUrl,
       },
+      registro: {
+        pais_id: null,
+        localidad_id: null,
+        ciudad_id: null,
+        tipo_registro_id: null,
+        numero_registro: null,
+        vencimiento: null,
+        foto_registro: null,
+      },
       contactos: [],
       address: {
         pais_id: propietario.ciudad.localidad.pais_id,

@@ -110,7 +110,7 @@ export const mockPropietarioList: PropietarioList[] = [
     gestor_cuenta_nombre: 'Transred',
     oficial_cuenta_id: 1,
     oficial_cuenta_nombre: 'Admin Transred',
-    fecha_nacimiento: '1980-06-01',
+    fecha_nacimiento: '1981-02-29',
     foto_documento: null,
     foto_perfil: null,
     es_chofer: false,

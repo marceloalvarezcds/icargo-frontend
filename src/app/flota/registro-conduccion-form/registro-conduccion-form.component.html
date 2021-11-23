@@ -1,0 +1,119 @@
+<div [formGroup]="form">
+  <div formGroupName="registro">
+    <div class="row page-form-row">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>País</mat-label>
+        <mat-select formControlName="pais_id" id="pais-select">
+          <ng-container *ngFor="let o of paisList$ | async">
+            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="paisControl?.hasError('required')">
+          El pais es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Localidad</mat-label>
+        <ng-container *ngIf="paisControl?.value; else localidadReadonly">
+          <mat-select formControlName="localidad_id" id="localidad-select">
+            <ng-container *ngFor="let o of localidadList">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </ng-container>
+        <ng-template #localidadReadonly>
+          <input matInput formControlName="localidad_id" readonly/>
+        </ng-template>
+        <mat-error *ngIf="localidadControl?.hasError('required')">
+          La localidad es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Ciudad</mat-label>
+        <ng-container *ngIf="localidadControl?.value; else ciudadReadonly">
+          <mat-select formControlName="ciudad_id">
+            <ng-container *ngFor="let o of ciudadList">
+              <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </ng-container>
+        <ng-template #ciudadReadonly>
+          <input matInput formControlName="ciudad_id" readonly/>
+        </ng-template>
+        <mat-error *ngIf="registro.controls['ciudad_id'].hasError('required')">
+          La ciudad es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row page-form-row">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+        <mat-label>Tipo de Registro</mat-label>
+        <mat-select formControlName="tipo_registro_id">
+          <ng-container *ngFor="let o of tipoRegistroList$ | async">
+            <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="registro.controls['tipo_registro_id'].hasError('required')">
+          El tipo de registro es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+        <mat-label>Número de Registro</mat-label>
+        <input matInput formControlName="numero_registro" />
+        <mat-error *ngIf="registro.controls['numero_registro'].hasError('required')">
+          El número de registro es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+        <mat-label>Vencimiento del Registro</mat-label>
+        <input matInput formControlName="vencimiento" [matDatepicker]="picker" (click)="picker.open()">
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+        <mat-error *ngIf="registro.controls['vencimiento'].hasError('required')">
+          La fecha de vencimiento es <strong>requerida</strong>
+        </mat-error>
+        <mat-error *ngIf="registro.controls['vencimiento'].hasError('dateVaidator')">
+          La fecha de vencimiento es <strong>inválida</strong>
+        </mat-error>
+        <mat-error *ngIf="registro.controls['vencimiento'].hasError('matDatepickerParse')">
+          La fecha de vencimiento no es <strong>válida</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="row page-form-row">
+      <div class="row col-xs-12 col-sm-6 pr-0">
+        <div class="col-xs-12" *ngIf="isShow && fotoRegistro"><strong>Foto del registro</strong></div>
+        <div class="col-xs-12 file-image-container">
+          <img *ngIf="fotoRegistroFile" [src]="fotoRegistroFile | imageFileBase64 | async" alt="" class="file-image" />
+          <img *ngIf="fotoRegistro" [src]="fotoRegistro" alt="" class="file-image" />
+        </div>
+        <input
+          id="foto-registro-input"
+          #fotoRegistroInput
+          type="file"
+          accept="images/*"
+          (change)="fotoRegistroChange($event)"
+          style="display: none"
+        />
+        <mat-form-field class="file-form-field pr-0" *ngIf="!isShow">
+          <mat-label>Foto del registro</mat-label>
+          <input matInput readonly formControlName="foto_registro" (click)="fotoRegistroInput.click()"/>
+          <button
+            type="button"
+            color="primary"
+            matSuffix
+            mat-icon-button
+            (click)="fotoRegistroInput.click()"
+          >
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <mat-error *ngIf="fotoRegistroControl.hasError('required')">
+            La foto del registro es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

@@ -10,13 +10,15 @@ import { FlotaRoutingModule } from './flota-routing.module';
 import { PropietarioListComponent } from './propietario-list/propietario-list.component';
 import { PropietarioFormComponent } from './propietario-form/propietario-form.component';
 import { PropietarioFormInfoComponent } from './propietario-form-info/propietario-form-info.component';
+import { RegistroConduccionFormComponent } from './registro-conduccion-form/registro-conduccion-form.component';
 
 
 @NgModule({
   declarations: [
     PropietarioListComponent,
     PropietarioFormComponent,
-    PropietarioFormInfoComponent
+    PropietarioFormInfoComponent,
+    RegistroConduccionFormComponent,
   ],
   imports: [
     CommonModule,

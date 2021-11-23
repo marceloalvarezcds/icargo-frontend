@@ -1,5 +1,5 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -13,7 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { UserService } from 'src/app/services/user.service';
-import { fakeFileList } from 'src/app/utils/test';
+import { fakeFileList, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
 import { PropietarioFormInfoComponent } from './propietario-form-info.component';
@@ -22,6 +22,7 @@ describe('PropietarioFormInfoComponent', () => {
   let component: PropietarioFormInfoComponent;
   let fixture: ComponentFixture<PropietarioFormInfoComponent>;
   let httpController: HttpTestingController;
+  let matSelect: DebugElement;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -50,6 +51,7 @@ describe('PropietarioFormInfoComponent', () => {
     fixture = TestBed.createComponent(PropietarioFormInfoComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
+    matSelect = findElement(fixture, '[formControlName="tipo_persona_id"]');
   });
 
   it('should create', fakeAsync(() => {
@@ -57,6 +59,9 @@ describe('PropietarioFormInfoComponent', () => {
     httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoPersonaList);
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
     flush();
+    matSelect.triggerEventHandler('selectionChange', { value: 1 });
+    tick();
+    matSelect.triggerEventHandler('selectionChange', { value: 2 });
     expect(component).toBeTruthy();
     httpController.verify();
   }));

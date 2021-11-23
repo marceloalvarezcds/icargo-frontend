@@ -39,7 +39,7 @@
     <div class="row page-form-row">
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Tipo de Persona</mat-label>
-        <mat-select formControlName="tipo_persona_id">
+        <mat-select formControlName="tipo_persona_id" (selectionChange)="tipoPersonaIdChange($event)">
           <ng-container *ngFor="let o of tipoPersonaList">
             <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
           </ng-container>

@@ -11,6 +11,7 @@ import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 import { PropietarioFormInfoComponent } from '../propietario-form-info/propietario-form-info.component';
+import { RegistroConduccionFormComponent } from '../registro-conduccion-form/registro-conduccion-form.component';
 
 @Component({
   selector: 'app-propietario-form',
@@ -25,6 +26,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   isShow = false;
   isPanelOpen = false;
   isInfoTouched = true;
+  isRegistroTouched = false;
   isContactoTouched = false;
   isAddressTouched = false;
   backUrl = `/flota/${m.PROPIETARIO}/${a.LISTAR}`;
@@ -39,6 +41,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   fotoDocumento: string | null = null;
   fotoPerfil: string | null = null;
+  fotoRegistro: string | null = null;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -55,6 +58,15 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       es_chofer: null,
       telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
       email: [null, Validators.email],
+    }),
+    registro: this.fb.group({
+      pais_id: null,
+      localidad_id: null,
+      ciudad_id: null,
+      tipo_registro_id: null,
+      numero_registro: null,
+      vencimiento: null,
+      foto_registro: null,
     }),
     contactos: this.fb.array([]),
     address: this.fb.group({
@@ -82,12 +94,20 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return this.form.get('info') as FormGroup;
   }
 
+  get registro(): FormGroup {
+    return this.form.get('registro') as FormGroup;
+  }
+
   get contactos(): FormArray {
     return this.form.get('contactos') as FormArray;
   }
 
   get address(): FormGroup {
     return this.form.get('address') as FormGroup;
+  }
+
+  get esChofer(): boolean {
+    return !!this.info.controls['es_chofer'].value;
   }
 
   get fotoDocumentoFile(): File | null {
@@ -106,7 +126,12 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return this.info.get('foto_perfil') as FormControl;
   }
 
+  get fotoRegistroControl(): FormControl {
+    return this.registro.get('foto_registro') as FormControl;
+  }
+
   @ViewChild(PropietarioFormInfoComponent) formInfo?: PropietarioFormInfoComponent;
+  @ViewChild(RegistroConduccionFormComponent) formRegistro?: RegistroConduccionFormComponent;
 
   constructor(
     private fb: FormBuilder,
@@ -180,6 +205,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
+        this.isRegistroTouched = this.registro.invalid;
         this.isContactoTouched = this.contactos.invalid;
         this.isAddressTouched = this.address.invalid;
       });
@@ -194,6 +220,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       if (this.isEdit) {
         this.fotoDocumentoControl.removeValidators(Validators.required);
         this.fotoPerfilControl.removeValidators(Validators.required);
+        this.fotoRegistroControl.removeValidators(Validators.required);
       }
       if (this.isShow) {
         this.form.disable();
@@ -216,6 +243,15 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             foto_documento: null,
             foto_perfil: null,
           },
+          registro: {
+            pais_id: null,
+            localidad_id: null,
+            ciudad_id: null,
+            tipo_registro_id: null,
+            numero_registro: null,
+            vencimiento: null,
+            foto_registro: null,
+          },
           address: {
             pais_id: data.ciudad.localidad.pais_id,
             localidad_id: data.ciudad.localidad_id,
@@ -227,6 +263,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         this.contactoList = data.contactos.slice();
         this.fotoDocumento = data.foto_documento!;
         this.fotoPerfil = data.foto_perfil!;
+        this.fotoRegistro = null;
         if (this.puedeModificarSoloAliasYcontactos) {
           this.info.disable();
           this.address.disable();
