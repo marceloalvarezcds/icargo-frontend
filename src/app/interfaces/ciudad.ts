@@ -1,7 +1,7 @@
 import { Localidad } from "./localidad";
 
 export interface Ciudad {
-  id: Number;
+  id: number;
   nombre: string;
   localidad_id: Number;
   localidad: Localidad;
@@ -52,5 +52,20 @@ export const mockCiudadList: Ciudad[] = [
         nombre_corto: 'AR'
       }
     }
+  },
+  {
+    id: 5097,
+    nombre: 'Florianopolis',
+    localidad_id: 21,
+    localidad: {
+      id: 64,
+      nombre: 'São Paulo',
+      pais_id: 2,
+      pais: {
+        id: 3,
+        nombre: 'Brasil',
+        nombre_corto: 'BR',
+      },
+    },
   },
 ];

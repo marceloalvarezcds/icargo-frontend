@@ -70,7 +70,7 @@
       ></app-page-form-address>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="(camionModelo | puede: a.LISTAR) || (semirremolqueModelo | puede: a.LISTAR)">
+    <mat-expansion-panel *ngIf="(isShow || isEdit) && ((camionModelo | puede: a.LISTAR) || (semirremolqueModelo | puede: a.LISTAR))">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Flota del Propietario

@@ -1,7 +1,9 @@
 import { EstadoEnum } from '../enums/estado-enum';
-import { Ciudad } from './ciudad';
+import { Ciudad, mockCiudadList } from './ciudad';
 import { GestorCargaChofer, mockGestorCargaChoferList } from './gestor-carga-chofer';
+import { Localidad, mockLocalidadList } from './localidad';
 import { mockPaisList, Pais } from './pais';
+import { mockTipoRegistroList, TipoRegistro } from './tipo-registro';
 
 export interface Chofer {
   id: number;
@@ -20,6 +22,17 @@ export interface Chofer {
   foto_documento?: string | null;
   foto_perfil?: string | null;
   es_propietario: boolean;
+  pais_emisor_id: number;
+  pais_emisor: Pais;
+  localidad_emisor_id: number;
+  localidad_emisor: Localidad;
+  ciudad_emisor_id: number;
+  ciudad_emisor: Ciudad;
+  tipo_registro_id: number;
+  tipo_registro: TipoRegistro;
+  numero_registro: string;
+  vencimiento_registro: string;
+  foto_registro?: string | null;
   estado: EstadoEnum;
   telefono: string;
   email?: string | null;
@@ -43,6 +56,17 @@ const pais0 = mockPaisList[0];
 const pais1 = mockPaisList[1];
 const pais2 = mockPaisList[2];
 
+const localidad0 = mockLocalidadList[0];
+const localidad1 = mockLocalidadList[1];
+const localidad2 = mockLocalidadList[2];
+
+const ciudad0 = mockCiudadList[0];
+const ciudad1 = mockCiudadList[2];
+const ciudad2 = mockCiudadList[3];
+
+const tipoRegistro0 = mockTipoRegistroList[0];
+const tipoRegistro1 = mockTipoRegistroList[1];
+
 export const mockChoferList: ChoferList[] = [
   {
     id: 1,
@@ -60,6 +84,17 @@ export const mockChoferList: ChoferList[] = [
     foto_documento: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_propietario: true,
+    pais_emisor_id: pais0.id,
+    pais_emisor: pais0,
+    localidad_emisor_id: localidad0.id,
+    localidad_emisor: localidad0,
+    ciudad_emisor_id: ciudad0.id,
+    ciudad_emisor: ciudad0,
+    tipo_registro_id: tipoRegistro0.id,
+    tipo_registro: tipoRegistro0,
+    numero_registro: 'aaabbb',
+    vencimiento_registro: '1981-06-01',
+    foto_registro: 'http://localhost:8103/api/bura26.png',
     estado: EstadoEnum.ACTIVO,
     telefono: '0982444444',
     email: 'contacto@cargill-cedrales.com',
@@ -103,6 +138,17 @@ export const mockChoferList: ChoferList[] = [
     foto_documento: null,
     foto_perfil: null,
     es_propietario: false,
+    pais_emisor_id: pais1.id,
+    pais_emisor: pais1,
+    localidad_emisor_id: localidad1.id,
+    localidad_emisor: localidad1,
+    ciudad_emisor_id: ciudad1.id,
+    ciudad_emisor: ciudad1,
+    tipo_registro_id: tipoRegistro1.id,
+    tipo_registro: tipoRegistro1,
+    numero_registro: 'cccddd',
+    vencimiento_registro: '1981-02-29',
+    foto_registro: null,
     estado: EstadoEnum.ACTIVO,
     telefono: '0981111111',
     email: 'contacto@adm-santa-rita.com',
@@ -145,6 +191,17 @@ export const mockChoferList: ChoferList[] = [
     foto_documento: null,
     foto_perfil: null,
     es_propietario: false,
+    pais_emisor_id: pais2.id,
+    pais_emisor: pais2,
+    localidad_emisor_id: localidad2.id,
+    localidad_emisor: localidad2,
+    ciudad_emisor_id: ciudad2.id,
+    ciudad_emisor: ciudad2,
+    tipo_registro_id: tipoRegistro0.id,
+    tipo_registro: tipoRegistro0,
+    numero_registro: 'eeefff',
+    vencimiento_registro: '1981-06-01',
+    foto_registro: null,
     estado: EstadoEnum.ACTIVO,
     telefono: '0981222222',
     email: 'contacto@gical-km12.com',

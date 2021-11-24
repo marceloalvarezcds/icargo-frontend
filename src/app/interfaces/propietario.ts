@@ -1,9 +1,11 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { PropietarioContactoGestorCargaList, mockPropietarioContactoGestorCargaList } from './propietario-contacto-gestor-carga';
-import { Ciudad } from './ciudad';
+import { Ciudad, mockCiudadList } from './ciudad';
 import { Pais, mockPaisList } from './pais';
 import { GestorCargaPropietario, mockGestorCargaPropietarioList } from './gestor-carga-propietario';
 import { mockTipoPersonaList, TipoPersona } from './tipo-persona';
+import { Localidad, mockLocalidadList } from './localidad';
+import { mockTipoRegistroList, TipoRegistro } from './tipo-registro';
 
 export interface Propietario {
   id: number;
@@ -22,6 +24,17 @@ export interface Propietario {
   foto_documento?: string | null;
   foto_perfil?: string | null;
   es_chofer: boolean;
+  pais_emisor_id?: number;
+  pais_emisor?: Pais;
+  localidad_emisor_id?: number;
+  localidad_emisor?: Localidad;
+  ciudad_emisor_id?: number;
+  ciudad_emisor?: Ciudad;
+  tipo_registro_id?: number;
+  tipo_registro?: TipoRegistro;
+  numero_registro?: string;
+  vencimiento_registro?: string;
+  foto_registro?: string | null;
   estado: EstadoEnum;
   telefono: string;
   email?: string | null;
@@ -50,6 +63,10 @@ const pais0 = mockPaisList[0];
 const pais1 = mockPaisList[1];
 const pais2 = mockPaisList[2];
 
+const localidad0 = mockLocalidadList[0];
+const ciudad0 = mockCiudadList[0];
+const tipoRegistro0 = mockTipoRegistroList[0];
+
 export const mockPropietarioList: PropietarioList[] = [
   {
     id: 1,
@@ -68,6 +85,17 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_documento: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_chofer: true,
+    pais_emisor_id: pais0.id,
+    pais_emisor: pais0,
+    localidad_emisor_id: localidad0.id,
+    localidad_emisor: localidad0,
+    ciudad_emisor_id: ciudad0.id,
+    ciudad_emisor: ciudad0,
+    tipo_registro_id: tipoRegistro0.id,
+    tipo_registro: tipoRegistro0,
+    numero_registro: 'aaabbb',
+    vencimiento_registro: '1981-06-01',
+    foto_registro: 'http://localhost:8103/api/bura26.png',
     estado: EstadoEnum.ACTIVO,
     telefono: '0982444444',
     email: 'contacto@cargill-cedrales.com',

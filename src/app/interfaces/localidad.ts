@@ -28,4 +28,14 @@ export const mockLocalidadList: Localidad[] = [
       nombre_corto: 'AR',
     },
   },
+  {
+    id: 64,
+    nombre: 'São Paulo',
+    pais_id: 2,
+    pais: {
+      id: 3,
+      nombre: 'Brasil',
+      nombre_corto: 'BR',
+    },
+  },
 ];

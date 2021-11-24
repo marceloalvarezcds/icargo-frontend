@@ -24,12 +24,12 @@ export class RegistroConduccionFormComponent implements OnDestroy {
 
   @Input() form = new FormGroup({
     registro: new FormGroup({
-      pais_id: new FormControl(null),
-      localidad_id: new FormControl(null),
-      ciudad_id: new FormControl(null),
+      pais_emisor_id: new FormControl(null),
+      localidad_emisor_id: new FormControl(null),
+      ciudad_emisor_id: new FormControl(null),
       tipo_registro_id: new FormControl(null),
       numero_registro: new FormControl(null),
-      vencimiento: new FormControl(null),
+      vencimiento_registro: new FormControl(null),
       foto_registro: new FormControl(null),
     }),
   });
@@ -41,11 +41,11 @@ export class RegistroConduccionFormComponent implements OnDestroy {
   }
 
   get paisControl(): FormControl {
-    return this.registro.get('pais_id') as FormControl;
+    return this.registro.get('pais_emisor_id') as FormControl;
   }
 
   get localidadControl(): FormControl {
-    return this.registro.get('localidad_id') as FormControl;
+    return this.registro.get('localidad_emisor_id') as FormControl;
   }
 
   get fotoRegistroControl(): FormControl {

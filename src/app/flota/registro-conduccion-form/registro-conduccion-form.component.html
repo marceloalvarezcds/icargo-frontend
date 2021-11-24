@@ -1,9 +1,9 @@
 <div [formGroup]="form">
   <div formGroupName="registro">
     <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>País</mat-label>
-        <mat-select formControlName="pais_id" id="pais-select">
+        <mat-select formControlName="pais_emisor_id" id="pais-select">
           <ng-container *ngFor="let o of paisList$ | async">
             <mat-option [value]="o.id">{{o.nombre}}</mat-option>
           </ng-container>
@@ -12,35 +12,35 @@
           El pais es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Localidad</mat-label>
         <ng-container *ngIf="paisControl?.value; else localidadReadonly">
-          <mat-select formControlName="localidad_id" id="localidad-select">
+          <mat-select formControlName="localidad_emisor_id" id="localidad-select">
             <ng-container *ngFor="let o of localidadList">
               <mat-option [value]="o.id">{{o.nombre}}</mat-option>
             </ng-container>
           </mat-select>
         </ng-container>
         <ng-template #localidadReadonly>
-          <input matInput formControlName="localidad_id" readonly/>
+          <input matInput formControlName="localidad_emisor_id" readonly/>
         </ng-template>
         <mat-error *ngIf="localidadControl?.hasError('required')">
           La localidad es <strong>requerida</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Ciudad</mat-label>
         <ng-container *ngIf="localidadControl?.value; else ciudadReadonly">
-          <mat-select formControlName="ciudad_id">
+          <mat-select formControlName="ciudad_emisor_id">
             <ng-container *ngFor="let o of ciudadList">
               <mat-option [value]="o.id">{{o.nombre}}</mat-option>
             </ng-container>
           </mat-select>
         </ng-container>
         <ng-template #ciudadReadonly>
-          <input matInput formControlName="ciudad_id" readonly/>
+          <input matInput formControlName="ciudad_emisor_id" readonly/>
         </ng-template>
-        <mat-error *ngIf="registro.controls['ciudad_id'].hasError('required')">
+        <mat-error *ngIf="registro.controls['ciudad_emisor_id'].hasError('required')">
           La ciudad es <strong>requerida</strong>
         </mat-error>
       </mat-form-field>
@@ -67,16 +67,16 @@
       </mat-form-field>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Vencimiento del Registro</mat-label>
-        <input matInput formControlName="vencimiento" [matDatepicker]="picker" (click)="picker.open()">
+        <input matInput formControlName="vencimiento_registro" [matDatepicker]="picker" (click)="picker.open()">
         <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="registro.controls['vencimiento'].hasError('required')">
+        <mat-error *ngIf="registro.controls['vencimiento_registro'].hasError('required')">
           La fecha de vencimiento es <strong>requerida</strong>
         </mat-error>
-        <mat-error *ngIf="registro.controls['vencimiento'].hasError('dateVaidator')">
+        <mat-error *ngIf="registro.controls['vencimiento_registro'].hasError('dateVaidator')">
           La fecha de vencimiento es <strong>inválida</strong>
         </mat-error>
-        <mat-error *ngIf="registro.controls['vencimiento'].hasError('matDatepickerParse')">
+        <mat-error *ngIf="registro.controls['vencimiento_registro'].hasError('matDatepickerParse')">
           La fecha de vencimiento no es <strong>válida</strong>
         </mat-error>
       </mat-form-field>
