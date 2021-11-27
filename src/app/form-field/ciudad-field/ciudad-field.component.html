@@ -1,0 +1,18 @@
+<div *ngIf="form" [formGroup]="form">
+  <mat-form-field [formGroupName]="groupName">
+    <mat-label>{{ title }}</mat-label>
+    <ng-container *ngIf="lId; else ciudadReadonly">
+      <mat-select [formControlName]="controlName">
+        <ng-container *ngFor="let o of ciudadList">
+          <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+        </ng-container>
+      </mat-select>
+    </ng-container>
+    <ng-template #ciudadReadonly>
+      <input matInput [formControlName]="controlName" readonly/>
+    </ng-template>
+    <mat-error *ngIf="control?.hasError('required')">
+      La ciudad es <strong>requerida</strong>
+    </mat-error>
+  </mat-form-field>
+</div>

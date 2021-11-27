@@ -1,0 +1,9 @@
+<div *ngIf="form" [formGroup]="form">
+  <mat-form-field [formGroupName]="groupName" [hidden]="(modelo | esUsuarioGestorYPuede: a.MODIFICAR_ALIAS | async)">
+    <mat-label>{{ title }}</mat-label>
+    <input matInput [formControlName]="controlName" />
+    <mat-error *ngIf="control.hasError('required')">
+      El alias es <strong>requerido</strong>
+    </mat-error>
+  </mat-form-field>
+</div>

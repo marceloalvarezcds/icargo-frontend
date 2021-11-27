@@ -1,0 +1,13 @@
+<div *ngIf="form" [formGroup]="form">
+  <mat-form-field [formGroupName]="groupName">
+    <mat-label>{{ title }}</mat-label>
+    <input matInput [formControlName]="controlName" />
+    <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
+    <mat-error *ngIf="control.hasError('required')">
+      El teléfono es <strong>requerido</strong>
+    </mat-error>
+    <mat-error *ngIf="control.hasError('pattern')">
+      <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
+    </mat-error>
+  </mat-form-field>
+</div>
