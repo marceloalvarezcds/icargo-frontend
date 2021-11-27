@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
@@ -13,6 +14,7 @@ import { PropietarioFormInfoComponent } from './propietario-form-info/propietari
 import { RegistroConduccionFormComponent } from './registro-conduccion-form/registro-conduccion-form.component';
 import { PropietarioCamionListComponent } from './propietario-camion-list/propietario-camion-list.component';
 import { PropietarioSemiListComponent } from './propietario-semi-list/propietario-semi-list.component';
+import { PropietarioFormChoferComponent } from './propietario-form-chofer/propietario-form-chofer.component';
 
 
 @NgModule({
@@ -23,10 +25,12 @@ import { PropietarioSemiListComponent } from './propietario-semi-list/propietari
     RegistroConduccionFormComponent,
     PropietarioCamionListComponent,
     PropietarioSemiListComponent,
+    PropietarioFormChoferComponent,
   ],
   imports: [
     CommonModule,
     FlotaRoutingModule,
+    FormFieldModule,
     DirectivesModule,
     FormsModule,
     ReactiveFormsModule,

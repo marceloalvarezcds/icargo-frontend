@@ -4,16 +4,18 @@ import { GestorCargaChofer, mockGestorCargaChoferList } from './gestor-carga-cho
 import { Localidad, mockLocalidadList } from './localidad';
 import { mockPaisList, Pais } from './pais';
 import { mockTipoRegistroList, TipoRegistro } from './tipo-registro';
+import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 
 export interface Chofer {
   id: number;
   nombre: string;
-  alias?: string;
-  documento_identidad: string;
+  tipo_documento_id: number;
+  tipo_documento: TipoDocumento;
+  pais_emisor_documento_id: number;
+  pais_emisor_documento: Pais;
+  numero_documento: string;
   ruc: string;
-  digito_verificador: string;
-  pais_origen_id: number;
-  pais_origen: Pais;
+  digito_verificador: string | null;
   fecha_nacimiento: string;
   gestor_cuenta_id?: number;
   gestor_cuenta_nombre?: string;
@@ -22,32 +24,40 @@ export interface Chofer {
   foto_documento?: string | null;
   foto_perfil?: string | null;
   es_propietario: boolean;
-  pais_emisor_id: number;
-  pais_emisor: Pais;
-  localidad_emisor_id: number;
-  localidad_emisor: Localidad;
-  ciudad_emisor_id: number;
-  ciudad_emisor: Ciudad;
+  /* Datos del Propietario */
+  pais_origen_id?: number;
+  pais_origen?: Pais;
+  /* inicio registro */
+  pais_emisor_registro_id: number;
+  pais_emisor_registro: Pais;
+  localidad_emisor_registro_id: number;
+  localidad_emisor_registro: Localidad;
+  ciudad_emisor_registro_id: number;
+  ciudad_emisor_registro: Ciudad;
   tipo_registro_id: number;
   tipo_registro: TipoRegistro;
   numero_registro: string;
   vencimiento_registro: string;
-  foto_registro?: string | null;
+  foto_registro_frente?: string | null;
+  foto_registro_reverso?: string | null;
+  /* fin registro */
   estado: EstadoEnum;
   telefono: string;
   email?: string | null;
   direccion?: string | null;
   ciudad_id: number;
   ciudad: Ciudad;
+  alias?: string;
   gestor_carga_chofer?: GestorCargaChofer;
 }
 
 export interface ChoferList extends Chofer {
-  pais_origen_nombre: string;
+  pais_emisor_documento_nombre: string;
   ciudad_nombre: string;
   localidad_nombre: string;
   pais_nombre: string;
   pais_nombre_corto: string;
+  tipo_documento_descripcion: string;
 }
 
 const gestorCargaChofer0 = mockGestorCargaChoferList[0];
@@ -64,6 +74,10 @@ const ciudad0 = mockCiudadList[0];
 const ciudad1 = mockCiudadList[2];
 const ciudad2 = mockCiudadList[3];
 
+const tipoDocumento0 = mockTipoDocumentoList[0];
+const tipoDocumento1 = mockTipoDocumentoList[1];
+const tipoDocumento2 = mockTipoDocumentoList[2];
+
 const tipoRegistro0 = mockTipoRegistroList[0];
 const tipoRegistro1 = mockTipoRegistroList[1];
 
@@ -71,11 +85,13 @@ export const mockChoferList: ChoferList[] = [
   {
     id: 1,
     nombre: 'CARGILL CEDRALES',
-    documento_identidad: '3100100',
+    tipo_documento_id: tipoDocumento0.id,
+    tipo_documento: tipoDocumento0,
+    pais_emisor_documento_id: pais0.id,
+    pais_emisor_documento: pais0,
+    numero_documento: '800100100',
     ruc: '800100100',
     digito_verificador: '1',
-    pais_origen_id: pais0.id,
-    pais_origen: pais0,
     gestor_cuenta_id: 2,
     gestor_cuenta_nombre: 'Cargill',
     oficial_cuenta_id: 2,
@@ -84,17 +100,23 @@ export const mockChoferList: ChoferList[] = [
     foto_documento: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_propietario: true,
-    pais_emisor_id: pais0.id,
-    pais_emisor: pais0,
-    localidad_emisor_id: localidad0.id,
-    localidad_emisor: localidad0,
-    ciudad_emisor_id: ciudad0.id,
-    ciudad_emisor: ciudad0,
+    /* Datos del Propietario */
+    pais_origen_id: pais0.id,
+    pais_origen: pais0,
+    /* inicio registro */
+    pais_emisor_registro_id: pais0.id,
+    pais_emisor_registro: pais0,
+    localidad_emisor_registro_id: localidad0.id,
+    localidad_emisor_registro: localidad0,
+    ciudad_emisor_registro_id: ciudad0.id,
+    ciudad_emisor_registro: ciudad0,
     tipo_registro_id: tipoRegistro0.id,
     tipo_registro: tipoRegistro0,
     numero_registro: 'aaabbb',
     vencimiento_registro: '1981-06-01',
-    foto_registro: 'http://localhost:8103/api/bura26.png',
+    foto_registro_frente: 'http://localhost:8103/api/bura26.png',
+    foto_registro_reverso: 'http://localhost:8103/api/bura26.png',
+    /* fin registro */
     estado: EstadoEnum.ACTIVO,
     telefono: '0982444444',
     email: 'contacto@cargill-cedrales.com',
@@ -116,20 +138,23 @@ export const mockChoferList: ChoferList[] = [
       }
     },
     gestor_carga_chofer: gestorCargaChofer0,
-    pais_origen_nombre: pais0.nombre,
+    pais_emisor_documento_nombre: pais0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    tipo_documento_descripcion: tipoDocumento0.descripcion,
   },
   {
     id: 2,
     nombre: 'ADM SANTA RITA',
-    documento_identidad: '3100100',
+    tipo_documento_id: tipoDocumento1.id,
+    tipo_documento: tipoDocumento1,
+    pais_emisor_documento_id: pais1.id,
+    pais_emisor_documento: pais1,
+    numero_documento: '800100100',
     ruc: '800100100',
     digito_verificador: '1',
-    pais_origen_id: pais1.id,
-    pais_origen: pais1,
     gestor_cuenta_id: 1,
     gestor_cuenta_nombre: 'Transred',
     oficial_cuenta_id: 1,
@@ -138,17 +163,20 @@ export const mockChoferList: ChoferList[] = [
     foto_documento: null,
     foto_perfil: null,
     es_propietario: false,
-    pais_emisor_id: pais1.id,
-    pais_emisor: pais1,
-    localidad_emisor_id: localidad1.id,
-    localidad_emisor: localidad1,
-    ciudad_emisor_id: ciudad1.id,
-    ciudad_emisor: ciudad1,
+    /* inicio registro */
+    pais_emisor_registro_id: pais1.id,
+    pais_emisor_registro: pais1,
+    localidad_emisor_registro_id: localidad1.id,
+    localidad_emisor_registro: localidad1,
+    ciudad_emisor_registro_id: ciudad1.id,
+    ciudad_emisor_registro: ciudad1,
     tipo_registro_id: tipoRegistro1.id,
     tipo_registro: tipoRegistro1,
     numero_registro: 'cccddd',
     vencimiento_registro: '1981-02-29',
-    foto_registro: null,
+    foto_registro_frente: null,
+    foto_registro_reverso: null,
+    /* fin registro */
     estado: EstadoEnum.ACTIVO,
     telefono: '0981111111',
     email: 'contacto@adm-santa-rita.com',
@@ -169,20 +197,23 @@ export const mockChoferList: ChoferList[] = [
         }
       }
     },
-    pais_origen_nombre: pais1.nombre,
+    pais_emisor_documento_nombre: pais1.nombre,
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    tipo_documento_descripcion: tipoDocumento1.descripcion,
   },
   {
     id: 3,
     nombre: 'GICAL KM12',
-    documento_identidad: '3100100',
+    tipo_documento_id: tipoDocumento2.id,
+    tipo_documento: tipoDocumento2,
+    pais_emisor_documento_id: pais2.id,
+    pais_emisor_documento: pais2,
+    numero_documento: '800100100',
     ruc: '800100100',
     digito_verificador: '1',
-    pais_origen_id: pais2.id,
-    pais_origen: pais2,
     gestor_cuenta_id: 1,
     gestor_cuenta_nombre: 'Transred',
     oficial_cuenta_id: 1,
@@ -191,17 +222,20 @@ export const mockChoferList: ChoferList[] = [
     foto_documento: null,
     foto_perfil: null,
     es_propietario: false,
-    pais_emisor_id: pais2.id,
-    pais_emisor: pais2,
-    localidad_emisor_id: localidad2.id,
-    localidad_emisor: localidad2,
-    ciudad_emisor_id: ciudad2.id,
-    ciudad_emisor: ciudad2,
+    /* inicio registro */
+    pais_emisor_registro_id: pais2.id,
+    pais_emisor_registro: pais2,
+    localidad_emisor_registro_id: localidad2.id,
+    localidad_emisor_registro: localidad2,
+    ciudad_emisor_registro_id: ciudad2.id,
+    ciudad_emisor_registro: ciudad2,
     tipo_registro_id: tipoRegistro0.id,
     tipo_registro: tipoRegistro0,
     numero_registro: 'eeefff',
     vencimiento_registro: '1981-06-01',
-    foto_registro: null,
+    foto_registro_frente: null,
+    foto_registro_reverso: null,
+    /* fin registro */
     estado: EstadoEnum.ACTIVO,
     telefono: '0981222222',
     email: 'contacto@gical-km12.com',
@@ -223,10 +257,11 @@ export const mockChoferList: ChoferList[] = [
       }
     },
     gestor_carga_chofer: undefined,
-    pais_origen_nombre: pais2.nombre,
+    pais_emisor_documento_nombre: pais2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
+    tipo_documento_descripcion: tipoDocumento2.descripcion,
   },
 ];

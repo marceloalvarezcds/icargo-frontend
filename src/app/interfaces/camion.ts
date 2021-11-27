@@ -20,7 +20,7 @@ export interface Camion {
 export interface CamionList extends Camion {
   pais_emisor_nombre: string;
   tipo_camion_descripcion: string;
-  chofer_documento_identidad: string;
+  chofer_numero_documento: string;
   chofer_nombre: string;
   marca_descripcion: string;
 }
@@ -47,7 +47,7 @@ export const mockCamionList: CamionList[] = [
     chofer_id: chofer0.id,
     chofer: chofer0,
     chofer_nombre: chofer0.nombre,
-    chofer_documento_identidad: chofer0.documento_identidad,
+    chofer_numero_documento: chofer0.numero_documento,
     marca_id: marca0.id,
     marca: marca0,
     marca_descripcion: marca0.descripcion,
@@ -64,7 +64,7 @@ export const mockCamionList: CamionList[] = [
     chofer_id: chofer1.id,
     chofer: chofer1,
     chofer_nombre: chofer1.nombre,
-    chofer_documento_identidad: chofer1.documento_identidad,
+    chofer_numero_documento: chofer1.numero_documento,
     marca_id: marca1.id,
     marca: marca1,
     marca_descripcion: marca1.descripcion,

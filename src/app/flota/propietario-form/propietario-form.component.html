@@ -21,16 +21,37 @@
       </mat-expansion-panel-header>
       <app-propietario-form-info
         [form]="form"
+        [isEdit]="isEdit"
         [isShow]="isShow"
-        [fotoDocumento]="fotoDocumento"
+        [fotoDocumentoFrente]="fotoDocumentoFrente"
+        [fotoDocumentoReverso]="fotoDocumentoReverso"
         [fotoPerfil]="fotoPerfil"
-        [user]="user"
         [modelo]="modelo"
         [gestorCuentaId]="gestorCuentaId"
+        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteFile = $event"
+        (fotoDocumentoReversoChange)="fotoDocumentoReversoFile = $event"
+        (fotoPerfilChange)="fotoPerfilFile = $event"
       ></app-propietario-form-info>
     </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="registro" [expanded]="isRegistroTouched" [hidden]="!esChofer">
+    <mat-expansion-panel formGroupName="chofer" [expanded]="isChoferTouched" [hidden]="!esChofer" *ngIf="(choferModelo | puede: a.CREAR) || (choferModelo | puede: a.EDITAR) || (choferModelo | puede: a.VER)">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Información del Chofer
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-propietario-form-chofer
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        [fotoDocumentoFrente]="fotoDocumentoFrenteChofer"
+        [fotoDocumentoReverso]="fotoDocumentoReversoChofer"
+        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteChoferFile = $event"
+        (fotoDocumentoReversoChange)="fotoDocumentoReversoChoferFile = $event"
+      ></app-propietario-form-chofer>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel formGroupName="registro" [expanded]="isRegistroTouched" [hidden]="!esChofer" *ngIf="(choferModelo | puede: a.CREAR) || (choferModelo | puede: a.EDITAR) || (choferModelo | puede: a.VER)">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Registro de Conducción del Chofer
@@ -39,11 +60,14 @@
       <app-registro-conduccion-form
         [form]="form"
         [isShow]="isShow"
-        [fotoRegistro]="fotoRegistro"
+        [fotoRegistroFrente]="fotoRegistroFrente"
+        [fotoRegistroReverso]="fotoRegistroReverso"
+        (fotoRegistroFrenteChange)="fotoRegistroFrenteFile = $event"
+        (fotoRegistroReversoChange)="fotoRegistroReversoFile = $event"
       ></app-registro-conduccion-form>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
+    <mat-expansion-panel *ngIf="(modelo | esUsuarioGestorYPuede: a.MODIFICAR_CONTACTOS | async)" [expanded]="isContactoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title>
           Libreta de Contactos

@@ -1,6 +1,14 @@
 <div [formGroup]="form">
   <div formGroupName="info">
     <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-tipo-persona-field
+          groupName="info"
+          controlName="tipo_persona_id"
+          [form]="form"
+          (isFisicaSelected)="isFisicaChange($event)"
+        ></app-tipo-persona-field>
+      </div>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>{{ isFisicaSelected ? 'Nombre' : 'Razón Social' }}</mat-label>
         <input matInput formControlName="nombre" appAutofocus />
@@ -9,100 +17,63 @@
           <ng-template #juridicaTemplate>La razón social es <strong>requerida</strong></ng-template>
         </mat-error>
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Fecha de {{ isFisicaSelected ? 'nacimiento' : 'constitución' }}</mat-label>
-        <input matInput formControlName="fecha_nacimiento" [matDatepicker]="picker" (click)="picker.open()">
-        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-        <mat-datepicker #picker></mat-datepicker>
-        <mat-error *ngIf="info.controls['fecha_nacimiento'].hasError('required')">
-          La fecha de {{ isFisicaSelected ? 'nacimiento' : 'constitución' }} es <strong>requerida</strong>
-        </mat-error>
-        <mat-error *ngIf="info.controls['fecha_nacimiento'].hasError('dateVaidator')">
-          La fecha de {{ isFisicaSelected ? 'nacimiento' : 'constitución' }} es <strong>inválida</strong>
-        </mat-error>
-        <mat-error *ngIf="info.controls['fecha_nacimiento'].hasError('matDatepickerParse')">
-          La fecha de {{ isFisicaSelected ? 'nacimiento' : 'constitución' }} no es <strong>válida</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>País de origen</mat-label>
-        <mat-select formControlName="pais_origen_id">
-          <ng-container *ngFor="let o of paisList$ | async">
-            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error *ngIf="info.controls['pais_origen_id'].hasError('required')">
-          El país de origen es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-fecha-field
+          title="Fecha de {{ isFisicaSelected ? 'nacimiento' : 'constitución' }}"
+          groupName="info"
+          controlName="fecha_nacimiento"
+          [form]="form"
+        ></app-fecha-field>
+      </div>
     </div>
     <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Tipo de Persona</mat-label>
-        <mat-select formControlName="tipo_persona_id" (selectionChange)="tipoPersonaIdChange($event)">
-          <ng-container *ngFor="let o of tipoPersonaList">
-            <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error *ngIf="info.controls['tipo_persona_id'].hasError('required')">
-          El tipo de persona es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>RUC</mat-label>
-        <input matInput formControlName="ruc" />
-        <mat-error *ngIf="info.controls['ruc'].hasError('required')">
-          El RUC es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Dígito verificador</mat-label>
-        <input matInput formControlName="digito_verificador" type="number" />
-        <mat-error *ngIf="info.controls['digito_verificador'].hasError('required')">
-          El dígito verificador es <strong>requerido</strong>
-        </mat-error>
-        <mat-error *ngIf="info.controls['digito_verificador'].hasError('min')">
-          El valor <strong>mínimo</strong> es 0
-        </mat-error>
-      </mat-form-field>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="RUC"
+          groupName="info"
+          controlName="ruc"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <app-digito-verificador-field
+        groupName="info"
+        controlName="digito_verificador"
+        [form]="form"
+      ></app-digito-verificador-field>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-pais-field
+          title="País de origen"
+          groupName="info"
+          controlName="pais_origen_id"
+          [form]="form"
+        ></app-pais-field>
+      </div>
     </div>
     <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" />
-        <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
-        <mat-error *ngIf="info.controls['telefono'].hasError('required')">
-          El teléfono es <strong>requerido</strong>
-        </mat-error>
-        <mat-error *ngIf="info.controls['telefono'].hasError('pattern')">
-          <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <mat-label>Correo electrónico</mat-label>
-        <input matInput formControlName="email" />
-        <mat-error *ngIf="info.get('email')?.hasError('email')">
-          El correo es <strong>inválido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <mat-label>Oficial de cuenta</mat-label>
-        <mat-select formControlName="oficial_cuenta_id">
-          <ng-container *ngFor="let o of userList$ | async">
-            <mat-option [value]="o.id">{{o.first_name}} {{o.last_name}}</mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error *ngIf="info.controls['oficial_cuenta_id'].hasError('required')">
-          El oficial de cuenta es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!(user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_ALIAS))">
-        <mat-label>Alias</mat-label>
-        <input matInput formControlName="alias" />
-        <mat-error *ngIf="info.controls['alias'].hasError('required')">
-          El alias es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-telefono-field
+          groupName="info"
+          [form]="form"
+        ></app-telefono-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-email-field
+          groupName="info"
+          [form]="form"
+        ></app-email-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-oficial-cuenta-field
+          groupName="info"
+          [form]="form"
+        ></app-oficial-cuenta-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-alias-field
+          groupName="info"
+          [form]="form"
+        ></app-alias-field>
+      </div>
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 es-chofer-toggle" [hidden]="!isFisicaSelected">
         <ng-container *ngIf="isShow; else esChoferTemplate">{{ esChofer ? 'Es Chofer' : 'No es Chofer' }}</ng-container>
         <ng-template #esChoferTemplate>
@@ -111,72 +82,37 @@
       </div>
     </div>
 
-    <div class="row page-form-row">
-      <div class="row col-xs-12 col-sm-6 pr-0">
-        <div class="col-xs-12" *ngIf="isShow && fotoDocumento"><strong>Foto del documento</strong></div>
-        <div class="col-xs-12 file-image-container">
-          <img *ngIf="fotoDocumentoFile" [src]="fotoDocumentoFile | imageFileBase64 | async" alt="" class="file-image" />
-          <img *ngIf="fotoDocumento" [src]="fotoDocumento" alt="" class="file-image" />
-        </div>
-        <input
-          id="foto-documento-input"
-          #fotoDocumentoInput
-          type="file"
-          accept="images/*"
-          (change)="fotoDocumentoChange($event)"
-          style="display: none"
-        />
-        <mat-form-field class="file-form-field pr-0" *ngIf="!isShow">
-          <mat-label>Foto del documento</mat-label>
-          <input matInput readonly formControlName="foto_documento" (click)="fotoDocumentoInput.click()"/>
-          <button
-            type="button"
-            color="primary"
-            matSuffix
-            mat-icon-button
-            (click)="fotoDocumentoInput.click()"
-          >
-            <mat-icon>attach_file</mat-icon>
-          </button>
-          <mat-error *ngIf="fotoDocumentoControl.hasError('required')">
-            La foto del documento es <strong>requerida</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
+    <app-file-field
+      title="Foto del documento - frontal"
+      groupName="info"
+      controlName="foto_documento_frente"
+      [field]="fotoDocumentoFrente"
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+    ></app-file-field>
 
-    <div class="row page-form-row">
-      <div class="row col-xs-12 col-sm-6 pr-0">
-        <div class="col-xs-12" *ngIf="isShow && fotoPerfil"><strong>Avatar</strong></div>
-        <div class="col-xs-12 file-image-container">
-          <img *ngIf="fotoPerfilFile" [src]="fotoPerfilFile | imageFileBase64 | async" alt="" class="file-image" />
-          <img *ngIf="fotoPerfil" [src]="fotoPerfil" alt="" class="file-image" />
-        </div>
-        <input
-          id="foto-perfil-input"
-          #fotoPerfilInput
-          type="file"
-          accept="images/*"
-          (change)="fotoPerfilChange($event)"
-          style="display: none"
-        />
-        <mat-form-field class="file-form-field pr-0" *ngIf="!isShow">
-          <mat-label>Avatar</mat-label>
-          <input matInput readonly formControlName="foto_perfil" (click)="fotoPerfilInput.click()"/>
-          <button
-            type="button"
-            color="primary"
-            matSuffix
-            mat-icon-button
-            (click)="fotoPerfilInput.click()"
-          >
-            <mat-icon>attach_file</mat-icon>
-          </button>
-          <mat-error *ngIf="fotoPerfilControl.hasError('required')">
-            El logo es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
-      </div>
-    </div>
+    <app-file-field
+      title="Foto del documento - reverso"
+      groupName="info"
+      controlName="foto_documento_reverso"
+      [field]="fotoDocumentoReverso"
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      (fileChange)="fotoDocumentoReversoChange.emit($event)"
+    ></app-file-field>
+
+    <app-file-field
+      title="Avatar"
+      groupName="info"
+      controlName="foto_perfil"
+      [field]="fotoPerfil"
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      (fileChange)="fotoPerfilChange.emit($event)"
+    ></app-file-field>
   </div>
 </div>

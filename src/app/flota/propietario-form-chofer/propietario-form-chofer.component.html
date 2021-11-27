@@ -1,0 +1,51 @@
+<div [formGroup]="form">
+  <div formGroupName="chofer">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-tipo-documento-field
+          groupName="chofer"
+          controlName="tipo_documento_id"
+          [form]="form"
+        ></app-tipo-documento-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-pais-field
+          title="País Emisor del Documento"
+          groupName="chofer"
+          controlName="pais_emisor_documento_id"
+          [form]="form"
+        ></app-pais-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Número de Documento"
+          groupName="chofer"
+          controlName="numero_documento"
+          [form]="form"
+        ></app-input-field>
+      </div>
+    </div>
+
+    <app-file-field
+      title="Foto del documento - frontal"
+      groupName="chofer"
+      controlName="foto_documento_frente_chofer"
+      [field]="fotoDocumentoFrente"
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+    ></app-file-field>
+
+    <app-file-field
+      title="Foto del documento - reverso"
+      groupName="chofer"
+      controlName="foto_documento_reverso_chofer"
+      [field]="fotoDocumentoReverso"
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      (fileChange)="fotoDocumentoReversoChange.emit($event)"
+    ></app-file-field>
+  </div>
+</div>
