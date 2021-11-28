@@ -15,6 +15,11 @@ import { RegistroConduccionFormComponent } from './registro-conduccion-form/regi
 import { PropietarioCamionListComponent } from './propietario-camion-list/propietario-camion-list.component';
 import { PropietarioSemiListComponent } from './propietario-semi-list/propietario-semi-list.component';
 import { PropietarioFormChoferComponent } from './propietario-form-chofer/propietario-form-chofer.component';
+import { ChoferListComponent } from './chofer-list/chofer-list.component';
+import { ChoferFormComponent } from './chofer-form/chofer-form.component';
+import { ChoferFormInfoComponent } from './chofer-form-info/chofer-form-info.component';
+import { ChoferFormPropietarioComponent } from './chofer-form-propietario/chofer-form-propietario.component';
+import { PermisoPipe } from '../pipes/permiso.pipe';
 
 
 @NgModule({
@@ -26,6 +31,10 @@ import { PropietarioFormChoferComponent } from './propietario-form-chofer/propie
     PropietarioCamionListComponent,
     PropietarioSemiListComponent,
     PropietarioFormChoferComponent,
+    ChoferListComponent,
+    ChoferFormComponent,
+    ChoferFormInfoComponent,
+    ChoferFormPropietarioComponent,
   ],
   imports: [
     CommonModule,
@@ -37,6 +46,7 @@ import { PropietarioFormChoferComponent } from './propietario-form-chofer/propie
     MaterialModule,
     PipesModule,
     SharedModule,
-  ]
+  ],
+  providers: [ PermisoPipe ],
 })
 export class FlotaModule { }

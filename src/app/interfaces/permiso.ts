@@ -114,4 +114,25 @@ export const mockPermisoList: Permiso[] = [
     autorizado: true,
     descripcion: 'Ver de Chofer',
   },
+  {
+    id: 16,
+    accion: PermisoAccionEnum.CREAR,
+    modelo: PermisoModeloEnum.PROPIETARIO,
+    autorizado: true,
+    descripcion: 'Crear de Propietario',
+  },
+  {
+    id: 17,
+    accion: PermisoAccionEnum.EDITAR,
+    modelo: PermisoModeloEnum.PROPIETARIO,
+    autorizado: true,
+    descripcion: 'Editar de Propietario',
+  },
+  {
+    id: 18,
+    accion: PermisoAccionEnum.VER,
+    modelo: PermisoModeloEnum.PROPIETARIO,
+    autorizado: true,
+    descripcion: 'Ver de Propietario',
+  },
 ];

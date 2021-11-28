@@ -61,10 +61,17 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       active: true,
       children: [
         {
-          name: 'Propietario',
+          name: 'Propietarios',
           iconName: 'key',
           path: `/flota/${m.PROPIETARIO}/${a.LISTAR}`,
           active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
+        },
+        {
+          name: 'Choferes',
+          iconName: 'badge',
+          iconOutline: true,
+          path: `/flota/${m.CHOFER}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
         },
       ],
     },

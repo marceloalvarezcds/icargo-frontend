@@ -21,12 +21,15 @@ export interface Chofer {
   gestor_cuenta_nombre?: string;
   oficial_cuenta_id: number;
   oficial_cuenta_nombre: string;
-  foto_documento?: string | null;
+  foto_documento_frente?: string | null;
+  foto_documento_reverso?: string | null;
   foto_perfil?: string | null;
   es_propietario: boolean;
   /* Datos del Propietario */
   pais_origen_id?: number;
   pais_origen?: Pais;
+  foto_documento_frente_propietario?: string | null;
+  foto_documento_reverso_propietario?: string | null;
   /* inicio registro */
   pais_emisor_registro_id: number;
   pais_emisor_registro: Pais;
@@ -97,12 +100,15 @@ export const mockChoferList: ChoferList[] = [
     oficial_cuenta_id: 2,
     oficial_cuenta_nombre: 'Admin Cargill',
     fecha_nacimiento: '1981-06-01',
-    foto_documento: 'http://localhost:8103/api/bura26.png',
+    foto_documento_frente: 'http://localhost:8103/api/bura26.png',
+    foto_documento_reverso: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_propietario: true,
     /* Datos del Propietario */
     pais_origen_id: pais0.id,
     pais_origen: pais0,
+    foto_documento_frente_propietario: 'http://localhost:8103/api/bura26.png',
+    foto_documento_reverso_propietario: 'http://localhost:8103/api/bura26.png',
     /* inicio registro */
     pais_emisor_registro_id: pais0.id,
     pais_emisor_registro: pais0,
@@ -160,7 +166,8 @@ export const mockChoferList: ChoferList[] = [
     oficial_cuenta_id: 1,
     oficial_cuenta_nombre: 'Admin Transred',
     fecha_nacimiento: '1981-02-29',
-    foto_documento: null,
+    foto_documento_frente: null,
+    foto_documento_reverso: null,
     foto_perfil: null,
     es_propietario: false,
     /* inicio registro */
@@ -219,7 +226,8 @@ export const mockChoferList: ChoferList[] = [
     oficial_cuenta_id: 1,
     oficial_cuenta_nombre: 'Admin Transred',
     fecha_nacimiento: '1981-06-01',
-    foto_documento: null,
+    foto_documento_frente: null,
+    foto_documento_reverso: null,
     foto_perfil: null,
     es_propietario: false,
     /* inicio registro */
