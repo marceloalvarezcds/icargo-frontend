@@ -1,17 +1,14 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
-import { User } from 'src/app/interfaces/user';
 import { PropietarioService } from 'src/app/services/propietario.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
-import { PropietarioFormInfoComponent } from '../propietario-form-info/propietario-form-info.component';
-import { RegistroConduccionFormComponent } from '../registro-conduccion-form/registro-conduccion-form.component';
 
 @Component({
   selector: 'app-propietario-form',
@@ -26,24 +23,31 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   isShow = false;
   isPanelOpen = false;
   isInfoTouched = true;
+  isChoferTouched = false;
   isRegistroTouched = false;
   isContactoTouched = false;
   isAddressTouched = false;
   backUrl = `/flota/${m.PROPIETARIO}/${a.LISTAR}`;
-  user?: User;
-  userSubscription = this.userService.getLoggedUser().subscribe((user) => {
-    this.user = user;
-  });
   modelo = m.PROPIETARIO;
   camionModelo = m.CAMION;
+  choferModelo = m.CHOFER;
   semirremolqueModelo = m.SEMIRREMOLQUE;
   gestorCuentaId?: number;
-
   contactoList: PropietarioContactoGestorCargaList[] = [];
-
-  fotoDocumento: string | null = null;
+  fotoDocumentoFrente: string | null = null;
+  fotoDocumentoFrenteFile: File | null = null;
+  fotoDocumentoReverso: string | null = null;
+  fotoDocumentoReversoFile: File | null = null;
   fotoPerfil: string | null = null;
-  fotoRegistro: string | null = null;
+  fotoPerfilFile: File | null = null;
+  fotoDocumentoFrenteChofer: string | null = null;
+  fotoDocumentoFrenteChoferFile: File | null = null;
+  fotoDocumentoReversoChofer: string | null = null;
+  fotoDocumentoReversoChoferFile: File | null = null;
+  fotoRegistroFrente: string | null = null;
+  fotoRegistroFrenteFile: File | null = null;
+  fotoRegistroReverso: string | null = null;
+  fotoRegistroReversoFile: File | null = null;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -55,20 +59,29 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       fecha_nacimiento: [null, DateValidator.date],
       oficial_cuenta_id: [null, Validators.required],
       alias: null,
-      foto_documento: [null, Validators.required],
+      foto_documento_frente: [null, Validators.required],
+      foto_documento_reverso: [null, Validators.required],
       foto_perfil: [null, Validators.required],
       es_chofer: null,
       telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
       email: [null, Validators.email],
     }),
+    chofer: this.fb.group({
+      tipo_documento_id: null,
+      pais_emisor_documento_id: null,
+      numero_documento: null,
+      foto_documento_frente_chofer: null,
+      foto_documento_reverso_chofer: null,
+    }),
     registro: this.fb.group({
-      pais_id: null,
-      localidad_id: null,
-      ciudad_id: null,
+      pais_emisor_registro_id: null,
+      localidad_emisor_registro_id: null,
+      ciudad_emisor_registro_id: null,
       tipo_registro_id: null,
       numero_registro: null,
-      vencimiento: null,
-      foto_registro: null,
+      vencimiento_registro: null,
+      foto_registro_frente: null,
+      foto_registro_reverso: null,
     }),
     contactos: this.fb.array([]),
     address: this.fb.group({
@@ -96,6 +109,10 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return this.form.get('info') as FormGroup;
   }
 
+  get chofer(): FormGroup {
+    return this.form.get('chofer') as FormGroup;
+  }
+
   get registro(): FormGroup {
     return this.form.get('registro') as FormGroup;
   }
@@ -112,29 +129,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return !!this.info.controls['es_chofer'].value;
   }
 
-  get fotoDocumentoFile(): File | null {
-    return this.formInfo!.fotoDocumentoFile;
-  }
-
-  get fotoDocumentoControl(): FormControl {
-    return this.info.get('foto_documento') as FormControl;
-  }
-
-  get fotoPerfilFile(): File | null {
-    return this.formInfo!.fotoPerfilFile;
-  }
-
-  get fotoPerfilControl(): FormControl {
-    return this.info.get('foto_perfil') as FormControl;
-  }
-
-  get fotoRegistroControl(): FormControl {
-    return this.registro.get('foto_registro') as FormControl;
-  }
-
-  @ViewChild(PropietarioFormInfoComponent) formInfo?: PropietarioFormInfoComponent;
-  @ViewChild(RegistroConduccionFormComponent) formRegistro?: RegistroConduccionFormComponent;
-
   constructor(
     private fb: FormBuilder,
     private propietarioService: PropietarioService,
@@ -150,7 +144,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
-    this.userSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {
@@ -174,14 +167,19 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       const data = JSON.parse(JSON.stringify({
         ...this.info.value,
         ...this.address.value,
+        ...this.chofer.value,
+        ...this.registro.value,
         contactos: this.contactos.value,
       }));
       delete data.logo;
-      delete data.pais_id;
-      delete data.localidad_id;
       formData.append('data', JSON.stringify(data));
-      if (this.fotoDocumentoFile) { formData.append('foto_documento_file', this.fotoDocumentoFile); }
+      if (this.fotoDocumentoFrenteFile) { formData.append('foto_documento_frente_file', this.fotoDocumentoFrenteFile); }
+      if (this.fotoDocumentoReversoFile) { formData.append('foto_documento_reverso_file', this.fotoDocumentoReversoFile); }
       if (this.fotoPerfilFile) { formData.append('foto_perfil_file', this.fotoPerfilFile); }
+      if (this.fotoDocumentoFrenteChoferFile) { formData.append('foto_documento_frente_chofer_file', this.fotoDocumentoFrenteChoferFile); }
+      if (this.fotoDocumentoReversoChoferFile) { formData.append('foto_documento_reverso_chofer_file', this.fotoDocumentoReversoChoferFile); }
+      if (this.fotoRegistroFrenteFile) { formData.append('foto_registro_frente_file', this.fotoRegistroFrenteFile); }
+      if (this.fotoRegistroReversoFile) { formData.append('foto_registro_reverso_file', this.fotoRegistroReversoFile); }
       if (this.isEdit && this.id) {
         this.propietarioService.edit(this.id, formData).subscribe(() => {
           this.hasChange = false;
@@ -207,6 +205,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
+        this.isChoferTouched = this.chofer.invalid;
         this.isRegistroTouched = this.registro.invalid;
         this.isContactoTouched = this.contactos.invalid;
         this.isAddressTouched = this.address.invalid;
@@ -219,11 +218,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      if (this.isEdit) {
-        this.fotoDocumentoControl.removeValidators(Validators.required);
-        this.fotoPerfilControl.removeValidators(Validators.required);
-        this.fotoRegistroControl.removeValidators(Validators.required);
-      }
       if (this.isShow) {
         this.form.disable();
       }
@@ -242,17 +236,26 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             telefono: data.telefono,
             email: data.email,
             es_chofer: data.es_chofer,
-            foto_documento: null,
+            foto_documento_frente: null,
+            foto_documento_reverso: null,
             foto_perfil: null,
           },
+          chofer: {
+            tipo_documento_id: data.tipo_documento_id ?? null,
+            pais_emisor_documento_id: data.pais_emisor_documento_id ?? null,
+            numero_documento: data.numero_documento ?? null,
+            foto_documento_frente_chofer: null,
+            foto_documento_reverso_chofer: null,
+          },
           registro: {
-            pais_id: null,
-            localidad_id: null,
-            ciudad_id: null,
-            tipo_registro_id: null,
-            numero_registro: null,
-            vencimiento: null,
-            foto_registro: null,
+            pais_emisor_registro_id: data.pais_emisor_documento_id ?? null,
+            localidad_emisor_registro_id: data.localidad_emisor_registro_id ?? null,
+            ciudad_emisor_registro_id: data.ciudad_emisor_registro_id ?? null,
+            tipo_registro_id: data.tipo_registro_id ?? null,
+            numero_registro: data.numero_registro ?? null,
+            vencimiento_registro: data.vencimiento_registro ?? null,
+            foto_registro_frente: null,
+            foto_registro_reverso: null,
           },
           address: {
             pais_id: data.ciudad.localidad.pais_id,
@@ -263,12 +266,18 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           contactos: [],
         });
         this.contactoList = data.contactos.slice();
-        this.fotoDocumento = data.foto_documento!;
+        this.fotoDocumentoFrente = data.foto_documento_frente!;
+        this.fotoDocumentoReverso = data.foto_documento_reverso!;
         this.fotoPerfil = data.foto_perfil!;
-        this.fotoRegistro = null;
+        this.fotoDocumentoFrenteChofer = data.foto_documento_frente_chofer ?? null;
+        this.fotoDocumentoReversoChofer = data.foto_documento_reverso_chofer ?? null;
+        this.fotoRegistroFrente = data.foto_registro_frente ?? null;
+        this.fotoRegistroReverso = data.foto_registro_reverso ?? null;
         if (this.puedeModificarSoloAliasYcontactos) {
           this.info.disable();
           this.address.disable();
+          this.chofer.disable();
+          this.registro.disable();
           this.info.controls['alias'].enable();
         }
         setTimeout(() => {

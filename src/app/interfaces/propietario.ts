@@ -1,9 +1,12 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { PropietarioContactoGestorCargaList, mockPropietarioContactoGestorCargaList } from './propietario-contacto-gestor-carga';
-import { Ciudad } from './ciudad';
+import { Ciudad, mockCiudadList } from './ciudad';
 import { Pais, mockPaisList } from './pais';
 import { GestorCargaPropietario, mockGestorCargaPropietarioList } from './gestor-carga-propietario';
 import { mockTipoPersonaList, TipoPersona } from './tipo-persona';
+import { Localidad, mockLocalidadList } from './localidad';
+import { mockTipoRegistroList, TipoRegistro } from './tipo-registro';
+import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 
 export interface Propietario {
   id: number;
@@ -19,9 +22,32 @@ export interface Propietario {
   gestor_cuenta_nombre?: string;
   oficial_cuenta_id: number;
   oficial_cuenta_nombre: string;
-  foto_documento?: string | null;
+  foto_documento_frente?: string | null;
+  foto_documento_reverso?: string | null;
   foto_perfil?: string | null;
   es_chofer: boolean;
+  /* inicio info del chofer */
+  tipo_documento_id?: number;
+  tipo_documento?: TipoDocumento;
+  pais_emisor_documento_id?: number;
+  pais_emisor_documento?: Pais;
+  numero_documento?: string;
+  foto_documento_frente_chofer?: string | null;
+  foto_documento_reverso_chofer?: string | null;
+  /* registro */
+  pais_emisor_registro_id?: number;
+  pais_emisor_registro?: Pais;
+  localidad_emisor_registro_id?: number;
+  localidad_emisor_registro?: Localidad;
+  ciudad_emisor_registro_id?: number;
+  ciudad_emisor_registro?: Ciudad;
+  tipo_registro_id?: number;
+  tipo_registro?: TipoRegistro;
+  numero_registro?: string;
+  vencimiento_registro?: string;
+  foto_registro_frente?: string | null;
+  foto_registro_reverso?: string | null;
+  /* fin info del chofer */
   estado: EstadoEnum;
   telefono: string;
   email?: string | null;
@@ -50,6 +76,11 @@ const pais0 = mockPaisList[0];
 const pais1 = mockPaisList[1];
 const pais2 = mockPaisList[2];
 
+const tipoDocumento0 = mockTipoDocumentoList[0];
+const localidad0 = mockLocalidadList[0];
+const ciudad0 = mockCiudadList[0];
+const tipoRegistro0 = mockTipoRegistroList[0];
+
 export const mockPropietarioList: PropietarioList[] = [
   {
     id: 1,
@@ -65,9 +96,32 @@ export const mockPropietarioList: PropietarioList[] = [
     oficial_cuenta_id: 2,
     oficial_cuenta_nombre: 'Admin Cargill',
     fecha_nacimiento: '1981-06-01',
-    foto_documento: 'http://localhost:8103/api/bura26.png',
+    foto_documento_frente: 'http://localhost:8103/api/bura26.png',
+    foto_documento_reverso: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_chofer: true,
+    /* inicio info del chofer */
+    tipo_documento_id: tipoDocumento0.id,
+    tipo_documento: tipoDocumento0,
+    pais_emisor_documento_id: pais0.id,
+    pais_emisor_documento: pais0,
+    numero_documento: '800100100',
+    foto_documento_frente_chofer: 'http://localhost:8103/api/bura26.png',
+    foto_documento_reverso_chofer: 'http://localhost:8103/api/bura26.png',
+    /* registro */
+    pais_emisor_registro_id: pais0.id,
+    pais_emisor_registro: pais0,
+    localidad_emisor_registro_id: localidad0.id,
+    localidad_emisor_registro: localidad0,
+    ciudad_emisor_registro_id: ciudad0.id,
+    ciudad_emisor_registro: ciudad0,
+    tipo_registro_id: tipoRegistro0.id,
+    tipo_registro: tipoRegistro0,
+    numero_registro: 'aaabbb',
+    vencimiento_registro: '1981-06-01',
+    foto_registro_frente: 'http://localhost:8103/api/bura26.png',
+    foto_registro_reverso: 'http://localhost:8103/api/bura26.png',
+    /* fin info del chofer */
     estado: EstadoEnum.ACTIVO,
     telefono: '0982444444',
     email: 'contacto@cargill-cedrales.com',
@@ -111,7 +165,8 @@ export const mockPropietarioList: PropietarioList[] = [
     oficial_cuenta_id: 1,
     oficial_cuenta_nombre: 'Admin Transred',
     fecha_nacimiento: '1981-02-29',
-    foto_documento: null,
+    foto_documento_frente: null,
+    foto_documento_reverso: null,
     foto_perfil: null,
     es_chofer: false,
     estado: EstadoEnum.ACTIVO,
@@ -156,7 +211,8 @@ export const mockPropietarioList: PropietarioList[] = [
     oficial_cuenta_id: 1,
     oficial_cuenta_nombre: 'Admin Transred',
     fecha_nacimiento: '1981-06-01',
-    foto_documento: null,
+    foto_documento_frente: null,
+    foto_documento_reverso: null,
     foto_perfil: null,
     es_chofer: false,
     estado: EstadoEnum.ACTIVO,

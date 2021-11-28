@@ -1,8 +1,9 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
@@ -12,10 +13,25 @@ import { CiudadService } from 'src/app/services/ciudad.service';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { TipoRegistroService } from 'src/app/services/tipo-registro.service';
-import { fakeFileList } from 'src/app/utils/test';
+import { findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 
 import { RegistroConduccionFormComponent } from './registro-conduccion-form.component';
+
+const createFormGroup = (component: RegistroConduccionFormComponent): void => {
+  component.form = new FormGroup({
+    registro: new FormGroup({
+      pais_emisor_registro_id: new FormControl(null),
+      localidad_emisor_registro_id: new FormControl(null),
+      ciudad_emisor_registro_id: new FormControl(null),
+      tipo_registro_id: new FormControl(null),
+      numero_registro: new FormControl(null),
+      vencimiento_registro: new FormControl(null),
+      foto_registro_frente: new FormControl(null),
+      foto_registro_reverso: new FormControl(null),
+    }),
+  });
+}
 
 describe('RegistroConduccionFormComponent', () => {
   let component: RegistroConduccionFormComponent;
@@ -27,8 +43,9 @@ describe('RegistroConduccionFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         BrowserAnimationsModule,
+        HttpClientTestingModule,
+        FormFieldModule,
         MaterialModule,
         ReactiveFormsModule,
       ],
@@ -51,10 +68,19 @@ describe('RegistroConduccionFormComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', fakeAsync(() => {
-    component.paisControl.setValue(paisId);
-    component.localidadControl.setValue(localidadId);
-    tick();
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+
+  it('should pass form input', fakeAsync(() => {
+    createFormGroup(component);
+    fixture.detectChanges();
+    const paisField: DebugElement = findElement(fixture, 'app-pais-field');
+    const localidadField: DebugElement = findElement(fixture, 'app-localidad-field');
+    paisField.triggerEventHandler('valueChange', paisId);
+    fixture.detectChanges();
+    localidadField.triggerEventHandler('valueChange', localidadId);
+    fixture.detectChanges();
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController.expectOne(`${environment.api}/tipo_registro/`).flush(mockTipoRegistroList);
     httpController.expectOne(`${environment.api}/localidad/${paisId}/`).flush(mockLocalidadList);
@@ -62,22 +88,5 @@ describe('RegistroConduccionFormComponent', () => {
     flush();
     expect(component).toBeTruthy();
     httpController.verify();
-  }));
-
-  it('should call to fotoRegistroChange', fakeAsync(() => {
-    const fotoRegistroChangeSpy = spyOn(component, 'fotoRegistroChange').and.callThrough();
-    const fotoRegistroInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#foto-registro-input');
-    fotoRegistroInput.files = fakeFileList;
-    fotoRegistroInput.dispatchEvent(new Event('change'));
-    tick();
-    expect(fotoRegistroChangeSpy).toHaveBeenCalled();
-  }));
-
-  it('should call to fotoRegistroChange with empty files', fakeAsync(() => {
-    const fotoRegistroChangeSpy = spyOn(component, 'fotoRegistroChange').and.callThrough();
-    const fotoRegistroInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#foto-registro-input');
-    fotoRegistroInput.dispatchEvent(new Event('change'));
-    tick();
-    expect(fotoRegistroChangeSpy).toHaveBeenCalled();
   }));
 });

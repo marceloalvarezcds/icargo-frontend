@@ -1,0 +1,12 @@
+<div *ngIf="form" [formGroup]="form">
+  <mat-form-field [formGroupName]="groupName">
+    <mat-label>{{ title }}</mat-label>
+    <input matInput [formControlName]="controlName" />
+    <mat-error *ngIf="control.hasError('required')">
+      El correo es <strong>requerido</strong>
+    </mat-error>
+    <mat-error *ngIf="control.hasError('email')">
+      El correo es <strong>inválido</strong>
+    </mat-error>
+  </mat-form-field>
+</div>

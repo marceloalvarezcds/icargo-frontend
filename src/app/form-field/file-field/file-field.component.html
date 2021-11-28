@@ -1,0 +1,33 @@
+<div class="row page-form-row" *ngIf="form" [formGroup]="form">
+  <div class="row col-xs-12 col-sm-6 pr-0" [formGroupName]="groupName">
+    <div class="col-xs-12" *ngIf="isShow && field"><strong>{{ title }}</strong></div>
+    <div class="col-xs-12 file-field-container">
+      <img *ngIf="fieldFile" [src]="fieldFile | imageFileBase64 | async" alt="" class="file-field" />
+      <img *ngIf="field" [src]="field" alt="" class="file-field" />
+    </div>
+    <input
+      id="file-input"
+      #fileInput
+      type="file"
+      accept="images/*"
+      (change)="fieldChange($event)"
+      style="display: none"
+    />
+    <mat-form-field class="file-form-field pr-0" *ngIf="!isShow">
+      <mat-label>{{ title }}</mat-label>
+      <input matInput readonly [formControlName]="controlName" (click)="fileInput.click()"/>
+      <button
+        type="button"
+        color="primary"
+        matSuffix
+        mat-icon-button
+        (click)="fileInput.click()"
+      >
+        <mat-icon>attach_file</mat-icon>
+      </button>
+      <mat-error *ngIf="fieldControl.hasError('required')">
+        El archivo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</div>

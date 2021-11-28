@@ -7,13 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockPropietarioList } from 'src/app/interfaces/propietario';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
+import { mockTipoPersonaList } from 'src/app/interfaces/tipo-persona';
+import { mockTipoRegistroList } from 'src/app/interfaces/tipo-registro';
 import { mockUser, mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
+import { PermisoPipe } from 'src/app/pipes/permiso.pipe';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
@@ -23,7 +27,9 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
+import { PropietarioFormChoferComponent } from '../propietario-form-chofer/propietario-form-chofer.component';
 import { PropietarioFormInfoComponent } from '../propietario-form-info/propietario-form-info.component';
+import { RegistroConduccionFormComponent } from '../registro-conduccion-form/registro-conduccion-form.component';
 
 import { PropietarioFormComponent } from './propietario-form.component';
 
@@ -34,6 +40,9 @@ describe('PropietarioFormComponent', () => {
   let propietarioService: PropietarioService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
+  let propietarioFormInfo: DebugElement;
+  let propietarioFormChofer: DebugElement;
+  let registroConduccionForm: DebugElement;
   const propietario = mockPropietarioList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
@@ -74,17 +83,26 @@ describe('PropietarioFormComponent', () => {
         telefono: propietario.telefono,
         email: propietario.email,
         es_chofer: propietario.es_chofer,
-        foto_documento: fileUrl,
+        foto_documento_frente: fileUrl,
+        foto_documento_reverso: fileUrl,
         foto_perfil: fileUrl,
       },
+      chofer: {
+        tipo_documento_id: propietario.tipo_documento_id,
+        pais_emisor_documento_id: propietario.pais_emisor_documento_id,
+        numero_documento: propietario.numero_documento,
+        foto_documento_frente_chofer: null,
+        foto_documento_reverso_chofer: null,
+      },
       registro: {
-        pais_id: null,
-        localidad_id: null,
-        ciudad_id: null,
-        tipo_registro_id: null,
-        numero_registro: null,
-        vencimiento: null,
-        foto_registro: null,
+        pais_emisor_registro_id: propietario.pais_emisor_documento_id,
+        localidad_emisor_registro_id: propietario.localidad_emisor_registro_id,
+        ciudad_emisor_registro_id: propietario.ciudad_emisor_registro_id,
+        tipo_registro_id: propietario.tipo_registro_id,
+        numero_registro: propietario.numero_registro,
+        vencimiento_registro: propietario.vencimiento_registro,
+        foto_registro_frente: null,
+        foto_registro_reverso: null,
       },
       contactos: [],
       address: {
@@ -99,8 +117,9 @@ describe('PropietarioFormComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
-        HttpClientTestingModule,
         BrowserAnimationsModule,
+        HttpClientTestingModule,
+        FormFieldModule,
         MaterialModule,
         PipesModule,
         ReactiveFormsModule,
@@ -115,6 +134,7 @@ describe('PropietarioFormComponent', () => {
       providers: [
         AuthService,
         UserService,
+        PermisoPipe,
         PropietarioService,
         ComposicionJuridicaService,
         TipoDocumentoService,
@@ -122,7 +142,12 @@ describe('PropietarioFormComponent', () => {
         { provide: ActivatedRoute, useValue: route },
         { provide: Router, useValue: router }
       ],
-      declarations: [ PropietarioFormComponent, PropietarioFormInfoComponent ]
+      declarations: [
+        PropietarioFormComponent,
+        PropietarioFormInfoComponent,
+        PropietarioFormChoferComponent,
+        RegistroConduccionFormComponent,
+      ],
     })
     .compileComponents();
   });
@@ -139,10 +164,12 @@ describe('PropietarioFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
-    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoDocumentoList);
+    httpController.match(`${environment.api}/tipo_documento/`).forEach(r => r.flush(mockTipoDocumentoList));
+    httpController.match(`${environment.api}/tipo_persona/`).forEach(r => r.flush(mockTipoPersonaList));
+    httpController.match(`${environment.api}/tipo_registro/`).forEach(r => r.flush(mockTipoRegistroList));
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
-    httpController.expectOne(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
+    httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
     const req = httpController.expectOne(`${environment.api}/propietario/`)
     expect(req.request.method).toBe('POST');
     req.flush(propietario);
@@ -161,17 +188,19 @@ describe('PropietarioFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
-    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoDocumentoList);
+    httpController.match(`${environment.api}/tipo_documento/`).forEach(r => r.flush(mockTipoDocumentoList));
+    httpController.match(`${environment.api}/tipo_persona/`).forEach(r => r.flush(mockTipoPersonaList));
+    httpController.match(`${environment.api}/tipo_registro/`).forEach(r => r.flush(mockTipoRegistroList));
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
     formSetValue(component, 'logo');
-    pageFormComponent.triggerEventHandler('submitEvent', null);
+    pageFormComponent.triggerEventHandler('submitEvent', true);
     const req = httpController.expectOne(`${environment.api}/propietario/`);
     expect(req.request.method).toBe('POST');
     req.flush(propietario);
     flush();
     tick();
-    httpController.expectOne(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
+    httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -185,32 +214,41 @@ describe('PropietarioFormComponent', () => {
     fixture = TestBed.createComponent(PropietarioFormComponent);
     propietarioService = TestBed.inject(PropietarioService);
     component = fixture.componentInstance;
-    const fotoDocumentoFileSpy = spyOnProperty(component, 'fotoDocumentoFile').and.returnValue(fakeFile);
-    const fotoPerfilFileSpy = spyOnProperty(component, 'fotoPerfilFile').and.returnValue(fakeFile);
     const getByIdSpy = spyOn(propietarioService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
     httpController.match(`${environment.api}/propietario/${id}`).forEach(r => r.flush(propietario));
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
-    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoPersonaList);
+    httpController.expectOne(`${environment.api}/tipo_registro/`).flush(mockTipoRegistroList);
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
     httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
     httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
     pageFormComponent = findElement(fixture, 'app-page-form');
+    propietarioFormInfo = findElement(fixture, 'app-propietario-form-info');
+    propietarioFormChofer = findElement(fixture, 'app-propietario-form-chofer');
+    registroConduccionForm = findElement(fixture, 'app-registro-conduccion-form');
     pageFormComponent.triggerEventHandler('backClick', true);
+    propietarioFormInfo.triggerEventHandler('fotoDocumentoFrenteChange', fakeFile);
+    propietarioFormInfo.triggerEventHandler('fotoDocumentoReversoChange', fakeFile);
+    propietarioFormInfo.triggerEventHandler('fotoPerfilChange', fakeFile);
+    propietarioFormChofer.triggerEventHandler('fotoDocumentoFrenteChange', fakeFile);
+    propietarioFormChofer.triggerEventHandler('fotoDocumentoReversoChange', fakeFile);
+    propietarioFormChofer.triggerEventHandler('fotoPerfilChange', fakeFile);
+    registroConduccionForm.triggerEventHandler('fotoRegistroFrenteChange', fakeFile);
+    registroConduccionForm.triggerEventHandler('fotoRegistroReversoChange', fakeFile);
     tick();
     flush();
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
-    expect(fotoDocumentoFileSpy).toHaveBeenCalled();
-    expect(fotoPerfilFileSpy).toHaveBeenCalled();
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.expectOne(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
+    httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
     httpController.match(`${environment.api}/propietario/${id}`).forEach(req => {
       expect(req.request.method).toBe('PUT');
       req.flush(propietario);
@@ -233,7 +271,7 @@ describe('PropietarioFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.match(`${environment.api}/propietario/${id}`).forEach(r => r.flush(mockPropietarioList[1]));
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
-    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoPersonaList);
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
     httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
     httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
@@ -257,7 +295,7 @@ describe('PropietarioFormComponent', () => {
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/propietario/${id}`).flush(propietario);
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
-    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoDocumentoList);
+    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoPersonaList);
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
     httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
     httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
