@@ -1,8 +1,8 @@
-import { AutofocusDirective } from './autofocus.directive';
-
 import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+
+import { AutofocusDirective } from './autofocus.directive';
 
 @Component({ template: '<input appAutofocus />' })
 export class TestComponent { }
@@ -21,7 +21,7 @@ describe('AutofocusDirective', () => {
 
   it('should create an instance', fakeAsync(() => {
     const directive = fixture.debugElement.query(By.directive(AutofocusDirective));
-    tick(1000);
+    tick(1500);
     expect(directive).toBeTruthy();
   }));
 });

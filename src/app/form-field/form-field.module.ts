@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { FileFieldComponent } from './file-field/file-field.component';
@@ -40,6 +41,7 @@ const modules = [
   exports: modules.slice(),
   imports: [
     CommonModule,
+    DirectivesModule,
     FormsModule,
     MaterialModule,
     PipesModule,

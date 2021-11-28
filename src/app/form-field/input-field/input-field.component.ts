@@ -16,6 +16,7 @@ export class InputFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
+  @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() groupName = '';
