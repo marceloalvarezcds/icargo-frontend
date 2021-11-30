@@ -23,6 +23,7 @@ import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field
 import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
+import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -40,6 +41,7 @@ const modules = [
   MarcaSemiFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
+  SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
   TipoDocumentoFieldComponent,
   TipoPersonaFieldComponent,
