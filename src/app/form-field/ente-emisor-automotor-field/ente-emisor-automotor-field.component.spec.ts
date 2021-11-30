@@ -4,11 +4,11 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
-import { ColorService } from 'src/app/services/color.service';
+import { EnteEmisorAutomotorService } from 'src/app/services/ente-emisor-automotor.service';
 
-import { ColorFieldComponent } from './color-field.component';
+import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field.component';
 
-const createFormGroup = (component: ColorFieldComponent): void => {
+const createFormGroup = (component: EnteEmisorAutomotorFieldComponent): void => {
   component.groupName = 'grupo';
   component.controlName = 'control';
   component.form = new FormGroup({
@@ -18,9 +18,16 @@ const createFormGroup = (component: ColorFieldComponent): void => {
   });
 }
 
-describe('ColorFieldComponent', () => {
-  let component: ColorFieldComponent;
-  let fixture: ComponentFixture<ColorFieldComponent>;
+describe('EnteEmisorAutomotorFieldComponent', () => {
+  let component: EnteEmisorAutomotorFieldComponent;
+  let fixture: ComponentFixture<EnteEmisorAutomotorFieldComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      declarations: [ EnteEmisorAutomotorFieldComponent ]
+    })
+    .compileComponents();
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -31,14 +38,14 @@ describe('ColorFieldComponent', () => {
         ReactiveFormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      providers: [ ColorService ],
-      declarations: [ ColorFieldComponent ]
+      providers: [ EnteEmisorAutomotorService ],
+      declarations: [ EnteEmisorAutomotorFieldComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ColorFieldComponent);
+    fixture = TestBed.createComponent(EnteEmisorAutomotorFieldComponent);
     component = fixture.componentInstance;
     createFormGroup(component);
     fixture.detectChanges();
