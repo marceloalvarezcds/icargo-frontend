@@ -22,6 +22,7 @@ import { ColorFieldComponent } from './color-field/color-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
 import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
+import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -36,6 +37,7 @@ const modules = [
   InputFieldComponent,
   LocalidadFieldComponent,
   MarcaCamionFieldComponent,
+  MarcaSemiFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
   TelefonoFieldComponent,

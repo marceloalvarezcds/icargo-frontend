@@ -5,9 +5,9 @@ import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
 
-import { MarcaCamionFieldComponent } from './marca-camion-field.component';
+import { MarcaSemiFieldComponent } from './marca-semi-field.component';
 
-const createFormGroup = (component: MarcaCamionFieldComponent): void => {
+const createFormGroup = (component: MarcaSemiFieldComponent): void => {
   component.groupName = 'grupo';
   component.controlName = 'control';
   component.form = new FormGroup({
@@ -17,9 +17,9 @@ const createFormGroup = (component: MarcaCamionFieldComponent): void => {
   });
 }
 
-describe('MarcaCamionFieldComponent', () => {
-  let component: MarcaCamionFieldComponent;
-  let fixture: ComponentFixture<MarcaCamionFieldComponent>;
+describe('MarcaSemiFieldComponent', () => {
+  let component: MarcaSemiFieldComponent;
+  let fixture: ComponentFixture<MarcaSemiFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -30,13 +30,13 @@ describe('MarcaCamionFieldComponent', () => {
         ReactiveFormsModule,
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ MarcaCamionFieldComponent ]
+      declarations: [ MarcaSemiFieldComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MarcaCamionFieldComponent);
+    fixture = TestBed.createComponent(MarcaSemiFieldComponent);
     component = fixture.componentInstance;
     createFormGroup(component);
     fixture.detectChanges();
