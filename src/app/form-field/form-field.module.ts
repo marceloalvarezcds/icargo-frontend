@@ -21,6 +21,7 @@ import { AliasFieldComponent } from './alias-field/alias-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
 import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
+import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -34,6 +35,7 @@ const modules = [
   FileFieldComponent,
   InputFieldComponent,
   LocalidadFieldComponent,
+  MarcaCamionFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
   TelefonoFieldComponent,
