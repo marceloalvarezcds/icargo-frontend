@@ -18,10 +18,12 @@ import { TelefonoFieldComponent } from './telefono-field/telefono-field.componen
 import { EmailFieldComponent } from './email-field/email-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { AliasFieldComponent } from './alias-field/alias-field.component';
+import { ColorFieldComponent } from './color-field/color-field.component';
 
 const modules = [
   AliasFieldComponent,
   CiudadFieldComponent,
+  ColorFieldComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
   FechaFieldComponent,
