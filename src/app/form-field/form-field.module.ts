@@ -26,6 +26,7 @@ import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.com
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
 import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
+import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -50,6 +51,7 @@ const modules = [
   TipoDocumentoFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
+  TipoSemiFieldComponent,
 ];
 
 @NgModule({
