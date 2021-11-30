@@ -20,6 +20,7 @@ import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuen
 import { AliasFieldComponent } from './alias-field/alias-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
+import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -28,6 +29,7 @@ const modules = [
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
   EnteEmisorAutomotorFieldComponent,
+  EnteEmisorTransporteFieldComponent,
   FechaFieldComponent,
   FileFieldComponent,
   InputFieldComponent,
