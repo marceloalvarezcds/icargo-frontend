@@ -18,6 +18,7 @@ import { TelefonoFieldComponent } from './telefono-field/telefono-field.componen
 import { EmailFieldComponent } from './email-field/email-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { AliasFieldComponent } from './alias-field/alias-field.component';
+import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
 import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
@@ -31,6 +32,7 @@ import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.compon
 
 const modules = [
   AliasFieldComponent,
+  ChoferFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
   DigitoVerificadorFieldComponent,

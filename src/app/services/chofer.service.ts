@@ -17,6 +17,10 @@ export class ChoferService {
     return this.http.get<ChoferList[]>(`${this.url}/`);
   }
 
+  getListByGestorCuenta(): Observable<ChoferList[]> {
+    return this.http.get<ChoferList[]>(`${this.url}/gestor_cuenta/`);
+  }
+
   getById(id: number): Observable<Chofer> {
     return this.http.get<Chofer>(`${this.url}/${id}`);
   }
