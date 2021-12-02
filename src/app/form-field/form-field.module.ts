@@ -23,6 +23,7 @@ import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field
 import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
+import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
 import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
@@ -44,6 +45,7 @@ const modules = [
   MarcaSemiFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
+  PropietarioFieldComponent,
   SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
   TipoCamionFieldComponent,
