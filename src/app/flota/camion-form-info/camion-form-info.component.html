@@ -1,0 +1,47 @@
+<div *ngIf="form" [formGroup]="form">
+  <div [formGroupName]="groupName">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-propietario-field
+          [groupName]="groupName"
+          [form]="form"
+        ></app-propietario-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-chofer-field
+          [groupName]="groupName"
+          [form]="form"
+        ></app-chofer-field>
+      </div>
+    </div>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-input-field
+          title="Placa"
+          [groupName]="groupName"
+          controlName="placa"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-input-field
+          title="Número de Chasís"
+          [groupName]="groupName"
+          controlName="numero_chasis"
+          [form]="form"
+        ></app-input-field>
+      </div>
+    </div>
+
+    <app-file-field
+      title="Foto del Camión"
+      [groupName]="groupName"
+      controlName="foto"
+      [field]="foto"
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      (fileChange)="fotoChange.emit($event)"
+    ></app-file-field>
+  </div>
+</div>

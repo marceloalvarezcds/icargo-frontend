@@ -1,0 +1,48 @@
+<ng-container *ngIf="form">
+  <div [formGroup]="form">
+    <div [formGroupName]="groupName">
+      <div class="row page-form-row">
+        <h3 class="col-xs-12">Automotor</h3>
+        <div class="col-xs-12">
+          <app-ente-emisor-automotor-field
+            [groupName]="groupName"
+            controlName="ente_emisor_automotor_id"
+            [form]="form"
+          ></app-ente-emisor-automotor-field>
+        </div>
+        <div class="col-xs-12">
+          <app-input-field
+            title="Titular"
+            [groupName]="groupName"
+            controlName="titular_habilitacion_automotor"
+            [form]="form"
+          ></app-input-field>
+        </div>
+      </div>
+
+      <app-file-field
+        title="Foto del registro - frontal"
+        className="col-xs-12"
+        [groupName]="groupName"
+        controlName="foto_habilitacion_automotor_frente"
+        [field]="fotoFrente"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoFrenteChange.emit($event)"
+      ></app-file-field>
+
+      <app-file-field
+        title="Foto del registro - reverso"
+        className="col-xs-12"
+        [groupName]="groupName"
+        controlName="foto_habilitacion_automotor_reverso"
+        [field]="fotoReverso"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoReversoChange.emit($event)"
+      ></app-file-field>
+    </div>
+  </div>
+</ng-container>

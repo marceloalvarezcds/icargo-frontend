@@ -7,6 +7,7 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PermisoPipe } from 'src/app/pipes/permiso.pipe';
 import { FlotaRoutingModule } from './flota-routing.module';
 import { PropietarioListComponent } from './propietario-list/propietario-list.component';
 import { PropietarioFormComponent } from './propietario-form/propietario-form.component';
@@ -19,7 +20,14 @@ import { ChoferListComponent } from './chofer-list/chofer-list.component';
 import { ChoferFormComponent } from './chofer-form/chofer-form.component';
 import { ChoferFormInfoComponent } from './chofer-form-info/chofer-form-info.component';
 import { ChoferFormPropietarioComponent } from './chofer-form-propietario/chofer-form-propietario.component';
-import { PermisoPipe } from '../pipes/permiso.pipe';
+import { CamionListComponent } from './camion-list/camion-list.component';
+import { CamionFormComponent } from './camion-form/camion-form.component';
+import { CamionFormInfoComponent } from './camion-form-info/camion-form-info.component';
+import { CamionFormDetalleComponent } from './camion-form-detalle/camion-form-detalle.component';
+import { CamionFormCapacidadComponent } from './camion-form-capacidad/camion-form-capacidad.component';
+import { HabilitacionFormMunicipalComponent } from './habilitacion-form-municipal/habilitacion-form-municipal.component';
+import { HabilitacionFormTransporteComponent } from './habilitacion-form-transporte/habilitacion-form-transporte.component';
+import { HabilitacionFormAutomotorComponent } from './habilitacion-form-automotor/habilitacion-form-automotor.component';
 
 
 @NgModule({
@@ -35,6 +43,14 @@ import { PermisoPipe } from '../pipes/permiso.pipe';
     ChoferFormComponent,
     ChoferFormInfoComponent,
     ChoferFormPropietarioComponent,
+    CamionListComponent,
+    CamionFormComponent,
+    CamionFormInfoComponent,
+    CamionFormDetalleComponent,
+    CamionFormCapacidadComponent,
+    HabilitacionFormMunicipalComponent,
+    HabilitacionFormTransporteComponent,
+    HabilitacionFormAutomotorComponent,
   ],
   imports: [
     CommonModule,

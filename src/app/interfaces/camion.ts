@@ -87,6 +87,10 @@ export interface CamionList {
   pais_emisor_placa_nombre: string;
   pais_emisor_placa_nombre_corto: string;
   tipo_descripcion: string;
+  created_by: string;
+  created_at: string;
+  modified_by: string;
+  modified_at: string;
 }
 
 const color0 = mockColorList[0];
@@ -159,7 +163,7 @@ export const mockCamion: Camion = {
   created_by: 'system',
   created_at: '2021-11-30T20:38:09.553757',
   modified_by: 'system',
-  modified_at: '2021-11-30T20:38:09.553757'
+  modified_at: '2021-11-30T20:38:09.553757',
 }
 
 export const mockCamionList: CamionList[] = [
@@ -183,6 +187,10 @@ export const mockCamionList: CamionList[] = [
     tipo_descripcion: tipoCamion0.descripcion,
     pais_emisor_placa_nombre: pais0.nombre,
     pais_emisor_placa_nombre_corto: pais0.nombre_corto,
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
   {
     id: 2,
@@ -204,5 +212,9 @@ export const mockCamionList: CamionList[] = [
     tipo_descripcion: tipoCamion1.descripcion,
     pais_emisor_placa_nombre: pais1.nombre,
     pais_emisor_placa_nombre_corto: pais1.nombre_corto,
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
 ];
