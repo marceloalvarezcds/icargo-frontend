@@ -1,5 +1,5 @@
-import { EstadoEnum } from '../enums/estado-enum';
-import { TipoCargaEnum } from '../enums/tipo-carga-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { TipoCargaEnum } from 'src/app/enums/tipo-carga-enum';
 
 export interface TipoCarga {
   id: number;

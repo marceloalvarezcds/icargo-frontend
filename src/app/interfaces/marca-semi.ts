@@ -1,5 +1,5 @@
-import { EstadoEnum } from '../enums/estado-enum';
-import { MarcaSemiEnum } from '../enums/marca-semi-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { MarcaSemiEnum } from 'src/app/enums/marca-semi-enum';
 
 export interface MarcaSemi {
   id: number;

@@ -57,6 +57,10 @@ export interface Propietario {
   alias?: string;
   contactos: PropietarioContactoGestorCargaList[];
   gestor_carga_propietario?: GestorCargaPropietario;
+  created_by: string;
+  created_at: string;
+  modified_by: string;
+  modified_at: string;
 }
 
 export interface PropietarioList extends Propietario {
@@ -144,6 +148,10 @@ export const mockPropietarioList: PropietarioList[] = [
     },
     contactos: mockPropietarioContactoGestorCargaList.slice(),
     gestor_carga_propietario: gestorCargaPropietario0,
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
     pais_origen_nombre: pais0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
@@ -156,7 +164,7 @@ export const mockPropietarioList: PropietarioList[] = [
     nombre: 'ADM SANTA RITA',
     tipo_persona_id: tipoPersona1.id,
     tipo_persona: tipoPersona1,
-    ruc: '800100100',
+    ruc: '800200200',
     digito_verificador: '1',
     pais_origen_id: pais1.id,
     pais_origen: pais1,
@@ -190,6 +198,10 @@ export const mockPropietarioList: PropietarioList[] = [
       }
     },
     contactos: [],
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
     pais_origen_nombre: pais1.nombre,
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
@@ -202,7 +214,7 @@ export const mockPropietarioList: PropietarioList[] = [
     nombre: 'GICAL KM12',
     tipo_persona_id: tipoPersona0.id,
     tipo_persona: tipoPersona0,
-    ruc: '800100100',
+    ruc: '800300300',
     digito_verificador: '1',
     pais_origen_id: pais2.id,
     pais_origen: pais2,
@@ -237,6 +249,10 @@ export const mockPropietarioList: PropietarioList[] = [
     },
     contactos: [],
     gestor_carga_propietario: undefined,
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
     pais_origen_nombre: pais2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',

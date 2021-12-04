@@ -28,9 +28,9 @@
         [fotoPerfil]="fotoPerfil"
         [modelo]="modelo"
         [gestorCuentaId]="gestorCuentaId"
-        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteFile = $event"
-        (fotoDocumentoReversoChange)="fotoDocumentoReversoFile = $event"
-        (fotoPerfilChange)="fotoPerfilFile = $event"
+        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null"
+        (fotoDocumentoReversoChange)="fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null"
+        (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
       ></app-propietario-form-info>
     </mat-expansion-panel>
 
@@ -46,8 +46,8 @@
         [isShow]="isShow"
         [fotoDocumentoFrente]="fotoDocumentoFrenteChofer"
         [fotoDocumentoReverso]="fotoDocumentoReversoChofer"
-        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteChoferFile = $event"
-        (fotoDocumentoReversoChange)="fotoDocumentoReversoChoferFile = $event"
+        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteChoferFile = $event; fotoDocumentoFrenteChofer = null"
+        (fotoDocumentoReversoChange)="fotoDocumentoReversoChoferFile = $event; fotoDocumentoReversoChofer = null"
       ></app-propietario-form-chofer>
     </mat-expansion-panel>
 
@@ -62,8 +62,8 @@
         [isShow]="isShow"
         [fotoRegistroFrente]="fotoRegistroFrente"
         [fotoRegistroReverso]="fotoRegistroReverso"
-        (fotoRegistroFrenteChange)="fotoRegistroFrenteFile = $event"
-        (fotoRegistroReversoChange)="fotoRegistroReversoFile = $event"
+        (fotoRegistroFrenteChange)="fotoRegistroFrenteFile = $event; fotoRegistroFrente = null"
+        (fotoRegistroReversoChange)="fotoRegistroReversoFile = $event; fotoRegistroReverso = null"
       ></app-registro-conduccion-form>
     </mat-expansion-panel>
 
@@ -112,6 +112,20 @@
           [isShow]="isShow"
         ></app-propietario-semi-list>
       </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="isEdit || isShow">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Auditoría
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-audit
+        [created_by]="created_by"
+        [created_at]="created_at"
+        [modified_by]="modified_by"
+        [modified_at]="modified_at"
+      ></app-page-form-audit>
     </mat-expansion-panel>
   </mat-accordion>
 </app-page-form>

@@ -13,8 +13,8 @@ export class PropietarioCamionListComponent {
   columns: Column[] = [
     { def: 'placa', title: 'Placa', value: (element: CamionList) => element.placa, sticky: true },
     { def: 'estado', title: 'Estado', value: (element: CamionList) => element.estado },
-    { def: 'pais_emisor', title: 'País Emisor', value: (element: CamionList) => element.pais_emisor_nombre },
-    { def: 'tipo_camion', title: 'Tipo de Camión', value: (element: CamionList) => element.tipo_camion_descripcion },
+    { def: 'pais_emisor_placa_nombre', title: 'País Emisor', value: (element: CamionList) => element.pais_emisor_placa_nombre },
+    { def: 'tipo', title: 'Tipo de Camión', value: (element: CamionList) => element.tipo_descripcion },
     { def: 'chofer_nombre', title: 'Chofer', value: (element: CamionList) => element.chofer_nombre },
     { def: 'chofer_numero_documento', title: 'Documento Chofer', value: (element: CamionList) => element.chofer_numero_documento },
     { def: 'marca', title: 'Marca', value: (element: CamionList) => element.marca_descripcion },

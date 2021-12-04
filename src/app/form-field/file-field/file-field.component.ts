@@ -19,6 +19,7 @@ export class FileFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
+  @Input() className = 'col-xs-12 col-sm-6';
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() file: File | null = null;

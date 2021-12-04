@@ -1,5 +1,5 @@
-import { EstadoEnum } from '../enums/estado-enum';
-import { SemiClasificacionEnum } from '../enums/semi-clasificacion-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { SemiClasificacionEnum } from 'src/app/enums/semi-clasificacion-enum';
 
 export interface SemiClasificacion {
   id: number;

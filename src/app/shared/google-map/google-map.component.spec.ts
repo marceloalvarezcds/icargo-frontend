@@ -13,7 +13,6 @@ describe('GoogleMapComponent', () => {
   let fixture: ComponentFixture<GoogleMapComponent>;
   let menuConfigService: MenuConfigService;
   let clickOnMapButton: HTMLButtonElement;
-  let updateWidthSpy: jasmine.Spy;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,7 +28,6 @@ describe('GoogleMapComponent', () => {
     fixture = TestBed.createComponent(GoogleMapComponent);
     menuConfigService = TestBed.inject(MenuConfigService);
     component = fixture.componentInstance;
-    updateWidthSpy = spyOn((component as any), 'updateWidth').and.callThrough();
     fixture.detectChanges();
     const mockMVCArray = new google.maps.MVCArray([]);
     component.googleMap!.googleMap!.controls = [mockMVCArray, mockMVCArray, mockMVCArray, mockMVCArray, mockMVCArray, mockMVCArray];
@@ -56,6 +54,7 @@ describe('GoogleMapComponent', () => {
   }));
 
   it('test menuConfigService', () => {
+    const updateWidthSpy = spyOn((component as any), 'updateWidth').and.callThrough();
     menuConfigService.setSidebarMenu(true);
     menuConfigService.setSidebarMenu(false);
     fixture.detectChanges();

@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { mockCargoList } from 'src/app/interfaces/cargo';
 import { mockCentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { mockContacto } from 'src/app/interfaces/contacto';
@@ -29,6 +30,7 @@ describe('ContactoFormDialogComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         BrowserAnimationsModule,
+        DirectivesModule,
         HttpClientTestingModule,
         ReactiveFormsModule,
         RouterTestingModule,
@@ -70,6 +72,7 @@ describe('ContactoFormDialogComponent', () => {
     tick();
     expect(component.form.valid).toBeTruthy();
     expect(submitSpy).toHaveBeenCalled();
+    tick(1000); // AutofocusDirective directive
   }));
 
   it('data should be null', fakeAsync(() => {
@@ -85,6 +88,7 @@ describe('ContactoFormDialogComponent', () => {
     tick();
     expect(component.form.valid).toBeFalsy();
     expect(submitSpy).toHaveBeenCalled();
+    tick(1000); // AutofocusDirective directive
   }));
 
   it('data should be null and should submitted', fakeAsync(() => {
@@ -115,6 +119,7 @@ describe('ContactoFormDialogComponent', () => {
     expect(component.form.valid).toBeTruthy();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
+    tick(1000); // AutofocusDirective directive
   }));
 
   it('compareWith should options undefined', () => {

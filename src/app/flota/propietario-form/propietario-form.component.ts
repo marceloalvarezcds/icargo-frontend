@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -48,6 +48,10 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   fotoRegistroFrenteFile: File | null = null;
   fotoRegistroReverso: string | null = null;
   fotoRegistroReversoFile: File | null = null;
+  created_by = '';
+  created_at = '';
+  modified_by = '';
+  modified_at = '';
 
   form = this.fb.group({
     info: this.fb.group({
@@ -100,6 +104,39 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     });
   });
 
+  esChoferSubscription = this.esChoferControl.valueChanges.subscribe((esChofer) => {
+    if (esChofer) {
+      this.chofer.get('tipo_documento_id')!.setValidators(Validators.required);
+      this.chofer.get('pais_emisor_documento_id')!.setValidators(Validators.required);
+      this.chofer.get('numero_documento')!.setValidators(Validators.required);
+      this.registro.get('pais_emisor_registro_id')!.setValidators(Validators.required);
+      this.registro.get('localidad_emisor_registro_id')!.setValidators(Validators.required);
+      this.registro.get('ciudad_emisor_registro_id')!.setValidators(Validators.required);
+      this.registro.get('tipo_registro_id')!.setValidators(Validators.required);
+      this.registro.get('numero_registro')!.setValidators(Validators.required);
+      this.registro.get('vencimiento_registro')!.setValidators(Validators.required);
+    } else {
+      this.chofer.get('tipo_documento_id')!.clearAsyncValidators();
+      this.chofer.get('pais_emisor_documento_id')!.clearAsyncValidators();
+      this.chofer.get('numero_documento')!.clearAsyncValidators();
+      this.registro.get('pais_emisor_registro_id')!.clearAsyncValidators();
+      this.registro.get('localidad_emisor_registro_id')!.clearAsyncValidators();
+      this.registro.get('ciudad_emisor_registro_id')!.clearAsyncValidators();
+      this.registro.get('tipo_registro_id')!.clearAsyncValidators();
+      this.registro.get('numero_registro')!.clearAsyncValidators();
+      this.registro.get('vencimiento_registro')!.clearAsyncValidators();
+    }
+    this.chofer.get('tipo_documento_id')!.updateValueAndValidity();
+    this.chofer.get('pais_emisor_documento_id')!.updateValueAndValidity();
+    this.chofer.get('numero_documento')!.updateValueAndValidity();
+    this.registro.get('pais_emisor_registro_id')!.updateValueAndValidity();
+    this.registro.get('localidad_emisor_registro_id')!.updateValueAndValidity();
+    this.registro.get('ciudad_emisor_registro_id')!.updateValueAndValidity();
+    this.registro.get('tipo_registro_id')!.updateValueAndValidity();
+    this.registro.get('numero_registro')!.updateValueAndValidity();
+    this.registro.get('vencimiento_registro')!.updateValueAndValidity();
+  });
+
   get puedeModificarSoloAliasYcontactos(): boolean {
     if (this.isShow || !this.isEdit) { return false; }
     return !this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCuentaId);
@@ -125,8 +162,12 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return this.form.get('address') as FormGroup;
   }
 
+  get esChoferControl(): FormControl {
+    return this.info.get('es_chofer') as FormControl;
+  }
+
   get esChofer(): boolean {
-    return !!this.info.controls['es_chofer'].value;
+    return !!this.esChoferControl.value;
   }
 
   constructor(
@@ -144,6 +185,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
+    this.esChoferSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {
@@ -273,6 +315,10 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         this.fotoDocumentoReversoChofer = data.foto_documento_reverso_chofer ?? null;
         this.fotoRegistroFrente = data.foto_registro_frente ?? null;
         this.fotoRegistroReverso = data.foto_registro_reverso ?? null;
+        this.created_by = data.created_by;
+        this.created_at = data.created_at;
+        this.modified_by = data.modified_by;
+        this.modified_at = data.modified_at;
         if (this.puedeModificarSoloAliasYcontactos) {
           this.info.disable();
           this.address.disable();

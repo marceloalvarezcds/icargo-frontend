@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { FileFieldComponent } from './file-field/file-field.component';
@@ -17,22 +18,44 @@ import { TelefonoFieldComponent } from './telefono-field/telefono-field.componen
 import { EmailFieldComponent } from './email-field/email-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { AliasFieldComponent } from './alias-field/alias-field.component';
+import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
+import { ColorFieldComponent } from './color-field/color-field.component';
+import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
+import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
+import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
+import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
+import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
+import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
+import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
+import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
+import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 
 const modules = [
   AliasFieldComponent,
+  ChoferFieldComponent,
   CiudadFieldComponent,
+  ColorFieldComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
+  EnteEmisorAutomotorFieldComponent,
+  EnteEmisorTransporteFieldComponent,
   FechaFieldComponent,
   FileFieldComponent,
   InputFieldComponent,
   LocalidadFieldComponent,
+  MarcaCamionFieldComponent,
+  MarcaSemiFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
+  PropietarioFieldComponent,
+  SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
+  TipoCamionFieldComponent,
+  TipoCargaFieldComponent,
   TipoDocumentoFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
+  TipoSemiFieldComponent,
 ];
 
 @NgModule({
@@ -40,6 +63,7 @@ const modules = [
   exports: modules.slice(),
   imports: [
     CommonModule,
+    DirectivesModule,
     FormsModule,
     MaterialModule,
     PipesModule,

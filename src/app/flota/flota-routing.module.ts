@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
+import { CamionFormComponent } from './camion-form/camion-form.component';
+import { CamionListComponent } from './camion-list/camion-list.component';
 import { ChoferFormComponent } from './chofer-form/chofer-form.component';
 import { ChoferListComponent } from './chofer-list/chofer-list.component';
 import { PropietarioFormComponent } from './propietario-form/propietario-form.component';
@@ -54,6 +56,31 @@ const routes: Routes = [
       {
         path: `${a.VER}/:id`,
         component: ChoferFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
+  },
+  {
+    path: m.CAMION,
+    children: [
+      {
+        path: a.LISTAR,
+        component: CamionListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: CamionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: CamionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: CamionFormComponent,
         canActivate: [PermisoGuard],
       },
     ],

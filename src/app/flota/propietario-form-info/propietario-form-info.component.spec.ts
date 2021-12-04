@@ -4,6 +4,7 @@ import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockTipoPersonaList } from 'src/app/interfaces/tipo-persona';
@@ -31,6 +32,7 @@ describe('PropietarioFormInfoComponent', () => {
       imports: [
         HttpClientTestingModule,
         BrowserAnimationsModule,
+        DirectivesModule,
         FormFieldModule,
         MaterialModule,
         PipesModule,

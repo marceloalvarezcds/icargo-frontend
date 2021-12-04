@@ -1,0 +1,22 @@
+<div *ngIf="form" [formGroup]="form">
+  <div [formGroupName]="groupName">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-input-field
+          title="Tara"
+          [groupName]="groupName"
+          controlName="tara"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-input-field
+          title="Bruto"
+          [groupName]="groupName"
+          controlName="bruto"
+          [form]="form"
+        ></app-input-field>
+      </div>
+    </div>
+  </div>
+</div>

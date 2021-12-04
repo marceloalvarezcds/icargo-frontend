@@ -1,17 +1,20 @@
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { mockCamionList } from 'src/app/interfaces/camion';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CamionService } from 'src/app/services/camion.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { environment } from 'src/environments/environment';
 
 import { PropietarioCamionListComponent } from './propietario-camion-list.component';
 
 describe('PropietarioCamionListComponent', () => {
   let component: PropietarioCamionListComponent;
   let fixture: ComponentFixture<PropietarioCamionListComponent>;
+  let httpController: HttpTestingController;
+  const propietarioId = 1;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -29,6 +32,7 @@ describe('PropietarioCamionListComponent', () => {
   });
 
   beforeEach(() => {
+    httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(PropietarioCamionListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
@@ -40,8 +44,10 @@ describe('PropietarioCamionListComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should create with propietarioId', () => {
+  it('should create with propietarioId', fakeAsync(() => {
     component.propietarioId = 1;
+    httpController.expectOne(`${environment.api}/camion/propietario/${propietarioId}/`).flush(mockCamionList);
+    flush();
     expect(component.list).toBe(mockCamionList);
-  });
+  }));
 });

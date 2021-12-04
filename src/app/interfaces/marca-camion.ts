@@ -1,5 +1,5 @@
-import { EstadoEnum } from '../enums/estado-enum';
-import { MarcaCamionEnum } from '../enums/marca-camion-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { MarcaCamionEnum } from 'src/app/enums/marca-camion-enum';
 
 export interface MarcaCamion {
   id: number;

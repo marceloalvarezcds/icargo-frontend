@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Propietario, PropietarioList } from '../interfaces/propietario';
+import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class PropietarioService {
 
   getList(): Observable<PropietarioList[]> {
     return this.http.get<PropietarioList[]>(`${this.url}/`);
+  }
+
+  getListByGestorCuenta(): Observable<PropietarioList[]> {
+    return this.http.get<PropietarioList[]>(`${this.url}/gestor_cuenta/`);
   }
 
   getById(id: number): Observable<Propietario> {

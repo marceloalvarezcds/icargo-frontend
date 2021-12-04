@@ -1,0 +1,77 @@
+<ng-container *ngIf="form">
+  <div [formGroup]="form">
+    <div [formGroupName]="groupName">
+      <div class="row page-form-row">
+        <h3 class="col-xs-12">Municipal</h3>
+        <div class="col-xs-12">
+          <app-pais-field
+            [groupName]="groupName"
+            controlName="pais_habilitacion_municipal_id"
+            [form]="form"
+            (valueChange)="paisId = $event"
+          ></app-pais-field>
+        </div>
+        <div class="col-xs-12">
+          <app-localidad-field
+            [groupName]="groupName"
+            controlName="localidad_habilitacion_municipal_id"
+            [paisId]="paisId"
+            [form]="form"
+            (valueChange)="localidadId = $event"
+          ></app-localidad-field>
+        </div>
+        <div class="col-xs-12">
+          <app-ciudad-field
+            [groupName]="groupName"
+            controlName="ciudad_habilitacion_municipal_id"
+            [localidadId]="localidadId"
+            [form]="form"
+          ></app-ciudad-field>
+        </div>
+      </div>
+
+      <div class="row page-form-row">
+        <div class="col-xs-12">
+          <app-input-field
+            title="Número de Habilitación"
+            [groupName]="groupName"
+            controlName="numero_habilitacion_municipal"
+            [form]="form"
+          ></app-input-field>
+        </div>
+        <div class="col-xs-12">
+          <app-fecha-field
+            title="Fecha de vencimiento"
+            [groupName]="groupName"
+            controlName="vencimiento_habilitacion_municipal"
+            [form]="form"
+          ></app-fecha-field>
+        </div>
+      </div>
+
+      <app-file-field
+        title="Foto de la habilitación - frontal"
+        className="col-xs-12"
+        [groupName]="groupName"
+        controlName="foto_habilitacion_municipal_frente"
+        [field]="fotoFrente"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoFrenteChange.emit($event)"
+      ></app-file-field>
+
+      <app-file-field
+        title="Foto de la habilitación - reverso"
+        className="col-xs-12"
+        [groupName]="groupName"
+        controlName="foto_habilitacion_municipal_reverso"
+        [field]="fotoReverso"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoReversoChange.emit($event)"
+      ></app-file-field>
+    </div>
+  </div>
+</ng-container>
