@@ -42,6 +42,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   fotoAutomotorFrenteFile: File | null = null;
   fotoAutomotorReverso: string | null = null;
   fotoAutomotorReversoFile: File | null = null;
+  created_by = '';
+  created_at = '';
+  modified_by = '';
+  modified_at = '';
 
   form = this.fb.group({
     info: this.fb.group({
@@ -264,6 +268,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.fotoTransporteReverso = data.foto_habilitacion_transporte_reverso;
         this.fotoAutomotorFrente = data.foto_habilitacion_automotor_frente;
         this.fotoAutomotorReverso = data.foto_habilitacion_automotor_reverso;
+        this.created_by = data.created_by;
+        this.created_at = data.created_at;
+        this.modified_by = data.modified_by;
+        this.modified_at = data.modified_at;
         if (this.puedeModificarSoloAliasYcontactos) {
           this.info.disable();
           this.habilitacionMunicipal.disable();

@@ -94,5 +94,19 @@
         [isShow]="isShow"
       ></app-camion-form-capacidad>
     </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="isEdit || isShow">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Auditoría
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-audit
+        [created_by]="created_by"
+        [created_at]="created_at"
+        [modified_by]="modified_by"
+        [modified_at]="modified_at"
+      ></app-page-form-audit>
+    </mat-expansion-panel>
   </mat-accordion>
 </app-page-form>

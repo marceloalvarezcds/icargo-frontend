@@ -43,6 +43,10 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   fotoRegistroFrenteFile: File | null = null;
   fotoRegistroReverso: string | null = null;
   fotoRegistroReversoFile: File | null = null;
+  created_by = '';
+  created_at = '';
+  modified_by = '';
+  modified_at = '';
 
   form = this.fb.group({
     info: this.fb.group({
@@ -271,6 +275,10 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         this.fotoDocumentoReversoPropietario = data.foto_documento_reverso_propietario ?? null;
         this.fotoRegistroFrente = data.foto_registro_frente ?? null;
         this.fotoRegistroReverso = data.foto_registro_reverso ?? null;
+        this.created_by = data.created_by;
+        this.created_at = data.created_at;
+        this.modified_by = data.modified_by;
+        this.modified_at = data.modified_at;
         if (this.puedeModificarSoloAliasYcontactos) {
           this.info.disable();
           this.address.disable();

@@ -3,7 +3,9 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { RouterModule } from '@angular/router';
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from 'src/app/material/material.module';
+import { FormFieldModule } from 'src/app/form-field/form-field.module';
+import { PipesModule } from 'src/app/pipes/pipes.module';
 import { HttpErrorSnackBarComponent } from './http-error-snack-bar/http-error-snack-bar.component';
 import { HeaderComponent } from './header/header.component';
 import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
@@ -16,8 +18,8 @@ import { TablePaginatorComponent } from './table-paginator/table-paginator.compo
 import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 import { PageFormContactosComponent } from './page-form-contactos/page-form-contactos.component';
 import { PageFormEntitiesInfoComponent } from './page-form-entities-info/page-form-entities-info.component';
-import { PipesModule } from '../pipes/pipes.module';
 import { PageFormAddressComponent } from './page-form-address/page-form-address.component';
+import { PageFormAuditComponent } from './page-form-audit/page-form-audit.component';
 
 const modules = [
   HeaderComponent,
@@ -26,6 +28,7 @@ const modules = [
   HttpErrorSnackBarComponent,
   PageComponent,
   PageFormAddressComponent,
+  PageFormAuditComponent,
   PageFormComponent,
   PageFormGeoComponent,
   SearchableCheckboxFilterComponent,
@@ -41,6 +44,7 @@ const modules = [
   imports: [
     CommonModule,
     GoogleMapsModule,
+    FormFieldModule,
     FormsModule,
     MaterialModule,
     PipesModule,

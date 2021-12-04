@@ -52,6 +52,10 @@ export interface Chofer {
   ciudad: Ciudad;
   alias?: string;
   gestor_carga_chofer?: GestorCargaChofer;
+  created_by: string;
+  created_at: string;
+  modified_by: string;
+  modified_at: string;
 }
 
 export interface ChoferList extends Chofer {
@@ -143,6 +147,10 @@ export const mockChoferList: ChoferList[] = [
         }
       }
     },
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
     gestor_carga_chofer: gestorCargaChofer0,
     pais_emisor_documento_nombre: pais0.nombre,
     ciudad_nombre: 'Los Cedrales',
@@ -204,6 +212,10 @@ export const mockChoferList: ChoferList[] = [
         }
       }
     },
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
     pais_emisor_documento_nombre: pais1.nombre,
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
@@ -264,6 +276,10 @@ export const mockChoferList: ChoferList[] = [
         }
       }
     },
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
     gestor_carga_chofer: undefined,
     pais_emisor_documento_nombre: pais2.nombre,
     ciudad_nombre: 'Paso de Indios',
