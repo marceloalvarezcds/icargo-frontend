@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -68,12 +68,12 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       foto_documento_reverso_propietario: null,
     }),
     registro: this.fb.group({
-      pais_emisor_registro_id: null,
-      localidad_emisor_registro_id: null,
-      ciudad_emisor_registro_id: null,
-      tipo_registro_id: null,
-      numero_registro: null,
-      vencimiento_registro: null,
+      pais_emisor_registro_id: [null, Validators.required],
+      localidad_emisor_registro_id: [null, Validators.required],
+      ciudad_emisor_registro_id: [null, Validators.required],
+      tipo_registro_id: [null, Validators.required],
+      numero_registro: [null, Validators.required],
+      vencimiento_registro: [null, Validators.required],
       foto_registro_frente: null,
       foto_registro_reverso: null,
     }),
@@ -91,6 +91,15 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
+  });
+
+  esPropietarioSubscription = this.esPropietarioControl.valueChanges.subscribe((esPropietario) => {
+    if (esPropietario) {
+      this.propietario.get('pais_origen_id')!.setValidators(Validators.required);
+    } else {
+      this.propietario.get('pais_origen_id')!.clearAsyncValidators();
+    }
+    this.propietario.get('pais_origen_id')!.updateValueAndValidity();
   });
 
   get puedeModificarSoloAliasYcontactos(): boolean {
@@ -114,8 +123,12 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     return this.form.get('address') as FormGroup;
   }
 
+  get esPropietarioControl(): FormControl {
+    return this.info.get('es_propietario') as FormControl;
+  }
+
   get esPropietario(): boolean {
-    return !!this.info.controls['es_propietario'].value;
+    return !!this.esPropietarioControl.value;
   }
 
   constructor(
@@ -133,6 +146,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
+    this.esPropietarioSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {

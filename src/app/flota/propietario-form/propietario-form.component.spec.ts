@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, fakeAsync, flush, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -173,6 +173,7 @@ describe('PropietarioFormComponent', () => {
     const req = httpController.expectOne(`${environment.api}/propietario/`)
     expect(req.request.method).toBe('POST');
     req.flush(propietario);
+    tick();
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -275,8 +276,8 @@ describe('PropietarioFormComponent', () => {
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
     httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
     httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
-    flush();
     tick();
+    flush();
     expect(getByIdSpy).toHaveBeenCalled();
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);

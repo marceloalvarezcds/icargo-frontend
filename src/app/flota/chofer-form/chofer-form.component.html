@@ -28,9 +28,9 @@
         [fotoDocumentoFrente]="fotoDocumentoFrente"
         [fotoDocumentoReverso]="fotoDocumentoReverso"
         [fotoPerfil]="fotoPerfil"
-        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteFile = $event"
-        (fotoDocumentoReversoChange)="fotoDocumentoReversoFile = $event"
-        (fotoPerfilChange)="fotoPerfilFile = $event"
+        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null"
+        (fotoDocumentoReversoChange)="fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null"
+        (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
       ></app-chofer-form-info>
     </mat-expansion-panel>
 
@@ -46,8 +46,8 @@
         [isShow]="isShow"
         [fotoDocumentoFrente]="fotoDocumentoFrentePropietario"
         [fotoDocumentoReverso]="fotoDocumentoReversoPropietario"
-        (fotoDocumentoFrenteChange)="fotoDocumentoFrentePropietarioFile = $event"
-        (fotoDocumentoReversoChange)="fotoDocumentoReversoPropietarioFile = $event"
+        (fotoDocumentoFrenteChange)="fotoDocumentoFrentePropietarioFile = $event; fotoDocumentoFrentePropietario = null"
+        (fotoDocumentoReversoChange)="fotoDocumentoReversoPropietarioFile = $event; fotoDocumentoReversoPropietario = null"
       ></app-chofer-form-propietario>
     </mat-expansion-panel>
 
@@ -62,8 +62,8 @@
         [isShow]="isShow"
         [fotoRegistroFrente]="fotoRegistroFrente"
         [fotoRegistroReverso]="fotoRegistroReverso"
-        (fotoRegistroFrenteChange)="fotoRegistroFrenteFile = $event"
-        (fotoRegistroReversoChange)="fotoRegistroReversoFile = $event"
+        (fotoRegistroFrenteChange)="fotoRegistroFrenteFile = $event; fotoRegistroFrente = null"
+        (fotoRegistroReversoChange)="fotoRegistroReversoFile = $event; fotoRegistroReverso = null"
       ></app-registro-conduccion-form>
     </mat-expansion-panel>
 
