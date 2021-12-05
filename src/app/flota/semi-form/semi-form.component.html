@@ -1,0 +1,112 @@
+<app-page-form
+  class="semi-page"
+  module="Flota"
+  submodule="Semi-remolques"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+>
+  <mat-accordion multi>
+    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Información principal
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-semi-form-info
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        [foto]="foto"
+        (fotoChange)="fotoFile = $event"
+      ></app-semi-form-info>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel [expanded]="isHabilitacionTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Habilitaciones
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <div class="row page-form-row">
+        <div class="col-xs-12 col-md-4" formGroupName="municipal" >
+          <app-habilitacion-form-municipal
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            [fotoFrente]="fotoMunicipalFrente"
+            [fotoReverso]="fotoMunicipalReverso"
+            (fotoFrenteChange)="fotoMunicipalFrenteFile = $event; fotoMunicipalFrente = null"
+            (fotoReversoChange)="fotoMunicipalReversoFile = $event; fotoMunicipalReverso = null"
+          ></app-habilitacion-form-municipal>
+        </div>
+        <div class="col-xs-12 col-md-4" formGroupName="transporte" >
+          <app-habilitacion-form-transporte
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            [fotoFrente]="fotoTransporteFrente"
+            [fotoReverso]="fotoTransporteReverso"
+            (fotoFrenteChange)="fotoTransporteFrenteFile = $event; fotoTransporteFrente = null"
+            (fotoReversoChange)="fotoTransporteReversoFile = $event; fotoTransporteReverso = null"
+          ></app-habilitacion-form-transporte>
+        </div>
+        <div class="col-xs-12 col-md-4" formGroupName="automotor" >
+          <app-habilitacion-form-automotor
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            [fotoFrente]="fotoAutomotorFrente"
+            [fotoReverso]="fotoAutomotorReverso"
+            (fotoFrenteChange)="fotoAutomotorFrenteFile = $event; fotoAutomotorFrente = null"
+            (fotoReversoChange)="fotoAutomotorReversoFile = $event; fotoAutomotorReverso = null"
+          ></app-habilitacion-form-automotor>
+        </div>
+      </div>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel formGroupName="detalle" [expanded]="isDetalleTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Detalle
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-semi-form-detalle
+        [form]="form"
+        [isShow]="isShow"
+      ></app-semi-form-detalle>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel formGroupName="capacidad" [expanded]="isDetalleTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Capacidad
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-semi-form-capacidad
+        [form]="form"
+        [isShow]="isShow"
+      ></app-semi-form-capacidad>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="isEdit || isShow">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Auditoría
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-page-form-audit
+        [created_by]="created_by"
+        [created_at]="created_at"
+        [modified_by]="modified_by"
+        [modified_at]="modified_at"
+      ></app-page-form-audit>
+    </mat-expansion-panel>
+  </mat-accordion>
+</app-page-form>

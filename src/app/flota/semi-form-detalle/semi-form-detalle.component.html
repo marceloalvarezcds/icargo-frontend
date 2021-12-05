@@ -1,0 +1,49 @@
+<div *ngIf="form" [formGroup]="form">
+  <div [formGroupName]="groupName">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-marca-camion-field
+          [groupName]="groupName"
+          controlName="marca_id"
+          [form]="form"
+        ></app-marca-camion-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-semi-clasificacion-field
+          [groupName]="groupName"
+          controlName="clasificacion_id"
+          [form]="form"
+        ></app-semi-clasificacion-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-tipo-camion-field
+          [groupName]="groupName"
+          controlName="tipo_id"
+          [form]="form"
+        ></app-tipo-camion-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-tipo-carga-field
+          [groupName]="groupName"
+          controlName="tipo_carga_id"
+          [form]="form"
+        ></app-tipo-carga-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-color-field
+          [groupName]="groupName"
+          controlName="color_id"
+          [form]="form"
+        ></app-color-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Año"
+          [groupName]="groupName"
+          controlName="anho"
+          [form]="form"
+        ></app-input-field>
+      </div>
+    </div>
+  </div>
+</div>

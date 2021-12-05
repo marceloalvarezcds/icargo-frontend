@@ -6,45 +6,50 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
-import { CamionList } from 'src/app/interfaces/camion';
+import { SemiList } from 'src/app/interfaces/semi';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
-import { CamionService } from 'src/app/services/camion.service';
+import { SemiService } from 'src/app/services/semi.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
+  clasificacion?: string;
   marca?: string;
   pais?: string;
   propietario?: string;
   tipo?: string;
+  tipo_carga?: string;
 }
 
 @Component({
-  selector: 'app-camion-list',
-  templateUrl: './camion-list.component.html',
-  styleUrls: ['./camion-list.component.scss']
+  selector: 'app-semi-list',
+  templateUrl: './semi-list.component.html',
+  styleUrls: ['./semi-list.component.scss']
 })
-export class CamionListComponent implements OnInit {
+export class SemiListComponent implements OnInit {
 
-  modelo = m.CAMION;
+  modelo = m.SEMIRREMOLQUE;
   columns: Column[] = [
-    { def: 'placa', title: 'Placa', value: (element: CamionList) => element.placa, sticky: true },
-    { def: 'pais_emisor_placa', title: 'País Emisor de la Placa', value: (element: CamionList) => element.pais_emisor_placa_nombre },
-    { def: 'propietario', title: 'Propietario', value: (element: CamionList) => `${element.propietario_nombre} - ${element.propietario_ruc}` },
-    { def: 'chofer', title: 'Chofer', value: (element: CamionList) => `${element.chofer_nombre} - ${element.chofer_numero_documento}` },
-    { def: 'tipo', title: 'Tipo de Camion', value: (element: CamionList) => element.tipo_descripcion },
-    { def: 'marca', title: 'Marca', value: (element: CamionList) => element.marca_descripcion },
-    { def: 'gestor_cuenta_nombre', title: 'Gestor de Cuenta', value: (element: CamionList) => element.gestor_cuenta_nombre },
-    { def: 'oficial_cuenta_nombre', title: 'Oficial de Cuenta', value: (element: CamionList) => element.oficial_cuenta_nombre },
-    { def: 'estado', title: 'Estado', value: (element: CamionList) => element.estado },
+    { def: 'placa', title: 'Placa', value: (element: SemiList) => element.placa, sticky: true },
+    { def: 'pais_emisor_placa', title: 'País Emisor de la Placa', value: (element: SemiList) => element.pais_emisor_placa_nombre },
+    { def: 'propietario', title: 'Propietario', value: (element: SemiList) => `${element.propietario_nombre} - ${element.propietario_ruc}` },
+    { def: 'clasificacion', title: 'Clasificación', value: (element: SemiList) => element.clasificacion_descripcion },
+    { def: 'tipo', title: 'Tipo de Semi', value: (element: SemiList) => element.tipo_descripcion },
+    { def: 'tipo_carga', title: 'Tipo de Carga', value: (element: SemiList) => element.tipo_carga_descripcion },
+    { def: 'marca', title: 'Marca', value: (element: SemiList) => element.marca_descripcion },
+    { def: 'gestor_cuenta_nombre', title: 'Gestor de Cuenta', value: (element: SemiList) => element.gestor_cuenta_nombre },
+    { def: 'oficial_cuenta_nombre', title: 'Oficial de Cuenta', value: (element: SemiList) => element.oficial_cuenta_nombre },
+    { def: 'estado', title: 'Estado', value: (element: SemiList) => element.estado },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: CamionList[] = [];
+  list: SemiList[] = [];
+  clasificacionFilterList: string[] = [];
+  clasificacionFiltered: string[] = [];
   marcaFilterList: string[] = [];
   marcaFiltered: string[] = [];
   paisFilterList: string[] = [];
@@ -53,6 +58,12 @@ export class CamionListComponent implements OnInit {
   propietarioFiltered: string[] = [];
   tipoFilterList: string[] = [];
   tipoFiltered: string[] = [];
+  tipoCargaFilterList: string[] = [];
+  tipoCargaFiltered: string[] = [];
+
+  get isFilteredByClasificacion(): boolean {
+    return this.clasificacionFiltered.length !== this.clasificacionFilterList.length
+  }
 
   get isFilteredByMarca(): boolean {
     return this.marcaFiltered.length !== this.marcaFilterList.length
@@ -70,14 +81,20 @@ export class CamionListComponent implements OnInit {
     return this.tipoFiltered.length !== this.tipoFilterList.length
   }
 
+  get isFilteredByTipoCarga(): boolean {
+    return this.tipoCargaFiltered.length !== this.tipoCargaFilterList.length
+  }
+
   @ViewChild(MatAccordion) accordion!: MatAccordion;
+  @ViewChild('clasificacionCheckboxFilter') clasificacionCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('marcaCheckboxFilter') marcaCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('propietarioCheckboxFilter') propietarioCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('tipoCheckboxFilter') tipoCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('tipoCargaCheckboxFilter') tipoCargaCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
-    private camionService: CamionService,
+    private semiService: SemiService,
     private reportsService: ReportsService,
     private searchService: SearchService,
     private snackbar: MatSnackBar,
@@ -90,29 +107,29 @@ export class CamionListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/flota/${m.CAMION}/${a.CREAR}`]);
+    this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`]);
   }
 
-  redirectToEdit(event: TableEvent<CamionList>): void {
-    this.router.navigate([`/flota/${m.CAMION}/${a.EDITAR}`, event.row.id]);
+  redirectToEdit(event: TableEvent<SemiList>): void {
+    this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`, event.row.id]);
   }
 
-  redirectToShow(event: TableEvent<CamionList>): void {
-    this.router.navigate([`/flota/${m.CAMION}/${a.VER}`, event.row.id]);
+  redirectToShow(event: TableEvent<SemiList>): void {
+    this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<CamionList>): void {
+  deleteRow(event: TableEvent<SemiList>): void {
     const row = event.row;
     this.dialog
       .open(ConfirmationDialogComponent, {
         data: {
-          message: `¿Está seguro que desea eliminar el Camión con placa ${row.placa}`,
+          message: `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}`,
         },
       })
       .afterClosed()
       .pipe(filter((confirmed: boolean) => confirmed))
       .subscribe(() => {
-        this.camionService.delete(row.id).subscribe(() => {
+        this.semiService.delete(row.id).subscribe(() => {
           this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
@@ -123,29 +140,37 @@ export class CamionListComponent implements OnInit {
   }
 
   downloadFile(): void {
-    this.camionService.generateReports().subscribe(filename => {
+    this.semiService.generateReports().subscribe(filename => {
       this.reportsService.downloadFile(filename).subscribe(file => {
         saveAs(file, filename);
       });
     });
   }
 
-  filterPredicate(obj: CamionList, filterJson: string): boolean {
+  filterPredicate(obj: SemiList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
+    const filterByClasificacion = filter.clasificacion?.split('|').some(x => obj.clasificacion_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByMarca = filter.marca?.split('|').some(x => obj.marca_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByPais = filter.pais?.split('|').some(x => obj.pais_emisor_placa_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByPropietario = filter.propietario?.split('|').some(x => obj.propietario_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
     const filterByTipo = filter.tipo?.split('|').some(x => obj.tipo_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
-    return filterByMarca && filterByPais && filterByPropietario && filterByTipo;
+    const filterByTipoCarga = filter.tipo_carga?.split('|').some(x => obj.tipo_carga_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+    return filterByClasificacion && filterByMarca && filterByPais && filterByPropietario && filterByTipo && filterByTipoCarga;
   }
 
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
+    this.clasificacionFiltered = this.clasificacionCheckboxFilter.getFilteredList();
     this.marcaFiltered = this.marcaCheckboxFilter.getFilteredList();
     this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
     this.propietarioFiltered = this.propietarioCheckboxFilter.getFilteredList();
     this.tipoFiltered = this.tipoCheckboxFilter.getFilteredList();
+    this.tipoCargaFiltered = this.tipoCargaCheckboxFilter.getFilteredList();
+    if (this.isFilteredByClasificacion) {
+      filter.clasificacion = this.clasificacionFiltered.join('|');
+      this.isFiltered = true;
+    }
     if (this.isFilteredByMarca) {
       filter.marca = this.marcaFiltered.join('|');
       this.isFiltered = true;
@@ -162,6 +187,10 @@ export class CamionListComponent implements OnInit {
       filter.tipo = this.tipoFiltered.join('|');
       this.isFiltered = true;
     }
+    if (this.isFilteredByTipoCarga) {
+      filter.tipo_carga = this.tipoCargaFiltered.join('|');
+      this.isFiltered = true;
+    }
     this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
   }
 
@@ -171,12 +200,14 @@ export class CamionListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.camionService.getList().subscribe(list => {
+    this.semiService.getList().subscribe(list => {
       this.list = list;
+      this.clasificacionFilterList = getFilterList(list, (x) => x.clasificacion_descripcion);
       this.marcaFilterList = getFilterList(list, (x) => x.marca_descripcion);
       this.paisFilterList = getFilterList(list, (x) => x.pais_emisor_placa_nombre);
       this.propietarioFilterList = getFilterList(list, (x) => x.propietario_nombre);
       this.tipoFilterList = getFilterList(list, (x) => x.tipo_descripcion);
+      this.tipoCargaFilterList = getFilterList(list, (x) => x.tipo_carga_descripcion);
       this.resetFilterList();
     });
   }
@@ -188,9 +219,11 @@ export class CamionListComponent implements OnInit {
 
   private resetFilterList(): void {
     this.isFiltered = false;
+    this.clasificacionFiltered = this.clasificacionFilterList.slice();
     this.marcaFiltered = this.marcaFilterList.slice();
     this.paisFiltered = this.paisFilterList.slice();
     this.propietarioFiltered = this.propietarioFilterList.slice();
     this.tipoFiltered = this.tipoFilterList.slice();
+    this.tipoCargaFiltered = this.tipoCargaFilterList.slice();
   }
 }

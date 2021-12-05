@@ -28,6 +28,11 @@ import { CamionFormCapacidadComponent } from './camion-form-capacidad/camion-for
 import { HabilitacionFormMunicipalComponent } from './habilitacion-form-municipal/habilitacion-form-municipal.component';
 import { HabilitacionFormTransporteComponent } from './habilitacion-form-transporte/habilitacion-form-transporte.component';
 import { HabilitacionFormAutomotorComponent } from './habilitacion-form-automotor/habilitacion-form-automotor.component';
+import { SemiListComponent } from './semi-list/semi-list.component';
+import { SemiFormComponent } from './semi-form/semi-form.component';
+import { SemiFormInfoComponent } from './semi-form-info/semi-form-info.component';
+import { SemiFormDetalleComponent } from './semi-form-detalle/semi-form-detalle.component';
+import { SemiFormCapacidadComponent } from './semi-form-capacidad/semi-form-capacidad.component';
 
 
 @NgModule({
@@ -51,6 +56,11 @@ import { HabilitacionFormAutomotorComponent } from './habilitacion-form-automoto
     HabilitacionFormMunicipalComponent,
     HabilitacionFormTransporteComponent,
     HabilitacionFormAutomotorComponent,
+    SemiListComponent,
+    SemiFormComponent,
+    SemiFormInfoComponent,
+    SemiFormDetalleComponent,
+    SemiFormCapacidadComponent,
   ],
   imports: [
     CommonModule,
