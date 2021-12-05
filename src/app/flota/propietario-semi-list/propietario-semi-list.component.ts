@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Column } from 'src/app/interfaces/column';
-import { SemirremolqueList } from 'src/app/interfaces/semirremolque';
-import { SemirremolqueService } from 'src/app/services/semirremolque.service';
+import { SemiList } from 'src/app/interfaces/semi';
+import { SemiService } from 'src/app/services/semi.service';
 
 @Component({
   selector: 'app-propietario-semi-list',
@@ -11,25 +11,25 @@ import { SemirremolqueService } from 'src/app/services/semirremolque.service';
 export class PropietarioSemiListComponent {
 
   columns: Column[] = [
-    { def: 'placa', title: 'Placa', value: (element: SemirremolqueList) => element.placa, sticky: true },
-    { def: 'estado', title: 'Estado', value: (element: SemirremolqueList) => element.estado },
-    { def: 'pais_emisor', title: 'País Emisor', value: (element: SemirremolqueList) => element.pais_emisor_nombre },
-    { def: 'tipo_camion', title: 'Tipo de Camión', value: (element: SemirremolqueList) => element.tipo_camion_descripcion },
-    { def: 'clasificacion_descripcion', title: 'Clasificación', value: (element: SemirremolqueList) => element.clasificacion_descripcion },
-    { def: 'tipo_semi_descripcion', title: 'Tipo de Semi', value: (element: SemirremolqueList) => element.tipo_semi_descripcion },
-    { def: 'marca', title: 'Marca', value: (element: SemirremolqueList) => element.marca_descripcion },
+    { def: 'placa', title: 'Placa', value: (element: SemiList) => element.placa, sticky: true },
+    { def: 'estado', title: 'Estado', value: (element: SemiList) => element.estado },
+    { def: 'pais_emisor', title: 'País Emisor', value: (element: SemiList) => element.pais_emisor_placa_nombre },
+    { def: 'tipo', title: 'Tipo de Semi', value: (element: SemiList) => element.tipo_descripcion },
+    { def: 'clasificacion_descripcion', title: 'Clasificación', value: (element: SemiList) => element.clasificacion_descripcion },
+    { def: 'tipo_carga_descripcion', title: 'Tipo de Carga', value: (element: SemiList) => element.tipo_carga_descripcion },
+    { def: 'marca', title: 'Marca', value: (element: SemiList) => element.marca_descripcion },
   ];
 
-  list: SemirremolqueList[] = [];
+  list: SemiList[] = [];
 
   @Input() isShow = false;
   @Input() set propietarioId(id: number | undefined) {
     if (id) {
-      this.semirremolqueService.getListByPropietarioId(id).subscribe(list => {
+      this.semiService.getListByPropietarioId(id).subscribe(list => {
         this.list = list;
       });
     }
   }
 
-  constructor(private semirremolqueService: SemirremolqueService) { }
+  constructor(private semiService: SemiService) { }
 }
