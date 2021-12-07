@@ -1,0 +1,117 @@
+<app-page
+  class="semi-page"
+  module="Flota"
+  submodule="Camiones"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Propietario</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #propietarioCheckboxFilter
+            [value]="propietarioFiltered"
+            [list]="propietarioFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Clasificación</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #clasificacionCheckboxFilter
+            [value]="clasificacionFiltered"
+            [list]="clasificacionFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Tipo</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #tipoCheckboxFilter
+            [value]="tipoFiltered"
+            [list]="tipoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Tipo de Carga</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #tipoCargaCheckboxFilter
+            [value]="tipoCargaFiltered"
+            [list]="tipoCargaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>País</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #paisCheckboxFilter
+            [value]="paisFiltered"
+            [list]="paisFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Marca</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #marcaCheckboxFilter
+            [value]="marcaFiltered"
+            [list]="marcaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByPropietario">
+      <mat-chip *ngFor="let item of propietarioFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByClasificacion">
+      <mat-chip *ngFor="let item of clasificacionFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByTipo">
+      <mat-chip *ngFor="let item of tipoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByTipoCarga">
+      <mat-chip *ngFor="let item of tipoCargaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByMarca">
+      <mat-chip *ngFor="let item of marcaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByPais">
+      <mat-chip *ngFor="let item of paisFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    (deleteClick)="deleteRow($event)"
+  ></app-table-paginator>
+</app-page>

@@ -1,11 +1,17 @@
 <div *ngIf="form" [formGroup]="form">
   <mat-form-field [formGroupName]="groupName">
     <mat-label>{{ title }}</mat-label>
-    <mat-select [formControlName]="controlName">
-      <ng-container *ngFor="let o of list$ | async">
-        <mat-option [value]="o.id">{{o.nombre}} - {{o.ruc}}</mat-option>
-      </ng-container>
-    </mat-select>
+    <ng-container *ngIf="!propietario">
+      <mat-select [formControlName]="controlName">
+        <ng-container *ngFor="let o of list">
+          <mat-option [value]="o.id">{{o.nombre}} - {{o.ruc}}</mat-option>
+        </ng-container>
+      </mat-select>
+    </ng-container>
+    <ng-container *ngIf="propietario">
+      <input matInput [formControlName]="controlName" hidden/>
+      <input matInput [value]="propietario.nombre" readonly/>
+    </ng-container>
     <mat-error *ngIf="control.hasError('required')">
       El propietario es <strong>requerido</strong>
     </mat-error>

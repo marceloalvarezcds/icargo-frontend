@@ -1,7 +1,7 @@
 <app-page-form
-  class="camion-page"
+  class="semi-page"
   module="Flota"
-  submodule="Camiones"
+  submodule="Semi-remolques"
   viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -19,14 +19,14 @@
           Información principal
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-camion-form-info
+      <app-semi-form-info
         [form]="form"
         [isEdit]="isEdit"
         [isShow]="isShow"
-        [propietarioId]="propietarioId"
         [foto]="foto"
+        [propietarioId]="propietarioId"
         (fotoChange)="fotoFile = $event"
-      ></app-camion-form-info>
+      ></app-semi-form-info>
     </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="isHabilitacionTouched">
@@ -78,10 +78,10 @@
           Detalle
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-camion-form-detalle
+      <app-semi-form-detalle
         [form]="form"
         [isShow]="isShow"
-      ></app-camion-form-detalle>
+      ></app-semi-form-detalle>
     </mat-expansion-panel>
 
     <mat-expansion-panel formGroupName="capacidad" [expanded]="isDetalleTouched">
@@ -90,10 +90,10 @@
           Capacidad
         </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-camion-form-capacidad
+      <app-semi-form-capacidad
         [form]="form"
         [isShow]="isShow"
-      ></app-camion-form-capacidad>
+      ></app-semi-form-capacidad>
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="isEdit || isShow">

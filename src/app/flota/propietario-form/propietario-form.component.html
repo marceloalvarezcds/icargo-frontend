@@ -102,14 +102,18 @@
       </mat-expansion-panel-header>
       <div *ngIf="camionModelo | puede: a.LISTAR">
         <app-propietario-camion-list
+          [backUrl]="propietarioBackUrl"
           [propietarioId]="id"
           [isShow]="isShow"
+          [gestorCuentaId]="gestorCuentaId"
         ></app-propietario-camion-list>
       </div>
       <div *ngIf="semirremolqueModelo | puede: a.LISTAR">
         <app-propietario-semi-list
+          [backUrl]="propietarioBackUrl"
           [propietarioId]="id"
           [isShow]="isShow"
+          [gestorCuentaId]="gestorCuentaId"
         ></app-propietario-semi-list>
       </div>
     </mat-expansion-panel>

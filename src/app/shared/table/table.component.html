@@ -43,7 +43,7 @@
             <mat-icon color="primary">edit</mat-icon>
             <span>Editar</span>
           </button>
-          <button type="button" mat-menu-item (click)="deleteClick.emit({ row, index })" *ngIf="modelo | puede : a.ELIMINAR" >
+          <button type="button" mat-menu-item (click)="deleteClick.emit({ row, index })" *ngIf="modelo | puede : a.ELIMINAR : row.gestor_cuenta_id" >
             <mat-icon color="primary">delete</mat-icon>
             <span>Eliminar</span>
           </button>

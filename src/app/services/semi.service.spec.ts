@@ -1,17 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { SemirremolqueService } from './semirremolque.service';
+import { SemiService } from './semi.service';
 
-describe('SemirremolqueService', () => {
-  let service: SemirremolqueService;
+describe('SemiService', () => {
+  let service: SemiService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [SemirremolqueService],
+      providers: [SemiService],
     });
-    service = TestBed.inject(SemirremolqueService);
+    service = TestBed.inject(SemiService);
   });
 
   it('should be created', () => {

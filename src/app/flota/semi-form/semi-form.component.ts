@@ -4,17 +4,17 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
-import { CamionService } from 'src/app/services/camion.service';
+import { SemiService } from 'src/app/services/semi.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
 @Component({
-  selector: 'app-camion-form',
-  templateUrl: './camion-form.component.html',
-  styleUrls: ['./camion-form.component.scss']
+  selector: 'app-semi-form',
+  templateUrl: './semi-form.component.html',
+  styleUrls: ['./semi-form.component.scss']
 })
-export class CamionFormComponent implements OnInit, OnDestroy {
+export class SemiFormComponent implements OnInit, OnDestroy {
 
   a = PermisoAccionEnum;
   id?: number;
@@ -26,8 +26,8 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   isHabilitacionTouched = false;
   isDetalleTouched = false;
   isCapacidadTouched = false;
-  backUrl = `/flota/${m.CAMION}/${a.LISTAR}`;
-  modelo = m.CAMION;
+  backUrl = `/flota/${m.SEMIRREMOLQUE}/${a.LISTAR}`;
+  modelo = m.SEMIRREMOLQUE;
   gestorCuentaId?: number;
   foto: string | null = null;
   fotoFile: File | null = null;
@@ -52,7 +52,6 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       placa: [null, Validators.required],
       propietario_id: [null, Validators.required],
-      chofer_id: [null, Validators.required],
       numero_chasis: [null, Validators.required],
       foto: null,
     }),
@@ -80,13 +79,19 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     }),
     detalle: this.fb.group({
       marca_id: [null, Validators.required],
+      clasificacion_id: [null, Validators.required],
       tipo_id: [null, Validators.required],
+      tipo_carga_id: [null, Validators.required],
       color_id: [null, Validators.required],
       anho: [null, Validators.required],
     }),
     capacidad: this.fb.group({
       bruto: [null, Validators.required],
       tara: [null, Validators.required],
+      largo: [null, Validators.required],
+      alto: [null, Validators.required],
+      ancho: [null, Validators.required],
+      volumen: [null, Validators.required],
     }),
   });
 
@@ -129,7 +134,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private camionService: CamionService,
+    private semiService: SemiService,
     private userService: UserService,
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
@@ -180,13 +185,13 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       if (this.fotoAutomotorFrenteFile) { formData.append('foto_habilitacion_automotor_frente_file', this.fotoAutomotorFrenteFile); }
       if (this.fotoAutomotorReversoFile) { formData.append('foto_habilitacion_automotor_reverso_file', this.fotoAutomotorReversoFile); }
       if (this.isEdit && this.id) {
-        this.camionService.edit(this.id, formData).subscribe(() => {
+        this.semiService.edit(this.id, formData).subscribe(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
-        this.camionService.create(formData).subscribe((camion) => {
+        this.semiService.create(formData).subscribe((semi) => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
           this.snackbar
@@ -196,7 +201,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate([`/flota/${m.CAMION}/${a.EDITAR}`, camion.id]);
+                this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`, semi.id]);
               }
             });
         });
@@ -224,13 +229,12 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.camionService.getById(this.id).subscribe(data => {
+      this.semiService.getById(this.id).subscribe(data => {
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.form.setValue({
           info: {
             placa: data.placa,
             propietario_id: data.propietario_id,
-            chofer_id: data.chofer_id,
             numero_chasis: data.numero_chasis,
             foto: null,
           },
@@ -258,13 +262,19 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           },
           detalle: {
             marca_id: data.marca_id,
+            clasificacion_id: data.clasificacion_id,
             tipo_id: data.tipo_id,
+            tipo_carga_id: data.tipo_carga_id,
             color_id: data.color_id,
             anho: data.anho,
           },
           capacidad: {
             bruto: data.bruto,
             tara: data.tara,
+            largo: data.largo,
+            alto: data.alto,
+            ancho: data.ancho,
+            volumen: data.volumen,
           },
         });
         this.foto = data.foto;

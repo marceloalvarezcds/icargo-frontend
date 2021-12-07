@@ -8,6 +8,8 @@ import { ChoferFormComponent } from './chofer-form/chofer-form.component';
 import { ChoferListComponent } from './chofer-list/chofer-list.component';
 import { PropietarioFormComponent } from './propietario-form/propietario-form.component';
 import { PropietarioListComponent } from './propietario-list/propietario-list.component';
+import { SemiFormComponent } from './semi-form/semi-form.component';
+import { SemiListComponent } from './semi-list/semi-list.component';
 
 const routes: Routes = [
   {
@@ -81,6 +83,31 @@ const routes: Routes = [
       {
         path: `${a.VER}/:id`,
         component: CamionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
+  },
+  {
+    path: m.SEMIRREMOLQUE,
+    children: [
+      {
+        path: a.LISTAR,
+        component: SemiListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: SemiFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: SemiFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: SemiFormComponent,
         canActivate: [PermisoGuard],
       },
     ],
