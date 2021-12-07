@@ -18,6 +18,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
   a = PermisoAccionEnum;
   id?: number;
+  propietarioId?: number;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -97,9 +98,9 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     });
   });
 
-  get puedeModificarSoloAliasYcontactos(): boolean {
+  get puedeModificar(): boolean {
     if (this.isShow || !this.isEdit) { return false; }
-    return !this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCuentaId);
+    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCuentaId);
   }
 
   get info(): FormGroup {
@@ -211,6 +212,11 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   }
 
   private getData(): void {
+    const backUrl = this.route.snapshot.queryParams.backUrl;
+    if (backUrl) {
+      this.backUrl = backUrl;
+    }
+    this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
@@ -272,7 +278,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.created_at = data.created_at;
         this.modified_by = data.modified_by;
         this.modified_at = data.modified_at;
-        if (this.puedeModificarSoloAliasYcontactos) {
+        if (!this.puedeModificar) {
           this.info.disable();
           this.habilitacionMunicipal.disable();
           this.habilitacionTransporte.disable();

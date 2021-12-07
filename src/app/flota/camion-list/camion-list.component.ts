@@ -3,8 +3,6 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
@@ -14,6 +12,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
+import { confirmationDialogToDelete } from 'src/app/utils/delete';
 
 type Filter = {
   marca?: string;
@@ -103,23 +102,10 @@ export class CamionListComponent implements OnInit {
 
   deleteRow(event: TableEvent<CamionList>): void {
     const row = event.row;
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: `¿Está seguro que desea eliminar el Camión con placa ${row.placa}`,
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => confirmed))
-      .subscribe(() => {
-        this.camionService.delete(row.id).subscribe(() => {
-          this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.getList();
-            });
-        });
-      });
+    const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}`;
+    confirmationDialogToDelete(this.dialog, message, this.camionService, row.id, this.snackbar, {
+      next: () => { this.getList(); }
+    });
   }
 
   downloadFile(): void {

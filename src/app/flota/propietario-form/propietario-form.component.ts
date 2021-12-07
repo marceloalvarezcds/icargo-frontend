@@ -170,6 +170,10 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return !!this.esChoferControl.value;
   }
 
+  get propietarioBackUrl(): string {
+    return this.router.url;
+  }
+
   constructor(
     private fb: FormBuilder,
     private propietarioService: PropietarioService,

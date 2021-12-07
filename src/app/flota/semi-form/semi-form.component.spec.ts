@@ -11,7 +11,7 @@ import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
-import { mockSemi, mockSemiList } from 'src/app/interfaces/semi';
+import { mockSemi } from 'src/app/interfaces/semi';
 import { mockTipoSemiList } from 'src/app/interfaces/tipo-semi';
 import { mockMarcaSemiList } from 'src/app/interfaces/marca-semi';
 import { mockUserAccount } from 'src/app/interfaces/user';
@@ -67,11 +67,19 @@ describe('SemiFormComponent', () => {
       params: {
         id,
       },
+      queryParams: { },
     },
   };
   const createRoute = {
     snapshot: {
       params: { },
+      queryParams: { },
+    },
+  };
+  const createWithBackUrlRoute = {
+    snapshot: {
+      params: { },
+      queryParams: { backUrl: '/' },
     },
   };
   function formSetValue(component: SemiFormComponent, fileUrl: string | null = null): void {
@@ -222,6 +230,18 @@ describe('SemiFormComponent', () => {
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
   }));
+
+  it('should open create view with backUrl', () => {
+    TestBed.overrideProvider(ActivatedRoute, { useValue: createWithBackUrlRoute });
+    TestBed.overrideProvider(Router, { useValue: createRouter });
+    fixture = TestBed.createComponent(SemiFormComponent);
+    component = fixture.componentInstance;
+    const backSpy = spyOn(component, 'back').and.callThrough();
+    fixture.detectChanges();
+    pageFormComponent = findElement(fixture, 'app-page-form');
+    pageFormComponent.triggerEventHandler('backClick', true);
+    expect(backSpy).toHaveBeenCalled();
+  });
 
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });

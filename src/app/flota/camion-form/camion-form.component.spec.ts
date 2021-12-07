@@ -11,7 +11,7 @@ import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
-import { mockCamion, mockCamionList } from 'src/app/interfaces/camion';
+import { mockCamion } from 'src/app/interfaces/camion';
 import { mockTipoCamionList } from 'src/app/interfaces/tipo-camion';
 import { mockMarcaCamionList } from 'src/app/interfaces/marca-camion';
 import { mockUserAccount } from 'src/app/interfaces/user';
@@ -65,11 +65,19 @@ describe('CamionFormComponent', () => {
       params: {
         id,
       },
+      queryParams: { },
     },
   };
   const createRoute = {
     snapshot: {
       params: { },
+      queryParams: { },
+    },
+  };
+  const createWithBackUrlRoute = {
+    snapshot: {
+      params: { },
+      queryParams: { backUrl: '/' },
     },
   };
   function formSetValue(component: CamionFormComponent, fileUrl: string | null = null): void {
@@ -211,6 +219,18 @@ describe('CamionFormComponent', () => {
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
   }));
+
+  it('should open create view with backUrl', () => {
+    TestBed.overrideProvider(ActivatedRoute, { useValue: createWithBackUrlRoute });
+    TestBed.overrideProvider(Router, { useValue: createRouter });
+    fixture = TestBed.createComponent(CamionFormComponent);
+    component = fixture.componentInstance;
+    const backSpy = spyOn(component, 'back').and.callThrough();
+    fixture.detectChanges();
+    pageFormComponent = findElement(fixture, 'app-page-form');
+    pageFormComponent.triggerEventHandler('backClick', true);
+    expect(backSpy).toHaveBeenCalled();
+  });
 
   it('should open edit view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
