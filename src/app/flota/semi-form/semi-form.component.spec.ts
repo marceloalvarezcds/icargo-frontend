@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
@@ -136,6 +137,7 @@ describe('SemiFormComponent', () => {
       imports: [
         BrowserAnimationsModule,
         HttpClientTestingModule,
+        DirectivesModule,
         FormFieldModule,
         MaterialModule,
         PipesModule,

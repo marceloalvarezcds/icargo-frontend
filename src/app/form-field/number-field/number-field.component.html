@@ -1,0 +1,9 @@
+<div *ngIf="form" [formGroup]="form">
+  <mat-form-field [formGroupName]="groupName">
+    <mat-label>{{ title }}</mat-label>
+    <input matInput [formControlName]="controlName" [appAutofocus]="autofocus" appInputThousandsSeparator />
+    <mat-error *ngIf="control.hasError('required')">
+      Este campo es <strong>requerido</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
