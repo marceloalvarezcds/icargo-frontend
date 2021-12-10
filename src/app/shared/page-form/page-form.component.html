@@ -9,6 +9,12 @@
         <button type="button" mat-mini-fab color="primary" matTooltip="Editar" (click)="editClick.emit($event)" *ngIf="isShow && (modelo | puede : a.EDITAR)">
           <mat-icon>edit</mat-icon>
         </button>
+        <button type="button" mat-mini-fab color="primary" matTooltip="Activar" (click)="activeClick.emit($event)" *ngIf="shouldShowActiveButton && isEdit">
+          <mat-icon>toggle_off</mat-icon>
+        </button>
+        <button type="button" mat-mini-fab color="primary" matTooltip="Desactivar" (click)="inactiveClick.emit($event)" *ngIf="shouldShowInactiveButton && isEdit">
+          <mat-icon>toggle_on</mat-icon>
+        </button>
         <button type="submit" mat-mini-fab color="primary" matTooltip="Guardar" *ngIf="!isShow">
           <mat-icon>save</mat-icon>
         </button>

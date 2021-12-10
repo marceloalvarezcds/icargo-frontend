@@ -15,8 +15,11 @@ export class PageFormComponent {
   a = PermisoAccionEnum;
 
   @Input() formGroup!: FormGroup;
+  @Input() isEdit = false;
   @Input() isShow = false;
   @Input() hasChange = false;
+  @Input() shouldShowActiveButton = false;
+  @Input() shouldShowInactiveButton = false;
   @Input() module: string = '';
   @Input() submodule: string = '';
   @Input() viewTitle: string = '';
@@ -24,6 +27,8 @@ export class PageFormComponent {
 
   @Output() backClick = new EventEmitter<boolean>();
   @Output() editClick = new EventEmitter();
+  @Output() activeClick = new EventEmitter();
+  @Output() inactiveClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
 
   constructor(

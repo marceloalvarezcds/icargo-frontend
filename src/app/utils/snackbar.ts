@@ -19,3 +19,10 @@ export function deleteMessageSnackbar(snackbar: MatSnackBar, observer?: PartialO
   .afterDismissed()
   .subscribe(observer);
 }
+
+export function changeStatusMessageSnackbar(snackbar: MatSnackBar, observer?: PartialObserver<MatSnackBarDismiss> | undefined): void {
+  snackbar
+  .open('Estado cambiado satisfactoriamente', 'Ok')
+  .afterDismissed()
+  .subscribe(observer);
+}
