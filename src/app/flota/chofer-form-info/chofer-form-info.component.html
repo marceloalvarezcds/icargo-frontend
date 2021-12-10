@@ -85,7 +85,10 @@
           [form]="form"
         ></app-alias-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 es-propietario-toggle">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-estado-field [estado]="estado"></app-estado-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 es-propietario-toggle">
         <ng-container *ngIf="isShow; else esPropietarioTemplate">{{ esPropietario ? 'Es Propietario' : 'No es Propietario' }}</ng-container>
         <ng-template #esPropietarioTemplate>
           <mat-slide-toggle formControlName="es_propietario">{{ esPropietario ? 'Es Propietario' : 'No es Propietario' }}</mat-slide-toggle>

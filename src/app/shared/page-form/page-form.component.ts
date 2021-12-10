@@ -15,15 +15,21 @@ export class PageFormComponent {
   a = PermisoAccionEnum;
 
   @Input() formGroup!: FormGroup;
+  @Input() isEdit = false;
   @Input() isShow = false;
   @Input() hasChange = false;
-  @Input() module: string = '';
-  @Input() submodule: string = '';
-  @Input() viewTitle: string = '';
+  @Input() shouldShowActiveButton = false;
+  @Input() shouldShowInactiveButton = false;
+  @Input() module = '';
+  @Input() submodule = '';
+  @Input() viewTitle = '';
   @Input() modelo?: PermisoModeloEnum;
+  @Input() gestorCuentaId?: number;
 
   @Output() backClick = new EventEmitter<boolean>();
   @Output() editClick = new EventEmitter();
+  @Output() activeClick = new EventEmitter();
+  @Output() inactiveClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
 
   constructor(

@@ -6,6 +6,8 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
@@ -40,6 +42,7 @@ describe('CamionFormComponent', () => {
   let component: CamionFormComponent;
   let fixture: ComponentFixture<CamionFormComponent>;
   let httpController: HttpTestingController;
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let camionService: CamionService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
@@ -129,6 +132,7 @@ describe('CamionFormComponent', () => {
       imports: [
         BrowserAnimationsModule,
         HttpClientTestingModule,
+        DirectivesModule,
         FormFieldModule,
         MaterialModule,
         PipesModule,
@@ -296,8 +300,11 @@ describe('CamionFormComponent', () => {
     camionService = TestBed.inject(CamionService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const activeSpy = spyOn(component, 'active').and.callThrough();
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const inactiveSpy = spyOn(component, 'inactive').and.callThrough();
     const getByIdSpy = spyOn(camionService, 'getById').and.callThrough();
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.match(`${environment.api}/camion/${id}`).forEach(r => r.flush(mockCamion));
@@ -314,8 +321,16 @@ describe('CamionFormComponent', () => {
     expect(getByIdSpy).toHaveBeenCalled();
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);
+    pageFormComponent.triggerEventHandler('activeClick', null);
+    pageFormComponent.triggerEventHandler('inactiveClick', null);
+    httpController.match(`${environment.api}/camion/${id}/active`).forEach(r => r.flush(mockCamion));
+    httpController.match(`${environment.api}/camion/${id}/inactive`).forEach(r => r.flush(mockCamion));
+    flush();
     tick(1);
+    expect(inactiveSpy).toHaveBeenCalled();
+    expect(activeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
     tick();
     httpController.verify();
   }));

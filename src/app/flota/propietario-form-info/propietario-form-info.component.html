@@ -76,7 +76,10 @@
           [form]="form"
         ></app-alias-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3 es-chofer-toggle" [hidden]="!isFisicaSelected">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-estado-field [estado]="estado"></app-estado-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4 es-chofer-toggle" [hidden]="!isFisicaSelected">
         <ng-container *ngIf="isShow; else esChoferTemplate">{{ esChofer ? 'Es Chofer' : 'No es Chofer' }}</ng-container>
         <ng-template #esChoferTemplate>
           <mat-slide-toggle formControlName="es_chofer">{{ esChofer ? 'Es Chofer' : 'No es Chofer' }}</mat-slide-toggle>

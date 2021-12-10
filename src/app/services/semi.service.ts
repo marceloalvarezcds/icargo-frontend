@@ -40,4 +40,12 @@ export class SemiService {
   delete(id: number): Observable<Semi> {
     return this.http.delete<Semi>(`${this.url}/${id}`);
   }
+
+  active(id: number): Observable<Semi> {
+    return this.http.get<Semi>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<Semi> {
+    return this.http.get<Semi>(`${this.url}/${id}/inactive`);
+  }
 }

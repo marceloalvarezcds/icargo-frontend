@@ -6,12 +6,16 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
+import { DirectivesModule } from 'src/app/directives/directives.module';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockPaisList } from 'src/app/interfaces/pais';
+import { mockSemiClasificacionList } from 'src/app/interfaces/semi-clasificacion';
 import { mockSemi } from 'src/app/interfaces/semi';
+import { mockTipoCargaList } from 'src/app/interfaces/tipo-carga';
 import { mockTipoSemiList } from 'src/app/interfaces/tipo-semi';
 import { mockMarcaSemiList } from 'src/app/interfaces/marca-semi';
 import { mockUserAccount } from 'src/app/interfaces/user';
@@ -35,13 +39,12 @@ import { mockEnteEmisorAutomotorList } from 'src/app/interfaces/ente-emisor-auto
 import { mockEnteEmisorTransporteList } from 'src/app/interfaces/ente-emisor-transporte';
 
 import { SemiFormComponent } from './semi-form.component';
-import { mockTipoCargaList } from 'src/app/interfaces/tipo-carga';
-import { mockSemiClasificacionList } from 'src/app/interfaces/semi-clasificacion';
 
 describe('SemiFormComponent', () => {
   let component: SemiFormComponent;
   let fixture: ComponentFixture<SemiFormComponent>;
   let httpController: HttpTestingController;
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let semiService: SemiService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
@@ -136,6 +139,7 @@ describe('SemiFormComponent', () => {
       imports: [
         BrowserAnimationsModule,
         HttpClientTestingModule,
+        DirectivesModule,
         FormFieldModule,
         MaterialModule,
         PipesModule,
@@ -309,8 +313,11 @@ describe('SemiFormComponent', () => {
     semiService = TestBed.inject(SemiService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const activeSpy = spyOn(component, 'active').and.callThrough();
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const inactiveSpy = spyOn(component, 'inactive').and.callThrough();
     const getByIdSpy = spyOn(semiService, 'getById').and.callThrough();
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.match(`${environment.api}/semi/${id}`).forEach(r => r.flush(mockSemi));
@@ -328,8 +335,16 @@ describe('SemiFormComponent', () => {
     expect(getByIdSpy).toHaveBeenCalled();
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);
+    pageFormComponent.triggerEventHandler('activeClick', null);
+    pageFormComponent.triggerEventHandler('inactiveClick', null);
+    httpController.match(`${environment.api}/semi/${id}/active`).forEach(r => r.flush(mockSemi));
+    httpController.match(`${environment.api}/semi/${id}/inactive`).forEach(r => r.flush(mockSemi));
+    flush();
     tick(1);
+    expect(inactiveSpy).toHaveBeenCalled();
+    expect(activeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
     tick();
     httpController.verify();
   }));

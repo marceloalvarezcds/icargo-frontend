@@ -40,4 +40,12 @@ export class ChoferService {
   delete(id: number): Observable<Chofer> {
     return this.http.delete<Chofer>(`${this.url}/${id}`);
   }
+
+  active(id: number): Observable<Chofer> {
+    return this.http.get<Chofer>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<Chofer> {
+    return this.http.get<Chofer>(`${this.url}/${id}/inactive`);
+  }
 }

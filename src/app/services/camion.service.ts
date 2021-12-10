@@ -40,4 +40,12 @@ export class CamionService {
   delete(id: number): Observable<Camion> {
     return this.http.delete<Camion>(`${this.url}/${id}`);
   }
+
+  active(id: number): Observable<Camion> {
+    return this.http.get<Camion>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<Camion> {
+    return this.http.get<Camion>(`${this.url}/${id}/inactive`);
+  }
 }

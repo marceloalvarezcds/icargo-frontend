@@ -177,4 +177,32 @@ export const mockPermisoList: Permiso[] = [
     autorizado: true,
     descripcion: 'Listar de Semi-remolque',
   },
+  {
+    id: 25,
+    accion: PermisoAccionEnum.CAMBIAR_ESTADO,
+    modelo: PermisoModeloEnum.CAMION,
+    autorizado: true,
+    descripcion: 'Cambiar estado de Camión',
+  },
+  {
+    id: 26,
+    accion: PermisoAccionEnum.CAMBIAR_ESTADO,
+    modelo: PermisoModeloEnum.CHOFER,
+    autorizado: true,
+    descripcion: 'Cambiar estado de Chofer',
+  },
+  {
+    id: 27,
+    accion: PermisoAccionEnum.CAMBIAR_ESTADO,
+    modelo: PermisoModeloEnum.PROPIETARIO,
+    autorizado: true,
+    descripcion: 'Cambiar estado de Propietario',
+  },
+  {
+    id: 28,
+    accion: PermisoAccionEnum.CAMBIAR_ESTADO,
+    modelo: PermisoModeloEnum.SEMIRREMOLQUE,
+    autorizado: true,
+    descripcion: 'Cambiar estado de Semi-remolque',
+  },
 ];
