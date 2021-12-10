@@ -1,11 +1,14 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { CamionService } from 'src/app/services/camion.service';
 import { UserService } from 'src/app/services/user.service';
+import { confirmationDialogToActive, confirmationDialogToInactive } from 'src/app/utils/change-status';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
@@ -19,6 +22,8 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   id?: number;
   propietarioId?: number;
+  estado = EstadoEnum.PENDIENTE;
+  isActive = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -132,6 +137,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     private camionService: CamionService,
     private userService: UserService,
     private snackbar: MatSnackBar,
+    private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
@@ -154,6 +160,18 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
   redirectToEdit(): void {
     this.router.navigate([`/flota/${m.PROPIETARIO}/${a.EDITAR}`, this.id]);
+  }
+
+  active(): void {
+    confirmationDialogToActive(this.dialog, 'el Camión', this.camionService, this.id!, this.snackbar, {
+      next: () => { this.getData(); }
+    });
+  }
+
+  inactive(): void {
+    confirmationDialogToInactive(this.dialog, 'el Camión', this.camionService, this.id!, this.snackbar, {
+      next: () => { this.getData(); }
+    });
   }
 
   submit(confirmed: boolean): void {
@@ -225,6 +243,8 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.camionService.getById(this.id).subscribe(data => {
+        this.estado = data.estado;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.form.setValue({
           info: {

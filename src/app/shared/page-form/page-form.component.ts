@@ -20,10 +20,11 @@ export class PageFormComponent {
   @Input() hasChange = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
-  @Input() module: string = '';
-  @Input() submodule: string = '';
-  @Input() viewTitle: string = '';
+  @Input() module = '';
+  @Input() submodule = '';
+  @Input() viewTitle = '';
   @Input() modelo?: PermisoModeloEnum;
+  @Input() gestorCuentaId?: number;
 
   @Output() backClick = new EventEmitter<boolean>();
   @Output() editClick = new EventEmitter();

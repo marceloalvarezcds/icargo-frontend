@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
@@ -37,6 +38,7 @@ describe('ChoferFormComponent', () => {
   let component: ChoferFormComponent;
   let fixture: ComponentFixture<ChoferFormComponent>;
   let httpController: HttpTestingController;
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let choferService: ChoferService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
@@ -256,17 +258,21 @@ describe('ChoferFormComponent', () => {
   }));
 
   it('should open edit view with alias null', fakeAsync(() => {
+    const mockChofer = mockChoferList[1];
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(ChoferFormComponent);
     choferService = TestBed.inject(ChoferService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const activeSpy = spyOn(component, 'active').and.callThrough();
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const inactiveSpy = spyOn(component, 'inactive').and.callThrough();
     const getByIdSpy = spyOn(choferService, 'getById').and.callThrough();
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.match(`${environment.api}/chofer/${id}`).forEach(r => r.flush(mockChoferList[1]));
+    httpController.match(`${environment.api}/chofer/${id}`).forEach(r => r.flush(mockChofer));
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
     httpController.match(`${environment.api}/tipo_documento/`).forEach(r => r.flush(mockTipoDocumentoList));
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
@@ -277,8 +283,16 @@ describe('ChoferFormComponent', () => {
     expect(getByIdSpy).toHaveBeenCalled();
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);
+    pageFormComponent.triggerEventHandler('activeClick', null);
+    pageFormComponent.triggerEventHandler('inactiveClick', null);
+    httpController.match(`${environment.api}/chofer/${id}/active`).forEach(r => r.flush(mockChofer));
+    httpController.match(`${environment.api}/chofer/${id}/inactive`).forEach(r => r.flush(mockChofer));
+    flush();
     tick(1);
+    expect(inactiveSpy).toHaveBeenCalled();
+    expect(activeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
     tick();
     httpController.verify();
   }));

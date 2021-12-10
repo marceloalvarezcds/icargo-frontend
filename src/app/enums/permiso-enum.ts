@@ -1,4 +1,5 @@
 export enum PermisoAccionEnum {
+  CAMBIAR_ESTADO = "cambiar_estado",
   CREAR = "crear",
   EDITAR = "editar",
   ELIMINAR = "eliminar",

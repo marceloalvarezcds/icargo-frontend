@@ -1,12 +1,15 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
 import { PropietarioService } from 'src/app/services/propietario.service';
 import { UserService } from 'src/app/services/user.service';
+import { confirmationDialogToActive, confirmationDialogToInactive } from 'src/app/utils/change-status';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
@@ -19,6 +22,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   a = PermisoAccionEnum;
   id?: number;
+  estado = EstadoEnum.PENDIENTE;
+  isActive = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -179,6 +184,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     private propietarioService: PropietarioService,
     private userService: UserService,
     private snackbar: MatSnackBar,
+    private dialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
   ) { }
@@ -202,6 +208,18 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   redirectToEdit(): void {
     this.router.navigate([`/flota/${m.PROPIETARIO}/${a.EDITAR}`, this.id]);
+  }
+
+  active(): void {
+    confirmationDialogToActive(this.dialog, 'al Propietario', this.propietarioService, this.id!, this.snackbar, {
+      next: () => { this.getData(); }
+    });
+  }
+
+  inactive(): void {
+    confirmationDialogToInactive(this.dialog, 'al Propietario', this.propietarioService, this.id!, this.snackbar, {
+      next: () => { this.getData(); }
+    });
   }
 
   submit(confirmed: boolean): void {
@@ -268,6 +286,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.propietarioService.getById(this.id).subscribe(data => {
+        this.estado = data.estado;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.form.setValue({
           info: {

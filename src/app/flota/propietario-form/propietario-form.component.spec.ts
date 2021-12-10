@@ -6,6 +6,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { of } from 'rxjs';
 import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
@@ -37,6 +38,7 @@ describe('PropietarioFormComponent', () => {
   let component: PropietarioFormComponent;
   let fixture: ComponentFixture<PropietarioFormComponent>;
   let httpController: HttpTestingController;
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
   let propietarioService: PropietarioService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
@@ -260,17 +262,21 @@ describe('PropietarioFormComponent', () => {
   }));
 
   it('should open edit view with alias null', fakeAsync(() => {
+    const mockPropietario = mockPropietarioList[1];
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(PropietarioFormComponent);
     propietarioService = TestBed.inject(PropietarioService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const activeSpy = spyOn(component, 'active').and.callThrough();
+    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const inactiveSpy = spyOn(component, 'inactive').and.callThrough();
     const getByIdSpy = spyOn(propietarioService, 'getById').and.callThrough();
+    const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.match(`${environment.api}/propietario/${id}`).forEach(r => r.flush(mockPropietarioList[1]));
+    httpController.match(`${environment.api}/propietario/${id}`).forEach(r => r.flush(mockPropietario));
     httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
     httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoPersonaList);
     httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
@@ -281,8 +287,16 @@ describe('PropietarioFormComponent', () => {
     expect(getByIdSpy).toHaveBeenCalled();
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);
+    pageFormComponent.triggerEventHandler('activeClick', null);
+    pageFormComponent.triggerEventHandler('inactiveClick', null);
+    httpController.match(`${environment.api}/propietario/${id}/active`).forEach(r => r.flush(mockPropietario));
+    httpController.match(`${environment.api}/propietario/${id}/inactive`).forEach(r => r.flush(mockPropietario));
+    flush();
     tick(1);
+    expect(inactiveSpy).toHaveBeenCalled();
+    expect(activeSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
+    expect(dialogSpy).toHaveBeenCalled();
     tick();
     httpController.verify();
   }));

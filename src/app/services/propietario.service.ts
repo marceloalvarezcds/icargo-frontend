@@ -40,4 +40,12 @@ export class PropietarioService {
   delete(id: number): Observable<Propietario> {
     return this.http.delete<Propietario>(`${this.url}/${id}`);
   }
+
+  active(id: number): Observable<Propietario> {
+    return this.http.get<Propietario>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<Propietario> {
+    return this.http.get<Propietario>(`${this.url}/${id}/inactive`);
+  }
 }

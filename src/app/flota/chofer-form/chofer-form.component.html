@@ -6,10 +6,16 @@
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
+  [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
+  [gestorCuentaId]="gestorCuentaId"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
   <mat-accordion multi>
@@ -21,6 +27,7 @@
       </mat-expansion-panel-header>
       <app-chofer-form-info
         [form]="form"
+        [estado]="estado"
         [isEdit]="isEdit"
         [isShow]="isShow"
         [modelo]="modelo"

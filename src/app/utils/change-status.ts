@@ -22,12 +22,13 @@ export const changeStatusConfirm = (dialog: MatDialog, message: string, observer
 
 export function confirmationDialogToActive<T>(
   dialog: MatDialog,
-  message: string,
+  elemento: string,
   service: ChangeStatusService<T>,
   idToActive: number,
   snackbar: MatSnackBar,
   observer?: PartialObserver<MatSnackBarDismiss> | undefined,
 ) {
+  const message = `¿Está seguro que desea activar ${elemento}?`;
   changeStatusConfirm(dialog, message, {
     next: () => {
       service.active(idToActive).subscribe(() => {
@@ -39,12 +40,13 @@ export function confirmationDialogToActive<T>(
 
 export function confirmationDialogToInactive<T>(
   dialog: MatDialog,
-  message: string,
+  elemento: string,
   service: ChangeStatusService<T>,
   idToInactive: number,
   snackbar: MatSnackBar,
   observer?: PartialObserver<MatSnackBarDismiss> | undefined,
 ) {
+  const message = `¿Está seguro que desea desactivar ${elemento}?`;
   changeStatusConfirm(dialog, message, {
     next: () => {
       service.inactive(idToInactive).subscribe(() => {

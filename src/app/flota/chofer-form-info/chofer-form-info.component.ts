@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 
 @Component({
@@ -36,6 +37,7 @@ export class ChoferFormInfoComponent {
   });
   @Input() isEdit = false;
   @Input() isShow = false;
+  @Input() estado = EstadoEnum.PENDIENTE;
   @Input() fotoDocumentoFrente: string | null = null;
   @Input() fotoDocumentoReverso: string | null = null;
   @Input() fotoPerfil: string | null = null;
