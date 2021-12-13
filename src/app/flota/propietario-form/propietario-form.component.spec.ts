@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -28,9 +28,9 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-import { PropietarioFormChoferComponent } from '../propietario-form-chofer/propietario-form-chofer.component';
-import { PropietarioFormInfoComponent } from '../propietario-form-info/propietario-form-info.component';
-import { RegistroConduccionFormComponent } from '../registro-conduccion-form/registro-conduccion-form.component';
+import { PropietarioFormChoferComponent } from 'src/app/flota/propietario-form-chofer/propietario-form-chofer.component';
+import { PropietarioFormInfoComponent } from 'src/app/flota/propietario-form-info/propietario-form-info.component';
+import { RegistroConduccionFormComponent } from 'src/app/flota/registro-conduccion-form/registro-conduccion-form.component';
 
 import { PropietarioFormComponent } from './propietario-form.component';
 
@@ -243,11 +243,9 @@ describe('PropietarioFormComponent', () => {
     registroConduccionForm.triggerEventHandler('fotoRegistroFrenteChange', fakeFile);
     registroConduccionForm.triggerEventHandler('fotoRegistroReversoChange', fakeFile);
     tick();
-    flush();
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
-    tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
@@ -258,7 +256,13 @@ describe('PropietarioFormComponent', () => {
     });
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    httpController.match(`${environment.api}/propietario/${id}`).forEach(r => r.flush(propietario));
+    httpController.match(`${environment.api}/localidad/${propietario.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
+    httpController.match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
+    tick();
+    flush();
     httpController.verify();
+    discardPeriodicTasks();
   }));
 
   it('should open edit view with alias null', fakeAsync(() => {

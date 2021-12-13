@@ -29,11 +29,14 @@ export class PageFormAddressComponent implements OnDestroy {
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.paisSubscription = this.paisControl.valueChanges.pipe(filter(v => !!v)).subscribe(paisId => {
+      this.localidadControl.setValue(null);
+      this.ciudadControl.setValue(null);
       this.localidadService.getList(paisId).subscribe(list => {
         this.localidadList = list;
       });
     });
     this.localidadSubscription = this.localidadControl.valueChanges.pipe(filter(v => !!v)).subscribe(localidadId => {
+      this.ciudadControl.setValue(null);
       this.ciudadService.getList(localidadId).subscribe(list => {
         this.ciudadList = list;
       });
@@ -50,6 +53,10 @@ export class PageFormAddressComponent implements OnDestroy {
 
   get localidadControl(): FormControl {
     return this.address!.get('localidad_id') as FormControl;
+  }
+
+  get ciudadControl(): FormControl {
+    return this.address!.get('ciudad_id') as FormControl;
   }
 
   constructor(

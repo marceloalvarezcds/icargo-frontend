@@ -1,6 +1,6 @@
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import { ComponentFixture, discardPeriodicTasks, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -27,9 +27,9 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-import { ChoferFormPropietarioComponent } from '../chofer-form-propietario/chofer-form-propietario.component';
-import { ChoferFormInfoComponent } from '../chofer-form-info/chofer-form-info.component';
-import { RegistroConduccionFormComponent } from '../registro-conduccion-form/registro-conduccion-form.component';
+import { ChoferFormPropietarioComponent } from 'src/app/flota/chofer-form-propietario/chofer-form-propietario.component';
+import { ChoferFormInfoComponent } from 'src/app/flota/chofer-form-info/chofer-form-info.component';
+import { RegistroConduccionFormComponent } from 'src/app/flota/registro-conduccion-form/registro-conduccion-form.component';
 
 import { ChoferFormComponent } from './chofer-form.component';
 import { TipoRegistroService } from 'src/app/services/tipo-registro.service';
@@ -239,11 +239,9 @@ describe('ChoferFormComponent', () => {
     registroConduccionForm.triggerEventHandler('fotoRegistroFrenteChange', fakeFile);
     registroConduccionForm.triggerEventHandler('fotoRegistroReversoChange', fakeFile);
     tick();
-    flush();
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
-    tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController.match(`${environment.api}/localidad/${chofer.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
@@ -254,7 +252,13 @@ describe('ChoferFormComponent', () => {
     });
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    httpController.match(`${environment.api}/chofer/${id}`).forEach(r => r.flush(chofer));
+    httpController.match(`${environment.api}/localidad/${chofer.ciudad.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
+    httpController.match(`${environment.api}/ciudad/${chofer.ciudad.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
+    tick();
+    flush();
     httpController.verify();
+    discardPeriodicTasks();
   }));
 
   it('should open edit view with alias null', fakeAsync(() => {
@@ -270,6 +274,7 @@ describe('ChoferFormComponent', () => {
     const inactiveSpy = spyOn(component, 'inactive').and.callThrough();
     const getByIdSpy = spyOn(choferService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
+    component.info.get('fecha_nacimiento')?.setValue(mockChofer.fecha_nacimiento);
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController.match(`${environment.api}/chofer/${id}`).forEach(r => r.flush(mockChofer));

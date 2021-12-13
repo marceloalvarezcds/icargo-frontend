@@ -199,8 +199,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       if (this.fotoAutomotorReversoFile) { formData.append('foto_habilitacion_automotor_reverso_file', this.fotoAutomotorReversoFile); }
       if (this.isEdit && this.id) {
         this.camionService.edit(this.id, formData).subscribe(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
+          this.getData();
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
@@ -246,6 +245,25 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
+        this.foto = data.foto;
+        this.fotoMunicipalFrente = data.foto_habilitacion_municipal_frente;
+        this.fotoMunicipalReverso = data.foto_habilitacion_municipal_reverso;
+        this.fotoTransporteFrente = data.foto_habilitacion_transporte_frente;
+        this.fotoTransporteReverso = data.foto_habilitacion_transporte_reverso;
+        this.fotoAutomotorFrente = data.foto_habilitacion_automotor_frente;
+        this.fotoAutomotorReverso = data.foto_habilitacion_automotor_reverso;
+        this.created_by = data.created_by;
+        this.created_at = data.created_at;
+        this.modified_by = data.modified_by;
+        this.modified_at = data.modified_at;
+        if (!this.puedeModificar) {
+          this.info.disable();
+          this.habilitacionMunicipal.disable();
+          this.habilitacionTransporte.disable();
+          this.habilitacionAutomotor.disable();
+          this.detalle.disable();
+          this.capacidad.disable();
+        }
         this.form.setValue({
           info: {
             placa: data.placa,
@@ -287,25 +305,6 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             tara: data.tara,
           },
         });
-        this.foto = data.foto;
-        this.fotoMunicipalFrente = data.foto_habilitacion_municipal_frente;
-        this.fotoMunicipalReverso = data.foto_habilitacion_municipal_reverso;
-        this.fotoTransporteFrente = data.foto_habilitacion_transporte_frente;
-        this.fotoTransporteReverso = data.foto_habilitacion_transporte_reverso;
-        this.fotoAutomotorFrente = data.foto_habilitacion_automotor_frente;
-        this.fotoAutomotorReverso = data.foto_habilitacion_automotor_reverso;
-        this.created_by = data.created_by;
-        this.created_at = data.created_at;
-        this.modified_by = data.modified_by;
-        this.modified_at = data.modified_at;
-        if (!this.puedeModificar) {
-          this.info.disable();
-          this.habilitacionMunicipal.disable();
-          this.habilitacionTransporte.disable();
-          this.habilitacionAutomotor.disable();
-          this.detalle.disable();
-          this.capacidad.disable();
-        }
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;

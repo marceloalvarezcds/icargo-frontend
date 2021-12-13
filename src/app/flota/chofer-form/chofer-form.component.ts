@@ -206,8 +206,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       if (this.fotoRegistroReversoFile) { formData.append('foto_registro_reverso_file', this.fotoRegistroReversoFile); }
       if (this.isEdit && this.id) {
         this.choferService.edit(this.id, formData).subscribe(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
+          this.getData();
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
@@ -248,6 +247,24 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
+        this.fotoDocumentoFrente = data.foto_documento_frente!;
+        this.fotoDocumentoReverso = data.foto_documento_reverso!;
+        this.fotoPerfil = data.foto_perfil!;
+        this.fotoDocumentoFrentePropietario = data.foto_documento_frente_propietario ?? null;
+        this.fotoDocumentoReversoPropietario = data.foto_documento_reverso_propietario ?? null;
+        this.fotoRegistroFrente = data.foto_registro_frente ?? null;
+        this.fotoRegistroReverso = data.foto_registro_reverso ?? null;
+        this.created_by = data.created_by;
+        this.created_at = data.created_at;
+        this.modified_by = data.modified_by;
+        this.modified_at = data.modified_at;
+        if (this.puedeModificarSoloAliasYcontactos) {
+          this.info.disable();
+          this.address.disable();
+          this.propietario.disable();
+          this.registro.disable();
+          this.info.controls['alias'].enable();
+        }
         this.form.setValue({
           info: {
             alias: data.gestor_carga_chofer?.alias ?? data.nombre,
@@ -288,24 +305,6 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             direccion: data.direccion,
           },
         });
-        this.fotoDocumentoFrente = data.foto_documento_frente!;
-        this.fotoDocumentoReverso = data.foto_documento_reverso!;
-        this.fotoPerfil = data.foto_perfil!;
-        this.fotoDocumentoFrentePropietario = data.foto_documento_frente_propietario ?? null;
-        this.fotoDocumentoReversoPropietario = data.foto_documento_reverso_propietario ?? null;
-        this.fotoRegistroFrente = data.foto_registro_frente ?? null;
-        this.fotoRegistroReverso = data.foto_registro_reverso ?? null;
-        this.created_by = data.created_by;
-        this.created_at = data.created_at;
-        this.modified_by = data.modified_by;
-        this.modified_at = data.modified_at;
-        if (this.puedeModificarSoloAliasYcontactos) {
-          this.info.disable();
-          this.address.disable();
-          this.propietario.disable();
-          this.registro.disable();
-          this.info.controls['alias'].enable();
-        }
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;

@@ -40,7 +40,7 @@
         <ng-template #ciudadReadonly>
           <input matInput formControlName="ciudad_id" readonly/>
         </ng-template>
-        <mat-error *ngIf="address.controls['ciudad_id'].hasError('required')">
+        <mat-error *ngIf="ciudadControl.hasError('required')">
           La ciudad es <strong>requerida</strong>
         </mat-error>
       </mat-form-field>

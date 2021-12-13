@@ -290,6 +290,9 @@ describe('CamionFormComponent', () => {
     });
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    httpController.match(`${environment.api}/camion/${id}`).forEach(r => r.flush(mockCamion));
+    flush();
+    tick();
     httpController.verify();
   }));
 

@@ -303,6 +303,9 @@ describe('SemiFormComponent', () => {
     });
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    httpController.match(`${environment.api}/semi/${id}`).forEach(r => r.flush(mockSemi));
+    flush();
+    tick();
     httpController.verify();
   }));
 
