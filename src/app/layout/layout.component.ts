@@ -88,6 +88,13 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
         },
       ],
     },
+    {
+      name: 'Flete',
+      iconName: 'timeline',
+      iconOutline: true,
+      path: `/flete/${m.FLETE}/${a.LISTAR}`,
+      active: this.userService.checkPermiso(a.LISTAR, m.FLETE),
+    },
   ];
 
   toggleSidebarMenuSubscription = this.menuConfigService
