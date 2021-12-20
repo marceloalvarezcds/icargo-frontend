@@ -27,6 +27,7 @@ import { EstadoFieldComponent } from './estado-field/estado-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
 import { NumberFieldComponent } from './number-field/number-field.component';
+import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
@@ -54,6 +55,7 @@ const modules = [
   NumberFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
+  ProductoFieldComponent,
   PropietarioFieldComponent,
   RemitenteFieldComponent,
   SemiClasificacionFieldComponent,
