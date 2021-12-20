@@ -34,6 +34,7 @@ import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi
 import { TipoAnticipoFieldComponent } from './tipo-anticipo-field/tipo-anticipo-field.component';
 import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
 import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
+import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 
 const modules = [
@@ -64,6 +65,7 @@ const modules = [
   TipoAnticipoFieldComponent,
   TipoCamionFieldComponent,
   TipoCargaFieldComponent,
+  TipoConceptoComplementoFieldComponent,
   TipoDocumentoFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
