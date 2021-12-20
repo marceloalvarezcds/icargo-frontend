@@ -37,6 +37,7 @@ import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.com
 import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
 import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
+import { UnidadFieldComponent } from './unidad-field/unidad-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -72,6 +73,7 @@ const modules = [
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
   TipoSemiFieldComponent,
+  UnidadFieldComponent,
 ];
 
 @NgModule({
