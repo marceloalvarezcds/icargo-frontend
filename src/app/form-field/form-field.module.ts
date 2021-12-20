@@ -35,6 +35,7 @@ import { TipoAnticipoFieldComponent } from './tipo-anticipo-field/tipo-anticipo-
 import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
 import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
 import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
+import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 
 const modules = [
@@ -66,6 +67,7 @@ const modules = [
   TipoCamionFieldComponent,
   TipoCargaFieldComponent,
   TipoConceptoComplementoFieldComponent,
+  TipoConceptoDescuentoFieldComponent,
   TipoDocumentoFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
