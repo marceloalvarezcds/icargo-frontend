@@ -17,6 +17,10 @@ export class CentroOperativoService {
     return this.http.get<CentroOperativoList[]>(`${this.url}/`);
   }
 
+  getListByGestorCuentaId(): Observable<CentroOperativoList[]> {
+    return this.http.get<CentroOperativoList[]>(`${this.url}/gestor_cuenta_id/`);
+  }
+
   getById(id: number): Observable<CentroOperativo> {
     return this.http.get<CentroOperativo>(`${this.url}/${id}`);
   }

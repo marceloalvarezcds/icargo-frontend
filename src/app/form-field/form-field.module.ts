@@ -18,6 +18,7 @@ import { TelefonoFieldComponent } from './telefono-field/telefono-field.componen
 import { EmailFieldComponent } from './email-field/email-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { AliasFieldComponent } from './alias-field/alias-field.component';
+import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
@@ -27,6 +28,7 @@ import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-fie
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
 import { NumberFieldComponent } from './number-field/number-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
+import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
 import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
@@ -34,6 +36,7 @@ import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.compon
 
 const modules = [
   AliasFieldComponent,
+  CentroOperativoFieldComponent,
   ChoferFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
@@ -52,6 +55,7 @@ const modules = [
   OficialCuentaFieldComponent,
   PaisFieldComponent,
   PropietarioFieldComponent,
+  RemitenteFieldComponent,
   SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
   TipoCamionFieldComponent,

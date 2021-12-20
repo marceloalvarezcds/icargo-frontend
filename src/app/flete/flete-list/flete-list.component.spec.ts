@@ -184,7 +184,7 @@ describe('FleteListComponent', () => {
     const flete = mockFleteList.find((_, i) => i === 0)!;
     component.filterPredicate(flete, filterStr);
     component.filterPredicate(flete, '{}');
-    component.columns.forEach(c => c.value && c.value(flete));
+    mockFleteList.forEach(flete => component.columns.forEach(c => c.value && c.value(flete)));
     httpController.verify();
   }));
 });
