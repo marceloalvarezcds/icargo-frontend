@@ -31,6 +31,7 @@ import { ProductoFieldComponent } from './producto-field/producto-field.componen
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
+import { TipoAnticipoFieldComponent } from './tipo-anticipo-field/tipo-anticipo-field.component';
 import { TipoCamionFieldComponent } from './tipo-camion-field/tipo-camion-field.component';
 import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
@@ -60,6 +61,7 @@ const modules = [
   RemitenteFieldComponent,
   SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
+  TipoAnticipoFieldComponent,
   TipoCamionFieldComponent,
   TipoCargaFieldComponent,
   TipoDocumentoFieldComponent,
