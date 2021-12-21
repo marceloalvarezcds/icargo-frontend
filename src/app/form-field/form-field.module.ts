@@ -26,6 +26,7 @@ import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-fie
 import { EstadoFieldComponent } from './estado-field/estado-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
+import { MonedaFieldComponent } from './moneda-field/moneda-field.component';
 import { NumberFieldComponent } from './number-field/number-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
@@ -56,6 +57,7 @@ const modules = [
   LocalidadFieldComponent,
   MarcaCamionFieldComponent,
   MarcaSemiFieldComponent,
+  MonedaFieldComponent,
   NumberFieldComponent,
   OficialCuentaFieldComponent,
   PaisFieldComponent,
