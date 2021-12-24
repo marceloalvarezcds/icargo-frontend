@@ -12,7 +12,7 @@
         <button type="button" mat-mini-fab color="primary" matTooltip="Activar" (click)="activeClick.emit($event)" *ngIf="shouldShowActiveButton && isEdit && (modelo | puede : a.CAMBIAR_ESTADO : gestorCuentaId)">
           <mat-icon>toggle_off</mat-icon>
         </button>
-        <button type="button" mat-mini-fab color="primary" matTooltip="Desactivar" (click)="inactiveClick.emit($event)" *ngIf="shouldShowInactiveButton && isEdit && (modelo | puede : a.CAMBIAR_ESTADO : gestorCuentaId)">
+        <button type="button" mat-mini-fab color="primary" [matTooltip]="inactiveTooltipText" (click)="inactiveClick.emit($event)" *ngIf="shouldShowInactiveButton && isEdit && (modelo | puede : a.CAMBIAR_ESTADO : gestorCuentaId)">
           <mat-icon>toggle_on</mat-icon>
         </button>
         <button type="submit" mat-mini-fab color="primary" matTooltip="Guardar" *ngIf="!isShow">

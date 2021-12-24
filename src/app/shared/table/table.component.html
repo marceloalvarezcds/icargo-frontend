@@ -31,7 +31,7 @@
         <button type="button" class="row_menu" mat-icon-button matTooltip="Ver" (click)="showClick.emit({ row, index })" *ngIf="modelo | puede : a.VER" [hidden]="!addShowButton">
           <mat-icon>visibility</mat-icon>
         </button>
-        <button type="button" class="row_menu" mat-icon-button [matMenuTriggerFor]="menu" [hidden]="isShow" *ngIf="(modelo | puede : a.VER) || (modelo | puede : a.EDITAR) || (modelo | puede : a.ELIMINAR)">
+        <button type="button" class="row_menu" mat-icon-button [matMenuTriggerFor]="menu" [hidden]="isShow" *ngIf="((modelo | puede : a.VER) && !hideShow) || (modelo | puede : a.EDITAR : (noCheckGestorCuentaId ? undefined : (row.gestor_cuenta_id || gestorCuentaId))) || (modelo | puede : a.ELIMINAR : (noCheckGestorCuentaId ? undefined : (row.gestor_cuenta_id || gestorCuentaId)))">
           <mat-icon>more_vert</mat-icon>
         </button>
         <mat-menu #menu="matMenu">
@@ -39,11 +39,11 @@
             <mat-icon color="primary">visibility</mat-icon>
             <span>Ver</span>
           </button>
-          <button type="button" mat-menu-item (click)="editClick.emit({ row, index })" *ngIf="modelo | puede : a.EDITAR" >
+          <button type="button" mat-menu-item (click)="editClick.emit({ row, index })" *ngIf="modelo | puede : a.EDITAR : (noCheckGestorCuentaId ? undefined : (row.gestor_cuenta_id || gestorCuentaId))" >
             <mat-icon color="primary">edit</mat-icon>
             <span>Editar</span>
           </button>
-          <button type="button" mat-menu-item (click)="deleteClick.emit({ row, index })" *ngIf="modelo | puede : a.ELIMINAR : row.gestor_cuenta_id" >
+          <button type="button" mat-menu-item (click)="deleteClick.emit({ row, index })" *ngIf="modelo | puede : a.ELIMINAR : (noCheckGestorCuentaId ? undefined : (row.gestor_cuenta_id || gestorCuentaId))" >
             <mat-icon color="primary">delete</mat-icon>
             <span>Eliminar</span>
           </button>

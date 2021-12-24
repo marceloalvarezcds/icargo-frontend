@@ -17,6 +17,10 @@ export class RemitenteService {
     return this.http.get<RemitenteList[]>(`${this.url}/`);
   }
 
+  getListByGestorCuentaId(): Observable<RemitenteList[]> {
+    return this.http.get<RemitenteList[]>(`${this.url}/gestor_cuenta_id/`);
+  }
+
   getById(id: number): Observable<Remitente> {
     return this.http.get<Remitente>(`${this.url}/${id}`);
   }

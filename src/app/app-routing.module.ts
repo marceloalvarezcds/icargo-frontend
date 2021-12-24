@@ -34,6 +34,11 @@ const routes: Routes = [
         loadChildren: () =>
           import('./flota/flota.module').then((m) => m.FlotaModule),
       },
+      {
+        path: 'flete',
+        loadChildren: () =>
+          import('./flete/flete.module').then((m) => m.FleteModule),
+      },
     ],
   },
 ];

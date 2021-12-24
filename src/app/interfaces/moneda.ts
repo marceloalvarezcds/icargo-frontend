@@ -20,4 +20,10 @@ export const mockMonedaList: Moneda[] = [
     simbolo: 'USD',
     estado: EstadoEnum.ACTIVO,
   },
+  {
+    id: 3,
+    nombre: 'Real',
+    simbolo: 'BRL',
+    estado: EstadoEnum.ACTIVO,
+  },
 ];

@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Proveedor, ProveedorList } from '../interfaces/proveedor';
+import { Proveedor, ProveedorList } from 'src/app/interfaces/proveedor';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +15,10 @@ export class ProveedorService {
 
   getList(): Observable<ProveedorList[]> {
     return this.http.get<ProveedorList[]>(`${this.url}/`);
+  }
+
+  getListByGestorCuentaId(): Observable<ProveedorList[]> {
+    return this.http.get<ProveedorList[]>(`${this.url}/gestor_cuenta_id/`);
   }
 
   getById(id: number): Observable<Proveedor> {

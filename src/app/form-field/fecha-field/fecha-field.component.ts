@@ -9,7 +9,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class FechaFieldComponent {
 
   get group(): FormGroup {
-    return this.form!.get(this.groupName) as FormGroup;
+    if (this.groupName) {
+      return this.form!.get(this.groupName) as FormGroup;
+    }
+    return this.form!;
   }
 
   get control(): FormControl {
@@ -18,6 +21,6 @@ export class FechaFieldComponent {
 
   @Input() controlName = '';
   @Input() form?: FormGroup;
-  @Input() groupName = '';
+  @Input() groupName?: string;
   @Input() title = 'Fecha';
 }

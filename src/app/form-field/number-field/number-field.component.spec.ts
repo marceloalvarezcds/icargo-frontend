@@ -40,11 +40,20 @@ describe('NumberFieldComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(NumberFieldComponent);
     component = fixture.componentInstance;
-    createFormGroup(component);
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    createFormGroup(component);
+    fixture.detectChanges();
+    expect(component).toBeTruthy();
+  });
+
+  it('should create without groupName', () => {
+    component.controlName = 'control';
+    component.form = new FormGroup({
+      control: new FormControl(null),
+    });
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

@@ -20,6 +20,7 @@ export class PageFormComponent {
   @Input() hasChange = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
+  @Input() inactiveTooltipText = 'Desactivar';
   @Input() module = '';
   @Input() submodule = '';
   @Input() viewTitle = '';

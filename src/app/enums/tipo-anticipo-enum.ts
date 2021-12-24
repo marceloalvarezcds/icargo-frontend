@@ -1,0 +1,6 @@
+export enum TipoAnticipoEnum {
+  EFECTIVO = 'EFECTIVO',
+  COMBUSTIBLE = 'COMBUSTIBLE',
+  LUBRICANTES = 'LUBRICANTES',
+  OTROS = 'OTROS',
+}

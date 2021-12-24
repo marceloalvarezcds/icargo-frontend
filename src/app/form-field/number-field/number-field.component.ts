@@ -9,7 +9,10 @@ import { FormControl, FormGroup } from '@angular/forms';
 export class NumberFieldComponent {
 
   get group(): FormGroup {
-    return this.form!.get(this.groupName) as FormGroup;
+    if (this.groupName) {
+      return this.form!.get(this.groupName) as FormGroup;
+    }
+    return this.form!;
   }
 
   get control(): FormControl {
@@ -19,6 +22,7 @@ export class NumberFieldComponent {
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;
-  @Input() groupName = '';
+  @Input() hint?: string;
+  @Input() groupName?: string;
   @Input() title = '';
 }

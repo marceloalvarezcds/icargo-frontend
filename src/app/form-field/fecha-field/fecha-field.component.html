@@ -1,17 +1,36 @@
 <div *ngIf="form" [formGroup]="form">
-  <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
-    <input matInput [formControlName]="controlName" [matDatepicker]="picker" (click)="picker.open()">
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-    <mat-error *ngIf="control.hasError('required')">
-      La {{ title }} es <strong>requerida</strong>
-    </mat-error>
-    <mat-error *ngIf="control.hasError('dateVaidator')">
-      La {{ title }} es <strong>inválida</strong>
-    </mat-error>
-    <mat-error *ngIf="control.hasError('matDatepickerParse')">
-      La {{ title }} no es <strong>válida</strong>
-    </mat-error>
-  </mat-form-field>
+  <ng-container *ngIf="groupName">
+    <mat-form-field [formGroupName]="groupName">
+      <mat-label>{{ title }}</mat-label>
+      <input matInput [formControlName]="controlName" [matDatepicker]="picker" (click)="picker.open()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="control.hasError('required')">
+        La {{ title }} es <strong>requerida</strong>
+      </mat-error>
+      <mat-error *ngIf="control.hasError('dateVaidator')">
+        La {{ title }} es <strong>inválida</strong>
+      </mat-error>
+      <mat-error *ngIf="control.hasError('matDatepickerParse')">
+        La {{ title }} no es <strong>válida</strong>
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+  <ng-container *ngIf="!groupName">
+    <mat-form-field>
+      <mat-label>{{ title }}</mat-label>
+      <input matInput [formControlName]="controlName" [matDatepicker]="picker" (click)="picker.open()">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="control.hasError('required')">
+        La {{ title }} es <strong>requerida</strong>
+      </mat-error>
+      <mat-error *ngIf="control.hasError('dateVaidator')">
+        La {{ title }} es <strong>inválida</strong>
+      </mat-error>
+      <mat-error *ngIf="control.hasError('matDatepickerParse')">
+        La {{ title }} no es <strong>válida</strong>
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
 </div>

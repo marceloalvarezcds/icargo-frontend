@@ -1,0 +1,48 @@
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import { Flete, FleteList } from 'src/app/interfaces/flete';
+import { FleteDestinatario } from '../interfaces/flete-destinatario';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class FleteService {
+
+  private url = `${environment.api}/flete`;
+
+  constructor(private http: HttpClient) { }
+
+  getList(): Observable<FleteList[]> {
+    return this.http.get<FleteList[]>(`${this.url}/`);
+  }
+
+  getById(id: number): Observable<Flete> {
+    return this.http.get<Flete>(`${this.url}/${id}`);
+  }
+
+  generateReports(): Observable<string> {
+    return this.http.get<string>(`${this.url}/reports/`);
+  }
+
+  create(formData: FormData): Observable<Flete> {
+    return this.http.post<Flete>(`${this.url}/`, formData);
+  }
+
+  edit(id: number, formData: FormData): Observable<Flete> {
+    return this.http.put<Flete>(`${this.url}/${id}`, formData);
+  }
+
+  delete(id: number): Observable<Flete> {
+    return this.http.delete<Flete>(`${this.url}/${id}`);
+  }
+
+  cancel(id: number): Observable<Flete> {
+    return this.http.get<Flete>(`${this.url}/${id}/cancel`);
+  }
+
+  getDestinatarioList(remitenteId: number, origenId: number, destinoId: number): Observable<FleteDestinatario[]> {
+    return this.http.get<FleteDestinatario[]>(`${this.url}/destinatarios/${remitenteId}/${origenId}/${destinoId}`);
+  }
+}
