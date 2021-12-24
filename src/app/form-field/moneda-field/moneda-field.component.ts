@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { MonedaService } from 'src/app/services/moneda.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class MonedaFieldComponent {
   list$ = this.monedaService.getList();
 
   get group(): FormGroup {
-    return this.form!.get(this.groupName) as FormGroup;
+    if (this.groupName) {
+      return this.form!.get(this.groupName) as FormGroup;
+    }
+    return this.form!;
   }
 
   get control(): FormControl {
@@ -21,8 +25,12 @@ export class MonedaFieldComponent {
 
   @Input() controlName = 'moneda_id';
   @Input() form?: FormGroup;
-  @Input() groupName = '';
+  @Input() groupName?: string;
   @Input() title = 'Moneda';
 
   constructor(private monedaService: MonedaService) { }
+
+  compareWith(o1?: Moneda, o2?: Moneda): boolean {
+    return o1?.id === o2?.id;
+  }
 }

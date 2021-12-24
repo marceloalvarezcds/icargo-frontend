@@ -39,6 +39,7 @@ import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemen
 import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 import { UnidadFieldComponent } from './unidad-field/unidad-field.component';
+import { ProveedorFieldComponent } from './proveedor-field/proveedor-field.component';
 
 const modules = [
   AliasFieldComponent,
@@ -63,6 +64,7 @@ const modules = [
   PaisFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,
+  ProveedorFieldComponent,
   RemitenteFieldComponent,
   SemiClasificacionFieldComponent,
   TelefonoFieldComponent,

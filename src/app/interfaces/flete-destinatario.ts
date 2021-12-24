@@ -11,8 +11,8 @@ export interface FleteDestinatario {
 }
 
 const destino = mockCentroOperativoContactoGestorCargaList[0];
-const origen = mockCentroOperativoContactoGestorCargaList[0];
-const remitente = mockRemitenteContactoGestorCargaList[0];
+const origen = mockCentroOperativoContactoGestorCargaList[1];
+const remitente = mockRemitenteContactoGestorCargaList[1];
 const usuario = mockUser
 
 export const mockFleteDestinatarioList: FleteDestinatario[] = [

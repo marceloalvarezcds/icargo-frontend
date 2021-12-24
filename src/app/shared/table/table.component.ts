@@ -52,9 +52,11 @@ export class TableComponent implements OnInit, OnDestroy {
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(this.tableDataSource);
   @Input() formArray = new FormArray([]);
+  @Input() gestorCuentaId?: number;
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
+  @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
 
   @Output() editClick = new EventEmitter<TableEvent<any>>();

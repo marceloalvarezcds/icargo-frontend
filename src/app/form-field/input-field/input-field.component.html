@@ -1,9 +1,20 @@
 <div *ngIf="form" [formGroup]="form">
-  <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
-    <input matInput [formControlName]="controlName" [appAutofocus]="autofocus" />
-    <mat-error *ngIf="control.hasError('required')">
-      Este campo es <strong>requerido</strong>
-    </mat-error>
-  </mat-form-field>
+  <ng-container *ngIf="groupName">
+    <mat-form-field [formGroupName]="groupName">
+      <mat-label>{{ title }}</mat-label>
+      <input matInput [formControlName]="controlName" [appAutofocus]="autofocus" />
+      <mat-error *ngIf="control.hasError('required')">
+        Este campo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+  <ng-container *ngIf="!groupName">
+    <mat-form-field>
+      <mat-label>{{ title }}</mat-label>
+      <input matInput [formControlName]="controlName" [appAutofocus]="autofocus" />
+      <mat-error *ngIf="control.hasError('required')">
+        Este campo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
 </div>

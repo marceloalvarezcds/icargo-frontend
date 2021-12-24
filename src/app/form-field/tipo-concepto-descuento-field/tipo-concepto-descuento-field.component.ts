@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { TipoConceptoDescuento } from 'src/app/interfaces/tipo-concepto-descuento';
 import { TipoConceptoDescuentoService } from 'src/app/services/tipo-concepto-descuento.service';
 
 @Component({
@@ -12,7 +13,10 @@ export class TipoConceptoDescuentoFieldComponent {
   list$ = this.tipoConceptoDescuentoService.getList();
 
   get group(): FormGroup {
-    return this.form!.get(this.groupName) as FormGroup;
+    if (this.groupName) {
+      return this.form!.get(this.groupName) as FormGroup;
+    }
+    return this.form!;
   }
 
   get control(): FormControl {
@@ -21,8 +25,12 @@ export class TipoConceptoDescuentoFieldComponent {
 
   @Input() controlName = 'tipo_concepto_descuento_id';
   @Input() form?: FormGroup;
-  @Input() groupName = '';
+  @Input() groupName?: string;
   @Input() title = 'Tipo de Concepto';
 
   constructor(private tipoConceptoDescuentoService: TipoConceptoDescuentoService) { }
+
+  compareWith(o1?: TipoConceptoDescuento, o2?: TipoConceptoDescuento): boolean {
+    return o1?.id === o2?.id;
+  }
 }

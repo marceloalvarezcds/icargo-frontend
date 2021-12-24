@@ -16,8 +16,7 @@ export interface FleteFormBaseModel {
   remitente_id: number;
   producto_id: number;
   tipo_carga_id: number;
-  numero_factura: string;
-  numero_crt?: string | null;
+  numero_lote?: string | null;
   publicado: boolean;
   publicado_descripcion: string;
   es_subasta: boolean;
@@ -177,8 +176,7 @@ export const mockFlete1: Flete = {
   producto: trigo,
   tipo_carga_id: seca.id,
   tipo_carga: seca,
-  numero_factura: '001-001-1000000',
-  numero_crt: '1000000',
+  numero_lote: '1000000',
   publicado: true,
   publicado_descripcion: 'Si',
   es_subasta: true,
@@ -254,8 +252,7 @@ export const mockFlete2: Flete = {
   producto: soja,
   tipo_carga_id: liquida.id,
   tipo_carga: liquida,
-  numero_factura: '001-001-2000000',
-  numero_crt: '2000000',
+  numero_lote: '2000000',
   publicado: true,
   publicado_descripcion: 'Si',
   es_subasta: true,
@@ -332,8 +329,7 @@ export const mockFleteList: FleteList[] = [
     producto_descripcion: trigo.descripcion,
     tipo_carga_id: seca.id,
     tipo_carga_descripcion: seca.descripcion,
-    numero_factura: '001-001-1000000',
-    numero_crt: '1000000',
+    numero_lote: '1000000',
     publicado: true,
     publicado_descripcion: 'Si',
     es_subasta: false,
@@ -404,8 +400,7 @@ export const mockFleteList: FleteList[] = [
     producto_descripcion: soja.descripcion,
     tipo_carga_id: liquida.id,
     tipo_carga_descripcion: liquida.descripcion,
-    numero_factura: '001-001-2000000',
-    numero_crt: '2000000',
+    numero_lote: '2000000',
     publicado: false,
     publicado_descripcion: 'No',
     es_subasta: false,
@@ -476,8 +471,7 @@ export const mockFleteList: FleteList[] = [
     producto_descripcion: fertilizante.descripcion,
     tipo_carga_id: seca.id,
     tipo_carga_descripcion: seca.descripcion,
-    numero_factura: '001-001-3000000',
-    numero_crt: '3000000',
+    numero_lote: '3000000',
     publicado: true,
     publicado_descripcion: 'Si',
     es_subasta: true,

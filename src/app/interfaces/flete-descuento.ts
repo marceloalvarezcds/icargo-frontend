@@ -5,23 +5,27 @@ import { mockTipoConceptoDescuentoList, TipoConceptoDescuento } from './tipo-con
 export interface FleteDescuento {
   id?: number | null;
   concepto_id: number;
-  concepto: TipoConceptoDescuento
+  concepto: TipoConceptoDescuento;
+  concepto_descripcion: string;
   detalle?: string | null;
   habilitar_pago_proveedor: boolean;
   anticipado: boolean;
-  // INICIO Monto a pagar al Propietario
+  // INICIO Monto a cobrar al Propietario
   propietario_monto?: number | null;
   propietario_moneda_id?: number | null;
   propietario_moneda: Moneda | null;
-  // FIN Monto a pagar al Propietario
+  propietario_moneda_nombre: string;
+  // FIN Monto a cobrar al Propietario
   // INICIO Monto a pagar al Proveedor
   proveedor_monto?: number | null;
   proveedor_moneda_id?: number | null;
-  proveedor_moneda: Moneda | null;
+  proveedor_moneda?: Moneda | null;
+  proveedor_moneda_nombre?: string | null;
   proveedor_id?: number | null;
   proveedor?: Proveedor | null;
+  proveedor_nombre?: string | null;
   // FIN Monto a pagar al Proveedor
-  flete_id: number;
+  flete_id?: number;
 }
 
 const moneda0 =  mockMonedaList[0];
@@ -38,20 +42,24 @@ export const mockFleteDescuentoList: FleteDescuento[] = [
     id: 1,
     concepto_id: tipoConceptoDescuento0.id,
     concepto: tipoConceptoDescuento0,
+    concepto_descripcion: tipoConceptoDescuento0.descripcion,
     detalle: 'Flete Descuento Detalle 1',
     habilitar_pago_proveedor: true,
     anticipado: true,
-    // INICIO Monto a pagar al Propietario
+    // INICIO Monto a cobrar al Propietario
     propietario_monto: 100,
     propietario_moneda_id: moneda0.id,
     propietario_moneda: moneda0,
-    // FIN Monto a pagar al Propietario
+    propietario_moneda_nombre: moneda0.nombre,
+    // FIN Monto a cobrar al Propietario
     // INICIO Monto a pagar al Proveedor
     proveedor_monto: 100,
     proveedor_moneda_id: moneda0.id,
     proveedor_moneda: moneda0,
+    proveedor_moneda_nombre: moneda0.nombre,
     proveedor_id: proveedor0.id,
     proveedor: proveedor0,
+    proveedor_nombre: proveedor0.nombre,
     // FIN Monto a pagar al Proveedor
     flete_id: 1,
   },
@@ -59,20 +67,24 @@ export const mockFleteDescuentoList: FleteDescuento[] = [
     id: 2,
     concepto_id: tipoConceptoDescuento1.id,
     concepto: tipoConceptoDescuento1,
+    concepto_descripcion: tipoConceptoDescuento1.descripcion,
     detalle: 'Flete Descuento Detalle 2',
     habilitar_pago_proveedor: true,
-    anticipado: true,
-    // INICIO Monto a pagar al Propietario
+    anticipado: false,
+    // INICIO Monto a cobrar al Propietario
     propietario_monto: 100,
     propietario_moneda_id: moneda1.id,
     propietario_moneda: moneda1,
-    // FIN Monto a pagar al Propietario
+    propietario_moneda_nombre: moneda1.nombre,
+    // FIN Monto a cobrar al Propietario
     // INICIO Monto a pagar al Proveedor
     proveedor_monto: 100,
     proveedor_moneda_id: moneda1.id,
     proveedor_moneda: moneda1,
+    proveedor_moneda_nombre: moneda1.nombre,
     proveedor_id: proveedor1.id,
     proveedor: proveedor1,
+    proveedor_nombre: proveedor1.nombre,
     // FIN Monto a pagar al Proveedor
     flete_id: 1,
   },

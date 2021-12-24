@@ -1,0 +1,22 @@
+<div *ngIf="form" [formGroup]="form">
+  <div class="row page-form-row" [formGroupName]="groupName">
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-number-field
+        title="Cantidad a Transportar"
+        controlName="condicion_cantidad"
+        [groupName]="groupName"
+        [form]="form"
+      ></app-number-field>
+    </div>
+  </div>
+</div>
+<app-flete-form-condicion-afectado
+  afectado="gestor_cuenta"
+  afectadoTitle="Gestor"
+  [form]="form"
+></app-flete-form-condicion-afectado>
+<app-flete-form-condicion-afectado
+  afectado="propietario"
+  afectadoTitle="Propietario"
+  [form]="form"
+></app-flete-form-condicion-afectado>
