@@ -10,7 +10,7 @@
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
-  [gestorCuentaId]="gestorCuentaId"
+  [gestorCuentaId]="gestorCargaId"
   [shouldShowInactiveButton]="!isCancel"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
@@ -88,13 +88,13 @@
       </mat-expansion-panel-header>
       <div>
         <app-flete-form-complementos
-          [gestorCuentaId]="gestorCuentaId"
+          [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
           [complementoList]="complementoList"
         ></app-flete-form-complementos>
         <app-flete-form-descuentos
-          [gestorCuentaId]="gestorCuentaId"
+          [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
           [descuentoList]="descuentoList"

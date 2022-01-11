@@ -95,6 +95,13 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       path: `/flete/${m.FLETE}/${a.LISTAR}`,
       active: this.userService.checkPermiso(a.LISTAR, m.FLETE),
     },
+    {
+      name: 'Orden de Carga',
+      iconName: 'description',
+      iconOutline: true,
+      path: `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`,
+      active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
+    },
   ];
 
   toggleSidebarMenuSubscription = this.menuConfigService

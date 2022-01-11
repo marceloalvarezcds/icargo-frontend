@@ -74,7 +74,7 @@ export interface Flete extends FleteFormBaseModel {
   producto: Producto;
   tipo_carga: TipoCarga
   estado: EstadoEnum;
-  gestor_cuenta_id: number;
+  gestor_carga_id: number;
   // INICIO Tramo de Fletes
   origen: CentroOperativo;
   destino: CentroOperativo;
@@ -110,10 +110,12 @@ export interface Flete extends FleteFormBaseModel {
 export interface FleteList extends FleteFormBaseModel {
   id: number;
   remitente_nombre: string;
+  remitente_numero_documento: string;
   producto_descripcion: string;
   tipo_carga_descripcion: string;
   estado: EstadoEnum
-  gestor_cuenta_nombre: string;
+  gestor_carga_id: number;
+  gestor_carga_nombre: string;
   // INICIO Tramo de Fletes
   origen_nombre: string;
   destino_nombre: string;
@@ -181,7 +183,7 @@ export const mockFlete1: Flete = {
   publicado_descripcion: 'Si',
   es_subasta: true,
   estado: EstadoEnum.ACTIVO,
-  gestor_cuenta_id: gestor0.id,
+  gestor_carga_id: gestor0.id,
   // INICIO Tramo de Fletes
   origen_id: origen2.id,
   origen: origen2,
@@ -257,7 +259,7 @@ export const mockFlete2: Flete = {
   publicado_descripcion: 'Si',
   es_subasta: true,
   estado: EstadoEnum.ACTIVO,
-  gestor_cuenta_id: gestor1.id,
+  gestor_carga_id: gestor1.id,
   // INICIO Tramo de Fletes
   origen_id: origen3.id,
   origen: origen3,
@@ -325,6 +327,7 @@ export const mockFleteList: FleteList[] = [
     id: 1,
     remitente_id: remitente1.id,
     remitente_nombre: remitente1.nombre,
+    remitente_numero_documento: remitente1.numero_documento,
     producto_id: trigo.id,
     producto_descripcion: trigo.descripcion,
     tipo_carga_id: seca.id,
@@ -334,7 +337,8 @@ export const mockFleteList: FleteList[] = [
     publicado_descripcion: 'Si',
     es_subasta: false,
     estado: EstadoEnum.ACTIVO,
-    gestor_cuenta_nombre: gestor0.nombre,
+    gestor_carga_id: gestor0.id,
+    gestor_carga_nombre: gestor0.nombre,
     // INICIO Tramo de Fletes
     origen_id: origen2.id,
     origen_nombre: origen2.nombre,
@@ -396,6 +400,7 @@ export const mockFleteList: FleteList[] = [
     id: 2,
     remitente_id: remitente2.id,
     remitente_nombre: remitente2.nombre,
+    remitente_numero_documento: remitente2.numero_documento,
     producto_id: soja.id,
     producto_descripcion: soja.descripcion,
     tipo_carga_id: liquida.id,
@@ -405,7 +410,8 @@ export const mockFleteList: FleteList[] = [
     publicado_descripcion: 'No',
     es_subasta: false,
     estado: EstadoEnum.CANCELADO,
-    gestor_cuenta_nombre: gestor0.nombre,
+    gestor_carga_id: gestor0.id,
+    gestor_carga_nombre: gestor0.nombre,
     // INICIO Tramo de Fletes
     origen_id: origen3.id,
     origen_nombre: origen3.nombre,
@@ -467,6 +473,7 @@ export const mockFleteList: FleteList[] = [
     id: 3,
     remitente_id: remitente3.id,
     remitente_nombre: remitente3.nombre,
+    remitente_numero_documento: remitente3.numero_documento,
     producto_id: fertilizante.id,
     producto_descripcion: fertilizante.descripcion,
     tipo_carga_id: seca.id,
@@ -476,7 +483,8 @@ export const mockFleteList: FleteList[] = [
     publicado_descripcion: 'Si',
     es_subasta: true,
     estado: EstadoEnum.ACTIVO,
-    gestor_cuenta_nombre: gestor1.nombre,
+    gestor_carga_id: gestor1.id,
+    gestor_carga_nombre: gestor1.nombre,
     // INICIO Tramo de Fletes
     origen_id: origen1.id,
     origen_nombre: origen1.nombre,
