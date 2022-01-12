@@ -4,11 +4,13 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MaterialModule } from 'src/app/material/material.module';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { DirectivesModule } from 'src/app/directives/directives.module';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { ComplementoFormDialogComponent } from './complemento-form-dialog/complemento-form-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ContactoFormDialogComponent } from './contacto-form-dialog/contacto-form-dialog.component';
 import { DescuentoFormDialogComponent } from './descuento-form-dialog/descuento-form-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
+import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
 
 const modules = [
   ComplementoFormDialogComponent,
@@ -16,6 +18,7 @@ const modules = [
   ContactoFormDialogComponent,
   DescuentoFormDialogComponent,
   LoadingDialogComponent,
+  SelectorDialogComponent,
 ];
 
 @NgModule({
@@ -28,6 +31,7 @@ const modules = [
     FormFieldModule,
     MaterialModule,
     ReactiveFormsModule,
+    SharedModule,
   ]
 })
 export class DialogsModule { }

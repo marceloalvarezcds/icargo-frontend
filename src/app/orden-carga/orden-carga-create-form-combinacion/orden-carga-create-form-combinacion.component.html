@@ -1,0 +1,29 @@
+<div *ngIf="form" [formGroup]="form">
+  <div [formGroupName]="groupName">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-flete-by-gestor-dialog-field
+          [groupName]="groupName"
+          [form]="form"
+          (valueChange)="onFleteChange($event)"
+        ></app-flete-by-gestor-dialog-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-camion-by-producto-field
+          [groupName]="groupName"
+          [form]="form"
+          [productoId]="flete?.producto_id"
+          (valueChange)="camionId = $event"
+        ></app-camion-by-producto-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-semi-by-camion-producto-field
+          [groupName]="groupName"
+          [form]="form"
+          [camionId]="camionId"
+          [productoId]="flete?.producto_id"
+        ></app-semi-by-camion-producto-field>
+      </div>
+    </div>
+  </div>
+</div>

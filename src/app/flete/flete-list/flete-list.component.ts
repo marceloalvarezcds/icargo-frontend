@@ -38,7 +38,7 @@ export class FleteListComponent implements OnInit {
     { def: 'publicado_descripcion', title: 'Publicado', value: (element: FleteList) => element.publicado_descripcion },
     { def: 'es_subasta', title: 'Tipo de Pedido', value: (element: FleteList) => element.es_subasta ? 'Subasta' : 'Flete' },
     { def: 'estado', title: 'Estado', value: (element: FleteList) => element.estado },
-    { def: 'gestor_cuenta_nombre', title: 'Gestor de Cuenta', value: (element: FleteList) => element.gestor_cuenta_nombre },
+    { def: 'gestor_carga_nombre', title: 'Gestor de Cuenta', value: (element: FleteList) => element.gestor_carga_nombre },
     { def: 'origen_nombre', title: 'Origen', value: (element: FleteList) => element.origen_nombre },
     { def: 'origen_indicacion', title: 'Origen Indicaciones', value: (element: FleteList) => element.origen_indicacion },
     { def: 'destino_nombre', title: 'Destino', value: (element: FleteList) => element.destino_nombre },

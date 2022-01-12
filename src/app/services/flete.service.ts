@@ -18,6 +18,10 @@ export class FleteService {
     return this.http.get<FleteList[]>(`${this.url}/`);
   }
 
+  getListByGestorCarga(): Observable<FleteList[]> {
+    return this.http.get<FleteList[]>(`${this.url}/gestor_carga`);
+  }
+
   getById(id: number): Observable<Flete> {
     return this.http.get<Flete>(`${this.url}/${id}`);
   }

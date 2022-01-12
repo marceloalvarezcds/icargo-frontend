@@ -39,7 +39,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   isEmisionOrdenTouched = false;
   backUrl = `/flete/${m.FLETE}/${a.LISTAR}`;
   modelo = m.FLETE;
-  gestorCuentaId?: number;
+  gestorCargaId?: number;
   created_by = '';
   created_at = '';
   modified_by = '';
@@ -115,7 +115,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   get puedeModificar(): boolean {
     if (this.isShow || !this.isEdit) { return false; }
-    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCuentaId);
+    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCargaId);
   }
 
   get info(): FormGroup {
@@ -255,7 +255,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       this.fleteService.getById(this.id).subscribe(data => {
         this.estado = data.estado;
         this.isCancel = data.estado === EstadoEnum.CANCELADO;
-        this.gestorCuentaId = data.gestor_cuenta_id;
+        this.gestorCargaId = data.gestor_carga_id;
         this.created_by = data.created_by;
         this.created_at = data.created_at;
         this.modified_by = data.modified_by;
