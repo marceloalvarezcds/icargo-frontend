@@ -1,13 +1,10 @@
-<div *ngIf="formGroup" [formGroup]="formGroup">
-  <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
-    <mat-select [formControlName]="controlName">
-      <ng-container *ngFor="let o of list">
-        <mat-option [value]="o.id">Nº Flete {{o.id}} - producto: {{o.producto_descripcion}}</mat-option>
-      </ng-container>
-    </mat-select>
-    <mat-error *ngIf="control.hasError('required')">
-      El flete es <strong>requerido</strong>
-    </mat-error>
-  </mat-form-field>
-</div>
+<app-dialog-field
+  [title]="title"
+  [columns]="columns"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [inputValueFormat]="inputValueFormat"
+  [form]="form"
+  [list]="list"
+  (valueChange)="valueChange.emit($event)"
+></app-dialog-field>

@@ -15,6 +15,7 @@ import { TableComponent } from './table/table.component';
 import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
+import { TableSelectorComponent } from './table-selector/table-selector.component';
 import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 import { PageFormContactosComponent } from './page-form-contactos/page-form-contactos.component';
 import { PageFormEntitiesInfoComponent } from './page-form-entities-info/page-form-entities-info.component';
@@ -34,6 +35,7 @@ const modules = [
   SearchableCheckboxFilterComponent,
   TableComponent,
   TablePaginatorComponent,
+  TableSelectorComponent,
   PageFormContactosComponent,
   PageFormEntitiesInfoComponent,
 ];

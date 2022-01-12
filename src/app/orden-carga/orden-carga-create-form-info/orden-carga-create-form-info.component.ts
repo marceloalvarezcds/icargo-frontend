@@ -24,7 +24,6 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     this.subscription = this.combinacion.valueChanges
       .pipe(filter((c: Partial<OrdenCargaForm>) => !!(c.camion_id && c.semi_id && c.flete_id)))
       .subscribe((c: Partial<OrdenCargaForm>) => {
-        console.log('asdfas', c)
         this.camionSemiNetoService
           .getListByCamionIdAndSemiIdAndProductoId(c.camion_id!, c.semi_id!, this.flete!.producto_id)
           .subscribe(camionSemiNeto => {

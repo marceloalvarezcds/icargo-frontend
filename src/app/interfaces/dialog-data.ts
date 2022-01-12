@@ -12,6 +12,7 @@ export interface SelectorDialogData<T> {
   columns: Column[];
   list: T[];
   title: string;
+  selectedValue?: T | null;
 }
 
 export const mockFleteAnticipoDialogData: FleteAnticipoDialogData = {
@@ -30,6 +31,7 @@ export const mockSelectorDialogData: SelectorDialogData<FleteList> = {
   ],
   list: mockFleteList,
   title: 'Flete',
+  selectedValue: mockFleteList[0],
 };
 
 export const mockSelectorDialogData2: SelectorDialogData<FleteList> = {

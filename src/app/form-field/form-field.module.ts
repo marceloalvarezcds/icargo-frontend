@@ -23,6 +23,7 @@ import { CamionByProductoFieldComponent } from './camion-by-producto-field/camio
 import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
+import { DialogFieldComponent } from './dialog-field/dialog-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
 import { EnteEmisorTransporteFieldComponent } from './ente-emisor-transporte-field/ente-emisor-transporte-field.component';
 import { EstadoFieldComponent } from './estado-field/estado-field.component';
@@ -53,6 +54,7 @@ const modules = [
   ChoferFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
+  DialogFieldComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
   EnteEmisorAutomotorFieldComponent,
