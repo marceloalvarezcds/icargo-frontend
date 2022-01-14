@@ -1,9 +1,12 @@
 import { mockTipoAnticipoList, TipoAnticipo } from './tipo-anticipo';
+import { mockTipoInsumoList } from './tipo-insumo';
 
 export interface FleteAnticipoForm {
   id?: number | null;
   tipo_id: number;
   tipo_descripcion: string;
+  tipo_insumo_id?: number | null;
+  tipo_insumo_descripcion?: string | null;
   porcentaje: number | null;
 }
 
@@ -14,8 +17,9 @@ export interface FleteAnticipo extends FleteAnticipoForm {
 
 const tipoAnticipo0 = mockTipoAnticipoList[0];
 const tipoAnticipo1 = mockTipoAnticipoList[1];
-const tipoAnticipo2 = mockTipoAnticipoList[2];
-const tipoAnticipo3 = mockTipoAnticipoList[3];
+
+const tipoInsumo0 = mockTipoInsumoList[0];
+const tipoInsumo1 = mockTipoInsumoList[1];
 
 export const mockFleteAnticipoList: FleteAnticipo[] = [
   {
@@ -27,26 +31,22 @@ export const mockFleteAnticipoList: FleteAnticipo[] = [
     flete_id: 1,
   },
   {
-    id: 1,
+    id: 2,
     tipo_id: tipoAnticipo1.id,
     tipo: tipoAnticipo1,
     tipo_descripcion: tipoAnticipo1.descripcion,
+    tipo_insumo_id: tipoInsumo0.id,
+    tipo_insumo_descripcion: tipoInsumo0.descripcion,
     porcentaje: 10,
     flete_id: 1,
   },
   {
-    id: 1,
-    tipo_id: tipoAnticipo2.id,
-    tipo: tipoAnticipo2,
-    tipo_descripcion: tipoAnticipo2.descripcion,
-    porcentaje: 10,
-    flete_id: 1,
-  },
-  {
-    id: 1,
-    tipo_id: tipoAnticipo3.id,
-    tipo: tipoAnticipo3,
-    tipo_descripcion: tipoAnticipo3.descripcion,
+    id: 3,
+    tipo_id: tipoAnticipo1.id,
+    tipo: tipoAnticipo1,
+    tipo_descripcion: tipoAnticipo1.descripcion,
+    tipo_insumo_id: tipoInsumo1.id,
+    tipo_insumo_descripcion: tipoInsumo1.descripcion,
     porcentaje: 10,
     flete_id: 1,
   },

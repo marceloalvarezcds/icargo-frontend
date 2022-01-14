@@ -24,6 +24,7 @@ export interface OrdenCargaDescuento extends OrdenCargaDescuentoForm {
   id: number;
   concepto: TipoConceptoDescuento;
   concepto_descripcion: string;
+  anticipado_descripcion: string;
   // INICIO Monto a cobrar al Propietario
   propietario_moneda: Moneda;
   propietario_moneda_nombre: string;
@@ -55,6 +56,7 @@ export const mockOrdenCargaDescuentoList: OrdenCargaDescuento[] = [
     detalle: 'Flete Descuento Detalle 1',
     habilitar_pago_proveedor: true,
     anticipado: true,
+    anticipado_descripcion: 'Si',
     // INICIO Monto a cobrar al Propietario
     propietario_monto: 100,
     propietario_moneda_id: moneda0.id,
@@ -80,6 +82,7 @@ export const mockOrdenCargaDescuentoList: OrdenCargaDescuento[] = [
     detalle: 'Flete Descuento Detalle 2',
     habilitar_pago_proveedor: true,
     anticipado: false,
+    anticipado_descripcion: 'No',
     // INICIO Monto a cobrar al Propietario
     propietario_monto: 100,
     propietario_moneda_id: moneda1.id,

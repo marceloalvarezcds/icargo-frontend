@@ -1,0 +1,129 @@
+<ng-container *ngIf="item">
+  <app-page-form
+    class="flete-page"
+    module="Flete"
+    submodule="Fletes"
+    viewTitle="{{ isEdit ? 'Edición' : 'Ver' }}"
+    [class.page-form-show]="isShow"
+    [formGroup]="form"
+    [hasChange]="hasChange"
+    [isEdit]="isEdit"
+    [isShow]="isShow"
+    [modelo]="modelo"
+    [gestorCuentaId]="gestorCargaId"
+    (backClick)="back($event)"
+    (editClick)="redirectToEdit()"
+    (submitEvent)="submit(false)"
+  >
+    <div class="orden-carga-page-content">
+      <app-orden-carga-edit-form-acciones
+        [isAnticiposLiberados]="isAnticiposLiberados"
+        [isAceptado]="isAceptado"
+        [isCancelado]="isCancelado"
+        [oc]="item"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-acciones>
+      <mat-accordion multi>
+        <mat-expansion-panel [expanded]="isCombinacionTouched">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Información principal
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-combinacion
+            [form]="form"
+            (fleteChange)="flete = $event"
+          ></app-orden-carga-edit-form-combinacion>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="isInfoTouched">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Cantidad Nominada
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-info
+            [form]="form"
+            [flete]="flete"
+          ></app-orden-carga-edit-form-info>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="isTramoTouched">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Tramo
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-tramo [form]="form"></app-orden-carga-edit-form-tramo>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Remisiones
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-orden-carga-edit-form-remisiones-origen
+              [gestorCargaId]="gestorCargaId"
+              [puedeModificar]="puedeModificar"
+              [lista]="remisionOrigenList"
+            ></app-orden-carga-edit-form-remisiones-origen>
+            <app-orden-carga-edit-form-remisiones-origen
+              [gestorCargaId]="gestorCargaId"
+              [puedeModificar]="puedeModificar"
+              [lista]="remisionDestinoList"
+            ></app-orden-carga-edit-form-remisiones-origen>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Complementos y Descuentos
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-orden-carga-edit-form-complementos
+              [gestorCargaId]="gestorCargaId"
+              [puedeModificar]="puedeModificar"
+              [lista]="complementoList"
+            ></app-orden-carga-edit-form-complementos>
+            <app-orden-carga-edit-form-descuentos
+              [gestorCargaId]="gestorCargaId"
+              [puedeModificar]="puedeModificar"
+              [lista]="descuentoList"
+            ></app-orden-carga-edit-form-descuentos>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Anticipos
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-anticipos
+            [gestorCargaId]="gestorCargaId"
+            [puedeModificar]="puedeModificar"
+            [lista]="anticipoList"
+          ></app-orden-carga-edit-form-anticipos>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Auditoría
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-page-form-audit
+            [created_by]="created_by"
+            [created_at]="created_at"
+            [modified_by]="modified_by"
+            [modified_at]="modified_at"
+          ></app-page-form-audit>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </app-page-form>
+</ng-container>

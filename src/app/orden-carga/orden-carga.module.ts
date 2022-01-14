@@ -13,6 +13,16 @@ import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.com
 import { OrdenCargaCreateFormComponent } from './orden-carga-create-form/orden-carga-create-form.component';
 import { OrdenCargaCreateFormCombinacionComponent } from './orden-carga-create-form-combinacion/orden-carga-create-form-combinacion.component';
 import { OrdenCargaCreateFormInfoComponent } from './orden-carga-create-form-info/orden-carga-create-form-info.component';
+import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga-edit-form.component';
+import { OrdenCargaEditFormAnticiposComponent } from './orden-carga-edit-form-anticipos/orden-carga-edit-form-anticipos.component';
+import { OrdenCargaEditFormComplementosComponent } from './orden-carga-edit-form-complementos/orden-carga-edit-form-complementos.component';
+import { OrdenCargaEditFormDescuentosComponent } from './orden-carga-edit-form-descuentos/orden-carga-edit-form-descuentos.component';
+import { OrdenCargaEditFormRemisionesDestinoComponent } from './orden-carga-edit-form-remisiones-destino/orden-carga-edit-form-remisiones-destino.component';
+import { OrdenCargaEditFormRemisionesOrigenComponent } from './orden-carga-edit-form-remisiones-origen/orden-carga-edit-form-remisiones-origen.component';
+import { OrdenCargaEditFormAccionesComponent } from './orden-carga-edit-form-acciones/orden-carga-edit-form-acciones.component';
+import { OrdenCargaEditFormInfoComponent } from './orden-carga-edit-form-info/orden-carga-edit-form-info.component';
+import { OrdenCargaEditFormCombinacionComponent } from './orden-carga-edit-form-combinacion/orden-carga-edit-form-combinacion.component';
+import { OrdenCargaEditFormTramoComponent } from './orden-carga-edit-form-tramo/orden-carga-edit-form-tramo.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +30,16 @@ import { OrdenCargaCreateFormInfoComponent } from './orden-carga-create-form-inf
     OrdenCargaCreateFormComponent,
     OrdenCargaCreateFormCombinacionComponent,
     OrdenCargaCreateFormInfoComponent,
+    OrdenCargaEditFormComponent,
+    OrdenCargaEditFormAnticiposComponent,
+    OrdenCargaEditFormComplementosComponent,
+    OrdenCargaEditFormDescuentosComponent,
+    OrdenCargaEditFormRemisionesDestinoComponent,
+    OrdenCargaEditFormRemisionesOrigenComponent,
+    OrdenCargaEditFormAccionesComponent,
+    OrdenCargaEditFormInfoComponent,
+    OrdenCargaEditFormCombinacionComponent,
+    OrdenCargaEditFormTramoComponent,
   ],
   imports: [
     CommonModule,

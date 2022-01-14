@@ -1,0 +1,49 @@
+.acciones-container {
+  padding-left: 24px;
+  padding-right: 24px;
+}
+
+.acciones-buttons {
+  margin-right: -24px;
+}
+
+.acciones-buttons button {
+  margin-right: 24px;
+  margin-bottom: 1rem;
+}
+
+$scoreboard-color: #666;
+
+.scoreboard {
+  display: flex;
+  flex-wrap: wrap;
+  margin-left: -24px;
+  margin-right: -24px;
+}
+
+.scoreboard-item {
+  margin-left: 24px;
+  margin-right: 24px;
+  margin-bottom: 1rem;
+}
+
+.scoreboard-item h4 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: $scoreboard-color;
+  margin: 0;
+}
+
+.scoreboard-item p {
+  color: $scoreboard-color;
+  margin: 0;
+  font-size: 24px;
+  line-height: 40px;
+}
+
+.scoreboard-item p.description {
+  color: #999;
+  font-weight: 300;
+  font-size: 13px;
+  line-height: 100%;
+}

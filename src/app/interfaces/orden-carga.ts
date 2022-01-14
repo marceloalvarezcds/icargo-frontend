@@ -4,7 +4,7 @@ import { TipoFleteEnum } from '../enums/tipo-flete-enum';
 import { mockCamionList } from './camion';
 import { CentroOperativo, mockCentroOperativoList } from './centro-operativo';
 import { mockFleteList } from './flete';
-import { mockOrdenCargaAnticipoList, OrdenCargaAnticipo } from './orden-carga-anticipo';
+import { mockOrdenCargaAnticipoRetiradoList, OrdenCargaAnticipoRetirado } from './orden-carga-anticipo-retirado';
 import { mockOrdenCargaComplementoList, OrdenCargaComplemento } from './orden-carga-complemento';
 import { mockOrdenCargaDescuentoList, OrdenCargaDescuento } from './orden-carga-descuento';
 import { mockOrdenCargaRemisionDestinoList, OrdenCargaRemisionDestino } from './orden-carga-remision-destino';
@@ -66,7 +66,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   fecha_cargado?: string | null;
   fecha_descargado?: string | null;
   // Relaciones Listas
-  anticipos: OrdenCargaAnticipo[];
+  anticipos: OrdenCargaAnticipoRetirado[];
   complementos: OrdenCargaComplemento[];
   descuentos: OrdenCargaDescuento[];
   remisiones_destino: OrdenCargaRemisionDestino[];
@@ -189,7 +189,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   fecha_cargado: null,
   fecha_descargado: null,
   // Relaciones Listas
-  anticipos: mockOrdenCargaAnticipoList,
+  anticipos: mockOrdenCargaAnticipoRetiradoList,
   complementos: mockOrdenCargaComplementoList,
   descuentos: mockOrdenCargaDescuentoList,
   remisiones_destino: mockOrdenCargaRemisionDestinoList,

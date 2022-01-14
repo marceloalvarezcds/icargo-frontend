@@ -26,16 +26,6 @@ const unidad1 = mockUnidadList[1];
 export const mockInsumoList: Insumo[] = [
   {
     id: 1,
-    descripcion: 'VIÁTICO',
-    tipo_id: tipo0.id,
-    tipo_descripcion: tipo0.descripcion,
-    unidad_id: null,
-    unidad_descripcion: null,
-    unidad_abreviatura: null,
-    estado: EstadoEnum.ACTIVO,
-  },
-  {
-    id: 2,
     descripcion: 'GASOIL COMÚN',
     tipo_id: tipo1.id,
     tipo_descripcion: tipo1.descripcion,
@@ -45,7 +35,7 @@ export const mockInsumoList: Insumo[] = [
     estado: EstadoEnum.ACTIVO,
   },
   {
-    id: 3,
+    id: 2,
     descripcion: 'ACEITE DE MOTOR COMÚN',
     tipo_id: tipo2.id,
     tipo_descripcion: tipo2.descripcion,

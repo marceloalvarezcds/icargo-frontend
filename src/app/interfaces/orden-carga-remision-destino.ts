@@ -1,3 +1,4 @@
+import { mockGestorCargaList } from './gestor-carga';
 import { mockUnidadList } from './unidad';
 
 export interface OrdenCargaRemisionDestinoForm {
@@ -6,6 +7,7 @@ export interface OrdenCargaRemisionDestinoForm {
   unidad_id: number;
   foto_documento?: string | null;
   numero_documento_origen?: string | null;
+  destino_id?: number | null;
   orden_carga_id: number;
 }
 
@@ -14,7 +16,13 @@ export interface OrdenCargaRemisionDestino extends OrdenCargaRemisionDestinoForm
   fecha: string;
   unidad_abreviatura: string;
   unidad_descripcion: string;
+  destino_nombre?: string | null;
+  gestor_carga_moneda_nombre: string;
 }
+
+const gestor0 = mockGestorCargaList[0];
+const gestor1 = mockGestorCargaList[0];
+const gestor2 = mockGestorCargaList[0];
 
 const unidad0 = mockUnidadList[0];
 const unidad1 = mockUnidadList[1];
@@ -32,6 +40,7 @@ export const mockOrdenCargaRemisionDestinoList: OrdenCargaRemisionDestino[] = [
     numero_documento_origen: null,
     foto_documento: null,
     orden_carga_id: 1,
+    gestor_carga_moneda_nombre: gestor0.moneda_nombre,
   },
   {
     id: 2,
@@ -44,6 +53,7 @@ export const mockOrdenCargaRemisionDestinoList: OrdenCargaRemisionDestino[] = [
     numero_documento_origen: null,
     foto_documento: null,
     orden_carga_id: 1,
+    gestor_carga_moneda_nombre: gestor1.moneda_nombre,
   },
   {
     id: 3,
@@ -56,5 +66,6 @@ export const mockOrdenCargaRemisionDestinoList: OrdenCargaRemisionDestino[] = [
     numero_documento_origen: null,
     foto_documento: null,
     orden_carga_id: 2,
+    gestor_carga_moneda_nombre: gestor2.moneda_nombre,
   },
 ];

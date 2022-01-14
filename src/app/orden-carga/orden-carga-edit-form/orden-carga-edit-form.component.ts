@@ -1,0 +1,229 @@
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute, Router } from '@angular/router';
+import { isEqual } from 'lodash';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { FleteList } from 'src/app/interfaces/flete';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
+import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
+import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
+import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
+import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { UserService } from 'src/app/services/user.service';
+import { openSnackbar } from 'src/app/utils/snackbar';
+
+@Component({
+  selector: 'app-orden-carga-edit-form',
+  templateUrl: './orden-carga-edit-form.component.html',
+  styleUrls: ['./orden-carga-edit-form.component.scss']
+})
+export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
+  a = PermisoAccionEnum;
+  id!: number;
+  isEdit = false;
+  isCombinacionTouched = true;
+  isInfoTouched = false;
+  isTramoTouched = false;
+  backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
+  modelo = m.ORDEN_CARGA;
+  item?: OrdenCarga;
+  flete?: FleteList;
+
+  form = this.fb.group({
+    combinacion: this.fb.group({
+      flete_id: [null, Validators.required],
+      camion_id: [null, Validators.required],
+      semi_id: [null, Validators.required],
+    }),
+    info: this.fb.group({
+      cantidad_nominada: [null, Validators.required],
+      comentarios: null,
+    }),
+    tramo: this.fb.group({
+      origen_id: [null, Validators.required],
+      destino_id: [null, Validators.required],
+    }),
+  });
+
+  initialFormValue = this.form.value;
+  hasChange = false;
+  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+    setTimeout(() => {
+      this.hasChange = !isEqual(this.initialFormValue, value);
+    });
+  });
+
+  get isShow(): boolean {
+    return !this.isEdit;
+  }
+
+  get estado(): EstadoEnum {
+    return this.item!.estado;
+  }
+
+  get gestorCargaId(): number | undefined {
+    return this.item?.gestor_carga_id;
+  }
+
+  get isAnticiposLiberados(): boolean {
+    return this.item!.anticipos_liberados;
+  }
+
+  get isAceptado(): boolean {
+    return this.estado === EstadoEnum.ACEPTADO;
+  }
+
+  get isCancelado(): boolean{
+    return this.estado === EstadoEnum.CANCELADO;
+  }
+
+  get puedeModificar(): boolean {
+    if (!this.isEdit) { return false; }
+    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCargaId);
+  }
+
+  get combinacion(): FormGroup {
+    return this.form.get('combinacion') as FormGroup;
+  }
+
+  get info(): FormGroup {
+    return this.form.get('info') as FormGroup;
+  }
+
+  get tramo(): FormGroup {
+    return this.form.get('tramo') as FormGroup;
+  }
+
+  get anticipoList(): OrdenCargaAnticipoRetirado[] {
+    return this.item!.anticipos.slice();
+  }
+
+  get complementoList(): OrdenCargaComplemento[] {
+    return this.item!.complementos.slice();
+  }
+
+  get descuentoList(): OrdenCargaDescuento[] {
+    return this.item!.descuentos.slice();
+  }
+
+  get remisionDestinoList(): OrdenCargaRemisionDestino[] {
+    return this.item!.remisiones_destino.slice();
+  }
+
+  get remisionOrigenList(): OrdenCargaRemisionOrigen[] {
+    return this.item!.remisiones_origen.slice();
+  }
+
+  get created_by(): string {
+    return this.item!.created_by;
+  }
+
+  get created_at(): string {
+    return this.item!.created_at;
+  }
+
+  get modified_by(): string {
+    return this.item!.modified_by;
+  }
+
+  get modified_at(): string {
+    return this.item!.modified_at;
+  }
+
+  constructor(
+    private fb: FormBuilder,
+    private ordenCargaService: OrdenCargaService,
+    private userService: UserService,
+    private snackbar: MatSnackBar,
+    private route: ActivatedRoute,
+    private router: Router,
+  ) { }
+
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  ngOnDestroy(): void {
+    this.hasChangeSubscription.unsubscribe();
+  }
+
+  redirectToEdit(): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, this.id]);
+  }
+
+  back(confirmed: boolean): void {
+    if (confirmed) {
+      this.submit(confirmed);
+    } else {
+      this.router.navigate([this.backUrl]);
+    }
+  }
+
+  submit(confirmed: boolean): void {
+    this.isInfoTouched = false;
+    this.form.markAsDirty();
+    this.form.markAllAsTouched();
+    if (this.form.valid) {
+      const formData = new FormData();
+      const data = JSON.parse(JSON.stringify({
+        ...this.info.value,
+        ...this.tramo.value,
+        ...this.combinacion.value,
+      }));
+      formData.append('data', JSON.stringify(data));
+      if (this.isEdit) {
+        this.ordenCargaService.edit(this.id, formData).subscribe(() => {
+          this.getData();
+          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
+        });
+      }
+    } else {
+      setTimeout(() => {
+        this.isInfoTouched = this.info.invalid;
+        this.isTramoTouched = this.tramo.invalid;
+        this.isCombinacionTouched = this.combinacion.invalid;
+      });
+    }
+  }
+
+  getData(): void {
+    const backUrl = this.route.snapshot.queryParams.backUrl;
+    if (backUrl) {
+      this.backUrl = backUrl;
+    }
+    this.id = +this.route.snapshot.params.id;
+    this.isEdit = /edit/.test(this.router.url);
+    if (this.isShow) {
+      this.form.disable();
+    }
+    this.ordenCargaService.getById(this.id).subscribe(data => {
+      if (!this.puedeModificar) {
+        this.form.disable();
+      }
+      this.form.patchValue({
+        combinacion: {
+          flete_id: data.flete_id,
+          camion_id: data.camion_id,
+          semi_id: data.semi_id,
+        },
+        info: {
+          cantidad_nominada: data.cantidad_nominada,
+          comentarios: data.comentarios,
+        },
+        tramo: {
+          origen_id: data.origen_id,
+          destino_id: data.destino_id,
+        },
+      });
+      this.item = data;
+      setTimeout(() => {
+        this.hasChange = false;
+        this.initialFormValue = this.form.value;
+      }, 500);
+    });
+  }
+}

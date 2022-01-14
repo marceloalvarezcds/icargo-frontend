@@ -1,0 +1,21 @@
+<div *ngIf="gestorCargaId">
+  <div class="row page-form-row">
+    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+      <app-table
+        [columns]="columns"
+        [modelo]="modelo"
+        [gestorCuentaId]="gestorCargaId"
+        [data]="list"
+        [hideShow]="true"
+        [isShow]="puedeModificar"
+        (editClick)="edit($event)"
+        (deleteClick)="remove($event)"
+      ></app-table>
+    </div>
+    <div class="col-xs-12" [hidden]="puedeModificar">
+      <button mat-raised-button class="outline round" color="primary" type="button" (click)="create()" id="create-button">
+        Nuevo Anticipo
+      </button>
+    </div>
+  </div>
+</div>

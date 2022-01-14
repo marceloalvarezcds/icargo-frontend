@@ -1,0 +1,4 @@
+export enum TipoInsumoEnum {
+  COMBUSTIBLE = 'COMBUSTIBLE',
+  LUBRICANTES = 'LUBRICANTES',
+}
