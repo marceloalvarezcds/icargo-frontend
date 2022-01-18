@@ -30,6 +30,10 @@ export class DialogFieldComponent<T extends { id: number }> implements OnDestroy
     return this.group.get(this.controlName) as FormControl;
   }
 
+  get disabled(): boolean {
+    return this.control.disabled;
+  }
+
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     const selectedId = this.selectedValue?.id;

@@ -4,3 +4,35 @@
     [flete]="flete"
   ></app-orden-carga-create-form-info>
 </ng-container>
+<div *ngIf="oc" class="info-container">
+  <div class="row page-form-row">
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Tipo de Flete / Producto</mat-label>
+      <input matInput [value]="tipoFleteProducto" disabled/>
+    </mat-form-field>
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Factura Comercial / CRT</mat-label>
+      <input matInput [value]="facturaCTR" disabled/>
+    </mat-form-field>
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Remitente</mat-label>
+      <input matInput [value]="oc?.flete_remitente_nombre" disabled/>
+    </mat-form-field>
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Cantidad Nominada</mat-label>
+      <input matInput [value]="oc?.cantidad_nominada" disabled/>
+    </mat-form-field>
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Cantidad origen (Kg)</mat-label>
+      <input matInput [value]="oc?.cantidad_origen" disabled/>
+    </mat-form-field>
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Cantidad destino (Kg)</mat-label>
+      <input matInput [value]="oc?.cantidad_destino" disabled/>
+    </mat-form-field>
+    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+      <mat-label>Diferencia (Kg)</mat-label>
+      <input matInput [value]="diferenciaOrigenDestino" disabled/>
+    </mat-form-field>
+  </div>
+</div>

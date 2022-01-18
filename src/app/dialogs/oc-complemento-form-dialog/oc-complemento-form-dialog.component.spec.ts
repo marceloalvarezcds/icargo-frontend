@@ -5,8 +5,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { FleteComplemento, mockFleteComplementoList } from 'src/app/interfaces/flete-complemento';
 import { mockMonedaList } from 'src/app/interfaces/moneda';
+import { mockOcComplementoDialogData, mockOcComplementoDialogDataWithoutItem, OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialog-data';
 import { mockTipoConceptoComplementoList } from 'src/app/interfaces/tipo-concepto-complemento';
 import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -14,15 +14,16 @@ import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 
-import { ComplementoFormDialogComponent } from './complemento-form-dialog.component';
+import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog.component';
 
-describe('ComplementoFormDialogComponent', () => {
-  let component: ComplementoFormDialogComponent;
-  let fixture: ComponentFixture<ComplementoFormDialogComponent>;
+describe('OcComplementoFormDialogComponent', () => {
+  let component: OcComplementoFormDialogComponent;
+  let fixture: ComponentFixture<OcComplementoFormDialogComponent>;
   let httpController: HttpTestingController;
   let userService: UserService;
-  const data = mockFleteComplementoList[0];
-  const mockDialogRefSpyObj = jasmine.createSpyObj({ close : (data?: FleteComplemento) => {} });
+  const dialogData = mockOcComplementoDialogData;
+  const data = dialogData.item!;
+  const mockDialogRefSpyObj = jasmine.createSpyObj({ close : (data?: OcComplementoDialogData) => {} });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -37,16 +38,16 @@ describe('ComplementoFormDialogComponent', () => {
         AuthService,
         UserService,
         { provide: MatDialogRef, useValue: mockDialogRefSpyObj },
-        { provide: MAT_DIALOG_DATA, useValue: data },
+        { provide: MAT_DIALOG_DATA, useValue: dialogData },
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ ComplementoFormDialogComponent ]
+      declarations: [ OcComplementoFormDialogComponent ]
     })
     .compileComponents();
   });
 
   it('should create', () => {
-    fixture = TestBed.createComponent(ComplementoFormDialogComponent);
+    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -54,7 +55,7 @@ describe('ComplementoFormDialogComponent', () => {
 
   it('should submitted', fakeAsync(() => {
     userService = TestBed.inject(UserService);
-    fixture = TestBed.createComponent(ComplementoFormDialogComponent);
+    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
     component = fixture.componentInstance;
     (userService as any).userSubject.next(mockUser);
     fixture.detectChanges();
@@ -62,13 +63,12 @@ describe('ComplementoFormDialogComponent', () => {
     const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
     button.click();
     tick();
-    expect(component.form.valid).toBeTruthy();
     expect(submitSpy).toHaveBeenCalled();
   }));
 
   it('data should be null', fakeAsync(() => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: null });
-    fixture = TestBed.createComponent(ComplementoFormDialogComponent);
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcComplementoDialogDataWithoutItem });
+    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -80,9 +80,9 @@ describe('ComplementoFormDialogComponent', () => {
   }));
 
   it('data should be null and should submitted', fakeAsync(() => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: null });
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcComplementoDialogDataWithoutItem });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(ComplementoFormDialogComponent);
+    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();

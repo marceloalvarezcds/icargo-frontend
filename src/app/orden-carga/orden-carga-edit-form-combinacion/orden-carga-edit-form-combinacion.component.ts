@@ -15,4 +15,7 @@ export class OrdenCargaEditFormCombinacionComponent {
   @Input() puedeModificar = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
 
+  get placaCamionSemi(): string {
+    return `${this.oc?.camion_placa} / ${this.oc?.semi_placa}`;
+  }
 }

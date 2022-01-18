@@ -31,6 +31,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-orden-carga-edit-form-combinacion
+            [oc]="item"
             [form]="form"
             (fleteChange)="flete = $event"
           ></app-orden-carga-edit-form-combinacion>
@@ -43,6 +44,7 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-orden-carga-edit-form-info
+            [oc]="item"
             [form]="form"
             [flete]="flete"
           ></app-orden-carga-edit-form-info>
@@ -85,9 +87,11 @@
           </mat-expansion-panel-header>
           <div>
             <app-orden-carga-edit-form-complementos
+              [oc]="item"
               [gestorCargaId]="gestorCargaId"
-              [puedeModificar]="puedeModificar"
-              [lista]="complementoList"
+              [isShow]="isShow"
+              [list]="complementoList"
+              (ocChange)="getData()"
             ></app-orden-carga-edit-form-complementos>
             <app-orden-carga-edit-form-descuentos
               [gestorCargaId]="gestorCargaId"
