@@ -1,0 +1,63 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    {{ actionText }} Descuento
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-tipo-concepto-complemento-field
+      controlName="concepto"
+      [form]="form"
+    ></app-tipo-concepto-complemento-field>
+    <app-input-field
+      title="detalle"
+      controlName="detalle"
+      [form]="form"
+    ></app-input-field>
+    <div class="toggle">
+      <mat-slide-toggle formControlName="anticipado">
+        {{ anticipado ? 'Anticipado' : 'No anticipado' }}
+      </mat-slide-toggle>
+    </div>
+    <app-number-field
+      title="Monto a Cobrar al Propietario"
+      controlName="propietario_monto"
+      [form]="form"
+    ></app-number-field>
+    <app-moneda-field
+      title="Moneda del Propietario"
+      controlName="propietario_moneda"
+      [form]="form"
+    ></app-moneda-field>
+    <div class="toggle">
+      <mat-slide-toggle formControlName="habilitar_pago_proveedor">
+        {{ pagoAProveedor ? 'Pagar al Proveedor' : 'No pagar al Proveedor' }}
+      </mat-slide-toggle>
+    </div>
+    <div [hidden]="!pagoAProveedor">
+      <app-number-field
+        title="Monto a Pagar al Proveedor"
+        controlName="proveedor_monto"
+        [form]="form"
+      ></app-number-field>
+      <app-moneda-field
+        title="Moneda del Proveedor"
+        controlName="proveedor_moneda"
+        [form]="form"
+      ></app-moneda-field>
+      <app-proveedor-field
+        controlName="proveedor"
+        [form]="form"
+      ></app-proveedor-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>
+      Cancelar
+    </button>
+    <button mat-raised-button type="button" (click)="submit()" cdkFocusInitial color="primary" id="submit-button">
+      Aceptar
+    </button>
+  </div>
+</form>

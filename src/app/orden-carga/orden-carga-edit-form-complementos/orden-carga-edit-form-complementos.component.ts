@@ -7,6 +7,7 @@ import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialo
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { TableEvent } from 'src/app/interfaces/table';
+import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -36,7 +37,10 @@ export class OrdenCargaEditFormComplementosComponent {
 
   @Output() ocChange = new EventEmitter<void>();
 
-  constructor(private dialog: MatDialog) { }
+  constructor(
+    private dialog: MatDialog,
+    private ordenCargaComplementoService: OrdenCargaComplementoService,
+  ) { }
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
@@ -47,7 +51,9 @@ export class OrdenCargaEditFormComplementosComponent {
   }
 
   remove({ row }: TableEvent<OrdenCargaComplemento>): void {
-    remove(this.dialog, `¿Está seguro que desea eliminar al complemento ${row.concepto_descripcion}?`, this.emitOcChange.bind(this));
+    remove(this.dialog, `¿Está seguro que desea eliminar al complemento ${row.concepto_descripcion}?`, () => {
+      this.ordenCargaComplementoService.delete(row.id).subscribe(this.emitOcChange.bind(this));
+    });
   }
 
   private getDialogRef(item?: OrdenCargaComplemento): MatDialogRef<OcComplementoFormDialogComponent, OrdenCargaComplemento> {

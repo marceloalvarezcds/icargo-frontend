@@ -7,7 +7,7 @@
         [gestorCuentaId]="gestorCargaId"
         [data]="list"
         [hideShow]="true"
-        [isShow]="!((modelo | puede : a.EDITAR : gestorCargaId) || (modelo | puede : a.ELIMINAR : gestorCargaId))"
+        [isShow]="isShow || !((modelo | puede : a.EDITAR : gestorCargaId) || (modelo | puede : a.ELIMINAR : gestorCargaId))"
         (editClick)="edit($event)"
         (deleteClick)="remove($event)"
       ></app-table>

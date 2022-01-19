@@ -6,24 +6,24 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockMonedaList } from 'src/app/interfaces/moneda';
-import { mockOcComplementoDialogData, mockOcComplementoDialogDataWithoutItem, OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialog-data';
-import { mockTipoConceptoComplementoList } from 'src/app/interfaces/tipo-concepto-complemento';
+import { mockOcDescuentoDialogData, mockOcDescuentoDialogDataWithoutItem, OcDescuentoDialogData } from 'src/app/interfaces/oc-descuento-dialog-data';
+import { mockTipoConceptoDescuentoList } from 'src/app/interfaces/tipo-concepto-descuento';
 import { mockUser } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
 
-import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog.component';
+import { OcDescuentoFormDialogComponent } from './oc-descuento-form-dialog.component';
 
-describe('OcComplementoFormDialogComponent', () => {
-  let component: OcComplementoFormDialogComponent;
-  let fixture: ComponentFixture<OcComplementoFormDialogComponent>;
+describe('OcDescuentoFormDialogComponent', () => {
+  let component: OcDescuentoFormDialogComponent;
+  let fixture: ComponentFixture<OcDescuentoFormDialogComponent>;
   let httpController: HttpTestingController;
   let userService: UserService;
-  const dialogData = mockOcComplementoDialogData;
+  const dialogData = mockOcDescuentoDialogData;
   const data = dialogData.item!;
-  const mockDialogRefSpyObj = jasmine.createSpyObj({ close : (data?: OcComplementoDialogData) => {} });
+  const mockDialogRefSpyObj = jasmine.createSpyObj({ close : (data?: OcDescuentoDialogData) => {} });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -41,13 +41,13 @@ describe('OcComplementoFormDialogComponent', () => {
         { provide: MAT_DIALOG_DATA, useValue: dialogData },
       ],
       schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ OcComplementoFormDialogComponent ]
+      declarations: [ OcDescuentoFormDialogComponent ]
     })
     .compileComponents();
   });
 
   it('should create', () => {
-    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
+    fixture = TestBed.createComponent(OcDescuentoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     expect(component).toBeTruthy();
@@ -55,7 +55,7 @@ describe('OcComplementoFormDialogComponent', () => {
 
   it('should submitted', fakeAsync(() => {
     userService = TestBed.inject(UserService);
-    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
+    fixture = TestBed.createComponent(OcDescuentoFormDialogComponent);
     component = fixture.componentInstance;
     (userService as any).userSubject.next(mockUser);
     fixture.detectChanges();
@@ -67,8 +67,8 @@ describe('OcComplementoFormDialogComponent', () => {
   }));
 
   it('data should be null', fakeAsync(() => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcComplementoDialogDataWithoutItem });
-    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcDescuentoDialogDataWithoutItem });
+    fixture = TestBed.createComponent(OcDescuentoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -80,9 +80,9 @@ describe('OcComplementoFormDialogComponent', () => {
   }));
 
   it('data should be null and should submitted', fakeAsync(() => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcComplementoDialogDataWithoutItem });
+    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcDescuentoDialogDataWithoutItem });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(OcComplementoFormDialogComponent);
+    fixture = TestBed.createComponent(OcDescuentoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
@@ -91,23 +91,24 @@ describe('OcComplementoFormDialogComponent', () => {
       concepto: data.concepto,
       detalle: data.anticipado,
       anticipado: data.anticipado,
-      // INICIO Monto a pagar al Propietario
+      // INICIO Monto a cobrar al Propietario
       propietario_monto: data.propietario_monto,
       propietario_moneda: data.propietario_moneda,
-      // FIN Monto a pagar al Propietario
-      // INICIO Monto a cobrar al Remitente
-      habilitar_cobro_remitente: data.habilitar_cobro_remitente,
-      remitente_monto: data.remitente_monto,
-      remitente_moneda: data.remitente_moneda,
-      // FIN Monto a cobrar al Remitente
+      // FIN Monto a cobrar al Propietario
+      // INICIO Monto a pagar al Proveedor
+      habilitar_pago_proveedor: data.habilitar_pago_proveedor,
+      proveedor_monto: data.proveedor_monto,
+      proveedor_moneda: data.proveedor_moneda,
+      proveedor: data.proveedor,
+      // FIN Monto a pagar al Proveedor
     });
-    httpController.match(`${environment.api}/tipo_concepto_complemento/`).forEach(r => r.flush(mockTipoConceptoComplementoList));
+    httpController.match(`${environment.api}/tipo_concepto_descuento/`).forEach(r => r.flush(mockTipoConceptoDescuentoList));
     httpController.match(`${environment.api}/moneda/`).forEach(r => r.flush(mockMonedaList));
     button.click();
     tick();
     expect(component.form.valid).toBeTruthy();
     expect(submitSpy).toHaveBeenCalled();
-    httpController.match(`${environment.api}/orden_carga_complemento/`).forEach(r => r.flush(data));
+    httpController.match(`${environment.api}/orden_carga_descuento/`).forEach(r => r.flush(data));
     httpController.verify();
   }));
 });

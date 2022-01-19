@@ -94,9 +94,11 @@
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-complementos>
             <app-orden-carga-edit-form-descuentos
+              [oc]="item"
               [gestorCargaId]="gestorCargaId"
-              [puedeModificar]="puedeModificar"
-              [lista]="descuentoList"
+              [isShow]="isShow"
+              [list]="descuentoList"
+              (ocChange)="getData()"
             ></app-orden-carga-edit-form-descuentos>
           </div>
         </mat-expansion-panel>

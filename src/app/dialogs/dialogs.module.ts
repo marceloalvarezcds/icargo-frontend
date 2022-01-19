@@ -12,6 +12,7 @@ import { DescuentoFormDialogComponent } from './descuento-form-dialog/descuento-
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
 import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog/oc-complemento-form-dialog.component';
+import { OcDescuentoFormDialogComponent } from './oc-descuento-form-dialog/oc-descuento-form-dialog.component';
 
 const modules = [
   ComplementoFormDialogComponent,
@@ -20,6 +21,7 @@ const modules = [
   DescuentoFormDialogComponent,
   LoadingDialogComponent,
   OcComplementoFormDialogComponent,
+  OcDescuentoFormDialogComponent,
   SelectorDialogComponent,
 ];
 
