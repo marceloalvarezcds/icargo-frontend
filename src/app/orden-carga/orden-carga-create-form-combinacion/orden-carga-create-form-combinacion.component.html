@@ -1,4 +1,4 @@
-<div *ngIf="form" [formGroup]="form">
+<div *ngIf="form" [formGroup]="form" class="combinacion-container">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
@@ -11,17 +11,17 @@
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-camion-by-producto-field
           [groupName]="groupName"
-          [form]="form"
           [productoId]="flete?.producto_id"
+          [form]="form"
           (valueChange)="camionId = $event"
         ></app-camion-by-producto-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-semi-by-camion-producto-field
           [groupName]="groupName"
-          [form]="form"
           [camionId]="camionId"
           [productoId]="flete?.producto_id"
+          [form]="form"
         ></app-semi-by-camion-producto-field>
       </div>
     </div>

@@ -42,6 +42,7 @@ export class DialogFieldComponent<T extends { id: number }> implements OnDestroy
       .pipe(filter(v => !!v && v !== selectedId))
       .subscribe(id => {
         this.selectedValue = this.list.find(x => x.id === id);
+        this.valueChange.emit(this.selectedValue);
       });
   }
   @Input() columns: Column[] = [];

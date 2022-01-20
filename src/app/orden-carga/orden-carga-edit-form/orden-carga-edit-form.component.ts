@@ -197,32 +197,33 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-    if (this.isShow) {
-      this.form.disable();
-    }
     this.ordenCargaService.getById(this.id).subscribe(data => {
-      if (!this.puedeModificar) {
-        this.form.disable();
-      }
-      this.form.patchValue({
-        combinacion: {
-          flete_id: data.flete_id,
-          camion_id: data.camion_id,
-          semi_id: data.semi_id,
-        },
-        info: {
-          cantidad_nominada: data.cantidad_nominada,
-          comentarios: data.comentarios,
-        },
-        tramo: {
-          origen_id: data.origen_id,
-          destino_id: data.destino_id,
-        },
-      });
       this.item = data;
       setTimeout(() => {
-        this.hasChange = false;
-        this.initialFormValue = this.form.value;
+        this.form.patchValue({
+          combinacion: {
+            flete_id: data.flete_id,
+            camion_id: data.camion_id,
+            semi_id: data.semi_id,
+          },
+          info: {
+            cantidad_nominada: data.cantidad_nominada,
+            comentarios: data.comentarios,
+          },
+          tramo: {
+            origen_id: data.origen_id,
+            destino_id: data.destino_id,
+          },
+        });
+        setTimeout(() => {
+          this.combinacion.get('flete_id')!.disable();
+          this.combinacion.get('camion_id')!.disable();
+          if (!this.puedeModificar) {
+            this.form.disable();
+          }
+          this.hasChange = false;
+          this.initialFormValue = this.form.value;
+        }, 500);
       }, 500);
     });
   }

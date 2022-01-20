@@ -50,7 +50,6 @@ export class CamionByProductoFieldComponent implements OnDestroy {
   private getList(): void {
     if (this.pId) {
       this.camionService.getListByProductoId(this.pId).subscribe(list => {
-        this.control.setValue(null);
         this.list = list;
       });
     }

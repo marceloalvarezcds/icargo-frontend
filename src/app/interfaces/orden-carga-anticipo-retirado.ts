@@ -3,7 +3,7 @@ import { mockInsumoPuntoVentaList } from './insumo-punto-venta';
 import { mockInsumoPuntoVentaPrecio1, mockInsumoPuntoVentaPrecio2, mockInsumoPuntoVentaPrecio3 } from './insumo-punto-venta-precio';
 import { mockMonedaList } from './moneda';
 import { mockPuntoVentaList } from './punto-venta';
-import { mockTipoComprobanteList } from './tipo-comprobantet';
+import { mockTipoComprobanteList } from './tipo-comprobante';
 import { mockUnidadList } from './unidad';
 
 export interface OrdenCargaAnticipoRetiradoForm {

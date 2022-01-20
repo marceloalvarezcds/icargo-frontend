@@ -22,7 +22,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.subscription = this.combinacion.valueChanges
-      .pipe(filter((c: Partial<OrdenCargaForm>) => !!(c.camion_id && c.semi_id && c.flete_id)))
+      .pipe(filter((c: Partial<OrdenCargaForm>) => !!(this.flete && c.camion_id && c.semi_id)))
       .subscribe((c: Partial<OrdenCargaForm>) => {
         this.camionSemiNetoService
           .getListByCamionIdAndSemiIdAndProductoId(c.camion_id!, c.semi_id!, this.flete!.producto_id)

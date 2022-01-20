@@ -3,10 +3,10 @@
     <mat-form-field [formGroupName]="groupName">
       <mat-label>{{ title }}</mat-label>
       <input matInput [value]="inputValueFormat(selectedValue)" readonly (click)="openDialog()" [disabled]="disabled" />
-      <button type="button" matSuffix mat-icon-button (click)="clearSelectedValue($event)" *ngIf="selectedValue">
+      <button type="button" matSuffix mat-icon-button (click)="clearSelectedValue($event)" *ngIf="selectedValue" [disabled]="disabled">
         <mat-icon>close</mat-icon>
       </button>
-      <button type="button" matSuffix mat-icon-button (click)="openDialog()">
+      <button type="button" matSuffix mat-icon-button (click)="openDialog()" [disabled]="disabled">
         <mat-icon>list</mat-icon>
       </button>
       <mat-error *ngIf="control.hasError('required')">

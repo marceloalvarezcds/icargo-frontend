@@ -40,7 +40,6 @@ export class SemiByCamionProductoFieldComponent {
   private getList(): void {
     if (this.cId && this.pId) {
       this.semiService.getListByCamionIdAndProductoId(this.cId, this.pId).subscribe(list => {
-        this.control.setValue(null);
         this.list = list;
       });
     }
