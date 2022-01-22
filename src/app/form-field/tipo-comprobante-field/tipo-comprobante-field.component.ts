@@ -25,4 +25,8 @@ export class TipoComprobanteFieldComponent {
   textValueFormat(value: TipoComprobante): string {
     return value.descripcion;
   }
+
+  value(value: TipoComprobante): number {
+    return value.id;
+  }
 }

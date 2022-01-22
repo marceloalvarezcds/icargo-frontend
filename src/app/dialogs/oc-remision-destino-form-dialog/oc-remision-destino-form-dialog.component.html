@@ -1,0 +1,42 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    {{ actionText }} Remision de Destino
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-input-field
+      title="Nº de Documento"
+      controlName="numero_documento"
+      [form]="form"
+    ></app-input-field>
+    <app-number-field
+      title="Cantidad"
+      controlName="cantidad"
+      [form]="form"
+    ></app-number-field>
+    <app-unidad-field [form]="form"></app-unidad-field>
+    <app-file-field
+      className=""
+      controlName="foto_documento"
+      title="Foto del documento"
+      [field]="fotoDocumento"
+      [form]="form"
+      (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
+    ></app-file-field>
+    <app-orden-carga-remision-origen-field
+      controlName="numero_documento_origen"
+      [form]="form"
+      [ordenCargaId]="dialogData.orden_carga_id"
+    ></app-orden-carga-remision-origen-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>
+      Cancelar
+    </button>
+    <button mat-raised-button type="button" (click)="submit()" cdkFocusInitial color="primary" id="submit-button">
+      Aceptar
+    </button>
+  </div>
+</form>

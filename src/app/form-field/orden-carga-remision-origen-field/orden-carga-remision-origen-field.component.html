@@ -1,5 +1,5 @@
-<app-generic-list-field *ngIf="form"
-  errorMessage="El tipo de comprobante es <strong>requerido</strong>"
+<app-generic-list-field *ngIf="form && list$"
+  errorMessage="La remisión de origen es <strong>requerida</strong>"
   [title]="title"
   [controlName]="controlName"
   [groupName]="groupName"

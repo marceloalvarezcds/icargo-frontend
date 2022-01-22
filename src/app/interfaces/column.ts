@@ -4,4 +4,5 @@ export interface Column {
   value?: (row: any) => any;
   sticky?: boolean;
   stickyEnd?: boolean;
+  footerDef?: string;
 }

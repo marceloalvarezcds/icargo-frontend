@@ -10,9 +10,13 @@ export interface OrdenCargaRemisionOrigenForm {
 
 export interface OrdenCargaRemisionOrigen extends OrdenCargaRemisionOrigenForm {
   id: number;
-  fecha: string;
   unidad_abreviatura: string;
   unidad_descripcion: string;
+  // Auditoría
+  created_by: string;
+  created_at: string;
+  modified_by: string;
+  modified_at: string;
 }
 
 const unidad0 = mockUnidadList[0];
@@ -22,7 +26,6 @@ const unidad2 = mockUnidadList[2];
 export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
   {
     id: 1,
-    fecha: '2021-11-30T20:38:09.553757',
     cantidad: 100,
     numero_documento: '001-001-1000001',
     unidad_id: unidad0.id,
@@ -30,10 +33,14 @@ export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
     unidad_descripcion: unidad0.descripcion,
     foto_documento: null,
     orden_carga_id: 1,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
   {
     id: 2,
-    fecha: '2021-11-30T20:38:09.553757',
     cantidad: 100,
     numero_documento: '001-001-1000002',
     unidad_id: unidad1.id,
@@ -41,10 +48,14 @@ export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
     unidad_descripcion: unidad1.descripcion,
     foto_documento: null,
     orden_carga_id: 1,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
   {
     id: 3,
-    fecha: '2021-11-30T20:38:09.553757',
     cantidad: 100,
     numero_documento: '001-001-1000003',
     unidad_id: unidad2.id,
@@ -52,5 +63,10 @@ export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
     unidad_descripcion: unidad2.descripcion,
     foto_documento: null,
     orden_carga_id: 2,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
 ];

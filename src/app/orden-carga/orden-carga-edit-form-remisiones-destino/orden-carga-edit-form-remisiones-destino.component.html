@@ -1,20 +1,21 @@
 <div *ngIf="gestorCargaId">
   <div class="row page-form-row">
-    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+    <div class="col-xs-12 table-container" [hidden]="!(lista && lista.length)">
       <app-table
-        [columns]="columns"
         [modelo]="modelo"
         [gestorCuentaId]="gestorCargaId"
-        [data]="list"
+        [shouldBeShowFooter]="true"
         [hideShow]="true"
-        [isShow]="puedeModificar"
+        [isShow]="isShow || !((modelo | puede : a.EDITAR : gestorCargaId) || (modelo | puede : a.ELIMINAR : gestorCargaId))"
+        [columns]="columns"
+        [data]="lista"
         (editClick)="edit($event)"
         (deleteClick)="remove($event)"
       ></app-table>
     </div>
-    <div class="col-xs-12" [hidden]="puedeModificar">
+    <div class="col-xs-12" [hidden]="!(modelo | puede : a.CREAR : gestorCargaId)">
       <button mat-raised-button class="outline round" color="primary" type="button" (click)="create()" id="create-button">
-        Nueva Remisión Origen
+        Nueva Remisión Destino
       </button>
     </div>
   </div>

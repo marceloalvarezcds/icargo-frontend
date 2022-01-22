@@ -167,8 +167,8 @@ const seca = mockTipoCargaList[0];
 const liquida = mockTipoCargaList[1];
 
 const toneladas = mockUnidadList[0];
-const kilogramos = mockUnidadList[0];
-const litros = mockUnidadList[0];
+const kilogramos = mockUnidadList[1];
+const litros = mockUnidadList[2];
 
 export const mockFlete1: Flete = {
   id: 1,

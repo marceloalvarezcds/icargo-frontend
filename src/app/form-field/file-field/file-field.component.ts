@@ -12,7 +12,10 @@ export class FileFieldComponent {
   fieldFile: File | null = null;
 
   get group(): FormGroup {
-    return this.form!.get(this.groupName) as FormGroup;
+    if (this.groupName) {
+      return this.form!.get(this.groupName) as FormGroup;
+    }
+    return this.form!;
   }
 
   get fieldControl(): FormControl {
@@ -24,7 +27,7 @@ export class FileFieldComponent {
   @Input() form?: FormGroup;
   @Input() file: File | null = null;
   @Input() field: string | null = null;
-  @Input() groupName = '';
+  @Input() groupName?: string;
   @Input() isShow = false;
   @Input() title = '';
   @Input() set isEdit(isEdit: boolean) {

@@ -28,6 +28,7 @@ import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.com
 import { MonedaFieldComponent } from './moneda-field/moneda-field.component';
 import { NumberFieldComponent } from './number-field/number-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
+import { OrdenCargaRemisionOrigenFieldComponent } from './orden-carga-remision-origen-field/orden-carga-remision-origen-field.component';
 import { PaisFieldComponent } from './pais-field/pais-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
@@ -73,6 +74,7 @@ const modules = [
   MonedaFieldComponent,
   NumberFieldComponent,
   OficialCuentaFieldComponent,
+  OrdenCargaRemisionOrigenFieldComponent,
   PaisFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,

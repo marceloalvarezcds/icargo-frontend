@@ -56,6 +56,7 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
+  @Input() shouldBeShowFooter = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
 

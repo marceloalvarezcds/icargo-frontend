@@ -240,7 +240,8 @@ html body {
   }
 
   .mat-cell,
-  .mat-header-cell {
+  .mat-header-cell,
+  .mat-footer-cell {
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     &:not(:nth-child(1)) {
       padding: 0 10px;

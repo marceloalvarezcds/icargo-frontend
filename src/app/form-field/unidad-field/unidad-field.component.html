@@ -1,13 +1,12 @@
-<div *ngIf="form" [formGroup]="form">
-  <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
-    <mat-select [formControlName]="controlName">
-      <ng-container *ngFor="let o of list$ | async">
-        <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
-      </ng-container>
-    </mat-select>
-    <mat-error *ngIf="control.hasError('required')">
-      La unidad es <strong>requerida</strong>
-    </mat-error>
-  </mat-form-field>
-</div>
+<app-generic-list-field *ngIf="form"
+  errorMessage="La unidad es <strong>requerida</strong>"
+  [title]="title"
+  [controlName]="controlName"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [controlName]="controlName"
+  [textValueFormat]="textValueFormat"
+  [value]="value"
+  [list$]="list$"
+  [form]="form"
+></app-generic-list-field>

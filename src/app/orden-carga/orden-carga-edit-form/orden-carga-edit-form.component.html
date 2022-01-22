@@ -67,15 +67,19 @@
           </mat-expansion-panel-header>
           <div>
             <app-orden-carga-edit-form-remisiones-origen
+              [oc]="item"
               [gestorCargaId]="gestorCargaId"
-              [puedeModificar]="puedeModificar"
-              [lista]="remisionOrigenList"
+              [isShow]="isShow"
+              [list]="remisionOrigenList"
+              (ocChange)="getData()"
             ></app-orden-carga-edit-form-remisiones-origen>
-            <app-orden-carga-edit-form-remisiones-origen
+            <app-orden-carga-edit-form-remisiones-destino
+              [oc]="item"
               [gestorCargaId]="gestorCargaId"
-              [puedeModificar]="puedeModificar"
-              [lista]="remisionDestinoList"
-            ></app-orden-carga-edit-form-remisiones-origen>
+              [isShow]="isShow"
+              [list]="remisionDestinoList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-remisiones-destino>
           </div>
         </mat-expansion-panel>
 

@@ -82,7 +82,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   get puedeModificar(): boolean {
-    if (!this.isEdit) { return false; }
+    if (!this.isEdit || !(this.estado === EstadoEnum.NUEVO || this.estado === EstadoEnum.PENDIENTE)) { return false; }
     return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCargaId);
   }
 

@@ -32,8 +32,8 @@ export class GenericListFieldComponent<T extends { id: number }> implements OnDe
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.subscription = this.control.valueChanges
+      .pipe(filter(v => !!v))
       .pipe(map(v => (typeof v === 'string' || typeof v === 'number') ? Number(v) : Number(v.id)))
-      .pipe(filter(id => !!id))
       .subscribe(id => {
         const value = this.list.find(x => x.id === id);
         this.valueChange.emit(value);
@@ -46,6 +46,7 @@ export class GenericListFieldComponent<T extends { id: number }> implements OnDe
   }
   @Input() textValueFormat: (v: T) => string = () => '';
   @Input() title = '';
+  @Input() value!: (v: T) => number | string | T;
 
   @Output() valueChange = new EventEmitter<T>();
 
