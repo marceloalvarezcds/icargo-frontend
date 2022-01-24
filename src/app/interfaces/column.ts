@@ -5,4 +5,5 @@ export interface Column {
   sticky?: boolean;
   stickyEnd?: boolean;
   footerDef?: string;
+  type?: string;
 }

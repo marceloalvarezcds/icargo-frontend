@@ -19,8 +19,8 @@ export class OrdenCargaEditFormInfoComponent {
     return (this.oc?.cantidad_origen ?? 0) - (this.oc?.cantidad_destino ?? 0);
   }
 
-  get facturaCTR(): string {
-    return `/`;
+  get nroLote(): string | null | undefined {
+    return this.oc?.flete_numero_lote;
   }
 
   get tipoFleteProducto(): string {

@@ -20,9 +20,9 @@ export class OrdenCargaEditFormComplementosComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     { def: 'concepto_descripcion', title: 'Concepto', value: (element: OrdenCargaComplemento) => element.concepto_descripcion, sticky: true },
-    { def: 'remitente_monto', title: 'A Cobrar', value: (element: OrdenCargaComplemento) => element.remitente_monto?.toLocaleString() },
+    { def: 'remitente_monto', title: 'A Cobrar', value: (element: OrdenCargaComplemento) => element.remitente_monto, type: 'number' },
     { def: 'remitente_moneda_nombre', title: 'Moneda', value: (element: OrdenCargaComplemento) => element.remitente_moneda_nombre },
-    { def: 'propietario_monto', title: 'A Pagar', value: (element: OrdenCargaComplemento) => element.propietario_monto?.toLocaleString() },
+    { def: 'propietario_monto', title: 'A Pagar', value: (element: OrdenCargaComplemento) => element.propietario_monto, type: 'number' },
     { def: 'propietario_moneda_nombre', title: 'Moneda', value: (element: OrdenCargaComplemento) => element.propietario_moneda_nombre },
     { def: 'anticipado', title: 'Anticipado', value: (element: OrdenCargaComplemento) => element.anticipado_descripcion },
     { def: 'actions', title: 'Acciones', stickyEnd: true },

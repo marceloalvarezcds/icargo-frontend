@@ -6,7 +6,12 @@
       </th>
       <td mat-cell *matCellDef="let row; let index = index;" [class.row-error]="formArray.at(index)?.get(column.def)?.errors">
         <ng-container *ngIf="column.value">
-          <span>{{ column.value(row) }}</span>
+          <ng-container *ngIf="column.type === 'number'">
+            <span>{{ column.value(row) | numberFormat }}</span>
+          </ng-container>
+          <ng-container *ngIf="column.type !== 'number'">
+            <span>{{ column.value(row) }}</span>
+          </ng-container>
         </ng-container>
       </td>
       <ng-container *ngIf="shouldBeShowFooter">

@@ -20,9 +20,9 @@ export class OrdenCargaEditFormDescuentosComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     { def: 'concepto_descripcion', title: 'Concepto', value: (element: OrdenCargaDescuento) => element.concepto_descripcion, sticky: true },
-    { def: 'propietario_monto', title: 'A Cobrar', value: (element: OrdenCargaDescuento) => element.propietario_monto?.toLocaleString() },
+    { def: 'propietario_monto', title: 'A Cobrar', value: (element: OrdenCargaDescuento) => element.propietario_monto, type: 'number' },
     { def: 'propietario_moneda_nombre', title: 'Moneda', value: (element: OrdenCargaDescuento) => element.propietario_moneda_nombre },
-    { def: 'proveedor_monto', title: 'A Pagar', value: (element: OrdenCargaDescuento) => element.proveedor_monto?.toLocaleString() },
+    { def: 'proveedor_monto', title: 'A Pagar', value: (element: OrdenCargaDescuento) => element.proveedor_monto, type: 'number' },
     { def: 'proveedor_moneda_nombre', title: 'Moneda', value: (element: OrdenCargaDescuento) => element.proveedor_moneda_nombre },
     { def: 'anticipado', title: 'Anticipado', value: (element: OrdenCargaDescuento) => element.anticipado_descripcion },
     { def: 'proveedor_nombre', title: 'Proveedor', value: (element: OrdenCargaDescuento) => element.proveedor_nombre },

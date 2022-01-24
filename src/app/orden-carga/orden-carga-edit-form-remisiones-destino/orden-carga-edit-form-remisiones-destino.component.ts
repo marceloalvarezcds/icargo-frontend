@@ -31,16 +31,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
   @Input() set list(l: OrdenCargaRemisionDestino[]) {
-    this.lista = l.slice();
-    this.columns = [
-      { def: 'numero_documento', title: 'Nº de Documento', footerDef: 'Total', value: (element: OrdenCargaRemisionDestino) => element.numero_documento, sticky: true },
-      { def: 'numero_documento_origen', title: 'Nº de Documento origen', value: (element: OrdenCargaRemisionDestino) => element.numero_documento_origen },
-      { def: 'fecha', title: 'Fecha de Descarga', value: (element: OrdenCargaRemisionDestino) => element.created_at },
-      { def: 'cantidad', title: 'Cantidad destino', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionDestino) => element.cantidad.toLocaleString() },
-      { def: 'unidad_descripcion', title: 'Unidad destino', value: (element: OrdenCargaRemisionDestino) => element.unidad_descripcion },
-      { def: 'cantidad_equiv', title: 'Cantidad Equiv. (kg)', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionDestino) => element.cantidad.toLocaleString() },
-      { def: 'actions', title: 'Acciones', stickyEnd: true },
-    ];
+    this.setList(l);
   }
 
   @Output() ocChange = new EventEmitter<void>();
@@ -76,5 +67,18 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
 
   private emitOcChange(): void {
     this.ocChange.emit();
+  }
+
+  private setList(list: OrdenCargaRemisionDestino[]): void {
+    this.lista = list.slice();
+    this.columns = [
+      { def: 'numero_documento', title: 'Nº de Documento', footerDef: 'Total', value: (element: OrdenCargaRemisionDestino) => element.numero_documento, sticky: true },
+      { def: 'numero_documento_origen', title: 'Nº de Documento origen', value: (element: OrdenCargaRemisionDestino) => element.numero_documento_origen },
+      { def: 'fecha', title: 'Fecha de Descarga', value: (element: OrdenCargaRemisionDestino) => element.created_at },
+      { def: 'cantidad', title: 'Cantidad destino', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionDestino) => element.cantidad, type: 'number' },
+      { def: 'unidad_descripcion', title: 'Unidad destino', value: (element: OrdenCargaRemisionDestino) => element.unidad_descripcion },
+      { def: 'cantidad_equiv', title: 'Cantidad Equiv. (kg)', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionDestino) => element.cantidad, type: 'number' },
+      { def: 'actions', title: 'Acciones', stickyEnd: true },
+    ];
   }
 }

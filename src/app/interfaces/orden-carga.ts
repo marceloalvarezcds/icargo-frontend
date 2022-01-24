@@ -32,6 +32,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_destino_nombre: string;
   flete_gestor_carga_id: number;
   flete_gestor_carga_nombre: string;
+  flete_numero_lote?: string | null;
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
   flete_remitente_nombre: string;
@@ -93,6 +94,7 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_destino_nombre: string;
   flete_gestor_carga_id: number;
   flete_gestor_carga_nombre: string;
+  flete_numero_lote?: string | null;
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
   flete_remitente_nombre: string;
@@ -152,6 +154,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_destino_nombre: flete0.destino_nombre,
   flete_gestor_carga_id: flete0.gestor_carga_id,
   flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
+  flete_numero_lote: flete0.numero_lote,
   flete_origen_nombre: flete0.origen_nombre,
   flete_producto_descripcion: flete0.producto_descripcion,
   flete_remitente_nombre: flete0.remitente_nombre,
@@ -220,6 +223,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_destino_nombre: flete0.destino_nombre,
     flete_gestor_carga_id: flete0.gestor_carga_id,
     flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
+    flete_numero_lote: flete0.numero_lote,
     flete_origen_nombre: flete0.origen_nombre,
     flete_producto_descripcion: flete0.producto_descripcion,
     flete_remitente_nombre: flete0.remitente_nombre,
@@ -267,6 +271,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_destino_nombre: flete1.destino_nombre,
     flete_gestor_carga_id: flete1.gestor_carga_id,
     flete_gestor_carga_nombre: flete1.gestor_carga_nombre,
+    flete_numero_lote: flete1.numero_lote,
     flete_origen_nombre: flete1.origen_nombre,
     flete_producto_descripcion: flete1.producto_descripcion,
     flete_remitente_nombre: flete1.remitente_nombre,
@@ -299,7 +304,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     modified_at: '2021-11-30T20:38:09.553757',
   },
   {
-    id: 1,
+    id: 3,
     // Datos de camion
     camion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
@@ -314,6 +319,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_destino_nombre: flete2.destino_nombre,
     flete_gestor_carga_id: flete2.gestor_carga_id,
     flete_gestor_carga_nombre: flete2.gestor_carga_nombre,
+    flete_numero_lote: flete2.numero_lote,
     flete_origen_nombre: flete2.origen_nombre,
     flete_producto_descripcion: flete2.producto_descripcion,
     flete_remitente_nombre: flete2.remitente_nombre,

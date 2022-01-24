@@ -11,28 +11,24 @@
       <input matInput [value]="tipoFleteProducto" disabled/>
     </mat-form-field>
     <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-      <mat-label>Factura Comercial / CRT</mat-label>
-      <input matInput [value]="facturaCTR" disabled/>
+      <mat-label>Nro de Lote</mat-label>
+      <input matInput [value]="nroLote" disabled/>
     </mat-form-field>
     <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
       <mat-label>Remitente</mat-label>
       <input matInput [value]="oc?.flete_remitente_nombre" disabled/>
     </mat-form-field>
     <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-      <mat-label>Cantidad Nominada</mat-label>
-      <input matInput [value]="oc?.cantidad_nominada" disabled/>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
       <mat-label>Cantidad origen (Kg)</mat-label>
-      <input matInput [value]="oc?.cantidad_origen" disabled/>
+      <input matInput [value]="oc?.cantidad_origen" disabled appInputThousandsSeparator />
     </mat-form-field>
     <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
       <mat-label>Cantidad destino (Kg)</mat-label>
-      <input matInput [value]="oc?.cantidad_destino" disabled/>
+      <input matInput [value]="oc?.cantidad_destino" disabled appInputThousandsSeparator />
     </mat-form-field>
     <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
       <mat-label>Diferencia (Kg)</mat-label>
-      <input matInput [value]="diferenciaOrigenDestino" disabled/>
+      <input matInput [value]="diferenciaOrigenDestino" disabled appInputThousandsSeparator />
     </mat-form-field>
   </div>
 </div>

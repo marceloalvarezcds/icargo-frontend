@@ -31,15 +31,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
   @Input() set list(l: OrdenCargaRemisionOrigen[]) {
-    this.lista = l.slice();
-    this.columns = [
-      { def: 'numero_documento', title: 'Nº de Documento', footerDef: 'Total', value: (element: OrdenCargaRemisionOrigen) => element.numero_documento, sticky: true },
-      { def: 'fecha', title: 'Fecha de Carga', value: (element: OrdenCargaRemisionOrigen) => element.created_at },
-      { def: 'cantidad', title: 'Cantidad origen', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionOrigen) => element.cantidad.toLocaleString() },
-      { def: 'unidad_descripcion', title: 'Unidad origen', value: (element: OrdenCargaRemisionOrigen) => element.unidad_descripcion },
-      { def: 'cantidad_equiv', title: 'Cantidad Equiv. (kg)', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionOrigen) => element.cantidad.toLocaleString() },
-      { def: 'actions', title: 'Acciones', stickyEnd: true },
-    ];
+    this.setList(l);
   }
 
   @Output() ocChange = new EventEmitter<void>();
@@ -73,5 +65,17 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
 
   private emitOcChange(): void {
     this.ocChange.emit();
+  }
+
+  private setList(list: OrdenCargaRemisionOrigen[]): void {
+    this.lista = list.slice();
+    this.columns = [
+      { def: 'numero_documento', title: 'Nº de Documento', footerDef: 'Total', value: (element: OrdenCargaRemisionOrigen) => element.numero_documento, sticky: true },
+      { def: 'fecha', title: 'Fecha de Carga', value: (element: OrdenCargaRemisionOrigen) => element.created_at },
+      { def: 'cantidad', title: 'Cantidad origen', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionOrigen) => element.cantidad, type: 'number' },
+      { def: 'unidad_descripcion', title: 'Unidad origen', value: (element: OrdenCargaRemisionOrigen) => element.unidad_descripcion },
+      { def: 'cantidad_equiv', title: 'Cantidad Equiv. (kg)', footerDef: this.totalCantidad, value: (element: OrdenCargaRemisionOrigen) => element.cantidad, type: 'number' },
+      { def: 'actions', title: 'Acciones', stickyEnd: true },
+    ];
   }
 }
