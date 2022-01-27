@@ -15,7 +15,12 @@
         </ng-container>
       </td>
       <ng-container *ngIf="shouldBeShowFooter">
-        <td mat-footer-cell *matFooterCellDef><strong>{{column.footerDef}}</strong></td>
+        <td mat-footer-cell *matFooterCellDef>
+          <strong>
+            <ng-container *ngIf="column.type === 'number'">{{column.footerDef | numberFormat}}</ng-container>
+            <ng-container *ngIf="column.type !== 'number'">{{column.footerDef}}</ng-container>
+          </strong>
+        </td>
       </ng-container>
     </ng-container>
     <ng-container *ngIf="column.def === 'actions'">
@@ -30,8 +35,7 @@
               [list]="columnsToShowList"
               (valueChanges)="columnsToShowFilteredList = $event"
               (filtered)="filterColumns(); filterColumnTrigger._elementRef.nativeElement.click()"
-            >
-            </app-searchable-checkbox-filter>
+            ></app-searchable-checkbox-filter>
           </div>
         </mat-menu>
       </th>

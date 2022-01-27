@@ -16,4 +16,8 @@ export class MonedaService {
   getList(): Observable<Moneda[]> {
     return this.http.get<Moneda[]>(`${this.url}/`);
   }
+
+  getListByInsumoIdAndPuntoVentaId(insumoId: number, puntoVentaId: number): Observable<Moneda[]> {
+    return this.http.get<Moneda[]>(`${this.url}/insumo/${insumoId}/punto_venta/${puntoVentaId}`);
+  }
 }

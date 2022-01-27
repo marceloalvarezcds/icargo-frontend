@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { TipoAnticipo } from 'src/app/interfaces/tipo-anticipo';
 import { TipoAnticipoService } from 'src/app/services/tipo-anticipo.service';
+import { GenericListFieldComponent } from '../generic-list-field/generic-list-field.component';
 
 @Component({
   selector: 'app-tipo-anticipo-field',
@@ -10,27 +11,21 @@ import { TipoAnticipoService } from 'src/app/services/tipo-anticipo.service';
 })
 export class TipoAnticipoFieldComponent {
 
-  list$ = this.tipoAnticipoService.getList();
+  list$ = this.service.getList();
 
-  get group(): FormGroup {
-    if (this.groupName) {
-      return this.form!.get(this.groupName) as FormGroup;
-    }
-    return this.form!;
-  }
-
-  get control(): FormControl {
-    return this.group.get(this.controlName) as FormControl;
-  }
-
-  @Input() controlName = 'tipo_anticipo_id';
   @Input() form?: FormGroup;
+  @Input() controlName = 'tipo_anticipo_id';
   @Input() groupName?: string;
-  @Input() title = 'Tipo de Anticipo';
+  @Input() title = 'Tipo de anticipo';
+  @Input() value: (v: TipoAnticipo) => number | string | TipoAnticipo = (v: TipoAnticipo) => v.id;
 
-  constructor(private tipoAnticipoService: TipoAnticipoService) { }
+  @Output() valueChange = new EventEmitter<TipoAnticipo>();
 
-  compareWith(o1?: TipoAnticipo, o2?: TipoAnticipo): boolean {
-    return o1?.id === o2?.id;
+  @ViewChild('app-generic-list-field') genericListFieldComponent?: GenericListFieldComponent<TipoAnticipo>;
+
+  constructor(private service: TipoAnticipoService) {}
+
+  textValueFormat(value: TipoAnticipo): string {
+    return value.descripcion;
   }
 }

@@ -19,6 +19,11 @@ export interface OrdenCargaAnticipoRetiradoForm {
   unidad_id?: number | null;
   cantidad_retirada?: number | null;
   precio_unitario?: number | null;
+  // campos auxiliares
+  insumo_id?: number | null;
+  proveedor_id: number;
+  tipo_anticipo_id: number;
+  tipo_insumo_id?: number | null;
 }
 
 export interface OrdenCargaAnticipoRetirado extends OrdenCargaAnticipoRetiradoForm {
@@ -107,6 +112,11 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] = 
     gestor_carga_id: insumoPuntoVenta0.gestor_carga_id,
     gestor_carga_nombre: insumoPuntoVenta0.gestor_carga_nombre,
     gestor_carga_moneda_nombre: insumoPuntoVenta0.moneda_nombre,
+    // campos auxiliares
+    insumo_id: insumoPuntoVenta0.insumo_id,
+    proveedor_id: insumoPuntoVenta0.proveedor_id,
+    tipo_anticipo_id: fleteAnticipo0.tipo_id,
+    tipo_insumo_id: fleteAnticipo0.tipo_insumo_id,
     // Auditoría
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -146,6 +156,11 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] = 
     gestor_carga_id: insumoPuntoVenta1.gestor_carga_id,
     gestor_carga_nombre: insumoPuntoVenta1.gestor_carga_nombre,
     gestor_carga_moneda_nombre: insumoPuntoVenta1.moneda_nombre,
+    // campos auxiliares
+    insumo_id: insumoPuntoVenta1.insumo_id,
+    proveedor_id: insumoPuntoVenta1.proveedor_id,
+    tipo_anticipo_id: fleteAnticipo1.tipo_id,
+    tipo_insumo_id: fleteAnticipo1.tipo_insumo_id,
     // Auditoría
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -185,6 +200,11 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] = 
     gestor_carga_id: insumoPuntoVenta2.gestor_carga_id,
     gestor_carga_nombre: insumoPuntoVenta2.gestor_carga_nombre,
     gestor_carga_moneda_nombre: insumoPuntoVenta1.moneda_nombre,
+    // campos auxiliares
+    insumo_id: insumoPuntoVenta2.insumo_id,
+    proveedor_id: insumoPuntoVenta2.proveedor_id,
+    tipo_anticipo_id: fleteAnticipo2.tipo_id,
+    tipo_insumo_id: fleteAnticipo2.tipo_insumo_id,
     // Auditoría
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',

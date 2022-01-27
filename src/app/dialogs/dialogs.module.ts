@@ -10,6 +10,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { ContactoFormDialogComponent } from './contacto-form-dialog/contacto-form-dialog.component';
 import { DescuentoFormDialogComponent } from './descuento-form-dialog/descuento-form-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
+import { OcAnticipoRetiradoFormDialogComponent } from './oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog/oc-complemento-form-dialog.component';
 import { OcDescuentoFormDialogComponent } from './oc-descuento-form-dialog/oc-descuento-form-dialog.component';
 import { OcRemisionDestinoFormDialogComponent } from './oc-remision-destino-form-dialog/oc-remision-destino-form-dialog.component';
@@ -22,6 +23,7 @@ const modules = [
   ContactoFormDialogComponent,
   DescuentoFormDialogComponent,
   LoadingDialogComponent,
+  OcAnticipoRetiradoFormDialogComponent,
   OcComplementoFormDialogComponent,
   OcDescuentoFormDialogComponent,
   OcRemisionDestinoFormDialogComponent,

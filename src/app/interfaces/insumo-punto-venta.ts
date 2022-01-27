@@ -12,6 +12,7 @@ export interface InsumoPuntoVenta {
   insumo_tipo_descripcion: string;
   insumo_unidad_abreviatura?: string | null;
   insumo_unidad_descripcion?: string | null;
+  proveedor_id: number;
   punto_venta_id: number;
   punto_venta_nombre: string;
   moneda_id: number;
@@ -44,6 +45,7 @@ export const mockInsumoPuntoVentaList: InsumoPuntoVenta[] = [
     insumo_tipo_descripcion: insumo0.tipo_descripcion,
     insumo_unidad_abreviatura: null,
     insumo_unidad_descripcion: null,
+    proveedor_id: puntoVenta0.proveedor_id,
     punto_venta_id: puntoVenta0.id,
     punto_venta_nombre: puntoVenta0.nombre,
     moneda_id: moneda0.id,
@@ -60,6 +62,7 @@ export const mockInsumoPuntoVentaList: InsumoPuntoVenta[] = [
     insumo_tipo_descripcion: insumo1.tipo_descripcion,
     insumo_unidad_abreviatura: insumo1.unidad_abreviatura,
     insumo_unidad_descripcion: insumo1.unidad_descripcion,
+    proveedor_id: puntoVenta0.proveedor_id,
     punto_venta_id: puntoVenta1.id,
     punto_venta_nombre: puntoVenta1.nombre,
     moneda_id: moneda1.id,
@@ -76,6 +79,7 @@ export const mockInsumoPuntoVentaList: InsumoPuntoVenta[] = [
     insumo_tipo_descripcion: insumo1.tipo_descripcion,
     insumo_unidad_abreviatura: insumo1.unidad_abreviatura,
     insumo_unidad_descripcion: insumo1.unidad_descripcion,
+    proveedor_id: puntoVenta0.proveedor_id,
     punto_venta_id: puntoVenta2.id,
     punto_venta_nombre: puntoVenta2.nombre,
     moneda_id: moneda2.id,

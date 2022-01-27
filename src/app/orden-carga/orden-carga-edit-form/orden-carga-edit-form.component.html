@@ -114,9 +114,11 @@
             </mat-panel-title>
           </mat-expansion-panel-header>
           <app-orden-carga-edit-form-anticipos
+            [oc]="item"
             [gestorCargaId]="gestorCargaId"
-            [puedeModificar]="puedeModificar"
-            [lista]="anticipoList"
+            [isShow]="isShow"
+            [list]="anticipoList"
+            (ocChange)="getData()"
           ></app-orden-carga-edit-form-anticipos>
         </mat-expansion-panel>
 

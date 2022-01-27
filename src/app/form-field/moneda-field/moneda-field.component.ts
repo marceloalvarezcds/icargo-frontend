@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { MonedaService } from 'src/app/services/moneda.service';
+import { GenericListFieldComponent } from '../generic-list-field/generic-list-field.component';
 
 @Component({
   selector: 'app-moneda-field',
@@ -10,27 +11,21 @@ import { MonedaService } from 'src/app/services/moneda.service';
 })
 export class MonedaFieldComponent {
 
-  list$ = this.monedaService.getList();
-
-  get group(): FormGroup {
-    if (this.groupName) {
-      return this.form!.get(this.groupName) as FormGroup;
-    }
-    return this.form!;
-  }
-
-  get control(): FormControl {
-    return this.group.get(this.controlName) as FormControl;
-  }
+  list$ = this.service.getList();
 
   @Input() controlName = 'moneda_id';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() title = 'Moneda';
+  @Input() value: (v: Moneda) => number | string | Moneda = (v: Moneda) => v.id;
 
-  constructor(private monedaService: MonedaService) { }
+  @Output() valueChange = new EventEmitter<Moneda>();
 
-  compareWith(o1?: Moneda, o2?: Moneda): boolean {
-    return o1?.id === o2?.id;
+  @ViewChild('app-generic-list-field') genericListFieldComponent?: GenericListFieldComponent<Moneda>;
+
+  constructor(private service: MonedaService) {}
+
+  textValueFormat(value: Moneda): string {
+    return value.nombre;
   }
 }

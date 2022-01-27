@@ -9,6 +9,7 @@ import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaRemisionDestinoService } from 'src/app/services/orden-carga-remision-destino.service';
 import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-destino-dialog-data';
 import { OcRemisionDestinoFormDialogComponent } from 'src/app/dialogs/oc-remision-destino-form-dialog/oc-remision-destino-form-dialog.component';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-destino',
@@ -23,8 +24,12 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
   lista: OrdenCargaRemisionDestino[] = [];
   modelo = m.ORDEN_CARGA_REMISION_DESTINO;
 
+  get isAceptado(): boolean {
+    return this.oc?.estado === EstadoEnum.ACEPTADO;
+  }
+
   get totalCantidad(): string {
-    return this.oc?.cantidad_destino.toLocaleString() ?? '0';
+    return this.oc?.cantidad_destino.toString() ?? '0';
   }
 
   @Input() oc?: OrdenCarga;

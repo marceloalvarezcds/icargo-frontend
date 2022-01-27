@@ -15,18 +15,16 @@ export class TipoComprobanteFieldComponent {
 
   @Input() form?: FormGroup;
   @Input() controlName = 'tipo_comprobante_id';
-  @Input() groupName = '';
+  @Input() groupName?: string;
   @Input() title = 'Tipo de comprobante';
+  @Input() value: (v: TipoComprobante) => number | string | TipoComprobante = (v: TipoComprobante) => v.id;
 
-  @ViewChild('app-generic-list-field') GenericListFieldComponent?: GenericListFieldComponent<TipoComprobante>;
+
+  @ViewChild('app-generic-list-field') genericListFieldComponent?: GenericListFieldComponent<TipoComprobante>;
 
   constructor(private tipoComprobanteService: TipoComprobanteService) {}
 
   textValueFormat(value: TipoComprobante): string {
     return value.descripcion;
-  }
-
-  value(value: TipoComprobante): number {
-    return value.id;
   }
 }

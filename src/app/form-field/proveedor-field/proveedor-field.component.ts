@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Proveedor } from 'src/app/interfaces/proveedor';
 import { ProveedorService } from 'src/app/services/proveedor.service';
+import { GenericListFieldComponent } from '../generic-list-field/generic-list-field.component';
 
 @Component({
   selector: 'app-proveedor-field',
@@ -10,27 +11,21 @@ import { ProveedorService } from 'src/app/services/proveedor.service';
 })
 export class ProveedorFieldComponent {
 
-  list$ = this.proveedorService.getListByGestorCuentaId();
-
-  get group(): FormGroup {
-    if (this.groupName) {
-      return this.form!.get(this.groupName) as FormGroup;
-    }
-    return this.form!;
-  }
-
-  get control(): FormControl {
-    return this.group.get(this.controlName) as FormControl;
-  }
+  list$ = this.service.getListByGestorCuentaId();
 
   @Input() controlName = 'proveedor_id';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() title = 'Proveedor';
+  @Input() value: (v: Proveedor) => number | string | Proveedor = (v: Proveedor) => v.id;
 
-  constructor(private proveedorService: ProveedorService) { }
+  @Output() valueChange = new EventEmitter<Proveedor>();
 
-  compareWith(o1?: Proveedor, o2?: Proveedor): boolean {
-    return o1?.id === o2?.id;
+  @ViewChild('app-generic-list-field') genericListFieldComponent?: GenericListFieldComponent<Proveedor>;
+
+  constructor(private service: ProveedorService) {}
+
+  textValueFormat(value: Proveedor): string {
+    return value.nombre;
   }
 }
