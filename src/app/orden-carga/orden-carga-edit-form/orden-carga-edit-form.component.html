@@ -113,13 +113,18 @@
               Anticipos
             </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-anticipos
-            [oc]="item"
-            [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [list]="anticipoList"
-            (ocChange)="getData()"
-          ></app-orden-carga-edit-form-anticipos>
+          <div>
+            <app-orden-carga-edit-form-anticipos-resumen [oc]="item"></app-orden-carga-edit-form-anticipos-resumen>
+            <app-orden-carga-edit-form-anticipos-flete [list]="item.flete_anticipos"></app-orden-carga-edit-form-anticipos-flete>
+            <app-orden-carga-edit-form-anticipos-saldos [list]="item.saldos"></app-orden-carga-edit-form-anticipos-saldos>
+            <app-orden-carga-edit-form-anticipos
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [list]="anticipoList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-anticipos>
+          </div>
         </mat-expansion-panel>
 
         <mat-expansion-panel>

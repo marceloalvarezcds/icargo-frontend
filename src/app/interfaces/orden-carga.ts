@@ -4,7 +4,9 @@ import { TipoFleteEnum } from '../enums/tipo-flete-enum';
 import { mockCamionList } from './camion';
 import { CentroOperativo, mockCentroOperativoList } from './centro-operativo';
 import { mockFleteList } from './flete';
+import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
 import { mockOrdenCargaAnticipoRetiradoList, OrdenCargaAnticipoRetirado } from './orden-carga-anticipo-retirado';
+import { mockOrdenCargaAnticipoSaldoList, OrdenCargaAnticipoSaldo } from './orden-carga-anticipo-saldo';
 import { mockOrdenCargaComplementoList, OrdenCargaComplemento } from './orden-carga-complemento';
 import { mockOrdenCargaDescuentoList, OrdenCargaDescuento } from './orden-carga-descuento';
 import { mockOrdenCargaRemisionDestinoList, OrdenCargaRemisionDestino } from './orden-carga-remision-destino';
@@ -29,14 +31,19 @@ export interface OrdenCarga extends OrdenCargaForm {
   // Datos de semi
   semi_placa: string;
   // Datos de fletes
+  flete_anticipo_maximo: number;
   flete_destino_nombre: string;
   flete_gestor_carga_id: number;
   flete_gestor_carga_nombre: string;
+  flete_limite_credito: number;
   flete_numero_lote?: string | null;
+  flete_monto_efectivo: number;
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
+  flete_proyectado: number;
   flete_remitente_nombre: string;
   flete_remitente_numero_documento: string;
+  flete_tarifa: number;
   flete_tipo: TipoFleteEnum
   gestor_carga_id: number;
   // Campos para la edición
@@ -67,7 +74,9 @@ export interface OrdenCarga extends OrdenCargaForm {
   fecha_cargado?: string | null;
   fecha_descargado?: string | null;
   // Relaciones Listas
+  saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
+  flete_anticipos: FleteAnticipo[];
   complementos: OrdenCargaComplemento[];
   descuentos: OrdenCargaDescuento[];
   remisiones_destino: OrdenCargaRemisionDestino[];
@@ -138,6 +147,13 @@ const centroOperativo0 = mockCentroOperativoList[0];
 const centroOperativo1 = mockCentroOperativoList[1];
 const centroOperativo2 = mockCentroOperativoList[2];
 
+const flete0_cantidad_nominada = 10000
+const flete0_tarifa = flete0.condicion_propietario_tarifa
+const flete0_anticipo_maximo = 30
+const flete0_proyectado = flete0_cantidad_nominada * flete0_tarifa
+const flete0_limite_credito = (flete0_anticipo_maximo / 100) * flete0_proyectado
+const flete0_monto_efectivo = 0.1 * flete0_proyectado
+
 export const mockOrdenCarga1: OrdenCarga = {
   id: 1,
   // Datos de camion
@@ -151,14 +167,19 @@ export const mockOrdenCarga1: OrdenCarga = {
   semi_placa: semi0.placa,
   // Datos de fletes
   flete_id: flete0.id,
+  flete_anticipo_maximo: flete0_anticipo_maximo,
   flete_destino_nombre: flete0.destino_nombre,
   flete_gestor_carga_id: flete0.gestor_carga_id,
   flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
+  flete_limite_credito: flete0_limite_credito,
   flete_numero_lote: flete0.numero_lote,
+  flete_monto_efectivo: flete0_monto_efectivo,
   flete_origen_nombre: flete0.origen_nombre,
   flete_producto_descripcion: flete0.producto_descripcion,
+  flete_proyectado: flete0_proyectado,
   flete_remitente_nombre: flete0.remitente_nombre,
   flete_remitente_numero_documento: flete0.remitente_numero_documento,
+  flete_tarifa: flete0_tarifa,
   flete_tipo: flete0.tipo_flete,
   gestor_carga_id: flete0.gestor_carga_id,
   // cantidad y comentario
@@ -192,7 +213,9 @@ export const mockOrdenCarga1: OrdenCarga = {
   fecha_cargado: null,
   fecha_descargado: null,
   // Relaciones Listas
+  saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,
+  flete_anticipos: mockFleteAnticipoList,
   complementos: mockOrdenCargaComplementoList,
   descuentos: mockOrdenCargaDescuentoList,
   remisiones_destino: mockOrdenCargaRemisionDestinoList,

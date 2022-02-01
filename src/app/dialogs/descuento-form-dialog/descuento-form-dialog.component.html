@@ -28,6 +28,7 @@
     <app-moneda-field
       title="Moneda del Propietario"
       controlName="propietario_moneda"
+      [value]="valueMoneda"
       [form]="form"
     ></app-moneda-field>
     <div class="toggle">
@@ -44,6 +45,7 @@
       <app-moneda-field
         title="Moneda del Proveedor"
         controlName="proveedor_moneda"
+        [value]="valueMoneda"
         [form]="form"
       ></app-moneda-field>
       <app-proveedor-field

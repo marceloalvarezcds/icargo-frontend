@@ -1,0 +1,12 @@
+.page-form-row::ng-deep {
+  .mat-input-element:disabled,
+  .mat-select-disabled .mat-select-value {
+    color: rgba(0, 0, 0, 0.87);
+  }
+  .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+    visibility: hidden;
+  }
+}

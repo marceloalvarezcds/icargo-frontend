@@ -1,0 +1,11 @@
+<div class="row page-form-row">
+  <h4 class="col-xs-12">Redistribución de Conceptos</h4>
+  <ng-container *ngFor="let it of list; let index = index">
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field>
+        <mat-label>% de Liberación de {{it.concepto}}</mat-label>
+        <input matInput [value]="it.porcentaje ?? 0" appInputThousandsSeparator disabled />
+      </mat-form-field>
+    </div>
+  </ng-container>
+</div>

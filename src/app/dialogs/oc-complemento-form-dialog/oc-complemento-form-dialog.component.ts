@@ -1,6 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialog-data';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
@@ -88,6 +89,10 @@ export class OcComplementoFormDialogComponent {
         this.ordenCargaComplementoService.create(formData).subscribe(this.close.bind(this));
       }
     }
+  }
+
+  valueMoneda(item: Moneda): Moneda {
+    return item;
   }
 
   private close(data: OrdenCargaComplemento): void {

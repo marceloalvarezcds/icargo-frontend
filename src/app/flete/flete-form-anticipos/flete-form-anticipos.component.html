@@ -15,7 +15,7 @@
     <ng-container *ngFor="let it of formArray.controls; let index = index">
       <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [formGroupName]="index">
         <mat-form-field>
-          <mat-label>Porcentaje de Liberación de {{it.get('tipo_descripcion')?.value}}</mat-label>
+          <mat-label>Porcentaje de Liberación de {{it.get('concepto')?.value}}</mat-label>
           <input matInput formControlName="porcentaje" appInputThousandsSeparator />
           <mat-error *ngIf="it?.get('porcentaje')?.hasError('required')">
             Este campo es <strong>requerido</strong>
