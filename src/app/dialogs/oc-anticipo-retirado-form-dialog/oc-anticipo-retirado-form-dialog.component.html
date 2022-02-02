@@ -57,6 +57,10 @@
       controlName="numero_comprobante"
       [form]="form"
     ></app-input-field>
+    <mat-form-field>
+      <mat-label>Saldo disponible</mat-label>
+      <input matInput [value]="saldoDisponible" appInputThousandsSeparator disabled/>
+    </mat-form-field>
     <app-number-field
       title="Monto retirado"
       controlName="monto_retirado"

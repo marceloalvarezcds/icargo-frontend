@@ -8,6 +8,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 import { mockFleteAnticipoList } from 'src/app/interfaces/flete-anticipo';
 import { mockMonedaList } from 'src/app/interfaces/moneda';
 import { mockOcAnticipoRetiradoDialogData, mockOcAnticipoRetiradoDialogDataWithoutItem, OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { mockOrdenCargaAnticipoSaldoList } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 import { mockProveedorList } from 'src/app/interfaces/proveedor';
 import { mockPuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { mockTipoAnticipoList } from 'src/app/interfaces/tipo-anticipo';
@@ -29,6 +30,7 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
   const data = dialogData.item!;
   const fleteId = dialogData.flete_id;
   const fleteAnticipo = mockFleteAnticipoList[0];
+  const ordenCargaId = dialogData.orden_carga_id;
   const mockDialogRefSpyObj = jasmine.createSpyObj({ close : (data?: OcAnticipoRetiradoDialogData) => {} });
 
   beforeEach(async () => {
@@ -118,6 +120,7 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
     httpController.match(`${environment.api}/punto_venta/${data.proveedor_id}`).forEach(r => r.flush(mockPuntoVentaList));
     httpController.match(`${environment.api}/moneda/`).forEach(r => r.flush(mockMonedaList));
     httpController.match(`${environment.api}/tipo_comprobante/`).forEach(r => r.flush(mockTipoComprobanteList));
+    httpController.match(`${environment.api}/orden_carga_anticipo_saldo/flete_anticipo/${fleteAnticipo.id}/orden_carga/${ordenCargaId}`).forEach(r => r.flush(mockOrdenCargaAnticipoSaldoList[0]));
     button.click();
     tick();
     expect(component.form.valid).toBeTruthy();
