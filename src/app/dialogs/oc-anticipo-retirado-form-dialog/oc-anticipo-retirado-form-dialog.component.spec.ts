@@ -1,13 +1,25 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockFleteAnticipoList } from 'src/app/interfaces/flete-anticipo';
 import { mockMonedaList } from 'src/app/interfaces/moneda';
-import { mockOcAnticipoRetiradoDialogData, mockOcAnticipoRetiradoDialogDataWithoutItem, OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import {
+  mockOcAnticipoRetiradoDialogData,
+  mockOcAnticipoRetiradoDialogDataWithoutItem,
+  OcAnticipoRetiradoDialogData,
+} from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { mockOrdenCargaAnticipoSaldoList } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 import { mockProveedorList } from 'src/app/interfaces/proveedor';
 import { mockPuntoVentaList } from 'src/app/interfaces/punto-venta';
@@ -31,7 +43,9 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
   const fleteId = dialogData.flete_id;
   const fleteAnticipo = mockFleteAnticipoList[0];
   const ordenCargaId = dialogData.orden_carga_id;
-  const mockDialogRefSpyObj = jasmine.createSpyObj({ close : (data?: OcAnticipoRetiradoDialogData) => {} });
+  const mockDialogRefSpyObj = jasmine.createSpyObj({
+    close: (data?: OcAnticipoRetiradoDialogData) => {},
+  });
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -48,10 +62,9 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
         { provide: MatDialogRef, useValue: mockDialogRefSpyObj },
         { provide: MAT_DIALOG_DATA, useValue: dialogData },
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ OcAnticipoRetiradoFormDialogComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [OcAnticipoRetiradoFormDialogComponent],
+    }).compileComponents();
   });
 
   it('should create', () => {
@@ -68,19 +81,23 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
     (userService as any).userSubject.next(mockUser);
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('#submit-button');
     button.click();
     tick();
     expect(submitSpy).toHaveBeenCalled();
   }));
 
   it('data should be null', fakeAsync(() => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcAnticipoRetiradoDialogDataWithoutItem });
+    TestBed.overrideProvider(MAT_DIALOG_DATA, {
+      useValue: mockOcAnticipoRetiradoDialogDataWithoutItem,
+    });
     fixture = TestBed.createComponent(OcAnticipoRetiradoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('#submit-button');
     button.click();
     tick();
     expect(component.form.valid).toBeFalsy();
@@ -88,13 +105,16 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
   }));
 
   it('data should be null and should submitted', fakeAsync(() => {
-    TestBed.overrideProvider(MAT_DIALOG_DATA, { useValue: mockOcAnticipoRetiradoDialogDataWithoutItem });
+    TestBed.overrideProvider(MAT_DIALOG_DATA, {
+      useValue: mockOcAnticipoRetiradoDialogDataWithoutItem,
+    });
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(OcAnticipoRetiradoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('#submit-button');
     component.form.setValue({
       tipo_anticipo_id: data.tipo_anticipo_id,
       tipo_insumo_id: data.tipo_insumo_id ?? null,
@@ -114,18 +134,38 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
     });
     tick(500);
     tick(500);
-    httpController.match(`${environment.api}/tipo_anticipo/flete/${fleteId}`).forEach(r => r.flush(mockTipoAnticipoList));
-    httpController.match(`${environment.api}/flete_anticipo/tipo/${data.tipo_anticipo_id}/flete/${fleteId}`).forEach(r => r.flush(fleteAnticipo));
-    httpController.match(`${environment.api}/proveedor/insumo/${data.insumo_id}`).forEach(r => r.flush(mockProveedorList));
-    httpController.match(`${environment.api}/punto_venta/${data.proveedor_id}`).forEach(r => r.flush(mockPuntoVentaList));
-    httpController.match(`${environment.api}/moneda/`).forEach(r => r.flush(mockMonedaList));
-    httpController.match(`${environment.api}/tipo_comprobante/`).forEach(r => r.flush(mockTipoComprobanteList));
-    httpController.match(`${environment.api}/orden_carga_anticipo_saldo/flete_anticipo/${fleteAnticipo.id}/orden_carga/${ordenCargaId}`).forEach(r => r.flush(mockOrdenCargaAnticipoSaldoList[0]));
+    httpController
+      .match(`${environment.api}/tipo_anticipo/flete/${fleteId}`)
+      .forEach((r) => r.flush(mockTipoAnticipoList));
+    httpController
+      .match(
+        `${environment.api}/flete_anticipo/tipo/${data.tipo_anticipo_id}/flete/${fleteId}`
+      )
+      .forEach((r) => r.flush(fleteAnticipo));
+    httpController
+      .match(`${environment.api}/proveedor/insumo/${data.insumo_id}`)
+      .forEach((r) => r.flush(mockProveedorList));
+    httpController
+      .match(`${environment.api}/punto_venta/${data.proveedor_id}`)
+      .forEach((r) => r.flush(mockPuntoVentaList));
+    httpController
+      .match(`${environment.api}/moneda/`)
+      .forEach((r) => r.flush(mockMonedaList));
+    httpController
+      .match(`${environment.api}/tipo_comprobante/`)
+      .forEach((r) => r.flush(mockTipoComprobanteList));
+    httpController
+      .match(
+        `${environment.api}/orden_carga_anticipo_saldo/flete_anticipo/${fleteAnticipo.id}/orden_carga/${ordenCargaId}`
+      )
+      .forEach((r) => r.flush(mockOrdenCargaAnticipoSaldoList[0].saldo));
     button.click();
     tick();
     expect(component.form.valid).toBeTruthy();
     expect(submitSpy).toHaveBeenCalled();
-    httpController.match(`${environment.api}/orden_carga_anticipo_retirado/`).forEach(r => r.flush(data));
+    httpController
+      .match(`${environment.api}/orden_carga_anticipo_retirado/`)
+      .forEach((r) => r.flush(data));
     httpController.verify();
   }));
 });

@@ -7,7 +7,6 @@ import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { InsumoPuntoVentaPrecio } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
-import { OrdenCargaAnticipoSaldo } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 import { TipoAnticipo } from 'src/app/interfaces/tipo-anticipo';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
@@ -19,10 +18,11 @@ import { NumberValidator } from 'src/app/validators/number-validator';
 @Component({
   selector: 'app-oc-anticipo-retirado-form-dialog',
   templateUrl: './oc-anticipo-retirado-form-dialog.component.html',
-  styleUrls: ['./oc-anticipo-retirado-form-dialog.component.scss']
+  styleUrls: ['./oc-anticipo-retirado-form-dialog.component.scss'],
 })
-export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit {
-
+export class OcAnticipoRetiradoFormDialogComponent
+  implements OnDestroy, OnInit
+{
   fleteAnticipo?: FleteAnticipo;
   insumoPuntoVentaPrecio?: InsumoPuntoVentaPrecio;
   tipoAnticipo?: TipoAnticipo;
@@ -46,44 +46,76 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
     precio_unitario: this.data?.precio_unitario,
   });
 
-  tipoAnticipoSubscription = valueChange(this.tipoAnticipoControl).subscribe(() => {
-    setTimeout(() => {
-      if (this.isTipoInsumo) {
-        this.insumoControl.setValidators(Validators.required);
-        this.insumoPuntoVentaPrecioControl.setValidators(Validators.required);
-        this.tipoInsumoControl.setValidators(Validators.required);
-      } else {
-        this.insumoControl.removeValidators(Validators.required);
-        this.insumoPuntoVentaPrecioControl.removeValidators(Validators.required);
-        this.tipoInsumoControl.removeValidators(Validators.required);
-      }
-      this.insumoControl.updateValueAndValidity();
-      this.insumoPuntoVentaPrecioControl.updateValueAndValidity();
-      this.tipoInsumoControl.updateValueAndValidity();
-    }, 500);
-  });
+  tipoAnticipoSubscription = valueChange(this.tipoAnticipoControl).subscribe(
+    () => {
+      setTimeout(() => {
+        if (this.isTipoInsumo) {
+          this.insumoControl.setValidators(Validators.required);
+          this.insumoPuntoVentaPrecioControl.setValidators(Validators.required);
+          this.tipoInsumoControl.setValidators(Validators.required);
+        } else {
+          this.insumoControl.removeValidators(Validators.required);
+          this.insumoPuntoVentaPrecioControl.removeValidators(
+            Validators.required
+          );
+          this.tipoInsumoControl.removeValidators(Validators.required);
+        }
+        this.insumoControl.updateValueAndValidity();
+        this.insumoPuntoVentaPrecioControl.updateValueAndValidity();
+        this.tipoInsumoControl.updateValueAndValidity();
+      }, 500);
+    }
+  );
 
-  fleteAnticipoSubscription = valueMerge(this.tipoAnticipoControl, this.tipoInsumoControl)
-  .subscribe(() => {
+  fleteAnticipoSubscription = valueMerge(
+    this.tipoAnticipoControl,
+    this.tipoInsumoControl
+  ).subscribe(() => {
     setTimeout(() => {
       if (this.isTipoInsumo) {
         if (this.tipoInsumoId) {
-          this.fleteAnticipoService.getByTipoIdAndFleteIdAndTipoInsumoId(this.tipoAnticipoId!, this.fleteId, this.tipoInsumoId).subscribe(this.setFleteAnticipo.bind(this));
+          this.fleteAnticipoService
+            .getByTipoIdAndFleteIdAndTipoInsumoId(
+              this.tipoAnticipoId!,
+              this.fleteId,
+              this.tipoInsumoId
+            )
+            .subscribe(this.setFleteAnticipo.bind(this));
         }
       } else {
-        this.fleteAnticipoService.getByTipoIdAndFleteId(this.tipoAnticipoId!, this.fleteId).subscribe(this.setFleteAnticipo.bind(this));
+        this.fleteAnticipoService
+          .getByTipoIdAndFleteId(this.tipoAnticipoId!, this.fleteId)
+          .subscribe(this.setFleteAnticipo.bind(this));
       }
     }, 500);
   });
 
-  insumoPuntoVentaPrecioSubscription = valueMerge(this.insumoControl, this.monedaControl, this.puntoVentaControl)
-  .pipe(filter(() => this.isTipoInsumo && !!this.insumoId && !!this.monedaId && !!this.puntoVentaId))
-  .subscribe(() => {
-    this.insumoPuntoVentaPrecioService.getByInsumoIdAndMonedaIdAndPuntoVentaId(this.insumoId!, this.monedaId!, this.puntoVentaId!).subscribe(this.setInsumoPuntoVentaPrecio.bind(this));
-  });
+  insumoPuntoVentaPrecioSubscription = valueMerge(
+    this.insumoControl,
+    this.monedaControl,
+    this.puntoVentaControl
+  )
+    .pipe(
+      filter(
+        () =>
+          this.isTipoInsumo &&
+          !!this.insumoId &&
+          !!this.monedaId &&
+          !!this.puntoVentaId
+      )
+    )
+    .subscribe(() => {
+      this.insumoPuntoVentaPrecioService
+        .getByInsumoIdAndMonedaIdAndPuntoVentaId(
+          this.insumoId!,
+          this.monedaId!,
+          this.puntoVentaId!
+        )
+        .subscribe(this.setInsumoPuntoVentaPrecio.bind(this));
+    });
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear'
+    return this.data ? 'Editar' : 'Crear';
   }
 
   get data(): OrdenCargaAnticipoRetirado | undefined {
@@ -131,7 +163,7 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
   }
 
   get montoRetiradoControl(): FormControl {
-    return this.form.get('monto_retirado') as FormControl;;
+    return this.form.get('monto_retirado') as FormControl;
   }
 
   get montoRetirado(): number {
@@ -185,8 +217,8 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoFormDialogComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
+  ) {}
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
@@ -202,17 +234,23 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      const data = JSON.parse(JSON.stringify({
-        ...this.form.value,
-        id: this.data?.id,
-        orden_carga_id: this.ordenCargaId,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.form.value,
+          id: this.data?.id,
+          orden_carga_id: this.ordenCargaId,
+        })
+      );
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.data?.id) {
-        this.ordenCargaAnticipoRetiradoService.edit(this.data?.id, formData).subscribe(this.close.bind(this));
+        this.ordenCargaAnticipoRetiradoService
+          .edit(this.data?.id, formData)
+          .subscribe(this.close.bind(this));
       } else {
-        this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
+        this.ordenCargaAnticipoRetiradoService
+          .create(formData)
+          .subscribe(this.close.bind(this));
       }
     }
   }
@@ -221,7 +259,9 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
     this.dialogRef.close(data);
   }
 
-  private loadOrdenCargaAnticipoSaldo(fleteAnticipoId: number | null | undefined): void {
+  private loadOrdenCargaAnticipoSaldo(
+    fleteAnticipoId: number | null | undefined
+  ): void {
     if (fleteAnticipoId) {
       this.ordenCargaAnticipoSaldoService
         .getByFleteAnticipoIdAndOrdenCargaId(fleteAnticipoId, this.ordenCargaId)
@@ -235,7 +275,9 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
     this.loadOrdenCargaAnticipoSaldo(fleteAnticipo.id);
   }
 
-  private setInsumoPuntoVentaPrecio(precio: InsumoPuntoVentaPrecio | null): void {
+  private setInsumoPuntoVentaPrecio(
+    precio: InsumoPuntoVentaPrecio | null
+  ): void {
     if (precio) {
       this.insumoPuntoVentaPrecio = precio;
       this.insumoPuntoVentaPrecioControl.setValue(precio.id);
@@ -246,9 +288,11 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnDestroy, OnInit 
     }
   }
 
-  private setOrdenCargaAnticipoSaldo(ordenCargaAnticipoSaldo: OrdenCargaAnticipoSaldo): void {
-    this.saldoAnticipo = ordenCargaAnticipoSaldo.saldo;
-    this.montoRetiradoControl.setValidators(NumberValidator.max(this.saldoDisponible));
+  private setOrdenCargaAnticipoSaldo(saldo: number): void {
+    this.saldoAnticipo = saldo;
+    this.montoRetiradoControl.setValidators(
+      NumberValidator.max(this.saldoDisponible)
+    );
     this.montoRetiradoControl.updateValueAndValidity();
   }
 }

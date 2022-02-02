@@ -4,10 +4,13 @@
       <mat-label>{{ title }}</mat-label>
       <mat-select [formControlName]="controlName">
         <ng-container *ngFor="let o of list">
-          <mat-option [value]="value(o)">{{textValueFormat(o)}}</mat-option>
+          <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
         </ng-container>
       </mat-select>
-      <mat-error *ngIf="control.hasError('required')" [innerHTML]="errorMessage"></mat-error>
+      <mat-error
+        *ngIf="control.hasError('required')"
+        [innerHTML]="errorMessage"
+      ></mat-error>
     </mat-form-field>
   </ng-container>
   <ng-container *ngIf="!groupName">
@@ -15,10 +18,13 @@
       <mat-label>{{ title }}</mat-label>
       <mat-select [formControlName]="controlName">
         <ng-container *ngFor="let o of list">
-          <mat-option [value]="value(o)">{{textValueFormat(o)}}</mat-option>
+          <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
         </ng-container>
       </mat-select>
-      <mat-error *ngIf="control.hasError('required')" [innerHTML]="errorMessage"></mat-error>
+      <mat-error
+        *ngIf="control.hasError('required')"
+        [innerHTML]="errorMessage"
+      ></mat-error>
     </mat-form-field>
   </ng-container>
 </div>
