@@ -8,6 +8,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { getIdFromAny, getIdFromControl } from 'src/app/utils/form-control';
 
 @Component({
   selector: 'app-generic-list-field',
@@ -33,28 +34,30 @@ export class GenericListFieldComponent<T extends { id: number }>
     return this.group.get(this.controlName) as FormControl;
   }
 
+  get rowValue(): T | string | number | undefined {
+    const obj = this.group.getRawValue();
+    return obj[this.controlName];
+  }
+
   @Input() controlName = '';
   @Input() groupName?: string;
   @Input() errorMessage = '';
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
+    const currentId = getIdFromAny(this.rowValue);
+    this.setValueChange(currentId);
     this.subscription = this.control.valueChanges
       .pipe(filter((v) => !!v))
-      .pipe(
-        map((v) =>
-          typeof v === 'string' || typeof v === 'number'
-            ? Number(v)
-            : Number(v.id)
-        )
-      )
-      .subscribe((id) => {
-        const value = this.list.find((x) => x.id === id);
-        this.valueChange.emit(value);
-      });
+      .pipe(map((v) => getIdFromControl(v)))
+      .subscribe(this.setValueChange.bind(this));
   }
   @Input() set list$(list$: Observable<T[]> | undefined) {
     list$?.subscribe((list) => {
       this.list = list;
+      if (this.formGroup) {
+        const currentId = getIdFromAny(this.rowValue);
+        this.setValueChange(currentId);
+      }
     });
   }
   @Input() textValueFormat: (v: T) => string = () => '';
@@ -65,5 +68,10 @@ export class GenericListFieldComponent<T extends { id: number }>
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  private setValueChange(id: number | undefined): void {
+    const value = this.list.find((x) => x.id === id);
+    this.valueChange.emit(value);
   }
 }

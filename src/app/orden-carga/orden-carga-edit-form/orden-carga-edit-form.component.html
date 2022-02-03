@@ -26,22 +26,18 @@
       <mat-accordion multi>
         <mat-expansion-panel [expanded]="isCombinacionTouched">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Información principal
-            </mat-panel-title>
+            <mat-panel-title> Información principal </mat-panel-title>
           </mat-expansion-panel-header>
           <app-orden-carga-edit-form-combinacion
             [oc]="item"
             [form]="form"
-            (fleteChange)="flete = $event"
+            (fleteChange)="onFleteChange($event)"
           ></app-orden-carga-edit-form-combinacion>
         </mat-expansion-panel>
 
         <mat-expansion-panel [expanded]="isInfoTouched">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Cantidad Nominada
-            </mat-panel-title>
+            <mat-panel-title> Cantidad Nominada </mat-panel-title>
           </mat-expansion-panel-header>
           <app-orden-carga-edit-form-info
             [oc]="item"
@@ -52,18 +48,17 @@
 
         <mat-expansion-panel [expanded]="isTramoTouched">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Tramo
-            </mat-panel-title>
+            <mat-panel-title> Tramo </mat-panel-title>
           </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-tramo [form]="form"></app-orden-carga-edit-form-tramo>
+          <app-orden-carga-edit-form-tramo
+            [form]="form"
+            [oc]="item"
+          ></app-orden-carga-edit-form-tramo>
         </mat-expansion-panel>
 
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Remisiones
-            </mat-panel-title>
+            <mat-panel-title> Remisiones </mat-panel-title>
           </mat-expansion-panel-header>
           <div>
             <app-orden-carga-edit-form-remisiones-origen
@@ -85,9 +80,7 @@
 
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Complementos y Descuentos
-            </mat-panel-title>
+            <mat-panel-title> Complementos y Descuentos </mat-panel-title>
           </mat-expansion-panel-header>
           <div>
             <app-orden-carga-edit-form-complementos
@@ -109,14 +102,18 @@
 
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Anticipos
-            </mat-panel-title>
+            <mat-panel-title> Anticipos </mat-panel-title>
           </mat-expansion-panel-header>
           <div>
-            <app-orden-carga-edit-form-anticipos-resumen [oc]="item"></app-orden-carga-edit-form-anticipos-resumen>
-            <app-orden-carga-edit-form-anticipos-flete [list]="item.flete_anticipos"></app-orden-carga-edit-form-anticipos-flete>
-            <app-orden-carga-edit-form-anticipos-saldos [list]="item.saldos"></app-orden-carga-edit-form-anticipos-saldos>
+            <app-orden-carga-edit-form-anticipos-resumen
+              [oc]="item"
+            ></app-orden-carga-edit-form-anticipos-resumen>
+            <app-orden-carga-edit-form-anticipos-flete
+              [list]="item.flete_anticipos"
+            ></app-orden-carga-edit-form-anticipos-flete>
+            <app-orden-carga-edit-form-anticipos-saldos
+              [list]="item.saldos"
+            ></app-orden-carga-edit-form-anticipos-saldos>
             <app-orden-carga-edit-form-anticipos
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
@@ -129,9 +126,7 @@
 
         <mat-expansion-panel>
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Auditoría
-            </mat-panel-title>
+            <mat-panel-title> Auditoría </mat-panel-title>
           </mat-expansion-panel-header>
           <app-page-form-audit
             [created_by]="created_by"

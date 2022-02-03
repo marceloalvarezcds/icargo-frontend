@@ -1,57 +1,51 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { CamionList } from 'src/app/interfaces/camion';
 import { CamionService } from 'src/app/services/camion.service';
+import { GenericListFieldComponent } from '../generic-list-field/generic-list-field.component';
 
 @Component({
   selector: 'app-camion-by-producto-field',
   templateUrl: './camion-by-producto-field.component.html',
-  styleUrls: ['./camion-by-producto-field.component.scss']
+  styleUrls: ['./camion-by-producto-field.component.scss'],
 })
-export class CamionByProductoFieldComponent implements OnDestroy {
-
-  formGroup?: FormGroup;
+export class CamionByProductoFieldComponent {
   pId?: number;
-  list: CamionList[] = [];
-  subscription?: Subscription;
+  list$?: Observable<CamionList[]>;
 
-  get group(): FormGroup {
-    return this.formGroup!.get(this.groupName) as FormGroup;
-  }
-
-  get control(): FormControl {
-    return this.group.get(this.controlName) as FormControl;
-  }
-
-  @Input() set form(f: FormGroup) {
-    this.formGroup = f;
-    this.subscription = this.control.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
-      this.valueChange.emit(id);
-    });
-  }
+  @Input() form?: FormGroup;
+  @Input() controlName = 'camion_id';
+  @Input() groupName?: string;
+  @Input() title = 'Camión';
   @Input() set productoId(id: number | undefined) {
     this.pId = id;
     this.getList();
   }
-  @Input() controlName = 'camion_id';
-  @Input() groupName = '';
-  @Input() title = 'Camión';
+  @Input() value: (v: CamionList) => number | string | CamionList = (
+    v: CamionList
+  ) => v.id;
 
-  @Output() valueChange = new EventEmitter<number>();
+  @Output() valueChange = new EventEmitter<CamionList>();
 
-  constructor(private camionService:  CamionService) { }
+  @ViewChild('app-generic-list-field')
+  GenericListFieldComponent?: GenericListFieldComponent<CamionList>;
 
-  ngOnDestroy(): void {
-    this.subscription?.unsubscribe();
+  constructor(private service: CamionService) {}
+
+  textValueFormat(value: CamionList): string {
+    return `${value.placa} - ${value.propietario_nombre}`;
   }
 
   private getList(): void {
     if (this.pId) {
-      this.camionService.getListByProductoId(this.pId).subscribe(list => {
-        this.list = list;
-      });
+      this.list$ = this.service.getListByProductoId(this.pId);
     }
   }
 }

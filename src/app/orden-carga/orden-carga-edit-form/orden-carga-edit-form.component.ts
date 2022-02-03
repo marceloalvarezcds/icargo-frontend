@@ -1,10 +1,14 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
@@ -19,7 +23,7 @@ import { openSnackbar } from 'src/app/utils/snackbar';
 @Component({
   selector: 'app-orden-carga-edit-form',
   templateUrl: './orden-carga-edit-form.component.html',
-  styleUrls: ['./orden-carga-edit-form.component.scss']
+  styleUrls: ['./orden-carga-edit-form.component.scss'],
 })
 export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
@@ -44,6 +48,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       comentarios: null,
     }),
     tramo: this.fb.group({
+      flete_origen_id: [null, Validators.required],
+      flete_destino_id: [null, Validators.required],
       origen_id: [null, Validators.required],
       destino_id: [null, Validators.required],
     }),
@@ -51,7 +57,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
@@ -77,13 +83,24 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.estado === EstadoEnum.ACEPTADO;
   }
 
-  get isCancelado(): boolean{
+  get isCancelado(): boolean {
     return this.estado === EstadoEnum.CANCELADO;
   }
 
   get puedeModificar(): boolean {
-    if (!this.isEdit || !(this.estado === EstadoEnum.NUEVO || this.estado === EstadoEnum.PENDIENTE)) { return false; }
-    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCargaId);
+    if (
+      !this.isEdit ||
+      !(
+        this.estado === EstadoEnum.NUEVO || this.estado === EstadoEnum.PENDIENTE
+      )
+    ) {
+      return false;
+    }
+    return this.userService.checkPermisoAndGestorCargaId(
+      a.EDITAR,
+      this.modelo,
+      this.gestorCargaId
+    );
   }
 
   get combinacion(): FormGroup {
@@ -141,7 +158,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
-  ) { }
+    private chRef: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -163,17 +181,26 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onFleteChange(flete: FleteList | undefined): void {
+    if (flete) {
+      this.flete = flete;
+      this.chRef.detectChanges();
+    }
+  }
+
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.tramo.value,
-        ...this.combinacion.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.tramo.value,
+          ...this.combinacion.value,
+        })
+      );
       formData.append('data', JSON.stringify(data));
       if (this.isEdit) {
         this.ordenCargaService.edit(this.id, formData).subscribe(() => {
@@ -197,33 +224,33 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-    this.ordenCargaService.getById(this.id).subscribe(data => {
+    this.ordenCargaService.getById(this.id).subscribe((data) => {
       this.item = data;
+      this.form.patchValue({
+        combinacion: {
+          flete_id: data.flete_id,
+          camion_id: data.camion_id,
+          semi_id: data.semi_id,
+        },
+        info: {
+          cantidad_nominada: data.cantidad_nominada,
+          comentarios: data.comentarios,
+        },
+        tramo: {
+          flete_origen_id: data.flete_origen_id,
+          flete_destino_id: data.flete_destino_id,
+          origen_id: data.origen_id,
+          destino_id: data.destino_id,
+        },
+      });
+      this.combinacion.get('flete_id')!.disable();
+      this.combinacion.get('camion_id')!.disable();
+      if (!this.puedeModificar) {
+        this.form.disable();
+      }
       setTimeout(() => {
-        this.form.patchValue({
-          combinacion: {
-            flete_id: data.flete_id,
-            camion_id: data.camion_id,
-            semi_id: data.semi_id,
-          },
-          info: {
-            cantidad_nominada: data.cantidad_nominada,
-            comentarios: data.comentarios,
-          },
-          tramo: {
-            origen_id: data.origen_id,
-            destino_id: data.destino_id,
-          },
-        });
-        setTimeout(() => {
-          this.combinacion.get('flete_id')!.disable();
-          this.combinacion.get('camion_id')!.disable();
-          if (!this.puedeModificar) {
-            this.form.disable();
-          }
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-        }, 500);
+        this.hasChange = false;
+        this.initialFormValue = this.form.value;
       }, 500);
     });
   }

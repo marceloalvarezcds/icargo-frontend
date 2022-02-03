@@ -13,7 +13,7 @@
           [groupName]="groupName"
           [productoId]="flete?.producto_id"
           [form]="form"
-          (valueChange)="camionId = $event"
+          (valueChange)="onCamionChange($event)"
         ></app-camion-by-producto-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">

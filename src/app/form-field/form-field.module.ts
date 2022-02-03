@@ -7,6 +7,7 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AliasFieldComponent } from './alias-field/alias-field.component';
 import { CamionByGestorFieldComponent } from './camion-by-gestor-field/camion-by-gestor-field.component';
 import { CamionByProductoFieldComponent } from './camion-by-producto-field/camion-by-producto-field.component';
+import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
 import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
@@ -60,6 +61,7 @@ const modules = [
   AliasFieldComponent,
   CamionByGestorFieldComponent,
   CamionByProductoFieldComponent,
+  CentroOperativoByGestorDialogFieldComponent,
   CentroOperativoFieldComponent,
   ChoferFieldComponent,
   CiudadFieldComponent,
@@ -122,4 +124,4 @@ const modules = [
     ReactiveFormsModule,
   ],
 })
-export class FormFieldModule { }
+export class FormFieldModule {}
