@@ -61,6 +61,10 @@
             <mat-panel-title> Remisiones </mat-panel-title>
           </mat-expansion-panel-header>
           <div>
+            <app-orden-carga-edit-form-remisiones-resultado
+              [gestorCargaId]="gestorCargaId"
+              [list]="remisionResultadoList"
+            ></app-orden-carga-edit-form-remisiones-resultado>
             <app-orden-carga-edit-form-remisiones-origen
               [oc]="item"
               [gestorCargaId]="gestorCargaId"

@@ -20,6 +20,7 @@ import { OrdenCargaEditFormDescuentosComponent } from './orden-carga-edit-form-d
 import { OrdenCargaEditFormInfoComponent } from './orden-carga-edit-form-info/orden-carga-edit-form-info.component';
 import { OrdenCargaEditFormRemisionesDestinoComponent } from './orden-carga-edit-form-remisiones-destino/orden-carga-edit-form-remisiones-destino.component';
 import { OrdenCargaEditFormRemisionesOrigenComponent } from './orden-carga-edit-form-remisiones-origen/orden-carga-edit-form-remisiones-origen.component';
+import { OrdenCargaEditFormRemisionesResultadoComponent } from './orden-carga-edit-form-remisiones-resultado/orden-carga-edit-form-remisiones-resultado.component';
 import { OrdenCargaEditFormTramoComponent } from './orden-carga-edit-form-tramo/orden-carga-edit-form-tramo.component';
 import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga-edit-form.component';
 import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.component';
@@ -27,23 +28,24 @@ import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
 
 @NgModule({
   declarations: [
-    OrdenCargaListComponent,
-    OrdenCargaCreateFormComponent,
     OrdenCargaCreateFormCombinacionComponent,
+    OrdenCargaCreateFormComponent,
     OrdenCargaCreateFormInfoComponent,
-    OrdenCargaEditFormComponent,
+    OrdenCargaEditFormAccionesComponent,
     OrdenCargaEditFormAnticiposComponent,
     OrdenCargaEditFormAnticiposFleteComponent,
     OrdenCargaEditFormAnticiposResumenComponent,
     OrdenCargaEditFormAnticiposSaldosComponent,
+    OrdenCargaEditFormCombinacionComponent,
     OrdenCargaEditFormComplementosComponent,
+    OrdenCargaEditFormComponent,
     OrdenCargaEditFormDescuentosComponent,
+    OrdenCargaEditFormInfoComponent,
     OrdenCargaEditFormRemisionesDestinoComponent,
     OrdenCargaEditFormRemisionesOrigenComponent,
-    OrdenCargaEditFormAccionesComponent,
-    OrdenCargaEditFormInfoComponent,
-    OrdenCargaEditFormCombinacionComponent,
+    OrdenCargaEditFormRemisionesResultadoComponent,
     OrdenCargaEditFormTramoComponent,
+    OrdenCargaListComponent,
   ],
   imports: [
     CommonModule,
@@ -57,4 +59,4 @@ import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
     SharedModule,
   ],
 })
-export class OrdenCargaModule { }
+export class OrdenCargaModule {}

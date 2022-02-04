@@ -16,6 +16,7 @@ import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complement
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
+import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
@@ -133,6 +134,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get remisionOrigenList(): OrdenCargaRemisionOrigen[] {
     return this.item!.remisiones_origen.slice();
+  }
+
+  get remisionResultadoList(): OrdenCargaRemisionResultado[] {
+    return this.item!.remisiones_resultado.slice();
   }
 
   get created_by(): string {

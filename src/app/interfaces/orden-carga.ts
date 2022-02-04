@@ -29,6 +29,10 @@ import {
   mockOrdenCargaRemisionOrigenList,
   OrdenCargaRemisionOrigen,
 } from './orden-carga-remision-origen';
+import {
+  mockOrdenCargaRemisionResultadoList,
+  OrdenCargaRemisionResultado,
+} from './orden-carga-remision-resultado';
 import { mockSemiList } from './semi';
 
 export interface OrdenCargaForm {
@@ -101,6 +105,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   descuentos: OrdenCargaDescuento[];
   remisiones_destino: OrdenCargaRemisionDestino[];
   remisiones_origen: OrdenCargaRemisionOrigen[];
+  remisiones_resultado: OrdenCargaRemisionResultado[];
   cantidad_destino: number;
   cantidad_origen: number;
   // Auditoría
@@ -243,6 +248,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   descuentos: mockOrdenCargaDescuentoList,
   remisiones_destino: mockOrdenCargaRemisionDestinoList,
   remisiones_origen: mockOrdenCargaRemisionOrigenList,
+  remisiones_resultado: mockOrdenCargaRemisionResultadoList,
   cantidad_destino: 10000,
   cantidad_origen: 10000,
   // Auditoría
