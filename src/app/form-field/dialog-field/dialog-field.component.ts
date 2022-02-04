@@ -12,7 +12,7 @@ import { filter, map } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
-import { getIdFromAny, getIdFromControl } from 'src/app/utils/form-control';
+import { getIdFromAny } from 'src/app/utils/form-control';
 
 @Component({
   selector: 'app-dialog-field',
@@ -59,7 +59,7 @@ export class DialogFieldComponent<T extends { id: number }>
     this.setValueChange(currentId);
     const selectedId = this.selectedValue?.id;
     this.subscription = this.control.valueChanges
-      .pipe(map((v) => getIdFromControl(v)))
+      .pipe(map((v) => getIdFromAny(v)))
       .pipe(filter((v) => v !== selectedId))
       .subscribe(this.setValueChange.bind(this));
   }

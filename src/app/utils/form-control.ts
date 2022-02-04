@@ -11,10 +11,6 @@ export function getIdFromAny(value: any): number | undefined {
   return undefined;
 }
 
-export function getIdFromControl(control: FormControl): number | undefined {
-  return getIdFromAny(control.value);
-}
-
 export function valueChange(control: FormControl): Observable<number> {
   return changeId(control.valueChanges);
 }

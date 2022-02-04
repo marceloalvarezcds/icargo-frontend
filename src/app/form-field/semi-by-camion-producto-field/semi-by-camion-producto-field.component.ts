@@ -6,10 +6,9 @@ import { SemiService } from 'src/app/services/semi.service';
 @Component({
   selector: 'app-semi-by-camion-producto-field',
   templateUrl: './semi-by-camion-producto-field.component.html',
-  styleUrls: ['./semi-by-camion-producto-field.component.scss']
+  styleUrls: ['./semi-by-camion-producto-field.component.scss'],
 })
 export class SemiByCamionProductoFieldComponent {
-
   cId?: number;
   pId?: number;
   list: SemiList[] = [];
@@ -35,13 +34,15 @@ export class SemiByCamionProductoFieldComponent {
   @Input() groupName = '';
   @Input() title = 'Semi-remolque';
 
-  constructor(private semiService: SemiService) { }
+  constructor(private semiService: SemiService) {}
 
   private getList(): void {
     if (this.cId && this.pId) {
-      this.semiService.getListByCamionIdAndProductoId(this.cId, this.pId).subscribe(list => {
-        this.list = list;
-      });
+      this.semiService
+        .getListByCamionIdAndProductoId(this.cId, this.pId)
+        .subscribe((list) => {
+          this.list = list;
+        });
     }
   }
 }

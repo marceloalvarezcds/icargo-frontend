@@ -8,7 +8,7 @@ import {
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { getIdFromAny, getIdFromControl } from 'src/app/utils/form-control';
+import { getIdFromAny } from 'src/app/utils/form-control';
 
 @Component({
   selector: 'app-generic-list-field',
@@ -48,7 +48,7 @@ export class GenericListFieldComponent<T extends { id: number }>
     this.setValueChange(currentId);
     this.subscription = this.control.valueChanges
       .pipe(filter((v) => !!v))
-      .pipe(map((v) => getIdFromControl(v)))
+      .pipe(map((v) => getIdFromAny(v)))
       .subscribe(this.setValueChange.bind(this));
   }
   @Input() set list$(list$: Observable<T[]> | undefined) {
