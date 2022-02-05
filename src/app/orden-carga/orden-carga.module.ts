@@ -17,6 +17,7 @@ import { OrdenCargaEditFormAnticiposComponent } from './orden-carga-edit-form-an
 import { OrdenCargaEditFormCombinacionComponent } from './orden-carga-edit-form-combinacion/orden-carga-edit-form-combinacion.component';
 import { OrdenCargaEditFormComplementosComponent } from './orden-carga-edit-form-complementos/orden-carga-edit-form-complementos.component';
 import { OrdenCargaEditFormDescuentosComponent } from './orden-carga-edit-form-descuentos/orden-carga-edit-form-descuentos.component';
+import { OrdenCargaEditFormEstadoHistorialComponent } from './orden-carga-edit-form-estado-historial/orden-carga-edit-form-estado-historial.component';
 import { OrdenCargaEditFormInfoComponent } from './orden-carga-edit-form-info/orden-carga-edit-form-info.component';
 import { OrdenCargaEditFormRemisionesDestinoComponent } from './orden-carga-edit-form-remisiones-destino/orden-carga-edit-form-remisiones-destino.component';
 import { OrdenCargaEditFormRemisionesOrigenComponent } from './orden-carga-edit-form-remisiones-origen/orden-carga-edit-form-remisiones-origen.component';
@@ -40,6 +41,7 @@ import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
     OrdenCargaEditFormComplementosComponent,
     OrdenCargaEditFormComponent,
     OrdenCargaEditFormDescuentosComponent,
+    OrdenCargaEditFormEstadoHistorialComponent,
     OrdenCargaEditFormInfoComponent,
     OrdenCargaEditFormRemisionesDestinoComponent,
     OrdenCargaEditFormRemisionesOrigenComponent,

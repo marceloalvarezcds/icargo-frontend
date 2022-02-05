@@ -14,6 +14,7 @@ import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
+import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado-historial';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
@@ -126,6 +127,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get descuentoList(): OrdenCargaDescuento[] {
     return this.item!.descuentos.slice();
+  }
+
+  get historialList(): OrdenCargaEstadoHistorial[] {
+    return this.item!.historial.slice();
   }
 
   get remisionDestinoList(): OrdenCargaRemisionDestino[] {

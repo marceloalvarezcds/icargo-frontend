@@ -22,6 +22,10 @@ import {
   OrdenCargaDescuento,
 } from './orden-carga-descuento';
 import {
+  mockOrdenCargaEstadoHistorialList,
+  OrdenCargaEstadoHistorial,
+} from './orden-carga-estado-historial';
+import {
   mockOrdenCargaRemisionDestinoList,
   OrdenCargaRemisionDestino,
 } from './orden-carga-remision-destino';
@@ -82,22 +86,8 @@ export interface OrdenCarga extends OrdenCargaForm {
   destino_id: number;
   destino: CentroOperativo;
   // FIN Tramo de OC
-  // Historial de estados
-  fecha_aceptado?: string | null;
-  fecha_cancelado?: string | null;
-  fecha_conciliado?: string | null;
-  fecha_contabilizado?: string | null;
-  fecha_en_proceso?: string | null;
-  fecha_finalizado?: string | null;
-  fecha_liquidado?: string | null;
-  fecha_nuevo?: string | null;
-  fecha_pendiente?: string | null;
-  // Historial de estados de OC
-  fecha_arribado_a_cargar?: string | null;
-  fecha_arribado_a_descargar?: string | null;
-  fecha_cargado?: string | null;
-  fecha_descargado?: string | null;
   // Relaciones Listas
+  historial: OrdenCargaEstadoHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
   flete_anticipos: FleteAnticipo[];
@@ -225,22 +215,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   destino_id: centroOperativo1.id,
   destino: centroOperativo0,
   // FIN Tramo de OC
-  // Historial de estados
-  fecha_aceptado: null,
-  fecha_cancelado: null,
-  fecha_conciliado: null,
-  fecha_contabilizado: null,
-  fecha_en_proceso: null,
-  fecha_finalizado: null,
-  fecha_liquidado: null,
-  fecha_nuevo: '2021-11-30T20:38:09.553757',
-  fecha_pendiente: null,
-  // Historial de estados de OC
-  fecha_arribado_a_cargar: null,
-  fecha_arribado_a_descargar: null,
-  fecha_cargado: null,
-  fecha_descargado: null,
   // Relaciones Listas
+  historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,
   flete_anticipos: mockFleteAnticipoList,
