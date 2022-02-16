@@ -1,21 +1,12 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
+import { createFormGroup } from 'src/app/utils/form-field-test';
 
 import { CamionByProductoFieldComponent } from './camion-by-producto-field.component';
-
-const createFormGroup = (component: CamionByProductoFieldComponent): void => {
-  component.groupName = 'grupo';
-  component.controlName = 'control';
-  component.form = new FormGroup({
-    grupo: new FormGroup({
-      control: new FormControl(null),
-    }),
-  });
-}
 
 describe('CamionByProductoFieldComponent', () => {
   let component: CamionByProductoFieldComponent;
@@ -29,10 +20,9 @@ describe('CamionByProductoFieldComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ CamionByProductoFieldComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [CamionByProductoFieldComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

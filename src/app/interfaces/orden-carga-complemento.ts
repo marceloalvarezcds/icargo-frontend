@@ -22,6 +22,7 @@ export interface OrdenCargaComplemento extends OrdenCargaComplementoForm {
   id: number;
   concepto: TipoConceptoComplemento;
   concepto_descripcion: string;
+  anticipado_descripcion: string;
   // INICIO Monto a pagar al Propietario
   propietario_moneda: Moneda;
   propietario_moneda_nombre: string;
@@ -49,6 +50,7 @@ export const mockOrdenCargaComplementoList: OrdenCargaComplemento[] = [
     detalle: 'Flete Complemento Detalle 1',
     habilitar_cobro_remitente: true,
     anticipado: true,
+    anticipado_descripcion: 'Si',
     // INICIO Monto a pagar al Propietario
     propietario_monto: 100,
     propietario_moneda_id: moneda0.id,
@@ -72,6 +74,7 @@ export const mockOrdenCargaComplementoList: OrdenCargaComplemento[] = [
     detalle: 'Flete Complemento Detalle 2',
     habilitar_cobro_remitente: true,
     anticipado: false,
+    anticipado_descripcion: 'No',
     // INICIO Monto a pagar al Propietario
     propietario_monto: 100,
     propietario_moneda_id: moneda1.id,

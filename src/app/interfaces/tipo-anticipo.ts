@@ -15,17 +15,7 @@ export const mockTipoAnticipoList: TipoAnticipo[] = [
   },
   {
     id: 2,
-    descripcion: TipoAnticipoEnum.COMBUSTIBLE,
-    estado: EstadoEnum.ACTIVO,
-  },
-  {
-    id: 3,
-    descripcion: TipoAnticipoEnum.LUBRICANTES,
-    estado: EstadoEnum.ACTIVO,
-  },
-  {
-    id: 4,
-    descripcion: TipoAnticipoEnum.OTROS,
+    descripcion: TipoAnticipoEnum.INSUMOS,
     estado: EstadoEnum.ACTIVO,
   },
 ];

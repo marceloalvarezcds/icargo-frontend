@@ -21,6 +21,10 @@ export class ProveedorService {
     return this.http.get<ProveedorList[]>(`${this.url}/gestor_cuenta_id/`);
   }
 
+  getListByInsumoId(insumoId: number): Observable<ProveedorList[]> {
+    return this.http.get<ProveedorList[]>(`${this.url}/insumo/${insumoId}`);
+  }
+
   getById(id: number): Observable<Proveedor> {
     return this.http.get<Proveedor>(`${this.url}/${id}`);
   }

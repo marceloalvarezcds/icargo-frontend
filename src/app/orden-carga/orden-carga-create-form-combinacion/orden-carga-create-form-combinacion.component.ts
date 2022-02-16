@@ -1,14 +1,14 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { CamionList } from 'src/app/interfaces/camion';
 import { FleteList } from 'src/app/interfaces/flete';
 
 @Component({
   selector: 'app-orden-carga-create-form-combinacion',
   templateUrl: './orden-carga-create-form-combinacion.component.html',
-  styleUrls: ['./orden-carga-create-form-combinacion.component.scss']
+  styleUrls: ['./orden-carga-create-form-combinacion.component.scss'],
 })
 export class OrdenCargaCreateFormCombinacionComponent {
-
   flete?: FleteList;
   groupName = 'combinacion';
   camionId?: number;
@@ -23,5 +23,11 @@ export class OrdenCargaCreateFormCombinacionComponent {
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
     this.fleteChange.emit(flete);
+  }
+
+  onCamionChange(camion: CamionList | undefined): void {
+    if (camion) {
+      this.camionId = camion.id;
+    }
   }
 }

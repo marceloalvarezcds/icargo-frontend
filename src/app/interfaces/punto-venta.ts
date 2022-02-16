@@ -11,6 +11,7 @@ export interface PuntoVenta {
   nombre: string;
   nombre_corto?: string | null;
   proveedor_id: number;
+  proveedor_nombre: string;
   tipo_documento_id: number;
   tipo_documento: TipoDocumento;
   numero_documento: string;
@@ -56,6 +57,7 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     nombre: 'CARGILL CEDRALES',
     nombre_corto: 'cargill',
     proveedor_id: mockProveedorList[0].id,
+    proveedor_nombre: mockProveedorList[0].nombre,
     tipo_documento_id: tipoDocumento0.id,
     tipo_documento: tipoDocumento0,
     numero_documento: '800100100',
@@ -101,6 +103,7 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     nombre: 'ADM SANTA RITA',
     nombre_corto: null,
     proveedor_id: mockProveedorList[1].id,
+    proveedor_nombre: mockProveedorList[1].nombre,
     tipo_documento_id: tipoDocumento1.id,
     tipo_documento: tipoDocumento1,
     numero_documento: '800100100',
@@ -145,6 +148,7 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     nombre: 'GICAL KM12',
     nombre_corto: null,
     proveedor_id: mockProveedorList[2].id,
+    proveedor_nombre: mockProveedorList[2].nombre,
     tipo_documento_id: tipoDocumento2.id,
     tipo_documento: tipoDocumento2,
     numero_documento: '800100100',

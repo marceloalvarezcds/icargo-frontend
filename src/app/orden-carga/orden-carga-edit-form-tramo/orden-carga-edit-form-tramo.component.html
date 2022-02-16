@@ -1,0 +1,40 @@
+<div *ngIf="form" [formGroup]="form" class="tramo-container">
+  <div [formGroupName]="groupName">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-centro-operativo-field
+          title="Origen Planificado"
+          controlName="flete_origen_id"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-centro-operativo-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-centro-operativo-field
+          title="Destino Planificado"
+          controlName="flete_destino_id"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-centro-operativo-field>
+      </div>
+    </div>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-centro-operativo-by-gestor-dialog-field
+          title="Lugar de Carga"
+          controlName="origen_id"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-centro-operativo-by-gestor-dialog-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-centro-operativo-by-gestor-dialog-field
+          title="Lugar de Descarga"
+          controlName="destino_id"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-centro-operativo-by-gestor-dialog-field>
+      </div>
+    </div>
+  </div>
+</div>

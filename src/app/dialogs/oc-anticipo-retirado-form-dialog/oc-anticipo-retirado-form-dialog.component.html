@@ -1,0 +1,87 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    {{ actionText }} Anticipo Retirado
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-tipo-anticipo-by-flete-field
+      [fleteId]="fleteId"
+      [form]="form"
+      (valueChange)="tipoAnticipo = $event"
+    ></app-tipo-anticipo-by-flete-field>
+    <ng-container *ngIf="isTipoInsumo">
+      <app-tipo-insumo-by-flete-field
+        [fleteId]="fleteId"
+        [form]="form"
+      ></app-tipo-insumo-by-flete-field>
+      <app-insumo-by-tipo-field
+        [tipoInsumoId]="tipoInsumoId"
+        [form]="form"
+      ></app-insumo-by-tipo-field>
+      <app-proveedor-by-insumo-field
+        [insumoId]="insumoId"
+        [form]="form"
+      ></app-proveedor-by-insumo-field>
+      <app-punto-venta-by-insumo-proveedor-field
+        [insumoId]="insumoId"
+        [proveedorId]="proveedorId"
+        [form]="form"
+      ></app-punto-venta-by-insumo-proveedor-field>
+      <app-moneda-by-insumo-punto-venta-field
+        [insumoId]="insumoId"
+        [puntoVentaId]="puntoVentaId"
+        [form]="form"
+      ></app-moneda-by-insumo-punto-venta-field>
+      <mat-form-field class="precio">
+        <mat-label>Precios</mat-label>
+        <input matInput formControlName="insumo_punto_venta_precio_id" hidden />
+        <input matInput [value]="insumoPuntoVentaPrecio?.precio" appInputThousandsSeparator disabled/>
+        <mat-error *ngIf="insumoPuntoVentaPrecioControl.hasError('required')">
+          El precio del insumo y proveedor no fue <strong>encontrado</strong>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-container *ngIf="!isTipoInsumo">
+      <app-proveedor-field [form]="form"></app-proveedor-field>
+      <app-punto-venta-by-proveedor-field
+        [proveedorId]="proveedorId"
+        [form]="form"
+      ></app-punto-venta-by-proveedor-field>
+      <app-moneda-field [form]="form"></app-moneda-field>
+    </ng-container>
+    <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
+    <app-input-field
+      title="Nº de comprobante"
+      controlName="numero_comprobante"
+      [form]="form"
+    ></app-input-field>
+    <mat-form-field>
+      <mat-label>Saldo disponible</mat-label>
+      <input matInput [value]="saldoDisponible" appInputThousandsSeparator disabled/>
+    </mat-form-field>
+    <app-number-field
+      title="Monto retirado"
+      controlName="monto_retirado"
+      [form]="form"
+    ></app-number-field>
+    <mat-form-field>
+      <mat-label>Observación</mat-label>
+      <textarea matInput
+        formControlName="observacion"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+      ></textarea>
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>
+      Cancelar
+    </button>
+    <button mat-raised-button type="button" (click)="submit()" cdkFocusInitial color="primary" id="submit-button">
+      Aceptar
+    </button>
+  </div>
+</form>

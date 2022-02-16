@@ -46,6 +46,20 @@ html body {
   }
 }
 
+h1.mat-dialog-title {
+  margin-right: 30px;
+
+  .mat-button {
+    border-radius: 50%;
+    min-width: 40px;
+    width: 40px;
+    height: 40px;
+    line-height: 36px;
+    margin: 8px 0 8px 0;
+    padding: 0;
+  }
+}
+
 .mat-dialog-container {
   position: relative;
 
@@ -240,7 +254,8 @@ html body {
   }
 
   .mat-cell,
-  .mat-header-cell {
+  .mat-header-cell,
+  .mat-footer-cell {
     border-right: 1px solid rgba(0, 0, 0, 0.12);
     &:not(:nth-child(1)) {
       padding: 0 10px;
@@ -259,4 +274,10 @@ html body {
 .has-error {
   color: $error-color;
   margin-left: 1rem;
+}
+
+.table-container.col-xs-12 {
+  margin-bottom: 1rem;
+  padding-right: 0;
+  padding-left: 0;
 }

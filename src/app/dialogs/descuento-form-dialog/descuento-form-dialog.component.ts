@@ -107,4 +107,8 @@ export class DescuentoFormDialogComponent {
       this.dialogRef.close(data);
     }
   }
+
+  valueMoneda(item: Moneda): Moneda {
+    return item;
+  }
 }

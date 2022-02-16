@@ -1,0 +1,26 @@
+<div class="row page-form-row" *ngIf="oc">
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Tarifa Flete</mat-label>
+    <input matInput [value]="oc.flete_tarifa" appInputThousandsSeparator disabled/>
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Cantidad Nominada</mat-label>
+    <input matInput [value]="oc.cantidad_nominada" appInputThousandsSeparator disabled/>
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Flete Proyectado</mat-label>
+    <input matInput [value]="oc.flete_proyectado" appInputThousandsSeparator disabled/>
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>% Máximo Liberado</mat-label>
+    <input matInput [value]="oc.flete_anticipo_maximo" appInputThousandsSeparator disabled/>
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Límite de Crédito OC</mat-label>
+    <input matInput [value]="oc.flete_limite_credito" appInputThousandsSeparator disabled/>
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Monto Efectivo OC</mat-label>
+    <input matInput [value]="oc.flete_monto_efectivo" appInputThousandsSeparator disabled/>
+  </mat-form-field>
+</div>

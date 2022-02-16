@@ -1,0 +1,35 @@
+<div class="acciones-container" *ngIf="oc">
+  <div class="acciones-buttons">
+    <button type="button" mat-raised-button color="primary" *ngIf="!isAceptado && !isCancelado" (click)="aceptar()">
+      Aceptar orden
+    </button>
+    <button type="button" mat-raised-button color="accent" *ngIf="isAceptado && !isCancelado" (click)="finalizar()">
+      Finalizar orden
+    </button>
+    <button type="button" mat-raised-button color="{{ isAnticiposLiberados ? 'warn': 'primary'}}" *ngIf="!isCancelado" (click)="modificarAnticipos()">
+      {{ isAnticiposLiberados ? 'Bloquear': 'Liberar'}} anticipos
+    </button>
+    <button type="button" mat-raised-button color="warn" *ngIf="!isCancelado" (click)="cancelar()">
+      Cancelar orden
+    </button>
+  </div>
+
+  <div class="scoreboard">
+    <div class="scoreboard-item">
+      <h4>Nro. Pedido</h4>
+      <p>{{oc.flete_id}}</p>
+    </div>
+    <div class="scoreboard-item">
+      <h4>Nro. Orden Carga</h4>
+      <p>{{oc.id}} </p>
+    </div>
+    <div class="scoreboard-item">
+      <h4>Estado de la orden</h4>
+      <p>{{oc.estado}}</p>
+    </div>
+    <div class="scoreboard-item">
+      <h4>Estado de anticipos</h4>
+      <p>{{isAnticiposLiberados ? 'Anticipos liberados' : 'Anticipos bloqueados'}}</p>
+    </div>
+  </div>
+</div>

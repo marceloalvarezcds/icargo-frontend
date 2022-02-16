@@ -1,0 +1,13 @@
+<div class="row page-form-row" *ngIf="gestorCargaId">
+  <h4 class="col-xs-12">Resultados</h4>
+  <div class="col-xs-12 table-container" [hidden]="!(lista && lista.length)">
+    <app-table
+      [modelo]="modelo"
+      [gestorCuentaId]="gestorCargaId"
+      [hideShow]="true"
+      [isShow]="true"
+      [columns]="columns"
+      [data]="lista"
+    ></app-table>
+  </div>
+</div>

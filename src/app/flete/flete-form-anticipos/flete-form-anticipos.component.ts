@@ -17,7 +17,8 @@ export class FleteFormAnticiposComponent {
         this.formArray.push(this.createForm({
           tipo_id: it.id,
           tipo_descripcion: it.descripcion,
-          porcentaje: null
+          porcentaje: null,
+          concepto: it.descripcion,
         }));
       });
     }

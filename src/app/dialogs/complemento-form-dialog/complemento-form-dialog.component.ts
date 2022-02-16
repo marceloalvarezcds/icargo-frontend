@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
+import { Unidad } from 'src/app/interfaces/unidad';
 
 @Component({
   selector: 'app-complemento-form-dialog',
@@ -97,5 +98,9 @@ export class ComplementoFormDialogComponent {
       }
       this.dialogRef.close(data);
     }
+  }
+
+  valueMoneda(item: Moneda): Moneda {
+    return item;
   }
 }

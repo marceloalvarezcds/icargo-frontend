@@ -1,0 +1,155 @@
+<ng-container *ngIf="item">
+  <app-page-form
+    class="orden-carga-page"
+    module="Orden de Carga"
+    submodule="Orden de Carga"
+    viewTitle="{{ isEdit ? 'Edición' : 'Ver' }}"
+    [class.page-form-show]="isShow"
+    [formGroup]="form"
+    [hasChange]="hasChange"
+    [isEdit]="isEdit"
+    [isShow]="isShow"
+    [modelo]="modelo"
+    [gestorCuentaId]="gestorCargaId"
+    (backClick)="back($event)"
+    (editClick)="redirectToEdit()"
+    (submitEvent)="submit(false)"
+  >
+    <div class="orden-carga-page-content">
+      <app-orden-carga-edit-form-acciones
+        [isAnticiposLiberados]="isAnticiposLiberados"
+        [isAceptado]="isAceptado"
+        [isCancelado]="isCancelado"
+        [oc]="item"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-acciones>
+      <mat-accordion multi>
+        <mat-expansion-panel [expanded]="isCombinacionTouched">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Información principal </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-combinacion
+            [oc]="item"
+            [form]="form"
+            (fleteChange)="onFleteChange($event)"
+          ></app-orden-carga-edit-form-combinacion>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="isInfoTouched">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Cantidad Nominada </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-info
+            [oc]="item"
+            [flete]="flete"
+            [form]="form"
+          ></app-orden-carga-edit-form-info>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel [expanded]="isTramoTouched">
+          <mat-expansion-panel-header>
+            <mat-panel-title> Tramo </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-tramo
+            [form]="form"
+            [oc]="item"
+          ></app-orden-carga-edit-form-tramo>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Remisiones </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-orden-carga-edit-form-remisiones-resultado
+              [gestorCargaId]="gestorCargaId"
+              [list]="remisionResultadoList"
+            ></app-orden-carga-edit-form-remisiones-resultado>
+            <app-orden-carga-edit-form-remisiones-origen
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [list]="remisionOrigenList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-remisiones-origen>
+            <app-orden-carga-edit-form-remisiones-destino
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [list]="remisionDestinoList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-remisiones-destino>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Complementos y Descuentos </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-orden-carga-edit-form-complementos
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [list]="complementoList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-complementos>
+            <app-orden-carga-edit-form-descuentos
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [list]="descuentoList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-descuentos>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Anticipos </mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-orden-carga-edit-form-anticipos-resumen
+              [oc]="item"
+            ></app-orden-carga-edit-form-anticipos-resumen>
+            <app-orden-carga-edit-form-anticipos-flete
+              [list]="item.flete_anticipos"
+            ></app-orden-carga-edit-form-anticipos-flete>
+            <app-orden-carga-edit-form-anticipos-saldos
+              [list]="item.saldos"
+            ></app-orden-carga-edit-form-anticipos-saldos>
+            <app-orden-carga-edit-form-anticipos
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [list]="anticipoList"
+              (ocChange)="getData()"
+            ></app-orden-carga-edit-form-anticipos>
+          </div>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Historial de Estados </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-estado-historial
+            [gestorCargaId]="gestorCargaId"
+            [list]="historialList"
+          ></app-orden-carga-edit-form-estado-historial>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title> Auditoría </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-page-form-audit
+            [created_by]="created_by"
+            [created_at]="created_at"
+            [modified_by]="modified_by"
+            [modified_at]="modified_at"
+          ></app-page-form-audit>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+  </app-page-form>
+</ng-container>

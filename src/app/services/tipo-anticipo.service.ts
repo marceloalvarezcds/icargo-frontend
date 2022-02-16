@@ -16,4 +16,8 @@ export class TipoAnticipoService {
   getList(): Observable<TipoAnticipo[]> {
     return this.http.get<TipoAnticipo[]>(`${this.url}/`);
   }
+
+  getListByFleteId(fleteId: number): Observable<TipoAnticipo[]> {
+    return this.http.get<TipoAnticipo[]>(`${this.url}/flete/${fleteId}`);
+  }
 }
