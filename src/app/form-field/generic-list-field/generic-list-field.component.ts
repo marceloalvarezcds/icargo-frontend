@@ -70,6 +70,15 @@ export class GenericListFieldComponent<T extends { id: number }>
     this.subscription?.unsubscribe();
   }
 
+  compareWith(
+    o1?: number | { id: number },
+    o2?: number | { id: number }
+  ): boolean {
+    const id1 = typeof o1 === 'number' ? o1 : o1?.id;
+    const id2 = typeof o2 === 'number' ? o2 : o2?.id;
+    return id1 === id2;
+  }
+
   private setValueChange(id: number | undefined): void {
     const value = this.list.find((x) => x.id === id);
     this.valueChange.emit(value);

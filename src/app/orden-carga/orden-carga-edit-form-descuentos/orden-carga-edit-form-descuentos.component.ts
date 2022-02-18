@@ -1,6 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
-import { PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -13,19 +16,55 @@ import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuen
 @Component({
   selector: 'app-orden-carga-edit-form-descuentos',
   templateUrl: './orden-carga-edit-form-descuentos.component.html',
-  styleUrls: ['./orden-carga-edit-form-descuentos.component.scss']
+  styleUrls: ['./orden-carga-edit-form-descuentos.component.scss'],
 })
 export class OrdenCargaEditFormDescuentosComponent {
-
   a = PermisoAccionEnum;
   columns: Column[] = [
-    { def: 'concepto_descripcion', title: 'Concepto', value: (element: OrdenCargaDescuento) => element.concepto_descripcion, sticky: true },
-    { def: 'propietario_monto', title: 'A Cobrar', value: (element: OrdenCargaDescuento) => element.propietario_monto, type: 'number' },
-    { def: 'propietario_moneda_nombre', title: 'Moneda', value: (element: OrdenCargaDescuento) => element.propietario_moneda_nombre },
-    { def: 'proveedor_monto', title: 'A Pagar', value: (element: OrdenCargaDescuento) => element.proveedor_monto, type: 'number' },
-    { def: 'proveedor_moneda_nombre', title: 'Moneda', value: (element: OrdenCargaDescuento) => element.proveedor_moneda_nombre },
-    { def: 'anticipado', title: 'Anticipado', value: (element: OrdenCargaDescuento) => element.anticipado_descripcion },
-    { def: 'proveedor_nombre', title: 'Proveedor', value: (element: OrdenCargaDescuento) => element.proveedor_nombre },
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: OrdenCargaDescuento) => element.id,
+      sticky: true,
+    },
+    {
+      def: 'concepto_descripcion',
+      title: 'Concepto',
+      value: (element: OrdenCargaDescuento) => element.concepto_descripcion,
+    },
+    {
+      def: 'propietario_monto',
+      title: 'A Cobrar',
+      value: (element: OrdenCargaDescuento) => element.propietario_monto,
+      type: 'number',
+    },
+    {
+      def: 'propietario_moneda_nombre',
+      title: 'Moneda',
+      value: (element: OrdenCargaDescuento) =>
+        element.propietario_moneda_nombre,
+    },
+    {
+      def: 'proveedor_monto',
+      title: 'A Pagar',
+      value: (element: OrdenCargaDescuento) => element.proveedor_monto,
+      type: 'number',
+    },
+    {
+      def: 'proveedor_moneda_nombre',
+      title: 'Moneda',
+      value: (element: OrdenCargaDescuento) => element.proveedor_moneda_nombre,
+    },
+    {
+      def: 'anticipado',
+      title: 'Anticipado',
+      value: (element: OrdenCargaDescuento) => element.anticipado_descripcion,
+    },
+    {
+      def: 'proveedor_nombre',
+      title: 'Proveedor',
+      value: (element: OrdenCargaDescuento) => element.proveedor_nombre,
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -34,14 +73,15 @@ export class OrdenCargaEditFormDescuentosComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() puedeConciliar = false;
   @Input() list: OrdenCargaDescuento[] = [];
 
   @Output() ocChange = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
-    private ordenCargaDescuentoService: OrdenCargaDescuentoService,
-  ) { }
+    private ordenCargaDescuentoService: OrdenCargaDescuentoService
+  ) {}
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
@@ -52,16 +92,24 @@ export class OrdenCargaEditFormDescuentosComponent {
   }
 
   remove({ row }: TableEvent<OrdenCargaDescuento>): void {
-    remove(this.dialog, `¿Está seguro que desea eliminar al descuento ${row.concepto_descripcion}?`, () => {
-      this.ordenCargaDescuentoService.delete(row.id).subscribe(this.emitOcChange.bind(this));
-    });
+    remove(
+      this.dialog,
+      `¿Está seguro que desea eliminar al descuento ${row.concepto_descripcion}?`,
+      () => {
+        this.ordenCargaDescuentoService
+          .delete(row.id)
+          .subscribe(this.emitOcChange.bind(this));
+      }
+    );
   }
 
-  private getDialogRef(item?: OrdenCargaDescuento): MatDialogRef<OcDescuentoFormDialogComponent, OrdenCargaDescuento> {
+  private getDialogRef(
+    item?: OrdenCargaDescuento
+  ): MatDialogRef<OcDescuentoFormDialogComponent, OrdenCargaDescuento> {
     const data: OcDescuentoDialogData = {
       orden_carga_id: this.oc!.id,
       item,
-    }
+    };
     return this.dialog.open(OcDescuentoFormDialogComponent, { data });
   }
 

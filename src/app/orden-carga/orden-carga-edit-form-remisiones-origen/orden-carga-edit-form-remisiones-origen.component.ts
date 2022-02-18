@@ -37,6 +37,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() puedeConciliar = false;
   @Input() set list(l: OrdenCargaRemisionOrigen[]) {
     this.setList(l);
   }
@@ -89,11 +90,16 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     this.lista = list.slice();
     this.columns = [
       {
+        def: 'id',
+        title: 'Nº',
+        value: (element: OrdenCargaRemisionOrigen) => element.id,
+        sticky: true,
+      },
+      {
         def: 'numero_documento',
         title: 'Nº de Documento',
         footerDef: 'Total',
         value: (element: OrdenCargaRemisionOrigen) => element.numero_documento,
-        sticky: true,
       },
       {
         def: 'fecha',

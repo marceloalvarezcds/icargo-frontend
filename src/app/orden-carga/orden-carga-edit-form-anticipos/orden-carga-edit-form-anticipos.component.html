@@ -1,4 +1,4 @@
-<div *ngIf="gestorCargaId">
+<div *ngIf="gestorCargaId && oc">
   <div class="row page-form-row">
     <h4 class="col-xs-12">Anticipos Retirados</h4>
     <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
@@ -8,13 +8,35 @@
         [gestorCuentaId]="gestorCargaId"
         [data]="list"
         [hideShow]="true"
-        [isShow]="isShow || !isAnticiposLiberados || !((modelo | puede : a.EDITAR : gestorCargaId) || (modelo | puede : a.ELIMINAR : gestorCargaId))"
+        [isShow]="
+          isShow ||
+          (oc.is_finalizado && !puedeConciliar) ||
+          !isAnticiposLiberados ||
+          !(
+            (modelo | puede: a.EDITAR:gestorCargaId) ||
+            (modelo | puede: a.ELIMINAR:gestorCargaId)
+          )
+        "
         (editClick)="edit($event)"
         (deleteClick)="remove($event)"
       ></app-table>
     </div>
-    <div class="col-xs-12" [hidden]="!isAnticiposLiberados || !(modelo | puede : a.CREAR : gestorCargaId)">
-      <button mat-raised-button class="outline round" color="primary" type="button" (click)="create()" id="create-button">
+    <div
+      class="col-xs-12"
+      [hidden]="
+        (oc.is_finalizado && !puedeConciliar) ||
+        !isAnticiposLiberados ||
+        !(modelo | puede: a.CREAR:gestorCargaId)
+      "
+    >
+      <button
+        mat-raised-button
+        class="outline round"
+        color="primary"
+        type="button"
+        (click)="create()"
+        id="create-button"
+      >
         Nuevo Anticipo
       </button>
     </div>

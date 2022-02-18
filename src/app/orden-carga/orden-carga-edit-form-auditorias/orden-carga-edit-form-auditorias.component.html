@@ -1,0 +1,13 @@
+<div
+  class="row page-form-row auditorias-container"
+  *ngIf="gestorCargaId && isFinalizado"
+>
+  <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+    <app-table
+      [columns]="columns"
+      [data]="list"
+      [hideShow]="true"
+      [isShow]="true"
+    ></app-table>
+  </div>
+</div>

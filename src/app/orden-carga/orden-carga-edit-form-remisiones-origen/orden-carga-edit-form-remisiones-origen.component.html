@@ -8,7 +8,7 @@
         [hideShow]="true"
         [isShow]="
           isShow ||
-          !isAceptado ||
+          (!isAceptado && !puedeConciliar) ||
           !(
             (modelo | puede: a.EDITAR:gestorCargaId) ||
             (modelo | puede: a.ELIMINAR:gestorCargaId)
@@ -22,7 +22,10 @@
     </div>
     <div
       class="col-xs-12"
-      [hidden]="!isAceptado || !(modelo | puede: a.CREAR:gestorCargaId)"
+      [hidden]="
+        (!isAceptado && !puedeConciliar) ||
+        !(modelo | puede: a.CREAR:gestorCargaId)
+      "
     >
       <button
         mat-raised-button

@@ -9,6 +9,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { AuditDatabase } from 'src/app/interfaces/audit-database';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
@@ -81,12 +82,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.item!.anticipos_liberados;
   }
 
-  get isAceptado(): boolean {
-    return this.estado === EstadoEnum.ACEPTADO;
-  }
-
-  get isCancelado(): boolean {
-    return this.estado === EstadoEnum.CANCELADO;
+  get isFinalizado(): boolean {
+    return this.estado === EstadoEnum.FINALIZADO;
   }
 
   get puedeModificar(): boolean {
@@ -102,6 +99,16 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       a.EDITAR,
       this.modelo,
       this.gestorCargaId
+    );
+  }
+
+  get puedeConciliar(): boolean {
+    return (
+      this.userService.checkPermisoAndGestorCargaId(
+        a.CONCILIAR,
+        this.modelo,
+        this.gestorCargaId
+      ) && this.isFinalizado
     );
   }
 
@@ -127,6 +134,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get descuentoList(): OrdenCargaDescuento[] {
     return this.item!.descuentos.slice();
+  }
+
+  get auditorias(): AuditDatabase[] {
+    return this.item!.auditorias.slice();
   }
 
   get historialList(): OrdenCargaEstadoHistorial[] {

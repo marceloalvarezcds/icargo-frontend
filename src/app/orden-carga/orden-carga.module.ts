@@ -26,6 +26,7 @@ import { OrdenCargaEditFormTramoComponent } from './orden-carga-edit-form-tramo/
 import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga-edit-form.component';
 import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.component';
 import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
+import { OrdenCargaEditFormAuditoriasComponent } from './orden-carga-edit-form-auditorias/orden-carga-edit-form-auditorias.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
     OrdenCargaEditFormRemisionesResultadoComponent,
     OrdenCargaEditFormTramoComponent,
     OrdenCargaListComponent,
+    OrdenCargaEditFormAuditoriasComponent,
   ],
   imports: [
     CommonModule,
