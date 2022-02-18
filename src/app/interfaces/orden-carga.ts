@@ -1,6 +1,7 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { OrdenCargaEstadoEnum } from '../enums/orden-carga-enum';
 import { TipoFleteEnum } from '../enums/tipo-flete-enum';
+import { AuditDatabase, mockAuditDatabaseList } from './audit-database';
 import { mockCamionList } from './camion';
 import { CentroOperativo, mockCentroOperativoList } from './centro-operativo';
 import { mockFleteList } from './flete';
@@ -74,6 +75,14 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_tarifa: number;
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
+  // Historial de Estados
+  is_aceptado: boolean;
+  is_cancelado: boolean;
+  is_conciliado: boolean;
+  is_contabilizado: boolean;
+  is_en_proceso: boolean;
+  is_finalizado: boolean;
+  is_liquidado: boolean;
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -87,6 +96,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   destino: CentroOperativo;
   // FIN Tramo de OC
   // Relaciones Listas
+  auditorias: AuditDatabase[];
   historial: OrdenCargaEstadoHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
@@ -203,6 +213,14 @@ export const mockOrdenCarga1: OrdenCarga = {
   // cantidad y comentario
   cantidad_nominada: 10000,
   comentarios: '',
+  // Historial de Estados
+  is_aceptado: false,
+  is_cancelado: false,
+  is_conciliado: false,
+  is_contabilizado: false,
+  is_en_proceso: false,
+  is_finalizado: false,
+  is_liquidado: false,
   // Campos para la edición
   estado: EstadoEnum.NUEVO,
   orden_carga_estado: OrdenCargaEstadoEnum.PENDIENTE,
@@ -216,6 +234,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   destino: centroOperativo0,
   // FIN Tramo de OC
   // Relaciones Listas
+  auditorias: mockAuditDatabaseList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,

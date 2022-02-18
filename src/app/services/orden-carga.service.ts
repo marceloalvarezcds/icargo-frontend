@@ -5,13 +5,12 @@ import { environment } from 'src/environments/environment';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OrdenCargaService {
-
   private url = `${environment.api}/orden_carga`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/`);
@@ -45,11 +44,17 @@ export class OrdenCargaService {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/cancelar`);
   }
 
+  conciliar(id: number): Observable<OrdenCarga> {
+    return this.http.get<OrdenCarga>(`${this.url}/${id}/conciliar`);
+  }
+
   finalizar(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/finalizar`);
   }
 
   modificarAnticipos(id: number): Observable<OrdenCarga> {
-    return this.http.get<OrdenCarga>(`${this.url}/${id}/modify_advance_release`);
+    return this.http.get<OrdenCarga>(
+      `${this.url}/${id}/modify_advance_release`
+    );
   }
 }

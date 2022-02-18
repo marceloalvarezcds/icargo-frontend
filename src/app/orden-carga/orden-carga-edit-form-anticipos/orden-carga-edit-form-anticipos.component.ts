@@ -88,6 +88,7 @@ export class OrdenCargaEditFormAnticiposComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() puedeConciliar = false;
   @Input() list: OrdenCargaAnticipoRetirado[] = [];
 
   @Output() ocChange = new EventEmitter<void>();

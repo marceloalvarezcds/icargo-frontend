@@ -22,6 +22,9 @@
             <ng-container *ngSwitchCase="'date'">
               <span>{{ column.value(row) | date: "MM-dd-yyyy hh:mm:ss" }}</span>
             </ng-container>
+            <ng-container *ngSwitchCase="'html'">
+              <div [innerHTML]="column.value(row)"></div>
+            </ng-container>
             <ng-container *ngSwitchDefault>
               <span>{{ column.value(row) }}</span>
             </ng-container>

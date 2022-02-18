@@ -32,13 +32,14 @@ export class OrdenCargaEditFormTramoComponent {
   }
 
   @Input() puedeModificar = false;
+  @Input() puedeConciliar = false;
   @Input() form?: FormGroup;
   @Input() set oc(ordenCarga: OrdenCarga) {
     this.ordenCarga = ordenCarga;
     this.group.disable();
     this.destinoControl.disable();
     this.origenControl.disable();
-    if (this.isNuevoPendiente) {
+    if (this.isNuevoPendiente || this.puedeConciliar) {
       this.destinoControl.enable();
       this.origenControl.enable();
     }

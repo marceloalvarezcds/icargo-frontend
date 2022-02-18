@@ -17,9 +17,11 @@
   >
     <div class="orden-carga-page-content">
       <app-orden-carga-edit-form-acciones
+        [hasChange]="hasChange"
         [isAnticiposLiberados]="isAnticiposLiberados"
-        [isAceptado]="isAceptado"
-        [isCancelado]="isCancelado"
+        [isAceptado]="item.is_aceptado"
+        [isCancelado]="item.is_cancelado"
+        [puedeConciliar]="puedeConciliar"
         [oc]="item"
         (ocChange)="getData()"
       ></app-orden-carga-edit-form-acciones>
@@ -51,6 +53,7 @@
             <mat-panel-title> Tramo </mat-panel-title>
           </mat-expansion-panel-header>
           <app-orden-carga-edit-form-tramo
+            [puedeConciliar]="puedeConciliar"
             [form]="form"
             [oc]="item"
           ></app-orden-carga-edit-form-tramo>
@@ -69,6 +72,7 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [puedeConciliar]="puedeConciliar"
               [list]="remisionOrigenList"
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-remisiones-origen>
@@ -76,6 +80,7 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [puedeConciliar]="puedeConciliar"
               [list]="remisionDestinoList"
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-remisiones-destino>
@@ -91,6 +96,7 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [puedeConciliar]="puedeConciliar"
               [list]="complementoList"
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-complementos>
@@ -98,6 +104,7 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [puedeConciliar]="puedeConciliar"
               [list]="descuentoList"
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-descuentos>
@@ -122,6 +129,7 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [puedeConciliar]="puedeConciliar"
               [list]="anticipoList"
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-anticipos>
@@ -148,6 +156,11 @@
             [modified_by]="modified_by"
             [modified_at]="modified_at"
           ></app-page-form-audit>
+          <app-orden-carga-edit-form-auditorias
+            [gestorCargaId]="gestorCargaId"
+            [list]="auditorias"
+            [ordenCarga]="item"
+          ></app-orden-carga-edit-form-auditorias>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
