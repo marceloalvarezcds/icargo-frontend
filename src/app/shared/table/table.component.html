@@ -25,6 +25,17 @@
             <ng-container *ngSwitchCase="'html'">
               <div [innerHTML]="column.value(row)"></div>
             </ng-container>
+            <ng-container *ngSwitchCase="'button'">
+              <ng-container *ngIf="column.buttonCallback">
+                <button
+                  type="button"
+                  mat-raised-button
+                  color="primary"
+                  [innerHTML]="column.value(row)"
+                  (click)="column.buttonCallback(row)"
+                ></button>
+              </ng-container>
+            </ng-container>
             <ng-container *ngSwitchDefault>
               <span>{{ column.value(row) }}</span>
             </ng-container>
