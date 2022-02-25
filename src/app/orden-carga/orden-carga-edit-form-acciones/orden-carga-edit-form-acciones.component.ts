@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import {
   confirmationDialogToAceptar,
   confirmationDialogToCancelar,
@@ -29,6 +30,7 @@ export class OrdenCargaEditFormAccionesComponent {
 
   constructor(
     private ordenCargaService: OrdenCargaService,
+    private reportsService: ReportsService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog
   ) {}
@@ -108,5 +110,21 @@ export class OrdenCargaEditFormAccionesComponent {
         },
       }
     );
+  }
+
+  downloadPDF(): void {
+    this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        saveAs(file, filename);
+      });
+    });
+  }
+
+  downloadResumenPDF(): void {
+    this.ordenCargaService.resumenPdf(this.oc!.id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        saveAs(file, filename);
+      });
+    });
   }
 }

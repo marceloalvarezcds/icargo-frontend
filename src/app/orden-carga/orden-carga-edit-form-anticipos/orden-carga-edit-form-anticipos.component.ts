@@ -1,17 +1,19 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Column } from 'src/app/interfaces/column';
-import { TableEvent } from 'src/app/interfaces/table';
-import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { saveAs } from 'file-saver';
+import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { create, edit, remove } from 'src/app/utils/table-event-crud';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
-import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
-import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
+import { Column } from 'src/app/interfaces/column';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { TableEvent } from 'src/app/interfaces/table';
+import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
+import { ReportsService } from 'src/app/services/reports.service';
+import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
   selector: 'app-orden-carga-edit-form-anticipos',
@@ -22,10 +24,18 @@ export class OrdenCargaEditFormAnticiposComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     {
+      def: 'pdf',
+      title: '',
+      type: 'button',
+      value: () => 'PDF',
+      buttonCallback: (element: OrdenCargaAnticipoRetirado) =>
+        this.downloadPDF(element),
+      sticky: true,
+    },
+    {
       def: 'id',
       title: 'Nº',
       value: (element: OrdenCargaAnticipoRetirado) => element.id,
-      sticky: true,
     },
     {
       def: 'concepto',
@@ -95,7 +105,8 @@ export class OrdenCargaEditFormAnticiposComponent {
 
   constructor(
     private dialog: MatDialog,
-    private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService
+    private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
+    private reportsService: ReportsService
   ) {}
 
   create(): void {
@@ -116,6 +127,16 @@ export class OrdenCargaEditFormAnticiposComponent {
           .subscribe(this.emitOcChange.bind(this));
       }
     );
+  }
+
+  private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
+    this.ordenCargaAnticipoRetiradoService
+      .pdf(item.id)
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
   }
 
   private getDialogRef(

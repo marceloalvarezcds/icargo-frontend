@@ -57,4 +57,12 @@ export class OrdenCargaService {
       `${this.url}/${id}/modify_advance_release`
     );
   }
+
+  pdf(id: number): Observable<string> {
+    return this.http.get<string>(`${this.url}/${id}/pdf`);
+  }
+
+  resumenPdf(id: number): Observable<string> {
+    return this.http.get<string>(`${this.url}/${id}/pdf/resumen`);
+  }
 }

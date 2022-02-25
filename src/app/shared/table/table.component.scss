@@ -19,3 +19,9 @@
 .row-error {
   border: 1px solid $error-color;
 }
+
+.row-button::ng-deep {
+  height: 24px;
+  line-height: 24px;
+  font-size: 12px;
+}
