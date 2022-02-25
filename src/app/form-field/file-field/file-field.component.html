@@ -1,10 +1,17 @@
 <ng-container *ngIf="form">
   <ng-container *ngIf="groupName">
     <div class="row page-form-row" *ngIf="form" [formGroup]="form">
-      <div class="row {{className}} pr-0" [formGroupName]="groupName">
-        <div class="col-xs-12" *ngIf="isShow && field"><strong>{{ title }}</strong></div>
+      <div class="row {{ className }} pr-0" [formGroupName]="groupName">
+        <div class="col-xs-12" *ngIf="isShow && field">
+          <strong>{{ title }}</strong>
+        </div>
         <div class="col-xs-12 file-field-container">
-          <img *ngIf="fieldFile" [src]="fieldFile | imageFileBase64 | async" alt="" class="file-field" />
+          <img
+            *ngIf="fieldFile && !field"
+            [src]="fieldFile | imageFileBase64 | async"
+            alt=""
+            class="file-field"
+          />
           <img *ngIf="field" [src]="field" alt="" class="file-field" />
         </div>
         <input
@@ -17,7 +24,12 @@
         />
         <mat-form-field class="file-form-field pr-0" *ngIf="!isShow">
           <mat-label>{{ title }}</mat-label>
-          <input matInput readonly [formControlName]="controlName" (click)="fileInput.click()"/>
+          <input
+            matInput
+            readonly
+            [formControlName]="controlName"
+            (click)="fileInput.click()"
+          />
           <button
             type="button"
             color="primary"
@@ -35,10 +47,17 @@
     </div>
   </ng-container>
   <ng-container *ngIf="!groupName">
-    <div class="{{className}} pr-0" [formGroup]="form">
-      <div *ngIf="isShow && field"><strong>{{ title }}</strong></div>
+    <div class="{{ className }} pr-0" [formGroup]="form">
+      <div *ngIf="isShow && field">
+        <strong>{{ title }}</strong>
+      </div>
       <div class="file-field-container">
-        <img *ngIf="fieldFile" [src]="fieldFile | imageFileBase64 | async" alt="" class="file-field" />
+        <img
+          *ngIf="fieldFile"
+          [src]="fieldFile | imageFileBase64 | async"
+          alt=""
+          class="file-field"
+        />
         <img *ngIf="field" [src]="field" alt="" class="file-field" />
       </div>
       <input
@@ -51,7 +70,12 @@
       />
       <mat-form-field class="file-form-field pl-0 pr-0" *ngIf="!isShow">
         <mat-label>{{ title }}</mat-label>
-        <input matInput readonly [formControlName]="controlName" (click)="fileInput.click()"/>
+        <input
+          matInput
+          readonly
+          [formControlName]="controlName"
+          (click)="fileInput.click()"
+        />
         <button
           type="button"
           color="primary"
