@@ -1,16 +1,26 @@
-import { AfterViewInit, Component, HostListener, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  HostListener,
+  OnDestroy,
+  OnInit,
+  ViewChild,
+} from '@angular/core';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { filter } from 'rxjs/operators';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { MenuItem } from 'src/app/interfaces/menu-item';
 import { MenuConfigService } from 'src/app/services/menu-config.service';
 import { ResponsiveService } from 'src/app/services/responsive.service';
-import { UserService } from '../services/user.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-layout',
   templateUrl: './layout.component.html',
-  styleUrls: ['./layout.component.scss']
+  styleUrls: ['./layout.component.scss'],
 })
 export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   sidebarMode: MatDrawerMode = 'side';
@@ -57,7 +67,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     {
       name: 'Flota',
       iconName: 'local_shipping',
-      iconOutline:  true,
+      iconOutline: true,
       active: true,
       children: [
         {
@@ -102,6 +112,13 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       path: `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`,
       active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
     },
+    {
+      name: 'Caja',
+      iconName: 'inventory_2',
+      iconOutline: true,
+      path: `/caja/${m.CAJA}/${a.LISTAR}`,
+      active: this.userService.checkPermiso(a.LISTAR, m.CAJA),
+    },
   ];
 
   toggleSidebarMenuSubscription = this.menuConfigService
@@ -125,8 +142,8 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     public menuConfigService: MenuConfigService,
     private responsiveService: ResponsiveService,
-    private userService: UserService,
-  ) { }
+    private userService: UserService
+  ) {}
 
   ngOnInit(): void {
     this.menuConfigService.setMenuItemList(this.menuList);

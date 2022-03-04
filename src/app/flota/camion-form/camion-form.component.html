@@ -2,14 +2,14 @@
   class="camion-page"
   module="Flota"
   submodule="Camiones"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
-  [gestorCuentaId]="gestorCuentaId"
+  [gestorCargaId]="gestorCuentaId"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   (backClick)="back($event)"
@@ -21,9 +21,7 @@
   <mat-accordion multi>
     <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Información principal
-        </mat-panel-title>
+        <mat-panel-title> Información principal </mat-panel-title>
       </mat-expansion-panel-header>
       <app-camion-form-info
         [form]="form"
@@ -38,42 +36,52 @@
 
     <mat-expansion-panel [expanded]="isHabilitacionTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Habilitaciones
-        </mat-panel-title>
+        <mat-panel-title> Habilitaciones </mat-panel-title>
       </mat-expansion-panel-header>
       <div class="row page-form-row">
-        <div class="col-xs-12 col-md-4" formGroupName="municipal" >
+        <div class="col-xs-12 col-md-4" formGroupName="municipal">
           <app-habilitacion-form-municipal
             [form]="form"
             [isEdit]="isEdit"
             [isShow]="isShow"
             [fotoFrente]="fotoMunicipalFrente"
             [fotoReverso]="fotoMunicipalReverso"
-            (fotoFrenteChange)="fotoMunicipalFrenteFile = $event; fotoMunicipalFrente = null"
-            (fotoReversoChange)="fotoMunicipalReversoFile = $event; fotoMunicipalReverso = null"
+            (fotoFrenteChange)="
+              fotoMunicipalFrenteFile = $event; fotoMunicipalFrente = null
+            "
+            (fotoReversoChange)="
+              fotoMunicipalReversoFile = $event; fotoMunicipalReverso = null
+            "
           ></app-habilitacion-form-municipal>
         </div>
-        <div class="col-xs-12 col-md-4" formGroupName="transporte" >
+        <div class="col-xs-12 col-md-4" formGroupName="transporte">
           <app-habilitacion-form-transporte
             [form]="form"
             [isEdit]="isEdit"
             [isShow]="isShow"
             [fotoFrente]="fotoTransporteFrente"
             [fotoReverso]="fotoTransporteReverso"
-            (fotoFrenteChange)="fotoTransporteFrenteFile = $event; fotoTransporteFrente = null"
-            (fotoReversoChange)="fotoTransporteReversoFile = $event; fotoTransporteReverso = null"
+            (fotoFrenteChange)="
+              fotoTransporteFrenteFile = $event; fotoTransporteFrente = null
+            "
+            (fotoReversoChange)="
+              fotoTransporteReversoFile = $event; fotoTransporteReverso = null
+            "
           ></app-habilitacion-form-transporte>
         </div>
-        <div class="col-xs-12 col-md-4" formGroupName="automotor" >
+        <div class="col-xs-12 col-md-4" formGroupName="automotor">
           <app-habilitacion-form-automotor
             [form]="form"
             [isEdit]="isEdit"
             [isShow]="isShow"
             [fotoFrente]="fotoAutomotorFrente"
             [fotoReverso]="fotoAutomotorReverso"
-            (fotoFrenteChange)="fotoAutomotorFrenteFile = $event; fotoAutomotorFrente = null"
-            (fotoReversoChange)="fotoAutomotorReversoFile = $event; fotoAutomotorReverso = null"
+            (fotoFrenteChange)="
+              fotoAutomotorFrenteFile = $event; fotoAutomotorFrente = null
+            "
+            (fotoReversoChange)="
+              fotoAutomotorReversoFile = $event; fotoAutomotorReverso = null
+            "
           ></app-habilitacion-form-automotor>
         </div>
       </div>
@@ -81,9 +89,7 @@
 
     <mat-expansion-panel formGroupName="detalle" [expanded]="isDetalleTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Detalle
-        </mat-panel-title>
+        <mat-panel-title> Detalle </mat-panel-title>
       </mat-expansion-panel-header>
       <app-camion-form-detalle
         [form]="form"
@@ -91,11 +97,12 @@
       ></app-camion-form-detalle>
     </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="capacidad" [expanded]="isDetalleTouched">
+    <mat-expansion-panel
+      formGroupName="capacidad"
+      [expanded]="isDetalleTouched"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Capacidad
-        </mat-panel-title>
+        <mat-panel-title> Capacidad </mat-panel-title>
       </mat-expansion-panel-header>
       <app-camion-form-capacidad
         [form]="form"
@@ -105,9 +112,7 @@
 
     <mat-expansion-panel *ngIf="isEdit || isShow">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Auditoría
-        </mat-panel-title>
+        <mat-panel-title> Auditoría </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-audit
         [created_by]="created_by"

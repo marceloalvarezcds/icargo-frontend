@@ -2,14 +2,14 @@
   class="propietario-page"
   module="Flota"
   submodule="Propietario"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
-  [gestorCuentaId]="gestorCuentaId"
+  [gestorCargaId]="gestorCuentaId"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   (backClick)="back($event)"
@@ -21,9 +21,7 @@
   <mat-accordion multi>
     <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Información principal
-        </mat-panel-title>
+        <mat-panel-title> Información principal </mat-panel-title>
       </mat-expansion-panel-header>
       <app-propietario-form-info
         [form]="form"
@@ -35,17 +33,28 @@
         [fotoPerfil]="fotoPerfil"
         [modelo]="modelo"
         [gestorCuentaId]="gestorCuentaId"
-        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null"
-        (fotoDocumentoReversoChange)="fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null"
+        (fotoDocumentoFrenteChange)="
+          fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null
+        "
+        (fotoDocumentoReversoChange)="
+          fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null
+        "
         (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
       ></app-propietario-form-info>
     </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="chofer" [expanded]="isChoferTouched" [hidden]="!esChofer" *ngIf="(choferModelo | puede: a.CREAR) || (choferModelo | puede: a.EDITAR) || (choferModelo | puede: a.VER)">
+    <mat-expansion-panel
+      formGroupName="chofer"
+      [expanded]="isChoferTouched"
+      [hidden]="!esChofer"
+      *ngIf="
+        (choferModelo | puede: a.CREAR) ||
+        (choferModelo | puede: a.EDITAR) ||
+        (choferModelo | puede: a.VER)
+      "
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Información del Chofer
-        </mat-panel-title>
+        <mat-panel-title> Información del Chofer </mat-panel-title>
       </mat-expansion-panel-header>
       <app-propietario-form-chofer
         [form]="form"
@@ -53,32 +62,50 @@
         [isShow]="isShow"
         [fotoDocumentoFrente]="fotoDocumentoFrenteChofer"
         [fotoDocumentoReverso]="fotoDocumentoReversoChofer"
-        (fotoDocumentoFrenteChange)="fotoDocumentoFrenteChoferFile = $event; fotoDocumentoFrenteChofer = null"
-        (fotoDocumentoReversoChange)="fotoDocumentoReversoChoferFile = $event; fotoDocumentoReversoChofer = null"
+        (fotoDocumentoFrenteChange)="
+          fotoDocumentoFrenteChoferFile = $event;
+          fotoDocumentoFrenteChofer = null
+        "
+        (fotoDocumentoReversoChange)="
+          fotoDocumentoReversoChoferFile = $event;
+          fotoDocumentoReversoChofer = null
+        "
       ></app-propietario-form-chofer>
     </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="registro" [expanded]="isRegistroTouched" [hidden]="!esChofer" *ngIf="(choferModelo | puede: a.CREAR) || (choferModelo | puede: a.EDITAR) || (choferModelo | puede: a.VER)">
+    <mat-expansion-panel
+      formGroupName="registro"
+      [expanded]="isRegistroTouched"
+      [hidden]="!esChofer"
+      *ngIf="
+        (choferModelo | puede: a.CREAR) ||
+        (choferModelo | puede: a.EDITAR) ||
+        (choferModelo | puede: a.VER)
+      "
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Registro de Conducción del Chofer
-        </mat-panel-title>
+        <mat-panel-title> Registro de Conducción del Chofer </mat-panel-title>
       </mat-expansion-panel-header>
       <app-registro-conduccion-form
         [form]="form"
         [isShow]="isShow"
         [fotoRegistroFrente]="fotoRegistroFrente"
         [fotoRegistroReverso]="fotoRegistroReverso"
-        (fotoRegistroFrenteChange)="fotoRegistroFrenteFile = $event; fotoRegistroFrente = null"
-        (fotoRegistroReversoChange)="fotoRegistroReversoFile = $event; fotoRegistroReverso = null"
+        (fotoRegistroFrenteChange)="
+          fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
+        "
+        (fotoRegistroReversoChange)="
+          fotoRegistroReversoFile = $event; fotoRegistroReverso = null
+        "
       ></app-registro-conduccion-form>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="(modelo | esUsuarioGestorYPuede: a.MODIFICAR_CONTACTOS | async)" [expanded]="isContactoTouched">
+    <mat-expansion-panel
+      *ngIf="modelo | esUsuarioGestorYPuede: a.MODIFICAR_CONTACTOS | async"
+      [expanded]="isContactoTouched"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Libreta de Contactos
-        </mat-panel-title>
+        <mat-panel-title> Libreta de Contactos </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-contactos
         [form]="form"
@@ -87,11 +114,14 @@
       ></app-page-form-contactos>
     </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="address" [expanded]="isAddressTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+    <mat-expansion-panel
+      formGroupName="address"
+      [expanded]="isAddressTouched"
+      (opened)="isPanelOpen = true"
+      (closed)="isPanelOpen = false"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Dirección
-        </mat-panel-title>
+        <mat-panel-title> Dirección </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-address
         groupName="address"
@@ -101,11 +131,15 @@
       ></app-page-form-address>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="(isShow || isEdit) && ((camionModelo | puede: a.LISTAR) || (semirremolqueModelo | puede: a.LISTAR))">
+    <mat-expansion-panel
+      *ngIf="
+        (isShow || isEdit) &&
+        ((camionModelo | puede: a.LISTAR) ||
+          (semirremolqueModelo | puede: a.LISTAR))
+      "
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Flota del Propietario
-        </mat-panel-title>
+        <mat-panel-title> Flota del Propietario </mat-panel-title>
       </mat-expansion-panel-header>
       <div *ngIf="camionModelo | puede: a.LISTAR">
         <app-propietario-camion-list
@@ -127,9 +161,7 @@
 
     <mat-expansion-panel *ngIf="isEdit || isShow">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Auditoría
-        </mat-panel-title>
+        <mat-panel-title> Auditoría </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-audit
         [created_by]="created_by"
