@@ -12,6 +12,7 @@ export enum PermisoAccionEnum {
 }
 
 export enum PermisoModeloEnum {
+  CAJA = 'caja',
   CAMION = 'camion',
   CAMION_SEMI_NETO = 'camion_semi_neto',
   CARGO = 'cargo',

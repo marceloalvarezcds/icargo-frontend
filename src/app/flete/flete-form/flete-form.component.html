@@ -2,7 +2,7 @@
   class="flete-page"
   module="Flete"
   submodule="Fletes"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
   inactiveTooltipText="Cancelar"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -10,7 +10,7 @@
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
-  [gestorCuentaId]="gestorCargaId"
+  [gestorCargaId]="gestorCargaId"
   [shouldShowInactiveButton]="!isCancel"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
@@ -20,9 +20,7 @@
   <mat-accordion multi>
     <mat-expansion-panel [expanded]="isInfoTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Información principal
-        </mat-panel-title>
+        <mat-panel-title> Información principal </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-info
         [form]="form"
@@ -33,27 +31,21 @@
 
     <mat-expansion-panel [expanded]="isTramoTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Tramo
-        </mat-panel-title>
+        <mat-panel-title> Tramo </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-tramo [form]="form"></app-flete-form-tramo>
     </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="isCondicionTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Cantidad y Condiciones
-        </mat-panel-title>
+        <mat-panel-title> Cantidad y Condiciones </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-condicion [form]="form"></app-flete-form-condicion>
     </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="isMermaTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Mermas
-        </mat-panel-title>
+        <mat-panel-title> Mermas </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-merma
         afectado="gestor_cuenta"
@@ -69,9 +61,7 @@
 
     <mat-expansion-panel [expanded]="isAnticipoTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Anticipos
-        </mat-panel-title>
+        <mat-panel-title> Anticipos </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-anticipos
         [puedeModificar]="puedeModificar"
@@ -80,11 +70,11 @@
       ></app-flete-form-anticipos>
     </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="isComplementoTouched || isDescuentoTouched">
+    <mat-expansion-panel
+      [expanded]="isComplementoTouched || isDescuentoTouched"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Complementos y Descuentos
-        </mat-panel-title>
+        <mat-panel-title> Complementos y Descuentos </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
         <app-flete-form-complementos
@@ -104,9 +94,7 @@
 
     <mat-expansion-panel [expanded]="isEmisionOrdenTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Emisión de Órdenes
-        </mat-panel-title>
+        <mat-panel-title> Emisión de Órdenes </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-emision-orden
         [form]="form"

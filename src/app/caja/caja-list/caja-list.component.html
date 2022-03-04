@@ -1,0 +1,59 @@
+<app-page
+  class="caja-page"
+  module="Caja"
+  submodule="Caja"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Moneda</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #monedaCheckboxFilter
+            [value]="monedaFiltered"
+            [list]="monedaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #estadoCheckboxFilter
+            [value]="estadoFiltered"
+            [list]="estadoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByProducto">
+      <mat-chip *ngFor="let item of monedaFiltered">{{ item }}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{ item }}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    [gestorCargaId]="-1"
+    [noCheckGestorCuentaId]="false"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    (deleteClick)="deleteRow($event)"
+  ></app-table-paginator>
+</app-page>

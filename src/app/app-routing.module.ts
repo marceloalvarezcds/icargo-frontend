@@ -8,7 +8,7 @@ const routes: Routes = [
   {
     path: 'login',
     redirectTo: '/account/login',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'account',
@@ -23,6 +23,11 @@ const routes: Routes = [
       {
         path: '',
         component: HomeComponent,
+      },
+      {
+        path: 'caja',
+        loadChildren: () =>
+          import('./caja/caja.module').then((m) => m.CajaModule),
       },
       {
         path: 'entities',
@@ -42,7 +47,9 @@ const routes: Routes = [
       {
         path: 'orden-carga',
         loadChildren: () =>
-          import('./orden-carga/orden-carga.module').then((m) => m.OrdenCargaModule),
+          import('./orden-carga/orden-carga.module').then(
+            (m) => m.OrdenCargaModule
+          ),
       },
     ],
   },
@@ -50,6 +57,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

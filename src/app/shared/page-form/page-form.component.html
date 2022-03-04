@@ -1,21 +1,65 @@
 <form #form [formGroup]="formGroup" (ngSubmit)="submitEvent.emit()">
   <div class="page">
     <div class="page-title">
-      <span class="title">{{module}} > {{submodule}} > <strong>{{viewTitle}}</strong></span>
+      <span class="title"
+        >{{ module }} > {{ submodule }} > <strong>{{ viewTitle }}</strong></span
+      >
       <div class="page-title-buttons">
-        <button type="button" mat-mini-fab color="primary" matTooltip="Volver al listado" (click)="back()" id="back-button">
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
+          matTooltip="Volver al listado"
+          (click)="back()"
+          id="back-button"
+        >
           <mat-icon>arrow_back</mat-icon>
         </button>
-        <button type="button" mat-mini-fab color="primary" matTooltip="Editar" (click)="editClick.emit($event)" *ngIf="isShow && (modelo | puede : a.EDITAR)">
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
+          matTooltip="Editar"
+          (click)="editClick.emit($event)"
+          *ngIf="isShow && (modelo | puede: a.EDITAR:gestorCargaId)"
+        >
           <mat-icon>edit</mat-icon>
         </button>
-        <button type="button" mat-mini-fab color="primary" matTooltip="Activar" (click)="activeClick.emit($event)" *ngIf="shouldShowActiveButton && isEdit && (modelo | puede : a.CAMBIAR_ESTADO : gestorCuentaId)">
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
+          matTooltip="Activar"
+          (click)="activeClick.emit($event)"
+          *ngIf="
+            shouldShowActiveButton &&
+            isEdit &&
+            (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
+          "
+        >
           <mat-icon>toggle_off</mat-icon>
         </button>
-        <button type="button" mat-mini-fab color="primary" [matTooltip]="inactiveTooltipText" (click)="inactiveClick.emit($event)" *ngIf="shouldShowInactiveButton && isEdit && (modelo | puede : a.CAMBIAR_ESTADO : gestorCuentaId)">
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
+          [matTooltip]="inactiveTooltipText"
+          (click)="inactiveClick.emit($event)"
+          *ngIf="
+            shouldShowInactiveButton &&
+            isEdit &&
+            (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
+          "
+        >
           <mat-icon>toggle_on</mat-icon>
         </button>
-        <button type="submit" mat-mini-fab color="primary" matTooltip="Guardar" *ngIf="!isShow">
+        <button
+          type="submit"
+          mat-mini-fab
+          color="primary"
+          matTooltip="Guardar"
+          *ngIf="!isShow"
+        >
           <mat-icon>save</mat-icon>
         </button>
       </div>

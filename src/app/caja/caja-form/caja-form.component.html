@@ -1,0 +1,31 @@
+<app-page-form
+  class="caja-page"
+  module="Caja"
+  submodule="Caja"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  [gestorCargaId]="-1"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+>
+  <div class="caja-page-content">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Nombre"
+          controlName="nombre"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-moneda-field [form]="form"></app-moneda-field>
+      </div>
+    </div>
+  </div>
+</app-page-form>
