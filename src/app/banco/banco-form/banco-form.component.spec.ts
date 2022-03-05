@@ -22,25 +22,25 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
-import { mockCaja1, mockCaja2 } from 'src/app/interfaces/caja';
+import { mockBanco1, mockBanco2 } from 'src/app/interfaces/banco';
 import { mockMonedaList } from 'src/app/interfaces/moneda';
 import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PermisoPipe } from 'src/app/pipes/permiso.pipe';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AuthService } from 'src/app/services/auth.service';
-import { CajaService } from 'src/app/services/caja.service';
+import { BancoService } from 'src/app/services/banco.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-import { CajaFormComponent } from './caja-form.component';
+import { BancoFormComponent } from './banco-form.component';
 
-describe('CajaFormComponent', () => {
-  let component: CajaFormComponent;
-  let fixture: ComponentFixture<CajaFormComponent>;
+describe('BancoFormComponent', () => {
+  let component: BancoFormComponent;
+  let fixture: ComponentFixture<BancoFormComponent>;
   let httpController: HttpTestingController;
-  let cajaService: CajaService;
+  let bancoService: BancoService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
   const router = {
@@ -48,17 +48,17 @@ describe('CajaFormComponent', () => {
   };
   const createRouter = {
     ...router,
-    url: `caja/${m.CAJA}/${a.CREAR}`,
+    url: `banco/${m.BANCO}/${a.CREAR}`,
   };
   const editRouter = {
     ...router,
-    url: `caja/${m.CAJA}/${a.EDITAR}/:id`,
+    url: `banco/${m.BANCO}/${a.EDITAR}/:id`,
   };
   const showRouter = {
     ...router,
-    url: `caja/${m.CAJA}/${a.VER}`,
+    url: `banco/${m.BANCO}/${a.VER}`,
   };
-  const id = mockCaja1.id;
+  const id = mockBanco1.id;
   const route = {
     snapshot: {
       params: {
@@ -79,10 +79,12 @@ describe('CajaFormComponent', () => {
       queryParams: { backUrl: '/' },
     },
   };
-  function formSetValue(component: CajaFormComponent): void {
+  function formSetValue(component: BancoFormComponent): void {
     component.form.patchValue({
-      nombre: mockCaja1.nombre,
-      moneda_id: mockCaja1.moneda_id,
+      numero_cuenta: mockBanco1.numero_cuenta,
+      titular: mockBanco1.titular,
+      nombre: mockBanco1.nombre,
+      moneda_id: mockBanco1.moneda_id,
     });
   }
 
@@ -97,9 +99,15 @@ describe('CajaFormComponent', () => {
         PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: `caja/${m.CAJA}/${a.CREAR}`, component: CajaFormComponent },
-          { path: `caja/${m.CAJA}/${a.EDITAR}`, component: CajaFormComponent },
-          { path: `caja/${m.CAJA}/${a.VER}`, component: CajaFormComponent },
+          {
+            path: `banco/${m.BANCO}/${a.CREAR}`,
+            component: BancoFormComponent,
+          },
+          {
+            path: `banco/${m.BANCO}/${a.EDITAR}`,
+            component: BancoFormComponent,
+          },
+          { path: `banco/${m.BANCO}/${a.VER}`, component: BancoFormComponent },
         ]),
         SharedModule,
       ],
@@ -108,12 +116,12 @@ describe('CajaFormComponent', () => {
         AuthService,
         UserService,
         PermisoPipe,
-        CajaService,
+        BancoService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
         { provide: Router, useValue: router },
       ],
-      declarations: [CajaFormComponent],
+      declarations: [BancoFormComponent],
     }).compileComponents();
   });
 
@@ -121,7 +129,7 @@ describe('CajaFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CajaFormComponent);
+    fixture = TestBed.createComponent(BancoFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
@@ -132,9 +140,9 @@ describe('CajaFormComponent', () => {
     httpController
       .match(`${environment.api}/moneda/`)
       .forEach((r) => r.flush(mockMonedaList));
-    const req = httpController.expectOne(`${environment.api}/caja/`);
+    const req = httpController.expectOne(`${environment.api}/banco/`);
     expect(req.request.method).toBe('POST');
-    req.flush(mockCaja1);
+    req.flush(mockBanco1);
     tick();
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -147,7 +155,7 @@ describe('CajaFormComponent', () => {
     TestBed.overrideProvider(ActivatedRoute, { useValue: createRoute });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CajaFormComponent);
+    fixture = TestBed.createComponent(BancoFormComponent);
     component = fixture.componentInstance;
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
@@ -158,9 +166,9 @@ describe('CajaFormComponent', () => {
     formSetValue(component);
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', true);
-    const req = httpController.expectOne(`${environment.api}/caja/`);
+    const req = httpController.expectOne(`${environment.api}/banco/`);
     expect(req.request.method).toBe('POST');
-    req.flush(mockCaja1);
+    req.flush(mockBanco1);
     tick();
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -174,7 +182,7 @@ describe('CajaFormComponent', () => {
       useValue: createWithBackUrlRoute,
     });
     TestBed.overrideProvider(Router, { useValue: createRouter });
-    fixture = TestBed.createComponent(CajaFormComponent);
+    fixture = TestBed.createComponent(BancoFormComponent);
     component = fixture.componentInstance;
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
@@ -188,17 +196,17 @@ describe('CajaFormComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     userService = TestBed.inject(UserService);
     (userService as any).userSubject.next(mockUserAccount);
-    fixture = TestBed.createComponent(CajaFormComponent);
-    cajaService = TestBed.inject(CajaService);
+    fixture = TestBed.createComponent(BancoFormComponent);
+    bancoService = TestBed.inject(BancoService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(true);
-    const getByIdSpy = spyOn(cajaService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(bancoService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
     httpController
-      .match(`${environment.api}/caja/${id}`)
-      .forEach((r) => r.flush(mockCaja1));
+      .match(`${environment.api}/banco/${id}`)
+      .forEach((r) => r.flush(mockBanco1));
     httpController
       .match(`${environment.api}/moneda/`)
       .forEach((r) => r.flush(mockMonedaList));
@@ -214,15 +222,15 @@ describe('CajaFormComponent', () => {
     tick();
     // formSetValue(component);
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.match(`${environment.api}/caja/${id}`).forEach((req) => {
+    httpController.match(`${environment.api}/banco/${id}`).forEach((req) => {
       expect(req.request.method).toBe('PUT');
-      req.flush(mockCaja1);
+      req.flush(mockBanco1);
     });
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController
-      .match(`${environment.api}/caja/${id}`)
-      .forEach((r) => r.flush(mockCaja1));
+      .match(`${environment.api}/banco/${id}`)
+      .forEach((r) => r.flush(mockBanco1));
     flush();
     tick();
     httpController.verify();
@@ -233,17 +241,17 @@ describe('CajaFormComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     userService = TestBed.inject(UserService);
     (userService as any).userSubject.next(mockUserAccount);
-    fixture = TestBed.createComponent(CajaFormComponent);
-    cajaService = TestBed.inject(CajaService);
+    fixture = TestBed.createComponent(BancoFormComponent);
+    bancoService = TestBed.inject(BancoService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    const getByIdSpy = spyOn(cajaService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(bancoService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .match(`${environment.api}/caja/${id}`)
-      .forEach((r) => r.flush(mockCaja2));
+      .match(`${environment.api}/banco/${id}`)
+      .forEach((r) => r.flush(mockBanco2));
     httpController
       .match(`${environment.api}/moneda/`)
       .forEach((r) => r.flush(mockMonedaList));
@@ -263,13 +271,13 @@ describe('CajaFormComponent', () => {
   it('should open show view', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: showRouter });
     httpController = TestBed.inject(HttpTestingController);
-    fixture = TestBed.createComponent(CajaFormComponent);
+    fixture = TestBed.createComponent(BancoFormComponent);
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
     fixture.detectChanges();
     httpController
-      .match(`${environment.api}/caja/${id}`)
-      .forEach((r) => r.flush(mockCaja1));
+      .match(`${environment.api}/banco/${id}`)
+      .forEach((r) => r.flush(mockBanco1));
     httpController
       .match(`${environment.api}/moneda/`)
       .forEach((r) => r.flush(mockMonedaList));

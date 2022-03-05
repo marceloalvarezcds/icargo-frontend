@@ -8,10 +8,10 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { Caja } from 'src/app/interfaces/caja';
+import { Banco } from 'src/app/interfaces/banco';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
-import { CajaService } from 'src/app/services/caja.service';
+import { BancoService } from 'src/app/services/banco.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
@@ -24,76 +24,91 @@ type Filter = {
 };
 
 @Component({
-  selector: 'app-caja-list',
-  templateUrl: './caja-list.component.html',
-  styleUrls: ['./caja-list.component.scss'],
+  selector: 'app-banco-list',
+  templateUrl: './banco-list.component.html',
+  styleUrls: ['./banco-list.component.scss'],
 })
-export class CajaListComponent implements OnInit {
-  modelo = m.CAJA;
+export class BancoListComponent implements OnInit {
+  modelo = m.BANCO;
   columns: Column[] = [
     {
       def: 'id',
       title: 'Nº',
-      value: (element: Caja) => element.id,
+      value: (element: Banco) => element.id,
       sticky: true,
+    },
+    {
+      def: 'numero_cuenta',
+      title: 'Nº de Cuenta',
+      value: (element: Banco) => element.numero_cuenta,
+    },
+    {
+      def: 'titular',
+      title: 'Titular',
+      value: (element: Banco) => element.titular,
     },
     {
       def: 'nombre',
       title: 'Nombre',
-      value: (element: Caja) => element.nombre,
+      value: (element: Banco) => element.nombre,
     },
     {
       def: 'moneda_nombre',
       title: 'Moneda',
-      value: (element: Caja) => element.moneda_nombre,
+      value: (element: Banco) => element.moneda_nombre,
     },
     {
       def: 'credito',
       title: 'Crédito',
-      value: (element: Caja) => element.credito,
+      value: (element: Banco) => element.credito,
     },
     {
       def: 'debito',
       title: 'Débito',
-      value: (element: Caja) => element.debito,
+      value: (element: Banco) => element.debito,
     },
     {
       def: 'saldo_confirmado',
       title: 'Saldo',
-      value: (element: Caja) => element.saldo_confirmado,
+      value: (element: Banco) => element.saldo_confirmado,
+    },
+    {
+      def: 'saldo_provisional',
+      title: 'Saldo Provisional',
+      value: (element: Banco) => element.saldo_provisional,
     },
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: Caja) => element.estado,
+      value: (element: Banco) => element.estado,
     },
     {
       def: 'created_by',
       title: 'Usuario creación',
-      value: (element: Caja) => element.created_by,
+      value: (element: Banco) => element.created_by,
     },
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: Caja) => element.created_at,
+      value: (element: Banco) => element.created_at,
       type: 'date',
     },
     {
       def: 'modified_by',
       title: 'Usuario modificación',
-      value: (element: Caja) => element.modified_by,
+      value: (element: Banco) => element.modified_by,
     },
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: Caja) => element.modified_at,
+      value: (element: Banco) => element.modified_at,
       type: 'date',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: Caja[] = [];
+  list: Banco[] = [];
   estadoFilterList: string[] = [];
   estadoFiltered: string[] = [];
   monedaFilterList: string[] = [];
@@ -114,7 +129,7 @@ export class CajaListComponent implements OnInit {
   monedaCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
-    private cajaService: CajaService,
+    private bancoService: BancoService,
     private reportsService: ReportsService,
     private searchService: SearchService,
     private snackbar: MatSnackBar,
@@ -127,24 +142,24 @@ export class CajaListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.CREAR}`]);
+    this.router.navigate([`/banco/${m.BANCO}/${a.CREAR}`]);
   }
 
-  redirectToEdit(event: TableEvent<Caja>): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.EDITAR}`, event.row.id]);
+  redirectToEdit(event: TableEvent<Banco>): void {
+    this.router.navigate([`/banco/${m.BANCO}/${a.EDITAR}`, event.row.id]);
   }
 
-  redirectToShow(event: TableEvent<Caja>): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.VER}`, event.row.id]);
+  redirectToShow(event: TableEvent<Banco>): void {
+    this.router.navigate([`/banco/${m.BANCO}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<Caja>): void {
+  deleteRow(event: TableEvent<Banco>): void {
     const row = event.row;
-    const message = `¿Está seguro que desea eliminar la caja ${row.nombre}?`;
+    const message = `¿Está seguro que desea eliminar la banco ${row.numero_cuenta}?`;
     confirmationDialogToDelete(
       this.dialog,
       message,
-      this.cajaService,
+      this.bancoService,
       row.id,
       this.snackbar,
       {
@@ -156,14 +171,14 @@ export class CajaListComponent implements OnInit {
   }
 
   downloadFile(): void {
-    this.cajaService.generateReports().subscribe((filename) => {
+    this.bancoService.generateReports().subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
         saveAs(file, filename);
       });
     });
   }
 
-  filterPredicate(obj: Caja, filterJson: string): boolean {
+  filterPredicate(obj: Banco, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
     const filterByEstado =
       filter.estado
@@ -201,7 +216,7 @@ export class CajaListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.cajaService.getListByGestorCarga().subscribe((list) => {
+    this.bancoService.getListByGestorCarga().subscribe((list) => {
       this.list = list;
       this.estadoFilterList = getFilterList(list, (x) => x.estado);
       this.monedaFilterList = getFilterList(list, (x) => x.moneda_nombre);
