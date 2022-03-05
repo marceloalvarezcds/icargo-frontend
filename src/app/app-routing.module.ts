@@ -25,6 +25,11 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
+        path: 'banco',
+        loadChildren: () =>
+          import('./banco/banco.module').then((m) => m.BancoModule),
+      },
+      {
         path: 'caja',
         loadChildren: () =>
           import('./caja/caja.module').then((m) => m.CajaModule),

@@ -7,24 +7,26 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { Caja } from 'src/app/interfaces/caja';
-import { CajaService } from 'src/app/services/caja.service';
+import { Banco } from 'src/app/interfaces/banco';
+import { BancoService } from 'src/app/services/banco.service';
 import { UserService } from 'src/app/services/user.service';
 import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
-  selector: 'app-caja-form',
-  templateUrl: './caja-form.component.html',
-  styleUrls: ['./caja-form.component.scss'],
+  selector: 'app-banco-form',
+  templateUrl: './banco-form.component.html',
+  styleUrls: ['./banco-form.component.scss'],
 })
-export class CajaFormComponent implements OnInit, OnDestroy {
+export class BancoFormComponent implements OnInit, OnDestroy {
   id!: number;
   isEdit = false;
   isShow = false;
-  backUrl = `/caja/${m.CAJA}/${a.LISTAR}`;
-  modelo = m.CAJA;
-  item?: Caja;
+  backUrl = `/banco/${m.BANCO}/${a.LISTAR}`;
+  modelo = m.BANCO;
+  item?: Banco;
   form = this.fb.group({
+    numero_cuenta: [null, Validators.required],
+    titular: [null, Validators.required],
     nombre: [null, Validators.required],
     moneda_id: [null, Validators.required],
   });
@@ -56,7 +58,7 @@ export class CajaFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private snackbar: MatSnackBar,
-    private cajaService: CajaService,
+    private bancoService: BancoService,
     private userService: UserService
   ) {}
 
@@ -69,7 +71,7 @@ export class CajaFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.EDITAR}`, this.id]);
+    this.router.navigate([`/banco/${m.BANCO}/${a.EDITAR}`, this.id]);
   }
 
   back(confirmed: boolean): void {
@@ -88,12 +90,12 @@ export class CajaFormComponent implements OnInit, OnDestroy {
       const data = JSON.parse(JSON.stringify(this.form.value));
       formData.append('data', JSON.stringify(data));
       if (this.isEdit) {
-        this.cajaService.edit(this.id, formData).subscribe(() => {
+        this.bancoService.edit(this.id, formData).subscribe(() => {
           this.getData();
           openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
-        this.cajaService.create(formData).subscribe(() => {
+        this.bancoService.create(formData).subscribe(() => {
           this.snackbar
             .open('Datos guardados satisfactoriamente', 'Ok')
             .afterDismissed()
@@ -114,9 +116,11 @@ export class CajaFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      this.cajaService.getById(this.id).subscribe((data) => {
+      this.bancoService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.form.patchValue({
+          numero_cuenta: data.numero_cuenta,
+          titular: data.titular,
           nombre: data.nombre,
           moneda_id: data.moneda_id,
         });

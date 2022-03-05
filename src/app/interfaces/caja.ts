@@ -14,6 +14,8 @@ export interface Caja extends CajaForm {
   // Campos calculados
   moneda_nombre: string;
   moneda_simbolo: string;
+  credito: number;
+  debito: number;
   saldo_confirmado: number;
   // Auditoría
   created_by: string;
@@ -32,6 +34,8 @@ export const mockCajaList: Caja[] = [
     // instrumentos: [],
     moneda_nombre: 'Peso Boliviano',
     moneda_simbolo: 'BOP',
+    credito: 0,
+    debito: 0,
     saldo_confirmado: 0,
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.907002',
@@ -47,6 +51,8 @@ export const mockCajaList: Caja[] = [
     // instrumentos: [],
     moneda_nombre: 'Dolares',
     moneda_simbolo: 'USD',
+    credito: 0,
+    debito: 0,
     saldo_confirmado: 0,
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.875838',
@@ -62,6 +68,8 @@ export const mockCajaList: Caja[] = [
     // instrumentos: [],
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
+    credito: 0,
+    debito: 0,
     saldo_confirmado: 0,
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.863454',
@@ -77,6 +85,8 @@ export const mockCajaList: Caja[] = [
     // instrumentos: [],
     moneda_nombre: 'Peso Argentino',
     moneda_simbolo: 'ARP',
+    credito: 0,
+    debito: 0,
     saldo_confirmado: 0,
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.896555',
@@ -92,6 +102,8 @@ export const mockCajaList: Caja[] = [
     // instrumentos: [],
     moneda_nombre: 'Real',
     moneda_simbolo: 'BRL',
+    credito: 0,
+    debito: 0,
     saldo_confirmado: 0,
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.886242',
@@ -107,6 +119,8 @@ export const mockCajaList: Caja[] = [
     // instrumentos: [],
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
+    credito: 0,
+    debito: 0,
     saldo_confirmado: 0,
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.847541',

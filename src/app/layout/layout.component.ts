@@ -113,11 +113,27 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
     },
     {
-      name: 'Caja',
-      iconName: 'inventory_2',
+      name: 'Caja & Banco',
+      iconName: 'account_balance_wallet',
+      // iconName: 'local_atm',
       iconOutline: true,
-      path: `/caja/${m.CAJA}/${a.LISTAR}`,
-      active: this.userService.checkPermiso(a.LISTAR, m.CAJA),
+      active: true,
+      children: [
+        {
+          name: 'Caja',
+          iconName: 'inventory_2',
+          iconOutline: true,
+          path: `/caja/${m.CAJA}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.CAJA),
+        },
+        {
+          name: 'Banco',
+          iconName: 'account_balance',
+          iconOutline: true,
+          path: `/banco/${m.BANCO}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.BANCO),
+        },
+      ],
     },
   ];
 
