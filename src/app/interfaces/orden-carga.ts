@@ -6,6 +6,7 @@ import { mockCamionList } from './camion';
 import { CentroOperativo, mockCentroOperativoList } from './centro-operativo';
 import { mockFleteList } from './flete';
 import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
+import { mockMovimientoList, Movimiento } from './movimiento';
 import {
   mockOrdenCargaAnticipoRetiradoList,
   OrdenCargaAnticipoRetirado,
@@ -97,6 +98,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   // FIN Tramo de OC
   // Relaciones Listas
   auditorias: AuditDatabase[];
+  movimientos: Movimiento[];
   historial: OrdenCargaEstadoHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
@@ -235,6 +237,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   // FIN Tramo de OC
   // Relaciones Listas
   auditorias: mockAuditDatabaseList,
+  movimientos: mockMovimientoList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,

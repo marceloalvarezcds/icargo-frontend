@@ -148,6 +148,16 @@
 
         <mat-expansion-panel>
           <mat-expansion-panel-header>
+            <mat-panel-title> Movimientos </mat-panel-title>
+          </mat-expansion-panel-header>
+          <app-orden-carga-edit-form-movimientos
+            [gestorCargaId]="gestorCargaId"
+            [list]="movimientoList"
+          ></app-orden-carga-edit-form-movimientos>
+        </mat-expansion-panel>
+
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
             <mat-panel-title> Auditoría </mat-panel-title>
           </mat-expansion-panel-header>
           <app-page-form-audit
