@@ -77,11 +77,12 @@ export class OrdenCargaEditFormAccionesComponent {
           },
         }
       );
+    } else {
+      openSnackbarWithMessage(
+        this.snackbar,
+        'Por favor guardar los cambios antes de conciliar'
+      );
     }
-    openSnackbarWithMessage(
-      this.snackbar,
-      'Por favor guardar los cambios antes de conciliar'
-    );
   }
 
   finalizar(): void {

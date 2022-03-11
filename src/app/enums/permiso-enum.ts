@@ -38,6 +38,7 @@ export enum PermisoModeloEnum {
   MARCA_CAMION = 'marca_camion',
   MARCA_SEMI = 'marca_semi',
   MONEDA = 'moneda',
+  MOVIMIENTO = 'movimiento',
   ORDEN_CARGA = 'orden_carga',
   ORDEN_CARGA_ANTICIPO_RETIRADO = 'orden_carga_anticipo_retirado',
   ORDEN_CARGA_ANTICIPO_SALDO = 'orden_carga_anticipo_saldo',

@@ -11,6 +11,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { AuditDatabase } from 'src/app/interfaces/audit-database';
 import { FleteList } from 'src/app/interfaces/flete';
+import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
@@ -142,6 +143,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get historialList(): OrdenCargaEstadoHistorial[] {
     return this.item!.historial.slice();
+  }
+
+  get movimientoList(): Movimiento[] {
+    return this.item!.movimientos.slice();
   }
 
   get remisionDestinoList(): OrdenCargaRemisionDestino[] {
