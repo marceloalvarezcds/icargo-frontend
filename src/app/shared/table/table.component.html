@@ -102,12 +102,13 @@
           [hidden]="isShow"
           *ngIf="
             ((modelo | puede: a.VER) && !hideShow) ||
-            (modelo
-              | puede
-                : a.EDITAR
-                : (noCheckGestorCuentaId
-                    ? undefined
-                    : row.gestor_cuenta_id || gestorCuentaId)) ||
+            (!hideEdit &&
+              (modelo
+                | puede
+                  : a.EDITAR
+                  : (noCheckGestorCuentaId
+                      ? undefined
+                      : row.gestor_cuenta_id || gestorCuentaId))) ||
             (modelo
               | puede
                 : a.ELIMINAR
@@ -134,12 +135,13 @@
             mat-menu-item
             (click)="editClick.emit({ row, index })"
             *ngIf="
-              modelo
+              !hideEdit &&
+              (modelo
                 | puede
                   : a.EDITAR
                   : (noCheckGestorCuentaId
                       ? undefined
-                      : row.gestor_cuenta_id || gestorCuentaId)
+                      : row.gestor_cuenta_id || gestorCuentaId))
             "
           >
             <mat-icon color="primary">edit</mat-icon>

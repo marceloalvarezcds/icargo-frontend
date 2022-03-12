@@ -38,6 +38,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   );
   @Input() gestorCargaId?: number;
   @Input() formArray = new FormArray([]);
+  @Input() hideEdit = false;
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;

@@ -51,13 +51,13 @@
   <mat-chip-list filterValues>
     <ng-container *ngIf="isFiltered">Filtros:</ng-container>
     <ng-container *ngIf="isFilteredByPublicado">
-      <mat-chip *ngFor="let item of publicadoFiltered">{{item}}</mat-chip>
+      <mat-chip *ngFor="let item of publicadoFiltered">{{ item }}</mat-chip>
     </ng-container>
     <ng-container *ngIf="isFilteredByProducto">
-      <mat-chip *ngFor="let item of productoFiltered">{{item}}</mat-chip>
+      <mat-chip *ngFor="let item of productoFiltered">{{ item }}</mat-chip>
     </ng-container>
     <ng-container *ngIf="isFilteredByEstado">
-      <mat-chip *ngFor="let item of estadoFiltered">{{item}}</mat-chip>
+      <mat-chip *ngFor="let item of estadoFiltered">{{ item }}</mat-chip>
     </ng-container>
   </mat-chip-list>
   <app-table-paginator
@@ -65,6 +65,7 @@
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
+    [hideEdit]="true"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     (deleteClick)="deleteRow($event)"
