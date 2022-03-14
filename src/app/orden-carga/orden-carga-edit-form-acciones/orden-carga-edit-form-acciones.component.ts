@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -20,10 +21,9 @@ import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
   styleUrls: ['./orden-carga-edit-form-acciones.component.scss'],
 })
 export class OrdenCargaEditFormAccionesComponent {
+  E = EstadoEnum;
   @Input() oc?: OrdenCarga;
   @Input() isAnticiposLiberados = false;
-  @Input() isAceptado = false;
-  @Input() isCancelado = false;
   @Input() hasChange = false;
   @Input() puedeConciliar = false;
 

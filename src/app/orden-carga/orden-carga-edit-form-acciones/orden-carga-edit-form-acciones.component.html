@@ -4,7 +4,7 @@
       type="button"
       mat-raised-button
       color="primary"
-      *ngIf="!isAceptado"
+      *ngIf="oc.estado === E.NUEVO || oc.estado === E.PENDIENTE"
       (click)="aceptar()"
     >
       Aceptar orden
@@ -13,7 +13,7 @@
       type="button"
       mat-raised-button
       color="accent"
-      *ngIf="isAceptado && !oc.is_finalizado"
+      *ngIf="oc.estado === E.ACEPTADO"
       (click)="finalizar()"
     >
       Finalizar orden
@@ -22,7 +22,10 @@
       type="button"
       mat-raised-button
       color="{{ isAnticiposLiberados ? 'warn' : 'primary' }}"
-      *ngIf="isAceptado && !oc.is_finalizado"
+      *ngIf="
+        oc.estado === E.ACEPTADO ||
+        (oc.estado === E.FINALIZADO && puedeConciliar)
+      "
       (click)="modificarAnticipos()"
     >
       {{ isAnticiposLiberados ? "Bloquear" : "Liberar" }} anticipos
@@ -31,7 +34,7 @@
       type="button"
       mat-raised-button
       color="warn"
-      *ngIf="!isCancelado"
+      *ngIf="oc.estado !== E.CANCELADO"
       (click)="cancelar()"
     >
       Cancelar orden
@@ -40,7 +43,7 @@
       type="button"
       mat-raised-button
       color="primary"
-      *ngIf="oc.is_finalizado && puedeConciliar && !oc.is_conciliado"
+      *ngIf="oc.estado === E.FINALIZADO && puedeConciliar"
       (click)="conciliar()"
     >
       Conciliar orden

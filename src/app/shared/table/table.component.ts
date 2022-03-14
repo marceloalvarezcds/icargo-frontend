@@ -70,6 +70,7 @@ export class TableComponent implements OnInit, OnDestroy {
   );
   @Input() formArray = new FormArray([]);
   @Input() gestorCuentaId?: number;
+  @Input() hideDelete = false;
   @Input() hideEdit = false;
   @Input() hideShow = false;
   @Input() isShow = false;

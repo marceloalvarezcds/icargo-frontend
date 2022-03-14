@@ -109,12 +109,13 @@
                   : (noCheckGestorCuentaId
                       ? undefined
                       : row.gestor_cuenta_id || gestorCuentaId))) ||
-            (modelo
-              | puede
-                : a.ELIMINAR
-                : (noCheckGestorCuentaId
-                    ? undefined
-                    : row.gestor_cuenta_id || gestorCuentaId))
+            (!hideDelete &&
+              (modelo
+                | puede
+                  : a.ELIMINAR
+                  : (noCheckGestorCuentaId
+                      ? undefined
+                      : row.gestor_cuenta_id || gestorCuentaId)))
           "
         >
           <mat-icon>more_vert</mat-icon>
@@ -152,12 +153,13 @@
             mat-menu-item
             (click)="deleteClick.emit({ row, index })"
             *ngIf="
-              modelo
+              !hideDelete &&
+              (modelo
                 | puede
                   : a.ELIMINAR
                   : (noCheckGestorCuentaId
                       ? undefined
-                      : row.gestor_cuenta_id || gestorCuentaId)
+                      : row.gestor_cuenta_id || gestorCuentaId))
             "
           >
             <mat-icon color="primary">delete</mat-icon>
