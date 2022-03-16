@@ -1,18 +1,28 @@
-import { Component, EventEmitter, HostListener, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
-import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum,
+  PermisoModeloEnum,
+} from 'src/app/enums/permiso-enum';
 import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-page',
   templateUrl: './page.component.html',
-  styleUrls: ['./page.component.scss']
+  styleUrls: ['./page.component.scss'],
 })
 export class PageComponent {
-
   a = PermisoAccionEnum;
   sidebarMode: MatDrawerMode = 'side';
 
+  @Input() hideCreate = false;
   @Input() module: string = '';
   @Input() submodule: string = '';
   @Input() modelo?: PermisoModeloEnum;
@@ -29,7 +39,7 @@ export class PageComponent {
     this.configSidebarMode();
   }
 
-  constructor(private responsiveService: ResponsiveService) { }
+  constructor(private responsiveService: ResponsiveService) {}
 
   private configSidebarMode(): void {
     setTimeout(() => {
