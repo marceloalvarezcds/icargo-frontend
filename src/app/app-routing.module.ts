@@ -40,6 +40,13 @@ const routes: Routes = [
           import('./entities/entities.module').then((m) => m.EntitiesModule),
       },
       {
+        path: 'estado-cuenta',
+        loadChildren: () =>
+          import('./estado-cuenta/estado-cuenta.module').then(
+            (m) => m.EstadoCuentaModule
+          ),
+      },
+      {
         path: 'flota',
         loadChildren: () =>
           import('./flota/flota.module').then((m) => m.FlotaModule),
