@@ -6,18 +6,65 @@
     [stickyEnd]="column.stickyEnd"
   >
     <ng-container *ngIf="column.def !== 'actions'">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header>
-        <span>{{ column.title }}</span>
+      <th
+        mat-header-cell
+        *matHeaderCellDef
+        mat-sort-header
+        [class.mat-header-cell-checkbox]="column.type === 'checkbox'"
+      >
+        <ng-container *ngIf="column.type === 'checkbox'">
+          <mat-checkbox
+            [checked]="allChecked"
+            [indeterminate]="someChecked()"
+            (change)="setAll($event.checked)"
+            (click)="$event.stopPropagation()"
+          >
+            {{ column.title }}
+          </mat-checkbox>
+        </ng-container>
+        <span *ngIf="column.type !== 'checkbox'">{{ column.title }}</span>
       </th>
       <td
         mat-cell
         *matCellDef="let row; let index = index"
+        [class.mat-cell-checkbox]="column.type === 'checkbox'"
         [class.row-error]="formArray.at(index)?.get(column.def)?.errors"
       >
-        <ng-container *ngIf="column.value">
+        <ng-container
+          *ngIf="
+            column.value &&
+            (!column.isHidden || (column.isHidden && column.isHidden(row)))
+          "
+        >
           <ng-container [ngSwitch]="column.type">
+            <ng-container *ngSwitchCase="'checkbox'">
+              <mat-checkbox
+                [(ngModel)]="checkedList[index]"
+                (ngModelChange)="updateAllChecked()"
+                (change)="onCheckboxChange($event, row, index)"
+              >
+                {{ column.value(row) }}
+              </mat-checkbox>
+            </ng-container>
             <ng-container *ngSwitchCase="'number'">
-              <span>{{ column.value(row) | numberFormat }}</span>
+              <ng-container *ngIf="column.link">
+                <ng-container
+                  *ngIf="column.link(row) as linkInfo; else withoutLink"
+                >
+                  <a
+                    [routerLink]="linkInfo.url"
+                    [queryParams]="linkInfo.queryParams"
+                  >
+                    {{ column.value(row) | numberFormat }}
+                  </a>
+                </ng-container>
+                <ng-template #withoutLink>
+                  <span>{{ column.value(row) }}</span>
+                </ng-template>
+              </ng-container>
+              <ng-container *ngIf="!column.link">
+                <span>{{ column.value(row) | numberFormat }}</span>
+              </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'date'">
               <span>{{ column.value(row) | date: "MM-dd-yyyy hh:mm:ss" }}</span>
@@ -38,7 +85,24 @@
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchDefault>
-              <span>{{ column.value(row) }}</span>
+              <ng-container *ngIf="column.link">
+                <ng-container
+                  *ngIf="column.link(row) as linkInfo; else withoutLink"
+                >
+                  <a
+                    [routerLink]="linkInfo.url"
+                    [queryParams]="linkInfo.queryParams"
+                  >
+                    {{ column.value(row) }}
+                  </a>
+                </ng-container>
+                <ng-template #withoutLink>
+                  <span>{{ column.value(row) }}</span>
+                </ng-template>
+              </ng-container>
+              <ng-container *ngIf="!column.link">
+                <span>{{ column.value(row) }}</span>
+              </ng-container>
             </ng-container>
           </ng-container>
         </ng-container>

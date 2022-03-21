@@ -137,7 +137,7 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
     },
     {
       name: 'Estado de Cuenta',
-      iconName: 'description',
+      iconName: 'summarize',
       iconOutline: true,
       path: `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`,
       active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),

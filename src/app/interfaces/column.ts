@@ -1,8 +1,17 @@
+import { Params } from '@angular/router';
+
+export interface ColumnLink {
+  url: any[] | string;
+  queryParams?: Params;
+}
+
 export interface Column {
   def: string;
   title: string;
   value?: (row: any) => any;
   buttonCallback?: (row: any) => void;
+  isHidden?: (row: any) => boolean;
+  link?: (row: any) => ColumnLink | undefined;
   sticky?: boolean;
   stickyEnd?: boolean;
   footerDef?: string;

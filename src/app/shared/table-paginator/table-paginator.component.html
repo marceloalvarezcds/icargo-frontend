@@ -1,21 +1,25 @@
-<app-table
-  [dataSource]="dataSource"
-  [columns]="columns"
-  [data]="data"
-  [gestorCuentaId]="gestorCargaId"
-  [filterPredicate]="filterPredicate"
-  [filterPredicate]="filterPredicate"
-  [hideDelete]="hideDelete"
-  [hideEdit]="hideEdit"
-  [hideShow]="hideShow"
-  [isShow]="isShow"
-  [addShowButton]="addShowButton"
-  [noCheckGestorCuentaId]="noCheckGestorCuentaId"
-  [modelo]="modelo"
-  (editClick)="editClick.emit($event)"
-  (showClick)="showClick.emit($event)"
-  (deleteClick)="deleteClick.emit($event)"
-></app-table>
+<div class="table-container">
+  <app-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [data]="data"
+    [gestorCuentaId]="gestorCargaId"
+    [filterPredicate]="filterPredicate"
+    [filterPredicate]="filterPredicate"
+    [hideDelete]="hideDelete"
+    [hideEdit]="hideEdit"
+    [hideShow]="hideShow"
+    [isShow]="isShow"
+    [addShowButton]="addShowButton"
+    [noCheckGestorCuentaId]="noCheckGestorCuentaId"
+    [modelo]="modelo"
+    (allCheckedChange)="allCheckedChange.emit($event)"
+    (checkboxChange)="checkboxChange.emit($event)"
+    (editClick)="editClick.emit($event)"
+    (showClick)="showClick.emit($event)"
+    (deleteClick)="deleteClick.emit($event)"
+  ></app-table>
+</div>
 <mat-paginator
   [pageSizeOptions]="[10, 20, 50, 100]"
   [pageSize]="pageOptions?.pageSize"

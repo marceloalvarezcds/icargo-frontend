@@ -1,53 +1,55 @@
 <div class="acciones-container" *ngIf="oc">
   <div class="acciones-buttons">
-    <button
-      type="button"
-      mat-raised-button
-      color="primary"
-      *ngIf="oc.estado === E.NUEVO || oc.estado === E.PENDIENTE"
-      (click)="aceptar()"
-    >
-      Aceptar orden
-    </button>
-    <button
-      type="button"
-      mat-raised-button
-      color="accent"
-      *ngIf="oc.estado === E.ACEPTADO"
-      (click)="finalizar()"
-    >
-      Finalizar orden
-    </button>
-    <button
-      type="button"
-      mat-raised-button
-      color="{{ isAnticiposLiberados ? 'warn' : 'primary' }}"
-      *ngIf="
-        oc.estado === E.ACEPTADO ||
-        (oc.estado === E.FINALIZADO && puedeConciliar)
-      "
-      (click)="modificarAnticipos()"
-    >
-      {{ isAnticiposLiberados ? "Bloquear" : "Liberar" }} anticipos
-    </button>
-    <button
-      type="button"
-      mat-raised-button
-      color="warn"
-      *ngIf="oc.estado !== E.CANCELADO"
-      (click)="cancelar()"
-    >
-      Cancelar orden
-    </button>
-    <button
-      type="button"
-      mat-raised-button
-      color="primary"
-      *ngIf="oc.estado === E.FINALIZADO && puedeConciliar"
-      (click)="conciliar()"
-    >
-      Conciliar orden
-    </button>
+    <ng-container *ngIf="!isShow">
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        *ngIf="oc.estado === E.NUEVO || oc.estado === E.PENDIENTE"
+        (click)="aceptar()"
+      >
+        Aceptar orden
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="accent"
+        *ngIf="oc.estado === E.ACEPTADO"
+        (click)="finalizar()"
+      >
+        Finalizar orden
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="{{ isAnticiposLiberados ? 'warn' : 'primary' }}"
+        *ngIf="
+          oc.estado === E.ACEPTADO ||
+          (oc.estado === E.FINALIZADO && puedeConciliar)
+        "
+        (click)="modificarAnticipos()"
+      >
+        {{ isAnticiposLiberados ? "Bloquear" : "Liberar" }} anticipos
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        *ngIf="oc.estado !== E.CANCELADO"
+        (click)="cancelar()"
+      >
+        Cancelar orden
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        *ngIf="oc.estado === E.FINALIZADO && puedeConciliar"
+        (click)="conciliar()"
+      >
+        Conciliar orden
+      </button>
+    </ng-container>
     <button
       type="button"
       mat-raised-button
