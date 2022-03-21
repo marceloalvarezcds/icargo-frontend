@@ -35,6 +35,7 @@ export enum PermisoModeloEnum {
   INSUMO = 'insumo',
   INSUMO_PUNTO_VENTA = 'insumo_punto_venta',
   INSUMO_PUNTO_VENTA_PRECIO = 'insumo_punto_venta_precio',
+  LIQUIDACION = 'liquidacion',
   LOCALIDAD = 'localidad',
   MARCA_CAMION = 'marca_camion',
   MARCA_SEMI = 'marca_semi',

@@ -5,10 +5,12 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { PipesModule } from '../pipes/pipes.module';
 import { ComplementoFormDialogComponent } from './complemento-form-dialog/complemento-form-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ContactoFormDialogComponent } from './contacto-form-dialog/contacto-form-dialog.component';
 import { DescuentoFormDialogComponent } from './descuento-form-dialog/descuento-form-dialog.component';
+import { LiquidacionConfirmDialogComponent } from './liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { OcAnticipoRetiradoFormDialogComponent } from './oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog/oc-complemento-form-dialog.component';
@@ -22,6 +24,7 @@ const modules = [
   ConfirmationDialogComponent,
   ContactoFormDialogComponent,
   DescuentoFormDialogComponent,
+  LiquidacionConfirmDialogComponent,
   LoadingDialogComponent,
   OcAnticipoRetiradoFormDialogComponent,
   OcComplementoFormDialogComponent,
@@ -40,8 +43,9 @@ const modules = [
     FormsModule,
     FormFieldModule,
     MaterialModule,
+    PipesModule,
     ReactiveFormsModule,
     SharedModule,
-  ]
+  ],
 })
-export class DialogsModule { }
+export class DialogsModule {}

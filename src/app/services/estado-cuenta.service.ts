@@ -12,6 +12,16 @@ export class EstadoCuentaService {
 
   constructor(private http: HttpClient) {}
 
+  getByContraparte(
+    tipo_contraparte_id: number,
+    contraparte: string,
+    contraparte_numero_documento: string
+  ): Observable<EstadoCuenta | null> {
+    return this.http.get<EstadoCuenta | null>(
+      `${this.url}/tipo_contraparte/${tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${contraparte_numero_documento}`
+    );
+  }
+
   getListByGestorCarga(): Observable<EstadoCuenta[]> {
     return this.http.get<EstadoCuenta[]>(`${this.url}/gestor_carga_id/`);
   }

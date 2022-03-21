@@ -196,7 +196,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, this.id]);
+    this.router.navigate([
+      `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
+      this.id,
+    ]);
   }
 
   back(confirmed: boolean): void {

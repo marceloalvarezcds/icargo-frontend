@@ -12,7 +12,7 @@ import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { TableEvent } from 'src/app/interfaces/table';
+import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { TableService } from 'src/app/services/table.service';
 import { delay } from 'src/app/utils/observable';
 
@@ -49,6 +49,8 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();
   @Output() showClick = new EventEmitter<TableEvent<any>>();
+  @Output() allCheckedChange = new EventEmitter<boolean>();
+  @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;

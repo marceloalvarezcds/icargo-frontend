@@ -25,3 +25,15 @@
   line-height: 24px;
   font-size: 12px;
 }
+
+.mat-table::ng-deep {
+  .mat-header-cell-checkbox .mat-checkbox-mixedmark {
+    left: 3px;
+    position: absolute;
+    top: 7px;
+  }
+  .mat-header-cell-checkbox .mat-checkbox-inner-container,
+  .mat-cell-checkbox .mat-checkbox-inner-container {
+    overflow: visible;
+  }
+}

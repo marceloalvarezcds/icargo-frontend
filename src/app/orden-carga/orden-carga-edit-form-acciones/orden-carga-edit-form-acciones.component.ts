@@ -24,6 +24,7 @@ export class OrdenCargaEditFormAccionesComponent {
   E = EstadoEnum;
   @Input() oc?: OrdenCarga;
   @Input() isAnticiposLiberados = false;
+  @Input() isShow = false;
   @Input() hasChange = false;
   @Input() puedeConciliar = false;
 

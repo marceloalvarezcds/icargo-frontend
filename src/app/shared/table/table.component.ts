@@ -8,6 +8,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormArray } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -17,7 +18,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
-import { TableEvent } from 'src/app/interfaces/table';
+import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
 import { delay } from 'src/app/utils/observable';
 
@@ -28,6 +29,8 @@ import { delay } from 'src/app/utils/observable';
 })
 export class TableComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  allChecked: boolean = false;
+  checkedList: boolean[] = [];
   allColumns: Column[] = [];
   columnStickyList: Column[] = [];
   columnStickyEndList: Column[] = [];
@@ -62,6 +65,7 @@ export class TableComponent implements OnInit, OnDestroy {
   }
 
   @Input() set data(values: any[]) {
+    this.checkedList = values.map((_) => false);
     this.tableDataSource.data = values.slice();
   }
 
@@ -82,6 +86,8 @@ export class TableComponent implements OnInit, OnDestroy {
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();
   @Output() showClick = new EventEmitter<TableEvent<any>>();
+  @Output() allCheckedChange = new EventEmitter<boolean>();
+  @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;
@@ -120,5 +126,23 @@ export class TableComponent implements OnInit, OnDestroy {
     if (searchOptions.textToSearch.trim().length) {
       this.tableDataSource.paginator!.firstPage();
     }
+  }
+
+  onCheckboxChange(event: MatCheckboxChange, row: any, index: number): void {
+    this.checkboxChange.emit({ event, value: { row, index } });
+  }
+
+  setAll(checked: boolean) {
+    this.allChecked = checked;
+    this.allCheckedChange.emit(checked);
+    this.checkedList = this.checkedList.map((_) => checked);
+  }
+
+  someChecked(): boolean {
+    return this.checkedList.filter((t) => t).length > 0 && !this.allChecked;
+  }
+
+  updateAllChecked() {
+    this.allChecked = this.checkedList.every((t) => t);
   }
 }

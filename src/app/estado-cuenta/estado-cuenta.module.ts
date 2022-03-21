@@ -8,9 +8,10 @@ import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { EstadoCuentaListComponent } from './estado-cuenta-list/estado-cuenta-list.component';
 import { EstadoCuentaRoutingModule } from './estado-cuenta-routing.module';
+import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 
 @NgModule({
-  declarations: [EstadoCuentaListComponent],
+  declarations: [EstadoCuentaListComponent, LiquidacionFormComponent],
   imports: [
     CommonModule,
     DirectivesModule,
