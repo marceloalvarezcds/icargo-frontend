@@ -18,8 +18,9 @@ export class MovimientoService {
     estadoCuenta: EstadoCuenta,
     estado: EstadoEnum
   ): Observable<Movimiento[]> {
+    const contraparte = encodeURIComponent(estadoCuenta.contraparte);
     return this.http.get<Movimiento[]>(
-      `${this.url}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+      `${this.url}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
     );
   }
 }

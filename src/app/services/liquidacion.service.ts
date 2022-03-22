@@ -26,8 +26,9 @@ export class LiquidacionService {
     estadoCuenta: EstadoCuenta,
     estado: EstadoEnum
   ): Observable<string> {
+    const contraparte = encodeURIComponent(estadoCuenta.contraparte);
     return this.http.get<string>(
-      `${this.url}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+      `${this.url}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
     );
   }
 
@@ -35,8 +36,9 @@ export class LiquidacionService {
     estadoCuenta: EstadoCuenta,
     estado: EstadoEnum
   ): Observable<Liquidacion[]> {
+    const contraparte = encodeURIComponent(estadoCuenta.contraparte);
     return this.http.get<Liquidacion[]>(
-      `${this.url}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+      `${this.url}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
     );
   }
 }

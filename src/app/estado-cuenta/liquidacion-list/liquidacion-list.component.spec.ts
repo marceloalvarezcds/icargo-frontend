@@ -49,6 +49,7 @@ describe('LiquidacionListComponent', () => {
   };
   const estado = EstadoEnum.EN_PROCESO;
   const estadoCuenta = mockEstadoCuentaList[0];
+  const contraparte = encodeURIComponent(estadoCuenta.contraparte);
   const route = {
     snapshot: {
       queryParams: {
@@ -125,13 +126,13 @@ describe('LiquidacionListComponent', () => {
     tableComponent.triggerEventHandler('deleteClick', tableEvent);
     httpController
       .expectOne(
-        `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
+        `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
       )
       .flush(estadoCuenta);
     flush();
     httpController
       .expectOne(
-        `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+        `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
       )
       .flush(mockLiquidacionList);
     const req = httpController.expectOne(
@@ -165,18 +166,18 @@ describe('LiquidacionListComponent', () => {
 
     httpController
       .expectOne(
-        `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
+        `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
       )
       .flush(estadoCuenta);
     flush();
     httpController
       .expectOne(
-        `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+        `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
       )
       .flush([]);
     httpController
       .expectOne(
-        `${environment.api}/${m.LIQUIDACION}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${estadoCuenta.contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+        `${environment.api}/${m.LIQUIDACION}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
       )
       .flush(filename);
     httpController

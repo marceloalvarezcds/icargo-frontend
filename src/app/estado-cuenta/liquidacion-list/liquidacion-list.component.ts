@@ -86,6 +86,10 @@ export class LiquidacionListComponent implements OnInit {
     return this.list.reduce((acc, cur) => acc + cur.instrumentos_saldo, 0);
   }
 
+  get residuo(): number {
+    return this.list.reduce((acc, cur) => acc + cur.saldo_residual, 0);
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
