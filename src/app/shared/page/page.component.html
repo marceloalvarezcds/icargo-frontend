@@ -35,6 +35,7 @@
             mat-mini-fab
             color="primary"
             matTooltip="Filtrar"
+            *ngIf="!hideFilter"
             (click)="sidenav?.toggle()"
           >
             <mat-icon>filter_alt</mat-icon>

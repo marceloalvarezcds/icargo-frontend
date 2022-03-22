@@ -7,6 +7,7 @@ import {
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { EstadoCuentaListComponent } from './estado-cuenta-list/estado-cuenta-list.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
+import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,11 @@ const routes: Routes = [
   {
     path: m.LIQUIDACION,
     children: [
+      {
+        path: a.LISTAR,
+        component: LiquidacionListComponent,
+        canActivate: [PermisoGuard],
+      },
       {
         path: a.CREAR,
         component: LiquidacionFormComponent,
