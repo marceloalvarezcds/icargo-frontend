@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
