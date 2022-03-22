@@ -1,0 +1,62 @@
+<div class="row page-form-row">
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Estado</mat-label>
+    <input matInput [value]="estado" disabled />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Tipo Contraparte</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.tipo_contraparte_descripcion"
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Contraparte</mat-label>
+    <input matInput [value]="estadoCuenta?.contraparte" disabled />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Doc. Fiscal Nº</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.contraparte_numero_documento"
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Pendientes (ML)</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.pendiente"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>En Procesos (ML)</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.en_proceso"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Confirmados (ML)</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.confirmado"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Finalizados (ML)</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.finalizado"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+</div>

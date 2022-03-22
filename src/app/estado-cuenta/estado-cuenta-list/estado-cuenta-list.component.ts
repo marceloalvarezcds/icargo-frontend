@@ -69,7 +69,7 @@ export class EstadoCuentaListComponent implements OnInit {
       link: (element: EstadoCuenta) =>
         element.en_proceso
           ? {
-              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.CREAR}`],
+              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
               queryParams: {
                 tipo_contraparte_id: element.tipo_contraparte_id,
                 contraparte: element.contraparte,
@@ -88,7 +88,7 @@ export class EstadoCuentaListComponent implements OnInit {
       link: (element: EstadoCuenta) =>
         element.confirmado
           ? {
-              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.CREAR}`],
+              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
               queryParams: {
                 tipo_contraparte_id: element.tipo_contraparte_id,
                 contraparte: element.contraparte,

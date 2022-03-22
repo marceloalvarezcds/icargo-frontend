@@ -26,11 +26,16 @@ export interface Liquidacion extends LiquidacionForm {
   moneda: Moneda;
   // movimientos: List[Movimiento]
   // instrumentos: List[Instrumento]
+  // Campos calculados
+  credito: number;
   es_cobro: boolean;
+  esta_pagado: boolean;
+  debito: number;
   instrumentos_saldo: number;
   moneda_nombre: string;
   moneda_simbolo: string;
   movimientos_saldo: number;
+  saldo: number;
   saldo_residual: number;
   tipo_contraparte_descripcion: string;
   tipo_operacion_descripcion: string;
@@ -48,6 +53,9 @@ export const mockLiquidacionList: Liquidacion[] = [
     tipo_contraparte_id: 3,
     contraparte: 'ADM SANTA RITA',
     contraparte_numero_documento: '3100100',
+    credito: 0,
+    debito: -2000000,
+    saldo: -2000000,
     movimientos_saldo: -2000000,
     instrumentos_saldo: -100000,
     moneda_id: 1,
@@ -72,6 +80,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     },
     url: '',
     es_cobro: false,
+    esta_pagado: false,
     fecha_pago_cobro: null,
     saldo_residual: 100000,
     tipo_contraparte_descripcion: 'Remitente',
@@ -87,6 +96,9 @@ export const mockLiquidacionList: Liquidacion[] = [
     tipo_contraparte_id: 1,
     contraparte: 'AGROFERTIL SANTA FE',
     contraparte_numero_documento: '800200200',
+    credito: 0,
+    debito: -600000,
+    saldo: -600000,
     movimientos_saldo: -600000,
     instrumentos_saldo: -75000,
     moneda_id: 1,
@@ -112,6 +124,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     url: '',
     saldo_residual: -75000,
     es_cobro: false,
+    esta_pagado: false,
     fecha_pago_cobro: null,
     tipo_contraparte_descripcion: 'Propietario',
     tipo_operacion_descripcion: 'Pago',
@@ -126,6 +139,9 @@ export const mockLiquidacionList: Liquidacion[] = [
     tipo_contraparte_id: 4,
     contraparte: 'GICAL KM12',
     contraparte_numero_documento: 'p-100100',
+    credito: 900,
+    debito: 0,
+    saldo: 900,
     movimientos_saldo: 900,
     instrumentos_saldo: 100,
     moneda_id: 1,
@@ -151,6 +167,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     url: '',
     saldo_residual: 100,
     es_cobro: true,
+    esta_pagado: true,
     fecha_pago_cobro: null,
     tipo_contraparte_descripcion: 'Proveedor',
     tipo_operacion_descripcion: 'Cobro',
@@ -165,6 +182,9 @@ export const mockLiquidacionList: Liquidacion[] = [
     tipo_contraparte_id: 1,
     contraparte: 'LA PAZ',
     contraparte_numero_documento: '800100100',
+    credito: 1000,
+    debito: 0,
+    saldo: 1000,
     movimientos_saldo: 10000,
     instrumentos_saldo: 10000,
     moneda_id: 1,
@@ -189,6 +209,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     },
     url: '',
     es_cobro: true,
+    esta_pagado: true,
     fecha_pago_cobro: null,
     saldo_residual: 10000,
     tipo_contraparte_descripcion: 'Propietario',
@@ -204,6 +225,9 @@ export const mockLiquidacionList: Liquidacion[] = [
     tipo_contraparte_id: 4,
     contraparte: 'LDC_POZUELO',
     contraparte_numero_documento: '800400400',
+    credito: 236300,
+    debito: 0,
+    saldo: 0,
     movimientos_saldo: 236300,
     instrumentos_saldo: 236300,
     moneda_id: 1,
@@ -228,6 +252,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     },
     url: '',
     es_cobro: true,
+    esta_pagado: true,
     fecha_pago_cobro: null,
     saldo_residual: 0,
     tipo_contraparte_descripcion: 'Proveedor',

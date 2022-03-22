@@ -23,6 +23,7 @@ export class PageComponent {
   sidebarMode: MatDrawerMode = 'side';
 
   @Input() hideCreate = false;
+  @Input() hideFilter = false;
   @Input() module: string = '';
   @Input() submodule: string = '';
   @Input() modelo?: PermisoModeloEnum;
