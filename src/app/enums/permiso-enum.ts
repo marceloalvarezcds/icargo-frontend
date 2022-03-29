@@ -1,5 +1,7 @@
 export enum PermisoAccionEnum {
+  ACEPTAR = 'aceptar',
   CAMBIAR_ESTADO = 'cambiar_estado',
+  CANCELAR = 'cancelar',
   CONCILIAR = 'conciliar',
   CREAR = 'crear',
   EDITAR = 'editar',
@@ -7,8 +9,10 @@ export enum PermisoAccionEnum {
   LISTAR = 'listar',
   MODIFICAR_CONTACTOS = 'modificar_contactos',
   MODIFICAR_ALIAS = 'modificar_alias',
-  VER = 'ver',
+  PASAR_A_REVISION = 'pasar_a_revision',
+  RECHAZAR = 'rechazar',
   REPORTE = 'reporte',
+  VER = 'ver',
 }
 
 export enum PermisoModeloEnum {
@@ -32,6 +36,7 @@ export enum PermisoModeloEnum {
   FLETE_COMPLEMENTO = 'flete_complemento',
   FLETE_DESCUENTO = 'flete_descuento',
   GESTOR_CARGA = 'gestor_carga',
+  INSTRUMENTO = 'instrumento',
   INSUMO = 'insumo',
   INSUMO_PUNTO_VENTA = 'insumo_punto_venta',
   INSUMO_PUNTO_VENTA_PRECIO = 'insumo_punto_venta_precio',

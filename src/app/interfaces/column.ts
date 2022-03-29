@@ -10,6 +10,7 @@ export interface Column {
   title: string;
   value?: (row: any) => any;
   buttonCallback?: (row: any) => void;
+  buttonIconName?: (row: any) => string;
   isHidden?: (row: any) => boolean;
   link?: (row: any) => ColumnLink | undefined;
   sticky?: boolean;

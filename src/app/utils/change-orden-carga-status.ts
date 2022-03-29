@@ -1,50 +1,56 @@
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
-import { Observable, PartialObserver } from 'rxjs';
+import { Observable } from 'rxjs';
 import { changeStatusConfirm } from './change-status';
 import { changeStatusMessageSnackbar } from './snackbar';
 
-interface ChangeOrdenCargaStatusService<T> {
+interface AceptarService<T> {
   aceptar(id: number): Observable<T>;
-  conciliar(id: number): Observable<T>;
+}
+
+interface CancelarService<T> {
   cancelar(id: number): Observable<T>;
+}
+
+interface ChangeOrdenCargaStatusService<T>
+  extends AceptarService<T>,
+    CancelarService<T> {
+  conciliar(id: number): Observable<T>;
   finalizar(id: number): Observable<T>;
   modificarAnticipos(id: number): Observable<T>;
 }
 
-const getMessage = (status: string) =>
-  `¿Está seguro que desea ${status} la Orden de Carga?`;
+const getMessage = (status: string, entidad: string = 'la Orden de Carga') =>
+  `¿Está seguro que desea ${status} ${entidad}?`;
 
 export function confirmationDialogToAceptar<T>(
   dialog: MatDialog,
-  service: ChangeOrdenCargaStatusService<T>,
+  service: AceptarService<T>,
   idToAceptar: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (value: MatSnackBarDismiss) => void
 ) {
-  changeStatusConfirm(dialog, getMessage('aceptar'), {
-    next: () => {
-      service.aceptar(idToAceptar).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    },
-  });
+  changeStatusConfirm(
+    dialog,
+    getMessage('aceptar'),
+    service.aceptar(idToAceptar),
+    () => changeStatusMessageSnackbar(snackbar, observer)
+  );
 }
 
 export function confirmationDialogToCancelar<T>(
   dialog: MatDialog,
-  service: ChangeOrdenCargaStatusService<T>,
+  service: CancelarService<T>,
   idToCancelar: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (value: MatSnackBarDismiss) => void
 ) {
-  changeStatusConfirm(dialog, getMessage('cancelar'), {
-    next: () => {
-      service.cancelar(idToCancelar).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    },
-  });
+  changeStatusConfirm(
+    dialog,
+    getMessage('cancelar'),
+    service.cancelar(idToCancelar),
+    () => changeStatusMessageSnackbar(snackbar, observer)
+  );
 }
 
 export function confirmationDialogToConciliar<T>(
@@ -52,15 +58,14 @@ export function confirmationDialogToConciliar<T>(
   service: ChangeOrdenCargaStatusService<T>,
   idToConciliar: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (value: MatSnackBarDismiss) => void
 ) {
-  changeStatusConfirm(dialog, getMessage('conciliar'), {
-    next: () => {
-      service.conciliar(idToConciliar).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    },
-  });
+  changeStatusConfirm(
+    dialog,
+    getMessage('conciliar'),
+    service.conciliar(idToConciliar),
+    () => changeStatusMessageSnackbar(snackbar, observer)
+  );
 }
 
 export function confirmationDialogToFinalizar<T>(
@@ -68,15 +73,14 @@ export function confirmationDialogToFinalizar<T>(
   service: ChangeOrdenCargaStatusService<T>,
   idToFinalizar: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (value: MatSnackBarDismiss) => void
 ) {
-  changeStatusConfirm(dialog, getMessage('finalizar'), {
-    next: () => {
-      service.finalizar(idToFinalizar).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    },
-  });
+  changeStatusConfirm(
+    dialog,
+    getMessage('finalizar'),
+    service.finalizar(idToFinalizar),
+    () => changeStatusMessageSnackbar(snackbar, observer)
+  );
 }
 
 export function confirmationDialogToModificarAnticipos<T>(
@@ -85,19 +89,14 @@ export function confirmationDialogToModificarAnticipos<T>(
   isAnticiposLiberados: boolean,
   idToModificarAnticipos: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (value: MatSnackBarDismiss) => void
 ) {
   changeStatusConfirm(
     dialog,
     `¿Está seguro que desea ${
       isAnticiposLiberados ? 'bloquear' : 'liberar'
     } anticipos?`,
-    {
-      next: () => {
-        service.modificarAnticipos(idToModificarAnticipos).subscribe(() => {
-          changeStatusMessageSnackbar(snackbar, observer);
-        });
-      },
-    }
+    service.modificarAnticipos(idToModificarAnticipos),
+    () => changeStatusMessageSnackbar(snackbar, observer)
   );
 }

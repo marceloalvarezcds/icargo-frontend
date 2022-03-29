@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -67,16 +68,16 @@ export class LiquidacionListComponent implements OnInit {
       title: 'Moneda',
       value: (element: Liquidacion) => element.moneda_nombre,
     },
+    { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   credito = 0;
   debito = 0;
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
-  estado?: EstadoEnum;
+  etapa?: LiquidacionEtapaEnum;
   estadoCuenta?: EstadoCuenta;
   list: Liquidacion[] = [];
-  movimientosSelected: Liquidacion[] = [];
 
   get saldo(): number {
     return this.credito - this.debito;
@@ -104,6 +105,10 @@ export class LiquidacionListComponent implements OnInit {
     this.getData();
   }
 
+  back(): void {
+    this.router.navigate([this.backUrl]);
+  }
+
   redirectToEdit(event: TableEvent<Liquidacion>): void {
     this.router.navigate([
       `/estado-cuenta/${m.LIQUIDACION}/${a.EDITAR}`,
@@ -127,17 +132,15 @@ export class LiquidacionListComponent implements OnInit {
       this.liquidacionService,
       row.id,
       this.snackbar,
-      {
-        next: () => {
-          this.getList();
-        },
+      () => {
+        this.getList();
       }
     );
   }
 
   downloadFile(): void {
     this.liquidacionService
-      .generateReportsByEstadoCuenta(this.estadoCuenta!, this.estado!)
+      .generateReportsByEstadoCuenta(this.estadoCuenta!, this.etapa!)
       .subscribe((filename) => {
         this.reportsService.downloadFile(filename).subscribe((file) => {
           saveAs(file, filename);
@@ -148,7 +151,7 @@ export class LiquidacionListComponent implements OnInit {
   private getData(): void {
     const {
       backUrl,
-      estado,
+      etapa,
       contraparte,
       contraparte_numero_documento,
       tipo_contraparte_id,
@@ -156,7 +159,7 @@ export class LiquidacionListComponent implements OnInit {
     if (backUrl) {
       this.backUrl = backUrl;
     }
-    this.estado = estado;
+    this.etapa = etapa;
     this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,
@@ -172,12 +175,11 @@ export class LiquidacionListComponent implements OnInit {
 
   private getList(): void {
     this.liquidacionService
-      .getListByEstadoCuenta(this.estadoCuenta!, this.estado!)
+      .getListByEstadoCuenta(this.estadoCuenta!, this.etapa!)
       .subscribe((data) => {
         this.credito = data.reduce((acc, cur) => acc + cur.credito, 0);
         this.debito = data.reduce((acc, cur) => acc + cur.debito, 0);
         this.list = data;
-        this.movimientosSelected = [];
       });
   }
 }

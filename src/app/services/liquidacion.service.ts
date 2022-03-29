@@ -1,9 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
+import { getParams } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -24,21 +25,56 @@ export class LiquidacionService {
 
   generateReportsByEstadoCuenta(
     estadoCuenta: EstadoCuenta,
-    estado: EstadoEnum
+    etapa: LiquidacionEtapaEnum
   ): Observable<string> {
-    const contraparte = encodeURIComponent(estadoCuenta.contraparte);
     return this.http.get<string>(
-      `${this.url}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+      `${this.url}/reports/${getParams(estadoCuenta, etapa)}`
     );
+  }
+
+  getById(id: number): Observable<Liquidacion> {
+    return this.http.get<Liquidacion>(`${this.url}/${id}`);
   }
 
   getListByEstadoCuenta(
     estadoCuenta: EstadoCuenta,
-    estado: EstadoEnum
+    etapa: LiquidacionEtapaEnum
   ): Observable<Liquidacion[]> {
-    const contraparte = encodeURIComponent(estadoCuenta.contraparte);
     return this.http.get<Liquidacion[]>(
-      `${this.url}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+      `${this.url}/${getParams(estadoCuenta, etapa)}`
+    );
+  }
+
+  addMovimientos(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/add_movimientos`,
+      formData
+    );
+  }
+
+  removeMovimiento(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/remove_movimiento`,
+      formData
+    );
+  }
+
+  aceptar(id: number): Observable<Liquidacion> {
+    return this.http.get<Liquidacion>(`${this.url}/${id}/aceptar`);
+  }
+
+  cancelar(id: number): Observable<Liquidacion> {
+    return this.http.get<Liquidacion>(`${this.url}/${id}/cancelar`);
+  }
+
+  rechazar(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(`${this.url}/${id}/rechazar`, formData);
+  }
+
+  pasarARevision(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/en_revision`,
+      formData
     );
   }
 }

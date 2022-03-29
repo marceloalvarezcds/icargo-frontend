@@ -2,14 +2,16 @@
   class="liquidacion-page"
   module="Estado de Cuenta"
   submodule="Liquidación"
+  [hideBack]="false"
   [hideCreate]="true"
   [hideFilter]="true"
   [modelo]="modelo"
+  (backClick)="back()"
   (downloadClick)="downloadFile()"
 >
   <div class="liquidacion-page-content">
     <app-estado-cuenta-detalle
-      [estado]="estado"
+      [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
     ></app-estado-cuenta-detalle>
     <div class="row page-form-row">
@@ -50,6 +52,7 @@
           [columns]="columns"
           [data]="list"
           [modelo]="modelo"
+          [hideDelete]="true"
           (editClick)="redirectToEdit($event)"
           (showClick)="redirectToShow($event)"
           (deleteClick)="deleteRow($event)"

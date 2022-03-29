@@ -74,14 +74,29 @@
             </ng-container>
             <ng-container *ngSwitchCase="'button'">
               <ng-container *ngIf="column.buttonCallback">
-                <button
-                  type="button"
-                  mat-raised-button
-                  class="row-button"
-                  color="primary"
-                  [innerHTML]="column.value(row)"
-                  (click)="column.buttonCallback(row)"
-                ></button>
+                <ng-container *ngIf="column.buttonIconName; else buttonText">
+                  <ng-container *ngIf="column.buttonIconName(row) as iconName">
+                    <button
+                      type="button"
+                      mat-icon-button
+                      class="row-button"
+                      color="primary"
+                      (click)="column.buttonCallback(row)"
+                    >
+                      <mat-icon>{{ iconName }}</mat-icon>
+                    </button>
+                  </ng-container>
+                </ng-container>
+                <ng-template #buttonText>
+                  <button
+                    type="button"
+                    mat-raised-button
+                    class="row-button"
+                    color="primary"
+                    [innerHTML]="column.value(row)"
+                    (click)="column.buttonCallback(row)"
+                  ></button>
+                </ng-template>
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchDefault>

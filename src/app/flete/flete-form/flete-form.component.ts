@@ -5,7 +5,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
@@ -18,7 +22,7 @@ import { ProportionValidator } from 'src/app/validators/proportion-validator';
 @Component({
   selector: 'app-flete-form',
   templateUrl: './flete-form.component.html',
-  styleUrls: ['./flete-form.component.scss']
+  styleUrls: ['./flete-form.component.scss'],
 })
 export class FleteFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
@@ -95,7 +99,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       // fin - Mermas para el Propietario
     }),
     vigencia_anticipos: [null, Validators.required],
-    anticipos: this.fb.array([], { validators: ProportionValidator.max(100, 'porcentaje') }),
+    anticipos: this.fb.array([], {
+      validators: ProportionValidator.max(100, 'porcentaje'),
+    }),
     complementos: this.fb.array([]),
     descuentos: this.fb.array([]),
     emision_orden: this.fb.group({
@@ -107,15 +113,21 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
   get puedeModificar(): boolean {
-    if (this.isShow || !this.isEdit) { return false; }
-    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCargaId);
+    if (this.isShow || !this.isEdit) {
+      return false;
+    }
+    return this.userService.checkPermisoAndGestorCargaId(
+      a.EDITAR,
+      this.modelo,
+      this.gestorCargaId
+    );
   }
 
   get info(): FormGroup {
@@ -157,8 +169,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -181,9 +193,16 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
 
   cancelar(): void {
-    confirmationDialogToCancel(this.dialog, 'el Flete', this.fleteService, this.id!, this.snackbar, {
-      next: () => { this.getData(); }
-    });
+    confirmationDialogToCancel(
+      this.dialog,
+      'el Flete',
+      this.fleteService,
+      this.id!,
+      this.snackbar,
+      () => {
+        this.getData();
+      }
+    );
   }
 
   submit(confirmed: boolean): void {
@@ -192,17 +211,19 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.tramo.value,
-        ...this.condicion.value,
-        ...this.merma.value,
-        ...this.emisionOrden.value,
-        vigencia_anticipos: this.form.value.vigencia_anticipos,
-        anticipos: this.anticipos.value,
-        complementos: this.complementos.value,
-        descuentos: this.descuentos.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.tramo.value,
+          ...this.condicion.value,
+          ...this.merma.value,
+          ...this.emisionOrden.value,
+          vigencia_anticipos: this.form.value.vigencia_anticipos,
+          anticipos: this.anticipos.value,
+          complementos: this.complementos.value,
+          descuentos: this.descuentos.value,
+        })
+      );
       formData.append('data', JSON.stringify(data));
       if (this.isEdit && this.id) {
         this.fleteService.edit(this.id, formData).subscribe(() => {
@@ -220,7 +241,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
+                this.router.navigate([
+                  `/flete/${m.FLETE}/${a.EDITAR}`,
+                  flete.id,
+                ]);
               }
             });
         });
@@ -252,7 +276,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.fleteService.getById(this.id).subscribe(data => {
+      this.fleteService.getById(this.id).subscribe((data) => {
         this.estado = data.estado;
         this.isCancel = data.estado === EstadoEnum.CANCELADO;
         this.gestorCargaId = data.gestor_carga_id;
@@ -282,14 +306,18 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           condicion: {
             condicion_cantidad: data.condicion_cantidad,
             // inicio - Condiciones para el Gestor de Cuenta
-            condicion_gestor_cuenta_moneda_id: data.condicion_gestor_cuenta_moneda_id,
+            condicion_gestor_cuenta_moneda_id:
+              data.condicion_gestor_cuenta_moneda_id,
             condicion_gestor_cuenta_tarifa: data.condicion_gestor_cuenta_tarifa,
-            condicion_gestor_cuenta_unidad_id: data.condicion_gestor_cuenta_unidad_id,
+            condicion_gestor_cuenta_unidad_id:
+              data.condicion_gestor_cuenta_unidad_id,
             // fin - Condiciones para el Gestor de Cuenta
             // inicio - Condiciones para el Propietario
-            condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
+            condicion_propietario_moneda_id:
+              data.condicion_propietario_moneda_id,
             condicion_propietario_tarifa: data.condicion_propietario_tarifa,
-            condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,
+            condicion_propietario_unidad_id:
+              data.condicion_propietario_unidad_id,
             // fin - Condiciones para el Propietario
           },
           merma: {
@@ -297,14 +325,16 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             merma_gestor_cuenta_valor: data.merma_gestor_cuenta_valor,
             merma_gestor_cuenta_moneda_id: data.merma_gestor_cuenta_moneda_id,
             merma_gestor_cuenta_unidad_id: data.merma_gestor_cuenta_unidad_id,
-            merma_gestor_cuenta_es_porcentual: data.merma_gestor_cuenta_es_porcentual,
+            merma_gestor_cuenta_es_porcentual:
+              data.merma_gestor_cuenta_es_porcentual,
             merma_gestor_cuenta_tolerancia: data.merma_gestor_cuenta_tolerancia,
             // fin - Mermas para el Gestor de Cuenta
             // inicio - Mermas para el Propietario
             merma_propietario_valor: data.merma_propietario_valor,
             merma_propietario_moneda_id: data.merma_propietario_moneda_id,
             merma_propietario_unidad_id: data.merma_propietario_unidad_id,
-            merma_propietario_es_porcentual: data.merma_propietario_es_porcentual,
+            merma_propietario_es_porcentual:
+              data.merma_propietario_es_porcentual,
             merma_propietario_tolerancia: data.merma_propietario_tolerancia,
             // fin - Mermas para el Propietario
           },

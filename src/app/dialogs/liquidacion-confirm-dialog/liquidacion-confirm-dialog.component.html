@@ -1,4 +1,4 @@
-<div *ngIf="estadoCuenta">
+<div *ngIf="contraparteInfo">
   <h1 mat-dialog-title>
     Confirmar Creación de Liquidación
     <button mat-button type="button" mat-dialog-close class="close">
@@ -11,7 +11,7 @@
         <div class="row">
           <strong class="col-xs-6">Tipo Contraparte:</strong>
           <span class="col-xs-6">
-            {{ estadoCuenta.tipo_contraparte_descripcion }}
+            {{ contraparteInfo.tipo_contraparte_descripcion }}
           </span>
         </div>
       </div>
@@ -19,7 +19,7 @@
         <div class="row">
           <strong class="col-xs-6">Contraparte:</strong>
           <span class="col-xs-6">
-            {{ estadoCuenta.contraparte }}
+            {{ contraparteInfo.contraparte }}
           </span>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <div class="row">
           <strong class="col-xs-6">Doc. Fiscal Nº:</strong>
           <span class="col-xs-6">
-            {{ estadoCuenta.contraparte_numero_documento }}
+            {{ contraparteInfo.contraparte_numero_documento }}
           </span>
         </div>
       </div>

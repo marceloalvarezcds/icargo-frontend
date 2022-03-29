@@ -147,10 +147,8 @@ export class CajaListComponent implements OnInit {
       this.cajaService,
       row.id,
       this.snackbar,
-      {
-        next: () => {
-          this.getList();
-        },
+      () => {
+        this.getList();
       }
     );
   }

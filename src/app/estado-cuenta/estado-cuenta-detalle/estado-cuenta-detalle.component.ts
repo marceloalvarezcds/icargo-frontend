@@ -1,5 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { Component, Input } from '@angular/core';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 
 @Component({
@@ -8,6 +8,6 @@ import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
   styleUrls: ['./estado-cuenta-detalle.component.scss'],
 })
 export class EstadoCuentaDetalleComponent {
-  @Input() estado?: EstadoEnum;
+  @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
 }

@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -13,6 +13,7 @@ import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
+import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
@@ -45,76 +46,64 @@ export class EstadoCuentaListComponent implements OnInit {
     },
     {
       def: 'pendiente',
-      title: EstadoEnum.PENDIENTE,
+      title: LiquidacionEtapaEnum.PENDIENTE,
       value: (element: EstadoCuenta) => element.pendiente,
       link: (element: EstadoCuenta) =>
-        element.pendiente
+        element.cantidad_pendiente > 0
           ? {
               url: [`/estado-cuenta/${m.LIQUIDACION}/${a.CREAR}`],
-              queryParams: {
-                tipo_contraparte_id: element.tipo_contraparte_id,
-                contraparte: element.contraparte,
-                contraparte_numero_documento:
-                  element.contraparte_numero_documento,
-                estado: EstadoEnum.PENDIENTE,
-              },
+              queryParams: getQueryParams(
+                element,
+                LiquidacionEtapaEnum.PENDIENTE
+              ),
             }
           : undefined,
       type: 'number',
     },
     {
       def: 'en_proceso',
-      title: EstadoEnum.EN_PROCESO,
+      title: LiquidacionEtapaEnum.EN_PROCESO,
       value: (element: EstadoCuenta) => element.en_proceso,
       link: (element: EstadoCuenta) =>
-        element.en_proceso
+        element.cantidad_en_proceso > 0
           ? {
               url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
-              queryParams: {
-                tipo_contraparte_id: element.tipo_contraparte_id,
-                contraparte: element.contraparte,
-                contraparte_numero_documento:
-                  element.contraparte_numero_documento,
-                estado: EstadoEnum.EN_PROCESO,
-              },
+              queryParams: getQueryParams(
+                element,
+                LiquidacionEtapaEnum.EN_PROCESO
+              ),
             }
           : undefined,
       type: 'number',
     },
     {
       def: 'confirmado',
-      title: EstadoEnum.CONFIRMADO,
+      title: LiquidacionEtapaEnum.CONFIRMADO,
       value: (element: EstadoCuenta) => element.confirmado,
       link: (element: EstadoCuenta) =>
-        element.confirmado
+        element.cantidad_confirmado > 0
           ? {
               url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
-              queryParams: {
-                tipo_contraparte_id: element.tipo_contraparte_id,
-                contraparte: element.contraparte,
-                contraparte_numero_documento:
-                  element.contraparte_numero_documento,
-                estado: EstadoEnum.CONFIRMADO,
-              },
+              queryParams: getQueryParams(
+                element,
+                LiquidacionEtapaEnum.CONFIRMADO
+              ),
             }
           : undefined,
       type: 'number',
     },
     {
       def: 'finalizado',
-      title: EstadoEnum.FINALIZADO,
+      title: LiquidacionEtapaEnum.FINALIZADO,
       value: (element: EstadoCuenta) => element.finalizado,
       link: (element: EstadoCuenta) =>
-        element.finalizado
+        element.cantidad_finalizado > 0
           ? {
               url: [`/estado-cuenta/${m.LIQUIDACION}/${a.CREAR}`],
-              queryParams: {
-                tipo_contraparte_id: element.tipo_contraparte_id,
-                contraparte: element.contraparte,
-                contraparte_numero_documento:
-                  element.contraparte_numero_documento,
-                estado: EstadoEnum.FINALIZADO,
-              },
+              queryParams: getQueryParams(
+                element,
+                LiquidacionEtapaEnum.FINALIZADO
+              ),
             }
           : undefined,
       type: 'number',

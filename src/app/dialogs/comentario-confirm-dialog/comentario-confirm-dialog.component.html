@@ -1,0 +1,41 @@
+<h1 mat-dialog-title>
+  {{ data.title ? data.title : "Confirmación" }}
+  <button mat-button (click)="dialogRef.close(null)" class="close">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
+<div mat-dialog-content>
+  <p>{{ data.message }}</p>
+  <mat-form-field>
+    <mat-label>Comentario</mat-label>
+    <textarea
+      matInput
+      [formControl]="comentario"
+      cdkTextareaAutosize
+      #autosize="cdkTextareaAutosize"
+      cdkAutosizeMinRows="1"
+    ></textarea>
+    <mat-error *ngIf="comentario.hasError('required')">
+      El comentario es <strong>requerido</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+  <button
+    mat-raised-button
+    [class]="data.closeButtonClass"
+    (click)="dialogRef.close(false)"
+  >
+    {{ data.closeButtonText ? data.closeButtonText : "No" }}
+  </button>
+  <button
+    cdkFocusInitial
+    color="primary"
+    mat-raised-button
+    [class]="data.confirmedButtonClass"
+    [disabled]="comentario.invalid"
+    (click)="dialogRef.close(comentario.value)"
+  >
+    {{ data.confirmedButtonText ? data.confirmedButtonText : "Sí" }}
+  </button>
+</div>

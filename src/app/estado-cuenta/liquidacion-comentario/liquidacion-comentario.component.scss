@@ -1,0 +1,25 @@
+.comentario-container {
+  position: relative;
+  overflow: visible;
+}
+
+.comentario-label {
+  background-color: white;
+  color: rgba(0, 0, 0, 0.6);
+  font-size: 10.5px;
+  margin: 0 .75em;
+  padding: 0 .35em;
+  position: absolute;
+  top: -0.84375em;
+}
+
+.comentario-text {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  padding: 1em .75em 0;
+}
+
+.comentario-text::ng-deep ul {
+  margin-top: 5px;
+  padding-left: 20px;
+}

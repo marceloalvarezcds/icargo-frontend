@@ -229,6 +229,7 @@ h1.mat-dialog-title {
 .table-container {
   width: 100%;
   overflow: auto;
+  overflow-y: hidden;
 
   .mat-table {
     width: 100%;

@@ -1,0 +1,55 @@
+<div class="row page-form-row" *ngIf="liquidacion && !isShow">
+  <div class="col-xs-12 acciones-buttons">
+    <button
+      type="button"
+      mat-raised-button
+      color="primary"
+      *ngIf="
+        liquidacion.estado === E.EN_REVISION &&
+        (m.LIQUIDACION | puede: a.ACEPTAR)
+      "
+      (click)="aceptar()"
+    >
+      Aceptar
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      color="accent"
+      *ngIf="
+        liquidacion.estado === E.EN_REVISION &&
+        (m.LIQUIDACION | puede: a.RECHAZAR)
+      "
+      (click)="rechazar()"
+    >
+      Rechazar
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      color="accent"
+      *ngIf="
+        liquidacion.estado !== E.EN_REVISION &&
+        liquidacion.estado !== E.CANCELADO &&
+        liquidacion.estado !== E.CONFIRMADO &&
+        liquidacion.estado !== E.ACEPTADO &&
+        (m.LIQUIDACION | puede: a.PASAR_A_REVISION)
+      "
+      (click)="pasarARevision()"
+    >
+      Revisión
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      color="warn"
+      *ngIf="
+        liquidacion.estado !== E.CANCELADO &&
+        (m.LIQUIDACION | puede: a.CANCELAR)
+      "
+      (click)="cancelar()"
+    >
+      Cancelar
+    </button>
+  </div>
+</div>

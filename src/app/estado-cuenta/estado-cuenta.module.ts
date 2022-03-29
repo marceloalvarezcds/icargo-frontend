@@ -11,9 +11,13 @@ import { EstadoCuentaRoutingModule } from './estado-cuenta-routing.module';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
 import { EstadoCuentaDetalleComponent } from './estado-cuenta-detalle/estado-cuenta-detalle.component';
+import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacion-edit-form.component';
+import { LiquidacionEditFormMovimientosComponent } from './liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
+import { LiquidacionEditFormAccionesComponent } from './liquidacion-edit-form-acciones/liquidacion-edit-form-acciones.component';
+import { LiquidacionComentarioComponent } from './liquidacion-comentario/liquidacion-comentario.component';
 
 @NgModule({
-  declarations: [EstadoCuentaListComponent, LiquidacionFormComponent, LiquidacionListComponent, EstadoCuentaDetalleComponent],
+  declarations: [EstadoCuentaListComponent, LiquidacionFormComponent, LiquidacionListComponent, EstadoCuentaDetalleComponent, LiquidacionEditFormComponent, LiquidacionEditFormMovimientosComponent, LiquidacionEditFormAccionesComponent, LiquidacionComentarioComponent],
   imports: [
     CommonModule,
     DirectivesModule,

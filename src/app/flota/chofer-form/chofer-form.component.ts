@@ -1,24 +1,35 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { UserService } from 'src/app/services/user.service';
-import { confirmationDialogToActive, confirmationDialogToInactive } from 'src/app/utils/change-status';
+import {
+  confirmationDialogToActive,
+  confirmationDialogToInactive,
+} from 'src/app/utils/change-status';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
 @Component({
   selector: 'app-chofer-form',
   templateUrl: './chofer-form.component.html',
-  styleUrls: ['./chofer-form.component.scss']
+  styleUrls: ['./chofer-form.component.scss'],
 })
 export class ChoferFormComponent implements OnInit, OnDestroy {
-
   a = PermisoAccionEnum;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
@@ -68,7 +79,10 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       foto_documento_reverso: [null, Validators.required],
       foto_perfil: [null, Validators.required],
       es_propietario: null,
-      telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
+      telefono: [
+        null,
+        [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)],
+      ],
       email: [null, Validators.email],
     }),
     propietario: this.fb.group({
@@ -96,24 +110,34 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
-  esPropietarioSubscription = this.esPropietarioControl.valueChanges.subscribe((esPropietario) => {
-    if (esPropietario) {
-      this.propietario.get('pais_origen_id')!.setValidators(Validators.required);
-    } else {
-      this.propietario.get('pais_origen_id')!.clearAsyncValidators();
+  esPropietarioSubscription = this.esPropietarioControl.valueChanges.subscribe(
+    (esPropietario) => {
+      if (esPropietario) {
+        this.propietario
+          .get('pais_origen_id')!
+          .setValidators(Validators.required);
+      } else {
+        this.propietario.get('pais_origen_id')!.clearAsyncValidators();
+      }
+      this.propietario.get('pais_origen_id')!.updateValueAndValidity();
     }
-    this.propietario.get('pais_origen_id')!.updateValueAndValidity();
-  });
+  );
 
   get puedeModificarSoloAliasYcontactos(): boolean {
-    if (this.isShow || !this.isEdit) { return false; }
-    return !this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCuentaId);
+    if (this.isShow || !this.isEdit) {
+      return false;
+    }
+    return !this.userService.checkPermisoAndGestorCargaId(
+      a.EDITAR,
+      this.modelo,
+      this.gestorCuentaId
+    );
   }
 
   get info(): FormGroup {
@@ -147,8 +171,8 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -172,15 +196,29 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    confirmationDialogToActive(this.dialog, 'al Chofer', this.choferService, this.id!, this.snackbar, {
-      next: () => { this.getData(); }
-    });
+    confirmationDialogToActive(
+      this.dialog,
+      'al Chofer',
+      this.choferService,
+      this.id!,
+      this.snackbar,
+      () => {
+        this.getData();
+      }
+    );
   }
 
   inactive(): void {
-    confirmationDialogToInactive(this.dialog, 'al Chofer', this.choferService, this.id!, this.snackbar, {
-      next: () => { this.getData(); }
-    });
+    confirmationDialogToInactive(
+      this.dialog,
+      'al Chofer',
+      this.choferService,
+      this.id!,
+      this.snackbar,
+      () => {
+        this.getData();
+      }
+    );
   }
 
   submit(confirmed: boolean): void {
@@ -189,21 +227,55 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.address.value,
-        ...this.propietario.value,
-        ...this.registro.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.address.value,
+          ...this.propietario.value,
+          ...this.registro.value,
+        })
+      );
       delete data.logo;
       formData.append('data', JSON.stringify(data));
-      if (this.fotoDocumentoFrenteFile) { formData.append('foto_documento_frente_file', this.fotoDocumentoFrenteFile); }
-      if (this.fotoDocumentoReversoFile) { formData.append('foto_documento_reverso_file', this.fotoDocumentoReversoFile); }
-      if (this.fotoPerfilFile) { formData.append('foto_perfil_file', this.fotoPerfilFile); }
-      if (this.fotoDocumentoFrentePropietarioFile) { formData.append('foto_documento_frente_propietario_file', this.fotoDocumentoFrentePropietarioFile); }
-      if (this.fotoDocumentoReversoPropietarioFile) { formData.append('foto_documento_reverso_propietario_file', this.fotoDocumentoReversoPropietarioFile); }
-      if (this.fotoRegistroFrenteFile) { formData.append('foto_registro_frente_file', this.fotoRegistroFrenteFile); }
-      if (this.fotoRegistroReversoFile) { formData.append('foto_registro_reverso_file', this.fotoRegistroReversoFile); }
+      if (this.fotoDocumentoFrenteFile) {
+        formData.append(
+          'foto_documento_frente_file',
+          this.fotoDocumentoFrenteFile
+        );
+      }
+      if (this.fotoDocumentoReversoFile) {
+        formData.append(
+          'foto_documento_reverso_file',
+          this.fotoDocumentoReversoFile
+        );
+      }
+      if (this.fotoPerfilFile) {
+        formData.append('foto_perfil_file', this.fotoPerfilFile);
+      }
+      if (this.fotoDocumentoFrentePropietarioFile) {
+        formData.append(
+          'foto_documento_frente_propietario_file',
+          this.fotoDocumentoFrentePropietarioFile
+        );
+      }
+      if (this.fotoDocumentoReversoPropietarioFile) {
+        formData.append(
+          'foto_documento_reverso_propietario_file',
+          this.fotoDocumentoReversoPropietarioFile
+        );
+      }
+      if (this.fotoRegistroFrenteFile) {
+        formData.append(
+          'foto_registro_frente_file',
+          this.fotoRegistroFrenteFile
+        );
+      }
+      if (this.fotoRegistroReversoFile) {
+        formData.append(
+          'foto_registro_reverso_file',
+          this.fotoRegistroReversoFile
+        );
+      }
       if (this.isEdit && this.id) {
         this.choferService.edit(this.id, formData).subscribe(() => {
           this.getData();
@@ -220,7 +292,10 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate([`/flota/${m.CHOFER}/${a.EDITAR}`, chofer.id]);
+                this.router.navigate([
+                  `/flota/${m.CHOFER}/${a.EDITAR}`,
+                  chofer.id,
+                ]);
               }
             });
         });
@@ -243,15 +318,17 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.choferService.getById(this.id).subscribe(data => {
+      this.choferService.getById(this.id).subscribe((data) => {
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.fotoDocumentoFrente = data.foto_documento_frente!;
         this.fotoDocumentoReverso = data.foto_documento_reverso!;
         this.fotoPerfil = data.foto_perfil!;
-        this.fotoDocumentoFrentePropietario = data.foto_documento_frente_propietario ?? null;
-        this.fotoDocumentoReversoPropietario = data.foto_documento_reverso_propietario ?? null;
+        this.fotoDocumentoFrentePropietario =
+          data.foto_documento_frente_propietario ?? null;
+        this.fotoDocumentoReversoPropietario =
+          data.foto_documento_reverso_propietario ?? null;
         this.fotoRegistroFrente = data.foto_registro_frente ?? null;
         this.fotoRegistroReverso = data.foto_registro_reverso ?? null;
         this.created_by = data.created_by;

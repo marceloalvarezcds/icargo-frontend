@@ -5,20 +5,26 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { SemiService } from 'src/app/services/semi.service';
 import { UserService } from 'src/app/services/user.service';
-import { confirmationDialogToActive, confirmationDialogToInactive } from 'src/app/utils/change-status';
+import {
+  confirmationDialogToActive,
+  confirmationDialogToInactive,
+} from 'src/app/utils/change-status';
 import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
 @Component({
   selector: 'app-semi-form',
   templateUrl: './semi-form.component.html',
-  styleUrls: ['./semi-form.component.scss']
+  styleUrls: ['./semi-form.component.scss'],
 })
 export class SemiFormComponent implements OnInit, OnDestroy {
-
   a = PermisoAccionEnum;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
@@ -102,15 +108,21 @@ export class SemiFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
 
   get puedeModificar(): boolean {
-    if (this.isShow || !this.isEdit) { return false; }
-    return this.userService.checkPermisoAndGestorCargaId(a.EDITAR, this.modelo, this.gestorCuentaId);
+    if (this.isShow || !this.isEdit) {
+      return false;
+    }
+    return this.userService.checkPermisoAndGestorCargaId(
+      a.EDITAR,
+      this.modelo,
+      this.gestorCuentaId
+    );
   }
 
   get info(): FormGroup {
@@ -144,8 +156,8 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -168,15 +180,29 @@ export class SemiFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    confirmationDialogToActive(this.dialog, 'el Semi-remolque', this.semiService, this.id!, this.snackbar, {
-      next: () => { this.getData(); }
-    });
+    confirmationDialogToActive(
+      this.dialog,
+      'el Semi-remolque',
+      this.semiService,
+      this.id!,
+      this.snackbar,
+      () => {
+        this.getData();
+      }
+    );
   }
 
   inactive(): void {
-    confirmationDialogToInactive(this.dialog, 'el Semi-remolque', this.semiService, this.id!, this.snackbar, {
-      next: () => { this.getData(); }
-    });
+    confirmationDialogToInactive(
+      this.dialog,
+      'el Semi-remolque',
+      this.semiService,
+      this.id!,
+      this.snackbar,
+      () => {
+        this.getData();
+      }
+    );
   }
 
   submit(confirmed: boolean): void {
@@ -185,23 +211,57 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.habilitacionMunicipal.value,
-        ...this.habilitacionTransporte.value,
-        ...this.habilitacionAutomotor.value,
-        ...this.detalle.value,
-        ...this.capacidad.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.habilitacionMunicipal.value,
+          ...this.habilitacionTransporte.value,
+          ...this.habilitacionAutomotor.value,
+          ...this.detalle.value,
+          ...this.capacidad.value,
+        })
+      );
       delete data.logo;
       formData.append('data', JSON.stringify(data));
-      if (this.fotoFile) { formData.append('foto_file', this.fotoFile); }
-      if (this.fotoMunicipalFrenteFile) { formData.append('foto_habilitacion_municipal_frente_file', this.fotoMunicipalFrenteFile); }
-      if (this.fotoMunicipalReversoFile) { formData.append('foto_habilitacion_municipal_reverso_file', this.fotoMunicipalReversoFile); }
-      if (this.fotoTransporteFrenteFile) { formData.append('foto_habilitacion_transporte_frente_file', this.fotoTransporteFrenteFile); }
-      if (this.fotoTransporteReversoFile) { formData.append('foto_habilitacion_transporte_reverso_file', this.fotoTransporteReversoFile); }
-      if (this.fotoAutomotorFrenteFile) { formData.append('foto_habilitacion_automotor_frente_file', this.fotoAutomotorFrenteFile); }
-      if (this.fotoAutomotorReversoFile) { formData.append('foto_habilitacion_automotor_reverso_file', this.fotoAutomotorReversoFile); }
+      if (this.fotoFile) {
+        formData.append('foto_file', this.fotoFile);
+      }
+      if (this.fotoMunicipalFrenteFile) {
+        formData.append(
+          'foto_habilitacion_municipal_frente_file',
+          this.fotoMunicipalFrenteFile
+        );
+      }
+      if (this.fotoMunicipalReversoFile) {
+        formData.append(
+          'foto_habilitacion_municipal_reverso_file',
+          this.fotoMunicipalReversoFile
+        );
+      }
+      if (this.fotoTransporteFrenteFile) {
+        formData.append(
+          'foto_habilitacion_transporte_frente_file',
+          this.fotoTransporteFrenteFile
+        );
+      }
+      if (this.fotoTransporteReversoFile) {
+        formData.append(
+          'foto_habilitacion_transporte_reverso_file',
+          this.fotoTransporteReversoFile
+        );
+      }
+      if (this.fotoAutomotorFrenteFile) {
+        formData.append(
+          'foto_habilitacion_automotor_frente_file',
+          this.fotoAutomotorFrenteFile
+        );
+      }
+      if (this.fotoAutomotorReversoFile) {
+        formData.append(
+          'foto_habilitacion_automotor_reverso_file',
+          this.fotoAutomotorReversoFile
+        );
+      }
       if (this.isEdit && this.id) {
         this.semiService.edit(this.id, formData).subscribe(() => {
           this.getData();
@@ -218,7 +278,10 @@ export class SemiFormComponent implements OnInit, OnDestroy {
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
-                this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`, semi.id]);
+                this.router.navigate([
+                  `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
+                  semi.id,
+                ]);
               }
             });
         });
@@ -246,7 +309,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.semiService.getById(this.id).subscribe(data => {
+      this.semiService.getById(this.id).subscribe((data) => {
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
@@ -277,18 +340,23 @@ export class SemiFormComponent implements OnInit, OnDestroy {
             foto: null,
           },
           municipal: {
-            pais_habilitacion_municipal_id: data.ciudad_habilitacion_municipal.localidad.pais_id,
-            localidad_habilitacion_municipal_id: data.ciudad_habilitacion_municipal.localidad_id,
-            ciudad_habilitacion_municipal_id: data.ciudad_habilitacion_municipal_id,
+            pais_habilitacion_municipal_id:
+              data.ciudad_habilitacion_municipal.localidad.pais_id,
+            localidad_habilitacion_municipal_id:
+              data.ciudad_habilitacion_municipal.localidad_id,
+            ciudad_habilitacion_municipal_id:
+              data.ciudad_habilitacion_municipal_id,
             numero_habilitacion_municipal: data.numero_habilitacion_municipal,
-            vencimiento_habilitacion_municipal: data.vencimiento_habilitacion_municipal,
+            vencimiento_habilitacion_municipal:
+              data.vencimiento_habilitacion_municipal,
             foto_habilitacion_municipal_frente: null,
             foto_habilitacion_municipal_reverso: null,
           },
           transporte: {
             ente_emisor_transporte_id: data.ente_emisor_transporte_id,
             numero_habilitacion_transporte: data.numero_habilitacion_transporte,
-            vencimiento_habilitacion_transporte: data.vencimiento_habilitacion_transporte,
+            vencimiento_habilitacion_transporte:
+              data.vencimiento_habilitacion_transporte,
             foto_habilitacion_transporte_frente: null,
             foto_habilitacion_transporte_reverso: null,
           },
