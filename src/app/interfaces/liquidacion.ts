@@ -1,30 +1,28 @@
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
+import { ContraparteInfo } from './contraparte-info';
 import { Moneda } from './moneda';
+import { Movimiento } from './movimiento';
 import { TipoContraparte } from './tipo-contraparte';
-import { MovimientoForm } from './movimiento';
 
-export interface LiquidacionForm {
-  tipo_contraparte_id: number;
-  contraparte: string;
-  contraparte_numero_documento: string;
-  moneda_id: number;
+export interface Liquidacion extends ContraparteInfo {
+  id: number;
   // IDs para referencia a las tablas de las contraparte
   chofer_id: number | null;
   gestor_carga_id: number | undefined;
   propietario_id: number | null;
   proveedor_id: number | null;
   remitente_id: number | null;
-  // Lista
-  movimientos: MovimientoForm[];
-}
-
-export interface Liquidacion extends LiquidacionForm {
-  id: number;
-  tipo_contraparte: TipoContraparte;
+  // campos
+  moneda_id: number;
   fecha_pago_cobro: string | null;
   estado: EstadoEnum;
+  etapa: LiquidacionEtapaEnum;
   moneda: Moneda;
-  // movimientos: List[Movimiento]
+  comentarios: string | null;
+  tipo_contraparte: TipoContraparte;
+  // Lista
+  movimientos: Movimiento[];
   // instrumentos: List[Instrumento]
   // Campos calculados
   credito: number;
@@ -37,7 +35,6 @@ export interface Liquidacion extends LiquidacionForm {
   movimientos_saldo: number;
   saldo: number;
   saldo_residual: number;
-  tipo_contraparte_descripcion: string;
   tipo_operacion_descripcion: string;
   url: string;
   // Auditoría
@@ -65,6 +62,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     remitente_id: 1,
     id: 11,
     estado: EstadoEnum.PENDIENTE,
+    etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 3,
@@ -78,6 +76,7 @@ export const mockLiquidacionList: Liquidacion[] = [
       nombre: 'Guaranies',
       simbolo: 'PYG',
     },
+    comentarios: '',
     url: '',
     es_cobro: false,
     esta_pagado: false,
@@ -108,6 +107,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     remitente_id: null,
     id: 2,
     estado: EstadoEnum.PENDIENTE,
+    etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -121,6 +121,7 @@ export const mockLiquidacionList: Liquidacion[] = [
       nombre: 'Guaranies',
       simbolo: 'PYG',
     },
+    comentarios: '',
     url: '',
     saldo_residual: -75000,
     es_cobro: false,
@@ -151,6 +152,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     remitente_id: null,
     id: 3,
     estado: EstadoEnum.PENDIENTE,
+    etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -164,6 +166,7 @@ export const mockLiquidacionList: Liquidacion[] = [
       nombre: 'Guaranies',
       simbolo: 'PYG',
     },
+    comentarios: '',
     url: '',
     saldo_residual: 100,
     es_cobro: true,
@@ -194,6 +197,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     remitente_id: null,
     id: 4,
     estado: EstadoEnum.PENDIENTE,
+    etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -207,6 +211,7 @@ export const mockLiquidacionList: Liquidacion[] = [
       nombre: 'Guaranies',
       simbolo: 'PYG',
     },
+    comentarios: '',
     url: '',
     es_cobro: true,
     esta_pagado: true,
@@ -237,6 +242,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     remitente_id: null,
     id: 5,
     estado: EstadoEnum.PENDIENTE,
+    etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -250,6 +256,7 @@ export const mockLiquidacionList: Liquidacion[] = [
       nombre: 'Guaranies',
       simbolo: 'PYG',
     },
+    comentarios: '',
     url: '',
     es_cobro: true,
     esta_pagado: true,

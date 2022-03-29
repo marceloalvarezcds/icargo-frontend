@@ -32,6 +32,17 @@
         </span>
         <div class="page-title-buttons">
           <button
+            id="back-button"
+            type="button"
+            mat-mini-fab
+            color="primary"
+            matTooltip="Volver al listado"
+            *ngIf="!hideBack"
+            (click)="backClick.emit()"
+          >
+            <mat-icon>arrow_back</mat-icon>
+          </button>
+          <button
             mat-mini-fab
             color="primary"
             matTooltip="Filtrar"

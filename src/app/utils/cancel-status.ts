@@ -1,6 +1,6 @@
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
-import { Observable, PartialObserver } from 'rxjs';
+import { Observable } from 'rxjs';
 import { changeStatusConfirm } from './change-status';
 import { changeStatusMessageSnackbar } from './snackbar';
 
@@ -14,14 +14,10 @@ export function confirmationDialogToCancel<T>(
   service: CancelStatusService<T>,
   idToCancel: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined,
+  observer: (value: MatSnackBarDismiss) => void
 ) {
   const message = `¿Está seguro que desea cancelar ${elemento}?`;
-  changeStatusConfirm(dialog, message, {
-    next: () => {
-      service.cancel(idToCancel).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    }
+  changeStatusConfirm(dialog, message, service.cancel(idToCancel), () => {
+    changeStatusMessageSnackbar(snackbar, observer);
   });
 }

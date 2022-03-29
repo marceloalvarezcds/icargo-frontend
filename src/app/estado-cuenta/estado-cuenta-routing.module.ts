@@ -6,6 +6,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { EstadoCuentaListComponent } from './estado-cuenta-list/estado-cuenta-list.component';
+import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacion-edit-form.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
 
@@ -31,6 +32,16 @@ const routes: Routes = [
       {
         path: a.CREAR,
         component: LiquidacionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: LiquidacionEditFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: LiquidacionEditFormComponent,
         canActivate: [PermisoGuard],
       },
     ],

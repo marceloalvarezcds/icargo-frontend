@@ -1,6 +1,5 @@
 import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { PartialObserver } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 export function openSnackbar(
@@ -21,21 +20,21 @@ export function openSnackbar(
 export function openSnackbarWithMessage(
   snackbar: MatSnackBar,
   message: string,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (v: MatSnackBarDismiss) => void = () => {}
 ): void {
   snackbar.open(message, 'Ok').afterDismissed().subscribe(observer);
 }
 
 export function deleteMessageSnackbar(
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (v: MatSnackBarDismiss) => void
 ): void {
   openSnackbarWithMessage(snackbar, 'Eliminado satisfactoriamente', observer);
 }
 
 export function changeStatusMessageSnackbar(
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined
+  observer: (v: MatSnackBarDismiss) => void
 ): void {
   openSnackbarWithMessage(
     snackbar,

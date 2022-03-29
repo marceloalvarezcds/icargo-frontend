@@ -1,0 +1,35 @@
+<div *ngIf="liquidacion">
+  <div class="row page-form-row movimientos-container">
+    <div class="col-xs-12" [hidden]="!(list && list.length)">
+      <app-table-paginator
+        [columns]="columns"
+        [data]="list"
+        [hideDelete]="true"
+        [hideEdit]="true"
+        [hideShow]="true"
+      ></app-table-paginator>
+    </div>
+    <ng-container
+      *ngIf="
+        !isShowOnly &&
+        (m.LIQUIDACION | puede: a.EDITAR:gestorCargaId) &&
+        (m.MOVIMIENTO | puede: a.EDITAR:gestorCargaId)
+      "
+    >
+      <div
+        class="col-xs-12 button-container"
+        [class.has-movimiento]="list && list.length"
+      >
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="addMovimientos()"
+          id="add-button"
+        >
+          Agregar Movimientos
+        </button>
+      </div>
+    </ng-container>
+  </div>
+</div>

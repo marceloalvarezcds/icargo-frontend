@@ -1,0 +1,21 @@
+.has-movimiento .mat-raised-button {
+  position: absolute;
+  top: -58px;
+}
+
+.button-container {
+  margin-bottom: 1rem;
+}
+
+.button-container.has-movimiento {
+  position: relative;
+  overflow: visible;
+  margin-bottom: 0;
+}
+
+.movimientos-container::ng-deep {
+  .mat-column-delete {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}

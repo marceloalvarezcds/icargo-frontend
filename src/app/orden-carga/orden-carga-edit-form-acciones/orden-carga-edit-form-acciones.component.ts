@@ -43,10 +43,8 @@ export class OrdenCargaEditFormAccionesComponent {
       this.ordenCargaService,
       this.oc!.id,
       this.snackbar,
-      {
-        next: () => {
-          this.ocChange.emit();
-        },
+      () => {
+        this.ocChange.emit();
       }
     );
   }
@@ -57,10 +55,8 @@ export class OrdenCargaEditFormAccionesComponent {
       this.ordenCargaService,
       this.oc!.id,
       this.snackbar,
-      {
-        next: () => {
-          this.ocChange.emit();
-        },
+      () => {
+        this.ocChange.emit();
       }
     );
   }
@@ -72,10 +68,8 @@ export class OrdenCargaEditFormAccionesComponent {
         this.ordenCargaService,
         this.oc!.id,
         this.snackbar,
-        {
-          next: () => {
-            this.ocChange.emit();
-          },
+        () => {
+          this.ocChange.emit();
         }
       );
     } else {
@@ -92,10 +86,8 @@ export class OrdenCargaEditFormAccionesComponent {
       this.ordenCargaService,
       this.oc!.id,
       this.snackbar,
-      {
-        next: () => {
-          this.ocChange.emit();
-        },
+      () => {
+        this.ocChange.emit();
       }
     );
   }
@@ -107,10 +99,8 @@ export class OrdenCargaEditFormAccionesComponent {
       this.isAnticiposLiberados,
       this.oc!.id,
       this.snackbar,
-      {
-        next: () => {
-          this.ocChange.emit();
-        },
+      () => {
+        this.ocChange.emit();
       }
     );
   }

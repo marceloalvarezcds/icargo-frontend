@@ -1,4 +1,6 @@
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
+import { ContraparteInfo } from './contraparte-info';
 import { Moneda } from './moneda';
 import { TipoContraparte } from './tipo-contraparte';
 import { TipoCuenta } from './tipo-cuenta';
@@ -27,10 +29,10 @@ export interface MovimientoForm {
   descuento_id: number | null;
 }
 
-export interface Movimiento extends MovimientoForm {
+export interface Movimiento extends ContraparteInfo, MovimientoForm {
   id: number;
   gestor_carga_id: number;
-  estado: EstadoEnum;
+  estado: MovimientoEstadoEnum;
   tipo_contraparte: TipoContraparte;
   tipo_documento_relacionado: TipoDocumentoRelacionado;
   cuenta: TipoCuenta;
@@ -67,7 +69,6 @@ export interface Movimiento extends MovimientoForm {
   remitente_numero_documento: string | null;
   saldo: number;
   semi_placa: string | null;
-  tipo_contraparte_descripcion: string;
   tipo_documento_relacionado_descripcion: string;
   tipo_insumo_descripcion: string | null;
   tipo_movimiento_descripcion: string;
@@ -103,7 +104,7 @@ export const mockMovimientoList: Movimiento[] = [
     proveedor_id: null,
     remitente_id: 1,
     id: 11,
-    estado: EstadoEnum.PENDIENTE,
+    estado: MovimientoEstadoEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 3,
@@ -188,7 +189,7 @@ export const mockMovimientoList: Movimiento[] = [
     proveedor_id: null,
     remitente_id: null,
     id: 2,
-    estado: EstadoEnum.PENDIENTE,
+    estado: MovimientoEstadoEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -274,7 +275,7 @@ export const mockMovimientoList: Movimiento[] = [
     proveedor_id: 2,
     remitente_id: null,
     id: 3,
-    estado: EstadoEnum.PENDIENTE,
+    estado: MovimientoEstadoEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -359,7 +360,7 @@ export const mockMovimientoList: Movimiento[] = [
     proveedor_id: null,
     remitente_id: null,
     id: 4,
-    estado: EstadoEnum.PENDIENTE,
+    estado: MovimientoEstadoEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -444,7 +445,7 @@ export const mockMovimientoList: Movimiento[] = [
     proveedor_id: 12,
     remitente_id: null,
     id: 5,
-    estado: EstadoEnum.PENDIENTE,
+    estado: MovimientoEstadoEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,

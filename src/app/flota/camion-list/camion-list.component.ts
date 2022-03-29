@@ -4,7 +4,10 @@ import { MatAccordion } from '@angular/material/expansion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -20,26 +23,64 @@ type Filter = {
   pais?: string;
   propietario?: string;
   tipo?: string;
-}
+};
 
 @Component({
   selector: 'app-camion-list',
   templateUrl: './camion-list.component.html',
-  styleUrls: ['./camion-list.component.scss']
+  styleUrls: ['./camion-list.component.scss'],
 })
 export class CamionListComponent implements OnInit {
-
   modelo = m.CAMION;
   columns: Column[] = [
-    { def: 'placa', title: 'Placa', value: (element: CamionList) => element.placa, sticky: true },
-    { def: 'pais_emisor_placa', title: 'País Emisor de la Placa', value: (element: CamionList) => element.pais_emisor_placa_nombre },
-    { def: 'propietario', title: 'Propietario', value: (element: CamionList) => `${element.propietario_nombre} - ${element.propietario_ruc}` },
-    { def: 'chofer', title: 'Chofer', value: (element: CamionList) => `${element.chofer_nombre} - ${element.chofer_numero_documento}` },
-    { def: 'tipo', title: 'Tipo de Camion', value: (element: CamionList) => element.tipo_descripcion },
-    { def: 'marca', title: 'Marca', value: (element: CamionList) => element.marca_descripcion },
-    { def: 'gestor_cuenta_nombre', title: 'Gestor de Cuenta', value: (element: CamionList) => element.gestor_cuenta_nombre },
-    { def: 'oficial_cuenta_nombre', title: 'Oficial de Cuenta', value: (element: CamionList) => element.oficial_cuenta_nombre },
-    { def: 'estado', title: 'Estado', value: (element: CamionList) => element.estado },
+    {
+      def: 'placa',
+      title: 'Placa',
+      value: (element: CamionList) => element.placa,
+      sticky: true,
+    },
+    {
+      def: 'pais_emisor_placa',
+      title: 'País Emisor de la Placa',
+      value: (element: CamionList) => element.pais_emisor_placa_nombre,
+    },
+    {
+      def: 'propietario',
+      title: 'Propietario',
+      value: (element: CamionList) =>
+        `${element.propietario_nombre} - ${element.propietario_ruc}`,
+    },
+    {
+      def: 'chofer',
+      title: 'Chofer',
+      value: (element: CamionList) =>
+        `${element.chofer_nombre} - ${element.chofer_numero_documento}`,
+    },
+    {
+      def: 'tipo',
+      title: 'Tipo de Camion',
+      value: (element: CamionList) => element.tipo_descripcion,
+    },
+    {
+      def: 'marca',
+      title: 'Marca',
+      value: (element: CamionList) => element.marca_descripcion,
+    },
+    {
+      def: 'gestor_cuenta_nombre',
+      title: 'Gestor de Cuenta',
+      value: (element: CamionList) => element.gestor_cuenta_nombre,
+    },
+    {
+      def: 'oficial_cuenta_nombre',
+      title: 'Oficial de Cuenta',
+      value: (element: CamionList) => element.oficial_cuenta_nombre,
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: CamionList) => element.estado,
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -55,25 +96,29 @@ export class CamionListComponent implements OnInit {
   tipoFiltered: string[] = [];
 
   get isFilteredByMarca(): boolean {
-    return this.marcaFiltered.length !== this.marcaFilterList.length
+    return this.marcaFiltered.length !== this.marcaFilterList.length;
   }
 
   get isFilteredByPais(): boolean {
-    return this.paisFiltered.length !== this.paisFilterList.length
+    return this.paisFiltered.length !== this.paisFilterList.length;
   }
 
   get isFilteredByPropietario(): boolean {
-    return this.propietarioFiltered.length !== this.propietarioFilterList.length
+    return (
+      this.propietarioFiltered.length !== this.propietarioFilterList.length
+    );
   }
 
   get isFilteredByTipo(): boolean {
-    return this.tipoFiltered.length !== this.tipoFilterList.length
+    return this.tipoFiltered.length !== this.tipoFilterList.length;
   }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  @ViewChild('marcaCheckboxFilter') marcaCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('marcaCheckboxFilter')
+  marcaCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('propietarioCheckboxFilter') propietarioCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('propietarioCheckboxFilter')
+  propietarioCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('tipoCheckboxFilter') tipoCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
@@ -82,8 +127,8 @@ export class CamionListComponent implements OnInit {
     private searchService: SearchService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getList();
@@ -104,14 +149,21 @@ export class CamionListComponent implements OnInit {
   deleteRow(event: TableEvent<CamionList>): void {
     const row = event.row;
     const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}`;
-    confirmationDialogToDelete(this.dialog, message, this.camionService, row.id, this.snackbar, {
-      next: () => { this.getList(); }
-    });
+    confirmationDialogToDelete(
+      this.dialog,
+      message,
+      this.camionService,
+      row.id,
+      this.snackbar,
+      () => {
+        this.getList();
+      }
+    );
   }
 
   downloadFile(): void {
-    this.camionService.generateReports().subscribe(filename => {
-      this.reportsService.downloadFile(filename).subscribe(file => {
+    this.camionService.generateReports().subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
         saveAs(file, filename);
       });
     });
@@ -119,10 +171,27 @@ export class CamionListComponent implements OnInit {
 
   filterPredicate(obj: CamionList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    const filterByMarca = filter.marca?.split('|').some(x => obj.marca_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByPais = filter.pais?.split('|').some(x => obj.pais_emisor_placa_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByPropietario = filter.propietario?.split('|').some(x => obj.propietario_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByTipo = filter.tipo?.split('|').some(x => obj.tipo_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByMarca =
+      filter.marca
+        ?.split('|')
+        .some((x) => obj.marca_descripcion.toLowerCase().indexOf(x) >= 0) ??
+      true;
+    const filterByPais =
+      filter.pais
+        ?.split('|')
+        .some(
+          (x) => obj.pais_emisor_placa_nombre.toLowerCase().indexOf(x) >= 0
+        ) ?? true;
+    const filterByPropietario =
+      filter.propietario
+        ?.split('|')
+        .some((x) => obj.propietario_nombre.toLowerCase().indexOf(x) >= 0) ??
+      true;
+    const filterByTipo =
+      filter.tipo
+        ?.split('|')
+        .some((x) => obj.tipo_descripcion.toLowerCase().indexOf(x) >= 0) ??
+      true;
     return filterByMarca && filterByPais && filterByPropietario && filterByTipo;
   }
 
@@ -149,7 +218,10 @@ export class CamionListComponent implements OnInit {
       filter.tipo = this.tipoFiltered.join('|');
       this.isFiltered = true;
     }
-    this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
+    this.filter(
+      this.isFiltered ? JSON.stringify(filter) : '',
+      !this.isFiltered
+    );
   }
 
   resetFilter(): void {
@@ -158,17 +230,26 @@ export class CamionListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.camionService.getList().subscribe(list => {
+    this.camionService.getList().subscribe((list) => {
       this.list = list;
       this.marcaFilterList = getFilterList(list, (x) => x.marca_descripcion);
-      this.paisFilterList = getFilterList(list, (x) => x.pais_emisor_placa_nombre);
-      this.propietarioFilterList = getFilterList(list, (x) => x.propietario_nombre);
+      this.paisFilterList = getFilterList(
+        list,
+        (x) => x.pais_emisor_placa_nombre
+      );
+      this.propietarioFilterList = getFilterList(
+        list,
+        (x) => x.propietario_nombre
+      );
       this.tipoFilterList = getFilterList(list, (x) => x.tipo_descripcion);
       this.resetFilterList();
     });
   }
 
-  private filter(filter: string, isFilteredByGlobalSearch: boolean = true): void {
+  private filter(
+    filter: string,
+    isFilteredByGlobalSearch: boolean = true
+  ): void {
     this.searchService.search(filter, isFilteredByGlobalSearch);
     this.accordion.closeAll();
   }

@@ -1,10 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
+import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { getParams } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 @Injectable({
   providedIn: 'root',
@@ -15,12 +17,11 @@ export class MovimientoService {
   constructor(private http: HttpClient) {}
 
   getListByEstadoCuenta(
-    estadoCuenta: EstadoCuenta,
-    estado: EstadoEnum
+    estadoCuenta: ContraparteInfo,
+    etapa: LiquidacionEtapaEnum
   ): Observable<Movimiento[]> {
-    const contraparte = encodeURIComponent(estadoCuenta.contraparte);
     return this.http.get<Movimiento[]>(
-      `${this.url}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/estado/${estado}`
+      `${this.url}/${getParams(estadoCuenta, etapa)}`
     );
   }
 }

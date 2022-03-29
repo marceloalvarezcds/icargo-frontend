@@ -5,7 +5,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { mockLiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
-import { MaterialModule } from 'src/app/material/material.module';
 import { DialogsModule } from '../dialogs.module';
 import { LiquidacionConfirmDialogComponent } from './liquidacion-confirm-dialog.component';
 

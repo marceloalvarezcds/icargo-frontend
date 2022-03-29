@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { getParamsBy } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -17,9 +18,12 @@ export class EstadoCuentaService {
     contraparte: string,
     contraparte_numero_documento: string
   ): Observable<EstadoCuenta | null> {
-    const contrapart = encodeURIComponent(contraparte);
     return this.http.get<EstadoCuenta | null>(
-      `${this.url}/tipo_contraparte/${tipo_contraparte_id}/contraparte/${contrapart}/numero_documento/${contraparte_numero_documento}`
+      `${this.url}/${getParamsBy(
+        tipo_contraparte_id,
+        contraparte,
+        contraparte_numero_documento
+      )}`
     );
   }
 

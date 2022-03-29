@@ -162,10 +162,8 @@ export class BancoListComponent implements OnInit {
       this.bancoService,
       row.id,
       this.snackbar,
-      {
-        next: () => {
-          this.getList();
-        },
+      () => {
+        this.getList();
       }
     );
   }

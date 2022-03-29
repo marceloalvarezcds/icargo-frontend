@@ -1,15 +1,15 @@
-import { EstadoCuenta, mockEstadoCuentaList } from './estado-cuenta';
+import { ContraparteInfo, mockContraparteInfoList } from './contraparte-info';
 import { mockMovimientoList, Movimiento } from './movimiento';
 
 export interface LiquidacionConfirmDialogData {
-  estadoCuenta: EstadoCuenta;
+  contraparteInfo: ContraparteInfo;
   list: Movimiento[];
   credito: number;
   debito: number;
 }
 
 export const mockLiquidacionConfirmDialogData: LiquidacionConfirmDialogData = {
-  estadoCuenta: mockEstadoCuentaList[0],
+  contraparteInfo: mockContraparteInfoList[0],
   list: mockMovimientoList,
   credito: 0,
   debito: 1000,

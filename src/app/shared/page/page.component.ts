@@ -22,6 +22,7 @@ export class PageComponent {
   a = PermisoAccionEnum;
   sidebarMode: MatDrawerMode = 'side';
 
+  @Input() hideBack = true;
   @Input() hideCreate = false;
   @Input() hideFilter = false;
   @Input() module: string = '';
@@ -29,6 +30,7 @@ export class PageComponent {
   @Input() modelo?: PermisoModeloEnum;
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
+  @Output() backClick = new EventEmitter<boolean>();
   @Output() createClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();

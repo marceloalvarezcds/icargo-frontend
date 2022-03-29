@@ -1,0 +1,84 @@
+<app-page-form
+  class="orden-carga-page"
+  module="Orden de Carga"
+  submodule="Orden de Carga"
+  viewTitle="{{ isEdit ? 'Edición' : 'Ver' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="false"
+  [hideSaveButton]="true"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  [gestorCargaId]="gestorCargaId"
+  (backClick)="back()"
+  (editClick)="redirectToEdit()"
+>
+  <div class="liquidacion-page-content" *ngIf="item">
+    <app-liquidacion-edit-form-acciones
+      [isShow]="isShow"
+      [liquidacion]="item"
+      (liquidacionChange)="changeMovimientoList()"
+    ></app-liquidacion-edit-form-acciones>
+    <div class="row page-form-row">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Estado</mat-label>
+        <input matInput [value]="item.estado" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Tipo Contraparte</mat-label>
+        <input matInput [value]="item.tipo_contraparte_descripcion" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Contraparte</mat-label>
+        <input matInput [value]="item.contraparte" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Doc. Fiscal Nº</mat-label>
+        <input matInput [value]="item.contraparte_numero_documento" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Debe</mat-label>
+        <input
+          matInput
+          [value]="item.credito"
+          appInputThousandsSeparator
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Haber</mat-label>
+        <input
+          matInput
+          [value]="item.debito"
+          appInputThousandsSeparator
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Saldo / Valor de la operación</mat-label>
+        <input
+          matInput
+          [value]="saldo.toString()"
+          appInputThousandsSeparator
+          disabled
+        />
+      </mat-form-field>
+      <app-liquidacion-comentario
+        [comentario]="comentario"
+      ></app-liquidacion-comentario>
+    </div>
+    <app-liquidacion-edit-form-movimientos
+      [list]="movimientos"
+      [liquidacion]="item"
+      [saldo]="saldo"
+      [isShow]="
+        isShow ||
+        item.estado === E.ACEPTADO ||
+        item.estado === E.CANCELADO ||
+        item.estado === E.CONFIRMADO
+      "
+      (selectedMovimientosChange)="changeMovimientoList()"
+    ></app-liquidacion-edit-form-movimientos>
+  </div>
+</app-page-form>

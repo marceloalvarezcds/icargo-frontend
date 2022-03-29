@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
-import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 
@@ -85,8 +85,8 @@ export class LiquidacionConfirmDialogComponent {
     },
   ];
 
-  get estadoCuenta(): EstadoCuenta {
-    return this.data.estadoCuenta;
+  get contraparteInfo(): ContraparteInfo {
+    return this.data.contraparteInfo;
   }
 
   get list(): Movimiento[] {

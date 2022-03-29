@@ -7,6 +7,7 @@ export enum EstadoEnum {
   CONTABILIZADO = 'Contabilizado',
   ELIMINADO = 'Eliminado',
   EN_PROCESO = 'En Proceso',
+  EN_REVISION = 'En Revisión',
   FINALIZADO = 'Finalizado',
   LIQUIDADO = 'Liquidado',
   INACTIVO = 'Inactivo',

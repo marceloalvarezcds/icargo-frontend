@@ -1,6 +1,6 @@
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
-import { Observable, PartialObserver } from 'rxjs';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { changeStatusMessageSnackbar } from './snackbar';
@@ -10,15 +10,32 @@ interface ChangeStatusService<T> {
   inactive(id: number): Observable<T>;
 }
 
-export const changeStatusConfirm = (dialog: MatDialog, message: string, observer?: PartialObserver<boolean> | undefined) => {
-  dialog
-    .open(ConfirmationDialogComponent, {
-      data: { message },
-    })
+export const configDialogRef = <Component, Data>(
+  dialogRef: MatDialogRef<Component, Data>,
+  observer: (value: Data) => void,
+  filterFunc: (value?: Data) => boolean = (value?: Data) => !!value
+) => {
+  dialogRef
     .afterClosed()
-    .pipe(filter((confirmed: boolean) => confirmed))
-    .subscribe(observer);
-}
+    .pipe(filter(filterFunc))
+    .subscribe((data) => observer(data!));
+};
+
+export const changeStatusConfirm = <T>(
+  dialog: MatDialog,
+  message: string,
+  observable: Observable<T>,
+  observer: (value: T) => void
+) => {
+  configDialogRef(
+    dialog.open(ConfirmationDialogComponent, {
+      data: { message },
+    }),
+    () => {
+      observable.subscribe(observer);
+    }
+  );
+};
 
 export function confirmationDialogToActive<T>(
   dialog: MatDialog,
@@ -26,16 +43,12 @@ export function confirmationDialogToActive<T>(
   service: ChangeStatusService<T>,
   idToActive: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined,
+  observer: (v: MatSnackBarDismiss) => void
 ) {
   const message = `¿Está seguro que desea activar ${elemento}?`;
-  changeStatusConfirm(dialog, message, {
-    next: () => {
-      service.active(idToActive).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    }
-  });
+  changeStatusConfirm(dialog, message, service.active(idToActive), () =>
+    changeStatusMessageSnackbar(snackbar, observer)
+  );
 }
 
 export function confirmationDialogToInactive<T>(
@@ -44,14 +57,10 @@ export function confirmationDialogToInactive<T>(
   service: ChangeStatusService<T>,
   idToInactive: number,
   snackbar: MatSnackBar,
-  observer?: PartialObserver<MatSnackBarDismiss> | undefined,
+  observer: (v: MatSnackBarDismiss) => void
 ) {
   const message = `¿Está seguro que desea desactivar ${elemento}?`;
-  changeStatusConfirm(dialog, message, {
-    next: () => {
-      service.inactive(idToInactive).subscribe(() => {
-        changeStatusMessageSnackbar(snackbar, observer);
-      });
-    }
-  });
+  changeStatusConfirm(dialog, message, service.inactive(idToInactive), () =>
+    changeStatusMessageSnackbar(snackbar, observer)
+  );
 }
