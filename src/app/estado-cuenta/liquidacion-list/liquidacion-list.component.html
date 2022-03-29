@@ -34,7 +34,10 @@
       </mat-form-field>
     </div>
     <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field
+        class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+        *ngIf="esConfirmado"
+      >
         <mat-label>Valor de los instrumentos</mat-label>
         <input
           matInput
@@ -43,7 +46,10 @@
           disabled
         />
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field
+        class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+        *ngIf="esConfirmado"
+      >
         <mat-label>Residuo</mat-label>
         <input matInput [value]="residuo" appInputThousandsSeparator disabled />
       </mat-form-field>

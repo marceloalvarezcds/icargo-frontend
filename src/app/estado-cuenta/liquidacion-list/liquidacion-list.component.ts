@@ -56,16 +56,19 @@ export class LiquidacionListComponent implements OnInit {
       def: 'movimientos_saldo',
       title: 'Valor de la Operación',
       value: (element: Liquidacion) => element.movimientos_saldo,
+      type: 'number',
     },
     {
       def: 'instrumentos_saldo',
       title: 'Valor de los instrumentos',
       value: (element: Liquidacion) => element.instrumentos_saldo,
+      type: 'number',
     },
     {
       def: 'saldo_residual',
       title: 'Residuo',
       value: (element: Liquidacion) => element.saldo_residual,
+      type: 'number',
     },
     {
       def: 'moneda_nombre',
@@ -82,6 +85,10 @@ export class LiquidacionListComponent implements OnInit {
   etapa?: LiquidacionEtapaEnum;
   estadoCuenta?: EstadoCuenta;
   list: Liquidacion[] = [];
+
+  get esConfirmado(): boolean {
+    return this.etapa === LiquidacionEtapaEnum.CONFIRMADO;
+  }
 
   get saldo(): number {
     return this.credito - this.debito;
