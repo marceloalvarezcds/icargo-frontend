@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
@@ -42,6 +41,11 @@ export class LiquidacionListComponent implements OnInit {
       def: 'created_by',
       title: 'Aprobado por',
       value: (element: Liquidacion) => element.created_by,
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Liquidacion) => element.estado,
     },
     {
       def: 'tipo_operacion_descripcion',

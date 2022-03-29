@@ -66,7 +66,9 @@ export class LiquidacionEditFormAccionesComponent {
       this.liquidacionService.cancelar(this.id),
       () =>
         changeStatusMessageSnackbar(this.snackbar, () =>
-          this.liquidacionChange.emit()
+          this.router.navigate([
+            `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`,
+          ])
         )
     );
   }
