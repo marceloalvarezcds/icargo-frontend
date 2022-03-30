@@ -4,7 +4,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   PermisoAccionEnum as a,
-  PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
@@ -19,8 +18,14 @@ import { confirmationDialogToDelete } from 'src/app/utils/delete';
   styleUrls: ['./propietario-semi-list.component.scss'],
 })
 export class PropietarioSemiListComponent {
-  a = PermisoAccionEnum;
+  a = a;
   columns: Column[] = [
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: SemiList) => element.id,
+      sticky: true,
+    },
     {
       def: 'placa',
       title: 'Placa',

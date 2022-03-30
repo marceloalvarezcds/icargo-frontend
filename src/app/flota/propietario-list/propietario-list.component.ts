@@ -6,7 +6,10 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { PropietarioList } from 'src/app/interfaces/propietario';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -20,25 +23,64 @@ type Filter = {
   ciudad?: string;
   pais?: string;
   tipo_persona?: string;
-}
+};
 
 @Component({
   selector: 'app-propietario-list',
   templateUrl: './propietario-list.component.html',
-  styleUrls: ['./propietario-list.component.scss']
+  styleUrls: ['./propietario-list.component.scss'],
 })
 export class PropietarioListComponent implements OnInit {
-
   modelo = m.PROPIETARIO;
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre o Razón Social', value: (element: PropietarioList) => element.nombre, sticky: true },
-    { def: 'tipo_persona', title: 'Tipo de Persona', value: (element: PropietarioList) => element.tipo_persona_descripcion },
-    { def: 'ruc', title: 'Número de Documento', value: (element: PropietarioList) => element.ruc },
-    { def: 'gestor_cuenta_nombre', title: 'Gestor de Cuenta', value: (element: PropietarioList) => element.gestor_cuenta_nombre },
-    { def: 'oficial_cuenta_nombre', title: 'Oficial de Cuenta', value: (element: PropietarioList) => element.oficial_cuenta_nombre },
-    { def: 'direccion', title: 'Dirección', value: (element: PropietarioList) => element.direccion },
-    { def: 'ubicacion', title: 'Ubicación', value: (element: PropietarioList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
-    { def: 'estado', title: 'Estado', value: (element: PropietarioList) => element.estado },
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: PropietarioList) => element.id,
+      sticky: true,
+    },
+    {
+      def: 'nombre',
+      title: 'Nombre o Razón Social',
+      value: (element: PropietarioList) => element.nombre,
+      sticky: true,
+    },
+    {
+      def: 'tipo_persona',
+      title: 'Tipo de Persona',
+      value: (element: PropietarioList) => element.tipo_persona_descripcion,
+    },
+    {
+      def: 'ruc',
+      title: 'Número de Documento',
+      value: (element: PropietarioList) => element.ruc,
+    },
+    {
+      def: 'gestor_cuenta_nombre',
+      title: 'Gestor de Cuenta',
+      value: (element: PropietarioList) => element.gestor_cuenta_nombre,
+    },
+    {
+      def: 'oficial_cuenta_nombre',
+      title: 'Oficial de Cuenta',
+      value: (element: PropietarioList) => element.oficial_cuenta_nombre,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: PropietarioList) => element.direccion,
+    },
+    {
+      def: 'ubicacion',
+      title: 'Ubicación',
+      value: (element: PropietarioList) =>
+        `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`,
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: PropietarioList) => element.estado,
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -52,21 +94,25 @@ export class PropietarioListComponent implements OnInit {
   tipoPersonaFiltered: string[] = [];
 
   get isFilteredByCiudad(): boolean {
-    return this.ciudadFiltered.length !== this.ciudadFilterList.length
+    return this.ciudadFiltered.length !== this.ciudadFilterList.length;
   }
 
   get isFilteredByPais(): boolean {
-    return this.paisFiltered.length !== this.paisFilterList.length
+    return this.paisFiltered.length !== this.paisFilterList.length;
   }
 
   get isFilteredByTipoPersona(): boolean {
-    return this.tipoPersonaFiltered.length !== this.tipoPersonaFilterList.length
+    return (
+      this.tipoPersonaFiltered.length !== this.tipoPersonaFilterList.length
+    );
   }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  @ViewChild('ciudadCheckboxFilter') ciudadCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('ciudadCheckboxFilter')
+  ciudadCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('tipoPersonaCheckboxFilter') tipoPersonaCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('tipoPersonaCheckboxFilter')
+  tipoPersonaCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private propietarioService: PropietarioService,
@@ -74,8 +120,8 @@ export class PropietarioListComponent implements OnInit {
     private searchService: SearchService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getList();
@@ -105,7 +151,8 @@ export class PropietarioListComponent implements OnInit {
       .pipe(filter((confirmed: boolean) => confirmed))
       .subscribe(() => {
         this.propietarioService.delete(row.id).subscribe(() => {
-          this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
+          this.snackbar
+            .open('Eliminado satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
               this.getList();
@@ -115,8 +162,8 @@ export class PropietarioListComponent implements OnInit {
   }
 
   downloadFile(): void {
-    this.propietarioService.generateReports().subscribe(filename => {
-      this.reportsService.downloadFile(filename).subscribe(file => {
+    this.propietarioService.generateReports().subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
         saveAs(file, filename);
       });
     });
@@ -124,9 +171,20 @@ export class PropietarioListComponent implements OnInit {
 
   filterPredicate(obj: PropietarioList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByPais = filter.pais?.split('|').some(x => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByTipoPersona = filter.tipo_persona?.split('|').some(x => obj.tipo_persona_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByCiudad =
+      filter.ciudad
+        ?.split('|')
+        .some((x) => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByPais =
+      filter.pais
+        ?.split('|')
+        .some((x) => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByTipoPersona =
+      filter.tipo_persona
+        ?.split('|')
+        .some(
+          (x) => obj.tipo_persona_descripcion.toLowerCase().indexOf(x) >= 0
+        ) ?? true;
     return filterByCiudad && filterByPais && filterByTipoPersona;
   }
 
@@ -148,7 +206,10 @@ export class PropietarioListComponent implements OnInit {
       filter.tipo_persona = this.tipoPersonaFiltered.join('|');
       this.isFiltered = true;
     }
-    this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
+    this.filter(
+      this.isFiltered ? JSON.stringify(filter) : '',
+      !this.isFiltered
+    );
   }
 
   resetFilter(): void {
@@ -157,16 +218,22 @@ export class PropietarioListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.propietarioService.getList().subscribe(list => {
+    this.propietarioService.getList().subscribe((list) => {
       this.list = list;
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
-      this.tipoPersonaFilterList = getFilterList(list, (x) => x.tipo_persona_descripcion);
+      this.tipoPersonaFilterList = getFilterList(
+        list,
+        (x) => x.tipo_persona_descripcion
+      );
       this.resetFilterList();
     });
   }
 
-  private filter(filter: string, isFilteredByGlobalSearch: boolean = true): void {
+  private filter(
+    filter: string,
+    isFilteredByGlobalSearch: boolean = true
+  ): void {
     this.searchService.search(filter, isFilteredByGlobalSearch);
     this.accordion.closeAll();
   }

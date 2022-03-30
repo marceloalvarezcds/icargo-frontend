@@ -22,6 +22,12 @@ export class PropietarioCamionListComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     {
+      def: 'id',
+      title: 'Nº',
+      value: (element: CamionList) => element.id,
+      sticky: true,
+    },
+    {
       def: 'placa',
       title: 'Placa',
       value: (element: CamionList) => element.placa,

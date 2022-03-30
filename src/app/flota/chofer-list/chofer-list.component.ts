@@ -6,7 +6,10 @@ import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { ChoferList } from 'src/app/interfaces/chofer';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -20,26 +23,69 @@ type Filter = {
   ciudad?: string;
   pais?: string;
   tipo_documento?: string;
-}
+};
 
 @Component({
   selector: 'app-chofer-list',
   templateUrl: './chofer-list.component.html',
-  styleUrls: ['./chofer-list.component.scss']
+  styleUrls: ['./chofer-list.component.scss'],
 })
 export class ChoferListComponent implements OnInit {
-
   modelo = m.CHOFER;
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre o Razón Social', value: (element: ChoferList) => element.nombre, sticky: true },
-    { def: 'tipo_documento', title: 'Tipo de Documento', value: (element: ChoferList) => element.tipo_documento_descripcion },
-    { def: 'pais_emisor_documento', title: 'País Emisor del Documento', value: (element: ChoferList) => element.pais_emisor_documento_nombre },
-    { def: 'numero_documento', title: 'Número de Documento', value: (element: ChoferList) => element.numero_documento },
-    { def: 'gestor_cuenta_nombre', title: 'Gestor de Cuenta', value: (element: ChoferList) => element.gestor_cuenta_nombre },
-    { def: 'oficial_cuenta_nombre', title: 'Oficial de Cuenta', value: (element: ChoferList) => element.oficial_cuenta_nombre },
-    { def: 'direccion', title: 'Dirección', value: (element: ChoferList) => element.direccion },
-    { def: 'ubicacion', title: 'Ubicación', value: (element: ChoferList) => `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}` },
-    { def: 'estado', title: 'Estado', value: (element: ChoferList) => element.estado },
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: ChoferList) => element.id,
+      sticky: true,
+    },
+    {
+      def: 'nombre',
+      title: 'Nombre o Razón Social',
+      value: (element: ChoferList) => element.nombre,
+      sticky: true,
+    },
+    {
+      def: 'tipo_documento',
+      title: 'Tipo de Documento',
+      value: (element: ChoferList) => element.tipo_documento_descripcion,
+    },
+    {
+      def: 'pais_emisor_documento',
+      title: 'País Emisor del Documento',
+      value: (element: ChoferList) => element.pais_emisor_documento_nombre,
+    },
+    {
+      def: 'numero_documento',
+      title: 'Número de Documento',
+      value: (element: ChoferList) => element.numero_documento,
+    },
+    {
+      def: 'gestor_cuenta_nombre',
+      title: 'Gestor de Cuenta',
+      value: (element: ChoferList) => element.gestor_cuenta_nombre,
+    },
+    {
+      def: 'oficial_cuenta_nombre',
+      title: 'Oficial de Cuenta',
+      value: (element: ChoferList) => element.oficial_cuenta_nombre,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: ChoferList) => element.direccion,
+    },
+    {
+      def: 'ubicacion',
+      title: 'Ubicación',
+      value: (element: ChoferList) =>
+        `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`,
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: ChoferList) => element.estado,
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -53,21 +99,25 @@ export class ChoferListComponent implements OnInit {
   tipoDocumentoFiltered: string[] = [];
 
   get isFilteredByCiudad(): boolean {
-    return this.ciudadFiltered.length !== this.ciudadFilterList.length
+    return this.ciudadFiltered.length !== this.ciudadFilterList.length;
   }
 
   get isFilteredByPais(): boolean {
-    return this.paisFiltered.length !== this.paisFilterList.length
+    return this.paisFiltered.length !== this.paisFilterList.length;
   }
 
   get isFilteredByTipoDocumento(): boolean {
-    return this.tipoDocumentoFiltered.length !== this.tipoDocumentoFilterList.length
+    return (
+      this.tipoDocumentoFiltered.length !== this.tipoDocumentoFilterList.length
+    );
   }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
-  @ViewChild('ciudadCheckboxFilter') ciudadCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('ciudadCheckboxFilter')
+  ciudadCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('tipoDocumentoCheckboxFilter') tipoDocumentoCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('tipoDocumentoCheckboxFilter')
+  tipoDocumentoCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private choferService: ChoferService,
@@ -75,8 +125,8 @@ export class ChoferListComponent implements OnInit {
     private searchService: SearchService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getList();
@@ -106,7 +156,8 @@ export class ChoferListComponent implements OnInit {
       .pipe(filter((confirmed: boolean) => confirmed))
       .subscribe(() => {
         this.choferService.delete(row.id).subscribe(() => {
-          this.snackbar.open('Eliminado satisfactoriamente', 'Ok')
+          this.snackbar
+            .open('Eliminado satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
               this.getList();
@@ -116,8 +167,8 @@ export class ChoferListComponent implements OnInit {
   }
 
   downloadFile(): void {
-    this.choferService.generateReports().subscribe(filename => {
-      this.reportsService.downloadFile(filename).subscribe(file => {
+    this.choferService.generateReports().subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
         saveAs(file, filename);
       });
     });
@@ -125,9 +176,20 @@ export class ChoferListComponent implements OnInit {
 
   filterPredicate(obj: ChoferList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    const filterByCiudad = filter.ciudad?.split('|').some(x => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByPais = filter.pais?.split('|').some(x => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByTipoDocumento = filter.tipo_documento?.split('|').some(x => obj.tipo_documento_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByCiudad =
+      filter.ciudad
+        ?.split('|')
+        .some((x) => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByPais =
+      filter.pais
+        ?.split('|')
+        .some((x) => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByTipoDocumento =
+      filter.tipo_documento
+        ?.split('|')
+        .some(
+          (x) => obj.tipo_documento_descripcion.toLowerCase().indexOf(x) >= 0
+        ) ?? true;
     return filterByCiudad && filterByPais && filterByTipoDocumento;
   }
 
@@ -136,7 +198,8 @@ export class ChoferListComponent implements OnInit {
     this.isFiltered = false;
     this.ciudadFiltered = this.ciudadCheckboxFilter.getFilteredList();
     this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
-    this.tipoDocumentoFiltered = this.tipoDocumentoCheckboxFilter.getFilteredList();
+    this.tipoDocumentoFiltered =
+      this.tipoDocumentoCheckboxFilter.getFilteredList();
     if (this.isFilteredByCiudad) {
       filter.ciudad = this.ciudadFiltered.join('|');
       this.isFiltered = true;
@@ -149,7 +212,10 @@ export class ChoferListComponent implements OnInit {
       filter.tipo_documento = this.tipoDocumentoFiltered.join('|');
       this.isFiltered = true;
     }
-    this.filter(this.isFiltered ? JSON.stringify(filter) : '', !this.isFiltered);
+    this.filter(
+      this.isFiltered ? JSON.stringify(filter) : '',
+      !this.isFiltered
+    );
   }
 
   resetFilter(): void {
@@ -158,16 +224,22 @@ export class ChoferListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.choferService.getList().subscribe(list => {
+    this.choferService.getList().subscribe((list) => {
       this.list = list;
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
-      this.tipoDocumentoFilterList = getFilterList(list, (x) => x.tipo_documento_descripcion);
+      this.tipoDocumentoFilterList = getFilterList(
+        list,
+        (x) => x.tipo_documento_descripcion
+      );
       this.resetFilterList();
     });
   }
 
-  private filter(filter: string, isFilteredByGlobalSearch: boolean = true): void {
+  private filter(
+    filter: string,
+    isFilteredByGlobalSearch: boolean = true
+  ): void {
     this.searchService.search(filter, isFilteredByGlobalSearch);
     this.accordion.closeAll();
   }

@@ -15,8 +15,8 @@ import { CamionService } from 'src/app/services/camion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
-import { getFilterList } from 'src/app/utils/filter';
 import { confirmationDialogToDelete } from 'src/app/utils/delete';
+import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
   marca?: string;
@@ -33,6 +33,12 @@ type Filter = {
 export class CamionListComponent implements OnInit {
   modelo = m.CAMION;
   columns: Column[] = [
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: CamionList) => element.id,
+      sticky: true,
+    },
     {
       def: 'placa',
       title: 'Placa',
