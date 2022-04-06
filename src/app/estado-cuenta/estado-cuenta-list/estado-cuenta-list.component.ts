@@ -64,16 +64,10 @@ export class EstadoCuentaListComponent implements OnInit {
       def: 'en_proceso',
       title: LiquidacionEtapaEnum.EN_PROCESO,
       value: (element: EstadoCuenta) => element.en_proceso,
-      link: (element: EstadoCuenta) =>
-        element.cantidad_en_proceso > 0
-          ? {
-              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
-              queryParams: getQueryParams(
-                element,
-                LiquidacionEtapaEnum.EN_PROCESO
-              ),
-            }
-          : undefined,
+      link: (element: EstadoCuenta) => ({
+        url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
+        queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
+      }),
       type: 'number',
     },
     {

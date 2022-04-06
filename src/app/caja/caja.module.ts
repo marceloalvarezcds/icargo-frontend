@@ -9,9 +9,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CajaFormComponent } from './caja-form/caja-form.component';
 import { CajaListComponent } from './caja-list/caja-list.component';
 import { CajaRoutingModule } from './caja-routing.module';
+import { CajaFormInstrumentosComponent } from './caja-form-instrumentos/caja-form-instrumentos.component';
 
 @NgModule({
-  declarations: [CajaFormComponent, CajaListComponent],
+  declarations: [CajaFormComponent, CajaListComponent, CajaFormInstrumentosComponent],
   imports: [
     CajaRoutingModule,
     CommonModule,

@@ -1,0 +1,14 @@
+<app-generic-list-field
+  *ngIf="form"
+  errorMessage="La via es <strong>requerida</strong>"
+  [title]="title"
+  [controlName]="controlName"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [controlName]="controlName"
+  [textValueFormat]="textValueFormat"
+  [value]="value"
+  [list$]="list$"
+  [form]="form"
+  (valueChange)="valueChange.emit($event)"
+></app-generic-list-field>

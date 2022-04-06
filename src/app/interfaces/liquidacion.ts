@@ -1,6 +1,8 @@
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { ContraparteInfo } from './contraparte-info';
+import { Instrumento } from './instrumento';
 import { Moneda } from './moneda';
 import { Movimiento } from './movimiento';
 import { TipoContraparte } from './tipo-contraparte';
@@ -16,14 +18,14 @@ export interface Liquidacion extends ContraparteInfo {
   // campos
   moneda_id: number;
   fecha_pago_cobro: string | null;
-  estado: EstadoEnum;
+  estado: LiquidacionEstadoEnum;
   etapa: LiquidacionEtapaEnum;
   moneda: Moneda;
   comentarios: string | null;
   tipo_contraparte: TipoContraparte;
   // Lista
   movimientos: Movimiento[];
-  // instrumentos: List[Instrumento]
+  instrumentos: Instrumento[];
   // Campos calculados
   credito: number;
   es_cobro: boolean;
@@ -61,7 +63,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     proveedor_id: null,
     remitente_id: 1,
     id: 11,
-    estado: EstadoEnum.PENDIENTE,
+    estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
@@ -89,6 +91,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.859823',
     movimientos: [],
+    instrumentos: [],
   },
   {
     gestor_carga_id: 1,
@@ -106,7 +109,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     proveedor_id: null,
     remitente_id: null,
     id: 2,
-    estado: EstadoEnum.PENDIENTE,
+    estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
@@ -134,6 +137,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:34:29.516739',
     movimientos: [],
+    instrumentos: [],
   },
   {
     gestor_carga_id: 1,
@@ -151,7 +155,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     proveedor_id: 2,
     remitente_id: null,
     id: 3,
-    estado: EstadoEnum.PENDIENTE,
+    estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
@@ -179,6 +183,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.663215',
     movimientos: [],
+    instrumentos: [],
   },
   {
     gestor_carga_id: 1,
@@ -196,7 +201,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     proveedor_id: null,
     remitente_id: null,
     id: 4,
-    estado: EstadoEnum.PENDIENTE,
+    estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
@@ -224,6 +229,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.608139',
     movimientos: [],
+    instrumentos: [],
   },
   {
     gestor_carga_id: 1,
@@ -241,7 +247,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     proveedor_id: 12,
     remitente_id: null,
     id: 5,
-    estado: EstadoEnum.PENDIENTE,
+    estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
@@ -269,5 +275,9 @@ export const mockLiquidacionList: Liquidacion[] = [
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:34:16.869250',
     movimientos: [],
+    instrumentos: [],
   },
 ];
+
+export const mockLiquidacion1: Liquidacion = mockLiquidacionList[0];
+export const mockLiquidacion2: Liquidacion = mockLiquidacionList[1];

@@ -9,9 +9,10 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { BancoRoutingModule } from './banco-routing.module';
 import { BancoListComponent } from './banco-list/banco-list.component';
 import { BancoFormComponent } from './banco-form/banco-form.component';
+import { BancoFormInstrumentosComponent } from './banco-form-instrumentos/banco-form-instrumentos.component';
 
 @NgModule({
-  declarations: [BancoListComponent, BancoFormComponent],
+  declarations: [BancoListComponent, BancoFormComponent, BancoFormInstrumentosComponent],
   imports: [
     BancoRoutingModule,
     CommonModule,

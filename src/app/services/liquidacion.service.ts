@@ -77,4 +77,11 @@ export class LiquidacionService {
       formData
     );
   }
+
+  addInstrumentos(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/add_instrumentos`,
+      formData
+    );
+  }
 }

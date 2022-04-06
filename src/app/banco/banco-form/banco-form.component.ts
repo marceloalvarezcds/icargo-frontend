@@ -107,7 +107,7 @@ export class BancoFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getData(): void {
+  getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
     if (backUrl) {
       this.backUrl = backUrl;

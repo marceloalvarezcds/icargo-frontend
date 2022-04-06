@@ -1,0 +1,108 @@
+<app-page-form
+  class="orden-carga-page"
+  module="Orden de Carga"
+  submodule="Orden de Carga"
+  viewTitle="{{ isEdit ? 'Edición' : 'Ver' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="false"
+  [hideSaveButton]="true"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  [gestorCargaId]="gestorCargaId"
+  (backClick)="back()"
+  (editClick)="redirectToEdit()"
+>
+  <div class="liquidacion-page-content" *ngIf="item">
+    <div class="row page-form-row">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Estado</mat-label>
+        <input matInput [value]="item.estado" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Tipo Contraparte</mat-label>
+        <input matInput [value]="item.tipo_contraparte_descripcion" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Contraparte</mat-label>
+        <input matInput [value]="item.contraparte" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Doc. Fiscal Nº</mat-label>
+        <input matInput [value]="item.contraparte_numero_documento" disabled />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Debe</mat-label>
+        <input
+          matInput
+          [value]="item.credito"
+          appInputThousandsSeparator
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Haber</mat-label>
+        <input
+          matInput
+          [value]="item.debito"
+          appInputThousandsSeparator
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Saldo / Valor de la operación</mat-label>
+        <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+      </mat-form-field>
+    </div>
+    <div class="row page-form-row">
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Valor de los instrumentos</mat-label>
+        <input
+          matInput
+          [value]="valorInstrumentos"
+          appInputThousandsSeparator
+          disabled
+        />
+      </mat-form-field>
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+        <mat-label>Residuo</mat-label>
+        <input matInput [value]="residuo" appInputThousandsSeparator disabled />
+      </mat-form-field>
+    </div>
+    <mat-accordion multi>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Movimientos </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-liquidacion-edit-form-movimientos
+          [list]="movimientos"
+          [liquidacion]="item"
+          [isShow]="true"
+        ></app-liquidacion-edit-form-movimientos>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Instrumentos </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-liquidacion-instrumentos
+          [list]="instrumentos"
+        ></app-liquidacion-instrumentos>
+        <app-liquidacion-confirmada-form-instrumentos
+          [liquidacion]="item"
+          [saldo]="saldo"
+          [valorInstrumentos]="valorInstrumentos"
+          [isShow]="isShow"
+          (residuoChange)="residuo = $event"
+          (valorInstrumentosChange)="valorInstrumentos = $event"
+          (selectedInstrumentosChange)="loadLiquidacion()"
+        ></app-liquidacion-confirmada-form-instrumentos>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Facturas </mat-panel-title>
+        </mat-expansion-panel-header>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+</app-page-form>

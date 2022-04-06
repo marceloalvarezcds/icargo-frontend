@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
@@ -16,7 +14,6 @@ import { TableEvent } from 'src/app/interfaces/table';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
 
 @Component({
   selector: 'app-liquidacion-list',
@@ -86,6 +83,12 @@ export class LiquidacionListComponent implements OnInit {
   estadoCuenta?: EstadoCuenta;
   list: Liquidacion[] = [];
 
+  get confirmadoPath(): string {
+    return this.esConfirmado
+      ? '/' + LiquidacionEtapaEnum.CONFIRMADO.toLowerCase()
+      : '';
+  }
+
   get esConfirmado(): boolean {
     return this.etapa === LiquidacionEtapaEnum.CONFIRMADO;
   }
@@ -105,8 +108,6 @@ export class LiquidacionListComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private dialog: MatDialog,
-    private snackbar: MatSnackBar,
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
     private reportsService: ReportsService
@@ -122,31 +123,16 @@ export class LiquidacionListComponent implements OnInit {
 
   redirectToEdit(event: TableEvent<Liquidacion>): void {
     this.router.navigate([
-      `/estado-cuenta/${m.LIQUIDACION}/${a.EDITAR}`,
+      `/estado-cuenta${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
       event.row.id,
     ]);
   }
 
   redirectToShow(event: TableEvent<Liquidacion>): void {
     this.router.navigate([
-      `/estado-cuenta/${m.LIQUIDACION}/${a.VER}`,
+      `/estado-cuenta${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
       event.row.id,
     ]);
-  }
-
-  deleteRow(event: TableEvent<Liquidacion>): void {
-    const row = event.row;
-    const message = `¿Está seguro que desea eliminar la liquidación Nº ${row.id}?`;
-    confirmationDialogToDelete(
-      this.dialog,
-      message,
-      this.liquidacionService,
-      row.id,
-      this.snackbar,
-      () => {
-        this.getList();
-      }
-    );
   }
 
   downloadFile(): void {

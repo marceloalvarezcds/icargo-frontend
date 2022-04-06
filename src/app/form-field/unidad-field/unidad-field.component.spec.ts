@@ -1,21 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
-
+import { createFormGroup } from 'src/app/utils/form-field-test';
 import { UnidadFieldComponent } from './unidad-field.component';
-
-const createFormGroup = (component: UnidadFieldComponent): void => {
-  component.groupName = 'grupo';
-  component.controlName = 'control';
-  component.form = new FormGroup({
-    grupo: new FormGroup({
-      control: new FormControl(null),
-    }),
-  });
-}
 
 describe('UnidadFieldComponent', () => {
   let component: UnidadFieldComponent;
@@ -29,10 +19,9 @@ describe('UnidadFieldComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ UnidadFieldComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [UnidadFieldComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

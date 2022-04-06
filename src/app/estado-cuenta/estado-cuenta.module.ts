@@ -6,18 +6,33 @@ import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { EstadoCuentaDetalleComponent } from './estado-cuenta-detalle/estado-cuenta-detalle.component';
 import { EstadoCuentaListComponent } from './estado-cuenta-list/estado-cuenta-list.component';
 import { EstadoCuentaRoutingModule } from './estado-cuenta-routing.module';
+import { LiquidacionComentarioComponent } from './liquidacion-comentario/liquidacion-comentario.component';
+import { LiquidacionConfirmadaFormComponent } from './liquidacion-confirmada-form/liquidacion-confirmada-form.component';
+import { LiquidacionEditFormAccionesComponent } from './liquidacion-edit-form-acciones/liquidacion-edit-form-acciones.component';
+import { LiquidacionEditFormMovimientosComponent } from './liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
+import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacion-edit-form.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
-import { EstadoCuentaDetalleComponent } from './estado-cuenta-detalle/estado-cuenta-detalle.component';
-import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacion-edit-form.component';
-import { LiquidacionEditFormMovimientosComponent } from './liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
-import { LiquidacionEditFormAccionesComponent } from './liquidacion-edit-form-acciones/liquidacion-edit-form-acciones.component';
-import { LiquidacionComentarioComponent } from './liquidacion-comentario/liquidacion-comentario.component';
+import { LiquidacionConfirmadaFormInstrumentosComponent } from './liquidacion-confirmada-form-instrumentos/liquidacion-confirmada-form-instrumentos.component';
+import { LiquidacionInstrumentosComponent } from './liquidacion-instrumentos/liquidacion-instrumentos.component';
 
 @NgModule({
-  declarations: [EstadoCuentaListComponent, LiquidacionFormComponent, LiquidacionListComponent, EstadoCuentaDetalleComponent, LiquidacionEditFormComponent, LiquidacionEditFormMovimientosComponent, LiquidacionEditFormAccionesComponent, LiquidacionComentarioComponent],
+  declarations: [
+    EstadoCuentaListComponent,
+    LiquidacionFormComponent,
+    LiquidacionListComponent,
+    EstadoCuentaDetalleComponent,
+    LiquidacionEditFormComponent,
+    LiquidacionEditFormMovimientosComponent,
+    LiquidacionEditFormAccionesComponent,
+    LiquidacionComentarioComponent,
+    LiquidacionConfirmadaFormComponent,
+    LiquidacionConfirmadaFormInstrumentosComponent,
+    LiquidacionInstrumentosComponent,
+  ],
   imports: [
     CommonModule,
     DirectivesModule,

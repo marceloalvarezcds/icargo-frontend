@@ -11,6 +11,7 @@ import { ComplementoFormDialogComponent } from './complemento-form-dialog/comple
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ContactoFormDialogComponent } from './contacto-form-dialog/contacto-form-dialog.component';
 import { DescuentoFormDialogComponent } from './descuento-form-dialog/descuento-form-dialog.component';
+import { InstrumentoFormDialogComponent } from './instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionConfirmDialogComponent } from './liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
 import { MovimientosSelectedDialogComponent } from './movimientos-selected-dialog/movimientos-selected-dialog.component';
@@ -27,6 +28,7 @@ const modules = [
   ConfirmationDialogComponent,
   ContactoFormDialogComponent,
   DescuentoFormDialogComponent,
+  InstrumentoFormDialogComponent,
   LiquidacionConfirmDialogComponent,
   LoadingDialogComponent,
   MovimientosSelectedDialogComponent,
