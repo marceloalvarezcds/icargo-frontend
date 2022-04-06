@@ -1,21 +1,11 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
-
+import { createFormGroup } from 'src/app/utils/form-field-test';
 import { FleteByGestorDialogFieldComponent } from './flete-by-gestor-dialog-field.component';
-
-const createFormGroup = (component: FleteByGestorDialogFieldComponent): void => {
-  component.groupName = 'grupo';
-  component.controlName = 'control';
-  component.form = new FormGroup({
-    grupo: new FormGroup({
-      control: new FormControl(null),
-    }),
-  });
-}
 
 describe('FleteByGestorDialogFieldComponent', () => {
   let component: FleteByGestorDialogFieldComponent;
@@ -29,10 +19,9 @@ describe('FleteByGestorDialogFieldComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ FleteByGestorDialogFieldComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [FleteByGestorDialogFieldComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

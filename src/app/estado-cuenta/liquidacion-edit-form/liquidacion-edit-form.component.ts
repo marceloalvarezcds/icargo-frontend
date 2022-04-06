@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -17,7 +17,7 @@ import { getQueryParams } from 'src/app/utils/contraparte-info';
   styleUrls: ['./liquidacion-edit-form.component.scss'],
 })
 export class LiquidacionEditFormComponent implements OnInit {
-  E = EstadoEnum;
+  E = LiquidacionEstadoEnum;
   form = new FormGroup({});
   backUrl = `/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
