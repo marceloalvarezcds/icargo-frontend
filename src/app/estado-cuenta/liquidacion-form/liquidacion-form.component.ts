@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
@@ -99,6 +98,7 @@ export class LiquidacionFormComponent implements OnInit {
             .open('Datos guardados satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
+              this.movimientosSelected = [];
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {

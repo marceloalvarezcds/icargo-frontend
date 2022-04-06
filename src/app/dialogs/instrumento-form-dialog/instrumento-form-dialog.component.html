@@ -1,0 +1,81 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    {{ actionText }} Instrumento
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-instrumento-via-field
+      [form]="form"
+      (valueChange)="via = $event"
+    ></app-instrumento-via-field>
+    <app-banco-by-gestor-dialog-field
+      [hidden]="!esBanco"
+      [form]="form"
+      (valueChange)="banco = $event"
+    >
+    </app-banco-by-gestor-dialog-field>
+    <app-caja-by-gestor-dialog-field
+      [hidden]="esBanco"
+      [form]="form"
+      (valueChange)="caja = $event"
+    >
+    </app-caja-by-gestor-dialog-field>
+    <app-tipo-instrumento-via-banco-field
+      [hidden]="!esBanco"
+      [form]="form"
+      (valueChange)="setTipoInstrumento($event)"
+    ></app-tipo-instrumento-via-banco-field>
+    <app-number-field
+      title="Monto"
+      controlName="monto"
+      [form]="form"
+    ></app-number-field>
+    <app-fecha-field
+      title="Fecha"
+      controlName="fecha_instrumento"
+      [form]="form"
+    ></app-fecha-field>
+    <app-input-field
+      title="Referencia"
+      controlName="numero_referencia"
+      [form]="form"
+    ></app-input-field>
+    <mat-form-field>
+      <mat-label>Comentario</mat-label>
+      <textarea
+        matInput
+        formControlName="comentario"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+      ></textarea>
+    </mat-form-field>
+    <div class="toggle" [hidden]="!esBanco || !esTipoCheque">
+      <mat-slide-toggle formControlName="cheque_es_diferido">
+        {{ chequeEsDiferido ? "Cheque Diferido" : "Cheque Diferido" }}
+      </mat-slide-toggle>
+    </div>
+    <div [hidden]="!chequeEsDiferido">
+      <app-fecha-field
+        title="Fecha de vencimiento del cheque"
+        controlName="cheque_fecha_vencimiento"
+        [form]="form"
+      ></app-fecha-field>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
+      Aceptar
+    </button>
+  </div>
+</form>

@@ -1,4 +1,5 @@
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { Instrumento } from './instrumento';
 
 export interface CajaForm {
   nombre: string;
@@ -10,7 +11,7 @@ export interface Caja extends CajaForm {
   id: number;
   gestor_carga_id: number;
   estado: EstadoEnum;
-  // instrumentos: Instrumento[]
+  instrumentos: Instrumento[];
   // Campos calculados
   moneda_nombre: string;
   moneda_simbolo: string;
@@ -31,7 +32,7 @@ export const mockCajaList: Caja[] = [
     gestor_carga_id: 1,
     id: 6,
     estado: EstadoEnum.ACTIVO,
-    // instrumentos: [],
+    instrumentos: [],
     moneda_nombre: 'Peso Boliviano',
     moneda_simbolo: 'BOP',
     credito: 0,
@@ -48,7 +49,7 @@ export const mockCajaList: Caja[] = [
     gestor_carga_id: 1,
     id: 3,
     estado: EstadoEnum.ACTIVO,
-    // instrumentos: [],
+    instrumentos: [],
     moneda_nombre: 'Dolares',
     moneda_simbolo: 'USD',
     credito: 0,
@@ -65,7 +66,7 @@ export const mockCajaList: Caja[] = [
     gestor_carga_id: 1,
     id: 2,
     estado: EstadoEnum.ACTIVO,
-    // instrumentos: [],
+    instrumentos: [],
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     credito: 0,
@@ -82,7 +83,7 @@ export const mockCajaList: Caja[] = [
     gestor_carga_id: 1,
     id: 5,
     estado: EstadoEnum.ACTIVO,
-    // instrumentos: [],
+    instrumentos: [],
     moneda_nombre: 'Peso Argentino',
     moneda_simbolo: 'ARP',
     credito: 0,
@@ -99,7 +100,7 @@ export const mockCajaList: Caja[] = [
     gestor_carga_id: 1,
     id: 4,
     estado: EstadoEnum.ACTIVO,
-    // instrumentos: [],
+    instrumentos: [],
     moneda_nombre: 'Real',
     moneda_simbolo: 'BRL',
     credito: 0,
@@ -116,7 +117,7 @@ export const mockCajaList: Caja[] = [
     gestor_carga_id: 1,
     id: 1,
     estado: EstadoEnum.ELIMINADO,
-    // instrumentos: [],
+    instrumentos: [],
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     credito: 0,

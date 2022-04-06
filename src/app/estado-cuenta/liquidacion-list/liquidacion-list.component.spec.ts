@@ -9,11 +9,9 @@ import {
   flush,
   TestBed,
 } from '@angular/core/testing';
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { of } from 'rxjs';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
@@ -38,7 +36,6 @@ describe('LiquidacionListComponent', () => {
   let component: LiquidacionListComponent;
   let fixture: ComponentFixture<LiquidacionListComponent>;
   let httpController: HttpTestingController;
-  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
   let reportsService: ReportsService;
   let pageComponent: DebugElement;
   let tableComponent: DebugElement;
@@ -92,7 +89,6 @@ describe('LiquidacionListComponent', () => {
           EstadoCuentaService,
           LiquidacionService,
           { provide: ActivatedRoute, useValue: route },
-          { provide: MatSnackBarRef, useValue: MatSnackBar },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         declarations: [LiquidacionListComponent, LiquidacionEditFormComponent],
@@ -115,10 +111,6 @@ describe('LiquidacionListComponent', () => {
     });
 
     it('listens for app-table changes', fakeAsync(() => {
-      const dialogSpy = spyOn(
-        (component as any).dialog,
-        'open'
-      ).and.returnValue(dialogRefSpyObj);
       const redirectToEditSpy = spyOn(
         component,
         'redirectToEdit'
@@ -127,11 +119,9 @@ describe('LiquidacionListComponent', () => {
         component,
         'redirectToShow'
       ).and.callThrough();
-      const deleteRowSpy = spyOn(component, 'deleteRow').and.callThrough();
       pageComponent.triggerEventHandler('backClick', false);
       tableComponent.triggerEventHandler('editClick', tableEvent);
       tableComponent.triggerEventHandler('showClick', tableEvent);
-      tableComponent.triggerEventHandler('deleteClick', tableEvent);
       httpController
         .expectOne(
           `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
@@ -143,16 +133,9 @@ describe('LiquidacionListComponent', () => {
           `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
         )
         .flush(mockLiquidacionList);
-      const req = httpController.expectOne(
-        `${environment.api}/${m.LIQUIDACION}/${row.id}`
-      );
-      expect(req.request.method).toBe('DELETE');
-      req.flush({});
       flush();
       expect(redirectToEditSpy).toHaveBeenCalled();
       expect(redirectToShowSpy).toHaveBeenCalled();
-      expect(deleteRowSpy).toHaveBeenCalled();
-      expect(dialogSpy).toHaveBeenCalled();
       httpController.verify();
     }));
 
@@ -225,7 +208,6 @@ describe('LiquidacionListComponent', () => {
           EstadoCuentaService,
           LiquidacionService,
           { provide: ActivatedRoute, useValue: withBackUrlRoute },
-          { provide: MatSnackBarRef, useValue: MatSnackBar },
         ],
         schemas: [CUSTOM_ELEMENTS_SCHEMA],
         declarations: [LiquidacionListComponent, LiquidacionEditFormComponent],

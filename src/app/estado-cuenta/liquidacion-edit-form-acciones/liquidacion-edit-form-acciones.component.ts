@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ComentarioConfirmDialogComponent } from 'src/app/dialogs/comentario-confirm-dialog/comentario-confirm-dialog.component';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -25,7 +25,7 @@ import { changeStatusMessageSnackbar } from 'src/app/utils/snackbar';
 export class LiquidacionEditFormAccionesComponent {
   a = a;
   m = m;
-  E = EstadoEnum;
+  E = LiquidacionEstadoEnum;
 
   get id(): number {
     return this.liquidacion.id;

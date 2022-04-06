@@ -34,7 +34,7 @@ export function deleteMessageSnackbar(
 
 export function changeStatusMessageSnackbar(
   snackbar: MatSnackBar,
-  observer: (v: MatSnackBarDismiss) => void
+  observer: (v: MatSnackBarDismiss) => void = () => {}
 ): void {
   openSnackbarWithMessage(
     snackbar,

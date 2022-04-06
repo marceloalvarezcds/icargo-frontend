@@ -12,6 +12,7 @@ export interface Column {
   buttonCallback?: (row: any) => void;
   buttonIconName?: (row: any) => string;
   isHidden?: (row: any) => boolean;
+  isDisable?: (row: any) => boolean;
   link?: (row: any) => ColumnLink | undefined;
   sticky?: boolean;
   stickyEnd?: boolean;

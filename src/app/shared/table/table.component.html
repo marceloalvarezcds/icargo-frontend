@@ -10,6 +10,7 @@
         mat-header-cell
         *matHeaderCellDef
         mat-sort-header
+        [disabled]="disableSort"
         [class.mat-header-cell-checkbox]="column.type === 'checkbox'"
       >
         <ng-container *ngIf="column.type === 'checkbox'">
@@ -67,7 +68,9 @@
               </ng-container>
             </ng-container>
             <ng-container *ngSwitchCase="'date'">
-              <span>{{ column.value(row) | date: "MM-dd-yyyy hh:mm:ss" }}</span>
+              <span>{{
+                column.value(row) | momentFormat: "DD-MM-YYYY HH:mm:ss"
+              }}</span>
             </ng-container>
             <ng-container *ngSwitchCase="'html'">
               <div [innerHTML]="column.value(row)"></div>
@@ -81,6 +84,7 @@
                       mat-icon-button
                       class="row-button"
                       color="primary"
+                      [disabled]="column.isDisable && column.isDisable(row)"
                       (click)="column.buttonCallback(row)"
                     >
                       <mat-icon>{{ iconName }}</mat-icon>
@@ -94,6 +98,7 @@
                     class="row-button"
                     color="primary"
                     [innerHTML]="column.value(row)"
+                    [disabled]="column.isDisable && column.isDisable(row)"
                     (click)="column.buttonCallback(row)"
                   ></button>
                 </ng-template>
