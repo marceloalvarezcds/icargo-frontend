@@ -3,7 +3,7 @@
     <div class="col-xs-12 obs" [class.obs-error]="formArray?.hasError('max')">
       <strong>Obs: </strong>La suma de porcentajes no debe superar el 100%
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <div class="col-xs-12 col-sm-6">
       <app-fecha-field
         title="Vigencia de anticipos"
         controlName="vigencia_anticipos"
@@ -13,18 +13,31 @@
   </div>
   <div class="row page-form-row" [formArrayName]="groupName">
     <ng-container *ngFor="let it of formArray.controls; let index = index">
-      <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [formGroupName]="index">
+      <div class="col-xs-12 col-sm-6" [formGroupName]="index">
         <mat-form-field>
-          <mat-label>Porcentaje de Liberación de {{it.get('concepto')?.value}}</mat-label>
-          <input matInput formControlName="porcentaje" appInputThousandsSeparator />
+          <mat-label
+            >Porcentaje de Liberación de
+            {{ it.get("tipo_descripcion")?.value }}</mat-label
+          >
+          <input
+            matInput
+            formControlName="porcentaje"
+            appInputThousandsSeparator
+          />
           <mat-error *ngIf="it?.get('porcentaje')?.hasError('required')">
             Este campo es <strong>requerido</strong>
           </mat-error>
           <mat-error *ngIf="it.get('porcentaje')?.hasError('min')">
-            El valor debe ser <strong>mayor que {{it.get('porcentaje')?.getError('min').min}}</strong>
+            El valor debe ser
+            <strong
+              >mayor que {{ it.get("porcentaje")?.getError("min").min }}</strong
+            >
           </mat-error>
           <mat-error *ngIf="it.get('porcentaje')?.hasError('max')">
-            El valor debe ser <strong>menor que {{it.get('porcentaje')?.getError('max').max}}</strong>
+            El valor debe ser
+            <strong
+              >menor que {{ it.get("porcentaje")?.getError("max").max }}</strong
+            >
           </mat-error>
         </mat-form-field>
       </div>

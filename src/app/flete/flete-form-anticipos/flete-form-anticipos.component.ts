@@ -1,25 +1,29 @@
 import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { FleteAnticipo, FleteAnticipoForm } from 'src/app/interfaces/flete-anticipo';
+import {
+  FleteAnticipo,
+  FleteAnticipoForm,
+} from 'src/app/interfaces/flete-anticipo';
 import { TipoAnticipoService } from 'src/app/services/tipo-anticipo.service';
 
 @Component({
   selector: 'app-flete-form-anticipos',
   templateUrl: './flete-form-anticipos.component.html',
-  styleUrls: ['./flete-form-anticipos.component.scss']
+  styleUrls: ['./flete-form-anticipos.component.scss'],
 })
 export class FleteFormAnticiposComponent {
-
   groupName = 'anticipos';
-  subs = this.tipoAnticipoService.getList().subscribe(list => {
+  subs = this.tipoAnticipoService.getList().subscribe((list) => {
     if (this.formArray.length === 0) {
       list.forEach((it) => {
-        this.formArray.push(this.createForm({
-          tipo_id: it.id,
-          tipo_descripcion: it.descripcion,
-          porcentaje: null,
-          concepto: it.descripcion,
-        }));
+        this.formArray.push(
+          this.createForm({
+            tipo_id: it.id,
+            tipo_descripcion: it.descripcion,
+            porcentaje: null,
+            concepto: it.descripcion,
+          })
+        );
       });
     }
     this.checkDisable();
@@ -30,6 +34,7 @@ export class FleteFormAnticiposComponent {
   }
 
   @Input() form?: FormGroup;
+  @Input() isCreate = false;
   @Input() puedeModificar = false;
   @Input() set anticipoList(list: FleteAnticipo[]) {
     if (this.formArray.length === 0) {
@@ -38,7 +43,9 @@ export class FleteFormAnticiposComponent {
       });
     } else {
       list.forEach((item) => {
-        const idx = this.formArray.value.findIndex((it: FleteAnticipo) => it.tipo_id === item.tipo_id);
+        const idx = this.formArray.value.findIndex(
+          (it: FleteAnticipo) => it.tipo_id === item.tipo_id
+        );
         this.formArray.setControl(idx, this.createForm(item));
       });
     }
@@ -48,7 +55,7 @@ export class FleteFormAnticiposComponent {
   constructor(
     private fb: FormBuilder,
     private tipoAnticipoService: TipoAnticipoService
-  ) { }
+  ) {}
 
   private createForm(data: FleteAnticipoForm): FormGroup {
     return this.fb.group({
@@ -60,7 +67,7 @@ export class FleteFormAnticiposComponent {
   }
 
   private checkDisable(): void {
-    if (!this.puedeModificar) {
+    if (!this.isCreate && !this.puedeModificar) {
       this.formArray.disable();
     } else {
       this.formArray.enable();

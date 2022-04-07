@@ -64,6 +64,7 @@
         <mat-panel-title> Anticipos </mat-panel-title>
       </mat-expansion-panel-header>
       <app-flete-form-anticipos
+        [isCreate]="!isShow && !isEdit"
         [puedeModificar]="puedeModificar"
         [form]="form"
         [anticipoList]="anticipoList"
