@@ -1,0 +1,11 @@
+<div class="row page-form-row">
+  <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+    <app-table
+      [disableSort]="true"
+      [hideShow]="true"
+      [isShow]="true"
+      [columns]="columns"
+      [data]="list"
+    ></app-table>
+  </div>
+</div>

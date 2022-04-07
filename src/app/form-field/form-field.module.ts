@@ -5,6 +5,8 @@ import { DirectivesModule } from 'src/app/directives/directives.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AliasFieldComponent } from './alias-field/alias-field.component';
+import { BancoByGestorDialogFieldComponent } from './banco-by-gestor-dialog-field/banco-by-gestor-dialog-field.component';
+import { CajaByGestorDialogFieldComponent } from './caja-by-gestor-dialog-field/caja-by-gestor-dialog-field.component';
 import { CamionByGestorFieldComponent } from './camion-by-gestor-field/camion-by-gestor-field.component';
 import { CamionByProductoFieldComponent } from './camion-by-producto-field/camion-by-producto-field.component';
 import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
@@ -23,6 +25,7 @@ import { FileFieldComponent } from './file-field/file-field.component';
 import { FleteByGestorDialogFieldComponent } from './flete-by-gestor-dialog-field/flete-by-gestor-dialog-field.component';
 import { GenericListFieldComponent } from './generic-list-field/generic-list-field.component';
 import { InputFieldComponent } from './input-field/input-field.component';
+import { InstrumentoViaFieldComponent } from './instrumento-via-field/instrumento-via-field.component';
 import { InsumoByTipoFieldComponent } from './insumo-by-tipo-field/insumo-by-tipo-field.component';
 import { LocalidadFieldComponent } from './localidad-field/localidad-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
@@ -51,6 +54,7 @@ import { TipoComprobanteFieldComponent } from './tipo-comprobante-field/tipo-com
 import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
 import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
 import { TipoDocumentoFieldComponent } from './tipo-documento-field/tipo-documento-field.component';
+import { TipoInstrumentoViaBancoFieldComponent } from './tipo-instrumento-via-banco-field/tipo-instrumento-via-banco-field.component';
 import { TipoInsumoByFleteFieldComponent } from './tipo-insumo-by-flete-field/tipo-insumo-by-flete-field.component';
 import { TipoPersonaFieldComponent } from './tipo-persona-field/tipo-persona-field.component';
 import { TipoRegistroFieldComponent } from './tipo-registro-field/tipo-registro-field.component';
@@ -59,6 +63,8 @@ import { UnidadFieldComponent } from './unidad-field/unidad-field.component';
 
 const modules = [
   AliasFieldComponent,
+  BancoByGestorDialogFieldComponent,
+  CajaByGestorDialogFieldComponent,
   CamionByGestorFieldComponent,
   CamionByProductoFieldComponent,
   CentroOperativoByGestorDialogFieldComponent,
@@ -77,6 +83,7 @@ const modules = [
   FleteByGestorDialogFieldComponent,
   GenericListFieldComponent,
   InputFieldComponent,
+  InstrumentoViaFieldComponent,
   InsumoByTipoFieldComponent,
   LocalidadFieldComponent,
   MarcaCamionFieldComponent,
@@ -105,6 +112,7 @@ const modules = [
   TipoConceptoComplementoFieldComponent,
   TipoConceptoDescuentoFieldComponent,
   TipoDocumentoFieldComponent,
+  TipoInstrumentoViaBancoFieldComponent,
   TipoInsumoByFleteFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,

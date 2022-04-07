@@ -1,0 +1,48 @@
+<div *ngIf="gestorCargaId">
+  <div class="row page-form-row">
+    <ng-container *ngIf="list && list.length">
+      <h4 class="col-xs-12">Instrumentos a crearse</h4>
+      <div class="col-xs-12 table-container">
+        <app-table
+          [columns]="columns"
+          [modelo]="m.INSTRUMENTO"
+          [gestorCuentaId]="gestorCargaId"
+          [data]="list"
+          [hideShow]="true"
+          [isShow]="isShow"
+          (editClick)="edit($event)"
+          (deleteClick)="remove($event)"
+        ></app-table>
+      </div>
+    </ng-container>
+    <div
+      class="col-xs-12 button-container"
+      [hidden]="isShow || !(m.INSTRUMENTO | puede: a.CREAR:gestorCargaId)"
+    >
+      <button
+        *ngIf="esSaldoAbierto"
+        mat-raised-button
+        class="outline round"
+        color="primary"
+        type="button"
+        (click)="create()"
+        [disabled]="residuo === 0"
+        id="create-button"
+      >
+        Nuevo Instrumento
+      </button>
+      <button
+        *ngIf="esSaldoAbierto"
+        id="create-button"
+        mat-raised-button
+        class="outline round"
+        color="primary"
+        type="button"
+        [disabled]="residuo !== 0"
+        (click)="saveInstrumentos()"
+      >
+        Guardar Instrumentos
+      </button>
+    </div>
+  </div>
+</div>
