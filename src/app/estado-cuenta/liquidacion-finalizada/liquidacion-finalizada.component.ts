@@ -23,7 +23,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
   form = new FormGroup({});
   estadoCuenta?: EstadoCuenta;
   etapa?: LiquidacionEtapaEnum;
-  backUrl = `/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`;
+  backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   movimientos: Movimiento[] = [];
 
   get credito(): number {
