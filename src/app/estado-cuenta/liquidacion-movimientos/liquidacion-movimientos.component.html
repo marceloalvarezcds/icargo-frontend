@@ -1,0 +1,11 @@
+<div class="row page-form-row">
+  <div class="col-xs-12" [hidden]="!(list && list.length)">
+    <app-table-paginator
+      [columns]="columns"
+      [data]="list"
+      [hideDelete]="true"
+      [hideEdit]="true"
+      [hideShow]="true"
+    ></app-table-paginator>
+  </div>
+</div>

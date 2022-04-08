@@ -1,4 +1,4 @@
-import { EstadoEnum } from '../enums/estado-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 export interface Moneda {
   id: number;
@@ -27,3 +27,7 @@ export const mockMonedaList: Moneda[] = [
     estado: EstadoEnum.ACTIVO,
   },
 ];
+
+export const mockMoneda1: Moneda = mockMonedaList[0];
+export const mockMoneda2: Moneda = mockMonedaList[1];
+export const mockMoneda3: Moneda = mockMonedaList[2];

@@ -93,7 +93,7 @@ export class EstadoCuentaListComponent implements OnInit {
       link: (element: EstadoCuenta) =>
         element.cantidad_finalizado > 0
           ? {
-              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.CREAR}`],
+              url: [`/estado-cuenta/${m.MOVIMIENTO}/${a.LISTAR}`],
               queryParams: getQueryParams(
                 element,
                 LiquidacionEtapaEnum.FINALIZADO

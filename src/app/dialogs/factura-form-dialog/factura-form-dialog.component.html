@@ -1,0 +1,49 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    {{ actionText }} Factura
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-moneda-field [form]="form"></app-moneda-field>
+    <app-input-field
+      title="Nº de Factura"
+      controlName="numero_factura"
+      [form]="form"
+    ></app-input-field>
+    <app-fecha-field
+      title="Fecha de Vencimiento"
+      controlName="fecha_vencimiento"
+      [form]="form"
+    ></app-fecha-field>
+    <app-number-field
+      title="Monto"
+      controlName="monto"
+      [form]="form"
+    ></app-number-field>
+    <app-tipo-iva-field [form]="form"></app-tipo-iva-field>
+    <app-file-field
+      className=""
+      title="Foto de la Factura"
+      controlName="foto"
+      [field]="foto"
+      [form]="form"
+      [isEdit]="isEdit"
+      (fileChange)="setFoto($event)"
+    ></app-file-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
+      Aceptar
+    </button>
+  </div>
+</form>

@@ -1,7 +1,7 @@
 <app-page-form
-  class="orden-carga-page"
-  module="Orden de Carga"
-  submodule="Orden de Carga"
+  class="estado-cuenta-page"
+  module="Estado de Cuenta"
+  submodule="Liquidacion"
   viewTitle="{{ isEdit ? 'Edición' : 'Ver' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -75,13 +75,11 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Movimientos </mat-panel-title>
         </mat-expansion-panel-header>
-        <app-liquidacion-edit-form-movimientos
+        <app-liquidacion-movimientos
           [list]="movimientos"
-          [liquidacion]="item"
-          [isShow]="true"
-        ></app-liquidacion-edit-form-movimientos>
+        ></app-liquidacion-movimientos>
       </mat-expansion-panel>
-      <mat-expansion-panel [expanded]="true">
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title> Instrumentos </mat-panel-title>
         </mat-expansion-panel-header>
@@ -102,6 +100,11 @@
         <mat-expansion-panel-header>
           <mat-panel-title> Facturas </mat-panel-title>
         </mat-expansion-panel-header>
+        <app-liquidacion-confirmada-form-facturas
+          [liquidacion]="item"
+          [isShow]="isShow"
+          (facturasChange)="loadLiquidacion()"
+        ></app-liquidacion-confirmada-form-facturas>
       </mat-expansion-panel>
     </mat-accordion>
   </div>

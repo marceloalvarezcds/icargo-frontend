@@ -2,6 +2,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { ContraparteInfo } from './contraparte-info';
+import { Factura } from './factura';
 import { Instrumento } from './instrumento';
 import { Moneda } from './moneda';
 import { Movimiento } from './movimiento';
@@ -24,6 +25,7 @@ export interface Liquidacion extends ContraparteInfo {
   comentarios: string | null;
   tipo_contraparte: TipoContraparte;
   // Lista
+  facturas: Factura[];
   movimientos: Movimiento[];
   instrumentos: Instrumento[];
   // Campos calculados
@@ -90,6 +92,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     created_at: '2022-03-16T12:32:14.859823',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.859823',
+    facturas: [],
     movimientos: [],
     instrumentos: [],
   },
@@ -136,6 +139,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     created_at: '2022-03-16T12:34:29.516739',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:34:29.516739',
+    facturas: [],
     movimientos: [],
     instrumentos: [],
   },
@@ -182,6 +186,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     created_at: '2022-03-16T12:32:14.663215',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.663215',
+    facturas: [],
     movimientos: [],
     instrumentos: [],
   },
@@ -228,6 +233,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     created_at: '2022-03-16T12:32:14.608139',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.608139',
+    facturas: [],
     movimientos: [],
     instrumentos: [],
   },
@@ -274,6 +280,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     created_at: '2022-03-16T12:34:16.869250',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:34:16.869250',
+    facturas: [],
     movimientos: [],
     instrumentos: [],
   },
