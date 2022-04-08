@@ -56,6 +56,7 @@ import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-f
 import { TipoDocumentoFieldComponent } from './tipo-documento-field/tipo-documento-field.component';
 import { TipoInstrumentoViaBancoFieldComponent } from './tipo-instrumento-via-banco-field/tipo-instrumento-via-banco-field.component';
 import { TipoInsumoByFleteFieldComponent } from './tipo-insumo-by-flete-field/tipo-insumo-by-flete-field.component';
+import { TipoIvaFieldComponent } from './tipo-iva-field/tipo-iva-field.component';
 import { TipoPersonaFieldComponent } from './tipo-persona-field/tipo-persona-field.component';
 import { TipoRegistroFieldComponent } from './tipo-registro-field/tipo-registro-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
@@ -114,6 +115,7 @@ const modules = [
   TipoDocumentoFieldComponent,
   TipoInstrumentoViaBancoFieldComponent,
   TipoInsumoByFleteFieldComponent,
+  TipoIvaFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
   TipoSemiFieldComponent,

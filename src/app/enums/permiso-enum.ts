@@ -31,6 +31,7 @@ export enum PermisoModeloEnum {
   ENTE_EMISOR_AUTOMOTOR = 'ente_emisor_automotor',
   ENTE_EMISOR_TRANSPORTE = 'ente_emisor_transporte',
   ESTADO_CUENTA = 'estado_cuenta',
+  FACTURA = 'factura',
   FLETE = 'flete',
   FLETE_ANTICIPO = 'flete_anticipo',
   FLETE_COMPLEMENTO = 'flete_complemento',

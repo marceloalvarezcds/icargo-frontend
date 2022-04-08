@@ -1,14 +1,15 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
-import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuentaListComponent } from './estado-cuenta-list/estado-cuenta-list.component';
 import { LiquidacionConfirmadaFormComponent } from './liquidacion-confirmada-form/liquidacion-confirmada-form.component';
 import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacion-edit-form.component';
+import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquidacion-finalizada.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
 
@@ -65,6 +66,16 @@ const routes: Routes = [
             canActivate: [PermisoGuard],
           },
         ],
+      },
+    ],
+  },
+  {
+    path: m.MOVIMIENTO,
+    children: [
+      {
+        path: a.LISTAR,
+        component: LiquidacionFinalizadaComponent,
+        canActivate: [PermisoGuard],
       },
     ],
   },
