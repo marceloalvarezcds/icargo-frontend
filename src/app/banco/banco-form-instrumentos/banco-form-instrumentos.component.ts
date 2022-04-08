@@ -148,7 +148,7 @@ export class BancoFormInstrumentosComponent {
 
   private rechazar(instrumento: Instrumento): void {
     const id = instrumento.id;
-    const message = `Está seguro que desea Confirmar el instrumento Nº ${id}`;
+    const message = `Está seguro que desea Rechazar el instrumento Nº ${id}`;
     changeStatusConfirm(
       this.dialog,
       message,
