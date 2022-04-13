@@ -14,6 +14,7 @@ import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-o
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
+import { ContraparteFieldComponent } from './contraparte-field/contraparte-field.component';
 import { DialogFieldComponent } from './dialog-field/dialog-field.component';
 import { DigitoVerificadorFieldComponent } from './digito-verificador-field/digito-verificador-field.component';
 import { EmailFieldComponent } from './email-field/email-field.component';
@@ -53,6 +54,7 @@ import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.com
 import { TipoComprobanteFieldComponent } from './tipo-comprobante-field/tipo-comprobante-field.component';
 import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
 import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
+import { TipoContraparteFieldComponent } from './tipo-contraparte-field/tipo-contraparte-field.component';
 import { TipoDocumentoFieldComponent } from './tipo-documento-field/tipo-documento-field.component';
 import { TipoInstrumentoViaBancoFieldComponent } from './tipo-instrumento-via-banco-field/tipo-instrumento-via-banco-field.component';
 import { TipoInsumoByFleteFieldComponent } from './tipo-insumo-by-flete-field/tipo-insumo-by-flete-field.component';
@@ -73,6 +75,7 @@ const modules = [
   ChoferFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
+  ContraparteFieldComponent,
   DialogFieldComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
@@ -112,6 +115,7 @@ const modules = [
   TipoComprobanteFieldComponent,
   TipoConceptoComplementoFieldComponent,
   TipoConceptoDescuentoFieldComponent,
+  TipoContraparteFieldComponent,
   TipoDocumentoFieldComponent,
   TipoInstrumentoViaBancoFieldComponent,
   TipoInsumoByFleteFieldComponent,

@@ -8,6 +8,7 @@ import { TipoDocumentoRelacionado } from './tipo-documento-relacionado';
 import { TipoMovimiento } from './tipo-movimiento';
 
 export interface MovimientoForm {
+  id: number | null;
   gestor_carga_id: number | null;
   liquidacion_id: number | null;
   orden_carga_id: number | null;
@@ -22,11 +23,18 @@ export interface MovimientoForm {
   moneda_id: number;
   tipo_cambio_moneda: number;
   fecha_cambio_moneda: string;
+  fecha: string | null;
+  detalle: string | null;
   // En caso de ser movimiento de anticipo
   anticipo_id: number | null;
   // En caso de ser movimiento de complemento o descuento
   complemento_id: number | null;
   descuento_id: number | null;
+  // IDs para referencia a las tablas de las contraparte
+  chofer_id: number | null;
+  propietario_id: number | null;
+  proveedor_id: number | null;
+  remitente_id: number | null;
 }
 
 export interface Movimiento extends ContraparteInfo, MovimientoForm {
@@ -38,11 +46,6 @@ export interface Movimiento extends ContraparteInfo, MovimientoForm {
   cuenta: TipoCuenta;
   tipo_movimiento: TipoMovimiento;
   moneda: Moneda;
-  // IDs para referencia a las tablas de las contraparte
-  chofer_id: number | null;
-  propietario_id: number | null;
-  proveedor_id: number | null;
-  remitente_id: number | null;
   // Campos calculados
   credito: number;
   camion_placa: string;
@@ -52,7 +55,6 @@ export interface Movimiento extends ContraparteInfo, MovimientoForm {
   cuenta_descripcion: string;
   debito: number;
   destino_nombre: string;
-  detalle: string;
   es_cobro: boolean;
   fecha_pago_cobro: string | null;
   flete_id: number | null;
@@ -92,6 +94,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 1,
     cuenta_id: 1,
     tipo_movimiento_id: 2,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: -2100000,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -177,6 +180,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 2,
     cuenta_id: 1,
     tipo_movimiento_id: 5,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: -675000,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -263,6 +267,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 1,
     cuenta_id: 1,
     tipo_movimiento_id: 4,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: 900,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -348,6 +353,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 1,
     cuenta_id: 1,
     tipo_movimiento_id: 3,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: 10000,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -433,6 +439,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 2,
     cuenta_id: 1,
     tipo_movimiento_id: 1,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: 236300,
     moneda_id: 1,
     tipo_cambio_moneda: 1,

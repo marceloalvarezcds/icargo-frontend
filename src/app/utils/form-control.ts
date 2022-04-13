@@ -2,11 +2,14 @@ import { FormControl } from '@angular/forms';
 import { merge, Observable } from 'rxjs';
 import { changeId } from './observable';
 
-export function getIdFromAny(value: any): number | undefined {
+export function getIdFromAny(
+  value: any,
+  key: string = 'id'
+): string | number | undefined {
   if (value) {
     return typeof value === 'string' || typeof value === 'number'
-      ? Number(value)
-      : Number(value.id);
+      ? value
+      : value[key];
   }
   return undefined;
 }

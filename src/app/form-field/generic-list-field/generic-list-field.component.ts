@@ -39,31 +39,40 @@ export class GenericListFieldComponent<T extends { id: number }>
     return obj[this.controlName];
   }
 
+  @Input() key = 'id';
   @Input() controlName = '';
   @Input() groupName?: string;
   @Input() errorMessage = '';
   @Input() set form(f: FormGroup) {
+    const key = this.key;
     this.formGroup = f;
-    const currentId = getIdFromAny(this.rowValue);
+    const currentId = getIdFromAny(this.rowValue, key);
     this.setValueChange(currentId);
     this.subscription = this.control.valueChanges
       .pipe(filter((v) => !!v))
-      .pipe(map((v) => getIdFromAny(v)))
-      .subscribe(this.setValueChange.bind(this));
+      .pipe(map((v) => getIdFromAny(v, key)))
+      .subscribe((id) => {
+        this.setValueChange(id);
+      });
   }
   @Input() set list$(list$: Observable<T[]> | undefined) {
     list$?.subscribe((list) => {
       this.list = list;
+      if (!list.length) {
+        this.emptyListChange.emit();
+      }
       if (this.formGroup) {
-        const currentId = getIdFromAny(this.rowValue);
+        const currentId = getIdFromAny(this.rowValue, this.key);
         this.setValueChange(currentId);
       }
     });
   }
+  @Input() readonly = false;
   @Input() textValueFormat: (v: T) => string = () => '';
   @Input() title = '';
   @Input() value!: (v: T) => number | string | T;
 
+  @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
 
   ngOnDestroy(): void {
@@ -71,16 +80,16 @@ export class GenericListFieldComponent<T extends { id: number }>
   }
 
   compareWith(
-    o1?: number | { id: number },
-    o2?: number | { id: number }
+    o1?: string | number | { id: number },
+    o2?: string | number | { id: number }
   ): boolean {
-    const id1 = typeof o1 === 'number' ? o1 : o1?.id;
-    const id2 = typeof o2 === 'number' ? o2 : o2?.id;
+    const id1 = typeof o1 === 'number' || typeof o1 === 'string' ? o1 : o1?.id;
+    const id2 = typeof o2 === 'number' || typeof o2 === 'string' ? o2 : o2?.id;
     return id1 === id2;
   }
 
-  private setValueChange(id: number | undefined): void {
-    const value = this.list.find((x) => x.id === id);
+  private setValueChange(id: string | number | undefined): void {
+    const value = this.list.find((x: any) => x[this.key] === id);
     this.valueChange.emit(value);
   }
 }

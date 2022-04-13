@@ -1,20 +1,31 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
+import { MovimientoFormDialogComponent } from 'src/app/dialogs/movimiento-form-dialog/movimiento-form-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
+  PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { Movimiento } from 'src/app/interfaces/movimiento';
+import {
+  mockMovimientoFormDialogData,
+  MovimientoFormDialogData,
+} from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
+import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
+import { create } from 'src/app/utils/table-event-crud';
 
 type Filter = {
   tipo_contraparte_descripcion?: string;
@@ -27,7 +38,8 @@ type Filter = {
   styleUrls: ['./estado-cuenta-list.component.scss'],
 })
 export class EstadoCuentaListComponent implements OnInit {
-  modelo = m.MOVIMIENTO;
+  a = PermisoAccionEnum;
+  m = PermisoModeloEnum;
   columns: Column[] = [
     {
       def: 'tipo_contraparte_descripcion',
@@ -134,7 +146,8 @@ export class EstadoCuentaListComponent implements OnInit {
     private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private router: Router
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -190,6 +203,20 @@ export class EstadoCuentaListComponent implements OnInit {
     this.filter('');
   }
 
+  create(): void {
+    create(this.getDialogRef(), this.emitChange.bind(this));
+  }
+
+  private getDialogRef(
+    item?: Movimiento
+  ): MatDialogRef<MovimientoFormDialogComponent, Movimiento> {
+    const data: MovimientoFormDialogData = {
+      ...mockMovimientoFormDialogData,
+      item,
+    };
+    return this.dialog.open(MovimientoFormDialogComponent, { data });
+  }
+
   private getList(): void {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
       this.list = list;
@@ -214,5 +241,11 @@ export class EstadoCuentaListComponent implements OnInit {
     this.isFiltered = false;
     this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
     this.contraparteFiltered = this.contraparteFilterList.slice();
+  }
+
+  private emitChange(): void {
+    openSnackbarWithMessage(this.snackbar, 'Factura agregada', () => {
+      this.getList();
+    });
   }
 }

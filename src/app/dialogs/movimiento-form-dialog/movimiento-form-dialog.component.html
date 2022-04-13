@@ -1,0 +1,81 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    {{ actionText }} Movimiento
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-input-field
+      title="Nº de Liquidación"
+      controlName="liquidacion_id"
+      [form]="form"
+      [hidden]="isContraparteEditable"
+    ></app-input-field>
+    <app-tipo-contraparte-field
+      [form]="form"
+      [readonly]="!isContraparteEditable"
+      (valueChange)="tipo = $event"
+    ></app-tipo-contraparte-field>
+    <button
+      *ngIf="isOtro"
+      type="button"
+      class="contraparte-button"
+      mat-raised-button
+      (click)="openField = !openField"
+      cdkFocusInitial
+      color="primary"
+    >
+      {{ openField ? "Elegir" : "Cargar" }} Contraparte
+    </button>
+    <app-contraparte-field
+      [form]="form"
+      [readonly]="!isContraparteEditable"
+      [openField]="openField"
+      [tipoContraparteId]="tipo?.id"
+      (valueChange)="setContraparte($event)"
+      (emptyListChange)="openField = isOtro"
+    ></app-contraparte-field>
+    <app-input-field
+      title="Nº Doc. Contraparte"
+      controlName="contraparte_numero_documento"
+      [form]="form"
+      [readonly]="!isContraparteEditable || !openField"
+    ></app-input-field>
+    <app-fecha-field
+      title="Fecha de creación"
+      controlName="fecha"
+      [form]="form"
+    ></app-fecha-field>
+    <app-number-field
+      title="Monto"
+      controlName="monto"
+      [form]="form"
+    ></app-number-field>
+    <app-moneda-field [form]="form"></app-moneda-field>
+    <mat-form-field>
+      <mat-label>Detalle</mat-label>
+      <textarea
+        matInput
+        formControlName="detalle"
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMinRows="1"
+      ></textarea>
+    </mat-form-field>
+    <app-estado-field [estado]="estado"></app-estado-field>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
+      Aceptar
+    </button>
+  </div>
+</form>

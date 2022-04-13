@@ -15,6 +15,7 @@ import { FacturaFormDialogComponent } from './factura-form-dialog/factura-form-d
 import { InstrumentoFormDialogComponent } from './instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionConfirmDialogComponent } from './liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
+import { MovimientoFormDialogComponent } from './movimiento-form-dialog/movimiento-form-dialog.component';
 import { MovimientosSelectedDialogComponent } from './movimientos-selected-dialog/movimientos-selected-dialog.component';
 import { OcAnticipoRetiradoFormDialogComponent } from './oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog/oc-complemento-form-dialog.component';
@@ -33,6 +34,7 @@ const modules = [
   InstrumentoFormDialogComponent,
   LiquidacionConfirmDialogComponent,
   LoadingDialogComponent,
+  MovimientoFormDialogComponent,
   MovimientosSelectedDialogComponent,
   OcAnticipoRetiradoFormDialogComponent,
   OcComplementoFormDialogComponent,

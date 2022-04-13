@@ -1,9 +1,9 @@
 <app-page
   class="estado-cuenta-page"
   module="Estado de Cuenta"
-  [modelo]="modelo"
-  [hideCreate]="true"
+  [modelo]="m.MOVIMIENTO"
   (applyClick)="applyFilter()"
+  (createClick)="create()"
   (downloadClick)="downloadFile()"
   (resetClick)="resetFilter()"
 >
@@ -50,7 +50,7 @@
     [columns]="columns"
     [data]="list"
     [filterPredicate]="filterPredicate"
-    [modelo]="modelo"
+    [modelo]="m.MOVIMIENTO"
     [hideDelete]="true"
     [hideEdit]="true"
     [hideShow]="true"

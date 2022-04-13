@@ -2,11 +2,16 @@
   <ng-container *ngIf="groupName">
     <mat-form-field [formGroupName]="groupName">
       <mat-label>{{ title }}</mat-label>
-      <mat-select [formControlName]="controlName" [compareWith]="compareWith">
-        <ng-container *ngFor="let o of list">
-          <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
-        </ng-container>
-      </mat-select>
+      <ng-container *ngIf="readonly; else selectTemplate">
+        <input matInput [formControlName]="controlName" [readonly]="readonly" />
+      </ng-container>
+      <ng-template #selectTemplate>
+        <mat-select [formControlName]="controlName" [compareWith]="compareWith">
+          <ng-container *ngFor="let o of list">
+            <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </ng-template>
       <mat-error
         *ngIf="control.hasError('required')"
         [innerHTML]="errorMessage"
@@ -16,11 +21,16 @@
   <ng-container *ngIf="!groupName">
     <mat-form-field>
       <mat-label>{{ title }}</mat-label>
-      <mat-select [formControlName]="controlName" [compareWith]="compareWith">
-        <ng-container *ngFor="let o of list">
-          <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
-        </ng-container>
-      </mat-select>
+      <ng-container *ngIf="readonly; else selectTemplate">
+        <input matInput [formControlName]="controlName" [readonly]="readonly" />
+      </ng-container>
+      <ng-template #selectTemplate>
+        <mat-select [formControlName]="controlName" [compareWith]="compareWith">
+          <ng-container *ngFor="let o of list">
+            <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
+          </ng-container>
+        </mat-select>
+      </ng-template>
       <mat-error
         *ngIf="control.hasError('required')"
         [innerHTML]="errorMessage"
