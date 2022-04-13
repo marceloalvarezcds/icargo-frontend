@@ -6,6 +6,7 @@ import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { CamionSemiNetoFormDialogComponent } from './camion-semi-neto-form-dialog/camion-semi-neto-form-dialog.component';
 import { ComentarioConfirmDialogComponent } from './comentario-confirm-dialog/comentario-confirm-dialog.component';
 import { ComplementoFormDialogComponent } from './complemento-form-dialog/complemento-form-dialog.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
@@ -25,6 +26,7 @@ import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-d
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
 
 const modules = [
+  CamionSemiNetoFormDialogComponent,
   ComentarioConfirmDialogComponent,
   ComplementoFormDialogComponent,
   ConfirmationDialogComponent,

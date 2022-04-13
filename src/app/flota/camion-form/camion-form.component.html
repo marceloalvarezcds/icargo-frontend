@@ -112,6 +112,17 @@
 
     <mat-expansion-panel *ngIf="isEdit || isShow">
       <mat-expansion-panel-header>
+        <mat-panel-title> Combinación </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-camion-form-combinacion
+        [gestorCargaId]="item?.gestor_cuenta_id"
+        [isShow]="isShow"
+        [camion]="item"
+      ></app-camion-form-combinacion>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel *ngIf="isEdit || isShow">
+      <mat-expansion-panel-header>
         <mat-panel-title> Auditoría </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-audit

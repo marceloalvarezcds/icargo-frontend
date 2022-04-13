@@ -37,6 +37,7 @@ import { NumberFieldComponent } from './number-field/number-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { OrdenCargaRemisionOrigenFieldComponent } from './orden-carga-remision-origen-field/orden-carga-remision-origen-field.component';
 import { PaisFieldComponent } from './pais-field/pais-field.component';
+import { ProductoByGestorDialogFieldComponent } from './producto-by-gestor-dialog-field/producto-by-gestor-dialog-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
 import { ProveedorByInsumoFieldComponent } from './proveedor-by-insumo-field/proveedor-by-insumo-field.component';
@@ -45,6 +46,7 @@ import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insu
 import { PuntoVentaByProveedorFieldComponent } from './punto-venta-by-proveedor-field/punto-venta-by-proveedor-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { SemiByCamionProductoFieldComponent } from './semi-by-camion-producto-field/semi-by-camion-producto-field.component';
+import { SemiByGestorDialogFieldComponent } from './semi-by-gestor-dialog-field/semi-by-gestor-dialog-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 import { TelefonoFieldComponent } from './telefono-field/telefono-field.component';
 import { TipoAnticipoByFleteFieldComponent } from './tipo-anticipo-by-flete-field/tipo-anticipo-by-flete-field.component';
@@ -98,6 +100,7 @@ const modules = [
   OficialCuentaFieldComponent,
   OrdenCargaRemisionOrigenFieldComponent,
   PaisFieldComponent,
+  ProductoByGestorDialogFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,
   ProveedorByInsumoFieldComponent,
@@ -106,6 +109,7 @@ const modules = [
   PuntoVentaByProveedorFieldComponent,
   RemitenteFieldComponent,
   SemiByCamionProductoFieldComponent,
+  SemiByGestorDialogFieldComponent,
   SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
   TipoAnticipoByFleteFieldComponent,

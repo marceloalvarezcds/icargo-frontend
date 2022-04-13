@@ -1,0 +1,37 @@
+<div *ngIf="gestorCargaId && item">
+  <div class="row page-form-row">
+    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+      <app-table
+        [columns]="columns"
+        [modelo]="m.CAMION_SEMI_NETO"
+        [gestorCuentaId]="gestorCargaId"
+        [data]="list"
+        [hideShow]="true"
+        [isShow]="
+          isShow ||
+          !(
+            (m.CAMION_SEMI_NETO | puede: a.EDITAR:gestorCargaId) ||
+            (m.CAMION_SEMI_NETO | puede: a.ELIMINAR:gestorCargaId)
+          )
+        "
+        (editClick)="edit($event)"
+        (deleteClick)="remove($event)"
+      ></app-table>
+    </div>
+    <div
+      class="col-xs-12"
+      [hidden]="!(m.CAMION_SEMI_NETO | puede: a.CREAR:gestorCargaId)"
+    >
+      <button
+        mat-raised-button
+        class="outline round"
+        color="primary"
+        type="button"
+        (click)="create()"
+        id="create-button"
+      >
+        Nueva Combinación
+      </button>
+    </div>
+  </div>
+</div>

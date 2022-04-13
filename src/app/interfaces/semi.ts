@@ -1,12 +1,21 @@
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { Ciudad, mockCiudadList } from './ciudad';
 import { Color, mockColorList } from './color';
-import { EnteEmisorAutomotor, mockEnteEmisorAutomotorList } from './ente-emisor-automotor';
-import { EnteEmisorTransporte, mockEnteEmisorTransporteList } from './ente-emisor-transporte';
+import {
+  EnteEmisorAutomotor,
+  mockEnteEmisorAutomotorList,
+} from './ente-emisor-automotor';
+import {
+  EnteEmisorTransporte,
+  mockEnteEmisorTransporteList,
+} from './ente-emisor-transporte';
 import { MarcaSemi, mockMarcaSemiList } from './marca-semi';
 import { mockPaisList } from './pais';
 import { mockPropietarioList, Propietario } from './propietario';
-import { mockSemiClasificacionList, SemiClasificacion } from './semi-clasificacion';
+import {
+  mockSemiClasificacionList,
+  SemiClasificacion,
+} from './semi-clasificacion';
 import { mockTipoCargaList, TipoCarga } from './tipo-carga';
 import { mockTipoSemiList, TipoSemi } from './tipo-semi';
 import { mockUserAccount } from './user';
@@ -18,8 +27,9 @@ export interface Semi {
   propietario: Propietario;
   numero_chasis: string;
   foto: string | null;
-  estado: EstadoEnum
+  estado: EstadoEnum;
   gestor_cuenta_id: number;
+  info: string;
   // INICIO Habilitaciones del Camión
   // inicio - municipal
   ciudad_habilitacion_municipal_id: number;
@@ -80,11 +90,12 @@ export interface SemiList {
   propietario_nombre: string;
   propietario_ruc: string;
   numero_chasis: string;
-  estado: EstadoEnum
+  estado: EstadoEnum;
   ciudad_habilitacion_municipal_nombre: string;
   gestor_cuenta_id: number;
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
+  info: string;
   marca_descripcion: string;
   clasificacion_descripcion: string;
   oficial_cuenta_nombre: string;
@@ -111,22 +122,27 @@ const marca0 = mockMarcaSemiList[0];
 const marca1 = mockMarcaSemiList[1];
 const pais0 = mockPaisList[0];
 const pais1 = mockPaisList[1];
+const placa0 = 'XXX111';
+const placa1 = 'YYY111';
 const propietario0 = mockPropietarioList[0];
 const propietario1 = mockPropietarioList[1];
 const tipoCarga0 = mockTipoCargaList[0];
 const tipoCarga1 = mockTipoCargaList[1];
 const tipoSemi0 = mockTipoSemiList[0];
 const tipoSemi1 = mockTipoSemiList[1];
+const info0 = `${placa0} - ${propietario0.nombre}`;
+const info1 = `${placa1} - ${propietario1.nombre}`;
 
 export const mockSemi: Semi = {
   id: 1,
-  placa: 'XXX111',
+  placa: placa0,
   propietario_id: propietario0.id,
   propietario: propietario0,
   numero_chasis: '23100100',
   foto: null,
   estado: EstadoEnum.ACTIVO,
   gestor_cuenta_id: 1,
+  info: info0,
   // INICIO Habilitaciones del Camión
   // inicio - municipal
   ciudad_habilitacion_municipal_id: ciudad0.id,
@@ -179,12 +195,12 @@ export const mockSemi: Semi = {
   created_at: '2021-11-30T20:38:09.553757',
   modified_by: 'system',
   modified_at: '2021-11-30T20:38:09.553757',
-}
+};
 
 export const mockSemiList: SemiList[] = [
   {
     id: 1,
-    placa: 'XXX111',
+    placa: placa0,
     propietario_nombre: propietario0.nombre,
     propietario_ruc: propietario0.ruc,
     numero_chasis: '23100100',
@@ -193,11 +209,13 @@ export const mockSemiList: SemiList[] = [
     gestor_cuenta_id: mockUserAccount.id,
     gestor_cuenta_nombre: mockUserAccount.first_name,
     localidad_habilitacion_municipal_nombre: ciudad0.localidad.nombre,
+    info: info0,
     marca_descripcion: marca0.descripcion,
     clasificacion_descripcion: clasificacion0.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
     pais_habilitacion_municipal_nombre: ciudad0.localidad.pais.nombre,
-    pais_habilitacion_municipal_nombre_corto: ciudad0.localidad.pais.nombre_corto,
+    pais_habilitacion_municipal_nombre_corto:
+      ciudad0.localidad.pais.nombre_corto,
     tipo_descripcion: tipoSemi0.descripcion,
     tipo_carga_descripcion: tipoCarga0.descripcion,
     pais_emisor_placa_nombre: pais0.nombre,
@@ -209,7 +227,7 @@ export const mockSemiList: SemiList[] = [
   },
   {
     id: 2,
-    placa: 'YYY111',
+    placa: placa1,
     propietario_nombre: propietario1.nombre,
     propietario_ruc: propietario1.ruc,
     numero_chasis: '23100100',
@@ -218,11 +236,13 @@ export const mockSemiList: SemiList[] = [
     gestor_cuenta_id: mockUserAccount.id,
     gestor_cuenta_nombre: mockUserAccount.first_name,
     localidad_habilitacion_municipal_nombre: ciudad1.localidad.nombre,
+    info: info1,
     marca_descripcion: marca1.descripcion,
     clasificacion_descripcion: clasificacion1.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
     pais_habilitacion_municipal_nombre: ciudad1.localidad.pais.nombre,
-    pais_habilitacion_municipal_nombre_corto: ciudad1.localidad.pais.nombre_corto,
+    pais_habilitacion_municipal_nombre_corto:
+      ciudad1.localidad.pais.nombre_corto,
     tipo_descripcion: tipoSemi1.descripcion,
     tipo_carga_descripcion: tipoCarga1.descripcion,
     pais_emisor_placa_nombre: pais1.nombre,
