@@ -1,5 +1,5 @@
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
-import { MovimientoForm, mockMovimientoList } from './movimiento';
+import { MovimientoForm, mockMovimientoForm1 } from './movimiento';
 
 export interface MovimientoFormDialogData {
   item?: MovimientoForm;
@@ -11,7 +11,7 @@ export interface MovimientoFormDialogData {
 }
 
 export const mockMovimientoFormDialogData: MovimientoFormDialogData = {
-  item: mockMovimientoList[0],
+  item: mockMovimientoForm1,
   liquidacion_id: null,
   tipo_contraparte_id: null,
   contraparte: null,

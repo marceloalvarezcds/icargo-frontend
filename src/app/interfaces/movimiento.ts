@@ -7,7 +7,7 @@ import { TipoCuenta } from './tipo-cuenta';
 import { TipoDocumentoRelacionado } from './tipo-documento-relacionado';
 import { TipoMovimiento } from './tipo-movimiento';
 
-export interface MovimientoForm {
+export interface MovimientoBaseModel {
   id: number | null;
   gestor_carga_id: number | null;
   liquidacion_id: number | null;
@@ -37,10 +37,15 @@ export interface MovimientoForm {
   remitente_id: number | null;
 }
 
-export interface Movimiento extends ContraparteInfo, MovimientoForm {
+export interface MovimientoForm extends MovimientoBaseModel {
+  es_creacion_contraparte?: boolean;
+}
+
+export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   id: number;
   gestor_carga_id: number;
   estado: MovimientoEstadoEnum;
+  es_editable: boolean;
   tipo_contraparte: TipoContraparte;
   tipo_documento_relacionado: TipoDocumentoRelacionado;
   cuenta: TipoCuenta;
@@ -108,6 +113,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: 1,
     id: 11,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: true,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 3,
@@ -194,6 +200,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 2,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -281,6 +288,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 3,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -367,6 +375,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 4,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -453,6 +462,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 5,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -516,3 +526,13 @@ export const mockMovimientoList: Movimiento[] = [
     modified_at: '2022-03-16T12:34:16.869250',
   },
 ];
+
+export const mockMovimientoForm1: MovimientoForm = {
+  ...mockMovimientoList[0],
+  es_creacion_contraparte: false,
+};
+
+export const mockMovimientoForm2: MovimientoForm = {
+  ...mockMovimientoList[0],
+  es_creacion_contraparte: true,
+};

@@ -108,7 +108,11 @@ export class MovimientoFormDialogComponent {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      const formData = movimientoData(this.form, this.liquidacionId);
+      const formData = movimientoData(
+        this.form,
+        this.liquidacionId,
+        this.openField
+      );
       if (this.data && this.data?.id) {
         this.movimientoService
           .edit(this.data.id, formData)
