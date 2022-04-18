@@ -70,7 +70,7 @@ export class LiquidacionFormComponent implements OnInit {
     if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
-        list: this.movimientosSelected,
+        list: this.movimientosSelected.slice(),
         credito: this.credito,
         debito: this.debito,
       };
@@ -98,13 +98,13 @@ export class LiquidacionFormComponent implements OnInit {
             .open('Datos guardados satisfactoriamente', 'Ok')
             .afterDismissed()
             .subscribe(() => {
-              this.movimientosSelected = [];
               if (confirmed) {
                 this.router.navigate([this.backUrl]);
               } else {
                 this.getData();
               }
             });
+          this.movimientosSelected.splice(0, this.movimientosSelected.length);
         });
     } else {
       this.snackbar.open('Debe elegir al menos 1 movimiento', 'Ok');
