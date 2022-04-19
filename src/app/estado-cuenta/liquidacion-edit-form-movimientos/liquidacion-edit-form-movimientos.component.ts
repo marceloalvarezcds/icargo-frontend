@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MovimientosSelectedDialogComponent } from 'src/app/dialogs/movimientos-selected-dialog/movimientos-selected-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
+import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -16,10 +17,17 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { MovimientosSelectedDialogData } from 'src/app/interfaces/movimientos-selected-dialog';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { confirmationDialog } from 'src/app/utils/confirm';
+import {
+  createMovimiento,
+  deleteMovimiento,
+  editMovimiento,
+  redirectToShowOCByMovimiento,
+} from 'src/app/utils/movimiento-utils';
 import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
 
 @Component({
@@ -99,13 +107,16 @@ export class LiquidacionEditFormMovimientosComponent {
       value: (element: Movimiento) => element.created_by,
     },
     {
-      def: 'ver',
+      def: 'editar',
       title: '',
       type: 'button',
-      value: () => 'Ver OC',
-      isHidden: (mov: Movimiento) =>
-        mov.tipo_documento_relacionado_descripcion === 'OC',
-      buttonCallback: (element: Movimiento) => this.redirectToShowOC(element),
+      value: (mov: Movimiento) => (mov.es_editable ? 'Editar' : 'Ver OC'),
+      buttonCallback: (mov: Movimiento) =>
+        mov.es_editable
+          ? this.edit(mov)
+          : redirectToShowOCByMovimiento(this.router, mov),
+      buttonIconName: (mov: Movimiento) =>
+        mov.es_editable ? 'edit' : 'visibility',
       stickyEnd: true,
     },
   ];
@@ -133,8 +144,10 @@ export class LiquidacionEditFormMovimientosComponent {
             def: 'delete',
             title: '',
             type: 'button',
-            value: () => 'Quitar Movimiento',
-            buttonCallback: (mov: Movimiento) => this.removeMovimiento(mov),
+            value: (mov: Movimiento) =>
+              mov.es_editable ? 'Eliminar Movimiento' : 'Quitar Movimiento',
+            buttonCallback: (mov: Movimiento) =>
+              mov.es_editable ? this.delete(mov) : this.removeMovimiento(mov),
             buttonIconName: () => 'delete',
             sticky: true,
           },
@@ -209,13 +222,45 @@ export class LiquidacionEditFormMovimientosComponent {
     );
   }
 
-  private redirectToShowOC(mov: Movimiento): void {
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([
-        `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
-        mov.numero_documento_relacionado,
-      ])
+  createMovimiento(): void {
+    const liquidacion = this.liquidacion!;
+    const data: MovimientoFormDialogData = {
+      liquidacion_id: liquidacion.id,
+      tipo_contraparte_id: liquidacion.tipo_contraparte_id,
+      contraparte: liquidacion.contraparte,
+      contraparte_numero_documento: liquidacion.contraparte_numero_documento,
+      estado: MovimientoEstadoEnum.EN_PROCESO,
+      es_contraparte_editable: false,
+      item: undefined,
+    };
+    createMovimiento(data, this.dialog, this.snackbar, () => {
+      this.selectedMovimientosChange.emit(this.list);
+    });
+  }
+
+  private edit(item: Movimiento): void {
+    const data: MovimientoFormDialogData = {
+      estado: MovimientoEstadoEnum.EN_PROCESO,
+      liquidacion_id: this.liquidacion!.id,
+      es_contraparte_editable: false,
+      item,
+    };
+    editMovimiento(data, this.dialog, this.snackbar, () => {
+      this.selectedMovimientosChange.emit(this.list);
+    });
+  }
+
+  private delete(mov: Movimiento): void {
+    deleteMovimiento(
+      mov,
+      this.dialog,
+      this.movimientoService,
+      this.snackbar,
+      () => {
+        this.selectedMovimientosChange.emit(
+          this.list.filter((x) => x.id !== mov.id)
+        );
+      }
     );
-    window.open(url, '_blank');
   }
 }

@@ -57,7 +57,7 @@ export class MovimientoFormDialogComponent {
   }
 
   get isContraparteEditable(): boolean {
-    return !this.dialogData.liquidacion_id;
+    return this.dialogData.es_contraparte_editable;
   }
 
   get isOtro(): boolean {
@@ -69,11 +69,11 @@ export class MovimientoFormDialogComponent {
   }
 
   get liquidacionId(): number | null {
-    return this.data?.liquidacion_id ?? this.dialogData.liquidacion_id;
+    return this.data?.liquidacion_id ?? this.dialogData.liquidacion_id ?? null;
   }
 
   get contraparte(): string | null {
-    return this.data?.contraparte ?? this.dialogData.contraparte;
+    return this.data?.contraparte ?? this.dialogData.contraparte ?? null;
   }
 
   get contraparteControl(): FormControl {
@@ -83,7 +83,8 @@ export class MovimientoFormDialogComponent {
   get contraparteNumeroDocumento(): string | null {
     return (
       this.data?.contraparte_numero_documento ??
-      this.dialogData.contraparte_numero_documento
+      this.dialogData.contraparte_numero_documento ??
+      null
     );
   }
 
@@ -93,7 +94,9 @@ export class MovimientoFormDialogComponent {
 
   get tipoContraparteId(): number | null {
     return (
-      this.data?.tipo_contraparte_id ?? this.dialogData.tipo_contraparte_id
+      this.data?.tipo_contraparte_id ??
+      this.dialogData.tipo_contraparte_id ??
+      null
     );
   }
 

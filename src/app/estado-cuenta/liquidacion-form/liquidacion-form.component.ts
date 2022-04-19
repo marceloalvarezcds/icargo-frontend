@@ -136,7 +136,7 @@ export class LiquidacionFormComponent implements OnInit {
       });
   }
 
-  private getList(): void {
+  getList(): void {
     const etapa = this.etapa! as LiquidacionEtapaEnum;
     this.movimientoService
       .getListByEstadoCuenta(this.estadoCuenta!, etapa)

@@ -13,8 +13,10 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
-import { mockCamionSemiNetoFormDialogData } from 'src/app/interfaces/camion-semi-neto-form-dialog-data';
-import { mockMovimientoFormDialogDataWithoutItem } from 'src/app/interfaces/movimiento-form-dialog-data';
+import {
+  mockCamionSemiNetoFormDialogData,
+  mockCamionSemiNetoFormDialogDataWithoutItem,
+} from 'src/app/interfaces/camion-semi-neto-form-dialog-data';
 import { mockProductoList } from 'src/app/interfaces/producto';
 import { mockSemiList } from 'src/app/interfaces/semi';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -70,7 +72,7 @@ describe('CamionSemiNetoFormDialogComponent', () => {
 
   it('data should be null', fakeAsync(() => {
     TestBed.overrideProvider(MAT_DIALOG_DATA, {
-      useValue: mockMovimientoFormDialogDataWithoutItem,
+      useValue: mockCamionSemiNetoFormDialogDataWithoutItem,
     });
     fixture = TestBed.createComponent(CamionSemiNetoFormDialogComponent);
     component = fixture.componentInstance;
@@ -86,7 +88,7 @@ describe('CamionSemiNetoFormDialogComponent', () => {
 
   it('data should be null and should submitted', fakeAsync(() => {
     TestBed.overrideProvider(MAT_DIALOG_DATA, {
-      useValue: mockMovimientoFormDialogDataWithoutItem,
+      useValue: mockCamionSemiNetoFormDialogDataWithoutItem,
     });
     httpController = TestBed.inject(HttpTestingController);
     fixture = TestBed.createComponent(CamionSemiNetoFormDialogComponent);

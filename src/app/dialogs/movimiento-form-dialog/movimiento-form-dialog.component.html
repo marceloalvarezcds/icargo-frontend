@@ -10,7 +10,8 @@
       title="Nº de Liquidación"
       controlName="liquidacion_id"
       [form]="form"
-      [hidden]="isContraparteEditable"
+      [hidden]="!liquidacionId"
+      [readonly]="!isContraparteEditable"
     ></app-input-field>
     <app-tipo-contraparte-field
       [form]="form"
@@ -18,7 +19,7 @@
       (valueChange)="tipo = $event"
     ></app-tipo-contraparte-field>
     <button
-      *ngIf="isOtro"
+      *ngIf="isOtro && isContraparteEditable"
       type="button"
       class="contraparte-button"
       mat-raised-button
@@ -46,6 +47,7 @@
       title="Fecha de creación"
       controlName="fecha"
       [form]="form"
+      [hidden]="isEdit"
     ></app-fecha-field>
     <app-number-field
       title="Monto"

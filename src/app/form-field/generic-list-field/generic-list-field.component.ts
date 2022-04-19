@@ -88,8 +88,18 @@ export class GenericListFieldComponent<T extends { id: number }>
     return id1 === id2;
   }
 
+  getItemById(id: string | number | undefined): T | undefined {
+    return this.list.find((x: any) => x[this.key] === id);
+  }
+
+  getTextValue(): number | string | T | undefined {
+    const currentId = getIdFromAny(this.rowValue, this.key);
+    const item = this.getItemById(currentId);
+    return item ? this.textValueFormat(item) : item;
+  }
+
   private setValueChange(id: string | number | undefined): void {
-    const value = this.list.find((x: any) => x[this.key] === id);
+    const value = this.getItemById(id);
     this.valueChange.emit(value);
   }
 }

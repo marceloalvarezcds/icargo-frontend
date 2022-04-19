@@ -1,23 +1,25 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import { Column } from 'src/app/interfaces/column';
 import { Movimiento } from 'src/app/interfaces/movimiento';
-import { SelectableItemTableComponent } from 'src/app/shared/selectable-item-table/selectable-item-table.component';
-import { redirectToShowOCByMovimiento } from 'src/app/utils/movimiento-utils';
+import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
+import { MovimientoService } from 'src/app/services/movimiento.service';
+import {
+  deleteMovimiento,
+  editMovimiento,
+  redirectToShowOCByMovimiento,
+} from 'src/app/utils/movimiento-utils';
 
 @Component({
-  selector: 'app-selectable-movimiento-table',
-  templateUrl: './selectable-movimiento-table.component.html',
-  styleUrls: ['./selectable-movimiento-table.component.scss'],
+  selector: 'app-liquidacion-form-movimientos',
+  templateUrl: './liquidacion-form-movimientos.component.html',
+  styleUrls: ['./liquidacion-form-movimientos.component.scss'],
 })
-export class SelectableMovimientoTableComponent {
-  @Input() columns: Column[] = [
+export class LiquidacionFormMovimientosComponent {
+  columns: Column[] = [
     {
       def: 'id',
       title: 'Nº de Movimiento',
@@ -92,24 +94,62 @@ export class SelectableMovimientoTableComponent {
       value: (element: Movimiento) => element.created_by,
     },
     {
-      def: 'ver',
+      def: 'editar',
       title: '',
       type: 'button',
-      value: () => 'Ver OC',
-      isHidden: (mov: Movimiento) =>
-        mov.tipo_documento_relacionado_descripcion === 'OC',
-      buttonCallback: (element: Movimiento) =>
-        redirectToShowOCByMovimiento(this.router, element),
+      value: (mov: Movimiento) => (mov.es_editable ? 'Editar' : 'Ver OC'),
+      buttonCallback: (mov: Movimiento) =>
+        mov.es_editable
+          ? this.edit(mov)
+          : redirectToShowOCByMovimiento(this.router, mov),
+      buttonIconName: (mov: Movimiento) =>
+        mov.es_editable ? 'edit' : 'visibility',
+      stickyEnd: true,
+    },
+    {
+      def: 'eliminar',
+      title: '',
+      type: 'button',
+      value: () => 'Eliminar',
+      isDisable: (mov: Movimiento) => !mov.es_editable,
+      buttonCallback: (mov: Movimiento) => this.delete(mov),
+      buttonIconName: () => 'delete',
       stickyEnd: true,
     },
   ];
 
   @Input() list: Movimiento[] = [];
 
+  @Output() movimientosInDBChange = new EventEmitter<Movimiento[]>();
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
-  @ViewChild('app-selectable-movimiento-table')
-  component?: SelectableItemTableComponent<Movimiento>;
+  constructor(
+    private movimientoService: MovimientoService,
+    private router: Router,
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
+  ) {}
 
-  constructor(private router: Router) {}
+  private edit(item: Movimiento): void {
+    const data: MovimientoFormDialogData = {
+      item,
+      estado: MovimientoEstadoEnum.PENDIENTE,
+      es_contraparte_editable: false,
+    };
+    editMovimiento(data, this.dialog, this.snackbar, () => {
+      this.movimientosInDBChange.emit();
+    });
+  }
+
+  private delete(mov: Movimiento): void {
+    deleteMovimiento(
+      mov,
+      this.dialog,
+      this.movimientoService,
+      this.snackbar,
+      () => {
+        this.movimientosInDBChange.emit();
+      }
+    );
+  }
 }

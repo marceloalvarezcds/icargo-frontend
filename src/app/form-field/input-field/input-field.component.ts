@@ -18,6 +18,11 @@ export class InputFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
+  get rowValue(): string | number | undefined {
+    const obj = this.group.getRawValue();
+    return obj[this.controlName];
+  }
+
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;

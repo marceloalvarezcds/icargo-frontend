@@ -1,10 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
-import { MovimientoFormDialogComponent } from 'src/app/dialogs/movimiento-form-dialog/movimiento-form-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
+import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
@@ -13,19 +13,14 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
-import { Movimiento } from 'src/app/interfaces/movimiento';
-import {
-  mockMovimientoFormDialogData,
-  MovimientoFormDialogData,
-} from 'src/app/interfaces/movimiento-form-dialog-data';
+import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
-import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
-import { create } from 'src/app/utils/table-event-crud';
+import { createMovimiento } from 'src/app/utils/movimiento-utils';
 
 type Filter = {
   tipo_contraparte_descripcion?: string;
@@ -204,17 +199,13 @@ export class EstadoCuentaListComponent implements OnInit {
   }
 
   create(): void {
-    create(this.getDialogRef(), this.emitChange.bind(this));
-  }
-
-  private getDialogRef(
-    item?: Movimiento
-  ): MatDialogRef<MovimientoFormDialogComponent, Movimiento> {
     const data: MovimientoFormDialogData = {
-      ...mockMovimientoFormDialogData,
-      item,
+      estado: MovimientoEstadoEnum.PENDIENTE,
+      es_contraparte_editable: true,
     };
-    return this.dialog.open(MovimientoFormDialogComponent, { data });
+    createMovimiento(data, this.dialog, this.snackbar, () => {
+      this.getList();
+    });
   }
 
   private getList(): void {
@@ -241,11 +232,5 @@ export class EstadoCuentaListComponent implements OnInit {
     this.isFiltered = false;
     this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
     this.contraparteFiltered = this.contraparteFilterList.slice();
-  }
-
-  private emitChange(): void {
-    openSnackbarWithMessage(this.snackbar, 'Factura agregada', () => {
-      this.getList();
-    });
   }
 }

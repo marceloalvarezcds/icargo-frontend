@@ -84,6 +84,7 @@
                       mat-icon-button
                       class="row-button"
                       color="primary"
+                      [matTooltip]="column.value(row)"
                       [disabled]="column.isDisable && column.isDisable(row)"
                       (click)="column.buttonCallback(row)"
                     >

@@ -1,6 +1,7 @@
 <app-generic-list-field
   *ngIf="form"
   errorMessage="El Tipo de contraparte es <strong>requerido</strong>"
+  [readonly]="readonly"
   [title]="title"
   [controlName]="controlName"
   [groupName]="groupName"
