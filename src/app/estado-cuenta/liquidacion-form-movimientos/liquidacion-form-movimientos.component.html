@@ -1,0 +1,7 @@
+<div class="movimientos-container">
+  <app-selectable-movimiento-table
+    [columns]="columns"
+    [list]="list"
+    (selectedMovimientosChange)="selectedMovimientosChange.emit($event)"
+  ></app-selectable-movimiento-table>
+</div>

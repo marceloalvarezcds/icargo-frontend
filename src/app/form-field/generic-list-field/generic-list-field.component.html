@@ -1,8 +1,18 @@
-<div *ngIf="formGroup" [formGroup]="formGroup">
+<div *ngIf="formGroup" [formGroup]="formGroup" class="field-content">
   <ng-container *ngIf="groupName">
     <mat-form-field [formGroupName]="groupName">
       <mat-label>{{ title }}</mat-label>
-      <mat-select [formControlName]="controlName" [compareWith]="compareWith">
+      <input
+        matInput
+        [value]="getTextValue()"
+        [disabled]="readonly"
+        [hidden]="!readonly"
+      />
+      <mat-select
+        [formControlName]="controlName"
+        [compareWith]="compareWith"
+        [hidden]="readonly"
+      >
         <ng-container *ngFor="let o of list">
           <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
         </ng-container>
@@ -16,7 +26,17 @@
   <ng-container *ngIf="!groupName">
     <mat-form-field>
       <mat-label>{{ title }}</mat-label>
-      <mat-select [formControlName]="controlName" [compareWith]="compareWith">
+      <input
+        matInput
+        [value]="getTextValue()"
+        [disabled]="readonly"
+        [hidden]="!readonly"
+      />
+      <mat-select
+        [formControlName]="controlName"
+        [compareWith]="compareWith"
+        [hidden]="readonly"
+      >
         <ng-container *ngFor="let o of list">
           <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
         </ng-container>

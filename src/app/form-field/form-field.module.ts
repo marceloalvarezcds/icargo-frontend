@@ -14,6 +14,7 @@ import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-o
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
+import { ContraparteFieldComponent } from './contraparte-field/contraparte-field.component';
 import { DialogFieldComponent } from './dialog-field/dialog-field.component';
 import { DigitoVerificadorFieldComponent } from './digito-verificador-field/digito-verificador-field.component';
 import { EmailFieldComponent } from './email-field/email-field.component';
@@ -36,6 +37,7 @@ import { NumberFieldComponent } from './number-field/number-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { OrdenCargaRemisionOrigenFieldComponent } from './orden-carga-remision-origen-field/orden-carga-remision-origen-field.component';
 import { PaisFieldComponent } from './pais-field/pais-field.component';
+import { ProductoByGestorDialogFieldComponent } from './producto-by-gestor-dialog-field/producto-by-gestor-dialog-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
 import { ProveedorByInsumoFieldComponent } from './proveedor-by-insumo-field/proveedor-by-insumo-field.component';
@@ -44,6 +46,7 @@ import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insu
 import { PuntoVentaByProveedorFieldComponent } from './punto-venta-by-proveedor-field/punto-venta-by-proveedor-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { SemiByCamionProductoFieldComponent } from './semi-by-camion-producto-field/semi-by-camion-producto-field.component';
+import { SemiByGestorDialogFieldComponent } from './semi-by-gestor-dialog-field/semi-by-gestor-dialog-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 import { TelefonoFieldComponent } from './telefono-field/telefono-field.component';
 import { TipoAnticipoByFleteFieldComponent } from './tipo-anticipo-by-flete-field/tipo-anticipo-by-flete-field.component';
@@ -53,6 +56,7 @@ import { TipoCargaFieldComponent } from './tipo-carga-field/tipo-carga-field.com
 import { TipoComprobanteFieldComponent } from './tipo-comprobante-field/tipo-comprobante-field.component';
 import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
 import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
+import { TipoContraparteFieldComponent } from './tipo-contraparte-field/tipo-contraparte-field.component';
 import { TipoDocumentoFieldComponent } from './tipo-documento-field/tipo-documento-field.component';
 import { TipoInstrumentoViaBancoFieldComponent } from './tipo-instrumento-via-banco-field/tipo-instrumento-via-banco-field.component';
 import { TipoInsumoByFleteFieldComponent } from './tipo-insumo-by-flete-field/tipo-insumo-by-flete-field.component';
@@ -73,6 +77,7 @@ const modules = [
   ChoferFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
+  ContraparteFieldComponent,
   DialogFieldComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
@@ -95,6 +100,7 @@ const modules = [
   OficialCuentaFieldComponent,
   OrdenCargaRemisionOrigenFieldComponent,
   PaisFieldComponent,
+  ProductoByGestorDialogFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,
   ProveedorByInsumoFieldComponent,
@@ -103,6 +109,7 @@ const modules = [
   PuntoVentaByProveedorFieldComponent,
   RemitenteFieldComponent,
   SemiByCamionProductoFieldComponent,
+  SemiByGestorDialogFieldComponent,
   SemiClasificacionFieldComponent,
   TelefonoFieldComponent,
   TipoAnticipoByFleteFieldComponent,
@@ -112,6 +119,7 @@ const modules = [
   TipoComprobanteFieldComponent,
   TipoConceptoComplementoFieldComponent,
   TipoConceptoDescuentoFieldComponent,
+  TipoContraparteFieldComponent,
   TipoDocumentoFieldComponent,
   TipoInstrumentoViaBancoFieldComponent,
   TipoInsumoByFleteFieldComponent,

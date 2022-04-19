@@ -1,0 +1,27 @@
+<ng-container *ngIf="openField; else list">
+  <app-input-field
+    [title]="title"
+    [controlName]="controlName"
+    [form]="form"
+    [readonly]="readonly"
+  ></app-input-field>
+</ng-container>
+<ng-template #list>
+  <app-generic-list-field
+    *ngIf="form"
+    errorMessage="La contraparte es <strong>requerida</strong>"
+    key="contraparte"
+    [readonly]="readonly"
+    [title]="title"
+    [controlName]="controlName"
+    [groupName]="groupName"
+    [controlName]="controlName"
+    [controlName]="controlName"
+    [textValueFormat]="textValueFormat"
+    [value]="value"
+    [list$]="list$"
+    [form]="form"
+    (valueChange)="valueChange.emit($event)"
+    (emptyListChange)="emptyListChange.emit($event)"
+  ></app-generic-list-field>
+</ng-template>

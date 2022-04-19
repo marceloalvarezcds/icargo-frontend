@@ -4,6 +4,10 @@ export interface Contraparte {
   tipo_contraparte_id: number;
 }
 
+export interface ContraparteWithId extends Contraparte {
+  id: number;
+}
+
 export interface ContraparteEtapa extends Contraparte {
   etapa: string;
 }

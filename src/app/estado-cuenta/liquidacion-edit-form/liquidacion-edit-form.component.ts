@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -9,6 +10,7 @@ import {
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
+import { MovimientoService } from 'src/app/services/movimiento.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 
 @Component({
@@ -53,7 +55,8 @@ export class LiquidacionEditFormComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private liquidacionService: LiquidacionService
+    private liquidacionService: LiquidacionService,
+    private movimientoService: MovimientoService
   ) {}
 
   ngOnInit(): void {
@@ -95,7 +98,15 @@ export class LiquidacionEditFormComponent implements OnInit {
   private loadLiquidacion(): void {
     this.liquidacionService.getById(this.id!).subscribe((item) => {
       this.item = item;
-      this.movimientos = item.movimientos;
+      this.getList(item);
     });
+  }
+
+  private getList(liq: Liquidacion): void {
+    this.movimientoService
+      .getListByEstadoCuenta(liq, LiquidacionEtapaEnum.EN_PROCESO)
+      .subscribe((data) => {
+        this.movimientos = data;
+      });
   }
 }

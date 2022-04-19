@@ -10,6 +10,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Camion } from 'src/app/interfaces/camion';
 import { CamionService } from 'src/app/services/camion.service';
 import { UserService } from 'src/app/services/user.service';
 import {
@@ -27,6 +28,7 @@ import { DateValidator } from 'src/app/validators/date-validator';
 export class CamionFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   id?: number;
+  item?: Camion;
   propietarioId?: number;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
@@ -305,6 +307,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.camionService.getById(this.id).subscribe((data) => {
+        this.item = data;
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;

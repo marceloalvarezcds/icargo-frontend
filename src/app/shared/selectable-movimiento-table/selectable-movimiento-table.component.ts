@@ -6,13 +6,10 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Router } from '@angular/router';
-import {
-  PermisoAccionEnum as a,
-  PermisoModeloEnum as m,
-} from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { SelectableItemTableComponent } from 'src/app/shared/selectable-item-table/selectable-item-table.component';
+import { redirectToShowOCByMovimiento } from 'src/app/utils/movimiento-utils';
 
 @Component({
   selector: 'app-selectable-movimiento-table',
@@ -20,7 +17,7 @@ import { SelectableItemTableComponent } from 'src/app/shared/selectable-item-tab
   styleUrls: ['./selectable-movimiento-table.component.scss'],
 })
 export class SelectableMovimientoTableComponent {
-  columns: Column[] = [
+  @Input() columns: Column[] = [
     {
       def: 'id',
       title: 'Nº de Movimiento',
@@ -101,7 +98,8 @@ export class SelectableMovimientoTableComponent {
       value: () => 'Ver OC',
       isHidden: (mov: Movimiento) =>
         mov.tipo_documento_relacionado_descripcion === 'OC',
-      buttonCallback: (element: Movimiento) => this.redirectToShowOC(element),
+      buttonCallback: (element: Movimiento) =>
+        redirectToShowOCByMovimiento(this.router, element),
       stickyEnd: true,
     },
   ];
@@ -114,14 +112,4 @@ export class SelectableMovimientoTableComponent {
   component?: SelectableItemTableComponent<Movimiento>;
 
   constructor(private router: Router) {}
-
-  private redirectToShowOC(mov: Movimiento): void {
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([
-        `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
-        mov.numero_documento_relacionado,
-      ])
-    );
-    window.open(url, '_blank');
-  }
 }

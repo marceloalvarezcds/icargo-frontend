@@ -6,7 +6,6 @@ import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { getParams } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 @Injectable({
   providedIn: 'root',
@@ -23,5 +22,21 @@ export class MovimientoService {
     return this.http.get<Movimiento[]>(
       `${this.url}/${getParams(estadoCuenta, etapa)}`
     );
+  }
+
+  getById(id: number): Observable<Movimiento> {
+    return this.http.get<Movimiento>(`${this.url}/${id}`);
+  }
+
+  create(formData: FormData): Observable<Movimiento> {
+    return this.http.post<Movimiento>(`${this.url}/`, formData);
+  }
+
+  edit(id: number, formData: FormData): Observable<Movimiento> {
+    return this.http.put<Movimiento>(`${this.url}/${id}`, formData);
+  }
+
+  delete(id: number): Observable<Movimiento> {
+    return this.http.delete<Movimiento>(`${this.url}/${id}`);
   }
 }

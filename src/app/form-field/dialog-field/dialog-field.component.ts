@@ -113,7 +113,7 @@ export class DialogFieldComponent<T extends { id: number }>
       });
   }
 
-  private setValueChange(id: number | undefined): void {
+  private setValueChange(id: string | number | undefined): void {
     this.selectedValue = this.list.find((x) => x.id === id);
     this.valueChange.emit(this.selectedValue);
   }

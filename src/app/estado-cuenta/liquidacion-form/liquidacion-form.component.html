@@ -27,10 +27,11 @@
         <input matInput [value]="saldo" appInputThousandsSeparator disabled />
       </mat-form-field>
       <div class="col-xs-12">
-        <app-selectable-movimiento-table
+        <app-liquidacion-form-movimientos
           [list]="list"
+          (movimientosInDBChange)="getList()"
           (selectedMovimientosChange)="movimientosSelected = $event"
-        ></app-selectable-movimiento-table>
+        ></app-liquidacion-form-movimientos>
       </div>
     </div>
   </div>

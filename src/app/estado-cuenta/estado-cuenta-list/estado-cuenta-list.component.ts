@@ -1,20 +1,26 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { Router } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
+import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import {
   PermisoAccionEnum as a,
+  PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
+import { createMovimiento } from 'src/app/utils/movimiento-utils';
 
 type Filter = {
   tipo_contraparte_descripcion?: string;
@@ -27,7 +33,8 @@ type Filter = {
   styleUrls: ['./estado-cuenta-list.component.scss'],
 })
 export class EstadoCuentaListComponent implements OnInit {
-  modelo = m.MOVIMIENTO;
+  a = PermisoAccionEnum;
+  m = PermisoModeloEnum;
   columns: Column[] = [
     {
       def: 'tipo_contraparte_descripcion',
@@ -134,7 +141,8 @@ export class EstadoCuentaListComponent implements OnInit {
     private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private router: Router
+    private dialog: MatDialog,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -188,6 +196,16 @@ export class EstadoCuentaListComponent implements OnInit {
   resetFilter(): void {
     this.resetFilterList();
     this.filter('');
+  }
+
+  create(): void {
+    const data: MovimientoFormDialogData = {
+      estado: MovimientoEstadoEnum.PENDIENTE,
+      es_contraparte_editable: true,
+    };
+    createMovimiento(data, this.dialog, this.snackbar, () => {
+      this.getList();
+    });
   }
 
   private getList(): void {

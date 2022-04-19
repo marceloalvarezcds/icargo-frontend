@@ -7,7 +7,8 @@ import { TipoCuenta } from './tipo-cuenta';
 import { TipoDocumentoRelacionado } from './tipo-documento-relacionado';
 import { TipoMovimiento } from './tipo-movimiento';
 
-export interface MovimientoForm {
+export interface MovimientoBaseModel {
+  id: number | null;
   gestor_carga_id: number | null;
   liquidacion_id: number | null;
   orden_carga_id: number | null;
@@ -22,27 +23,34 @@ export interface MovimientoForm {
   moneda_id: number;
   tipo_cambio_moneda: number;
   fecha_cambio_moneda: string;
+  fecha: string | null;
+  detalle: string | null;
   // En caso de ser movimiento de anticipo
   anticipo_id: number | null;
   // En caso de ser movimiento de complemento o descuento
   complemento_id: number | null;
   descuento_id: number | null;
-}
-
-export interface Movimiento extends ContraparteInfo, MovimientoForm {
-  id: number;
-  gestor_carga_id: number;
-  estado: MovimientoEstadoEnum;
-  tipo_contraparte: TipoContraparte;
-  tipo_documento_relacionado: TipoDocumentoRelacionado;
-  cuenta: TipoCuenta;
-  tipo_movimiento: TipoMovimiento;
-  moneda: Moneda;
   // IDs para referencia a las tablas de las contraparte
   chofer_id: number | null;
   propietario_id: number | null;
   proveedor_id: number | null;
   remitente_id: number | null;
+}
+
+export interface MovimientoForm extends MovimientoBaseModel {
+  es_creacion_contraparte?: boolean;
+}
+
+export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
+  id: number;
+  gestor_carga_id: number;
+  estado: MovimientoEstadoEnum;
+  es_editable: boolean;
+  tipo_contraparte: TipoContraparte;
+  tipo_documento_relacionado: TipoDocumentoRelacionado;
+  cuenta: TipoCuenta;
+  tipo_movimiento: TipoMovimiento;
+  moneda: Moneda;
   // Campos calculados
   credito: number;
   camion_placa: string;
@@ -52,7 +60,6 @@ export interface Movimiento extends ContraparteInfo, MovimientoForm {
   cuenta_descripcion: string;
   debito: number;
   destino_nombre: string;
-  detalle: string;
   es_cobro: boolean;
   fecha_pago_cobro: string | null;
   flete_id: number | null;
@@ -92,6 +99,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 1,
     cuenta_id: 1,
     tipo_movimiento_id: 2,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: -2100000,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -105,6 +113,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: 1,
     id: 11,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: true,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 3,
@@ -177,6 +186,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 2,
     cuenta_id: 1,
     tipo_movimiento_id: 5,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: -675000,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -190,6 +200,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 2,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -263,6 +274,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 1,
     cuenta_id: 1,
     tipo_movimiento_id: 4,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: 900,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -276,6 +288,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 3,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -348,6 +361,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 1,
     cuenta_id: 1,
     tipo_movimiento_id: 3,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: 10000,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -361,6 +375,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 4,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -433,6 +448,7 @@ export const mockMovimientoList: Movimiento[] = [
     numero_documento_relacionado: 2,
     cuenta_id: 1,
     tipo_movimiento_id: 1,
+    fecha: '2022-03-16T12:32:14.859823',
     monto: 236300,
     moneda_id: 1,
     tipo_cambio_moneda: 1,
@@ -446,6 +462,7 @@ export const mockMovimientoList: Movimiento[] = [
     remitente_id: null,
     id: 5,
     estado: MovimientoEstadoEnum.PENDIENTE,
+    es_editable: false,
     tipo_contraparte: {
       estado: EstadoEnum.ACTIVO,
       id: 4,
@@ -509,3 +526,13 @@ export const mockMovimientoList: Movimiento[] = [
     modified_at: '2022-03-16T12:34:16.869250',
   },
 ];
+
+export const mockMovimientoForm1: MovimientoForm = {
+  ...mockMovimientoList[0],
+  es_creacion_contraparte: false,
+};
+
+export const mockMovimientoForm2: MovimientoForm = {
+  ...mockMovimientoList[0],
+  es_creacion_contraparte: true,
+};

@@ -4,10 +4,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-input-field',
   templateUrl: './input-field.component.html',
-  styleUrls: ['./input-field.component.scss']
+  styleUrls: ['./input-field.component.scss'],
 })
 export class InputFieldComponent {
-
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
@@ -19,9 +18,15 @@ export class InputFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
+  get rowValue(): string | number | undefined {
+    const obj = this.group.getRawValue();
+    return obj[this.controlName];
+  }
+
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
+  @Input() readonly = false;
   @Input() title = '';
 }
