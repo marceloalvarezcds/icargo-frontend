@@ -1,4 +1,7 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, fakeAsync, TestBed } from '@angular/core/testing';
 import { FormArray, FormGroup, ReactiveFormsModule } from '@angular/forms';
@@ -24,10 +27,9 @@ describe('FleteFormAnticiposComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ FleteFormAnticiposComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [FleteFormAnticiposComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -42,7 +44,9 @@ describe('FleteFormAnticiposComponent', () => {
   });
 
   it('should create', fakeAsync(() => {
-    httpController.match(`${environment.api}/tipo_anticipo/`).forEach(r => r.flush(mockTipoAnticipoList));
+    httpController
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .forEach((r) => r.flush(mockTipoAnticipoList));
     expect(component).toBeTruthy();
     httpController.verify();
   }));

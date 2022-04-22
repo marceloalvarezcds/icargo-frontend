@@ -4,7 +4,7 @@ import {
   FleteAnticipo,
   FleteAnticipoForm,
 } from 'src/app/interfaces/flete-anticipo';
-import { TipoAnticipoService } from 'src/app/services/tipo-anticipo.service';
+import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 
 @Component({
   selector: 'app-flete-form-anticipos',
@@ -13,21 +13,25 @@ import { TipoAnticipoService } from 'src/app/services/tipo-anticipo.service';
 })
 export class FleteFormAnticiposComponent {
   groupName = 'anticipos';
-  subs = this.tipoAnticipoService.getList().subscribe((list) => {
-    if (this.formArray.length === 0) {
-      list.forEach((it) => {
-        this.formArray.push(
-          this.createForm({
-            tipo_id: it.id,
-            tipo_descripcion: it.descripcion,
-            porcentaje: null,
-            concepto: it.descripcion,
-          })
-        );
-      });
-    }
-    this.checkDisable();
-  });
+  subs = this.fleteAnticipoService
+    .getTipoAnticipoInsumoList()
+    .subscribe((list) => {
+      if (this.formArray.length === 0) {
+        list.forEach((it) => {
+          this.formArray.push(
+            this.createForm({
+              tipo_id: it.tipo_id,
+              tipo_descripcion: it.tipo_descripcion,
+              tipo_insumo_id: it.tipo_insumo_id,
+              tipo_insumo_descripcion: it.tipo_insumo_descripcion,
+              porcentaje: null,
+              concepto: it.concepto,
+            })
+          );
+        });
+      }
+      this.checkDisable();
+    });
 
   get formArray(): FormArray {
     return this.form!.get(this.groupName) as FormArray;
@@ -54,7 +58,7 @@ export class FleteFormAnticiposComponent {
 
   constructor(
     private fb: FormBuilder,
-    private tipoAnticipoService: TipoAnticipoService
+    private fleteAnticipoService: FleteAnticipoService
   ) {}
 
   private createForm(data: FleteAnticipoForm): FormGroup {
@@ -62,6 +66,9 @@ export class FleteFormAnticiposComponent {
       id: data.id,
       tipo_id: data.tipo_id,
       tipo_descripcion: data.tipo_descripcion,
+      tipo_insumo_id: data.tipo_insumo_id,
+      tipo_insumo_descripcion: data.tipo_insumo_descripcion,
+      concepto: data.concepto,
       porcentaje: [data.porcentaje, [Validators.min(0), Validators.max(100)]],
     });
   }
