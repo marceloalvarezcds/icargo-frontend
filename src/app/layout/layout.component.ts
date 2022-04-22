@@ -142,6 +142,22 @@ export class LayoutComponent implements OnInit, OnDestroy, AfterViewInit {
       path: `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`,
       active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
     },
+    {
+      name: 'Listados',
+      iconName: 'format_list_numbered',
+      // iconName: 'local_atm',
+      iconOutline: true,
+      active: true,
+      children: [
+        {
+          name: 'Rentabilidad',
+          iconName: 'request_quote',
+          iconOutline: true,
+          path: `/listado/${m.RENTABILIDAD}/${a.LISTAR}`,
+          active: this.userService.checkPermiso(a.LISTAR, m.RENTABILIDAD),
+        },
+      ],
+    },
   ];
 
   toggleSidebarMenuSubscription = this.menuConfigService

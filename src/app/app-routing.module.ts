@@ -57,6 +57,11 @@ const routes: Routes = [
           import('./flete/flete.module').then((m) => m.FleteModule),
       },
       {
+        path: 'listado',
+        loadChildren: () =>
+          import('./listado/listado.module').then((m) => m.ListadoModule),
+      },
+      {
         path: 'orden-carga',
         loadChildren: () =>
           import('./orden-carga/orden-carga.module').then(

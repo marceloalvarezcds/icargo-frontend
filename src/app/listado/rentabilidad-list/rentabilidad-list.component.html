@@ -1,0 +1,18 @@
+<app-page
+  class="rentabilidad-page"
+  module="Listado"
+  submodule="Rentabilidad"
+  [modelo]="m.RENTABILIDAD"
+  [hideCreate]="true"
+  [hideFilter]="true"
+  (downloadClick)="downloadFile()"
+>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [modelo]="m.RENTABILIDAD"
+    [hideDelete]="true"
+    [hideEdit]="true"
+    [hideShow]="true"
+  ></app-table-paginator>
+</app-page>
