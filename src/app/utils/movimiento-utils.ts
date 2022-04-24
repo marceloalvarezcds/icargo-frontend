@@ -2,27 +2,20 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarDismiss } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MovimientoFormDialogComponent } from 'src/app/dialogs/movimiento-form-dialog/movimiento-form-dialog.component';
-import {
-  PermisoAccionEnum as a,
-  PermisoModeloEnum as m,
-} from 'src/app/enums/permiso-enum';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
+import { redirectToShowOC } from './oc-utils';
 
 export function redirectToShowOCByMovimiento(
   router: Router,
   mov: Movimiento
 ): void {
-  const url = router.serializeUrl(
-    router.createUrlTree([
-      `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
-      mov.numero_documento_relacionado,
-    ])
-  );
-  window.open(url, '_blank');
+  if (mov.numero_documento_relacionado) {
+    redirectToShowOC(router, mov.numero_documento_relacionado);
+  }
 }
 
 function getDialogRef(
