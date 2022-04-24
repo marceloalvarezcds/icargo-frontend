@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TipoConceptoDescuento } from 'src/app/interfaces/tipo-concepto-descuento';
 import { TipoConceptoDescuentoService } from 'src/app/services/tipo-concepto-descuento.service';
@@ -6,10 +6,9 @@ import { TipoConceptoDescuentoService } from 'src/app/services/tipo-concepto-des
 @Component({
   selector: 'app-tipo-concepto-descuento-field',
   templateUrl: './tipo-concepto-descuento-field.component.html',
-  styleUrls: ['./tipo-concepto-descuento-field.component.scss']
+  styleUrls: ['./tipo-concepto-descuento-field.component.scss'],
 })
 export class TipoConceptoDescuentoFieldComponent {
-
   list$ = this.tipoConceptoDescuentoService.getList();
 
   get group(): FormGroup {
@@ -27,10 +26,22 @@ export class TipoConceptoDescuentoFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() title = 'Tipo de Concepto';
+  @Input() value: (
+    v: TipoConceptoDescuento
+  ) => number | string | TipoConceptoDescuento = (v: TipoConceptoDescuento) =>
+    v.id;
 
-  constructor(private tipoConceptoDescuentoService: TipoConceptoDescuentoService) { }
+  @Output() valueChange = new EventEmitter<TipoConceptoDescuento>();
+
+  constructor(
+    private tipoConceptoDescuentoService: TipoConceptoDescuentoService
+  ) {}
 
   compareWith(o1?: TipoConceptoDescuento, o2?: TipoConceptoDescuento): boolean {
     return o1?.id === o2?.id;
+  }
+
+  textValueFormat(value: TipoConceptoDescuento): string {
+    return value.descripcion;
   }
 }

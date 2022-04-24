@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { Moneda } from 'src/app/interfaces/moneda';
 import { OcDescuentoDialogData } from 'src/app/interfaces/oc-descuento-dialog-data';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuento.service';
@@ -13,7 +12,7 @@ import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuen
 })
 export class OcDescuentoFormDialogComponent {
   form = this.fb.group({
-    concepto: [this.data?.concepto, Validators.required],
+    concepto_id: [this.data?.concepto_id, Validators.required],
     detalle: this.data?.detalle,
     anticipado: this.data?.anticipado,
     // INICIO Monto a cobrar al Propietario
@@ -21,13 +20,16 @@ export class OcDescuentoFormDialogComponent {
       this.data?.propietario_monto,
       [Validators.required, Validators.min(0)],
     ],
-    propietario_moneda: [this.data?.propietario_moneda, Validators.required],
+    propietario_moneda_id: [
+      this.data?.propietario_moneda_id,
+      Validators.required,
+    ],
     // FIN Monto a cobrar al Propietario
     // INICIO Monto a pagar al Proveedor
     habilitar_pago_proveedor: this.data?.habilitar_pago_proveedor,
     proveedor_monto: [this.data?.proveedor_monto, [Validators.min(0)]],
-    proveedor_moneda: this.data?.proveedor_moneda,
-    proveedor: this.data?.proveedor,
+    proveedor_moneda_id: this.data?.proveedor_moneda_id,
+    proveedor_id: this.data?.proveedor_id,
     // FIN Monto a pagar al Proveedor
   });
 
@@ -37,22 +39,24 @@ export class OcDescuentoFormDialogComponent {
         this.form.controls['proveedor_monto'].setValidators(
           Validators.required
         );
-        this.form.controls['proveedor_moneda'].setValidators(
+        this.form.controls['proveedor_moneda_id'].setValidators(
           Validators.required
         );
-        this.form.controls['proveedor'].setValidators(Validators.required);
+        this.form.controls['proveedor_id'].setValidators(Validators.required);
       } else {
         this.form.controls['proveedor_monto'].removeValidators(
           Validators.required
         );
-        this.form.controls['proveedor_moneda'].removeValidators(
+        this.form.controls['proveedor_moneda_id'].removeValidators(
           Validators.required
         );
-        this.form.controls['proveedor'].removeValidators(Validators.required);
+        this.form.controls['proveedor_id'].removeValidators(
+          Validators.required
+        );
       }
-      this.form.controls['proveedor_moneda'].updateValueAndValidity();
+      this.form.controls['proveedor_moneda_id'].updateValueAndValidity();
       this.form.controls['proveedor_monto'].updateValueAndValidity();
-      this.form.controls['proveedor'].updateValueAndValidity();
+      this.form.controls['proveedor_id'].updateValueAndValidity();
     });
 
   get data(): OrdenCargaDescuento | undefined {
@@ -110,10 +114,6 @@ export class OcDescuentoFormDialogComponent {
           .subscribe(this.close.bind(this));
       }
     }
-  }
-
-  valueMoneda(item: Moneda): Moneda {
-    return item;
   }
 
   private close(data: OrdenCargaDescuento): void {

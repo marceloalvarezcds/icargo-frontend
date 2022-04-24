@@ -7,7 +7,7 @@
   </h1>
   <div mat-dialog-content>
     <app-tipo-concepto-descuento-field
-      controlName="concepto"
+      controlName="concepto_id"
       [form]="form"
     ></app-tipo-concepto-descuento-field>
     <app-input-field
@@ -27,8 +27,7 @@
     ></app-number-field>
     <app-moneda-field
       title="Moneda del Propietario"
-      controlName="propietario_moneda"
-      [value]="valueMoneda"
+      controlName="propietario_moneda_id"
       [form]="form"
     ></app-moneda-field>
     <div class="toggle">
@@ -44,11 +43,11 @@
       ></app-number-field>
       <app-moneda-field
         title="Moneda del Proveedor"
-        controlName="proveedor_moneda"
+        controlName="proveedor_moneda_id"
         [form]="form"
       ></app-moneda-field>
       <app-proveedor-field
-        controlName="proveedor"
+        controlName="proveedor_id"
         [form]="form"
       ></app-proveedor-field>
     </div>
