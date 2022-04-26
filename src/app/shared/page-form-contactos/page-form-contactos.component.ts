@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ContactoFormDialogComponent } from 'src/app/dialogs/contacto-form-dialog/contacto-form-dialog.component';
+import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { ContactoGestorCargaList } from 'src/app/interfaces/contacto-gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -11,17 +12,42 @@ import { TableEvent } from 'src/app/interfaces/table';
 @Component({
   selector: 'app-page-form-contactos',
   templateUrl: './page-form-contactos.component.html',
-  styleUrls: ['./page-form-contactos.component.scss']
+  styleUrls: ['./page-form-contactos.component.scss'],
 })
 export class PageFormContactosComponent {
-
+  m = PermisoModeloEnum;
   columns: Column[] = [
-    { def: 'nombre', title: 'Nombre', value: (element: ContactoGestorCargaList) => element.contacto_nombre, sticky: true },
-    { def: 'apellido', title: 'Apellido', value: (element: ContactoGestorCargaList) => element.contacto_apellido },
-    { def: 'telefono', title: 'Teléfono', value: (element: ContactoGestorCargaList) => element.contacto_telefono },
-    { def: 'email', title: 'Correo electrónico', value: (element: ContactoGestorCargaList) => element.contacto_email },
-    { def: 'alias', title: 'Alias', value: (element: ContactoGestorCargaList) => element.alias },
-    { def: 'cargo', title: 'Cargo', value: (element: ContactoGestorCargaList) => element.cargo_descripcion },
+    {
+      def: 'nombre',
+      title: 'Nombre',
+      value: (element: ContactoGestorCargaList) => element.contacto_nombre,
+      sticky: true,
+    },
+    {
+      def: 'apellido',
+      title: 'Apellido',
+      value: (element: ContactoGestorCargaList) => element.contacto_apellido,
+    },
+    {
+      def: 'telefono',
+      title: 'Teléfono',
+      value: (element: ContactoGestorCargaList) => element.contacto_telefono,
+    },
+    {
+      def: 'email',
+      title: 'Correo electrónico',
+      value: (element: ContactoGestorCargaList) => element.contacto_email,
+    },
+    {
+      def: 'alias',
+      title: 'Alias',
+      value: (element: ContactoGestorCargaList) => element.alias,
+    },
+    {
+      def: 'cargo',
+      title: 'Cargo',
+      value: (element: ContactoGestorCargaList) => element.cargo_descripcion,
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -40,10 +66,7 @@ export class PageFormContactosComponent {
     return this.form.get('contactos') as FormArray;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private dialog: MatDialog,
-  ) { }
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   addContacto(): void {
     this.dialog

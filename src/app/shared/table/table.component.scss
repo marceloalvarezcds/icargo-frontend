@@ -27,6 +27,10 @@
 }
 
 .mat-table::ng-deep {
+  .mat-column-id {
+    width: 68px !important;
+    box-sizing: border-box;
+  }
   .mat-header-cell-checkbox .mat-checkbox-mixedmark {
     left: 3px;
     position: absolute;

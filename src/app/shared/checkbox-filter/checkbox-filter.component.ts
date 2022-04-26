@@ -4,10 +4,9 @@ import { CheckboxModel } from 'src/app/interfaces/filter';
 @Component({
   selector: 'app-checkbox-filter',
   templateUrl: './checkbox-filter.component.html',
-  styleUrls: ['./checkbox-filter.component.scss']
+  styleUrls: ['./checkbox-filter.component.scss'],
 })
 export class CheckboxFilterComponent {
-
   allChecked = true;
   allCheckboxModel: CheckboxModel = {};
   allList: string[] = [];
@@ -65,17 +64,18 @@ export class CheckboxFilterComponent {
 
   private mergeCheckboxModelWithInitial(): CheckboxModel {
     const checkboxModel = this.clonedCheckboxModel();
-    if (!this.filteredList.length) {
-      return checkboxModel;
-    }
-    this.allList.filter(x => !this.filteredList.includes(x)).forEach(key => {
-      this.allChecked = false;
-      checkboxModel[key] = false;
-    });
+    this.allList
+      .filter((x) => !this.filteredList.includes(x))
+      .forEach((key) => {
+        this.allChecked = false;
+        checkboxModel[key] = false;
+      });
     return checkboxModel;
   }
 
-  private transformCheckboxModelToStringList(checkboxModel: CheckboxModel): string[] {
+  private transformCheckboxModelToStringList(
+    checkboxModel: CheckboxModel
+  ): string[] {
     return Object.keys(checkboxModel).filter((key) => checkboxModel[key]);
-  };
+  }
 }
