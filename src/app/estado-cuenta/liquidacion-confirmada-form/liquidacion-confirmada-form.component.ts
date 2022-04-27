@@ -109,7 +109,7 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
 
   private getList(liq: Liquidacion): void {
     this.movimientoService
-      .getListByEstadoCuenta(liq, LiquidacionEtapaEnum.CONFIRMADO)
+      .getListByLiquidacion(liq, LiquidacionEtapaEnum.CONFIRMADO)
       .subscribe((data) => {
         this.movimientos = data;
       });

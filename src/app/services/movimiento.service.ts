@@ -6,6 +6,7 @@ import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { getParams } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
+import { Liquidacion } from '../interfaces/liquidacion';
 
 @Injectable({
   providedIn: 'root',
@@ -21,6 +22,15 @@ export class MovimientoService {
   ): Observable<Movimiento[]> {
     return this.http.get<Movimiento[]>(
       `${this.url}/${getParams(estadoCuenta, etapa)}`
+    );
+  }
+
+  getListByLiquidacion(
+    liquidacion: Liquidacion,
+    etapa: LiquidacionEtapaEnum
+  ): Observable<Movimiento[]> {
+    return this.http.get<Movimiento[]>(
+      `${this.url}/liquidacion/${liquidacion.id}/etapa/${etapa}`
     );
   }
 

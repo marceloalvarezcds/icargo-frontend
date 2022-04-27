@@ -104,7 +104,7 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   private getList(liq: Liquidacion): void {
     this.movimientoService
-      .getListByEstadoCuenta(liq, LiquidacionEtapaEnum.EN_PROCESO)
+      .getListByLiquidacion(liq, LiquidacionEtapaEnum.EN_PROCESO)
       .subscribe((data) => {
         this.movimientos = data;
       });
