@@ -33,16 +33,9 @@ export class OrdenCargaEditFormComplementosComponent {
       value: (element: OrdenCargaComplemento) => element.concepto_descripcion,
     },
     {
-      def: 'remitente_monto',
-      title: 'A Cobrar',
-      value: (element: OrdenCargaComplemento) => element.remitente_monto,
-      type: 'number',
-    },
-    {
-      def: 'remitente_moneda_nombre',
-      title: 'Moneda',
-      value: (element: OrdenCargaComplemento) =>
-        element.remitente_moneda_nombre,
+      def: 'anticipado',
+      title: 'Anticipado',
+      value: (element: OrdenCargaComplemento) => element.anticipado_descripcion,
     },
     {
       def: 'propietario_monto',
@@ -52,14 +45,21 @@ export class OrdenCargaEditFormComplementosComponent {
     },
     {
       def: 'propietario_moneda_nombre',
-      title: 'Moneda',
+      title: 'Moneda de Pago',
       value: (element: OrdenCargaComplemento) =>
         element.propietario_moneda_nombre,
     },
     {
-      def: 'anticipado',
-      title: 'Anticipado',
-      value: (element: OrdenCargaComplemento) => element.anticipado_descripcion,
+      def: 'remitente_monto',
+      title: 'A Cobrar',
+      value: (element: OrdenCargaComplemento) => element.remitente_monto,
+      type: 'number',
+    },
+    {
+      def: 'remitente_moneda_nombre',
+      title: 'Moneda de Cobro',
+      value: (element: OrdenCargaComplemento) =>
+        element.remitente_moneda_nombre,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

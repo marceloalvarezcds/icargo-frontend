@@ -40,7 +40,7 @@ export class OrdenCargaEditFormDescuentosComponent {
     },
     {
       def: 'propietario_moneda_nombre',
-      title: 'Moneda',
+      title: 'Moneda de Cobro',
       value: (element: OrdenCargaDescuento) =>
         element.propietario_moneda_nombre,
     },
@@ -52,13 +52,8 @@ export class OrdenCargaEditFormDescuentosComponent {
     },
     {
       def: 'proveedor_moneda_nombre',
-      title: 'Moneda',
+      title: 'Moneda de Pago',
       value: (element: OrdenCargaDescuento) => element.proveedor_moneda_nombre,
-    },
-    {
-      def: 'anticipado',
-      title: 'Anticipado',
-      value: (element: OrdenCargaDescuento) => element.anticipado_descripcion,
     },
     {
       def: 'proveedor_nombre',

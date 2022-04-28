@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialog-data';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
+import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
 import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
 
 @Component({
@@ -106,6 +107,10 @@ export class OcComplementoFormDialogComponent {
           .subscribe(this.close.bind(this));
       }
     }
+  }
+
+  valueConcepto(item: TipoConceptoComplemento): TipoConceptoComplemento {
+    return item;
   }
 
   valueMoneda(item: Moneda): Moneda {
