@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
 import { TipoConceptoComplementoService } from 'src/app/services/tipo-concepto-complemento.service';
@@ -6,10 +6,9 @@ import { TipoConceptoComplementoService } from 'src/app/services/tipo-concepto-c
 @Component({
   selector: 'app-tipo-concepto-complemento-field',
   templateUrl: './tipo-concepto-complemento-field.component.html',
-  styleUrls: ['./tipo-concepto-complemento-field.component.scss']
+  styleUrls: ['./tipo-concepto-complemento-field.component.scss'],
 })
 export class TipoConceptoComplementoFieldComponent {
-
   list$ = this.tipoConceptoComplementoService.getList();
 
   get group(): FormGroup {
@@ -27,10 +26,26 @@ export class TipoConceptoComplementoFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() title = 'Tipo de Concepto';
+  @Input() value: (
+    v: TipoConceptoComplemento
+  ) => number | string | TipoConceptoComplemento = (
+    v: TipoConceptoComplemento
+  ) => v.id;
 
-  constructor(private tipoConceptoComplementoService: TipoConceptoComplementoService) { }
+  @Output() valueChange = new EventEmitter<TipoConceptoComplemento>();
 
-  compareWith(o1?: TipoConceptoComplemento, o2?: TipoConceptoComplemento): boolean {
+  constructor(
+    private tipoConceptoComplementoService: TipoConceptoComplementoService
+  ) {}
+
+  compareWith(
+    o1?: TipoConceptoComplemento,
+    o2?: TipoConceptoComplemento
+  ): boolean {
     return o1?.id === o2?.id;
+  }
+
+  textValueFormat(value: TipoConceptoComplemento): string {
+    return value.descripcion;
   }
 }

@@ -4,21 +4,22 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
-import { Unidad } from 'src/app/interfaces/unidad';
 
 @Component({
   selector: 'app-complemento-form-dialog',
   templateUrl: './complemento-form-dialog.component.html',
-  styleUrls: ['./complemento-form-dialog.component.scss']
+  styleUrls: ['./complemento-form-dialog.component.scss'],
 })
 export class ComplementoFormDialogComponent {
-
   form = this.fb.group({
     concepto: [this.data?.concepto, Validators.required],
     detalle: this.data?.detalle,
     anticipado: this.data?.anticipado,
     // INICIO Monto a pagar al Propietario
-    propietario_monto: [this.data?.propietario_monto, [Validators.required, Validators.min(0)]],
+    propietario_monto: [
+      this.data?.propietario_monto,
+      [Validators.required, Validators.min(0)],
+    ],
     propietario_moneda: [this.data?.propietario_moneda, Validators.required],
     // FIN Monto a pagar al Propietario
     // INICIO Monto a cobrar al Remitente
@@ -28,20 +29,29 @@ export class ComplementoFormDialogComponent {
     // FIN Monto a cobrar al Remitente
   });
 
-  cobroARemitenteSubscription = this.cobroARemitenteControl.valueChanges.subscribe(val => {
-    if (val) {
-      this.form.controls['remitente_monto'].setValidators(Validators.required);
-      this.form.controls['remitente_moneda'].setValidators(Validators.required);
-    } else {
-      this.form.controls['remitente_monto'].removeValidators(Validators.required);
-      this.form.controls['remitente_moneda'].removeValidators(Validators.required);
-    }
-    this.form.controls['remitente_moneda'].updateValueAndValidity();
-    this.form.controls['remitente_monto'].updateValueAndValidity();
-  });
+  cobroARemitenteSubscription =
+    this.cobroARemitenteControl.valueChanges.subscribe((val) => {
+      if (val) {
+        this.form.controls['remitente_monto'].setValidators(
+          Validators.required
+        );
+        this.form.controls['remitente_moneda'].setValidators(
+          Validators.required
+        );
+      } else {
+        this.form.controls['remitente_monto'].removeValidators(
+          Validators.required
+        );
+        this.form.controls['remitente_moneda'].removeValidators(
+          Validators.required
+        );
+      }
+      this.form.controls['remitente_moneda'].updateValueAndValidity();
+      this.form.controls['remitente_monto'].updateValueAndValidity();
+    });
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear'
+    return this.data ? 'Editar' : 'Crear';
   }
 
   get anticipadoControl(): FormControl {
@@ -63,8 +73,8 @@ export class ComplementoFormDialogComponent {
   constructor(
     public dialogRef: MatDialogRef<ComplementoFormDialogComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private data?: FleteComplemento,
-  ) { }
+    @Inject(MAT_DIALOG_DATA) private data?: FleteComplemento
+  ) {}
 
   submit() {
     this.form.markAsDirty();
@@ -95,9 +105,13 @@ export class ComplementoFormDialogComponent {
         remitente_moneda_nombre: remitenteMoneda?.nombre,
         // FIN Monto a cobrar al Remitente
         flete_id: this.data?.flete_id,
-      }
+      };
       this.dialogRef.close(data);
     }
+  }
+
+  valueConcepto(item: TipoConceptoComplemento): TipoConceptoComplemento {
+    return item;
   }
 
   valueMoneda(item: Moneda): Moneda {

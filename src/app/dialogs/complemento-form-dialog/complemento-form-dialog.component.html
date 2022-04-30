@@ -9,6 +9,7 @@
     <app-tipo-concepto-complemento-field
       controlName="concepto"
       [form]="form"
+      [value]="valueConcepto"
     ></app-tipo-concepto-complemento-field>
     <app-input-field
       title="detalle"
@@ -17,7 +18,7 @@
     ></app-input-field>
     <div class="toggle">
       <mat-slide-toggle formControlName="anticipado">
-        {{ anticipado ? 'Anticipado' : 'No anticipado' }}
+        {{ anticipado ? "Anticipado" : "No anticipado" }}
       </mat-slide-toggle>
     </div>
     <app-number-field
@@ -33,7 +34,7 @@
     ></app-moneda-field>
     <div class="toggle">
       <mat-slide-toggle formControlName="habilitar_cobro_remitente">
-        {{ cobroARemitente ? 'Cobrar al Remitente' : 'No cobrar al Remitente' }}
+        {{ cobroARemitente ? "Cobrar al Remitente" : "No cobrar al Remitente" }}
       </mat-slide-toggle>
     </div>
     <div [hidden]="!cobroARemitente">
@@ -51,10 +52,15 @@
     </div>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>
-      Cancelar
-    </button>
-    <button mat-raised-button type="button" (click)="submit()" cdkFocusInitial color="primary" id="submit-button">
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
       Aceptar
     </button>
   </div>
