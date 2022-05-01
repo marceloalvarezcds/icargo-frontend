@@ -1,10 +1,6 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
@@ -13,6 +9,7 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 
@@ -87,8 +84,7 @@ export class PuntoVentaListComponent {
   constructor(
     private puntoVentaService: PuntoVentaService,
     private reportsService: ReportsService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -106,26 +102,15 @@ export class PuntoVentaListComponent {
     );
   }
 
-  deleteRow(event: TableEvent<PuntoVentaList>): void {
-    const row = event.row;
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: `¿Está seguro que desea eliminar el Punto de Venta ${row.nombre}`,
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => confirmed))
-      .subscribe(() => {
-        this.puntoVentaService.delete(row.id).subscribe(() => {
-          this.snackbar
-            .open('Eliminado satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.getList(this.provId!);
-            });
-        });
-      });
+  deleteRow({ row }: TableEvent<PuntoVentaList>): void {
+    const message = `¿Está seguro que desea eliminar el Punto de Venta ${row.nombre}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.puntoVentaService.delete(row.id),
+      () => {
+        this.getList(this.provId!);
+      }
+    );
   }
 
   downloadFile(): void {

@@ -1,22 +1,20 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { FleteList } from 'src/app/interfaces/flete';
 import { Column } from 'src/app/interfaces/column';
+import { FleteList } from 'src/app/interfaces/flete';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
 
 type Filter = {
   publicado?: string;
@@ -260,8 +258,7 @@ export class FleteListComponent implements OnInit {
     private fleteService: FleteService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -281,15 +278,11 @@ export class FleteListComponent implements OnInit {
     this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<FleteList>): void {
-    const row = event.row;
+  deleteRow({ row }: TableEvent<FleteList>): void {
     const message = `¿Está seguro que desea eliminar el Flete con Nº ${row.id}?`;
-    confirmationDialogToDelete(
-      this.dialog,
+    this.dialog.confirmationToDelete(
       message,
-      this.fleteService,
-      row.id,
-      this.snackbar,
+      this.fleteService.delete(row.id),
       () => {
         this.getList();
       }

@@ -6,8 +6,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -17,13 +15,10 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
+import { DialogService } from 'src/app/services/dialog.service';
 import { PropietarioService } from 'src/app/services/propietario.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import {
-  confirmationDialogToActive,
-  confirmationDialogToInactive,
-} from 'src/app/utils/change-status';
-import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
 @Component({
@@ -86,7 +81,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       es_chofer: null,
       telefono: [
         null,
-        [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)],
+        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       ],
       email: [null, Validators.email],
     }),
@@ -226,8 +221,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private propietarioService: PropietarioService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private snackbar: SnackbarService,
+    private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -254,12 +249,9 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    confirmationDialogToActive(
-      this.dialog,
-      'al Propietario',
-      this.propietarioService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar al Propietario?',
+      this.propietarioService.active(this.id!),
       () => {
         this.getData();
       }
@@ -267,12 +259,9 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   }
 
   inactive(): void {
-    confirmationDialogToInactive(
-      this.dialog,
-      'al Propietario',
-      this.propietarioService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar al Propietario?',
+      this.propietarioService.inactive(this.id!),
       () => {
         this.getData();
       }
@@ -335,28 +324,19 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           this.fotoRegistroReversoFile
         );
       }
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.propietarioService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.propietarioService.create(formData).subscribe((propietario) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([
-                  `/flota/${m.PROPIETARIO}/${a.EDITAR}`,
-                  propietario.id,
-                ]);
-              }
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/flota/${m.PROPIETARIO}/${a.EDITAR}`,
+            propietario.id,
+          ]);
         });
       }
     } else {
@@ -402,7 +382,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           this.registro.disable();
           this.info.controls['alias'].enable();
         }
-        this.form.setValue({
+        this.form.patchValue({
           info: {
             alias: data.gestor_carga_propietario?.alias ?? data.nombre,
             nombre: data.nombre,

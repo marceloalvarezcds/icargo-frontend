@@ -425,9 +425,10 @@ describe('FleteFormComponent', () => {
     fleteService = TestBed.inject(FleteService);
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
-    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(
-      dialogRefSpyObj
-    );
+    const dialogSpy = spyOn(
+      (component as any).dialog,
+      'changeStatusConfirm'
+    ).and.returnValue(dialogRefSpyObj);
     const cancelSpy = spyOn(component, 'cancelar').and.callThrough();
     const getByIdSpy = spyOn(fleteService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();

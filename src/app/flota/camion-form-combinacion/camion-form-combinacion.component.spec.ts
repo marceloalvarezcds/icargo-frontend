@@ -2,6 +2,8 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from 'src/app/material/material.module';
 import { FlotaModule } from '../flota.module';
 import { CamionFormCombinacionComponent } from './camion-form-combinacion.component';
 
@@ -11,7 +13,13 @@ describe('CamionFormCombinacionComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, HttpClientTestingModule, FlotaModule],
+      imports: [
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        FlotaModule,
+        MaterialModule,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CamionFormCombinacionComponent],
     }).compileComponents();

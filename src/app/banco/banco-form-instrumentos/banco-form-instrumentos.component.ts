@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { OperacionEstadoEnum } from 'src/app/enums/operacion-estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -8,9 +6,8 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { Instrumento } from 'src/app/interfaces/instrumento';
+import { DialogService } from 'src/app/services/dialog.service';
 import { InstrumentoService } from 'src/app/services/instrumento.service';
-import { changeStatusConfirm } from 'src/app/utils/change-status';
-import { changeStatusMessageSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
   selector: 'app-banco-form-instrumentos',
@@ -127,36 +124,31 @@ export class BancoFormInstrumentosComponent {
   @Output() instrumentosChange = new EventEmitter();
 
   constructor(
-    private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private dialog: DialogService,
     private instrumentoService: InstrumentoService
   ) {}
 
   private confirmar(instrumento: Instrumento): void {
     const id = instrumento.id;
-    const message = `Está seguro que desea Confirmar el instrumento Nº ${id}`;
-    changeStatusConfirm(
-      this.dialog,
+    const message = `¿Está seguro que desea Confirmar el instrumento Nº ${id}?`;
+    this.dialog.changeStatusConfirm(
       message,
       this.instrumentoService.confirmar(id),
-      () =>
-        changeStatusMessageSnackbar(this.snackbar, () =>
-          this.instrumentosChange.emit()
-        )
+      () => {
+        this.instrumentosChange.emit();
+      }
     );
   }
 
   private rechazar(instrumento: Instrumento): void {
     const id = instrumento.id;
-    const message = `Está seguro que desea Rechazar el instrumento Nº ${id}`;
-    changeStatusConfirm(
-      this.dialog,
+    const message = `¿Está seguro que desea Rechazar el instrumento Nº ${id}?`;
+    this.dialog.changeStatusConfirm(
       message,
       this.instrumentoService.rechazar(id),
-      () =>
-        changeStatusMessageSnackbar(this.snackbar, () =>
-          this.instrumentosChange.emit()
-        )
+      () => {
+        this.instrumentosChange.emit();
+      }
     );
   }
 }

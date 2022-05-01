@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import {
@@ -11,12 +9,12 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
 
 type Filter = {
   estado?: string;
@@ -194,8 +192,7 @@ export class OrdenCargaListComponent implements OnInit {
     private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -221,16 +218,12 @@ export class OrdenCargaListComponent implements OnInit {
     ]);
   }
 
-  deleteRow(event: TableEvent<OrdenCargaList>): void {
-    const row = event.row;
+  deleteRow({ row }: TableEvent<OrdenCargaList>): void {
     const message = `¿Está seguro que desea eliminar el OrdenCarga con Nº ${row.id}?`;
-    confirmationDialogToDelete(
-      this.dialog,
+    this.dialog.confirmationToDelete(
       message,
-      this.ordenCargaService,
-      row.id,
-      this.snackbar,
-      () => {
+      this.ordenCargaService.delete(row.id),
+      (_) => {
         this.getList();
       }
     );

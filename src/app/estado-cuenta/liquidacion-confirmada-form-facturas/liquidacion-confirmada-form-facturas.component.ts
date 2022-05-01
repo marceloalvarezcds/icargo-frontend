@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { FacturaFormDialogComponent } from 'src/app/dialogs/factura-form-dialog/factura-form-dialog.component';
 import {
   PermisoAccionEnum,
@@ -12,7 +11,7 @@ import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-da
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { TableEvent } from 'src/app/interfaces/table';
 import { FacturaService } from 'src/app/services/factura.service';
-import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -98,7 +97,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
 
   constructor(
     private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private facturaService: FacturaService
   ) {}
 
@@ -138,10 +137,9 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   }
 
   private emitChange(): void {
-    openSnackbarWithMessage(this.snackbar, 'Factura agregada', () => {
-      this.facturasChange.emit();
-      this.loadList();
-    });
+    this.snackbar.open('Factura agregada');
+    this.facturasChange.emit();
+    this.loadList();
   }
 
   private loadList(): void {

@@ -1,12 +1,24 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
@@ -24,7 +36,6 @@ import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-
 import { RemitenteFormComponent } from './remitente-form.component';
 
 describe('RemitenteFormComponent', () => {
@@ -37,16 +48,19 @@ describe('RemitenteFormComponent', () => {
   const remitente = mockRemitenteList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
-  }
+  };
   const createRouter = {
-    ...router, url: `entities/${m.REMITENTE}/${a.CREAR}`,
-  }
+    ...router,
+    url: `entities/${m.REMITENTE}/${a.CREAR}`,
+  };
   const editRouter = {
-    ...router, url: `entities/${m.REMITENTE}/${a.EDITAR}/:id`,
-  }
+    ...router,
+    url: `entities/${m.REMITENTE}/${a.EDITAR}/:id`,
+  };
   const showRouter = {
-    ...router, url: `entities/${m.REMITENTE}/${a.VER}`,
-  }
+    ...router,
+    url: `entities/${m.REMITENTE}/${a.VER}`,
+  };
   const id = remitente.id;
   const route = {
     snapshot: {
@@ -57,10 +71,13 @@ describe('RemitenteFormComponent', () => {
   };
   const createRoute = {
     snapshot: {
-      params: { },
+      params: {},
     },
   };
-  function formSetValue(component: RemitenteFormComponent, logo: string | null = null): void {
+  function formSetValue(
+    component: RemitenteFormComponent,
+    logo: string | null = null
+  ): void {
     component.form.setValue({
       info: {
         alias: 'Alias',
@@ -97,13 +114,22 @@ describe('RemitenteFormComponent', () => {
         PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: `entities/${m.REMITENTE}/${a.CREAR}`, component: RemitenteFormComponent },
-          { path: `entities/${m.REMITENTE}/${a.EDITAR}`, component: RemitenteFormComponent },
-          { path: `entities/${m.REMITENTE}/${a.VER}`, component: RemitenteFormComponent },
+          {
+            path: `entities/${m.REMITENTE}/${a.CREAR}`,
+            component: RemitenteFormComponent,
+          },
+          {
+            path: `entities/${m.REMITENTE}/${a.EDITAR}`,
+            component: RemitenteFormComponent,
+          },
+          {
+            path: `entities/${m.REMITENTE}/${a.VER}`,
+            component: RemitenteFormComponent,
+          },
         ]),
         SharedModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AuthService,
         UserService,
@@ -112,11 +138,10 @@ describe('RemitenteFormComponent', () => {
         TipoDocumentoService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
-        { provide: Router, useValue: router }
+        { provide: Router, useValue: router },
       ],
-      declarations: [ RemitenteFormComponent ]
-    })
-    .compileComponents();
+      declarations: [RemitenteFormComponent],
+    }).compileComponents();
   });
 
   it('should open create view', fakeAsync(() => {
@@ -131,12 +156,22 @@ describe('RemitenteFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
-    const req = httpController.expectOne(`${environment.api}/remitente/`)
+    httpController
+      .expectOne(
+        `${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`
+      )
+      .flush(mockLocalidadList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`)
+      .flush(mockCiudadList);
+    const req = httpController.expectOne(`${environment.api}/remitente/`);
     expect(req.request.method).toBe('POST');
     req.flush(remitente);
     flush();
@@ -153,8 +188,12 @@ describe('RemitenteFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
@@ -163,8 +202,14 @@ describe('RemitenteFormComponent', () => {
     req.flush(remitente);
     flush();
     tick();
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController
+      .expectOne(
+        `${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`
+      )
+      .flush(mockLocalidadList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`)
+      .flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -183,12 +228,24 @@ describe('RemitenteFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/remitente/${id}`).flush(remitente);
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/remitente/${id}`)
+      .flush(remitente);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController
+      .expectOne(
+        `${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`
+      )
+      .flush(mockLocalidadList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`)
+      .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -200,11 +257,32 @@ describe('RemitenteFormComponent', () => {
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    const req = httpController.expectOne(`${environment.api}/remitente/${id}`)
-    expect(req.request.method).toBe('PUT');
-    req.flush(remitente);
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController
+      .match(`${environment.api}/remitente/${id}`)
+      .forEach((req) => {
+        expect(req.request.method).toBe('PUT');
+        req.flush(remitente);
+      });
+    httpController
+      .match(
+        `${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`)
+      .forEach((r) => r.flush(mockCiudadList));
+    flush();
+    httpController
+      .match(`${environment.api}/remitente/${id}`)
+      .forEach((r) => r.flush(remitente));
+    httpController
+      .match(
+        `${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`)
+      .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -218,12 +296,24 @@ describe('RemitenteFormComponent', () => {
     component = fixture.componentInstance;
     const getByIdSpy = spyOn(remitenteService, 'getById').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/remitente/${id}`).flush(mockRemitenteList[1]);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/remitente/${id}`)
+      .flush(mockRemitenteList[1]);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController
+      .expectOne(
+        `${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`
+      )
+      .flush(mockLocalidadList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`)
+      .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
@@ -237,7 +327,10 @@ describe('RemitenteFormComponent', () => {
     fixture.detectChanges();
     tick(500);
     const backSpy = spyOn(component, 'back').and.callThrough();
-    const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
+    const redirectToEditSpy = spyOn(
+      component,
+      'redirectToEdit'
+    ).and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
     pageFormComponent.triggerEventHandler('editClick', null);
     tick(1);

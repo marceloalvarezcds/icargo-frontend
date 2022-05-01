@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -13,6 +9,7 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { SemiList } from 'src/app/interfaces/semi';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SemiService } from 'src/app/services/semi.service';
@@ -156,8 +153,7 @@ export class SemiListComponent implements OnInit {
     private semiService: SemiService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -180,26 +176,15 @@ export class SemiListComponent implements OnInit {
     this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<SemiList>): void {
-    const row = event.row;
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}`,
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => confirmed))
-      .subscribe(() => {
-        this.semiService.delete(row.id).subscribe(() => {
-          this.snackbar
-            .open('Eliminado satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.getList();
-            });
-        });
-      });
+  deleteRow({ row }: TableEvent<SemiList>): void {
+    const message = `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.semiService.delete(row.id),
+      () => {
+        this.getList();
+      }
+    );
   }
 
   downloadFile(): void {

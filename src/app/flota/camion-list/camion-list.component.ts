@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import {
@@ -12,10 +10,10 @@ import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
 import { CamionService } from 'src/app/services/camion.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
@@ -131,8 +129,7 @@ export class CamionListComponent implements OnInit {
     private camionService: CamionService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -152,15 +149,11 @@ export class CamionListComponent implements OnInit {
     this.router.navigate([`/flota/${m.CAMION}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<CamionList>): void {
-    const row = event.row;
-    const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}`;
-    confirmationDialogToDelete(
-      this.dialog,
+  deleteRow({ row }: TableEvent<CamionList>): void {
+    const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}?`;
+    this.dialog.confirmationToDelete(
       message,
-      this.camionService,
-      row.id,
-      this.snackbar,
+      this.camionService.delete(row.id),
       () => {
         this.getList();
       }

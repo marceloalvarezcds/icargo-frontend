@@ -1,12 +1,24 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockGestorCargaList } from 'src/app/interfaces/gestor-carga';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
@@ -29,16 +41,19 @@ describe('GestorCargaFormComponent', () => {
   const gestorCarga = mockGestorCargaList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
-  }
+  };
   const createRouter = {
-    ...router, url: `entities/${m.GESTOR_CARGA}/${a.CREAR}`,
-  }
+    ...router,
+    url: `entities/${m.GESTOR_CARGA}/${a.CREAR}`,
+  };
   const editRouter = {
-    ...router, url: `entities/${m.GESTOR_CARGA}/${a.EDITAR}/:id`,
-  }
+    ...router,
+    url: `entities/${m.GESTOR_CARGA}/${a.EDITAR}/:id`,
+  };
   const showRouter = {
-    ...router, url: `entities/${m.GESTOR_CARGA}/${a.VER}`,
-  }
+    ...router,
+    url: `entities/${m.GESTOR_CARGA}/${a.VER}`,
+  };
   const id = gestorCarga.id;
   const route = {
     snapshot: {
@@ -49,10 +64,13 @@ describe('GestorCargaFormComponent', () => {
   };
   const createRoute = {
     snapshot: {
-      params: { },
+      params: {},
     },
   };
-  function formSetValue(component: GestorCargaFormComponent, logo: string | null = null): void {
+  function formSetValue(
+    component: GestorCargaFormComponent,
+    logo: string | null = null
+  ): void {
     component.form.setValue({
       info: {
         nombre: gestorCarga.nombre,
@@ -87,12 +105,21 @@ describe('GestorCargaFormComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: `entities/${m.GESTOR_CARGA}/${a.CREAR}`, component: GestorCargaFormComponent },
-          { path: `entities/${m.GESTOR_CARGA}/${a.EDITAR}`, component: GestorCargaFormComponent },
-          { path: `entities/${m.GESTOR_CARGA}/${a.VER}`, component: GestorCargaFormComponent },
+          {
+            path: `entities/${m.GESTOR_CARGA}/${a.CREAR}`,
+            component: GestorCargaFormComponent,
+          },
+          {
+            path: `entities/${m.GESTOR_CARGA}/${a.EDITAR}`,
+            component: GestorCargaFormComponent,
+          },
+          {
+            path: `entities/${m.GESTOR_CARGA}/${a.VER}`,
+            component: GestorCargaFormComponent,
+          },
         ]),
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         GestorCargaService,
         ComposicionJuridicaService,
@@ -100,11 +127,10 @@ describe('GestorCargaFormComponent', () => {
         MonedaService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
-        { provide: Router, useValue: router }
+        { provide: Router, useValue: router },
       ],
-      declarations: [ GestorCargaFormComponent ]
-    })
-    .compileComponents();
+      declarations: [GestorCargaFormComponent],
+    }).compileComponents();
   });
 
   it('should open create view', fakeAsync(() => {
@@ -116,17 +142,24 @@ describe('GestorCargaFormComponent', () => {
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
+    const fileInput: HTMLInputElement =
+      fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.files = fakeFileList;
     fileInput.dispatchEvent(new Event('change'));
     expect(component).toBeTruthy();
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
-    const req = httpController.expectOne(`${environment.api}/gestor_carga/`)
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/moneda/`)
+      .flush(mockTipoDocumentoList);
+    const req = httpController.expectOne(`${environment.api}/gestor_carga/`);
     expect(req.request.method).toBe('POST');
     req.flush(gestorCarga);
     flush();
@@ -144,9 +177,15 @@ describe('GestorCargaFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/moneda/`)
+      .flush(mockTipoDocumentoList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/gestor_carga/`);
@@ -167,10 +206,18 @@ describe('GestorCargaFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/gestor_carga/${id}`).flush(gestorCarga);
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/gestor_carga/${id}`)
+      .flush(gestorCarga);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/moneda/`)
+      .flush(mockTipoDocumentoList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -181,9 +228,16 @@ describe('GestorCargaFormComponent', () => {
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    const req = httpController.expectOne(`${environment.api}/gestor_carga/${id}`)
-    expect(req.request.method).toBe('PUT');
-    req.flush(gestorCarga);
+    const req = httpController
+      .match(`${environment.api}/gestor_carga/${id}`)
+      .forEach((req) => {
+        expect(req.request.method).toBe('PUT');
+        req.flush(gestorCarga);
+      });
+    flush();
+    httpController
+      .match(`${environment.api}/gestor_carga/${id}`)
+      .forEach((r) => r.flush(gestorCarga));
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -197,10 +251,18 @@ describe('GestorCargaFormComponent', () => {
     component = fixture.componentInstance;
     const getByIdSpy = spyOn(gestorCargaService, 'getById').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/composicion_juridica/`).flush(mockComposicionJuridicaList);
-    httpController.expectOne(`${environment.api}/tipo_documento/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/moneda/`).flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/gestor_carga/${id}`).flush(mockGestorCargaList[1]);
+    httpController
+      .expectOne(`${environment.api}/composicion_juridica/`)
+      .flush(mockComposicionJuridicaList);
+    httpController
+      .expectOne(`${environment.api}/tipo_documento/`)
+      .flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/moneda/`)
+      .flush(mockTipoDocumentoList);
+    httpController
+      .expectOne(`${environment.api}/gestor_carga/${id}`)
+      .flush(mockGestorCargaList[1]);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
@@ -214,10 +276,14 @@ describe('GestorCargaFormComponent', () => {
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     fixture.detectChanges();
     tick(500);
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
+    const fileInput: HTMLInputElement =
+      fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
-    const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
+    const redirectToEditSpy = spyOn(
+      component,
+      'redirectToEdit'
+    ).and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
     pageFormComponent.triggerEventHandler('editClick', null);
     tick(1);

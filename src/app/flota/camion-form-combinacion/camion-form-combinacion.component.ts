@@ -1,6 +1,5 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { CamionSemiNetoFormDialogComponent } from 'src/app/dialogs/camion-semi-neto-form-dialog/camion-semi-neto-form-dialog.component';
 import {
   PermisoAccionEnum,
@@ -12,7 +11,7 @@ import { CamionSemiNetoFormDialogData } from 'src/app/interfaces/camion-semi-net
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
 import { CamionSemiNetoService } from 'src/app/services/camion-semi-neto.service';
-import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -95,7 +94,7 @@ export class CamionFormCombinacionComponent {
 
   constructor(
     private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private camionSemiNetoService: CamionSemiNetoService
   ) {}
 
@@ -148,8 +147,7 @@ export class CamionFormCombinacionComponent {
   }
 
   private emitChange(message: string): void {
-    openSnackbarWithMessage(this.snackbar, message, () => {
-      this.getList();
-    });
+    this.snackbar.open(message);
+    this.getList();
   }
 }

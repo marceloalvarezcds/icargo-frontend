@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
@@ -17,6 +16,7 @@ import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dia
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
@@ -142,7 +142,7 @@ export class EstadoCuentaListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: SnackbarService
   ) {}
 
   ngOnInit(): void {

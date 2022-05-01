@@ -21,10 +21,11 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { mockCajaList, Caja } from 'src/app/interfaces/caja';
+import { Caja, mockCajaList } from 'src/app/interfaces/caja';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CajaService } from 'src/app/services/caja.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -40,6 +41,7 @@ describe('CajaListComponent', () => {
   let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
   let reportsService: ReportsService;
   let searchService: SearchService;
+  let dialogService: DialogService;
   let pageComponent: DebugElement;
   let tableComponent: DebugElement;
   const row = mockCajaList[0];
@@ -90,6 +92,7 @@ describe('CajaListComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     reportsService = TestBed.inject(ReportsService);
     searchService = TestBed.inject(SearchService);
+    dialogService = TestBed.inject(DialogService);
     component = fixture.componentInstance;
     pageComponent = findElement(fixture, 'app-page');
     tableComponent = findElement(fixture, 'app-table-paginator');
@@ -118,9 +121,14 @@ describe('CajaListComponent', () => {
   });
 
   it('listens for app-table changes', fakeAsync(() => {
-    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(
-      dialogRefSpyObj
-    );
+    const dialogServiceSpy = spyOn(
+      (dialogService as any).dialog,
+      'open'
+    ).and.returnValue(dialogRefSpyObj);
+    const dialogSpy = spyOn(
+      (component as any).dialog,
+      'confirmationToDelete'
+    ).and.callThrough();
     const redirectToEditSpy = spyOn(
       component,
       'redirectToEdit'
@@ -143,10 +151,15 @@ describe('CajaListComponent', () => {
     expect(req.request.method).toBe('DELETE');
     req.flush({});
     flush();
+    httpController
+      .expectOne(`${environment.api}/caja/gestor_carga_id/`)
+      .flush(mockCajaList);
+    flush();
 
     expect(redirectToEditSpy).toHaveBeenCalled();
     expect(redirectToShowSpy).toHaveBeenCalled();
     expect(deleteRowSpy).toHaveBeenCalled();
+    expect(dialogServiceSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
     httpController.verify();
   }));

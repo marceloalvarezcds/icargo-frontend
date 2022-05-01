@@ -1,6 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
@@ -9,8 +8,8 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Banco } from 'src/app/interfaces/banco';
 import { BancoService } from 'src/app/services/banco.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
   selector: 'app-banco-form',
@@ -57,7 +56,7 @@ export class BancoFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private bancoService: BancoService,
     private userService: UserService
   ) {}
@@ -89,19 +88,19 @@ export class BancoFormComponent implements OnInit, OnDestroy {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
       formData.append('data', JSON.stringify(data));
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit) {
         this.bancoService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.bancoService.create(formData).subscribe(() => {
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.router.navigate([this.backUrl]);
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/banco/${m.BANCO}/${a.EDITAR}`,
+            this.id,
+          ]);
         });
       }
     }

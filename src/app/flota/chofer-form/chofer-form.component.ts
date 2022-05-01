@@ -5,8 +5,6 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -16,12 +14,9 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { ChoferService } from 'src/app/services/chofer.service';
+import { DialogService } from 'src/app/services/dialog.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import {
-  confirmationDialogToActive,
-  confirmationDialogToInactive,
-} from 'src/app/utils/change-status';
-import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
 @Component({
@@ -81,7 +76,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       es_propietario: null,
       telefono: [
         null,
-        [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)],
+        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       ],
       email: [null, Validators.email],
     }),
@@ -168,8 +163,8 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private choferService: ChoferService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private snackbar: SnackbarService,
+    private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -196,12 +191,9 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    confirmationDialogToActive(
-      this.dialog,
-      'al Chofer',
-      this.choferService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar al Chofer?',
+      this.choferService.active(this.id!),
       () => {
         this.getData();
       }
@@ -209,12 +201,9 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   inactive(): void {
-    confirmationDialogToInactive(
-      this.dialog,
-      'al Chofer',
-      this.choferService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar al Chofer?',
+      this.choferService.inactive(this.id!),
       () => {
         this.getData();
       }
@@ -276,28 +265,19 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
           this.fotoRegistroReversoFile
         );
       }
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.choferService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.choferService.create(formData).subscribe((chofer) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([
-                  `/flota/${m.CHOFER}/${a.EDITAR}`,
-                  chofer.id,
-                ]);
-              }
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/flota/${m.CHOFER}/${a.EDITAR}`,
+            chofer.id,
+          ]);
         });
       }
     } else {

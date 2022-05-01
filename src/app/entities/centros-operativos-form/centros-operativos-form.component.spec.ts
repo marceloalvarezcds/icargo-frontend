@@ -1,12 +1,24 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { mockCentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import { mockCentroOperativoClasificacionList } from 'src/app/interfaces/centro-operativo-clasificacion';
 import { mockUserAccount } from 'src/app/interfaces/user';
@@ -18,11 +30,10 @@ import { CentroOperativoService } from 'src/app/services/centro-operativo.servic
 import { UserService } from 'src/app/services/user.service';
 import { fakeFileList, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-
 import { CentrosOperativosFormComponent } from './centros-operativos-form.component';
 
 @Component({ template: '' })
-class TestComponent { }
+class TestComponent {}
 
 describe('CentrosOperativosFormComponent', () => {
   let component: CentrosOperativosFormComponent;
@@ -34,16 +45,19 @@ describe('CentrosOperativosFormComponent', () => {
   const centroOperativo = mockCentroOperativoList[0];
   const router = {
     navigate: jasmine.createSpy('navigate'),
-  }
+  };
   const createRouter = {
-    ...router, url: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`,
-  }
+    ...router,
+    url: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`,
+  };
   const editRouter = {
-    ...router, url: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/:id`,
-  }
+    ...router,
+    url: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/:id`,
+  };
   const showRouter = {
-    ...router, url: `entities/${m.CENTRO_OPERATIVO}/${a.VER}`,
-  }
+    ...router,
+    url: `entities/${m.CENTRO_OPERATIVO}/${a.VER}`,
+  };
   const id = centroOperativo.id;
   const route = {
     snapshot: {
@@ -54,10 +68,13 @@ describe('CentrosOperativosFormComponent', () => {
   };
   const createRoute = {
     snapshot: {
-      params: { },
+      params: {},
     },
   };
-  function formSetValue(component: CentrosOperativosFormComponent, logo: string | null = null): void {
+  function formSetValue(
+    component: CentrosOperativosFormComponent,
+    logo: string | null = null
+  ): void {
     component.form.setValue({
       info: {
         alias: 'Alias',
@@ -90,12 +107,21 @@ describe('CentrosOperativosFormComponent', () => {
         PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`, component: TestComponent },
-          { path: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, component: TestComponent },
-          { path: `entities/${m.CENTRO_OPERATIVO}/${a.VER}`, component: TestComponent },
+          {
+            path: `entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`,
+            component: TestComponent,
+          },
+          {
+            path: `entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
+            component: TestComponent,
+          },
+          {
+            path: `entities/${m.CENTRO_OPERATIVO}/${a.VER}`,
+            component: TestComponent,
+          },
         ]),
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AuthService,
         UserService,
@@ -103,11 +129,10 @@ describe('CentrosOperativosFormComponent', () => {
         CentroOperativoClasificacionService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
-        { provide: Router, useValue: router }
+        { provide: Router, useValue: router },
       ],
-      declarations: [ CentrosOperativosFormComponent ]
-    })
-    .compileComponents();
+      declarations: [CentrosOperativosFormComponent],
+    }).compileComponents();
   });
 
   it('should open create view', fakeAsync(() => {
@@ -119,15 +144,20 @@ describe('CentrosOperativosFormComponent', () => {
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
+    const fileInput: HTMLInputElement =
+      fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.files = fakeFileList;
     fileInput.dispatchEvent(new Event('change'));
     expect(component).toBeTruthy();
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
-    const req = httpController.expectOne(`${environment.api}/centro_operativo/`)
+    httpController
+      .expectOne(`${environment.api}/centro_operativo_clasificacion/`)
+      .flush(mockCentroOperativoClasificacionList);
+    const req = httpController.expectOne(
+      `${environment.api}/centro_operativo/`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(centroOperativo);
     flush();
@@ -145,10 +175,14 @@ describe('CentrosOperativosFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController
+      .expectOne(`${environment.api}/centro_operativo_clasificacion/`)
+      .flush(mockCentroOperativoClasificacionList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
-    const req = httpController.expectOne(`${environment.api}/centro_operativo/`);
+    const req = httpController.expectOne(
+      `${environment.api}/centro_operativo/`
+    );
     expect(req.request.method).toBe('POST');
     req.flush(centroOperativo);
     flush();
@@ -164,12 +198,19 @@ describe('CentrosOperativosFormComponent', () => {
     fixture = TestBed.createComponent(CentrosOperativosFormComponent);
     centroOperativoService = TestBed.inject(CentroOperativoService);
     component = fixture.componentInstance;
-    const getByIdSpy = spyOn(centroOperativoService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(
+      centroOperativoService,
+      'getById'
+    ).and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(centroOperativo);
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
+    httpController
+      .expectOne(`${environment.api}/centro_operativo/${id}`)
+      .flush(centroOperativo);
+    httpController
+      .expectOne(`${environment.api}/centro_operativo_clasificacion/`)
+      .flush(mockCentroOperativoClasificacionList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -180,9 +221,16 @@ describe('CentrosOperativosFormComponent', () => {
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    const req = httpController.expectOne(`${environment.api}/centro_operativo/${id}`)
-    expect(req.request.method).toBe('PUT');
-    req.flush(centroOperativo);
+    httpController
+      .match(`${environment.api}/centro_operativo/${id}`)
+      .forEach((req) => {
+        expect(req.request.method).toBe('PUT');
+        req.flush(centroOperativo);
+      });
+    flush();
+    httpController
+      .match(`${environment.api}/centro_operativo/${id}`)
+      .forEach((r) => r.flush(centroOperativo));
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -194,10 +242,17 @@ describe('CentrosOperativosFormComponent', () => {
     fixture = TestBed.createComponent(CentrosOperativosFormComponent);
     centroOperativoService = TestBed.inject(CentroOperativoService);
     component = fixture.componentInstance;
-    const getByIdSpy = spyOn(centroOperativoService, 'getById').and.callThrough();
+    const getByIdSpy = spyOn(
+      centroOperativoService,
+      'getById'
+    ).and.callThrough();
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/centro_operativo_clasificacion/`).flush(mockCentroOperativoClasificacionList);
-    httpController.expectOne(`${environment.api}/centro_operativo/${id}`).flush(mockCentroOperativoList[1]);
+    httpController
+      .expectOne(`${environment.api}/centro_operativo_clasificacion/`)
+      .flush(mockCentroOperativoClasificacionList);
+    httpController
+      .expectOne(`${environment.api}/centro_operativo/${id}`)
+      .flush(mockCentroOperativoList[1]);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
@@ -211,10 +266,14 @@ describe('CentrosOperativosFormComponent', () => {
     const fileChangeSpy = spyOn(component, 'fileChange').and.callThrough();
     fixture.detectChanges();
     tick(500);
-    const fileInput: HTMLInputElement = fixture.debugElement.nativeElement.querySelector('#file-input');
+    const fileInput: HTMLInputElement =
+      fixture.debugElement.nativeElement.querySelector('#file-input');
     fileInput.dispatchEvent(new Event('change'));
     const backSpy = spyOn(component, 'back').and.callThrough();
-    const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
+    const redirectToEditSpy = spyOn(
+      component,
+      'redirectToEdit'
+    ).and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
     pageFormComponent.triggerEventHandler('editClick', null);
     tick(1);
