@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   PermisoAccionEnum as a,
@@ -9,8 +7,8 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { SemiList } from 'src/app/interfaces/semi';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { SemiService } from 'src/app/services/semi.service';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
 
 @Component({
   selector: 'app-propietario-semi-list',
@@ -77,6 +75,12 @@ export class PropietarioSemiListComponent {
     this.getList();
   }
 
+  constructor(
+    private semiService: SemiService,
+    private dialog: DialogService,
+    private router: Router
+  ) {}
+
   redirectToCreate(): void {
     this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`], {
       queryParams: { backUrl: this.backUrl, propietarioId: this.id },
@@ -96,27 +100,16 @@ export class PropietarioSemiListComponent {
     });
   }
 
-  deleteRow(event: TableEvent<SemiList>): void {
-    const row = event.row;
-    const message = `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}`;
-    confirmationDialogToDelete(
-      this.dialog,
+  deleteRow({ row }: TableEvent<SemiList>): void {
+    const message = `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}?`;
+    this.dialog.confirmationToDelete(
       message,
-      this.semiService,
-      row.id,
-      this.snackbar,
+      this.semiService.delete(row.id),
       () => {
         this.getList();
       }
     );
   }
-
-  constructor(
-    private semiService: SemiService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
-    private router: Router
-  ) {}
 
   private getList(): void {
     if (this.id) {

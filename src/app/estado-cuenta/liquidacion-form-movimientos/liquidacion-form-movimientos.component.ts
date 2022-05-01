@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import { Column } from 'src/app/interfaces/column';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import {
   deleteMovimiento,
   editMovimiento,
@@ -127,7 +127,7 @@ export class LiquidacionFormMovimientosComponent {
     private movimientoService: MovimientoService,
     private router: Router,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar
+    private snackbar: SnackbarService
   ) {}
 
   private edit(item: Movimiento): void {

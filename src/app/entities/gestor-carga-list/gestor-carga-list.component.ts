@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -13,6 +9,7 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { GestorCargaList } from 'src/app/interfaces/gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -139,8 +136,7 @@ export class GestorCargaListComponent implements OnInit {
     private gestorCargaService: GestorCargaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -166,26 +162,15 @@ export class GestorCargaListComponent implements OnInit {
     ]);
   }
 
-  deleteRow(event: TableEvent<GestorCargaList>): void {
-    const row = event.row;
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: `¿Está seguro que desea eliminar el Gestor ${row.nombre}?`,
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => confirmed))
-      .subscribe(() => {
-        this.gestorCargaService.delete(row.id).subscribe(() => {
-          this.snackbar
-            .open('Eliminado satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.getList();
-            });
-        });
-      });
+  deleteRow({ row }: TableEvent<GestorCargaList>): void {
+    const message = `¿Está seguro que desea eliminar el Gestor ${row.nombre}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.gestorCargaService.delete(row.id),
+      () => {
+        this.getList();
+      }
+    );
   }
 
   downloadFile(): void {

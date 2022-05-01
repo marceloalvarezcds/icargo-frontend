@@ -1,26 +1,32 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
-import { MatDialog } from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
-import { filter } from 'rxjs/operators';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 
 @Component({
   selector: 'app-proveedor-form',
   templateUrl: './proveedor-form.component.html',
-  styleUrls: ['./proveedor-form.component.scss']
+  styleUrls: ['./proveedor-form.component.scss'],
 })
 export class ProveedorFormComponent implements OnInit, OnDestroy {
-
   a = PermisoAccionEnum;
   id?: number;
   isEdit = false;
@@ -51,7 +57,10 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       composicion_juridica_id: [null, Validators.required],
       alias: null,
       logo: [null, Validators.required],
-      telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
+      telefono: [
+        null,
+        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
+      ],
       email: null,
       pagina_web: null,
       info_complementaria: null,
@@ -69,7 +78,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
@@ -99,17 +108,18 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     return this.router.url;
   }
 
-  @ViewChild(PageFormEntitiesInfoComponent) pageInfo?: PageFormEntitiesInfoComponent;
+  @ViewChild(PageFormEntitiesInfoComponent)
+  pageInfo?: PageFormEntitiesInfoComponent;
 
   constructor(
     private fb: FormBuilder,
     private proveedorService: ProveedorService,
     private userService: UserService,
-    private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private dialog: DialogService,
+    private snackbar: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -137,7 +147,10 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       if (this.hasChange) {
         this.createPuntoVentaDialgoConfirmation();
       } else {
-        this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.id], { queryParams: { backUrl: this.puntoVentaBackUrl }});
+        this.router.navigate(
+          [`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.id],
+          { queryParams: { backUrl: this.puntoVentaBackUrl } }
+        );
       }
     } else {
       this.createPuntoVentaDialgoConfirmation();
@@ -150,42 +163,50 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.geo.value,
-        contactos: this.contactos.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.geo.value,
+          contactos: this.contactos.value,
+        })
+      );
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
       formData.append('data', JSON.stringify(data));
-      if (this.file) { formData.append('file', this.file); }
+      if (this.file) {
+        formData.append('file', this.file);
+      }
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.proveedorService.edit(this.id, formData).subscribe(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
           if (redirectToCreatePuntoVenta) {
-            this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.id]);
+            this.router.navigate([
+              `/entities/${m.PUNTO_VENTA}/${a.CREAR}`,
+              this.id,
+            ]);
           } else {
-            openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
+            this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+            this.getData();
           }
         });
       } else {
         this.proveedorService.create(formData).subscribe((proveedor) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (redirectToCreatePuntoVenta) {
-                this.router.navigate([`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, proveedor.id]);
-              } else if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([`/entities/${m.PROVEEDOR}/${a.EDITAR}`, proveedor.id]);
-              }
-            });
+          this.snackbar.open('Datos guardados satisfactoriamente');
+          if (redirectToCreatePuntoVenta) {
+            this.router.navigate([
+              `/entities/${m.PUNTO_VENTA}/${a.CREAR}`,
+              proveedor.id,
+            ]);
+          } else if (confirmed) {
+            this.router.navigate([this.backUrl]);
+          } else {
+            this.router.navigate([
+              `/entities/${m.PROVEEDOR}/${a.EDITAR}`,
+              proveedor.id,
+            ]);
+          }
         });
       }
     } else {
@@ -208,8 +229,8 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.proveedorService.getById(this.id).subscribe(data => {
-        this.form.setValue({
+      this.proveedorService.getById(this.id).subscribe((data) => {
+        this.form.patchValue({
           info: {
             alias: data.gestor_carga_proveedor?.alias ?? data.nombre_corto,
             nombre: data.nombre,
@@ -245,16 +266,11 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   }
 
   private createPuntoVentaDialgoConfirmation(): void {
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: 'Para crear un punto de venta debe guardar los cambios ¿Desea guardarlos?',
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => !!confirmed))
-      .subscribe(() => {
+    this.dialog.confirmation(
+      'Para crear un punto de venta debe guardar los cambios ¿Desea guardarlos?',
+      () => {
         this.submit(false, true);
-      });
+      }
+    );
   }
 }

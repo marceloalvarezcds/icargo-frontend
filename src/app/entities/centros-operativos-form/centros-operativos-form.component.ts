@@ -1,24 +1,32 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
   selector: 'app-centros-operativos-form',
   templateUrl: './centros-operativos-form.component.html',
-  styleUrls: ['./centros-operativos-form.component.scss']
+  styleUrls: ['./centros-operativos-form.component.scss'],
 })
 export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
-
   a = PermisoAccionEnum;
   id?: number;
   isEdit = false;
@@ -28,7 +36,8 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   isContactoTouched = false;
   isGeoTouched = false;
   backUrl = `/entities/${m.CENTRO_OPERATIVO}/${a.LISTAR}`;
-  centroOperativoClasificacionList$ = this.centroOperativoClasificacionService.getList();
+  centroOperativoClasificacionList$ =
+    this.centroOperativoClasificacionService.getList();
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
     this.user = user;
@@ -47,7 +56,10 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       clasificacion_id: [null, Validators.required],
       alias: null,
       logo: [null, Validators.required],
-      telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
+      telefono: [
+        null,
+        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
+      ],
       email: null,
       pagina_web: null,
     }),
@@ -64,7 +76,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
@@ -88,13 +100,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private centroOperativoClasificacionService:  CentroOperativoClasificacionService,
-    private centroOperativoService:  CentroOperativoService,
+    private centroOperativoClasificacionService: CentroOperativoClasificacionService,
+    private centroOperativoService: CentroOperativoService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -114,7 +126,10 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, this.id]);
+    this.router.navigate([
+      `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
+      this.id,
+    ]);
   }
 
   fileChange(fileEvent: FileChangeEvent): void {
@@ -129,37 +144,36 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.geo.value,
-        contactos: this.contactos.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.geo.value,
+          contactos: this.contactos.value,
+        })
+      );
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
       formData.append('data', JSON.stringify(data));
-      if (this.file) { formData.append('file', this.file); }
+      if (this.file) {
+        formData.append('file', this.file);
+      }
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.centroOperativoService.edit(this.id, formData).subscribe(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+          this.getData();
         });
       } else {
-        this.centroOperativoService.create(formData).subscribe((centroOperativo) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`, centroOperativo.id]);
-              }
-            });
-        });
+        this.centroOperativoService
+          .create(formData)
+          .subscribe((centroOperativo) => {
+            this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+              `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
+              centroOperativo.id,
+            ]);
+          });
       }
     } else {
       setTimeout(() => {
@@ -181,10 +195,11 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.centroOperativoService.getById(this.id).subscribe(data => {
-        this.form.setValue({
+      this.centroOperativoService.getById(this.id).subscribe((data) => {
+        this.form.patchValue({
           info: {
-            alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
+            alias:
+              data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             clasificacion_id: data.clasificacion_id,

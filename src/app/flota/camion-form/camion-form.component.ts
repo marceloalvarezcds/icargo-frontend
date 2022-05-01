@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -12,12 +10,9 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { CamionService } from 'src/app/services/camion.service';
+import { DialogService } from 'src/app/services/dialog.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import {
-  confirmationDialogToActive,
-  confirmationDialogToInactive,
-} from 'src/app/utils/change-status';
-import { openSnackbar } from 'src/app/utils/snackbar';
 import { DateValidator } from 'src/app/validators/date-validator';
 
 @Component({
@@ -150,8 +145,8 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private camionService: CamionService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private snackbar: SnackbarService,
+    private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -177,12 +172,9 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    confirmationDialogToActive(
-      this.dialog,
-      'el Camión',
-      this.camionService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Camión?',
+      this.camionService.active(this.id!),
       () => {
         this.getData();
       }
@@ -190,12 +182,9 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   }
 
   inactive(): void {
-    confirmationDialogToInactive(
-      this.dialog,
-      'el Camión',
-      this.camionService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Camión?',
+      this.camionService.inactive(this.id!),
       () => {
         this.getData();
       }
@@ -259,28 +248,19 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           this.fotoAutomotorReversoFile
         );
       }
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.camionService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.camionService.create(formData).subscribe((camion) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([
-                  `/flota/${m.CAMION}/${a.EDITAR}`,
-                  camion.id,
-                ]);
-              }
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/flota/${m.CAMION}/${a.EDITAR}`,
+            camion.id,
+          ]);
         });
       }
     } else {

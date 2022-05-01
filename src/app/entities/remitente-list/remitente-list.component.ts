@@ -1,11 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -13,6 +9,7 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { RemitenteList } from 'src/app/interfaces/remitente';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -125,8 +122,7 @@ export class RemitenteListComponent implements OnInit {
     private remitenteService: RemitenteService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -149,26 +145,15 @@ export class RemitenteListComponent implements OnInit {
     this.router.navigate([`/entities/${m.REMITENTE}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<RemitenteList>): void {
-    const row = event.row;
-    this.dialog
-      .open(ConfirmationDialogComponent, {
-        data: {
-          message: `¿Está seguro que desea eliminar el Remitente ${row.nombre}`,
-        },
-      })
-      .afterClosed()
-      .pipe(filter((confirmed: boolean) => confirmed))
-      .subscribe(() => {
-        this.remitenteService.delete(row.id).subscribe(() => {
-          this.snackbar
-            .open('Eliminado satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.getList();
-            });
-        });
-      });
+  deleteRow({ row }: TableEvent<RemitenteList>): void {
+    const message = `¿Está seguro que desea eliminar el Remitente ${row.nombre}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.remitenteService.delete(row.id),
+      () => {
+        this.getList();
+      }
+    );
   }
 
   downloadFile(): void {

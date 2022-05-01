@@ -1,7 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import {
@@ -12,10 +10,10 @@ import { Banco } from 'src/app/interfaces/banco';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
 import { BancoService } from 'src/app/services/banco.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
@@ -136,8 +134,7 @@ export class BancoListComponent implements OnInit {
     private bancoService: BancoService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -157,16 +154,12 @@ export class BancoListComponent implements OnInit {
     this.router.navigate([`/banco/${m.BANCO}/${a.VER}`, event.row.id]);
   }
 
-  deleteRow(event: TableEvent<Banco>): void {
-    const row = event.row;
+  deleteRow({ row }: TableEvent<Banco>): void {
     const message = `¿Está seguro que desea eliminar la banco ${row.numero_cuenta}?`;
-    confirmationDialogToDelete(
-      this.dialog,
+    this.dialog.confirmationToDelete(
       message,
-      this.bancoService,
-      row.id,
-      this.snackbar,
-      () => {
+      this.bancoService.delete(row.id),
+      (_) => {
         this.getList();
       }
     );

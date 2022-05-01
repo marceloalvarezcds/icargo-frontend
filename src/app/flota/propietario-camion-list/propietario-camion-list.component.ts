@@ -1,6 +1,4 @@
 import { Component, Input } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import {
   PermisoAccionEnum as a,
@@ -11,7 +9,7 @@ import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
 import { CamionService } from 'src/app/services/camion.service';
-import { confirmationDialogToDelete } from 'src/app/utils/delete';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-propietario-camion-list',
@@ -78,6 +76,12 @@ export class PropietarioCamionListComponent {
     this.getList();
   }
 
+  constructor(
+    private camionService: CamionService,
+    private dialog: DialogService,
+    private router: Router
+  ) {}
+
   redirectToCreate(): void {
     this.router.navigate([`/flota/${m.CAMION}/${a.CREAR}`], {
       queryParams: { backUrl: this.backUrl, propietarioId: this.id },
@@ -96,27 +100,16 @@ export class PropietarioCamionListComponent {
     });
   }
 
-  deleteRow(event: TableEvent<CamionList>): void {
-    const row = event.row;
-    const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}`;
-    confirmationDialogToDelete(
-      this.dialog,
+  deleteRow({ row }: TableEvent<CamionList>): void {
+    const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}?`;
+    this.dialog.confirmationToDelete(
       message,
-      this.camionService,
-      row.id,
-      this.snackbar,
+      this.camionService.delete(row.id),
       () => {
         this.getList();
       }
     );
   }
-
-  constructor(
-    private camionService: CamionService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
-    private router: Router
-  ) {}
 
   private getList(): void {
     if (this.id) {

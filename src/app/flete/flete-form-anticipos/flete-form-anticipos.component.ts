@@ -26,7 +26,8 @@ export class FleteFormAnticiposComponent {
               tipo_insumo_descripcion: it.tipo_insumo_descripcion,
               porcentaje: null,
               concepto: it.concepto,
-            })
+            }),
+            { emitEvent: false }
           );
         });
       }
@@ -75,9 +76,9 @@ export class FleteFormAnticiposComponent {
 
   private checkDisable(): void {
     if (!this.isCreate && !this.puedeModificar) {
-      this.formArray.disable();
+      this.formArray.disable({ emitEvent: false });
     } else {
-      this.formArray.enable();
+      this.formArray.enable({ emitEvent: false });
     }
   }
 }

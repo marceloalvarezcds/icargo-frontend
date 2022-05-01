@@ -1,7 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -13,10 +11,10 @@ import {
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
+import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { confirmationDialogToCancel } from 'src/app/utils/cancel-status';
-import { openSnackbar } from 'src/app/utils/snackbar';
 import { ProportionValidator } from 'src/app/validators/proportion-validator';
 
 @Component({
@@ -166,8 +164,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private fleteService: FleteService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog,
+    private snackbar: SnackbarService,
+    private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -193,12 +191,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
 
   cancelar(): void {
-    confirmationDialogToCancel(
-      this.dialog,
-      'el Flete',
-      this.fleteService,
-      this.id!,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea cancelar el Flete?',
+      this.fleteService.cancel(this.id!),
       () => {
         this.getData();
       }
@@ -225,28 +220,19 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         })
       );
       formData.append('data', JSON.stringify(data));
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.fleteService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.fleteService.create(formData).subscribe((flete) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([
-                  `/flete/${m.FLETE}/${a.EDITAR}`,
-                  flete.id,
-                ]);
-              }
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/flete/${m.FLETE}/${a.EDITAR}`,
+            flete.id,
+          ]);
         });
       }
     } else {

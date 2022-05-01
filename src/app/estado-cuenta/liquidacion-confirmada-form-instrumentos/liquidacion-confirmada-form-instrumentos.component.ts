@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { InstrumentoFormDialogComponent } from 'src/app/dialogs/instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import {
@@ -13,8 +12,8 @@ import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
-import { confirmationDialog } from 'src/app/utils/confirm';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -103,7 +102,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
   constructor(
     private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private dialogService: DialogService,
     private liquidacionService: LiquidacionService
   ) {}
 
@@ -137,14 +136,12 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   saveInstrumentos(): void {
     const list = this.list.slice();
     const message = `Por favor verifique que los datos de instrumentos y facturas estén correctos, luego de realizar esta acción no podrá modificar los datos de los mismos ¿ Desea guardar ?`;
-    confirmationDialog(
-      this.dialog,
+    this.dialogService.confirmationWithSnackbar(
       message,
       this.liquidacionService.addInstrumentos(
         this.liquidacion!.id,
         addInstrumentosData(list)
       ),
-      this.snackbar,
       'Instrumentos agregados',
       () => {
         this.list = [];

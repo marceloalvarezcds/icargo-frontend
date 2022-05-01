@@ -14,10 +14,9 @@ import { UserService } from 'src/app/services/user.service';
 @Component({
   selector: 'app-contacto-form-dialog',
   templateUrl: './contacto-form-dialog.component.html',
-  styleUrls: ['./contacto-form-dialog.component.scss']
+  styleUrls: ['./contacto-form-dialog.component.scss'],
 })
 export class ContactoFormDialogComponent implements OnDestroy {
-
   isExistContacto = false;
   cargoList$ = this.cargoService.getList();
   contactoInfo$ = new BehaviorSubject<ContactoInfo>({});
@@ -27,7 +26,10 @@ export class ContactoFormDialogComponent implements OnDestroy {
   });
 
   form = this.fb.group({
-    telefono: [this.data?.contacto_telefono, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
+    telefono: [
+      this.data?.contacto_telefono,
+      [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
+    ],
     email: [this.data?.contacto_email, [Validators.required, Validators.email]],
     nombre: [this.data?.contacto_nombre, Validators.required],
     apellido: [this.data?.contacto_apellido, Validators.required],
@@ -36,7 +38,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
   });
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear'
+    return this.data ? 'Editar' : 'Crear';
   }
 
   get telefonoControl(): FormControl {
@@ -47,30 +49,28 @@ export class ContactoFormDialogComponent implements OnDestroy {
     return this.form.get('email') as FormControl;
   }
 
-  telefonoSubscription = this.telefonoControl
-    .valueChanges
-    .pipe(filter(x => !!x && this.telefonoControl.valid))
-    .subscribe(telefono => {
+  telefonoSubscription = this.telefonoControl.valueChanges
+    .pipe(filter((x) => !!x && this.telefonoControl.valid))
+    .subscribe((telefono) => {
       this.contactoInfo$.next({
         ...this.contactoInfo$.value,
         telefono,
-      })
+      });
     });
 
-  emailSubscription = this.emailControl
-    .valueChanges
-    .pipe(filter(x => !!x && this.emailControl.valid))
-    .subscribe(email => {
+  emailSubscription = this.emailControl.valueChanges
+    .pipe(filter((x) => !!x && this.emailControl.valid))
+    .subscribe((email) => {
       this.contactoInfo$.next({
         ...this.contactoInfo$.value,
         email,
-      })
+      });
     });
 
   contactoInfoSubscription = this.contactoInfo$
     .pipe(filter(({ telefono, email }) => !!telefono && !!email))
     .subscribe(({ telefono, email }) => {
-      this.contactoService.get(telefono!, email!).subscribe(contacto => {
+      this.contactoService.get(telefono!, email!).subscribe((contacto) => {
         this.isExistContacto = true;
         this.form.controls['nombre'].setValue(contacto.nombre);
         this.form.controls['apellido'].setValue(contacto.apellido);
@@ -83,7 +83,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
     private cargoService: CargoService,
     private contactoService: ContactoService,
     private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) private data?: ContactoGestorCargaList,
+    @Inject(MAT_DIALOG_DATA) private data?: ContactoGestorCargaList
   ) {}
 
   ngOnDestroy(): void {
@@ -114,7 +114,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
         contacto_apellido: contacto.apellido,
         contacto_telefono: contacto.telefono,
         contacto_email: contacto.email,
-      }
+      };
       this.dialogRef.close(data);
     }
   }

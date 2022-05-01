@@ -1,19 +1,11 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { saveAs } from 'file-saver';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
-import {
-  confirmationDialogToAceptar,
-  confirmationDialogToCancelar,
-  confirmationDialogToConciliar,
-  confirmationDialogToFinalizar,
-  confirmationDialogToModificarAnticipos,
-} from 'src/app/utils/change-orden-carga-status';
-import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-orden-carga-edit-form-acciones',
@@ -33,16 +25,14 @@ export class OrdenCargaEditFormAccionesComponent {
   constructor(
     private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
-    private snackbar: MatSnackBar,
-    private dialog: MatDialog
+    private snackbar: SnackbarService,
+    private dialog: DialogService
   ) {}
 
   aceptar(): void {
-    confirmationDialogToAceptar(
-      this.dialog,
-      this.ordenCargaService,
-      this.oc!.id,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea aceptar la Orden de Carga?',
+      this.ordenCargaService.aceptar(this.oc!.id),
       () => {
         this.ocChange.emit();
       }
@@ -50,11 +40,9 @@ export class OrdenCargaEditFormAccionesComponent {
   }
 
   cancelar(): void {
-    confirmationDialogToCancelar(
-      this.dialog,
-      this.ordenCargaService,
-      this.oc!.id,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea cancelar la Orden de Carga?',
+      this.ordenCargaService.cancelar(this.oc!.id),
       () => {
         this.ocChange.emit();
       }
@@ -63,29 +51,22 @@ export class OrdenCargaEditFormAccionesComponent {
 
   conciliar(): void {
     if (!this.hasChange) {
-      confirmationDialogToConciliar(
-        this.dialog,
-        this.ordenCargaService,
-        this.oc!.id,
-        this.snackbar,
+      this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea conciliar la Orden de Carga?',
+        this.ordenCargaService.conciliar(this.oc!.id),
         () => {
           this.ocChange.emit();
         }
       );
     } else {
-      openSnackbarWithMessage(
-        this.snackbar,
-        'Por favor guardar los cambios antes de conciliar'
-      );
+      this.snackbar.open('Por favor guardar los cambios antes de conciliar');
     }
   }
 
   finalizar(): void {
-    confirmationDialogToFinalizar(
-      this.dialog,
-      this.ordenCargaService,
-      this.oc!.id,
-      this.snackbar,
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea finalizar la Orden de Carga?',
+      this.ordenCargaService.finalizar(this.oc!.id),
       () => {
         this.ocChange.emit();
       }
@@ -93,13 +74,12 @@ export class OrdenCargaEditFormAccionesComponent {
   }
 
   modificarAnticipos(): void {
-    confirmationDialogToModificarAnticipos(
-      this.dialog,
-      this.ordenCargaService,
-      this.isAnticiposLiberados,
-      this.oc!.id,
-      this.snackbar,
-      () => {
+    this.dialog.changeStatusConfirm(
+      `¿Está seguro que desea ${
+        this.isAnticiposLiberados ? 'bloquear' : 'liberar'
+      } anticipos?`,
+      this.ordenCargaService.modificarAnticipos(this.oc!.id),
+      (x) => {
         this.ocChange.emit();
       }
     );

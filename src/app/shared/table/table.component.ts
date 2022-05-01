@@ -124,7 +124,10 @@ export class TableComponent implements OnInit, OnDestroy {
     this.tableDataSource.filter = searchOptions.textToSearch
       .trim()
       .toLowerCase();
-    if (searchOptions.textToSearch.trim().length) {
+    if (
+      searchOptions.textToSearch.trim().length &&
+      this.tableDataSource.paginator
+    ) {
       this.tableDataSource.paginator!.firstPage();
     }
   }

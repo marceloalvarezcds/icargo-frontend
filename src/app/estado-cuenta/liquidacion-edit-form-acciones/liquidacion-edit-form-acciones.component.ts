@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { ComentarioConfirmDialogComponent } from 'src/app/dialogs/comentario-confirm-dialog/comentario-confirm-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
@@ -10,12 +9,9 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { changeLiquidacionStatusData } from 'src/app/form-data/liquidacion';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
+import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
-import {
-  changeStatusConfirm,
-  configDialogRef,
-} from 'src/app/utils/change-status';
-import { changeStatusMessageSnackbar } from 'src/app/utils/snackbar';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-liquidacion-edit-form-acciones',
@@ -39,43 +35,36 @@ export class LiquidacionEditFormAccionesComponent {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private dialogService: DialogService,
+    private snackbar: SnackbarService,
     private liquidacionService: LiquidacionService
   ) {}
 
   aceptar(): void {
     const message = `Está seguro que desea Aceptar la Liquidación Nº ${this.id}`;
-    changeStatusConfirm(
-      this.dialog,
+    this.dialogService.changeStatusConfirm(
       message,
       this.liquidacionService.aceptar(this.id),
-      () =>
-        changeStatusMessageSnackbar(this.snackbar, () => {
-          this.router.navigate([
-            `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`,
-          ]);
-        })
+      () => {
+        this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
+      }
     );
   }
 
   cancelar(): void {
     const message = `Está seguro que desea Cancelar la Liquidación Nº ${this.id}`;
-    changeStatusConfirm(
-      this.dialog,
+    this.dialogService.changeStatusConfirm(
       message,
       this.liquidacionService.cancelar(this.id),
-      () =>
-        changeStatusMessageSnackbar(this.snackbar, () =>
-          this.router.navigate([
-            `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`,
-          ])
-        )
+      () => {
+        this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
+      }
     );
   }
 
   rechazar(): void {
     const message = `Está seguro que desea Rechazar la Liquidación Nº ${this.id}`;
-    configDialogRef(
+    this.dialogService.configDialogRef(
       this.dialog.open(ComentarioConfirmDialogComponent, {
         data: {
           message,
@@ -85,18 +74,17 @@ export class LiquidacionEditFormAccionesComponent {
       (comentario: string) => {
         this.liquidacionService
           .rechazar(this.id, changeLiquidacionStatusData(comentario))
-          .subscribe(() =>
-            changeStatusMessageSnackbar(this.snackbar, () =>
-              this.liquidacionChange.emit()
-            )
-          );
+          .subscribe(() => {
+            this.snackbar.changeStatus();
+            this.liquidacionChange.emit();
+          });
       }
     );
   }
 
   pasarARevision(): void {
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
-    configDialogRef(
+    this.dialogService.configDialogRef(
       this.dialog.open(ComentarioConfirmDialogComponent, {
         data: {
           message,
@@ -105,11 +93,10 @@ export class LiquidacionEditFormAccionesComponent {
       (comentario: string) => {
         this.liquidacionService
           .pasarARevision(this.id, changeLiquidacionStatusData(comentario))
-          .subscribe(() =>
-            changeStatusMessageSnackbar(this.snackbar, () =>
-              this.liquidacionChange.emit()
-            )
-          );
+          .subscribe(() => {
+            this.snackbar.changeStatus();
+            this.liquidacionChange.emit();
+          });
       },
       (val?: string | boolean) => val !== false
     );

@@ -1,6 +1,15 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -8,41 +17,43 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { DirectivesModule } from 'src/app/directives/directives.module';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
+import { CamionFormInfoComponent } from 'src/app/flota/camion-form-info/camion-form-info.component';
+import { RegistroConduccionFormComponent } from 'src/app/flota/registro-conduccion-form/registro-conduccion-form.component';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
-import { mockCiudadList } from 'src/app/interfaces/ciudad';
-import { mockLocalidadList } from 'src/app/interfaces/localidad';
-import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockCamion } from 'src/app/interfaces/camion';
-import { mockTipoCamionList } from 'src/app/interfaces/tipo-camion';
+import { mockChoferList } from 'src/app/interfaces/chofer';
+import { mockCiudadList } from 'src/app/interfaces/ciudad';
+import { mockEnteEmisorAutomotorList } from 'src/app/interfaces/ente-emisor-automotor';
+import { mockEnteEmisorTransporteList } from 'src/app/interfaces/ente-emisor-transporte';
+import { mockLocalidadList } from 'src/app/interfaces/localidad';
 import { mockMarcaCamionList } from 'src/app/interfaces/marca-camion';
-import { mockUserAccount } from 'src/app/interfaces/user';
+import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockPropietarioList } from 'src/app/interfaces/propietario';
+import { mockTipoCamionList } from 'src/app/interfaces/tipo-camion';
+import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PermisoPipe } from 'src/app/pipes/permiso.pipe';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AuthService } from 'src/app/services/auth.service';
-import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { CamionService } from 'src/app/services/camion.service';
+import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { TipoCamionService } from 'src/app/services/tipo-camion.service';
+import { TipoRegistroService } from 'src/app/services/tipo-registro.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
-import { CamionFormInfoComponent } from 'src/app/flota/camion-form-info/camion-form-info.component';
-import { RegistroConduccionFormComponent } from 'src/app/flota/registro-conduccion-form/registro-conduccion-form.component';
-import { TipoRegistroService } from 'src/app/services/tipo-registro.service';
-import { mockChoferList } from 'src/app/interfaces/chofer';
-import { mockEnteEmisorAutomotorList } from 'src/app/interfaces/ente-emisor-automotor';
-import { mockEnteEmisorTransporteList } from 'src/app/interfaces/ente-emisor-transporte';
-
 import { CamionFormComponent } from './camion-form.component';
 
 describe('CamionFormComponent', () => {
   let component: CamionFormComponent;
   let fixture: ComponentFixture<CamionFormComponent>;
   let httpController: HttpTestingController;
-  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed : of(true) });
+  let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
   let camionService: CamionService;
   let userService: UserService;
   let pageFormComponent: DebugElement;
@@ -52,38 +63,44 @@ describe('CamionFormComponent', () => {
   let habilitacionFormTransporte: DebugElement;
   const router = {
     navigate: jasmine.createSpy('navigate'),
-  }
+  };
   const createRouter = {
-    ...router, url: `flota/${m.CAMION}/${a.CREAR}`,
-  }
+    ...router,
+    url: `flota/${m.CAMION}/${a.CREAR}`,
+  };
   const editRouter = {
-    ...router, url: `flota/${m.CAMION}/${a.EDITAR}/:id`,
-  }
+    ...router,
+    url: `flota/${m.CAMION}/${a.EDITAR}/:id`,
+  };
   const showRouter = {
-    ...router, url: `flota/${m.CAMION}/${a.VER}`,
-  }
+    ...router,
+    url: `flota/${m.CAMION}/${a.VER}`,
+  };
   const id = mockCamion.id;
   const route = {
     snapshot: {
       params: {
         id,
       },
-      queryParams: { },
+      queryParams: {},
     },
   };
   const createRoute = {
     snapshot: {
-      params: { },
-      queryParams: { },
+      params: {},
+      queryParams: {},
     },
   };
   const createWithBackUrlRoute = {
     snapshot: {
-      params: { },
+      params: {},
       queryParams: { backUrl: '/' },
     },
   };
-  function formSetValue(component: CamionFormComponent, fileUrl: string | null = null): void {
+  function formSetValue(
+    component: CamionFormComponent,
+    fileUrl: string | null = null
+  ): void {
     component.form.setValue({
       info: {
         placa: mockCamion.placa,
@@ -93,24 +110,31 @@ describe('CamionFormComponent', () => {
         foto: fileUrl,
       },
       municipal: {
-        pais_habilitacion_municipal_id: mockCamion.ciudad_habilitacion_municipal.localidad.pais_id,
-        localidad_habilitacion_municipal_id: mockCamion.ciudad_habilitacion_municipal.localidad_id,
-        ciudad_habilitacion_municipal_id: mockCamion.ciudad_habilitacion_municipal_id,
+        pais_habilitacion_municipal_id:
+          mockCamion.ciudad_habilitacion_municipal.localidad.pais_id,
+        localidad_habilitacion_municipal_id:
+          mockCamion.ciudad_habilitacion_municipal.localidad_id,
+        ciudad_habilitacion_municipal_id:
+          mockCamion.ciudad_habilitacion_municipal_id,
         numero_habilitacion_municipal: mockCamion.numero_habilitacion_municipal,
-        vencimiento_habilitacion_municipal: mockCamion.vencimiento_habilitacion_municipal,
+        vencimiento_habilitacion_municipal:
+          mockCamion.vencimiento_habilitacion_municipal,
         foto_habilitacion_municipal_frente: fileUrl,
         foto_habilitacion_municipal_reverso: fileUrl,
       },
       transporte: {
         ente_emisor_transporte_id: mockCamion.ente_emisor_transporte_id,
-        numero_habilitacion_transporte: mockCamion.numero_habilitacion_transporte,
-        vencimiento_habilitacion_transporte: mockCamion.vencimiento_habilitacion_transporte,
+        numero_habilitacion_transporte:
+          mockCamion.numero_habilitacion_transporte,
+        vencimiento_habilitacion_transporte:
+          mockCamion.vencimiento_habilitacion_transporte,
         foto_habilitacion_transporte_frente: fileUrl,
         foto_habilitacion_transporte_reverso: fileUrl,
       },
       automotor: {
         ente_emisor_automotor_id: mockCamion.ente_emisor_automotor_id,
-        titular_habilitacion_automotor: mockCamion.titular_habilitacion_automotor,
+        titular_habilitacion_automotor:
+          mockCamion.titular_habilitacion_automotor,
         foto_habilitacion_automotor_frente: fileUrl,
         foto_habilitacion_automotor_reverso: fileUrl,
       },
@@ -138,13 +162,22 @@ describe('CamionFormComponent', () => {
         PipesModule,
         ReactiveFormsModule,
         RouterTestingModule.withRoutes([
-          { path: `flota/${m.CAMION}/${a.CREAR}`, component: CamionFormComponent },
-          { path: `flota/${m.CAMION}/${a.EDITAR}`, component: CamionFormComponent },
-          { path: `flota/${m.CAMION}/${a.VER}`, component: CamionFormComponent },
+          {
+            path: `flota/${m.CAMION}/${a.CREAR}`,
+            component: CamionFormComponent,
+          },
+          {
+            path: `flota/${m.CAMION}/${a.EDITAR}`,
+            component: CamionFormComponent,
+          },
+          {
+            path: `flota/${m.CAMION}/${a.VER}`,
+            component: CamionFormComponent,
+          },
         ]),
         SharedModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AuthService,
         UserService,
@@ -155,15 +188,14 @@ describe('CamionFormComponent', () => {
         TipoRegistroService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
         { provide: ActivatedRoute, useValue: route },
-        { provide: Router, useValue: router }
+        { provide: Router, useValue: router },
       ],
       declarations: [
         CamionFormComponent,
         CamionFormInfoComponent,
         RegistroConduccionFormComponent,
       ],
-    })
-    .compileComponents();
+    }).compileComponents();
   });
 
   it('should open create view', fakeAsync(() => {
@@ -177,16 +209,38 @@ describe('CamionFormComponent', () => {
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.match(`${environment.api}/propietario/gestor_cuenta/`).forEach(r => r.flush(mockPropietarioList));
-    httpController.match(`${environment.api}/chofer/gestor_cuenta/`).forEach(r => r.flush(mockChoferList));
-    httpController.match(`${environment.api}/ente_emisor_automotor/`).forEach(r => r.flush(mockEnteEmisorAutomotorList));
-    httpController.match(`${environment.api}/ente_emisor_transporte/`).forEach(r => r.flush(mockEnteEmisorTransporteList));
-    httpController.match(`${environment.api}/tipo_camion/`).forEach(r => r.flush(mockTipoCamionList));
-    httpController.match(`${environment.api}/marca_camion/`).forEach(r => r.flush(mockMarcaCamionList));
-    httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
-    httpController.match(`${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
-    httpController.match(`${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
-    const req = httpController.expectOne(`${environment.api}/camion/`)
+    httpController
+      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockChoferList));
+    httpController
+      .match(`${environment.api}/ente_emisor_automotor/`)
+      .forEach((r) => r.flush(mockEnteEmisorAutomotorList));
+    httpController
+      .match(`${environment.api}/ente_emisor_transporte/`)
+      .forEach((r) => r.flush(mockEnteEmisorTransporteList));
+    httpController
+      .match(`${environment.api}/tipo_camion/`)
+      .forEach((r) => r.flush(mockTipoCamionList));
+    httpController
+      .match(`${environment.api}/marca_camion/`)
+      .forEach((r) => r.flush(mockMarcaCamionList));
+    httpController
+      .match(`${environment.api}/pais/`)
+      .forEach((r) => r.flush(mockPaisList));
+    httpController
+      .match(
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(
+        `${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`
+      )
+      .forEach((r) => r.flush(mockCiudadList));
+    const req = httpController.expectOne(`${environment.api}/camion/`);
     expect(req.request.method).toBe('POST');
     req.flush(mockCamion);
     flush();
@@ -203,13 +257,27 @@ describe('CamionFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.match(`${environment.api}/propietario/gestor_cuenta/`).forEach(r => r.flush(mockPropietarioList));
-    httpController.match(`${environment.api}/chofer/gestor_cuenta/`).forEach(r => r.flush(mockChoferList));
-    httpController.match(`${environment.api}/ente_emisor_automotor/`).forEach(r => r.flush(mockEnteEmisorAutomotorList));
-    httpController.match(`${environment.api}/ente_emisor_transporte/`).forEach(r => r.flush(mockEnteEmisorTransporteList));
-    httpController.match(`${environment.api}/tipo_camion/`).forEach(r => r.flush(mockTipoCamionList));
-    httpController.match(`${environment.api}/marca_camion/`).forEach(r => r.flush(mockMarcaCamionList));
-    httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
+    httpController
+      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockChoferList));
+    httpController
+      .match(`${environment.api}/ente_emisor_automotor/`)
+      .forEach((r) => r.flush(mockEnteEmisorAutomotorList));
+    httpController
+      .match(`${environment.api}/ente_emisor_transporte/`)
+      .forEach((r) => r.flush(mockEnteEmisorTransporteList));
+    httpController
+      .match(`${environment.api}/tipo_camion/`)
+      .forEach((r) => r.flush(mockTipoCamionList));
+    httpController
+      .match(`${environment.api}/marca_camion/`)
+      .forEach((r) => r.flush(mockMarcaCamionList));
+    httpController
+      .match(`${environment.api}/pais/`)
+      .forEach((r) => r.flush(mockPaisList));
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', true);
     const req = httpController.expectOne(`${environment.api}/camion/`);
@@ -217,15 +285,25 @@ describe('CamionFormComponent', () => {
     req.flush(mockCamion);
     flush();
     tick();
-    httpController.match(`${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
-    httpController.match(`${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
+    httpController
+      .match(
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(
+        `${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`
+      )
+      .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
   }));
 
   it('should open create view with backUrl', () => {
-    TestBed.overrideProvider(ActivatedRoute, { useValue: createWithBackUrlRoute });
+    TestBed.overrideProvider(ActivatedRoute, {
+      useValue: createWithBackUrlRoute,
+    });
     TestBed.overrideProvider(Router, { useValue: createRouter });
     fixture = TestBed.createComponent(CamionFormComponent);
     component = fixture.componentInstance;
@@ -249,31 +327,76 @@ describe('CamionFormComponent', () => {
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     const backSpy = spyOn(component, 'back').and.callThrough();
     fixture.detectChanges();
-    httpController.match(`${environment.api}/camion/${id}`).forEach(r => r.flush(mockCamion));
-    httpController.match(`${environment.api}/propietario/gestor_cuenta/`).forEach(r => r.flush(mockPropietarioList));
-    httpController.match(`${environment.api}/chofer/gestor_cuenta/`).forEach(r => r.flush(mockChoferList));
-    httpController.match(`${environment.api}/ente_emisor_automotor/`).forEach(r => r.flush(mockEnteEmisorAutomotorList));
-    httpController.match(`${environment.api}/ente_emisor_transporte/`).forEach(r => r.flush(mockEnteEmisorTransporteList));
-    httpController.match(`${environment.api}/tipo_camion/`).forEach(r => r.flush(mockTipoCamionList));
-    httpController.match(`${environment.api}/marca_camion/`).forEach(r => r.flush(mockMarcaCamionList));
-    httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
-    httpController.match(`${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
-    httpController.match(`${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
+    httpController
+      .match(`${environment.api}/camion/${id}`)
+      .forEach((r) => r.flush(mockCamion));
+    httpController
+      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockChoferList));
+    httpController
+      .match(`${environment.api}/ente_emisor_automotor/`)
+      .forEach((r) => r.flush(mockEnteEmisorAutomotorList));
+    httpController
+      .match(`${environment.api}/ente_emisor_transporte/`)
+      .forEach((r) => r.flush(mockEnteEmisorTransporteList));
+    httpController
+      .match(`${environment.api}/tipo_camion/`)
+      .forEach((r) => r.flush(mockTipoCamionList));
+    httpController
+      .match(`${environment.api}/marca_camion/`)
+      .forEach((r) => r.flush(mockMarcaCamionList));
+    httpController
+      .match(`${environment.api}/pais/`)
+      .forEach((r) => r.flush(mockPaisList));
+    httpController
+      .match(
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(
+        `${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`
+      )
+      .forEach((r) => r.flush(mockCiudadList));
     flush();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     camionFormInfo = findElement(fixture, 'app-camion-form-info');
-    habilitacionFormAutomotor = findElement(fixture, 'app-habilitacion-form-automotor');
-    habilitacionFormMunicipal = findElement(fixture, 'app-habilitacion-form-municipal');
-    habilitacionFormTransporte = findElement(fixture, 'app-habilitacion-form-transporte');
+    habilitacionFormAutomotor = findElement(
+      fixture,
+      'app-habilitacion-form-automotor'
+    );
+    habilitacionFormMunicipal = findElement(
+      fixture,
+      'app-habilitacion-form-municipal'
+    );
+    habilitacionFormTransporte = findElement(
+      fixture,
+      'app-habilitacion-form-transporte'
+    );
     pageFormComponent.triggerEventHandler('backClick', true);
     camionFormInfo.triggerEventHandler('fotoChange', fakeFile);
     habilitacionFormAutomotor.triggerEventHandler('fotoFrenteChange', fakeFile);
-    habilitacionFormAutomotor.triggerEventHandler('fotoReversoChange', fakeFile);
+    habilitacionFormAutomotor.triggerEventHandler(
+      'fotoReversoChange',
+      fakeFile
+    );
     habilitacionFormMunicipal.triggerEventHandler('fotoFrenteChange', fakeFile);
-    habilitacionFormMunicipal.triggerEventHandler('fotoReversoChange', fakeFile);
-    habilitacionFormTransporte.triggerEventHandler('fotoFrenteChange', fakeFile);
-    habilitacionFormTransporte.triggerEventHandler('fotoReversoChange', fakeFile);
+    habilitacionFormMunicipal.triggerEventHandler(
+      'fotoReversoChange',
+      fakeFile
+    );
+    habilitacionFormTransporte.triggerEventHandler(
+      'fotoFrenteChange',
+      fakeFile
+    );
+    habilitacionFormTransporte.triggerEventHandler(
+      'fotoReversoChange',
+      fakeFile
+    );
     tick();
     flush();
     expect(backSpy).toHaveBeenCalled();
@@ -282,15 +405,25 @@ describe('CamionFormComponent', () => {
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
-    httpController.match(`${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
-    httpController.match(`${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
-    httpController.match(`${environment.api}/camion/${id}`).forEach(req => {
+    httpController
+      .match(
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(
+        `${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`
+      )
+      .forEach((r) => r.flush(mockCiudadList));
+    httpController.match(`${environment.api}/camion/${id}`).forEach((req) => {
       expect(req.request.method).toBe('PUT');
       req.flush(mockCamion);
     });
     flush();
     expect(submitSpy).toHaveBeenCalled();
-    httpController.match(`${environment.api}/camion/${id}`).forEach(r => r.flush(mockCamion));
+    httpController
+      .match(`${environment.api}/camion/${id}`)
+      .forEach((r) => r.flush(mockCamion));
     flush();
     tick();
     httpController.verify();
@@ -304,21 +437,46 @@ describe('CamionFormComponent', () => {
     component = fixture.componentInstance;
     spyOnProperty(component.form, 'valid').and.returnValue(false);
     const activeSpy = spyOn(component, 'active').and.callThrough();
-    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(dialogRefSpyObj);
+    const dialogSpy = spyOn(
+      (component as any).dialog,
+      'changeStatusConfirm'
+    ).and.returnValue(dialogRefSpyObj);
     const inactiveSpy = spyOn(component, 'inactive').and.callThrough();
     const getByIdSpy = spyOn(camionService, 'getById').and.callThrough();
     const submitSpy = spyOn(component, 'submit').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
-    httpController.match(`${environment.api}/camion/${id}`).forEach(r => r.flush(mockCamion));
-    httpController.match(`${environment.api}/propietario/gestor_cuenta/`).forEach(r => r.flush(mockPropietarioList));
-    httpController.match(`${environment.api}/chofer/gestor_cuenta/`).forEach(r => r.flush(mockChoferList));
-    httpController.match(`${environment.api}/ente_emisor_automotor/`).forEach(r => r.flush(mockEnteEmisorAutomotorList));
-    httpController.match(`${environment.api}/ente_emisor_transporte/`).forEach(r => r.flush(mockEnteEmisorTransporteList));
-    httpController.match(`${environment.api}/tipo_camion/`).forEach(r => r.flush(mockTipoCamionList));
-    httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
-    httpController.match(`${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
-    httpController.match(`${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
+    httpController
+      .match(`${environment.api}/camion/${id}`)
+      .forEach((r) => r.flush(mockCamion));
+    httpController
+      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockChoferList));
+    httpController
+      .match(`${environment.api}/ente_emisor_automotor/`)
+      .forEach((r) => r.flush(mockEnteEmisorAutomotorList));
+    httpController
+      .match(`${environment.api}/ente_emisor_transporte/`)
+      .forEach((r) => r.flush(mockEnteEmisorTransporteList));
+    httpController
+      .match(`${environment.api}/tipo_camion/`)
+      .forEach((r) => r.flush(mockTipoCamionList));
+    httpController
+      .match(`${environment.api}/pais/`)
+      .forEach((r) => r.flush(mockPaisList));
+    httpController
+      .match(
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(
+        `${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`
+      )
+      .forEach((r) => r.flush(mockCiudadList));
     flush();
     tick();
     expect(getByIdSpy).toHaveBeenCalled();
@@ -326,8 +484,12 @@ describe('CamionFormComponent', () => {
     pageFormComponent.triggerEventHandler('submitEvent', null);
     pageFormComponent.triggerEventHandler('activeClick', null);
     pageFormComponent.triggerEventHandler('inactiveClick', null);
-    httpController.match(`${environment.api}/camion/${id}/active`).forEach(r => r.flush(mockCamion));
-    httpController.match(`${environment.api}/camion/${id}/inactive`).forEach(r => r.flush(mockCamion));
+    httpController
+      .match(`${environment.api}/camion/${id}/active`)
+      .forEach((r) => r.flush(mockCamion));
+    httpController
+      .match(`${environment.api}/camion/${id}/inactive`)
+      .forEach((r) => r.flush(mockCamion));
     flush();
     tick(1);
     expect(inactiveSpy).toHaveBeenCalled();
@@ -345,18 +507,43 @@ describe('CamionFormComponent', () => {
     component = fixture.componentInstance;
     pageFormComponent = findElement(fixture, 'app-page-form');
     fixture.detectChanges();
-    httpController.expectOne(`${environment.api}/camion/${id}`).flush(mockCamion);
-    httpController.match(`${environment.api}/propietario/gestor_cuenta/`).forEach(r => r.flush(mockPropietarioList));
-    httpController.match(`${environment.api}/chofer/gestor_cuenta/`).forEach(r => r.flush(mockChoferList));
-    httpController.match(`${environment.api}/ente_emisor_automotor/`).forEach(r => r.flush(mockEnteEmisorAutomotorList));
-    httpController.match(`${environment.api}/ente_emisor_transporte/`).forEach(r => r.flush(mockEnteEmisorTransporteList));
-    httpController.match(`${environment.api}/tipo_camion/`).forEach(r => r.flush(mockTipoCamionList));
-    httpController.match(`${environment.api}/pais/`).forEach(r => r.flush(mockPaisList));
-    httpController.match(`${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`).forEach(r => r.flush(mockLocalidadList));
-    httpController.match(`${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`).forEach(r => r.flush(mockCiudadList));
+    httpController
+      .expectOne(`${environment.api}/camion/${id}`)
+      .flush(mockCamion);
+    httpController
+      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockChoferList));
+    httpController
+      .match(`${environment.api}/ente_emisor_automotor/`)
+      .forEach((r) => r.flush(mockEnteEmisorAutomotorList));
+    httpController
+      .match(`${environment.api}/ente_emisor_transporte/`)
+      .forEach((r) => r.flush(mockEnteEmisorTransporteList));
+    httpController
+      .match(`${environment.api}/tipo_camion/`)
+      .forEach((r) => r.flush(mockTipoCamionList));
+    httpController
+      .match(`${environment.api}/pais/`)
+      .forEach((r) => r.flush(mockPaisList));
+    httpController
+      .match(
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+      )
+      .forEach((r) => r.flush(mockLocalidadList));
+    httpController
+      .match(
+        `${environment.api}/ciudad/${mockCamion.ciudad_habilitacion_municipal.localidad_id}/`
+      )
+      .forEach((r) => r.flush(mockCiudadList));
     tick(500);
     const backSpy = spyOn(component, 'back').and.callThrough();
-    const redirectToEditSpy = spyOn(component, 'redirectToEdit').and.callThrough();
+    const redirectToEditSpy = spyOn(
+      component,
+      'redirectToEdit'
+    ).and.callThrough();
     pageFormComponent.triggerEventHandler('backClick', false);
     pageFormComponent.triggerEventHandler('editClick', null);
     tick(1);

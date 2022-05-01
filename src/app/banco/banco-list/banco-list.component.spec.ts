@@ -21,10 +21,11 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { mockBancoList, Banco } from 'src/app/interfaces/banco';
+import { Banco, mockBancoList } from 'src/app/interfaces/banco';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
 import { BancoService } from 'src/app/services/banco.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -40,6 +41,7 @@ describe('BancoListComponent', () => {
   let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
   let reportsService: ReportsService;
   let searchService: SearchService;
+  let dialogService: DialogService;
   let pageComponent: DebugElement;
   let tableComponent: DebugElement;
   const row = mockBancoList[0];
@@ -90,6 +92,7 @@ describe('BancoListComponent', () => {
     httpController = TestBed.inject(HttpTestingController);
     reportsService = TestBed.inject(ReportsService);
     searchService = TestBed.inject(SearchService);
+    dialogService = TestBed.inject(DialogService);
     component = fixture.componentInstance;
     pageComponent = findElement(fixture, 'app-page');
     tableComponent = findElement(fixture, 'app-table-paginator');
@@ -118,9 +121,14 @@ describe('BancoListComponent', () => {
   });
 
   it('listens for app-table changes', fakeAsync(() => {
-    const dialogSpy = spyOn((component as any).dialog, 'open').and.returnValue(
-      dialogRefSpyObj
-    );
+    const dialogServiceSpy = spyOn(
+      (dialogService as any).dialog,
+      'open'
+    ).and.returnValue(dialogRefSpyObj);
+    const dialogSpy = spyOn(
+      (component as any).dialog,
+      'confirmationToDelete'
+    ).and.callThrough();
     const redirectToEditSpy = spyOn(
       component,
       'redirectToEdit'
@@ -137,16 +145,21 @@ describe('BancoListComponent', () => {
     tick();
 
     httpController
-      .expectOne(`${environment.api}/banco/gestor_carga_id/`)
-      .flush(mockBancoList);
+      .match(`${environment.api}/banco/gestor_carga_id/`)
+      .forEach((r) => r.flush(mockBancoList));
     const req = httpController.expectOne(`${environment.api}/banco/${row.id}`);
     expect(req.request.method).toBe('DELETE');
     req.flush({});
+    flush();
+    httpController
+      .match(`${environment.api}/banco/gestor_carga_id/`)
+      .forEach((r) => r.flush(mockBancoList));
     flush();
 
     expect(redirectToEditSpy).toHaveBeenCalled();
     expect(redirectToShowSpy).toHaveBeenCalled();
     expect(deleteRowSpy).toHaveBeenCalled();
+    expect(dialogServiceSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
     httpController.verify();
   }));

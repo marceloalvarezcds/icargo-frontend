@@ -9,8 +9,8 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Caja } from 'src/app/interfaces/caja';
 import { CajaService } from 'src/app/services/caja.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
   selector: 'app-caja-form',
@@ -55,7 +55,7 @@ export class CajaFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private cajaService: CajaService,
     private userService: UserService
   ) {}
@@ -87,19 +87,19 @@ export class CajaFormComponent implements OnInit, OnDestroy {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
       formData.append('data', JSON.stringify(data));
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit) {
         this.cajaService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       } else {
         this.cajaService.create(formData).subscribe(() => {
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              this.router.navigate([this.backUrl]);
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/caja/${m.CAJA}/${a.EDITAR}`,
+            this.id,
+          ]);
         });
       }
     }

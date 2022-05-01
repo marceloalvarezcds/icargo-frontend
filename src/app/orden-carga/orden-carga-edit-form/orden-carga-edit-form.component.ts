@@ -21,8 +21,8 @@ import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remisi
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
 
 @Component({
   selector: 'app-orden-carga-edit-form',
@@ -181,7 +181,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
     private chRef: ChangeDetectorRef
@@ -232,9 +232,11 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       );
       formData.append('data', JSON.stringify(data));
       if (this.isEdit) {
+        this.hasChange = false;
+        this.initialFormValue = this.form.value;
         this.ordenCargaService.edit(this.id, formData).subscribe(() => {
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
         });
       }
     } else {

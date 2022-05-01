@@ -1,23 +1,31 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
-import { PermisoAccionEnum as a, PermisoAccionEnum, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { RemitenteService } from 'src/app/services/remitente.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { openSnackbar } from 'src/app/utils/snackbar';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 
 @Component({
   selector: 'app-remitente-form',
   templateUrl: './remitente-form.component.html',
-  styleUrls: ['./remitente-form.component.scss']
+  styleUrls: ['./remitente-form.component.scss'],
 })
 export class RemitenteFormComponent implements OnInit, OnDestroy {
-
   a = PermisoAccionEnum;
   id?: number;
   isEdit = false;
@@ -47,7 +55,10 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       composicion_juridica_id: [null, Validators.required],
       alias: null,
       logo: [null, Validators.required],
-      telefono: [null, [Validators.required, Validators.pattern(/^([+]595|0)([0-9]{9})$/g)]],
+      telefono: [
+        null,
+        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
+      ],
       email: null,
       pagina_web: null,
       info_complementaria: null,
@@ -65,7 +76,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
 
   initialFormValue = this.form.value;
   hasChange = false;
-  hasChangeSubscription = this.form.valueChanges.subscribe(value => {
+  hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
     setTimeout(() => {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
@@ -91,16 +102,17 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     return this.info.get('logo') as FormControl;
   }
 
-  @ViewChild(PageFormEntitiesInfoComponent) pageInfo?: PageFormEntitiesInfoComponent;
+  @ViewChild(PageFormEntitiesInfoComponent)
+  pageInfo?: PageFormEntitiesInfoComponent;
 
   constructor(
     private fb: FormBuilder,
     private remitenteService: RemitenteService,
     private userService: UserService,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router,
-  ) { }
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.getData();
@@ -129,36 +141,33 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
-      const data = JSON.parse(JSON.stringify({
-        ...this.info.value,
-        ...this.geo.value,
-        contactos: this.contactos.value,
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          ...this.info.value,
+          ...this.geo.value,
+          contactos: this.contactos.value,
+        })
+      );
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
       formData.append('data', JSON.stringify(data));
-      if (this.file) { formData.append('file', this.file); }
+      if (this.file) {
+        formData.append('file', this.file);
+      }
+      this.hasChange = false;
+      this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
         this.remitenteService.edit(this.id, formData).subscribe(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          openSnackbar(this.snackbar, confirmed, this.router, this.backUrl);
+          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+          this.getData();
         });
       } else {
         this.remitenteService.create(formData).subscribe((remitente) => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.router.navigate([`/entities/${m.REMITENTE}/${a.EDITAR}`, remitente.id]);
-              }
-            });
+          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+            `/entities/${m.REMITENTE}/${a.EDITAR}`,
+            remitente.id,
+          ]);
         });
       }
     } else {
@@ -181,8 +190,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.remitenteService.getById(this.id).subscribe(data => {
-        this.form.setValue({
+      this.remitenteService.getById(this.id).subscribe((data) => {
+        this.form.patchValue({
           info: {
             alias: data.gestor_carga_remitente?.alias ?? data.nombre_corto,
             nombre: data.nombre,

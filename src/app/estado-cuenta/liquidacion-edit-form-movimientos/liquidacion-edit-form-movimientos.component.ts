@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MovimientosSelectedDialogComponent } from 'src/app/dialogs/movimientos-selected-dialog/movimientos-selected-dialog.component';
@@ -19,16 +18,16 @@ import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { MovimientosSelectedDialogData } from 'src/app/interfaces/movimientos-selected-dialog';
+import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
-import { confirmationDialog } from 'src/app/utils/confirm';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import {
   createMovimiento,
   deleteMovimiento,
   editMovimiento,
   redirectToShowOCByMovimiento,
 } from 'src/app/utils/movimiento-utils';
-import { openSnackbarWithMessage } from 'src/app/utils/snackbar';
 
 @Component({
   selector: 'app-liquidacion-edit-form-movimientos',
@@ -166,7 +165,8 @@ export class LiquidacionEditFormMovimientosComponent {
   constructor(
     private router: Router,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private dialogService: DialogService,
+    private snackbar: SnackbarService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService
   ) {}
@@ -191,13 +191,8 @@ export class LiquidacionEditFormMovimientosComponent {
             this.liquidacionService
               .addMovimientos(this.liquidacion!.id, createLiquidacionData(list))
               .subscribe(() => {
-                openSnackbarWithMessage(
-                  this.snackbar,
-                  'Movimientos agregados',
-                  () => {
-                    this.selectedMovimientosChange.emit(list.concat(this.list));
-                  }
-                );
+                this.snackbar.open('Movimientos agregados');
+                this.selectedMovimientosChange.emit(list.concat(this.list));
               });
           });
       });
@@ -205,14 +200,12 @@ export class LiquidacionEditFormMovimientosComponent {
 
   removeMovimiento(movimiento: Movimiento): void {
     const message = `¿Está seguro que desea remover el movimiento Nº ${movimiento.id} de la lista?`;
-    confirmationDialog(
-      this.dialog,
+    this.dialogService.confirmationWithSnackbar(
       message,
       this.liquidacionService.removeMovimiento(
         this.liquidacion!.id,
         removeMovimientoData(movimiento)
       ),
-      this.snackbar,
       'Movimiento removido',
       () => {
         this.selectedMovimientosChange.emit(
