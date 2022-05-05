@@ -9,6 +9,7 @@ export interface Column {
   def: string;
   title: string;
   value?: (row: any) => any;
+  footerDef?: () => any;
   buttonCallback?: (row: any) => void;
   buttonIconName?: (row: any) => string;
   isHidden?: (row: any) => boolean;
@@ -16,6 +17,5 @@ export interface Column {
   link?: (row: any) => ColumnLink | undefined;
   sticky?: boolean;
   stickyEnd?: boolean;
-  footerDef?: string;
   type?: string;
 }

@@ -9,6 +9,7 @@
   .mat-spinner {
     width: 40px !important;
     height: 40px !important;
+    z-index: 1;
   }
 }
 
@@ -31,7 +32,7 @@
 
     .mat-progress-spinner circle,
     .mat-spinner circle {
-      stroke: white;
+      stroke: #31977f;
     }
   }
 }

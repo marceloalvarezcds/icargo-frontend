@@ -131,10 +131,12 @@
       <ng-container *ngIf="shouldBeShowFooter">
         <td mat-footer-cell *matFooterCellDef>
           <strong [ngSwitch]="column.type">
-            <ng-container *ngSwitchCase="'number'">{{
-              column.footerDef | numberFormat
-            }}</ng-container>
-            <ng-container *ngSwitchDefault>{{ column.footerDef }}</ng-container>
+            <ng-container *ngSwitchCase="'number'">
+              {{ column.footerDef && column.footerDef() | numberFormat }}
+            </ng-container>
+            <ng-container *ngSwitchDefault>
+              {{ column.footerDef && column.footerDef() }}
+            </ng-container>
           </strong>
         </td>
       </ng-container>
@@ -254,7 +256,7 @@
       </td>
       <ng-container *ngIf="shouldBeShowFooter">
         <td mat-footer-cell *matFooterCellDef>
-          <strong>{{ column.footerDef }}</strong>
+          <strong>{{ column.footerDef && column.footerDef() }}</strong>
         </td>
       </ng-container>
     </ng-container>

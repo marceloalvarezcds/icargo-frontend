@@ -17,6 +17,11 @@
       [form]="form"
     ></app-number-field>
     <app-unidad-field [form]="form"></app-unidad-field>
+    <app-fecha-field
+      title="Fecha de Descarga"
+      controlName="fecha"
+      [form]="form"
+    ></app-fecha-field>
     <app-file-field
       className=""
       controlName="foto_documento"
@@ -32,10 +37,15 @@
     ></app-orden-carga-remision-origen-field>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>
-      Cancelar
-    </button>
-    <button mat-raised-button type="button" (click)="submit()" cdkFocusInitial color="primary" id="submit-button">
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
       Aceptar
     </button>
   </div>

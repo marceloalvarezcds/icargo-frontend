@@ -22,6 +22,7 @@
     <div
       class="col-xs-12"
       [hidden]="
+        isShow ||
         (oc.is_finalizado && !puedeConciliar) ||
         !(modelo | puede: a.CREAR:gestorCargaId)
       "

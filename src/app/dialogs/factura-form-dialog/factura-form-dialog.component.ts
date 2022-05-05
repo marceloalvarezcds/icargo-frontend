@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { facturaData } from 'src/app/form-data/factura';
 import { FacturaForm } from 'src/app/interfaces/factura';
@@ -36,6 +36,10 @@ export class FacturaFormDialogComponent {
     return !!this.data;
   }
 
+  get fotoControl(): FormControl {
+    return this.form.get('foto') as FormControl;
+  }
+
   get liquidacionId(): number {
     return this.dialogData.liquidacion_id;
   }
@@ -51,6 +55,9 @@ export class FacturaFormDialogComponent {
     @Inject(MAT_DIALOG_DATA) private dialogData: FacturaFormDialogData
   ) {
     this.foto = this.data?.foto ?? null;
+    if (!this.data) {
+      this.fotoControl.setValidators(Validators.required);
+    }
   }
 
   submit() {
