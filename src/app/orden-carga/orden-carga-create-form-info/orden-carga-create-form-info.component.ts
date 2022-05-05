@@ -10,30 +10,52 @@ import { NumberValidator } from 'src/app/validators/number-validator';
 @Component({
   selector: 'app-orden-carga-create-form-info',
   templateUrl: './orden-carga-create-form-info.component.html',
-  styleUrls: ['./orden-carga-create-form-info.component.scss']
+  styleUrls: ['./orden-carga-create-form-info.component.scss'],
 })
 export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
-
   formGroup?: FormGroup;
   groupName = 'info';
   subscription?: Subscription;
   neto?: string | number;
+  fl?: FleteList;
 
-  @Input() set form(f: FormGroup) {
+  @Input() set form(f: FormGroup | undefined) {
     this.formGroup = f;
-    this.subscription = this.combinacion.valueChanges
-      .pipe(filter((c: Partial<OrdenCargaForm>) => !!(this.flete && c.camion_id && c.semi_id)))
-      .subscribe((c: Partial<OrdenCargaForm>) => {
-        this.camionSemiNetoService
-          .getListByCamionIdAndSemiIdAndProductoId(c.camion_id!, c.semi_id!, this.flete!.producto_id)
-          .subscribe(camionSemiNeto => {
-            this.neto = camionSemiNeto?.neto;
-            this.cantidadNominadaControl.setValidators(NumberValidator.max(this.neto ?? 0));
-            this.cantidadNominadaControl.updateValueAndValidity();
-          });
-      });
+    if (f) {
+      this.subscription = this.combinacion.valueChanges
+        .pipe(
+          filter(
+            (c: Partial<OrdenCargaForm>) =>
+              !!(this.flete && c.camion_id && c.semi_id)
+          )
+        )
+        .subscribe((c: Partial<OrdenCargaForm>) => {
+          this.getListByCamionIdAndSemiIdAndProductoId(
+            c.camion_id!,
+            c.semi_id!
+          );
+        });
+    }
+    if (this.flete) {
+      this.getListByCamionIdAndSemiIdAndProductoId(
+        this.camionIdControl.value,
+        this.semiIdControl.value
+      );
+    }
   }
-  @Input() flete?: FleteList;
+  @Input() set flete(f: FleteList | undefined) {
+    this.fl = f;
+    if (f) {
+      this.getListByCamionIdAndSemiIdAndProductoId(
+        this.camionIdControl.value,
+        this.semiIdControl.value
+      );
+    }
+  }
+
+  get flete(): FleteList | undefined {
+    return this.fl;
+  }
 
   get combinacion(): FormGroup {
     return this.formGroup!.get('combinacion') as FormGroup;
@@ -47,9 +69,36 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.group.get('cantidad_nominada') as FormControl;
   }
 
-  constructor(private camionSemiNetoService: CamionSemiNetoService) { }
+  get camionIdControl(): FormControl {
+    return this.combinacion.get('camion_id') as FormControl;
+  }
+
+  get semiIdControl(): FormControl {
+    return this.combinacion.get('semi_id') as FormControl;
+  }
+
+  constructor(private camionSemiNetoService: CamionSemiNetoService) {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  private getListByCamionIdAndSemiIdAndProductoId(
+    camionId: number,
+    semiId: number
+  ): void {
+    this.camionSemiNetoService
+      .getListByCamionIdAndSemiIdAndProductoId(
+        camionId,
+        semiId,
+        this.flete!.producto_id
+      )
+      .subscribe((camionSemiNeto) => {
+        this.neto = camionSemiNeto?.neto;
+        this.cantidadNominadaControl.setValidators(
+          NumberValidator.max(this.neto ?? 0)
+        );
+        this.cantidadNominadaControl.updateValueAndValidity();
+      });
   }
 }

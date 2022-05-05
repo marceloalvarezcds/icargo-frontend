@@ -39,7 +39,7 @@ export class OrdenCargaEditFormTramoComponent {
     this.group.disable();
     this.destinoControl.disable();
     this.origenControl.disable();
-    if (this.isNuevoPendiente || this.puedeConciliar) {
+    if (this.puedeModificar && (this.isNuevoPendiente || this.puedeConciliar)) {
       this.destinoControl.enable();
       this.origenControl.enable();
     }

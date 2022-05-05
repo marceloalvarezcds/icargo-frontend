@@ -30,6 +30,10 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     return this.oc?.estado === EstadoEnum.ACEPTADO;
   }
 
+  get cantidadDisponible(): number {
+    return (this.oc?.cantidad_nominada ?? 0) - (this.oc?.cantidad_origen ?? 0);
+  }
+
   get totalCantidad(): string {
     return this.oc?.cantidad_origen.toString() ?? '0';
   }
@@ -77,6 +81,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   > {
     const data: OcRemisionOrigenDialogData = {
       orden_carga_id: this.oc!.id,
+      cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
     return this.dialog.open(OcRemisionOrigenFormDialogComponent, { data });
@@ -88,6 +93,10 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
 
   private setList(list: OrdenCargaRemisionOrigen[]): void {
     this.lista = list.slice();
+    this.configColumns();
+  }
+
+  private configColumns(): void {
     this.columns = [
       {
         def: 'id',
@@ -98,18 +107,19 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       {
         def: 'numero_documento',
         title: 'Nº de Documento',
-        footerDef: 'Total',
+        footerDef: () => 'Total',
         value: (element: OrdenCargaRemisionOrigen) => element.numero_documento,
       },
       {
         def: 'fecha',
         title: 'Fecha de Carga',
-        value: (element: OrdenCargaRemisionOrigen) => element.created_at,
+        value: (element: OrdenCargaRemisionOrigen) => element.fecha,
+        type: 'date',
       },
       {
         def: 'cantidad',
         title: 'Cantidad origen',
-        footerDef: this.totalCantidad,
+        footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
         type: 'number',
       },
@@ -122,7 +132,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       {
         def: 'cantidad_equiv',
         title: 'Cantidad Equiv. (kg)',
-        footerDef: this.totalCantidad,
+        footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
         type: 'number',
       },

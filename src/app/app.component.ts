@@ -9,7 +9,7 @@ import { HttpErrorSnackBarComponent } from './shared/http-error-snack-bar/http-e
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnDestroy {
   loading = false;
@@ -42,7 +42,7 @@ export class AppComponent implements OnDestroy {
     private httpErrorService: HttpErrorService,
     private loadingService: LoadingService,
     private snackBar: MatSnackBar,
-    private dialog: MatDialog,
+    private dialog: MatDialog
   ) {}
 
   ngOnDestroy(): void {

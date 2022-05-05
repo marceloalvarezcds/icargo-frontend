@@ -43,7 +43,7 @@ export const mockFacturaForm1: FacturaForm = {
   monto: 100000,
   iva_id: mockTipoIva1.id,
   fecha_vencimiento: '2022-03-16T12:32:14.859823',
-  foto: null,
+  foto: 'foto',
 };
 
 export const mockFacturaForm2: FacturaForm = {

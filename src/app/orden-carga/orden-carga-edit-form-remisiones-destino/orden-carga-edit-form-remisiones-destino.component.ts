@@ -26,12 +26,16 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
   lista: OrdenCargaRemisionDestino[] = [];
   modelo = m.ORDEN_CARGA_REMISION_DESTINO;
 
+  get cantidadDisponible(): number {
+    return (this.oc?.cantidad_origen ?? 0) - (this.oc?.cantidad_destino ?? 0);
+  }
+
   get isAceptado(): boolean {
     return this.oc?.estado === EstadoEnum.ACEPTADO;
   }
 
-  get totalCantidad(): string {
-    return this.oc?.cantidad_destino.toString() ?? '0';
+  get totalCantidad(): number {
+    return this.oc?.cantidad_destino ?? 0;
   }
 
   @Input() oc?: OrdenCarga;
@@ -77,8 +81,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
   > {
     const data: OcRemisionDestinoDialogData = {
       orden_carga_id: this.oc!.id,
-      cantidad_destino: this.oc!.cantidad_destino - (item?.cantidad ?? 0),
-      cantidad_origen: this.oc!.cantidad_origen,
+      cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
     return this.dialog.open(OcRemisionDestinoFormDialogComponent, { data });
@@ -90,6 +93,10 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
 
   private setList(list: OrdenCargaRemisionDestino[]): void {
     this.lista = list.slice();
+    this.configColumns();
+  }
+
+  private configColumns(): void {
     this.columns = [
       {
         def: 'id',
@@ -100,7 +107,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       {
         def: 'numero_documento',
         title: 'Nº de Documento',
-        footerDef: 'Total',
+        footerDef: () => 'Total',
         value: (element: OrdenCargaRemisionDestino) => element.numero_documento,
       },
       {
@@ -112,12 +119,13 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       {
         def: 'fecha',
         title: 'Fecha de Descarga',
-        value: (element: OrdenCargaRemisionDestino) => element.created_at,
+        value: (element: OrdenCargaRemisionDestino) => element.fecha,
+        type: 'date',
       },
       {
         def: 'cantidad',
         title: 'Cantidad destino',
-        footerDef: this.totalCantidad,
+        footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionDestino) => element.cantidad,
         type: 'number',
       },
@@ -130,7 +138,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       {
         def: 'cantidad_equiv',
         title: 'Cantidad Equiv. (kg)',
-        footerDef: this.totalCantidad,
+        footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionDestino) => element.cantidad,
         type: 'number',
       },

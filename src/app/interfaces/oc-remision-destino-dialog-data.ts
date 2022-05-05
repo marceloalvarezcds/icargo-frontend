@@ -1,21 +1,22 @@
-import { mockOrdenCargaRemisionDestinoList, OrdenCargaRemisionDestino } from './orden-carga-remision-destino';
+import {
+  mockOrdenCargaRemisionDestinoList,
+  OrdenCargaRemisionDestino,
+} from './orden-carga-remision-destino';
 
 export interface OcRemisionDestinoDialogData {
-  item?: OrdenCargaRemisionDestino,
-  orden_carga_id: number,
-  cantidad_destino: number,
-  cantidad_origen: number,
+  item?: OrdenCargaRemisionDestino;
+  cantidad_disponible: number;
+  orden_carga_id: number;
 }
 
 export const mockOcRemisionDestinoDialogData: OcRemisionDestinoDialogData = {
   item: mockOrdenCargaRemisionDestinoList[0],
+  cantidad_disponible: 10000,
   orden_carga_id: 1,
-  cantidad_destino: 10000,
-  cantidad_origen: 12000,
-}
+};
 
-export const mockOcRemisionDestinoDialogDataWithoutItem: OcRemisionDestinoDialogData = {
-  orden_carga_id: 1,
-  cantidad_destino: 10000,
-  cantidad_origen: 12000,
-}
+export const mockOcRemisionDestinoDialogDataWithoutItem: OcRemisionDestinoDialogData =
+  {
+    cantidad_disponible: 10000,
+    orden_carga_id: 1,
+  };
