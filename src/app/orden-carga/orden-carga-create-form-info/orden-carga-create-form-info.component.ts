@@ -30,10 +30,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
           )
         )
         .subscribe((c: Partial<OrdenCargaForm>) => {
-          this.getListByCamionIdAndSemiIdAndProductoId(
-            c.camion_id!,
-            c.semi_id!
-          );
+          this.getListByCamionIdAndSemiIdAndProductoId(c.camion_id, c.semi_id);
         });
     }
     if (this.flete) {
@@ -84,21 +81,23 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   }
 
   private getListByCamionIdAndSemiIdAndProductoId(
-    camionId: number,
-    semiId: number
+    camionId?: number,
+    semiId?: number
   ): void {
-    this.camionSemiNetoService
-      .getListByCamionIdAndSemiIdAndProductoId(
-        camionId,
-        semiId,
-        this.flete!.producto_id
-      )
-      .subscribe((camionSemiNeto) => {
-        this.neto = camionSemiNeto?.neto;
-        this.cantidadNominadaControl.setValidators(
-          NumberValidator.max(this.neto ?? 0)
-        );
-        this.cantidadNominadaControl.updateValueAndValidity();
-      });
+    if (camionId && semiId) {
+      this.camionSemiNetoService
+        .getListByCamionIdAndSemiIdAndProductoId(
+          camionId,
+          semiId,
+          this.flete!.producto_id
+        )
+        .subscribe((camionSemiNeto) => {
+          this.neto = camionSemiNeto?.neto;
+          this.cantidadNominadaControl.setValidators(
+            NumberValidator.max(this.neto ?? 0)
+          );
+          this.cantidadNominadaControl.updateValueAndValidity();
+        });
+    }
   }
 }
