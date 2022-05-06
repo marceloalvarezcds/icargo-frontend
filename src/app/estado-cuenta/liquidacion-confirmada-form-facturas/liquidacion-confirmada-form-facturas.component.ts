@@ -8,8 +8,10 @@ import {
 import { Column } from 'src/app/interfaces/column';
 import { Factura } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
+import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { FacturaService } from 'src/app/services/factura.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
@@ -90,13 +92,16 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     return this.montoLimite - this.montoSuma;
   }
 
+  @Input() instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
   @Input() liquidacion!: Liquidacion;
   @Input() isShow = false;
 
+  @Output() emptyInstrumentoListChange = new EventEmitter<void>();
   @Output() facturasChange = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
+    private dialogService: DialogService,
     private snackbar: SnackbarService,
     private facturaService: FacturaService
   ) {}
@@ -106,22 +111,28 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   }
 
   create(): void {
-    create(this.getDialogRef(), this.emitChange.bind(this));
+    this.showAlertMessage(() =>
+      create(this.getDialogRef(), this.emitChange.bind(this))
+    );
   }
 
   edit({ row }: TableEvent<Factura>): void {
-    edit(this.getDialogRef(row), this.emitChange.bind(this));
+    this.showAlertMessage(() =>
+      edit(this.getDialogRef(row), this.emitChange.bind(this))
+    );
   }
 
   remove({ row }: TableEvent<Factura>): void {
-    remove(
-      this.dialog,
-      `¿Está seguro que desea eliminar la Factura Nº ${row.numero_factura}?`,
-      () => {
-        this.facturaService
-          .delete(row.id)
-          .subscribe(this.emitChange.bind(this));
-      }
+    this.showAlertMessage(() =>
+      remove(
+        this.dialog,
+        `¿Está seguro que desea eliminar la Factura Nº ${row.numero_factura}?`,
+        () => {
+          this.facturaService
+            .delete(row.id)
+            .subscribe(this.emitChange.bind(this));
+        }
+      )
     );
   }
 
@@ -150,5 +161,19 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
         this.montoSuma = list.reduce((acc, cur) => acc + cur.monto, 0);
         this.montoLimite = Math.abs(this.liquidacion.movimientos_saldo);
       });
+  }
+
+  private showAlertMessage(observer: () => void): void {
+    if (this.instrumentoInMemoryList.length) {
+      this.dialogService.confirmation(
+        'Existen Instrumentos sin guardar, si continua con esta acción se perderan los cambios ¿Está seguro?',
+        () => {
+          this.emptyInstrumentoListChange.emit();
+          observer();
+        }
+      );
+    } else {
+      observer();
+    }
   }
 }

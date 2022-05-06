@@ -27,7 +27,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
       this.data?.monto,
       [Validators.required, Validators.max(this.residuo)],
     ],
-    fecha_instrumento: [this.data?.fecha_instrumento, Validators.required],
+    fecha_instrumento: [
+      this.data?.fecha_instrumento ?? new Date().toJSON(),
+      Validators.required,
+    ],
     numero_referencia: this.data?.numero_referencia,
     comentario: this.data?.comentario,
     // Datos mostrados solo para Banco

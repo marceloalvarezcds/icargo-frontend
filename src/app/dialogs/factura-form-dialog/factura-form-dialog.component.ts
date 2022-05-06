@@ -18,7 +18,10 @@ export class FacturaFormDialogComponent {
   form = this.fb.group({
     moneda_id: [this.data?.moneda_id, Validators.required],
     numero_factura: [this.data?.numero_factura, Validators.required],
-    fecha_vencimiento: [this.data?.fecha_vencimiento, Validators.required],
+    fecha_vencimiento: [
+      this.data?.fecha_vencimiento ?? new Date().toJSON(),
+      Validators.required,
+    ],
     monto: [this.data?.monto, [Validators.required, Validators.min(0)]],
     iva_id: [this.data?.iva_id, Validators.required],
     foto: this.data?.foto,

@@ -87,10 +87,12 @@
           [list]="instrumentos"
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
+          [instrumentoList]="instrumentoInMemoryList"
           [liquidacion]="item"
           [saldo]="saldo"
           [valorInstrumentos]="valorInstrumentos"
           [isShow]="isShow"
+          (listChange)="instrumentoInMemoryList = $event"
           (residuoChange)="residuo = $event"
           (valorInstrumentosChange)="valorInstrumentos = $event"
           (selectedInstrumentosChange)="loadLiquidacion()"
@@ -101,9 +103,11 @@
           <mat-panel-title> Facturas </mat-panel-title>
         </mat-expansion-panel-header>
         <app-liquidacion-confirmada-form-facturas
+          [instrumentoInMemoryList]="instrumentoInMemoryList"
           [liquidacion]="item"
           [isShow]="isShow"
           (facturasChange)="loadLiquidacion()"
+          (emptyInstrumentoListChange)="instrumentoInMemoryList = []"
         ></app-liquidacion-confirmada-form-facturas>
       </mat-expansion-panel>
     </mat-accordion>

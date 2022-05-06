@@ -93,7 +93,13 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   @Input() valorInstrumentos = 0;
   @Input() saldo = 0;
   @Input() isShow = false;
+  @Input() set instrumentoList(list: InstrumentoLiquidacionItem[]) {
+    if (!list.length) {
+      this.list = [];
+    }
+  }
 
+  @Output() listChange = new EventEmitter<InstrumentoLiquidacionItem[]>();
   @Output() residuoChange = new EventEmitter<number>();
   @Output() valorInstrumentosChange = new EventEmitter<number>();
   @Output() selectedInstrumentosChange = new EventEmitter<
@@ -110,6 +116,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     create(this.getDialogRef(), (item: InstrumentoLiquidacionItem) => {
       this.setResiduo(item.monto);
       this.list = this.list.concat([item]);
+      this.listChange.emit(this.list);
     });
   }
 
@@ -119,6 +126,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       const list = this.list.slice();
       list[index] = item;
       this.list = list;
+      this.listChange.emit(this.list);
     });
   }
 
@@ -129,6 +137,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       () => {
         this.setResiduo(row.monto * -1);
         this.list = this.list.filter((_, i) => i !== index);
+        this.listChange.emit(this.list);
       }
     );
   }
@@ -145,6 +154,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       'Instrumentos agregados',
       () => {
         this.list = [];
+        this.listChange.emit(this.list);
         this.selectedInstrumentosChange.emit(list);
       }
     );

@@ -7,7 +7,10 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { Instrumento } from 'src/app/interfaces/instrumento';
+import {
+  Instrumento,
+  InstrumentoLiquidacionItem,
+} from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
@@ -28,6 +31,7 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   item?: Liquidacion;
   isEdit = false;
   movimientos: Movimiento[] = [];
+  instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
   residuo = 0;
   valorInstrumentos = 0;
 
