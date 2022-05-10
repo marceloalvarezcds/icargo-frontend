@@ -35,7 +35,10 @@
               "src/styles.scss"
             ],
             "scripts": [],
-            "allowedCommonJsDependencies": ["lodash", "file-saver"]
+            "allowedCommonJsDependencies": [
+              "lodash",
+              "file-saver"
+            ]
           },
           "configurations": {
             "production": {
@@ -59,6 +62,48 @@
               ],
               "outputHashing": "all"
             },
+            "desa": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.desa.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "testing": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "3mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "1mb",
+                  "maximumError": "2mb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.testing.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -75,6 +120,12 @@
           "configurations": {
             "production": {
               "browserTarget": "icargo-frontend:build:production"
+            },
+            "desa": {
+              "browserTarget": "icargo-frontend:build:desa"
+            },
+            "testing": {
+              "browserTarget": "icargo-frontend:build:testing"
             },
             "development": {
               "browserTarget": "icargo-frontend:build:development"

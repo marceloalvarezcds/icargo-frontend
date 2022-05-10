@@ -5,5 +5,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.production
+      args:
+        ENVIRONMENT: ${ENVIRONMENT}
     ports:
-      - '8100:80'
+      - ${FRONTEND_PORT}:80
