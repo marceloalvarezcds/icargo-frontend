@@ -13,6 +13,12 @@
         (deleteClick)="removeContacto($event)"
       ></app-table>
     </div>
+    <div
+      class="col-xs-12 error"
+      *ngIf="contactoArray.touched && contactoArray.hasError('required')"
+    >
+      Debe cargar al menos un contacto
+    </div>
     <div class="col-xs-12" [hidden]="isShow">
       <button
         mat-raised-button

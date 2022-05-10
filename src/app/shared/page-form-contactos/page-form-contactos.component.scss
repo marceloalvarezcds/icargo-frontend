@@ -1,5 +1,12 @@
+@import "~src/assets/styles/colors.scss";
+
 .table-container {
   margin-bottom: 1rem;
   padding-right: 0;
   padding-left: 0;
+}
+
+.error {
+  color: #f44336;
+  font-size: 10.5px;
 }

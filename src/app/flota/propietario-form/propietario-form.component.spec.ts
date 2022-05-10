@@ -42,6 +42,7 @@ import { PropietarioService } from 'src/app/services/propietario.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { addContactoInFormByList } from 'src/app/utils/form-field-test';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 import { PropietarioFormComponent } from './propietario-form.component';
@@ -132,6 +133,10 @@ describe('PropietarioFormComponent', () => {
         direccion: propietario.direccion,
       },
     });
+    addContactoInFormByList(
+      component.form.get('contactos'),
+      propietario.contactos
+    );
   }
 
   beforeEach(async () => {

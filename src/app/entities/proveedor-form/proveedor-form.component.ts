@@ -65,7 +65,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       pagina_web: null,
       info_complementaria: null,
     }),
-    contactos: this.fb.array([]),
+    contactos: this.fb.array([], Validators.required),
     geo: this.fb.group({
       pais_id: [null, Validators.required],
       localidad_id: [null, Validators.required],

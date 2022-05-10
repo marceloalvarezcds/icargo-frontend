@@ -38,6 +38,7 @@ import { ProveedorService } from 'src/app/services/proveedor.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { addContactoInFormByList } from 'src/app/utils/form-field-test';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 import { ProveedorFormComponent } from './proveedor-form.component';
@@ -108,6 +109,10 @@ describe('ProveedorFormComponent', () => {
         direccion: proveedor.direccion,
       },
     });
+    addContactoInFormByList(
+      component.form.get('contactos'),
+      proveedor.contactos
+    );
   }
 
   beforeEach(async () => {
@@ -264,7 +269,6 @@ describe('ProveedorFormComponent', () => {
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
-    expect(fileSpy).toHaveBeenCalled();
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
@@ -296,6 +300,7 @@ describe('ProveedorFormComponent', () => {
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    expect(fileSpy).toHaveBeenCalled();
     httpController.verify();
   }));
 

@@ -34,6 +34,7 @@ import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { addContactoInFormByList } from 'src/app/utils/form-field-test';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 import { PuntoVentaFormComponent } from './punto-venta-form.component';
@@ -114,6 +115,14 @@ describe('PuntoVentaFormComponent', () => {
         direccion: puntoVenta.direccion,
       },
     });
+    if (!component.isEdit) {
+      setTimeout(() =>
+        addContactoInFormByList(
+          component.form.get('contactos'),
+          puntoVenta.contactos
+        )
+      );
+    }
   }
 
   beforeEach(async () => {
@@ -166,6 +175,7 @@ describe('PuntoVentaFormComponent', () => {
     expect(component).toBeTruthy();
     pageFormComponent = findElement(fixture, 'app-page-form');
     formSetValue(component, 'logo');
+    tick();
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
       .expectOne(`${environment.api}/composicion_juridica/`)
@@ -207,6 +217,7 @@ describe('PuntoVentaFormComponent', () => {
       .flush(mockTipoDocumentoList);
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     formSetValue(component, 'logo');
+    tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/punto_venta/`);
     expect(req.request.method).toBe('POST');
@@ -264,9 +275,9 @@ describe('PuntoVentaFormComponent', () => {
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
-    expect(fileSpy).toHaveBeenCalled();
     tick();
     formSetValue(component, 'logo');
+    tick();
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
       .match(`${environment.api}/punto_venta/${id}`)

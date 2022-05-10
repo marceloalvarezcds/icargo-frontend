@@ -1,15 +1,17 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum,
+  PermisoModeloEnum,
+} from 'src/app/enums/permiso-enum';
 
 @Component({
   selector: 'app-propietario-form-info',
   templateUrl: './propietario-form-info.component.html',
-  styleUrls: ['./propietario-form-info.component.scss']
+  styleUrls: ['./propietario-form-info.component.scss'],
 })
 export class PropietarioFormInfoComponent {
-
   a = PermisoAccionEnum;
   fotoDocumentoFile: File | null = null;
   fotoPerfilFile: File | null = null;
@@ -58,10 +60,18 @@ export class PropietarioFormInfoComponent {
     return !!this.esChoferControl.value;
   }
 
+  get contactos(): FormArray | null {
+    return this.form.get('contactos') as FormArray;
+  }
+
   isFisicaChange(isFisica: boolean): void {
     this.isFisicaSelected = isFisica;
     if (!isFisica) {
       this.esChoferControl.setValue(isFisica);
+      this.contactos?.setValidators(Validators.required);
+    } else {
+      this.contactos?.removeValidators(Validators.required);
     }
+    this.contactos?.updateValueAndValidity();
   }
 }

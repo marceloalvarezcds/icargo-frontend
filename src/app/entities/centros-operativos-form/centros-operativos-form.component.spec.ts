@@ -28,6 +28,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { UserService } from 'src/app/services/user.service';
+import { addContactoInFormByList } from 'src/app/utils/form-field-test';
 import { fakeFileList, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 import { CentrosOperativosFormComponent } from './centros-operativos-form.component';
@@ -96,6 +97,10 @@ describe('CentrosOperativosFormComponent', () => {
         direccion: centroOperativo.direccion,
       },
     });
+    addContactoInFormByList(
+      component.form.get('contactos'),
+      centroOperativo.contactos
+    );
   }
 
   beforeEach(async () => {

@@ -34,6 +34,7 @@ import { RemitenteService } from 'src/app/services/remitente.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
+import { addContactoInFormByList } from 'src/app/utils/form-field-test';
 import { fakeFile, findElement } from 'src/app/utils/test';
 import { environment } from 'src/environments/environment';
 import { RemitenteFormComponent } from './remitente-form.component';
@@ -103,6 +104,10 @@ describe('RemitenteFormComponent', () => {
         direccion: remitente.direccion,
       },
     });
+    addContactoInFormByList(
+      component.form.get('contactos'),
+      remitente.contactos
+    );
   }
 
   beforeEach(async () => {
@@ -253,7 +258,6 @@ describe('RemitenteFormComponent', () => {
     expect(backSpy).toHaveBeenCalled();
     expect(submitSpy).toHaveBeenCalled();
     expect(getByIdSpy).toHaveBeenCalled();
-    expect(fileSpy).toHaveBeenCalled();
     tick();
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
@@ -285,6 +289,7 @@ describe('RemitenteFormComponent', () => {
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
+    expect(fileSpy).toHaveBeenCalled();
     httpController.verify();
   }));
 
