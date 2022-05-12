@@ -1,6 +1,9 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { Ciudad, mockCiudadList } from './ciudad';
-import { GestorCargaChofer, mockGestorCargaChoferList } from './gestor-carga-chofer';
+import {
+  GestorCargaChofer,
+  mockGestorCargaChoferList,
+} from './gestor-carga-chofer';
 import { Localidad, mockLocalidadList } from './localidad';
 import { mockPaisList, Pais } from './pais';
 import { mockTipoRegistroList, TipoRegistro } from './tipo-registro';
@@ -16,7 +19,7 @@ export interface Chofer {
   numero_documento: string;
   ruc: string;
   digito_verificador: string | null;
-  fecha_nacimiento: string;
+  fecha_nacimiento: string | null;
   gestor_cuenta_id?: number;
   gestor_cuenta_nombre?: string;
   oficial_cuenta_id: number;
@@ -26,8 +29,8 @@ export interface Chofer {
   foto_perfil?: string | null;
   es_propietario: boolean;
   /* Datos del Propietario */
-  pais_origen_id?: number;
-  pais_origen?: Pais;
+  pais_origen_id?: number | null;
+  pais_origen?: Pais | null;
   foto_documento_frente_propietario?: string | null;
   foto_documento_reverso_propietario?: string | null;
   /* inicio registro */
@@ -37,8 +40,8 @@ export interface Chofer {
   localidad_emisor_registro: Localidad;
   ciudad_emisor_registro_id: number;
   ciudad_emisor_registro: Ciudad;
-  tipo_registro_id: number;
-  tipo_registro: TipoRegistro;
+  tipo_registro_id: number | null;
+  tipo_registro: TipoRegistro | null;
   numero_registro: string;
   vencimiento_registro: string;
   foto_registro_frente?: string | null;
@@ -48,8 +51,8 @@ export interface Chofer {
   telefono: string;
   email?: string | null;
   direccion?: string | null;
-  ciudad_id: number;
-  ciudad: Ciudad;
+  ciudad_id: number | null;
+  ciudad: Ciudad | null;
   alias?: string;
   gestor_carga_chofer?: GestorCargaChofer;
   created_by: string;
@@ -60,10 +63,10 @@ export interface Chofer {
 
 export interface ChoferList extends Chofer {
   pais_emisor_documento_nombre: string;
-  ciudad_nombre: string;
-  localidad_nombre: string;
-  pais_nombre: string;
-  pais_nombre_corto: string;
+  ciudad_nombre: string | null;
+  localidad_nombre: string | null;
+  pais_nombre: string | null;
+  pais_nombre_corto: string | null;
   tipo_documento_descripcion: string;
 }
 
@@ -143,9 +146,9 @@ export const mockChoferList: ChoferList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -208,9 +211,9 @@ export const mockChoferList: ChoferList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -272,9 +275,9 @@ export const mockChoferList: ChoferList[] = [
         pais: {
           id: 2,
           nombre: 'Argentina',
-          nombre_corto: 'AR'
-        }
-      }
+          nombre_corto: 'AR',
+        },
+      },
     },
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',

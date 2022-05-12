@@ -10,6 +10,7 @@ import { User } from 'src/app/interfaces/user';
 import { CargoService } from 'src/app/services/cargo.service';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { UserService } from 'src/app/services/user.service';
+import { emailValidator } from 'src/app/validators/email-validator';
 
 @Component({
   selector: 'app-contacto-form-dialog',
@@ -30,7 +31,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
       this.data?.contacto_telefono,
       [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
     ],
-    email: [this.data?.contacto_email, [Validators.required, Validators.email]],
+    email: [this.data?.contacto_email, [Validators.required, emailValidator]],
     nombre: [this.data?.contacto_nombre, Validators.required],
     apellido: [this.data?.contacto_apellido, Validators.required],
     alias: this.data?.alias,

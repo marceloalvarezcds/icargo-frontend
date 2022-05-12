@@ -18,6 +18,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { DateValidator } from 'src/app/validators/date-validator';
+import { emailValidator } from 'src/app/validators/email-validator';
 
 @Component({
   selector: 'app-chofer-form',
@@ -66,19 +67,19 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       pais_emisor_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       ruc: [null, Validators.required],
-      digito_verificador: [null, [Validators.required, Validators.min(0)]],
+      digito_verificador: [null, Validators.min(0)],
       fecha_nacimiento: [null, DateValidator.date],
       oficial_cuenta_id: [null, Validators.required],
       alias: null,
-      foto_documento_frente: [null, Validators.required],
-      foto_documento_reverso: [null, Validators.required],
-      foto_perfil: [null, Validators.required],
+      foto_documento_frente: null,
+      foto_documento_reverso: null,
+      foto_perfil: null,
       es_propietario: null,
       telefono: [
         null,
         [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       ],
-      email: [null, Validators.email],
+      email: [null, emailValidator],
     }),
     propietario: this.fb.group({
       pais_origen_id: null,
@@ -89,16 +90,16 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       pais_emisor_registro_id: [null, Validators.required],
       localidad_emisor_registro_id: [null, Validators.required],
       ciudad_emisor_registro_id: [null, Validators.required],
-      tipo_registro_id: [null, Validators.required],
+      tipo_registro_id: null,
       numero_registro: [null, Validators.required],
       vencimiento_registro: [null, Validators.required],
       foto_registro_frente: null,
       foto_registro_reverso: null,
     }),
     address: this.fb.group({
-      pais_id: [null, Validators.required],
-      localidad_id: [null, Validators.required],
-      ciudad_id: [null, Validators.required],
+      pais_id: null,
+      localidad_id: null,
+      ciudad_id: null,
       direccion: [null, Validators.required],
     }),
   });
@@ -356,8 +357,8 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             foto_registro_reverso: null,
           },
           address: {
-            pais_id: data.ciudad.localidad.pais_id,
-            localidad_id: data.ciudad.localidad_id,
+            pais_id: data.ciudad?.localidad.pais_id ?? null,
+            localidad_id: data.ciudad?.localidad_id ?? null,
             ciudad_id: data.ciudad_id,
             direccion: data.direccion,
           },

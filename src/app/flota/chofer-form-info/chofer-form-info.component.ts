@@ -1,40 +1,23 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum,
+  PermisoModeloEnum,
+} from 'src/app/enums/permiso-enum';
 
 @Component({
   selector: 'app-chofer-form-info',
   templateUrl: './chofer-form-info.component.html',
-  styleUrls: ['./chofer-form-info.component.scss']
+  styleUrls: ['./chofer-form-info.component.scss'],
 })
 export class ChoferFormInfoComponent {
-
   groupName = 'info';
   a = PermisoAccionEnum;
   fotoDocumentoFile: File | null = null;
   fotoPerfilFile: File | null = null;
 
-  @Input() form = new FormGroup({
-    info: new FormGroup({
-      nombre: new FormControl(null),
-      tipo_documento_id: new FormControl(null),
-      pais_emisor_documento_id: new FormControl(null),
-      numero_documento: new FormControl(null),
-      ruc: new FormControl(null),
-      digito_verificador: new FormControl(null),
-      pais_origen_id: new FormControl(null),
-      fecha_nacimiento: new FormControl(null),
-      oficial_cuenta_id: new FormControl(null),
-      alias: new FormControl(null),
-      foto_documento_frente: new FormControl(null),
-      foto_documento_reverso: new FormControl(null),
-      foto_perfil: new FormControl(null),
-      es_propietario: new FormControl(false),
-      telefono: new FormControl(null),
-      email: new FormControl(null),
-    }),
-  });
+  @Input() form?: FormGroup;
   @Input() isEdit = false;
   @Input() isShow = false;
   @Input() estado = EstadoEnum.PENDIENTE;
@@ -49,7 +32,7 @@ export class ChoferFormInfoComponent {
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
 
   get info(): FormGroup {
-    return this.form.get('info') as FormGroup;
+    return this.form!.get(this.groupName) as FormGroup;
   }
 
   get esPropietarioControl(): FormControl {

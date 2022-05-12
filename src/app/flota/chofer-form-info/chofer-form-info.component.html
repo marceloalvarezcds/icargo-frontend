@@ -1,4 +1,4 @@
-<div [formGroup]="form">
+<div [formGroup]="form" *ngIf="form">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
@@ -89,9 +89,13 @@
         <app-estado-field [estado]="estado"></app-estado-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4 es-propietario-toggle">
-        <ng-container *ngIf="isShow; else esPropietarioTemplate">{{ esPropietario ? 'Es Propietario' : 'No es Propietario' }}</ng-container>
+        <ng-container *ngIf="isShow; else esPropietarioTemplate">{{
+          esPropietario ? "Es Propietario" : "No es Propietario"
+        }}</ng-container>
         <ng-template #esPropietarioTemplate>
-          <mat-slide-toggle formControlName="es_propietario">{{ esPropietario ? 'Es Propietario' : 'No es Propietario' }}</mat-slide-toggle>
+          <mat-slide-toggle formControlName="es_propietario">{{
+            esPropietario ? "Es Propietario" : "No es Propietario"
+          }}</mat-slide-toggle>
         </ng-template>
       </div>
     </div>

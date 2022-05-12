@@ -6,7 +6,7 @@
         matInput
         [value]="rowValue"
         [disabled]="readonly"
-        [hidden]="!readonly"
+        *ngIf="readonly"
       />
       <input
         matInput
@@ -26,7 +26,7 @@
         matInput
         [value]="rowValue"
         [disabled]="readonly"
-        [hidden]="!readonly"
+        *ngIf="readonly"
       />
       <input
         matInput
