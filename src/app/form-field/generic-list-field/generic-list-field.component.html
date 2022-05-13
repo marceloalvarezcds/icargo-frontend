@@ -6,7 +6,7 @@
         matInput
         [value]="getTextValue()"
         [disabled]="readonly"
-        [hidden]="!readonly"
+        *ngIf="readonly"
       />
       <mat-select
         [formControlName]="controlName"
@@ -30,7 +30,7 @@
         matInput
         [value]="getTextValue()"
         [disabled]="readonly"
-        [hidden]="!readonly"
+        *ngIf="readonly"
       />
       <mat-select
         [formControlName]="controlName"
