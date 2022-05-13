@@ -1,6 +1,9 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { Ciudad } from './ciudad';
-import { ComposicionJuridica, mockComposicionJuridicaList } from './composicion-juridica';
+import {
+  ComposicionJuridica,
+  mockComposicionJuridicaList,
+} from './composicion-juridica';
 import { mockMonedaList, Moneda } from './moneda';
 import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 
@@ -12,8 +15,8 @@ export interface GestorCarga {
   tipo_documento: TipoDocumento;
   numero_documento: string;
   digito_verificador: string;
-  composicion_juridica_id: number;
-  composicion_juridica: ComposicionJuridica;
+  composicion_juridica_id: number | null;
+  composicion_juridica: ComposicionJuridica | null;
   moneda_id: number;
   moneda: Moneda;
   logo?: string | null;
@@ -23,19 +26,19 @@ export interface GestorCarga {
   info_complementaria: string;
   estado: EstadoEnum;
   direccion?: string | null;
-  latitud: number;
-  longitud: number;
-  ciudad_id: number;
-  ciudad: Ciudad;
+  latitud: number | null;
+  longitud: number | null;
+  ciudad_id: number | null;
+  ciudad: Ciudad | null;
 }
 
 export interface GestorCargaList extends GestorCarga {
-  composicion_juridica_nombre: string;
-  ciudad_nombre: string;
-  localidad_nombre: string;
+  composicion_juridica_nombre: string | null;
+  ciudad_nombre: string | null;
+  localidad_nombre: string | null;
   moneda_nombre: string;
-  pais_nombre: string;
-  pais_nombre_corto: string;
+  pais_nombre: string | null;
+  pais_nombre_corto: string | null;
   tipo_documento_descripcion: string;
 }
 
@@ -45,8 +48,8 @@ const tipoDocumento2 = mockTipoDocumentoList[2];
 const composicionJuridica0 = mockComposicionJuridicaList[0];
 const composicionJuridica1 = mockComposicionJuridicaList[1];
 const composicionJuridica2 = mockComposicionJuridicaList[2];
-const moneda0 =  mockMonedaList[0];
-const moneda1 =  mockMonedaList[1];
+const moneda0 = mockMonedaList[0];
+const moneda1 = mockMonedaList[1];
 
 export const mockGestorCargaList: GestorCargaList[] = [
   {
@@ -82,9 +85,9 @@ export const mockGestorCargaList: GestorCargaList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     composicion_juridica_nombre: composicionJuridica0.nombre,
     ciudad_nombre: 'Los Cedrales',
@@ -127,9 +130,9 @@ export const mockGestorCargaList: GestorCargaList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     composicion_juridica_nombre: composicionJuridica1.nombre,
     ciudad_nombre: 'Santa Rita',
@@ -172,9 +175,9 @@ export const mockGestorCargaList: GestorCargaList[] = [
         pais: {
           id: 2,
           nombre: 'Argentina',
-          nombre_corto: 'AR'
-        }
-      }
+          nombre_corto: 'AR',
+        },
+      },
     },
     composicion_juridica_nombre: composicionJuridica2.nombre,
     ciudad_nombre: 'Paso de Indios',

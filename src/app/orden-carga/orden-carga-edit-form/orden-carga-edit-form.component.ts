@@ -52,10 +52,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       comentarios: null,
     }),
     tramo: this.fb.group({
-      flete_origen_id: [null, Validators.required],
-      flete_destino_id: [null, Validators.required],
-      origen_id: [null, Validators.required],
-      destino_id: [null, Validators.required],
+      flete_origen_id: null,
+      flete_destino_id: null,
+      origen_id: null,
+      destino_id: null,
     }),
   });
 

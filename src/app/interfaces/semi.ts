@@ -25,7 +25,7 @@ export interface Semi {
   placa: string;
   propietario_id: number;
   propietario: Propietario;
-  numero_chasis: string;
+  numero_chasis: string | null;
   foto: string | null;
   estado: EstadoEnum;
   gestor_cuenta_id: number;
@@ -66,8 +66,8 @@ export interface Semi {
   tipo: TipoSemi;
   tipo_carga_id: number;
   tipo_carga: TipoCarga;
-  color_id: number;
-  color: Color;
+  color_id: number | null;
+  color: Color | null;
   anho: number;
   // FIN Detalles del Camión
   // INICIO Capacidad del Camión
@@ -89,7 +89,7 @@ export interface SemiList {
   placa: string;
   propietario_nombre: string;
   propietario_ruc: string;
-  numero_chasis: string;
+  numero_chasis: string | null;
   estado: EstadoEnum;
   ciudad_habilitacion_municipal_nombre: string;
   gestor_cuenta_id: number;

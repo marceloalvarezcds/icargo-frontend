@@ -52,8 +52,8 @@ export interface OrdenCargaForm {
 export interface OrdenCarga extends OrdenCargaForm {
   id: number;
   // Datos de camion
-  camion_chofer_nombre: string;
-  camion_chofer_numero_documento: string;
+  camion_chofer_nombre: string | null;
+  camion_chofer_numero_documento: string | null;
   camion_placa: string;
   camion_propietario_nombre: string;
   // Datos de semi
@@ -120,8 +120,8 @@ export interface OrdenCarga extends OrdenCargaForm {
 export interface OrdenCargaList extends OrdenCargaForm {
   id: number;
   // Datos de camion
-  camion_chofer_nombre: string;
-  camion_chofer_numero_documento: string;
+  camion_chofer_nombre: string | null;
+  camion_chofer_numero_documento: string | null;
   camion_placa: string;
   camion_propietario_nombre: string;
   // Datos de semi

@@ -55,7 +55,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       nombre_corto: [null, Validators.required],
       clasificacion_id: [null, Validators.required],
       alias: null,
-      logo: [null, Validators.required],
+      logo: null,
       telefono: [
         null,
         [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
@@ -65,12 +65,12 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     }),
     contactos: this.fb.array([], Validators.required),
     geo: this.fb.group({
-      pais_id: [null, Validators.required],
-      localidad_id: [null, Validators.required],
-      ciudad_id: [null, Validators.required],
-      latitud: [null, Validators.required],
-      longitud: [null, Validators.required],
-      direccion: [null, Validators.required],
+      pais_id: null,
+      localidad_id: null,
+      ciudad_id: null,
+      latitud: null,
+      longitud: null,
+      direccion: null,
     }),
   });
 
@@ -209,14 +209,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
             logo: null,
           },
           geo: {
-            pais_id: data.ciudad.localidad.pais_id,
-            localidad_id: data.ciudad.localidad_id,
+            pais_id: data.ciudad?.localidad.pais_id ?? null,
+            localidad_id: data.ciudad?.localidad_id ?? null,
             ciudad_id: data.ciudad_id,
             latitud: data.latitud,
             longitud: data.longitud,
             direccion: data.direccion,
           },
-          contactos: [],
         });
         this.contactoList = data.contactos.slice();
         this.logo = data.logo!;

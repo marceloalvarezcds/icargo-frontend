@@ -60,8 +60,8 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       placa: [null, Validators.required],
       propietario_id: [null, Validators.required],
-      chofer_id: [null, Validators.required],
-      numero_chasis: [null, Validators.required],
+      chofer_id: null,
+      numero_chasis: null,
       foto: null,
     }),
     municipal: this.fb.group({
@@ -69,14 +69,20 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       localidad_habilitacion_municipal_id: [null, Validators.required],
       ciudad_habilitacion_municipal_id: [null, Validators.required],
       numero_habilitacion_municipal: [null, Validators.required],
-      vencimiento_habilitacion_municipal: [null, DateValidator.date],
+      vencimiento_habilitacion_municipal: [
+        null,
+        [Validators.required, DateValidator.date],
+      ],
       foto_habilitacion_municipal_frente: null,
       foto_habilitacion_municipal_reverso: null,
     }),
     transporte: this.fb.group({
       ente_emisor_transporte_id: [null, Validators.required],
       numero_habilitacion_transporte: [null, Validators.required],
-      vencimiento_habilitacion_transporte: [null, DateValidator.date],
+      vencimiento_habilitacion_transporte: [
+        null,
+        [Validators.required, DateValidator.date],
+      ],
       foto_habilitacion_transporte_frente: null,
       foto_habilitacion_transporte_reverso: null,
     }),

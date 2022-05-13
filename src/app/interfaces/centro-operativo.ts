@@ -1,8 +1,14 @@
 import { EstadoEnum } from '../enums/estado-enum';
 import { CentroOperativoClasificacion } from './centro-operativo-clasificacion';
-import { CentroOperativoContactoGestorCargaList, mockCentroOperativoContactoGestorCargaList } from './centro-operativo-contacto-gestor-carga';
+import {
+  CentroOperativoContactoGestorCargaList,
+  mockCentroOperativoContactoGestorCargaList,
+} from './centro-operativo-contacto-gestor-carga';
 import { Ciudad } from './ciudad';
-import { GestorCargaCentroOperativo, mockGestorCargaCentroOperativoList } from './gestor-carga-centro-operativo';
+import {
+  GestorCargaCentroOperativo,
+  mockGestorCargaCentroOperativoList,
+} from './gestor-carga-centro-operativo';
 
 export interface CentroOperativo {
   id: number;
@@ -14,12 +20,12 @@ export interface CentroOperativo {
   email?: string | null;
   pagina_web?: string | null;
   direccion?: string | null;
-  latitud: number;
-  longitud: number;
+  latitud: number | null;
+  longitud: number | null;
   clasificacion_id: number;
   clasificacion: CentroOperativoClasificacion;
-  ciudad_id: number;
-  ciudad: Ciudad;
+  ciudad_id: number | null;
+  ciudad: Ciudad | null;
   contactos: CentroOperativoContactoGestorCargaList[];
   gestor_carga_centro_operativo?: GestorCargaCentroOperativo;
 }
@@ -28,10 +34,10 @@ const gestorCargaCentroOperativo0 = mockGestorCargaCentroOperativoList[0];
 
 export interface CentroOperativoList extends CentroOperativo {
   clasificacion_nombre: string;
-  ciudad_nombre: string;
-  localidad_nombre: string;
-  pais_nombre: string;
-  pais_nombre_corto: string;
+  ciudad_nombre: string | null;
+  localidad_nombre: string | null;
+  pais_nombre: string | null;
+  pais_nombre_corto: string | null;
 }
 
 export const mockCentroOperativoList: CentroOperativoList[] = [
@@ -65,9 +71,9 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     contactos: mockCentroOperativoContactoGestorCargaList.slice(),
     gestor_carga_centro_operativo: gestorCargaCentroOperativo0,
@@ -107,9 +113,9 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     contactos: [],
     clasificacion_nombre: 'Puerto seco',
@@ -148,9 +154,9 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
         pais: {
           id: 2,
           nombre: 'Argentina',
-          nombre_corto: 'AR'
-        }
-      }
+          nombre_corto: 'AR',
+        },
+      },
     },
     contactos: [],
     gestor_carga_centro_operativo: undefined,

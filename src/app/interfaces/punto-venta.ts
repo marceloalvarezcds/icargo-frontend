@@ -1,8 +1,17 @@
 import { EstadoEnum } from '../enums/estado-enum';
-import { PuntoVentaContactoGestorCargaList, mockPuntoVentaContactoGestorCargaList } from './punto-venta-contacto-gestor-carga';
+import {
+  PuntoVentaContactoGestorCargaList,
+  mockPuntoVentaContactoGestorCargaList,
+} from './punto-venta-contacto-gestor-carga';
 import { Ciudad } from './ciudad';
-import { ComposicionJuridica, mockComposicionJuridicaList } from './composicion-juridica';
-import { GestorCargaPuntoVenta, mockGestorCargaPuntoVentaList } from './gestor-carga-punto-venta';
+import {
+  ComposicionJuridica,
+  mockComposicionJuridicaList,
+} from './composicion-juridica';
+import {
+  GestorCargaPuntoVenta,
+  mockGestorCargaPuntoVentaList,
+} from './gestor-carga-punto-venta';
 import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 import { mockProveedorList } from './proveedor';
 
@@ -16,8 +25,8 @@ export interface PuntoVenta {
   tipo_documento: TipoDocumento;
   numero_documento: string;
   digito_verificador: string;
-  composicion_juridica_id: number;
-  composicion_juridica: ComposicionJuridica;
+  composicion_juridica_id: number | null;
+  composicion_juridica: ComposicionJuridica | null;
   logo?: string | null;
   estado: EstadoEnum;
   telefono: string;
@@ -25,10 +34,10 @@ export interface PuntoVenta {
   pagina_web?: string | null;
   info_complementaria?: string | null;
   direccion?: string | null;
-  latitud: number;
-  longitud: number;
-  ciudad_id: number;
-  ciudad: Ciudad;
+  latitud: number | null;
+  longitud: number | null;
+  ciudad_id: number | null;
+  ciudad: Ciudad | null;
   contactos: PuntoVentaContactoGestorCargaList[];
   gestor_carga_punto_venta?: GestorCargaPuntoVenta;
 }
@@ -43,11 +52,11 @@ const composicionJuridica1 = mockComposicionJuridicaList[1];
 const composicionJuridica2 = mockComposicionJuridicaList[2];
 
 export interface PuntoVentaList extends PuntoVenta {
-  composicion_juridica_nombre: string;
-  ciudad_nombre: string;
-  localidad_nombre: string;
-  pais_nombre: string;
-  pais_nombre_corto: string;
+  composicion_juridica_nombre: string | null;
+  ciudad_nombre: string | null;
+  localidad_nombre: string | null;
+  pais_nombre: string | null;
+  pais_nombre_corto: string | null;
   tipo_documento_descripcion: string;
 }
 
@@ -85,9 +94,9 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     contactos: mockPuntoVentaContactoGestorCargaList.slice(),
     gestor_carga_punto_venta: gestorCargaPuntoVenta0,
@@ -131,9 +140,9 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
         pais: {
           id: 1,
           nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
+          nombre_corto: 'PY',
+        },
+      },
     },
     contactos: [],
     composicion_juridica_nombre: composicionJuridica1.nombre,
@@ -176,9 +185,9 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
         pais: {
           id: 2,
           nombre: 'Argentina',
-          nombre_corto: 'AR'
-        }
-      }
+          nombre_corto: 'AR',
+        },
+      },
     },
     contactos: [],
     gestor_carga_punto_venta: undefined,

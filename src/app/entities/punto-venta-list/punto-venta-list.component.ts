@@ -63,7 +63,9 @@ export class PuntoVentaListComponent {
       def: 'ubicacion',
       title: 'Ubicación',
       value: (element: PuntoVentaList) =>
-        `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`,
+        element.ciudad_nombre
+          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
+          : '',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

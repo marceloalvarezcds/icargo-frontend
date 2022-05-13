@@ -56,7 +56,9 @@ export class CentrosOperativosListComponent implements OnInit {
       def: 'ubicacion',
       title: 'Ubicación',
       value: (element: CentroOperativoList) =>
-        `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`,
+        element.ciudad_nombre
+          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
+          : '',
     },
     {
       def: 'categoria',
@@ -156,11 +158,19 @@ export class CentrosOperativosListComponent implements OnInit {
     const filterByCiudad =
       filter.ciudad
         ?.split('|')
-        .some((x) => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) =>
+          obj.ciudad_nombre
+            ? obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0
+            : false
+        ) ?? true;
     const filterByPais =
       filter.pais
         ?.split('|')
-        .some((x) => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) =>
+          obj.pais_nombre
+            ? obj.pais_nombre.toLowerCase().indexOf(x) >= 0
+            : false
+        ) ?? true;
     return filterByClasificacion && filterByCiudad && filterByPais;
   }
 

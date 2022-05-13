@@ -54,9 +54,9 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
-      composicion_juridica_id: [null, Validators.required],
+      composicion_juridica_id: null,
       alias: null,
-      logo: [null, Validators.required],
+      logo: null,
       telefono: [
         null,
         [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
@@ -67,12 +67,12 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     }),
     contactos: this.fb.array([], Validators.required),
     geo: this.fb.group({
-      pais_id: [null, Validators.required],
-      localidad_id: [null, Validators.required],
-      ciudad_id: [null, Validators.required],
-      latitud: [null, Validators.required],
-      longitud: [null, Validators.required],
-      direccion: [null, Validators.required],
+      pais_id: null,
+      localidad_id: null,
+      ciudad_id: null,
+      latitud: null,
+      longitud: null,
+      direccion: null,
     }),
   });
 
@@ -128,8 +128,10 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   back(confirmed: boolean): void {
     if (confirmed) {
       this.submit(confirmed);
-    } else {
+    } else if (this.backUrl) {
       this.router.navigate([this.backUrl]);
+    } else {
+      this.router.navigate([`/entities/${m.PROVEEDOR}/${a.LISTAR}`]);
     }
   }
 
@@ -171,12 +173,16 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.puntoVentaService.create(formData).subscribe((puntoVenta) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/entities/${m.PUNTO_VENTA}/${a.EDITAR}`,
-            this.proveedorId,
-            puntoVenta.id,
-            { queryParams: { backUrl: this.backUrl } },
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            [
+              `/entities/${m.PUNTO_VENTA}/${a.EDITAR}`,
+              this.proveedorId,
+              puntoVenta.id,
+            ],
+            { queryParams: { backUrl: this.backUrl } }
+          );
         });
       }
     } else {
@@ -205,7 +211,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.puntoVentaService.getById(this.id).subscribe((data) => {
-        this.form.setValue({
+        this.form.patchValue({
           info: {
             alias: data.gestor_carga_punto_venta?.alias ?? data.nombre_corto,
             nombre: data.nombre,
@@ -222,14 +228,13 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
             logo: null,
           },
           geo: {
-            pais_id: data.ciudad.localidad.pais_id,
-            localidad_id: data.ciudad.localidad_id,
+            pais_id: data.ciudad?.localidad.pais_id ?? null,
+            localidad_id: data.ciudad?.localidad_id ?? null,
             ciudad_id: data.ciudad_id,
             latitud: data.latitud,
             longitud: data.longitud,
             direccion: data.direccion,
           },
-          contactos: [],
         });
         this.contactoList = data.contactos.slice();
         this.logo = data.logo!;

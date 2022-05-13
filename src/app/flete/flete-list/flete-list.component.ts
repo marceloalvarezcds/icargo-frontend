@@ -311,8 +311,11 @@ export class FleteListComponent implements OnInit {
     const filterByPublicado =
       filter.publicado
         ?.split('|')
-        .some((x) => obj.publicado_descripcion.toLowerCase().indexOf(x) >= 0) ??
-      true;
+        .some((x) =>
+          obj.publicado_descripcion
+            ? obj.publicado_descripcion.toLowerCase().indexOf(x) >= 0
+            : false
+        ) ?? true;
     return filterByPublicado && filterByEstado && filterByProducto;
   }
 

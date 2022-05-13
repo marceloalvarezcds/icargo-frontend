@@ -4,7 +4,7 @@ import {
   MatSnackBarRef,
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
+import { NavigationExtras, Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -29,7 +29,8 @@ export class SnackbarService {
   openSaveAndRedirect(
     confirmed: boolean,
     backUrl: string,
-    editUrl: any[]
+    editUrl: any[],
+    extras?: NavigationExtras
   ): MatSnackBarRef<TextOnlySnackBar> {
     if (this.lastSnackbarRef) {
       this.lastSnackbarRef.dismiss();
@@ -39,16 +40,17 @@ export class SnackbarService {
       'Ok'
     );
     if (confirmed) {
-      this.router.navigate([backUrl]);
+      this.router.navigate([backUrl], extras);
     } else {
-      this.router.navigate(editUrl);
+      this.router.navigate(editUrl, extras);
     }
     return this.lastSnackbarRef;
   }
 
   openUpdateAndRedirect(
     confirmed: boolean,
-    backUrl: string
+    backUrl: string,
+    extras?: NavigationExtras
   ): MatSnackBarRef<TextOnlySnackBar> {
     if (this.lastSnackbarRef) {
       this.lastSnackbarRef.dismiss();
@@ -58,7 +60,7 @@ export class SnackbarService {
       'Ok'
     );
     if (confirmed) {
-      this.router.navigate([backUrl]);
+      this.router.navigate([backUrl], extras);
     }
     return this.lastSnackbarRef;
   }

@@ -47,7 +47,7 @@ export interface OrdenCargaAnticipoRetirado
   moneda_nombre: string;
   proveedor_nombre: string;
   punto_venta_nombre: string;
-  punto_venta_pais_nombre: string;
+  punto_venta_pais_nombre: string | null;
   tipo_anticipo_descripcion: string;
   tipo_comprobante_descripcion: string;
   tipo_insumo_descripcion?: string | null;

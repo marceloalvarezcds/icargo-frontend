@@ -78,7 +78,9 @@ export class GestorCargaListComponent implements OnInit {
       def: 'ubicacion',
       title: 'Ubicación',
       value: (element: GestorCargaList) =>
-        `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`,
+        element.ciudad_nombre
+          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
+          : '',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -186,13 +188,19 @@ export class GestorCargaListComponent implements OnInit {
     const filterByComposicionJuridica =
       filter.composicion_juridica
         ?.split('|')
-        .some(
-          (x) => obj.composicion_juridica_nombre.toLowerCase().indexOf(x) >= 0
+        .some((x) =>
+          obj.composicion_juridica_nombre
+            ? obj.composicion_juridica_nombre.toLowerCase().indexOf(x) >= 0
+            : false
         ) ?? true;
     const filterByCiudad =
       filter.ciudad
         ?.split('|')
-        .some((x) => obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) =>
+          obj.ciudad_nombre
+            ? obj.ciudad_nombre.toLowerCase().indexOf(x) >= 0
+            : false
+        ) ?? true;
     const filterByMoneda =
       filter.moneda
         ?.split('|')
@@ -200,7 +208,11 @@ export class GestorCargaListComponent implements OnInit {
     const filterByPais =
       filter.pais
         ?.split('|')
-        .some((x) => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) =>
+          obj.pais_nombre
+            ? obj.pais_nombre.toLowerCase().indexOf(x) >= 0
+            : false
+        ) ?? true;
     const filterByTipoDocumento =
       filter.tipo_documento
         ?.split('|')

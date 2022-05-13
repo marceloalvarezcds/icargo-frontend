@@ -20,6 +20,7 @@ import { PropietarioService } from 'src/app/services/propietario.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { DateValidator } from 'src/app/validators/date-validator';
+import { emailValidator } from 'src/app/validators/email-validator';
 
 @Component({
   selector: 'app-propietario-form',
@@ -70,20 +71,20 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       nombre: [null, Validators.required],
       tipo_persona_id: [null, Validators.required],
       ruc: [null, Validators.required],
-      digito_verificador: [null, [Validators.required, Validators.min(0)]],
+      digito_verificador: [null, Validators.min(0)],
       pais_origen_id: [null, Validators.required],
       fecha_nacimiento: [null, DateValidator.date],
       oficial_cuenta_id: [null, Validators.required],
       alias: null,
-      foto_documento_frente: [null, Validators.required],
-      foto_documento_reverso: [null, Validators.required],
-      foto_perfil: [null, Validators.required],
+      foto_documento_frente: null,
+      foto_documento_reverso: null,
+      foto_perfil: null,
       es_chofer: null,
       telefono: [
         null,
         [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       ],
-      email: [null, Validators.email],
+      email: [null, emailValidator],
     }),
     chofer: this.fb.group({
       tipo_documento_id: null,

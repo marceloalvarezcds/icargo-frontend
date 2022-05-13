@@ -21,9 +21,9 @@ export interface Camion {
   placa: string;
   propietario_id: number;
   propietario: Propietario;
-  chofer_id: number;
-  chofer: Chofer;
-  numero_chasis: string;
+  chofer_id: number | null;
+  chofer: Chofer | null;
+  numero_chasis: string | null;
   foto: string | null;
   estado: EstadoEnum;
   info: string;
@@ -60,8 +60,8 @@ export interface Camion {
   marca: MarcaCamion;
   tipo_id: number;
   tipo: TipoCamion;
-  color_id: number;
-  color: Color;
+  color_id: number | null;
+  color: Color | null;
   anho: number;
   // FIN Detalles del Camión
   // INICIO Capacidad del Camión
@@ -79,9 +79,9 @@ export interface CamionList {
   placa: string;
   propietario_nombre: string;
   propietario_ruc: string;
-  chofer_nombre: string;
-  chofer_numero_documento: string;
-  numero_chasis: string;
+  chofer_nombre: string | null;
+  chofer_numero_documento: string | null;
+  numero_chasis: string | null;
   estado: EstadoEnum;
   ciudad_habilitacion_municipal_nombre: string;
   gestor_cuenta_id: number;

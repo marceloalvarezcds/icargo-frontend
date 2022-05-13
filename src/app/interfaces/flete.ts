@@ -2,9 +2,15 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { TipoFleteEnum } from 'src/app/enums/tipo-flete-enum';
 import { CentroOperativo, mockCentroOperativoList } from './centro-operativo';
 import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
-import { FleteComplemento, mockFleteComplementoList } from './flete-complemento';
+import {
+  FleteComplemento,
+  mockFleteComplementoList,
+} from './flete-complemento';
 import { FleteDescuento, mockFleteDescuentoList } from './flete-descuento';
-import { FleteDestinatario, mockFleteDestinatarioList } from './flete-destinatario';
+import {
+  FleteDestinatario,
+  mockFleteDestinatarioList,
+} from './flete-destinatario';
 import { mockGestorCargaList } from './gestor-carga';
 import { mockMonedaList, Moneda } from './moneda';
 import { mockProductoList, Producto } from './producto';
@@ -15,10 +21,10 @@ import { mockUnidadList, Unidad } from './unidad';
 export interface FleteFormBaseModel {
   remitente_id: number;
   producto_id: number;
-  tipo_carga_id: number;
+  tipo_carga_id: number | null;
   numero_lote?: string | null;
   publicado: boolean;
-  publicado_descripcion: string;
+  publicado_descripcion: string | null;
   es_subasta: boolean;
   // INICIO Tramo de Fletes
   origen_id: number;
@@ -72,7 +78,7 @@ export interface Flete extends FleteFormBaseModel {
   id: number;
   remitente: Remitente;
   producto: Producto;
-  tipo_carga: TipoCarga
+  tipo_carga: TipoCarga | null;
   estado: EstadoEnum;
   gestor_carga_id: number;
   // INICIO Tramo de Fletes
@@ -100,11 +106,11 @@ export interface Flete extends FleteFormBaseModel {
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
   // INICIO Emisión de Órdenes
-  destinatarios: FleteDestinatario[]
+  destinatarios: FleteDestinatario[];
   // FIN Emisión de Órdenes
-  anticipos: FleteAnticipo[]
-  complementos: FleteComplemento[]
-  descuentos: FleteDescuento[]
+  anticipos: FleteAnticipo[];
+  complementos: FleteComplemento[];
+  descuentos: FleteDescuento[];
 }
 
 export interface FleteList extends FleteFormBaseModel {
@@ -112,8 +118,8 @@ export interface FleteList extends FleteFormBaseModel {
   remitente_nombre: string;
   remitente_numero_documento: string;
   producto_descripcion: string;
-  tipo_carga_descripcion: string;
-  estado: EstadoEnum
+  tipo_carga_descripcion: string | null;
+  estado: EstadoEnum;
   gestor_carga_id: number;
   gestor_carga_nombre: string;
   // INICIO Tramo de Fletes
