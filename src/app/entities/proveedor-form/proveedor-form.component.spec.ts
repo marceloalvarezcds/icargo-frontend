@@ -84,7 +84,7 @@ describe('ProveedorFormComponent', () => {
     component: ProveedorFormComponent,
     logo: string | null = null
   ): void {
-    component.form.setValue({
+    component.form.patchValue({
       info: {
         alias: 'Alias',
         nombre: proveedor.nombre,
@@ -101,8 +101,8 @@ describe('ProveedorFormComponent', () => {
       },
       contactos: [],
       geo: {
-        pais_id: proveedor.ciudad.localidad.pais_id,
-        localidad_id: proveedor.ciudad.localidad_id,
+        pais_id: proveedor.ciudad?.localidad.pais_id,
+        localidad_id: proveedor.ciudad?.localidad_id,
         ciudad_id: proveedor.ciudad_id,
         latitud: proveedor.latitud,
         longitud: proveedor.longitud,
@@ -177,11 +177,11 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/proveedor/`);
     expect(req.request.method).toBe('POST');
@@ -219,11 +219,11 @@ describe('ProveedorFormComponent', () => {
     tick();
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -256,11 +256,11 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
@@ -280,11 +280,11 @@ describe('ProveedorFormComponent', () => {
       });
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     flush();
     httpController
@@ -292,11 +292,11 @@ describe('ProveedorFormComponent', () => {
       .forEach((r) => r.flush(proveedor));
     httpController
       .match(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -326,11 +326,11 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
@@ -400,11 +400,11 @@ describe('ProveedorFormComponent', () => {
     });
     httpController
       .match(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(createPuntoVentaSpy).toHaveBeenCalled();
@@ -470,11 +470,11 @@ describe('ProveedorFormComponent', () => {
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     flush();
     formSetValue(component, 'logo');
@@ -498,11 +498,11 @@ describe('ProveedorFormComponent', () => {
       });
     httpController
       .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .flush(mockLocalidadList);
     httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .flush(mockCiudadList);
     flush();
     httpController
@@ -510,11 +510,11 @@ describe('ProveedorFormComponent', () => {
       .forEach((r) => r.flush(proveedor));
     httpController
       .match(
-        `${environment.api}/localidad/${proveedor.ciudad.localidad.pais_id}/`
+        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${proveedor.ciudad.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(createPuntoVentaSpy).toHaveBeenCalled();

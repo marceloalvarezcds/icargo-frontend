@@ -76,7 +76,7 @@ describe('CentrosOperativosFormComponent', () => {
     component: CentrosOperativosFormComponent,
     logo: string | null = null
   ): void {
-    component.form.setValue({
+    component.form.patchValue({
       info: {
         alias: 'Alias',
         nombre: centroOperativo.nombre,
@@ -89,8 +89,8 @@ describe('CentrosOperativosFormComponent', () => {
       },
       contactos: [],
       geo: {
-        pais_id: centroOperativo.ciudad.localidad.pais_id,
-        localidad_id: centroOperativo.ciudad.localidad_id,
+        pais_id: centroOperativo.ciudad?.localidad.pais_id,
+        localidad_id: centroOperativo.ciudad?.localidad_id,
         ciudad_id: centroOperativo.ciudad_id,
         latitud: centroOperativo.latitud,
         longitud: centroOperativo.longitud,

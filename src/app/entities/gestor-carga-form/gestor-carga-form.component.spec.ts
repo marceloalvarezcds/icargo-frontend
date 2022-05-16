@@ -71,7 +71,7 @@ describe('GestorCargaFormComponent', () => {
     component: GestorCargaFormComponent,
     logo: string | null = null
   ): void {
-    component.form.setValue({
+    component.form.patchValue({
       info: {
         nombre: gestorCarga.nombre,
         nombre_corto: gestorCarga.nombre_corto,
@@ -87,8 +87,8 @@ describe('GestorCargaFormComponent', () => {
         logo,
       },
       geo: {
-        pais_id: gestorCarga.ciudad.localidad.pais_id,
-        localidad_id: gestorCarga.ciudad.localidad_id,
+        pais_id: gestorCarga.ciudad?.localidad.pais_id,
+        localidad_id: gestorCarga.ciudad?.localidad_id,
         ciudad_id: gestorCarga.ciudad_id,
         latitud: gestorCarga.latitud,
         longitud: gestorCarga.longitud,

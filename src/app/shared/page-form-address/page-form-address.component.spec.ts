@@ -1,6 +1,15 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
@@ -12,7 +21,6 @@ import { CiudadService } from 'src/app/services/ciudad.service';
 import { LocalidadService } from 'src/app/services/localidad.service';
 import { PaisService } from 'src/app/services/pais.service';
 import { environment } from 'src/environments/environment';
-
 import { PageFormAddressComponent } from './page-form-address.component';
 
 describe('PageFormAddressComponent', () => {
@@ -31,15 +39,10 @@ describe('PageFormAddressComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      providers: [
-        CiudadService,
-        LocalidadService,
-        PaisService,
-      ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ PageFormAddressComponent ]
-    })
-    .compileComponents();
+      providers: [CiudadService, LocalidadService, PaisService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [PageFormAddressComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -57,7 +60,10 @@ describe('PageFormAddressComponent', () => {
 
   it('should pass form input', fakeAsync(() => {
     const ciudadServiceSpy = spyOn(ciudadService, 'getList').and.callThrough();
-    const localidadServiceSpy = spyOn(localidadService, 'getList').and.callThrough();
+    const localidadServiceSpy = spyOn(
+      localidadService,
+      'getList'
+    ).and.callThrough();
     component.form = new FormGroup({
       address: new FormGroup({
         pais_id: new FormControl(null),
@@ -67,12 +73,18 @@ describe('PageFormAddressComponent', () => {
       }),
     });
     fixture.detectChanges();
-    component.paisControl.setValue(remitente.ciudad.localidad.pais_id);
-    component.localidadControl.setValue(remitente.ciudad.localidad_id);
+    component.paisControl.setValue(remitente.ciudad?.localidad.pais_id);
+    component.localidadControl.setValue(remitente.ciudad?.localidad_id);
     tick();
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/localidad/${remitente.ciudad.localidad.pais_id}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${remitente.ciudad.localidad_id}/`).flush(mockCiudadList);
+    httpController
+      .expectOne(
+        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
+      )
+      .flush(mockLocalidadList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
+      .flush(mockCiudadList);
     flush();
     expect(ciudadServiceSpy).toHaveBeenCalled();
     expect(localidadServiceSpy).toHaveBeenCalled();
