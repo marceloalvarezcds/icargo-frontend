@@ -20,6 +20,7 @@ export class PageFormComponent {
   @Input() isEdit = false;
   @Input() isShow = false;
   @Input() hasChange = false;
+  @Input() hideEditButton = false;
   @Input() hideSaveButton = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;

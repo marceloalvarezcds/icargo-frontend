@@ -21,7 +21,11 @@
           color="primary"
           matTooltip="Editar"
           (click)="editClick.emit($event)"
-          *ngIf="isShow && (modelo | puede: a.EDITAR:gestorCargaId)"
+          *ngIf="
+            isShow &&
+            !hideEditButton &&
+            (modelo | puede: a.EDITAR:gestorCargaId)
+          "
         >
           <mat-icon>edit</mat-icon>
         </button>
