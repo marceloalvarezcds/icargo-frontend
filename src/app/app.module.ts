@@ -17,6 +17,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { HomeComponent } from './home/home.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 registerLocaleData(es);
 
@@ -24,7 +25,8 @@ registerLocaleData(es);
   declarations: [
     AppComponent,
     LayoutComponent,
-    HomeComponent
+    HomeComponent,
+    PageNotFoundComponent,
   ],
   imports: [
     BrowserModule,
@@ -42,11 +44,19 @@ registerLocaleData(es);
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule {
   constructor(matIconRegistry: MatIconRegistry, domSanitizer: DomSanitizer) {
-    matIconRegistry.addSvgIcon('icargo-logo', domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/logo-icargo.svg'));
-    matIconRegistry.addSvgIcon('icargo-logo2', domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/logo.svg'));
+    matIconRegistry.addSvgIcon(
+      'icargo-logo',
+      domSanitizer.bypassSecurityTrustResourceUrl(
+        '../assets/icons/logo-icargo.svg'
+      )
+    );
+    matIconRegistry.addSvgIcon(
+      'icargo-logo2',
+      domSanitizer.bypassSecurityTrustResourceUrl('../assets/icons/logo.svg')
+    );
   }
 }

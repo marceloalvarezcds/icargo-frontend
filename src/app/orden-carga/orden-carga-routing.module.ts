@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { OrdenCargaCreateFormComponent } from './orden-carga-create-form/orden-carga-create-form.component';
 import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga-edit-form.component';
@@ -10,6 +13,11 @@ const routes: Routes = [
   {
     path: m.ORDEN_CARGA,
     children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
       {
         path: a.LISTAR,
         component: OrdenCargaListComponent,
@@ -36,6 +44,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class OrdenCargaRoutingModule { }
+export class OrdenCargaRoutingModule {}

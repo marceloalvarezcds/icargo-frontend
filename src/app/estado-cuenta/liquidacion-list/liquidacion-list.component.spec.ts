@@ -75,11 +75,11 @@ describe('LiquidacionListComponent', () => {
           HttpClientTestingModule,
           RouterTestingModule.withRoutes([
             {
-              path: `estado-cuenta/${m.LIQUIDACION}/${a.EDITAR}/:id`,
+              path: `estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/:id`,
               component: LiquidacionEditFormComponent,
             },
             {
-              path: `estado-cuenta/${m.LIQUIDACION}/${a.VER}/:id`,
+              path: `estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.VER}/:id`,
               component: LiquidacionEditFormComponent,
             },
           ]),
@@ -194,11 +194,11 @@ describe('LiquidacionListComponent', () => {
           HttpClientTestingModule,
           RouterTestingModule.withRoutes([
             {
-              path: `estado-cuenta/${m.LIQUIDACION}/${a.EDITAR}/:id`,
+              path: `estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/:id`,
               component: LiquidacionEditFormComponent,
             },
             {
-              path: `estado-cuenta/${m.LIQUIDACION}/${a.VER}/:id`,
+              path: `estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.VER}/:id`,
               component: LiquidacionEditFormComponent,
             },
           ]),

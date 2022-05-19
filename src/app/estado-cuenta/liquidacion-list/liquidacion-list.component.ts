@@ -123,14 +123,14 @@ export class LiquidacionListComponent implements OnInit {
 
   redirectToEdit(event: TableEvent<Liquidacion>): void {
     this.router.navigate([
-      `/estado-cuenta${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
+      `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
       event.row.id,
     ]);
   }
 
   redirectToShow(event: TableEvent<Liquidacion>): void {
     this.router.navigate([
-      `/estado-cuenta${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
+      `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
       event.row.id,
     ]);
   }

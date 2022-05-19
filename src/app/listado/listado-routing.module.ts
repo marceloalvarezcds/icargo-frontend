@@ -12,6 +12,11 @@ const routes: Routes = [
     path: m.RENTABILIDAD,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: RentabilidadListComponent,
         canActivate: [PermisoGuard],

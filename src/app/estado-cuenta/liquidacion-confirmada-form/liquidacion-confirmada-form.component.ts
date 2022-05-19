@@ -25,7 +25,7 @@ import { getQueryParams } from 'src/app/utils/contraparte-info';
 export class LiquidacionConfirmadaFormComponent implements OnInit {
   E = EstadoEnum;
   form = new FormGroup({});
-  backUrl = `/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`;
+  backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
   id?: number;
   item?: Liquidacion;
@@ -83,10 +83,10 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   redirectToEdit(): void {
     const id = this.id!;
     this.router.navigate(
-      [`/estado-cuenta/${m.LIQUIDACION}/${a.EDITAR}/${id}`],
+      [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/${id}`],
       {
         queryParams: {
-          backUrl: `/estado-cuenta/${m.LIQUIDACION}/${a.VER}/${id}`,
+          backUrl: `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.VER}/${id}`,
         },
       }
     );

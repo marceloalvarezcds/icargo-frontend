@@ -13,6 +13,11 @@ const routes: Routes = [
     path: m.BANCO,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: BancoListComponent,
         canActivate: [PermisoGuard],

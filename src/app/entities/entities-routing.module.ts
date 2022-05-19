@@ -1,7 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { CentrosOperativosFormComponent } from './centros-operativos-form/centros-operativos-form.component';
 import { CentrosOperativosListComponent } from './centros-operativos-list/centros-operativos-list.component';
 import { GestorCargaFormComponent } from './gestor-carga-form/gestor-carga-form.component';
@@ -16,6 +19,11 @@ const routes: Routes = [
   {
     path: m.CENTRO_OPERATIVO,
     children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
       {
         path: a.LISTAR,
         component: CentrosOperativosListComponent,
@@ -42,6 +50,11 @@ const routes: Routes = [
     path: m.GESTOR_CARGA,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: GestorCargaListComponent,
         canActivate: [PermisoGuard],
@@ -66,6 +79,11 @@ const routes: Routes = [
   {
     path: m.PROVEEDOR,
     children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
       {
         path: a.LISTAR,
         component: ProveedorListComponent,
@@ -112,6 +130,11 @@ const routes: Routes = [
     path: m.REMITENTE,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: RemitenteListComponent,
         canActivate: [PermisoGuard],
@@ -137,6 +160,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class EntitiesRoutingModule { }
+export class EntitiesRoutingModule {}
