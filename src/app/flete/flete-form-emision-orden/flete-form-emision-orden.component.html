@@ -3,34 +3,50 @@
     <div class="row page-form-row">
       <mat-form-field class="col-xs-12 col-sm-6">
         <mat-label>Texto Legal de Órdenes de Carga</mat-label>
-        <textarea matInput
+        <textarea
+          matInput
           formControlName="emision_orden_texto_legal"
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
         ></textarea>
-        <mat-error *ngIf="group.controls['emision_orden_texto_legal'].hasError('required')">
+        <mat-error
+          *ngIf="
+            group.controls['emision_orden_texto_legal'].hasError('required')
+          "
+        >
           El texto es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field class="col-xs-12 col-sm-6">
         <mat-label>Detalle - Comentarios</mat-label>
-        <textarea matInput
+        <textarea
+          matInput
           formControlName="emision_orden_detalle"
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
         ></textarea>
-        <mat-error *ngIf="group.controls['emision_orden_detalle'].hasError('required')">
+        <mat-error
+          *ngIf="group.controls['emision_orden_detalle'].hasError('required')"
+        >
           El detalle es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field class="col-xs-12">
         <mat-label>Destinatarios</mat-label>
-        <mat-select formControlName="destinatarios" multiple [compareWith]="compareWith">
+        <mat-select
+          formControlName="destinatarios"
+          multiple
+          [compareWith]="compareWith"
+        >
           <ng-container *ngFor="let o of list">
             <mat-option [value]="o">
-              {{o.nombre}} ({{o.email}})
+              {{ o.nombre }} [{{
+                o.tipo_destinatario === D.CENTRO_OPERATIVO
+                  ? "Origen/Destino"
+                  : o.tipo_destinatario
+              }}] ({{ o.email }})
             </mat-option>
           </ng-container>
         </mat-select>

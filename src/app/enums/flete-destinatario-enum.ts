@@ -1,5 +1,10 @@
 export enum FleteDestinatarioEnum {
   CENTRO_OPERATIVO = 'centro_operativo',
-  REMITENTE = 'remitente',
-  USUARIO = 'usuario',
+  REMITENTE = 'Remitente',
+  USUARIO = 'Usuario',
+}
+
+export enum FleteDestinatarioCentroOperativoEnum {
+  ORIGEN = 'origen',
+  DESTINO = 'destino',
 }
