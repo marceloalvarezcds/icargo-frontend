@@ -18,64 +18,79 @@ const routes: Routes = [
     path: m.ESTADO_CUENTA,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: EstadoCuentaListComponent,
         canActivate: [PermisoGuard],
       },
-    ],
-  },
-  {
-    path: m.LIQUIDACION,
-    children: [
-      {
-        path: a.LISTAR,
-        component: LiquidacionListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: LiquidacionFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: LiquidacionEditFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: LiquidacionEditFormComponent,
-        canActivate: [PermisoGuard],
-      },
-    ],
-  },
-  {
-    path: LiquidacionEtapaEnum.CONFIRMADO.toLowerCase(),
-    children: [
       {
         path: m.LIQUIDACION,
         children: [
           {
+            path: '',
+            redirectTo: a.LISTAR,
+            pathMatch: 'full',
+          },
+          {
+            path: a.LISTAR,
+            component: LiquidacionListComponent,
+            canActivate: [PermisoGuard],
+          },
+          {
+            path: a.CREAR,
+            component: LiquidacionFormComponent,
+            canActivate: [PermisoGuard],
+          },
+          {
             path: `${a.EDITAR}/:id`,
-            component: LiquidacionConfirmadaFormComponent,
+            component: LiquidacionEditFormComponent,
             canActivate: [PermisoGuard],
           },
           {
             path: `${a.VER}/:id`,
-            component: LiquidacionConfirmadaFormComponent,
+            component: LiquidacionEditFormComponent,
             canActivate: [PermisoGuard],
           },
         ],
       },
-    ],
-  },
-  {
-    path: m.MOVIMIENTO,
-    children: [
       {
-        path: a.LISTAR,
-        component: LiquidacionFinalizadaComponent,
-        canActivate: [PermisoGuard],
+        path: LiquidacionEtapaEnum.CONFIRMADO.toLowerCase(),
+        children: [
+          {
+            path: m.LIQUIDACION,
+            children: [
+              {
+                path: `${a.EDITAR}/:id`,
+                component: LiquidacionConfirmadaFormComponent,
+                canActivate: [PermisoGuard],
+              },
+              {
+                path: `${a.VER}/:id`,
+                component: LiquidacionConfirmadaFormComponent,
+                canActivate: [PermisoGuard],
+              },
+            ],
+          },
+        ],
+      },
+      {
+        path: m.MOVIMIENTO,
+        children: [
+          {
+            path: '',
+            redirectTo: a.LISTAR,
+            pathMatch: 'full',
+          },
+          {
+            path: a.LISTAR,
+            component: LiquidacionFinalizadaComponent,
+            canActivate: [PermisoGuard],
+          },
+        ],
       },
     ],
   },

@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { PermisoAccionEnum as a, PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { CamionFormComponent } from './camion-form/camion-form.component';
 import { CamionListComponent } from './camion-list/camion-list.component';
@@ -15,6 +18,11 @@ const routes: Routes = [
   {
     path: m.PROPIETARIO,
     children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
       {
         path: a.LISTAR,
         component: PropietarioListComponent,
@@ -41,6 +49,11 @@ const routes: Routes = [
     path: m.CHOFER,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: ChoferListComponent,
         canActivate: [PermisoGuard],
@@ -65,6 +78,11 @@ const routes: Routes = [
   {
     path: m.CAMION,
     children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
       {
         path: a.LISTAR,
         component: CamionListComponent,
@@ -91,6 +109,11 @@ const routes: Routes = [
     path: m.SEMIRREMOLQUE,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: SemiListComponent,
         canActivate: [PermisoGuard],
@@ -116,6 +139,6 @@ const routes: Routes = [
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class FlotaRoutingModule { }
+export class FlotaRoutingModule {}

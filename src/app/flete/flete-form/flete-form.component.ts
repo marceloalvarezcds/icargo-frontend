@@ -237,11 +237,12 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       }
     } else {
       setTimeout(() => {
+        const isAnticipoValid = !!this.form.get('vigencia_anticipos')?.invalid;
         this.isInfoTouched = this.info.invalid;
         this.isTramoTouched = this.tramo.invalid;
         this.isCondicionTouched = this.condicion.invalid;
         this.isMermaTouched = this.merma.invalid;
-        this.isAnticipoTouched = this.anticipos.invalid;
+        this.isAnticipoTouched = this.anticipos.invalid || isAnticipoValid;
         this.isComplementoTouched = this.complementos.invalid;
         this.isDescuentoTouched = this.descuentos.invalid;
         this.isEmisionOrdenTouched = this.emisionOrden.invalid;

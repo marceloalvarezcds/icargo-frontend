@@ -58,7 +58,9 @@ export class EstadoCuentaListComponent implements OnInit {
       link: (element: EstadoCuenta) =>
         element.cantidad_pendiente > 0
           ? {
-              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.CREAR}`],
+              url: [
+                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+              ],
               queryParams: getQueryParams(
                 element,
                 LiquidacionEtapaEnum.PENDIENTE
@@ -72,7 +74,7 @@ export class EstadoCuentaListComponent implements OnInit {
       title: LiquidacionEtapaEnum.EN_PROCESO,
       value: (element: EstadoCuenta) => element.en_proceso,
       link: (element: EstadoCuenta) => ({
-        url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
+        url: [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
         queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
       }),
       type: 'number',
@@ -84,7 +86,9 @@ export class EstadoCuentaListComponent implements OnInit {
       link: (element: EstadoCuenta) =>
         element.cantidad_confirmado > 0
           ? {
-              url: [`/estado-cuenta/${m.LIQUIDACION}/${a.LISTAR}`],
+              url: [
+                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`,
+              ],
               queryParams: getQueryParams(
                 element,
                 LiquidacionEtapaEnum.CONFIRMADO
@@ -100,7 +104,9 @@ export class EstadoCuentaListComponent implements OnInit {
       link: (element: EstadoCuenta) =>
         element.cantidad_finalizado > 0
           ? {
-              url: [`/estado-cuenta/${m.MOVIMIENTO}/${a.LISTAR}`],
+              url: [
+                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.MOVIMIENTO}/${a.LISTAR}`,
+              ],
               queryParams: getQueryParams(
                 element,
                 LiquidacionEtapaEnum.FINALIZADO

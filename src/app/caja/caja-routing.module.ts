@@ -13,6 +13,11 @@ const routes: Routes = [
     path: m.CAJA,
     children: [
       {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: a.LISTAR,
         component: CajaListComponent,
         canActivate: [PermisoGuard],

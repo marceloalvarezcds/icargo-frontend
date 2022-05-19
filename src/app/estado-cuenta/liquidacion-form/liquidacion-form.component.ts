@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
@@ -17,6 +16,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-liquidacion-form',
@@ -48,7 +48,7 @@ export class LiquidacionFormComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
-    private snackbar: MatSnackBar,
+    private snackbar: SnackbarService,
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService
@@ -85,7 +85,7 @@ export class LiquidacionFormComponent implements OnInit {
           this.submit(false);
         });
     } else {
-      this.snackbar.open('Debe elegir al menos 1 movimiento', 'Ok');
+      this.snackbar.open('Debe elegir al menos 1 movimiento');
     }
   }
 
@@ -94,20 +94,16 @@ export class LiquidacionFormComponent implements OnInit {
       this.liquidacionService
         .create(createLiquidacionData(this.movimientosSelected))
         .subscribe(() => {
-          this.snackbar
-            .open('Datos guardados satisfactoriamente', 'Ok')
-            .afterDismissed()
-            .subscribe(() => {
-              if (confirmed) {
-                this.router.navigate([this.backUrl]);
-              } else {
-                this.getData();
-              }
-            });
+          this.snackbar.open('Datos guardados satisfactoriamente');
+          if (confirmed) {
+            this.router.navigate([this.backUrl]);
+          } else {
+            this.getData();
+          }
           this.movimientosSelected.splice(0, this.movimientosSelected.length);
         });
     } else {
-      this.snackbar.open('Debe elegir al menos 1 movimiento', 'Ok');
+      this.snackbar.open('Debe elegir al menos 1 movimiento');
     }
   }
 
