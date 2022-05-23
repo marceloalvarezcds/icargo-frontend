@@ -28,6 +28,22 @@ export class OcRemisionOrigenFormDialogComponent {
     return this.data ? 'Editar' : 'Crear';
   }
 
+  get cantidad(): number {
+    return parseInt(this.cantidadControl.value, 10);
+  }
+
+  get cantidadControl(): FormControl {
+    return this.form.get('cantidad') as FormControl;
+  }
+
+  get cantidadHint(): string {
+    let text = `Límite <strong>${this.max.toLocaleString()}</strong>`;
+    if (this.saldo) {
+      text += ` | Saldo <strong>${this.saldo.toLocaleString()}</strong>`;
+    }
+    return text;
+  }
+
   get data(): OrdenCargaRemisionOrigen | undefined {
     return this.dialogData.item;
   }
@@ -38,6 +54,10 @@ export class OcRemisionOrigenFormDialogComponent {
 
   get max(): number {
     return this.dialogData.cantidad_disponible;
+  }
+
+  get saldo(): number {
+    return this.max - this.cantidad;
   }
 
   constructor(

@@ -35,12 +35,20 @@ export class OcRemisionDestinoFormDialogComponent {
     return this.dialogData.item;
   }
 
+  get cantidad(): number {
+    return parseInt(this.cantidadControl.value, 10);
+  }
+
   get cantidadControl(): FormControl {
     return this.form.get('cantidad') as FormControl;
   }
 
-  get cantidad(): number {
-    return this.cantidadControl.value;
+  get cantidadHint(): string {
+    let text = `Límite <strong>${this.max.toLocaleString()}</strong>`;
+    if (this.saldo) {
+      text += ` | Saldo <strong>${this.saldo.toLocaleString()}</strong>`;
+    }
+    return text;
   }
 
   get fotoDocumentoControl(): FormControl {
@@ -49,6 +57,10 @@ export class OcRemisionDestinoFormDialogComponent {
 
   get max(): number {
     return this.dialogData.cantidad_disponible;
+  }
+
+  get saldo(): number {
+    return this.max - this.cantidad;
   }
 
   constructor(

@@ -107,6 +107,23 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     return this.dialogData.es_cobro;
   }
 
+  get monto(): number {
+    return parseInt(this.montoControl.value, 10);
+  }
+
+  get montoControl(): FormControl {
+    return this.form.get('monto') as FormControl;
+  }
+
+  get montoHint(): string {
+    if (this.monto) {
+      return `Residuo <strong>${(
+        this.residuo - this.monto
+      ).toLocaleString()}</strong>`;
+    }
+    return `Residuo <strong>${this.residuo.toLocaleString()}</strong>`;
+  }
+
   get residuo(): number {
     return this.dialogData.residuo;
   }
