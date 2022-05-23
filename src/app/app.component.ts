@@ -22,7 +22,10 @@ export class AppComponent implements OnDestroy {
           this.loadingDialogRef = this.openLoadingDialog();
         }
       } else {
-        this.loadingDialogRef?.close();
+        setTimeout(() => {
+          this.loadingDialogRef?.close();
+          this.loadingDialogRef = undefined;
+        }, 1000);
       }
       setTimeout(() => {
         this.loading = loading;

@@ -11,7 +11,6 @@ import { finalize } from 'rxjs/operators';
 
 @Injectable()
 export class LoadingInterceptor implements HttpInterceptor {
-
   private countRequest = 0;
 
   constructor(private loadingService: LoadingService) {}
