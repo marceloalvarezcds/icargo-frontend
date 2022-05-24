@@ -4,10 +4,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 @Component({
   selector: 'app-number-field',
   templateUrl: './number-field.component.html',
-  styleUrls: ['./number-field.component.scss']
+  styleUrls: ['./number-field.component.scss'],
 })
 export class NumberFieldComponent {
-
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
