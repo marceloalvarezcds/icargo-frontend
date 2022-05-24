@@ -4,7 +4,6 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-destino-dialog-data';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionDestinoService } from 'src/app/services/orden-carga-remision-destino.service';
-import { NumberValidator } from 'src/app/validators/number-validator';
 
 @Component({
   selector: 'app-oc-remision-destino-form-dialog',
@@ -17,10 +16,7 @@ export class OcRemisionDestinoFormDialogComponent {
   form = this.fb.group({
     numero_documento: [this.data?.numero_documento, Validators.required],
     fecha: [this.data?.fecha ?? new Date().toJSON(), Validators.required],
-    cantidad: [
-      this.data?.cantidad,
-      [Validators.required, NumberValidator.max(this.max)],
-    ],
+    cantidad: [this.data?.cantidad, Validators.required],
     unidad_id: [this.data?.unidad_id, Validators.required],
     foto_documento: this.data?.foto_documento,
     numero_documento_origen: this.data?.numero_documento_origen,
@@ -44,7 +40,12 @@ export class OcRemisionDestinoFormDialogComponent {
   }
 
   get cantidadHint(): string {
-    let text = `Límite <strong>${this.max.toLocaleString()}</strong>`;
+    if (this.cantidad > this.max) {
+      return `<span class="hint-alert">La cantidad supera en <strong>${(
+        this.cantidad - this.max
+      ).toLocaleString()}</strong> kg al Neto</span>`;
+    }
+    let text = `Neto <strong>${this.max.toLocaleString()}</strong>`;
     if (this.saldo) {
       text += ` | Saldo <strong>${this.saldo.toLocaleString()}</strong>`;
     }
