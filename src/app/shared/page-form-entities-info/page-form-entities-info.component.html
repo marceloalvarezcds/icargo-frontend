@@ -19,10 +19,12 @@
         <mat-label>Composición Jurídica</mat-label>
         <mat-select formControlName="composicion_juridica_id">
           <ng-container *ngFor="let o of composicionJuridicaList$ | async">
-            <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+            <mat-option [value]="o.id">{{ o.nombre }}</mat-option>
           </ng-container>
         </mat-select>
-        <mat-error *ngIf="info.controls['composicion_juridica_id'].hasError('required')">
+        <mat-error
+          *ngIf="info.controls['composicion_juridica_id'].hasError('required')"
+        >
           La composición jurídica es <strong>requerida</strong>
         </mat-error>
       </mat-form-field>
@@ -32,24 +34,38 @@
         <mat-label>Tipo de Documento</mat-label>
         <mat-select formControlName="tipo_documento_id">
           <ng-container *ngFor="let o of tipoDocumentoList">
-            <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
+            <mat-option [value]="o.id">{{ o.descripcion }}</mat-option>
           </ng-container>
         </mat-select>
-        <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required')">
+        <mat-error
+          *ngIf="info.controls['tipo_documento_id'].hasError('required')"
+        >
           El tipo de documento es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Número de Documento</mat-label>
         <input matInput formControlName="numero_documento" />
-        <mat-error *ngIf="info.controls['numero_documento'].hasError('required')">
+        <mat-error
+          *ngIf="info.controls['numero_documento'].hasError('required')"
+        >
           El número de documento es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4" [class.mat-form-field-disabled]="!isRucSelected">
+      <mat-form-field
+        class="col-xs-12 col-sm-6 col-md-4"
+        [class.mat-form-field-disabled]="!isRucSelected"
+      >
         <mat-label>Dígito verificador</mat-label>
-        <input matInput formControlName="digito_verificador" type="number" [readonly]="!isRucSelected" />
-        <mat-error *ngIf="info.controls['digito_verificador'].hasError('required')">
+        <input
+          matInput
+          formControlName="digito_verificador"
+          type="number"
+          [readonly]="!isRucSelected"
+        />
+        <mat-error
+          *ngIf="info.controls['digito_verificador'].hasError('required')"
+        >
           El dígito verificador es <strong>requerido</strong>
         </mat-error>
         <mat-error *ngIf="info.controls['digito_verificador'].hasError('min')">
@@ -60,7 +76,7 @@
     <div class="row page-form-row">
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" />
+        <input matInput formControlName="telefono" appFormatToPastePhone />
         <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
         <mat-error *ngIf="info.controls['telefono'].hasError('required')">
           El teléfono es <strong>requerido</strong>
@@ -80,7 +96,12 @@
         <mat-label>Página web</mat-label>
         <input matInput formControlName="pagina_web" />
       </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" [hidden]="!(user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_ALIAS))">
+      <mat-form-field
+        class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+        [hidden]="
+          !(user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_ALIAS))
+        "
+      >
         <mat-label>Alias</mat-label>
         <input matInput formControlName="alias" />
         <mat-error *ngIf="info.controls['alias'].hasError('required')">
@@ -92,7 +113,8 @@
     <div class="row page-form-row">
       <mat-form-field class="col-xs-12 col-sm-6">
         <mat-label>Información complementaria</mat-label>
-        <textarea matInput
+        <textarea
+          matInput
           formControlName="info_complementaria"
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
@@ -103,9 +125,16 @@
 
     <div class="row page-form-row">
       <div class="row col-xs-12 col-sm-6 pr-0">
-        <div class="col-xs-12" *ngIf="isShow && logo"><strong>Logo</strong></div>
+        <div class="col-xs-12" *ngIf="isShow && logo">
+          <strong>Logo</strong>
+        </div>
         <div class="col-xs-12 logo-image-container">
-          <img *ngIf="file" [src]="file | imageFileBase64 | async" alt="" class="logo-image" />
+          <img
+            *ngIf="file"
+            [src]="file | imageFileBase64 | async"
+            alt=""
+            class="logo-image"
+          />
           <img *ngIf="logo" [src]="logo" alt="" class="logo-image" />
         </div>
         <input
@@ -118,7 +147,12 @@
         />
         <mat-form-field class="logo-form-field pr-0" *ngIf="!isShow">
           <mat-label>Logo</mat-label>
-          <input matInput readonly formControlName="logo" (click)="fileInput.click()"/>
+          <input
+            matInput
+            readonly
+            formControlName="logo"
+            (click)="fileInput.click()"
+          />
           <button
             type="button"
             color="primary"

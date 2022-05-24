@@ -11,6 +11,8 @@
       <input
         matInput
         [formControlName]="controlName"
+        [appFormatToPasteNumber]="formatToPasteNumber"
+        [appFormatToPastePhone]="formatToPastePhone"
         [appAutofocus]="autofocus"
         [hidden]="readonly"
       />
@@ -33,6 +35,8 @@
         [formControlName]="controlName"
         [appAutofocus]="autofocus"
         [hidden]="readonly"
+        [appFormatToPasteNumber]="formatToPasteNumber"
+        [appFormatToPastePhone]="formatToPastePhone"
       />
       <mat-error *ngIf="control.hasError('required')">
         Este campo es <strong>requerido</strong>
