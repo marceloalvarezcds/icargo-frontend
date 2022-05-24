@@ -1,10 +1,24 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flushMicrotasks, TestBed, tick } from '@angular/core/testing';
-import { MatDialog, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flushMicrotasks,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
+import {
+  MatDialog,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSnackBar, MatSnackBarModule, MatSnackBarRef } from '@angular/material/snack-bar';
+import {
+  MatSnackBar,
+  MatSnackBarModule,
+  MatSnackBarRef,
+} from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
@@ -33,9 +47,7 @@ describe('AppComponent', () => {
         DialogsModule,
         SharedModule,
       ],
-      declarations: [
-        AppComponent
-      ],
+      declarations: [AppComponent],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         LoadingService,
@@ -65,7 +77,7 @@ describe('AppComponent', () => {
 
   it('test httpErrorService', fakeAsync(() => {
     const snackBar = (component as any).snackBar;
-    spyOn(snackBar, 'openFromComponent')
+    spyOn(snackBar, 'openFromComponent');
     httpErrorService.setErrorList(['Error 1']);
     flushMicrotasks();
     expect(snackBar.openFromComponent).toHaveBeenCalled();
@@ -82,7 +94,7 @@ describe('AppComponent', () => {
     tick(1000);
     fixture.detectChanges();
     expect(component.loading).toBeFalse();
-    expect(component.loadingDialogRef).toBeDefined();
+    expect(component.loadingDialogRef).toBeUndefined();
 
     loadingService.startLoading();
     tick(1000);

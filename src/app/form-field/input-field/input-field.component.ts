@@ -23,6 +23,8 @@ export class InputFieldComponent {
     return obj[this.controlName];
   }
 
+  @Input() formatToPasteNumber = false;
+  @Input() formatToPastePhone = false;
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;
