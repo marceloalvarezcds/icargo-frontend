@@ -14,6 +14,7 @@ import { TableEvent } from 'src/app/interfaces/table';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-list',
@@ -94,7 +95,7 @@ export class LiquidacionListComponent implements OnInit {
   }
 
   get saldo(): number {
-    return this.credito - this.debito;
+    return subtract(this.credito, this.debito);
   }
 
   get instrumentosSaldo(): number {

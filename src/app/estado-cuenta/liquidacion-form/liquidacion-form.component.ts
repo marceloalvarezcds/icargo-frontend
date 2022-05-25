@@ -17,6 +17,7 @@ import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-form',
@@ -41,7 +42,7 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   get saldo(): number {
-    return this.credito - this.debito;
+    return subtract(this.credito, this.debito);
   }
 
   constructor(

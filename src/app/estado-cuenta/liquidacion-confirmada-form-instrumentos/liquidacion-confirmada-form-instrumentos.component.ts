@@ -14,6 +14,7 @@ import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
+import { subtract } from 'src/app/utils/math';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -86,7 +87,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   }
 
   get residuo(): number {
-    return Math.abs(this.saldo) - this.valorInstrumentos;
+    return subtract(Math.abs(this.saldo), this.valorInstrumentos);
   }
 
   @Input() liquidacion?: Liquidacion;
@@ -122,7 +123,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
   edit({ row, index }: TableEvent<InstrumentoLiquidacionItem>): void {
     edit(this.getDialogRef(row), (item: InstrumentoLiquidacionItem) => {
-      this.setResiduo(item.monto - row.monto);
+      this.setResiduo(subtract(item.monto, row.monto));
       const list = this.list.slice();
       list[index] = item;
       this.list = list;

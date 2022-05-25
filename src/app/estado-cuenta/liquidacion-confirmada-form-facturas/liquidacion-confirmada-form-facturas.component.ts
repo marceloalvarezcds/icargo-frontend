@@ -14,6 +14,7 @@ import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FacturaService } from 'src/app/services/factura.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { subtract } from 'src/app/utils/math';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -89,7 +90,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   }
 
   get residuo(): number {
-    return this.montoLimite - this.montoSuma;
+    return subtract(this.montoLimite, this.montoSuma);
   }
 
   @Input() instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
