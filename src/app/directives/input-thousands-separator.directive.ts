@@ -1,24 +1,38 @@
-import { Directive, ElementRef, forwardRef, HostListener, Input } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  forwardRef,
+  HostListener,
+  Input,
+} from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MAT_INPUT_VALUE_ACCESSOR } from '@angular/material/input';
-import { errorMessage, numberWithCommas, numberWithoutCommas, preventTypingNonNumericCharacters, zeroCommaTerminatedRegex } from 'src/app/utils/thousands-separator';
+import {
+  errorMessage,
+  numberWithCommas,
+  numberWithoutCommas,
+  preventTypingNonNumericCharacters,
+  zeroCommaTerminatedRegex,
+} from 'src/app/utils/thousands-separator';
 
-export const forwardFunc = () => InputThousandsSeparatorDirective
+export const forwardFunc = () => InputThousandsSeparatorDirective;
 
 @Directive({
-  exportAs:'appInputThousandsSeparator',
+  exportAs: 'appInputThousandsSeparator',
   selector: '[appInputThousandsSeparator]',
   providers: [
-    { provide: MAT_INPUT_VALUE_ACCESSOR, useExisting: InputThousandsSeparatorDirective },
+    {
+      provide: MAT_INPUT_VALUE_ACCESSOR,
+      useExisting: InputThousandsSeparatorDirective,
+    },
     {
       provide: NG_VALUE_ACCESSOR,
       useExisting: forwardRef(forwardFunc),
       multi: true,
-    }
+    },
   ],
 })
 export class InputThousandsSeparatorDirective {
-
   private val: number | undefined;
 
   constructor(private elementRef: ElementRef<HTMLInputElement>) {
@@ -42,7 +56,7 @@ export class InputThousandsSeparatorDirective {
 
   @HostListener('input', ['$event.target.value'])
   onInput(value: string): void {
-    if (typeof value === 'string' && !(zeroCommaTerminatedRegex.test(value))) {
+    if (typeof value === 'string' && !zeroCommaTerminatedRegex.test(value)) {
       this.val = numberWithoutCommas(value);
       this._onChange(this.val);
       this.formatValue(value);
@@ -51,7 +65,7 @@ export class InputThousandsSeparatorDirective {
     }
   }
 
-  _onChange(value: any): void { }
+  _onChange(value: any): void {}
 
   writeValue(value: any): void {
     // En este entra cuando se carga el valor desde el angularForm y no lo que el usuario introduce por teclado
@@ -62,7 +76,7 @@ export class InputThousandsSeparatorDirective {
     this._onChange = fn;
   }
 
-  registerOnTouched(): void { }
+  registerOnTouched(): void {}
 
   private _setValue(value: string | number | undefined): void {
     this.val = numberWithoutCommas(value);

@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-destino-dialog-data';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionDestinoService } from 'src/app/services/orden-carga-remision-destino.service';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-oc-remision-destino-form-dialog',
@@ -41,8 +42,9 @@ export class OcRemisionDestinoFormDialogComponent {
 
   get cantidadHint(): string {
     if (this.cantidad > this.max) {
-      return `<span class="hint-alert">La cantidad supera en <strong>${(
-        this.cantidad - this.max
+      return `<span class="hint-alert">La cantidad supera en <strong>${subtract(
+        this.cantidad,
+        this.max
       ).toLocaleString()}</strong> kg al Neto</span>`;
     }
     let text = `Neto <strong>${this.max.toLocaleString()}</strong>`;
@@ -61,7 +63,7 @@ export class OcRemisionDestinoFormDialogComponent {
   }
 
   get saldo(): number {
-    return this.max - this.cantidad;
+    return subtract(this.max, this.cantidad);
   }
 
   constructor(

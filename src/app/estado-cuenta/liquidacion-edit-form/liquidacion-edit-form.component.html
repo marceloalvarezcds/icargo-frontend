@@ -57,12 +57,7 @@
       </mat-form-field>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Saldo / Valor de la operación</mat-label>
-        <input
-          matInput
-          [value]="saldo.toString()"
-          appInputThousandsSeparator
-          disabled
-        />
+        <input matInput [value]="saldo" appInputThousandsSeparator disabled />
       </mat-form-field>
       <app-liquidacion-comentario
         [comentario]="comentario"

@@ -4,6 +4,7 @@ import { Column } from 'src/app/interfaces/column';
 import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-confirm-dialog',
@@ -102,7 +103,7 @@ export class LiquidacionConfirmDialogComponent {
   }
 
   get saldo(): number {
-    return this.credito - this.debito;
+    return subtract(this.credito, this.debito);
   }
 
   constructor(

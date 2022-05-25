@@ -12,6 +12,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-edit-form',
@@ -49,7 +50,7 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   get saldo(): number {
-    return this.credito - this.debito;
+    return subtract(this.credito, this.debito);
   }
 
   constructor(

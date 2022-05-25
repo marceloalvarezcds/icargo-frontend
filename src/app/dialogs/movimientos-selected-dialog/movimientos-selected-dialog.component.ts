@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientosSelectedDialogData } from 'src/app/interfaces/movimientos-selected-dialog';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-movimientos-selected-dialog',
@@ -29,7 +30,7 @@ export class MovimientosSelectedDialogComponent {
   }
 
   get saldo(): number {
-    return this.credito - this.debito;
+    return subtract(this.credito, this.debito);
   }
 
   get saldoFinal(): number {

@@ -8,6 +8,7 @@ import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { InstrumentoVia } from 'src/app/interfaces/instrumento-via';
 import { TipoInstrumento } from 'src/app/interfaces/tipo-instrumento';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-instrumento-form-dialog',
@@ -117,8 +118,9 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
 
   get montoHint(): string {
     if (this.monto) {
-      return `Residuo <strong>${(
-        this.residuo - this.monto
+      return `Residuo <strong>${subtract(
+        this.residuo,
+        this.monto
       ).toLocaleString()}</strong>`;
     }
     return `Residuo <strong>${this.residuo.toLocaleString()}</strong>`;

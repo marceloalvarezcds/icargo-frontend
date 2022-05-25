@@ -12,6 +12,7 @@ import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-finalizada',
@@ -35,7 +36,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
   }
 
   get saldo(): number {
-    return this.credito - this.debito;
+    return subtract(this.credito, this.debito);
   }
 
   constructor(

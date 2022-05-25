@@ -13,6 +13,7 @@ import { OrdenCargaRemisionOrigenService } from 'src/app/services/orden-carga-re
 import { OcRemisionOrigenFormDialogComponent } from 'src/app/dialogs/oc-remision-origen-form-dialog/oc-remision-origen-form-dialog.component';
 import { OcRemisionOrigenDialogData } from 'src/app/interfaces/oc-remision-origen-dialog-data';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-origen',
@@ -31,7 +32,10 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   }
 
   get cantidadDisponible(): number {
-    return (this.oc?.cantidad_nominada ?? 0) - (this.oc?.cantidad_origen ?? 0);
+    return subtract(
+      this.oc?.cantidad_nominada ?? 0,
+      this.oc?.cantidad_origen ?? 0
+    );
   }
 
   get totalCantidad(): string {
