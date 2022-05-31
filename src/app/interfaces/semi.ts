@@ -34,7 +34,9 @@ export interface Semi {
   // inicio - municipal
   ciudad_habilitacion_municipal_id: number;
   ciudad_habilitacion_municipal: Ciudad;
+  localidad_habilitacion_municipal_id: number | null;
   numero_habilitacion_municipal: string;
+  pais_habilitacion_municipal_id: number | null;
   vencimiento_habilitacion_municipal: string;
   foto_habilitacion_municipal_frente: string | null;
   foto_habilitacion_municipal_reverso: string | null;
@@ -147,7 +149,9 @@ export const mockSemi: Semi = {
   // inicio - municipal
   ciudad_habilitacion_municipal_id: ciudad0.id,
   ciudad_habilitacion_municipal: ciudad0,
+  localidad_habilitacion_municipal_id: ciudad0.localidad_id,
   numero_habilitacion_municipal: '33100100',
+  pais_habilitacion_municipal_id: ciudad0.pais_id,
   vencimiento_habilitacion_municipal: '2023-06-01T00:00:00',
   foto_habilitacion_municipal_frente: null,
   foto_habilitacion_municipal_reverso: null,
@@ -208,14 +212,13 @@ export const mockSemiList: SemiList[] = [
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
     gestor_cuenta_id: mockUserAccount.id,
     gestor_cuenta_nombre: mockUserAccount.first_name,
-    localidad_habilitacion_municipal_nombre: ciudad0.localidad.nombre,
+    localidad_habilitacion_municipal_nombre: ciudad0.localidad_nombre,
     info: info0,
     marca_descripcion: marca0.descripcion,
     clasificacion_descripcion: clasificacion0.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
-    pais_habilitacion_municipal_nombre: ciudad0.localidad.pais.nombre,
-    pais_habilitacion_municipal_nombre_corto:
-      ciudad0.localidad.pais.nombre_corto,
+    pais_habilitacion_municipal_nombre: ciudad0.pais_nombre,
+    pais_habilitacion_municipal_nombre_corto: ciudad0.pais_nombre_corto,
     tipo_descripcion: tipoSemi0.descripcion,
     tipo_carga_descripcion: tipoCarga0.descripcion,
     pais_emisor_placa_nombre: pais0.nombre,
@@ -235,14 +238,13 @@ export const mockSemiList: SemiList[] = [
     ciudad_habilitacion_municipal_nombre: ciudad1.nombre,
     gestor_cuenta_id: mockUserAccount.id,
     gestor_cuenta_nombre: mockUserAccount.first_name,
-    localidad_habilitacion_municipal_nombre: ciudad1.localidad.nombre,
+    localidad_habilitacion_municipal_nombre: ciudad1.localidad_nombre,
     info: info1,
     marca_descripcion: marca1.descripcion,
     clasificacion_descripcion: clasificacion1.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
-    pais_habilitacion_municipal_nombre: ciudad1.localidad.pais.nombre,
-    pais_habilitacion_municipal_nombre_corto:
-      ciudad1.localidad.pais.nombre_corto,
+    pais_habilitacion_municipal_nombre: ciudad1.pais_nombre,
+    pais_habilitacion_municipal_nombre_corto: ciudad1.pais_nombre_corto,
     tipo_descripcion: tipoSemi1.descripcion,
     tipo_carga_descripcion: tipoCarga1.descripcion,
     pais_emisor_placa_nombre: pais1.nombre,

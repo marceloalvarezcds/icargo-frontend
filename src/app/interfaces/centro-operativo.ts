@@ -4,7 +4,12 @@ import {
   CentroOperativoContactoGestorCargaList,
   mockCentroOperativoContactoGestorCargaList,
 } from './centro-operativo-contacto-gestor-carga';
-import { Ciudad } from './ciudad';
+import {
+  Ciudad,
+  mockCiudadArgentina,
+  mockCiudadBrasil,
+  mockCiudadParaguay,
+} from './ciudad';
 import {
   GestorCargaCentroOperativo,
   mockGestorCargaCentroOperativoList,
@@ -60,21 +65,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
       estado: EstadoEnum.ACTIVO,
     },
     ciudad_id: 13,
-    ciudad: {
-      id: 13,
-      nombre: 'Los Cedrales',
-      localidad_id: 2,
-      localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
-        pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY',
-        },
-      },
-    },
+    ciudad: mockCiudadParaguay,
     contactos: mockCentroOperativoContactoGestorCargaList.slice(),
     gestor_carga_centro_operativo: gestorCargaCentroOperativo0,
     clasificacion_nombre: 'Silo',
@@ -102,21 +93,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
       estado: EstadoEnum.ACTIVO,
     },
     ciudad_id: 7,
-    ciudad: {
-      id: 7,
-      nombre: 'Santa Rita',
-      localidad_id: 2,
-      localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
-        pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY',
-        },
-      },
-    },
+    ciudad: mockCiudadArgentina,
     contactos: [],
     clasificacion_nombre: 'Puerto seco',
     ciudad_nombre: 'Santa Rita',
@@ -143,21 +120,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
       estado: EstadoEnum.ACTIVO,
     },
     ciudad_id: 400,
-    ciudad: {
-      id: 400,
-      nombre: 'Paso de Indios',
-      localidad_id: 21,
-      localidad: {
-        id: 21,
-        nombre: 'Chubut',
-        pais_id: 2,
-        pais: {
-          id: 2,
-          nombre: 'Argentina',
-          nombre_corto: 'AR',
-        },
-      },
-    },
+    ciudad: mockCiudadBrasil,
     contactos: [],
     gestor_carga_centro_operativo: undefined,
     clasificacion_nombre: 'Puerto multimodal',

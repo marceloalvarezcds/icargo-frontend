@@ -12,6 +12,7 @@ import { CamionByProductoFieldComponent } from './camion-by-producto-field/camio
 import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
 import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
+import { CiudadDialogFieldComponent } from './ciudad-dialog-field/ciudad-dialog-field.component';
 import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
 import { ContraparteFieldComponent } from './contraparte-field/contraparte-field.component';
@@ -75,6 +76,7 @@ const modules = [
   CentroOperativoByGestorDialogFieldComponent,
   CentroOperativoFieldComponent,
   ChoferFieldComponent,
+  CiudadDialogFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
   ContraparteFieldComponent,

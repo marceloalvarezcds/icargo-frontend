@@ -1,5 +1,6 @@
 .mat-column-selector {
   text-align: center;
+  width: 40px;
 }
 
 .mat-column-selector::ng-deep {
@@ -14,10 +15,10 @@
 }
 
 .table-selector {
+  width: 100%;
   .mat-cell,
   .mat-header-cell,
   .mat-footer-cell {
-    max-width: 10%;
     padding-left: 5px;
     padding-right: 5px;
   }
