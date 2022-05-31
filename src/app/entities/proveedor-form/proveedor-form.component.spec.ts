@@ -17,7 +17,6 @@ import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { forEach } from 'lodash';
 import { of } from 'rxjs';
 import {
   PermisoAccionEnum as a,
@@ -26,7 +25,6 @@ import {
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
 import { mockLocalidadList } from 'src/app/interfaces/localidad';
-import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockProveedorList } from 'src/app/interfaces/proveedor';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUserAccount } from 'src/app/interfaces/user';
@@ -101,8 +99,6 @@ describe('ProveedorFormComponent', () => {
       },
       contactos: [],
       geo: {
-        pais_id: proveedor.ciudad?.localidad.pais_id,
-        localidad_id: proveedor.ciudad?.localidad_id,
         ciudad_id: proveedor.ciudad_id,
         latitud: proveedor.latitud,
         longitud: proveedor.longitud,
@@ -174,14 +170,8 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/proveedor/`);
     expect(req.request.method).toBe('POST');
@@ -209,7 +199,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/`)
+      .flush(mockCiudadList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/proveedor/`);
@@ -217,14 +209,6 @@ describe('ProveedorFormComponent', () => {
     req.flush(proveedor);
     flush();
     tick();
-    httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
-      .flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -253,14 +237,8 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
@@ -278,22 +256,12 @@ describe('ProveedorFormComponent', () => {
         expect(req.request.method).toBe('PUT');
         req.flush(proveedor);
       });
-    httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
-      .flush(mockCiudadList);
     flush();
     httpController
       .match(`${environment.api}/proveedor/${id}`)
       .forEach((r) => r.flush(proveedor));
     httpController
-      .match(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
@@ -323,14 +291,8 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/proveedor/${id}`)
       .flush(mockProveedorList[1]);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
@@ -383,7 +345,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/`)
+      .flush(mockCiudadList);
     flush();
     formSetValue(component, 'logo');
     const createPuntoVentaButton = fixture.debugElement.query(
@@ -399,9 +363,7 @@ describe('ProveedorFormComponent', () => {
       req.flush(proveedor);
     });
     httpController
-      .match(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
@@ -467,14 +429,8 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     flush();
     formSetValue(component, 'logo');
@@ -496,22 +452,12 @@ describe('ProveedorFormComponent', () => {
         expect(req.request.method).toBe('PUT');
         req.flush(proveedor);
       });
-    httpController
-      .expectOne(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
-      .flush(mockCiudadList);
     flush();
     httpController
       .match(`${environment.api}/proveedor/${id}`)
       .forEach((r) => r.flush(proveedor));
     httpController
-      .match(
-        `${environment.api}/localidad/${proveedor.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)

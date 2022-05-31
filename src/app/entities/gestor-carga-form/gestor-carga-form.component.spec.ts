@@ -87,8 +87,6 @@ describe('GestorCargaFormComponent', () => {
         logo,
       },
       geo: {
-        pais_id: gestorCarga.ciudad?.localidad.pais_id,
-        localidad_id: gestorCarga.ciudad?.localidad_id,
         ciudad_id: gestorCarga.ciudad_id,
         latitud: gestorCarga.latitud,
         longitud: gestorCarga.longitud,

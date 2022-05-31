@@ -1,5 +1,10 @@
 import { EstadoEnum } from '../enums/estado-enum';
-import { Ciudad } from './ciudad';
+import {
+  Ciudad,
+  mockCiudadArgentina,
+  mockCiudadBrasil,
+  mockCiudadParaguay,
+} from './ciudad';
 import {
   ComposicionJuridica,
   mockComposicionJuridicaList,
@@ -74,21 +79,7 @@ export const mockGestorCargaList: GestorCargaList[] = [
     latitud: -25.658948139894708,
     longitud: -54.717514329980474,
     ciudad_id: 13,
-    ciudad: {
-      id: 13,
-      nombre: 'Los Cedrales',
-      localidad_id: 2,
-      localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
-        pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY',
-        },
-      },
-    },
+    ciudad: mockCiudadParaguay,
     composicion_juridica_nombre: composicionJuridica0.nombre,
     ciudad_nombre: 'Los Cedrales',
     localidad_nombre: 'Alto Parana',
@@ -119,21 +110,7 @@ export const mockGestorCargaList: GestorCargaList[] = [
     latitud: -25.7917136,
     longitud: -55.08793379999997,
     ciudad_id: 7,
-    ciudad: {
-      id: 7,
-      nombre: 'Santa Rita',
-      localidad_id: 2,
-      localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
-        pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY',
-        },
-      },
-    },
+    ciudad: mockCiudadArgentina,
     composicion_juridica_nombre: composicionJuridica1.nombre,
     ciudad_nombre: 'Santa Rita',
     localidad_nombre: 'Alto Parana',
@@ -164,21 +141,7 @@ export const mockGestorCargaList: GestorCargaList[] = [
     latitud: -25.4921592,
     longitud: -54.72833349999996,
     ciudad_id: 400,
-    ciudad: {
-      id: 400,
-      nombre: 'Paso de Indios',
-      localidad_id: 21,
-      localidad: {
-        id: 21,
-        nombre: 'Chubut',
-        pais_id: 2,
-        pais: {
-          id: 2,
-          nombre: 'Argentina',
-          nombre_corto: 'AR',
-        },
-      },
-    },
+    ciudad: mockCiudadBrasil,
     composicion_juridica_nombre: composicionJuridica2.nombre,
     ciudad_nombre: 'Paso de Indios',
     localidad_nombre: 'Chubut',

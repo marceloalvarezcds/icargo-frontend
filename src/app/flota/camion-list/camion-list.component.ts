@@ -58,7 +58,9 @@ export class CamionListComponent implements OnInit {
       def: 'chofer',
       title: 'Chofer',
       value: (element: CamionList) =>
-        `${element.chofer_nombre} - ${element.chofer_numero_documento}`,
+        element.chofer_nombre
+          ? `${element.chofer_nombre} - ${element.chofer_numero_documento}`
+          : '',
     },
     {
       def: 'tipo',

@@ -1,8 +1,20 @@
 import { EstadoEnum } from '../enums/estado-enum';
-import { PropietarioContactoGestorCargaList, mockPropietarioContactoGestorCargaList } from './propietario-contacto-gestor-carga';
-import { Ciudad, mockCiudadList } from './ciudad';
+import {
+  PropietarioContactoGestorCargaList,
+  mockPropietarioContactoGestorCargaList,
+} from './propietario-contacto-gestor-carga';
+import {
+  Ciudad,
+  mockCiudadArgentina,
+  mockCiudadBrasil,
+  mockCiudadList,
+  mockCiudadParaguay,
+} from './ciudad';
 import { Pais, mockPaisList } from './pais';
-import { GestorCargaPropietario, mockGestorCargaPropietarioList } from './gestor-carga-propietario';
+import {
+  GestorCargaPropietario,
+  mockGestorCargaPropietarioList,
+} from './gestor-carga-propietario';
 import { mockTipoPersonaList, TipoPersona } from './tipo-persona';
 import { Localidad, mockLocalidadList } from './localidad';
 import { mockTipoRegistroList, TipoRegistro } from './tipo-registro';
@@ -131,21 +143,7 @@ export const mockPropietarioList: PropietarioList[] = [
     email: 'contacto@cargill-cedrales.com',
     direccion: 'CEDRALES',
     ciudad_id: 13,
-    ciudad: {
-      id: 13,
-      nombre: 'Los Cedrales',
-      localidad_id: 2,
-      localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
-        pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
-    },
+    ciudad: mockCiudadParaguay,
     contactos: mockPropietarioContactoGestorCargaList.slice(),
     gestor_carga_propietario: gestorCargaPropietario0,
     created_by: 'system',
@@ -182,21 +180,7 @@ export const mockPropietarioList: PropietarioList[] = [
     email: 'contacto@adm-santa-rita.com',
     direccion: 'SANTA RITA',
     ciudad_id: 7,
-    ciudad: {
-      id: 7,
-      nombre: 'Santa Rita',
-      localidad_id: 2,
-      localidad: {
-        id: 2,
-        nombre: 'Alto Parana',
-        pais_id: 1,
-        pais: {
-          id: 1,
-          nombre: 'Paraguay',
-          nombre_corto: 'PY'
-        }
-      }
-    },
+    ciudad: mockCiudadArgentina,
     contactos: [],
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -232,21 +216,7 @@ export const mockPropietarioList: PropietarioList[] = [
     email: 'contacto@gical-km12.com',
     direccion: 'GICAL KM 12',
     ciudad_id: 400,
-    ciudad: {
-      id: 400,
-      nombre: 'Paso de Indios',
-      localidad_id: 21,
-      localidad: {
-        id: 21,
-        nombre: 'Chubut',
-        pais_id: 2,
-        pais: {
-          id: 2,
-          nombre: 'Argentina',
-          nombre_corto: 'AR'
-        }
-      }
-    },
+    ciudad: mockCiudadBrasil,
     contactos: [],
     gestor_carga_propietario: undefined,
     created_by: 'system',

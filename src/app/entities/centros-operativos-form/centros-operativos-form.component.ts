@@ -20,6 +20,7 @@ import { CentroOperativoClasificacionService } from 'src/app/services/centro-ope
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
+import { emailValidator } from 'src/app/validators/email-validator';
 
 @Component({
   selector: 'app-centros-operativos-form',
@@ -52,24 +53,19 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     info: this.fb.group({
       nombre: [null, Validators.required],
-      nombre_corto: [null, Validators.required],
+      nombre_corto: null,
       clasificacion_id: [null, Validators.required],
       alias: null,
       logo: null,
-      telefono: [
-        null,
-        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
-      ],
-      email: null,
+      telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
+      email: [null, emailValidator],
       pagina_web: null,
     }),
     contactos: this.fb.array([], Validators.required),
     geo: this.fb.group({
-      pais_id: null,
-      localidad_id: null,
-      ciudad_id: null,
-      latitud: null,
-      longitud: null,
+      ciudad_id: [null, Validators.required],
+      latitud: [null, Validators.required],
+      longitud: [null, Validators.required],
       direccion: null,
     }),
   });
@@ -209,8 +205,6 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
             logo: null,
           },
           geo: {
-            pais_id: data.ciudad?.localidad.pais_id ?? null,
-            localidad_id: data.ciudad?.localidad_id ?? null,
             ciudad_id: data.ciudad_id,
             latitud: data.latitud,
             longitud: data.longitud,

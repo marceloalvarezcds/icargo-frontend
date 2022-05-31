@@ -125,8 +125,6 @@ describe('ChoferFormComponent', () => {
         foto_registro_reverso: fileUrl,
       },
       address: {
-        pais_id: chofer.ciudad?.localidad.pais_id,
-        localidad_id: chofer.ciudad?.localidad_id,
         ciudad_id: chofer.ciudad_id,
         direccion: chofer.direccion,
       },
@@ -204,12 +202,10 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/`)
       .forEach((r) => r.flush(mockCiudadList));
     const req = httpController.expectOne(`${environment.api}/chofer/`);
     expect(req.request.method).toBe('POST');
@@ -248,12 +244,10 @@ describe('ChoferFormComponent', () => {
     flush();
     tick();
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -288,9 +282,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
@@ -331,9 +323,7 @@ describe('ChoferFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
@@ -348,12 +338,10 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/chofer/${id}`)
       .forEach((r) => r.flush(chofer));
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/`)
       .forEach((r) => r.flush(mockCiudadList));
     tick();
     flush();
@@ -395,12 +383,10 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     tick();
@@ -443,12 +429,10 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(
-        `${environment.api}/localidad/${chofer.ciudad?.localidad.pais_id}/`
-      )
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/`)
       .forEach((r) => r.flush(mockCiudadList));
     tick(500);
     const backSpy = spyOn(component, 'back').and.callThrough();

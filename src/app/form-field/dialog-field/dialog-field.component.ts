@@ -31,7 +31,7 @@ export class DialogFieldComponent<T extends { id: number }>
 
   get group(): FormGroup {
     if (this.groupName) {
-      return this.formGroup!.get(this.groupName) as FormGroup;
+      return this.formGroup?.get(this.groupName) as FormGroup;
     }
     return this.formGroup!;
   }
@@ -54,14 +54,16 @@ export class DialogFieldComponent<T extends { id: number }>
   }
 
   @Input() set form(f: FormGroup) {
-    this.formGroup = f;
-    const currentId = getIdFromAny(this.rowValue);
-    this.setValueChange(currentId);
-    const selectedId = this.selectedValue?.id;
-    this.subscription = this.control.valueChanges
-      .pipe(map((v) => getIdFromAny(v)))
-      .pipe(filter((v) => v !== selectedId))
-      .subscribe(this.setValueChange.bind(this));
+    if (f) {
+      this.formGroup = f;
+      const currentId = getIdFromAny(this.rowValue);
+      this.setValueChange(currentId);
+      const selectedId = this.selectedValue?.id;
+      this.subscription = this.control.valueChanges
+        .pipe(map((v) => getIdFromAny(v)))
+        .pipe(filter((v) => v !== selectedId))
+        .subscribe(this.setValueChange.bind(this));
+    }
   }
   @Input() columns: Column[] = [];
   @Input() controlName!: string;

@@ -55,8 +55,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       remitente_id: [null, Validators.required],
       producto_id: [null, Validators.required],
-      tipo_carga_id: null,
-      numero_lote: [null, Validators.required],
+      tipo_carga_id: [null, Validators.required],
+      numero_lote: null,
       publicado: true,
       es_subasta: false,
     }),
@@ -103,9 +103,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     complementos: this.fb.array([]),
     descuentos: this.fb.array([]),
     emision_orden: this.fb.group({
-      emision_orden_texto_legal: [null, Validators.required],
+      emision_orden_texto_legal: null,
       emision_orden_detalle: null,
-      destinatarios: [null, Validators.required],
+      destinatarios: null,
     }),
   });
 

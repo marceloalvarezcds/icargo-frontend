@@ -111,9 +111,9 @@ describe('CamionFormComponent', () => {
       },
       municipal: {
         pais_habilitacion_municipal_id:
-          mockCamion.ciudad_habilitacion_municipal.localidad.pais_id,
+          mockCamion.pais_habilitacion_municipal_id,
         localidad_habilitacion_municipal_id:
-          mockCamion.ciudad_habilitacion_municipal.localidad_id,
+          mockCamion.localidad_habilitacion_municipal_id,
         ciudad_habilitacion_municipal_id:
           mockCamion.ciudad_habilitacion_municipal_id,
         numero_habilitacion_municipal: mockCamion.numero_habilitacion_municipal,
@@ -232,7 +232,7 @@ describe('CamionFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -287,7 +287,7 @@ describe('CamionFormComponent', () => {
     tick();
     httpController
       .match(
-        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -353,7 +353,7 @@ describe('CamionFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -407,7 +407,7 @@ describe('CamionFormComponent', () => {
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
       .match(
-        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -469,7 +469,7 @@ describe('CamionFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -530,7 +530,7 @@ describe('CamionFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController

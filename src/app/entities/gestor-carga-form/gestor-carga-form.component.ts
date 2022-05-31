@@ -19,6 +19,7 @@ import { MonedaService } from 'src/app/services/moneda.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { isRuc } from 'src/app/utils/tipo-documento';
+import { emailValidator } from 'src/app/validators/email-validator';
 
 @Component({
   selector: 'app-gestor-carga-form',
@@ -49,24 +50,19 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     info: this.fb.group({
       nombre: [null, Validators.required],
-      nombre_corto: [null, Validators.required],
+      nombre_corto: null,
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
       composicion_juridica_id: null,
       moneda_id: [null, Validators.required],
       logo: null,
-      telefono: [
-        null,
-        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
-      ],
-      email: null,
+      telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
+      email: [null, emailValidator],
       pagina_web: null,
       info_complementaria: null,
     }),
     geo: this.fb.group({
-      pais_id: null,
-      localidad_id: null,
       ciudad_id: null,
       latitud: null,
       longitud: null,
@@ -208,8 +204,6 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             logo: null,
           },
           geo: {
-            pais_id: data.ciudad?.localidad.pais_id ?? null,
-            localidad_id: data.ciudad?.localidad_id ?? null,
             ciudad_id: data.ciudad_id,
             latitud: data.latitud,
             longitud: data.longitud,

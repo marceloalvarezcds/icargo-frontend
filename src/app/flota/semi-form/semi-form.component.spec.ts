@@ -111,10 +111,9 @@ describe('SemiFormComponent', () => {
         foto: fileUrl,
       },
       municipal: {
-        pais_habilitacion_municipal_id:
-          mockSemi.ciudad_habilitacion_municipal.localidad.pais_id,
+        pais_habilitacion_municipal_id: mockSemi.pais_habilitacion_municipal_id,
         localidad_habilitacion_municipal_id:
-          mockSemi.ciudad_habilitacion_municipal.localidad_id,
+          mockSemi.localidad_habilitacion_municipal_id,
         ciudad_habilitacion_municipal_id:
           mockSemi.ciudad_habilitacion_municipal_id,
         numero_habilitacion_municipal: mockSemi.numero_habilitacion_municipal,
@@ -240,7 +239,7 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -301,7 +300,7 @@ describe('SemiFormComponent', () => {
     tick();
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -373,7 +372,7 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -427,7 +426,7 @@ describe('SemiFormComponent', () => {
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -492,7 +491,7 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
@@ -554,7 +553,7 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.localidad.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController

@@ -72,18 +72,15 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       tipo_persona_id: [null, Validators.required],
       ruc: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
-      pais_origen_id: [null, Validators.required],
+      pais_origen_id: null,
       fecha_nacimiento: [null, DateValidator.date],
-      oficial_cuenta_id: [null, Validators.required],
+      oficial_cuenta_id: null,
       alias: null,
       foto_documento_frente: null,
       foto_documento_reverso: null,
       foto_perfil: null,
       es_chofer: null,
-      telefono: [
-        null,
-        [Validators.required, Validators.pattern('^([+]595|0)([0-9]{9})$')],
-      ],
+      telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
     }),
     chofer: this.fb.group({
@@ -105,10 +102,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     }),
     contactos: this.fb.array([]),
     address: this.fb.group({
-      pais_id: [null, Validators.required],
-      localidad_id: [null, Validators.required],
-      ciudad_id: [null, Validators.required],
-      direccion: [null, Validators.required],
+      ciudad_id: null,
+      direccion: null,
     }),
   });
 
@@ -419,8 +414,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             foto_registro_reverso: null,
           },
           address: {
-            pais_id: data.ciudad.localidad.pais_id,
-            localidad_id: data.ciudad.localidad_id,
             ciudad_id: data.ciudad_id,
             direccion: data.direccion,
           },

@@ -21,8 +21,6 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
-import { mockLocalidadList } from 'src/app/interfaces/localidad';
-import { mockPaisList } from 'src/app/interfaces/pais';
 import { mockRemitenteList } from 'src/app/interfaces/remitente';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUserAccount } from 'src/app/interfaces/user';
@@ -96,8 +94,6 @@ describe('RemitenteFormComponent', () => {
       },
       contactos: [],
       geo: {
-        pais_id: remitente.ciudad?.localidad.pais_id,
-        localidad_id: remitente.ciudad?.localidad_id,
         ciudad_id: remitente.ciudad_id,
         latitud: remitente.latitud,
         longitud: remitente.longitud,
@@ -167,14 +163,8 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/remitente/`);
     expect(req.request.method).toBe('POST');
@@ -199,7 +189,9 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/`)
+      .flush(mockCiudadList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/remitente/`);
@@ -207,14 +199,6 @@ describe('RemitenteFormComponent', () => {
     req.flush(remitente);
     flush();
     tick();
-    httpController
-      .expectOne(
-        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
-      .flush(mockCiudadList);
     flush();
     expect(submitSpy).toHaveBeenCalled();
     httpController.verify();
@@ -242,14 +226,8 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
@@ -268,22 +246,12 @@ describe('RemitenteFormComponent', () => {
         req.flush(remitente);
       });
     httpController
-      .match(
-        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
-      )
-      .forEach((r) => r.flush(mockLocalidadList));
-    httpController
       .match(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     httpController
       .match(`${environment.api}/remitente/${id}`)
       .forEach((r) => r.flush(remitente));
-    httpController
-      .match(
-        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
-      )
-      .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
       .forEach((r) => r.flush(mockCiudadList));
@@ -310,14 +278,8 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/remitente/${id}`)
       .flush(mockRemitenteList[1]);
-    httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
     httpController
-      .expectOne(
-        `${environment.api}/localidad/${remitente.ciudad?.localidad.pais_id}/`
-      )
-      .flush(mockLocalidadList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
+      .expectOne(`${environment.api}/ciudad/`)
       .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
