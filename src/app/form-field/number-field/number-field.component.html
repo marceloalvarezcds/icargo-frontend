@@ -1,11 +1,16 @@
 <div *ngIf="form" [formGroup]="form">
   <ng-container *ngIf="groupName">
-    <mat-form-field [formGroupName]="groupName">
+    <mat-form-field
+      [formGroupName]="groupName"
+      [class.mat-form-field-disabled]="readonly"
+    >
       <mat-label>{{ title }}</mat-label>
       <input
         matInput
         [formControlName]="controlName"
         [appAutofocus]="autofocus"
+        [readonly]="readonly"
+        tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
       />
       <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
@@ -29,12 +34,14 @@
     </mat-form-field>
   </ng-container>
   <ng-container *ngIf="!groupName">
-    <mat-form-field>
+    <mat-form-field [class.mat-form-field-disabled]="readonly">
       <mat-label>{{ title }}</mat-label>
       <input
         matInput
         [formControlName]="controlName"
         [appAutofocus]="autofocus"
+        [readonly]="readonly"
+        tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
       />
       <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>

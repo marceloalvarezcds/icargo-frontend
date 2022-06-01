@@ -24,4 +24,5 @@ export class NumberFieldComponent {
   @Input() hint?: string;
   @Input() groupName?: string;
   @Input() title = '';
+  @Input() readonly = false;
 }

@@ -286,3 +286,8 @@ h1.mat-dialog-title {
   padding-right: 0;
   padding-left: 0;
 }
+
+.mat-radio-button ~ .mat-radio-button {
+  margin-left: 16px;
+  margin-bottom: 1rem;
+}
