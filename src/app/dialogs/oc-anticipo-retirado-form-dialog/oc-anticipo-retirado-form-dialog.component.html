@@ -9,7 +9,7 @@
     <app-tipo-anticipo-by-flete-field
       [fleteId]="fleteId"
       [form]="form"
-      (valueChange)="tipoAnticipo = $event"
+      (valueChange)="tipoAnticipoChange($event)"
     ></app-tipo-anticipo-by-flete-field>
     <ng-container *ngIf="isTipoInsumo">
       <app-tipo-insumo-by-flete-field
@@ -34,14 +34,6 @@
         [puntoVentaId]="puntoVentaId"
         [form]="form"
       ></app-moneda-by-insumo-punto-venta-field>
-      <mat-form-field class="precio">
-        <mat-label>Precios</mat-label>
-        <input matInput formControlName="insumo_punto_venta_precio_id" hidden />
-        <input matInput [value]="insumoPuntoVentaPrecio?.precio" appInputThousandsSeparator disabled/>
-        <mat-error *ngIf="insumoPuntoVentaPrecioControl.hasError('required')">
-          El precio del insumo y proveedor no fue <strong>encontrado</strong>
-        </mat-error>
-      </mat-form-field>
     </ng-container>
     <ng-container *ngIf="!isTipoInsumo">
       <app-proveedor-field [form]="form"></app-proveedor-field>
@@ -57,18 +49,38 @@
       controlName="numero_comprobante"
       [form]="form"
     ></app-input-field>
-    <mat-form-field>
-      <mat-label>Saldo disponible</mat-label>
-      <input matInput [value]="saldoDisponible" appInputThousandsSeparator disabled/>
-    </mat-form-field>
+    <app-number-field
+      title="Precio unitario"
+      controlName="precio_unitario"
+      [form]="form"
+      [readonly]="true"
+    ></app-number-field>
+    <mat-radio-group
+      aria-label="Seleccione una opción"
+      formControlName="es_con_litro"
+      [hidden]="!isTipoInsumo"
+    >
+      <mat-radio-button [value]="true">Litros</mat-radio-button>
+      <mat-radio-button [value]="false">Monto</mat-radio-button>
+    </mat-radio-group>
+    <div [hidden]="!esConLitro">
+      <app-number-field
+        title="Cantidad retirada"
+        controlName="cantidad_retirada"
+        [form]="form"
+      ></app-number-field>
+    </div>
     <app-number-field
       title="Monto retirado"
       controlName="monto_retirado"
+      [readonly]="esConLitro"
       [form]="form"
+      [hint]="montoRetiradoHint"
     ></app-number-field>
     <mat-form-field>
       <mat-label>Observación</mat-label>
-      <textarea matInput
+      <textarea
+        matInput
         formControlName="observacion"
         cdkTextareaAutosize
         #autosize="cdkTextareaAutosize"
@@ -77,10 +89,15 @@
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>
-      Cancelar
-    </button>
-    <button mat-raised-button type="button" (click)="submit()" cdkFocusInitial color="primary" id="submit-button">
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
       Aceptar
     </button>
   </div>

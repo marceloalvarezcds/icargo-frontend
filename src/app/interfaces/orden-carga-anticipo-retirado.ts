@@ -15,7 +15,7 @@ export interface OrdenCargaAnticipoRetiradoForm {
   orden_carga_id: number;
   punto_venta_id: number;
   tipo_comprobante_id: number;
-  numero_comprobante: string;
+  numero_comprobante: string | null;
   moneda_id: number;
   monto_retirado: number;
   observacion?: string | null;

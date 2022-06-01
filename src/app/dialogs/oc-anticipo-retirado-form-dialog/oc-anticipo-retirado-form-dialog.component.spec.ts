@@ -131,6 +131,7 @@ describe('OcAnticipoRetiradoFormDialogComponent', () => {
       unidad_id: data.unidad_id ?? null,
       cantidad_retirada: data.cantidad_retirada ?? null,
       precio_unitario: data.precio_unitario ?? null,
+      es_con_litro: true,
     });
     tick(500);
     tick(500);

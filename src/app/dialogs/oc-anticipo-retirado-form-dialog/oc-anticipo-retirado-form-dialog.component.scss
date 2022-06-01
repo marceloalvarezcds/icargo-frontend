@@ -5,6 +5,9 @@
 }
 
 .mat-dialog-content::ng-deep {
+  .hint-alert {
+    color: #ee6904;
+  }
   .mat-input-element:disabled,
   .mat-select-disabled .mat-select-value {
     color: rgba(0, 0, 0, 0.87);

@@ -1,7 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { filter } from 'rxjs/operators';
+import { combineLatest } from 'rxjs';
+import { filter, map } from 'rxjs/operators';
 import { TipoAnticipoEnum } from 'src/app/enums/tipo-anticipo-enum';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { InsumoPuntoVentaPrecio } from 'src/app/interfaces/insumo-punto-venta-precio';
@@ -13,6 +14,7 @@ import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-ven
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
 import { valueChange, valueMerge } from 'src/app/utils/form-control';
+import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
 @Component({
@@ -35,16 +37,43 @@ export class OcAnticipoRetiradoFormDialogComponent
     proveedor_id: [this.data?.proveedor_id, Validators.required],
     punto_venta_id: [this.data?.punto_venta_id, Validators.required],
     moneda_id: [this.data?.moneda_id, Validators.required],
-    tipo_comprobante_id: [this.data?.tipo_comprobante_id, Validators.required],
-    numero_comprobante: [this.data?.numero_comprobante, Validators.required],
-    monto_retirado: [this.data?.monto_retirado, Validators.required],
+    tipo_comprobante_id: this.data?.tipo_comprobante_id,
+    numero_comprobante: this.data?.numero_comprobante,
+    monto_retirado: [
+      this.data?.monto_retirado,
+      [Validators.required, Validators.min(0)],
+    ],
     insumo_id: this.data?.insumo_id,
     insumo_punto_venta_precio_id: this.data?.insumo_punto_venta_precio_id,
     observacion: this.data?.observacion,
     unidad_id: this.data?.unidad_id,
-    cantidad_retirada: this.data?.cantidad_retirada,
+    cantidad_retirada: [this.data?.cantidad_retirada, Validators.min(0)],
     precio_unitario: this.data?.precio_unitario,
+    es_con_litro: true,
   });
+
+  esConLitroSubscription = this.esConLitroControl.valueChanges
+    .pipe(filter((v) => !!v))
+    .subscribe((esConLitro) => {
+      if (esConLitro) {
+        const cantidad = this.cantidadControl.value;
+        const precio = this.precioUnitarioControl.value;
+        if (cantidad && precio) {
+          this.montoRetiradoControl.setValue(
+            roundString(cantidad) * roundString(precio)
+          );
+        }
+      }
+    });
+
+  litroSubscription = combineLatest([
+    this.form.controls['cantidad_retirada'].valueChanges,
+    this.precioUnitarioControl.valueChanges,
+  ])
+    .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
+    .subscribe(([cantidad, precio]) => {
+      this.montoRetiradoControl.setValue(round(cantidad * precio));
+    });
 
   tipoAnticipoSubscription = valueChange(this.tipoAnticipoControl).subscribe(
     () => {
@@ -118,6 +147,10 @@ export class OcAnticipoRetiradoFormDialogComponent
     return this.data ? 'Editar' : 'Crear';
   }
 
+  get cantidadControl(): FormControl {
+    return this.form.get('cantidad_retirada') as FormControl;
+  }
+
   get data(): OrdenCargaAnticipoRetirado | undefined {
     return this.dialogData?.item;
   }
@@ -132,6 +165,14 @@ export class OcAnticipoRetiradoFormDialogComponent
 
   get fleteId(): number {
     return this.dialogData.flete_id;
+  }
+
+  get esConLitro(): boolean {
+    return this.esConLitroControl.value;
+  }
+
+  get esConLitroControl(): FormControl {
+    return this.form.get('es_con_litro') as FormControl;
   }
 
   get isTipoInsumo(): boolean {
@@ -162,8 +203,23 @@ export class OcAnticipoRetiradoFormDialogComponent
     return this.monedaControl.value;
   }
 
+  get monto(): number {
+    return roundString(this.montoRetiradoControl.value);
+  }
+
   get montoRetiradoControl(): FormControl {
     return this.form.get('monto_retirado') as FormControl;
+  }
+
+  get montoRetiradoHint(): string {
+    if (this.monto > this.saldoDisponible) {
+      return `<span class="hint-alert">El monto supera en <strong>${subtract(
+        this.monto,
+        this.saldoDisponible
+      ).toLocaleString()}</strong> al Saldo</span>`;
+    }
+    let text = `Saldo <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
+    return text;
   }
 
   get montoRetirado(): number {
@@ -172,6 +228,10 @@ export class OcAnticipoRetiradoFormDialogComponent
 
   get ordenCargaId(): number {
     return this.dialogData.orden_carga_id;
+  }
+
+  get precioUnitarioControl(): FormControl {
+    return this.form.get('precio_unitario') as FormControl;
   }
 
   get proveedorControl(): FormControl {
@@ -225,8 +285,10 @@ export class OcAnticipoRetiradoFormDialogComponent
   }
 
   ngOnDestroy(): void {
+    this.esConLitroSubscription.unsubscribe();
     this.fleteAnticipoSubscription.unsubscribe();
     this.insumoPuntoVentaPrecioSubscription.unsubscribe();
+    this.litroSubscription.unsubscribe();
     this.tipoAnticipoSubscription.unsubscribe();
   }
 
@@ -255,6 +317,11 @@ export class OcAnticipoRetiradoFormDialogComponent
     }
   }
 
+  tipoAnticipoChange(event: TipoAnticipo): void {
+    this.tipoAnticipo = event;
+    this.esConLitroControl.setValue(this.isTipoInsumo);
+  }
+
   private close(data: OrdenCargaAnticipoRetirado): void {
     this.dialogRef.close(data);
   }
@@ -281,18 +348,22 @@ export class OcAnticipoRetiradoFormDialogComponent
     if (precio) {
       this.insumoPuntoVentaPrecio = precio;
       this.insumoPuntoVentaPrecioControl.setValue(precio.id);
+      this.precioUnitarioControl.setValue(precio.precio);
     } else {
       this.insumoPuntoVentaPrecioControl.setValue(null);
       this.insumoPuntoVentaPrecioControl.markAsTouched();
       this.insumoPuntoVentaPrecioControl.markAsDirty();
+      this.precioUnitarioControl.setValue(null);
     }
   }
 
   private setOrdenCargaAnticipoSaldo(saldo: number): void {
     this.saldoAnticipo = saldo;
-    this.montoRetiradoControl.setValidators(
-      NumberValidator.max(this.saldoDisponible)
-    );
+    this.montoRetiradoControl.setValidators([
+      Validators.required,
+      Validators.min(0),
+      NumberValidator.max(this.saldoDisponible),
+    ]);
     this.montoRetiradoControl.updateValueAndValidity();
   }
 }
