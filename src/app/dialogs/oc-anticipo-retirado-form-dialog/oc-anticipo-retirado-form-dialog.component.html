@@ -18,7 +18,12 @@
       ></app-insumo-punto-venta-precio-dialog-field>
       <div><strong>Proveedor: </strong>{{ proveedor }}</div>
       <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
-      <div class="space-bottom"><strong>Insumo: </strong>{{ insumo }}</div>
+      <div><strong>Insumo: </strong>{{ insumo }}</div>
+      <div><strong>Moneda: </strong>{{ moneda }}</div>
+      <div class="space-bottom">
+        <strong>Precio Unitario: </strong
+        >{{ precioUnitarioControl.value | numberFormat }}
+      </div>
     </ng-container>
     <ng-container *ngIf="!isTipoInsumo">
       <app-punto-venta-dialog-field
@@ -28,21 +33,8 @@
       <div class="space-bottom">
         <strong>Proveedor: </strong>{{ proveedor }}
       </div>
+      <app-moneda-field [form]="form"></app-moneda-field>
     </ng-container>
-    <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
-    <app-input-field
-      title="Nº de comprobante"
-      controlName="numero_comprobante"
-      [form]="form"
-    ></app-input-field>
-    <app-moneda-field [form]="form"></app-moneda-field>
-    <app-number-field
-      title="Precio unitario"
-      controlName="precio_unitario"
-      [hidden]="!isTipoInsumo"
-      [form]="form"
-      [readonly]="true"
-    ></app-number-field>
     <mat-radio-group
       aria-label="Seleccione una opción"
       formControlName="es_con_litro"
@@ -75,6 +67,12 @@
         cdkAutosizeMinRows="1"
       ></textarea>
     </mat-form-field>
+    <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
+    <app-input-field
+      title="Nº de comprobante"
+      controlName="numero_comprobante"
+      [form]="form"
+    ></app-input-field>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
