@@ -5,15 +5,15 @@ import { combineLatest } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import { TipoAnticipoEnum } from 'src/app/enums/tipo-anticipo-enum';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
-import { InsumoPuntoVentaPrecio } from 'src/app/interfaces/insumo-punto-venta-precio';
+import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { TipoAnticipo } from 'src/app/interfaces/tipo-anticipo';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
-import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
-import { valueChange, valueMerge } from 'src/app/utils/form-control';
+import { valueMerge } from 'src/app/utils/form-control';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
@@ -26,7 +26,9 @@ export class OcAnticipoRetiradoFormDialogComponent
   implements OnDestroy, OnInit
 {
   fleteAnticipo?: FleteAnticipo;
-  insumoPuntoVentaPrecio?: InsumoPuntoVentaPrecio;
+  insumo?: string;
+  proveedor?: string;
+  tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
 
@@ -49,7 +51,7 @@ export class OcAnticipoRetiradoFormDialogComponent
     unidad_id: this.data?.unidad_id,
     cantidad_retirada: [this.data?.cantidad_retirada, Validators.min(0)],
     precio_unitario: this.data?.precio_unitario,
-    es_con_litro: true,
+    es_con_litro: !!this.data?.cantidad_retirada,
   });
 
   esConLitroSubscription = this.esConLitroControl.valueChanges
@@ -75,27 +77,6 @@ export class OcAnticipoRetiradoFormDialogComponent
       this.montoRetiradoControl.setValue(round(cantidad * precio));
     });
 
-  tipoAnticipoSubscription = valueChange(this.tipoAnticipoControl).subscribe(
-    () => {
-      setTimeout(() => {
-        if (this.isTipoInsumo) {
-          this.insumoControl.setValidators(Validators.required);
-          this.insumoPuntoVentaPrecioControl.setValidators(Validators.required);
-          this.tipoInsumoControl.setValidators(Validators.required);
-        } else {
-          this.insumoControl.removeValidators(Validators.required);
-          this.insumoPuntoVentaPrecioControl.removeValidators(
-            Validators.required
-          );
-          this.tipoInsumoControl.removeValidators(Validators.required);
-        }
-        this.insumoControl.updateValueAndValidity();
-        this.insumoPuntoVentaPrecioControl.updateValueAndValidity();
-        this.tipoInsumoControl.updateValueAndValidity();
-      }, 500);
-    }
-  );
-
   fleteAnticipoSubscription = valueMerge(
     this.tipoAnticipoControl,
     this.tipoInsumoControl
@@ -118,30 +99,6 @@ export class OcAnticipoRetiradoFormDialogComponent
       }
     }, 500);
   });
-
-  insumoPuntoVentaPrecioSubscription = valueMerge(
-    this.insumoControl,
-    this.monedaControl,
-    this.puntoVentaControl
-  )
-    .pipe(
-      filter(
-        () =>
-          this.isTipoInsumo &&
-          !!this.insumoId &&
-          !!this.monedaId &&
-          !!this.puntoVentaId
-      )
-    )
-    .subscribe(() => {
-      this.insumoPuntoVentaPrecioService
-        .getByInsumoIdAndMonedaIdAndPuntoVentaId(
-          this.insumoId!,
-          this.monedaId!,
-          this.puntoVentaId!
-        )
-        .subscribe(this.setInsumoPuntoVentaPrecio.bind(this));
-    });
 
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';
@@ -272,7 +229,6 @@ export class OcAnticipoRetiradoFormDialogComponent
 
   constructor(
     private fleteAnticipoService: FleteAnticipoService,
-    private insumoPuntoVentaPrecioService: InsumoPuntoVentaPrecioService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoFormDialogComponent>,
@@ -287,9 +243,7 @@ export class OcAnticipoRetiradoFormDialogComponent
   ngOnDestroy(): void {
     this.esConLitroSubscription.unsubscribe();
     this.fleteAnticipoSubscription.unsubscribe();
-    this.insumoPuntoVentaPrecioSubscription.unsubscribe();
     this.litroSubscription.unsubscribe();
-    this.tipoAnticipoSubscription.unsubscribe();
   }
 
   submit() {
@@ -320,6 +274,35 @@ export class OcAnticipoRetiradoFormDialogComponent
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.tipoAnticipo = event;
     this.esConLitroControl.setValue(this.isTipoInsumo);
+    if (this.isTipoInsumo) {
+      this.insumoControl.setValidators(Validators.required);
+      this.insumoPuntoVentaPrecioControl.setValidators(Validators.required);
+      this.tipoInsumoControl.setValidators(Validators.required);
+    } else {
+      this.insumoControl.removeValidators(Validators.required);
+      this.insumoPuntoVentaPrecioControl.removeValidators(Validators.required);
+      this.tipoInsumoControl.removeValidators(Validators.required);
+    }
+    this.insumoControl.updateValueAndValidity();
+    this.insumoPuntoVentaPrecioControl.updateValueAndValidity();
+    this.tipoInsumoControl.updateValueAndValidity();
+  }
+
+  insumoPuntoVentaPrecioChange(event: InsumoPuntoVentaPrecioList): void {
+    this.insumo = event.insumo_descripcion;
+    this.insumoControl.setValue(event.insumo_id);
+    this.monedaControl.setValue(event.insumo_moneda_id);
+    this.proveedor = event.proveedor_nombre;
+    this.proveedorControl.setValue(event.proveedor_id);
+    this.puntoVentaControl.setValue(event.punto_venta_id);
+    this.tipoInsumo = event.insumo_tipo_descripcion;
+    this.tipoInsumoControl.setValue(event.insumo_tipo_id);
+    this.precioUnitarioControl.setValue(event.precio);
+  }
+
+  puntoVentaChange(event: PuntoVentaList): void {
+    this.proveedor = event.proveedor_nombre;
+    this.proveedorControl.setValue(event.proveedor_id);
   }
 
   private close(data: OrdenCargaAnticipoRetirado): void {
@@ -340,21 +323,6 @@ export class OcAnticipoRetiradoFormDialogComponent
     this.fleteAnticipo = fleteAnticipo;
     this.fleteAnticipoControl.setValue(fleteAnticipo.id);
     this.loadOrdenCargaAnticipoSaldo(fleteAnticipo.id);
-  }
-
-  private setInsumoPuntoVentaPrecio(
-    precio: InsumoPuntoVentaPrecio | null
-  ): void {
-    if (precio) {
-      this.insumoPuntoVentaPrecio = precio;
-      this.insumoPuntoVentaPrecioControl.setValue(precio.id);
-      this.precioUnitarioControl.setValue(precio.precio);
-    } else {
-      this.insumoPuntoVentaPrecioControl.setValue(null);
-      this.insumoPuntoVentaPrecioControl.markAsTouched();
-      this.insumoPuntoVentaPrecioControl.markAsDirty();
-      this.precioUnitarioControl.setValue(null);
-    }
   }
 
   private setOrdenCargaAnticipoSaldo(saldo: number): void {

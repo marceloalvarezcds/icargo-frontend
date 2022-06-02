@@ -5,20 +5,28 @@ import { environment } from 'src/environments/environment';
 import { PuntoVenta, PuntoVentaList } from '../interfaces/punto-venta';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PuntoVentaService {
-
   private url = `${environment.api}/punto_venta`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(proveedorId: number): Observable<PuntoVentaList[]> {
     return this.http.get<PuntoVentaList[]>(`${this.url}/${proveedorId}/`);
   }
 
-  getListByInsumoIdAndProveedorId(insumoId: number, proveedorId: number): Observable<PuntoVentaList[]> {
-    return this.http.get<PuntoVentaList[]>(`${this.url}/insumo/${insumoId}/proveedor/${proveedorId}`);
+  getListByGestor(): Observable<PuntoVentaList[]> {
+    return this.http.get<PuntoVentaList[]>(`${this.url}/`);
+  }
+
+  getListByInsumoIdAndProveedorId(
+    insumoId: number,
+    proveedorId: number
+  ): Observable<PuntoVentaList[]> {
+    return this.http.get<PuntoVentaList[]>(
+      `${this.url}/insumo/${insumoId}/proveedor/${proveedorId}`
+    );
   }
 
   getById(id: number): Observable<PuntoVenta> {

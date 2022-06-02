@@ -18,14 +18,24 @@ export interface InsumoPuntoVentaPrecio {
 
 export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
   insumo_punto_venta_id: number;
-  estado: EstadoEnum
+  estado: EstadoEnum;
+  ciudad_nombre: string | null;
   gestor_carga_id: number;
   gestor_carga_nombre: string;
+  insumo_id: number;
   insumo_descripcion: string;
+  insumo_moneda_id: number;
   insumo_moneda_nombre: string;
+  insumo_tipo_id: number;
   insumo_tipo_descripcion: string;
   insumo_unidad_abreviatura?: string | null;
   insumo_unidad_descripcion?: string | null;
+  localidad_nombre: string | null;
+  pais_nombre: string | null;
+  pais_nombre_corto: string | null;
+  proveedor_id: number;
+  proveedor_nombre: string;
+  punto_venta_id: number;
   punto_venta_nombre: string;
 }
 
