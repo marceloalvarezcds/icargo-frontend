@@ -10,4 +10,5 @@ import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 export class EstadoCuentaDetalleComponent {
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
+  @Input() showVistaConsolidada = true;
 }
