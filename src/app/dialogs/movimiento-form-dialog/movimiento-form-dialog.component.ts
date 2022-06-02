@@ -149,6 +149,9 @@ export class MovimientoFormDialogComponent {
     this.tipo = event;
     if (event.descripcion !== TipoContraparteEnum.OTRO) {
       this.openField = false;
+    } else if (!this.openField) {
+      this.contraparteControl.setValue(null);
+      this.contraparteNumeroDocumentoControl.setValue(null);
     }
   }
 

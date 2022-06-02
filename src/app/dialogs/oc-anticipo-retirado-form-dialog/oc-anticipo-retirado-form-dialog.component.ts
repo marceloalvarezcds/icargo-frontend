@@ -27,6 +27,7 @@ export class OcAnticipoRetiradoFormDialogComponent
 {
   fleteAnticipo?: FleteAnticipo;
   insumo?: string;
+  moneda?: string;
   proveedor?: string;
   tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
@@ -286,23 +287,26 @@ export class OcAnticipoRetiradoFormDialogComponent
     this.insumoControl.updateValueAndValidity();
     this.insumoPuntoVentaPrecioControl.updateValueAndValidity();
     this.tipoInsumoControl.updateValueAndValidity();
+    this.insumoPuntoVentaPrecioChange();
+    this.puntoVentaChange();
   }
 
-  insumoPuntoVentaPrecioChange(event: InsumoPuntoVentaPrecioList): void {
-    this.insumo = event.insumo_descripcion;
-    this.insumoControl.setValue(event.insumo_id);
-    this.monedaControl.setValue(event.insumo_moneda_id);
-    this.proveedor = event.proveedor_nombre;
-    this.proveedorControl.setValue(event.proveedor_id);
-    this.puntoVentaControl.setValue(event.punto_venta_id);
-    this.tipoInsumo = event.insumo_tipo_descripcion;
-    this.tipoInsumoControl.setValue(event.insumo_tipo_id);
-    this.precioUnitarioControl.setValue(event.precio);
+  insumoPuntoVentaPrecioChange(event?: InsumoPuntoVentaPrecioList): void {
+    this.insumo = event?.insumo_descripcion;
+    this.insumoControl.setValue(event?.insumo_id);
+    this.moneda = event?.insumo_moneda_nombre;
+    this.monedaControl.setValue(event?.insumo_moneda_id);
+    this.proveedor = event?.proveedor_nombre;
+    this.proveedorControl.setValue(event?.proveedor_id);
+    this.puntoVentaControl.setValue(event?.punto_venta_id);
+    this.tipoInsumo = event?.insumo_tipo_descripcion;
+    this.tipoInsumoControl.setValue(event?.insumo_tipo_id);
+    this.precioUnitarioControl.setValue(event?.precio);
   }
 
-  puntoVentaChange(event: PuntoVentaList): void {
-    this.proveedor = event.proveedor_nombre;
-    this.proveedorControl.setValue(event.proveedor_id);
+  puntoVentaChange(event?: PuntoVentaList): void {
+    this.proveedor = event?.proveedor_nombre;
+    this.proveedorControl.setValue(event?.proveedor_id);
   }
 
   private close(data: OrdenCargaAnticipoRetirado): void {
