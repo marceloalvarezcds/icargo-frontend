@@ -145,6 +145,13 @@ export class MovimientoFormDialogComponent {
     }
   }
 
+  tipoContraparteChange(event: TipoContraparte): void {
+    this.tipo = event;
+    if (event.descripcion !== TipoContraparteEnum.OTRO) {
+      this.openField = false;
+    }
+  }
+
   private close(data: MovimientoForm): void {
     this.dialogRef.close(data);
   }

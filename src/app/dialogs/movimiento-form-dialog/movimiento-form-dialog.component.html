@@ -16,7 +16,7 @@
     <app-tipo-contraparte-field
       [form]="form"
       [readonly]="!isContraparteEditable"
-      (valueChange)="tipo = $event"
+      (valueChange)="$event && tipoContraparteChange($event)"
     ></app-tipo-contraparte-field>
     <button
       *ngIf="isOtro && isContraparteEditable"

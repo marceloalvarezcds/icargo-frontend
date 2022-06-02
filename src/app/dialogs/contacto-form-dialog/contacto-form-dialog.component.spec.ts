@@ -1,6 +1,14 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -39,13 +47,12 @@ describe('ContactoFormDialogComponent', () => {
       providers: [
         AuthService,
         UserService,
-        { provide: MatDialogRef, useValue: { close: (v: any) => {} }},
+        { provide: MatDialogRef, useValue: { close: (v: any) => {} } },
         { provide: MAT_DIALOG_DATA, useValue: contacto },
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ ContactoFormDialogComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [ContactoFormDialogComponent],
+    }).compileComponents();
   });
 
   it('should create', () => {
@@ -66,7 +73,8 @@ describe('ContactoFormDialogComponent', () => {
     fixture.detectChanges();
 
     const submitSpy = spyOn(component, 'submit').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('#submit-button');
 
     button.click();
     tick();
@@ -82,7 +90,8 @@ describe('ContactoFormDialogComponent', () => {
     fixture.detectChanges();
 
     const submitSpy = spyOn(component, 'submit').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('#submit-button');
 
     button.click();
     tick();
@@ -99,7 +108,8 @@ describe('ContactoFormDialogComponent', () => {
     fixture.detectChanges();
 
     const submitSpy = spyOn(component, 'submit').and.callThrough();
-    const button = fixture.debugElement.nativeElement.querySelector('#submit-button');
+    const button =
+      fixture.debugElement.nativeElement.querySelector('#submit-button');
     const telefono = contacto.contacto_telefono;
     const email = contacto.contacto_email;
 
@@ -111,9 +121,14 @@ describe('ContactoFormDialogComponent', () => {
       alias: contacto.alias,
       cargo: contacto.cargo,
     });
+    component.emailBlur$.next(true);
+    component.telefonoBlur$.next(true);
+    tick();
 
     httpController.expectOne(`${environment.api}/cargo/`).flush(mockCargoList);
-    httpController.expectOne(`${environment.api}/contacto/${telefono}/${email}`).flush(mockContacto);
+    httpController
+      .expectOne(`${environment.api}/contacto/${telefono}/${email}`)
+      .flush(mockContacto);
     button.click();
     tick();
     expect(component.form.valid).toBeTruthy();

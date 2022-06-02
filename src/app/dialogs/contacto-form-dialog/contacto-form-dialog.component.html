@@ -13,6 +13,8 @@
         placeholder="Teléfono"
         appAutofocus
         appFormatToPastePhone
+        (focus)="telefonoBlur$.next(false)"
+        (blur)="telefonoBlur$.next(true)"
       />
       <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
       <mat-error *ngIf="form.get('telefono')?.hasError('required')">
@@ -23,7 +25,13 @@
       </mat-error>
     </mat-form-field>
     <mat-form-field>
-      <input matInput formControlName="email" placeholder="E-mail" />
+      <input
+        matInput
+        formControlName="email"
+        placeholder="E-mail"
+        (focus)="emailBlur$.next(false)"
+        (blur)="emailBlur$.next(true)"
+      />
       <mat-error *ngIf="form.get('email')?.hasError('required')">
         El e-mail es <strong>requerido</strong>
       </mat-error>
@@ -31,7 +39,7 @@
         El e-mail es <strong>inválido</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
       <input
         matInput
         formControlName="nombre"
@@ -42,7 +50,7 @@
         El nombre es <strong>requerido</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
+    <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
       <input
         matInput
         formControlName="apellido"
