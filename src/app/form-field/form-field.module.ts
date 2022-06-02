@@ -29,6 +29,7 @@ import { GenericListFieldComponent } from './generic-list-field/generic-list-fie
 import { InputFieldComponent } from './input-field/input-field.component';
 import { InstrumentoViaFieldComponent } from './instrumento-via-field/instrumento-via-field.component';
 import { InsumoByTipoFieldComponent } from './insumo-by-tipo-field/insumo-by-tipo-field.component';
+import { InsumoPuntoVentaPrecioDialogFieldComponent } from './insumo-punto-venta-precio-dialog-field/insumo-punto-venta-precio-dialog-field.component';
 import { LocalidadFieldComponent } from './localidad-field/localidad-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
@@ -45,6 +46,7 @@ import { ProveedorByInsumoFieldComponent } from './proveedor-by-insumo-field/pro
 import { ProveedorFieldComponent } from './proveedor-field/proveedor-field.component';
 import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insumo-proveedor-field/punto-venta-by-insumo-proveedor-field.component';
 import { PuntoVentaByProveedorFieldComponent } from './punto-venta-by-proveedor-field/punto-venta-by-proveedor-field.component';
+import { PuntoVentaDialogFieldComponent } from './punto-venta-dialog-field/punto-venta-dialog-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { SemiByCamionProductoFieldComponent } from './semi-by-camion-producto-field/semi-by-camion-producto-field.component';
 import { SemiByGestorDialogFieldComponent } from './semi-by-gestor-dialog-field/semi-by-gestor-dialog-field.component';
@@ -93,6 +95,7 @@ const modules = [
   InputFieldComponent,
   InstrumentoViaFieldComponent,
   InsumoByTipoFieldComponent,
+  InsumoPuntoVentaPrecioDialogFieldComponent,
   LocalidadFieldComponent,
   MarcaCamionFieldComponent,
   MarcaSemiFieldComponent,
@@ -109,6 +112,7 @@ const modules = [
   ProveedorFieldComponent,
   PuntoVentaByInsumoProveedorFieldComponent,
   PuntoVentaByProveedorFieldComponent,
+  PuntoVentaDialogFieldComponent,
   RemitenteFieldComponent,
   SemiByCamionProductoFieldComponent,
   SemiByGestorDialogFieldComponent,

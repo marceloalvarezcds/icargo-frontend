@@ -12,36 +12,22 @@
       (valueChange)="tipoAnticipoChange($event)"
     ></app-tipo-anticipo-by-flete-field>
     <ng-container *ngIf="isTipoInsumo">
-      <app-tipo-insumo-by-flete-field
-        [fleteId]="fleteId"
+      <app-insumo-punto-venta-precio-dialog-field
         [form]="form"
-      ></app-tipo-insumo-by-flete-field>
-      <app-insumo-by-tipo-field
-        [tipoInsumoId]="tipoInsumoId"
-        [form]="form"
-      ></app-insumo-by-tipo-field>
-      <app-proveedor-by-insumo-field
-        [insumoId]="insumoId"
-        [form]="form"
-      ></app-proveedor-by-insumo-field>
-      <app-punto-venta-by-insumo-proveedor-field
-        [insumoId]="insumoId"
-        [proveedorId]="proveedorId"
-        [form]="form"
-      ></app-punto-venta-by-insumo-proveedor-field>
-      <app-moneda-by-insumo-punto-venta-field
-        [insumoId]="insumoId"
-        [puntoVentaId]="puntoVentaId"
-        [form]="form"
-      ></app-moneda-by-insumo-punto-venta-field>
+        (valueChange)="$event && insumoPuntoVentaPrecioChange($event)"
+      ></app-insumo-punto-venta-precio-dialog-field>
+      <div><strong>Proveedor: </strong>{{ proveedor }}</div>
+      <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
+      <div class="space-bottom"><strong>Insumo: </strong>{{ insumo }}</div>
     </ng-container>
     <ng-container *ngIf="!isTipoInsumo">
-      <app-proveedor-field [form]="form"></app-proveedor-field>
-      <app-punto-venta-by-proveedor-field
-        [proveedorId]="proveedorId"
+      <app-punto-venta-dialog-field
         [form]="form"
-      ></app-punto-venta-by-proveedor-field>
-      <app-moneda-field [form]="form"></app-moneda-field>
+        (valueChange)="$event && puntoVentaChange($event)"
+      ></app-punto-venta-dialog-field>
+      <div class="space-bottom">
+        <strong>Proveedor: </strong>{{ proveedor }}
+      </div>
     </ng-container>
     <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
     <app-input-field
@@ -49,9 +35,11 @@
       controlName="numero_comprobante"
       [form]="form"
     ></app-input-field>
+    <app-moneda-field [form]="form"></app-moneda-field>
     <app-number-field
       title="Precio unitario"
       controlName="precio_unitario"
+      [hidden]="!isTipoInsumo"
       [form]="form"
       [readonly]="true"
     ></app-number-field>
