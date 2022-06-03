@@ -16,7 +16,6 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
-import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-confirmada-form',
@@ -34,6 +33,7 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   movimientos: Movimiento[] = [];
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
   residuo = 0;
+  saldo = 0;
   valorInstrumentos = 0;
 
   get gestorCargaId(): number | undefined {
@@ -48,20 +48,8 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
     return this.item?.comentarios ?? '';
   }
 
-  get credito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.credito, 0);
-  }
-
-  get debito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.debito, 0);
-  }
-
   get instrumentos(): Instrumento[] {
     return this.item?.instrumentos ?? [];
-  }
-
-  get saldo(): number {
-    return subtract(this.credito, this.debito);
   }
 
   constructor(

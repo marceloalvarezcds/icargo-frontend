@@ -12,7 +12,6 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
-import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-edit-form',
@@ -28,6 +27,7 @@ export class LiquidacionEditFormComponent implements OnInit {
   item?: Liquidacion;
   isEdit = false;
   movimientos: Movimiento[] = [];
+  saldo = 0;
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
@@ -39,18 +39,6 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   get comentario(): string {
     return this.item?.comentarios ?? '';
-  }
-
-  get credito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.credito, 0);
-  }
-
-  get debito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.debito, 0);
-  }
-
-  get saldo(): number {
-    return subtract(this.credito, this.debito);
   }
 
   constructor(

@@ -49,7 +49,8 @@ export class FleteFormAnticiposComponent {
     } else {
       list.forEach((item) => {
         const idx = this.formArray.value.findIndex(
-          (it: FleteAnticipo) => it.tipo_id === item.tipo_id
+          (it: FleteAnticipo) =>
+            it.tipo_id === item.tipo_id && it.concepto === item.concepto
         );
         this.formArray.setControl(idx, this.createForm(item));
       });

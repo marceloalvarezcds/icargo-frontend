@@ -21,7 +21,7 @@ export class NumberFieldComponent {
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;
-  @Input() hint?: string;
+  @Input() hint = 'Redondeo automático a 2 decimales';
   @Input() groupName?: string;
   @Input() title = '';
   @Input() readonly = false;

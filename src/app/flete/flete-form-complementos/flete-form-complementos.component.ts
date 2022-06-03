@@ -2,27 +2,53 @@ import { Component, Input } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
-import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ComplementoFormDialogComponent } from 'src/app/dialogs/complemento-form-dialog/complemento-form-dialog.component';
-import { Column } from 'src/app/interfaces/column';
-import { TableEvent } from 'src/app/interfaces/table';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { Column } from 'src/app/interfaces/column';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
+import { TableEvent } from 'src/app/interfaces/table';
 
 @Component({
   selector: 'app-flete-form-complementos',
   templateUrl: './flete-form-complementos.component.html',
-  styleUrls: ['./flete-form-complementos.component.scss']
+  styleUrls: ['./flete-form-complementos.component.scss'],
 })
 export class FleteFormComplementosComponent {
-
   columns: Column[] = [
-    { def: 'concepto_descripcion', title: 'Concepto', value: (element: FleteComplemento) => element.concepto_descripcion, sticky: true },
-    { def: 'remitente_monto', title: 'A Cobrar', value: (element: FleteComplemento) => element.remitente_monto },
-    { def: 'remitente_moneda_nombre', title: 'Moneda', value: (element: FleteComplemento) => element.remitente_moneda_nombre },
-    { def: 'propietario_monto', title: 'A Pagar', value: (element: FleteComplemento) => element.propietario_monto },
-    { def: 'propietario_moneda_nombre', title: 'Moneda', value: (element: FleteComplemento) => element.propietario_moneda_nombre },
-    { def: 'anticipado', title: 'Anticipado', value: (element: FleteComplemento) => element.anticipado ? 'Si' : 'No' },
+    {
+      def: 'concepto_descripcion',
+      title: 'Concepto',
+      value: (element: FleteComplemento) => element.concepto_descripcion,
+      sticky: true,
+    },
+    {
+      def: 'remitente_monto',
+      title: 'A Cobrar',
+      value: (element: FleteComplemento) => element.remitente_monto,
+      type: 'number',
+    },
+    {
+      def: 'remitente_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteComplemento) => element.remitente_moneda_nombre,
+    },
+    {
+      def: 'propietario_monto',
+      title: 'A Pagar',
+      value: (element: FleteComplemento) => element.propietario_monto,
+      type: 'number',
+    },
+    {
+      def: 'propietario_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
+    },
+    {
+      def: 'anticipado',
+      title: 'Anticipado',
+      value: (element: FleteComplemento) => (element.anticipado ? 'Si' : 'No'),
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -43,10 +69,7 @@ export class FleteFormComplementosComponent {
     return this.form!.get('complementos') as FormArray;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private dialog: MatDialog,
-  ) { }
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   create(): void {
     this.dialog

@@ -22,6 +22,8 @@ import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.co
 import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquidacion-finalizada.component';
 import { LiquidacionMovimientosComponent } from './liquidacion-movimientos/liquidacion-movimientos.component';
 import { LiquidacionFormMovimientosComponent } from './liquidacion-form-movimientos/liquidacion-form-movimientos.component';
+import { OperacionComponent } from './operacion/operacion.component';
+import { SaldoComponent } from './saldo/saldo.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { LiquidacionFormMovimientosComponent } from './liquidacion-form-movimien
     LiquidacionFinalizadaComponent,
     LiquidacionMovimientosComponent,
     LiquidacionFormMovimientosComponent,
+    OperacionComponent,
+    SaldoComponent,
   ],
   imports: [
     CommonModule,
