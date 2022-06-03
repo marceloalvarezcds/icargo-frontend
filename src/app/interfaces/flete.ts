@@ -99,10 +99,12 @@ export interface Flete extends FleteFormBaseModel {
   // inicio - Mermas para el Gestor de Cuenta
   merma_gestor_cuenta_moneda: Moneda;
   merma_gestor_cuenta_unidad: Unidad;
+  merma_gestor_cuenta_es_porcentual_descripcion: string;
   // fin - Mermas para el Gestor de Cuenta
   // inicio - Mermas para el Propietario
   merma_propietario_moneda: Moneda;
   merma_propietario_unidad: Unidad;
+  merma_propietario_es_porcentual_descripcion: string;
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
   // INICIO Emisión de Órdenes
@@ -140,10 +142,12 @@ export interface FleteList extends FleteFormBaseModel {
   // inicio - Mermas para el Gestor de Cuenta
   merma_gestor_cuenta_moneda_nombre: string;
   merma_gestor_cuenta_unidad_descripcion: string;
+  merma_gestor_cuenta_es_porcentual_descripcion: string;
   // fin - Mermas para el Gestor de Cuenta
   // inicio - Mermas para el Propietario
   merma_propietario_moneda_nombre: string;
   merma_propietario_unidad_descripcion: string;
+  merma_propietario_es_porcentual_descripcion: string;
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
 }
@@ -224,6 +228,7 @@ export const mockFlete1: Flete = {
   merma_gestor_cuenta_unidad_id: toneladas.id,
   merma_gestor_cuenta_unidad: toneladas,
   merma_gestor_cuenta_es_porcentual: true,
+  merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
   merma_gestor_cuenta_tolerancia: 100,
   // fin - Mermas para el Gestor de Cuenta
   // inicio - Mermas para el Propietario
@@ -233,6 +238,7 @@ export const mockFlete1: Flete = {
   merma_propietario_unidad_id: toneladas.id,
   merma_propietario_unidad: toneladas,
   merma_propietario_es_porcentual: true,
+  merma_propietario_es_porcentual_descripcion: 'Si',
   merma_propietario_tolerancia: 100,
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
@@ -300,6 +306,7 @@ export const mockFlete2: Flete = {
   merma_gestor_cuenta_unidad_id: kilogramos.id,
   merma_gestor_cuenta_unidad: kilogramos,
   merma_gestor_cuenta_es_porcentual: true,
+  merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
   merma_gestor_cuenta_tolerancia: 100,
   // fin - Mermas para el Gestor de Cuenta
   // inicio - Mermas para el Propietario
@@ -309,6 +316,7 @@ export const mockFlete2: Flete = {
   merma_propietario_unidad_id: kilogramos.id,
   merma_propietario_unidad: kilogramos,
   merma_propietario_es_porcentual: true,
+  merma_propietario_es_porcentual_descripcion: 'Si',
   merma_propietario_tolerancia: 100,
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
@@ -379,6 +387,7 @@ export const mockFleteList: FleteList[] = [
     merma_gestor_cuenta_unidad_id: toneladas.id,
     merma_gestor_cuenta_unidad_descripcion: toneladas.descripcion,
     merma_gestor_cuenta_es_porcentual: true,
+    merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
     merma_gestor_cuenta_tolerancia: 100,
     // fin - Mermas para el Gestor de Cuenta
     // inicio - Mermas para el Propietario
@@ -388,6 +397,7 @@ export const mockFleteList: FleteList[] = [
     merma_propietario_unidad_id: toneladas.id,
     merma_propietario_unidad_descripcion: toneladas.descripcion,
     merma_propietario_es_porcentual: true,
+    merma_propietario_es_porcentual_descripcion: 'Si',
     merma_propietario_tolerancia: 100,
     // fin - Mermas para el Propietario
     // FIN Mermas de Fletes
@@ -452,6 +462,7 @@ export const mockFleteList: FleteList[] = [
     merma_gestor_cuenta_unidad_id: kilogramos.id,
     merma_gestor_cuenta_unidad_descripcion: kilogramos.descripcion,
     merma_gestor_cuenta_es_porcentual: true,
+    merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
     merma_gestor_cuenta_tolerancia: 100,
     // fin - Mermas para el Gestor de Cuenta
     // inicio - Mermas para el Propietario
@@ -461,6 +472,7 @@ export const mockFleteList: FleteList[] = [
     merma_propietario_unidad_id: kilogramos.id,
     merma_propietario_unidad_descripcion: kilogramos.descripcion,
     merma_propietario_es_porcentual: true,
+    merma_propietario_es_porcentual_descripcion: 'Si',
     merma_propietario_tolerancia: 100,
     // fin - Mermas para el Propietario
     // FIN Mermas de Fletes
@@ -525,6 +537,7 @@ export const mockFleteList: FleteList[] = [
     merma_gestor_cuenta_unidad_id: litros.id,
     merma_gestor_cuenta_unidad_descripcion: litros.descripcion,
     merma_gestor_cuenta_es_porcentual: true,
+    merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
     merma_gestor_cuenta_tolerancia: 100,
     // fin - Mermas para el Gestor de Cuenta
     // inicio - Mermas para el Propietario
@@ -534,6 +547,7 @@ export const mockFleteList: FleteList[] = [
     merma_propietario_unidad_id: litros.id,
     merma_propietario_unidad_descripcion: litros.descripcion,
     merma_propietario_es_porcentual: true,
+    merma_propietario_es_porcentual_descripcion: 'Si',
     merma_propietario_tolerancia: 100,
     // fin - Mermas para el Propietario
     // FIN Mermas de Fletes

@@ -100,6 +100,7 @@ export class FleteListComponent implements OnInit {
       def: 'distancia',
       title: 'Distancia',
       value: (element: FleteList) => element.distancia,
+      type: 'number',
     },
     {
       def: 'tipo_flete',
@@ -110,6 +111,7 @@ export class FleteListComponent implements OnInit {
       def: 'condicion_cantidad',
       title: 'Cantidad a Transportar',
       value: (element: FleteList) => element.condicion_cantidad,
+      type: 'number',
     },
     {
       def: 'condicion_gestor_cuenta_moneda_nombre',
@@ -121,6 +123,7 @@ export class FleteListComponent implements OnInit {
       def: 'condicion_gestor_cuenta_tarifa',
       title: 'Condición para Gestor - Tarifa',
       value: (element: FleteList) => element.condicion_gestor_cuenta_tarifa,
+      type: 'number',
     },
     {
       def: 'condicion_gestor_cuenta_unidad_descripcion',
@@ -138,6 +141,7 @@ export class FleteListComponent implements OnInit {
       def: 'condicion_propietario_tarifa',
       title: 'Condición para Propietario - Tarifa',
       value: (element: FleteList) => element.condicion_propietario_tarifa,
+      type: 'number',
     },
     {
       def: 'condicion_propietario_unidad_descripcion',
@@ -149,6 +153,7 @@ export class FleteListComponent implements OnInit {
       def: 'merma_gestor_cuenta_valor',
       title: 'Merma para Gestor - Valor',
       value: (element: FleteList) => element.merma_gestor_cuenta_valor,
+      type: 'number',
     },
     {
       def: 'merma_gestor_cuenta_moneda_nombre',
@@ -164,17 +169,20 @@ export class FleteListComponent implements OnInit {
     {
       def: 'merma_gestor_cuenta_es_porcentual',
       title: 'Merma para Gestor - Es Cálculo porcentual',
-      value: (element: FleteList) => element.merma_gestor_cuenta_es_porcentual,
+      value: (element: FleteList) =>
+        element.merma_gestor_cuenta_es_porcentual_descripcion,
     },
     {
       def: 'merma_gestor_cuenta_tolerancia',
       title: 'Merma para Gestor - Tolerancia',
       value: (element: FleteList) => element.merma_gestor_cuenta_tolerancia,
+      type: 'number',
     },
     {
       def: 'merma_propietario_valor',
       title: 'Merma para Propietario - Valor',
       value: (element: FleteList) => element.merma_propietario_valor,
+      type: 'number',
     },
     {
       def: 'merma_propietario_moneda_nombre',
@@ -190,12 +198,14 @@ export class FleteListComponent implements OnInit {
     {
       def: 'merma_propietario_es_porcentual',
       title: 'Merma para Propietario - Es Cálculo porcentual',
-      value: (element: FleteList) => element.merma_propietario_es_porcentual,
+      value: (element: FleteList) =>
+        element.merma_propietario_es_porcentual_descripcion,
     },
     {
       def: 'merma_propietario_tolerancia',
       title: 'Merma para Propietario - Tolerancia',
       value: (element: FleteList) => element.merma_propietario_tolerancia,
+      type: 'number',
     },
     {
       def: 'vigencia_anticipos',

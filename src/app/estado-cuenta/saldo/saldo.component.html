@@ -1,0 +1,19 @@
+<div class="row page-form-row">
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Debe</mat-label>
+    <input matInput [value]="credito" appInputThousandsSeparator disabled />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Haber</mat-label>
+    <input matInput [value]="debito" appInputThousandsSeparator disabled />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Saldo | Total de la Selección</mat-label>
+    <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+  </mat-form-field>
+  <app-operacion
+    *ngIf="!hideOperacion"
+    class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
+    [saldo]="saldo"
+  ></app-operacion>
+</div>

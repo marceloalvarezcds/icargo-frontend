@@ -1,0 +1,23 @@
+.operacion-container {
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  height: 50.0625px;
+  margin: 0.25em 0;
+  margin-bottom: 1.34375em;
+}
+
+.cobro::ng-deep {
+  .operacion-container {
+    color: #2f5f1c;
+    background-color: #90eb98;
+  }
+}
+
+.pago::ng-deep {
+  .operacion-container {
+    color: #ed3c37;
+    background-color: #fbe5d7;
+  }
+}

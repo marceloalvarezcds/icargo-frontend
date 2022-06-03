@@ -4,26 +4,56 @@ import { MatDialog } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { DescuentoFormDialogComponent } from 'src/app/dialogs/descuento-form-dialog/descuento-form-dialog.component';
+import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
 import { TableEvent } from 'src/app/interfaces/table';
-import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 
 @Component({
   selector: 'app-flete-form-descuentos',
   templateUrl: './flete-form-descuentos.component.html',
-  styleUrls: ['./flete-form-descuentos.component.scss']
+  styleUrls: ['./flete-form-descuentos.component.scss'],
 })
 export class FleteFormDescuentosComponent {
-
   columns: Column[] = [
-    { def: 'concepto_descripcion', title: 'Concepto', value: (element: FleteDescuento) => element.concepto_descripcion, sticky: true },
-    { def: 'propietario_monto', title: 'A Cobrar', value: (element: FleteDescuento) => element.propietario_monto },
-    { def: 'propietario_moneda_nombre', title: 'Moneda', value: (element: FleteDescuento) => element.propietario_moneda_nombre },
-    { def: 'proveedor_monto', title: 'A Pagar', value: (element: FleteDescuento) => element.proveedor_monto },
-    { def: 'proveedor_moneda_nombre', title: 'Moneda', value: (element: FleteDescuento) => element.proveedor_moneda_nombre },
-    { def: 'anticipado', title: 'Anticipado', value: (element: FleteDescuento) => element.anticipado ? 'Si' : 'No' },
-    { def: 'proveedor_nombre', title: 'Proveedor', value: (element: FleteDescuento) => element.proveedor_nombre },
+    {
+      def: 'concepto_descripcion',
+      title: 'Concepto',
+      value: (element: FleteDescuento) => element.concepto_descripcion,
+      sticky: true,
+    },
+    {
+      def: 'propietario_monto',
+      title: 'A Cobrar',
+      value: (element: FleteDescuento) => element.propietario_monto,
+      type: 'number',
+    },
+    {
+      def: 'propietario_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteDescuento) => element.propietario_moneda_nombre,
+    },
+    {
+      def: 'proveedor_monto',
+      title: 'A Pagar',
+      value: (element: FleteDescuento) => element.proveedor_monto,
+      type: 'number',
+    },
+    {
+      def: 'proveedor_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteDescuento) => element.proveedor_moneda_nombre,
+    },
+    {
+      def: 'anticipado',
+      title: 'Anticipado',
+      value: (element: FleteDescuento) => (element.anticipado ? 'Si' : 'No'),
+    },
+    {
+      def: 'proveedor_nombre',
+      title: 'Proveedor',
+      value: (element: FleteDescuento) => element.proveedor_nombre,
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -44,10 +74,7 @@ export class FleteFormDescuentosComponent {
     return this.form!.get('descuentos') as FormArray;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private dialog: MatDialog,
-  ) { }
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   create(): void {
     this.dialog

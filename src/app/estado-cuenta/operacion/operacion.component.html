@@ -1,0 +1,9 @@
+<ng-container *ngIf="esCobro || esPago">
+  <div [class.cobro]="esCobro" [class.pago]="esPago">
+    <div class="operacion-container row middle-xs center-xs">
+      <div class="col">
+        {{ operacion }}
+      </div>
+    </div>
+  </div>
+</ng-container>
