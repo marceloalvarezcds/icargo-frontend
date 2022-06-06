@@ -43,10 +43,9 @@ export class CamionFormCombinacionComponent {
         `Nº ${element.semi_id}: (${element.semi_info})`,
     },
     {
-      def: 'producto_descripcion',
+      def: 'producto_info',
       title: 'Producto',
-      value: (element: CamionSemiNeto) =>
-        `Nº ${element.producto_id}: (${element.producto_descripcion})`,
+      value: (element: CamionSemiNeto) => element.producto_info,
     },
     {
       def: 'neto',

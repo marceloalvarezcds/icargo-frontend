@@ -91,7 +91,9 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     if (
       !this.isEdit ||
       !(
-        this.estado === EstadoEnum.NUEVO || this.estado === EstadoEnum.PENDIENTE
+        this.estado === EstadoEnum.NUEVO ||
+        this.estado === EstadoEnum.PENDIENTE ||
+        this.item?.is_conciliado
       )
     ) {
       return false;

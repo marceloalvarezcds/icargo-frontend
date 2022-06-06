@@ -3,7 +3,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 export interface CamionSemiNetoForm {
   camion_id: number;
   semi_id: number;
-  producto_id?: number | null;
+  producto_id: number | null;
   neto: number;
 }
 
@@ -13,7 +13,8 @@ export interface CamionSemiNeto extends CamionSemiNetoForm {
   camion_placa: string;
   semi_info: string;
   semi_placa: string;
-  producto_descripcion?: string | null;
+  producto_descripcion: string | null;
+  producto_info: string | null;
   gestor_carga_id: number;
   gestor_carga_nombre: string;
   estado: EstadoEnum;
@@ -36,6 +37,7 @@ export const mockCamionSemiNetoList: CamionSemiNeto[] = [
     semi_info: '1800100100',
     semi_placa: '1800100100',
     producto_descripcion: null,
+    producto_info: null,
     gestor_carga_id: 1,
     gestor_carga_nombre: 'Transred',
     estado: EstadoEnum.ACTIVO,
