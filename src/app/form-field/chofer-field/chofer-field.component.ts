@@ -5,11 +5,10 @@ import { ChoferService } from 'src/app/services/chofer.service';
 @Component({
   selector: 'app-chofer-field',
   templateUrl: './chofer-field.component.html',
-  styleUrls: ['./chofer-field.component.scss']
+  styleUrls: ['./chofer-field.component.scss'],
 })
 export class ChoferFieldComponent {
-
-  list$ = this.choferService.getListByGestorCuenta();
+  list$ = this.choferService.getListByWithoutCamion();
 
   get group(): FormGroup {
     return this.form!.get(this.groupName) as FormGroup;
@@ -24,5 +23,5 @@ export class ChoferFieldComponent {
   @Input() groupName = '';
   @Input() title = 'Chofer';
 
-  constructor(private choferService: ChoferService) { }
+  constructor(private choferService: ChoferService) {}
 }

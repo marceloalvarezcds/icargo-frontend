@@ -213,7 +213,7 @@ describe('CamionFormComponent', () => {
       .match(`${environment.api}/propietario/gestor_cuenta/`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/without_camion/`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -261,7 +261,7 @@ describe('CamionFormComponent', () => {
       .match(`${environment.api}/propietario/gestor_cuenta/`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/without_camion/`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -334,7 +334,7 @@ describe('CamionFormComponent', () => {
       .match(`${environment.api}/propietario/gestor_cuenta/`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/without_camion/`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -453,7 +453,7 @@ describe('CamionFormComponent', () => {
       .match(`${environment.api}/propietario/gestor_cuenta/`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/without_camion/`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -514,7 +514,7 @@ describe('CamionFormComponent', () => {
       .match(`${environment.api}/propietario/gestor_cuenta/`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/without_camion/`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)

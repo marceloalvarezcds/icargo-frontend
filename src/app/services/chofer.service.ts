@@ -5,13 +5,12 @@ import { environment } from 'src/environments/environment';
 import { Chofer, ChoferList } from 'src/app/interfaces/chofer';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ChoferService {
-
   private url = `${environment.api}/chofer`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<ChoferList[]> {
     return this.http.get<ChoferList[]>(`${this.url}/`);
@@ -19,6 +18,10 @@ export class ChoferService {
 
   getListByGestorCuenta(): Observable<ChoferList[]> {
     return this.http.get<ChoferList[]>(`${this.url}/gestor_cuenta/`);
+  }
+
+  getListByWithoutCamion(): Observable<ChoferList[]> {
+    return this.http.get<ChoferList[]>(`${this.url}/without_camion/`);
   }
 
   getById(id: number): Observable<Chofer> {
