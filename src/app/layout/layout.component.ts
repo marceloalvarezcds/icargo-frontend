@@ -8,7 +8,9 @@ import {
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
 import { MenuItem } from 'src/app/interfaces/menu-item';
+import { Tab } from 'src/app/interfaces/tab';
 import { MenuService } from './menu.service';
+import { TabService } from './tab.service';
 
 @Component({
   selector: 'app-layout',
@@ -33,10 +35,18 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
     return this.menuService.sidebarMode;
   }
 
-  constructor(private menuService: MenuService) {}
+  get tabs(): Tab[] {
+    return this.tabService.list;
+  }
+
+  constructor(
+    private menuService: MenuService,
+    private tabService: TabService
+  ) {}
 
   ngOnDestroy(): void {
     this.menuService.unsubscribe();
+    this.tabService.unsubscribe();
   }
 
   ngAfterViewInit(): void {
@@ -45,5 +55,9 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
 
   closeSidebarMenu(): void {
     this.menuService.closeSidebarMenu();
+  }
+
+  removeTab(index: number) {
+    this.tabService.removeTab(index);
   }
 }

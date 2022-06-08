@@ -69,6 +69,44 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
+      <!-- <mat-tab-group
+        [selectedIndex]="selectedTab.value"
+        (selectedIndexChange)="selectedTab.setValue($event)"
+      >
+        <mat-tab *ngFor="let tab of tabs; let index = index">
+          <ng-template mat-tab-label>
+            <span>{{ tab.name }}</span>
+            <button
+              mat-icon-button
+              [disabled]="tabs.length === 1"
+              (click)="removeTab($event, index)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </ng-template>
+        </mat-tab>
+      </mat-tab-group> -->
+      <nav mat-tab-nav-bar>
+        <a
+          type="button"
+          mat-tab-link
+          *ngFor="let tab of tabs; let index = index"
+          [routerLink]="tab.url"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [active]="rla.isActive"
+        >
+          <span>{{ tab.name }}</span>
+          <button
+            type="button"
+            mat-icon-button
+            [disabled]="tabs.length === 1"
+            (click)="$event.stopPropagation(); removeTab(index)"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </a>
+      </nav>
       <router-outlet></router-outlet>
     </mat-sidenav-content>
   </mat-sidenav-container>
