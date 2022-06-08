@@ -4,7 +4,7 @@
     <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2">
       <!--app menu-->
       <mat-nav-list>
-        <ng-container *ngFor="let item of menuConfigService.getMenuItemListObservable() | async">
+        <ng-container *ngFor="let item of menuList$ | async">
           <ng-container *ngIf="item.active">
             <ng-container *ngIf="!(item.children && item.children.length)">
               <a
@@ -14,8 +14,13 @@
                 [routerLinkActiveOptions]="{ exact: !!item.isRouteExact }"
                 (click)="closeSidebarMenu()"
               >
-                <mat-icon mat-list-icon *ngIf="item.iconName" [class.material-icons-outlined]="item.iconOutline">{{item.iconName}}</mat-icon>
-                <span mat-list-text>{{item.name}}</span>
+                <mat-icon
+                  mat-list-icon
+                  *ngIf="item.iconName"
+                  [class.material-icons-outlined]="item.iconOutline"
+                  >{{ item.iconName }}</mat-icon
+                >
+                <span mat-list-text>{{ item.name }}</span>
               </a>
             </ng-container>
             <ng-container *ngIf="item.children && item.children.length">
@@ -23,7 +28,12 @@
                 <mat-expansion-panel class="mat-elevation-z0">
                   <mat-expansion-panel-header>
                     <mat-panel-title>
-                      <mat-icon mat-list-icon *ngIf="item.iconName" [class.material-icons-outlined]="item.iconOutline">{{item.iconName}}</mat-icon>
+                      <mat-icon
+                        mat-list-icon
+                        *ngIf="item.iconName"
+                        [class.material-icons-outlined]="item.iconOutline"
+                        >{{ item.iconName }}</mat-icon
+                      >
                       <span>{{ item.name }}</span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
@@ -35,10 +45,17 @@
                           mat-list-item
                           routerLinkActive="active"
                           [routerLink]="[child.path]"
-                          [routerLinkActiveOptions]="{ exact: !!child.isRouteExact }"
+                          [routerLinkActiveOptions]="{
+                            exact: !!child.isRouteExact
+                          }"
                           (click)="closeSidebarMenu()"
                         >
-                          <mat-icon mat-list-icon *ngIf="child.iconName" [class.material-icons-outlined]="child.iconOutline">{{child.iconName}}</mat-icon>
+                          <mat-icon
+                            mat-list-icon
+                            *ngIf="child.iconName"
+                            [class.material-icons-outlined]="child.iconOutline"
+                            >{{ child.iconName }}</mat-icon
+                          >
                           <div mat-list-text>{{ child.name }}</div>
                         </a>
                       </mat-nav-list>
