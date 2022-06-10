@@ -1,0 +1,34 @@
+<app-page-form
+  class="config-page"
+  module="Configuraciones"
+  [submodule]="submodule"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
+>
+  <div class="config-page-content">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Descripción"
+          controlName="descripcion"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="isEdit || isShow">
+        <app-estado-field [estado]="estado"></app-estado-field>
+      </div>
+    </div>
+  </div>
+</app-page-form>

@@ -1,0 +1,17 @@
+<app-page
+  class="caja-page"
+  module="Configuraciones"
+  [submodule]="submodule"
+  [modelo]="modelo"
+  [hideFilter]="true"
+  (createClick)="redirectToCreate()"
+>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [modelo]="modelo"
+    [hideDelete]="true"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+  ></app-table-paginator>
+</app-page>

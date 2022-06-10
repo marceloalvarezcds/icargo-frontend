@@ -210,6 +210,21 @@ export class MenuService {
           },
         ],
       },
+      {
+        name: 'Configuraciones',
+        iconName: 'settings',
+        iconOutline: true,
+        active: true,
+        children: [
+          {
+            name: 'Cargo',
+            iconName: 'badge',
+            iconOutline: true,
+            path: `/config/${m.CARGO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.CARGO),
+          },
+        ],
+      },
     ];
     this.menuConfigService.setMenuItemList(this.menuList);
   }
