@@ -36,6 +36,13 @@ const routes: Routes = [
           import('./caja/caja.module').then((m) => m.CajaModule),
       },
       {
+        path: 'config',
+        loadChildren: () =>
+          import('./configuraciones/configuraciones.module').then(
+            (m) => m.ConfiguracionesModule
+          ),
+      },
+      {
         path: 'entities',
         loadChildren: () =>
           import('./entities/entities.module').then((m) => m.EntitiesModule),
