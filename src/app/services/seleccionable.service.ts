@@ -16,8 +16,8 @@ export class SeleccionableService {
     this.url = `${environment.api}/${endpoint}`;
   }
 
-  getActiveList(): Observable<SeleccionableBaseModel[]> {
-    return this.http.get<SeleccionableBaseModel[]>(`${this.url}/active_list/`);
+  getActiveList<T extends SeleccionableBaseModel>(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.url}/active_list/`);
   }
 
   getList(): Observable<SeleccionableBaseModel[]> {

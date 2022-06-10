@@ -22,7 +22,6 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 import { environment } from 'src/environments/environment';
-
 import { ContactoFormDialogComponent } from './contacto-form-dialog.component';
 
 describe('ContactoFormDialogComponent', () => {
@@ -60,7 +59,9 @@ describe('ContactoFormDialogComponent', () => {
     component = fixture.componentInstance;
     fixture.detectChanges();
     httpController = TestBed.inject(HttpTestingController);
-    httpController.expectOne(`${environment.api}/cargo/`).flush(mockCargoList);
+    httpController
+      .expectOne(`${environment.api}/cargo/active_list/`)
+      .flush(mockCargoList);
     expect(component).toBeTruthy();
     httpController.verify();
   });
@@ -125,7 +126,9 @@ describe('ContactoFormDialogComponent', () => {
     component.telefonoBlur$.next(true);
     tick();
 
-    httpController.expectOne(`${environment.api}/cargo/`).flush(mockCargoList);
+    httpController
+      .expectOne(`${environment.api}/cargo/active_list/`)
+      .flush(mockCargoList);
     httpController
       .expectOne(`${environment.api}/contacto/${telefono}/${email}`)
       .flush(mockContacto);

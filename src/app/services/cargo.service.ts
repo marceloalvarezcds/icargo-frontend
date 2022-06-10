@@ -1,19 +1,18 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { environment } from 'src/environments/environment';
-import { Cargo } from '../interfaces/cargo';
+import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { Cargo } from 'src/app/interfaces/cargo';
+import { SeleccionableService } from './seleccionable.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CargoService {
-
-  private url = `${environment.api}/cargo`;
-
-  constructor(private http: HttpClient) { }
+  constructor(private service: SeleccionableService) {
+    this.service.setEndpoint(m.CARGO);
+  }
 
   getList(): Observable<Cargo[]> {
-    return this.http.get<Cargo[]>(`${this.url}/`);
+    return this.service.getActiveList<Cargo>();
   }
 }
