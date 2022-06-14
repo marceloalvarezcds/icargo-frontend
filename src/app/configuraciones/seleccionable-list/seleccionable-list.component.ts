@@ -1,13 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import {
-  PermisoAccionEnum as a,
-  PermisoModeloEnum as m,
-} from 'src/app/enums/permiso-enum';
+import { ActivatedRoute } from '@angular/router';
+import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
+import { SeleccionableRouteData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { TableEvent } from 'src/app/interfaces/table';
-import { SeleccionableService } from 'src/app/services/seleccionable.service';
+import { SeleccionableListService } from './seleccionable-list.service';
 
 @Component({
   selector: 'app-seleccionable-list',
@@ -15,82 +13,45 @@ import { SeleccionableService } from 'src/app/services/seleccionable.service';
   styleUrls: ['./seleccionable-list.component.scss'],
 })
 export class SeleccionableListComponent implements OnInit {
-  modelo!: m;
-  submodule!: string;
-  columns: Column[] = [
-    {
-      def: 'id',
-      title: 'Nº',
-      value: (element: SeleccionableBaseModel) => element.id,
-      sticky: true,
-    },
-    {
-      def: 'descripcion',
-      title: 'Nombre',
-      value: (element: SeleccionableBaseModel) => element.descripcion,
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: SeleccionableBaseModel) => element.estado,
-    },
-    {
-      def: 'created_by',
-      title: 'Usuario creación',
-      value: (element: SeleccionableBaseModel) => element.created_by,
-    },
-    {
-      def: 'created_at',
-      title: 'Fecha creación',
-      value: (element: SeleccionableBaseModel) => element.created_at,
-      type: 'date',
-    },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: SeleccionableBaseModel) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: SeleccionableBaseModel) => element.modified_at,
-      type: 'date',
-    },
-    { def: 'actions', title: 'Acciones', stickyEnd: true },
-  ];
+  get modelo(): m {
+    return this.service.modelo;
+  }
+  get submodule(): string {
+    return this.service.submodule;
+  }
 
-  list: SeleccionableBaseModel[] = [];
+  get columns(): Column[] {
+    return this.service.columns;
+  }
+
+  get list(): SeleccionableBaseModel[] {
+    return this.service.list;
+  }
 
   constructor(
     route: ActivatedRoute,
-    private service: SeleccionableService,
-    private router: Router
+    private service: SeleccionableListService
   ) {
-    const { modelo, submodule } = route.snapshot.data;
-    this.modelo = modelo;
-    this.submodule = submodule;
-    this.service.setEndpoint(modelo);
+    this.service.setRouteData(route.snapshot.data as SeleccionableRouteData);
   }
 
   ngOnInit(): void {
-    this.getList();
+    this.service.getList();
   }
 
-  redirectToCreate(): void {
-    this.router.navigate([`/config/${this.modelo}/${a.CREAR}`]);
+  create(): void {
+    this.service.create();
   }
 
-  redirectToEdit(event: TableEvent<SeleccionableBaseModel>): void {
-    this.router.navigate([`/config/${this.modelo}/${a.EDITAR}`, event.row.id]);
+  edit({ row }: TableEvent<SeleccionableBaseModel>): void {
+    this.service.edit(row);
   }
 
-  redirectToShow(event: TableEvent<SeleccionableBaseModel>): void {
-    this.router.navigate([`/config/${this.modelo}/${a.VER}`, event.row.id]);
+  active({ row }: TableEvent<SeleccionableBaseModel>): void {
+    this.service.active(row);
   }
 
-  private getList(): void {
-    this.service.getList().subscribe((list) => {
-      this.list = list;
-    });
+  inactive({ row }: TableEvent<SeleccionableBaseModel>): void {
+    this.service.inactive(row);
   }
 }

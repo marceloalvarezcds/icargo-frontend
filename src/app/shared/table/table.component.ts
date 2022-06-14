@@ -12,6 +12,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum,
@@ -28,6 +29,7 @@ import { delay } from 'src/app/utils/observable';
   styleUrls: ['./table.component.scss'],
 })
 export class TableComponent implements OnInit, OnDestroy {
+  e = EstadoEnum;
   a = PermisoAccionEnum;
   allChecked: boolean = false;
   checkedList: boolean[] = [];
@@ -81,9 +83,13 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() shouldBeShowFooter = false;
+  @Input() shouldShowActiveButton = false;
+  @Input() shouldShowInactiveButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
 
+  @Output() activeClick = new EventEmitter<TableEvent<any>>();
+  @Output() inactiveClick = new EventEmitter<TableEvent<any>>();
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();
   @Output() showClick = new EventEmitter<TableEvent<any>>();

@@ -229,7 +229,9 @@
                   : a.EDITAR
                   : (noCheckGestorCuentaId
                       ? undefined
-                      : row.gestor_cuenta_id || gestorCuentaId))
+                      : row.gestor_cuenta_id ||
+                        row.gestor_carga_id ||
+                        gestorCuentaId))
             "
           >
             <mat-icon color="primary">edit</mat-icon>
@@ -246,11 +248,53 @@
                   : a.ELIMINAR
                   : (noCheckGestorCuentaId
                       ? undefined
-                      : row.gestor_cuenta_id || gestorCuentaId))
+                      : row.gestor_cuenta_id ||
+                        row.gestor_carga_id ||
+                        gestorCuentaId))
             "
           >
             <mat-icon color="primary">delete</mat-icon>
             <span>Eliminar</span>
+          </button>
+          <button
+            type="button"
+            mat-menu-item
+            (click)="activeClick.emit({ row, index })"
+            *ngIf="
+              row.estado !== e.ACTIVO &&
+              shouldShowActiveButton &&
+              (modelo
+                | puede
+                  : a.CAMBIAR_ESTADO
+                  : (noCheckGestorCuentaId
+                      ? undefined
+                      : row.gestor_cuenta_id ||
+                        row.gestor_carga_id ||
+                        gestorCuentaId))
+            "
+          >
+            <mat-icon color="primary">toggle_off</mat-icon>
+            <span>Activar</span>
+          </button>
+          <button
+            type="button"
+            mat-menu-item
+            (click)="inactiveClick.emit({ row, index })"
+            *ngIf="
+              row.estado === e.ACTIVO &&
+              shouldShowInactiveButton &&
+              (modelo
+                | puede
+                  : a.CAMBIAR_ESTADO
+                  : (noCheckGestorCuentaId
+                      ? undefined
+                      : row.gestor_cuenta_id ||
+                        row.gestor_carga_id ||
+                        gestorCuentaId))
+            "
+          >
+            <mat-icon color="primary">toggle_on</mat-icon>
+            <span>Desactivar</span>
           </button>
         </mat-menu>
       </td>

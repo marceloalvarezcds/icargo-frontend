@@ -7,11 +7,10 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ConfiguracionesRoutingModule } from './configuraciones-routing.module';
-import { SeleccionableFormComponent } from './seleccionable-form/seleccionable-form.component';
 import { SeleccionableListComponent } from './seleccionable-list/seleccionable-list.component';
 
 @NgModule({
-  declarations: [SeleccionableFormComponent, SeleccionableListComponent],
+  declarations: [SeleccionableListComponent],
   imports: [
     CommonModule,
     ConfiguracionesRoutingModule,
