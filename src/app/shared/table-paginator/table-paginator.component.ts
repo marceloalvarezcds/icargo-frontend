@@ -46,7 +46,11 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() addShowButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
+  @Input() shouldShowActiveButton = false;
+  @Input() shouldShowInactiveButton = false;
 
+  @Output() activeClick = new EventEmitter<TableEvent<any>>();
+  @Output() inactiveClick = new EventEmitter<TableEvent<any>>();
   @Output() editClick = new EventEmitter<TableEvent<any>>();
   @Output() deleteClick = new EventEmitter<TableEvent<any>>();
   @Output() showClick = new EventEmitter<TableEvent<any>>();

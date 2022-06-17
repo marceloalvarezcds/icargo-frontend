@@ -5,7 +5,6 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
-import { SeleccionableFormComponent } from './seleccionable-form/seleccionable-form.component';
 import { SeleccionableListComponent } from './seleccionable-list/seleccionable-list.component';
 
 const routes: Routes = [
@@ -25,21 +24,6 @@ const routes: Routes = [
       {
         path: a.LISTAR,
         component: SeleccionableListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: SeleccionableFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: SeleccionableFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: SeleccionableFormComponent,
         canActivate: [PermisoGuard],
       },
     ],

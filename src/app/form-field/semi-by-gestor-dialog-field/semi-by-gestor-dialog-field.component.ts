@@ -18,6 +18,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./semi-by-gestor-dialog-field.component.scss'],
 })
 export class SemiByGestorDialogFieldComponent {
+  readonly inputValuePropName = 'info';
   list: SemiList[] = [];
   subs = this.service.getList().subscribe((list) => {
     this.list = list;
@@ -116,8 +117,4 @@ export class SemiByGestorDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<SemiList>;
 
   constructor(private service: SemiService) {}
-
-  inputValueFormat(value: SemiList | undefined): string {
-    return value ? value.info : '';
-  }
 }

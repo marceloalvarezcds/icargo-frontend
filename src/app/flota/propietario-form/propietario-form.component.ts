@@ -115,61 +115,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     });
   });
 
-  esChoferSubscription = this.esChoferControl.valueChanges.subscribe(
-    (esChofer) => {
-      if (esChofer) {
-        this.chofer
-          .get('tipo_documento_id')!
-          .setValidators(Validators.required);
-        this.chofer
-          .get('pais_emisor_documento_id')!
-          .setValidators(Validators.required);
-        this.chofer.get('numero_documento')!.setValidators(Validators.required);
-        this.registro
-          .get('pais_emisor_registro_id')!
-          .setValidators(Validators.required);
-        this.registro
-          .get('localidad_emisor_registro_id')!
-          .setValidators(Validators.required);
-        this.registro
-          .get('ciudad_emisor_registro_id')!
-          .setValidators(Validators.required);
-        this.registro
-          .get('tipo_registro_id')!
-          .setValidators(Validators.required);
-        this.registro
-          .get('numero_registro')!
-          .setValidators(Validators.required);
-        this.registro
-          .get('vencimiento_registro')!
-          .setValidators(Validators.required);
-      } else {
-        this.chofer.get('tipo_documento_id')!.clearAsyncValidators();
-        this.chofer.get('pais_emisor_documento_id')!.clearAsyncValidators();
-        this.chofer.get('numero_documento')!.clearAsyncValidators();
-        this.registro.get('pais_emisor_registro_id')!.clearAsyncValidators();
-        this.registro
-          .get('localidad_emisor_registro_id')!
-          .clearAsyncValidators();
-        this.registro.get('ciudad_emisor_registro_id')!.clearAsyncValidators();
-        this.registro.get('tipo_registro_id')!.clearAsyncValidators();
-        this.registro.get('numero_registro')!.clearAsyncValidators();
-        this.registro.get('vencimiento_registro')!.clearAsyncValidators();
-      }
-      this.chofer.get('tipo_documento_id')!.updateValueAndValidity();
-      this.chofer.get('pais_emisor_documento_id')!.updateValueAndValidity();
-      this.chofer.get('numero_documento')!.updateValueAndValidity();
-      this.registro.get('pais_emisor_registro_id')!.updateValueAndValidity();
-      this.registro
-        .get('localidad_emisor_registro_id')!
-        .updateValueAndValidity();
-      this.registro.get('ciudad_emisor_registro_id')!.updateValueAndValidity();
-      this.registro.get('tipo_registro_id')!.updateValueAndValidity();
-      this.registro.get('numero_registro')!.updateValueAndValidity();
-      this.registro.get('vencimiento_registro')!.updateValueAndValidity();
-    }
-  );
-
   get puedeModificarSoloAliasYcontactos(): boolean {
     if (this.isShow || !this.isEdit) {
       return false;
@@ -229,7 +174,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
-    this.esChoferSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {

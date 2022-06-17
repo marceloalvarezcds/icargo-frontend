@@ -47,6 +47,10 @@ export class SnackbarService {
     return this.lastSnackbarRef;
   }
 
+  openUpdate(): MatSnackBarRef<TextOnlySnackBar> {
+    return this.open('Datos actualizados satisfactoriamente');
+  }
+
   openUpdateAndRedirect(
     confirmed: boolean,
     backUrl: string,

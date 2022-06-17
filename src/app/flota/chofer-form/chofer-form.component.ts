@@ -107,19 +107,6 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     });
   });
 
-  esPropietarioSubscription = this.esPropietarioControl.valueChanges.subscribe(
-    (esPropietario) => {
-      if (esPropietario) {
-        this.propietario
-          .get('pais_origen_id')!
-          .setValidators(Validators.required);
-      } else {
-        this.propietario.get('pais_origen_id')!.clearAsyncValidators();
-      }
-      this.propietario.get('pais_origen_id')!.updateValueAndValidity();
-    }
-  );
-
   get puedeModificarSoloAliasYcontactos(): boolean {
     if (this.isShow || !this.isEdit) {
       return false;
@@ -171,7 +158,6 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
-    this.esPropietarioSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {

@@ -17,6 +17,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./ciudad-dialog-field.component.scss'],
 })
 export class CiudadDialogFieldComponent {
+  readonly inputValuePropName = 'nombre';
   list: Ciudad[] = [];
   subs = this.service.getAllList().subscribe((list) => {
     this.list = list;
@@ -58,8 +59,4 @@ export class CiudadDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Ciudad>;
 
   constructor(private service: CiudadService) {}
-
-  inputValueFormat(value: Ciudad | undefined): string {
-    return value ? value.nombre : '';
-  }
 }

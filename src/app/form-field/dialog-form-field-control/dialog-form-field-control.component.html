@@ -1,0 +1,24 @@
+<div
+  role="group"
+  class="app-dialog-form-field-control-container"
+  [formGroup]="formGroup"
+  (focusin)="onFocusIn($event)"
+  (focusout)="onFocusOut($event)"
+  (click)="$event.stopPropagation(); openDialog()"
+>
+  <input
+    class="app-dialog-form-field-control-element"
+    formControlName="id"
+    aria-label="Id"
+    readonly
+    hidden
+    #id
+  />
+  <input
+    class="app-dialog-form-field-control-element"
+    formControlName="descripcion"
+    aria-label="Descripción"
+    #descripcion
+    readonly
+  />
+</div>

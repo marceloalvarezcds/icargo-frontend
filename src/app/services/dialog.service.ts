@@ -1,13 +1,14 @@
-import { Injectable } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ComponentType } from '@angular/cdk/portal';
+import { Component, Injectable } from '@angular/core';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { SnackbarService } from './snackbar.service';
-
-interface DeleteService<T> {
-  delete(id: number): Observable<T>;
-}
 
 @Injectable({
   providedIn: 'root',
@@ -32,7 +33,7 @@ export class DialogService {
     observer: (value: T) => void
   ) {
     this.configDialogRef(
-      this.dialog.open(ConfirmationDialogComponent, {
+      this.open(ConfirmationDialogComponent, {
         data: { message },
       }),
       () => {
@@ -85,5 +86,12 @@ export class DialogService {
       .afterClosed()
       .pipe(filter((confirmed: boolean) => confirmed))
       .subscribe(observer);
+  }
+
+  open<Component, Data>(
+    component: ComponentType<Component>,
+    config?: MatDialogConfig<Data>
+  ): MatDialogRef<Component, Data> {
+    return this.dialog.open(component, config);
   }
 }

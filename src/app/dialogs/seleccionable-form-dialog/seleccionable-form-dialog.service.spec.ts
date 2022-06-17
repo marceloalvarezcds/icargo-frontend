@@ -9,28 +9,29 @@ import {
 } from '@angular/material/snack-bar';
 import { RouterTestingModule } from '@angular/router/testing';
 import { SeleccionableService } from 'src/app/services/seleccionable.service';
-import { SeleccionableFormService } from './seleccionable-form.service';
 
-describe('SeleccionableFormService', () => {
-  let service: SeleccionableFormService;
+import { SeleccionableFormDialogService } from './seleccionable-form-dialog.service';
+
+describe('SeleccionableFormDialogService', () => {
+  let service: SeleccionableFormDialogService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         FormsModule,
         HttpClientTestingModule,
-        ReactiveFormsModule,
-        RouterTestingModule,
         MatDialogModule,
         MatSnackBarModule,
+        ReactiveFormsModule,
+        RouterTestingModule,
       ],
       providers: [
         SeleccionableService,
-        SeleccionableFormService,
+        SeleccionableFormDialogService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },
       ],
     });
-    service = TestBed.inject(SeleccionableFormService);
+    service = TestBed.inject(SeleccionableFormDialogService);
   });
 
   it('should be created', () => {

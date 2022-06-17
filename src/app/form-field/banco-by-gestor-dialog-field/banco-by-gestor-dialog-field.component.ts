@@ -17,6 +17,7 @@ import { BancoService } from 'src/app/services/banco.service';
   styleUrls: ['./banco-by-gestor-dialog-field.component.scss'],
 })
 export class BancoByGestorDialogFieldComponent {
+  readonly inputValuePropName = 'info';
   list: Banco[] = [];
   subs = this.bancoService.getListByGestorCarga().subscribe((list) => {
     this.list = list;
@@ -107,10 +108,4 @@ export class BancoByGestorDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Banco>;
 
   constructor(private bancoService: BancoService) {}
-
-  inputValueFormat(value: Banco | undefined): string {
-    return value
-      ? `${value.nombre}: (${value.titular} - ${value.numero_cuenta})`
-      : '';
-  }
 }

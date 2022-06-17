@@ -23,6 +23,7 @@ import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog/o
 import { OcDescuentoFormDialogComponent } from './oc-descuento-form-dialog/oc-descuento-form-dialog.component';
 import { OcRemisionDestinoFormDialogComponent } from './oc-remision-destino-form-dialog/oc-remision-destino-form-dialog.component';
 import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-dialog/oc-remision-origen-form-dialog.component';
+import { SeleccionableFormDialogComponent } from './seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
 
 const modules = [
@@ -43,6 +44,7 @@ const modules = [
   OcDescuentoFormDialogComponent,
   OcRemisionDestinoFormDialogComponent,
   OcRemisionOrigenFormDialogComponent,
+  SeleccionableFormDialogComponent,
   SelectorDialogComponent,
 ];
 

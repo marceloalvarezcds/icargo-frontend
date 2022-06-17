@@ -17,6 +17,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./insumo-punto-venta-precio-dialog-field.component.scss'],
 })
 export class InsumoPuntoVentaPrecioDialogFieldComponent {
+  readonly inputValuePropName = 'punto_venta_nombre';
   list: InsumoPuntoVentaPrecioList[] = [];
   subs = this.service.getList().subscribe((list) => {
     this.list = list;
@@ -95,8 +96,4 @@ export class InsumoPuntoVentaPrecioDialogFieldComponent {
   dialogField?: DialogFieldComponent<InsumoPuntoVentaPrecioList>;
 
   constructor(private service: InsumoPuntoVentaPrecioService) {}
-
-  inputValueFormat(value: InsumoPuntoVentaPrecioList | undefined): string {
-    return value ? value.punto_venta_nombre : '';
-  }
 }
