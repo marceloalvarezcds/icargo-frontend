@@ -11,11 +11,13 @@ import { SeleccionableListService } from './seleccionable-list.service';
   selector: 'app-seleccionable-list',
   templateUrl: './seleccionable-list.component.html',
   styleUrls: ['./seleccionable-list.component.scss'],
+  providers: [SeleccionableListService],
 })
 export class SeleccionableListComponent implements OnInit {
   get modelo(): m {
     return this.service.modelo;
   }
+
   get submodule(): string {
     return this.service.submodule;
   }

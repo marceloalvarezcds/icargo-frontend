@@ -9,6 +9,7 @@ import { SeleccionableFormDialogService } from './seleccionable-form-dialog.serv
   selector: 'app-seleccionable-form-dialog',
   templateUrl: './seleccionable-form-dialog.component.html',
   styleUrls: ['./seleccionable-form-dialog.component.scss'],
+  providers: [SeleccionableFormDialogService],
 })
 export class SeleccionableFormDialogComponent {
   get actionText(): string {

@@ -4,7 +4,7 @@ import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 export const seleccionableData = (
   form: FormGroup,
   data: SeleccionableBaseModel | undefined
-): FormData => {
+): SeleccionableBaseModel => {
   const value = form.value;
   const newData = JSON.parse(
     JSON.stringify({
