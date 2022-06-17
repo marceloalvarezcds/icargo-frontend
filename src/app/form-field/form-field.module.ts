@@ -17,6 +17,7 @@ import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
 import { ContraparteFieldComponent } from './contraparte-field/contraparte-field.component';
 import { DialogFieldComponent } from './dialog-field/dialog-field.component';
+import { DialogFormFieldControlComponent } from './dialog-form-field-control/dialog-form-field-control.component';
 import { DigitoVerificadorFieldComponent } from './digito-verificador-field/digito-verificador-field.component';
 import { EmailFieldComponent } from './email-field/email-field.component';
 import { EnteEmisorAutomotorFieldComponent } from './ente-emisor-automotor-field/ente-emisor-automotor-field.component';
@@ -83,6 +84,7 @@ const modules = [
   ColorFieldComponent,
   ContraparteFieldComponent,
   DialogFieldComponent,
+  DialogFormFieldControlComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
   EnteEmisorAutomotorFieldComponent,

@@ -17,6 +17,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./punto-venta-dialog-field.component.scss'],
 })
 export class PuntoVentaDialogFieldComponent {
+  readonly inputValuePropName = 'nombre';
   list: PuntoVentaList[] = [];
   subs = this.service.getListByGestor().subscribe((list) => {
     this.list = list;
@@ -71,8 +72,4 @@ export class PuntoVentaDialogFieldComponent {
   dialogField?: DialogFieldComponent<PuntoVentaList>;
 
   constructor(private service: PuntoVentaService) {}
-
-  inputValueFormat(value: PuntoVentaList | undefined): string {
-    return value ? value.nombre : '';
-  }
 }

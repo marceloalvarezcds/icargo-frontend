@@ -17,6 +17,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./producto-by-gestor-dialog-field.component.scss'],
 })
 export class ProductoByGestorDialogFieldComponent {
+  readonly inputValuePropName = 'descripcion';
   list: Producto[] = [];
   subs = this.service.getList().subscribe((list) => {
     this.list = list;
@@ -77,8 +78,4 @@ export class ProductoByGestorDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Producto>;
 
   constructor(private service: ProductoService) {}
-
-  inputValueFormat(value: Producto | undefined): string {
-    return value ? value.descripcion : '';
-  }
 }
