@@ -76,6 +76,11 @@ const routes: Routes = [
             (m) => m.OrdenCargaModule
           ),
       },
+      {
+        path: 'users',
+        loadChildren: () =>
+          import('./users/users.module').then((m) => m.UsersModule),
+      },
       { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
     ],
   },

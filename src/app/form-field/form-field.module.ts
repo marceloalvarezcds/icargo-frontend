@@ -40,6 +40,7 @@ import { NumberFieldComponent } from './number-field/number-field.component';
 import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuenta-field.component';
 import { OrdenCargaRemisionOrigenFieldComponent } from './orden-carga-remision-origen-field/orden-carga-remision-origen-field.component';
 import { PaisFieldComponent } from './pais-field/pais-field.component';
+import { PasswordFieldComponent } from './password-field/password-field.component';
 import { ProductoByGestorDialogFieldComponent } from './producto-by-gestor-dialog-field/producto-by-gestor-dialog-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
@@ -107,6 +108,7 @@ const modules = [
   OficialCuentaFieldComponent,
   OrdenCargaRemisionOrigenFieldComponent,
   PaisFieldComponent,
+  PasswordFieldComponent,
   ProductoByGestorDialogFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,

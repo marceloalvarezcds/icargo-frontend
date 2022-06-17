@@ -19,6 +19,9 @@
       <mat-error *ngIf="control.hasError('required')">
         Este campo es <strong>requerido</strong>
       </mat-error>
+      <mat-error *ngIf="control.hasError('email')">
+        El email no es <strong>válido</strong>
+      </mat-error>
     </mat-form-field>
   </ng-container>
   <ng-container *ngIf="!groupName">
@@ -40,6 +43,9 @@
       />
       <mat-error *ngIf="control.hasError('required')">
         Este campo es <strong>requerido</strong>
+      </mat-error>
+      <mat-error *ngIf="control.hasError('email')">
+        El email no es <strong>válido</strong>
       </mat-error>
     </mat-form-field>
   </ng-container>
