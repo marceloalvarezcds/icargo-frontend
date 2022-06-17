@@ -223,6 +223,7 @@
             mat-menu-item
             (click)="editClick.emit({ row, index })"
             *ngIf="
+              row.estado !== e.CONCILIADO &&
               !hideEdit &&
               (modelo
                 | puede
