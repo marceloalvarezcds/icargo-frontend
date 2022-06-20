@@ -25,6 +25,7 @@ import { OcRemisionDestinoFormDialogComponent } from './oc-remision-destino-form
 import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-dialog/oc-remision-origen-form-dialog.component';
 import { SeleccionableFormDialogComponent } from './seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
+import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
 
 const modules = [
   CamionSemiNetoFormDialogComponent,
@@ -46,6 +47,7 @@ const modules = [
   OcRemisionOrigenFormDialogComponent,
   SeleccionableFormDialogComponent,
   SelectorDialogComponent,
+  UserFormDialogComponent,
 ];
 
 @NgModule({

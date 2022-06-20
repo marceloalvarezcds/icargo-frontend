@@ -225,6 +225,21 @@ export class MenuService {
           },
         ],
       },
+      {
+        name: 'Usuarios',
+        iconName: 'supervisor_account',
+        iconOutline: true,
+        active: true,
+        children: [
+          {
+            name: 'Usuarios',
+            iconName: 'person',
+            iconOutline: true,
+            path: `/users/${m.USER}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.CARGO),
+          },
+        ],
+      },
     ];
     this.menuConfigService.setMenuItemList(this.menuList);
   }
