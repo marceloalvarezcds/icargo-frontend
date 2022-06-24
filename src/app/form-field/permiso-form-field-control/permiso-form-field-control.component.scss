@@ -1,0 +1,27 @@
+$gap: 5px 10px;
+
+.modulo-items {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $gap;
+}
+
+.modulo-container,
+.modelo-container {
+  border-radius: 5px;
+  padding: $gap;
+}
+
+.modulo-container {
+  border: 1.5px solid #ccc;
+  margin-bottom: 10px;
+}
+
+.modulo-title {
+  font-size: 15px;
+  padding: 5px 0;
+}
+
+.title {
+  font-weight: 500;
+}

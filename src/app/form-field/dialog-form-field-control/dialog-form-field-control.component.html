@@ -4,16 +4,9 @@
   [formGroup]="formGroup"
   (focusin)="onFocusIn($event)"
   (focusout)="onFocusOut($event)"
-  (click)="$event.stopPropagation(); openDialog()"
+  (click)="$event.stopPropagation(); disabled ? '' : openDialog()"
 >
-  <input
-    class="app-dialog-form-field-control-element"
-    formControlName="id"
-    aria-label="Id"
-    readonly
-    hidden
-    #id
-  />
+  <input formControlName="id" aria-label="Id" readonly hidden #id />
   <input
     class="app-dialog-form-field-control-element"
     formControlName="descripcion"

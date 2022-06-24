@@ -80,3 +80,16 @@ export enum PermisoModeloEnum {
   UNIDAD = 'unidad',
   USER = 'usuario',
 }
+
+export enum PermisoModuloEnum {
+  ENTIDADES = 'Entidades',
+  FLOTA = 'Flota',
+  FLETE = 'Flete',
+  OC = 'Orden de Carga',
+  CAJA_BANCO = 'Caja & Banco',
+  ESTADO_CUENTA = 'Estado de Cuenta',
+  LISTADOS = 'Listados',
+  USUARIOS = 'Usuarios',
+  PARAMETROS = 'Parametros de Sistema',
+  BIBLIOTECA = 'Biblioteca de Usuario',
+}
