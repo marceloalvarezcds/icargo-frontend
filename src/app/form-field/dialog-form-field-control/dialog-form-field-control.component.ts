@@ -20,12 +20,11 @@ import {
   FormBuilder,
   FormControl,
   NgControl,
-  NG_VALIDATORS,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Subject, Subscription } from 'rxjs';
+import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
@@ -87,8 +86,8 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
   }
 
   @HostBinding('class.mat-form-field-should-float')
-  get shouldLabelFloat() {
-    return this.focused || !this.empty;
+  get shouldLabelFloat(): boolean {
+    return this.focused || !this.empty || !!this.selectedValue;
   }
 
   @Input() columns: Column[] = [];

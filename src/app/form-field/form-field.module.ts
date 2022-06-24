@@ -27,6 +27,7 @@ import { FechaFieldComponent } from './fecha-field/fecha-field.component';
 import { FileFieldComponent } from './file-field/file-field.component';
 import { FleteByGestorDialogFieldComponent } from './flete-by-gestor-dialog-field/flete-by-gestor-dialog-field.component';
 import { GenericListFieldComponent } from './generic-list-field/generic-list-field.component';
+import { GestorCargaDialogFieldComponent } from './gestor-carga-dialog-field/gestor-carga-dialog-field.component';
 import { InputFieldComponent } from './input-field/input-field.component';
 import { InstrumentoViaFieldComponent } from './instrumento-via-field/instrumento-via-field.component';
 import { InsumoByTipoFieldComponent } from './insumo-by-tipo-field/insumo-by-tipo-field.component';
@@ -41,6 +42,8 @@ import { OficialCuentaFieldComponent } from './oficial-cuenta-field/oficial-cuen
 import { OrdenCargaRemisionOrigenFieldComponent } from './orden-carga-remision-origen-field/orden-carga-remision-origen-field.component';
 import { PaisFieldComponent } from './pais-field/pais-field.component';
 import { PasswordFieldComponent } from './password-field/password-field.component';
+import { PermisoFieldComponent } from './permiso-field/permiso-field.component';
+import { PermisoFormFieldControlComponent } from './permiso-form-field-control/permiso-form-field-control.component';
 import { ProductoByGestorDialogFieldComponent } from './producto-by-gestor-dialog-field/producto-by-gestor-dialog-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
@@ -95,6 +98,7 @@ const modules = [
   FileFieldComponent,
   FleteByGestorDialogFieldComponent,
   GenericListFieldComponent,
+  GestorCargaDialogFieldComponent,
   InputFieldComponent,
   InstrumentoViaFieldComponent,
   InsumoByTipoFieldComponent,
@@ -109,6 +113,8 @@ const modules = [
   OrdenCargaRemisionOrigenFieldComponent,
   PaisFieldComponent,
   PasswordFieldComponent,
+  PermisoFieldComponent,
+  PermisoFormFieldControlComponent,
   ProductoByGestorDialogFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,

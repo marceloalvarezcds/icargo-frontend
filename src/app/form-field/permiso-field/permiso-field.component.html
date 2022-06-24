@@ -1,0 +1,16 @@
+<div *ngIf="list$ | async as list">
+  <mat-error class="first" [class.visible]="formControl.hasError('required')">
+    Debe elegit al menos <strong>1 permiso</strong>
+  </mat-error>
+  <mat-form-field>
+    <mat-label>{{ title }}</mat-label>
+    <app-permiso-form-field-control
+      [list]="list"
+      [formControl]="formControl"
+      (valueChange)="valueChange.emit($event)"
+    ></app-permiso-form-field-control>
+    <mat-error *ngIf="formControl.hasError('required')">
+      Debe elegit al menos <strong>1 permiso</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
