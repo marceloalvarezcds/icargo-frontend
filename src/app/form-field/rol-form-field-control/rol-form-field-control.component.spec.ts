@@ -2,20 +2,19 @@ import { Component, CUSTOM_ELEMENTS_SCHEMA, ViewChild } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { mockPermisoList, Permiso } from 'src/app/interfaces/permiso';
+import { mockRolCheckedList, RolChecked } from 'src/app/interfaces/rol';
 import { MaterialModule } from 'src/app/material/material.module';
-import { AccionPipe } from './accion.pipe';
 
-import { PermisoFormFieldControlComponent } from './permiso-form-field-control.component';
+import { RolFormFieldControlComponent } from './rol-form-field-control.component';
 
-describe('PermisoFormFieldControlComponent', () => {
+describe('RolFormFieldControlComponent', () => {
   @Component({
     template: `<mat-form-field>
       <mat-label>{{ title }}</mat-label>
-      <app-permiso-form-field-control
+      <app-rol-form-field-control
         [list]="list"
         [formControl]="control"
-      ></app-permiso-form-field-control>
+      ></app-rol-form-field-control>
     </mat-form-field> `,
   })
   class TestComponent {
@@ -24,20 +23,20 @@ describe('PermisoFormFieldControlComponent', () => {
       {
         def: 'id',
         title: 'Nº',
-        value: (element: Permiso) => element.id,
+        value: (element: RolChecked) => element.id,
         sticky: true,
       },
     ];
-    list = mockPermisoList;
-    title = 'Permiso';
+    list = mockRolCheckedList;
+    title = 'Rol';
     control = new FormControl('');
 
-    @ViewChild(PermisoFormFieldControlComponent)
-    component?: PermisoFormFieldControlComponent;
+    @ViewChild(RolFormFieldControlComponent)
+    component?: RolFormFieldControlComponent;
   }
 
   let parentComponent: TestComponent;
-  let component: PermisoFormFieldControlComponent | undefined;
+  let component: RolFormFieldControlComponent | undefined;
   let fixture: ComponentFixture<TestComponent>;
 
   beforeEach(async () => {
@@ -49,11 +48,7 @@ describe('PermisoFormFieldControlComponent', () => {
         ReactiveFormsModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [
-        PermisoFormFieldControlComponent,
-        TestComponent,
-        AccionPipe,
-      ],
+      declarations: [RolFormFieldControlComponent, TestComponent],
     }).compileComponents();
   });
 

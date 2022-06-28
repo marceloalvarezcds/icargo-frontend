@@ -4,18 +4,19 @@
   [submodule]="submodule"
   [modelo]="modelo"
   [hideFilter]="true"
-  (createClick)="create()"
+  (createClick)="redirectToCreate()"
 >
   <app-table-paginator
     [columns]="columns"
     [data]="list"
     [modelo]="modelo"
     [hideDelete]="true"
-    [hideShow]="true"
+    [noCheckGestorCuentaId]="true"
     [shouldShowActiveButton]="true"
     [shouldShowInactiveButton]="true"
     (activeClick)="active($event)"
-    (editClick)="edit($event)"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
     (inactiveClick)="inactive($event)"
   ></app-table-paginator>
 </app-page>

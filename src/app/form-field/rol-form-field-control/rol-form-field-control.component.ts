@@ -21,29 +21,29 @@ import {
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Subject } from 'rxjs';
-import { Permiso } from 'src/app/interfaces/permiso';
+import { RolChecked } from 'src/app/interfaces/rol';
 
 @Component({
-  selector: 'app-permiso-form-field-control',
-  templateUrl: './permiso-form-field-control.component.html',
-  styleUrls: ['./permiso-form-field-control.component.scss'],
-  exportAs: 'app-permiso-form-field-control',
+  selector: 'app-rol-form-field-control',
+  templateUrl: './rol-form-field-control.component.html',
+  styleUrls: ['./rol-form-field-control.component.scss'],
+  exportAs: 'app-rol-form-field-control',
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => PermisoFormFieldControlComponent),
+      useExisting: forwardRef(() => RolFormFieldControlComponent),
       multi: true,
     },
     {
       provide: MatFormFieldControl,
-      useExisting: PermisoFormFieldControlComponent,
+      useExisting: RolFormFieldControlComponent,
     },
   ],
 })
-export class PermisoFormFieldControlComponent
+export class RolFormFieldControlComponent
   implements
     ControlValueAccessor,
-    MatFormFieldControl<Permiso[]>,
+    MatFormFieldControl<RolChecked[]>,
     OnDestroy,
     DoCheck,
     OnInit
@@ -55,14 +55,11 @@ export class PermisoFormFieldControlComponent
   touched = false;
   errorState = false;
   isFirstValue = true;
-  controlType = 'app-permiso-form-field-control';
+  controlType = 'app-rol-form-field-control';
   ngControl: NgControl | null = null;
-  permisoAgrupados: {
-    [modulo: string]: { [modelo: string]: Array<Permiso & { index: number }> };
-  } = {};
 
   @HostBinding()
-  id = `app-permiso-form-field-control-${PermisoFormFieldControlComponent.nextId++}`;
+  id = `app-rol-form-field-control-${RolFormFieldControlComponent.nextId++}`;
 
   get empty() {
     return this.val.length === 0;
@@ -71,12 +68,6 @@ export class PermisoFormFieldControlComponent
   @HostBinding('class.mat-form-field-should-float')
   get shouldLabelFloat() {
     return true;
-  }
-
-  @Input() hasGestorCargaId = false;
-
-  get isSuperUser(): boolean {
-    return !this.hasGestorCargaId;
   }
 
   // eslint-disable-next-line @angular-eslint/no-input-rename
@@ -113,37 +104,31 @@ export class PermisoFormFieldControlComponent
   private isDisabled = false;
 
   @Input()
-  get list(): Permiso[] {
+  get list(): RolChecked[] {
     return this.lista;
   }
-  set list(list: Permiso[]) {
-    this.permisoAgrupados = list.reduce((r, p, index) => {
-      r[p.modulo] = r[p.modulo] || {};
-      r[p.modulo][p.modelo_titulo] = r[p.modulo][p.modelo_titulo] || [];
-      r[p.modulo][p.modelo_titulo].push({ ...p, checked: false, index });
-      return r;
-    }, Object.create(null));
+  set list(list: RolChecked[]) {
     this.lista = list;
-    this.verifyPermisoCheckedAndEmitValue(this.value ?? []);
+    this.verifyRolCheckedAndEmitValue(this.value ?? []);
   }
-  private lista: Permiso[] = [];
+  private lista: RolChecked[] = [];
 
   @Input()
-  get value(): Permiso[] | null {
+  get value(): RolChecked[] | null {
     return this.val;
   }
-  set value(val: Permiso[] | null) {
+  set value(val: RolChecked[] | null) {
     // Vine NULL solo la primera vez
     if (val) {
       this.val = val.slice();
-      this.verifyPermisoCheckedAndEmitValue(val);
+      this.verifyRolCheckedAndEmitValue(val);
       this.onChange(val);
       this.stateChanges.next();
     }
   }
-  private val: Permiso[] = [];
+  private val: RolChecked[] = [];
 
-  @Output() valueChange = new EventEmitter<Permiso[]>();
+  @Output() valueChange = new EventEmitter<RolChecked[]>();
 
   constructor(
     private focusMonitor: FocusMonitor,
@@ -196,7 +181,7 @@ export class PermisoFormFieldControlComponent
 
   setDescribedByIds(ids: string[]) {
     const controlElement = this.elementRef.nativeElement.querySelector(
-      '.app-permiso-form-field-control-container'
+      '.app-rol-form-field-control-container'
     )!;
     controlElement.setAttribute('aria-describedby', ids.join(' '));
   }
@@ -205,7 +190,7 @@ export class PermisoFormFieldControlComponent
     this.focusMonitor.focusVia(this.elementRef, 'program');
   }
 
-  writeValue(val: Permiso[]): void {
+  writeValue(val: RolChecked[]): void {
     this.value = val;
   }
 
@@ -222,29 +207,22 @@ export class PermisoFormFieldControlComponent
   }
 
   changeValueByPosition(
-    permiso: Permiso,
+    rol: RolChecked,
     positionInArray: number,
     { checked }: MatCheckboxChange
   ): void {
     this.isFirstValue = false;
-    this.list[positionInArray] = { ...permiso, checked };
-    this.value = this.list.filter((permiso) => permiso.checked);
+    this.list[positionInArray] = { ...rol, checked };
+    this.value = this.list.filter((rol) => rol.checked);
   }
 
-  private verifyPermisoCheckedAndEmitValue(val: Permiso[]): void {
+  private verifyRolCheckedAndEmitValue(val: RolChecked[]): void {
     if (this.list.length > 0 && val.length > 0) {
       if (this.isFirstValue) {
         val.forEach((p) => {
-          const idx = this.permisoAgrupados![p.modulo][
-            p.modelo_titulo
-          ].findIndex((x) => x.id === p.id && !x.checked);
+          const idx = this.list.findIndex((x) => x.id === p.id && !x.checked);
           if (idx >= 0) {
-            const cur = this.permisoAgrupados![p.modulo][p.modelo_titulo][idx];
-            this.permisoAgrupados![p.modulo][p.modelo_titulo][idx] = {
-              ...cur,
-              checked: true,
-            };
-            this.list[cur.index] = { ...p, checked: true };
+            this.list[idx] = { ...p, checked: true };
           }
         });
       } else {

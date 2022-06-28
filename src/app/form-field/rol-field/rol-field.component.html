@@ -1,0 +1,16 @@
+<div *ngIf="list$ | async as list">
+  <mat-error class="first" [class.visible]="formControl.hasError('required')">
+    Debe elegir al menos <strong>1 rol</strong>
+  </mat-error>
+  <mat-form-field>
+    <mat-label>{{ title }}</mat-label>
+    <app-rol-form-field-control
+      [list]="list"
+      [formControl]="formControl"
+      (valueChange)="valueChange.emit($event)"
+    ></app-rol-form-field-control>
+    <mat-error *ngIf="formControl.hasError('required')">
+      Debe elegir al menos <strong>1 rol</strong>
+    </mat-error>
+  </mat-form-field>
+</div>
