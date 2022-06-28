@@ -1,5 +1,5 @@
-import { EstadoEnum } from '../enums/estado-enum';
-import { CodigoRolEnum } from '../enums/rol-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { CodigoRolEnum } from 'src/app/enums/rol-enum';
 import { mockPermisoList, Permiso } from './permiso';
 
 export interface Rol {
@@ -15,6 +15,29 @@ export interface Rol {
   modified_by: string;
   modified_at: string;
 }
+
+export interface RolChecked {
+  id: number;
+  checked: boolean; // <- campo auxiliar que solo se utiliza en el front
+  descripcion: string;
+}
+
+export const mockRolChecked1: RolChecked = {
+  id: 1,
+  checked: true,
+  descripcion: 'Administrador de Gestor de Carga',
+};
+
+export const mockRolChecked2: RolChecked = {
+  id: 2,
+  checked: true,
+  descripcion: 'Suplente de Gestor de Carga',
+};
+
+export const mockRolCheckedList: RolChecked[] = [
+  mockRolChecked1,
+  mockRolChecked2,
+];
 
 export const mockRolList: Rol[] = [
   {

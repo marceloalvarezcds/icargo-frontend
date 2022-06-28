@@ -43,6 +43,7 @@ import { OrdenCargaRemisionOrigenFieldComponent } from './orden-carga-remision-o
 import { PaisFieldComponent } from './pais-field/pais-field.component';
 import { PasswordFieldComponent } from './password-field/password-field.component';
 import { PermisoFieldComponent } from './permiso-field/permiso-field.component';
+import { AccionPipe } from './permiso-form-field-control/accion.pipe';
 import { PermisoFormFieldControlComponent } from './permiso-form-field-control/permiso-form-field-control.component';
 import { ProductoByGestorDialogFieldComponent } from './producto-by-gestor-dialog-field/producto-by-gestor-dialog-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
@@ -53,6 +54,8 @@ import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insu
 import { PuntoVentaByProveedorFieldComponent } from './punto-venta-by-proveedor-field/punto-venta-by-proveedor-field.component';
 import { PuntoVentaDialogFieldComponent } from './punto-venta-dialog-field/punto-venta-dialog-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
+import { RolFieldComponent } from './rol-field/rol-field.component';
+import { RolFormFieldControlComponent } from './rol-form-field-control/rol-form-field-control.component';
 import { SemiByCamionProductoFieldComponent } from './semi-by-camion-producto-field/semi-by-camion-producto-field.component';
 import { SemiByGestorDialogFieldComponent } from './semi-by-gestor-dialog-field/semi-by-gestor-dialog-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
@@ -124,6 +127,8 @@ const modules = [
   PuntoVentaByProveedorFieldComponent,
   PuntoVentaDialogFieldComponent,
   RemitenteFieldComponent,
+  RolFieldComponent,
+  RolFormFieldControlComponent,
   SemiByCamionProductoFieldComponent,
   SemiByGestorDialogFieldComponent,
   SemiClasificacionFieldComponent,
@@ -147,7 +152,7 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: modules.slice(),
+  declarations: [...modules.slice(), AccionPipe],
   exports: modules.slice(),
   imports: [
     CommonModule,

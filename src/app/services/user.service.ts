@@ -58,6 +58,10 @@ export class UserService {
     );
   }
 
+  getById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.url}/${id}`);
+  }
+
   create(formData: FormData): Observable<User> {
     return this.http.post<User>(`${this.url}/`, formData);
   }

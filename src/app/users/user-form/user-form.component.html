@@ -1,0 +1,99 @@
+<app-page-form
+  class="user-page"
+  module="Usuarios"
+  [submodule]="submodule"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+>
+  <div class="user-page-content">
+    <div class="row page-form-row">
+      <ng-container *ngIf="loggedUser$ | async as user">
+        <ng-container *ngIf="!user.gestor_carga_id">
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <app-gestor-carga-dialog-field
+              [form]="form"
+            ></app-gestor-carga-dialog-field>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Nombre"
+          controlName="first_name"
+          [autofocus]="true"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Nombre de usuario"
+          controlName="username"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="E-mail"
+          controlName="email"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div
+        class="col-xs-12 col-sm-6 col-md-4"
+        *ngIf="!isCreate && !editPasswords"
+      >
+        <button
+          type="button"
+          class="edit-pass-buttons"
+          mat-raised-button
+          (click)="editPasswords = !editPasswords"
+        >
+          Editar contraseñas
+        </button>
+      </div>
+      <ng-container *ngIf="isCreate || editPasswords">
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <app-password-field
+            title="Contraseña"
+            controlName="password"
+            [form]="form"
+          ></app-password-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <app-password-field
+            title="Repetir contraseña"
+            controlName="confirm_password"
+            [form]="form"
+          ></app-password-field>
+        </div>
+      </ng-container>
+      <div
+        class="col-xs-12 col-sm-6 col-md-4"
+        *ngIf="!isCreate && editPasswords"
+      >
+        <button
+          type="button"
+          class="edit-pass-buttons"
+          mat-raised-button
+          (click)="editPasswords = !editPasswords"
+        >
+          Ocultar contraseñas
+        </button>
+      </div>
+      <div class="col-xs-12" *ngIf="isEdit || isShow">
+        <app-estado-field [estado]="estado"></app-estado-field>
+      </div>
+      <div class="col-xs-12">
+        <app-rol-field [control]="form.controls['roles']"></app-rol-field>
+      </div>
+    </div>
+  </div>
+</app-page-form>

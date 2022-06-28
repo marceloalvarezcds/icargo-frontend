@@ -1,0 +1,16 @@
+<div
+  role="group"
+  class="app-rol-form-field-control-container"
+  (focusin)="onFocusIn($event)"
+  (focusout)="onFocusOut($event)"
+>
+  <div *ngFor="let rol of list; let i = index">
+    <mat-checkbox
+      [checked]="rol.checked"
+      [disabled]="disabled"
+      (change)="changeValueByPosition(rol, i, $event)"
+    >
+      {{ rol.descripcion }}
+    </mat-checkbox>
+  </div>
+</div>

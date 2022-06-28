@@ -16,13 +16,17 @@
               {{ modelo.key }}
             </div>
             <div class="modelo-items" *ngFor="let permiso of modelo.value">
-              <mat-checkbox
-                [checked]="permiso.checked"
-                [disabled]="disabled"
-                (change)="changeValueByPosition(permiso, permiso.index, $event)"
-              >
-                {{ permiso.accion | titlecase }}
-              </mat-checkbox>
+              <ng-container *ngIf="isSuperUser || !permiso.is_for_superuser">
+                <mat-checkbox
+                  [checked]="permiso.checked"
+                  [disabled]="disabled"
+                  (change)="
+                    changeValueByPosition(permiso, permiso.index, $event)
+                  "
+                >
+                  {{ permiso.accion | accion }}
+                </mat-checkbox>
+              </ng-container>
             </div>
           </div>
         </ng-container>

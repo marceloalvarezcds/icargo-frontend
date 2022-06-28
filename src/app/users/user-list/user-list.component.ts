@@ -29,12 +29,16 @@ export class UserListComponent implements OnInit {
     this.service.getList();
   }
 
-  create(): void {
-    this.service.create();
+  redirectToCreate(): void {
+    this.service.redirectToCreate();
   }
 
-  edit({ row }: TableEvent<User>): void {
-    this.service.edit(row);
+  redirectToEdit({ row }: TableEvent<User>): void {
+    this.service.redirectToEdit(row);
+  }
+
+  redirectToShow({ row }: TableEvent<User>): void {
+    this.service.redirectToShow(row);
   }
 
   active({ row }: TableEvent<User>): void {

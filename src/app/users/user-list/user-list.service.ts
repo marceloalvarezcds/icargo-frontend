@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
-import { UserFormDialogComponent } from 'src/app/dialogs/user-form-dialog/user-form-dialog.component';
+import { Router } from '@angular/router';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+} from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { User } from 'src/app/interfaces/user';
-import { UserFormDialogData } from 'src/app/interfaces/user-form-dialog-data';
 import { DialogService } from 'src/app/services/dialog.service';
 import { UserService } from 'src/app/services/user.service';
-import { create, edit } from 'src/app/utils/table-event-crud';
 
 @Injectable({
   providedIn: 'root',
@@ -38,6 +39,12 @@ export class UserListService {
       def: 'email',
       title: 'Correo Electrónico',
       value: (element: User) => element.email,
+    },
+    {
+      def: 'roles',
+      title: 'Roles',
+      value: (element: User) =>
+        element.roles.map((r) => r.descripcion).join(', '),
     },
     {
       def: 'estado',
@@ -78,7 +85,11 @@ export class UserListService {
     return this.lista;
   }
 
-  constructor(private service: UserService, private dialog: DialogService) {}
+  constructor(
+    private router: Router,
+    private service: UserService,
+    private dialog: DialogService
+  ) {}
 
   getList(): void {
     this.service.getListByGestorCargaId().subscribe((list) => {
@@ -86,16 +97,16 @@ export class UserListService {
     });
   }
 
-  create(): void {
-    create(this.getDialogRef(), () => {
-      this.getList();
-    });
+  redirectToCreate(): void {
+    this.router.navigate([`/users/${m.USER}/${a.CREAR}`]);
   }
 
-  edit(user: User): void {
-    edit(this.getDialogRef(user), () => {
-      this.getList();
-    });
+  redirectToEdit(rol: User): void {
+    this.router.navigate([`/users/${m.USER}/${a.EDITAR}`, rol.id]);
+  }
+
+  redirectToShow(rol: User): void {
+    this.router.navigate([`/users/${m.USER}/${a.VER}`, rol.id]);
   }
 
   active(user: User): void {
@@ -116,13 +127,6 @@ export class UserListService {
         this.getList();
       }
     );
-  }
-
-  private getDialogRef(
-    item?: User
-  ): MatDialogRef<UserFormDialogComponent, UserFormDialogData> {
-    const data: UserFormDialogData = { item };
-    return this.dialog.open(UserFormDialogComponent, { data });
   }
 
   private fullName(user: User): string {
