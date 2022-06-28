@@ -22,11 +22,15 @@
           [form]="form"
         ></app-input-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-gestor-carga-dialog-field
-          [form]="form"
-        ></app-gestor-carga-dialog-field>
-      </div>
+      <ng-container *ngIf="loggedUser$ | async as user">
+        <ng-container *ngIf="!user.gestor_carga_id">
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <app-gestor-carga-dialog-field
+              [form]="form"
+            ></app-gestor-carga-dialog-field>
+          </div>
+        </ng-container>
+      </ng-container>
       <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="isEdit || isShow">
         <app-estado-field [estado]="estado"></app-estado-field>
       </div>

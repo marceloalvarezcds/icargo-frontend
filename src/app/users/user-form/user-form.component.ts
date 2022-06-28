@@ -1,19 +1,25 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { Observable } from 'rxjs';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { RolFormService } from './rol-form.service';
-import { UserService } from 'src/app/services/user.service';
+import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { UserAccount } from 'src/app/interfaces/user';
+import { UserFormService } from './user-form.service';
 
 @Component({
-  selector: 'app-rol-form',
-  templateUrl: './rol-form.component.html',
-  styleUrls: ['./rol-form.component.scss'],
-  providers: [RolFormService],
+  selector: 'app-user-form',
+  templateUrl: './user-form.component.html',
+  styleUrls: ['./user-form.component.scss'],
+  providers: [UserFormService],
 })
-export class RolFormComponent implements OnInit, OnDestroy {
-  loggedUser$ = this.userService.getLoggedUser();
+export class UserFormComponent implements OnInit, OnDestroy {
+  set editPasswords(edit: boolean) {
+    this.service.editPasswords = edit;
+  }
+  get editPasswords() {
+    return this.service.editPasswords;
+  }
 
   get form(): FormGroup {
     return this.service.form;
@@ -35,19 +41,23 @@ export class RolFormComponent implements OnInit, OnDestroy {
     return this.service.isShow;
   }
 
+  get isCreate(): boolean {
+    return !this.isEdit && !this.isShow;
+  }
+
+  get loggedUser$(): Observable<UserAccount> {
+    return this.service.loggedUser$;
+  }
+
   get modelo(): m {
-    return m.ROL;
+    return m.USER;
   }
 
   get submodule(): string {
-    return 'Rol';
+    return 'Usuario';
   }
 
-  constructor(
-    route: ActivatedRoute,
-    private service: RolFormService,
-    private userService: UserService
-  ) {
+  constructor(route: ActivatedRoute, private service: UserFormService) {
     this.service.setBackUrl(route.snapshot.queryParams.backUrl);
     this.service.setId(route.snapshot.params.id);
   }

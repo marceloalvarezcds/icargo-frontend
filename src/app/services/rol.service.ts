@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { Rol } from 'src/app/interfaces/rol';
+import { Rol, RolChecked } from 'src/app/interfaces/rol';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -20,8 +20,8 @@ export class RolService {
     return this.http.get<Rol[]>(`${this.url}/`);
   }
 
-  getActiveList(): Observable<Rol[]> {
-    return this.http.get<Rol[]>(`${this.url}/active_list/`);
+  getActiveList(): Observable<RolChecked[]> {
+    return this.http.get<RolChecked[]>(`${this.url}/active_list/`);
   }
 
   create(formData: FormData): Observable<Rol> {

@@ -11,9 +11,10 @@ import { RolFormComponent } from './rol-form/rol-form.component';
 import { RolListComponent } from './rol-list/rol-list.component';
 import { UserListComponent } from './user-list/user-list.component';
 import { UsersRoutingModule } from './users-routing.module';
+import { UserFormComponent } from './user-form/user-form.component';
 
 @NgModule({
-  declarations: [UserListComponent, RolFormComponent, RolListComponent],
+  declarations: [UserListComponent, RolFormComponent, RolListComponent, UserFormComponent],
   imports: [
     CommonModule,
     UsersRoutingModule,

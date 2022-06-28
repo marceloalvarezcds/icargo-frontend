@@ -12,6 +12,7 @@ export interface Permiso {
   modelo_titulo: string;
   checked: boolean; // <- campo auxiliar que solo se utiliza en el front
   descripcion: string;
+  is_for_superuser: boolean;
 }
 
 export const mockPermisoList: Permiso[] = [
@@ -23,6 +24,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.USUARIOS,
     checked: true,
     descripcion: 'Ver usuario',
+    is_for_superuser: false,
   },
   {
     id: 2,
@@ -32,6 +34,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Reporte de Centro Operativo',
+    is_for_superuser: false,
   },
   {
     id: 3,
@@ -41,6 +44,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Reporte de Gestor de Carga',
+    is_for_superuser: true,
   },
   {
     id: 4,
@@ -50,6 +54,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Reporte de Proveedor',
+    is_for_superuser: false,
   },
   {
     id: 5,
@@ -59,6 +64,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Reporte de Punto de Venta',
+    is_for_superuser: false,
   },
   {
     id: 6,
@@ -68,6 +74,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Reporte de Remitente',
+    is_for_superuser: false,
   },
   {
     id: 7,
@@ -77,6 +84,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Crear Punto de Venta',
+    is_for_superuser: false,
   },
   {
     id: 8,
@@ -86,6 +94,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.ENTIDADES,
     checked: true,
     descripcion: 'Crear Punto de Venta',
+    is_for_superuser: false,
   },
   {
     id: 9,
@@ -95,6 +104,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Reporte de Propietario',
+    is_for_superuser: false,
   },
   {
     id: 10,
@@ -104,6 +114,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Reporte de Camion',
+    is_for_superuser: false,
   },
   {
     id: 11,
@@ -113,6 +124,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Reporte de Chofer',
+    is_for_superuser: false,
   },
   {
     id: 12,
@@ -122,6 +134,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Reporte de Semirremolque',
+    is_for_superuser: false,
   },
   {
     id: 13,
@@ -131,6 +144,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Crear de Chofer',
+    is_for_superuser: false,
   },
   {
     id: 14,
@@ -140,6 +154,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Editar de Chofer',
+    is_for_superuser: false,
   },
   {
     id: 15,
@@ -149,6 +164,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Ver de Chofer',
+    is_for_superuser: false,
   },
   {
     id: 16,
@@ -158,6 +174,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Crear de Propietario',
+    is_for_superuser: false,
   },
   {
     id: 17,
@@ -167,6 +184,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Editar de Propietario',
+    is_for_superuser: false,
   },
   {
     id: 18,
@@ -176,6 +194,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Ver de Propietario',
+    is_for_superuser: false,
   },
   {
     id: 19,
@@ -185,6 +204,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Crear de Camión',
+    is_for_superuser: false,
   },
   {
     id: 20,
@@ -194,6 +214,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Editar de Camión',
+    is_for_superuser: false,
   },
   {
     id: 21,
@@ -203,6 +224,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Listar de Camión',
+    is_for_superuser: false,
   },
   {
     id: 22,
@@ -212,6 +234,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Crear de Semi-remolque',
+    is_for_superuser: false,
   },
   {
     id: 23,
@@ -221,6 +244,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Editar de Semi-remolque',
+    is_for_superuser: false,
   },
   {
     id: 24,
@@ -230,6 +254,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Listar de Semi-remolque',
+    is_for_superuser: false,
   },
   {
     id: 25,
@@ -239,6 +264,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Cambiar estado de Camión',
+    is_for_superuser: false,
   },
   {
     id: 26,
@@ -248,6 +274,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Cambiar estado de Chofer',
+    is_for_superuser: false,
   },
   {
     id: 27,
@@ -257,6 +284,7 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Cambiar estado de Propietario',
+    is_for_superuser: false,
   },
   {
     id: 28,
@@ -266,5 +294,6 @@ export const mockPermisoList: Permiso[] = [
     modulo: PermisoModuloEnum.FLOTA,
     checked: true,
     descripcion: 'Cambiar estado de Semi-remolque',
+    is_for_superuser: false,
   },
 ];

@@ -1,0 +1,14 @@
+.mat-form-field-appearance-outline::ng-deep {
+  .mat-form-field-infix {
+    padding-top: 2px;
+  }
+}
+
+.mat-error.first {
+  font-size: 75%;
+  visibility: hidden;
+}
+
+.mat-error.first.visible {
+  visibility: visible;
+}

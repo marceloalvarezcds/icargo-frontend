@@ -1,22 +1,17 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormControl } from '@angular/forms';
 import { Permiso } from 'src/app/interfaces/permiso';
 import { PermisoService } from 'src/app/services/permiso.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-permiso-field',
   templateUrl: './permiso-field.component.html',
   styleUrls: ['./permiso-field.component.scss'],
-  // changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PermisoFieldComponent {
-  list$ = this.permisoService.getList();
+  list$ = this.service.getList();
+  loggedUser$ = this.userService.getLoggedUser();
 
   @Input() control!: AbstractControl;
   @Input() title = 'Permisos';
@@ -27,5 +22,8 @@ export class PermisoFieldComponent {
     return this.control as FormControl;
   }
 
-  constructor(private permisoService: PermisoService) {}
+  constructor(
+    private service: PermisoService,
+    private userService: UserService
+  ) {}
 }

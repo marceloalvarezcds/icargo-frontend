@@ -7,6 +7,7 @@ import {
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { RolFormComponent } from './rol-form/rol-form.component';
 import { RolListComponent } from './rol-list/rol-list.component';
+import { UserFormComponent } from './user-form/user-form.component';
 import { UserListComponent } from './user-list/user-list.component';
 
 const routes: Routes = [
@@ -26,6 +27,21 @@ const routes: Routes = [
       {
         path: a.LISTAR,
         component: UserListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: UserFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: UserFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: UserFormComponent,
         canActivate: [PermisoGuard],
       },
     ],
