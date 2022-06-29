@@ -30,11 +30,8 @@ export class UserFormService {
       last_name: new FormControl(null, Validators.required),
       username: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, emailValidator]),
-      password: new FormControl(null, [
-        Validators.required,
-        Validators.minLength(6),
-      ]),
-      confirm_password: new FormControl(null, Validators.required),
+      password: new FormControl(null),
+      confirm_password: new FormControl(null),
       gestor_carga_id: new FormControl(null),
       roles: new FormControl(null, Validators.required),
     },
@@ -109,6 +106,7 @@ export class UserFormService {
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+    console.log('form error = ', this.form.errors);
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));

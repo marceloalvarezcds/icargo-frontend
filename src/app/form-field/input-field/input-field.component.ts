@@ -23,6 +23,7 @@ export class InputFieldComponent {
     return obj[this.controlName];
   }
 
+  @Input() autocomplete: 'on' | 'off' = 'off';
   @Input() formatToPasteNumber = false;
   @Input() formatToPastePhone = false;
   @Input() autofocus = false;
