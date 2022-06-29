@@ -106,7 +106,6 @@ export class UserFormService {
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    console.log('form error = ', this.form.errors);
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
