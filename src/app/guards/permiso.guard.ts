@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { ActivatedRouteSnapshot, CanActivate } from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router } from '@angular/router';
 import { capitalize } from 'lodash';
 import {
   PermisoAccionEnum as a,
@@ -14,6 +14,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class PermisoGuard implements CanActivate {
   constructor(
+    private router: Router,
     private userService: UserService,
     private httpErrorService: HttpErrorService
   ) {}
@@ -27,6 +28,7 @@ export class PermisoGuard implements CanActivate {
       this.httpErrorService.setErrorList([
         `No tiene permiso para ${action} ${mmodel}`,
       ]);
+      this.router.navigate(['/']);
       return false;
     }
     return true;

@@ -1,6 +1,7 @@
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { Router } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
@@ -9,6 +10,7 @@ import { HttpErrorService } from '../services/http-error.service';
 import { ErrorInterceptor } from './error.interceptor';
 
 describe('ErrorInterceptor', () => {
+  let router: Router;
   let authService: AuthService;
   let errorInterceptor: ErrorInterceptor;
   let httpErrorService: HttpErrorService;
@@ -17,10 +19,7 @@ describe('ErrorInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
         AuthService,
         HttpErrorService,
@@ -32,19 +31,24 @@ describe('ErrorInterceptor', () => {
       ],
     });
 
+    router = TestBed.inject(Router);
     authService = TestBed.inject(AuthService);
     httpErrorService = TestBed.inject(HttpErrorService);
     httpHandlerSpy = jasmine.createSpyObj('HttpHandler', ['handle']);
     httpRequestSpy = jasmine.createSpyObj('HttpRequest', ['doesNotMatter']);
-    errorInterceptor = new ErrorInterceptor(authService, httpErrorService);
+    errorInterceptor = new ErrorInterceptor(
+      router,
+      authService,
+      httpErrorService
+    );
     spyOn(authService, 'logout');
     spyOn(httpErrorService, 'setErrorList');
   });
 
   it('test ErrorInterceptor with 401', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { detail: 'Unauthorized' }, status: 401 }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { detail: 'Unauthorized' }, status: 401 })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -54,9 +58,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor with status error = 0', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { detail: 'Server not found' }, status: 0 }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { detail: 'Server not found' }, status: 0 })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -66,9 +70,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor with 404', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { detail: 'Not Found' }, status: 404 }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { detail: 'Not Found' }, status: 404 })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -78,9 +82,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor error detail Array 1', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { detail: [ { msg: 'Error' } ] } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { detail: [{ msg: 'Error' }] } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -90,9 +94,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor error detail Array 2', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { detail: [ { err: 'Error' } ] } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { detail: [{ err: 'Error' }] } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -102,9 +106,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor error detail String', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { detail: 'Error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { detail: 'Error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -114,9 +118,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error detail 1', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { error: 'Error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { error: 'Error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -126,9 +130,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error detail 2', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { message: 'Error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { message: 'Error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -138,9 +142,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error detail 3', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { statusText: 'Error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { statusText: 'Error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -150,9 +154,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error detail 4', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { error: { err: 'Error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ error: { err: 'Error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -162,9 +166,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error 1', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { message: { detail: 'No error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ message: { detail: 'No error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -174,9 +178,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error 2', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { statusText: { detail: 'No error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ statusText: { detail: 'No error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
@@ -186,9 +190,9 @@ describe('ErrorInterceptor', () => {
   });
 
   it('test ErrorInterceptor without error 3', () => {
-    httpHandlerSpy.handle.and.returnValue(throwError(
-      { msg: { detail: 'No error' } }
-    ));
+    httpHandlerSpy.handle.and.returnValue(
+      throwError({ msg: { detail: 'No error' } })
+    );
 
     errorInterceptor.intercept(httpRequestSpy, httpHandlerSpy).subscribe({
       error: () => {
