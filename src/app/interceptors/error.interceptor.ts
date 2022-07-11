@@ -4,19 +4,20 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 import { HttpErrorService } from '../services/http-error.service';
 import { catchError } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
-
   constructor(
+    private router: Router,
     private authService: AuthService,
-    private httpErrorService: HttpErrorService,
+    private httpErrorService: HttpErrorService
   ) {}
 
   intercept(
@@ -25,8 +26,11 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401 || err.status === 403) {
+        if (err.status === 401) {
           this.authService.logout();
+        }
+        if (err.status === 403) {
+          this.router.navigate(['/']);
         }
         let errors = [];
         if (err.error) {
@@ -44,7 +48,10 @@ export class ErrorInterceptor implements HttpInterceptor {
             errors = [err.error.detail];
           } else {
             errors = [
-              err.error.error || err.error.message || err.statusText || err.error.toString(),
+              err.error.error ||
+                err.error.message ||
+                err.statusText ||
+                err.error.toString(),
             ];
           }
         } else {

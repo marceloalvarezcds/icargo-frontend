@@ -58,6 +58,7 @@
         *ngIf="!isCreate && !editPasswords"
       >
         <button
+          *ngIf="isEdit"
           type="button"
           class="edit-pass-buttons"
           mat-raised-button
