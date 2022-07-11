@@ -96,9 +96,9 @@ describe('UserFormComponent', () => {
     component.form.patchValue({
       first_name: mockUser1.first_name,
       last_name: mockUser1.last_name,
-      username: mockUser1.username,
+      usuario: mockUser1.username,
       email: mockUser1.email,
-      password: mockUser1.password,
+      contrasena: mockUser1.password,
       confirm_password: mockUser1.confirm_password,
       gestor_carga_id: mockUser1.gestor_carga_id,
       roles: mockUser1.roles,
