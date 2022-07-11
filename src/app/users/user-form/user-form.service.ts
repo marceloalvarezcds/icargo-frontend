@@ -28,15 +28,15 @@ export class UserFormService {
     {
       first_name: new FormControl(null, Validators.required),
       last_name: new FormControl(null, Validators.required),
-      username: new FormControl(null, Validators.required),
+      usuario: new FormControl(null, Validators.required),
       email: new FormControl(null, [Validators.required, emailValidator]),
-      password: new FormControl(null),
+      contrasena: new FormControl(null),
       confirm_password: new FormControl(null),
       gestor_carga_id: new FormControl(null),
       roles: new FormControl(null, Validators.required),
     },
     {
-      validators: mustMatch('password', 'confirm_password'),
+      validators: mustMatch('contrasena', 'confirm_password'),
     }
   );
   initialFormValue = this.form.value;
@@ -109,6 +109,10 @@ export class UserFormService {
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
+      data.username = data.usuario;
+      data.password = data.contrasena;
+      delete data.usuario;
+      delete data.contrasena;
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
       this.initialFormValue = this.form.value;
@@ -137,7 +141,7 @@ export class UserFormService {
         this.form.patchValue({
           first_name: data.first_name,
           last_name: data.last_name,
-          username: data.username,
+          usuario: data.username,
           email: data.email,
           gestor_carga_id: data.gestor_carga_id,
           roles: data.roles,
@@ -157,19 +161,19 @@ export class UserFormService {
   }
 
   private loadPasswordsValidators(): void {
-    this.form.controls['password'].setValidators([
+    this.form.controls['contrasena'].setValidators([
       Validators.required,
       Validators.minLength(6),
     ]);
     this.form.controls['confirm_password'].setValidators(Validators.required);
-    this.form.controls['password'].updateValueAndValidity();
+    this.form.controls['contrasena'].updateValueAndValidity();
     this.form.controls['confirm_password'].updateValueAndValidity();
   }
 
   private clearPasswordsValidators(): void {
-    this.form.controls['password'].clearValidators();
+    this.form.controls['contrasena'].clearValidators();
     this.form.controls['confirm_password'].clearValidators();
-    this.form.controls['password'].updateValueAndValidity();
+    this.form.controls['contrasena'].updateValueAndValidity();
     this.form.controls['confirm_password'].updateValueAndValidity();
   }
 }
