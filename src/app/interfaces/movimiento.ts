@@ -41,6 +41,18 @@ export interface MovimientoForm extends MovimientoBaseModel {
   es_creacion_contraparte?: boolean;
 }
 
+export interface MovimientoFleteEditForm {
+  moneda_id: number | null;
+  tarifa: number | null;
+}
+
+export interface MovimientoMermaEditForm {
+  valor: number | null;
+  moneda_id: number | null;
+  es_porcentual: boolean;
+  tolerancia: number | null;
+}
+
 export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   id: number;
   gestor_carga_id: number;
@@ -80,6 +92,25 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   tipo_insumo_descripcion: string | null;
   tipo_movimiento_descripcion: string;
   tipo_operacion_descripcion: string;
+  // Datos de la OC
+  es_flete: boolean;
+  es_gestor: boolean;
+  es_merma: boolean;
+  es_propietario: boolean;
+  can_edit_oc: boolean;
+  cantidad_destino: number | null;
+  condicion_gestor_carga_moneda_id: number | null;
+  condicion_gestor_carga_tarifa: number | null;
+  condicion_propietario_moneda_id: number | null;
+  condicion_propietario_tarifa: number | null;
+  merma_gestor_carga_valor: number | null;
+  merma_gestor_carga_moneda_id: number | null;
+  merma_gestor_carga_es_porcentual: boolean;
+  merma_gestor_carga_tolerancia: number | null;
+  merma_propietario_valor: number | null;
+  merma_propietario_moneda_id: number | null;
+  merma_propietario_es_porcentual: boolean;
+  merma_propietario_tolerancia: number | null;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -170,6 +201,26 @@ export const mockMovimientoList: Movimiento[] = [
     tipo_insumo_descripcion: null,
     tipo_movimiento_descripcion: 'Flete',
     tipo_operacion_descripcion: 'Pago',
+    // Datos de la OC
+    es_flete: false,
+    es_gestor: false,
+    es_merma: false,
+    es_propietario: false,
+    can_edit_oc: false,
+    cantidad_destino: 0,
+    condicion_gestor_carga_moneda_id: null,
+    condicion_gestor_carga_tarifa: null,
+    condicion_propietario_moneda_id: null,
+    condicion_propietario_tarifa: null,
+    merma_gestor_carga_valor: null,
+    merma_gestor_carga_moneda_id: null,
+    merma_gestor_carga_es_porcentual: false,
+    merma_gestor_carga_tolerancia: null,
+    merma_propietario_valor: null,
+    merma_propietario_moneda_id: null,
+    merma_propietario_es_porcentual: false,
+    merma_propietario_tolerancia: null,
+    // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:32:14.859823',
     modified_by: 'admin-transred',
@@ -258,6 +309,26 @@ export const mockMovimientoList: Movimiento[] = [
     tipo_insumo_descripcion: null,
     tipo_movimiento_descripcion: 'Merma',
     tipo_operacion_descripcion: 'Pago',
+    // Datos de la OC
+    es_flete: false,
+    es_gestor: false,
+    es_merma: false,
+    es_propietario: false,
+    can_edit_oc: false,
+    cantidad_destino: 0,
+    condicion_gestor_carga_moneda_id: null,
+    condicion_gestor_carga_tarifa: null,
+    condicion_propietario_moneda_id: null,
+    condicion_propietario_tarifa: null,
+    merma_gestor_carga_valor: null,
+    merma_gestor_carga_moneda_id: null,
+    merma_gestor_carga_es_porcentual: false,
+    merma_gestor_carga_tolerancia: null,
+    merma_propietario_valor: null,
+    merma_propietario_moneda_id: null,
+    merma_propietario_es_porcentual: false,
+    merma_propietario_tolerancia: null,
+    // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:34:29.516739',
     modified_by: 'admin-transred',
@@ -345,6 +416,26 @@ export const mockMovimientoList: Movimiento[] = [
     tipo_insumo_descripcion: null,
     tipo_movimiento_descripcion: 'Descuento',
     tipo_operacion_descripcion: 'Cobro',
+    // Datos de la OC
+    es_flete: false,
+    es_gestor: false,
+    es_merma: false,
+    es_propietario: false,
+    can_edit_oc: false,
+    cantidad_destino: 0,
+    condicion_gestor_carga_moneda_id: null,
+    condicion_gestor_carga_tarifa: null,
+    condicion_propietario_moneda_id: null,
+    condicion_propietario_tarifa: null,
+    merma_gestor_carga_valor: null,
+    merma_gestor_carga_moneda_id: null,
+    merma_gestor_carga_es_porcentual: false,
+    merma_gestor_carga_tolerancia: null,
+    merma_propietario_valor: null,
+    merma_propietario_moneda_id: null,
+    merma_propietario_es_porcentual: false,
+    merma_propietario_tolerancia: null,
+    // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:32:14.663215',
     modified_by: 'admin-transred',
@@ -432,6 +523,26 @@ export const mockMovimientoList: Movimiento[] = [
     tipo_insumo_descripcion: null,
     tipo_movimiento_descripcion: 'Complemento',
     tipo_operacion_descripcion: 'Cobro',
+    // Datos de la OC
+    es_flete: false,
+    es_gestor: false,
+    es_merma: false,
+    es_propietario: false,
+    can_edit_oc: false,
+    cantidad_destino: 0,
+    condicion_gestor_carga_moneda_id: null,
+    condicion_gestor_carga_tarifa: null,
+    condicion_propietario_moneda_id: null,
+    condicion_propietario_tarifa: null,
+    merma_gestor_carga_valor: null,
+    merma_gestor_carga_moneda_id: null,
+    merma_gestor_carga_es_porcentual: false,
+    merma_gestor_carga_tolerancia: null,
+    merma_propietario_valor: null,
+    merma_propietario_moneda_id: null,
+    merma_propietario_es_porcentual: false,
+    merma_propietario_tolerancia: null,
+    // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:32:14.608139',
     modified_by: 'admin-transred',
@@ -520,6 +631,26 @@ export const mockMovimientoList: Movimiento[] = [
     tipo_insumo_descripcion: 'COMBUSTIBLE',
     tipo_movimiento_descripcion: 'Anticipo',
     tipo_operacion_descripcion: 'Cobro',
+    // Datos de la OC
+    es_flete: false,
+    es_gestor: false,
+    es_merma: false,
+    es_propietario: false,
+    can_edit_oc: false,
+    cantidad_destino: 0,
+    condicion_gestor_carga_moneda_id: null,
+    condicion_gestor_carga_tarifa: null,
+    condicion_propietario_moneda_id: null,
+    condicion_propietario_tarifa: null,
+    merma_gestor_carga_valor: null,
+    merma_gestor_carga_moneda_id: null,
+    merma_gestor_carga_es_porcentual: false,
+    merma_gestor_carga_tolerancia: null,
+    merma_propietario_valor: null,
+    merma_propietario_moneda_id: null,
+    merma_propietario_es_porcentual: false,
+    merma_propietario_tolerancia: null,
+    // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:34:16.869250',
     modified_by: 'admin-transred',
@@ -535,4 +666,16 @@ export const mockMovimientoForm1: MovimientoForm = {
 export const mockMovimientoForm2: MovimientoForm = {
   ...mockMovimientoList[0],
   es_creacion_contraparte: true,
+};
+
+export const mockMovimientoFleteEditForm: MovimientoFleteEditForm = {
+  moneda_id: 1,
+  tarifa: 100,
+};
+
+export const mockMovimientoMermaEditForm: MovimientoMermaEditForm = {
+  moneda_id: 1,
+  es_porcentual: false,
+  tolerancia: 10,
+  valor: 900,
 };

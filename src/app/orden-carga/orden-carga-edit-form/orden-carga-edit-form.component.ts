@@ -163,6 +163,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.item!.remisiones_resultado.slice();
   }
 
+  get remisionResultadoFleteList(): OrdenCargaRemisionResultado[] {
+    return this.item!.remisiones_resultado_flete.slice();
+  }
+
   get created_by(): string {
     return this.item!.created_by;
   }

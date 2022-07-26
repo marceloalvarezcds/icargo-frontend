@@ -69,11 +69,11 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }),
     condicion: this.fb.group({
       condicion_cantidad: [null, Validators.required],
-      // inicio - Condiciones para el Gestor de Cuenta
-      condicion_gestor_cuenta_moneda_id: [null, Validators.required],
-      condicion_gestor_cuenta_tarifa: [null, Validators.required],
-      condicion_gestor_cuenta_unidad_id: [null, Validators.required],
-      // fin - Condiciones para el Gestor de Cuenta
+      // inicio - Condiciones para el Gestor de Carga
+      condicion_gestor_carga_moneda_id: [null, Validators.required],
+      condicion_gestor_carga_tarifa: [null, Validators.required],
+      condicion_gestor_carga_unidad_id: [null, Validators.required],
+      // fin - Condiciones para el Gestor de Carga
       // inicio - Condiciones para el Propietario
       condicion_propietario_moneda_id: [null, Validators.required],
       condicion_propietario_tarifa: [null, Validators.required],
@@ -81,13 +81,13 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       // fin - Condiciones para el Propietario
     }),
     merma: this.fb.group({
-      // inicio - Mermas para el Gestor de Cuenta
-      merma_gestor_cuenta_valor: [null, Validators.required],
-      merma_gestor_cuenta_moneda_id: [null, Validators.required],
-      merma_gestor_cuenta_unidad_id: [null, Validators.required],
-      merma_gestor_cuenta_es_porcentual: false,
-      merma_gestor_cuenta_tolerancia: [null, Validators.required],
-      // fin - Mermas para el Gestor de Cuenta
+      // inicio - Mermas para el Gestor de Carga
+      merma_gestor_carga_valor: [null, Validators.required],
+      merma_gestor_carga_moneda_id: [null, Validators.required],
+      merma_gestor_carga_unidad_id: [null, Validators.required],
+      merma_gestor_carga_es_porcentual: false,
+      merma_gestor_carga_tolerancia: [null, Validators.required],
+      // fin - Mermas para el Gestor de Carga
       // inicio - Mermas para el Propietario
       merma_propietario_valor: [null, Validators.required],
       merma_propietario_moneda_id: [null, Validators.required],
@@ -292,13 +292,13 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           },
           condicion: {
             condicion_cantidad: data.condicion_cantidad,
-            // inicio - Condiciones para el Gestor de Cuenta
-            condicion_gestor_cuenta_moneda_id:
-              data.condicion_gestor_cuenta_moneda_id,
-            condicion_gestor_cuenta_tarifa: data.condicion_gestor_cuenta_tarifa,
-            condicion_gestor_cuenta_unidad_id:
-              data.condicion_gestor_cuenta_unidad_id,
-            // fin - Condiciones para el Gestor de Cuenta
+            // inicio - Condiciones para el Gestor de Carga
+            condicion_gestor_carga_moneda_id:
+              data.condicion_gestor_carga_moneda_id,
+            condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
+            condicion_gestor_carga_unidad_id:
+              data.condicion_gestor_carga_unidad_id,
+            // fin - Condiciones para el Gestor de Carga
             // inicio - Condiciones para el Propietario
             condicion_propietario_moneda_id:
               data.condicion_propietario_moneda_id,
@@ -308,14 +308,14 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             // fin - Condiciones para el Propietario
           },
           merma: {
-            // inicio - Mermas para el Gestor de Cuenta
-            merma_gestor_cuenta_valor: data.merma_gestor_cuenta_valor,
-            merma_gestor_cuenta_moneda_id: data.merma_gestor_cuenta_moneda_id,
-            merma_gestor_cuenta_unidad_id: data.merma_gestor_cuenta_unidad_id,
-            merma_gestor_cuenta_es_porcentual:
-              data.merma_gestor_cuenta_es_porcentual,
-            merma_gestor_cuenta_tolerancia: data.merma_gestor_cuenta_tolerancia,
-            // fin - Mermas para el Gestor de Cuenta
+            // inicio - Mermas para el Gestor de Carga
+            merma_gestor_carga_valor: data.merma_gestor_carga_valor,
+            merma_gestor_carga_moneda_id: data.merma_gestor_carga_moneda_id,
+            merma_gestor_carga_unidad_id: data.merma_gestor_carga_unidad_id,
+            merma_gestor_carga_es_porcentual:
+              data.merma_gestor_carga_es_porcentual,
+            merma_gestor_carga_tolerancia: data.merma_gestor_carga_tolerancia,
+            // fin - Mermas para el Gestor de Carga
             // inicio - Mermas para el Propietario
             merma_propietario_valor: data.merma_propietario_valor,
             merma_propietario_moneda_id: data.merma_propietario_moneda_id,
