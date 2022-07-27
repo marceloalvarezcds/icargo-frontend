@@ -1,0 +1,10 @@
+.movimientos-container::ng-deep {
+  .mat-column-ver {
+    right: 61px !important;
+  }
+  .mat-column-editar {
+    width: 61px !important;
+    min-width: 61px !important;
+    box-sizing: border-box;
+  }
+}

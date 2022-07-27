@@ -60,6 +60,8 @@
         </mat-expansion-panel-header>
         <app-liquidacion-movimientos
           [list]="movimientos"
+          [esConfirmado]="true"
+          (selectedMovimientosChange)="loadLiquidacion()"
         ></app-liquidacion-movimientos>
       </mat-expansion-panel>
       <mat-expansion-panel [expanded]="false">
