@@ -68,6 +68,12 @@
               [gestorCargaId]="gestorCargaId"
               [list]="remisionResultadoList"
             ></app-orden-carga-edit-form-remisiones-resultado>
+            <app-orden-carga-edit-form-remisiones-resultado
+              *ngIf="item.modify_by_movimiento"
+              title="Resultados del Pedido"
+              [gestorCargaId]="gestorCargaId"
+              [list]="remisionResultadoFleteList"
+            ></app-orden-carga-edit-form-remisiones-resultado>
             <app-orden-carga-edit-form-remisiones-origen
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
@@ -153,6 +159,7 @@
           <app-orden-carga-edit-form-movimientos
             [gestorCargaId]="gestorCargaId"
             [list]="movimientoList"
+            (ocChange)="getData()"
           ></app-orden-carga-edit-form-movimientos>
         </mat-expansion-panel>
 

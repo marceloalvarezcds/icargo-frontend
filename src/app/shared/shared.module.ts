@@ -10,6 +10,7 @@ import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.compo
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { HeaderComponent } from './header/header.component';
 import { HttpErrorSnackBarComponent } from './http-error-snack-bar/http-error-snack-bar.component';
+import { KeyValueComponent } from './key-value/key-value.component';
 import { PageFormAddressComponent } from './page-form-address/page-form-address.component';
 import { PageFormAuditComponent } from './page-form-audit/page-form-audit.component';
 import { PageFormContactosComponent } from './page-form-contactos/page-form-contactos.component';
@@ -29,6 +30,7 @@ const modules = [
   CheckboxFilterComponent,
   GoogleMapComponent,
   HttpErrorSnackBarComponent,
+  KeyValueComponent,
   PageComponent,
   PageFormAddressComponent,
   PageFormAuditComponent,

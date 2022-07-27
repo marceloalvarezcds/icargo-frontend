@@ -35,11 +35,11 @@ export interface FleteFormBaseModel {
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
   condicion_cantidad: number;
-  // inicio - Condiciones para el Gestor de Cuenta
-  condicion_gestor_cuenta_moneda_id: number;
-  condicion_gestor_cuenta_tarifa: number;
-  condicion_gestor_cuenta_unidad_id: number;
-  // fin - Condiciones para el Gestor de Cuenta
+  // inicio - Condiciones para el Gestor de Carga
+  condicion_gestor_carga_moneda_id: number;
+  condicion_gestor_carga_tarifa: number;
+  condicion_gestor_carga_unidad_id: number;
+  // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_id: number;
   condicion_propietario_tarifa: number;
@@ -47,13 +47,13 @@ export interface FleteFormBaseModel {
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
   // INICIO Mermas de Fletes
-  // inicio - Mermas para el Gestor de Cuenta
-  merma_gestor_cuenta_valor: number;
-  merma_gestor_cuenta_moneda_id: number;
-  merma_gestor_cuenta_unidad_id: number;
-  merma_gestor_cuenta_es_porcentual: boolean;
-  merma_gestor_cuenta_tolerancia: number;
-  // fin - Mermas para el Gestor de Cuenta
+  // inicio - Mermas para el Gestor de Carga
+  merma_gestor_carga_valor: number;
+  merma_gestor_carga_moneda_id: number;
+  merma_gestor_carga_unidad_id: number;
+  merma_gestor_carga_es_porcentual: boolean;
+  merma_gestor_carga_tolerancia: number;
+  // fin - Mermas para el Gestor de Carga
   // inicio - Mermas para el Propietario
   merma_propietario_valor: number;
   merma_propietario_moneda_id: number;
@@ -86,21 +86,21 @@ export interface Flete extends FleteFormBaseModel {
   destino: CentroOperativo;
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
-  // inicio - Condiciones para el Gestor de Cuenta
-  condicion_gestor_cuenta_moneda: Moneda;
-  condicion_gestor_cuenta_unidad: Unidad;
-  // fin - Condiciones para el Gestor de Cuenta
+  // inicio - Condiciones para el Gestor de Carga
+  condicion_gestor_carga_moneda: Moneda;
+  condicion_gestor_carga_unidad: Unidad;
+  // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda: Moneda;
   condicion_propietario_unidad: Unidad;
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
   // INICIO Mermas de Fletes
-  // inicio - Mermas para el Gestor de Cuenta
-  merma_gestor_cuenta_moneda: Moneda;
-  merma_gestor_cuenta_unidad: Unidad;
-  merma_gestor_cuenta_es_porcentual_descripcion: string;
-  // fin - Mermas para el Gestor de Cuenta
+  // inicio - Mermas para el Gestor de Carga
+  merma_gestor_carga_moneda: Moneda;
+  merma_gestor_carga_unidad: Unidad;
+  merma_gestor_carga_es_porcentual_descripcion: string;
+  // fin - Mermas para el Gestor de Carga
   // inicio - Mermas para el Propietario
   merma_propietario_moneda: Moneda;
   merma_propietario_unidad: Unidad;
@@ -129,21 +129,21 @@ export interface FleteList extends FleteFormBaseModel {
   destino_nombre: string;
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
-  // inicio - Condiciones para el Gestor de Cuenta
-  condicion_gestor_cuenta_moneda_nombre: string;
-  condicion_gestor_cuenta_unidad_descripcion: string;
-  // fin - Condiciones para el Gestor de Cuenta
+  // inicio - Condiciones para el Gestor de Carga
+  condicion_gestor_carga_moneda_nombre: string;
+  condicion_gestor_carga_unidad_descripcion: string;
+  // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_nombre: string;
   condicion_propietario_unidad_descripcion: string;
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
   // INICIO Mermas de Fletes
-  // inicio - Mermas para el Gestor de Cuenta
-  merma_gestor_cuenta_moneda_nombre: string;
-  merma_gestor_cuenta_unidad_descripcion: string;
-  merma_gestor_cuenta_es_porcentual_descripcion: string;
-  // fin - Mermas para el Gestor de Cuenta
+  // inicio - Mermas para el Gestor de Carga
+  merma_gestor_carga_moneda_nombre: string;
+  merma_gestor_carga_unidad_descripcion: string;
+  merma_gestor_carga_es_porcentual_descripcion: string;
+  // fin - Mermas para el Gestor de Carga
   // inicio - Mermas para el Propietario
   merma_propietario_moneda_nombre: string;
   merma_propietario_unidad_descripcion: string;
@@ -205,13 +205,13 @@ export const mockFlete1: Flete = {
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
   condicion_cantidad: 100,
-  // inicio - Condiciones para el Gestor de Cuenta
-  condicion_gestor_cuenta_moneda_id: pyg.id,
-  condicion_gestor_cuenta_moneda: pyg,
-  condicion_gestor_cuenta_tarifa: 100,
-  condicion_gestor_cuenta_unidad_id: toneladas.id,
-  condicion_gestor_cuenta_unidad: toneladas,
-  // fin - Condiciones para el Gestor de Cuenta
+  // inicio - Condiciones para el Gestor de Carga
+  condicion_gestor_carga_moneda_id: pyg.id,
+  condicion_gestor_carga_moneda: pyg,
+  condicion_gestor_carga_tarifa: 100,
+  condicion_gestor_carga_unidad_id: toneladas.id,
+  condicion_gestor_carga_unidad: toneladas,
+  // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_id: pyg.id,
   condicion_propietario_moneda: pyg,
@@ -221,16 +221,16 @@ export const mockFlete1: Flete = {
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
   // INICIO Mermas de Fletes
-  // inicio - Mermas para el Gestor de Cuenta
-  merma_gestor_cuenta_valor: 100,
-  merma_gestor_cuenta_moneda_id: pyg.id,
-  merma_gestor_cuenta_moneda: pyg,
-  merma_gestor_cuenta_unidad_id: toneladas.id,
-  merma_gestor_cuenta_unidad: toneladas,
-  merma_gestor_cuenta_es_porcentual: true,
-  merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
-  merma_gestor_cuenta_tolerancia: 100,
-  // fin - Mermas para el Gestor de Cuenta
+  // inicio - Mermas para el Gestor de Carga
+  merma_gestor_carga_valor: 100,
+  merma_gestor_carga_moneda_id: pyg.id,
+  merma_gestor_carga_moneda: pyg,
+  merma_gestor_carga_unidad_id: toneladas.id,
+  merma_gestor_carga_unidad: toneladas,
+  merma_gestor_carga_es_porcentual: true,
+  merma_gestor_carga_es_porcentual_descripcion: 'Si',
+  merma_gestor_carga_tolerancia: 100,
+  // fin - Mermas para el Gestor de Carga
   // inicio - Mermas para el Propietario
   merma_propietario_valor: 100,
   merma_propietario_moneda_id: pyg.id,
@@ -283,13 +283,13 @@ export const mockFlete2: Flete = {
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
   condicion_cantidad: 100,
-  // inicio - Condiciones para el Gestor de Cuenta
-  condicion_gestor_cuenta_moneda_id: usd.id,
-  condicion_gestor_cuenta_moneda: usd,
-  condicion_gestor_cuenta_tarifa: 100,
-  condicion_gestor_cuenta_unidad_id: kilogramos.id,
-  condicion_gestor_cuenta_unidad: kilogramos,
-  // fin - Condiciones para el Gestor de Cuenta
+  // inicio - Condiciones para el Gestor de Carga
+  condicion_gestor_carga_moneda_id: usd.id,
+  condicion_gestor_carga_moneda: usd,
+  condicion_gestor_carga_tarifa: 100,
+  condicion_gestor_carga_unidad_id: kilogramos.id,
+  condicion_gestor_carga_unidad: kilogramos,
+  // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_id: usd.id,
   condicion_propietario_moneda: usd,
@@ -299,16 +299,16 @@ export const mockFlete2: Flete = {
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
   // INICIO Mermas de Fletes
-  // inicio - Mermas para el Gestor de Cuenta
-  merma_gestor_cuenta_valor: 100,
-  merma_gestor_cuenta_moneda_id: usd.id,
-  merma_gestor_cuenta_moneda: usd,
-  merma_gestor_cuenta_unidad_id: kilogramos.id,
-  merma_gestor_cuenta_unidad: kilogramos,
-  merma_gestor_cuenta_es_porcentual: true,
-  merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
-  merma_gestor_cuenta_tolerancia: 100,
-  // fin - Mermas para el Gestor de Cuenta
+  // inicio - Mermas para el Gestor de Carga
+  merma_gestor_carga_valor: 100,
+  merma_gestor_carga_moneda_id: usd.id,
+  merma_gestor_carga_moneda: usd,
+  merma_gestor_carga_unidad_id: kilogramos.id,
+  merma_gestor_carga_unidad: kilogramos,
+  merma_gestor_carga_es_porcentual: true,
+  merma_gestor_carga_es_porcentual_descripcion: 'Si',
+  merma_gestor_carga_tolerancia: 100,
+  // fin - Mermas para el Gestor de Carga
   // inicio - Mermas para el Propietario
   merma_propietario_valor: 100,
   merma_propietario_moneda_id: usd.id,
@@ -364,13 +364,13 @@ export const mockFleteList: FleteList[] = [
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
-    // inicio - Condiciones para el Gestor de Cuenta
-    condicion_gestor_cuenta_moneda_id: pyg.id,
-    condicion_gestor_cuenta_moneda_nombre: pyg.nombre,
-    condicion_gestor_cuenta_tarifa: 100,
-    condicion_gestor_cuenta_unidad_id: toneladas.id,
-    condicion_gestor_cuenta_unidad_descripcion: toneladas.descripcion,
-    // fin - Condiciones para el Gestor de Cuenta
+    // inicio - Condiciones para el Gestor de Carga
+    condicion_gestor_carga_moneda_id: pyg.id,
+    condicion_gestor_carga_moneda_nombre: pyg.nombre,
+    condicion_gestor_carga_tarifa: 100,
+    condicion_gestor_carga_unidad_id: toneladas.id,
+    condicion_gestor_carga_unidad_descripcion: toneladas.descripcion,
+    // fin - Condiciones para el Gestor de Carga
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: pyg.id,
     condicion_propietario_moneda_nombre: pyg.nombre,
@@ -380,16 +380,16 @@ export const mockFleteList: FleteList[] = [
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
     // INICIO Mermas de Fletes
-    // inicio - Mermas para el Gestor de Cuenta
-    merma_gestor_cuenta_valor: 100,
-    merma_gestor_cuenta_moneda_id: pyg.id,
-    merma_gestor_cuenta_moneda_nombre: pyg.nombre,
-    merma_gestor_cuenta_unidad_id: toneladas.id,
-    merma_gestor_cuenta_unidad_descripcion: toneladas.descripcion,
-    merma_gestor_cuenta_es_porcentual: true,
-    merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
-    merma_gestor_cuenta_tolerancia: 100,
-    // fin - Mermas para el Gestor de Cuenta
+    // inicio - Mermas para el Gestor de Carga
+    merma_gestor_carga_valor: 100,
+    merma_gestor_carga_moneda_id: pyg.id,
+    merma_gestor_carga_moneda_nombre: pyg.nombre,
+    merma_gestor_carga_unidad_id: toneladas.id,
+    merma_gestor_carga_unidad_descripcion: toneladas.descripcion,
+    merma_gestor_carga_es_porcentual: true,
+    merma_gestor_carga_es_porcentual_descripcion: 'Si',
+    merma_gestor_carga_tolerancia: 100,
+    // fin - Mermas para el Gestor de Carga
     // inicio - Mermas para el Propietario
     merma_propietario_valor: 100,
     merma_propietario_moneda_id: pyg.id,
@@ -439,13 +439,13 @@ export const mockFleteList: FleteList[] = [
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
-    // inicio - Condiciones para el Gestor de Cuenta
-    condicion_gestor_cuenta_moneda_id: usd.id,
-    condicion_gestor_cuenta_moneda_nombre: usd.nombre,
-    condicion_gestor_cuenta_tarifa: 100,
-    condicion_gestor_cuenta_unidad_id: kilogramos.id,
-    condicion_gestor_cuenta_unidad_descripcion: kilogramos.descripcion,
-    // fin - Condiciones para el Gestor de Cuenta
+    // inicio - Condiciones para el Gestor de Carga
+    condicion_gestor_carga_moneda_id: usd.id,
+    condicion_gestor_carga_moneda_nombre: usd.nombre,
+    condicion_gestor_carga_tarifa: 100,
+    condicion_gestor_carga_unidad_id: kilogramos.id,
+    condicion_gestor_carga_unidad_descripcion: kilogramos.descripcion,
+    // fin - Condiciones para el Gestor de Carga
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: usd.id,
     condicion_propietario_moneda_nombre: usd.nombre,
@@ -455,16 +455,16 @@ export const mockFleteList: FleteList[] = [
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
     // INICIO Mermas de Fletes
-    // inicio - Mermas para el Gestor de Cuenta
-    merma_gestor_cuenta_valor: 100,
-    merma_gestor_cuenta_moneda_id: usd.id,
-    merma_gestor_cuenta_moneda_nombre: usd.nombre,
-    merma_gestor_cuenta_unidad_id: kilogramos.id,
-    merma_gestor_cuenta_unidad_descripcion: kilogramos.descripcion,
-    merma_gestor_cuenta_es_porcentual: true,
-    merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
-    merma_gestor_cuenta_tolerancia: 100,
-    // fin - Mermas para el Gestor de Cuenta
+    // inicio - Mermas para el Gestor de Carga
+    merma_gestor_carga_valor: 100,
+    merma_gestor_carga_moneda_id: usd.id,
+    merma_gestor_carga_moneda_nombre: usd.nombre,
+    merma_gestor_carga_unidad_id: kilogramos.id,
+    merma_gestor_carga_unidad_descripcion: kilogramos.descripcion,
+    merma_gestor_carga_es_porcentual: true,
+    merma_gestor_carga_es_porcentual_descripcion: 'Si',
+    merma_gestor_carga_tolerancia: 100,
+    // fin - Mermas para el Gestor de Carga
     // inicio - Mermas para el Propietario
     merma_propietario_valor: 100,
     merma_propietario_moneda_id: usd.id,
@@ -514,13 +514,13 @@ export const mockFleteList: FleteList[] = [
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
-    // inicio - Condiciones para el Gestor de Cuenta
-    condicion_gestor_cuenta_moneda_id: brl.id,
-    condicion_gestor_cuenta_moneda_nombre: brl.nombre,
-    condicion_gestor_cuenta_tarifa: 100,
-    condicion_gestor_cuenta_unidad_id: litros.id,
-    condicion_gestor_cuenta_unidad_descripcion: litros.descripcion,
-    // fin - Condiciones para el Gestor de Cuenta
+    // inicio - Condiciones para el Gestor de Carga
+    condicion_gestor_carga_moneda_id: brl.id,
+    condicion_gestor_carga_moneda_nombre: brl.nombre,
+    condicion_gestor_carga_tarifa: 100,
+    condicion_gestor_carga_unidad_id: litros.id,
+    condicion_gestor_carga_unidad_descripcion: litros.descripcion,
+    // fin - Condiciones para el Gestor de Carga
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: brl.id,
     condicion_propietario_moneda_nombre: brl.nombre,
@@ -530,16 +530,16 @@ export const mockFleteList: FleteList[] = [
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
     // INICIO Mermas de Fletes
-    // inicio - Mermas para el Gestor de Cuenta
-    merma_gestor_cuenta_valor: 100,
-    merma_gestor_cuenta_moneda_id: brl.id,
-    merma_gestor_cuenta_moneda_nombre: brl.nombre,
-    merma_gestor_cuenta_unidad_id: litros.id,
-    merma_gestor_cuenta_unidad_descripcion: litros.descripcion,
-    merma_gestor_cuenta_es_porcentual: true,
-    merma_gestor_cuenta_es_porcentual_descripcion: 'Si',
-    merma_gestor_cuenta_tolerancia: 100,
-    // fin - Mermas para el Gestor de Cuenta
+    // inicio - Mermas para el Gestor de Carga
+    merma_gestor_carga_valor: 100,
+    merma_gestor_carga_moneda_id: brl.id,
+    merma_gestor_carga_moneda_nombre: brl.nombre,
+    merma_gestor_carga_unidad_id: litros.id,
+    merma_gestor_carga_unidad_descripcion: litros.descripcion,
+    merma_gestor_carga_es_porcentual: true,
+    merma_gestor_carga_es_porcentual_descripcion: 'Si',
+    merma_gestor_carga_tolerancia: 100,
+    // fin - Mermas para el Gestor de Carga
     // inicio - Mermas para el Propietario
     merma_propietario_valor: 100,
     merma_propietario_moneda_id: brl.id,

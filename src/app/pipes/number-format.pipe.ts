@@ -2,11 +2,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Pipe({
-  name: 'numberFormat'
+  name: 'numberFormat',
 })
 export class NumberFormatPipe implements PipeTransform {
-
-  transform(value: string | number | undefined): string {
-    return numberWithCommas(value);
+  transform(value: string | number | undefined): string | undefined {
+    return !value || isNaN(+value) ? undefined : numberWithCommas(value);
   }
 }

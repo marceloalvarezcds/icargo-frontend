@@ -1,10 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
+import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
+import { AfectadoEnum } from 'src/app/enums/afectado-enum';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import { Column } from 'src/app/interfaces/column';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
+import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import {
@@ -12,6 +17,7 @@ import {
   editMovimiento,
   redirectToShowOCByMovimiento,
 } from 'src/app/utils/movimiento-utils';
+import { edit } from 'src/app/utils/table-event-crud';
 
 @Component({
   selector: 'app-liquidacion-form-movimientos',
@@ -94,16 +100,32 @@ export class LiquidacionFormMovimientosComponent {
       value: (element: Movimiento) => element.created_by,
     },
     {
+      def: 'oc',
+      title: '',
+      type: 'button',
+      value: (mov: Movimiento) => (mov.es_editable ? '' : 'Ver OC'),
+      buttonCallback: (mov: Movimiento) =>
+        mov.es_editable
+          ? () => {}
+          : redirectToShowOCByMovimiento(this.router, mov),
+      buttonIconName: (mov: Movimiento) =>
+        mov.es_editable ? '' : 'visibility',
+      stickyEnd: true,
+    },
+    {
       def: 'editar',
       title: '',
       type: 'button',
-      value: (mov: Movimiento) => (mov.es_editable ? 'Editar' : 'Ver OC'),
+      value: (mov: Movimiento) =>
+        mov.es_editable || mov.can_edit_oc ? 'Editar' : '',
       buttonCallback: (mov: Movimiento) =>
         mov.es_editable
           ? this.edit(mov)
-          : redirectToShowOCByMovimiento(this.router, mov),
+          : mov.can_edit_oc
+          ? this.editOC(mov)
+          : () => {},
       buttonIconName: (mov: Movimiento) =>
-        mov.es_editable ? 'edit' : 'visibility',
+        mov.es_editable || mov.can_edit_oc ? 'edit' : '',
       stickyEnd: true,
     },
     {
@@ -151,5 +173,52 @@ export class LiquidacionFormMovimientosComponent {
         this.movimientosInDBChange.emit();
       }
     );
+  }
+
+  private editOC(item: Movimiento): void {
+    let afectado = item.es_propietario
+      ? AfectadoEnum.PROPIETARIO
+      : item.es_gestor
+      ? AfectadoEnum.GESTOR
+      : null;
+    if (afectado) {
+      if (item.es_flete) {
+        edit(
+          this.getFleteDialogRef(item, afectado),
+          this.emitOcChange.bind(this)
+        );
+      } else if (item.es_merma) {
+        edit(
+          this.getMermaDialogRef(item, afectado),
+          this.emitOcChange.bind(this)
+        );
+      }
+    }
+  }
+
+  private getFleteDialogRef(
+    item: Movimiento,
+    afectado: AfectadoEnum
+  ): MatDialogRef<MovimientoEditByFleteFormDialogComponent> {
+    const data: MovimientoFleteEditFormDialogData = {
+      afectado,
+      item,
+    };
+    return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data });
+  }
+
+  private getMermaDialogRef(
+    item: Movimiento,
+    afectado: AfectadoEnum
+  ): MatDialogRef<MovimientoEditByMermaFormDialogComponent> {
+    const data: MovimientoMermaEditFormDialogData = {
+      afectado,
+      item,
+    };
+    return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data });
+  }
+
+  private emitOcChange(): void {
+    this.movimientosInDBChange.emit();
   }
 }

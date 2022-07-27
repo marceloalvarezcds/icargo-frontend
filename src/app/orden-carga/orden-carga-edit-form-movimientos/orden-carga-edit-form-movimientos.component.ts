@@ -1,10 +1,17 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
+import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
+import { AfectadoEnum } from 'src/app/enums/afectado-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
+import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
+import { edit } from 'src/app/utils/table-event-crud';
 
 @Component({
   selector: 'app-orden-carga-edit-form-movimientos',
@@ -51,17 +58,6 @@ export class OrdenCargaEditFormMovimientosComponent {
       title: 'Cuenta',
       value: (element: Movimiento) => element.cuenta_descripcion,
     },
-    // {
-    //   def: 'tipo_documento_relacionado_descripcion',
-    //   title: 'Tipo de Doc Relacionado',
-    //   value: (element: Movimiento) =>
-    //     element.tipo_documento_relacionado_descripcion,
-    // },
-    // {
-    //   def: 'numero_documento_relacionado',
-    //   title: 'Nº Doc Relacionado',
-    //   value: (element: Movimiento) => element.numero_documento_relacionado,
-    // },
     {
       def: 'detalle',
       title: 'Detalle',
@@ -117,10 +113,71 @@ export class OrdenCargaEditFormMovimientosComponent {
       title: 'Usuario',
       value: (element: Movimiento) => element.created_by,
     },
+    {
+      def: 'editar',
+      title: '',
+      type: 'button',
+      value: (mov: Movimiento) => (mov.can_edit_oc ? 'Editar' : ''),
+      buttonCallback: (mov: Movimiento) =>
+        mov.can_edit_oc ? this.openDialog(mov) : () => {},
+      buttonIconName: (mov: Movimiento) => (mov.can_edit_oc ? 'edit' : ''),
+      stickyEnd: true,
+    },
   ];
 
   modelo = m.MOVIMIENTO;
 
   @Input() gestorCargaId?: number;
   @Input() list: Movimiento[] = [];
+
+  @Output() ocChange = new EventEmitter<void>();
+
+  constructor(private dialog: MatDialog) {}
+
+  openDialog(item: Movimiento): void {
+    let afectado = item.es_propietario
+      ? AfectadoEnum.PROPIETARIO
+      : item.es_gestor
+      ? AfectadoEnum.GESTOR
+      : null;
+    if (afectado) {
+      if (item.es_flete) {
+        edit(
+          this.getFleteDialogRef(item, afectado),
+          this.emitOcChange.bind(this)
+        );
+      } else if (item.es_merma) {
+        edit(
+          this.getMermaDialogRef(item, afectado),
+          this.emitOcChange.bind(this)
+        );
+      }
+    }
+  }
+
+  getFleteDialogRef(
+    item: Movimiento,
+    afectado: AfectadoEnum
+  ): MatDialogRef<MovimientoEditByFleteFormDialogComponent> {
+    const data: MovimientoFleteEditFormDialogData = {
+      afectado,
+      item,
+    };
+    return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data });
+  }
+
+  getMermaDialogRef(
+    item: Movimiento,
+    afectado: AfectadoEnum
+  ): MatDialogRef<MovimientoEditByMermaFormDialogComponent> {
+    const data: MovimientoMermaEditFormDialogData = {
+      afectado,
+      item,
+    };
+    return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data });
+  }
+
+  private emitOcChange(): void {
+    this.ocChange.emit();
+  }
 }
