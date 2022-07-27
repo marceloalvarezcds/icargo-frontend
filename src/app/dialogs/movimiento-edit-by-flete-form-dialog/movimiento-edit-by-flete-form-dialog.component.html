@@ -20,7 +20,10 @@
       [value]="data.contraparte_numero_documento"
     ></app-key-value>
     <app-estado-field [estado]="estado"></app-estado-field>
-    <app-key-value key="Monto anterior" [value]="data.monto"></app-key-value>
+    <app-key-value
+      key="Monto anterior"
+      value="{{ data.monto | numberFormat }}"
+    ></app-key-value>
     <app-number-field
       title="Tarifa"
       controlName="tarifa"
