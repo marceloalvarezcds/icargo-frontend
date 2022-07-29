@@ -1,11 +1,15 @@
 <app-page-form
   class="estado-cuenta-page"
   module="Estado de Cuenta"
-  submodule="Liquidacion"
+  submodule="Movimientos"
+  viewTitle="Finalizados"
   [formGroup]="form"
   [hasChange]="false"
+  [modelo]="m.MOVIMIENTO"
+  [shouldShowDownloadButton]="true"
   [hideSaveButton]="true"
   (backClick)="back()"
+  (downloadClick)="downloadFile()"
 >
   <div class="liquidacion-page-content" *ngIf="estadoCuenta">
     <div class="row page-form-row">

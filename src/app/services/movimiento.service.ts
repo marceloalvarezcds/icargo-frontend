@@ -38,6 +38,28 @@ export class MovimientoService {
     return this.http.get<Movimiento>(`${this.url}/${id}`);
   }
 
+  generateReports(): Observable<string> {
+    return this.http.get<string>(`${this.url}/reports/`);
+  }
+
+  generateReportsByContraparte(
+    estadoCuenta: ContraparteInfo,
+    estado: LiquidacionEtapaEnum
+  ): Observable<string> {
+    return this.http.get<string>(
+      `${this.url}/reports/${getParams(estadoCuenta, estado)}`
+    );
+  }
+
+  generateReportsByEstadoAndLiquidacionId(
+    estado: string,
+    liquidacion_id: number
+  ): Observable<string> {
+    return this.http.get<string>(
+      `${this.url}/reports/liquidacion/${liquidacion_id}/estado/${estado}`
+    );
+  }
+
   create(formData: FormData): Observable<Movimiento> {
     return this.http.post<Movimiento>(`${this.url}/`, formData);
   }

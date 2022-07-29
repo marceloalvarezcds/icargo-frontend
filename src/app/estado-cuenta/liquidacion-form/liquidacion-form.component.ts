@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -16,6 +17,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { subtract } from 'src/app/utils/math';
 
@@ -25,6 +27,7 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./liquidacion-form.component.scss'],
 })
 export class LiquidacionFormComponent implements OnInit {
+  m = m;
   form = new FormGroup({});
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
@@ -52,7 +55,8 @@ export class LiquidacionFormComponent implements OnInit {
     private snackbar: SnackbarService,
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -88,6 +92,16 @@ export class LiquidacionFormComponent implements OnInit {
     } else {
       this.snackbar.open('Debe elegir al menos 1 movimiento');
     }
+  }
+
+  downloadFile(): void {
+    this.movimientoService
+      .generateReportsByContraparte(this.estadoCuenta!, this.etapa!)
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
   }
 
   private submit(confirmed: boolean): void {

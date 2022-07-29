@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -11,6 +12,7 @@ import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 
 @Component({
@@ -20,6 +22,7 @@ import { getQueryParams } from 'src/app/utils/contraparte-info';
 })
 export class LiquidacionEditFormComponent implements OnInit {
   E = LiquidacionEstadoEnum;
+  m = m;
   form = new FormGroup({});
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
@@ -45,7 +48,8 @@ export class LiquidacionEditFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private liquidacionService: LiquidacionService,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -60,6 +64,19 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   changeMovimientoList(): void {
     this.loadLiquidacion();
+  }
+
+  downloadFile(): void {
+    this.movimientoService
+      .generateReportsByEstadoAndLiquidacionId(
+        LiquidacionEtapaEnum.EN_PROCESO,
+        this.id!
+      )
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
   }
 
   redirectToEdit(): void {
