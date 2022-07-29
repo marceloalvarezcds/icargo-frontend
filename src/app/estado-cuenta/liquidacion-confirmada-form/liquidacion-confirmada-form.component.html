@@ -11,8 +11,10 @@
   [isShow]="isShow"
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
+  [shouldShowDownloadButton]="true"
   (backClick)="back()"
   (editClick)="redirectToEdit()"
+  (downloadClick)="downloadFile()"
 >
   <div class="liquidacion-page-content" *ngIf="item">
     <div class="row page-form-row">

@@ -22,6 +22,7 @@ export class PageFormComponent {
   @Input() hasChange = false;
   @Input() hideEditButton = false;
   @Input() hideSaveButton = false;
+  @Input() shouldShowDownloadButton = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
   @Input() inactiveTooltipText = 'Desactivar';
@@ -32,6 +33,7 @@ export class PageFormComponent {
   @Input() gestorCargaId?: number;
 
   @Output() backClick = new EventEmitter<boolean>();
+  @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() editClick = new EventEmitter();
   @Output() activeClick = new EventEmitter();
   @Output() inactiveClick = new EventEmitter();

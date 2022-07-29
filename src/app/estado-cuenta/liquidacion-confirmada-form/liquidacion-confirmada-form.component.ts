@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -15,6 +16,7 @@ import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 
 @Component({
@@ -57,7 +59,8 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private liquidacionService: LiquidacionService,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -91,6 +94,19 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
       this.valorInstrumentos = item.instrumentos_saldo;
       this.getList(item);
     });
+  }
+
+  downloadFile(): void {
+    this.movimientoService
+      .generateReportsByEstadoAndLiquidacionId(
+        LiquidacionEtapaEnum.CONFIRMADO,
+        this.id!
+      )
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
   }
 
   private getData(): void {

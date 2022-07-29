@@ -19,6 +19,16 @@
           type="button"
           mat-mini-fab
           color="primary"
+          matTooltip="Exportar lista"
+          (click)="downloadClick.emit($event)"
+          *ngIf="shouldShowDownloadButton && (modelo | puede: a.REPORTE)"
+        >
+          <mat-icon>download</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
           matTooltip="Editar"
           (click)="editClick.emit($event)"
           *ngIf="
