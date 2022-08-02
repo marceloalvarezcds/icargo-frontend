@@ -84,4 +84,8 @@ export class LiquidacionService {
       formData
     );
   }
+
+  pdf(id: number, etapa: LiquidacionEtapaEnum): Observable<string> {
+    return this.http.get<string>(`${this.url}/${id}/pdf/etapa/${etapa}`);
+  }
 }

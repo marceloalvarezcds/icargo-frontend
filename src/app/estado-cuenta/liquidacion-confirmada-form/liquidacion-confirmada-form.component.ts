@@ -109,6 +109,16 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
       });
   }
 
+  downloadPDF(): void {
+    this.liquidacionService
+      .pdf(this.id!, LiquidacionEtapaEnum.CONFIRMADO)
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
+  }
+
   private getData(): void {
     const { backUrl } = this.route.snapshot.queryParams;
     this.id = +this.route.snapshot.params.id;
