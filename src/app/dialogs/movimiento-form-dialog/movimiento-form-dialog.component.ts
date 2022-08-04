@@ -45,11 +45,11 @@ export class MovimientoFormDialogComponent {
   }
 
   get data(): MovimientoForm | undefined {
-    return this.dialogData?.item;
+    return this.dialogData.item;
   }
 
   get estado(): MovimientoEstadoEnum {
-    return this.dialogData?.estado ?? MovimientoEstadoEnum.PENDIENTE;
+    return this.dialogData.estado ?? MovimientoEstadoEnum.PENDIENTE;
   }
 
   get fecha(): string | undefined {
@@ -149,7 +149,7 @@ export class MovimientoFormDialogComponent {
     this.tipo = event;
     if (event.descripcion !== TipoContraparteEnum.OTRO) {
       this.openField = false;
-    } else if (!this.openField) {
+    } else if (!this.openField && this.isContraparteEditable) {
       this.contraparteControl.setValue(null);
       this.contraparteNumeroDocumentoControl.setValue(null);
     }
