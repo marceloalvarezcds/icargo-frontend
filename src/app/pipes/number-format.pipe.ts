@@ -6,6 +6,8 @@ import { numberWithCommas } from 'src/app/utils/thousands-separator';
 })
 export class NumberFormatPipe implements PipeTransform {
   transform(value: string | number | undefined): string | undefined {
-    return !value || isNaN(+value) ? undefined : numberWithCommas(value);
+    return value === undefined || value === null || isNaN(+value)
+      ? undefined
+      : numberWithCommas(value);
   }
 }

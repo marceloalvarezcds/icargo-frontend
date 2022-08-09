@@ -110,6 +110,16 @@
       ></app-camion-form-capacidad>
     </mat-expansion-panel>
 
+    <mat-expansion-panel formGroupName="limite" [expanded]="isLimiteTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Limitaciones </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-camion-form-limite
+        [form]="form"
+        [isShow]="isShow"
+      ></app-camion-form-limite>
+    </mat-expansion-panel>
+
     <mat-expansion-panel *ngIf="isEdit || isShow">
       <mat-expansion-panel-header>
         <mat-panel-title> Combinación </mat-panel-title>

@@ -56,8 +56,8 @@ export class PropietarioFormInfoComponent {
     return this.info.controls['es_chofer'] as FormControl;
   }
 
-  get esChofer(): boolean {
-    return !!this.esChoferControl.value;
+  get puedeRecibirAnticiposControl(): FormControl {
+    return this.info.controls['puede_recibir_anticipos'] as FormControl;
   }
 
   get contactos(): FormArray | null {

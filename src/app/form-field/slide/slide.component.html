@@ -1,0 +1,10 @@
+<div class="slide-container">
+  <ng-container *ngIf="isShow; else formTemplate">
+    {{ controlValue ? trueTitle : falseTitle }}
+  </ng-container>
+  <ng-template #formTemplate>
+    <mat-slide-toggle [formControl]="control">
+      {{ controlValue ? trueTitle : falseTitle }}
+    </mat-slide-toggle>
+  </ng-template>
+</div>

@@ -23,6 +23,7 @@ export interface Chofer {
   pais_emisor_documento_id: number;
   pais_emisor_documento: Pais;
   numero_documento: string;
+  puede_recibir_anticipos: boolean;
   ruc: string;
   digito_verificador: string | null;
   fecha_nacimiento: string | null;
@@ -106,6 +107,7 @@ export const mockChoferList: ChoferList[] = [
     pais_emisor_documento_id: pais0.id,
     pais_emisor_documento: pais0,
     numero_documento: '800100100',
+    puede_recibir_anticipos: false,
     ruc: '800100100',
     digito_verificador: '1',
     gestor_cuenta_id: 2,
@@ -162,6 +164,7 @@ export const mockChoferList: ChoferList[] = [
     pais_emisor_documento_id: pais1.id,
     pais_emisor_documento: pais1,
     numero_documento: '800100100',
+    puede_recibir_anticipos: false,
     ruc: '800100100',
     digito_verificador: '1',
     gestor_cuenta_id: 1,
@@ -212,6 +215,7 @@ export const mockChoferList: ChoferList[] = [
     pais_emisor_documento_id: pais2.id,
     pais_emisor_documento: pais2,
     numero_documento: '800100100',
+    puede_recibir_anticipos: false,
     ruc: '800100100',
     digito_verificador: '1',
     gestor_cuenta_id: 1,

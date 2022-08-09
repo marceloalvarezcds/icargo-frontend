@@ -104,6 +104,7 @@ describe('ChoferFormComponent', () => {
         telefono: chofer.telefono,
         email: chofer.email,
         es_propietario: chofer.es_propietario,
+        puede_recibir_anticipos: chofer.puede_recibir_anticipos,
         foto_documento_frente: fileUrl,
         foto_documento_reverso: fileUrl,
         foto_perfil: fileUrl,

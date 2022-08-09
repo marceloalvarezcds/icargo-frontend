@@ -25,6 +25,7 @@ export interface Propietario {
   nombre: string;
   tipo_persona_id: number;
   tipo_persona: TipoPersona;
+  puede_recibir_anticipos: boolean;
   ruc: string;
   digito_verificador: string;
   pais_origen_id: number;
@@ -103,6 +104,7 @@ export const mockPropietarioList: PropietarioList[] = [
     nombre: 'CARGILL CEDRALES',
     tipo_persona_id: tipoPersona0.id,
     tipo_persona: tipoPersona0,
+    puede_recibir_anticipos: false,
     ruc: '800100100',
     digito_verificador: '1',
     pais_origen_id: pais0.id,
@@ -162,6 +164,7 @@ export const mockPropietarioList: PropietarioList[] = [
     nombre: 'ADM SANTA RITA',
     tipo_persona_id: tipoPersona1.id,
     tipo_persona: tipoPersona1,
+    puede_recibir_anticipos: false,
     ruc: '800200200',
     digito_verificador: '1',
     pais_origen_id: pais1.id,
@@ -198,6 +201,7 @@ export const mockPropietarioList: PropietarioList[] = [
     nombre: 'GICAL KM12',
     tipo_persona_id: tipoPersona0.id,
     tipo_persona: tipoPersona0,
+    puede_recibir_anticipos: false,
     ruc: '800300300',
     digito_verificador: '1',
     pais_origen_id: pais2.id,
