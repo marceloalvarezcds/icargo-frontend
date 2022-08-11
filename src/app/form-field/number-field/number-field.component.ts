@@ -25,4 +25,5 @@ export class NumberFieldComponent {
   @Input() groupName?: string;
   @Input() title = '';
   @Input() readonly = false;
+  @Input() patternMessageError = (_: any) => 'El patrón no coincide';
 }

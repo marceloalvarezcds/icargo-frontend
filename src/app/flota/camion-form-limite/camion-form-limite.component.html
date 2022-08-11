@@ -1,0 +1,24 @@
+<div *ngIf="form" [formGroup]="form">
+  <div [formGroupName]="groupName">
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-number-field
+          title="Límite de cantidad de Ordenes de Carga activas"
+          [groupName]="groupName"
+          controlName="limite_cantidad_oc_activas"
+          hint=""
+          [form]="form"
+          [patternMessageError]="patternMessageError"
+        ></app-number-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-number-field
+          title="Monto Límite de anticipos a retirar"
+          [groupName]="groupName"
+          controlName="limite_monto_anticipos"
+          [form]="form"
+        ></app-number-field>
+      </div>
+    </div>
+  </div>
+</div>

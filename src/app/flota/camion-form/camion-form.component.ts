@@ -33,6 +33,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isHabilitacionTouched = false;
   isDetalleTouched = false;
+  isLimiteTouched = false;
   isCapacidadTouched = false;
   backUrl = `/flota/${m.CAMION}/${a.LISTAR}`;
   modelo = m.CAMION;
@@ -96,6 +97,17 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       bruto: null,
       tara: null,
     }),
+    limite: this.fb.group({
+      limite_cantidad_oc_activas: [
+        null,
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[0-9]{1,}$'),
+        ],
+      ],
+      limite_monto_anticipos: null,
+    }),
   });
 
   initialFormValue = this.form.value;
@@ -135,6 +147,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
   get detalle(): FormGroup {
     return this.form.get('detalle') as FormGroup;
+  }
+
+  get limite(): FormGroup {
+    return this.form.get('limite') as FormGroup;
   }
 
   get capacidad(): FormGroup {
@@ -205,6 +221,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           ...this.habilitacionAutomotor.value,
           ...this.detalle.value,
           ...this.capacidad.value,
+          ...this.limite.value,
         })
       );
       delete data.logo;
@@ -268,6 +285,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.isInfoTouched = this.info.invalid;
         this.isHabilitacionTouched = this.habilitacionMunicipal.invalid;
         this.isDetalleTouched = this.detalle.invalid;
+        this.isLimiteTouched = this.limite.invalid;
         this.isCapacidadTouched = this.capacidad.invalid;
       });
     }
@@ -353,6 +371,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           capacidad: {
             bruto: data.bruto,
             tara: data.tara,
+          },
+          limite: {
+            limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
+            limite_monto_anticipos: data.limite_monto_anticipos,
           },
         });
         setTimeout(() => {

@@ -104,6 +104,7 @@ describe('PropietarioFormComponent', () => {
         telefono: propietario.telefono,
         email: propietario.email,
         es_chofer: propietario.es_chofer,
+        puede_recibir_anticipos: propietario.puede_recibir_anticipos,
         foto_documento_frente: fileUrl,
         foto_documento_reverso: fileUrl,
         foto_perfil: fileUrl,

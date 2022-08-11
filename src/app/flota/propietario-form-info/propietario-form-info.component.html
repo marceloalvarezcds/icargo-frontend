@@ -10,23 +10,32 @@
         ></app-tipo-persona-field>
       </div>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>{{ isFisicaSelected ? 'Nombre' : 'Razón Social' }}</mat-label>
+        <mat-label>{{
+          isFisicaSelected ? "Nombre" : "Razón Social"
+        }}</mat-label>
         <input matInput formControlName="nombre" appAutofocus />
         <mat-error *ngIf="info.controls['nombre'].hasError('required')">
-          <ng-container *ngIf="isFisicaSelected; else juridicaTemplate">El nombre es <strong>requerido</strong></ng-container>
-          <ng-template #juridicaTemplate>La razón social es <strong>requerida</strong></ng-template>
+          <ng-container *ngIf="isFisicaSelected; else juridicaTemplate"
+            >El nombre es <strong>requerido</strong></ng-container
+          >
+          <ng-template #juridicaTemplate
+            >La razón social es <strong>requerida</strong></ng-template
+          >
         </mat-error>
       </mat-form-field>
       <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-alias-field groupName="info" [form]="form"></app-alias-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
         <app-fecha-field
-          title="Fecha de {{ isFisicaSelected ? 'nacimiento' : 'constitución' }}"
+          title="Fecha de {{
+            isFisicaSelected ? 'nacimiento' : 'constitución'
+          }}"
           groupName="info"
           controlName="fecha_nacimiento"
           [form]="form"
         ></app-fecha-field>
       </div>
-    </div>
-    <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field
           title="RUC"
@@ -50,19 +59,11 @@
           [form]="form"
         ></app-pais-field>
       </div>
-    </div>
-    <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-telefono-field
-          groupName="info"
-          [form]="form"
-        ></app-telefono-field>
+        <app-telefono-field groupName="info" [form]="form"></app-telefono-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-email-field
-          groupName="info"
-          [form]="form"
-        ></app-email-field>
+        <app-email-field groupName="info" [form]="form"></app-email-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-oficial-cuenta-field
@@ -70,20 +71,31 @@
           [form]="form"
         ></app-oficial-cuenta-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-alias-field
-          groupName="info"
-          [form]="form"
-        ></app-alias-field>
-      </div>
+    </div>
+    <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-estado-field [estado]="estado"></app-estado-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4 es-chofer-toggle" [hidden]="!isFisicaSelected">
-        <ng-container *ngIf="isShow; else esChoferTemplate">{{ esChofer ? 'Es Chofer' : 'No es Chofer' }}</ng-container>
-        <ng-template #esChoferTemplate>
-          <mat-slide-toggle formControlName="es_chofer">{{ esChofer ? 'Es Chofer' : 'No es Chofer' }}</mat-slide-toggle>
-        </ng-template>
+      <div class="col-xs-12 col-sm-6 col-md-4" [hidden]="!isFisicaSelected">
+        <app-slide
+          [isShow]="isShow"
+          [control]="esChoferControl"
+          trueTitle="Es Chofer"
+          falseTitle="No es Chofer"
+        ></app-slide>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-slide
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControl"
+          trueTitle="Puede recibir anticipos"
+          falseTitle="No puede recibir anticipos"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
+        ></app-slide>
       </div>
     </div>
 

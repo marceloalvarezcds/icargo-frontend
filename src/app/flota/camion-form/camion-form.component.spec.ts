@@ -148,6 +148,10 @@ describe('CamionFormComponent', () => {
         bruto: mockCamion.bruto,
         tara: mockCamion.tara,
       },
+      limite: {
+        limite_cantidad_oc_activas: mockCamion.limite_cantidad_oc_activas,
+        limite_monto_anticipos: mockCamion.limite_monto_anticipos,
+      },
     });
   }
 

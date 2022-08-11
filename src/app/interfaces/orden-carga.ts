@@ -54,8 +54,12 @@ export interface OrdenCarga extends OrdenCargaForm {
   // Datos de camion
   camion_chofer_nombre: string | null;
   camion_chofer_numero_documento: string | null;
+  camion_chofer_puede_recibir_anticipos: boolean;
+  camion_limite_cantidad_oc_activas: number;
+  camion_limite_monto_anticipos: number | null;
   camion_placa: string;
   camion_propietario_nombre: string;
+  camion_propietario_puede_recibir_anticipos: boolean;
   // Datos de semi
   semi_placa: string;
   // Datos de fletes
@@ -190,8 +194,12 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_id: camion0.id,
   camion_chofer_nombre: camion0.chofer_nombre,
   camion_chofer_numero_documento: camion0.chofer_numero_documento,
+  camion_chofer_puede_recibir_anticipos: false,
+  camion_limite_cantidad_oc_activas: 1,
+  camion_limite_monto_anticipos: null,
   camion_placa: camion0.placa,
   camion_propietario_nombre: camion0.propietario_nombre,
+  camion_propietario_puede_recibir_anticipos: true,
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,

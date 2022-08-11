@@ -27,6 +27,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class ChoferFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  anticiposBloqueados = false;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
@@ -41,6 +42,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   modelo = m.CHOFER;
   propietarioModelo = m.PROPIETARIO;
   gestorCuentaId?: number;
+  cantidadOCConAnticiposLiberados = 0;
   fotoDocumentoFrente: string | null = null;
   fotoDocumentoFrenteFile: File | null = null;
   fotoDocumentoReverso: string | null = null;
@@ -75,6 +77,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       foto_documento_reverso: null,
       foto_perfil: null,
       es_propietario: null,
+      puede_recibir_anticipos: true,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
     }),
@@ -204,6 +207,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
           ...this.address.value,
           ...this.propietario.value,
           ...this.registro.value,
+          anticipos_bloqueados: this.anticiposBloqueados,
         })
       );
       delete data.logo;
@@ -272,6 +276,15 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  bloquearAnticipos(): void {
+    this.dialog.confirmation(
+      'Existen Ordenes de Carga Aceptadas y con Anticipo liberados ¿Desea bloquearlos después de guardar los cambios?',
+      () => {
+        this.anticiposBloqueados = true;
+      }
+    );
+  }
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -282,6 +295,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       }
       this.choferService.getById(this.id).subscribe((data) => {
         this.estado = data.estado;
+        this.cantidadOCConAnticiposLiberados = data.oc_with_anticipos_liberados;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.fotoDocumentoFrente = data.foto_documento_frente!;
@@ -318,6 +332,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             telefono: data.telefono,
             email: data.email,
             es_propietario: data.es_propietario,
+            puede_recibir_anticipos: data.puede_recibir_anticipos,
             foto_documento_frente: null,
             foto_documento_reverso: null,
             foto_perfil: null,
