@@ -90,6 +90,11 @@
           [control]="puedeRecibirAnticiposControl"
           trueTitle="Puede recibir anticipos"
           falseTitle="No puede recibir anticipos"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
         ></app-slide>
       </div>
     </div>

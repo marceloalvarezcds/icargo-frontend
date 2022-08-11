@@ -26,10 +26,12 @@ export class ChoferFormInfoComponent {
   @Input() fotoPerfil: string | null = null;
   @Input() modelo?: PermisoModeloEnum;
   @Input() gestorCuentaId?: number;
+  @Input() cantidadOCConAnticiposLiberados = 0;
 
   @Output() fotoDocumentoFrenteChange = new EventEmitter<File | null>();
   @Output() fotoDocumentoReversoChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
+  @Output() anticiposBloqueadosChange = new EventEmitter();
 
   get info(): FormGroup {
     return this.form!.get(this.groupName) as FormGroup;

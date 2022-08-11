@@ -29,6 +29,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class PropietarioFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  anticiposBloqueados = false;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
@@ -46,6 +47,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   choferModelo = m.CHOFER;
   semirremolqueModelo = m.SEMIRREMOLQUE;
   gestorCuentaId?: number;
+  cantidadOCConAnticiposLiberados = 0;
   contactoList: PropietarioContactoGestorCargaList[] = [];
   fotoDocumentoFrente: string | null = null;
   fotoDocumentoFrenteFile: File | null = null;
@@ -221,6 +223,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           ...this.address.value,
           ...this.chofer.value,
           ...this.registro.value,
+          anticipos_bloqueados: this.anticiposBloqueados,
           contactos: this.contactos.value,
         })
       );
@@ -291,6 +294,15 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  bloquearAnticipos(): void {
+    this.dialog.confirmation(
+      'Existen Órdenes de Carga Aceptadas y con Anticipos liberados ¿Desea bloquearlos después de guardar los cambios?',
+      () => {
+        this.anticiposBloqueados = true;
+      }
+    );
+  }
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -301,6 +313,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       }
       this.propietarioService.getById(this.id).subscribe((data) => {
         this.estado = data.estado;
+        this.cantidadOCConAnticiposLiberados = data.oc_with_anticipos_liberados;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.fotoDocumentoFrente = data.foto_documento_frente!;

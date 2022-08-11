@@ -35,6 +35,7 @@ export interface Chofer {
   foto_documento_reverso?: string | null;
   foto_perfil?: string | null;
   es_propietario: boolean;
+  oc_with_anticipos_liberados: number;
   /* Datos del Propietario */
   pais_origen_id?: number | null;
   pais_origen?: Pais | null;
@@ -119,6 +120,7 @@ export const mockChoferList: ChoferList[] = [
     foto_documento_reverso: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_propietario: true,
+    oc_with_anticipos_liberados: 2,
     /* Datos del Propietario */
     pais_origen_id: pais0.id,
     pais_origen: pais0,
@@ -176,6 +178,7 @@ export const mockChoferList: ChoferList[] = [
     foto_documento_reverso: null,
     foto_perfil: null,
     es_propietario: false,
+    oc_with_anticipos_liberados: 2,
     /* inicio registro */
     pais_emisor_registro_id: pais1.id,
     pais_emisor_registro: pais1,
@@ -227,6 +230,7 @@ export const mockChoferList: ChoferList[] = [
     foto_documento_reverso: null,
     foto_perfil: null,
     es_propietario: false,
+    oc_with_anticipos_liberados: 2,
     /* inicio registro */
     pais_emisor_registro_id: pais2.id,
     pais_emisor_registro: pais2,

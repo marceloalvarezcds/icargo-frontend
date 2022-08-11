@@ -39,6 +39,7 @@ export interface Propietario {
   foto_documento_reverso?: string | null;
   foto_perfil?: string | null;
   es_chofer: boolean;
+  oc_with_anticipos_liberados: number;
   /* inicio info del chofer */
   tipo_documento_id?: number;
   tipo_documento?: TipoDocumento;
@@ -118,6 +119,7 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_documento_reverso: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_chofer: true,
+    oc_with_anticipos_liberados: 2,
     /* inicio info del chofer */
     tipo_documento_id: tipoDocumento0.id,
     tipo_documento: tipoDocumento0,
@@ -178,6 +180,7 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_documento_reverso: null,
     foto_perfil: null,
     es_chofer: false,
+    oc_with_anticipos_liberados: 2,
     estado: EstadoEnum.ACTIVO,
     telefono: '0981111111',
     email: 'contacto@adm-santa-rita.com',
@@ -215,6 +218,7 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_documento_reverso: null,
     foto_perfil: null,
     es_chofer: false,
+    oc_with_anticipos_liberados: 2,
     estado: EstadoEnum.ACTIVO,
     telefono: '0981222222',
     email: 'contacto@gical-km12.com',

@@ -22,6 +22,10 @@ export class OrdenCargaEditFormAccionesComponent {
 
   @Output() ocChange = new EventEmitter<void>();
 
+  get placaCamionSemi(): string {
+    return this.oc ? `${this.oc.camion_placa}/${this.oc.semi_placa}` : '';
+  }
+
   constructor(
     private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,

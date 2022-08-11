@@ -21,8 +21,10 @@ export interface Camion {
   placa: string;
   propietario_id: number;
   propietario: Propietario;
+  propietario_estado: EstadoEnum;
   chofer_id: number | null;
   chofer: Chofer | null;
+  chofer_estado: EstadoEnum | null;
   numero_chasis: string | null;
   foto: string | null;
   estado: EstadoEnum;
@@ -134,8 +136,10 @@ export const mockCamion: Camion = {
   placa: placa0,
   propietario_id: propietario0.id,
   propietario: propietario0,
+  propietario_estado: propietario0.estado,
   chofer_id: chofer0.id,
   chofer: chofer0,
+  chofer_estado: chofer0.estado,
   numero_chasis: '23100100',
   foto: null,
   estado: EstadoEnum.ACTIVO,
