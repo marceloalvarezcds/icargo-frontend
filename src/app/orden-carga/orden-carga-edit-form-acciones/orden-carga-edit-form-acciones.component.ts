@@ -34,11 +34,13 @@ export class OrdenCargaEditFormAccionesComponent {
   ) {}
 
   aceptar(): void {
-    this.dialog.changeStatusConfirm(
+    this.dialog.confirmation(
       '¿Está seguro que desea aceptar la Orden de Carga?',
-      this.ordenCargaService.aceptar(this.oc!.id),
       () => {
-        this.ocChange.emit();
+        this.ordenCargaService.aceptar(this.oc!.id).subscribe(() => {
+          this.snackbar.open('Estado cambiado satisfactoriamente');
+          this.ocChange.emit();
+        });
       }
     );
   }
