@@ -30,6 +30,8 @@ export class LiquidacionEditFormComponent implements OnInit {
   item?: Liquidacion;
   isEdit = false;
   movimientos: Movimiento[] = [];
+  actual_contraparte = '';
+  actual_contraparte_numero_documento = '';
   saldo = 0;
 
   get gestorCargaId(): number | undefined {
@@ -57,8 +59,18 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   back(): void {
+    const actual_contraparte = this.actual_contraparte;
+    const actual_contraparte_numero_documento =
+      this.actual_contraparte_numero_documento;
     this.router.navigate([this.backUrl], {
-      queryParams: getQueryParams(this.item!, this.item!.etapa),
+      queryParams: getQueryParams(
+        {
+          ...this.item!,
+          actual_contraparte,
+          actual_contraparte_numero_documento,
+        },
+        this.item!.etapa
+      ),
     });
   }
 
@@ -92,8 +104,12 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   private getData(): void {
-    const { backUrl } = this.route.snapshot.queryParams;
+    const { backUrl, actual_contraparte, actual_contraparte_numero_documento } =
+      this.route.snapshot.queryParams;
     this.id = +this.route.snapshot.params.id;
+    this.actual_contraparte = actual_contraparte;
+    this.actual_contraparte_numero_documento =
+      actual_contraparte_numero_documento;
     this.isEdit = /edit/.test(this.router.url);
     if (backUrl) {
       this.backUrl = backUrl;

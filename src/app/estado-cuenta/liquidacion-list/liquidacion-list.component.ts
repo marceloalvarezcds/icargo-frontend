@@ -123,17 +123,35 @@ export class LiquidacionListComponent implements OnInit {
   }
 
   redirectToEdit(event: TableEvent<Liquidacion>): void {
-    this.router.navigate([
-      `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
-      event.row.id,
-    ]);
+    this.router.navigate(
+      [
+        `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
+        event.row.id,
+      ],
+      {
+        queryParams: {
+          actual_contraparte: this.estadoCuenta!.actual_contraparte,
+          actual_contraparte_numero_documento:
+            this.estadoCuenta!.actual_contraparte_numero_documento,
+        },
+      }
+    );
   }
 
   redirectToShow(event: TableEvent<Liquidacion>): void {
-    this.router.navigate([
-      `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
-      event.row.id,
-    ]);
+    this.router.navigate(
+      [
+        `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
+        event.row.id,
+      ],
+      {
+        queryParams: {
+          actual_contraparte: this.estadoCuenta!.actual_contraparte,
+          actual_contraparte_numero_documento:
+            this.estadoCuenta!.actual_contraparte_numero_documento,
+        },
+      }
+    );
   }
 
   downloadFile(): void {
