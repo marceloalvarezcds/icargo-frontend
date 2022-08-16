@@ -14,6 +14,9 @@ export function getQueryParams(
       tipo_contraparte_id: contraparte.tipo_contraparte_id,
       contraparte: contraparte.contraparte,
       contraparte_numero_documento: contraparte.contraparte_numero_documento,
+      actual_contraparte: contraparte.actual_contraparte,
+      actual_contraparte_numero_documento:
+        contraparte.actual_contraparte_numero_documento,
       etapa,
     };
   }
@@ -21,6 +24,9 @@ export function getQueryParams(
     tipo_contraparte_id: contraparte.tipo_contraparte_id,
     contraparte: contraparte.contraparte,
     contraparte_numero_documento: contraparte.contraparte_numero_documento,
+    actual_contraparte: contraparte.actual_contraparte,
+    actual_contraparte_numero_documento:
+      contraparte.actual_contraparte_numero_documento,
   };
 }
 

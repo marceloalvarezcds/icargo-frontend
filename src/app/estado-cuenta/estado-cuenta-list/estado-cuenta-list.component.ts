@@ -44,12 +44,13 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'contraparte',
       title: 'Contraparte',
-      value: (element: EstadoCuenta) => element.contraparte,
+      value: (element: EstadoCuenta) => element.actual_contraparte,
     },
     {
       def: 'contraparte_numero_documento',
       title: 'Nº de Doc. Contraparte',
-      value: (element: EstadoCuenta) => element.contraparte_numero_documento,
+      value: (element: EstadoCuenta) =>
+        element.actual_contraparte_numero_documento,
     },
     {
       def: 'pendiente',
