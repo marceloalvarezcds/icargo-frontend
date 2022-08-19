@@ -55,9 +55,8 @@ export class OcAnticipoRetiradoFormDialogComponent
     es_con_litro: !!this.data?.cantidad_retirada,
   });
 
-  esConLitroSubscription = this.esConLitroControl.valueChanges
-    .pipe(filter((v) => !!v))
-    .subscribe((esConLitro) => {
+  esConLitroSubscription = this.esConLitroControl.valueChanges.subscribe(
+    (esConLitro) => {
       if (esConLitro) {
         const cantidad = this.cantidadControl.value;
         const precio = this.precioUnitarioControl.value;
@@ -65,9 +64,14 @@ export class OcAnticipoRetiradoFormDialogComponent
           this.montoRetiradoControl.setValue(
             roundString(cantidad) * roundString(precio)
           );
+        } else {
+          this.montoRetiradoControl.setValue(0);
         }
+      } else {
+        this.montoRetiradoControl.setValue(0);
       }
-    });
+    }
+  );
 
   litroSubscription = combineLatest([
     this.form.controls['cantidad_retirada'].valueChanges,
