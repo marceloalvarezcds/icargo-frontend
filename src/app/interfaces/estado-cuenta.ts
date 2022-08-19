@@ -14,10 +14,9 @@ export interface EstadoCuenta extends ContraparteInfoMovimiento {
 
 export const mockEstadoCuentaList: EstadoCuenta[] = [
   {
+    contraparte_id: 1,
     contraparte: 'ADM SANTA RITA',
     contraparte_numero_documento: '3100100',
-    actual_contraparte: 'ADM SANTA RITA',
-    actual_contraparte_numero_documento: '3100100',
     tipo_contraparte_id: 3,
     tipo_contraparte_descripcion: 'Remitente',
     pendiente: -2350000,
@@ -31,10 +30,9 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=ADM+SANTA+RITA&contraparte_numero_documento=3100100&tipo_contraparte_id=3',
   },
   {
+    contraparte_id: 2,
     contraparte: 'GICAL KM12',
     contraparte_numero_documento: 'p-100100',
-    actual_contraparte: 'GICAL KM12',
-    actual_contraparte_numero_documento: 'p-100100',
     tipo_contraparte_id: 4,
     tipo_contraparte_descripcion: 'Proveedor',
     pendiente: 387900,
@@ -48,10 +46,9 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=GICAL+KM12&contraparte_numero_documento=p-100100&tipo_contraparte_id=4',
   },
   {
+    contraparte_id: 3,
     contraparte: 'LA PAZ',
     contraparte_numero_documento: '800100100',
-    actual_contraparte: 'LA PAZ',
-    actual_contraparte_numero_documento: '800100100',
     tipo_contraparte_id: 4,
     tipo_contraparte_descripcion: 'Proveedor',
     pendiente: 1000,
@@ -65,10 +62,9 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=LA+PAZ&contraparte_numero_documento=800100100&tipo_contraparte_id=4',
   },
   {
+    contraparte_id: 4,
     contraparte: 'PUERTO UNION',
     contraparte_numero_documento: 'p-400400',
-    actual_contraparte: 'PUERTO UNION',
-    actual_contraparte_numero_documento: 'p-400400',
     tipo_contraparte_id: 1,
     tipo_contraparte_descripcion: 'Propietario',
     pendiente: 1462400,

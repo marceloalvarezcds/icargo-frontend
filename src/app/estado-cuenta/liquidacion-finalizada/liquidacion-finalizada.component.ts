@@ -61,7 +61,11 @@ export class LiquidacionFinalizadaComponent implements OnInit {
 
   downloadFile(): void {
     this.movimientoService
-      .generateReportsByContraparte(this.estadoCuenta!, this.etapa!)
+      .generateReportsByContraparte(
+        this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
+        this.etapa!
+      )
       .subscribe((filename) => {
         this.reportsService.downloadFile(filename).subscribe((file) => {
           saveAs(file, filename);
@@ -72,6 +76,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
   private getData(): void {
     const {
       backUrl,
+      contraparte_id,
       contraparte,
       contraparte_numero_documento,
       tipo_contraparte_id,
@@ -83,6 +88,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
     this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,
+        contraparte_id,
         contraparte,
         contraparte_numero_documento
       )
@@ -97,6 +103,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
     this.movimientoService
       .getListByEstadoCuenta(
         this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
         LiquidacionEtapaEnum.FINALIZADO
       )
       .subscribe((data) => {

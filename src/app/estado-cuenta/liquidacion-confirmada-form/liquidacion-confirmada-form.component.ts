@@ -35,6 +35,7 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   isEdit = false;
   movimientos: Movimiento[] = [];
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
+  contraparte_id = 0;
   actual_contraparte = '';
   actual_contraparte_numero_documento = '';
   residuo = 0;
@@ -70,15 +71,17 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   }
 
   back(): void {
-    const actual_contraparte = this.actual_contraparte;
-    const actual_contraparte_numero_documento =
+    const contraparte_id = this.contraparte_id;
+    const contraparte = this.actual_contraparte;
+    const contraparte_numero_documento =
       this.actual_contraparte_numero_documento;
     this.router.navigate([this.backUrl], {
       queryParams: getQueryParams(
         {
           ...this.item!,
-          actual_contraparte,
-          actual_contraparte_numero_documento,
+          contraparte_id,
+          contraparte,
+          contraparte_numero_documento,
         },
         this.item!.etapa
       ),
@@ -94,6 +97,10 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
       {
         queryParams: {
           backUrl: `/estado-cuenta/${m.ESTADO_CUENTA}/${this.confirmado}/${m.LIQUIDACION}/${a.VER}/${id}`,
+          contraparte_id: this.contraparte_id,
+          actual_contraparte: this.actual_contraparte,
+          actual_contraparte_numero_documento:
+            this.actual_contraparte_numero_documento,
         },
       }
     );
@@ -132,9 +139,14 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   }
 
   private getData(): void {
-    const { backUrl, actual_contraparte, actual_contraparte_numero_documento } =
-      this.route.snapshot.queryParams;
+    const {
+      backUrl,
+      contraparte_id,
+      actual_contraparte,
+      actual_contraparte_numero_documento,
+    } = this.route.snapshot.queryParams;
     this.id = +this.route.snapshot.params.id;
+    this.contraparte_id = contraparte_id;
     this.actual_contraparte = actual_contraparte;
     this.actual_contraparte_numero_documento =
       actual_contraparte_numero_documento;

@@ -15,12 +15,14 @@ export class EstadoCuentaService {
 
   getByContraparte(
     tipo_contraparte_id: number,
+    contraparte_id: number,
     contraparte: string,
     contraparte_numero_documento: string
   ): Observable<EstadoCuenta | null> {
     return this.http.get<EstadoCuenta | null>(
       `${this.url}/${getParamsBy(
         tipo_contraparte_id,
+        contraparte_id,
         contraparte,
         contraparte_numero_documento
       )}`
