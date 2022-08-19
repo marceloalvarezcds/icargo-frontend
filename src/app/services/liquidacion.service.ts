@@ -25,10 +25,11 @@ export class LiquidacionService {
 
   generateReportsByEstadoCuenta(
     estadoCuenta: EstadoCuenta,
+    contraparte_id: number,
     etapa: LiquidacionEtapaEnum
   ): Observable<string> {
     return this.http.get<string>(
-      `${this.url}/reports/${getParams(estadoCuenta, etapa)}`
+      `${this.url}/reports/${getParams(estadoCuenta, contraparte_id, etapa)}`
     );
   }
 
@@ -38,10 +39,11 @@ export class LiquidacionService {
 
   getListByEstadoCuenta(
     estadoCuenta: EstadoCuenta,
+    contraparte_id: number,
     etapa: LiquidacionEtapaEnum
   ): Observable<Liquidacion[]> {
     return this.http.get<Liquidacion[]>(
-      `${this.url}/${getParams(estadoCuenta, etapa)}`
+      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa)}`
     );
   }
 

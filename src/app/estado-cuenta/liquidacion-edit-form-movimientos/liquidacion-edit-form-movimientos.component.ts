@@ -27,6 +27,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { getContraparteId } from 'src/app/utils/contraparte-info';
 import {
   createMovimiento,
   deleteMovimiento,
@@ -194,8 +195,13 @@ export class LiquidacionEditFormMovimientosComponent {
   ) {}
 
   addMovimientos(): void {
+    const contraparteId = getContraparteId(this.liquidacion!);
     this.movimientoService
-      .getListByEstadoCuenta(this.liquidacion!, LiquidacionEtapaEnum.PENDIENTE)
+      .getListByEstadoCuenta(
+        this.liquidacion!,
+        contraparteId,
+        LiquidacionEtapaEnum.PENDIENTE
+      )
       .subscribe((list) => {
         const data: MovimientosSelectedDialogData = {
           contraparteInfo: this.liquidacion!,
