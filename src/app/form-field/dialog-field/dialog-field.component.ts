@@ -39,6 +39,7 @@ export class DialogFieldComponent<T extends { id: number }> {
   @Input() list: T[] = [];
   @Input() title = '';
 
+  @Output() clearClick = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
 
   @ViewChild(DialogFormFieldControlComponent)
@@ -48,6 +49,7 @@ export class DialogFieldComponent<T extends { id: number }> {
 
   clearSelectedValue(): void {
     this.dialogFieldControl?.clearSelectedValue();
+    this.clearClick.emit();
   }
 
   openDialog(): void {
