@@ -410,6 +410,12 @@ describe('CamionFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
+      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .forEach((r) => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/chofer/without_camion/`)
+      .forEach((r) => r.flush(mockChoferList));
+    httpController
       .match(
         `${environment.api}/localidad/${mockCamion.ciudad_habilitacion_municipal.pais_id}/`
       )

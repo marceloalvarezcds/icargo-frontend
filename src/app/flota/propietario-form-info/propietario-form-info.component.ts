@@ -33,6 +33,7 @@ export class PropietarioFormInfoComponent {
       es_chofer: new FormControl(false),
       telefono: new FormControl(null),
       email: new FormControl(null),
+      puede_recibir_anticipos: new FormControl(null),
     }),
   });
   @Input() isEdit = false;
