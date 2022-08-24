@@ -6,5 +6,6 @@
   [controlName]="controlName"
   [inputValuePropName]="inputValuePropName"
   [form]="form"
+  (clearClick)="clearClick.emit()"
   (valueChange)="valueChange.emit($event)"
 ></app-dialog-field>
