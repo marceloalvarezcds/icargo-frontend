@@ -5,15 +5,14 @@ import { environment } from 'src/environments/environment';
 import { Localidad } from '../interfaces/localidad';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LocalidadService {
-
   private url = `${environment.api}/localidad`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(paisId: number): Observable<Localidad[]> {
-    return this.http.get<Localidad[]>(`${this.url}/${paisId}/`);
+    return this.http.get<Localidad[]>(`${this.url}/${paisId}`);
   }
 }

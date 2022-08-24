@@ -5,28 +5,29 @@ import { environment } from 'src/environments/environment';
 import { Camion, CamionList } from 'src/app/interfaces/camion';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CamionService {
-
   private url = `${environment.api}/camion`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<CamionList[]> {
     return this.http.get<CamionList[]>(`${this.url}/`);
   }
 
   getListByGestorCarga(): Observable<CamionList[]> {
-    return this.http.get<CamionList[]>(`${this.url}/gestor_carga/`);
+    return this.http.get<CamionList[]>(`${this.url}/gestor_carga`);
   }
 
   getListByProductoId(productoId: number): Observable<CamionList[]> {
-    return this.http.get<CamionList[]>(`${this.url}/producto/${productoId}/`);
+    return this.http.get<CamionList[]>(`${this.url}/producto/${productoId}`);
   }
 
   getListByPropietarioId(propietarioId: number): Observable<CamionList[]> {
-    return this.http.get<CamionList[]>(`${this.url}/propietario/${propietarioId}/`);
+    return this.http.get<CamionList[]>(
+      `${this.url}/propietario/${propietarioId}`
+    );
   }
 
   getById(id: number): Observable<Camion> {
@@ -34,7 +35,7 @@ export class CamionService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Camion> {
