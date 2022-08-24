@@ -30,10 +30,10 @@ export class EstadoCuentaService {
   }
 
   getListByGestorCarga(): Observable<EstadoCuenta[]> {
-    return this.http.get<EstadoCuenta[]>(`${this.url}/gestor_carga_id/`);
+    return this.http.get<EstadoCuenta[]>(`${this.url}/gestor_carga_id`);
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 }

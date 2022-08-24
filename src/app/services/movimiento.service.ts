@@ -40,7 +40,7 @@ export class MovimientoService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   generateReportsByContraparte(

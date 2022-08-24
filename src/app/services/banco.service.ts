@@ -13,7 +13,7 @@ export class BancoService {
   constructor(private http: HttpClient) {}
 
   getListByGestorCarga(): Observable<Banco[]> {
-    return this.http.get<Banco[]>(`${this.url}/gestor_carga_id/`);
+    return this.http.get<Banco[]>(`${this.url}/gestor_carga_id`);
   }
 
   getById(id: number): Observable<Banco> {
@@ -21,7 +21,7 @@ export class BancoService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Banco> {

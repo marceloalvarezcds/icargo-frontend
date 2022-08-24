@@ -13,7 +13,7 @@ export class PuntoVentaService {
   constructor(private http: HttpClient) {}
 
   getList(proveedorId: number): Observable<PuntoVentaList[]> {
-    return this.http.get<PuntoVentaList[]>(`${this.url}/${proveedorId}/`);
+    return this.http.get<PuntoVentaList[]>(`${this.url}/${proveedorId}`);
   }
 
   getListByGestor(): Observable<PuntoVentaList[]> {
@@ -34,7 +34,7 @@ export class PuntoVentaService {
   }
 
   generateReports(proveedorId: number): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/${proveedorId}/`);
+    return this.http.get<string>(`${this.url}/reports/${proveedorId}`);
   }
 
   create(formData: FormData): Observable<PuntoVenta> {

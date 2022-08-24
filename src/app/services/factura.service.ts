@@ -13,9 +13,7 @@ export class FacturaService {
   constructor(private http: HttpClient) {}
 
   getListByLiquidacionId(liquidacionId: number): Observable<Factura[]> {
-    return this.http.get<Factura[]>(
-      `${this.url}/liquidacion/${liquidacionId}/`
-    );
+    return this.http.get<Factura[]>(`${this.url}/liquidacion/${liquidacionId}`);
   }
 
   getById(id: number): Observable<Factura> {

@@ -6,13 +6,12 @@ import { Flete, FleteList } from 'src/app/interfaces/flete';
 import { FleteDestinatario } from '../interfaces/flete-destinatario';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FleteService {
-
   private url = `${environment.api}/flete`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<FleteList[]> {
     return this.http.get<FleteList[]>(`${this.url}/`);
@@ -27,7 +26,7 @@ export class FleteService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Flete> {
@@ -46,7 +45,13 @@ export class FleteService {
     return this.http.get<Flete>(`${this.url}/${id}/cancel`);
   }
 
-  getDestinatarioList(remitenteId: number, origenId: number, destinoId: number): Observable<FleteDestinatario[]> {
-    return this.http.get<FleteDestinatario[]>(`${this.url}/destinatarios/${remitenteId}/${origenId}/${destinoId}`);
+  getDestinatarioList(
+    remitenteId: number,
+    origenId: number,
+    destinoId: number
+  ): Observable<FleteDestinatario[]> {
+    return this.http.get<FleteDestinatario[]>(
+      `${this.url}/destinatarios/${remitenteId}/${origenId}/${destinoId}`
+    );
   }
 }
