@@ -179,6 +179,8 @@ export class OcAnticipoRetiradoFormDialogComponent
         this.monto,
         this.saldoDisponible
       ).toLocaleString()}</strong> al Saldo</span>`;
+    } else if (this.saldoDisponible === 0) {
+      return '';
     }
     let text = `Saldo <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
     return text;
@@ -277,6 +279,7 @@ export class OcAnticipoRetiradoFormDialogComponent
   }
 
   tipoAnticipoChange(event: TipoAnticipo): void {
+    this.saldoAnticipo = 0;
     this.tipoAnticipo = event;
     this.esConLitroControl.setValue(this.isTipoInsumo);
     if (this.isTipoInsumo) {
