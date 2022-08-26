@@ -1,6 +1,15 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
@@ -31,7 +40,7 @@ const createFormGroup = (component: RegistroConduccionFormComponent): void => {
       foto_registro_reverso: new FormControl(null),
     }),
   });
-}
+};
 
 describe('RegistroConduccionFormComponent', () => {
   let component: RegistroConduccionFormComponent;
@@ -49,16 +58,15 @@ describe('RegistroConduccionFormComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         CiudadService,
         LocalidadService,
         PaisService,
         TipoRegistroService,
       ],
-      declarations: [ RegistroConduccionFormComponent ]
-    })
-    .compileComponents();
+      declarations: [RegistroConduccionFormComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -76,15 +84,24 @@ describe('RegistroConduccionFormComponent', () => {
     createFormGroup(component);
     fixture.detectChanges();
     const paisField: DebugElement = findElement(fixture, 'app-pais-field');
-    const localidadField: DebugElement = findElement(fixture, 'app-localidad-field');
+    const localidadField: DebugElement = findElement(
+      fixture,
+      'app-localidad-field'
+    );
     paisField.triggerEventHandler('valueChange', paisId);
     fixture.detectChanges();
     localidadField.triggerEventHandler('valueChange', localidadId);
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/tipo_registro/`).flush(mockTipoRegistroList);
-    httpController.expectOne(`${environment.api}/localidad/${paisId}/`).flush(mockLocalidadList);
-    httpController.expectOne(`${environment.api}/ciudad/${localidadId}/`).flush(mockCiudadList);
+    httpController
+      .expectOne(`${environment.api}/tipo_registro/`)
+      .flush(mockTipoRegistroList);
+    httpController
+      .expectOne(`${environment.api}/localidad/${paisId}`)
+      .flush(mockLocalidadList);
+    httpController
+      .expectOne(`${environment.api}/ciudad/${localidadId}`)
+      .flush(mockCiudadList);
     flush();
     expect(component).toBeTruthy();
     httpController.verify();

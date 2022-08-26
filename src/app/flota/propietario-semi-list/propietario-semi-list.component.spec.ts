@@ -89,7 +89,7 @@ describe('PropietarioSemiListComponent', () => {
   it('should create with propietarioId', fakeAsync(() => {
     component.propietarioId = 1;
     httpController
-      .expectOne(`${environment.api}/semi/propietario/${propietarioId}/`)
+      .expectOne(`${environment.api}/semi/propietario/${propietarioId}`)
       .flush(mockSemiList);
     flush();
     expect(component.list).toBe(mockSemiList);

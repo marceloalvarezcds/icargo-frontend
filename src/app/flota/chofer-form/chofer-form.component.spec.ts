@@ -191,7 +191,7 @@ describe('ChoferFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .match(`${environment.api}/tipo_documento/`)
@@ -203,7 +203,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -226,7 +226,7 @@ describe('ChoferFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .match(`${environment.api}/tipo_documento/`)
@@ -245,7 +245,7 @@ describe('ChoferFormComponent', () => {
     flush();
     tick();
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -271,7 +271,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/chofer/${id}`)
       .forEach((r) => r.flush(chofer));
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
@@ -283,10 +283,10 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     fixture.detectChanges();
@@ -324,10 +324,10 @@ describe('ChoferFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${chofer.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     httpController.match(`${environment.api}/chofer/${id}`).forEach((req) => {
       expect(req.request.method).toBe('PUT');
@@ -339,7 +339,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/chofer/${id}`)
       .forEach((r) => r.flush(chofer));
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -375,7 +375,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/chofer/${id}`)
       .forEach((r) => r.flush(mockChofer));
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .match(`${environment.api}/tipo_documento/`)
@@ -384,7 +384,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -421,7 +421,7 @@ describe('ChoferFormComponent', () => {
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/chofer/${id}`).flush(chofer);
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .match(`${environment.api}/tipo_documento/`)
@@ -430,7 +430,7 @@ describe('ChoferFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${chofer.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)

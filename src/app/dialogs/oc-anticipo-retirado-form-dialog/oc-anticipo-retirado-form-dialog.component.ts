@@ -1,8 +1,8 @@
 import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { combineLatest } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { combineLatest, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { TipoAnticipoEnum } from 'src/app/enums/tipo-anticipo-enum';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
@@ -13,7 +13,6 @@ import { TipoAnticipo } from 'src/app/interfaces/tipo-anticipo';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
-import { valueMerge } from 'src/app/utils/form-control';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
@@ -82,28 +81,8 @@ export class OcAnticipoRetiradoFormDialogComponent
       this.montoRetiradoControl.setValue(round(cantidad * precio));
     });
 
-  fleteAnticipoSubscription = valueMerge(
-    this.tipoAnticipoControl,
-    this.tipoInsumoControl
-  ).subscribe(() => {
-    setTimeout(() => {
-      if (this.isTipoInsumo) {
-        if (this.tipoInsumoId) {
-          this.fleteAnticipoService
-            .getByTipoIdAndFleteIdAndTipoInsumoId(
-              this.tipoAnticipoId!,
-              this.fleteId,
-              this.tipoInsumoId
-            )
-            .subscribe(this.setFleteAnticipo.bind(this));
-        }
-      } else {
-        this.fleteAnticipoService
-          .getByTipoIdAndFleteId(this.tipoAnticipoId!, this.fleteId)
-          .subscribe(this.setFleteAnticipo.bind(this));
-      }
-    }, 500);
-  });
+  fleteAnticipoEfectivoSubscription?: Subscription;
+  fleteAnticipoInsumoSubscription?: Subscription;
 
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';
@@ -249,7 +228,8 @@ export class OcAnticipoRetiradoFormDialogComponent
 
   ngOnDestroy(): void {
     this.esConLitroSubscription.unsubscribe();
-    this.fleteAnticipoSubscription.unsubscribe();
+    this.fleteAnticipoEfectivoSubscription?.unsubscribe();
+    this.fleteAnticipoInsumoSubscription?.unsubscribe();
     this.litroSubscription.unsubscribe();
   }
 
@@ -296,6 +276,7 @@ export class OcAnticipoRetiradoFormDialogComponent
     this.tipoInsumoControl.updateValueAndValidity();
     this.insumoPuntoVentaPrecioChange();
     this.puntoVentaChange();
+    this.getSaldoDisponibleForEfectivo();
   }
 
   insumoPuntoVentaPrecioChange(event?: InsumoPuntoVentaPrecioList): void {
@@ -309,15 +290,47 @@ export class OcAnticipoRetiradoFormDialogComponent
     this.tipoInsumo = event?.insumo_tipo_descripcion;
     this.tipoInsumoControl.setValue(event?.insumo_tipo_id);
     this.precioUnitarioControl.setValue(event?.precio);
+    this.getSaldoDisponibledForInsumo(event);
   }
 
   puntoVentaChange(event?: PuntoVentaList): void {
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
+    this.getSaldoDisponibledForInsumo(event);
   }
 
   private close(data: OrdenCargaAnticipoRetirado): void {
     this.dialogRef.close(data);
+  }
+
+  private getSaldoDisponibleForEfectivo(): void {
+    if (!this.isTipoInsumo && this.tipoAnticipoId) {
+      // Consulta saldo disponible para Efectivo
+      this.fleteAnticipoEfectivoSubscription?.unsubscribe();
+      this.fleteAnticipoEfectivoSubscription = this.fleteAnticipoService
+        .getByTipoIdAndFleteId(this.tipoAnticipoId, this.fleteId)
+        .subscribe(this.setFleteAnticipo.bind(this));
+    }
+  }
+
+  private getSaldoDisponibledForInsumo(
+    event?: InsumoPuntoVentaPrecioList | PuntoVentaList
+  ): void {
+    if (
+      event &&
+      this.isTipoInsumo &&
+      this.tipoAnticipoId &&
+      this.tipoInsumoId
+    ) {
+      this.fleteAnticipoInsumoSubscription?.unsubscribe();
+      this.fleteAnticipoInsumoSubscription = this.fleteAnticipoService
+        .getByTipoIdAndFleteIdAndTipoInsumoId(
+          this.tipoAnticipoId,
+          this.fleteId,
+          this.tipoInsumoId
+        )
+        .subscribe(this.setFleteAnticipo.bind(this));
+    }
   }
 
   private loadOrdenCargaAnticipoSaldo(
