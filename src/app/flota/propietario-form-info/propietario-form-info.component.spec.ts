@@ -1,6 +1,15 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -39,7 +48,7 @@ describe('PropietarioFormInfoComponent', () => {
         ReactiveFormsModule,
         RouterTestingModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AuthService,
         PaisService,
@@ -47,9 +56,8 @@ describe('PropietarioFormInfoComponent', () => {
         TipoPersonaService,
         UserService,
       ],
-      declarations: [ PropietarioFormInfoComponent ]
-    })
-    .compileComponents();
+      declarations: [PropietarioFormInfoComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -62,8 +70,12 @@ describe('PropietarioFormInfoComponent', () => {
 
   it('should create', fakeAsync(() => {
     httpController.expectOne(`${environment.api}/pais/`).flush(mockPaisList);
-    httpController.expectOne(`${environment.api}/tipo_persona/`).flush(mockTipoPersonaList);
-    httpController.expectOne(`${environment.api}/user/gestor_carga_id/`).flush([mockUser]);
+    httpController
+      .expectOne(`${environment.api}/tipo_persona/`)
+      .flush(mockTipoPersonaList);
+    httpController
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
+      .flush([mockUser]);
     flush();
     tipoPersonaField.triggerEventHandler('isFisicaSelected', true);
     tick();

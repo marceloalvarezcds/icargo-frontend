@@ -198,7 +198,7 @@ describe('GestorCargaListComponent', () => {
 
     httpController.expectOne(`${environment.api}/gestor_carga/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/gestor_carga/reports/`)
+      .expectOne(`${environment.api}/gestor_carga/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

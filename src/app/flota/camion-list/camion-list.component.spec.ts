@@ -194,7 +194,7 @@ describe('CamionListComponent', () => {
 
     httpController.expectOne(`${environment.api}/camion/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/camion/reports/`)
+      .expectOne(`${environment.api}/camion/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

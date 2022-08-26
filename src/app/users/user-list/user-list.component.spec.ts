@@ -126,7 +126,7 @@ describe('UserListComponent', () => {
     tick();
 
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush(mockUserList);
     flush();
 

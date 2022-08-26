@@ -261,10 +261,10 @@ describe('ProveedorFormComponent', () => {
       .match(`${environment.api}/proveedor/${id}`)
       .forEach((r) => r.flush(proveedor));
     httpController
-      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -363,10 +363,10 @@ describe('ProveedorFormComponent', () => {
       req.flush(proveedor);
     });
     httpController
-      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(createPuntoVentaSpy).toHaveBeenCalled();
@@ -457,10 +457,10 @@ describe('ProveedorFormComponent', () => {
       .match(`${environment.api}/proveedor/${id}`)
       .forEach((r) => r.flush(proveedor));
     httpController
-      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}/`)
+      .match(`${environment.api}/localidad/${proveedor.ciudad?.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${proveedor.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(createPuntoVentaSpy).toHaveBeenCalled();
