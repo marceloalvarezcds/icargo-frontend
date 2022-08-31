@@ -7,6 +7,8 @@
       [list]="list"
       [title]="title"
       [formControl]="control"
+      [fetchFunction]="fetchFunction"
+      [isFetchPaginator]="isFetchPaginator"
       (valueChange)="$event && valueChange.emit($event)"
     ></app-dialog-form-field-control>
     <button

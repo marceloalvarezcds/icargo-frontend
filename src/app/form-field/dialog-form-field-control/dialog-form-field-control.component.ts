@@ -90,6 +90,8 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
     return this.focused || !this.empty || !!this.selectedValue;
   }
 
+  @Input() fetchFunction: any;
+  @Input() isFetchPaginator = false;
   @Input() columns: Column[] = [];
   @Input() descripcionPropName!: string;
   @Input() title = '';
@@ -267,6 +269,8 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
       columns: this.columns.slice(),
       title: this.title,
       selectedValue: this.selectedValue,
+      fetchFunction: this.fetchFunction,
+      isFetchPaginator: this.isFetchPaginator,
     };
     const config: MatDialogConfig = {
       data,

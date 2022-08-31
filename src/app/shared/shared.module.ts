@@ -21,6 +21,7 @@ import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/
 import { SelectableItemTableComponent } from './selectable-item-table/selectable-item-table.component';
 import { SelectableMovimientoTableComponent } from './selectable-movimiento-table/selectable-movimiento-table.component';
 import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
+import { TableSelectorWithFetchPaginatorComponent } from './table-selector-with-fetch-paginator/table-selector-with-fetch-paginator.component';
 import { TableSelectorComponent } from './table-selector/table-selector.component';
 import { TableComponent } from './table/table.component';
 
@@ -40,6 +41,7 @@ const modules = [
   TableComponent,
   TablePaginatorComponent,
   TableSelectorComponent,
+  TableSelectorWithFetchPaginatorComponent,
   PageFormContactosComponent,
   PageFormEntitiesInfoComponent,
 ];

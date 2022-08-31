@@ -13,13 +13,25 @@
         <mat-icon>close</mat-icon>
       </button>
     </mat-form-field>
-    <app-table-selector
-      [columns]="columns"
-      [data]="list"
-      [searchControl]="searchControl"
-      [selectedRow]="selectValue"
-      (selectedChange)="selectValue = $event"
-    ></app-table-selector>
+    <ng-container *ngIf="isFetchPaginator">
+      <app-table-selector-with-fetch-paginator
+        [columns]="columns"
+        [data]="list"
+        [searchControl]="searchControl"
+        [fetchFunction]="fetchFunction"
+        [selectedRow]="selectValue"
+        (selectedChange)="selectValue = $event"
+      ></app-table-selector-with-fetch-paginator>
+    </ng-container>
+    <ng-container *ngIf="!isFetchPaginator">
+      <app-table-selector
+        [columns]="columns"
+        [data]="list"
+        [searchControl]="searchControl"
+        [selectedRow]="selectValue"
+        (selectedChange)="selectValue = $event"
+      ></app-table-selector>
+    </ng-container>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>

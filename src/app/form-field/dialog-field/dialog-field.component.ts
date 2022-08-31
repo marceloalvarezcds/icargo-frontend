@@ -38,6 +38,8 @@ export class DialogFieldComponent<T extends { id: number }> {
   @Input() inputValuePropName!: string;
   @Input() list: T[] = [];
   @Input() title = '';
+  @Input() fetchFunction: any;
+  @Input() isFetchPaginator = false;
 
   @Output() valueChange = new EventEmitter<T>();
 
