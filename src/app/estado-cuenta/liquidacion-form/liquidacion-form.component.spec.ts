@@ -23,6 +23,7 @@ describe('LiquidacionFormComponent', () => {
     snapshot: {
       queryParams: {
         tipo_contraparte_id: estadoCuenta.tipo_contraparte_id,
+        contraparte_id: estadoCuenta.contraparte_id,
         contraparte: estadoCuenta.contraparte,
         contraparte_numero_documento: estadoCuenta.contraparte_numero_documento,
         estado: EstadoEnum.FINALIZADO,

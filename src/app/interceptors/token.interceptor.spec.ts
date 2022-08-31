@@ -1,5 +1,8 @@
 import { HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from 'src/environments/environment';
@@ -15,10 +18,7 @@ describe('TokenInterceptor', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        RouterTestingModule,
-      ],
+      imports: [HttpClientTestingModule, RouterTestingModule],
       providers: [
         AuthService,
         BackendTestService,
@@ -45,7 +45,7 @@ describe('TokenInterceptor', () => {
       token_type: 'bearer',
     });
 
-    const url = `${environment.api}/alive/`;
+    const url = `${environment.api}/alive`;
     httpClient.get(url).subscribe();
     const httpRequest = httpController.expectOne(url);
     expect(httpRequest.request.headers.has('Authorization')).toEqual(true);
@@ -55,7 +55,7 @@ describe('TokenInterceptor', () => {
     const backendTestService = TestBed.inject(BackendTestService);
     backendTestService.alive().subscribe();
 
-    const url = `${environment.api}/alive/`;
+    const url = `${environment.api}/alive`;
     const httpRequest = httpController.expectOne(url);
     expect(httpRequest.request.headers.has('Authorization')).toEqual(false);
 

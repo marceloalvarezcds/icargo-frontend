@@ -180,10 +180,10 @@ describe('PuntoVentaListComponent', () => {
     downloadButton.triggerEventHandler('click', new MouseEvent('click'));
     expect(componentDownloadFileSpy).toHaveBeenCalled();
     httpController
-      .expectOne(`${environment.api}/punto_venta/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/${proveedorId}`)
       .flush([]);
     httpController
-      .expectOne(`${environment.api}/punto_venta/reports/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/reports/${proveedorId}`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

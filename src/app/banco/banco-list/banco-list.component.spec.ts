@@ -145,14 +145,14 @@ describe('BancoListComponent', () => {
     tick();
 
     httpController
-      .match(`${environment.api}/banco/gestor_carga_id/`)
+      .match(`${environment.api}/banco/gestor_carga_id`)
       .forEach((r) => r.flush(mockBancoList));
     const req = httpController.expectOne(`${environment.api}/banco/${row.id}`);
     expect(req.request.method).toBe('DELETE');
     req.flush({});
     flush();
     httpController
-      .match(`${environment.api}/banco/gestor_carga_id/`)
+      .match(`${environment.api}/banco/gestor_carga_id`)
       .forEach((r) => r.flush(mockBancoList));
     flush();
 
@@ -168,7 +168,7 @@ describe('BancoListComponent', () => {
     const spy = spyOn(component as any, 'resetFilterList').and.callThrough();
 
     httpController
-      .expectOne(`${environment.api}/banco/gestor_carga_id/`)
+      .expectOne(`${environment.api}/banco/gestor_carga_id`)
       .flush(mockBancoList);
 
     flush();
@@ -193,10 +193,10 @@ describe('BancoListComponent', () => {
     expect(componentDownloadFileSpy).toHaveBeenCalled();
 
     httpController
-      .expectOne(`${environment.api}/banco/gestor_carga_id/`)
+      .expectOne(`${environment.api}/banco/gestor_carga_id`)
       .flush([]);
     httpController
-      .expectOne(`${environment.api}/banco/reports/`)
+      .expectOne(`${environment.api}/banco/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)
@@ -212,7 +212,7 @@ describe('BancoListComponent', () => {
   it('should apply filter', fakeAsync(() => {
     const searchSpy = spyOn(searchService, 'search').and.callThrough();
     httpController
-      .expectOne(`${environment.api}/banco/gestor_carga_id/`)
+      .expectOne(`${environment.api}/banco/gestor_carga_id`)
       .flush(mockBancoList);
     flush();
 

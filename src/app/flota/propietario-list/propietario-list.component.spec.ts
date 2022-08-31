@@ -199,7 +199,7 @@ describe('PropietarioListComponent', () => {
 
     httpController.expectOne(`${environment.api}/propietario/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/propietario/reports/`)
+      .expectOne(`${environment.api}/propietario/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

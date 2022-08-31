@@ -2,23 +2,3 @@
   [form]="form"
   (fleteChange)="fleteChange.emit($event)"
 ></app-orden-carga-create-form-combinacion>
-<div *ngIf="oc" class="combinacion-container">
-  <div class="row page-form-row">
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-      <mat-label>Chofer</mat-label>
-      <input matInput [value]="oc?.camion_chofer_nombre" disabled/>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-      <mat-label>Documento del Chofer</mat-label>
-      <input matInput [value]="oc?.camion_chofer_numero_documento" disabled/>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-      <mat-label>Placa Camion/Semi</mat-label>
-      <input matInput [value]="placaCamionSemi" disabled/>
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-      <mat-label>Propietario</mat-label>
-      <input matInput [value]="oc?.camion_propietario_nombre" disabled/>
-    </mat-form-field>
-  </div>
-</div>

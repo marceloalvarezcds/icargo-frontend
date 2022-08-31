@@ -1,6 +1,6 @@
-import { ContraparteInfo } from './contraparte-info';
+import { ContraparteInfoMovimiento } from './contraparte-info';
 
-export interface EstadoCuenta extends ContraparteInfo {
+export interface EstadoCuenta extends ContraparteInfoMovimiento {
   pendiente: number;
   en_proceso: number;
   confirmado: number;
@@ -14,6 +14,7 @@ export interface EstadoCuenta extends ContraparteInfo {
 
 export const mockEstadoCuentaList: EstadoCuenta[] = [
   {
+    contraparte_id: 1,
     contraparte: 'ADM SANTA RITA',
     contraparte_numero_documento: '3100100',
     tipo_contraparte_id: 3,
@@ -29,6 +30,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=ADM+SANTA+RITA&contraparte_numero_documento=3100100&tipo_contraparte_id=3',
   },
   {
+    contraparte_id: 2,
     contraparte: 'GICAL KM12',
     contraparte_numero_documento: 'p-100100',
     tipo_contraparte_id: 4,
@@ -44,6 +46,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=GICAL+KM12&contraparte_numero_documento=p-100100&tipo_contraparte_id=4',
   },
   {
+    contraparte_id: 3,
     contraparte: 'LA PAZ',
     contraparte_numero_documento: '800100100',
     tipo_contraparte_id: 4,
@@ -59,6 +62,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=LA+PAZ&contraparte_numero_documento=800100100&tipo_contraparte_id=4',
   },
   {
+    contraparte_id: 4,
     contraparte: 'PUERTO UNION',
     contraparte_numero_documento: 'p-400400',
     tipo_contraparte_id: 1,

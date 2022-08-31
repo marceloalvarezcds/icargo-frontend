@@ -90,6 +90,7 @@ export class InsumoPuntoVentaPrecioDialogFieldComponent {
   @Input() groupName = '';
   @Input() title = 'Punto de Venta';
 
+  @Output() clearClick = new EventEmitter();
   @Output() valueChange = new EventEmitter<InsumoPuntoVentaPrecioList>();
 
   @ViewChild('app-dialog-field')

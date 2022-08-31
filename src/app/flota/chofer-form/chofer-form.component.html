@@ -33,6 +33,7 @@
         [fotoDocumentoFrente]="fotoDocumentoFrente"
         [fotoDocumentoReverso]="fotoDocumentoReverso"
         [fotoPerfil]="fotoPerfil"
+        [cantidadOCConAnticiposLiberados]="cantidadOCConAnticiposLiberados"
         (fotoDocumentoFrenteChange)="
           fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null
         "
@@ -40,6 +41,7 @@
           fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null
         "
         (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
+        (anticiposBloqueadosChange)="bloquearAnticipos()"
       ></app-chofer-form-info>
     </mat-expansion-panel>
 

@@ -200,7 +200,7 @@ describe('CentrosOperativosListComponent', () => {
 
     httpController.expectOne(`${environment.api}/centro_operativo/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/centro_operativo/reports/`)
+      .expectOne(`${environment.api}/centro_operativo/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

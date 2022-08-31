@@ -82,7 +82,7 @@ describe('EstadoCuentaListComponent', () => {
     const spy = spyOn(component as any, 'resetFilterList').and.callThrough();
 
     httpController
-      .expectOne(`${environment.api}/estado_cuenta/gestor_carga_id/`)
+      .expectOne(`${environment.api}/estado_cuenta/gestor_carga_id`)
       .flush(mockEstadoCuentaList);
 
     flush();
@@ -107,10 +107,10 @@ describe('EstadoCuentaListComponent', () => {
     expect(componentDownloadFileSpy).toHaveBeenCalled();
 
     httpController
-      .expectOne(`${environment.api}/estado_cuenta/gestor_carga_id/`)
+      .expectOne(`${environment.api}/estado_cuenta/gestor_carga_id`)
       .flush([]);
     httpController
-      .expectOne(`${environment.api}/estado_cuenta/reports/`)
+      .expectOne(`${environment.api}/estado_cuenta/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)
@@ -126,7 +126,7 @@ describe('EstadoCuentaListComponent', () => {
   it('should apply filter', fakeAsync(() => {
     const searchSpy = spyOn(searchService, 'search').and.callThrough();
     httpController
-      .expectOne(`${environment.api}/estado_cuenta/gestor_carga_id/`)
+      .expectOne(`${environment.api}/estado_cuenta/gestor_carga_id`)
       .flush(mockEstadoCuentaList);
     flush();
 

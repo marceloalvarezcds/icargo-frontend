@@ -79,7 +79,7 @@ describe('RentabilidadListComponent', () => {
 
     httpController.expectOne(`${environment.api}/rentabilidad/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/rentabilidad/reports/`)
+      .expectOne(`${environment.api}/rentabilidad/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

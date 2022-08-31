@@ -61,6 +61,14 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       email: [null, emailValidator],
       pagina_web: null,
       info_complementaria: null,
+      limite_cantidad_oc_activas: [
+        null,
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[0-9]{1,}$'),
+        ],
+      ],
     }),
     geo: this.fb.group({
       ciudad_id: null,
@@ -176,6 +184,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  patternMessageError(_: any): string {
+    return 'Debe ser un número entero y positivo';
+  }
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -201,6 +213,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             email: data.email,
             pagina_web: data.pagina_web,
             info_complementaria: data.info_complementaria,
+            limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
             logo: null,
           },
           geo: {

@@ -13,7 +13,7 @@ export class CiudadService {
   constructor(private http: HttpClient) {}
 
   getList(localidadId: number): Observable<Ciudad[]> {
-    return this.http.get<Ciudad[]>(`${this.url}/${localidadId}/`);
+    return this.http.get<Ciudad[]>(`${this.url}/${localidadId}`);
   }
 
   getAllList(): Observable<Ciudad[]> {

@@ -60,7 +60,7 @@ describe('ContactoFormDialogComponent', () => {
     fixture.detectChanges();
     httpController = TestBed.inject(HttpTestingController);
     httpController
-      .expectOne(`${environment.api}/cargo/active_list/`)
+      .expectOne(`${environment.api}/cargo/active_list`)
       .flush(mockCargoList);
     expect(component).toBeTruthy();
     httpController.verify();
@@ -127,7 +127,7 @@ describe('ContactoFormDialogComponent', () => {
     tick();
 
     httpController
-      .expectOne(`${environment.api}/cargo/active_list/`)
+      .expectOne(`${environment.api}/cargo/active_list`)
       .flush(mockCargoList);
     httpController
       .expectOne(`${environment.api}/contacto/${telefono}/${email}`)
