@@ -19,10 +19,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 export class CiudadDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
   list: Ciudad[] = [];
-  fetchFunction = this.service.getAllList; // este nomás tiene que quedar
-  subs = this.service.getAllList().subscribe((list) => { // este hay que borrar
-    this.list = list;
-  });
+  fetchFunction = this.service.getPaginatedList.bind(this.service);
 
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },

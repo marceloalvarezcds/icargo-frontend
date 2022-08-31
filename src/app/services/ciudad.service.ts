@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Ciudad } from '../interfaces/ciudad';
+import { Ciudad, PaginatedList, PaginatedListRequest } from '../interfaces/ciudad';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +16,8 @@ export class CiudadService {
     return this.http.get<Ciudad[]>(`${this.url}/${localidadId}/`);
   }
 
-  getAllList(): Observable<Ciudad[]> {
-    return this.http.get<Ciudad[]>(`${this.url}/`);
+
+  getPaginatedList(request: PaginatedListRequest): Observable<PaginatedList<Ciudad>> {
+    return this.http.get<PaginatedList<Ciudad>>(`${this.url}/?page=${request.page}&pageSize=${request.pageSize}&query=${request.query}`)
   }
 }
