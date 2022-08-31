@@ -18,10 +18,11 @@ export class MovimientoService {
 
   getListByEstadoCuenta(
     estadoCuenta: ContraparteInfo,
+    contraparte_id: number,
     etapa: LiquidacionEtapaEnum
   ): Observable<Movimiento[]> {
     return this.http.get<Movimiento[]>(
-      `${this.url}/${getParams(estadoCuenta, etapa)}`
+      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa)}`
     );
   }
 
@@ -38,12 +39,69 @@ export class MovimientoService {
     return this.http.get<Movimiento>(`${this.url}/${id}`);
   }
 
+  generateReports(): Observable<string> {
+    return this.http.get<string>(`${this.url}/reports`);
+  }
+
+  generateReportsByContraparte(
+    estadoCuenta: ContraparteInfo,
+    contraparte_id: number,
+    estado: LiquidacionEtapaEnum
+  ): Observable<string> {
+    return this.http.get<string>(
+      `${this.url}/reports/${getParams(estadoCuenta, contraparte_id, estado)}`
+    );
+  }
+
+  generateReportsByEstadoAndLiquidacionId(
+    estado: string,
+    liquidacion_id: number
+  ): Observable<string> {
+    return this.http.get<string>(
+      `${this.url}/reports/liquidacion/${liquidacion_id}/estado/${estado}`
+    );
+  }
+
   create(formData: FormData): Observable<Movimiento> {
     return this.http.post<Movimiento>(`${this.url}/`, formData);
   }
 
   edit(id: number, formData: FormData): Observable<Movimiento> {
     return this.http.put<Movimiento>(`${this.url}/${id}`, formData);
+  }
+
+  editByGestorFlete(id: number, formData: FormData): Observable<Movimiento> {
+    return this.http.put<Movimiento>(
+      `${this.url}/${id}/edit_by_gestor_flete`,
+      formData
+    );
+  }
+
+  editByGestorMerma(id: number, formData: FormData): Observable<Movimiento> {
+    return this.http.put<Movimiento>(
+      `${this.url}/${id}/edit_by_gestor_merma`,
+      formData
+    );
+  }
+
+  editByPropietarioFlete(
+    id: number,
+    formData: FormData
+  ): Observable<Movimiento> {
+    return this.http.put<Movimiento>(
+      `${this.url}/${id}/edit_by_propietario_flete`,
+      formData
+    );
+  }
+
+  editByPropietarioMerma(
+    id: number,
+    formData: FormData
+  ): Observable<Movimiento> {
+    return this.http.put<Movimiento>(
+      `${this.url}/${id}/edit_by_propietario_merma`,
+      formData
+    );
   }
 
   delete(id: number): Observable<Movimiento> {

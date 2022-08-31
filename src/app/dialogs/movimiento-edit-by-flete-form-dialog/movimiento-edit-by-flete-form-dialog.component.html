@@ -1,0 +1,47 @@
+<form [formGroup]="form">
+  <h1 mat-dialog-title>
+    Editar Movimiento
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <app-key-value
+      key="Nº de Liquidación"
+      [value]="data.liquidacion_id"
+    ></app-key-value>
+    <app-key-value
+      [key]="data.tipo_contraparte_descripcion"
+      [value]="data.contraparte"
+    ></app-key-value>
+    <app-estado-field [estado]="estado"></app-estado-field>
+    <app-key-value
+      key="Monto anterior"
+      value="{{ data.monto | numberFormat }}"
+    ></app-key-value>
+    <app-number-field
+      title="Tarifa"
+      controlName="tarifa"
+      [form]="form"
+    ></app-number-field>
+    <app-moneda-field title="Moneda" [form]="form"></app-moneda-field>
+    <app-key-value
+      key="Detalle tarifa anterior"
+      [value]="data.detalle"
+      [inline]="false"
+    ></app-key-value>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="submit()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+    >
+      Aceptar
+    </button>
+  </div>
+</form>

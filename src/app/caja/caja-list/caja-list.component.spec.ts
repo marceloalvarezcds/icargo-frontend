@@ -145,14 +145,14 @@ describe('CajaListComponent', () => {
     tick();
 
     httpController
-      .expectOne(`${environment.api}/caja/gestor_carga_id/`)
+      .expectOne(`${environment.api}/caja/gestor_carga_id`)
       .flush(mockCajaList);
     const req = httpController.expectOne(`${environment.api}/caja/${row.id}`);
     expect(req.request.method).toBe('DELETE');
     req.flush({});
     flush();
     httpController
-      .expectOne(`${environment.api}/caja/gestor_carga_id/`)
+      .expectOne(`${environment.api}/caja/gestor_carga_id`)
       .flush(mockCajaList);
     flush();
 
@@ -168,7 +168,7 @@ describe('CajaListComponent', () => {
     const spy = spyOn(component as any, 'resetFilterList').and.callThrough();
 
     httpController
-      .expectOne(`${environment.api}/caja/gestor_carga_id/`)
+      .expectOne(`${environment.api}/caja/gestor_carga_id`)
       .flush(mockCajaList);
 
     flush();
@@ -193,11 +193,9 @@ describe('CajaListComponent', () => {
     expect(componentDownloadFileSpy).toHaveBeenCalled();
 
     httpController
-      .expectOne(`${environment.api}/caja/gestor_carga_id/`)
+      .expectOne(`${environment.api}/caja/gestor_carga_id`)
       .flush([]);
-    httpController
-      .expectOne(`${environment.api}/caja/reports/`)
-      .flush(filename);
+    httpController.expectOne(`${environment.api}/caja/reports`).flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)
       .flush(fakeFile());
@@ -212,7 +210,7 @@ describe('CajaListComponent', () => {
   it('should apply filter', fakeAsync(() => {
     const searchSpy = spyOn(searchService, 'search').and.callThrough();
     httpController
-      .expectOne(`${environment.api}/caja/gestor_carga_id/`)
+      .expectOne(`${environment.api}/caja/gestor_carga_id`)
       .flush(mockCajaList);
     flush();
 

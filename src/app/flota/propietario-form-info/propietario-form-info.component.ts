@@ -33,6 +33,7 @@ export class PropietarioFormInfoComponent {
       es_chofer: new FormControl(false),
       telefono: new FormControl(null),
       email: new FormControl(null),
+      puede_recibir_anticipos: new FormControl(null),
     }),
   });
   @Input() isEdit = false;
@@ -43,10 +44,12 @@ export class PropietarioFormInfoComponent {
   @Input() fotoPerfil: string | null = null;
   @Input() modelo?: PermisoModeloEnum;
   @Input() gestorCuentaId?: number;
+  @Input() cantidadOCConAnticiposLiberados = 0;
 
   @Output() fotoDocumentoFrenteChange = new EventEmitter<File | null>();
   @Output() fotoDocumentoReversoChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
+  @Output() anticiposBloqueadosChange = new EventEmitter();
 
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
@@ -56,8 +59,8 @@ export class PropietarioFormInfoComponent {
     return this.info.controls['es_chofer'] as FormControl;
   }
 
-  get esChofer(): boolean {
-    return !!this.esChoferControl.value;
+  get puedeRecibirAnticiposControl(): FormControl {
+    return this.info.controls['puede_recibir_anticipos'] as FormControl;
   }
 
   get contactos(): FormArray | null {

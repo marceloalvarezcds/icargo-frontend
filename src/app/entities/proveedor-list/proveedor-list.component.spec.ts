@@ -196,7 +196,7 @@ describe('ProveedorListComponent', () => {
 
     httpController.expectOne(`${environment.api}/proveedor/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/proveedor/reports/`)
+      .expectOne(`${environment.api}/proveedor/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

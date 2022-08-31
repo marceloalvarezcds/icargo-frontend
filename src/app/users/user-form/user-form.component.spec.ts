@@ -96,9 +96,9 @@ describe('UserFormComponent', () => {
     component.form.patchValue({
       first_name: mockUser1.first_name,
       last_name: mockUser1.last_name,
-      username: mockUser1.username,
+      usuario: mockUser1.username,
       email: mockUser1.email,
-      password: mockUser1.password,
+      contrasena: mockUser1.password,
       confirm_password: mockUser1.confirm_password,
       gestor_carga_id: mockUser1.gestor_carga_id,
       roles: mockUser1.roles,
@@ -161,10 +161,10 @@ describe('UserFormComponent', () => {
     tick();
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
-      .match(`${environment.api}/rol/active_list/`)
+      .match(`${environment.api}/rol/active_list`)
       .forEach((r) => r.flush(mockRolList));
     const req = httpController.expectOne(`${environment.api}/user/`);
     expect(req.request.method).toBe('POST');
@@ -187,10 +187,10 @@ describe('UserFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
-      .match(`${environment.api}/rol/active_list/`)
+      .match(`${environment.api}/rol/active_list`)
       .forEach((r) => r.flush(mockRolList));
     formSetValue(component);
     tick();
@@ -238,10 +238,10 @@ describe('UserFormComponent', () => {
       .match(`${environment.api}/user/${id}`)
       .forEach((r) => r.flush(mockUser1));
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
-      .match(`${environment.api}/rol/active_list/`)
+      .match(`${environment.api}/rol/active_list`)
       .forEach((r) => r.flush(mockRolList));
     flush();
     fixture.detectChanges();
@@ -287,10 +287,10 @@ describe('UserFormComponent', () => {
       .match(`${environment.api}/user/${id}`)
       .forEach((r) => r.flush(mockUser2));
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
-      .match(`${environment.api}/rol/active_list/`)
+      .match(`${environment.api}/rol/active_list`)
       .forEach((r) => r.flush(mockRolList));
     flush();
     tick();
@@ -315,10 +315,10 @@ describe('UserFormComponent', () => {
       .match(`${environment.api}/user/${id}`)
       .forEach((r) => r.flush(mockUser1));
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
-      .match(`${environment.api}/rol/active_list/`)
+      .match(`${environment.api}/rol/active_list`)
       .forEach((r) => r.flush(mockRolList));
     flush();
     tick(500);

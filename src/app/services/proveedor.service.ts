@@ -5,20 +5,19 @@ import { environment } from 'src/environments/environment';
 import { Proveedor, ProveedorList } from 'src/app/interfaces/proveedor';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ProveedorService {
-
   private url = `${environment.api}/proveedor`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<ProveedorList[]> {
     return this.http.get<ProveedorList[]>(`${this.url}/`);
   }
 
   getListByGestorCuentaId(): Observable<ProveedorList[]> {
-    return this.http.get<ProveedorList[]>(`${this.url}/gestor_cuenta_id/`);
+    return this.http.get<ProveedorList[]>(`${this.url}/gestor_cuenta_id`);
   }
 
   getListByInsumoId(insumoId: number): Observable<ProveedorList[]> {
@@ -30,7 +29,7 @@ export class ProveedorService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Proveedor> {

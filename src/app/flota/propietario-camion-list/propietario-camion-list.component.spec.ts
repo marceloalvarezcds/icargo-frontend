@@ -92,7 +92,7 @@ describe('PropietarioCamionListComponent', () => {
   it('should create with propietarioId', fakeAsync(() => {
     component.propietarioId = 1;
     httpController
-      .expectOne(`${environment.api}/camion/propietario/${propietarioId}/`)
+      .expectOne(`${environment.api}/camion/propietario/${propietarioId}`)
       .flush(mockCamionList);
     flush();
     expect(component.list).toBe(mockCamionList);

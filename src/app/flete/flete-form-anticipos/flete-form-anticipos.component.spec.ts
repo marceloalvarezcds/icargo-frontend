@@ -45,7 +45,7 @@ describe('FleteFormAnticiposComponent', () => {
 
   it('should create', fakeAsync(() => {
     httpController
-      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo`)
       .forEach((r) => r.flush(mockTipoAnticipoList));
     expect(component).toBeTruthy();
     httpController.verify();

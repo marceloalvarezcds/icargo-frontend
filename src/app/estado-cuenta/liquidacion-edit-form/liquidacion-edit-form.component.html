@@ -11,8 +11,10 @@
   [isShow]="isShow"
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
+  [shouldShowDownloadButton]="true"
   (backClick)="back()"
   (editClick)="redirectToEdit()"
+  (downloadClick)="downloadFile()"
 >
   <div class="liquidacion-page-content" *ngIf="item">
     <app-liquidacion-edit-form-acciones
@@ -31,11 +33,15 @@
       </mat-form-field>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Contraparte</mat-label>
-        <input matInput [value]="item.contraparte" disabled />
+        <input matInput [value]="actual_contraparte" disabled />
       </mat-form-field>
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Doc. Fiscal Nº</mat-label>
-        <input matInput [value]="item.contraparte_numero_documento" disabled />
+        <input
+          matInput
+          [value]="actual_contraparte_numero_documento"
+          disabled
+        />
       </mat-form-field>
     </div>
     <app-saldo

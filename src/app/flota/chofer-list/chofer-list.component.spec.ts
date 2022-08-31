@@ -195,7 +195,7 @@ describe('ChoferListComponent', () => {
 
     httpController.expectOne(`${environment.api}/chofer/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/chofer/reports/`)
+      .expectOne(`${environment.api}/chofer/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

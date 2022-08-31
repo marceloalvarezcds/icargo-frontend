@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -15,6 +16,7 @@ import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 
 @Component({
@@ -33,6 +35,9 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   isEdit = false;
   movimientos: Movimiento[] = [];
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
+  contraparte_id = 0;
+  actual_contraparte = '';
+  actual_contraparte_numero_documento = '';
   residuo = 0;
   saldo = 0;
   valorInstrumentos = 0;
@@ -57,7 +62,8 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private liquidacionService: LiquidacionService,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -65,8 +71,20 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
   }
 
   back(): void {
+    const contraparte_id = this.contraparte_id;
+    const contraparte = this.actual_contraparte;
+    const contraparte_numero_documento =
+      this.actual_contraparte_numero_documento;
     this.router.navigate([this.backUrl], {
-      queryParams: getQueryParams(this.item!, this.item!.etapa),
+      queryParams: getQueryParams(
+        {
+          ...this.item!,
+          contraparte_id,
+          contraparte,
+          contraparte_numero_documento,
+        },
+        this.item!.etapa
+      ),
     });
   }
 
@@ -79,6 +97,10 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
       {
         queryParams: {
           backUrl: `/estado-cuenta/${m.ESTADO_CUENTA}/${this.confirmado}/${m.LIQUIDACION}/${a.VER}/${id}`,
+          contraparte_id: this.contraparte_id,
+          actual_contraparte: this.actual_contraparte,
+          actual_contraparte_numero_documento:
+            this.actual_contraparte_numero_documento,
         },
       }
     );
@@ -93,9 +115,41 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
     });
   }
 
+  downloadFile(): void {
+    this.movimientoService
+      .generateReportsByEstadoAndLiquidacionId(
+        LiquidacionEtapaEnum.CONFIRMADO,
+        this.id!
+      )
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
+  }
+
+  downloadPDF(): void {
+    this.liquidacionService
+      .pdf(this.id!, LiquidacionEtapaEnum.CONFIRMADO)
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
+  }
+
   private getData(): void {
-    const { backUrl } = this.route.snapshot.queryParams;
+    const {
+      backUrl,
+      contraparte_id,
+      actual_contraparte,
+      actual_contraparte_numero_documento,
+    } = this.route.snapshot.queryParams;
     this.id = +this.route.snapshot.params.id;
+    this.contraparte_id = contraparte_id;
+    this.actual_contraparte = actual_contraparte;
+    this.actual_contraparte_numero_documento =
+      actual_contraparte_numero_documento;
     this.isEdit = /edit/.test(this.router.url);
     if (backUrl) {
       this.backUrl = backUrl;

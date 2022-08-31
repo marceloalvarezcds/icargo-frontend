@@ -16,6 +16,8 @@ import { FacturaFormDialogComponent } from './factura-form-dialog/factura-form-d
 import { InstrumentoFormDialogComponent } from './instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionConfirmDialogComponent } from './liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
+import { MovimientoEditByFleteFormDialogComponent } from './movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
+import { MovimientoEditByMermaFormDialogComponent } from './movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
 import { MovimientoFormDialogComponent } from './movimiento-form-dialog/movimiento-form-dialog.component';
 import { MovimientosSelectedDialogComponent } from './movimientos-selected-dialog/movimientos-selected-dialog.component';
 import { OcAnticipoRetiradoFormDialogComponent } from './oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
@@ -38,6 +40,8 @@ const modules = [
   InstrumentoFormDialogComponent,
   LiquidacionConfirmDialogComponent,
   LoadingDialogComponent,
+  MovimientoEditByFleteFormDialogComponent,
+  MovimientoEditByMermaFormDialogComponent,
   MovimientoFormDialogComponent,
   MovimientosSelectedDialogComponent,
   OcAnticipoRetiradoFormDialogComponent,

@@ -5,8 +5,10 @@
   viewTitle="Nuevo"
   [formGroup]="form"
   [modelo]="modelo"
+  [shouldShowDownloadButton]="true"
   (backClick)="back($event)"
   (submitEvent)="confirm()"
+  (downloadClick)="downloadFile()"
 >
   <div class="liquidacion-page-content">
     <app-estado-cuenta-detalle

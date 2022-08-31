@@ -1,6 +1,14 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+} from '@angular/core/testing';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { mockPropietarioList } from 'src/app/interfaces/propietario';
@@ -17,7 +25,7 @@ const createFormGroup = (component: PropietarioFieldComponent): void => {
       control: new FormControl(null),
     }),
   });
-}
+};
 
 describe('PropietarioFieldComponent', () => {
   let component: PropietarioFieldComponent;
@@ -32,10 +40,9 @@ describe('PropietarioFieldComponent', () => {
         MaterialModule,
         ReactiveFormsModule,
       ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ PropietarioFieldComponent ]
-    })
-    .compileComponents();
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [PropietarioFieldComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -55,7 +62,9 @@ describe('PropietarioFieldComponent', () => {
   it('should create with propietarioId = 1', fakeAsync(() => {
     createFormGroup(component);
     fixture.detectChanges();
-    httpController.match(`${environment.api}/propietario/gestor_cuenta/`).forEach(r => r.flush(mockPropietarioList));
+    httpController
+      .match(`${environment.api}/propietario/gestor_cuenta`)
+      .forEach((r) => r.flush(mockPropietarioList));
     component.propietarioId = 1;
     flush();
     fixture.detectChanges();

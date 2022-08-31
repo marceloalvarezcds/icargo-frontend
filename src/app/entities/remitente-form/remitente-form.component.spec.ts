@@ -246,14 +246,14 @@ describe('RemitenteFormComponent', () => {
         req.flush(remitente);
       });
     httpController
-      .match(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     httpController
       .match(`${environment.api}/remitente/${id}`)
       .forEach((r) => r.flush(remitente));
     httpController
-      .match(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${remitente.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();

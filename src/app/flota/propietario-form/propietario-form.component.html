@@ -33,6 +33,7 @@
         [fotoPerfil]="fotoPerfil"
         [modelo]="modelo"
         [gestorCuentaId]="gestorCuentaId"
+        [cantidadOCConAnticiposLiberados]="cantidadOCConAnticiposLiberados"
         (fotoDocumentoFrenteChange)="
           fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null
         "
@@ -40,6 +41,7 @@
           fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null
         "
         (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
+        (anticiposBloqueadosChange)="bloquearAnticipos()"
       ></app-propietario-form-info>
     </mat-expansion-panel>
 

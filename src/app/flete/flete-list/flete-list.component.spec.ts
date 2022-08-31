@@ -188,7 +188,7 @@ describe('FleteListComponent', () => {
 
     httpController.expectOne(`${environment.api}/flete/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/flete/reports/`)
+      .expectOne(`${environment.api}/flete/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

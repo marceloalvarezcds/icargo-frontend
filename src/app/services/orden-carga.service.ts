@@ -21,7 +21,7 @@ export class OrdenCargaService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<OrdenCarga> {

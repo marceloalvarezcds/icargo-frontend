@@ -76,6 +76,7 @@ import { TipoPersonaFieldComponent } from './tipo-persona-field/tipo-persona-fie
 import { TipoRegistroFieldComponent } from './tipo-registro-field/tipo-registro-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 import { UnidadFieldComponent } from './unidad-field/unidad-field.component';
+import { SlideComponent } from './slide/slide.component';
 
 const modules = [
   AliasFieldComponent,
@@ -132,6 +133,7 @@ const modules = [
   SemiByCamionProductoFieldComponent,
   SemiByGestorDialogFieldComponent,
   SemiClasificacionFieldComponent,
+  SlideComponent,
   TelefonoFieldComponent,
   TipoAnticipoByFleteFieldComponent,
   TipoAnticipoFieldComponent,
@@ -152,7 +154,7 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe],
+  declarations: [...modules.slice(), AccionPipe, SlideComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

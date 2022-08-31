@@ -63,6 +63,11 @@ export class CamionListComponent implements OnInit {
           : '',
     },
     {
+      def: 'limites',
+      title: 'Límites',
+      value: (element: CamionList) => element.limites,
+    },
+    {
       def: 'tipo',
       title: 'Tipo de Camion',
       value: (element: CamionList) => element.tipo_descripcion,

@@ -18,7 +18,7 @@ export class FleteAnticipoService {
 
   getTipoAnticipoInsumoList(): Observable<FleteAnticipoForm[]> {
     return change(
-      this.http.get<FleteAnticipoForm[]>(`${this.url}/tipo_anticipo_insumo/`)
+      this.http.get<FleteAnticipoForm[]>(`${this.url}/tipo_anticipo_insumo`)
     );
   }
 

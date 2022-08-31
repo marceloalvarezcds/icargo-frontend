@@ -21,7 +21,7 @@ export class RolService {
   }
 
   getActiveList(): Observable<RolChecked[]> {
-    return this.http.get<RolChecked[]>(`${this.url}/active_list/`);
+    return this.http.get<RolChecked[]>(`${this.url}/active_list`);
   }
 
   create(formData: FormData): Observable<Rol> {

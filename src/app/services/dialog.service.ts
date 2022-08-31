@@ -65,6 +65,17 @@ export class DialogService {
     });
   }
 
+  confirmationWithSnackbarMessage<T>(
+    message: string,
+    snackbarMessage: string,
+    observer?: () => void
+  ) {
+    this.confirmation(message, () => {
+      this.snackbar.open(snackbarMessage);
+      observer && observer();
+    });
+  }
+
   confirmationToDelete<T>(
     message: string,
     observable: Observable<T>,

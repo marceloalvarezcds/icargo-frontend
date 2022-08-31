@@ -42,6 +42,7 @@ export class DialogFieldComponent<T extends { id: number }> {
   @Input() title = '';
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
 
+  @Output() clearClick = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
 
   @ViewChild(DialogFormFieldControlComponent)
@@ -51,6 +52,7 @@ export class DialogFieldComponent<T extends { id: number }> {
 
   clearSelectedValue(): void {
     this.dialogFieldControl?.clearSelectedValue();
+    this.clearClick.emit();
   }
 
   openDialog(): void {

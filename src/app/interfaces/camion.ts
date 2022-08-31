@@ -21,13 +21,20 @@ export interface Camion {
   placa: string;
   propietario_id: number;
   propietario: Propietario;
+  propietario_estado: EstadoEnum;
   chofer_id: number | null;
   chofer: Chofer | null;
+  chofer_estado: EstadoEnum | null;
   numero_chasis: string | null;
   foto: string | null;
   estado: EstadoEnum;
   info: string;
   gestor_cuenta_id: number;
+  // INICIO Limitaciones del Camión
+  limites: string;
+  limite_cantidad_oc_activas: number | null;
+  limite_monto_anticipos: number | null;
+  // FIN Limitaciones del Camión
   // INICIO Habilitaciones del Camión
   // inicio - municipal
   ciudad_habilitacion_municipal_id: number;
@@ -89,6 +96,7 @@ export interface CamionList {
   gestor_cuenta_id: number;
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
+  limites: string;
   info: string;
   marca_descripcion: string;
   oficial_cuenta_nombre: string;
@@ -128,12 +136,19 @@ export const mockCamion: Camion = {
   placa: placa0,
   propietario_id: propietario0.id,
   propietario: propietario0,
+  propietario_estado: propietario0.estado,
   chofer_id: chofer0.id,
   chofer: chofer0,
+  chofer_estado: chofer0.estado,
   numero_chasis: '23100100',
   foto: null,
   estado: EstadoEnum.ACTIVO,
   gestor_cuenta_id: 1,
+  // INICIO Limitaciones del Camión
+  limites: '',
+  limite_cantidad_oc_activas: 1,
+  limite_monto_anticipos: 1000000,
+  // FIN Limitaciones del Camión
   info: info0,
   // INICIO Habilitaciones del Camión
   // inicio - municipal
@@ -198,6 +213,7 @@ export const mockCamionList: CamionList[] = [
     gestor_cuenta_nombre: mockUserAccount.first_name,
     localidad_habilitacion_municipal_nombre: ciudad0.localidad_nombre,
     info: info0,
+    limites: '',
     marca_descripcion: marca0.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
     pais_habilitacion_municipal_nombre: ciudad0.pais_nombre,
@@ -224,6 +240,7 @@ export const mockCamionList: CamionList[] = [
     gestor_cuenta_nombre: mockUserAccount.first_name,
     localidad_habilitacion_municipal_nombre: ciudad1.localidad_nombre,
     info: info1,
+    limites: '',
     marca_descripcion: marca1.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
     pais_habilitacion_municipal_nombre: ciudad1.pais_nombre,

@@ -101,6 +101,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
   lista: OrdenCargaRemisionResultado[] = [];
   modelo = m.ORDEN_CARGA_REMISION_RESULTADO;
 
+  @Input() title = 'Resultados';
   @Input() gestorCargaId?: number;
   @Input() set list(l: OrdenCargaRemisionResultado[]) {
     this.setList(l);

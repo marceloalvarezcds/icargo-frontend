@@ -1,18 +1,21 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { subtract } from 'src/app/utils/math';
+import { ReportsService } from 'src/app/services/reports.service';
 
 @Component({
   selector: 'app-liquidacion-finalizada',
@@ -21,6 +24,7 @@ import { subtract } from 'src/app/utils/math';
 })
 export class LiquidacionFinalizadaComponent implements OnInit {
   E = EstadoEnum;
+  m = PermisoModeloEnum;
   form = new FormGroup({});
   estadoCuenta?: EstadoCuenta;
   etapa?: LiquidacionEtapaEnum;
@@ -43,7 +47,8 @@ export class LiquidacionFinalizadaComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private estadoCuentaService: EstadoCuentaService,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -54,9 +59,24 @@ export class LiquidacionFinalizadaComponent implements OnInit {
     this.router.navigate([this.backUrl]);
   }
 
+  downloadFile(): void {
+    this.movimientoService
+      .generateReportsByContraparte(
+        this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
+        this.etapa!
+      )
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
+  }
+
   private getData(): void {
     const {
       backUrl,
+      contraparte_id,
       contraparte,
       contraparte_numero_documento,
       tipo_contraparte_id,
@@ -68,6 +88,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
     this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,
+        contraparte_id,
         contraparte,
         contraparte_numero_documento
       )
@@ -82,6 +103,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
     this.movimientoService
       .getListByEstadoCuenta(
         this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
         LiquidacionEtapaEnum.FINALIZADO
       )
       .subscribe((data) => {
