@@ -84,6 +84,7 @@ describe('GestorCargaFormComponent', () => {
         email: gestorCarga.email,
         pagina_web: gestorCarga.pagina_web,
         info_complementaria: gestorCarga.info_complementaria,
+        limite_cantidad_oc_activas: gestorCarga.limite_cantidad_oc_activas,
         logo,
       },
       geo: {

@@ -36,7 +36,7 @@ export class SelectorDialogComponent<T> {
   }
 
   get isFetchPaginator(): boolean {
-    return this.data.isFetchPaginator;
+    return !!this.data.fetchFunction;
   }
 
   @ViewChild('app-table-selector') dialogField?: TableSelectorComponent<T>;

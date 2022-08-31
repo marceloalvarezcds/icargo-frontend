@@ -5,24 +5,30 @@ import { environment } from 'src/environments/environment';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class SemiService {
-
   private url = `${environment.api}/semi`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<SemiList[]> {
     return this.http.get<SemiList[]>(`${this.url}/`);
   }
 
-  getListByCamionIdAndProductoId(camionId: number, producto_id: number): Observable<SemiList[]> {
-    return this.http.get<SemiList[]>(`${this.url}/camion/${camionId}/producto/${producto_id}`);
+  getListByCamionIdAndProductoId(
+    camionId: number,
+    producto_id: number
+  ): Observable<SemiList[]> {
+    return this.http.get<SemiList[]>(
+      `${this.url}/camion/${camionId}/producto/${producto_id}`
+    );
   }
 
   getListByPropietarioId(propietarioId: number): Observable<SemiList[]> {
-    return this.http.get<SemiList[]>(`${this.url}/propietario/${propietarioId}/`);
+    return this.http.get<SemiList[]>(
+      `${this.url}/propietario/${propietarioId}`
+    );
   }
 
   getById(id: number): Observable<Semi> {
@@ -30,7 +36,7 @@ export class SemiService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Semi> {

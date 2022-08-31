@@ -5,20 +5,19 @@ import { environment } from 'src/environments/environment';
 import { Remitente, RemitenteList } from '../interfaces/remitente';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RemitenteService {
-
   private url = `${environment.api}/remitente`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<RemitenteList[]> {
     return this.http.get<RemitenteList[]>(`${this.url}/`);
   }
 
   getListByGestorCuentaId(): Observable<RemitenteList[]> {
-    return this.http.get<RemitenteList[]>(`${this.url}/gestor_cuenta_id/`);
+    return this.http.get<RemitenteList[]>(`${this.url}/gestor_cuenta_id`);
   }
 
   getById(id: number): Observable<Remitente> {
@@ -26,7 +25,7 @@ export class RemitenteService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Remitente> {

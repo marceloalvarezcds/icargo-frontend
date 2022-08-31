@@ -5,13 +5,12 @@ import { environment } from 'src/environments/environment';
 import { GestorCarga, GestorCargaList } from '../interfaces/gestor-carga';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class GestorCargaService {
-
   private url = `${environment.api}/gestor_carga`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<GestorCargaList[]> {
     return this.http.get<GestorCargaList[]>(`${this.url}/`);
@@ -22,7 +21,7 @@ export class GestorCargaService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<GestorCarga> {

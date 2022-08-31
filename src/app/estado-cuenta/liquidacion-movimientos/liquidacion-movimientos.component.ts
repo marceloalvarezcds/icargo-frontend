@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   PermisoAccionEnum as a,
@@ -99,6 +99,21 @@ export class LiquidacionMovimientosComponent {
   ];
 
   @Input() list: Movimiento[] = [];
+  @Input() set addLiquidacionIdColumn(val: boolean) {
+    if (val) {
+      this.columns = [this.columns[0]]
+        .concat([
+          {
+            def: 'liquidacion_id',
+            title: 'Nº de Liquidación',
+            value: (element: Movimiento) => element.liquidacion_id,
+          },
+        ])
+        .concat(this.columns.slice(1, this.columns.length));
+    }
+  }
+
+  @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
   constructor(private router: Router) {}
 

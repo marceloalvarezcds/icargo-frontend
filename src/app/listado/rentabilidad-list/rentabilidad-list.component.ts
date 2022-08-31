@@ -274,6 +274,122 @@ export class RentabilidadListComponent implements OnInit {
       value: (element: Rentabilidad) => element.merma_gestor_carga_valor_merma,
       type: 'number',
     },
+    // Resutados del Flete
+    {
+      def: 'flete_condicion_propietario_tarifa',
+      title: 'Tarifa Flete a Pagar (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_condicion_propietario_tarifa,
+      type: 'number',
+    },
+    {
+      def: 'flete_condicion_propietario_moneda_nombre',
+      title: 'Moneda de Pago (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_condicion_propietario_moneda_nombre,
+    },
+    {
+      def: 'flete_propietario_total',
+      title: 'Tot. Flete a Pagar (Pedido)',
+      value: (element: Rentabilidad) => element.flete_propietario_total,
+      type: 'number',
+    },
+    {
+      def: 'flete_propietario_total_ml',
+      title: 'Tot. Flete a Pagar (Pedido - Moneda Local)',
+      value: (element: Rentabilidad) => element.flete_propietario_total_ml,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_propietario_valor',
+      title: 'Precio Merma a Cobrar (Pedido)',
+      value: (element: Rentabilidad) => element.flete_merma_propietario_valor,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_propietario_moneda_nombre',
+      title: 'Moneda Merma a Cobrar (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_merma_propietario_moneda_nombre,
+    },
+    {
+      def: 'flete_merma_propietario_tolerancia',
+      title: 'Tolerancia Propietario (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_merma_propietario_tolerancia,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_propietario_merma',
+      title: 'Merma Propietario (Kg) (Pedido)',
+      value: (element: Rentabilidad) => element.flete_merma_propietario_merma,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_propietario_valor_merma',
+      title: 'Valor de Merma a Cobrar (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_merma_propietario_valor_merma,
+      type: 'number',
+    },
+    {
+      def: 'flete_condicion_gestor_carga_tarifa',
+      title: 'Tarifa Flete a Cobrar (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_condicion_gestor_carga_tarifa,
+      type: 'number',
+    },
+    {
+      def: 'flete_condicion_gestor_carga_moneda_nombre',
+      title: 'Moneda de Cobro (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_condicion_gestor_carga_moneda_nombre,
+    },
+    {
+      def: 'flete_gestor_carga_total',
+      title: 'Tot. Flete a Cobrar (Pedido)',
+      value: (element: Rentabilidad) => element.flete_gestor_carga_total,
+      type: 'number',
+    },
+    {
+      def: 'flete_gestor_carga_total_ml',
+      title: 'Tot. Flete a Cobrar (Moneda Local) (Pedido)',
+      value: (element: Rentabilidad) => element.flete_gestor_carga_total_ml,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_gestor_carga_valor',
+      title: 'Precio Merma a PAGAR (Pedido)',
+      value: (element: Rentabilidad) => element.flete_merma_gestor_carga_valor,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_gestor_carga_moneda_nombre',
+      title: 'Moneda Merma a Pagar (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_merma_gestor_carga_moneda_nombre,
+    },
+    {
+      def: 'flete_merma_gestor_carga_tolerancia',
+      title: 'Tolerancia Gestora de Carga (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_merma_gestor_carga_tolerancia,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_gestor_carga_merma',
+      title: 'Merma Gestora Carga (Kg) (Pedido)',
+      value: (element: Rentabilidad) => element.flete_merma_gestor_carga_merma,
+      type: 'number',
+    },
+    {
+      def: 'flete_merma_gestor_carga_valor_merma',
+      title: 'Valor de Merma a Pagar (Pedido)',
+      value: (element: Rentabilidad) =>
+        element.flete_merma_gestor_carga_valor_merma,
+      type: 'number',
+    },
+    // Termina Resultados del Flete
     {
       def: 'total_complemento_a_pagar',
       title: 'Total Complemento a Pagar',

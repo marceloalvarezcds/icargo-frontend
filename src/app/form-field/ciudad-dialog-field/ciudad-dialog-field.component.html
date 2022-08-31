@@ -1,12 +1,11 @@
 <app-dialog-field
   [title]="title"
   [columns]="columns"
-  [list]="list"
+  [list]="ciudadSelected ? [ciudadSelected] : []"
   [groupName]="groupName"
   [controlName]="controlName"
   [inputValuePropName]="inputValuePropName"
   [fetchFunction]="fetchFunction"
-  [isFetchPaginator]="true"
   [form]="form"
   (valueChange)="valueChange.emit($event)"
 ></app-dialog-field>

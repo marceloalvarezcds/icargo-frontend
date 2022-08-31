@@ -14,6 +14,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
@@ -44,6 +45,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.CENTRO_OPERATIVO;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: CentroOperativoContactoGestorCargaList[] = [];
 
@@ -192,6 +194,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.centroOperativoService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
             alias:

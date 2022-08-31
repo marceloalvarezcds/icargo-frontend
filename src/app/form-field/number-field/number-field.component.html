@@ -19,17 +19,18 @@
       </mat-error>
       <mat-error *ngIf="control.hasError('min')">
         El valor debe ser
-        <strong
-          >mayor o igual que
-          {{ control.getError("min").min | numberFormat }}</strong
-        >
+        <strong>
+          mayor o igual que {{ control.getError("min").min | numberFormat }}
+        </strong>
       </mat-error>
       <mat-error *ngIf="control.hasError('max')">
         El valor debe ser
-        <strong
-          >menor o igual que
-          {{ control.getError("max").max | numberFormat }}</strong
-        >
+        <strong>
+          menor o igual que {{ control.getError("max").max | numberFormat }}
+        </strong>
+      </mat-error>
+      <mat-error *ngIf="control.hasError('pattern')">
+        {{ patternMessageError(control.getError("pattern")) }}
       </mat-error>
     </mat-form-field>
   </ng-container>
@@ -50,15 +51,15 @@
       </mat-error>
       <mat-error *ngIf="control.hasError('min')">
         El valor debe ser
-        <strong
-          >mayor que {{ control.getError("min").min | numberFormat }}</strong
-        >
+        <strong>
+          mayor que {{ control.getError("min").min | numberFormat }}
+        </strong>
       </mat-error>
       <mat-error *ngIf="control.hasError('max')">
         El valor debe ser
-        <strong
-          >menor que {{ control.getError("max").max | numberFormat }}</strong
-        >
+        <strong>
+          menor que {{ control.getError("max").max | numberFormat }}
+        </strong>
       </mat-error>
     </mat-form-field>
   </ng-container>

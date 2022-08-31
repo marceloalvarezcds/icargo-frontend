@@ -1,10 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { merge, Observable, of } from 'rxjs';
+import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
+import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate-list';
 
 @Component({
   selector: 'app-table-selector-with-fetch-paginator',
@@ -21,9 +22,10 @@ export class TableSelectorWithFetchPaginatorComponent<T> implements OnInit {
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<T>();
   filteredColumns: Column[] = [];
-  searchControlSubscription?: Subscription;
+  searchControlSubscription!: Observable<string>;
+  searchTerm?: string;
 
-  @Input() fetchFunction: any;
+  @Input() fetchFunction: ((request: PaginatedListRequest) => Observable<PaginatedList<T>>) = () => of();
 
   @Input() set columns(list: Column[]) {
     this.allColumns = list.slice();
@@ -37,23 +39,39 @@ export class TableSelectorWithFetchPaginatorComponent<T> implements OnInit {
 
   @Input() selectedRow?: T;
 
-  @Input() set data(values: T[]) {
-    this.dataSource.data = values.slice();
-  }
   @Input() set searchControl(control: FormControl) {
-    this.searchControlSubscription = control.valueChanges.subscribe(search => {
-      this.filterData(search);
-    });
+    this.searchControlSubscription = control.valueChanges.pipe(debounceTime(500));
   }
 
   @Output() selectedChange = new EventEmitter<T>();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
-  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   ngOnInit(): void {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    this.searchControlSubscription.subscribe(val => this.searchTerm = val);
+
+    merge(this.paginator.page, this.searchControlSubscription)
+      .pipe(
+        startWith({}),
+        switchMap(() => {
+          return this.fetchFunction({
+              page: this.paginator.pageIndex + 1,
+              pageSize: this.paginator.pageSize || 10,
+              query: this.searchTerm || ''
+          }).pipe(catchError(() => of(null)));
+        }),
+        map(data => {
+          if (data === null) {
+            return [];
+          }
+
+          this.paginator.length = data.totalRecords;
+          return data.rows;
+        }),
+      )
+      .subscribe(data => {
+          this.dataSource.data = data;
+      });
   }
 
   filterColumns() {
@@ -61,13 +79,5 @@ export class TableSelectorWithFetchPaginatorComponent<T> implements OnInit {
       .filter(col => this.columnsToShowFilteredList.find(c => c === col.title))
       .concat(this.columnStickyEndList));
     this.displayedColumns = this.filteredColumns.map(c => c.def);
-  }
-
-  filterData(searchText: string): void {
-    const textToSearch = searchText.trim().toLowerCase()
-    this.dataSource.filter = textToSearch;
-    if (textToSearch.length) {
-      this.dataSource.paginator!.firstPage();
-    }
   }
 }

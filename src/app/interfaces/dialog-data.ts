@@ -1,8 +1,9 @@
-import { of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { EstadoEnum } from '../enums/estado-enum';
 import { Column } from './column';
 import { FleteList, mockFleteList } from './flete';
 import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
+import { PaginatedList, PaginatedListRequest } from './paginate-list';
 
 export interface FleteAnticipoDialogData {
   list: FleteAnticipo[];
@@ -14,8 +15,7 @@ export interface SelectorDialogData<T> {
   list: T[];
   title: string;
   selectedValue?: T | null;
-  fetchFunction: any;
-  isFetchPaginator: boolean;
+  fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
 }
 
 export const mockFleteAnticipoDialogData: FleteAnticipoDialogData = {
@@ -35,8 +35,6 @@ export const mockSelectorDialogData: SelectorDialogData<FleteList> = {
   list: mockFleteList,
   title: 'Flete',
   selectedValue: mockFleteList[0],
-  fetchFunction: () => of(),
-  isFetchPaginator: false,
 };
 
 export const mockSelectorDialogData2: SelectorDialogData<FleteList> = {
@@ -47,5 +45,4 @@ export const mockSelectorDialogData2: SelectorDialogData<FleteList> = {
   list: mockFleteList.filter(x => x.estado !== EstadoEnum.FINALIZADO),
   title: 'Flete',
   fetchFunction: () => of(),
-  isFetchPaginator: true,
 };

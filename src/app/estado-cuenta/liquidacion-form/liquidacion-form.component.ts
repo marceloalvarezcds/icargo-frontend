@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
+import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -16,6 +17,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { subtract } from 'src/app/utils/math';
 
@@ -25,6 +27,7 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./liquidacion-form.component.scss'],
 })
 export class LiquidacionFormComponent implements OnInit {
+  m = m;
   form = new FormGroup({});
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
@@ -52,7 +55,8 @@ export class LiquidacionFormComponent implements OnInit {
     private snackbar: SnackbarService,
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
-    private movimientoService: MovimientoService
+    private movimientoService: MovimientoService,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -90,6 +94,20 @@ export class LiquidacionFormComponent implements OnInit {
     }
   }
 
+  downloadFile(): void {
+    this.movimientoService
+      .generateReportsByContraparte(
+        this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
+        this.etapa!
+      )
+      .subscribe((filename) => {
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+          saveAs(file, filename);
+        });
+      });
+  }
+
   private submit(confirmed: boolean): void {
     if (this.movimientosSelected.length) {
       this.liquidacionService
@@ -112,6 +130,7 @@ export class LiquidacionFormComponent implements OnInit {
     const {
       backUrl,
       etapa,
+      contraparte_id,
       contraparte,
       contraparte_numero_documento,
       tipo_contraparte_id,
@@ -123,6 +142,7 @@ export class LiquidacionFormComponent implements OnInit {
     this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,
+        contraparte_id,
         contraparte,
         contraparte_numero_documento
       )
@@ -136,7 +156,11 @@ export class LiquidacionFormComponent implements OnInit {
   getList(): void {
     const etapa = this.etapa! as LiquidacionEtapaEnum;
     this.movimientoService
-      .getListByEstadoCuenta(this.estadoCuenta!, etapa)
+      .getListByEstadoCuenta(
+        this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
+        etapa
+      )
       .subscribe((data) => {
         this.list = data;
         this.movimientosSelected = [];

@@ -13,6 +13,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { RemitenteService } from 'src/app/services/remitente.service';
@@ -41,6 +42,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.REMITENTE;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: RemitenteContactoGestorCargaList[] = [];
 
@@ -187,6 +189,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.remitenteService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_remitente?.alias ?? data.nombre_corto,

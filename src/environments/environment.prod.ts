@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  api: 'https://api.icargo.com.py',
+  api: 'https://icargo.com.py/api',
 };

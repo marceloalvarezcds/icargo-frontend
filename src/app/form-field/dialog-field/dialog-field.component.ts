@@ -3,10 +3,12 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
+import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate-list';
 import { DialogFormFieldControlComponent } from '../dialog-form-field-control/dialog-form-field-control.component';
 
 @Component({
@@ -38,9 +40,9 @@ export class DialogFieldComponent<T extends { id: number }> {
   @Input() inputValuePropName!: string;
   @Input() list: T[] = [];
   @Input() title = '';
-  @Input() fetchFunction: any;
-  @Input() isFetchPaginator = false;
+  @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
 
+  @Output() clearClick = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
 
   @ViewChild(DialogFormFieldControlComponent)
@@ -50,6 +52,7 @@ export class DialogFieldComponent<T extends { id: number }> {
 
   clearSelectedValue(): void {
     this.dialogFieldControl?.clearSelectedValue();
+    this.clearClick.emit();
   }
 
   openDialog(): void {

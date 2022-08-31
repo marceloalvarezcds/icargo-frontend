@@ -17,7 +17,7 @@ export class SeleccionableService {
   }
 
   getActiveList<T extends SeleccionableBaseModel>(): Observable<T[]> {
-    return this.http.get<T[]>(`${this.url}/active_list/`);
+    return this.http.get<T[]>(`${this.url}/active_list`);
   }
 
   getList(): Observable<SeleccionableBaseModel[]> {

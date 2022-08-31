@@ -211,10 +211,10 @@ describe('SemiFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .match(`${environment.api}/propietario/gestor_cuenta`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/gestor_cuenta`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -239,12 +239,12 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(
-        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}/`
+        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}`
       )
       .forEach((r) => r.flush(mockCiudadList));
     const req = httpController.expectOne(`${environment.api}/semi/`);
@@ -265,10 +265,10 @@ describe('SemiFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .match(`${environment.api}/propietario/gestor_cuenta`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/gestor_cuenta`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -300,12 +300,12 @@ describe('SemiFormComponent', () => {
     tick();
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(
-        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}/`
+        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}`
       )
       .forEach((r) => r.flush(mockCiudadList));
     flush();
@@ -344,10 +344,10 @@ describe('SemiFormComponent', () => {
       .match(`${environment.api}/semi/${id}`)
       .forEach((r) => r.flush(mockSemi));
     httpController
-      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .match(`${environment.api}/propietario/gestor_cuenta`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/gestor_cuenta`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -372,12 +372,12 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(
-        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}/`
+        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}`
       )
       .forEach((r) => r.flush(mockCiudadList));
     flush();
@@ -426,12 +426,12 @@ describe('SemiFormComponent', () => {
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(
-        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}/`
+        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}`
       )
       .forEach((r) => r.flush(mockCiudadList));
     httpController.match(`${environment.api}/semi/${id}`).forEach((req) => {
@@ -469,10 +469,10 @@ describe('SemiFormComponent', () => {
       .match(`${environment.api}/semi/${id}`)
       .forEach((r) => r.flush(mockSemi));
     httpController
-      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .match(`${environment.api}/propietario/gestor_cuenta`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/gestor_cuenta`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -491,12 +491,12 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(
-        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}/`
+        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}`
       )
       .forEach((r) => r.flush(mockCiudadList));
     flush();
@@ -531,10 +531,10 @@ describe('SemiFormComponent', () => {
     fixture.detectChanges();
     httpController.expectOne(`${environment.api}/semi/${id}`).flush(mockSemi);
     httpController
-      .match(`${environment.api}/propietario/gestor_cuenta/`)
+      .match(`${environment.api}/propietario/gestor_cuenta`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/gestor_cuenta/`)
+      .match(`${environment.api}/chofer/gestor_cuenta`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(`${environment.api}/ente_emisor_automotor/`)
@@ -553,12 +553,12 @@ describe('SemiFormComponent', () => {
       .forEach((r) => r.flush(mockPaisList));
     httpController
       .match(
-        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}/`
+        `${environment.api}/localidad/${mockSemi.ciudad_habilitacion_municipal.pais_id}`
       )
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(
-        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}/`
+        `${environment.api}/ciudad/${mockSemi.ciudad_habilitacion_municipal.localidad_id}`
       )
       .forEach((r) => r.flush(mockCiudadList));
     tick(500);

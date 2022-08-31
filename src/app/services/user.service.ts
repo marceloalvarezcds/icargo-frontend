@@ -30,7 +30,7 @@ export class UserService {
   }
 
   private me(): Observable<UserAccount> {
-    return this.http.get<UserAccount>(`${this.url}/me/`);
+    return this.http.get<UserAccount>(`${this.url}/me`);
   }
 
   getLoggedUser(): Observable<UserAccount> {
@@ -38,7 +38,7 @@ export class UserService {
   }
 
   getListByGestorCargaId(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.url}/gestor_carga_id/`);
+    return this.http.get<User[]>(`${this.url}/gestor_carga_id`);
   }
 
   checkPermiso(accion: PermisoAccionEnum, modelo: PermisoModeloEnum): boolean {

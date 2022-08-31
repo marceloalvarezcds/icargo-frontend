@@ -188,9 +188,7 @@ describe('SemiListComponent', () => {
     expect(componentDownloadFileSpy).toHaveBeenCalled();
 
     httpController.expectOne(`${environment.api}/semi/`).flush([]);
-    httpController
-      .expectOne(`${environment.api}/semi/reports/`)
-      .flush(filename);
+    httpController.expectOne(`${environment.api}/semi/reports`).flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)
       .flush(fakeFile());

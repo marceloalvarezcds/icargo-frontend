@@ -104,6 +104,7 @@ describe('PropietarioFormComponent', () => {
         telefono: propietario.telefono,
         email: propietario.email,
         es_chofer: propietario.es_chofer,
+        puede_recibir_anticipos: propietario.puede_recibir_anticipos,
         foto_documento_frente: fileUrl,
         foto_documento_reverso: fileUrl,
         foto_perfil: fileUrl,
@@ -195,7 +196,7 @@ describe('PropietarioFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .match(`${environment.api}/tipo_documento/`)
@@ -210,7 +211,7 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -234,7 +235,7 @@ describe('PropietarioFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .match(`${environment.api}/tipo_documento/`)
@@ -256,7 +257,7 @@ describe('PropietarioFormComponent', () => {
     flush();
     tick();
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -282,7 +283,7 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/propietario/${id}`)
       .forEach((r) => r.flush(propietario));
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
@@ -297,10 +298,10 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     pageFormComponent = findElement(fixture, 'app-page-form');
     propietarioFormInfo = findElement(fixture, 'app-propietario-form-info');
@@ -343,10 +344,10 @@ describe('PropietarioFormComponent', () => {
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
-      .match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${propietario.ciudad.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     httpController
       .match(`${environment.api}/propietario/${id}`)
@@ -360,7 +361,7 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/propietario/${id}`)
       .forEach((r) => r.flush(propietario));
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -393,7 +394,7 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/propietario/${id}`)
       .forEach((r) => r.flush(mockPropietario));
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .expectOne(`${environment.api}/tipo_persona/`)
@@ -402,7 +403,7 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)
@@ -441,7 +442,7 @@ describe('PropietarioFormComponent', () => {
       .expectOne(`${environment.api}/propietario/${id}`)
       .flush(propietario);
     httpController
-      .expectOne(`${environment.api}/user/gestor_carga_id/`)
+      .expectOne(`${environment.api}/user/gestor_carga_id`)
       .flush([mockUser]);
     httpController
       .expectOne(`${environment.api}/tipo_persona/`)
@@ -450,7 +451,7 @@ describe('PropietarioFormComponent', () => {
       .match(`${environment.api}/pais/`)
       .forEach((r) => r.flush(mockPaisList));
     httpController
-      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}/`)
+      .match(`${environment.api}/localidad/${propietario.ciudad.pais_id}`)
       .forEach((r) => r.flush(mockLocalidadList));
     httpController
       .match(`${environment.api}/ciudad/`)

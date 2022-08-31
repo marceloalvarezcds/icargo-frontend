@@ -264,14 +264,14 @@ describe('PuntoVentaFormComponent', () => {
         req.flush(puntoVenta);
       });
     httpController
-      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     httpController
       .match(`${environment.api}/punto_venta/detail/${id}`)
       .forEach((r) => r.flush(puntoVenta));
     httpController
-      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();

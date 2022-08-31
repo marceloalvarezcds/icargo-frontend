@@ -2,6 +2,7 @@ import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 
 @Component({
   selector: 'app-page-form-geo',
@@ -30,6 +31,7 @@ export class PageFormGeoComponent implements OnDestroy {
     return this.geo!.get('longitud') as FormControl;
   }
 
+  @Input() ciudadSelected?: Ciudad | null;
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.latLngSubscription = zip(this.latitudControl.valueChanges, this.longitudControl.valueChanges)

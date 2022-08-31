@@ -25,4 +25,12 @@
     padding-left: 0;
     padding-right: 0;
   }
+  .mat-column-oc {
+    right: 61px !important;
+  }
+  .mat-column-editar {
+    width: 61px !important;
+    min-width: 61px !important;
+    box-sizing: border-box;
+  }
 }

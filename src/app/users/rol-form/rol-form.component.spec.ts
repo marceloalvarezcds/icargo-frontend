@@ -159,7 +159,7 @@ describe('RolFormComponent', () => {
     tick();
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
       .match(`${environment.api}/permiso/`)
@@ -185,7 +185,7 @@ describe('RolFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
       .match(`${environment.api}/permiso/`)
@@ -236,7 +236,7 @@ describe('RolFormComponent', () => {
       .match(`${environment.api}/${modelo}/${id}`)
       .forEach((r) => r.flush(mockRol1));
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
       .match(`${environment.api}/permiso/`)
@@ -287,7 +287,7 @@ describe('RolFormComponent', () => {
       .match(`${environment.api}/${modelo}/${id}`)
       .forEach((r) => r.flush(mockRol2));
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
       .match(`${environment.api}/permiso/`)
@@ -315,7 +315,7 @@ describe('RolFormComponent', () => {
       .match(`${environment.api}/${modelo}/${id}`)
       .forEach((r) => r.flush(mockRol1));
     httpController
-      .match(`${environment.api}/gestor_carga/`)
+      .match(`${environment.api}/gestor_carga`)
       .forEach((r) => r.flush(mockGestorCargaList));
     httpController
       .match(`${environment.api}/permiso/`)

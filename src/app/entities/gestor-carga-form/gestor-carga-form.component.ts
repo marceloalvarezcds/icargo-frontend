@@ -11,6 +11,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
@@ -43,6 +44,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     });
   monedaList$ = this.monedaService.getList();
   modelo = m.GESTOR_CARGA;
+  ciudadSelected?: Ciudad | null;
 
   file: File | null = null;
   logo: string | null = null;
@@ -61,6 +63,14 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       email: [null, emailValidator],
       pagina_web: null,
       info_complementaria: null,
+      limite_cantidad_oc_activas: [
+        null,
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[0-9]{1,}$'),
+        ],
+      ],
     }),
     geo: this.fb.group({
       ciudad_id: null,
@@ -176,6 +186,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  patternMessageError(_: any): string {
+    return 'Debe ser un número entero y positivo';
+  }
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -188,6 +202,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.remitenteService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.setValue({
           info: {
             nombre: data.nombre,
@@ -201,6 +216,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             email: data.email,
             pagina_web: data.pagina_web,
             info_complementaria: data.info_complementaria,
+            limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
             logo: null,
           },
           geo: {
