@@ -143,7 +143,7 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
 
   @Input()
   get value(): number | null {
-    return this.idControl.value;
+    return this.idControl.value ? parseInt(this.idControl.value, 10) : null;
   }
   set value(val: number | null) {
     this.idControl.setValue(val);
