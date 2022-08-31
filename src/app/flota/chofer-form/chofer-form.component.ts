@@ -13,6 +13,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -40,6 +41,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   backUrl = `/flota/${m.CHOFER}/${a.LISTAR}`;
   modelo = m.CHOFER;
   propietarioModelo = m.PROPIETARIO;
+  ciudadSelected: Ciudad | null = null;
   gestorCuentaId?: number;
   fotoDocumentoFrente: string | null = null;
   fotoDocumentoFrenteFile: File | null = null;
@@ -281,6 +283,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.choferService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;

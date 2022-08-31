@@ -1,5 +1,3 @@
-import { Localidad } from './localidad';
-
 export interface Ciudad {
   id: number;
   nombre: string;
@@ -8,22 +6,6 @@ export interface Ciudad {
   pais_id: number;
   pais_nombre: string;
   pais_nombre_corto: string;
-}
-
-// TODO Move this to a common package
-export interface PaginatedListRequest {
-    page: number;
-    pageSize: number;
-    query?: string;
-}
-
-// TODO Move this to a common package
-export interface PaginatedList<T> {
-    rows: T[];
-    page: number;
-    pageSize: number;
-    query: string;
-    totalRecords: number;
 }
 
 export const mockCiudadParaguay: Ciudad = {

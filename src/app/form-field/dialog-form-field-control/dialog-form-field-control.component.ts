@@ -12,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,15 +20,16 @@ import {
   FormBuilder,
   FormControl,
   NgControl,
-  NG_VALUE_ACCESSOR,
+  NG_VALUE_ACCESSOR
 } from '@angular/forms';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
+import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate-list';
 
 @Component({
   selector: 'app-dialog-form-field-control',
@@ -90,8 +91,7 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
     return this.focused || !this.empty || !!this.selectedValue;
   }
 
-  @Input() fetchFunction: any;
-  @Input() isFetchPaginator = false;
+  @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input() columns: Column[] = [];
   @Input() descripcionPropName!: string;
   @Input() title = '';
@@ -270,7 +270,6 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
       title: this.title,
       selectedValue: this.selectedValue,
       fetchFunction: this.fetchFunction,
-      isFetchPaginator: this.isFetchPaginator,
     };
     const config: MatDialogConfig = {
       data,
@@ -284,6 +283,7 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
       .subscribe((selectedValue: T) => {
+        this.lista = [selectedValue]
         this.writeValue(selectedValue.id);
       });
   }

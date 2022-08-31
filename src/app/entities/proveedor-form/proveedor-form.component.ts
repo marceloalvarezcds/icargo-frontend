@@ -13,6 +13,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -43,6 +44,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   });
   modelo = m.PROVEEDOR;
   puntoVentaModelo = m.PUNTO_VENTA;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: ProveedorContactoGestorCargaList[] = [];
 
@@ -226,6 +228,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.proveedorService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_proveedor?.alias ?? data.nombre_corto,

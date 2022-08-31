@@ -11,6 +11,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
@@ -43,6 +44,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     });
   monedaList$ = this.monedaService.getList();
   modelo = m.GESTOR_CARGA;
+  ciudadSelected?: Ciudad | null;
 
   file: File | null = null;
   logo: string | null = null;
@@ -188,6 +190,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.remitenteService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.setValue({
           info: {
             nombre: data.nombre,

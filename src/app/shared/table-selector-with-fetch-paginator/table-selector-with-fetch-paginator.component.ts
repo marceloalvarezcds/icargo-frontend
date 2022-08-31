@@ -4,8 +4,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { merge, Observable, of } from 'rxjs';
 import { catchError, debounceTime, map, startWith, switchMap } from 'rxjs/operators';
-import { PaginatedListRequest, PaginatedList } from 'src/app/interfaces/ciudad';
 import { Column } from 'src/app/interfaces/column';
+import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate-list';
 
 @Component({
   selector: 'app-table-selector-with-fetch-paginator',
@@ -80,5 +80,4 @@ export class TableSelectorWithFetchPaginatorComponent<T> implements OnInit {
       .concat(this.columnStickyEndList));
     this.displayedColumns = this.filteredColumns.map(c => c.def);
   }
-
 }

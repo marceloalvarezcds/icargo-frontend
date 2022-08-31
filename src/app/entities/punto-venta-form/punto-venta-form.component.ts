@@ -13,6 +13,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
@@ -42,6 +43,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.PUNTO_VENTA;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: PuntoVentaContactoGestorCargaList[] = [];
 
@@ -207,6 +209,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.puntoVentaService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_punto_venta?.alias ?? data.nombre_corto,

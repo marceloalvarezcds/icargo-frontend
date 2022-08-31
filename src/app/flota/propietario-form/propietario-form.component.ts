@@ -14,6 +14,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PropietarioService } from 'src/app/services/propietario.service';
@@ -45,6 +46,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   camionModelo = m.CAMION;
   choferModelo = m.CHOFER;
   semirremolqueModelo = m.SEMIRREMOLQUE;
+  ciudadSelected?: Ciudad;
   gestorCuentaId?: number;
   contactoList: PropietarioContactoGestorCargaList[] = [];
   fotoDocumentoFrente: string | null = null;
@@ -299,6 +301,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.propietarioService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;

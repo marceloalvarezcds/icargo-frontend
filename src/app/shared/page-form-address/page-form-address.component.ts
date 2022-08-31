@@ -8,10 +8,10 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
   styleUrls: ['./page-form-address.component.scss'],
 })
 export class PageFormAddressComponent {
-  ciudadList: Ciudad[] = [];
   formGroup?: FormGroup;
   markerPosition?: google.maps.LatLngLiteral;
 
+  @Input() ciudadSelected?: Ciudad | null;
   @Input() isShow = false;
   @Input() isPanelOpen = false;
   @Input() groupName = 'address';
