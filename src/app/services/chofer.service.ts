@@ -24,6 +24,12 @@ export class ChoferService {
     return this.http.get<ChoferList[]>(`${this.url}/without_camion`);
   }
 
+  getListByWithoutCamionByCamionId(camionId: number): Observable<ChoferList[]> {
+    return this.http.get<ChoferList[]>(
+      `${this.url}/without_camion/${camionId}`
+    );
+  }
+
   getById(id: number): Observable<Chofer> {
     return this.http.get<Chofer>(`${this.url}/${id}`);
   }

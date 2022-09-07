@@ -1,9 +1,11 @@
-<div *ngIf="form" [formGroup]="form">
+<div *ngIf="form && list$" [formGroup]="form">
   <mat-form-field [formGroupName]="groupName">
     <mat-label>{{ title }}</mat-label>
     <mat-select [formControlName]="controlName">
       <ng-container *ngFor="let o of list$ | async">
-        <mat-option [value]="o.id">{{o.nombre}} - {{o.numero_documento}}</mat-option>
+        <mat-option [value]="o.id"
+          >{{ o.nombre }} - {{ o.numero_documento }}</mat-option
+        >
       </ng-container>
     </mat-select>
     <mat-error *ngIf="control.hasError('required')">
