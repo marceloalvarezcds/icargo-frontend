@@ -63,7 +63,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       email: [null, emailValidator],
       pagina_web: null,
     }),
-    contactos: this.fb.array([], Validators.required),
+    contactos: this.fb.array([]),
     geo: this.fb.group({
       ciudad_id: [null, Validators.required],
       latitud: [null, Validators.required],

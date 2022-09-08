@@ -14,6 +14,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
+import { PuntoVenta } from 'src/app/interfaces/punto-venta';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
@@ -43,6 +44,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.PUNTO_VENTA;
+  item?: PuntoVenta;
   ciudadSelected?: Ciudad | null;
 
   contactoList: PuntoVentaContactoGestorCargaList[] = [];
@@ -65,7 +67,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       pagina_web: null,
       info_complementaria: null,
     }),
-    contactos: this.fb.array([], Validators.required),
+    contactos: this.fb.array([]),
     geo: this.fb.group({
       ciudad_id: null,
       latitud: [null, Validators.required],
@@ -192,7 +194,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getData(): void {
+  getData(): void {
     this.id = +this.route.snapshot.params.id;
     this.proveedorId = +this.route.snapshot.params.proveedorId;
     this.backUrl = this.route.snapshot.queryParams.backUrl;
@@ -209,6 +211,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.puntoVentaService.getById(this.id).subscribe((data) => {
+        this.item = data;
         this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
