@@ -94,6 +94,7 @@
           [control]="esPropietarioControl"
           trueTitle="Es Propietario"
           falseTitle="No es Propietario"
+          (valueChange)="esPropietarioChange.emit($event)"
         ></app-slide>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">

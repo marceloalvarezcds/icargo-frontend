@@ -46,6 +46,7 @@ export class PropietarioFormInfoComponent {
   @Input() gestorCuentaId?: number;
   @Input() cantidadOCConAnticiposLiberados = 0;
 
+  @Output() esChoferChange = new EventEmitter<boolean>();
   @Output() fotoDocumentoFrenteChange = new EventEmitter<File | null>();
   @Output() fotoDocumentoReversoChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();

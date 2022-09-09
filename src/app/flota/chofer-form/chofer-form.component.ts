@@ -147,6 +147,10 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     return !!this.esPropietarioControl.value;
   }
 
+  get rucControl(): FormControl {
+    return this.info.get('ruc') as FormControl;
+  }
+
   constructor(
     private fb: FormBuilder,
     private choferService: ChoferService,
@@ -285,6 +289,15 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         this.anticiposBloqueados = true;
       }
     );
+  }
+
+  esPropietarioChange(esPropietario: boolean): void {
+    if (esPropietario) {
+      this.rucControl.setValidators(Validators.required);
+    } else {
+      this.rucControl.removeValidators(Validators.required);
+    }
+    this.rucControl.updateValueAndValidity();
   }
 
   private getData(): void {

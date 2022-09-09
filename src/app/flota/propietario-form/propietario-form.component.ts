@@ -163,6 +163,18 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     return this.router.url;
   }
 
+  get tipoDocumentoIdControl(): FormGroup {
+    return this.chofer.get('tipo_documento_id') as FormGroup;
+  }
+
+  get paisEmisorDocumentoIdControl(): FormGroup {
+    return this.chofer.get('pais_emisor_documento_id') as FormGroup;
+  }
+
+  get numeroDocumentoControl(): FormGroup {
+    return this.chofer.get('numero_documento') as FormGroup;
+  }
+
   constructor(
     private fb: FormBuilder,
     private propietarioService: PropietarioService,
@@ -303,6 +315,21 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         this.anticiposBloqueados = true;
       }
     );
+  }
+
+  esChoferChange(esChofer: boolean): void {
+    if (esChofer) {
+      this.tipoDocumentoIdControl.setValidators(Validators.required);
+      this.paisEmisorDocumentoIdControl.setValidators(Validators.required);
+      this.numeroDocumentoControl.setValidators(Validators.required);
+    } else {
+      this.tipoDocumentoIdControl.removeValidators(Validators.required);
+      this.paisEmisorDocumentoIdControl.removeValidators(Validators.required);
+      this.numeroDocumentoControl.removeValidators(Validators.required);
+    }
+    this.tipoDocumentoIdControl.updateValueAndValidity();
+    this.paisEmisorDocumentoIdControl.updateValueAndValidity();
+    this.numeroDocumentoControl.updateValueAndValidity();
   }
 
   private getData(): void {
