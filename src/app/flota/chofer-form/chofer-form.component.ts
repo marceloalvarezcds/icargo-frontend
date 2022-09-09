@@ -323,7 +323,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         }
         this.form.setValue({
           info: {
-            alias: data.gestor_carga_chofer?.alias ?? data.nombre,
+            alias: data.gestor_carga_chofer?.alias ?? null,
             nombre: data.nombre,
             tipo_documento_id: data.tipo_documento_id,
             pais_emisor_documento_id: data.pais_emisor_documento_id,

@@ -341,7 +341,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         }
         this.form.patchValue({
           info: {
-            alias: data.gestor_carga_propietario?.alias ?? data.nombre,
+            alias: data.gestor_carga_propietario?.alias ?? null,
             nombre: data.nombre,
             tipo_persona_id: data.tipo_persona_id,
             ruc: data.ruc,

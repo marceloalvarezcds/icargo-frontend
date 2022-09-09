@@ -231,7 +231,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
         this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
-            alias: data.gestor_carga_proveedor?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_proveedor?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,

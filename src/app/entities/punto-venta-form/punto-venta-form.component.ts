@@ -215,7 +215,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
-            alias: data.gestor_carga_punto_venta?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_punto_venta?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             proveedor_id: data.proveedor_id,

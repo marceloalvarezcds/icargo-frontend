@@ -192,7 +192,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
-            alias: data.gestor_carga_remitente?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_remitente?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,
