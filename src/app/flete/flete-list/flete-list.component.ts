@@ -207,11 +207,11 @@ export class FleteListComponent implements OnInit {
       value: (element: FleteList) => element.merma_propietario_tolerancia,
       type: 'number',
     },
-    {
-      def: 'vigencia_anticipos',
-      title: 'Vigencia de Anticipos',
-      value: (element: FleteList) => element.vigencia_anticipos,
-    },
+    // {
+    //   def: 'vigencia_anticipos',
+    //   title: 'Vigencia de Anticipos',
+    //   value: (element: FleteList) => element.vigencia_anticipos,
+    // },
     {
       def: 'created_by',
       title: 'Usuario creación',

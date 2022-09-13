@@ -96,7 +96,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       merma_propietario_tolerancia: [null, Validators.required],
       // fin - Mermas para el Propietario
     }),
-    vigencia_anticipos: [null, Validators.required],
+    // vigencia_anticipos: [null, Validators.required],
     anticipos: this.fb.array([], {
       validators: ProportionValidator.max(100, 'porcentaje'),
     }),
@@ -213,7 +213,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           ...this.condicion.value,
           ...this.merma.value,
           ...this.emisionOrden.value,
-          vigencia_anticipos: this.form.value.vigencia_anticipos,
+          // vigencia_anticipos: this.form.value.vigencia_anticipos,
           anticipos: this.anticipos.value,
           complementos: this.complementos.value,
           descuentos: this.descuentos.value,
@@ -237,12 +237,11 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       }
     } else {
       setTimeout(() => {
-        const isAnticipoValid = !!this.form.get('vigencia_anticipos')?.invalid;
         this.isInfoTouched = this.info.invalid;
         this.isTramoTouched = this.tramo.invalid;
         this.isCondicionTouched = this.condicion.invalid;
         this.isMermaTouched = this.merma.invalid;
-        this.isAnticipoTouched = this.anticipos.invalid || isAnticipoValid;
+        this.isAnticipoTouched = this.anticipos.invalid;
         this.isComplementoTouched = this.complementos.invalid;
         this.isDescuentoTouched = this.descuentos.invalid;
         this.isEmisionOrdenTouched = this.emisionOrden.invalid;
@@ -330,7 +329,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             emision_orden_detalle: data.emision_orden_detalle,
             destinatarios: data.destinatarios,
           },
-          vigencia_anticipos: data.vigencia_anticipos,
+          // vigencia_anticipos: data.vigencia_anticipos,
           complementos: [],
           descuentos: [],
         });

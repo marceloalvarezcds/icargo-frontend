@@ -156,7 +156,7 @@ describe('FleteFormComponent', () => {
         emision_orden_detalle: mockFlete1.emision_orden_detalle,
         destinatarios: mockFlete1.destinatarios,
       },
-      vigencia_anticipos: mockFlete1.vigencia_anticipos,
+      // vigencia_anticipos: mockFlete1.vigencia_anticipos,
       anticipos: [],
       complementos: [],
       descuentos: [],
