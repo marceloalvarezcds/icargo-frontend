@@ -6,6 +6,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
@@ -18,10 +19,13 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 })
 export class InsumoPuntoVentaPrecioDialogFieldComponent {
   readonly inputValuePropName = 'punto_venta_nombre';
-  list: InsumoPuntoVentaPrecioList[] = [];
-  subs = this.service.getList().subscribe((list) => {
-    this.list = list;
-  });
+  fId?: number | null;
+  list$?: Observable<InsumoPuntoVentaPrecioList[]>;
+
+  @Input() set fleteId(id: number | null | undefined) {
+    this.fId = id;
+    this.getList();
+  }
 
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
@@ -97,4 +101,10 @@ export class InsumoPuntoVentaPrecioDialogFieldComponent {
   dialogField?: DialogFieldComponent<InsumoPuntoVentaPrecioList>;
 
   constructor(private service: InsumoPuntoVentaPrecioService) {}
+
+  private getList(): void {
+    if (this.fId) {
+      this.list$ = this.service.getListByFleteId(this.fId);
+    }
+  }
 }

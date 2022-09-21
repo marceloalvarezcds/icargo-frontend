@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Camion } from 'src/app/interfaces/camion';
 
 @Component({
   selector: 'app-camion-form-limite',
@@ -9,6 +10,7 @@ import { FormGroup } from '@angular/forms';
 export class CamionFormLimiteComponent {
   groupName = 'limite';
 
+  @Input() camion?: Camion;
   @Input() form?: FormGroup;
   @Input() isShow = false;
 

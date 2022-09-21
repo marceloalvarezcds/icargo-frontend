@@ -34,6 +34,8 @@ export interface Camion {
   limites: string;
   limite_cantidad_oc_activas: number | null;
   limite_monto_anticipos: number | null;
+  monto_anticipo_disponible: number | null;
+  total_anticipos_retirados_en_estado_pendiente_o_en_proceso: number | null;
   // FIN Limitaciones del Camión
   // INICIO Habilitaciones del Camión
   // inicio - municipal
@@ -148,6 +150,8 @@ export const mockCamion: Camion = {
   limites: '',
   limite_cantidad_oc_activas: 1,
   limite_monto_anticipos: 1000000,
+  monto_anticipo_disponible: 0,
+  total_anticipos_retirados_en_estado_pendiente_o_en_proceso: 0,
   // FIN Limitaciones del Camión
   info: info0,
   // INICIO Habilitaciones del Camión
