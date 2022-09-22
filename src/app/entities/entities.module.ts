@@ -18,6 +18,7 @@ import { PuntoVentaFormComponent } from './punto-venta-form/punto-venta-form.com
 import { PuntoVentaListComponent } from './punto-venta-list/punto-venta-list.component';
 import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
+import { PuntoVentaFormUsersComponent } from './punto-venta-form-users/punto-venta-form-users.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RemitenteListComponent } from './remitente-list/remitente-list.componen
     ProveedorFormComponent,
     PuntoVentaListComponent,
     PuntoVentaFormComponent,
+    PuntoVentaFormUsersComponent,
   ],
   imports: [
     CommonModule,
@@ -44,4 +46,4 @@ import { RemitenteListComponent } from './remitente-list/remitente-list.componen
     SharedModule,
   ],
 })
-export class EntitiesModule {}
+export class EntitiesModule { }

@@ -10,7 +10,7 @@ import { Proveedor, ProveedorList } from 'src/app/interfaces/proveedor';
 export class ProveedorService {
   private url = `${environment.api}/proveedor`;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getList(): Observable<ProveedorList[]> {
     return this.http.get<ProveedorList[]>(`${this.url}/`);

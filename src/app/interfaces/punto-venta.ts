@@ -19,6 +19,7 @@ import {
 } from './gestor-carga-punto-venta';
 import { mockTipoDocumentoList, TipoDocumento } from './tipo-documento';
 import { mockProveedorList } from './proveedor';
+import { UserPuntoVenta } from './user-punto-venta';
 
 export interface PuntoVenta {
   id: number;
@@ -45,6 +46,7 @@ export interface PuntoVenta {
   ciudad: Ciudad | null;
   contactos: PuntoVentaContactoGestorCargaList[];
   gestor_carga_punto_venta?: GestorCargaPuntoVenta;
+  users: UserPuntoVenta[];
 }
 
 const gestorCargaPuntoVenta0 = mockGestorCargaPuntoVentaList[0];
@@ -97,6 +99,7 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento0.descripcion,
+    users: [],
   },
   {
     id: 2,
@@ -128,6 +131,7 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento1.descripcion,
+    users: [],
   },
   {
     id: 3,
@@ -160,5 +164,6 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
     tipo_documento_descripcion: tipoDocumento2.descripcion,
+    users: [],
   },
 ];

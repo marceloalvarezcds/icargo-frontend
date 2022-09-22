@@ -1,0 +1,54 @@
+<div *ngIf="gestorCargaId && puntoVentaId">
+  <div class="row page-form-row">
+    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+      <app-table
+        [columns]="columns"
+        [modelo]="modelo"
+        [gestorCuentaId]="gestorCargaId"
+        [data]="list"
+        [hideShow]="true"
+        [isShow]="
+          isShow ||
+          !(
+            (modelo | puede: a.EDITAR:gestorCargaId) ||
+            (modelo | puede: a.ELIMINAR:gestorCargaId)
+          )
+        "
+        (editClick)="edit($event)"
+        (deleteClick)="remove($event)"
+      ></app-table>
+    </div>
+    <div
+      class="col-xs"
+      *ngIf="!list.length"
+      [hidden]="isShow || !(modelo | puede: a.CREAR:gestorCargaId)"
+    >
+      <button
+        mat-raised-button
+        class="outline round"
+        color="primary"
+        type="button"
+        (click)="create()"
+        id="create-button"
+      >
+        Crear usuario para la App
+      </button>
+    </div>
+    <div
+      class="col-xs"
+      *ngIf="list.length"
+      [hidden]="isShow || !(modelo | puede: a.CREAR:gestorCargaId)"
+    >
+      <button
+        mat-raised-button
+        class="outline round"
+        color="primary"
+        type="button"
+        (click)="create(true)"
+        id="create-button"
+      >
+        Crear usuario Administrador
+      </button>
+    </div>
+  </div>
+</div>

@@ -28,6 +28,8 @@ import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-d
 import { SeleccionableFormDialogComponent } from './seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
 import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
+import { UserPuntoVentaCreateFormDialogComponent } from './user-punto-venta-create-form-dialog/user-punto-venta-create-form-dialog.component';
+import { UserPuntoVentaEditFormDialogComponent } from './user-punto-venta-edit-form-dialog/user-punto-venta-edit-form-dialog.component';
 
 const modules = [
   CamionSemiNetoFormDialogComponent,
@@ -52,6 +54,8 @@ const modules = [
   SeleccionableFormDialogComponent,
   SelectorDialogComponent,
   UserFormDialogComponent,
+  UserPuntoVentaCreateFormDialogComponent,
+  UserPuntoVentaEditFormDialogComponent,
 ];
 
 @NgModule({
@@ -68,4 +72,4 @@ const modules = [
     SharedModule,
   ],
 })
-export class DialogsModule {}
+export class DialogsModule { }

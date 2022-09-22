@@ -77,4 +77,8 @@ export class UserService {
   inactive(id: number): Observable<User> {
     return this.http.get<User>(`${this.url}/${id}/inactive`);
   }
+
+  delete(id: number): Observable<User> {
+    return this.http.delete<User>(`${this.url}/${id}`);
+  }
 }
