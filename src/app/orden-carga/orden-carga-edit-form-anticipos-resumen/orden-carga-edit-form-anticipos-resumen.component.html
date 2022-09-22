@@ -26,11 +26,62 @@
       disabled
     />
   </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>% Máximo Liberado</mat-label>
+  <mat-form-field
+    class="col-xs-12 col-sm-6 col-md-4"
+    *ngIf="oc.camion_limite_monto_anticipos"
+  >
+    <mat-label>Monto Límite de Crédito del Camión</mat-label>
     <input
       matInput
-      [value]="oc.flete_anticipo_maximo"
+      [value]="oc.camion_limite_monto_anticipos"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Monto Anticipos Retirados del Camión</mat-label>
+    <input
+      matInput
+      [value]="
+        oc.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ??
+        0
+      "
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Monto Anticipo Disponible del Camión</mat-label>
+    <input
+      matInput
+      [value]="oc.camion_monto_anticipo_disponible ?? 0"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Límite de Crédito OC + Complementos</mat-label>
+    <input
+      matInput
+      [value]="oc.total_anticipo"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Monto Anticipo Retirados OC</mat-label>
+    <input
+      matInput
+      [value]="oc.total_anticipo_retirado"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Monto Anticipo Disponible OC</mat-label>
+    <input
+      matInput
+      [value]="oc.total_anticipo_disponible"
       appInputThousandsSeparator
       disabled
     />
@@ -45,6 +96,24 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Complementos anticipables</mat-label>
+    <input
+      matInput
+      [value]="oc.total_anticipo_complemento"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>% Máximo Liberado</mat-label>
+    <input
+      matInput
+      [value]="oc.flete_anticipo_maximo"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
     <mat-label>Monto Efectivo OC</mat-label>
     <input
       matInput
@@ -53,14 +122,11 @@
       disabled
     />
   </mat-form-field>
-  <mat-form-field
-    class="col-xs-12 col-sm-6 col-md-4"
-    *ngIf="oc.camion_limite_monto_anticipos"
-  >
-    <mat-label>Monto Límite de Crédito OC del Camión</mat-label>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+    <mat-label>Monto Efectivo OC + Complementos</mat-label>
     <input
       matInput
-      [value]="oc.camion_limite_monto_anticipos"
+      [value]="oc.flete_monto_efectivo_complemento"
       appInputThousandsSeparator
       disabled
     />

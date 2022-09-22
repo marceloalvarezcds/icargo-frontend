@@ -13,6 +13,7 @@
     ></app-tipo-anticipo-by-flete-field>
     <ng-container *ngIf="isTipoInsumo">
       <app-insumo-punto-venta-precio-dialog-field
+        [fleteId]="fleteId"
         [form]="form"
         (valueChange)="$event && insumoPuntoVentaPrecioChange($event)"
       ></app-insumo-punto-venta-precio-dialog-field>

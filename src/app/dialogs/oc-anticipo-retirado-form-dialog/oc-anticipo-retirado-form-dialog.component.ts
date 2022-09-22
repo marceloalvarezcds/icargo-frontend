@@ -158,8 +158,6 @@ export class OcAnticipoRetiradoFormDialogComponent
         this.monto,
         this.saldoDisponible
       ).toLocaleString()}</strong> al Saldo</span>`;
-    } else if (this.saldoDisponible === 0) {
-      return '';
     }
     let text = `Saldo <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
     return text;

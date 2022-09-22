@@ -15,8 +15,10 @@ export class InsumoPuntoVentaPrecioService {
 
   constructor(private http: HttpClient) {}
 
-  getList(): Observable<InsumoPuntoVentaPrecioList[]> {
-    return this.http.get<InsumoPuntoVentaPrecioList[]>(`${this.url}/`);
+  getListByFleteId(fleteId: number): Observable<InsumoPuntoVentaPrecioList[]> {
+    return this.http.get<InsumoPuntoVentaPrecioList[]>(
+      `${this.url}/flete/${fleteId}`
+    );
   }
 
   getByInsumoIdAndMonedaIdAndPuntoVentaId(
