@@ -71,9 +71,6 @@ export class OcRemisionOrigenFormDialogComponent {
     @Inject(MAT_DIALOG_DATA) private dialogData: OcRemisionOrigenDialogData
   ) {
     this.fotoDocumento = this.data?.foto_documento ?? null;
-    if (!this.data) {
-      this.fotoDocumentoControl.setValidators(Validators.required);
-    }
   }
 
   submit() {

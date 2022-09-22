@@ -38,15 +38,13 @@
       disabled
     />
   </mat-form-field>
-  <mat-form-field
-    class="col-xs-12 col-sm-6 col-md-4"
-    *ngIf="oc.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso"
-  >
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
     <mat-label>Monto Anticipos Retirados del Camión</mat-label>
     <input
       matInput
       [value]="
-        oc.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso
+        oc.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ??
+        0
       "
       appInputThousandsSeparator
       disabled
