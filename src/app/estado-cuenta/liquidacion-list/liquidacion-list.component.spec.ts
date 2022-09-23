@@ -108,6 +108,8 @@ describe('LiquidacionListComponent', () => {
       pageComponent = findElement(fixture, 'app-page');
       tableComponent = findElement(fixture, 'app-table-paginator');
       component = fixture.componentInstance;
+      component.etapa = LiquidacionEtapaEnum.EN_PROCESO;
+      component.estadoCuenta = estadoCuenta;
       fixture.detectChanges();
     });
 
@@ -227,6 +229,8 @@ describe('LiquidacionListComponent', () => {
       pageComponent = findElement(fixture, 'app-page');
       tableComponent = findElement(fixture, 'app-table-paginator');
       component = fixture.componentInstance;
+      component.etapa = LiquidacionEtapaEnum.EN_PROCESO;
+      component.estadoCuenta = estadoCuenta;
       fixture.detectChanges();
     });
 

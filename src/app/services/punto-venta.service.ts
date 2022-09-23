@@ -13,7 +13,9 @@ export class PuntoVentaService {
   constructor(private http: HttpClient) { }
 
   getList(proveedorId: number): Observable<PuntoVentaList[]> {
-    return this.http.get<PuntoVentaList[]>(`${this.url}/${proveedorId}`);
+    return this.http.get<PuntoVentaList[]>(
+      `${this.url}/proveedor/${proveedorId}`
+    );
   }
 
   getListByGestor(): Observable<PuntoVentaList[]> {
