@@ -141,7 +141,7 @@ describe('PuntoVentaListComponent', () => {
     tick();
 
     httpController
-      .expectOne(`${environment.api}/punto_venta/proveedor/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/proveedor/${proveedorId}`)
       .flush(mockPuntoVentaList);
     const req = httpController.expectOne(
       `${environment.api}/punto_venta/${row.id}`
