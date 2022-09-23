@@ -163,9 +163,9 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/remitente/`);
     expect(req.request.method).toBe('POST');
     req.flush(remitente);
@@ -189,9 +189,9 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/remitente/`);
@@ -226,9 +226,9 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -278,9 +278,9 @@ describe('RemitenteFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/remitente/${id}`)
       .flush(mockRemitenteList[1]);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();

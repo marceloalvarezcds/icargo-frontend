@@ -1,5 +1,13 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { fakeAsync, flush, flushMicrotasks, TestBed } from '@angular/core/testing';
+import {
+  HttpClientTestingModule,
+  HttpTestingController,
+} from '@angular/common/http/testing';
+import {
+  fakeAsync,
+  flush,
+  flushMicrotasks,
+  TestBed,
+} from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { environment } from 'src/environments/environment';
 import { mockAuthentication } from '../interfaces/authentication';
@@ -24,10 +32,10 @@ describe('UserService', () => {
   it('should be created', fakeAsync(() => {
     authService = TestBed.inject(AuthService);
     service = TestBed.inject(UserService);
-    const meSpy = spyOn((service as any), 'me').and.callThrough();
+    const meSpy = spyOn(service as any, 'me').and.callThrough();
     (authService as any).authenticationSubject.next(mockAuthentication);
     flushMicrotasks();
-    httpController.expectOne(`${environment.api}/user/me/`).flush(mockUser);
+    httpController.expectOne(`${environment.api}/user/me`).flush(mockUser);
     flush();
     expect(service).toBeTruthy();
     expect(meSpy).toHaveBeenCalled();

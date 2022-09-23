@@ -413,7 +413,7 @@ describe('CamionFormComponent', () => {
       .match(`${environment.api}/propietario/gestor_cuenta`)
       .forEach((r) => r.flush(mockPropietarioList));
     httpController
-      .match(`${environment.api}/chofer/without_camion`)
+      .match(`${environment.api}/chofer/without_camion/${id}`)
       .forEach((r) => r.flush(mockChoferList));
     httpController
       .match(
