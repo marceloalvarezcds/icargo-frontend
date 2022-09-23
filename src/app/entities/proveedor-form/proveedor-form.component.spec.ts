@@ -170,9 +170,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/proveedor/`);
     expect(req.request.method).toBe('POST');
     req.flush(proveedor);
@@ -199,9 +199,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     formSetValue(component, 'logo');
     pageFormComponent.triggerEventHandler('submitEvent', null);
     const req = httpController.expectOne(`${environment.api}/proveedor/`);
@@ -237,9 +237,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -291,9 +291,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/proveedor/${id}`)
       .flush(mockProveedorList[1]);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();
@@ -345,9 +345,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     flush();
     formSetValue(component, 'logo');
     const createPuntoVentaButton = fixture.debugElement.query(
@@ -429,9 +429,9 @@ describe('ProveedorFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     flush();
     formSetValue(component, 'logo');
     component.info.controls['telefono'].setValue(proveedor.telefono.trim());
