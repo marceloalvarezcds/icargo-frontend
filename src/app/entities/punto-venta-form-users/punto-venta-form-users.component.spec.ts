@@ -1,4 +1,9 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MaterialModule } from 'src/app/material/material.module';
 
 import { PuntoVentaFormUsersComponent } from './punto-venta-form-users.component';
 
@@ -8,9 +13,15 @@ describe('PuntoVentaFormUsersComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PuntoVentaFormUsersComponent ]
-    })
-    .compileComponents();
+      imports: [
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MaterialModule,
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [PuntoVentaFormUsersComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {

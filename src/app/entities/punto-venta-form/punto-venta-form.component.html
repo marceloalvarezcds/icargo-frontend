@@ -61,8 +61,6 @@
 
     <mat-expansion-panel
       *ngIf="isEdit || isShow"
-      formGroupName="geo"
-      [expanded]="isGeoTouched"
       (opened)="isPanelOpen = true"
       (closed)="isPanelOpen = false"
     >
@@ -76,6 +74,19 @@
         [gestorCargaId]="user?.gestor_carga_id"
         (usersCreated)="getData()"
       ></app-punto-venta-form-users>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel
+      *ngIf="isEdit || isShow"
+      (opened)="isPanelOpen = true"
+      (closed)="isPanelOpen = false"
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title> Usuarios transaccionales de la App </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-punto-venta-form-transactional-users
+        [list]="item?.transactional_users ?? []"
+      ></app-punto-venta-form-transactional-users>
     </mat-expansion-panel>
   </mat-accordion>
 </app-page-form>

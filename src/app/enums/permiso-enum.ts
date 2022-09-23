@@ -78,6 +78,7 @@ export enum PermisoModeloEnum {
   TIPO_REGISTRO = 'tipo_registro',
   TIPO_SEMI = 'tipo_semi',
   UNIDAD = 'unidad',
+  TRANSACTIONAL_USER = 'transactional_user',
   USER = 'usuario',
 }
 

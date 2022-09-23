@@ -10,7 +10,7 @@ import { PuntoVenta, PuntoVentaList } from '../interfaces/punto-venta';
 export class PuntoVentaService {
   private url = `${environment.api}/punto_venta`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(proveedorId: number): Observable<PuntoVentaList[]> {
     return this.http.get<PuntoVentaList[]>(
@@ -52,10 +52,16 @@ export class PuntoVentaService {
   }
 
   createAppUser(id: number, formData: FormData): Observable<PuntoVenta> {
-    return this.http.post<PuntoVenta>(`${this.url}/${id}/create_user`, formData);
+    return this.http.post<PuntoVenta>(
+      `${this.url}/${id}/create_user`,
+      formData
+    );
   }
 
   createAppAdminUser(id: number, formData: FormData): Observable<PuntoVenta> {
-    return this.http.post<PuntoVenta>(`${this.url}/${id}/create_admin_user`, formData);
+    return this.http.post<PuntoVenta>(
+      `${this.url}/${id}/create_admin_user`,
+      formData
+    );
   }
 }
