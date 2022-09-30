@@ -136,6 +136,7 @@ export interface FleteList extends FleteFormBaseModel {
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_nombre: string;
   condicion_propietario_unidad_descripcion: string;
+  condicion_propietario_tarifa_unidad: string;
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
   // INICIO Mermas de Fletes
@@ -377,6 +378,7 @@ export const mockFleteList: FleteList[] = [
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: toneladas.id,
     condicion_propietario_unidad_descripcion: toneladas.descripcion,
+    condicion_propietario_tarifa_unidad: `${pyg.simbolo}/${toneladas.descripcion}`,
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
     // INICIO Mermas de Fletes
@@ -452,6 +454,7 @@ export const mockFleteList: FleteList[] = [
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: kilogramos.id,
     condicion_propietario_unidad_descripcion: kilogramos.descripcion,
+    condicion_propietario_tarifa_unidad: `${usd.simbolo}/${kilogramos.descripcion}`,
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
     // INICIO Mermas de Fletes
@@ -527,6 +530,7 @@ export const mockFleteList: FleteList[] = [
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: litros.id,
     condicion_propietario_unidad_descripcion: litros.descripcion,
+    condicion_propietario_tarifa_unidad: `${brl.simbolo}/${litros.descripcion}`,
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
     // INICIO Mermas de Fletes

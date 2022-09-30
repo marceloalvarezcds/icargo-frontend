@@ -117,13 +117,16 @@ export class FleteFormComplementosComponent {
     return this.fb.group({
       id: data.id,
       concepto_id: [data.concepto_id, Validators.required],
+      concepto_descripcion: data.concepto.descripcion,
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
+      propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_cobro_remitente: data.habilitar_cobro_remitente,
       remitente_monto: data.remitente_monto,
       remitente_moneda_id: data.remitente_moneda_id,
+      remitente_moneda_simbolo: data.remitente_moneda?.simbolo,
     });
   }
 }

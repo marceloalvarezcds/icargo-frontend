@@ -11,5 +11,8 @@ export class FleteFormCondicionAfectadoComponent {
 
   @Input() form?: FormGroup;
   @Input() afectado = 'gestor_carga';
-  @Input() afectadoTitle = 'Gestor';
+
+  get group(): FormGroup {
+    return this.form!.get(this.groupName) as FormGroup;
+  }
 }

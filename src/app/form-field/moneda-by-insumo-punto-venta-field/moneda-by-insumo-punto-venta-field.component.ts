@@ -1,4 +1,10 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Moneda } from 'src/app/interfaces/moneda';
@@ -8,10 +14,9 @@ import { GenericListFieldComponent } from '../generic-list-field/generic-list-fi
 @Component({
   selector: 'app-moneda-by-insumo-punto-venta-field',
   templateUrl: './moneda-by-insumo-punto-venta-field.component.html',
-  styleUrls: ['./moneda-by-insumo-punto-venta-field.component.scss']
+  styleUrls: ['./moneda-by-insumo-punto-venta-field.component.scss'],
 })
 export class MonedaByInsumoPuntoVentaFieldComponent {
-
   iId?: number | null;
   pId?: number | null;
   list$?: Observable<Moneda[]>;
@@ -30,9 +35,10 @@ export class MonedaByInsumoPuntoVentaFieldComponent {
     this.getList();
   }
 
-  @Output() valueChange = new EventEmitter<Moneda>();
+  @Output() valueChange = new EventEmitter<Moneda | undefined>();
 
-  @ViewChild('app-generic-list-field') genericListFieldComponent?: GenericListFieldComponent<Moneda>;
+  @ViewChild('app-generic-list-field')
+  genericListFieldComponent?: GenericListFieldComponent<Moneda>;
 
   constructor(private service: MonedaService) {}
 
@@ -42,7 +48,10 @@ export class MonedaByInsumoPuntoVentaFieldComponent {
 
   private getList(): void {
     if (this.iId && this.pId) {
-      this.list$ = this.service.getListByInsumoIdAndPuntoVentaId(this.iId, this.pId);
+      this.list$ = this.service.getListByInsumoIdAndPuntoVentaId(
+        this.iId,
+        this.pId
+      );
     }
   }
 }

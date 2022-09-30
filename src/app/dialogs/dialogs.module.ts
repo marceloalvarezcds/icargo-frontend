@@ -13,6 +13,7 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { ContactoFormDialogComponent } from './contacto-form-dialog/contacto-form-dialog.component';
 import { DescuentoFormDialogComponent } from './descuento-form-dialog/descuento-form-dialog.component';
 import { FacturaFormDialogComponent } from './factura-form-dialog/factura-form-dialog.component';
+import { FleteConfirmationDialogComponent } from './flete-confirmation-dialog/flete-confirmation-dialog.component';
 import { InstrumentoFormDialogComponent } from './instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionConfirmDialogComponent } from './liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LoadingDialogComponent } from './loading-dialog/loading-dialog.component';
@@ -22,6 +23,7 @@ import { MovimientoFormDialogComponent } from './movimiento-form-dialog/movimien
 import { MovimientosSelectedDialogComponent } from './movimientos-selected-dialog/movimientos-selected-dialog.component';
 import { OcAnticipoRetiradoFormDialogComponent } from './oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import { OcComplementoFormDialogComponent } from './oc-complemento-form-dialog/oc-complemento-form-dialog.component';
+import { OcConfirmationDialogComponent } from './oc-confirmation-dialog/oc-confirmation-dialog.component';
 import { OcDescuentoFormDialogComponent } from './oc-descuento-form-dialog/oc-descuento-form-dialog.component';
 import { OcRemisionDestinoFormDialogComponent } from './oc-remision-destino-form-dialog/oc-remision-destino-form-dialog.component';
 import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-dialog/oc-remision-origen-form-dialog.component';
@@ -37,6 +39,7 @@ const modules = [
   ContactoFormDialogComponent,
   DescuentoFormDialogComponent,
   FacturaFormDialogComponent,
+  FleteConfirmationDialogComponent,
   InstrumentoFormDialogComponent,
   LiquidacionConfirmDialogComponent,
   LoadingDialogComponent,
@@ -46,6 +49,7 @@ const modules = [
   MovimientosSelectedDialogComponent,
   OcAnticipoRetiradoFormDialogComponent,
   OcComplementoFormDialogComponent,
+  OcConfirmationDialogComponent,
   OcDescuentoFormDialogComponent,
   OcRemisionDestinoFormDialogComponent,
   OcRemisionOrigenFormDialogComponent,

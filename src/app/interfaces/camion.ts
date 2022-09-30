@@ -90,6 +90,7 @@ export interface CamionList {
   placa: string;
   propietario_nombre: string;
   propietario_ruc: string;
+  propietario_telefono: string | null;
   chofer_nombre: string | null;
   chofer_numero_documento: string | null;
   numero_chasis: string | null;
@@ -208,6 +209,7 @@ export const mockCamionList: CamionList[] = [
     placa: placa0,
     propietario_nombre: propietario0.nombre,
     propietario_ruc: propietario0.ruc,
+    propietario_telefono: propietario0.telefono,
     chofer_nombre: chofer0.nombre,
     chofer_numero_documento: chofer0.numero_documento,
     numero_chasis: '23100100',
@@ -235,6 +237,7 @@ export const mockCamionList: CamionList[] = [
     placa: placa1,
     propietario_nombre: propietario1.nombre,
     propietario_ruc: propietario1.ruc,
+    propietario_telefono: propietario1.telefono,
     chofer_nombre: chofer1.nombre,
     chofer_numero_documento: chofer1.numero_documento,
     numero_chasis: '23100100',

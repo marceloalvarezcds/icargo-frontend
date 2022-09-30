@@ -1,39 +1,56 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
+  <div class="row page-form-row">
+    <div class="col-xs-12">Merma para {{ afectadoTitle }}</div>
+  </div>
   <div class="row page-form-row" [formGroupName]="groupName">
     <div class="col-xs-12 col-sm-6 col-md-4">
       <app-number-field
-        title="Merma para {{afectadoTitle}} - Valor"
-        controlName="merma_{{afectado}}_valor"
+        title="Valor"
+        controlName="merma_{{ afectado }}_valor"
         [groupName]="groupName"
         [form]="formGroup"
       ></app-number-field>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
       <app-moneda-field
-        title="Merma para {{afectadoTitle}} - Moneda"
-        controlName="merma_{{afectado}}_moneda_id"
+        title="Moneda"
+        controlName="merma_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="
+          group
+            .get('merma_' + afectado + '_moneda_simbolo')
+            ?.setValue($event?.simbolo)
+        "
       ></app-moneda-field>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
       <app-unidad-field
-        title="Merma para {{afectadoTitle}} - Unidad"
-        controlName="merma_{{afectado}}_unidad_id"
+        title="Unidad"
+        controlName="merma_{{ afectado }}_unidad_id"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="
+          group
+            .get('merma_' + afectado + '_unidad_abreviatura')
+            ?.setValue($event?.abreviatura)
+        "
       ></app-unidad-field>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4 toggle">
-      <ng-container *ngIf="isShow; else esPorcentualTemplate">{{ esPorcentual ? 'Porcentual' : 'No Porcentual' }}</ng-container>
+      <ng-container *ngIf="isShow; else esPorcentualTemplate">
+        {{ esPorcentual ? "Porcentual" : "No Porcentual" }}
+      </ng-container>
       <ng-template #esPorcentualTemplate>
-        <mat-slide-toggle formControlName="merma_{{afectado}}_es_porcentual">{{ esPorcentual ? 'Porcentual' : 'No Porcentual' }}</mat-slide-toggle>
+        <mat-slide-toggle formControlName="merma_{{ afectado }}_es_porcentual">
+          {{ esPorcentual ? "Porcentual" : "No Porcentual" }}
+        </mat-slide-toggle>
       </ng-template>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
       <app-number-field
-        title="Merma para {{afectadoTitle}} - Tolerancia"
-        controlName="merma_{{afectado}}_tolerancia"
+        title="Tolerancia"
+        controlName="merma_{{ afectado }}_tolerancia"
         [groupName]="groupName"
         [form]="formGroup"
       ></app-number-field>

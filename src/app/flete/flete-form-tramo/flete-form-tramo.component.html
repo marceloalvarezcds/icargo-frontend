@@ -7,6 +7,7 @@
           controlName="origen_id"
           [groupName]="groupName"
           [form]="form"
+          (valueChange)="origenChange.emit($event)"
         ></app-centro-operativo-field>
       </div>
       <div class="col-xs-12 col-sm-6">
@@ -23,6 +24,7 @@
           controlName="destino_id"
           [groupName]="groupName"
           [form]="form"
+          (valueChange)="destinoChange.emit($event)"
         ></app-centro-operativo-field>
       </div>
       <div class="col-xs-12 col-sm-6">

@@ -1,0 +1,66 @@
+<div class="oc-confirmation-dialog-container">
+  <h1 mat-dialog-title>
+    Confirmar Orden de Carga
+    <button mat-button (click)="dialogRef.close(null)" class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
+    <div class="row page-form-row" *ngIf="oc">
+      <div class="col-xs-12 col-sm-6">
+        <h3>Información Básica</h3>
+        <app-key-value key="Nº de Pedido" [value]="oc.flete_id"></app-key-value>
+        <app-key-value key="Remitente" [value]="oc.remitente"></app-key-value>
+        <app-key-value key="Producto" [value]="oc.producto"></app-key-value>
+        <app-key-value
+          key="Cantidad Nominada"
+          [value]="oc.cantidad_nominada"
+        ></app-key-value>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <h3>Chofer y Propietario</h3>
+        <app-key-value key="Chofer" [value]="oc.chofer"></app-key-value>
+        <app-key-value
+          key="Propietario"
+          [value]="oc.propietario"
+        ></app-key-value>
+        <app-key-value
+          key="Precio Propietario"
+          [value]="oc.propietario_tarifa"
+        ></app-key-value>
+        <app-key-value
+          key="Teléfono Propietario"
+          [value]="oc.propietario_telefono"
+        ></app-key-value>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <h3>Tramo</h3>
+        <app-key-value key="Origen" [value]="oc.origen"></app-key-value>
+        <app-key-value key="Destino" [value]="oc.destino"></app-key-value>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <h3>Camión y Semi</h3>
+        <app-key-value key="Camión" [value]="oc.camion"></app-key-value>
+        <app-key-value key="Semi" [value]="oc.semi"></app-key-value>
+        <app-key-value
+          key="Capacidad"
+          [value]="oc.camion_semi_neto"
+        ></app-key-value>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button type="button" mat-raised-button (click)="dialogRef.close(false)">
+      Cancelar
+    </button>
+    <button
+      type="button"
+      mat-raised-button
+      (click)="dialogRef.close(true)"
+      cdkFocusInitial
+      color="primary"
+    >
+      Guardar
+    </button>
+  </div>
+</div>

@@ -40,6 +40,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { PermisoPipe } from 'src/app/pipes/permiso.pipe';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AuthService } from 'src/app/services/auth.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -59,6 +60,7 @@ describe('FleteFormComponent', () => {
   let component: FleteFormComponent;
   let fixture: ComponentFixture<FleteFormComponent>;
   let httpController: HttpTestingController;
+  let dialogService: DialogService;
   let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
   let fleteService: FleteService;
   let userService: UserService;
@@ -189,6 +191,7 @@ describe('FleteFormComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AuthService,
+        DialogService,
         UserService,
         PermisoPipe,
         FleteService,
@@ -417,6 +420,7 @@ describe('FleteFormComponent', () => {
   it('should open edit view with alias null', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    dialogService = TestBed.inject(DialogService);
     userService = TestBed.inject(UserService);
     (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(FleteFormComponent);
@@ -427,9 +431,12 @@ describe('FleteFormComponent', () => {
       (component as any).dialog,
       'changeStatusConfirm'
     ).and.returnValue(dialogRefSpyObj);
+    const dialogSaveSpy = spyOn(dialogService, 'open').and.returnValue(
+      dialogRefSpyObj
+    );
     const cancelSpy = spyOn(component, 'cancelar').and.callThrough();
     const getByIdSpy = spyOn(fleteService, 'getById').and.callThrough();
-    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const saveSpy = spyOn(component, 'save').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
@@ -479,8 +486,9 @@ describe('FleteFormComponent', () => {
     flush();
     tick(1);
     expect(cancelSpy).toHaveBeenCalled();
-    expect(submitSpy).toHaveBeenCalled();
+    expect(saveSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogSaveSpy).toHaveBeenCalled();
     tick();
     httpController.verify();
   }));

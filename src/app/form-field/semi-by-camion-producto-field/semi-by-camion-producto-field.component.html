@@ -1,15 +1,17 @@
-<div *ngIf="form" [formGroup]="form">
+<div *ngIf="formGroup" [formGroup]="formGroup">
   <mat-form-field [formGroupName]="groupName">
     <mat-label>{{ title }}</mat-label>
     <ng-container *ngIf="cId; else ciudadReadonly">
       <mat-select [formControlName]="controlName">
         <ng-container *ngFor="let o of list">
-          <mat-option [value]="o.id">{{o.placa}} - {{o.propietario_nombre}}</mat-option>
+          <mat-option [value]="o.id"
+            >{{ o.placa }} - {{ o.propietario_nombre }}</mat-option
+          >
         </ng-container>
       </mat-select>
     </ng-container>
     <ng-template #ciudadReadonly>
-      <input matInput [formControlName]="controlName" readonly/>
+      <input matInput [formControlName]="controlName" readonly />
     </ng-template>
     <mat-error *ngIf="control?.hasError('required')">
       El semi-remolque es <strong>requerido</strong>

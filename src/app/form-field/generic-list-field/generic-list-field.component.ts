@@ -73,7 +73,7 @@ export class GenericListFieldComponent<T extends { id: number }>
   @Input() value!: (v: T) => number | string | T;
 
   @Output() emptyListChange = new EventEmitter();
-  @Output() valueChange = new EventEmitter<T>();
+  @Output() valueChange = new EventEmitter<T | undefined>();
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

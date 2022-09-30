@@ -16,7 +16,7 @@
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (inactiveClick)="cancelar()"
-  (submitEvent)="submit(false)"
+  (submitEvent)="save(false)"
 >
   <mat-accordion multi>
     <mat-expansion-panel [expanded]="isInfoTouched">
@@ -27,6 +27,12 @@
         [form]="form"
         [estado]="estado"
         [isShow]="isShow"
+        (remitenteChange)="
+          info.get('remitente_nombre')?.setValue($event?.nombre)
+        "
+        (productoChange)="
+          info.get('producto_descripcion')?.setValue($event?.descripcion)
+        "
       ></app-flete-form-info>
     </mat-expansion-panel>
 
@@ -34,7 +40,11 @@
       <mat-expansion-panel-header>
         <mat-panel-title> Tramo </mat-panel-title>
       </mat-expansion-panel-header>
-      <app-flete-form-tramo [form]="form"></app-flete-form-tramo>
+      <app-flete-form-tramo
+        [form]="form"
+        (origenChange)="tramo.get('origen_nombre')?.setValue($event?.nombre)"
+        (destinoChange)="tramo.get('destino_nombre')?.setValue($event?.nombre)"
+      ></app-flete-form-tramo>
     </mat-expansion-panel>
 
     <mat-expansion-panel [expanded]="isCondicionTouched">

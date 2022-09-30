@@ -1,27 +1,37 @@
 <div *ngIf="form" [formGroup]="form">
   <div class="row page-form-row" [formGroupName]="groupName">
     <div class="col-xs-12 col-sm-6 col-md-4">
-      <app-moneda-field
-        title="Condición para {{afectadoTitle}} - Moneda"
-        controlName="condicion_{{afectado}}_moneda_id"
-        [groupName]="groupName"
-        [form]="form"
-      ></app-moneda-field>
-    </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
       <app-number-field
-        title="Condición para {{afectadoTitle}} - Tarifa"
-        controlName="condicion_{{afectado}}_tarifa"
+        title="Tarifa"
+        controlName="condicion_{{ afectado }}_tarifa"
         [groupName]="groupName"
         [form]="form"
       ></app-number-field>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
-      <app-unidad-field
-        title="Condición para {{afectadoTitle}} - Unidad"
-        controlName="condicion_{{afectado}}_unidad_id"
+      <app-moneda-field
+        title="Moneda"
+        controlName="condicion_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="form"
+        (valueChange)="
+          group
+            .get('condicion_' + afectado + '_moneda_simbolo')
+            ?.setValue($event?.simbolo)
+        "
+      ></app-moneda-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-unidad-field
+        title="Unidad"
+        controlName="condicion_{{ afectado }}_unidad_id"
+        [groupName]="groupName"
+        [form]="form"
+        (valueChange)="
+          group
+            .get('condicion_' + afectado + '_unidad_abreviatura')
+            ?.setValue($event?.abreviatura)
+        "
       ></app-unidad-field>
     </div>
   </div>

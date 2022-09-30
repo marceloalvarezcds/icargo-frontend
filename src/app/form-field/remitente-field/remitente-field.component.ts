@@ -1,14 +1,14 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Remitente } from 'src/app/interfaces/remitente';
 import { RemitenteService } from 'src/app/services/remitente.service';
 
 @Component({
   selector: 'app-remitente-field',
   templateUrl: './remitente-field.component.html',
-  styleUrls: ['./remitente-field.component.scss']
+  styleUrls: ['./remitente-field.component.scss'],
 })
 export class RemitenteFieldComponent {
-
   list$ = this.remitenteService.getListByGestorCuentaId();
 
   get group(): FormGroup {
@@ -22,7 +22,18 @@ export class RemitenteFieldComponent {
   @Input() controlName = 'remitente_id';
   @Input() form?: FormGroup;
   @Input() groupName = '';
+  @Input() readonly = false;
   @Input() title = 'Remitente';
 
-  constructor(private remitenteService: RemitenteService) { }
+  @Output() valueChange = new EventEmitter<Remitente | undefined>();
+
+  constructor(private remitenteService: RemitenteService) {}
+
+  textValueFormat(value: Remitente): string {
+    return value.nombre;
+  }
+
+  value(value: Remitente): number {
+    return value.id;
+  }
 }

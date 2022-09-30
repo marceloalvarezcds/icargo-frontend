@@ -122,13 +122,16 @@ export class FleteFormDescuentosComponent {
     return this.fb.group({
       id: data.id,
       concepto_id: [data.concepto_id, Validators.required],
+      concepto_descripcion: data.concepto.descripcion,
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
+      propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_pago_proveedor: data.habilitar_pago_proveedor,
       proveedor_monto: data.proveedor_monto,
       proveedor_moneda_id: data.proveedor_moneda_id,
+      proveedor_moneda_simbolo: data.proveedor_moneda?.simbolo,
       proveedor_id: data.proveedor_id,
     });
   }

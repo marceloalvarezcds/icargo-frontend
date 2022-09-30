@@ -2,15 +2,22 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { filter } from 'rxjs/operators';
+import { FleteConfirmationDialogComponent } from 'src/app/dialogs/flete-confirmation-dialog/flete-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { getFleteData } from 'src/app/form-data/flete-confirmation-data';
+import { CentroOperativo } from 'src/app/interfaces/centro-operativo';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
+import { FleteConfirmationDialogData } from 'src/app/interfaces/flete-confirmation-dialog-data';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
+import { Producto } from 'src/app/interfaces/producto';
+import { Remitente } from 'src/app/interfaces/remitente';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -54,7 +61,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     info: this.fb.group({
       remitente_id: [null, Validators.required],
+      remitente_nombre: null,
       producto_id: [null, Validators.required],
+      producto_descripcion: null,
       tipo_carga_id: [null, Validators.required],
       numero_lote: null,
       publicado: true,
@@ -62,8 +71,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }),
     tramo: this.fb.group({
       origen_id: [null, Validators.required],
+      origen_nombre: null,
       origen_indicacion: null,
       destino_id: [null, Validators.required],
+      destino_nombre: [null, Validators.required],
       destino_indicacion: null,
       distancia: null,
     }),
@@ -71,27 +82,35 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       condicion_cantidad: [null, Validators.required],
       // inicio - Condiciones para el Gestor de Carga
       condicion_gestor_carga_moneda_id: [null, Validators.required],
+      condicion_gestor_carga_moneda_simbolo: null,
       condicion_gestor_carga_tarifa: [null, Validators.required],
       condicion_gestor_carga_unidad_id: [null, Validators.required],
+      condicion_gestor_carga_unidad_abreviatura: null,
       // fin - Condiciones para el Gestor de Carga
       // inicio - Condiciones para el Propietario
       condicion_propietario_moneda_id: [null, Validators.required],
+      condicion_propietario_moneda_simbolo: null,
       condicion_propietario_tarifa: [null, Validators.required],
       condicion_propietario_unidad_id: [null, Validators.required],
+      condicion_propietario_unidad_abreviatura: null,
       // fin - Condiciones para el Propietario
     }),
     merma: this.fb.group({
       // inicio - Mermas para el Gestor de Carga
       merma_gestor_carga_valor: [null, Validators.required],
       merma_gestor_carga_moneda_id: [null, Validators.required],
+      merma_gestor_carga_moneda_simbolo: null,
       merma_gestor_carga_unidad_id: [null, Validators.required],
+      merma_gestor_carga_unidad_abreviatura: null,
       merma_gestor_carga_es_porcentual: false,
       merma_gestor_carga_tolerancia: [null, Validators.required],
       // fin - Mermas para el Gestor de Carga
       // inicio - Mermas para el Propietario
       merma_propietario_valor: [null, Validators.required],
       merma_propietario_moneda_id: [null, Validators.required],
+      merma_propietario_moneda_simbolo: null,
       merma_propietario_unidad_id: [null, Validators.required],
+      merma_propietario_unidad_abreviatura: null,
       merma_propietario_es_porcentual: false,
       merma_propietario_tolerancia: [null, Validators.required],
       // fin - Mermas para el Propietario
@@ -180,7 +199,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   back(confirmed: boolean): void {
     if (confirmed) {
-      this.submit(confirmed);
+      this.save(confirmed);
     } else {
       this.router.navigate([this.backUrl]);
     }
@@ -200,41 +219,27 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  submit(confirmed: boolean): void {
+  save(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
-      const formData = new FormData();
-      const data = JSON.parse(
-        JSON.stringify({
-          ...this.info.value,
-          ...this.tramo.value,
-          ...this.condicion.value,
-          ...this.merma.value,
-          ...this.emisionOrden.value,
-          // vigencia_anticipos: this.form.value.vigencia_anticipos,
-          anticipos: this.anticipos.value,
-          complementos: this.complementos.value,
-          descuentos: this.descuentos.value,
+      const data: FleteConfirmationDialogData = {
+        flete: getFleteData(this.form),
+      };
+      this.dialog
+        .open(FleteConfirmationDialogComponent, {
+          data,
+          panelClass: 'selector-dialog',
+          position: {
+            top: '1rem',
+          },
         })
-      );
-      formData.append('data', JSON.stringify(data));
-      this.hasChange = false;
-      this.initialFormValue = this.form.value;
-      if (this.isEdit && this.id) {
-        this.fleteService.edit(this.id, formData).subscribe(() => {
-          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-          this.getData();
+        .afterClosed()
+        .pipe(filter((confirmed: any) => !!confirmed))
+        .subscribe(() => {
+          this.submit(confirmed);
         });
-      } else {
-        this.fleteService.create(formData).subscribe((flete) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flete/${m.FLETE}/${a.EDITAR}`,
-            flete.id,
-          ]);
-        });
-      }
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
@@ -245,6 +250,39 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         this.isComplementoTouched = this.complementos.invalid;
         this.isDescuentoTouched = this.descuentos.invalid;
         this.isEmisionOrdenTouched = this.emisionOrden.invalid;
+      });
+    }
+  }
+
+  submit(confirmed: boolean): void {
+    const formData = new FormData();
+    const data = JSON.parse(
+      JSON.stringify({
+        ...this.info.value,
+        ...this.tramo.value,
+        ...this.condicion.value,
+        ...this.merma.value,
+        ...this.emisionOrden.value,
+        // vigencia_anticipos: this.form.value.vigencia_anticipos,
+        anticipos: this.anticipos.value,
+        complementos: this.complementos.value,
+        descuentos: this.descuentos.value,
+      })
+    );
+    formData.append('data', JSON.stringify(data));
+    this.hasChange = false;
+    this.initialFormValue = this.form.value;
+    if (this.isEdit && this.id) {
+      this.fleteService.edit(this.id, formData).subscribe(() => {
+        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+        this.getData();
+      });
+    } else {
+      this.fleteService.create(formData).subscribe((flete) => {
+        this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
+          `/flete/${m.FLETE}/${a.EDITAR}`,
+          flete.id,
+        ]);
       });
     }
   }

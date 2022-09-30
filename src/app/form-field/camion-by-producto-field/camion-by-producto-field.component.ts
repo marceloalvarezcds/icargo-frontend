@@ -32,7 +32,7 @@ export class CamionByProductoFieldComponent {
     v: CamionList
   ) => v.id;
 
-  @Output() valueChange = new EventEmitter<CamionList>();
+  @Output() valueChange = new EventEmitter<CamionList | undefined>();
 
   @ViewChild('app-generic-list-field')
   GenericListFieldComponent?: GenericListFieldComponent<CamionList>;
