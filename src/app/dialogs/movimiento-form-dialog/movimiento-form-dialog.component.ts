@@ -92,6 +92,14 @@ export class MovimientoFormDialogComponent {
     return this.form.get('contraparte_numero_documento') as FormControl;
   }
 
+  get cuentaControl(): FormControl {
+    return this.form.get('cuenta_id') as FormControl;
+  }
+
+  get cuentaId(): number | undefined {
+    return this.cuentaControl.value;
+  }
+
   get tipoContraparteId(): number | null {
     return (
       this.data?.tipo_contraparte_id ??

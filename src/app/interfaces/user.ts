@@ -31,6 +31,7 @@ export interface User extends UserForm {
 
 export interface UserAccount extends User {
   permisos: Permiso[];
+  is_admin_icargo: boolean;
 }
 
 export const mockUser: User = {
@@ -84,4 +85,5 @@ export const mockUserList = [mockUser, mockUser2];
 export const mockUserAccount: UserAccount = {
   ...mockUser,
   permisos: mockPermisoList,
+  is_admin_icargo: false,
 };

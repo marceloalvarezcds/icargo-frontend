@@ -1,9 +1,10 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
+import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { SeleccionableService } from './seleccionable.service';
 
 describe('SeleccionableService', () => {
-  let service: SeleccionableService;
+  let service: SeleccionableService<SeleccionableBaseModel>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

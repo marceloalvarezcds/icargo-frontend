@@ -9,6 +9,7 @@ import { BancoByGestorDialogFieldComponent } from './banco-by-gestor-dialog-fiel
 import { CajaByGestorDialogFieldComponent } from './caja-by-gestor-dialog-field/caja-by-gestor-dialog-field.component';
 import { CamionByGestorFieldComponent } from './camion-by-gestor-field/camion-by-gestor-field.component';
 import { CamionByProductoFieldComponent } from './camion-by-producto-field/camion-by-producto-field.component';
+import { CargoFieldComponent } from './cargo-field/cargo-field.component';
 import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
 import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
@@ -59,6 +60,7 @@ import { RolFormFieldControlComponent } from './rol-form-field-control/rol-form-
 import { SemiByCamionProductoFieldComponent } from './semi-by-camion-producto-field/semi-by-camion-producto-field.component';
 import { SemiByGestorDialogFieldComponent } from './semi-by-gestor-dialog-field/semi-by-gestor-dialog-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
+import { SlideComponent } from './slide/slide.component';
 import { TelefonoFieldComponent } from './telefono-field/telefono-field.component';
 import { TipoAnticipoByFleteFieldComponent } from './tipo-anticipo-by-flete-field/tipo-anticipo-by-flete-field.component';
 import { TipoAnticipoFieldComponent } from './tipo-anticipo-field/tipo-anticipo-field.component';
@@ -68,15 +70,16 @@ import { TipoComprobanteFieldComponent } from './tipo-comprobante-field/tipo-com
 import { TipoConceptoComplementoFieldComponent } from './tipo-concepto-complemento-field/tipo-concepto-complemento-field.component';
 import { TipoConceptoDescuentoFieldComponent } from './tipo-concepto-descuento-field/tipo-concepto-descuento-field.component';
 import { TipoContraparteFieldComponent } from './tipo-contraparte-field/tipo-contraparte-field.component';
+import { TipoCuentaFieldComponent } from './tipo-cuenta-field/tipo-cuenta-field.component';
 import { TipoDocumentoFieldComponent } from './tipo-documento-field/tipo-documento-field.component';
 import { TipoInstrumentoViaBancoFieldComponent } from './tipo-instrumento-via-banco-field/tipo-instrumento-via-banco-field.component';
 import { TipoInsumoByFleteFieldComponent } from './tipo-insumo-by-flete-field/tipo-insumo-by-flete-field.component';
 import { TipoIvaFieldComponent } from './tipo-iva-field/tipo-iva-field.component';
+import { TipoMovimientoByCuentaFieldComponent } from './tipo-movimiento-by-cuenta-field/tipo-movimiento-by-cuenta-field.component';
 import { TipoPersonaFieldComponent } from './tipo-persona-field/tipo-persona-field.component';
 import { TipoRegistroFieldComponent } from './tipo-registro-field/tipo-registro-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 import { UnidadFieldComponent } from './unidad-field/unidad-field.component';
-import { SlideComponent } from './slide/slide.component';
 
 const modules = [
   AliasFieldComponent,
@@ -84,6 +87,7 @@ const modules = [
   CajaByGestorDialogFieldComponent,
   CamionByGestorFieldComponent,
   CamionByProductoFieldComponent,
+  CargoFieldComponent,
   CentroOperativoByGestorDialogFieldComponent,
   CentroOperativoFieldComponent,
   ChoferFieldComponent,
@@ -143,10 +147,12 @@ const modules = [
   TipoConceptoComplementoFieldComponent,
   TipoConceptoDescuentoFieldComponent,
   TipoContraparteFieldComponent,
+  TipoCuentaFieldComponent,
   TipoDocumentoFieldComponent,
   TipoInstrumentoViaBancoFieldComponent,
   TipoInsumoByFleteFieldComponent,
   TipoIvaFieldComponent,
+  TipoMovimientoByCuentaFieldComponent,
   TipoPersonaFieldComponent,
   TipoRegistroFieldComponent,
   TipoSemiFieldComponent,
@@ -154,7 +160,7 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, SlideComponent],
+  declarations: [...modules.slice(), AccionPipe],
   exports: modules.slice(),
   imports: [
     CommonModule,

@@ -1,18 +1,17 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 
-import { CargoService } from './cargo.service';
-import { SeleccionableService } from './seleccionable.service';
+import { TipoMovimientoService } from './tipo-movimiento.service';
 
-describe('CargoService', () => {
-  let service: CargoService;
+describe('TipoMovimientoService', () => {
+  let service: TipoMovimientoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
-      providers: [CargoService, SeleccionableService],
+      providers: [TipoMovimientoService],
     });
-    service = TestBed.inject(CargoService);
+    service = TestBed.inject(TipoMovimientoService);
   });
 
   it('should be created', () => {

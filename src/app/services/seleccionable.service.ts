@@ -7,7 +7,7 @@ import { environment } from 'src/environments/environment';
 @Injectable({
   providedIn: 'root',
 })
-export class SeleccionableService {
+export class SeleccionableService<T extends SeleccionableBaseModel> {
   private url = '';
 
   constructor(private http: HttpClient) {}
@@ -16,31 +16,31 @@ export class SeleccionableService {
     this.url = `${environment.api}/${endpoint}`;
   }
 
-  getActiveList<T extends SeleccionableBaseModel>(): Observable<T[]> {
+  getActiveList(): Observable<T[]> {
     return this.http.get<T[]>(`${this.url}/active_list`);
   }
 
-  getList(): Observable<SeleccionableBaseModel[]> {
-    return this.http.get<SeleccionableBaseModel[]>(`${this.url}/`);
+  getList(): Observable<T[]> {
+    return this.http.get<T[]>(`${this.url}/`);
   }
 
-  getById(id: number): Observable<SeleccionableBaseModel> {
-    return this.http.get<SeleccionableBaseModel>(`${this.url}/${id}`);
+  getById(id: number): Observable<T> {
+    return this.http.get<T>(`${this.url}/${id}`);
   }
 
-  create(formData: FormData): Observable<SeleccionableBaseModel> {
-    return this.http.post<SeleccionableBaseModel>(`${this.url}/`, formData);
+  create(formData: FormData): Observable<T> {
+    return this.http.post<T>(`${this.url}/`, formData);
   }
 
-  edit(id: number, formData: FormData): Observable<SeleccionableBaseModel> {
-    return this.http.put<SeleccionableBaseModel>(`${this.url}/${id}`, formData);
+  edit(id: number, formData: FormData): Observable<T> {
+    return this.http.put<T>(`${this.url}/${id}`, formData);
   }
 
-  active(id: number): Observable<SeleccionableBaseModel> {
-    return this.http.get<SeleccionableBaseModel>(`${this.url}/${id}/active`);
+  active(id: number): Observable<T> {
+    return this.http.get<T>(`${this.url}/${id}/active`);
   }
 
-  inactive(id: number): Observable<SeleccionableBaseModel> {
-    return this.http.get<SeleccionableBaseModel>(`${this.url}/${id}/inactive`);
+  inactive(id: number): Observable<T> {
+    return this.http.get<T>(`${this.url}/${id}/inactive`);
   }
 }

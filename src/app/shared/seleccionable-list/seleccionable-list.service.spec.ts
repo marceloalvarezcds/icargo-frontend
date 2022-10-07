@@ -9,12 +9,17 @@ import {
 } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
+import { SeleccionableFormDialogData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { SeleccionableService } from 'src/app/services/seleccionable.service';
 
 import { SeleccionableListService } from './seleccionable-list.service';
 
 describe('SeleccionableListService', () => {
-  let service: SeleccionableListService;
+  let service: SeleccionableListService<
+    SeleccionableFormDialogComponent,
+    SeleccionableFormDialogData
+  >;
 
   beforeEach(() => {
     TestBed.configureTestingModule({

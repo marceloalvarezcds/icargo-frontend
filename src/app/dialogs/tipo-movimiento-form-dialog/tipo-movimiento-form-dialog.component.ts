@@ -1,48 +1,45 @@
-import { Injectable } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { seleccionableData } from 'src/app/form-data/seleccionable';
-import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { SeleccionableFormDialogData } from 'src/app/interfaces/seleccionable-form-dialog-data';
-import { SeleccionableService } from 'src/app/services/seleccionable.service';
+import { TipoMovimiento } from 'src/app/interfaces/tipo-movimiento';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { TipoMovimientoService } from 'src/app/services/tipo-movimiento.service';
 
-@Injectable({
-  providedIn: 'root',
+@Component({
+  selector: 'app-tipo-movimiento-form-dialog',
+  templateUrl: './tipo-movimiento-form-dialog.component.html',
+  styleUrls: ['./tipo-movimiento-form-dialog.component.scss'],
 })
-export class SeleccionableFormDialogService {
+export class TipoMovimientoFormDialogComponent {
   modelo!: m;
   submodule!: string;
-  dialogRef!: MatDialogRef<any>;
   form = this.fb.group({
-    descripcion: [null, Validators.required],
-    gestor_carga_id: null,
+    descripcion: [this.data?.descripcion, Validators.required],
+    cuenta_id: [this.data?.cuenta_id, Validators.required],
   });
 
-  private dialogData?: SeleccionableFormDialogData;
-
-  get data(): SeleccionableBaseModel | undefined {
+  get data(): TipoMovimiento | undefined {
     return this.dialogData?.item;
   }
 
-  constructor(
-    private fb: FormBuilder,
-    private snackbar: SnackbarService,
-    private service: SeleccionableService<SeleccionableBaseModel>
-  ) {}
-
-  setDialogData(data: SeleccionableFormDialogData): void {
-    const { modelo, submodule } = data;
-    this.dialogData = data;
-    this.modelo = modelo;
-    this.submodule = submodule;
-    this.service.setEndpoint(modelo);
-    this.form.controls['descripcion'].setValue(data.item?.descripcion);
+  get actionText(): string {
+    return this.data ? 'Editar' : 'Crear';
   }
 
-  setDialogRef(dialogRef: MatDialogRef<any>): void {
-    this.dialogRef = dialogRef;
+  constructor(
+    @Inject(MAT_DIALOG_DATA)
+    private dialogData: SeleccionableFormDialogData<TipoMovimiento>,
+    private dialogRef: MatDialogRef<TipoMovimientoFormDialogComponent>,
+    private fb: FormBuilder,
+    private snackbar: SnackbarService,
+    private service: TipoMovimientoService
+  ) {
+    const { modelo, submodule } = dialogData;
+    this.modelo = modelo;
+    this.submodule = submodule;
   }
 
   submit() {

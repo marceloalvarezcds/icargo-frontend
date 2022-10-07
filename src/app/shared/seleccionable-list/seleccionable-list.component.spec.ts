@@ -17,8 +17,10 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
+import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Cargo, mockCargoList } from 'src/app/interfaces/cargo';
+import { SeleccionableFormDialogData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -30,8 +32,16 @@ import { environment } from 'src/environments/environment';
 import { SeleccionableListComponent } from './seleccionable-list.component';
 
 describe('SeleccionableListComponent', () => {
-  let component: SeleccionableListComponent;
-  let fixture: ComponentFixture<SeleccionableListComponent>;
+  let component: SeleccionableListComponent<
+    SeleccionableFormDialogComponent,
+    SeleccionableFormDialogData
+  >;
+  let fixture: ComponentFixture<
+    SeleccionableListComponent<
+      SeleccionableFormDialogComponent,
+      SeleccionableFormDialogData
+    >
+  >;
   let httpController: HttpTestingController;
   let pageComponent: DebugElement;
   let tableComponent: DebugElement;
@@ -77,7 +87,12 @@ describe('SeleccionableListComponent', () => {
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SeleccionableListComponent);
+    fixture = TestBed.createComponent<
+      SeleccionableListComponent<
+        SeleccionableFormDialogComponent,
+        SeleccionableFormDialogData
+      >
+    >(SeleccionableListComponent);
     httpController = TestBed.inject(HttpTestingController);
     component = fixture.componentInstance;
     pageComponent = findElement(fixture, 'app-page');

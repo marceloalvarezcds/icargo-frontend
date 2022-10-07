@@ -58,12 +58,7 @@ describe('ContactoFormDialogComponent', () => {
     fixture = TestBed.createComponent(ContactoFormDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    httpController = TestBed.inject(HttpTestingController);
-    httpController
-      .expectOne(`${environment.api}/cargo/active_list`)
-      .flush(mockCargoList);
     expect(component).toBeTruthy();
-    httpController.verify();
   });
 
   it('should submitted', fakeAsync(() => {
@@ -126,9 +121,6 @@ describe('ContactoFormDialogComponent', () => {
     component.telefonoBlur$.next(true);
     tick();
 
-    httpController
-      .expectOne(`${environment.api}/cargo/active_list`)
-      .flush(mockCargoList);
     httpController
       .expectOne(`${environment.api}/contacto/${telefono}/${email}`)
       .flush(mockContacto);

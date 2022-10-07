@@ -13,7 +13,9 @@ import { SeleccionableListService } from './seleccionable-list.service';
   styleUrls: ['./seleccionable-list.component.scss'],
   providers: [SeleccionableListService],
 })
-export class SeleccionableListComponent implements OnInit {
+export class SeleccionableListComponent<DialogComponent, DialogData>
+  implements OnInit
+{
   get modelo(): m {
     return this.service.modelo;
   }
@@ -32,9 +34,11 @@ export class SeleccionableListComponent implements OnInit {
 
   constructor(
     route: ActivatedRoute,
-    private service: SeleccionableListService
+    private service: SeleccionableListService<DialogComponent, DialogData>
   ) {
-    this.service.setRouteData(route.snapshot.data as SeleccionableRouteData);
+    this.service.setRouteData(
+      route.snapshot.data as SeleccionableRouteData<DialogComponent, DialogData>
+    );
   }
 
   ngOnInit(): void {

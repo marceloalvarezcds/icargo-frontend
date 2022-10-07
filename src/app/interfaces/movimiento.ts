@@ -5,7 +5,7 @@ import { Moneda } from './moneda';
 import { TipoContraparte } from './tipo-contraparte';
 import { TipoCuenta } from './tipo-cuenta';
 import { TipoDocumentoRelacionado } from './tipo-documento-relacionado';
-import { TipoMovimiento } from './tipo-movimiento';
+import { TipoMovimiento, mockTipoMovimientoList } from './tipo-movimiento';
 
 export interface MovimientoBaseModel {
   id: number | null;
@@ -160,11 +160,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'Viajes',
     },
-    tipo_movimiento: {
-      estado: EstadoEnum.ACTIVO,
-      id: 2,
-      descripcion: 'Flete',
-    },
+    tipo_movimiento: mockTipoMovimientoList[0],
     moneda: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -267,11 +263,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'Viajes',
     },
-    tipo_movimiento: {
-      estado: EstadoEnum.ACTIVO,
-      id: 5,
-      descripcion: 'Merma',
-    },
+    tipo_movimiento: mockTipoMovimientoList[1],
     moneda: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -375,11 +367,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'Viajes',
     },
-    tipo_movimiento: {
-      estado: EstadoEnum.ACTIVO,
-      id: 4,
-      descripcion: 'Descuento',
-    },
+    tipo_movimiento: mockTipoMovimientoList[2],
     moneda: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -482,11 +470,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'Viajes',
     },
-    tipo_movimiento: {
-      estado: EstadoEnum.ACTIVO,
-      id: 3,
-      descripcion: 'Complemento',
-    },
+    tipo_movimiento: mockTipoMovimientoList[3],
     moneda: {
       estado: EstadoEnum.ACTIVO,
       id: 1,
@@ -589,11 +573,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'Viajes',
     },
-    tipo_movimiento: {
-      estado: EstadoEnum.ACTIVO,
-      id: 1,
-      descripcion: 'Anticipo',
-    },
+    tipo_movimiento: mockTipoMovimientoList[0],
     moneda: {
       estado: EstadoEnum.ACTIVO,
       id: 1,

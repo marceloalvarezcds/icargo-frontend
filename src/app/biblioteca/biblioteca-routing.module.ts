@@ -3,17 +3,26 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  permisoModeloTitulo,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
-import { SeleccionableListComponent } from './seleccionable-list/seleccionable-list.component';
+import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
+import { SeleccionableListComponent } from 'src/app/shared/seleccionable-list/seleccionable-list.component';
+import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 
 const routes: Routes = [
   {
     path: m.CARGO,
     data: {
       modelo: m.CARGO,
-      submodule: 'Cargo',
+      submodule: permisoModeloTitulo[m.CARGO],
       changeStatusMsg: 'al Cargo',
+      dialogComponent: SeleccionableFormDialogComponent,
+      getDialogData: (item?: SeleccionableBaseModel) => ({
+        item,
+        modelo: m.CARGO,
+        submodule: permisoModeloTitulo[m.CARGO],
+      }),
     },
     children: [
       {
@@ -34,4 +43,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],
 })
-export class ConfiguracionesRoutingModule {}
+export class BibliotecaRoutingModule {}

@@ -7,7 +7,6 @@ import { Cargo } from 'src/app/interfaces/cargo';
 import { Contacto } from 'src/app/interfaces/contacto';
 import { ContactoGestorCargaList } from 'src/app/interfaces/contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
-import { CargoService } from 'src/app/services/cargo.service';
 import { ContactoService } from 'src/app/services/contacto.service';
 import { UserService } from 'src/app/services/user.service';
 import { emailValidator } from 'src/app/validators/email-validator';
@@ -19,7 +18,6 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class ContactoFormDialogComponent implements OnDestroy {
   isExistContacto = false;
-  cargoList$ = this.cargoService.getList();
   telefonoBlur$ = new Subject<boolean>();
   emailBlur$ = new Subject<boolean>();
   user?: User;
@@ -41,6 +39,10 @@ export class ContactoFormDialogComponent implements OnDestroy {
 
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';
+  }
+
+  get cargoControl(): FormControl {
+    return this.form.get('cargo') as FormControl;
   }
 
   get telefonoControl(): FormControl {
@@ -76,7 +78,6 @@ export class ContactoFormDialogComponent implements OnDestroy {
   constructor(
     public dialogRef: MatDialogRef<ContactoFormDialogComponent>,
     private fb: FormBuilder,
-    private cargoService: CargoService,
     private contactoService: ContactoService,
     private userService: UserService,
     @Inject(MAT_DIALOG_DATA) private data?: ContactoGestorCargaList

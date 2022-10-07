@@ -1,13 +1,10 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
-import {
-  SeleccionableFormDialogData,
-  SeleccionableRouteData,
-} from 'src/app/interfaces/seleccionable-form-dialog-data';
+import { SeleccionableRouteData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SeleccionableService } from 'src/app/services/seleccionable.service';
 import { create, edit } from 'src/app/utils/table-event-crud';
@@ -15,10 +12,12 @@ import { create, edit } from 'src/app/utils/table-event-crud';
 @Injectable({
   providedIn: 'root',
 })
-export class SeleccionableListService {
+export class SeleccionableListService<DialogComponent, DialogData> {
   modelo!: m;
   submodule!: string;
   private changeStatusMsg!: string;
+  private dialogComponent!: ComponentType<DialogComponent>;
+  private getDialogData?: (item?: SeleccionableBaseModel) => DialogData;
 
   private cols: Column[] = [
     {
@@ -74,14 +73,24 @@ export class SeleccionableListService {
 
   constructor(
     private dialog: DialogService,
-    private service: SeleccionableService
+    private service: SeleccionableService<SeleccionableBaseModel>
   ) {}
 
-  setRouteData(data: SeleccionableRouteData): void {
-    const { modelo, submodule, changeStatusMsg } = data;
+  setRouteData(
+    data: SeleccionableRouteData<DialogComponent, DialogData>
+  ): void {
+    const {
+      modelo,
+      submodule,
+      changeStatusMsg,
+      dialogComponent,
+      getDialogData,
+    } = data;
     this.modelo = modelo;
     this.submodule = submodule;
     this.changeStatusMsg = changeStatusMsg;
+    this.dialogComponent = dialogComponent;
+    this.getDialogData = getDialogData;
     this.service.setEndpoint(modelo);
   }
 
@@ -121,16 +130,11 @@ export class SeleccionableListService {
 
   private getDialogRef(
     item?: SeleccionableBaseModel
-  ): MatDialogRef<
-    SeleccionableFormDialogComponent,
-    SeleccionableFormDialogData
-  > {
-    const data: SeleccionableFormDialogData = {
-      item,
-      modelo: this.modelo,
-      submodule: this.submodule,
-    };
-    return this.dialog.open(SeleccionableFormDialogComponent, { data });
+  ): MatDialogRef<DialogComponent, DialogData> {
+    const data: DialogData | null = this.getDialogData
+      ? this.getDialogData(item)
+      : null;
+    return this.dialog.open(this.dialogComponent, { data });
   }
 
   private changeStatusMessage(

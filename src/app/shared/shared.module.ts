@@ -19,6 +19,7 @@ import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 import { PageFormComponent } from './page-form/page-form.component';
 import { PageComponent } from './page/page.component';
 import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
+import { SeleccionableListComponent } from './seleccionable-list/seleccionable-list.component';
 import { SelectableItemTableComponent } from './selectable-item-table/selectable-item-table.component';
 import { SelectableMovimientoTableComponent } from './selectable-movimiento-table/selectable-movimiento-table.component';
 import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
@@ -38,6 +39,7 @@ const modules = [
   PageFormComponent,
   PageFormGeoComponent,
   SearchableCheckboxFilterComponent,
+  SeleccionableListComponent,
   SelectableItemTableComponent,
   SelectableMovimientoTableComponent,
   TableComponent,

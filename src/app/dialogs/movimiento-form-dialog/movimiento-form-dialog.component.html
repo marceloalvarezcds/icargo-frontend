@@ -13,6 +13,14 @@
       [hidden]="!liquidacionId"
       [readonly]="!isContraparteEditable"
     ></app-input-field>
+    <app-tipo-cuenta-field
+      [form]="form"
+      controlName="cuenta_id"
+    ></app-tipo-cuenta-field>
+    <app-tipo-movimiento-by-cuenta-field
+      [form]="form"
+      [cuentaId]="cuentaId"
+    ></app-tipo-movimiento-by-cuenta-field>
     <app-tipo-contraparte-field
       [form]="form"
       [readonly]="!isContraparteEditable"

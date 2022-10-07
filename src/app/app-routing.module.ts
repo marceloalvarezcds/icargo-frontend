@@ -36,10 +36,10 @@ const routes: Routes = [
           import('./caja/caja.module').then((m) => m.CajaModule),
       },
       {
-        path: 'config',
+        path: 'biblioteca',
         loadChildren: () =>
-          import('./configuraciones/configuraciones.module').then(
-            (m) => m.ConfiguracionesModule
+          import('./biblioteca/biblioteca.module').then(
+            (m) => m.BibliotecaModule
           ),
       },
       {
@@ -74,6 +74,13 @@ const routes: Routes = [
         loadChildren: () =>
           import('./orden-carga/orden-carga.module').then(
             (m) => m.OrdenCargaModule
+          ),
+      },
+      {
+        path: 'parametros',
+        loadChildren: () =>
+          import('./parametros/parametros.module').then(
+            (m) => m.ParametrosModule
           ),
       },
       {

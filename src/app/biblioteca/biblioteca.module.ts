@@ -6,14 +6,13 @@ import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { ConfiguracionesRoutingModule } from './configuraciones-routing.module';
-import { SeleccionableListComponent } from './seleccionable-list/seleccionable-list.component';
+import { BibliotecaRoutingModule } from './biblioteca-routing.module';
 
 @NgModule({
-  declarations: [SeleccionableListComponent],
+  declarations: [],
   imports: [
     CommonModule,
-    ConfiguracionesRoutingModule,
+    BibliotecaRoutingModule,
     DirectivesModule,
     FormFieldModule,
     FormsModule,
@@ -23,4 +22,4 @@ import { SeleccionableListComponent } from './seleccionable-list/seleccionable-l
     SharedModule,
   ],
 })
-export class ConfiguracionesModule {}
+export class BibliotecaModule {}

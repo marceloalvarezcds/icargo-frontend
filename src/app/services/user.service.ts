@@ -45,6 +45,10 @@ export class UserService {
     return checkPermiso(this.userSubject.value, accion, modelo);
   }
 
+  checkIfIsAdminIcargo(): boolean {
+    return this.userSubject.value?.is_admin_icargo ?? false;
+  }
+
   checkPermisoAndGestorCargaId(
     accion: PermisoAccionEnum,
     modelo: PermisoModeloEnum,

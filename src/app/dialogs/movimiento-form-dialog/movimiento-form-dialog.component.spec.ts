@@ -114,6 +114,9 @@ describe('MovimientoFormDialogComponent', () => {
       fecha_cambio_moneda: data.fecha_cambio_moneda,
     });
     httpController
+      .match(`${environment.api}/tipo_cuenta/active_list`)
+      .forEach((r) => r.flush(mockTipoContraparteList));
+    httpController
       .match(`${environment.api}/tipo_contraparte/`)
       .forEach((r) => r.flush(mockTipoContraparteList));
     httpController
