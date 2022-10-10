@@ -1,12 +1,25 @@
-<app-generic-list-field
-  *ngIf="form"
-  errorMessage="El camión es <strong>requerido</strong>"
-  [title]="title"
-  [controlName]="controlName"
-  [groupName]="groupName"
-  [textValueFormat]="textValueFormat"
-  [value]="value"
-  [list$]="list$"
-  [form]="form"
-  (valueChange)="valueChange.emit($event)"
-></app-generic-list-field>
+<ng-container *ngIf="list$ | async as list; else empty">
+  <app-generic-list-field
+    *ngIf="form"
+    errorMessage="El camión es <strong>requerido</strong>"
+    [hint]="
+      list.length
+        ? ''
+        : 'No hay Camiones y/o Choferes activos para el Flete elegido'
+    "
+    [title]="title"
+    [controlName]="controlName"
+    [groupName]="groupName"
+    [textValueFormat]="textValueFormat"
+    [value]="value"
+    [list]="list"
+    [form]="form"
+    (valueChange)="valueChange.emit($event)"
+  ></app-generic-list-field>
+</ng-container>
+<ng-template #empty>
+  <mat-form-field>
+    <mat-label>{{ title }}</mat-label>
+    <input matInput [disabled]="true" />
+  </mat-form-field>
+</ng-template>

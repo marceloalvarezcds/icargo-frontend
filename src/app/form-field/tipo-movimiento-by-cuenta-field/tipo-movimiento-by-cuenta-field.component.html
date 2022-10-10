@@ -1,4 +1,4 @@
-<ng-container *ngIf="list$ | async as list">
+<ng-container *ngIf="list$ | async as list; else empty">
   <app-generic-list-field
     *ngIf="form"
     errorMessage="El concepto es <strong>requerido</strong>"
@@ -15,3 +15,9 @@
     (valueChange)="valueChange.emit($event)"
   ></app-generic-list-field>
 </ng-container>
+<ng-template #empty>
+  <mat-form-field>
+    <mat-label>{{ title }}</mat-label>
+    <input matInput [disabled]="true" />
+  </mat-form-field>
+</ng-template>
