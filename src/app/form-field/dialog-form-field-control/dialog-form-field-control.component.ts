@@ -12,7 +12,7 @@ import {
   OnDestroy,
   OnInit,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -20,16 +20,23 @@ import {
   FormBuilder,
   FormControl,
   NgControl,
-  NG_VALUE_ACCESSOR
+  NG_VALUE_ACCESSOR,
 } from '@angular/forms';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Observable, Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
-import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate-list';
+import {
+  PaginatedList,
+  PaginatedListRequest,
+} from 'src/app/interfaces/paginate-list';
 
 @Component({
   selector: 'app-dialog-form-field-control',
@@ -48,8 +55,10 @@ import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate
     },
   ],
 })
-export class DialogFormFieldControlComponent<T extends { id: number }>
-  implements
+export class DialogFormFieldControlComponent<
+  T extends { id: number },
+  DialogComponent = SelectorDialogComponent<T>
+> implements
     ControlValueAccessor,
     MatFormFieldControl<number>,
     OnDestroy,
@@ -91,7 +100,12 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
     return this.focused || !this.empty || !!this.selectedValue;
   }
 
-  @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
+  @Input() dialogRefFunction?: (
+    selectedValue: T | undefined
+  ) => MatDialogRef<DialogComponent>;
+  @Input() fetchFunction?: (
+    request: PaginatedListRequest
+  ) => Observable<PaginatedList<T>>;
   @Input() columns: Column[] = [];
   @Input() descripcionPropName!: string;
   @Input() title = '';
@@ -264,6 +278,19 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
   }
 
   openDialog(): void {
+    const dialogRef = this.dialogRefFunction
+      ? this.dialogRefFunction(this.selectedValue)
+      : this.getDefaultDialogRef();
+    dialogRef
+      .afterClosed()
+      .pipe(filter((contacto) => !!contacto))
+      .subscribe((selectedValue: T) => {
+        this.lista = [selectedValue];
+        this.writeValue(selectedValue.id);
+      });
+  }
+
+  private getDefaultDialogRef(): MatDialogRef<SelectorDialogComponent<T>> {
     const data: SelectorDialogData<T> = {
       list: this.list.slice(),
       columns: this.columns.slice(),
@@ -278,14 +305,10 @@ export class DialogFormFieldControlComponent<T extends { id: number }>
         top: '1rem',
       },
     };
-    this.dialog
-      .open(SelectorDialogComponent, config)
-      .afterClosed()
-      .pipe(filter((contacto) => !!contacto))
-      .subscribe((selectedValue: T) => {
-        this.lista = [selectedValue]
-        this.writeValue(selectedValue.id);
-      });
+    return this.dialog.open<SelectorDialogComponent<T>>(
+      SelectorDialogComponent,
+      config
+    );
   }
 
   private loadDescripcionAndEmitValue(): void {

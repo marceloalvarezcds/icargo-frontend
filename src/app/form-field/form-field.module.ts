@@ -11,6 +11,7 @@ import { CamionByGestorFieldComponent } from './camion-by-gestor-field/camion-by
 import { CamionByProductoFieldComponent } from './camion-by-producto-field/camion-by-producto-field.component';
 import { CargoFieldComponent } from './cargo-field/cargo-field.component';
 import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
+import { CentroOperativoByGestorMapDialogFieldComponent } from './centro-operativo-by-gestor-map-dialog-field/centro-operativo-by-gestor-map-dialog-field.component';
 import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { CiudadDialogFieldComponent } from './ciudad-dialog-field/ciudad-dialog-field.component';
@@ -89,6 +90,7 @@ const modules = [
   CamionByProductoFieldComponent,
   CargoFieldComponent,
   CentroOperativoByGestorDialogFieldComponent,
+  CentroOperativoByGestorMapDialogFieldComponent,
   CentroOperativoFieldComponent,
   ChoferFieldComponent,
   CiudadDialogFieldComponent,

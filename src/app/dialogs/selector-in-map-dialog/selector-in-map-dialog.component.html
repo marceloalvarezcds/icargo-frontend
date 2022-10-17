@@ -1,0 +1,84 @@
+<div class="selector-dialog-container">
+  <h1 mat-dialog-title>
+    Selector de {{ title }}
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content #dialogContent>
+    <mat-form-field class="search-item" appearance="standard">
+      <mat-icon matPrefix color="primary">search</mat-icon>
+      <input
+        matInput
+        placeholder="Buscar"
+        [formControl]="searchControl"
+        autocomplete="off"
+      />
+      <button
+        *ngIf="searchValue"
+        matSuffix
+        mat-icon-button
+        aria-label="Clear"
+        (click)="searchControl.setValue('')"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-form-field>
+    <div class="map-container">
+      <div class="row">
+        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+          <div class="info-list-container">
+            <ng-container *ngFor="let marker of markerFilteredList">
+              <div
+                class="info-container"
+                [class.active]="marker.isActive"
+                [class.selected]="marker.isSelected"
+                (mouseover)="activeMarker(marker)"
+                (mouseout)="deactiveMarker(marker)"
+                (click)="
+                  setSelectValue(marker.info, marker); $event.stopPropagation()
+                "
+              >
+                <div class="info-selector" #radio>
+                  <mat-radio-group
+                    [(ngModel)]="selectValue"
+                    (change)="setSelectValue($event.value, marker)"
+                  >
+                    <mat-radio-button [value]="marker.info"></mat-radio-button>
+                  </mat-radio-group>
+                </div>
+                <div
+                  class="info-template-container"
+                  [innerHTML]="marker.template"
+                ></div>
+              </div>
+              <mat-divider></mat-divider>
+            </ng-container>
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" #mapContainer>
+          <app-google-map
+            [title]="title"
+            [isShow]="true"
+            [width]="mapContainer.offsetWidth - 24"
+            [height]="dialogContent.offsetHeight - 71"
+          ></app-google-map>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button
+      mat-raised-button
+      type="button"
+      (click)="select()"
+      cdkFocusInitial
+      [disabled]="!selectValue"
+      color="primary"
+      id="select-button"
+    >
+      Seleccionar
+    </button>
+  </div>
+</div>

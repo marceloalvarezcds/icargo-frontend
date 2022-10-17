@@ -3,12 +3,17 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild
+  ViewChild,
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
+import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
-import { PaginatedList, PaginatedListRequest } from 'src/app/interfaces/paginate-list';
+import {
+  PaginatedList,
+  PaginatedListRequest,
+} from 'src/app/interfaces/paginate-list';
 import { DialogFormFieldControlComponent } from '../dialog-form-field-control/dialog-form-field-control.component';
 
 @Component({
@@ -17,7 +22,10 @@ import { DialogFormFieldControlComponent } from '../dialog-form-field-control/di
   styleUrls: ['./dialog-field.component.scss'],
   exportAs: 'app-dialog-field',
 })
-export class DialogFieldComponent<T extends { id: number }> {
+export class DialogFieldComponent<
+  T extends { id: number },
+  DialogComponent = SelectorDialogComponent<T>
+> {
   get group(): FormGroup {
     if (this.groupName) {
       return this.form?.get(this.groupName) as FormGroup;
@@ -40,7 +48,12 @@ export class DialogFieldComponent<T extends { id: number }> {
   @Input() inputValuePropName!: string;
   @Input() list: T[] = [];
   @Input() title = '';
-  @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
+  @Input() dialogRefFunction?: (
+    selectedValue: T | undefined
+  ) => MatDialogRef<DialogComponent>;
+  @Input() fetchFunction?: (
+    request: PaginatedListRequest
+  ) => Observable<PaginatedList<T>>;
 
   @Output() clearClick = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();

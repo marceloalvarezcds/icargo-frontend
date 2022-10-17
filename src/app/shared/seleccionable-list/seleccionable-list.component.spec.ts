@@ -3,7 +3,7 @@ import {
   HttpClientTestingModule,
   HttpTestingController,
 } from '@angular/common/http/testing';
-import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
+import { Component, CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
 import {
   ComponentFixture,
   fakeAsync,
@@ -17,12 +17,12 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
-import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Cargo, mockCargoList } from 'src/app/interfaces/cargo';
 import { SeleccionableFormDialogData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { TableEvent } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SeleccionableService } from 'src/app/services/seleccionable.service';
@@ -32,15 +32,15 @@ import { environment } from 'src/environments/environment';
 import { SeleccionableListComponent } from './seleccionable-list.component';
 
 describe('SeleccionableListComponent', () => {
+  @Component({ template: '' })
+  class TestComponent {}
+
   let component: SeleccionableListComponent<
-    SeleccionableFormDialogComponent,
+    TestComponent,
     SeleccionableFormDialogData
   >;
   let fixture: ComponentFixture<
-    SeleccionableListComponent<
-      SeleccionableFormDialogComponent,
-      SeleccionableFormDialogData
-    >
+    SeleccionableListComponent<TestComponent, SeleccionableFormDialogData>
   >;
   let httpController: HttpTestingController;
   let pageComponent: DebugElement;
@@ -78,20 +78,18 @@ describe('SeleccionableListComponent', () => {
         SeleccionableService,
         ReportsService,
         SearchService,
+        DialogService,
         { provide: ActivatedRoute, useValue: route },
         { provide: MatSnackBarRef, useValue: MatSnackBar },
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [SeleccionableListComponent],
+      declarations: [SeleccionableListComponent, TestComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent<
-      SeleccionableListComponent<
-        SeleccionableFormDialogComponent,
-        SeleccionableFormDialogData
-      >
+      SeleccionableListComponent<TestComponent, SeleccionableFormDialogData>
     >(SeleccionableListComponent);
     httpController = TestBed.inject(HttpTestingController);
     component = fixture.componentInstance;

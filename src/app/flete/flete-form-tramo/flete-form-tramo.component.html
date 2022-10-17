@@ -2,13 +2,13 @@
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6">
-        <app-centro-operativo-field
+        <app-centro-operativo-by-gestor-map-dialog-field
           title="Origen"
           controlName="origen_id"
           [groupName]="groupName"
           [form]="form"
           (valueChange)="origenChange.emit($event)"
-        ></app-centro-operativo-field>
+        ></app-centro-operativo-by-gestor-map-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6">
         <app-input-field
@@ -19,13 +19,13 @@
         ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <app-centro-operativo-field
+        <app-centro-operativo-by-gestor-map-dialog-field
           title="Destino"
           controlName="destino_id"
           [groupName]="groupName"
           [form]="form"
           (valueChange)="destinoChange.emit($event)"
-        ></app-centro-operativo-field>
+        ></app-centro-operativo-by-gestor-map-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6">
         <app-input-field

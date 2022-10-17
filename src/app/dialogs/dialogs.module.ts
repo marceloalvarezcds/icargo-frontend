@@ -29,6 +29,7 @@ import { OcRemisionDestinoFormDialogComponent } from './oc-remision-destino-form
 import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-dialog/oc-remision-origen-form-dialog.component';
 import { SeleccionableFormDialogComponent } from './seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
+import { SelectorInMapDialogComponent } from './selector-in-map-dialog/selector-in-map-dialog.component';
 import { TipoMovimientoFormDialogComponent } from './tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
 
@@ -56,6 +57,7 @@ const modules = [
   OcRemisionOrigenFormDialogComponent,
   SeleccionableFormDialogComponent,
   SelectorDialogComponent,
+  SelectorInMapDialogComponent,
   TipoMovimientoFormDialogComponent,
   UserFormDialogComponent,
 ];

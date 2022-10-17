@@ -1,4 +1,15 @@
-import { ChangeDetectorRef, Component, ElementRef, EventEmitter, HostListener, Input, OnDestroy, Output, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnDestroy,
+  Output,
+  ViewChild,
+} from '@angular/core';
 import { GoogleMap } from '@angular/google-maps';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -11,8 +22,7 @@ import { MenuConfigService } from 'src/app/services/menu-config.service';
   templateUrl: './google-map.component.html',
   styleUrls: ['./google-map.component.scss'],
 })
-export class GoogleMapComponent implements OnDestroy {
-
+export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   googleMap?: GoogleMap;
   options: google.maps.MapOptions = {
     streetViewControl: false,
@@ -34,7 +44,7 @@ export class GoogleMapComponent implements OnDestroy {
   menuToggleSubscription = this.menuConfigService
     .getToggleSidebarMenuObservable()
     .pipe(filter(() => PRINCIPAL_BREAKPOINT < window.innerWidth))
-    .subscribe(isOpen => {
+    .subscribe((isOpen) => {
       this.updateWidth(isOpen);
     });
 
@@ -54,6 +64,8 @@ export class GoogleMapComponent implements OnDestroy {
   @Input() title = '';
   @Input() isShow = false;
   @Input() showMarker = false;
+  @Input() height = 450;
+  @Input() width = 0;
   @Input() set center(latLng: google.maps.LatLngLiteral | undefined) {
     if (latLng) {
       this.latLng = latLng;
@@ -67,7 +79,8 @@ export class GoogleMapComponent implements OnDestroy {
 
   @Output() mapClick = new EventEmitter<google.maps.MapMouseEvent>();
 
-  @ViewChild('clickOnMapButton', { read: ElementRef }) clickOnMapButton!: ElementRef<HTMLButtonElement>;
+  @ViewChild('clickOnMapButton', { read: ElementRef })
+  clickOnMapButton!: ElementRef<HTMLButtonElement>;
   @ViewChild(GoogleMap) set googleMapComponent(googleMap: GoogleMap) {
     this.googleMap = googleMap;
     this.addClickOnMapButtonOnMap();
@@ -76,8 +89,14 @@ export class GoogleMapComponent implements OnDestroy {
   constructor(
     private cdRef: ChangeDetectorRef,
     private googleMapService: GoogleMapService,
-    private menuConfigService: MenuConfigService,
-  ) { }
+    private menuConfigService: MenuConfigService
+  ) {}
+
+  ngAfterViewInit(): void {
+    setTimeout(() => {
+      this.updateWidth(PRINCIPAL_BREAKPOINT <= window.innerWidth);
+    }, 0);
+  }
 
   ngOnDestroy(): void {
     this.menuToggleSubscription.unsubscribe();
@@ -85,11 +104,17 @@ export class GoogleMapComponent implements OnDestroy {
 
   addListenerMapClick(): void {
     this.listenerActive = true;
-    google.maps.event.addListener(this.map!, 'click', this.mapClickEvent.bind(this));
+    google.maps.event.addListener(
+      this.map!,
+      'click',
+      this.mapClickEvent.bind(this)
+    );
   }
 
   private addClickOnMapButtonOnMap(): void {
-    this.map!.controls[google.maps.ControlPosition.LEFT_TOP].push(this.clickOnMapButton.nativeElement);
+    this.map!.controls[google.maps.ControlPosition.LEFT_TOP].push(
+      this.clickOnMapButton.nativeElement
+    );
   }
 
   private addMarker(position: google.maps.LatLngLiteral) {
@@ -113,6 +138,10 @@ export class GoogleMapComponent implements OnDestroy {
   }
 
   private updateWidth(isOpenMenu: boolean): void {
+    if (this.width) {
+      this.googleMapService.setWidth(this.width);
+      return;
+    }
     if (isOpenMenu) {
       this.googleMapService.setWidth(window.innerWidth - 336);
     } else {
