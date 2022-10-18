@@ -115,9 +115,9 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
             this.deactiveMarker(marker);
           });
           this.allMarkers.push(marker);
-          this.markerFilteredList.push(marker);
           const position = marker.getPosition();
           if (position) {
+            this.markerFilteredList.push(marker);
             bounds.extend(position);
           }
         }
@@ -174,7 +174,7 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
       const toFilter = this.data.filterFunction
         ? this.data.filterFunction(regexList, m.info)
         : true;
-      if (toFilter) {
+      if (toFilter && m.getPosition()) {
         m.setMap(map);
       } else {
         m.setMap(null);
@@ -186,7 +186,7 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
     }
     return this.allMarkers.filter((m) => {
       const position = m.getPosition();
-      if (!position) return false;
+      if (!position) return filterFunction(m);
       if (bounds.contains(position)) {
         return filterFunction(m);
       }

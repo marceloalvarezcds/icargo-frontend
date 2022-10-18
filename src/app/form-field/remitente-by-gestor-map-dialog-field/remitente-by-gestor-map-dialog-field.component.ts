@@ -8,51 +8,51 @@ import {
 import { FormGroup } from '@angular/forms';
 import { MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 import { SelectorInMapDialogComponent } from 'src/app/dialogs/selector-in-map-dialog/selector-in-map-dialog.component';
-import { CentroOperativoList } from 'src/app/interfaces/centro-operativo';
 import {
   Marker,
   SelectorInMapDialogData,
 } from 'src/app/interfaces/dialog-data';
-import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { RemitenteList } from 'src/app/interfaces/remitente';
 import { DialogService } from 'src/app/services/dialog.service';
+import { RemitenteService } from 'src/app/services/remitente.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 
 @Component({
-  selector: 'app-centro-operativo-by-gestor-map-dialog-field',
-  templateUrl: './centro-operativo-by-gestor-map-dialog-field.component.html',
-  styleUrls: ['./centro-operativo-by-gestor-map-dialog-field.component.scss'],
+  selector: 'app-remitente-by-gestor-map-dialog-field',
+  templateUrl: './remitente-by-gestor-map-dialog-field.component.html',
+  styleUrls: ['./remitente-by-gestor-map-dialog-field.component.scss'],
 })
-export class CentroOperativoByGestorMapDialogFieldComponent {
+export class RemitenteByGestorMapDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
-  list: CentroOperativoList[] = [];
+  list: RemitenteList[] = [];
   subs = this.service.getListByGestorCuentaId().subscribe((list) => {
     this.list = list;
   });
 
   @Input() form!: FormGroup;
-  @Input() controlName = 'centro_operativo_id';
+  @Input() controlName = 'remitente_id';
   @Input() groupName = '';
-  @Input() title = 'Centro operativo';
+  @Input() title = 'Remitente';
 
-  @Output() valueChange = new EventEmitter<CentroOperativoList>();
+  @Output() valueChange = new EventEmitter<RemitenteList>();
 
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<
-    CentroOperativoList,
-    SelectorInMapDialogComponent<CentroOperativoList>
+    RemitenteList,
+    SelectorInMapDialogComponent<RemitenteList>
   >;
 
   constructor(
-    private service: CentroOperativoService,
+    private service: RemitenteService,
     private dialog: DialogService
   ) {}
 
-  createMarker(item: CentroOperativoList): Marker<CentroOperativoList> {
+  createMarker(item: RemitenteList): Marker<RemitenteList> {
     const latLng: google.maps.ReadonlyLatLngLiteral | undefined =
       item.latitud && item.longitud
         ? { lat: item.latitud, lng: item.longitud }
         : undefined;
-    const marker = new Marker<CentroOperativoList>({
+    const marker = new Marker<RemitenteList>({
       position: latLng,
       title: item.nombre,
     });
@@ -84,9 +84,9 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
   }
 
   dialogRefFunction(
-    selectedValue: CentroOperativoList | undefined
-  ): MatDialogRef<SelectorInMapDialogComponent<CentroOperativoList>> {
-    const data: SelectorInMapDialogData<CentroOperativoList> = {
+    selectedValue: RemitenteList | undefined
+  ): MatDialogRef<SelectorInMapDialogComponent<RemitenteList>> {
+    const data: SelectorInMapDialogData<RemitenteList> = {
       list: this.list.slice(),
       title: this.title,
       selectedValue,
@@ -101,14 +101,14 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
       },
     };
     return this.dialog.open<
-      SelectorInMapDialogComponent<CentroOperativoList>,
-      CentroOperativoList
+      SelectorInMapDialogComponent<RemitenteList>,
+      RemitenteList
     >(SelectorInMapDialogComponent, config);
   }
 
   private filterMarker(
     regexList: RegExp[],
-    item: CentroOperativoList | null
+    item: RemitenteList | null
   ): boolean {
     if (!item) return false;
     if (!regexList.length) return true;

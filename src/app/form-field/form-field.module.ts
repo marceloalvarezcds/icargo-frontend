@@ -55,6 +55,7 @@ import { ProveedorFieldComponent } from './proveedor-field/proveedor-field.compo
 import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insumo-proveedor-field/punto-venta-by-insumo-proveedor-field.component';
 import { PuntoVentaByProveedorFieldComponent } from './punto-venta-by-proveedor-field/punto-venta-by-proveedor-field.component';
 import { PuntoVentaDialogFieldComponent } from './punto-venta-dialog-field/punto-venta-dialog-field.component';
+import { RemitenteByGestorMapDialogFieldComponent } from './remitente-by-gestor-map-dialog-field/remitente-by-gestor-map-dialog-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { RolFieldComponent } from './rol-field/rol-field.component';
 import { RolFormFieldControlComponent } from './rol-form-field-control/rol-form-field-control.component';
@@ -133,6 +134,7 @@ const modules = [
   PuntoVentaByInsumoProveedorFieldComponent,
   PuntoVentaByProveedorFieldComponent,
   PuntoVentaDialogFieldComponent,
+  RemitenteByGestorMapDialogFieldComponent,
   RemitenteFieldComponent,
   RolFieldComponent,
   RolFormFieldControlComponent,
