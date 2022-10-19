@@ -133,6 +133,7 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
       url: `${ASSETS_ICONS_URL}/marker-green.svg`,
       scaledSize: new google.maps.Size(27, 37),
     };
+    marker.setZIndex(2);
     marker.setIcon(icon);
   }
 
@@ -141,14 +142,23 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
       url: `${ASSETS_ICONS_URL}/marker-blue.svg`,
       scaledSize: new google.maps.Size(27, 37),
     };
+    marker.setZIndex(3);
     this.setIconInMarker(marker, icon, true);
   }
 
   deactiveMarker(marker: Marker<T>): void {
     const red = `${ASSETS_ICONS_URL}/marker-red.svg`;
     const green = `${ASSETS_ICONS_URL}/marker-green.svg`;
+    let url;
+    if (marker.isSelected) {
+      url = green;
+      marker.setZIndex(2);
+    } else {
+      url = red;
+      marker.setZIndex(1);
+    }
     const icon: google.maps.ReadonlyIcon = {
-      url: marker.isSelected ? green : red,
+      url,
       scaledSize: new google.maps.Size(27, 37),
     };
     this.setIconInMarker(marker, icon, false);

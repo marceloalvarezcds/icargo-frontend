@@ -33,7 +33,7 @@ import { GestorCargaDialogFieldComponent } from './gestor-carga-dialog-field/ges
 import { InputFieldComponent } from './input-field/input-field.component';
 import { InstrumentoViaFieldComponent } from './instrumento-via-field/instrumento-via-field.component';
 import { InsumoByTipoFieldComponent } from './insumo-by-tipo-field/insumo-by-tipo-field.component';
-import { InsumoPuntoVentaPrecioDialogFieldComponent } from './insumo-punto-venta-precio-dialog-field/insumo-punto-venta-precio-dialog-field.component';
+import { InsumoPuntoVentaPrecioMapDialogFieldComponent } from './insumo-punto-venta-precio-map-dialog-field/insumo-punto-venta-precio-map-dialog-field.component';
 import { LocalidadFieldComponent } from './localidad-field/localidad-field.component';
 import { MarcaCamionFieldComponent } from './marca-camion-field/marca-camion-field.component';
 import { MarcaSemiFieldComponent } from './marca-semi-field/marca-semi-field.component';
@@ -54,7 +54,7 @@ import { ProveedorByInsumoFieldComponent } from './proveedor-by-insumo-field/pro
 import { ProveedorFieldComponent } from './proveedor-field/proveedor-field.component';
 import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insumo-proveedor-field/punto-venta-by-insumo-proveedor-field.component';
 import { PuntoVentaByProveedorFieldComponent } from './punto-venta-by-proveedor-field/punto-venta-by-proveedor-field.component';
-import { PuntoVentaDialogFieldComponent } from './punto-venta-dialog-field/punto-venta-dialog-field.component';
+import { PuntoVentaMapDialogFieldComponent } from './punto-venta-map-dialog-field/punto-venta-map-dialog-field.component';
 import { RemitenteByGestorMapDialogFieldComponent } from './remitente-by-gestor-map-dialog-field/remitente-by-gestor-map-dialog-field.component';
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { RolFieldComponent } from './rol-field/rol-field.component';
@@ -113,7 +113,7 @@ const modules = [
   InputFieldComponent,
   InstrumentoViaFieldComponent,
   InsumoByTipoFieldComponent,
-  InsumoPuntoVentaPrecioDialogFieldComponent,
+  InsumoPuntoVentaPrecioMapDialogFieldComponent,
   LocalidadFieldComponent,
   MarcaCamionFieldComponent,
   MarcaSemiFieldComponent,
@@ -133,7 +133,7 @@ const modules = [
   ProveedorFieldComponent,
   PuntoVentaByInsumoProveedorFieldComponent,
   PuntoVentaByProveedorFieldComponent,
-  PuntoVentaDialogFieldComponent,
+  PuntoVentaMapDialogFieldComponent,
   RemitenteByGestorMapDialogFieldComponent,
   RemitenteFieldComponent,
   RolFieldComponent,

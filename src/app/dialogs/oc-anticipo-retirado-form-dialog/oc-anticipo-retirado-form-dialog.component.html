@@ -12,11 +12,11 @@
       (valueChange)="tipoAnticipoChange($event)"
     ></app-tipo-anticipo-by-flete-field>
     <ng-container *ngIf="isTipoInsumo">
-      <app-insumo-punto-venta-precio-dialog-field
+      <app-insumo-punto-venta-precio-map-dialog-field
         [fleteId]="fleteId"
         [form]="form"
         (valueChange)="$event && insumoPuntoVentaPrecioChange($event)"
-      ></app-insumo-punto-venta-precio-dialog-field>
+      ></app-insumo-punto-venta-precio-map-dialog-field>
       <div><strong>Proveedor: </strong>{{ proveedor }}</div>
       <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
       <div><strong>Insumo: </strong>{{ insumo }}</div>
@@ -27,10 +27,10 @@
       </div>
     </ng-container>
     <ng-container *ngIf="!isTipoInsumo">
-      <app-punto-venta-dialog-field
+      <app-punto-venta-map-dialog-field
         [form]="form"
         (valueChange)="$event && puntoVentaChange($event)"
-      ></app-punto-venta-dialog-field>
+      ></app-punto-venta-map-dialog-field>
       <div class="space-bottom">
         <strong>Proveedor: </strong>{{ proveedor }}
       </div>

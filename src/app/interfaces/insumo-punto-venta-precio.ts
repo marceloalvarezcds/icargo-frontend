@@ -26,6 +26,7 @@ export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
   insumo_descripcion: string;
   insumo_moneda_id: number;
   insumo_moneda_nombre: string;
+  insumo_moneda_simbolo: string;
   insumo_tipo_id: number;
   insumo_tipo_descripcion: string;
   insumo_unidad_abreviatura?: string | null;
@@ -37,6 +38,10 @@ export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
   proveedor_nombre: string;
   punto_venta_id: number;
   punto_venta_nombre: string;
+  punto_venta_direccion: string | null;
+  punto_venta_logo: string | null;
+  punto_venta_latitud: number | null;
+  punto_venta_longitud: number | null;
 }
 
 export const mockInsumoPuntoVentaPrecio1: InsumoPuntoVentaPrecio = {
