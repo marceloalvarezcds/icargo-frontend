@@ -36,7 +36,9 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     this.getList();
   }
 
-  @Output() valueChange = new EventEmitter<InsumoPuntoVentaPrecioList>();
+  @Output() valueChange = new EventEmitter<
+    InsumoPuntoVentaPrecioList | undefined
+  >();
 
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<

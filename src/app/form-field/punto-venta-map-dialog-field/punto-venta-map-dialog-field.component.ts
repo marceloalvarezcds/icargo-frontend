@@ -34,7 +34,7 @@ export class PuntoVentaMapDialogFieldComponent {
   @Input() groupName = '';
   @Input() title = 'Punto de Venta';
 
-  @Output() valueChange = new EventEmitter<PuntoVentaList>();
+  @Output() valueChange = new EventEmitter<PuntoVentaList | undefined>();
 
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<

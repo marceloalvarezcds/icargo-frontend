@@ -2,6 +2,10 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import { ContraparteInfo } from './contraparte-info';
 import { Moneda } from './moneda';
+import {
+  mockOrdenCargaAnticipoRetiradoList,
+  OrdenCargaAnticipoRetirado,
+} from './orden-carga-anticipo-retirado';
 import { TipoContraparte } from './tipo-contraparte';
 import { TipoCuenta } from './tipo-cuenta';
 import { TipoDocumentoRelacionado } from './tipo-documento-relacionado';
@@ -111,6 +115,8 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   merma_propietario_moneda_id: number | null;
   merma_propietario_es_porcentual: boolean;
   merma_propietario_tolerancia: number | null;
+  // En caso de ser movimiento de anticipo
+  anticipo: OrdenCargaAnticipoRetirado | null;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -216,6 +222,8 @@ export const mockMovimientoList: Movimiento[] = [
     merma_propietario_moneda_id: null,
     merma_propietario_es_porcentual: false,
     merma_propietario_tolerancia: null,
+    // En caso de ser movimiento de anticipo
+    anticipo: mockOrdenCargaAnticipoRetiradoList[0],
     // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:32:14.859823',
@@ -320,6 +328,8 @@ export const mockMovimientoList: Movimiento[] = [
     merma_propietario_moneda_id: null,
     merma_propietario_es_porcentual: false,
     merma_propietario_tolerancia: null,
+    // En caso de ser movimiento de anticipo
+    anticipo: mockOrdenCargaAnticipoRetiradoList[0],
     // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:34:29.516739',
@@ -423,6 +433,8 @@ export const mockMovimientoList: Movimiento[] = [
     merma_propietario_moneda_id: null,
     merma_propietario_es_porcentual: false,
     merma_propietario_tolerancia: null,
+    // En caso de ser movimiento de anticipo
+    anticipo: mockOrdenCargaAnticipoRetiradoList[0],
     // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:32:14.663215',
@@ -526,6 +538,8 @@ export const mockMovimientoList: Movimiento[] = [
     merma_propietario_moneda_id: null,
     merma_propietario_es_porcentual: false,
     merma_propietario_tolerancia: null,
+    // En caso de ser movimiento de anticipo
+    anticipo: mockOrdenCargaAnticipoRetiradoList[0],
     // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:32:14.608139',
@@ -630,6 +644,8 @@ export const mockMovimientoList: Movimiento[] = [
     merma_propietario_moneda_id: null,
     merma_propietario_es_porcentual: false,
     merma_propietario_tolerancia: null,
+    // En caso de ser movimiento de anticipo
+    anticipo: mockOrdenCargaAnticipoRetiradoList[0],
     // Auditoría
     created_by: 'admin-transred',
     created_at: '2022-03-16T12:34:16.869250',
