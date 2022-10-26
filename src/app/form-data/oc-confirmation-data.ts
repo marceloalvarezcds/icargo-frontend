@@ -12,7 +12,6 @@ export const getOCData = (
   semi?: SemiList,
   neto?: string
 ): OCConfirmationInfo | null => {
-  console.log({ flete, camion, semi, neto });
   if (!flete || !camion || !semi || !neto) return null;
   const value = form.value;
   const info = value.info;

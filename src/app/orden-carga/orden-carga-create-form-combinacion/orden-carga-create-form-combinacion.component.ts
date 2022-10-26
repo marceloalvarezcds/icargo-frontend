@@ -30,7 +30,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
 
   onCamionChange(camion: CamionList | undefined): void {
     if (camion) {
-      console.log('camion', camion);
       this.camionId = camion.id;
       this.camionChange.emit(camion);
     }
@@ -38,7 +37,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
 
   onSemiChange(semi: SemiList | undefined): void {
     if (semi) {
-      console.log('semi', semi);
       this.semiChange.emit(semi);
     }
   }
