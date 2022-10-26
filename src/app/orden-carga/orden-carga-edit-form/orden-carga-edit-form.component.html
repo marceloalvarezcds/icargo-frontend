@@ -127,7 +127,12 @@
               [oc]="item"
             ></app-orden-carga-edit-form-anticipos-resumen>
             <app-orden-carga-edit-form-anticipos-flete
-              [list]="item.flete_anticipos"
+              [oc]="item"
+              [anicipoMaximo]="item.flete_anticipo_maximo"
+              [puedeModificar]="!item.is_conciliado"
+              [formDisabledTime]="formDisabledTime"
+              [form]="form"
+              [list]="item.porcentaje_anticipos"
             ></app-orden-carga-edit-form-anticipos-flete>
             <app-orden-carga-edit-form-anticipos-saldos
               [list]="item.saldos"

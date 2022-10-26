@@ -8,6 +8,10 @@ import { mockFleteList } from './flete';
 import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
 import { mockMovimientoList, Movimiento } from './movimiento';
 import {
+  mockOrdenCargaAnticipoPorcentajeList,
+  OrdenCargaAnticipoPorcentaje,
+} from './orden-carga-anticipo-porcentaje';
+import {
   mockOrdenCargaAnticipoRetiradoList,
   OrdenCargaAnticipoRetirado,
 } from './orden-carga-anticipo-retirado';
@@ -112,6 +116,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   historial: OrdenCargaEstadoHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
+  porcentaje_anticipos: OrdenCargaAnticipoPorcentaje[];
   flete_anticipos: FleteAnticipo[];
   complementos: OrdenCargaComplemento[];
   descuentos: OrdenCargaDescuento[];
@@ -264,6 +269,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,
+  porcentaje_anticipos: mockOrdenCargaAnticipoPorcentajeList,
   flete_anticipos: mockFleteAnticipoList,
   complementos: mockOrdenCargaComplementoList,
   descuentos: mockOrdenCargaDescuentoList,

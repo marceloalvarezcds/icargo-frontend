@@ -1,6 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -40,6 +39,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   modelo = m.ORDEN_CARGA;
   item?: OrdenCarga;
   flete?: FleteList;
+  formDisabledTime = new Date();
 
   form = this.fb.group({
     combinacion: this.fb.group({
@@ -57,6 +57,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       origen_id: null,
       destino_id: null,
     }),
+    porcentaje_anticipos: this.fb.array([]),
   });
 
   initialFormValue = this.form.value;
@@ -121,6 +122,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
+  }
+
+  get porcentajeAnticipos(): FormArray {
+    return this.form.get('porcentaje_anticipos') as FormArray;
   }
 
   get tramo(): FormGroup {
@@ -234,6 +239,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
           ...this.info.value,
           ...this.tramo.value,
           ...this.combinacion.value,
+          ...this.combinacion.value,
+          porcentaje_anticipos: this.porcentajeAnticipos.value,
         })
       );
       formData.append('data', JSON.stringify(data));
@@ -284,6 +291,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.combinacion.get('camion_id')!.disable();
       if (!this.puedeModificar) {
         this.form.disable();
+        this.formDisabledTime = new Date();
       }
       setTimeout(() => {
         this.hasChange = false;
