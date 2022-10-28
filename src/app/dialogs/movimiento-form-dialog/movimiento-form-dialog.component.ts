@@ -27,9 +27,10 @@ export class MovimientoFormDialogComponent {
     numero_documento_relacionado: this.data?.numero_documento_relacionado,
     cuenta_id: this.data?.cuenta_id,
     tipo_movimiento_id: this.data?.tipo_movimiento_id,
+    es_cobro: this.data?.es_cobro,
     estado: this.estado,
     fecha: this.fecha,
-    monto: [this.data?.monto, Validators.required],
+    monto: [this.monto, [Validators.required, Validators.min(0)]],
     moneda_id: [this.data?.moneda_id, Validators.required],
     detalle: this.data?.detalle,
     tipo_cambio_moneda: this.data?.tipo_cambio_moneda,
@@ -39,6 +40,12 @@ export class MovimientoFormDialogComponent {
     proveedor_id: this.data?.proveedor_id,
     remitente_id: this.data?.remitente_id,
   });
+
+  get monto(): number | undefined {
+    return this.data && this.data.monto < 0
+      ? this.data?.monto * -1
+      : this.data?.monto;
+  }
 
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';

@@ -57,6 +57,13 @@
       [form]="form"
       [hidden]="isEdit"
     ></app-fecha-field>
+    <mat-radio-group
+      aria-label="Seleccione una opción"
+      formControlName="es_cobro"
+    >
+      <mat-radio-button [value]="true">Crédito</mat-radio-button>
+      <mat-radio-button [value]="false">Débito</mat-radio-button>
+    </mat-radio-group>
     <app-number-field
       title="Monto"
       controlName="monto"

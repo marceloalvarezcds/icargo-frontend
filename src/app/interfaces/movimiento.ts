@@ -42,6 +42,7 @@ export interface MovimientoBaseModel {
 }
 
 export interface MovimientoForm extends MovimientoBaseModel {
+  es_cobro: boolean;
   es_creacion_contraparte?: boolean;
 }
 
