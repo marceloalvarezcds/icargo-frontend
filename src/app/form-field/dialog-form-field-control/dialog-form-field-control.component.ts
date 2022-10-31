@@ -285,7 +285,7 @@ export class DialogFormFieldControlComponent<
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
       .subscribe((selectedValue: T) => {
-        this.lista = [selectedValue];
+        // this.lista = [selectedValue]; // Esto estaba no sé porqué, pero filtraba la lista y daba error
         this.writeValue(selectedValue.id);
       });
   }

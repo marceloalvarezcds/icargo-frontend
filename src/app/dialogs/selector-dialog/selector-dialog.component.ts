@@ -8,10 +8,9 @@ import { TableSelectorComponent } from 'src/app/shared/table-selector/table-sele
 @Component({
   selector: 'app-selector-dialog',
   templateUrl: './selector-dialog.component.html',
-  styleUrls: ['./selector-dialog.component.scss']
+  styleUrls: ['./selector-dialog.component.scss'],
 })
 export class SelectorDialogComponent<T> {
-
   selectValue?: T | null;
   searchControl = new FormControl('');
 
@@ -43,7 +42,7 @@ export class SelectorDialogComponent<T> {
 
   constructor(
     public dialogRef: MatDialogRef<SelectorDialogComponent<T>>,
-    @Inject(MAT_DIALOG_DATA) private data: SelectorDialogData<T>,
+    @Inject(MAT_DIALOG_DATA) private data: SelectorDialogData<T>
   ) {
     this.selectValue = data.selectedValue;
   }

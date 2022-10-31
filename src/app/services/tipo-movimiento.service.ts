@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { TipoMovimiento } from 'src/app/interfaces/tipo-movimiento';
 import { environment } from 'src/environments/environment';
-import { TipoMovimiento } from '../interfaces/tipo-movimiento';
 
 @Injectable({
   providedIn: 'root',
@@ -18,10 +18,6 @@ export class TipoMovimientoService {
 
   getList(): Observable<TipoMovimiento[]> {
     return this.http.get<TipoMovimiento[]>(`${this.url}/`);
-  }
-
-  getListByCuentaId(cuentaId: number): Observable<TipoMovimiento[]> {
-    return this.http.get<TipoMovimiento[]>(`${this.url}/cuenta/${cuentaId}`);
   }
 
   getById(id: number): Observable<TipoMovimiento> {

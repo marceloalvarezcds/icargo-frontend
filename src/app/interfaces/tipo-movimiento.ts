@@ -4,6 +4,7 @@ import { SeleccionableBaseModel } from './seleccionable';
 export interface TipoMovimiento extends SeleccionableBaseModel {
   cuenta_id: number;
   cuenta_descripcion: string;
+  info: string;
 }
 
 export const mockTipoMovimientoList: TipoMovimiento[] = [
@@ -13,6 +14,7 @@ export const mockTipoMovimientoList: TipoMovimiento[] = [
     estado: EstadoEnum.ACTIVO,
     cuenta_id: 1,
     cuenta_descripcion: 'Otro',
+    info: 'Otro - Anticipo',
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.907002',
     modified_by: 'System',
@@ -24,6 +26,7 @@ export const mockTipoMovimientoList: TipoMovimiento[] = [
     estado: EstadoEnum.ACTIVO,
     cuenta_id: 1,
     cuenta_descripcion: 'Otro',
+    info: 'Otro - Complemento',
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.907002',
     modified_by: 'System',
@@ -35,6 +38,7 @@ export const mockTipoMovimientoList: TipoMovimiento[] = [
     estado: EstadoEnum.ACTIVO,
     cuenta_id: 1,
     cuenta_descripcion: 'Otro',
+    info: 'Otro - Descuento',
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.907002',
     modified_by: 'System',
@@ -46,6 +50,7 @@ export const mockTipoMovimientoList: TipoMovimiento[] = [
     estado: EstadoEnum.ACTIVO,
     cuenta_id: 1,
     cuenta_descripcion: 'Otro',
+    info: 'Otro - Merma',
     created_by: 'System',
     created_at: '2022-03-03T19:38:55.907002',
     modified_by: 'System',

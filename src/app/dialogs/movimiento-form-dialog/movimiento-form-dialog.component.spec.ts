@@ -13,12 +13,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { mockMonedaList } from 'src/app/interfaces/moneda';
 import {
   mockMovimientoFormDialogData,
   mockMovimientoFormDialogDataWithoutItem,
 } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { mockTipoContraparteList } from 'src/app/interfaces/tipo-contraparte';
+import { mockTipoMovimientoList } from 'src/app/interfaces/tipo-movimiento';
 import { MaterialModule } from 'src/app/material/material.module';
 import { environment } from 'src/environments/environment';
 import { DialogsModule } from '../dialogs.module';
@@ -106,16 +108,22 @@ describe('MovimientoFormDialogComponent', () => {
       numero_documento_relacionado: data.numero_documento_relacionado,
       cuenta_id: data.cuenta_id,
       tipo_movimiento_id: data.tipo_movimiento_id,
+      es_cobro: data.es_cobro,
+      estado: EstadoEnum.ACTIVO,
       fecha: data.fecha,
       monto: data.monto,
       moneda_id: data.moneda_id,
       detalle: data.detalle,
       tipo_cambio_moneda: data.tipo_cambio_moneda,
       fecha_cambio_moneda: data.fecha_cambio_moneda,
+      chofer_id: data.chofer_id,
+      propietario_id: data.propietario_id,
+      proveedor_id: data.proveedor_id,
+      remitente_id: data.remitente_id,
     });
     httpController
-      .match(`${environment.api}/tipo_cuenta/active_list`)
-      .forEach((r) => r.flush(mockTipoContraparteList));
+      .match(`${environment.api}/tipo_movimiento/active_list`)
+      .forEach((r) => r.flush(mockTipoMovimientoList));
     httpController
       .match(`${environment.api}/tipo_contraparte/`)
       .forEach((r) => r.flush(mockTipoContraparteList));

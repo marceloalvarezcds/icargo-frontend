@@ -6,11 +6,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
 import { createFormGroup } from 'src/app/utils/form-field-test';
 
-import { TipoMovimientoByCuentaFieldComponent } from './tipo-movimiento-by-cuenta-field.component';
+import { TipoMovimientoDialogFieldComponent } from './tipo-movimiento-dialog-field.component';
 
-describe('TipoMovimientoByCuentaFieldComponent', () => {
-  let component: TipoMovimientoByCuentaFieldComponent;
-  let fixture: ComponentFixture<TipoMovimientoByCuentaFieldComponent>;
+describe('TipoMovimientoDialogFieldComponent', () => {
+  let component: TipoMovimientoDialogFieldComponent;
+  let fixture: ComponentFixture<TipoMovimientoDialogFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,12 +21,12 @@ describe('TipoMovimientoByCuentaFieldComponent', () => {
         ReactiveFormsModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [TipoMovimientoByCuentaFieldComponent],
+      declarations: [TipoMovimientoDialogFieldComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TipoMovimientoByCuentaFieldComponent);
+    fixture = TestBed.createComponent(TipoMovimientoDialogFieldComponent);
     component = fixture.componentInstance;
     createFormGroup(component);
     fixture.detectChanges();

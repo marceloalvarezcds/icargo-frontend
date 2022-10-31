@@ -27,7 +27,7 @@ export class MovimientoFormDialogComponent {
     numero_documento_relacionado: this.data?.numero_documento_relacionado,
     cuenta_id: this.data?.cuenta_id,
     tipo_movimiento_id: this.data?.tipo_movimiento_id,
-    es_cobro: this.data?.es_cobro,
+    es_cobro: this.data?.es_cobro ?? true,
     estado: this.estado,
     fecha: this.fecha,
     monto: [this.monto, [Validators.required, Validators.min(0)]],
@@ -101,10 +101,6 @@ export class MovimientoFormDialogComponent {
 
   get cuentaControl(): FormControl {
     return this.form.get('cuenta_id') as FormControl;
-  }
-
-  get cuentaId(): number | undefined {
-    return this.cuentaControl.value;
   }
 
   get tipoContraparteId(): number | null {
