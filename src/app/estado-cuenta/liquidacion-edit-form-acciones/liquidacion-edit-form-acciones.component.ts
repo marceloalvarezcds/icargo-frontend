@@ -30,6 +30,16 @@ export class LiquidacionEditFormAccionesComponent {
     return this.liquidacion.id;
   }
 
+  get esFinalizado(): boolean {
+    return this.liquidacion?.etapa === LiquidacionEtapaEnum.FINALIZADO;
+  }
+
+  get etapa(): LiquidacionEtapaEnum {
+    return this.esFinalizado
+      ? LiquidacionEtapaEnum.FINALIZADO
+      : LiquidacionEtapaEnum.EN_PROCESO;
+  }
+
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
 
@@ -45,13 +55,11 @@ export class LiquidacionEditFormAccionesComponent {
   ) {}
 
   downloadPDF(): void {
-    this.liquidacionService
-      .pdf(this.id!, LiquidacionEtapaEnum.EN_PROCESO)
-      .subscribe((filename) => {
-        this.reportsService.downloadFile(filename).subscribe((file) => {
-          saveAs(file, filename);
-        });
+    this.liquidacionService.pdf(this.id!, this.etapa).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        saveAs(file, filename);
       });
+    });
   }
 
   aceptar(): void {

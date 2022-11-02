@@ -11,6 +11,8 @@ export class SaldoComponent {
 
   @Input() debito = 0;
 
+  @Input() esFinalizado = false;
+
   @Input() hideOperacion = false;
 
   @Input() title = 'Saldo | Valor de la operación';

@@ -25,8 +25,9 @@ export class PageComponent {
   @Input() hideBack = true;
   @Input() hideCreate = false;
   @Input() hideFilter = false;
-  @Input() module: string = '';
-  @Input() submodule: string = '';
+  @Input() module = '';
+  @Input() submodule = '';
+  @Input() viewTitle = '';
   @Input() modelo?: PermisoModeloEnum;
 
   @Output() applyClick = new EventEmitter<MouseEvent>();

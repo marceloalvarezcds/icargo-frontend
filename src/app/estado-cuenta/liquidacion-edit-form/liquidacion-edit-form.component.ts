@@ -8,6 +8,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Instrumento } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
@@ -47,6 +48,20 @@ export class LiquidacionEditFormComponent implements OnInit {
     return this.item?.comentarios ?? '';
   }
 
+  get esFinalizado(): boolean {
+    return this.item?.etapa === LiquidacionEtapaEnum.FINALIZADO;
+  }
+
+  get etapa(): LiquidacionEtapaEnum {
+    return this.esFinalizado
+      ? LiquidacionEtapaEnum.FINALIZADO
+      : LiquidacionEtapaEnum.EN_PROCESO;
+  }
+
+  get instrumentos(): Instrumento[] {
+    return this.item?.instrumentos ?? [];
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -83,10 +98,7 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   downloadFile(): void {
     this.movimientoService
-      .generateReportsByEstadoAndLiquidacionId(
-        LiquidacionEtapaEnum.EN_PROCESO,
-        this.id!
-      )
+      .generateReportsByEstadoAndLiquidacionId(this.etapa, this.id!)
       .subscribe((filename) => {
         this.reportsService.downloadFile(filename).subscribe((file) => {
           saveAs(file, filename);
@@ -129,7 +141,7 @@ export class LiquidacionEditFormComponent implements OnInit {
     this.loadLiquidacion();
   }
 
-  private loadLiquidacion(): void {
+  loadLiquidacion(): void {
     this.liquidacionService.getById(this.id!).subscribe((item) => {
       this.item = item;
       this.getList(item);
@@ -138,7 +150,7 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   private getList(liq: Liquidacion): void {
     this.movimientoService
-      .getListByLiquidacion(liq, LiquidacionEtapaEnum.EN_PROCESO)
+      .getListByLiquidacion(liq, this.etapa)
       .subscribe((data) => {
         this.movimientos = data;
       });

@@ -16,6 +16,7 @@ import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { subtract } from 'src/app/utils/math';
 import { ReportsService } from 'src/app/services/reports.service';
+import { getQueryParams } from 'src/app/utils/contraparte-info';
 
 @Component({
   selector: 'app-liquidacion-finalizada',
@@ -30,6 +31,10 @@ export class LiquidacionFinalizadaComponent implements OnInit {
   etapa?: LiquidacionEtapaEnum;
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   movimientos: Movimiento[] = [];
+
+  get esFinalizado(): boolean {
+    return this.etapa === LiquidacionEtapaEnum.FINALIZADO;
+  }
 
   get credito(): number {
     return this.movimientos.reduce((acc, cur) => acc + cur.credito, 0);
@@ -71,6 +76,15 @@ export class LiquidacionFinalizadaComponent implements OnInit {
           saveAs(file, filename);
         });
       });
+  }
+
+  redirectToLiqView(): void {
+    this.router.navigate(
+      [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
+      {
+        queryParams: getQueryParams(this.estadoCuenta!, this.etapa),
+      }
+    );
   }
 
   private getData(): void {

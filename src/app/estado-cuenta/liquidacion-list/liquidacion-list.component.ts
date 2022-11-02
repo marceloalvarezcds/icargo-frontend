@@ -14,6 +14,7 @@ import { TableEvent } from 'src/app/interfaces/table';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { subtract } from 'src/app/utils/math';
 
 @Component({
@@ -94,6 +95,10 @@ export class LiquidacionListComponent implements OnInit {
     return this.etapa === LiquidacionEtapaEnum.CONFIRMADO;
   }
 
+  get esFinalizado(): boolean {
+    return this.etapa === LiquidacionEtapaEnum.FINALIZADO;
+  }
+
   get saldo(): number {
     return subtract(this.credito, this.debito);
   }
@@ -152,6 +157,15 @@ export class LiquidacionListComponent implements OnInit {
           actual_contraparte_numero_documento:
             this.estadoCuenta!.contraparte_numero_documento,
         },
+      }
+    );
+  }
+
+  redirectToMovView(): void {
+    this.router.navigate(
+      [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.MOVIMIENTO}/${a.LISTAR}`],
+      {
+        queryParams: getQueryParams(this.estadoCuenta!, this.etapa),
       }
     );
   }
