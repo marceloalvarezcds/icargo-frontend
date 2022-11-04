@@ -93,6 +93,7 @@ export interface CamionList {
   propietario_telefono: string | null;
   chofer_nombre: string | null;
   chofer_numero_documento: string | null;
+  color_descripcion: string | null;
   numero_chasis: string | null;
   estado: EstadoEnum;
   ciudad_habilitacion_municipal_nombre: string;
@@ -212,6 +213,7 @@ export const mockCamionList: CamionList[] = [
     propietario_telefono: propietario0.telefono,
     chofer_nombre: chofer0.nombre,
     chofer_numero_documento: chofer0.numero_documento,
+    color_descripcion: null,
     numero_chasis: '23100100',
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
@@ -240,6 +242,7 @@ export const mockCamionList: CamionList[] = [
     propietario_telefono: propietario1.telefono,
     chofer_nombre: chofer1.nombre,
     chofer_numero_documento: chofer1.numero_documento,
+    color_descripcion: null,
     numero_chasis: '23100100',
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad1.nombre,

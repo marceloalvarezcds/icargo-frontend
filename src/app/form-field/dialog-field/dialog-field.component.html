@@ -2,6 +2,7 @@
   <mat-form-field>
     <mat-label>{{ title }}</mat-label>
     <app-dialog-form-field-control
+      [disabled]="readonly"
       [descripcionPropName]="inputValuePropName"
       [columns]="columns"
       [list]="list"
@@ -9,6 +10,7 @@
       [formControl]="control"
       [dialogRefFunction]="dialogRefFunction"
       [fetchFunction]="fetchFunction"
+      (emptyListChange)="emptyListChange.emit()"
       (valueChange)="$event && valueChange.emit($event)"
     ></app-dialog-form-field-control>
     <button
@@ -17,7 +19,7 @@
       mat-icon-button
       (click)="$event.stopPropagation(); clearSelectedValue()"
       *ngIf="control.value"
-      [disabled]="disabled"
+      [disabled]="disabled || readonly"
     >
       <mat-icon>close</mat-icon>
     </button>
@@ -26,7 +28,7 @@
       matSuffix
       mat-icon-button
       (click)="$event.stopPropagation(); openDialog()"
-      [disabled]="disabled"
+      [disabled]="disabled || readonly"
     >
       <mat-icon>list</mat-icon>
     </button>

@@ -149,6 +149,9 @@ export class DialogFormFieldControlComponent<
   }
   set list(list: T[]) {
     this.lista = list;
+    if (!list.length) {
+      this.emptyListChange.emit();
+    }
     if (this.value) {
       this.loadDescripcionAndEmitValue();
     }
@@ -160,9 +163,11 @@ export class DialogFormFieldControlComponent<
     return this.idControl.value ? parseInt(this.idControl.value, 10) : null;
   }
   set value(val: number | null) {
-    this.idControl.setValue(val);
-    this.onChange(val);
-    this.stateChanges.next();
+    if ((val && !isNaN(val)) || val === null || val === undefined) {
+      this.idControl.setValue(val);
+      this.onChange(val);
+      this.stateChanges.next();
+    }
   }
 
   get idControl(): FormControl {
@@ -173,6 +178,7 @@ export class DialogFormFieldControlComponent<
     return this.list.find((x) => x.id === this.value);
   }
 
+  @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T | null>();
 
   constructor(

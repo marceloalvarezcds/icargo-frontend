@@ -54,8 +54,10 @@ export class DialogFieldComponent<
   @Input() fetchFunction?: (
     request: PaginatedListRequest
   ) => Observable<PaginatedList<T>>;
+  @Input() readonly = false;
 
   @Output() clearClick = new EventEmitter();
+  @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
 
   @ViewChild(DialogFormFieldControlComponent)

@@ -6,11 +6,11 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from 'src/app/material/material.module';
 import { createFormGroup } from 'src/app/utils/form-field-test';
 
-import { CamionByProductoFieldComponent } from './camion-by-producto-field.component';
+import { CamionByProductoDialogFieldComponent } from './camion-by-producto-dialog-field.component';
 
-describe('CamionByProductoFieldComponent', () => {
-  let component: CamionByProductoFieldComponent;
-  let fixture: ComponentFixture<CamionByProductoFieldComponent>;
+describe('CamionByProductoDialogFieldComponent', () => {
+  let component: CamionByProductoDialogFieldComponent;
+  let fixture: ComponentFixture<CamionByProductoDialogFieldComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -21,12 +21,12 @@ describe('CamionByProductoFieldComponent', () => {
         ReactiveFormsModule,
       ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
-      declarations: [CamionByProductoFieldComponent],
+      declarations: [CamionByProductoDialogFieldComponent],
     }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CamionByProductoFieldComponent);
+    fixture = TestBed.createComponent(CamionByProductoDialogFieldComponent);
     component = fixture.componentInstance;
     createFormGroup(component);
     fixture.detectChanges();

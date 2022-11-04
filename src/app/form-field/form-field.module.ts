@@ -8,7 +8,7 @@ import { AliasFieldComponent } from './alias-field/alias-field.component';
 import { BancoByGestorDialogFieldComponent } from './banco-by-gestor-dialog-field/banco-by-gestor-dialog-field.component';
 import { CajaByGestorDialogFieldComponent } from './caja-by-gestor-dialog-field/caja-by-gestor-dialog-field.component';
 import { CamionByGestorFieldComponent } from './camion-by-gestor-field/camion-by-gestor-field.component';
-import { CamionByProductoFieldComponent } from './camion-by-producto-field/camion-by-producto-field.component';
+import { CamionByProductoDialogFieldComponent } from './camion-by-producto-dialog-field/camion-by-producto-dialog-field.component';
 import { CargoFieldComponent } from './cargo-field/cargo-field.component';
 import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
 import { CentroOperativoByGestorMapDialogFieldComponent } from './centro-operativo-by-gestor-map-dialog-field/centro-operativo-by-gestor-map-dialog-field.component';
@@ -59,7 +59,7 @@ import { RemitenteByGestorMapDialogFieldComponent } from './remitente-by-gestor-
 import { RemitenteFieldComponent } from './remitente-field/remitente-field.component';
 import { RolFieldComponent } from './rol-field/rol-field.component';
 import { RolFormFieldControlComponent } from './rol-form-field-control/rol-form-field-control.component';
-import { SemiByCamionProductoFieldComponent } from './semi-by-camion-producto-field/semi-by-camion-producto-field.component';
+import { SemiByCamionProductoDialogFieldComponent } from './semi-by-camion-producto-dialog-field/semi-by-camion-producto-dialog-field.component';
 import { SemiByGestorDialogFieldComponent } from './semi-by-gestor-dialog-field/semi-by-gestor-dialog-field.component';
 import { SemiClasificacionFieldComponent } from './semi-clasificacion-field/semi-clasificacion-field.component';
 import { SlideComponent } from './slide/slide.component';
@@ -88,7 +88,7 @@ const modules = [
   BancoByGestorDialogFieldComponent,
   CajaByGestorDialogFieldComponent,
   CamionByGestorFieldComponent,
-  CamionByProductoFieldComponent,
+  CamionByProductoDialogFieldComponent,
   CargoFieldComponent,
   CentroOperativoByGestorDialogFieldComponent,
   CentroOperativoByGestorMapDialogFieldComponent,
@@ -138,7 +138,7 @@ const modules = [
   RemitenteFieldComponent,
   RolFieldComponent,
   RolFormFieldControlComponent,
-  SemiByCamionProductoFieldComponent,
+  SemiByCamionProductoDialogFieldComponent,
   SemiByGestorDialogFieldComponent,
   SemiClasificacionFieldComponent,
   SlideComponent,
