@@ -210,7 +210,7 @@ export class MenuService {
           },
           {
             name: 'Movimientos',
-            iconName: 'request_quote',
+            iconName: 'list_alt',
             iconOutline: true,
             path: `/listado/${m.MOVIMIENTO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
