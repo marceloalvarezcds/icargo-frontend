@@ -5,6 +5,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
+import { MovimientoListComponent } from './movimiento-list/movimiento-list.component';
 import { RentabilidadListComponent } from './rentabilidad-list/rentabilidad-list.component';
 
 const routes: Routes = [
@@ -19,6 +20,21 @@ const routes: Routes = [
       {
         path: a.LISTAR,
         component: RentabilidadListComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
+  },
+  {
+    path: m.MOVIMIENTO,
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: a.LISTAR,
+        component: MovimientoListComponent,
         canActivate: [PermisoGuard],
       },
     ],

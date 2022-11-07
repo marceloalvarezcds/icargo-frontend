@@ -16,6 +16,10 @@ export class MovimientoService {
 
   constructor(private http: HttpClient) {}
 
+  getListByGestorCarga(): Observable<Movimiento[]> {
+    return this.http.get<Movimiento[]>(`${this.url}/gestor_carga_id`);
+  }
+
   getListByEstadoCuenta(
     estadoCuenta: ContraparteInfo,
     contraparte_id: number,
@@ -60,6 +64,10 @@ export class MovimientoService {
     return this.http.get<string>(
       `${this.url}/reports/liquidacion/${liquidacion_id}/estado/${estado}`
     );
+  }
+
+  generateReportsByGestorCarga(): Observable<string> {
+    return this.http.get<string>(`${this.url}/reports/gestor_carga_id`);
   }
 
   create(formData: FormData): Observable<Movimiento> {

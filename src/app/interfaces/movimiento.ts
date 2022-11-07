@@ -81,7 +81,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   fecha_pago_cobro: string | null;
   flete_id: number | null;
   insumo_descripcion: string | null;
-  liquidacion_fecha: string | null;
+  liquidacion_fecha_creacion: string | null;
   moneda_nombre: string;
   moneda_simbolo: string;
   monto_ml: number;
@@ -89,6 +89,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   producto_descripcion: string;
   propietario_nombre: string | null;
   proveedor_nombre: string | null;
+  punto_venta_nombre: string | null;
   remitente_nombre: string | null;
   remitente_numero_documento: string | null;
   saldo: number;
@@ -187,7 +188,7 @@ export const mockMovimientoList: Movimiento[] = [
     fecha_pago_cobro: null,
     flete_id: 1,
     insumo_descripcion: null,
-    liquidacion_fecha: null,
+    liquidacion_fecha_creacion: null,
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     monto_ml: 2100000,
@@ -195,6 +196,7 @@ export const mockMovimientoList: Movimiento[] = [
     producto_descripcion: 'Trigo',
     propietario_nombre: 'LA PAZ',
     proveedor_nombre: null,
+    punto_venta_nombre: null,
     remitente_nombre: 'ADM SANTA RITA',
     remitente_numero_documento: '3100100',
     saldo: 2100000,
@@ -293,7 +295,7 @@ export const mockMovimientoList: Movimiento[] = [
     fecha_pago_cobro: null,
     flete_id: 1,
     insumo_descripcion: null,
-    liquidacion_fecha: null,
+    liquidacion_fecha_creacion: null,
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     monto_ml: 675000,
@@ -301,6 +303,7 @@ export const mockMovimientoList: Movimiento[] = [
     producto_descripcion: 'Trigo',
     propietario_nombre: 'AGROFERTIL SANTA FE',
     proveedor_nombre: null,
+    punto_venta_nombre: null,
     remitente_nombre: 'ADM SANTA RITA',
     remitente_numero_documento: '3100100',
     saldo: 675000,
@@ -398,7 +401,7 @@ export const mockMovimientoList: Movimiento[] = [
     fecha_pago_cobro: null,
     flete_id: 1,
     insumo_descripcion: null,
-    liquidacion_fecha: null,
+    liquidacion_fecha_creacion: null,
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     monto_ml: 900,
@@ -406,6 +409,7 @@ export const mockMovimientoList: Movimiento[] = [
     producto_descripcion: 'Trigo',
     propietario_nombre: 'LA PAZ',
     proveedor_nombre: null,
+    punto_venta_nombre: null,
     remitente_nombre: 'ADM SANTA RITA',
     remitente_numero_documento: '3100100',
     saldo: 900,
@@ -503,7 +507,7 @@ export const mockMovimientoList: Movimiento[] = [
     fecha_pago_cobro: null,
     flete_id: 1,
     insumo_descripcion: null,
-    liquidacion_fecha: null,
+    liquidacion_fecha_creacion: null,
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     monto_ml: 10000,
@@ -511,6 +515,7 @@ export const mockMovimientoList: Movimiento[] = [
     producto_descripcion: 'Trigo',
     propietario_nombre: 'LA PAZ',
     proveedor_nombre: null,
+    punto_venta_nombre: null,
     remitente_nombre: 'ADM SANTA RITA',
     remitente_numero_documento: '3100100',
     saldo: 10000,
@@ -609,7 +614,7 @@ export const mockMovimientoList: Movimiento[] = [
     fecha_pago_cobro: null,
     flete_id: 1,
     insumo_descripcion: 'DIESEL PODIUM',
-    liquidacion_fecha: null,
+    liquidacion_fecha_creacion: null,
     moneda_nombre: 'Guaranies',
     moneda_simbolo: 'PYG',
     monto_ml: 236300,
@@ -617,6 +622,7 @@ export const mockMovimientoList: Movimiento[] = [
     producto_descripcion: 'Trigo',
     propietario_nombre: 'AGROFERTIL SANTA FE',
     proveedor_nombre: 'LDC_POZUELO',
+    punto_venta_nombre: 'LDC_POZUELO',
     remitente_nombre: 'ADM SANTA RITA',
     remitente_numero_documento: '3100100',
     saldo: 236300,

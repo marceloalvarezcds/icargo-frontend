@@ -7,10 +7,11 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ListadoRoutingModule } from './listado-routing.module';
+import { MovimientoListComponent } from './movimiento-list/movimiento-list.component';
 import { RentabilidadListComponent } from './rentabilidad-list/rentabilidad-list.component';
 
 @NgModule({
-  declarations: [RentabilidadListComponent],
+  declarations: [RentabilidadListComponent, MovimientoListComponent],
   imports: [
     CommonModule,
     ListadoRoutingModule,

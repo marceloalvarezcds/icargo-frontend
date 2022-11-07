@@ -208,6 +208,13 @@ export class MenuService {
             path: `/listado/${m.RENTABILIDAD}`,
             active: this.userService.checkPermiso(a.LISTAR, m.RENTABILIDAD),
           },
+          {
+            name: 'Movimientos',
+            iconName: 'request_quote',
+            iconOutline: true,
+            path: `/listado/${m.MOVIMIENTO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
+          },
         ],
       },
       {

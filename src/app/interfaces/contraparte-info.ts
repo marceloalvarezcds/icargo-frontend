@@ -8,8 +8,10 @@ export interface Contraparte extends ContraparteBaseModel {
   contraparte_id: number;
 }
 
-export interface ContraparteWithId extends Contraparte {
+export interface ContraparteWithId extends ContraparteBaseModel {
   id: number;
+  info: string;
+  tipo_contraparte_descripcion: string;
 }
 
 export interface ContraparteEtapa extends Contraparte {
