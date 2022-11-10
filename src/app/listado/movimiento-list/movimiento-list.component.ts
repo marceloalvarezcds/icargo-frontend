@@ -240,11 +240,15 @@ export class MovimientoListComponent implements OnInit {
     const filterByProveedor =
       filter.proveedor && obj.proveedor_nombre
         ? new RegExp(filter.proveedor, 'gi').test(obj.proveedor_nombre)
-        : true;
+        : obj.proveedor_nombre
+        ? true
+        : false;
     const filterByPuntoVenta =
       filter.punto_venta && obj.punto_venta_nombre
         ? new RegExp(filter.punto_venta, 'gi').test(obj.punto_venta_nombre)
-        : true;
+        : obj.punto_venta_nombre
+        ? true
+        : false;
     const liquidacionStart = filter.fecha_liquidacion
       ? new Date(filter.fecha_liquidacion.start).getTime()
       : -1;

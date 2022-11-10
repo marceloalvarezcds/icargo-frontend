@@ -123,12 +123,6 @@ export class ContactoFormDialogComponent implements OnDestroy {
     if (contacto) {
       this.form.controls['nombre'].setValue(contacto.nombre);
       this.form.controls['apellido'].setValue(contacto.apellido);
-    } else if (
-      this.form.controls['nombre'].touched &&
-      this.form.controls['apellido'].touched
-    ) {
-      this.form.controls['nombre'].setValue(null);
-      this.form.controls['apellido'].setValue(null);
     }
   }
 }
