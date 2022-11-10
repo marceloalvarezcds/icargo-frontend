@@ -1,5 +1,8 @@
 import { mockMonedaList, Moneda } from './moneda';
-import { mockTipoConceptoComplementoList, TipoConceptoComplemento } from './tipo-concepto-complemento';
+import {
+  mockTipoConceptoComplementoList,
+  TipoConceptoComplemento,
+} from './tipo-concepto-complemento';
 
 export interface OrdenCargaComplementoForm {
   id?: number | null;
@@ -32,14 +35,18 @@ export interface OrdenCargaComplemento extends OrdenCargaComplementoForm {
   remitente_moneda_nombre?: string | null;
   // FIN Monto a cobrar al Remitente
   flete_id?: number | null;
+  // Auditoría
+  created_by: string;
+  created_at: string;
+  modified_by: string;
+  modified_at: string;
 }
-
 
 const tipoConceptoComplemento0 = mockTipoConceptoComplementoList[0];
 const tipoConceptoComplemento1 = mockTipoConceptoComplementoList[1];
 
-const moneda0 =  mockMonedaList[0];
-const moneda1 =  mockMonedaList[1];
+const moneda0 = mockMonedaList[0];
+const moneda1 = mockMonedaList[1];
 
 export const mockOrdenCargaComplementoList: OrdenCargaComplemento[] = [
   {
@@ -65,6 +72,11 @@ export const mockOrdenCargaComplementoList: OrdenCargaComplemento[] = [
     // FIN Monto a cobrar al Remitente
     orden_carga_id: 1,
     flete_id: 1,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
   {
     id: 2,
@@ -89,5 +101,10 @@ export const mockOrdenCargaComplementoList: OrdenCargaComplemento[] = [
     // FIN Monto a cobrar al Remitente
     orden_carga_id: 1,
     flete_id: 1,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
 ];

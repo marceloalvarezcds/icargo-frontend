@@ -61,6 +61,27 @@ export class OrdenCargaEditFormComplementosComponent {
       value: (element: OrdenCargaComplemento) =>
         element.remitente_moneda_nombre,
     },
+    {
+      def: 'created_by',
+      title: 'Usuario creación',
+      value: (element: OrdenCargaComplemento) => element.created_by,
+    },
+    {
+      def: 'created_at',
+      title: 'Fecha creación',
+      value: (element: OrdenCargaComplemento) => element.created_at,
+    },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: OrdenCargaComplemento) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: OrdenCargaComplemento) => element.modified_at,
+      type: 'date',
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

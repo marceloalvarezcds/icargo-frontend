@@ -15,10 +15,9 @@ export class OrdenCargaEditFormEstadoHistorialComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: OrdenCargaEstadoHistorial) => element.created_at,
-      type: 'date',
+      def: 'estado',
+      title: 'Estado',
+      value: (element: OrdenCargaEstadoHistorial) => element.estado,
     },
     {
       def: 'created_by',
@@ -26,10 +25,20 @@ export class OrdenCargaEditFormEstadoHistorialComponent {
       value: (element: OrdenCargaEstadoHistorial) => element.created_by,
     },
     {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: OrdenCargaEstadoHistorial) => element.estado,
-      type: 'number',
+      def: 'created_at',
+      title: 'Fecha',
+      value: (element: OrdenCargaEstadoHistorial) => element.created_at,
+    },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: OrdenCargaEstadoHistorial) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: OrdenCargaEstadoHistorial) => element.modified_at,
+      type: 'date',
     },
   ];
 

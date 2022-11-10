@@ -86,6 +86,17 @@ export class OrdenCargaEditFormAnticiposComponent {
       title: 'Fecha creación',
       value: (element: OrdenCargaAnticipoRetirado) => element.created_at,
     },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: OrdenCargaAnticipoRetirado) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: OrdenCargaAnticipoRetirado) => element.modified_at,
+      type: 'date',
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

@@ -103,15 +103,25 @@ export class OrdenCargaEditFormMovimientosComponent {
       type: 'date',
     },
     {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
+      def: 'created_by',
+      title: 'Usuario creación',
+      value: (element: Movimiento) => element.created_by,
     },
     {
-      def: 'created_by',
-      title: 'Usuario',
-      value: (element: Movimiento) => element.created_by,
+      def: 'created_at',
+      title: 'Fecha creación',
+      value: (element: Movimiento) => element.created_at,
+    },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: Movimiento) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: Movimiento) => element.modified_at,
+      type: 'date',
     },
     {
       def: 'editar',
