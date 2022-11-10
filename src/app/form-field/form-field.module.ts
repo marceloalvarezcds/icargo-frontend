@@ -17,6 +17,7 @@ import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { CiudadDialogFieldComponent } from './ciudad-dialog-field/ciudad-dialog-field.component';
 import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
 import { ColorFieldComponent } from './color-field/color-field.component';
+import { ContraparteByTipoDialogFieldComponent } from './contraparte-by-tipo-dialog-field/contraparte-by-tipo-dialog-field.component';
 import { ContraparteFieldComponent } from './contraparte-field/contraparte-field.component';
 import { DialogFieldComponent } from './dialog-field/dialog-field.component';
 import { DialogFormFieldControlComponent } from './dialog-form-field-control/dialog-form-field-control.component';
@@ -97,6 +98,7 @@ const modules = [
   CiudadDialogFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
+  ContraparteByTipoDialogFieldComponent,
   ContraparteFieldComponent,
   DialogFieldComponent,
   DialogFormFieldControlComponent,

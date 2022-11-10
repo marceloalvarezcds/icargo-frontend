@@ -1,0 +1,24 @@
+<ng-container *ngIf="openField; else listTemplate">
+  <app-input-field
+    controlName="contraparte"
+    [title]="title"
+    [groupName]="groupName"
+    [form]="form"
+  ></app-input-field>
+</ng-container>
+<ng-template #listTemplate>
+  <ng-container *ngIf="list$ | async as list">
+    <app-dialog-field
+      [readonly]="readonly"
+      [title]="title"
+      [columns]="columns"
+      [list]="list"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [inputValuePropName]="inputValuePropName"
+      [form]="form"
+      (emptyListChange)="emptyListChange.emit($event)"
+      (valueChange)="valueChange.emit($event)"
+    ></app-dialog-field>
+  </ng-container>
+</ng-template>

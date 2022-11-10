@@ -17,6 +17,7 @@ export interface MovimientoBaseModel {
   liquidacion_id: number | null;
   orden_carga_id: number | null;
   tipo_contraparte_id: number;
+  contraparte_id: number | null;
   contraparte: string;
   contraparte_numero_documento: string;
   tipo_documento_relacionado_id: number;
@@ -132,6 +133,7 @@ export const mockMovimientoList: Movimiento[] = [
     liquidacion_id: 1,
     orden_carga_id: 1,
     tipo_contraparte_id: 3,
+    contraparte_id: 3,
     contraparte: 'ADM SANTA RITA',
     contraparte_numero_documento: '3100100',
     tipo_documento_relacionado_id: 1,
@@ -238,6 +240,7 @@ export const mockMovimientoList: Movimiento[] = [
     liquidacion_id: null,
     orden_carga_id: 2,
     tipo_contraparte_id: 1,
+    contraparte_id: 1,
     contraparte: 'AGROFERTIL SANTA FE',
     contraparte_numero_documento: '800200200',
     tipo_documento_relacionado_id: 1,
@@ -345,6 +348,7 @@ export const mockMovimientoList: Movimiento[] = [
     liquidacion_id: null,
     orden_carga_id: 1,
     tipo_contraparte_id: 4,
+    contraparte_id: 4,
     contraparte: 'GICAL KM12',
     contraparte_numero_documento: 'p-100100',
     tipo_documento_relacionado_id: 1,
@@ -451,6 +455,7 @@ export const mockMovimientoList: Movimiento[] = [
     liquidacion_id: null,
     orden_carga_id: 1,
     tipo_contraparte_id: 1,
+    contraparte_id: 1,
     contraparte: 'LA PAZ',
     contraparte_numero_documento: '800100100',
     tipo_documento_relacionado_id: 1,
@@ -557,6 +562,7 @@ export const mockMovimientoList: Movimiento[] = [
     liquidacion_id: null,
     orden_carga_id: 2,
     tipo_contraparte_id: 4,
+    contraparte_id: 4,
     contraparte: 'LDC_POZUELO',
     contraparte_numero_documento: '800400400',
     tipo_documento_relacionado_id: 1,

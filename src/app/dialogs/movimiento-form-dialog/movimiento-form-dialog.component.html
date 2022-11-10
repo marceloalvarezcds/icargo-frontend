@@ -34,14 +34,14 @@
     >
       {{ openField ? "Elegir" : "Cargar" }} Contraparte
     </button>
-    <app-contraparte-field
+    <app-contraparte-by-tipo-dialog-field
       [form]="form"
       [readonly]="!isContraparteEditable"
       [openField]="openField"
       [tipoContraparteId]="tipo?.id"
       (valueChange)="setContraparte($event)"
       (emptyListChange)="openField = isOtro"
-    ></app-contraparte-field>
+    ></app-contraparte-by-tipo-dialog-field>
     <app-input-field
       title="Nº Doc. Contraparte"
       controlName="contraparte_numero_documento"

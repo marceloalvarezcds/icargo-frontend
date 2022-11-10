@@ -20,6 +20,7 @@ export class MovimientoFormDialogComponent {
   tipo?: TipoContraparte;
   form = this.fb.group({
     tipo_contraparte_id: [this.tipoContraparteId, Validators.required],
+    contraparte_id: this.data?.contraparte_id,
     contraparte: [this.contraparte, Validators.required],
     contraparte_numero_documento: this.contraparteNumeroDocumento,
     liquidacion_id: this.liquidacionId,
@@ -150,6 +151,7 @@ export class MovimientoFormDialogComponent {
       } else if (this.tipo?.descripcion == TipoContraparteEnum.REMITENTE) {
         this.form.controls['remitente_id'].setValue(val.id);
       }
+      this.contraparteControl.setValue(val.contraparte);
       this.contraparteNumeroDocumentoControl.setValue(
         val.contraparte_numero_documento
       );
