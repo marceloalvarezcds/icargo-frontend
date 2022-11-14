@@ -28,7 +28,7 @@ import { delay } from 'src/app/utils/observable';
   templateUrl: './table.component.html',
   styleUrls: ['./table.component.scss'],
 })
-export class TableComponent implements OnInit, OnDestroy {
+export class TableComponent<T> implements OnInit, OnDestroy {
   e = EstadoEnum;
   a = PermisoAccionEnum;
   allChecked: boolean = false;
@@ -39,7 +39,7 @@ export class TableComponent implements OnInit, OnDestroy {
   columnsToShowList: string[] = [];
   columnsToShowFilteredList: string[] = [];
   displayedColumns: string[] = [];
-  tableDataSource = new MatTableDataSource<any>();
+  tableDataSource = new MatTableDataSource<T>();
   defaultFilterPredicate = this.tableDataSource.filterPredicate.bind(
     this.tableDataSource
   );
@@ -49,7 +49,7 @@ export class TableComponent implements OnInit, OnDestroy {
     .pipe(delay(500))
     .subscribe((search) => this.filterData(search));
 
-  @Input() set dataSource(source: MatTableDataSource<any>) {
+  @Input() set dataSource(source: MatTableDataSource<T>) {
     this.tableDataSource = source;
     this.tableDataSource.sort = this.sort;
   }
@@ -66,7 +66,7 @@ export class TableComponent implements OnInit, OnDestroy {
     this.filterColumns();
   }
 
-  @Input() set data(values: any[]) {
+  @Input() set data(values: T[]) {
     this.checkedList = values.map((_) => false);
     this.tableDataSource.data = values.slice();
   }
@@ -88,13 +88,13 @@ export class TableComponent implements OnInit, OnDestroy {
   @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
 
-  @Output() activeClick = new EventEmitter<TableEvent<any>>();
-  @Output() inactiveClick = new EventEmitter<TableEvent<any>>();
-  @Output() editClick = new EventEmitter<TableEvent<any>>();
-  @Output() deleteClick = new EventEmitter<TableEvent<any>>();
-  @Output() showClick = new EventEmitter<TableEvent<any>>();
+  @Output() activeClick = new EventEmitter<TableEvent<T>>();
+  @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
+  @Output() editClick = new EventEmitter<TableEvent<T>>();
+  @Output() deleteClick = new EventEmitter<TableEvent<T>>();
+  @Output() showClick = new EventEmitter<TableEvent<T>>();
   @Output() allCheckedChange = new EventEmitter<boolean>();
-  @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
+  @Output() checkboxChange = new EventEmitter<CheckboxEvent<T>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;

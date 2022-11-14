@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnDestroy,
   OnInit,
   Output,
   ViewChild,
@@ -19,7 +20,7 @@ import { Column } from 'src/app/interfaces/column';
   styleUrls: ['./table-selector.component.scss'],
   exportAs: 'app-table-selector',
 })
-export class TableSelectorComponent<T> implements OnInit {
+export class TableSelectorComponent<T> implements OnInit, OnDestroy {
   allColumns: Column[] = [];
   columnStickyList: Column[] = [];
   columnStickyEndList: Column[] = [];
@@ -39,6 +40,7 @@ export class TableSelectorComponent<T> implements OnInit {
       .filter((c) => !(c.sticky || c.stickyEnd))
       .map((c) => c.title);
     this.columnsToShowFilteredList = this.columnsToShowList.slice();
+    this.dataSource.filterPredicate = this.defaultFilterPredicateFactory();
     this.filterColumns();
   }
 
@@ -64,6 +66,28 @@ export class TableSelectorComponent<T> implements OnInit {
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  ngOnDestroy(): void {
+    this.searchControlSubscription?.unsubscribe();
+  }
+
+  defaultFilterPredicateFactory(): (data: T, filter: string) => boolean {
+    const columns = this.displayedColumns.slice();
+    return function defaultFilterPredicate(data: T, filter: string): boolean {
+      const obj = data as any;
+      const entries = Object.entries(obj).filter(
+        ([key]) => columns.indexOf(key) >= 0
+      );
+      const valuesToFilter = entries.map(([_, value]) =>
+        typeof value === 'object'
+          ? JSON.stringify(value)
+          : new String(value).toLowerCase()
+      );
+      return valuesToFilter.some((value) =>
+        new RegExp(filter, 'gi').test(value)
+      );
+    };
   }
 
   filterColumns() {

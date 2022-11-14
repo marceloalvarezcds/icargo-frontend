@@ -1,10 +1,17 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  flush,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { MatIconTestingModule } from '@angular/material/icon/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FleteList } from 'src/app/interfaces/flete';
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AuthService } from 'src/app/services/auth.service';
@@ -16,8 +23,8 @@ import { SharedModule } from '../shared.module';
 import { TableComponent } from './table.component';
 
 describe('TableComponent', () => {
-  let component: TableComponent;
-  let fixture: ComponentFixture<TableComponent>;
+  let component: TableComponent<FleteList>;
+  let fixture: ComponentFixture<TableComponent<FleteList>>;
   let searchService: SearchService;
 
   beforeEach(async () => {
@@ -32,15 +39,15 @@ describe('TableComponent', () => {
         PipesModule,
         RouterTestingModule,
       ],
-      providers: [ AuthService, SearchService, UserService ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ TableComponent, SearchableCheckboxFilterComponent ]
-    })
-    .compileComponents();
+      providers: [AuthService, SearchService, UserService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [TableComponent, SearchableCheckboxFilterComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TableComponent);
+    fixture =
+      TestBed.createComponent<TableComponent<FleteList>>(TableComponent);
     searchService = TestBed.inject(SearchService);
     component = fixture.componentInstance;
     fixture.detectChanges();
