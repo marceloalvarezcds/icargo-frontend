@@ -12,6 +12,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ChoferService } from 'src/app/services/chofer.service';
@@ -266,10 +267,13 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.choferService.create(formData).subscribe((chofer) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.CHOFER}/${a.EDITAR}`,
-            chofer.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.CHOFER,
+            this.id || chofer.id
+          );
         });
       }
     } else {

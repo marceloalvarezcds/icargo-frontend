@@ -7,6 +7,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { CamionService } from 'src/app/services/camion.service';
@@ -274,10 +275,13 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.camionService.create(formData).subscribe((camion) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.CAMION}/${a.EDITAR}`,
-            camion.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.CAMION,
+            this.id || camion.id
+          );
         });
       }
     } else {

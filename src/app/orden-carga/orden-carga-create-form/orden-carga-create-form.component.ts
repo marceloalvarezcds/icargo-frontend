@@ -6,6 +6,7 @@ import { OcConfirmationDialogComponent } from 'src/app/dialogs/oc-confirmation-d
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getOCData } from 'src/app/form-data/oc-confirmation-data';
 import { CamionList } from 'src/app/interfaces/camion';
@@ -98,10 +99,13 @@ export class OrdenCargaCreateFormComponent {
     );
     formData.append('data', JSON.stringify(data));
     this.ordenCargaService.create(formData).subscribe((item) => {
-      this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-        `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
-        item.id,
-      ]);
+      this.snackbar.openSaveAndRedirect(
+        confirmed,
+        this.backUrl,
+        r.ORDEN_CARGA,
+        m.ORDEN_CARGA,
+        item.id
+      );
     });
   }
 }

@@ -12,6 +12,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { Ciudad } from 'src/app/interfaces/ciudad';
@@ -167,10 +168,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         this.centroOperativoService
           .create(formData)
           .subscribe((centroOperativo) => {
-            this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-              `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
-              centroOperativo.id,
-            ]);
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.ENTITIES,
+              m.CENTRO_OPERATIVO,
+              this.id || centroOperativo.id
+            );
           });
       }
     } else {

@@ -7,6 +7,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SemiService } from 'src/app/services/semi.service';
@@ -260,10 +261,13 @@ export class SemiFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.semiService.create(formData).subscribe((semi) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
-            semi.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.SEMIRREMOLQUE,
+            this.id || semi.id
+          );
         });
       }
     } else {

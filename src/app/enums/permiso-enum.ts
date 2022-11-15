@@ -96,6 +96,22 @@ export enum PermisoModuloEnum {
   BIBLIOTECA = 'Biblioteca de Usuario',
 }
 
+export enum PermisoModuloRouterEnum {
+  LOGIN = 'login',
+  ACCOUNT = 'account',
+  BANCO = 'banco',
+  CAJA = 'caja',
+  BIBLIOTECA = 'biblioteca',
+  ENTITIES = 'entities',
+  ESTADO_CUENTA = 'estado-cuenta',
+  FLOTA = 'flota',
+  FLETE = 'flete',
+  LISTADO = 'listado',
+  ORDEN_CARGA = 'orden-carga',
+  PARAMETROS = 'parametros',
+  USERS = 'users',
+}
+
 export const permisoModeloTitulo: Record<string, string> = {
   banco: 'Banco',
   caja: 'Caja',

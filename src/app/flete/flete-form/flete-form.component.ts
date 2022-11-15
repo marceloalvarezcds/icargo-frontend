@@ -9,6 +9,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getFleteData } from 'src/app/form-data/flete-confirmation-data';
 import { CentroOperativo } from 'src/app/interfaces/centro-operativo';
@@ -279,10 +280,13 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {
-        this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-          `/flete/${m.FLETE}/${a.EDITAR}`,
-          flete.id,
-        ]);
+        this.snackbar.openSaveAndRedirect(
+          confirmed,
+          this.backUrl,
+          r.FLETE,
+          m.FLETE,
+          this.id || flete.id
+        );
       });
     }
   }

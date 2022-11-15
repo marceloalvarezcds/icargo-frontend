@@ -12,6 +12,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { PuntoVenta } from 'src/app/interfaces/punto-venta';
@@ -176,11 +177,10 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
-            [
-              `/entities/${m.PUNTO_VENTA}/${a.EDITAR}`,
-              this.proveedorId,
-              puntoVenta.id,
-            ],
+            r.ENTITIES,
+            m.PUNTO_VENTA,
+            this.proveedorId || puntoVenta.proveedor_id,
+            `/${this.id || puntoVenta.id}`,
             { queryParams: { backUrl: this.backUrl } }
           );
         });

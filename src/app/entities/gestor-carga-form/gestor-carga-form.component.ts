@@ -10,6 +10,7 @@ import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
@@ -112,7 +113,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     private composicionJuridicaService: ComposicionJuridicaService,
     private tipoDocumentoService: TipoDocumentoService,
     private monedaService: MonedaService,
-    private remitenteService: GestorCargaService,
+    private gestorCargaService: GestorCargaService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
     private router: Router
@@ -166,16 +167,19 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       this.hasChange = false;
       this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
-        this.remitenteService.edit(this.id, formData).subscribe(() => {
+        this.gestorCargaService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
-        this.remitenteService.create(formData).subscribe((remitente) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/entities/${m.GESTOR_CARGA}/${a.EDITAR}`,
-            remitente.id,
-          ]);
+        this.gestorCargaService.create(formData).subscribe((gestorCarga) => {
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.ENTITIES,
+            m.GESTOR_CARGA,
+            this.id || gestorCarga.id
+          );
         });
       }
     } else {
@@ -201,7 +205,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.remitenteService.getById(this.id).subscribe((data) => {
+      this.gestorCargaService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
         this.form.setValue({
           info: {

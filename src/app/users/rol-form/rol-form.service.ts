@@ -6,6 +6,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Rol } from 'src/app/interfaces/rol';
 import { RolService } from 'src/app/services/rol.service';
@@ -96,10 +97,13 @@ export class RolFormService {
         });
       } else {
         this.service.create(formData).subscribe((item) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/users/${this.modelo}/${a.EDITAR}`,
-            item.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.USERS,
+            this.modelo,
+            item.id
+          );
         });
       }
     }

@@ -13,6 +13,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
@@ -291,10 +292,13 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.propietarioService.create(formData).subscribe((propietario) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.PROPIETARIO}/${a.EDITAR}`,
-            propietario.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.PROPIETARIO,
+            this.id || propietario.id
+          );
         });
       }
     } else {

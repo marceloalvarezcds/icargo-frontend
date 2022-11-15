@@ -12,6 +12,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
@@ -162,10 +163,13 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.remitenteService.create(formData).subscribe((remitente) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/entities/${m.REMITENTE}/${a.EDITAR}`,
-            remitente.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.ENTITIES,
+            m.REMITENTE,
+            this.id || remitente.id
+          );
         });
       }
     } else {

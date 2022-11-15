@@ -12,6 +12,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
@@ -197,13 +198,14 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
               `/entities/${m.PUNTO_VENTA}/${a.CREAR}`,
               proveedor.id,
             ]);
-          } else if (confirmed) {
-            this.router.navigate([this.backUrl]);
           } else {
-            this.router.navigate([
-              `/entities/${m.PROVEEDOR}/${a.EDITAR}`,
-              proveedor.id,
-            ]);
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.ENTITIES,
+              m.PROVEEDOR,
+              this.id || proveedor.id
+            );
           }
         });
       }

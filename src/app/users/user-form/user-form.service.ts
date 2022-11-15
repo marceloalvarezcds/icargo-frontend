@@ -6,6 +6,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { User } from 'src/app/interfaces/user';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -123,10 +124,13 @@ export class UserFormService {
         });
       } else {
         this.service.create(formData).subscribe((item) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/users/${this.modelo}/${a.EDITAR}`,
-            item.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.USERS,
+            this.modelo,
+            item.id
+          );
         });
       }
     }
