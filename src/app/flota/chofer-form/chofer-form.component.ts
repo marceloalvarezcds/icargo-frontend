@@ -179,7 +179,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate([`/flota/${m.PROPIETARIO}/${a.EDITAR}`, this.id]);
+    this.router.navigate([`/flota/${m.CHOFER}/${a.EDITAR}`, this.id]);
   }
 
   active(): void {
