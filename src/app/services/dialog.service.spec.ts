@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MatDialogModule } from '@angular/material/dialog';
 import {
@@ -13,7 +14,12 @@ describe('DialogService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatDialogModule, MatSnackBarModule],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MatDialogModule,
+        MatSnackBarModule,
+      ],
       providers: [
         DialogService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },

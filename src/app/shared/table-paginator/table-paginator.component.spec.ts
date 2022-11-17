@@ -1,7 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { CUSTOM_ELEMENTS_SCHEMA, DebugElement } from '@angular/core';
-import { ComponentFixture, fakeAsync, flush, TestBed, tick } from '@angular/core/testing';
+import {
+  ComponentFixture,
+  fakeAsync,
+  TestBed,
+  tick,
+} from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { pageOptions } from 'src/app/interfaces/table';
 import { MaterialModule } from 'src/app/material/material.module';
 import { TableService } from 'src/app/services/table.service';
@@ -22,12 +28,12 @@ describe('TablePaginatorComponent', () => {
         CommonModule,
         MaterialModule,
         SharedModule,
+        RouterTestingModule,
       ],
-      providers: [ TableService ],
-      schemas: [ CUSTOM_ELEMENTS_SCHEMA ],
-      declarations: [ TablePaginatorComponent ]
-    })
-    .compileComponents();
+      providers: [TableService],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+      declarations: [TablePaginatorComponent],
+    }).compileComponents();
   });
 
   beforeEach(() => {
@@ -42,7 +48,10 @@ describe('TablePaginatorComponent', () => {
   });
 
   it('should pageOptions changes', fakeAsync(() => {
-    const setPageOptionsSpy = spyOn(component, 'setPageOptions').and.callThrough();
+    const setPageOptionsSpy = spyOn(
+      component,
+      'setPageOptions'
+    ).and.callThrough();
     paginatorComponent.triggerEventHandler('page', pageOptions);
     expect(setPageOptionsSpy).toHaveBeenCalled();
     tick(500);
