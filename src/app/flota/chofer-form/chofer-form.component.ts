@@ -272,7 +272,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.FLOTA,
             m.CHOFER,
-            this.id || chofer.id
+            chofer.id
           );
         });
       }

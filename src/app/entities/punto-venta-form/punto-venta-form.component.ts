@@ -180,7 +180,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
             r.ENTITIES,
             m.PUNTO_VENTA,
             this.proveedorId || puntoVenta.proveedor_id,
-            `/${this.id || puntoVenta.id}`,
+            `/${puntoVenta.id}`,
             { queryParams: { backUrl: this.backUrl } }
           );
         });

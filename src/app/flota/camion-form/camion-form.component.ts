@@ -280,7 +280,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.FLOTA,
             m.CAMION,
-            this.id || camion.id
+            camion.id
           );
         });
       }

@@ -168,7 +168,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.ENTITIES,
             m.REMITENTE,
-            this.id || remitente.id
+            remitente.id
           );
         });
       }

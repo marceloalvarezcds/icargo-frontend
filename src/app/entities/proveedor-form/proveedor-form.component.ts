@@ -204,7 +204,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
               this.backUrl,
               r.ENTITIES,
               m.PROVEEDOR,
-              this.id || proveedor.id
+              proveedor.id
             );
           }
         });

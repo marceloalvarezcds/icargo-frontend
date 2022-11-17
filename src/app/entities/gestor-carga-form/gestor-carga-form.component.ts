@@ -178,7 +178,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.ENTITIES,
             m.GESTOR_CARGA,
-            this.id || gestorCarga.id
+            gestorCarga.id
           );
         });
       }

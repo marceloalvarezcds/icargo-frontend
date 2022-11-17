@@ -285,7 +285,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           this.backUrl,
           r.FLETE,
           m.FLETE,
-          this.id || flete.id
+          flete.id
         );
       });
     }

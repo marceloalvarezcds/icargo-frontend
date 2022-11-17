@@ -173,7 +173,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
               this.backUrl,
               r.ENTITIES,
               m.CENTRO_OPERATIVO,
-              this.id || centroOperativo.id
+              centroOperativo.id
             );
           });
       }

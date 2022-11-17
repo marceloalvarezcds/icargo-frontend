@@ -266,7 +266,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.FLOTA,
             m.SEMIRREMOLQUE,
-            this.id || semi.id
+            semi.id
           );
         });
       }

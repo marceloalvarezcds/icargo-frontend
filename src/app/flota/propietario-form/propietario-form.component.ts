@@ -297,7 +297,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.FLOTA,
             m.PROPIETARIO,
-            this.id || propietario.id
+            propietario.id
           );
         });
       }
