@@ -5,7 +5,7 @@ import {
   OnDestroy,
   Output,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { FleteList } from 'src/app/interfaces/flete';
@@ -102,9 +102,10 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
         )
         .subscribe((camionSemiNeto) => {
           this.neto = camionSemiNeto?.neto;
-          this.cantidadNominadaControl.setValidators(
-            NumberValidator.max(this.neto ?? 0)
-          );
+          this.cantidadNominadaControl.setValidators([
+            NumberValidator.max(this.neto ?? 0),
+            Validators.required,
+          ]);
           this.cantidadNominadaControl.updateValueAndValidity();
           if (this.neto) {
             this.netoChange.emit(numberWithCommas(this.neto));
