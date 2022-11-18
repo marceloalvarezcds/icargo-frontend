@@ -22,6 +22,12 @@ export class OrdenCargaEditFormAccionesComponent {
 
   @Output() ocChange = new EventEmitter<void>();
 
+  get remitente(): string {
+    return this.oc
+      ? `${this.oc?.flete_remitente_nombre} - ${this.oc?.flete_remitente_numero_documento}`
+      : '';
+  }
+
   get placaCamionSemi(): string {
     return this.oc ? `${this.oc.camion_placa}/${this.oc.semi_placa}` : '';
   }
