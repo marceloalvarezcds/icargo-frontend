@@ -45,9 +45,9 @@ export class LiquidacionFormMovimientosComponent {
       value: (element: Movimiento) => element.concepto,
     },
     {
-      def: 'cuenta_descripcion',
+      def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
-      value: (element: Movimiento) => element.cuenta_descripcion,
+      value: (element: Movimiento) => element.cuenta_codigo_descripcion,
     },
     {
       def: 'punto_venta',

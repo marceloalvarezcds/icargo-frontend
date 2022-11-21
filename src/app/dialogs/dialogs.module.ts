@@ -30,6 +30,7 @@ import { OcRemisionOrigenFormDialogComponent } from './oc-remision-origen-form-d
 import { SeleccionableFormDialogComponent } from './seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { SelectorDialogComponent } from './selector-dialog/selector-dialog.component';
 import { SelectorInMapDialogComponent } from './selector-in-map-dialog/selector-in-map-dialog.component';
+import { TipoCuentaFormDialogComponent } from './tipo-cuenta-form-dialog/tipo-cuenta-form-dialog.component';
 import { TipoMovimientoFormDialogComponent } from './tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
 
@@ -58,6 +59,7 @@ const modules = [
   SeleccionableFormDialogComponent,
   SelectorDialogComponent,
   SelectorInMapDialogComponent,
+  TipoCuentaFormDialogComponent,
   TipoMovimientoFormDialogComponent,
   UserFormDialogComponent,
 ];

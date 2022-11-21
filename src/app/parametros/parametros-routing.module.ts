@@ -6,11 +6,11 @@ import {
   permisoModeloTitulo,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
-import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
-import { SeleccionableListComponent } from 'src/app/shared/seleccionable-list/seleccionable-list.component';
-import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
-import { TipoMovimientoFormDialogComponent } from '../dialogs/tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { TipoMovimiento } from 'src/app/interfaces/tipo-movimiento';
+import { SeleccionableListComponent } from 'src/app/shared/seleccionable-list/seleccionable-list.component';
+import { TipoCuentaFormDialogComponent } from '../dialogs/tipo-cuenta-form-dialog/tipo-cuenta-form-dialog.component';
+import { TipoMovimientoFormDialogComponent } from '../dialogs/tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
+import { TipoCuenta } from '../interfaces/tipo-cuenta';
 
 const routes: Routes = [
   {
@@ -19,12 +19,19 @@ const routes: Routes = [
       modelo: m.TIPO_CUENTA,
       submodule: permisoModeloTitulo[m.TIPO_CUENTA],
       changeStatusMsg: 'a la Cuenta',
-      dialogComponent: SeleccionableFormDialogComponent,
-      getDialogData: (item?: SeleccionableBaseModel) => ({
+      dialogComponent: TipoCuentaFormDialogComponent,
+      getDialogData: (item?: TipoCuenta) => ({
         item,
         modelo: m.TIPO_CUENTA,
         submodule: permisoModeloTitulo[m.TIPO_CUENTA],
       }),
+      additionalColumns: [
+        {
+          def: 'codigo',
+          title: 'Código',
+          value: (element: TipoCuenta) => element.codigo,
+        },
+      ],
     },
     children: [
       {
@@ -51,6 +58,18 @@ const routes: Routes = [
         modelo: m.TIPO_MOVIMIENTO,
         submodule: permisoModeloTitulo[m.TIPO_MOVIMIENTO],
       }),
+      additionalColumns: [
+        {
+          def: 'cuenta_codigo_descripcion',
+          title: 'Cuenta',
+          value: (element: TipoMovimiento) => element.cuenta_codigo_descripcion,
+        },
+        {
+          def: 'codigo',
+          title: 'Código',
+          value: (element: TipoMovimiento) => element.codigo,
+        },
+      ],
     },
     children: [
       {

@@ -7,7 +7,7 @@ import {
   OrdenCargaAnticipoRetirado,
 } from './orden-carga-anticipo-retirado';
 import { TipoContraparte } from './tipo-contraparte';
-import { TipoCuenta } from './tipo-cuenta';
+import { mockTipoCuentaList, TipoCuenta } from './tipo-cuenta';
 import { TipoDocumentoRelacionado } from './tipo-documento-relacionado';
 import { TipoMovimiento, mockTipoMovimientoList } from './tipo-movimiento';
 
@@ -75,7 +75,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   chofer_nombre: string;
   chofer_numero_documento: string;
   concepto: string;
-  cuenta_descripcion: string;
+  cuenta_codigo_descripcion: string;
   debito: number;
   destino_nombre: string;
   es_cobro: boolean;
@@ -165,11 +165,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'OC',
     },
-    cuenta: {
-      estado: EstadoEnum.ACTIVO,
-      id: 1,
-      descripcion: 'Viajes',
-    },
+    cuenta: mockTipoCuentaList[0],
     tipo_movimiento: mockTipoMovimientoList[0],
     moneda: {
       estado: EstadoEnum.ACTIVO,
@@ -182,7 +178,7 @@ export const mockMovimientoList: Movimiento[] = [
     chofer_nombre: 'Chofer Transred 3',
     chofer_numero_documento: '800100100',
     concepto: 'Flete',
-    cuenta_descripcion: 'Viajes',
+    cuenta_codigo_descripcion: 'Viajes',
     debito: 2100000,
     destino_nombre: 'LA PAZ',
     detalle: 'P.Dest.: 21.000,00Kg || Tarifa: 100,00PYG/kg.',
@@ -272,11 +268,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'OC',
     },
-    cuenta: {
-      estado: EstadoEnum.ACTIVO,
-      id: 1,
-      descripcion: 'Viajes',
-    },
+    cuenta: mockTipoCuentaList[1],
     tipo_movimiento: mockTipoMovimientoList[1],
     moneda: {
       estado: EstadoEnum.ACTIVO,
@@ -289,7 +281,7 @@ export const mockMovimientoList: Movimiento[] = [
     chofer_nombre: 'Chofer Transred 6',
     chofer_numero_documento: '800200200',
     concepto: 'Merma',
-    cuenta_descripcion: 'Viajes',
+    cuenta_codigo_descripcion: 'Viajes',
     debito: 675000,
     destino_nombre: 'LA PAZ',
     detalle:
@@ -380,11 +372,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'OC',
     },
-    cuenta: {
-      estado: EstadoEnum.ACTIVO,
-      id: 1,
-      descripcion: 'Viajes',
-    },
+    cuenta: mockTipoCuentaList[0],
     tipo_movimiento: mockTipoMovimientoList[2],
     moneda: {
       estado: EstadoEnum.ACTIVO,
@@ -397,7 +385,7 @@ export const mockMovimientoList: Movimiento[] = [
     chofer_nombre: 'Chofer Transred 3',
     chofer_numero_documento: '800100100',
     concepto: 'Descuento',
-    cuenta_descripcion: 'Viajes',
+    cuenta_codigo_descripcion: 'Viajes',
     debito: 0,
     destino_nombre: 'LA PAZ',
     detalle: 'Monto: 900,00PYG',
@@ -487,11 +475,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'OC',
     },
-    cuenta: {
-      estado: EstadoEnum.ACTIVO,
-      id: 1,
-      descripcion: 'Viajes',
-    },
+    cuenta: mockTipoCuentaList[1],
     tipo_movimiento: mockTipoMovimientoList[3],
     moneda: {
       estado: EstadoEnum.ACTIVO,
@@ -504,7 +488,7 @@ export const mockMovimientoList: Movimiento[] = [
     chofer_nombre: 'Chofer Transred 3',
     chofer_numero_documento: '800100100',
     concepto: 'Complemento',
-    cuenta_descripcion: 'Viajes',
+    cuenta_codigo_descripcion: 'Viajes',
     debito: 0,
     destino_nombre: 'LA PAZ',
     detalle: 'Monto: 10.000,00PYG',
@@ -594,11 +578,7 @@ export const mockMovimientoList: Movimiento[] = [
       id: 1,
       descripcion: 'OC',
     },
-    cuenta: {
-      estado: EstadoEnum.ACTIVO,
-      id: 1,
-      descripcion: 'Viajes',
-    },
+    cuenta: mockTipoCuentaList[0],
     tipo_movimiento: mockTipoMovimientoList[0],
     moneda: {
       estado: EstadoEnum.ACTIVO,
@@ -611,7 +591,7 @@ export const mockMovimientoList: Movimiento[] = [
     chofer_nombre: 'Chofer Transred 6',
     chofer_numero_documento: '800200200',
     concepto: 'Anticipo',
-    cuenta_descripcion: 'Viajes',
+    cuenta_codigo_descripcion: 'Viajes',
     debito: 0,
     destino_nombre: 'LA PAZ',
     detalle:

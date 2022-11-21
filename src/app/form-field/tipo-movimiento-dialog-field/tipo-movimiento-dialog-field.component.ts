@@ -31,14 +31,14 @@ export class TipoMovimientoDialogFieldComponent {
       sticky: true,
     },
     {
-      def: 'cuenta',
+      def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
-      value: (element: TipoMovimiento) => element.cuenta_descripcion,
+      value: (element: TipoMovimiento) => element.cuenta_codigo_descripcion,
     },
     {
-      def: 'concepto',
+      def: 'codigo_descripcion',
       title: 'Concepto',
-      value: (element: TipoMovimiento) => element.descripcion,
+      value: (element: TipoMovimiento) => element.codigo_descripcion,
     },
     {
       def: 'created_at',

@@ -7,15 +7,10 @@
   </h1>
   <div mat-dialog-content>
     <div>
-      <app-tipo-cuenta-field
-        [form]="form"
-        controlName="cuenta_id"
-      ></app-tipo-cuenta-field>
-    </div>
-    <div>
       <app-input-field
         title="Código"
         controlName="codigo"
+        [autofocus]="true"
         [form]="form"
       ></app-input-field>
     </div>

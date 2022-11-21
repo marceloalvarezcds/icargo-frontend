@@ -85,12 +85,18 @@ export class SeleccionableListService<DialogComponent, DialogData> {
       changeStatusMsg,
       dialogComponent,
       getDialogData,
+      additionalColumns,
     } = data;
     this.modelo = modelo;
     this.submodule = submodule;
     this.changeStatusMsg = changeStatusMsg;
     this.dialogComponent = dialogComponent;
     this.getDialogData = getDialogData;
+    additionalColumns &&
+      additionalColumns.length &&
+      additionalColumns.forEach((col, idx) => {
+        this.columns.splice(idx + 1, 0, col);
+      });
     this.service.setEndpoint(modelo);
   }
 

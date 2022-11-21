@@ -18,6 +18,13 @@
           [appAutofocus]="autofocus"
           [hidden]="readonly"
         />
+        <mat-error *ngIf="control.hasError('maxlength')">
+          Hasta
+          <strong>
+            {{ control.getError("maxlength").requiredLength | numberFormat }}
+            caracteres
+          </strong>
+        </mat-error>
         <mat-error *ngIf="control.hasError('required')">
           Este campo es <strong>requerido</strong>
         </mat-error>
@@ -44,6 +51,13 @@
           [appFormatToPasteNumber]="formatToPasteNumber"
           [appFormatToPastePhone]="formatToPastePhone"
         />
+        <mat-error *ngIf="control.hasError('maxlength')">
+          Hasta
+          <strong>
+            {{ control.getError("maxlength").requiredLength | numberFormat }}
+            caracteres
+          </strong>
+        </mat-error>
         <mat-error *ngIf="control.hasError('required')">
           Este campo es <strong>requerido</strong>
         </mat-error>
