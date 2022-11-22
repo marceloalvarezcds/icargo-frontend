@@ -1,0 +1,15 @@
+<div class="acciones-container" *ngIf="flete && isShow">
+  <div class="acciones-buttons">
+    <ng-container>
+      <button
+        type="button"
+        mat-raised-button
+        color="warn"
+        *ngIf="flete.estado !== E.CANCELADO"
+        (click)="cancelar()"
+      >
+        Cancelar
+      </button>
+    </ng-container>
+  </div>
+</div>

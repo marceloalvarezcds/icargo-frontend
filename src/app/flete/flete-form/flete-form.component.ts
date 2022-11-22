@@ -12,13 +12,11 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getFleteData } from 'src/app/form-data/flete-confirmation-data';
-import { CentroOperativo } from 'src/app/interfaces/centro-operativo';
+import { Flete } from 'src/app/interfaces/flete';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { FleteConfirmationDialogData } from 'src/app/interfaces/flete-confirmation-dialog-data';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
-import { Producto } from 'src/app/interfaces/producto';
-import { Remitente } from 'src/app/interfaces/remitente';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -47,6 +45,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   isComplementoTouched = false;
   isDescuentoTouched = false;
   isEmisionOrdenTouched = false;
+  item?: Flete;
   backUrl = `/flete/${m.FLETE}/${a.LISTAR}`;
   modelo = m.FLETE;
   gestorCargaId?: number;
@@ -291,7 +290,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getData(): void {
+  getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
     if (backUrl) {
       this.backUrl = backUrl;
@@ -305,6 +304,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.fleteService.getById(this.id).subscribe((data) => {
+        this.item = data;
         this.estado = data.estado;
         this.isCancel = data.estado === EstadoEnum.CANCELADO;
         this.gestorCargaId = data.gestor_carga_id;
