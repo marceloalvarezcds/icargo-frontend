@@ -20,6 +20,14 @@ export class PropietarioService {
     return this.http.get<PropietarioList[]>(`${this.url}/gestor_cuenta`);
   }
 
+  getListByGestorCuentaByCamionId(
+    camionId: number
+  ): Observable<PropietarioList[]> {
+    return this.http.get<PropietarioList[]>(
+      `${this.url}/gestor_cuenta/${camionId}`
+    );
+  }
+
   getById(id: number): Observable<Propietario> {
     return this.http.get<Propietario>(`${this.url}/${id}`);
   }

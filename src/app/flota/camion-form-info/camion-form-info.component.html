@@ -17,18 +17,19 @@
         </div>
       </ng-container>
       <div class="col-xs-12 col-sm-6">
-        <app-propietario-field
+        <app-propietario-readonly-by-id-dialog-field
           [groupName]="groupName"
           [form]="form"
+          [camionId]="camion?.id"
           [propietarioId]="propietarioId"
-        ></app-propietario-field>
+        ></app-propietario-readonly-by-id-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <app-chofer-field
+        <app-chofer-by-camion-dialog-field
           [camionId]="camion?.id"
           [groupName]="groupName"
           [form]="form"
-        ></app-chofer-field>
+        ></app-chofer-by-camion-dialog-field>
       </div>
     </div>
     <div class="row page-form-row">

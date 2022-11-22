@@ -13,6 +13,7 @@ import { CargoFieldComponent } from './cargo-field/cargo-field.component';
 import { CentroOperativoByGestorDialogFieldComponent } from './centro-operativo-by-gestor-dialog-field/centro-operativo-by-gestor-dialog-field.component';
 import { CentroOperativoByGestorMapDialogFieldComponent } from './centro-operativo-by-gestor-map-dialog-field/centro-operativo-by-gestor-map-dialog-field.component';
 import { CentroOperativoFieldComponent } from './centro-operativo-field/centro-operativo-field.component';
+import { ChoferByCamionDialogFieldComponent } from './chofer-by-camion-dialog-field/chofer-by-camion-dialog-field.component';
 import { ChoferFieldComponent } from './chofer-field/chofer-field.component';
 import { CiudadDialogFieldComponent } from './ciudad-dialog-field/ciudad-dialog-field.component';
 import { CiudadFieldComponent } from './ciudad-field/ciudad-field.component';
@@ -51,6 +52,7 @@ import { PermisoFormFieldControlComponent } from './permiso-form-field-control/p
 import { ProductoByGestorDialogFieldComponent } from './producto-by-gestor-dialog-field/producto-by-gestor-dialog-field.component';
 import { ProductoFieldComponent } from './producto-field/producto-field.component';
 import { PropietarioFieldComponent } from './propietario-field/propietario-field.component';
+import { PropietarioReadonlyByIdDialogFieldComponent } from './propietario-readonly-by-id-dialog-field/propietario-readonly-by-id-dialog-field.component';
 import { ProveedorByInsumoFieldComponent } from './proveedor-by-insumo-field/proveedor-by-insumo-field.component';
 import { ProveedorFieldComponent } from './proveedor-field/proveedor-field.component';
 import { PuntoVentaByInsumoProveedorFieldComponent } from './punto-venta-by-insumo-proveedor-field/punto-venta-by-insumo-proveedor-field.component';
@@ -94,6 +96,7 @@ const modules = [
   CentroOperativoByGestorDialogFieldComponent,
   CentroOperativoByGestorMapDialogFieldComponent,
   CentroOperativoFieldComponent,
+  ChoferByCamionDialogFieldComponent,
   ChoferFieldComponent,
   CiudadDialogFieldComponent,
   CiudadFieldComponent,
@@ -131,6 +134,7 @@ const modules = [
   ProductoByGestorDialogFieldComponent,
   ProductoFieldComponent,
   PropietarioFieldComponent,
+  PropietarioReadonlyByIdDialogFieldComponent,
   ProveedorByInsumoFieldComponent,
   ProveedorFieldComponent,
   PuntoVentaByInsumoProveedorFieldComponent,

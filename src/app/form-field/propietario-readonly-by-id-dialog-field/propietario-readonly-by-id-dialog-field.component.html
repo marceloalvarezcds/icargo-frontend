@@ -1,0 +1,28 @@
+<ng-container *ngIf="form">
+  <ng-container *ngIf="!propietario">
+    <app-dialog-field
+      [title]="title"
+      [columns]="columns"
+      [list]="list"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [inputValuePropName]="inputValuePropName"
+      [form]="form"
+      (valueChange)="valueChange.emit($event)"
+    ></app-dialog-field>
+  </ng-container>
+  <ng-container *ngIf="propietario">
+    <app-input-field
+      hidden
+      [title]="title"
+      [readonly]="true"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [form]="form"
+    ></app-input-field>
+    <mat-form-field>
+      <mat-label>{{ title }}</mat-label>
+      <input matInput [value]="propietario.info" readonly />
+    </mat-form-field>
+  </ng-container>
+</ng-container>

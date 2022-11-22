@@ -72,6 +72,7 @@ export interface Chofer {
 export interface ChoferList extends Chofer {
   pais_emisor_documento_nombre: string;
   ciudad_nombre: string | null;
+  info: string;
   localidad_nombre: string | null;
   pais_nombre: string | null;
   pais_nombre_corto: string | null;
@@ -153,6 +154,7 @@ export const mockChoferList: ChoferList[] = [
     gestor_carga_chofer: gestorCargaChofer0,
     pais_emisor_documento_nombre: pais0.nombre,
     ciudad_nombre: 'Los Cedrales',
+    info: 'CARGILL CEDRALES - 800100100',
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
@@ -205,6 +207,7 @@ export const mockChoferList: ChoferList[] = [
     modified_at: '2021-11-30T20:38:09.553757',
     pais_emisor_documento_nombre: pais1.nombre,
     ciudad_nombre: 'Santa Rita',
+    info: 'ADM SANTA RITA - 800200200',
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
@@ -258,6 +261,7 @@ export const mockChoferList: ChoferList[] = [
     gestor_carga_chofer: undefined,
     pais_emisor_documento_nombre: pais2.nombre,
     ciudad_nombre: 'Paso de Indios',
+    info: 'GICAL KM12 - 800300300',
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
