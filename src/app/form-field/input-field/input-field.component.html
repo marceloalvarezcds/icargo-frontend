@@ -18,6 +18,7 @@
           [appAutofocus]="autofocus"
           [hidden]="readonly"
         />
+        <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">
           Hasta
           <strong>
@@ -51,6 +52,7 @@
           [appFormatToPasteNumber]="formatToPasteNumber"
           [appFormatToPastePhone]="formatToPastePhone"
         />
+        <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">
           Hasta
           <strong>

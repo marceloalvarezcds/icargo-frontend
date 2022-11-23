@@ -24,7 +24,13 @@ export class PropietarioService {
     camionId: number
   ): Observable<PropietarioList[]> {
     return this.http.get<PropietarioList[]>(
-      `${this.url}/gestor_cuenta/${camionId}`
+      `${this.url}/gestor_cuenta/camion/${camionId}`
+    );
+  }
+
+  getListByGestorCuentaBySemiId(semiId: number): Observable<PropietarioList[]> {
+    return this.http.get<PropietarioList[]>(
+      `${this.url}/gestor_cuenta/semi/${semiId}`
     );
   }
 

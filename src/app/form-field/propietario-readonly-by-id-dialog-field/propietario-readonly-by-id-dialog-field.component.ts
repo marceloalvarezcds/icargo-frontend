@@ -19,6 +19,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 export class PropietarioReadonlyByIdDialogFieldComponent {
   readonly inputValuePropName = 'info';
   cId?: number;
+  sId?: number;
   id?: number;
   list: PropietarioList[] = [];
   propietario?: PropietarioList;
@@ -92,6 +93,10 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
     this.id = id;
     this.getList();
   }
+  @Input() set semiId(id: number | undefined) {
+    this.sId = id;
+    this.getList();
+  }
 
   @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
 
@@ -105,6 +110,8 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
     if (this.list.length === 0) {
       const list$ = this.cId
         ? this.service.getListByGestorCuentaByCamionId(this.cId)
+        : this.sId
+        ? this.service.getListByGestorCuentaBySemiId(this.sId)
         : this.service.getListByGestorCuenta();
       list$.subscribe((list) => {
         this.list = list;

@@ -28,6 +28,7 @@ export class InputFieldComponent {
   @Input() formatToPastePhone = false;
   @Input() autofocus = false;
   @Input() controlName = '';
+  @Input() hint = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() readonly = false;
