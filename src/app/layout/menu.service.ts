@@ -56,11 +56,10 @@ export class MenuService {
     setTimeout(() => {
       if (this.responsiveService.isMobileScreen) {
         this.matDrawerMode = 'over';
-        this.menuConfigService.setSidebarMenu(false);
       } else {
         this.matDrawerMode = 'side';
-        this.menuConfigService.setSidebarMenu(true);
       }
+      this.menuConfigService.setSidebarMenu(false);
     });
   }
 
