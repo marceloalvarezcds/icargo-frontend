@@ -49,9 +49,7 @@ export class MenuService {
   }
 
   closeSidebarMenu(): void {
-    if (this.responsiveService.isMobileScreen) {
-      this.menuConfigService.setSidebarMenu(false);
-    }
+    this.menuConfigService.setSidebarMenu(false);
   }
 
   configSidebarModeByScreen(): void {
