@@ -1,10 +1,17 @@
-import { Component, Input, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCargaForm } from 'src/app/interfaces/orden-carga';
 import { CamionSemiNetoService } from 'src/app/services/camion-semi-neto.service';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
 @Component({
@@ -50,6 +57,8 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     }
   }
 
+  @Output() netoChange = new EventEmitter<string>();
+
   get flete(): FleteList | undefined {
     return this.fl;
   }
@@ -93,10 +102,14 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
         )
         .subscribe((camionSemiNeto) => {
           this.neto = camionSemiNeto?.neto;
-          this.cantidadNominadaControl.setValidators(
-            NumberValidator.max(this.neto ?? 0)
-          );
+          this.cantidadNominadaControl.setValidators([
+            NumberValidator.max(this.neto ?? 0),
+            Validators.required,
+          ]);
           this.cantidadNominadaControl.updateValueAndValidity();
+          if (this.neto) {
+            this.netoChange.emit(numberWithCommas(this.neto));
+          }
         });
     }
   }

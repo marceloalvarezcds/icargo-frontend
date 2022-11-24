@@ -1,6 +1,9 @@
 import { mockMonedaList, Moneda } from './moneda';
 import { mockProveedorList, Proveedor } from './proveedor';
-import { mockTipoConceptoDescuentoList, TipoConceptoDescuento } from './tipo-concepto-descuento';
+import {
+  mockTipoConceptoDescuentoList,
+  TipoConceptoDescuento,
+} from './tipo-concepto-descuento';
 
 export interface OrdenCargaDescuentoForm {
   id?: number | null;
@@ -36,10 +39,15 @@ export interface OrdenCargaDescuento extends OrdenCargaDescuentoForm {
   proveedor_nombre?: string | null;
   // FIN Monto a pagar al Proveedor
   flete_id?: number | null;
+  // Auditoría
+  created_by: 'system';
+  created_at: '2021-11-30T20:38:09.553757';
+  modified_by: 'system';
+  modified_at: '2021-11-30T20:38:09.553757';
 }
 
-const moneda0 =  mockMonedaList[0];
-const moneda1 =  mockMonedaList[1];
+const moneda0 = mockMonedaList[0];
+const moneda1 = mockMonedaList[1];
 
 const proveedor0 = mockProveedorList[0];
 const proveedor1 = mockProveedorList[1];
@@ -74,6 +82,11 @@ export const mockOrdenCargaDescuentoList: OrdenCargaDescuento[] = [
     // FIN Monto a pagar al Proveedor
     orden_carga_id: 1,
     flete_id: 1,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
   {
     id: 2,
@@ -100,5 +113,10 @@ export const mockOrdenCargaDescuentoList: OrdenCargaDescuento[] = [
     // FIN Monto a pagar al Proveedor
     orden_carga_id: 1,
     flete_id: 1,
+    // Auditoría
+    created_by: 'system',
+    created_at: '2021-11-30T20:38:09.553757',
+    modified_by: 'system',
+    modified_at: '2021-11-30T20:38:09.553757',
   },
 ];

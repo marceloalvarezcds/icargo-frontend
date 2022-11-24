@@ -21,13 +21,22 @@ export interface Camion {
   placa: string;
   propietario_id: number;
   propietario: Propietario;
+  propietario_estado: EstadoEnum;
   chofer_id: number | null;
   chofer: Chofer | null;
+  chofer_estado: EstadoEnum | null;
   numero_chasis: string | null;
   foto: string | null;
   estado: EstadoEnum;
   info: string;
   gestor_cuenta_id: number;
+  // INICIO Limitaciones del Camión
+  limites: string;
+  limite_cantidad_oc_activas: number | null;
+  limite_monto_anticipos: number | null;
+  monto_anticipo_disponible: number | null;
+  total_anticipos_retirados_en_estado_pendiente_o_en_proceso: number | null;
+  // FIN Limitaciones del Camión
   // INICIO Habilitaciones del Camión
   // inicio - municipal
   ciudad_habilitacion_municipal_id: number;
@@ -81,14 +90,17 @@ export interface CamionList {
   placa: string;
   propietario_nombre: string;
   propietario_ruc: string;
+  propietario_telefono: string | null;
   chofer_nombre: string | null;
   chofer_numero_documento: string | null;
+  color_descripcion: string | null;
   numero_chasis: string | null;
   estado: EstadoEnum;
   ciudad_habilitacion_municipal_nombre: string;
   gestor_cuenta_id: number;
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
+  limites: string;
   info: string;
   marca_descripcion: string;
   oficial_cuenta_nombre: string;
@@ -128,12 +140,21 @@ export const mockCamion: Camion = {
   placa: placa0,
   propietario_id: propietario0.id,
   propietario: propietario0,
+  propietario_estado: propietario0.estado,
   chofer_id: chofer0.id,
   chofer: chofer0,
+  chofer_estado: chofer0.estado,
   numero_chasis: '23100100',
   foto: null,
   estado: EstadoEnum.ACTIVO,
   gestor_cuenta_id: 1,
+  // INICIO Limitaciones del Camión
+  limites: '',
+  limite_cantidad_oc_activas: 1,
+  limite_monto_anticipos: 1000000,
+  monto_anticipo_disponible: 0,
+  total_anticipos_retirados_en_estado_pendiente_o_en_proceso: 0,
+  // FIN Limitaciones del Camión
   info: info0,
   // INICIO Habilitaciones del Camión
   // inicio - municipal
@@ -189,8 +210,10 @@ export const mockCamionList: CamionList[] = [
     placa: placa0,
     propietario_nombre: propietario0.nombre,
     propietario_ruc: propietario0.ruc,
+    propietario_telefono: propietario0.telefono,
     chofer_nombre: chofer0.nombre,
     chofer_numero_documento: chofer0.numero_documento,
+    color_descripcion: null,
     numero_chasis: '23100100',
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
@@ -198,6 +221,7 @@ export const mockCamionList: CamionList[] = [
     gestor_cuenta_nombre: mockUserAccount.first_name,
     localidad_habilitacion_municipal_nombre: ciudad0.localidad_nombre,
     info: info0,
+    limites: '',
     marca_descripcion: marca0.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
     pais_habilitacion_municipal_nombre: ciudad0.pais_nombre,
@@ -215,8 +239,10 @@ export const mockCamionList: CamionList[] = [
     placa: placa1,
     propietario_nombre: propietario1.nombre,
     propietario_ruc: propietario1.ruc,
+    propietario_telefono: propietario1.telefono,
     chofer_nombre: chofer1.nombre,
     chofer_numero_documento: chofer1.numero_documento,
+    color_descripcion: null,
     numero_chasis: '23100100',
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad1.nombre,
@@ -224,6 +250,7 @@ export const mockCamionList: CamionList[] = [
     gestor_cuenta_nombre: mockUserAccount.first_name,
     localidad_habilitacion_municipal_nombre: ciudad1.localidad_nombre,
     info: info1,
+    limites: '',
     marca_descripcion: marca1.descripcion,
     oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
     pais_habilitacion_municipal_nombre: ciudad1.pais_nombre,

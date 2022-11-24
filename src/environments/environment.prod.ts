@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  api: 'https://api.icargo.com.py',
+  api: 'https://sistema.icargo.com.py/api',
+  baseUrl: 'https://sistema.icargo.com.py',
 };

@@ -141,7 +141,7 @@ describe('PuntoVentaListComponent', () => {
     tick();
 
     httpController
-      .expectOne(`${environment.api}/punto_venta/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/proveedor/${proveedorId}`)
       .flush(mockPuntoVentaList);
     const req = httpController.expectOne(
       `${environment.api}/punto_venta/${row.id}`
@@ -150,7 +150,7 @@ describe('PuntoVentaListComponent', () => {
     req.flush({});
     flush();
     httpController
-      .expectOne(`${environment.api}/punto_venta/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/proveedor/${proveedorId}`)
       .flush(mockPuntoVentaList);
     flush();
 
@@ -180,10 +180,10 @@ describe('PuntoVentaListComponent', () => {
     downloadButton.triggerEventHandler('click', new MouseEvent('click'));
     expect(componentDownloadFileSpy).toHaveBeenCalled();
     httpController
-      .expectOne(`${environment.api}/punto_venta/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/proveedor/${proveedorId}`)
       .flush([]);
     httpController
-      .expectOne(`${environment.api}/punto_venta/reports/${proveedorId}/`)
+      .expectOne(`${environment.api}/punto_venta/reports/${proveedorId}`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

@@ -5,6 +5,12 @@ import {
   TextOnlySnackBar,
 } from '@angular/material/snack-bar';
 import { NavigationExtras, Router } from '@angular/router';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum,
+  PermisoModuloRouterEnum,
+} from '../enums/permiso-enum';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
@@ -12,7 +18,11 @@ import { NavigationExtras, Router } from '@angular/router';
 export class SnackbarService {
   private lastSnackbarRef?: MatSnackBarRef<TextOnlySnackBar>;
 
-  constructor(private snackbar: MatSnackBar, private router: Router) {}
+  constructor(
+    private snackbar: MatSnackBar,
+    private router: Router,
+    private userService: UserService
+  ) {}
 
   changeStatus(): void {
     this.open('Estado cambiado satisfactoriamente');
@@ -29,7 +39,10 @@ export class SnackbarService {
   openSaveAndRedirect(
     confirmed: boolean,
     backUrl: string,
-    editUrl: any[],
+    modulo: PermisoModuloRouterEnum,
+    modelo: PermisoModeloEnum,
+    id: number,
+    routeParams?: string | number | null,
     extras?: NavigationExtras
   ): MatSnackBarRef<TextOnlySnackBar> {
     if (this.lastSnackbarRef) {
@@ -39,12 +52,22 @@ export class SnackbarService {
       'Datos guardados satisfactoriamente',
       'Ok'
     );
+    const m = `${modulo}/${modelo}`;
+    const r = routeParams ? routeParams : '';
     if (confirmed) {
       this.router.navigate([backUrl], extras);
+    } else if (this.userService.checkPermiso(a.EDITAR, modelo)) {
+      this.router.navigate([`/${m}/${a.EDITAR}${r}`, id], extras);
+    } else if (this.userService.checkPermiso(a.VER, modelo)) {
+      this.router.navigate([`/${m}/${a.VER}${r}`, id], extras);
     } else {
-      this.router.navigate(editUrl, extras);
+      this.router.navigate([backUrl], extras);
     }
     return this.lastSnackbarRef;
+  }
+
+  openUpdate(): MatSnackBarRef<TextOnlySnackBar> {
+    return this.open('Datos actualizados satisfactoriamente');
   }
 
   openUpdateAndRedirect(

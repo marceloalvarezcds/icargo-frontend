@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { PermisoModuloRouterEnum } from './enums/permiso-enum';
 import { AuthGuard } from './guards/auth.guard';
 import { HomeComponent } from './home/home.component';
 import { LayoutComponent } from './layout/layout.component';
@@ -7,12 +8,12 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 
 const routes: Routes = [
   {
-    path: 'login',
+    path: PermisoModuloRouterEnum.LOGIN,
     redirectTo: '/account/login',
     pathMatch: 'full',
   },
   {
-    path: 'account',
+    path: PermisoModuloRouterEnum.ACCOUNT,
     loadChildren: () =>
       import('./account/account.module').then((m) => m.AccountModule),
   },
@@ -26,48 +27,67 @@ const routes: Routes = [
         component: HomeComponent,
       },
       {
-        path: 'banco',
+        path: PermisoModuloRouterEnum.BANCO,
         loadChildren: () =>
           import('./banco/banco.module').then((m) => m.BancoModule),
       },
       {
-        path: 'caja',
+        path: PermisoModuloRouterEnum.CAJA,
         loadChildren: () =>
           import('./caja/caja.module').then((m) => m.CajaModule),
       },
       {
-        path: 'entities',
+        path: PermisoModuloRouterEnum.BIBLIOTECA,
+        loadChildren: () =>
+          import('./biblioteca/biblioteca.module').then(
+            (m) => m.BibliotecaModule
+          ),
+      },
+      {
+        path: PermisoModuloRouterEnum.ENTITIES,
         loadChildren: () =>
           import('./entities/entities.module').then((m) => m.EntitiesModule),
       },
       {
-        path: 'estado-cuenta',
+        path: PermisoModuloRouterEnum.ESTADO_CUENTA,
         loadChildren: () =>
           import('./estado-cuenta/estado-cuenta.module').then(
             (m) => m.EstadoCuentaModule
           ),
       },
       {
-        path: 'flota',
+        path: PermisoModuloRouterEnum.FLOTA,
         loadChildren: () =>
           import('./flota/flota.module').then((m) => m.FlotaModule),
       },
       {
-        path: 'flete',
+        path: PermisoModuloRouterEnum.FLETE,
         loadChildren: () =>
           import('./flete/flete.module').then((m) => m.FleteModule),
       },
       {
-        path: 'listado',
+        path: PermisoModuloRouterEnum.LISTADO,
         loadChildren: () =>
           import('./listado/listado.module').then((m) => m.ListadoModule),
       },
       {
-        path: 'orden-carga',
+        path: PermisoModuloRouterEnum.ORDEN_CARGA,
         loadChildren: () =>
           import('./orden-carga/orden-carga.module').then(
             (m) => m.OrdenCargaModule
           ),
+      },
+      {
+        path: PermisoModuloRouterEnum.PARAMETROS,
+        loadChildren: () =>
+          import('./parametros/parametros.module').then(
+            (m) => m.ParametrosModule
+          ),
+      },
+      {
+        path: PermisoModuloRouterEnum.USERS,
+        loadChildren: () =>
+          import('./users/users.module').then((m) => m.UsersModule),
       },
       { path: '**', component: PageNotFoundComponent }, // Wildcard route for a 404 page
     ],

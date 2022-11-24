@@ -49,20 +49,17 @@ export class MenuService {
   }
 
   closeSidebarMenu(): void {
-    if (this.responsiveService.isMobileScreen) {
-      this.menuConfigService.setSidebarMenu(false);
-    }
+    this.menuConfigService.setSidebarMenu(false);
   }
 
   configSidebarModeByScreen(): void {
     setTimeout(() => {
       if (this.responsiveService.isMobileScreen) {
         this.matDrawerMode = 'over';
-        this.menuConfigService.setSidebarMenu(false);
       } else {
         this.matDrawerMode = 'side';
-        this.menuConfigService.setSidebarMenu(true);
       }
+      this.menuConfigService.setSidebarMenu(false);
     });
   }
 
@@ -207,6 +204,72 @@ export class MenuService {
             iconOutline: true,
             path: `/listado/${m.RENTABILIDAD}`,
             active: this.userService.checkPermiso(a.LISTAR, m.RENTABILIDAD),
+          },
+          {
+            name: 'Movimientos',
+            iconName: 'list_alt',
+            iconOutline: true,
+            path: `/listado/${m.MOVIMIENTO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
+          },
+        ],
+      },
+      {
+        name: 'Biblioteca de Usuarios',
+        iconName: 'settings',
+        iconOutline: true,
+        active: true,
+        children: [
+          {
+            name: 'Cargo',
+            iconName: 'badge',
+            iconOutline: true,
+            path: `/biblioteca/${m.CARGO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.CARGO),
+          },
+        ],
+      },
+      {
+        name: 'Parámetros del Sistema',
+        iconName: 'build_circle',
+        iconOutline: true,
+        active: this.userService.checkIfIsAdminIcargo(),
+        children: [
+          {
+            name: 'Cuenta',
+            iconName: 'wallet',
+            iconOutline: true,
+            path: `/parametros/${m.TIPO_CUENTA}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.TIPO_CUENTA),
+          },
+          {
+            name: 'Concepto',
+            iconName: 'wysiwyg',
+            iconOutline: true,
+            path: `/parametros/${m.TIPO_MOVIMIENTO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.TIPO_MOVIMIENTO),
+          },
+        ],
+      },
+      {
+        name: 'Usuarios',
+        iconName: 'supervisor_account',
+        iconOutline: true,
+        active: true,
+        children: [
+          {
+            name: 'Usuarios',
+            iconName: 'person',
+            iconOutline: true,
+            path: `/users/${m.USER}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.USER),
+          },
+          {
+            name: 'Roles',
+            iconName: 'admin_panel_settings',
+            iconOutline: true,
+            path: `/users/${m.ROL}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.ROL),
           },
         ],
       },

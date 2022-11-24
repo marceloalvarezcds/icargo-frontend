@@ -130,6 +130,16 @@
         </mat-form-field>
       </div>
       <div class="row page-form-row">
+        <div class="col-xs-12 col-sm-6">
+          <app-number-field
+            title="Límite de cantidad de Ordenes de Carga activas"
+            groupName="info"
+            controlName="limite_cantidad_oc_activas"
+            hint=""
+            [form]="form"
+            [patternMessageError]="patternMessageError"
+          ></app-number-field>
+        </div>
         <mat-form-field class="col-xs-12 col-sm-6">
           <mat-label>Información complementaria</mat-label>
           <textarea
@@ -204,6 +214,7 @@
         <mat-panel-title> Geolocalización </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-geo
+        [ciudadSelected]="ciudadSelected"
         [form]="form"
         [isShow]="isShow"
         [isPanelOpen]="isPanelOpen"

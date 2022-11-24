@@ -1,0 +1,77 @@
+.selector-dialog-container {
+  .mat-dialog-content {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  .search-item {
+    margin-left: 1rem;
+    margin-right: 1rem;
+    width: calc(100% - 2rem);
+  }
+
+  .map-container {
+    margin-right: 0;
+    margin-left: 0;
+
+    .row {
+      margin-right: 0;
+      margin-left: 0;
+    }
+  }
+}
+
+::ng-deep {
+  .selector-dialog {
+    width: 100vw !important;
+    height: 100vh;
+    margin-top: 0 !important;
+
+    .mat-dialog-content {
+      max-height: calc(100vh - 150px);
+    }
+  }
+
+  .info-list-container {
+    overflow-y: auto;
+    height: calc(100vh - 150px - 71px); // Se resta los 150 del dialog content y 71 del campo de búsqueda
+  }
+
+  .info-container {
+    display: flex;
+    min-height: 50px;
+    align-items: center;
+    cursor: pointer;
+    &.selected {
+      .info-data {
+        color: #31977f;
+      }
+    }
+    &.active {
+      .info-data {
+        color: #3399ff;
+      }
+    }
+    .info-selector {
+      padding-left: 4px;
+      text-align: center;
+      width: 44px;
+    }
+    .info-template-container {
+      width: calc(100% - 44px);
+    }
+    .info-template {
+      display: flex;
+      align-items: center;
+    }
+    .info-data {
+      width: calc(100% - 60px);
+    }
+    .info-logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+  }
+}

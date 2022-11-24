@@ -25,6 +25,7 @@
       </mat-expansion-panel-header>
       <app-camion-form-info
         [form]="form"
+        [camion]="item"
         [estado]="estado"
         [isEdit]="isEdit"
         [isShow]="isShow"
@@ -108,6 +109,17 @@
         [form]="form"
         [isShow]="isShow"
       ></app-camion-form-capacidad>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel formGroupName="limite" [expanded]="isLimiteTouched">
+      <mat-expansion-panel-header>
+        <mat-panel-title> Limitaciones </mat-panel-title>
+      </mat-expansion-panel-header>
+      <app-camion-form-limite
+        [camion]="item"
+        [form]="form"
+        [isShow]="isShow"
+      ></app-camion-form-limite>
     </mat-expansion-panel>
 
     <mat-expansion-panel *ngIf="isEdit || isShow">

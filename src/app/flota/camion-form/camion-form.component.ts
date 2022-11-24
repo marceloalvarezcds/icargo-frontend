@@ -7,6 +7,7 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { CamionService } from 'src/app/services/camion.service';
@@ -33,6 +34,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isHabilitacionTouched = false;
   isDetalleTouched = false;
+  isLimiteTouched = false;
   isCapacidadTouched = false;
   backUrl = `/flota/${m.CAMION}/${a.LISTAR}`;
   modelo = m.CAMION;
@@ -96,6 +98,17 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       bruto: null,
       tara: null,
     }),
+    limite: this.fb.group({
+      limite_cantidad_oc_activas: [
+        null,
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[0-9]{1,}$'),
+        ],
+      ],
+      limite_monto_anticipos: null,
+    }),
   });
 
   initialFormValue = this.form.value;
@@ -135,6 +148,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
   get detalle(): FormGroup {
     return this.form.get('detalle') as FormGroup;
+  }
+
+  get limite(): FormGroup {
+    return this.form.get('limite') as FormGroup;
   }
 
   get capacidad(): FormGroup {
@@ -205,6 +222,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           ...this.habilitacionAutomotor.value,
           ...this.detalle.value,
           ...this.capacidad.value,
+          ...this.limite.value,
         })
       );
       delete data.logo;
@@ -257,10 +275,13 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.camionService.create(formData).subscribe((camion) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.CAMION}/${a.EDITAR}`,
-            camion.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.CAMION,
+            camion.id
+          );
         });
       }
     } else {
@@ -268,6 +289,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         this.isInfoTouched = this.info.invalid;
         this.isHabilitacionTouched = this.habilitacionMunicipal.invalid;
         this.isDetalleTouched = this.detalle.invalid;
+        this.isLimiteTouched = this.limite.invalid;
         this.isCapacidadTouched = this.capacidad.invalid;
       });
     }
@@ -353,6 +375,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           capacidad: {
             bruto: data.bruto,
             tara: data.tara,
+          },
+          limite: {
+            limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
+            limite_monto_anticipos: data.limite_monto_anticipos,
           },
         });
         setTimeout(() => {

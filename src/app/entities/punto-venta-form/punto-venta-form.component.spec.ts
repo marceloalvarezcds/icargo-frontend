@@ -179,9 +179,9 @@ describe('PuntoVentaFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     const req = httpController.expectOne(`${environment.api}/punto_venta/`);
     expect(req.request.method).toBe('POST');
     req.flush(puntoVenta);
@@ -205,9 +205,9 @@ describe('PuntoVentaFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     formSetValue(component, 'logo');
     tick();
     pageFormComponent.triggerEventHandler('submitEvent', null);
@@ -243,9 +243,9 @@ describe('PuntoVentaFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/tipo_documento/`)
       .flush(mockTipoDocumentoList);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     pageFormComponent = findElement(fixture, 'app-page-form');
     pageFormComponent.triggerEventHandler('backClick', true);
     tick();
@@ -264,14 +264,14 @@ describe('PuntoVentaFormComponent', () => {
         req.flush(puntoVenta);
       });
     httpController
-      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     httpController
       .match(`${environment.api}/punto_venta/detail/${id}`)
       .forEach((r) => r.flush(puntoVenta));
     httpController
-      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}/`)
+      .match(`${environment.api}/ciudad/${puntoVenta.ciudad?.localidad_id}`)
       .forEach((r) => r.flush(mockCiudadList));
     flush();
     expect(submitSpy).toHaveBeenCalled();
@@ -295,9 +295,9 @@ describe('PuntoVentaFormComponent', () => {
     httpController
       .expectOne(`${environment.api}/punto_venta/detail/${id}`)
       .flush(mockPuntoVentaList[1]);
-    httpController
-      .expectOne(`${environment.api}/ciudad/`)
-      .flush(mockCiudadList);
+    // httpController
+    //   .expectOne(`${environment.api}/ciudad/`)
+    //   .flush(mockCiudadList);
     flush();
     expect(getByIdSpy).toHaveBeenCalled();
     httpController.verify();

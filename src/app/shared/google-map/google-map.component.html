@@ -1,9 +1,16 @@
 <div class="google-map-container" [class.on]="listenerActive">
-  <button type="button" mat-flat-button #clickOnMapButton class="click-on-map-button" (click)="addListenerMapClick()" [hidden]="isShow">
+  <button
+    type="button"
+    mat-flat-button
+    #clickOnMapButton
+    class="click-on-map-button"
+    (click)="addListenerMapClick()"
+    [hidden]="isShow"
+  >
     <span>Ubicar</span>
   </button>
   <google-map
-    height="450px"
+    [height]="height + 'px'"
     [width]="(width$ | async) + 'px'"
     [center]="latLng"
     [options]="options"

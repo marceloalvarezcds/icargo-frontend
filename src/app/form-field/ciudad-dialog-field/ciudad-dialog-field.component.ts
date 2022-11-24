@@ -3,7 +3,7 @@ import {
   EventEmitter,
   Input,
   Output,
-  ViewChild,
+  ViewChild
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Ciudad } from 'src/app/interfaces/ciudad';
@@ -17,10 +17,8 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./ciudad-dialog-field.component.scss'],
 })
 export class CiudadDialogFieldComponent {
-  list: Ciudad[] = [];
-  subs = this.service.getAllList().subscribe((list) => {
-    this.list = list;
-  });
+  readonly inputValuePropName = 'nombre';
+  fetchFunction = this.service.getPaginatedList.bind(this.service);
 
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
@@ -48,6 +46,7 @@ export class CiudadDialogFieldComponent {
     },
   ];
 
+  @Input() ciudadSelected?: Ciudad | null;
   @Input() form!: FormGroup;
   @Input() controlName = 'ciudad_id';
   @Input() groupName = '';
@@ -58,8 +57,4 @@ export class CiudadDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Ciudad>;
 
   constructor(private service: CiudadService) {}
-
-  inputValueFormat(value: Ciudad | undefined): string {
-    return value ? value.nombre : '';
-  }
 }

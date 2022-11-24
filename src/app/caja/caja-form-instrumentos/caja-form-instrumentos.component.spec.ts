@@ -1,6 +1,7 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { RouterTestingModule } from '@angular/router/testing';
 import { MaterialModule } from 'src/app/material/material.module';
 import { CajaModule } from '../caja.module';
 
@@ -12,7 +13,12 @@ describe('CajaFormInstrumentosComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BrowserAnimationsModule, MaterialModule, CajaModule],
+      imports: [
+        BrowserAnimationsModule,
+        MaterialModule,
+        RouterTestingModule,
+        CajaModule,
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       declarations: [CajaFormInstrumentosComponent],
     }).compileComponents();

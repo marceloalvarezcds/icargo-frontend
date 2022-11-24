@@ -52,6 +52,7 @@ describe('LiquidacionListComponent', () => {
     snapshot: {
       queryParams: {
         tipo_contraparte_id: estadoCuenta.tipo_contraparte_id,
+        contraparte_id: estadoCuenta.contraparte_id,
         contraparte: estadoCuenta.contraparte,
         contraparte_numero_documento: estadoCuenta.contraparte_numero_documento,
         etapa,
@@ -74,6 +75,10 @@ describe('LiquidacionListComponent', () => {
           BrowserAnimationsModule,
           HttpClientTestingModule,
           RouterTestingModule.withRoutes([
+            {
+              path: `estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`,
+              component: LiquidacionEditFormComponent,
+            },
             {
               path: `estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/:id`,
               component: LiquidacionEditFormComponent,
@@ -103,6 +108,8 @@ describe('LiquidacionListComponent', () => {
       pageComponent = findElement(fixture, 'app-page');
       tableComponent = findElement(fixture, 'app-table-paginator');
       component = fixture.componentInstance;
+      component.etapa = LiquidacionEtapaEnum.EN_PROCESO;
+      component.estadoCuenta = estadoCuenta;
       fixture.detectChanges();
     });
 
@@ -124,13 +131,13 @@ describe('LiquidacionListComponent', () => {
       tableComponent.triggerEventHandler('showClick', tableEvent);
       httpController
         .expectOne(
-          `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
+          `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/id/${estadoCuenta.contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
         )
         .flush(estadoCuenta);
       flush();
       httpController
         .expectOne(
-          `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
+          `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/id/${estadoCuenta.contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
         )
         .flush(mockLiquidacionList);
       flush();
@@ -160,18 +167,18 @@ describe('LiquidacionListComponent', () => {
 
       httpController
         .expectOne(
-          `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
+          `${environment.api}/${m.ESTADO_CUENTA}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/id/${estadoCuenta.contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}`
         )
         .flush(estadoCuenta);
       flush();
       httpController
         .expectOne(
-          `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
+          `${environment.api}/${m.LIQUIDACION}/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/id/${estadoCuenta.contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
         )
         .flush([]);
       httpController
         .expectOne(
-          `${environment.api}/${m.LIQUIDACION}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
+          `${environment.api}/${m.LIQUIDACION}/reports/tipo_contraparte/${estadoCuenta.tipo_contraparte_id}/id/${estadoCuenta.contraparte_id}/contraparte/${contraparte}/numero_documento/${estadoCuenta.contraparte_numero_documento}/etapa/${etapaURI}`
         )
         .flush(filename);
       httpController
@@ -222,6 +229,8 @@ describe('LiquidacionListComponent', () => {
       pageComponent = findElement(fixture, 'app-page');
       tableComponent = findElement(fixture, 'app-table-paginator');
       component = fixture.componentInstance;
+      component.etapa = LiquidacionEtapaEnum.EN_PROCESO;
+      component.estadoCuenta = estadoCuenta;
       fixture.detectChanges();
     });
 

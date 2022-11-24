@@ -1,0 +1,30 @@
+.edit-pass-buttons {
+  margin-top: 9px;
+}
+
+.user-page-content {
+  padding-top: 1rem;
+}
+
+.user-page-content::ng-deep {
+  .mat-input-element:disabled,
+  .mat-select-disabled .mat-select-value {
+    color: rgba(0, 0, 0, 0.87);
+  }
+  .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+    visibility: hidden;
+  }
+  .estado-form-field {
+    margin-top: 0;
+    margin-bottom: 4px;
+  }
+  @media screen and (min-width: 64em) {
+    .estado-form-field {
+      margin-top: 18px;
+      margin-bottom: 0;
+    }
+  }
+}

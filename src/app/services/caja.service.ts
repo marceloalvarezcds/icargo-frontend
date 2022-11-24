@@ -13,7 +13,7 @@ export class CajaService {
   constructor(private http: HttpClient) {}
 
   getListByGestorCarga(): Observable<Caja[]> {
-    return this.http.get<Caja[]>(`${this.url}/gestor_carga_id/`);
+    return this.http.get<Caja[]>(`${this.url}/gestor_carga_id`);
   }
 
   getById(id: number): Observable<Caja> {
@@ -21,7 +21,7 @@ export class CajaService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Caja> {

@@ -1,10 +1,11 @@
 <app-dialog-field
   [title]="title"
   [columns]="columns"
+  [list]="ciudadSelected ? [ciudadSelected] : []"
   [groupName]="groupName"
   [controlName]="controlName"
-  [inputValueFormat]="inputValueFormat"
-  [list]="list"
+  [inputValuePropName]="inputValuePropName"
+  [fetchFunction]="fetchFunction"
   [form]="form"
   (valueChange)="valueChange.emit($event)"
 ></app-dialog-field>

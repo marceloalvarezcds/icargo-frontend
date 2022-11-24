@@ -12,7 +12,9 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -43,6 +45,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   });
   modelo = m.PROVEEDOR;
   puntoVentaModelo = m.PUNTO_VENTA;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: ProveedorContactoGestorCargaList[] = [];
 
@@ -63,7 +66,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       pagina_web: null,
       info_complementaria: null,
     }),
-    contactos: this.fb.array([], Validators.required),
+    contactos: this.fb.array([]),
     geo: this.fb.group({
       ciudad_id: null,
       latitud: null,
@@ -195,13 +198,14 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
               `/entities/${m.PUNTO_VENTA}/${a.CREAR}`,
               proveedor.id,
             ]);
-          } else if (confirmed) {
-            this.router.navigate([this.backUrl]);
           } else {
-            this.router.navigate([
-              `/entities/${m.PROVEEDOR}/${a.EDITAR}`,
-              proveedor.id,
-            ]);
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.ENTITIES,
+              m.PROVEEDOR,
+              proveedor.id
+            );
           }
         });
       }
@@ -226,9 +230,10 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.proveedorService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
-            alias: data.gestor_carga_proveedor?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_proveedor?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   PermisoAccionEnum as a,
@@ -32,9 +32,15 @@ export class LiquidacionMovimientosComponent {
       value: (element: Movimiento) => element.concepto,
     },
     {
-      def: 'cuenta_descripcion',
+      def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
-      value: (element: Movimiento) => element.cuenta_descripcion,
+      value: (element: Movimiento) => element.cuenta_codigo_descripcion,
+    },
+    {
+      def: 'punto_venta',
+      title: 'Punto de Venta',
+      value: (element: Movimiento) =>
+        element.anticipo?.punto_venta_nombre ?? '',
     },
     {
       def: 'detalle',
@@ -99,6 +105,21 @@ export class LiquidacionMovimientosComponent {
   ];
 
   @Input() list: Movimiento[] = [];
+  @Input() set addLiquidacionIdColumn(val: boolean) {
+    if (val) {
+      this.columns = [this.columns[0]]
+        .concat([
+          {
+            def: 'liquidacion_id',
+            title: 'Nº de Liquidación',
+            value: (element: Movimiento) => element.liquidacion_id,
+          },
+        ])
+        .concat(this.columns.slice(1, this.columns.length));
+    }
+  }
+
+  @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
   constructor(private router: Router) {}
 

@@ -20,7 +20,7 @@
     </div>
     <div
       class="col-xs-12"
-      [hidden]="!(m.FACTURA | puede: a.CREAR:gestorCargaId)"
+      [hidden]="isShow || !(m.FACTURA | puede: a.CREAR:gestorCargaId)"
     >
       <button
         id="create-button"

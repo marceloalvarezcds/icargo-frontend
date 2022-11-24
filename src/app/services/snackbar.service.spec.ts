@@ -1,3 +1,4 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import {
   MatSnackBar,
@@ -12,7 +13,11 @@ describe('SnackbarService', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MatSnackBarModule],
+      imports: [
+        HttpClientTestingModule,
+        RouterTestingModule,
+        MatSnackBarModule,
+      ],
       providers: [
         SnackbarService,
         { provide: MatSnackBarRef, useValue: MatSnackBar },

@@ -13,8 +13,8 @@ export interface MovimientoFormDialogData {
 
 export const mockMovimientoFormDialogData: MovimientoFormDialogData = {
   item: mockMovimientoForm1,
-  liquidacion_id: null,
-  tipo_contraparte_id: null,
+  liquidacion_id: 1,
+  tipo_contraparte_id: 1,
   contraparte: null,
   contraparte_numero_documento: null,
   estado: MovimientoEstadoEnum.PENDIENTE,

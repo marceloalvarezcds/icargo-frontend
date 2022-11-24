@@ -21,6 +21,7 @@ export interface Banco extends BancoForm {
   debito: number;
   saldo_confirmado: number;
   saldo_provisional: number;
+  info: string;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -44,6 +45,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.438222',
     modified_by: 'System',
@@ -64,6 +66,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.447689',
     modified_by: 'System',
@@ -84,6 +87,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.459493',
     modified_by: 'System',
@@ -104,6 +108,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.406721',
     modified_by: 'System',
@@ -124,6 +129,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.420536',
     modified_by: 'System',
@@ -144,6 +150,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.429766',
     modified_by: 'System',
@@ -164,6 +171,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.320907',
     modified_by: 'System',
@@ -184,6 +192,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.348860',
     modified_by: 'System',
@@ -204,6 +213,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.368404',
     modified_by: 'System',
@@ -224,6 +234,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.379813',
     modified_by: 'System',
@@ -244,6 +255,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.388577',
     modified_by: 'System',
@@ -264,6 +276,7 @@ export const mockBancoList: Banco[] = [
     debito: 0,
     saldo_confirmado: 0,
     saldo_provisional: 0,
+    info: '',
     created_by: 'System',
     created_at: '2022-03-04T16:56:07.397989',
     modified_by: 'System',

@@ -195,7 +195,7 @@ describe('RemitenteListComponent', () => {
 
     httpController.expectOne(`${environment.api}/remitente/`).flush([]);
     httpController
-      .expectOne(`${environment.api}/remitente/reports/`)
+      .expectOne(`${environment.api}/remitente/reports`)
       .flush(filename);
     httpController
       .expectOne(`${environment.api}/reports/${filename}`)

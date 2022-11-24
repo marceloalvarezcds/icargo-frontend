@@ -26,10 +26,13 @@ export class ChoferFormInfoComponent {
   @Input() fotoPerfil: string | null = null;
   @Input() modelo?: PermisoModeloEnum;
   @Input() gestorCuentaId?: number;
+  @Input() cantidadOCConAnticiposLiberados = 0;
 
+  @Output() esPropietarioChange = new EventEmitter<boolean>();
   @Output() fotoDocumentoFrenteChange = new EventEmitter<File | null>();
   @Output() fotoDocumentoReversoChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
+  @Output() anticiposBloqueadosChange = new EventEmitter();
 
   get info(): FormGroup {
     return this.form!.get(this.groupName) as FormGroup;
@@ -39,7 +42,7 @@ export class ChoferFormInfoComponent {
     return this.info.controls['es_propietario'] as FormControl;
   }
 
-  get esPropietario(): boolean {
-    return !!this.esPropietarioControl.value;
+  get puedeRecibirAnticiposControl(): FormControl {
+    return this.info.controls['puede_recibir_anticipos'] as FormControl;
   }
 }

@@ -1,15 +1,16 @@
 <form #form [formGroup]="formGroup" (ngSubmit)="submitEvent.emit()">
   <div class="page">
     <div class="page-title">
-      <span class="title"
-        >{{ module }} > {{ submodule }} > <strong>{{ viewTitle }}</strong></span
-      >
+      <span class="title">
+        {{ module }} > {{ submodule }} > <strong> {{ viewTitle }} </strong>
+      </span>
       <div class="page-title-buttons">
         <button
           type="button"
           mat-mini-fab
           color="primary"
           matTooltip="Volver al listado"
+          [disabled]="loading"
           (click)="back()"
           id="back-button"
         >
@@ -19,7 +20,19 @@
           type="button"
           mat-mini-fab
           color="primary"
+          matTooltip="Exportar lista"
+          [disabled]="loading"
+          (click)="downloadClick.emit($event)"
+          *ngIf="shouldShowDownloadButton && (modelo | puede: a.REPORTE)"
+        >
+          <mat-icon>download</mat-icon>
+        </button>
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
           matTooltip="Editar"
+          [disabled]="loading"
           (click)="editClick.emit($event)"
           *ngIf="
             isShow &&
@@ -32,8 +45,9 @@
         <button
           type="button"
           mat-mini-fab
-          color="primary"
+          color="warn"
           matTooltip="Activar"
+          [disabled]="loading"
           (click)="activeClick.emit($event)"
           *ngIf="
             shouldShowActiveButton &&
@@ -46,8 +60,9 @@
         <button
           type="button"
           mat-mini-fab
-          color="primary"
+          color="accent"
           [matTooltip]="inactiveTooltipText"
+          [disabled]="loading"
           (click)="inactiveClick.emit($event)"
           *ngIf="
             shouldShowInactiveButton &&
@@ -62,6 +77,7 @@
           mat-mini-fab
           color="primary"
           matTooltip="Guardar"
+          [disabled]="loading"
           *ngIf="!isShow && !hideSaveButton"
         >
           <mat-icon>save</mat-icon>

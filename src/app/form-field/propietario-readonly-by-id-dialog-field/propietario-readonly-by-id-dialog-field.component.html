@@ -1,0 +1,33 @@
+<ng-container *ngIf="form">
+  <ng-container *ngIf="list.length; else inputTemplate">
+    <ng-container *ngIf="!propietario; else inputTemplate">
+      <app-dialog-field
+        [title]="title"
+        [columns]="columns"
+        [list]="list"
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [inputValuePropName]="inputValuePropName"
+        [form]="form"
+        (valueChange)="valueChange.emit($event)"
+      ></app-dialog-field>
+    </ng-container>
+  </ng-container>
+  <ng-template #inputTemplate>
+    <app-input-field
+      hidden
+      [title]="title"
+      [readonly]="true"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [form]="form"
+    ></app-input-field>
+    <mat-form-field>
+      <mat-label>{{ title }}</mat-label>
+      <input matInput [value]="propietario?.info" disabled />
+      <mat-hint *ngIf="!list.length">
+        No hay Propietarios activos disponibles
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</ng-container>

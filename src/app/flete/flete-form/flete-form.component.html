@@ -16,91 +16,110 @@
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (inactiveClick)="cancelar()"
-  (submitEvent)="submit(false)"
+  (submitEvent)="save(false)"
 >
-  <mat-accordion multi>
-    <mat-expansion-panel [expanded]="isInfoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Información principal </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-flete-form-info
-        [form]="form"
-        [estado]="estado"
-        [isShow]="isShow"
-      ></app-flete-form-info>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="isTramoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Tramo </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-flete-form-tramo [form]="form"></app-flete-form-tramo>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="isCondicionTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Cantidad y Condiciones </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-flete-form-condicion [form]="form"></app-flete-form-condicion>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="isMermaTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Mermas </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-flete-form-merma
-        afectado="gestor_cuenta"
-        afectadoTitle="Gestor"
-        [form]="form"
-      ></app-flete-form-merma>
-      <app-flete-form-merma
-        afectado="propietario"
-        afectadoTitle="Propietario"
-        [form]="form"
-      ></app-flete-form-merma>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel [expanded]="isAnticipoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Anticipos </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-flete-form-anticipos
-        [isCreate]="!isShow && !isEdit"
-        [puedeModificar]="puedeModificar"
-        [form]="form"
-        [anticipoList]="anticipoList"
-      ></app-flete-form-anticipos>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel
-      [expanded]="isComplementoTouched || isDescuentoTouched"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Complementos y Descuentos </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div>
-        <app-flete-form-complementos
-          [gestorCuentaId]="gestorCargaId"
+  <div class="flete-page-content">
+    <app-flete-form-acciones
+      [flete]="item"
+      [isShow]="isShow"
+      (fleteChange)="getData()"
+    ></app-flete-form-acciones>
+    <mat-accordion multi>
+      <mat-expansion-panel [expanded]="isInfoTouched">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Información principal </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-flete-form-info
           [form]="form"
+          [estado]="estado"
           [isShow]="isShow"
-          [complementoList]="complementoList"
-        ></app-flete-form-complementos>
-        <app-flete-form-descuentos
-          [gestorCuentaId]="gestorCargaId"
-          [form]="form"
-          [isShow]="isShow"
-          [descuentoList]="descuentoList"
-        ></app-flete-form-descuentos>
-      </div>
-    </mat-expansion-panel>
+          (remitenteChange)="
+            info.get('remitente_nombre')?.setValue($event?.nombre)
+          "
+          (productoChange)="
+            info.get('producto_descripcion')?.setValue($event?.descripcion)
+          "
+        ></app-flete-form-info>
+      </mat-expansion-panel>
 
-    <mat-expansion-panel [expanded]="isEmisionOrdenTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Emisión de Órdenes </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-flete-form-emision-orden
-        [form]="form"
-      ></app-flete-form-emision-orden>
-    </mat-expansion-panel>
-  </mat-accordion>
+      <mat-expansion-panel [expanded]="isTramoTouched">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Tramo </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-flete-form-tramo
+          [form]="form"
+          (origenChange)="tramo.get('origen_nombre')?.setValue($event?.nombre)"
+          (destinoChange)="
+            tramo.get('destino_nombre')?.setValue($event?.nombre)
+          "
+        ></app-flete-form-tramo>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="isCondicionTouched">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Cantidad y Condiciones </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-flete-form-condicion [form]="form"></app-flete-form-condicion>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="isMermaTouched">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Mermas </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-flete-form-merma
+          afectado="gestor_carga"
+          afectadoTitle="Gestor"
+          [form]="form"
+        ></app-flete-form-merma>
+        <app-flete-form-merma
+          afectado="propietario"
+          afectadoTitle="Propietario"
+          [form]="form"
+        ></app-flete-form-merma>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="isAnticipoTouched">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Anticipos </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-flete-form-anticipos
+          [isCreate]="!isShow && !isEdit"
+          [puedeModificar]="puedeModificar"
+          [form]="form"
+          [anticipoList]="anticipoList"
+        ></app-flete-form-anticipos>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel
+        [expanded]="isComplementoTouched || isDescuentoTouched"
+      >
+        <mat-expansion-panel-header>
+          <mat-panel-title> Complementos y Descuentos </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-flete-form-complementos
+            [gestorCuentaId]="gestorCargaId"
+            [form]="form"
+            [isShow]="isShow"
+            [complementoList]="complementoList"
+          ></app-flete-form-complementos>
+          <app-flete-form-descuentos
+            [gestorCuentaId]="gestorCargaId"
+            [form]="form"
+            [isShow]="isShow"
+            [descuentoList]="descuentoList"
+          ></app-flete-form-descuentos>
+        </div>
+      </mat-expansion-panel>
+
+      <mat-expansion-panel [expanded]="isEmisionOrdenTouched">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Emisión de Órdenes </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-flete-form-emision-orden
+          [form]="form"
+        ></app-flete-form-emision-orden>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
 </app-page-form>

@@ -1,0 +1,148 @@
+<app-page
+  class="movimiento-page"
+  module="Listado"
+  submodule="Movimientos"
+  [modelo]="modelo"
+  [hideCreate]="true"
+  (applyClick)="applyFilter()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+>
+  <div filterMenu>
+    <mat-form-field class="form-filter-menu">
+      <mat-label> Contraparte </mat-label>
+      <input matInput [formControl]="contraparteControl" />
+    </mat-form-field>
+    <mat-form-field class="form-filter-menu">
+      <mat-label> Proveedor </mat-label>
+      <input matInput [formControl]="proveedorControl" />
+    </mat-form-field>
+    <mat-form-field class="form-filter-menu">
+      <mat-label> Punto de Venta </mat-label>
+      <input matInput [formControl]="puntoVentaControl" />
+    </mat-form-field>
+    <mat-form-field class="form-filter-menu">
+      <mat-label>Fecha de Liquidación</mat-label>
+      <mat-date-range-input
+        [formGroup]="fechaLiquidacionControl"
+        [rangePicker]="liqPicker"
+        (click)="liqPicker.open()"
+      >
+        <input matStartDate formControlName="start" placeholder="Inicio" />
+        <input matEndDate formControlName="end" placeholder="Fin" />
+      </mat-date-range-input>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="liqPicker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #liqPicker></mat-date-range-picker>
+      <mat-error
+        *ngIf="
+          fechaLiquidacionControl.controls.start.hasError('matStartDateInvalid')
+        "
+      >
+        Fecha de inicio inválida
+      </mat-error>
+      <mat-error
+        *ngIf="
+          fechaLiquidacionControl.controls.end.hasError('matEndDateInvalid')
+        "
+      >
+        Fecha fin inválida
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="form-filter-menu">
+      <mat-label>Fecha de Movimiento</mat-label>
+      <mat-date-range-input
+        [formGroup]="fechaMovimientoControl"
+        [rangePicker]="movPicker"
+        (click)="movPicker.open()"
+      >
+        <input matStartDate formControlName="start" placeholder="Inicio" />
+        <input matEndDate formControlName="end" placeholder="Fin" />
+      </mat-date-range-input>
+      <mat-hint>DD/MM/YYYY – DD/MM/YYYY</mat-hint>
+      <mat-datepicker-toggle
+        matSuffix
+        [for]="movPicker"
+      ></mat-datepicker-toggle>
+      <mat-date-range-picker #movPicker></mat-date-range-picker>
+      <mat-error
+        *ngIf="
+          fechaMovimientoControl.controls.start.hasError('matStartDateInvalid')
+        "
+      >
+        Fecha de inicio inválida
+      </mat-error>
+      <mat-error
+        *ngIf="
+          fechaMovimientoControl.controls.end.hasError('matEndDateInvalid')
+        "
+      >
+        Fecha fin inválida
+      </mat-error>
+    </mat-form-field>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Tipo de Contraparte</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #tipoContraparteCheckboxFilter
+            [value]="tipoContraparteFiltered"
+            [list]="tipoContraparteFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #estadoCheckboxFilter
+            [value]="estadoFiltered"
+            [list]="estadoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <mat-chip *ngIf="isFilteredByContraparte">
+      {{ contraparteFiltered }}
+    </mat-chip>
+    <mat-chip *ngIf="isFilteredByProveedor">
+      {{ proveedorFiltered }}
+    </mat-chip>
+    <mat-chip *ngIf="isFilteredByPuntoVenta">
+      {{ puntoVentaFiltered }}
+    </mat-chip>
+    <mat-chip *ngIf="isFilteredByFechaLiquidacion">
+      {{ fechaLiquidacionFiltered }}
+    </mat-chip>
+    <mat-chip *ngIf="isFilteredByFechaMovimiento">
+      {{ fechaMovimientoFiltered }}
+    </mat-chip>
+    <ng-container *ngIf="isFilteredByTipoContraparte">
+      <mat-chip *ngFor="let item of tipoContraparteFiltered">{{
+        item
+      }}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{ item }}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    [hideDelete]="true"
+    [hideEdit]="true"
+    [hideShow]="true"
+  ></app-table-paginator>
+</app-page>

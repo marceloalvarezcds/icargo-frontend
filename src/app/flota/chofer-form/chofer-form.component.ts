@@ -12,7 +12,9 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -27,6 +29,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class ChoferFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  anticiposBloqueados = false;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
@@ -40,7 +43,9 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   backUrl = `/flota/${m.CHOFER}/${a.LISTAR}`;
   modelo = m.CHOFER;
   propietarioModelo = m.PROPIETARIO;
+  ciudadSelected: Ciudad | null = null;
   gestorCuentaId?: number;
+  cantidadOCConAnticiposLiberados = 0;
   fotoDocumentoFrente: string | null = null;
   fotoDocumentoFrenteFile: File | null = null;
   fotoDocumentoReverso: string | null = null;
@@ -75,6 +80,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       foto_documento_reverso: null,
       foto_perfil: null,
       es_propietario: null,
+      puede_recibir_anticipos: true,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
     }),
@@ -106,19 +112,6 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
-
-  esPropietarioSubscription = this.esPropietarioControl.valueChanges.subscribe(
-    (esPropietario) => {
-      if (esPropietario) {
-        this.propietario
-          .get('pais_origen_id')!
-          .setValidators(Validators.required);
-      } else {
-        this.propietario.get('pais_origen_id')!.clearAsyncValidators();
-      }
-      this.propietario.get('pais_origen_id')!.updateValueAndValidity();
-    }
-  );
 
   get puedeModificarSoloAliasYcontactos(): boolean {
     if (this.isShow || !this.isEdit) {
@@ -155,6 +148,10 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     return !!this.esPropietarioControl.value;
   }
 
+  get rucControl(): FormControl {
+    return this.info.get('ruc') as FormControl;
+  }
+
   constructor(
     private fb: FormBuilder,
     private choferService: ChoferService,
@@ -171,7 +168,6 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
-    this.esPropietarioSubscription.unsubscribe();
   }
 
   back(confirmed: boolean): void {
@@ -183,7 +179,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   redirectToEdit(): void {
-    this.router.navigate([`/flota/${m.PROPIETARIO}/${a.EDITAR}`, this.id]);
+    this.router.navigate([`/flota/${m.CHOFER}/${a.EDITAR}`, this.id]);
   }
 
   active(): void {
@@ -218,6 +214,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
           ...this.address.value,
           ...this.propietario.value,
           ...this.registro.value,
+          anticipos_bloqueados: this.anticiposBloqueados,
         })
       );
       delete data.logo;
@@ -270,10 +267,13 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.choferService.create(formData).subscribe((chofer) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.CHOFER}/${a.EDITAR}`,
-            chofer.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.CHOFER,
+            chofer.id
+          );
         });
       }
     } else {
@@ -286,6 +286,24 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  bloquearAnticipos(): void {
+    this.dialog.confirmation(
+      'Existen Ordenes de Carga Aceptadas y con Anticipo liberados ¿Desea bloquearlos después de guardar los cambios?',
+      () => {
+        this.anticiposBloqueados = true;
+      }
+    );
+  }
+
+  esPropietarioChange(esPropietario: boolean): void {
+    if (esPropietario) {
+      this.rucControl.setValidators(Validators.required);
+    } else {
+      this.rucControl.removeValidators(Validators.required);
+    }
+    this.rucControl.updateValueAndValidity();
+  }
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -295,7 +313,9 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.choferService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.estado = data.estado;
+        this.cantidadOCConAnticiposLiberados = data.oc_with_anticipos_liberados;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;
         this.fotoDocumentoFrente = data.foto_documento_frente!;
@@ -320,7 +340,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         }
         this.form.setValue({
           info: {
-            alias: data.gestor_carga_chofer?.alias ?? data.nombre,
+            alias: data.gestor_carga_chofer?.alias ?? null,
             nombre: data.nombre,
             tipo_documento_id: data.tipo_documento_id,
             pais_emisor_documento_id: data.pais_emisor_documento_id,
@@ -332,6 +352,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             telefono: data.telefono,
             email: data.email,
             es_propietario: data.es_propietario,
+            puede_recibir_anticipos: data.puede_recibir_anticipos,
             foto_documento_frente: null,
             foto_documento_reverso: null,
             foto_perfil: null,

@@ -1,0 +1,21 @@
+<app-page
+  class="caja-page"
+  module="Configuraciones"
+  [submodule]="submodule"
+  [modelo]="modelo"
+  [hideFilter]="true"
+  (createClick)="create()"
+>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [modelo]="modelo"
+    [hideDelete]="true"
+    [hideShow]="true"
+    [shouldShowActiveButton]="true"
+    [shouldShowInactiveButton]="true"
+    (activeClick)="active($event)"
+    (editClick)="edit($event)"
+    (inactiveClick)="inactive($event)"
+  ></app-table-paginator>
+</app-page>

@@ -8,6 +8,10 @@ import { mockFleteList } from './flete';
 import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
 import { mockMovimientoList, Movimiento } from './movimiento';
 import {
+  mockOrdenCargaAnticipoPorcentajeList,
+  OrdenCargaAnticipoPorcentaje,
+} from './orden-carga-anticipo-porcentaje';
+import {
   mockOrdenCargaAnticipoRetiradoList,
   OrdenCargaAnticipoRetirado,
 } from './orden-carga-anticipo-retirado';
@@ -54,8 +58,16 @@ export interface OrdenCarga extends OrdenCargaForm {
   // Datos de camion
   camion_chofer_nombre: string | null;
   camion_chofer_numero_documento: string | null;
+  camion_chofer_puede_recibir_anticipos: boolean;
+  camion_limite_cantidad_oc_activas: number;
+  camion_limite_monto_anticipos: number | null;
+  camion_monto_anticipo_disponible: number | null;
+  camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso:
+    | number
+    | null;
   camion_placa: string;
   camion_propietario_nombre: string;
+  camion_propietario_puede_recibir_anticipos: boolean;
   // Datos de semi
   semi_placa: string;
   // Datos de fletes
@@ -67,6 +79,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_limite_credito: number;
   flete_numero_lote?: string | null;
   flete_monto_efectivo: number;
+  flete_monto_efectivo_complemento: number;
   flete_origen_id: number;
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
@@ -97,19 +110,26 @@ export interface OrdenCarga extends OrdenCargaForm {
   destino: CentroOperativo;
   // FIN Tramo de OC
   // Relaciones Listas
+  modify_by_movimiento: boolean;
   auditorias: AuditDatabase[];
   movimientos: Movimiento[];
   historial: OrdenCargaEstadoHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
+  porcentaje_anticipos: OrdenCargaAnticipoPorcentaje[];
   flete_anticipos: FleteAnticipo[];
   complementos: OrdenCargaComplemento[];
   descuentos: OrdenCargaDescuento[];
   remisiones_destino: OrdenCargaRemisionDestino[];
   remisiones_origen: OrdenCargaRemisionOrigen[];
   remisiones_resultado: OrdenCargaRemisionResultado[];
+  remisiones_resultado_flete: OrdenCargaRemisionResultado[];
   cantidad_destino: number;
   cantidad_origen: number;
+  total_anticipo: number;
+  total_anticipo_complemento: number;
+  total_anticipo_retirado: number;
+  total_anticipo_disponible: number;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -188,8 +208,14 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_id: camion0.id,
   camion_chofer_nombre: camion0.chofer_nombre,
   camion_chofer_numero_documento: camion0.chofer_numero_documento,
+  camion_chofer_puede_recibir_anticipos: false,
+  camion_limite_cantidad_oc_activas: 1,
+  camion_limite_monto_anticipos: null,
+  camion_monto_anticipo_disponible: null,
+  camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso: null,
   camion_placa: camion0.placa,
   camion_propietario_nombre: camion0.propietario_nombre,
+  camion_propietario_puede_recibir_anticipos: true,
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,
@@ -203,6 +229,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_limite_credito: flete0_limite_credito,
   flete_numero_lote: flete0.numero_lote,
   flete_monto_efectivo: flete0_monto_efectivo,
+  flete_monto_efectivo_complemento: flete0_monto_efectivo,
   flete_origen_id: flete0.origen_id,
   flete_origen_nombre: flete0.origen_nombre,
   flete_producto_descripcion: flete0.producto_descripcion,
@@ -236,19 +263,26 @@ export const mockOrdenCarga1: OrdenCarga = {
   destino: centroOperativo0,
   // FIN Tramo de OC
   // Relaciones Listas
+  modify_by_movimiento: false,
   auditorias: mockAuditDatabaseList,
   movimientos: mockMovimientoList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,
+  porcentaje_anticipos: mockOrdenCargaAnticipoPorcentajeList,
   flete_anticipos: mockFleteAnticipoList,
   complementos: mockOrdenCargaComplementoList,
   descuentos: mockOrdenCargaDescuentoList,
   remisiones_destino: mockOrdenCargaRemisionDestinoList,
   remisiones_origen: mockOrdenCargaRemisionOrigenList,
   remisiones_resultado: mockOrdenCargaRemisionResultadoList,
+  remisiones_resultado_flete: mockOrdenCargaRemisionResultadoList,
   cantidad_destino: 10000,
   cantidad_origen: 10000,
+  total_anticipo: 10000,
+  total_anticipo_complemento: 10000,
+  total_anticipo_retirado: 10000,
+  total_anticipo_disponible: 10000,
   // Auditoría
   created_by: 'system',
   created_at: '2021-11-30T20:38:09.553757',

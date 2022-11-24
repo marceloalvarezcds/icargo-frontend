@@ -14,6 +14,7 @@ import { TableEvent } from 'src/app/interfaces/table';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { subtract } from 'src/app/utils/math';
 
 @Component({
@@ -94,6 +95,10 @@ export class LiquidacionListComponent implements OnInit {
     return this.etapa === LiquidacionEtapaEnum.CONFIRMADO;
   }
 
+  get esFinalizado(): boolean {
+    return this.etapa === LiquidacionEtapaEnum.FINALIZADO;
+  }
+
   get saldo(): number {
     return subtract(this.credito, this.debito);
   }
@@ -123,22 +128,55 @@ export class LiquidacionListComponent implements OnInit {
   }
 
   redirectToEdit(event: TableEvent<Liquidacion>): void {
-    this.router.navigate([
-      `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
-      event.row.id,
-    ]);
+    this.router.navigate(
+      [
+        `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}`,
+        event.row.id,
+      ],
+      {
+        queryParams: {
+          contraparte_id: this.estadoCuenta!.contraparte_id,
+          actual_contraparte: this.estadoCuenta!.contraparte,
+          actual_contraparte_numero_documento:
+            this.estadoCuenta!.contraparte_numero_documento,
+        },
+      }
+    );
   }
 
   redirectToShow(event: TableEvent<Liquidacion>): void {
-    this.router.navigate([
-      `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
-      event.row.id,
-    ]);
+    this.router.navigate(
+      [
+        `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
+        event.row.id,
+      ],
+      {
+        queryParams: {
+          contraparte_id: this.estadoCuenta!.contraparte_id,
+          actual_contraparte: this.estadoCuenta!.contraparte,
+          actual_contraparte_numero_documento:
+            this.estadoCuenta!.contraparte_numero_documento,
+        },
+      }
+    );
+  }
+
+  redirectToMovView(): void {
+    this.router.navigate(
+      [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.MOVIMIENTO}/${a.LISTAR}`],
+      {
+        queryParams: getQueryParams(this.estadoCuenta!, this.etapa),
+      }
+    );
   }
 
   downloadFile(): void {
     this.liquidacionService
-      .generateReportsByEstadoCuenta(this.estadoCuenta!, this.etapa!)
+      .generateReportsByEstadoCuenta(
+        this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
+        this.etapa!
+      )
       .subscribe((filename) => {
         this.reportsService.downloadFile(filename).subscribe((file) => {
           saveAs(file, filename);
@@ -150,6 +188,7 @@ export class LiquidacionListComponent implements OnInit {
     const {
       backUrl,
       etapa,
+      contraparte_id,
       contraparte,
       contraparte_numero_documento,
       tipo_contraparte_id,
@@ -161,6 +200,7 @@ export class LiquidacionListComponent implements OnInit {
     this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,
+        contraparte_id,
         contraparte,
         contraparte_numero_documento
       )
@@ -173,7 +213,11 @@ export class LiquidacionListComponent implements OnInit {
 
   private getList(): void {
     this.liquidacionService
-      .getListByEstadoCuenta(this.estadoCuenta!, this.etapa!)
+      .getListByEstadoCuenta(
+        this.estadoCuenta!,
+        this.estadoCuenta!.contraparte_id,
+        this.etapa!
+      )
       .subscribe((data) => {
         this.credito = data.reduce((acc, cur) => acc + cur.credito, 0);
         this.debito = data.reduce((acc, cur) => acc + cur.debito, 0);

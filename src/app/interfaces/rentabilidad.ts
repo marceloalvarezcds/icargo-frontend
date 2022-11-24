@@ -35,6 +35,11 @@ export interface Rentabilidad {
   condicion_propietario_unidad_abreviatura: string;
   propietario_flete_total: number; // cantidad_destino * tarifa
   propietario_flete_total_ml: number; // cantidad_destino * tarifa (Moneda Local)
+  flete_condicion_propietario_tarifa: number;
+  flete_condicion_propietario_moneda_nombre: string;
+  flete_condicion_propietario_moneda_simbolo: string;
+  flete_propietario_total: number; // cantidad_destino * flete_tarifa
+  flete_propietario_total_ml: number; // cantidad_destino * flete_tarifa (Moneda Local)
   // COBRO por MERMA a PROPIETARIO p/GC
   merma_propietario_valor: number;
   merma_propietario_moneda_nombre: string;
@@ -46,6 +51,14 @@ export interface Rentabilidad {
   merma_propietario_tolerancia: number; // Si es_porcentual entonces (cantidad_origen * tolerancia_original) sino tolerancia_original // noqa
   merma_propietario_merma: number; // Si (diferencia_origen_destino - tolerancia) > 0 entonces (diferencia_origen_destino - tolerancia) sino 0 // noqa
   merma_propietario_valor_merma: number; // valor * merma
+  flete_merma_propietario_valor: number;
+  flete_merma_propietario_moneda_nombre: string;
+  flete_merma_propietario_moneda_simbolo: string;
+  flete_merma_propietario_es_porcentual: boolean;
+  flete_merma_propietario_tolerancia_original: number;
+  flete_merma_propietario_tolerancia: number; // Si es_porcentual entonces (cantidad_origen * tolerancia_original) sino tolerancia_original // noqa
+  flete_merma_propietario_merma: number; // Si (diferencia_origen_destino - tolerancia) > 0 entonces (diferencia_origen_destino - tolerancia) sino 0 // noqa
+  flete_merma_propietario_valor_merma: number; // flete_valor * merma
   // COBRO FLETE a REMITENTE p/GC
   condicion_gestor_carga_tarifa: number;
   condicion_gestor_carga_moneda_nombre: string;
@@ -54,6 +67,11 @@ export interface Rentabilidad {
   condicion_gestor_carga_unidad_abreviatura: string;
   gestor_carga_flete_total: number; // cantidad_destino * tarifa
   gestor_carga_flete_total_ml: number; // cantidad_destino * tarifa (Moneda Local)
+  flete_condicion_gestor_carga_moneda_nombre: string;
+  flete_condicion_gestor_carga_moneda_simbolo: string;
+  flete_condicion_gestor_carga_tarifa: number;
+  flete_gestor_carga_total: number; // cantidad_destino * flete_tarifa
+  flete_gestor_carga_total_ml: number; // cantidad_destino * flete_tarifa (Moneda Local) // noqa: B950
   // PAGO por MERMA a REMITENTE p/GC
   merma_gestor_carga_valor: number;
   merma_gestor_carga_moneda_nombre: string;
@@ -65,6 +83,14 @@ export interface Rentabilidad {
   merma_gestor_carga_tolerancia: number; // Si es_porcentual entonces (cantidad_origen * tolerancia_original) sino tolerancia_original // noqa
   merma_gestor_carga_merma: number; // Si (diferencia_origen_destino - tolerancia) > 0 entonces (diferencia_origen_destino - tolerancia) sino 0 // noqa
   merma_gestor_carga_valor_merma: number; // valor * merma
+  flete_merma_gestor_carga_valor: number;
+  flete_merma_gestor_carga_moneda_nombre: string;
+  flete_merma_gestor_carga_moneda_simbolo: string;
+  flete_merma_gestor_carga_es_porcentual: boolean;
+  flete_merma_gestor_carga_tolerancia_original: number;
+  flete_merma_gestor_carga_tolerancia: number; // Si es_porcentual entonces (cantidad_origen * tolerancia_original) sino tolerancia_original // noqa
+  flete_merma_gestor_carga_merma: number; // Si (diferencia_origen_destino - tolerancia) > 0 entonces (diferencia_origen_destino - tolerancia) sino 0 // noqa
+  flete_merma_gestor_carga_valor_merma: number; // flete_valor * merma
   // Complementos
   total_complemento_a_pagar: number;
   total_complemento_a_cobrar: number;
@@ -119,6 +145,11 @@ export const mockRentabilidadList: Rentabilidad[] = [
     condicion_propietario_unidad_abreviatura: 'kg',
     propietario_flete_total: 1880000,
     propietario_flete_total_ml: 1880000,
+    flete_condicion_propietario_tarifa: 0,
+    flete_condicion_propietario_moneda_nombre: 'Guaranies',
+    flete_condicion_propietario_moneda_simbolo: 'PYG',
+    flete_propietario_total: 0,
+    flete_propietario_total_ml: 0,
     merma_propietario_valor: 1500,
     merma_propietario_moneda_nombre: 'Guaranies',
     merma_propietario_moneda_simbolo: 'PYG',
@@ -129,6 +160,14 @@ export const mockRentabilidadList: Rentabilidad[] = [
     merma_propietario_tolerancia: 50,
     merma_propietario_merma: 350,
     merma_propietario_valor_merma: 525000,
+    flete_merma_propietario_valor: 0,
+    flete_merma_propietario_moneda_nombre: 'Guaranies',
+    flete_merma_propietario_moneda_simbolo: 'PYG',
+    flete_merma_propietario_es_porcentual: false,
+    flete_merma_propietario_tolerancia_original: 50,
+    flete_merma_propietario_tolerancia: 0,
+    flete_merma_propietario_merma: 0,
+    flete_merma_propietario_valor_merma: 0,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_moneda_nombre: 'Guaranies',
     condicion_gestor_carga_moneda_simbolo: 'PYG',
@@ -136,6 +175,11 @@ export const mockRentabilidadList: Rentabilidad[] = [
     condicion_gestor_carga_unidad_abreviatura: 'kg',
     gestor_carga_flete_total: 2350000,
     gestor_carga_flete_total_ml: 2350000,
+    flete_condicion_gestor_carga_moneda_nombre: 'Guaranies',
+    flete_condicion_gestor_carga_moneda_simbolo: 'PYG',
+    flete_condicion_gestor_carga_tarifa: 0,
+    flete_gestor_carga_total: 0,
+    flete_gestor_carga_total_ml: 0,
     merma_gestor_carga_valor: 1,
     merma_gestor_carga_moneda_nombre: 'Guaranies',
     merma_gestor_carga_moneda_simbolo: 'PYG',
@@ -146,6 +190,14 @@ export const mockRentabilidadList: Rentabilidad[] = [
     merma_gestor_carga_tolerancia: 100,
     merma_gestor_carga_merma: 300,
     merma_gestor_carga_valor_merma: 300000,
+    flete_merma_gestor_carga_valor: 0,
+    flete_merma_gestor_carga_moneda_nombre: 'Guaranies',
+    flete_merma_gestor_carga_moneda_simbolo: 'PYG',
+    flete_merma_gestor_carga_es_porcentual: false,
+    flete_merma_gestor_carga_tolerancia_original: 0,
+    flete_merma_gestor_carga_tolerancia: 0,
+    flete_merma_gestor_carga_merma: 0,
+    flete_merma_gestor_carga_valor_merma: 0,
     total_complemento_a_pagar: 15000,
     total_complemento_a_cobrar: 17000,
     diferencia_complemento: 2000,

@@ -10,7 +10,9 @@ import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
@@ -43,6 +45,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     });
   monedaList$ = this.monedaService.getList();
   modelo = m.GESTOR_CARGA;
+  ciudadSelected?: Ciudad | null;
 
   file: File | null = null;
   logo: string | null = null;
@@ -61,6 +64,14 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       email: [null, emailValidator],
       pagina_web: null,
       info_complementaria: null,
+      limite_cantidad_oc_activas: [
+        null,
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.pattern('^[0-9]{1,}$'),
+        ],
+      ],
     }),
     geo: this.fb.group({
       ciudad_id: null,
@@ -102,7 +113,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     private composicionJuridicaService: ComposicionJuridicaService,
     private tipoDocumentoService: TipoDocumentoService,
     private monedaService: MonedaService,
-    private remitenteService: GestorCargaService,
+    private gestorCargaService: GestorCargaService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
     private router: Router
@@ -156,16 +167,19 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       this.hasChange = false;
       this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
-        this.remitenteService.edit(this.id, formData).subscribe(() => {
+        this.gestorCargaService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
-        this.remitenteService.create(formData).subscribe((remitente) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/entities/${m.GESTOR_CARGA}/${a.EDITAR}`,
-            remitente.id,
-          ]);
+        this.gestorCargaService.create(formData).subscribe((gestorCarga) => {
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.ENTITIES,
+            m.GESTOR_CARGA,
+            gestorCarga.id
+          );
         });
       }
     } else {
@@ -174,6 +188,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
         this.isGeoTouched = this.geo.invalid;
       });
     }
+  }
+
+  patternMessageError(_: any): string {
+    return 'Debe ser un número entero y positivo';
   }
 
   private getData(): void {
@@ -187,7 +205,8 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      this.remitenteService.getById(this.id).subscribe((data) => {
+      this.gestorCargaService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.setValue({
           info: {
             nombre: data.nombre,
@@ -201,6 +220,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             email: data.email,
             pagina_web: data.pagina_web,
             info_complementaria: data.info_complementaria,
+            limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
             logo: null,
           },
           geo: {

@@ -7,7 +7,9 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Semi } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SemiService } from 'src/app/services/semi.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -22,6 +24,7 @@ import { DateValidator } from 'src/app/validators/date-validator';
 export class SemiFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   id?: number;
+  item?: Semi;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
   propietarioId?: number;
@@ -260,10 +263,13 @@ export class SemiFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.semiService.create(formData).subscribe((semi) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
-            semi.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.FLOTA,
+            m.SEMIRREMOLQUE,
+            semi.id
+          );
         });
       }
     } else {
@@ -290,6 +296,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.semiService.getById(this.id).subscribe((data) => {
+        this.item = data;
         this.estado = data.estado;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.gestorCuentaId = data.gestor_cuenta_id;

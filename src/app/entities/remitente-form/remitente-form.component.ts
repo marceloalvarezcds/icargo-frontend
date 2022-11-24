@@ -12,7 +12,9 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { RemitenteService } from 'src/app/services/remitente.service';
@@ -41,6 +43,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.REMITENTE;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: RemitenteContactoGestorCargaList[] = [];
 
@@ -61,7 +64,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       pagina_web: null,
       info_complementaria: null,
     }),
-    contactos: this.fb.array([], Validators.required),
+    contactos: this.fb.array([]),
     geo: this.fb.group({
       ciudad_id: null,
       latitud: null,
@@ -160,10 +163,13 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.remitenteService.create(formData).subscribe((remitente) => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/entities/${m.REMITENTE}/${a.EDITAR}`,
-            remitente.id,
-          ]);
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.ENTITIES,
+            m.REMITENTE,
+            remitente.id
+          );
         });
       }
     } else {
@@ -187,9 +193,10 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.remitenteService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
-            alias: data.gestor_carga_remitente?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_remitente?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,

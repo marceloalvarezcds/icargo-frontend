@@ -1,0 +1,27 @@
+h3, h4 {
+  line-height: 1;
+  margin-bottom: 0;
+}
+
+h4 {
+  margin-top: 1rem;
+}
+
+.col-xs-12 {
+  margin-bottom: 2rem;
+}
+
+::ng-deep {
+  .selector-dialog {
+    width: 100vw !important;
+    @media screen and (min-width: 48em) {
+      width: calc(100vw - 5rem) !important;
+    }
+    @media screen and (min-width: 64em) {
+      width: calc(100vw - 10rem) !important;
+    }
+    @media screen and (min-width: 75em) {
+      width: calc(100vw - 20rem) !important;
+    }
+  }
+}

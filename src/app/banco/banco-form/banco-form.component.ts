@@ -5,6 +5,7 @@ import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Banco } from 'src/app/interfaces/banco';
 import { BancoService } from 'src/app/services/banco.service';
@@ -96,11 +97,14 @@ export class BancoFormComponent implements OnInit, OnDestroy {
           this.getData();
         });
       } else {
-        this.bancoService.create(formData).subscribe(() => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/banco/${m.BANCO}/${a.EDITAR}`,
-            this.id,
-          ]);
+        this.bancoService.create(formData).subscribe((banco) => {
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.BANCO,
+            m.BANCO,
+            banco.id || this.id
+          );
         });
       }
     }

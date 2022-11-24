@@ -23,8 +23,6 @@ describe('LayoutComponent', () => {
   let fixture: ComponentFixture<LayoutComponent>;
   let menuConfigService: MenuConfigService;
   let menuService: MenuService;
-  let openSidenavSpy: jasmine.Spy<any>;
-  let closeSidenavSpy: jasmine.Spy<any>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
@@ -49,8 +47,6 @@ describe('LayoutComponent', () => {
     menuService = TestBed.inject(MenuService);
     component = fixture.componentInstance;
     fixture.detectChanges();
-    openSidenavSpy = spyOn((menuService as any).sidenav!, 'open');
-    closeSidenavSpy = spyOn((menuService as any).sidenav!, 'close');
   });
 
   it('should create', () => {
@@ -58,6 +54,8 @@ describe('LayoutComponent', () => {
   });
 
   it('test menuConfigService', fakeAsync(() => {
+    const openSidenavSpy = spyOn((component as any).sidenav!, 'open');
+    const closeSidenavSpy = spyOn((component as any).sidenav!, 'close');
     menuConfigService.setSidebarMenu(true);
     flushMicrotasks();
     fixture.detectChanges();

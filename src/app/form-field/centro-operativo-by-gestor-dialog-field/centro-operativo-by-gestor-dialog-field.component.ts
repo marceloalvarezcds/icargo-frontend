@@ -17,6 +17,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./centro-operativo-by-gestor-dialog-field.component.scss'],
 })
 export class CentroOperativoByGestorDialogFieldComponent {
+  readonly inputValuePropName = 'nombre';
   list: CentroOperativoList[] = [];
   subs = this.service.getListByGestorCuentaId().subscribe((list) => {
     this.list = list;
@@ -69,8 +70,4 @@ export class CentroOperativoByGestorDialogFieldComponent {
   dialogField?: DialogFieldComponent<CentroOperativoList>;
 
   constructor(private service: CentroOperativoService) {}
-
-  inputValueFormat(value: CentroOperativoList | undefined): string {
-    return value ? value.nombre : '';
-  }
 }

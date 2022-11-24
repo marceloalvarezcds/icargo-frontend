@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  api: 'https://api-desa.icargo.com.py',
+  api: 'https://desa.icargo.com.py/api',
+  baseUrl: 'https://desa.icargo.com.py',
 };

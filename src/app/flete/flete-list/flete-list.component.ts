@@ -73,7 +73,7 @@ export class FleteListComponent implements OnInit {
     },
     {
       def: 'gestor_carga_nombre',
-      title: 'Gestor de Cuenta',
+      title: 'Gestor de Carga',
       value: (element: FleteList) => element.gestor_carga_nombre,
     },
     {
@@ -114,22 +114,22 @@ export class FleteListComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'condicion_gestor_cuenta_moneda_nombre',
+      def: 'condicion_gestor_carga_moneda_nombre',
       title: 'Condición para Gestor - Moneda',
       value: (element: FleteList) =>
-        element.condicion_gestor_cuenta_moneda_nombre,
+        element.condicion_gestor_carga_moneda_nombre,
     },
     {
-      def: 'condicion_gestor_cuenta_tarifa',
+      def: 'condicion_gestor_carga_tarifa',
       title: 'Condición para Gestor - Tarifa',
-      value: (element: FleteList) => element.condicion_gestor_cuenta_tarifa,
+      value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
       type: 'number',
     },
     {
-      def: 'condicion_gestor_cuenta_unidad_descripcion',
+      def: 'condicion_gestor_carga_unidad_descripcion',
       title: 'Condición para Gestor - Unidad',
       value: (element: FleteList) =>
-        element.condicion_gestor_cuenta_unidad_descripcion,
+        element.condicion_gestor_carga_unidad_descripcion,
     },
     {
       def: 'condicion_propietario_moneda_nombre',
@@ -150,32 +150,32 @@ export class FleteListComponent implements OnInit {
         element.condicion_propietario_unidad_descripcion,
     },
     {
-      def: 'merma_gestor_cuenta_valor',
+      def: 'merma_gestor_carga_valor',
       title: 'Merma para Gestor - Valor',
-      value: (element: FleteList) => element.merma_gestor_cuenta_valor,
+      value: (element: FleteList) => element.merma_gestor_carga_valor,
       type: 'number',
     },
     {
-      def: 'merma_gestor_cuenta_moneda_nombre',
+      def: 'merma_gestor_carga_moneda_nombre',
       title: 'Merma para Gestor - Moneda',
-      value: (element: FleteList) => element.merma_gestor_cuenta_moneda_nombre,
+      value: (element: FleteList) => element.merma_gestor_carga_moneda_nombre,
     },
     {
-      def: 'merma_gestor_cuenta_unidad_descripcion',
+      def: 'merma_gestor_carga_unidad_descripcion',
       title: 'Merma para Gestor - Unidad',
       value: (element: FleteList) =>
-        element.merma_gestor_cuenta_unidad_descripcion,
+        element.merma_gestor_carga_unidad_descripcion,
     },
     {
-      def: 'merma_gestor_cuenta_es_porcentual',
+      def: 'merma_gestor_carga_es_porcentual',
       title: 'Merma para Gestor - Es Cálculo porcentual',
       value: (element: FleteList) =>
-        element.merma_gestor_cuenta_es_porcentual_descripcion,
+        element.merma_gestor_carga_es_porcentual_descripcion,
     },
     {
-      def: 'merma_gestor_cuenta_tolerancia',
+      def: 'merma_gestor_carga_tolerancia',
       title: 'Merma para Gestor - Tolerancia',
-      value: (element: FleteList) => element.merma_gestor_cuenta_tolerancia,
+      value: (element: FleteList) => element.merma_gestor_carga_tolerancia,
       type: 'number',
     },
     {
@@ -207,11 +207,11 @@ export class FleteListComponent implements OnInit {
       value: (element: FleteList) => element.merma_propietario_tolerancia,
       type: 'number',
     },
-    {
-      def: 'vigencia_anticipos',
-      title: 'Vigencia de Anticipos',
-      value: (element: FleteList) => element.vigencia_anticipos,
-    },
+    // {
+    //   def: 'vigencia_anticipos',
+    //   title: 'Vigencia de Anticipos',
+    //   value: (element: FleteList) => element.vigencia_anticipos,
+    // },
     {
       def: 'created_by',
       title: 'Usuario creación',

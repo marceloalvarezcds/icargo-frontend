@@ -22,6 +22,16 @@ export class OrdenCargaEditFormAccionesComponent {
 
   @Output() ocChange = new EventEmitter<void>();
 
+  get remitente(): string {
+    return this.oc
+      ? `${this.oc?.flete_remitente_nombre} - ${this.oc?.flete_remitente_numero_documento}`
+      : '';
+  }
+
+  get placaCamionSemi(): string {
+    return this.oc ? `${this.oc.camion_placa}/${this.oc.semi_placa}` : '';
+  }
+
   constructor(
     private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
@@ -30,11 +40,13 @@ export class OrdenCargaEditFormAccionesComponent {
   ) {}
 
   aceptar(): void {
-    this.dialog.changeStatusConfirm(
+    this.dialog.confirmation(
       '¿Está seguro que desea aceptar la Orden de Carga?',
-      this.ordenCargaService.aceptar(this.oc!.id),
       () => {
-        this.ocChange.emit();
+        this.ordenCargaService.aceptar(this.oc!.id).subscribe(() => {
+          this.snackbar.open('Estado cambiado satisfactoriamente');
+          this.ocChange.emit();
+        });
       }
     );
   }

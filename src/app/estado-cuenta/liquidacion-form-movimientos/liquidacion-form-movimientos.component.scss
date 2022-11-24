@@ -1,8 +1,16 @@
 .movimientos-container::ng-deep {
+  .mat-column-oc {
+    right: 122px !important;
+  }
   .mat-column-editar {
     right: 61px !important;
+    width: 61px !important;
+    min-width: 61px !important;
+    box-sizing: border-box;
   }
   .mat-column-eliminar {
     width: 61px !important;
+    min-width: 61px !important;
+    box-sizing: border-box;
   }
 }

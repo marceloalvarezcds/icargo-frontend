@@ -1,0 +1,42 @@
+<div class="table-selector-container">
+  <table mat-table [dataSource]="dataSource" class="table-selector">
+    <ng-container *ngFor="let column of filteredColumns" [matColumnDef]="column.def" [sticky]="column.sticky"  [stickyEnd]="column.stickyEnd">
+      <ng-container *ngIf="column.def === 'selector'">
+        <th mat-header-cell *matHeaderCellDef>
+          <button type="button" mat-icon-button [matMenuTriggerFor]="filterColumn" #filterColumnTrigger>
+            <mat-icon>list</mat-icon>
+          </button>
+          <mat-menu #filterColumn>
+            <div mat-menu-item disableRipple>
+              <app-searchable-checkbox-filter
+                [value]="columnsToShowFilteredList"
+                [list]="columnsToShowList"
+                (valueChanges)="columnsToShowFilteredList = $event"
+                (filtered)="filterColumns(); filterColumnTrigger._elementRef.nativeElement.click()"
+              >
+              </app-searchable-checkbox-filter>
+            </div>
+          </mat-menu>
+        </th>
+        <td mat-cell *matCellDef="let row; let index = index">
+          <mat-radio-group [(ngModel)]="selectedRow" (change)="selectedChange.emit(row)">
+            <mat-radio-button [value]="row"></mat-radio-button>
+          </mat-radio-group>
+        </td>
+      </ng-container>
+      <ng-container *ngIf="column.def !== 'selector'">
+        <th mat-header-cell *matHeaderCellDef>
+          <span>{{ column.title }}</span>
+        </th>
+        <td mat-cell *matCellDef="let row">
+          <ng-container *ngIf="column.value">
+            <span>{{ column.value(row) }}</span>
+          </ng-container>
+        </td>
+      </ng-container>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+</div>
+<mat-paginator [pageSizeOptions]="[10, 20, 50, 100]"></mat-paginator>

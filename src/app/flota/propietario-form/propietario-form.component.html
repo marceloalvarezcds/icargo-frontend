@@ -33,6 +33,7 @@
         [fotoPerfil]="fotoPerfil"
         [modelo]="modelo"
         [gestorCuentaId]="gestorCuentaId"
+        [cantidadOCConAnticiposLiberados]="cantidadOCConAnticiposLiberados"
         (fotoDocumentoFrenteChange)="
           fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null
         "
@@ -40,6 +41,8 @@
           fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null
         "
         (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
+        (anticiposBloqueadosChange)="bloquearAnticipos()"
+        (esChoferChange)="esChoferChange($event)"
       ></app-propietario-form-info>
     </mat-expansion-panel>
 
@@ -125,6 +128,7 @@
       </mat-expansion-panel-header>
       <app-page-form-address
         groupName="address"
+        [ciudadSelected]="ciudadSelected"
         [form]="form"
         [isShow]="isShow"
         [isPanelOpen]="isPanelOpen"

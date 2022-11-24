@@ -23,10 +23,12 @@ export class InputFieldComponent {
     return obj[this.controlName];
   }
 
+  @Input() autocomplete: 'on' | 'off' | 'nope' = 'nope';
   @Input() formatToPasteNumber = false;
   @Input() formatToPastePhone = false;
   @Input() autofocus = false;
   @Input() controlName = '';
+  @Input() hint = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() readonly = false;

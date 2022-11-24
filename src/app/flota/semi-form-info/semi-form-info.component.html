@@ -2,11 +2,12 @@
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-propietario-field
+        <app-propietario-readonly-by-id-dialog-field
           [groupName]="groupName"
           [form]="form"
+          [semiId]="semi?.id"
           [propietarioId]="propietarioId"
-        ></app-propietario-field>
+        ></app-propietario-readonly-by-id-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field

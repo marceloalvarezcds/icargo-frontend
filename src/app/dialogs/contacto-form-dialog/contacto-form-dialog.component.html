@@ -68,17 +68,7 @@
         El alias es <strong>requerido</strong>
       </mat-error>
     </mat-form-field>
-    <mat-form-field>
-      <mat-label>Cargo</mat-label>
-      <mat-select formControlName="cargo" [compareWith]="compareWith">
-        <ng-container *ngFor="let o of cargoList$ | async">
-          <mat-option [value]="o">{{ o.descripcion }}</mat-option>
-        </ng-container>
-      </mat-select>
-      <mat-error *ngIf="form.controls['cargo'].hasError('required')">
-        El cargo es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field>
+    <app-cargo-field [control]="cargoControl"></app-cargo-field>
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button type="button" (click)="dialogRef.close()">

@@ -17,11 +17,17 @@ export class ChoferService {
   }
 
   getListByGestorCuenta(): Observable<ChoferList[]> {
-    return this.http.get<ChoferList[]>(`${this.url}/gestor_cuenta/`);
+    return this.http.get<ChoferList[]>(`${this.url}/gestor_cuenta`);
   }
 
   getListByWithoutCamion(): Observable<ChoferList[]> {
-    return this.http.get<ChoferList[]>(`${this.url}/without_camion/`);
+    return this.http.get<ChoferList[]>(`${this.url}/without_camion`);
+  }
+
+  getListByWithoutCamionByCamionId(camionId: number): Observable<ChoferList[]> {
+    return this.http.get<ChoferList[]>(
+      `${this.url}/without_camion/${camionId}`
+    );
   }
 
   getById(id: number): Observable<Chofer> {
@@ -29,7 +35,7 @@ export class ChoferService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Chofer> {

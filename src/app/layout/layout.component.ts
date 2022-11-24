@@ -16,6 +16,7 @@ import { TabService } from './tab.service';
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
+  providers: [MenuService],
 })
 export class LayoutComponent implements OnDestroy, AfterViewInit {
   @HostListener('window:resize')
@@ -23,9 +24,17 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
     this.menuService.configSidebarModeByScreen();
   }
 
-  @ViewChild('sidenav') set sidenav(nav: MatSidenav) {
-    this.menuService.setSidenav(nav);
+  @ViewChild(MatSidenav)
+  get sidenav(): MatSidenav | undefined {
+    return this.nav;
   }
+  set sidenav(nav: MatSidenav | undefined) {
+    if (nav) {
+      this.nav = nav;
+      this.menuService.setSidenav(nav);
+    }
+  }
+  nav?: MatSidenav;
 
   get menuList$(): Observable<MenuItem[]> {
     return this.menuService.list$;

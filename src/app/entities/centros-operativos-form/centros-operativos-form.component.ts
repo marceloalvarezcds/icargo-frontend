@@ -12,8 +12,10 @@ import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
+import { Ciudad } from 'src/app/interfaces/ciudad';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
@@ -44,6 +46,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     this.user = user;
   });
   modelo = m.CENTRO_OPERATIVO;
+  ciudadSelected?: Ciudad | null;
 
   contactoList: CentroOperativoContactoGestorCargaList[] = [];
 
@@ -61,7 +64,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       email: [null, emailValidator],
       pagina_web: null,
     }),
-    contactos: this.fb.array([], Validators.required),
+    contactos: this.fb.array([]),
     geo: this.fb.group({
       ciudad_id: [null, Validators.required],
       latitud: [null, Validators.required],
@@ -165,10 +168,13 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         this.centroOperativoService
           .create(formData)
           .subscribe((centroOperativo) => {
-            this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-              `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
-              centroOperativo.id,
-            ]);
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.ENTITIES,
+              m.CENTRO_OPERATIVO,
+              centroOperativo.id
+            );
           });
       }
     } else {
@@ -192,6 +198,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         this.form.disable();
       }
       this.centroOperativoService.getById(this.id).subscribe((data) => {
+        this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
             alias:

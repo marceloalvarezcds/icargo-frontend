@@ -37,10 +37,24 @@ export class PropietarioListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: PropietarioList) => element.estado,
+    },
+    {
       def: 'nombre',
       title: 'Nombre o Razón Social',
       value: (element: PropietarioList) => element.nombre,
-      sticky: true,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: PropietarioList) => element.direccion,
+    },
+    {
+      def: 'telefono',
+      title: 'Teléfono',
+      value: (element: PropietarioList) => element.telefono,
     },
     {
       def: 'tipo_persona',
@@ -63,22 +77,12 @@ export class PropietarioListComponent implements OnInit {
       value: (element: PropietarioList) => element.oficial_cuenta_nombre,
     },
     {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: PropietarioList) => element.direccion,
-    },
-    {
       def: 'ubicacion',
       title: 'Ubicación',
       value: (element: PropietarioList) =>
         element.ciudad_nombre
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: PropietarioList) => element.estado,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

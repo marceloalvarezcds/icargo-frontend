@@ -19,8 +19,8 @@ import { getIdFromAny } from 'src/app/utils/form-control';
 export class GenericListFieldComponent<T extends { id: number }>
   implements OnDestroy
 {
+  private lista: T[] = [];
   formGroup?: FormGroup;
-  list: T[] = [];
   subscription?: Subscription;
 
   get group(): FormGroup {
@@ -39,9 +39,17 @@ export class GenericListFieldComponent<T extends { id: number }>
     return obj[this.controlName];
   }
 
+  get list(): T[] {
+    return this.lista;
+  }
+
+  @Input() set list(l: T[]) {
+    this.lista = l.slice();
+  }
   @Input() key = 'id';
   @Input() controlName = '';
   @Input() groupName?: string;
+  @Input() hint = '';
   @Input() errorMessage = '';
   @Input() set form(f: FormGroup) {
     const key = this.key;
@@ -73,7 +81,7 @@ export class GenericListFieldComponent<T extends { id: number }>
   @Input() value!: (v: T) => number | string | T;
 
   @Output() emptyListChange = new EventEmitter();
-  @Output() valueChange = new EventEmitter<T>();
+  @Output() valueChange = new EventEmitter<T | undefined>();
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();

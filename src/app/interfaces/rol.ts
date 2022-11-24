@@ -1,5 +1,5 @@
-import { EstadoEnum } from '../enums/estado-enum';
-import { CodigoRolEnum } from '../enums/rol-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { CodigoRolEnum } from 'src/app/enums/rol-enum';
 import { mockPermisoList, Permiso } from './permiso';
 
 export interface Rol {
@@ -7,22 +7,65 @@ export interface Rol {
   codigo: CodigoRolEnum;
   descripcion: string;
   estado: EstadoEnum;
+  gestor_carga_id: number;
   permisos: Permiso[];
+  // Auditoría
+  created_by: string;
+  created_at: string;
+  modified_by: string;
+  modified_at: string;
 }
+
+export interface RolChecked {
+  id: number;
+  checked: boolean; // <- campo auxiliar que solo se utiliza en el front
+  descripcion: string;
+}
+
+export const mockRolChecked1: RolChecked = {
+  id: 1,
+  checked: true,
+  descripcion: 'Administrador de Gestor de Carga',
+};
+
+export const mockRolChecked2: RolChecked = {
+  id: 2,
+  checked: true,
+  descripcion: 'Suplente de Gestor de Carga',
+};
+
+export const mockRolCheckedList: RolChecked[] = [
+  mockRolChecked1,
+  mockRolChecked2,
+];
 
 export const mockRolList: Rol[] = [
   {
     id: 1,
-    codigo:CodigoRolEnum.ADMIN_GESTOR_CARGA,
+    codigo: CodigoRolEnum.ADMIN_GESTOR_CARGA,
     descripcion: 'Administrador de Gestor de Carga',
     estado: EstadoEnum.ACTIVO,
-    permisos: [],
+    gestor_carga_id: 1,
+    permisos: mockPermisoList.slice(0, 3),
+    // Auditoría
+    created_by: 'System',
+    created_at: '2022-03-03T19:38:55.907002',
+    modified_by: 'System',
+    modified_at: '2022-03-03T19:38:55.907002',
   },
   {
     id: 2,
-    codigo:CodigoRolEnum.ADMIN_ICARGO,
+    codigo: CodigoRolEnum.ADMIN_ICARGO,
     descripcion: 'Administrador de Icargo',
     estado: EstadoEnum.ACTIVO,
-    permisos: mockPermisoList,
+    gestor_carga_id: 2,
+    permisos: [],
+    // Auditoría
+    created_by: 'System',
+    created_at: '2022-03-03T19:38:55.907002',
+    modified_by: 'System',
+    modified_at: '2022-03-03T19:38:55.907002',
   },
 ];
+
+export const mockRol = mockRolList[0];

@@ -20,6 +20,7 @@ export class MovimientoFormDialogComponent {
   tipo?: TipoContraparte;
   form = this.fb.group({
     tipo_contraparte_id: [this.tipoContraparteId, Validators.required],
+    contraparte_id: this.data?.contraparte_id,
     contraparte: [this.contraparte, Validators.required],
     contraparte_numero_documento: this.contraparteNumeroDocumento,
     liquidacion_id: this.liquidacionId,
@@ -27,9 +28,10 @@ export class MovimientoFormDialogComponent {
     numero_documento_relacionado: this.data?.numero_documento_relacionado,
     cuenta_id: this.data?.cuenta_id,
     tipo_movimiento_id: this.data?.tipo_movimiento_id,
+    es_cobro: this.data?.es_cobro ?? true,
     estado: this.estado,
     fecha: this.fecha,
-    monto: [this.data?.monto, Validators.required],
+    monto: [this.monto, [Validators.required, Validators.min(0)]],
     moneda_id: [this.data?.moneda_id, Validators.required],
     detalle: this.data?.detalle,
     tipo_cambio_moneda: this.data?.tipo_cambio_moneda,
@@ -40,16 +42,22 @@ export class MovimientoFormDialogComponent {
     remitente_id: this.data?.remitente_id,
   });
 
+  get monto(): number | undefined {
+    return this.data && this.data.monto < 0
+      ? this.data?.monto * -1
+      : this.data?.monto;
+  }
+
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';
   }
 
   get data(): MovimientoForm | undefined {
-    return this.dialogData?.item;
+    return this.dialogData.item;
   }
 
   get estado(): MovimientoEstadoEnum {
-    return this.dialogData?.estado ?? MovimientoEstadoEnum.PENDIENTE;
+    return this.dialogData.estado ?? MovimientoEstadoEnum.PENDIENTE;
   }
 
   get fecha(): string | undefined {
@@ -90,6 +98,10 @@ export class MovimientoFormDialogComponent {
 
   get contraparteNumeroDocumentoControl(): FormControl {
     return this.form.get('contraparte_numero_documento') as FormControl;
+  }
+
+  get cuentaControl(): FormControl {
+    return this.form.get('cuenta_id') as FormControl;
   }
 
   get tipoContraparteId(): number | null {
@@ -139,6 +151,7 @@ export class MovimientoFormDialogComponent {
       } else if (this.tipo?.descripcion == TipoContraparteEnum.REMITENTE) {
         this.form.controls['remitente_id'].setValue(val.id);
       }
+      this.contraparteControl.setValue(val.contraparte);
       this.contraparteNumeroDocumentoControl.setValue(
         val.contraparte_numero_documento
       );
@@ -149,7 +162,7 @@ export class MovimientoFormDialogComponent {
     this.tipo = event;
     if (event.descripcion !== TipoContraparteEnum.OTRO) {
       this.openField = false;
-    } else if (!this.openField) {
+    } else if (!this.openField && this.isContraparteEditable) {
       this.contraparteControl.setValue(null);
       this.contraparteNumeroDocumentoControl.setValue(null);
     }

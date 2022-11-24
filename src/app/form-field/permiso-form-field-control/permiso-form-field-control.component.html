@@ -1,0 +1,36 @@
+<div
+  role="group"
+  class="app-permiso-form-field-control-container"
+  (focusin)="onFocusIn($event)"
+  (focusout)="onFocusOut($event)"
+>
+  <ng-container *ngFor="let modulo of permisoAgrupados | keyvalue">
+    <div class="modulo-container">
+      <div class="modulo-title title">
+        {{ modulo.key }}
+      </div>
+      <div class="modulo-items">
+        <ng-container *ngFor="let modelo of modulo.value | keyvalue">
+          <div class="modelo-container">
+            <div class="modelo-title title">
+              {{ modelo.key }}
+            </div>
+            <div class="modelo-items" *ngFor="let permiso of modelo.value">
+              <ng-container *ngIf="isSuperUser || !permiso.is_for_superuser">
+                <mat-checkbox
+                  [checked]="permiso.checked"
+                  [disabled]="disabled"
+                  (change)="
+                    changeValueByPosition(permiso, permiso.index, $event)
+                  "
+                >
+                  {{ permiso.accion | accion }}
+                </mat-checkbox>
+              </ng-container>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </ng-container>
+</div>

@@ -5,20 +5,33 @@ import { environment } from 'src/environments/environment';
 import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PropietarioService {
-
   private url = `${environment.api}/propietario`;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getList(): Observable<PropietarioList[]> {
     return this.http.get<PropietarioList[]>(`${this.url}/`);
   }
 
   getListByGestorCuenta(): Observable<PropietarioList[]> {
-    return this.http.get<PropietarioList[]>(`${this.url}/gestor_cuenta/`);
+    return this.http.get<PropietarioList[]>(`${this.url}/gestor_cuenta`);
+  }
+
+  getListByGestorCuentaByCamionId(
+    camionId: number
+  ): Observable<PropietarioList[]> {
+    return this.http.get<PropietarioList[]>(
+      `${this.url}/gestor_cuenta/camion/${camionId}`
+    );
+  }
+
+  getListByGestorCuentaBySemiId(semiId: number): Observable<PropietarioList[]> {
+    return this.http.get<PropietarioList[]>(
+      `${this.url}/gestor_cuenta/semi/${semiId}`
+    );
   }
 
   getById(id: number): Observable<Propietario> {
@@ -26,7 +39,7 @@ export class PropietarioService {
   }
 
   generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports/`);
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   create(formData: FormData): Observable<Propietario> {

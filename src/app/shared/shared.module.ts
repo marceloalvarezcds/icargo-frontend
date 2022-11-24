@@ -10,6 +10,7 @@ import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.compo
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { HeaderComponent } from './header/header.component';
 import { HttpErrorSnackBarComponent } from './http-error-snack-bar/http-error-snack-bar.component';
+import { KeyValueComponent } from './key-value/key-value.component';
 import { PageFormAddressComponent } from './page-form-address/page-form-address.component';
 import { PageFormAuditComponent } from './page-form-audit/page-form-audit.component';
 import { PageFormContactosComponent } from './page-form-contactos/page-form-contactos.component';
@@ -18,9 +19,11 @@ import { PageFormGeoComponent } from './page-form-geo/page-form-geo.component';
 import { PageFormComponent } from './page-form/page-form.component';
 import { PageComponent } from './page/page.component';
 import { SearchableCheckboxFilterComponent } from './searchable-checkbox-filter/searchable-checkbox-filter.component';
+import { SeleccionableListComponent } from './seleccionable-list/seleccionable-list.component';
 import { SelectableItemTableComponent } from './selectable-item-table/selectable-item-table.component';
 import { SelectableMovimientoTableComponent } from './selectable-movimiento-table/selectable-movimiento-table.component';
 import { TablePaginatorComponent } from './table-paginator/table-paginator.component';
+import { TableSelectorWithFetchPaginatorComponent } from './table-selector-with-fetch-paginator/table-selector-with-fetch-paginator.component';
 import { TableSelectorComponent } from './table-selector/table-selector.component';
 import { TableComponent } from './table/table.component';
 
@@ -29,17 +32,20 @@ const modules = [
   CheckboxFilterComponent,
   GoogleMapComponent,
   HttpErrorSnackBarComponent,
+  KeyValueComponent,
   PageComponent,
   PageFormAddressComponent,
   PageFormAuditComponent,
   PageFormComponent,
   PageFormGeoComponent,
   SearchableCheckboxFilterComponent,
+  SeleccionableListComponent,
   SelectableItemTableComponent,
   SelectableMovimientoTableComponent,
   TableComponent,
   TablePaginatorComponent,
   TableSelectorComponent,
+  TableSelectorWithFetchPaginatorComponent,
   PageFormContactosComponent,
   PageFormEntitiesInfoComponent,
 ];

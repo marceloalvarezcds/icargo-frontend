@@ -88,18 +88,15 @@ describe('AppComponent', () => {
     tick(1000);
     fixture.detectChanges();
     expect(component.loading).toBeTrue();
-    expect(component.loadingDialogRef).toBeDefined();
 
     loadingService.stopLoading();
     tick(1000);
     fixture.detectChanges();
     expect(component.loading).toBeFalse();
-    expect(component.loadingDialogRef).toBeUndefined();
 
     loadingService.startLoading();
     tick(1000);
     fixture.detectChanges();
     expect(component.loading).toBeTrue();
-    expect(component.loadingDialogRef).toBeDefined();
   }));
 });

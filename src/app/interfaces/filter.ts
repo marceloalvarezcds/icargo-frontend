@@ -8,11 +8,13 @@ export interface CheckboxFilterEvent {
 }
 
 export interface SearchOptions {
+  url: string;
   textToSearch: string;
   isFilteredByGlobalSearch: boolean;
 }
 
 export const defaultSearchOptions: SearchOptions = {
+  url: '',
   textToSearch: '',
   isFilteredByGlobalSearch: true,
-}
+};

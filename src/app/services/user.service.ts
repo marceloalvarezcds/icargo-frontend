@@ -12,12 +12,13 @@ import { filter } from 'rxjs/operators';
 const userItem = localStorage.getItem(USER_KEY) || 'null';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   private url = `${environment.api}/user`;
-  private userSubject = new BehaviorSubject<UserAccount | null>(JSON.parse(userItem));
+  private userSubject = new BehaviorSubject<UserAccount | null>(
+    JSON.parse(userItem)
+  );
 
   constructor(private http: HttpClient, authService: AuthService) {
     authService.authObservable().subscribe(() => {
@@ -29,22 +30,55 @@ export class UserService {
   }
 
   private me(): Observable<UserAccount> {
-    return this.http.get<UserAccount>(`${this.url}/me/`);
+    return this.http.get<UserAccount>(`${this.url}/me`);
   }
 
   getLoggedUser(): Observable<UserAccount> {
-    return this.userSubject.pipe(filter(u => !!u)) as Observable<UserAccount>;
+    return this.userSubject.pipe(filter((u) => !!u)) as Observable<UserAccount>;
   }
 
   getListByGestorCargaId(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.url}/gestor_carga_id/`);
+    return this.http.get<User[]>(`${this.url}/gestor_carga_id`);
   }
 
   checkPermiso(accion: PermisoAccionEnum, modelo: PermisoModeloEnum): boolean {
     return checkPermiso(this.userSubject.value, accion, modelo);
   }
 
-  checkPermisoAndGestorCargaId(accion: PermisoAccionEnum, modelo: PermisoModeloEnum, gestorCuentaId: number | undefined): boolean {
-    return checkPermisoAndGestorCargaId(this.userSubject.value, accion, modelo, gestorCuentaId);
+  checkIfIsAdminIcargo(): boolean {
+    return this.userSubject.value?.is_admin_icargo ?? false;
+  }
+
+  checkPermisoAndGestorCargaId(
+    accion: PermisoAccionEnum,
+    modelo: PermisoModeloEnum,
+    gestorCuentaId: number | undefined
+  ): boolean {
+    return checkPermisoAndGestorCargaId(
+      this.userSubject.value,
+      accion,
+      modelo,
+      gestorCuentaId
+    );
+  }
+
+  getById(id: number): Observable<User> {
+    return this.http.get<User>(`${this.url}/${id}`);
+  }
+
+  create(formData: FormData): Observable<User> {
+    return this.http.post<User>(`${this.url}/`, formData);
+  }
+
+  edit(id: number, formData: FormData): Observable<User> {
+    return this.http.put<User>(`${this.url}/${id}`, formData);
+  }
+
+  active(id: number): Observable<User> {
+    return this.http.get<User>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<User> {
+    return this.http.get<User>(`${this.url}/${id}/inactive`);
   }
 }

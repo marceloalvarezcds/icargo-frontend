@@ -40,6 +40,7 @@ import { MaterialModule } from 'src/app/material/material.module';
 import { PermisoPipe } from 'src/app/pipes/permiso.pipe';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { AuthService } from 'src/app/services/auth.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { UserService } from 'src/app/services/user.service';
 import { SharedModule } from 'src/app/shared/shared.module';
@@ -59,6 +60,7 @@ describe('FleteFormComponent', () => {
   let component: FleteFormComponent;
   let fixture: ComponentFixture<FleteFormComponent>;
   let httpController: HttpTestingController;
+  let dialogService: DialogService;
   let dialogRefSpyObj = jasmine.createSpyObj({ afterClosed: of(true) });
   let fleteService: FleteService;
   let userService: UserService;
@@ -118,14 +120,13 @@ describe('FleteFormComponent', () => {
       },
       condicion: {
         condicion_cantidad: mockFlete1.condicion_cantidad,
-        // inicio - Condiciones para el Gestor de Cuenta
-        condicion_gestor_cuenta_moneda_id:
-          mockFlete1.condicion_gestor_cuenta_moneda_id,
-        condicion_gestor_cuenta_tarifa:
-          mockFlete1.condicion_gestor_cuenta_tarifa,
-        condicion_gestor_cuenta_unidad_id:
-          mockFlete1.condicion_gestor_cuenta_unidad_id,
-        // fin - Condiciones para el Gestor de Cuenta
+        // inicio - Condiciones para el Gestor de Carga
+        condicion_gestor_carga_moneda_id:
+          mockFlete1.condicion_gestor_carga_moneda_id,
+        condicion_gestor_carga_tarifa: mockFlete1.condicion_gestor_carga_tarifa,
+        condicion_gestor_carga_unidad_id:
+          mockFlete1.condicion_gestor_carga_unidad_id,
+        // fin - Condiciones para el Gestor de Carga
         // inicio - Condiciones para el Propietario
         condicion_propietario_moneda_id:
           mockFlete1.condicion_propietario_moneda_id,
@@ -135,15 +136,14 @@ describe('FleteFormComponent', () => {
         // fin - Condiciones para el Propietario
       },
       merma: {
-        // inicio - Mermas para el Gestor de Cuenta
-        merma_gestor_cuenta_valor: mockFlete1.merma_gestor_cuenta_valor,
-        merma_gestor_cuenta_moneda_id: mockFlete1.merma_gestor_cuenta_moneda_id,
-        merma_gestor_cuenta_unidad_id: mockFlete1.merma_gestor_cuenta_unidad_id,
-        merma_gestor_cuenta_es_porcentual:
-          mockFlete1.merma_gestor_cuenta_es_porcentual,
-        merma_gestor_cuenta_tolerancia:
-          mockFlete1.merma_gestor_cuenta_tolerancia,
-        // fin - Mermas para el Gestor de Cuenta
+        // inicio - Mermas para el Gestor de Carga
+        merma_gestor_carga_valor: mockFlete1.merma_gestor_carga_valor,
+        merma_gestor_carga_moneda_id: mockFlete1.merma_gestor_carga_moneda_id,
+        merma_gestor_carga_unidad_id: mockFlete1.merma_gestor_carga_unidad_id,
+        merma_gestor_carga_es_porcentual:
+          mockFlete1.merma_gestor_carga_es_porcentual,
+        merma_gestor_carga_tolerancia: mockFlete1.merma_gestor_carga_tolerancia,
+        // fin - Mermas para el Gestor de Carga
         // inicio - Mermas para el Propietario
         merma_propietario_valor: mockFlete1.merma_propietario_valor,
         merma_propietario_moneda_id: mockFlete1.merma_propietario_moneda_id,
@@ -158,7 +158,7 @@ describe('FleteFormComponent', () => {
         emision_orden_detalle: mockFlete1.emision_orden_detalle,
         destinatarios: mockFlete1.destinatarios,
       },
-      vigencia_anticipos: mockFlete1.vigencia_anticipos,
+      // vigencia_anticipos: mockFlete1.vigencia_anticipos,
       anticipos: [],
       complementos: [],
       descuentos: [],
@@ -191,6 +191,7 @@ describe('FleteFormComponent', () => {
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
       providers: [
         AuthService,
+        DialogService,
         UserService,
         PermisoPipe,
         FleteService,
@@ -226,10 +227,10 @@ describe('FleteFormComponent', () => {
     tick();
     pageFormComponent.triggerEventHandler('backClick', true);
     httpController
-      .match(`${environment.api}/remitente/gestor_cuenta_id/`)
+      .match(`${environment.api}/remitente/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockRemitenteList));
     httpController
-      .match(`${environment.api}/centro_operativo/gestor_cuenta_id/`)
+      .match(`${environment.api}/centro_operativo/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockCentroOperativoList));
     httpController
       .match(`${environment.api}/producto/`)
@@ -244,7 +245,7 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/unidad/`)
       .forEach((r) => r.flush(mockUnidadList));
     httpController
-      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo`)
       .forEach((r) => r.flush(mockTipoAnticipoList));
     httpController
       .match(`${environment.api}/tipo_concepto_complemento/`)
@@ -278,10 +279,10 @@ describe('FleteFormComponent', () => {
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
-      .match(`${environment.api}/remitente/gestor_cuenta_id/`)
+      .match(`${environment.api}/remitente/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockRemitenteList));
     httpController
-      .match(`${environment.api}/centro_operativo/gestor_cuenta_id/`)
+      .match(`${environment.api}/centro_operativo/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockCentroOperativoList));
     httpController
       .match(`${environment.api}/producto/`)
@@ -296,7 +297,7 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/unidad/`)
       .forEach((r) => r.flush(mockUnidadList));
     httpController
-      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo`)
       .forEach((r) => r.flush(mockTipoAnticipoList));
     httpController
       .match(`${environment.api}/tipo_concepto_complemento/`)
@@ -354,10 +355,10 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/flete/${id}`)
       .forEach((r) => r.flush(mockFlete1));
     httpController
-      .match(`${environment.api}/remitente/gestor_cuenta_id/`)
+      .match(`${environment.api}/remitente/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockRemitenteList));
     httpController
-      .match(`${environment.api}/centro_operativo/gestor_cuenta_id/`)
+      .match(`${environment.api}/centro_operativo/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockCentroOperativoList));
     httpController
       .match(`${environment.api}/producto/`)
@@ -372,7 +373,7 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/unidad/`)
       .forEach((r) => r.flush(mockUnidadList));
     httpController
-      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo`)
       .forEach((r) => r.flush(mockTipoAnticipoList));
     httpController
       .match(`${environment.api}/tipo_concepto_complemento/`)
@@ -419,6 +420,7 @@ describe('FleteFormComponent', () => {
   it('should open edit view with alias null', fakeAsync(() => {
     TestBed.overrideProvider(Router, { useValue: editRouter });
     httpController = TestBed.inject(HttpTestingController);
+    dialogService = TestBed.inject(DialogService);
     userService = TestBed.inject(UserService);
     (userService as any).userSubject.next(mockUserAccount);
     fixture = TestBed.createComponent(FleteFormComponent);
@@ -429,19 +431,22 @@ describe('FleteFormComponent', () => {
       (component as any).dialog,
       'changeStatusConfirm'
     ).and.returnValue(dialogRefSpyObj);
+    const dialogSaveSpy = spyOn(dialogService, 'open').and.returnValue(
+      dialogRefSpyObj
+    );
     const cancelSpy = spyOn(component, 'cancelar').and.callThrough();
     const getByIdSpy = spyOn(fleteService, 'getById').and.callThrough();
-    const submitSpy = spyOn(component, 'submit').and.callThrough();
+    const saveSpy = spyOn(component, 'save').and.callThrough();
     fixture.detectChanges();
     pageFormComponent = findElement(fixture, 'app-page-form');
     httpController
       .match(`${environment.api}/flete/${id}`)
       .forEach((r) => r.flush(mockFlete2));
     httpController
-      .match(`${environment.api}/remitente/gestor_cuenta_id/`)
+      .match(`${environment.api}/remitente/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockRemitenteList));
     httpController
-      .match(`${environment.api}/centro_operativo/gestor_cuenta_id/`)
+      .match(`${environment.api}/centro_operativo/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockCentroOperativoList));
     httpController
       .match(`${environment.api}/producto/`)
@@ -456,7 +461,7 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/unidad/`)
       .forEach((r) => r.flush(mockUnidadList));
     httpController
-      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo`)
       .forEach((r) => r.flush(mockTipoAnticipoList));
     httpController
       .match(`${environment.api}/tipo_concepto_complemento/`)
@@ -481,8 +486,9 @@ describe('FleteFormComponent', () => {
     flush();
     tick(1);
     expect(cancelSpy).toHaveBeenCalled();
-    expect(submitSpy).toHaveBeenCalled();
+    expect(saveSpy).toHaveBeenCalled();
     expect(dialogSpy).toHaveBeenCalled();
+    expect(dialogSaveSpy).toHaveBeenCalled();
     tick();
     httpController.verify();
   }));
@@ -498,10 +504,10 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/flete/${id}`)
       .forEach((r) => r.flush(mockFlete1));
     httpController
-      .match(`${environment.api}/remitente/gestor_cuenta_id/`)
+      .match(`${environment.api}/remitente/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockRemitenteList));
     httpController
-      .match(`${environment.api}/centro_operativo/gestor_cuenta_id/`)
+      .match(`${environment.api}/centro_operativo/gestor_cuenta_id`)
       .forEach((r) => r.flush(mockCentroOperativoList));
     httpController
       .match(`${environment.api}/producto/`)
@@ -516,7 +522,7 @@ describe('FleteFormComponent', () => {
       .match(`${environment.api}/unidad/`)
       .forEach((r) => r.flush(mockUnidadList));
     httpController
-      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo/`)
+      .match(`${environment.api}/flete_anticipo/tipo_anticipo_insumo`)
       .forEach((r) => r.flush(mockTipoAnticipoList));
     httpController
       .match(`${environment.api}/tipo_concepto_complemento/`)

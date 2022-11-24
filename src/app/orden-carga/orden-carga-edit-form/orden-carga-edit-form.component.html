@@ -7,6 +7,7 @@
     [class.page-form-show]="isShow"
     [formGroup]="form"
     [hasChange]="hasChange"
+    [hideEditButton]="item.is_conciliado"
     [isEdit]="isEdit"
     [isShow]="isShow"
     [modelo]="modelo"
@@ -68,6 +69,12 @@
               [gestorCargaId]="gestorCargaId"
               [list]="remisionResultadoList"
             ></app-orden-carga-edit-form-remisiones-resultado>
+            <app-orden-carga-edit-form-remisiones-resultado
+              *ngIf="item.modify_by_movimiento"
+              title="Resultados del Pedido"
+              [gestorCargaId]="gestorCargaId"
+              [list]="remisionResultadoFleteList"
+            ></app-orden-carga-edit-form-remisiones-resultado>
             <app-orden-carga-edit-form-remisiones-origen
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
@@ -120,7 +127,12 @@
               [oc]="item"
             ></app-orden-carga-edit-form-anticipos-resumen>
             <app-orden-carga-edit-form-anticipos-flete
-              [list]="item.flete_anticipos"
+              [oc]="item"
+              [anicipoMaximo]="item.flete_anticipo_maximo"
+              [puedeModificar]="!item.is_conciliado"
+              [formDisabledTime]="formDisabledTime"
+              [form]="form"
+              [list]="item.porcentaje_anticipos"
             ></app-orden-carga-edit-form-anticipos-flete>
             <app-orden-carga-edit-form-anticipos-saldos
               [list]="item.saldos"
@@ -153,6 +165,7 @@
           <app-orden-carga-edit-form-movimientos
             [gestorCargaId]="gestorCargaId"
             [list]="movimientoList"
+            (ocChange)="getData()"
           ></app-orden-carga-edit-form-movimientos>
         </mat-expansion-panel>
 

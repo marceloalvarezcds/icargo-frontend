@@ -13,6 +13,11 @@
       [hidden]="!liquidacionId"
       [readonly]="!isContraparteEditable"
     ></app-input-field>
+    <app-tipo-movimiento-dialog-field
+      title="Cuenta - Concepto"
+      [form]="form"
+      (valueChange)="$event && cuentaControl.setValue($event.cuenta_id)"
+    ></app-tipo-movimiento-dialog-field>
     <app-tipo-contraparte-field
       [form]="form"
       [readonly]="!isContraparteEditable"
@@ -29,14 +34,14 @@
     >
       {{ openField ? "Elegir" : "Cargar" }} Contraparte
     </button>
-    <app-contraparte-field
+    <app-contraparte-by-tipo-dialog-field
       [form]="form"
       [readonly]="!isContraparteEditable"
       [openField]="openField"
       [tipoContraparteId]="tipo?.id"
       (valueChange)="setContraparte($event)"
       (emptyListChange)="openField = isOtro"
-    ></app-contraparte-field>
+    ></app-contraparte-by-tipo-dialog-field>
     <app-input-field
       title="Nº Doc. Contraparte"
       controlName="contraparte_numero_documento"
@@ -49,6 +54,13 @@
       [form]="form"
       [hidden]="isEdit"
     ></app-fecha-field>
+    <mat-radio-group
+      aria-label="Seleccione una opción"
+      formControlName="es_cobro"
+    >
+      <mat-radio-button [value]="true">Crédito</mat-radio-button>
+      <mat-radio-button [value]="false">Débito</mat-radio-button>
+    </mat-radio-group>
     <app-number-field
       title="Monto"
       controlName="monto"

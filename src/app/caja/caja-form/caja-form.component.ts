@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Caja } from 'src/app/interfaces/caja';
 import { CajaService } from 'src/app/services/caja.service';
@@ -95,11 +95,14 @@ export class CajaFormComponent implements OnInit, OnDestroy {
           this.getData();
         });
       } else {
-        this.cajaService.create(formData).subscribe(() => {
-          this.snackbar.openSaveAndRedirect(confirmed, this.backUrl, [
-            `/caja/${m.CAJA}/${a.EDITAR}`,
-            this.id,
-          ]);
+        this.cajaService.create(formData).subscribe((caja) => {
+          this.snackbar.openSaveAndRedirect(
+            confirmed,
+            this.backUrl,
+            r.CAJA,
+            m.CAJA,
+            caja.id || this.id
+          );
         });
       }
     }

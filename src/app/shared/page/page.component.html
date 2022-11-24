@@ -24,10 +24,16 @@
   <mat-sidenav-content>
     <div class="page">
       <div class="page-title">
-        <span class="title"
-          >{{ module }}
+        <span class="title">
+          {{ module }}
           <span *ngIf="submodule">
-            > <strong>{{ submodule }}</strong>
+            <ng-container *ngIf="viewTitle"> > {{ submodule }} </ng-container>
+            <ng-container *ngIf="!viewTitle">
+              > <strong> {{ submodule }} </strong>
+            </ng-container>
+          </span>
+          <span *ngIf="viewTitle">
+            > <strong> {{ viewTitle }} </strong>
           </span>
         </span>
         <div class="page-title-buttons">

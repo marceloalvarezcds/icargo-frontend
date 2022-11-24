@@ -1,18 +1,35 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
+      <ng-container *ngIf="camion">
+        <div
+          class="col-xs-12 col-sm-6"
+          [hidden]="camion.propietario_estado === ACTIVO"
+        >
+          Propietario Actual: {{ camion.propietario.nombre }}:
+          {{ camion.propietario_estado }}
+        </div>
+        <div
+          class="col-xs-12 col-sm-6"
+          [hidden]="camion.chofer_estado === ACTIVO"
+        >
+          Chofer Actual: {{ camion.chofer?.nombre }}: {{ camion.chofer_estado }}
+        </div>
+      </ng-container>
       <div class="col-xs-12 col-sm-6">
-        <app-propietario-field
+        <app-propietario-readonly-by-id-dialog-field
           [groupName]="groupName"
           [form]="form"
+          [camionId]="camion?.id"
           [propietarioId]="propietarioId"
-        ></app-propietario-field>
+        ></app-propietario-readonly-by-id-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <app-chofer-field
+        <app-chofer-by-camion-dialog-field
+          [camionId]="camion?.id"
           [groupName]="groupName"
           [form]="form"
-        ></app-chofer-field>
+        ></app-chofer-by-camion-dialog-field>
       </div>
     </div>
     <div class="row page-form-row">

@@ -17,6 +17,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./caja-by-gestor-dialog-field.component.scss'],
 })
 export class CajaByGestorDialogFieldComponent {
+  readonly inputValuePropName = 'nombre';
   list: Caja[] = [];
   subs = this.cajaService.getListByGestorCarga().subscribe((list) => {
     this.list = list;
@@ -92,8 +93,4 @@ export class CajaByGestorDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Caja>;
 
   constructor(private cajaService: CajaService) {}
-
-  inputValueFormat(value: Caja | undefined): string {
-    return value ? value.nombre : '';
-  }
 }

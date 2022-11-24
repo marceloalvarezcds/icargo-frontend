@@ -9,20 +9,21 @@
         ></app-flete-by-gestor-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-camion-by-producto-field
+        <app-camion-by-producto-dialog-field
           [groupName]="groupName"
           [productoId]="flete?.producto_id"
           [form]="form"
           (valueChange)="onCamionChange($event)"
-        ></app-camion-by-producto-field>
+        ></app-camion-by-producto-dialog-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-semi-by-camion-producto-field
+        <app-semi-by-camion-producto-dialog-field
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="flete?.producto_id"
           [form]="form"
-        ></app-semi-by-camion-producto-field>
+          (valueChange)="onSemiChange($event)"
+        ></app-semi-by-camion-producto-dialog-field>
       </div>
     </div>
   </div>
