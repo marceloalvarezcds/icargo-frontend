@@ -1,25 +1,56 @@
-import es from '@angular/common/locales/es';
 import { registerLocaleData } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-import { LOCALE_ID, NgModule } from '@angular/core';
+import es from '@angular/common/locales/es';
+import {
+  APP_INITIALIZER,
+  ErrorHandler,
+  LOCALE_ID,
+  NgModule,
+  Provider,
+} from '@angular/core';
 import { MatIconRegistry } from '@angular/material/icon';
 import { BrowserModule, DomSanitizer } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Router } from '@angular/router';
+import * as Sentry from '@sentry/angular';
+import { environment } from 'src/environments/environment';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DialogsModule } from './dialogs/dialogs.module';
-import { MaterialModule } from './material/material.module';
-import { SharedModule } from './shared/shared.module';
-import { LayoutComponent } from './layout/layout.component';
 import { AuthGuard } from './guards/auth.guard';
+import { HomeComponent } from './home/home.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { TokenInterceptor } from './interceptors/token.interceptor';
-import { HomeComponent } from './home/home.component';
+import { LayoutComponent } from './layout/layout.component';
+import { MaterialModule } from './material/material.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { SharedModule } from './shared/shared.module';
 
 registerLocaleData(es);
+
+let sentryProvider: Provider[] = [];
+if (environment.sentryUrl) {
+  sentryProvider = [
+    {
+      provide: ErrorHandler,
+      useValue: Sentry.createErrorHandler({
+        showDialog: true,
+      }),
+    },
+    {
+      provide: Sentry.TraceService,
+      deps: [Router],
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: () => () => {},
+      deps: [Sentry.TraceService],
+      multi: true,
+    },
+  ];
+}
 
 @NgModule({
   declarations: [
@@ -43,6 +74,8 @@ registerLocaleData(es);
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },
+    // SENTRY Config
+    ...sentryProvider,
   ],
   bootstrap: [AppComponent],
 })
