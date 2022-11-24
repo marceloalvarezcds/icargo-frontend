@@ -45,6 +45,8 @@ export class DialogFieldComponent<
   @Input() columns: Column[] = [];
   @Input() controlName!: string;
   @Input() groupName?: string;
+  @Input() hint = '';
+  @Input() emptyHint = 'No existen elementos. Debe de crearlo/activarlo.';
   @Input() inputValuePropName!: string;
   @Input() list: T[] = [];
   @Input() title = '';
@@ -54,7 +56,9 @@ export class DialogFieldComponent<
   @Input() fetchFunction?: (
     request: PaginatedListRequest
   ) => Observable<PaginatedList<T>>;
-  @Input() readonly = false;
+  @Input() set readonly(val: boolean) {
+    val ? this.control.disable() : this.control.enable();
+  }
 
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
