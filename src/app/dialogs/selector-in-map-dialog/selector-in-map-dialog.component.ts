@@ -124,7 +124,9 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
         }
       });
       if (!bounds.isEmpty()) {
-        map.fitBounds(bounds);
+        setTimeout(() => {
+          map.fitBounds(bounds);
+        }, 500);
       }
     }
   }
