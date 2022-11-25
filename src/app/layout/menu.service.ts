@@ -15,6 +15,7 @@ import { ResponsiveService } from '../services/responsive.service';
   providedIn: 'root',
 })
 export class MenuService {
+  isExpanded = false;
   private userSubscription = this.userService.getLoggedUser().subscribe(() => {
     this.loadMenus();
   });
@@ -23,10 +24,10 @@ export class MenuService {
     .getToggleSidebarMenuObservable()
     .pipe(filter(() => !!this.sidenav))
     .subscribe((isOpened: boolean) => {
-      if (isOpened) {
-        this.sidenav!.open();
+      if (this.responsiveService.isMobileScreen) {
+        isOpened ? this.sidenav!.open() : this.sidenav!.close();
       } else {
-        this.sidenav!.close();
+        isOpened ? (this.isExpanded = true) : (this.isExpanded = false);
       }
     });
 
@@ -55,11 +56,14 @@ export class MenuService {
   configSidebarModeByScreen(): void {
     setTimeout(() => {
       if (this.responsiveService.isMobileScreen) {
+        this.isExpanded = true;
         this.matDrawerMode = 'over';
+        this.menuConfigService.setSidebarMenu(false);
       } else {
+        this.sidenav!.open();
         this.matDrawerMode = 'side';
+        this.menuConfigService.setSidebarMenu(true);
       }
-      this.menuConfigService.setSidebarMenu(false);
     });
   }
 

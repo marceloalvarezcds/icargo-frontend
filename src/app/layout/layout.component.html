@@ -1,6 +1,10 @@
 <div class="layout-global-container">
   <app-header></app-header>
-  <mat-sidenav-container autosize class="sidebar content">
+  <mat-sidenav-container
+    autosize
+    class="sidebar content"
+    [ngClass]="{ 'sidebar-expanded': isExpanded }"
+  >
     <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2">
       <!--app menu-->
       <mat-nav-list>
@@ -10,6 +14,9 @@
               <a
                 mat-list-item
                 routerLinkActive="active"
+                matTooltipPosition="right"
+                [matTooltip]="item.name"
+                [matTooltipDisabled]="isExpanded"
                 [routerLink]="item.path"
                 [routerLinkActiveOptions]="{ exact: !!item.isRouteExact }"
                 (click)="closeSidebarMenu()"
@@ -26,7 +33,11 @@
             <ng-container *ngIf="item.children && item.children.length">
               <mat-accordion>
                 <mat-expansion-panel class="mat-elevation-z0">
-                  <mat-expansion-panel-header>
+                  <mat-expansion-panel-header
+                    matTooltipPosition="right"
+                    [matTooltip]="item.name"
+                    [matTooltipDisabled]="isExpanded"
+                  >
                     <mat-panel-title>
                       <mat-icon
                         mat-list-icon
@@ -34,7 +45,7 @@
                         [class.material-icons-outlined]="item.iconOutline"
                         >{{ item.iconName }}</mat-icon
                       >
-                      <span>{{ item.name }}</span>
+                      <span mat-list-text>{{ item.name }}</span>
                     </mat-panel-title>
                   </mat-expansion-panel-header>
                   <ng-container *ngFor="let child of item.children">
@@ -44,6 +55,9 @@
                         <a
                           mat-list-item
                           routerLinkActive="active"
+                          matTooltipPosition="right"
+                          [matTooltip]="child.name"
+                          [matTooltipDisabled]="isExpanded"
                           [routerLink]="[child.path]"
                           [routerLinkActiveOptions]="{
                             exact: !!child.isRouteExact

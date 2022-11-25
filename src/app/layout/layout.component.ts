@@ -34,6 +34,10 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
   }
   nav?: MatSidenav;
 
+  get isExpanded(): boolean {
+    return this.menuService.isExpanded;
+  }
+
   get menuList$(): Observable<MenuItem[]> {
     return this.menuService.list$;
   }
