@@ -26,7 +26,6 @@
       <mat-date-range-input
         [formGroup]="fechaLiquidacionControl"
         [rangePicker]="liqPicker"
-        (click)="liqPicker.open()"
       >
         <input matStartDate formControlName="start" placeholder="Inicio" />
         <input matEndDate formControlName="end" placeholder="Fin" />
@@ -57,7 +56,6 @@
       <mat-date-range-input
         [formGroup]="fechaMovimientoControl"
         [rangePicker]="movPicker"
-        (click)="movPicker.open()"
       >
         <input matStartDate formControlName="start" placeholder="Inicio" />
         <input matEndDate formControlName="end" placeholder="Fin" />
