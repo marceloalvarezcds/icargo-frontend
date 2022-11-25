@@ -58,12 +58,11 @@ export class MenuService {
       if (this.responsiveService.isMobileScreen) {
         this.isExpanded = true;
         this.matDrawerMode = 'over';
-        this.menuConfigService.setSidebarMenu(false);
       } else {
         this.sidenav!.open();
         this.matDrawerMode = 'side';
-        this.menuConfigService.setSidebarMenu(true);
       }
+      this.menuConfigService.setSidebarMenu(false);
     });
   }
 
