@@ -2,4 +2,5 @@ export const environment = {
   production: true,
   api: 'https://sistema.icargo.com.py/api',
   baseUrl: 'https://sistema.icargo.com.py',
+  sentryUrl: '',
 };

@@ -4,20 +4,15 @@
     padding-right: 0;
   }
 
-  .search-item {
-    margin-left: 1rem;
-    margin-right: 1rem;
-    width: calc(100% - 2rem);
+  .row {
+    margin-right: 0;
+    margin-left: 0;
   }
 
   .map-container {
     margin-right: 0;
     margin-left: 0;
 
-    .row {
-      margin-right: 0;
-      margin-left: 0;
-    }
   }
 }
 
