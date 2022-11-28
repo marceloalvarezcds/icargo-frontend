@@ -1,5 +1,10 @@
 <div *ngIf="form">
-  <ng-container *ngIf="list.length; else inputTemplate">
+  <ng-container
+    *ngIf="
+      dialogRefFunction || fetchFunction || list.length;
+      else inputTemplate
+    "
+  >
     <mat-form-field>
       <mat-label>{{ title }}</mat-label>
       <app-dialog-form-field-control
