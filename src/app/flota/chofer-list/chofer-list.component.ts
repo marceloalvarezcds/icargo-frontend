@@ -37,10 +37,14 @@ export class ChoferListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: ChoferList) => element.estado,
+    },
+    {
       def: 'nombre',
       title: 'Nombre o Razón Social',
       value: (element: ChoferList) => element.nombre,
-      sticky: true,
     },
     {
       def: 'tipo_documento',
@@ -79,11 +83,6 @@ export class ChoferListComponent implements OnInit {
         element.ciudad_nombre
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: ChoferList) => element.estado,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

@@ -38,10 +38,14 @@ export class CamionListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: CamionList) => element.estado,
+    },
+    {
       def: 'placa',
       title: 'Placa',
       value: (element: CamionList) => element.placa,
-      sticky: true,
     },
     {
       def: 'pais_emisor_placa',
@@ -86,11 +90,6 @@ export class CamionListComponent implements OnInit {
       def: 'oficial_cuenta_nombre',
       title: 'Oficial de Cuenta',
       value: (element: CamionList) => element.oficial_cuenta_nombre,
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: CamionList) => element.estado,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

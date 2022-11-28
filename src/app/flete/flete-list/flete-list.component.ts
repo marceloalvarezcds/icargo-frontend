@@ -37,6 +37,11 @@ export class FleteListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: FleteList) => element.estado,
+    },
+    {
       def: 'remitente_nombre',
       title: 'Remitente',
       value: (element: FleteList) => element.remitente_nombre,
@@ -65,11 +70,6 @@ export class FleteListComponent implements OnInit {
       def: 'es_subasta',
       title: 'Tipo de Pedido',
       value: (element: FleteList) => (element.es_subasta ? 'Subasta' : 'Flete'),
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: FleteList) => element.estado,
     },
     {
       def: 'gestor_carga_nombre',

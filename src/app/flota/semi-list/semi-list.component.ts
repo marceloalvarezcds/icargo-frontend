@@ -40,10 +40,14 @@ export class SemiListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: SemiList) => element.estado,
+    },
+    {
       def: 'placa',
       title: 'Placa',
       value: (element: SemiList) => element.placa,
-      sticky: true,
     },
     {
       def: 'pais_emisor_placa',
@@ -85,11 +89,6 @@ export class SemiListComponent implements OnInit {
       def: 'oficial_cuenta_nombre',
       title: 'Oficial de Cuenta',
       value: (element: SemiList) => element.oficial_cuenta_nombre,
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: SemiList) => element.estado,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
