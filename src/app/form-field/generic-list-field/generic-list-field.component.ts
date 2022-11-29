@@ -107,7 +107,9 @@ export class GenericListFieldComponent<T extends { id: number }>
   }
 
   private setValueChange(id: string | number | undefined): void {
-    const value = this.getItemById(id);
-    this.valueChange.emit(value);
+    setTimeout(() => {
+      const value = this.getItemById(id);
+      this.valueChange.emit(value);
+    }, 0);
   }
 }

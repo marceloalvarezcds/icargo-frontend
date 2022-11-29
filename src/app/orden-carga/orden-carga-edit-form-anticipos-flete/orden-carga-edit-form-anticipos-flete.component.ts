@@ -24,6 +24,7 @@ export class OrdenCargaEditFormAnticiposFleteComponent {
   @Input() anicipoMaximo = 100;
   @Input() puedeModificar = false;
   @Input() set list(list: OrdenCargaAnticipoPorcentaje[]) {
+    if (!this.form) return;
     if (this.formArray.length === 0) {
       list.forEach((item) => {
         this.formArray.push(this.createForm(item));
@@ -41,6 +42,7 @@ export class OrdenCargaEditFormAnticiposFleteComponent {
     this.checkDisable();
   }
   @Input() set oc(oc: OrdenCarga | undefined) {
+    if (!this.form) return;
     if (oc) {
       this.formArray.setValidators(
         ProportionValidator.max(oc.flete_anticipo_maximo, 'porcentaje')
@@ -48,6 +50,7 @@ export class OrdenCargaEditFormAnticiposFleteComponent {
     }
   }
   @Input() set formDisabledTime(_: Date) {
+    if (!this.form) return;
     if (this.puedeModificar) {
       this.formArray.enable();
     }

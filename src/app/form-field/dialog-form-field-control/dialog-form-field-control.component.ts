@@ -326,6 +326,6 @@ export class DialogFormFieldControlComponent<
       descripcion = (selectedValue as any)[this.descripcionPropName];
     }
     this.formGroup.patchValue({ descripcion });
-    this.valueChange.emit(this.selectedValue);
+    setTimeout(() => this.valueChange.emit(this.selectedValue), 0);
   }
 }
