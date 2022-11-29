@@ -16,6 +16,7 @@ import { filter } from 'rxjs/operators';
 import { PARAGUAY_LATLNG, PRINCIPAL_BREAKPOINT } from 'src/app/contanst';
 import { GoogleMapService } from 'src/app/services/google-map.service';
 import { MenuConfigService } from 'src/app/services/menu-config.service';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-google-map',
@@ -89,7 +90,8 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   constructor(
     private cdRef: ChangeDetectorRef,
     private googleMapService: GoogleMapService,
-    private menuConfigService: MenuConfigService
+    private menuConfigService: MenuConfigService,
+    private responsiveService: ResponsiveService
   ) {}
 
   ngAfterViewInit(): void {
@@ -142,10 +144,20 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
       this.googleMapService.setWidth(this.width);
       return;
     }
-    if (isOpenMenu) {
-      this.googleMapService.setWidth(window.innerWidth - 336);
+    let widthToSustract = 0;
+    if (this.responsiveService.isMobileScreen) {
+      if (isOpenMenu) {
+        widthToSustract = 336;
+      } else {
+        widthToSustract = 96;
+      }
     } else {
-      this.googleMapService.setWidth(window.innerWidth - 96);
+      if (isOpenMenu) {
+        widthToSustract = 398;
+      } else {
+        widthToSustract = 158;
+      }
     }
+    this.googleMapService.setWidth(window.innerWidth - widthToSustract);
   }
 }
