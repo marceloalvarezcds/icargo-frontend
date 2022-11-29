@@ -1,10 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
@@ -13,7 +8,6 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
-import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
@@ -97,10 +91,6 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     return this.form.get('geo') as FormGroup;
   }
 
-  get fileControl(): FormControl {
-    return this.info.get('logo') as FormControl;
-  }
-
   get isRucSelected(): boolean {
     return isRuc(
       this.tipoDocumentoList,
@@ -139,10 +129,9 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.EDITAR}`, this.id]);
   }
 
-  fileChange(fileEvent: FileChangeEvent): void {
+  fileChange(file: File | null): void {
     this.logo = null;
-    this.file = fileEvent.target!.files!.item(0);
-    this.fileControl.setValue(this.file?.name);
+    this.file = file;
   }
 
   submit(confirmed: boolean): void {
@@ -199,9 +188,6 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      if (this.isEdit) {
-        this.fileControl.removeValidators(Validators.required);
-      }
       if (this.isShow) {
         this.form.disable();
       }
