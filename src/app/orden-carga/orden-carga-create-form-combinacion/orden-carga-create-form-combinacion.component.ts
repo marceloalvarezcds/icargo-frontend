@@ -23,6 +23,10 @@ export class OrdenCargaCreateFormCombinacionComponent {
     return this.form!.get(this.groupName) as FormGroup;
   }
 
+  get productoId(): number | undefined {
+    return this.flete ? this.flete.producto_id : undefined;
+  }
+
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
     this.fleteChange.emit(flete);
