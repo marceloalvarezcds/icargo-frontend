@@ -1,7 +1,9 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
-import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
+import {
+  PermisoAccionEnum,
+  PermisoModeloEnum,
+} from 'src/app/enums/permiso-enum';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { User } from 'src/app/interfaces/user';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
@@ -11,29 +13,29 @@ import { isRuc } from 'src/app/utils/tipo-documento';
 @Component({
   selector: 'app-page-form-entities-info',
   templateUrl: './page-form-entities-info.component.html',
-  styleUrls: ['./page-form-entities-info.component.scss']
+  styleUrls: ['./page-form-entities-info.component.scss'],
 })
 export class PageFormEntitiesInfoComponent implements OnDestroy {
-
   a = PermisoAccionEnum;
   file: File | null = null;
 
   composicionJuridicaList$ = this.composicionJuridicaService.getList();
   tipoDocumentoList: TipoDocumento[] = [];
-  tipoDocumentoSubscription = this.tipoDocumentoService.getList().subscribe(list => {
-    this.tipoDocumentoList = list.slice();
-  });
+  tipoDocumentoSubscription = this.tipoDocumentoService
+    .getList()
+    .subscribe((list) => {
+      this.tipoDocumentoList = list.slice();
+    });
 
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
   }
 
-  get fileControl(): FormControl {
-    return this.info.get('logo') as FormControl;
-  }
-
   get isRucSelected(): boolean {
-    return isRuc(this.tipoDocumentoList, this.info.controls['tipo_documento_id'].value);
+    return isRuc(
+      this.tipoDocumentoList,
+      this.info.controls['tipo_documento_id'].value
+    );
   }
 
   @Input() form = new FormGroup({
@@ -52,6 +54,7 @@ export class PageFormEntitiesInfoComponent implements OnDestroy {
       info_complementaria: new FormControl(null),
     }),
   });
+  @Input() isEdit = false;
   @Input() isShow = false;
   @Input() logo: string | null = null;
   @Input() user?: User;
@@ -59,16 +62,15 @@ export class PageFormEntitiesInfoComponent implements OnDestroy {
 
   constructor(
     private composicionJuridicaService: ComposicionJuridicaService,
-    private tipoDocumentoService: TipoDocumentoService,
-  ) { }
+    private tipoDocumentoService: TipoDocumentoService
+  ) {}
 
   ngOnDestroy(): void {
     this.tipoDocumentoSubscription.unsubscribe();
   }
 
-  fileChange(fileEvent: FileChangeEvent): void {
+  fileChange(file: File | null): void {
     this.logo = null;
-    this.file = fileEvent.target!.files!.item(0);
-    this.fileControl.setValue(this.file?.name);
+    this.file = file;
   }
 }

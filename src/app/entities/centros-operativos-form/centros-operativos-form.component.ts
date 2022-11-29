@@ -1,11 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import {
-  FormArray,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
@@ -16,7 +10,6 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { CentroOperativoContactoGestorCargaList } from 'src/app/interfaces/centro-operativo-contacto-gestor-carga';
 import { Ciudad } from 'src/app/interfaces/ciudad';
-import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
@@ -93,10 +86,6 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     return this.form.get('geo') as FormGroup;
   }
 
-  get fileControl(): FormControl {
-    return this.info.get('logo') as FormControl;
-  }
-
   constructor(
     private fb: FormBuilder,
     private centroOperativoClasificacionService: CentroOperativoClasificacionService,
@@ -131,10 +120,9 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     ]);
   }
 
-  fileChange(fileEvent: FileChangeEvent): void {
+  fileChange(file: File | null): void {
     this.logo = null;
-    this.file = fileEvent.target!.files!.item(0);
-    this.fileControl.setValue(this.file?.name);
+    this.file = file;
   }
 
   submit(confirmed: boolean): void {
@@ -191,9 +179,6 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      if (this.isEdit) {
-        this.fileControl.removeValidators(Validators.required);
-      }
       if (this.isShow) {
         this.form.disable();
       }

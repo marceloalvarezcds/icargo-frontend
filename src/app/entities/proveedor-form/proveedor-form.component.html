@@ -2,7 +2,7 @@
   class="proveedor-page"
   module="Entidades"
   submodule="Proveedor"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo'}}"
+  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -15,12 +15,11 @@
   <mat-accordion multi>
     <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Información principal
-        </mat-panel-title>
+        <mat-panel-title> Información principal </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-entities-info
         [form]="form"
+        [isEdit]="isEdit"
         [isShow]="isShow"
         [logo]="logo"
         [user]="user"
@@ -28,11 +27,12 @@
       ></app-page-form-entities-info>
     </mat-expansion-panel>
 
-    <mat-expansion-panel *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)" [expanded]="isContactoTouched">
+    <mat-expansion-panel
+      *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)"
+      [expanded]="isContactoTouched"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Libreta de Contactos
-        </mat-panel-title>
+        <mat-panel-title> Libreta de Contactos </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-contactos
         [form]="form"
@@ -41,11 +41,14 @@
       ></app-page-form-contactos>
     </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="geo" [expanded]="isGeoTouched" (opened)="isPanelOpen = true" (closed)="isPanelOpen = false">
+    <mat-expansion-panel
+      formGroupName="geo"
+      [expanded]="isGeoTouched"
+      (opened)="isPanelOpen = true"
+      (closed)="isPanelOpen = false"
+    >
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Geolocalización
-        </mat-panel-title>
+        <mat-panel-title> Geolocalización </mat-panel-title>
       </mat-expansion-panel-header>
       <app-page-form-geo
         [ciudadSelected]="ciudadSelected"
@@ -57,9 +60,7 @@
 
     <mat-expansion-panel *ngIf="puntoVentaModelo | puede: a.LISTAR">
       <mat-expansion-panel-header>
-        <mat-panel-title>
-          Puntos de Venta
-        </mat-panel-title>
+        <mat-panel-title> Puntos de Venta </mat-panel-title>
       </mat-expansion-panel-header>
       <div>
         <app-punto-venta-list
@@ -68,9 +69,19 @@
           [backUrl]="puntoVentaBackUrl"
         ></app-punto-venta-list>
 
-        <div class="row page-form-row" *ngIf="puntoVentaModelo | puede: a.CREAR">
+        <div
+          class="row page-form-row"
+          *ngIf="puntoVentaModelo | puede: a.CREAR"
+        >
           <div class="col-xs-12" [hidden]="isShow">
-            <button mat-raised-button class="outline round create-punto-venta" color="primary" type="button" (click)="createPuntoVenta()" id="add-button">
+            <button
+              mat-raised-button
+              class="outline round create-punto-venta"
+              color="primary"
+              type="button"
+              (click)="createPuntoVenta()"
+              id="add-button"
+            >
               Nuevo Punto de Venta
             </button>
           </div>
