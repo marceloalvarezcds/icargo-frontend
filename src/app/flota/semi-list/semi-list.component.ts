@@ -90,6 +90,28 @@ export class SemiListComponent implements OnInit {
       title: 'Oficial de Cuenta',
       value: (element: SemiList) => element.oficial_cuenta_nombre,
     },
+    {
+      def: 'created_by',
+      title: 'Usuario creación',
+      value: (element: SemiList) => element.created_by,
+    },
+    {
+      def: 'created_at',
+      title: 'Fecha creación',
+      value: (element: SemiList) => element.created_at,
+      type: 'date',
+    },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: SemiList) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: SemiList) => element.modified_at,
+      type: 'date',
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
