@@ -84,6 +84,28 @@ export class ChoferListComponent implements OnInit {
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
     },
+    {
+      def: 'created_by',
+      title: 'Usuario creación',
+      value: (element: ChoferList) => element.created_by,
+    },
+    {
+      def: 'created_at',
+      title: 'Fecha creación',
+      value: (element: ChoferList) => element.created_at,
+      type: 'date',
+    },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: ChoferList) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: ChoferList) => element.modified_at,
+      type: 'date',
+    },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
