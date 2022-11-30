@@ -13,6 +13,7 @@ export interface FleteAnticipoDialogData {
 interface SelectorDialogDataBase<T> {
   list: T[];
   title: string;
+  subtitle?: string;
   selectedValue?: T | null;
 }
 

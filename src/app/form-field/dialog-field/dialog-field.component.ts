@@ -50,6 +50,7 @@ export class DialogFieldComponent<
   @Input() inputValuePropName!: string;
   @Input() list: T[] = [];
   @Input() title = '';
+  @Input() subtitle = '';
   @Input() dialogRefFunction?: (
     selectedValue: T | undefined
   ) => MatDialogRef<DialogComponent>;

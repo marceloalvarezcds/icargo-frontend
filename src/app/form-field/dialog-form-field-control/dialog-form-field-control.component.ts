@@ -109,6 +109,7 @@ export class DialogFormFieldControlComponent<
   @Input() columns: Column[] = [];
   @Input() descripcionPropName!: string;
   @Input() title = '';
+  @Input() subtitle = '';
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('aria-describedby') userAriaDescribedBy = '';
 
@@ -303,6 +304,7 @@ export class DialogFormFieldControlComponent<
       list: this.list.slice(),
       columns: this.columns.slice(),
       title: this.title,
+      subtitle: this.subtitle,
       selectedValue: this.selectedValue,
       fetchFunction: this.fetchFunction,
     };
