@@ -47,16 +47,6 @@ export class PropietarioListComponent implements OnInit {
       value: (element: PropietarioList) => element.nombre,
     },
     {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: PropietarioList) => element.direccion,
-    },
-    {
-      def: 'telefono',
-      title: 'Teléfono',
-      value: (element: PropietarioList) => element.telefono,
-    },
-    {
       def: 'tipo_persona',
       title: 'Tipo de Persona',
       value: (element: PropietarioList) => element.tipo_persona_descripcion,
@@ -65,6 +55,16 @@ export class PropietarioListComponent implements OnInit {
       def: 'ruc',
       title: 'Número de Documento',
       value: (element: PropietarioList) => element.ruc,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: PropietarioList) => element.direccion,
+    },
+    {
+      def: 'telefono',
+      title: 'Teléfono',
+      value: (element: PropietarioList) => element.telefono,
     },
     {
       def: 'gestor_cuenta_nombre',
