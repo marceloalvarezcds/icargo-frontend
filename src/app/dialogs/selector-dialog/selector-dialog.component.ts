@@ -14,6 +14,10 @@ export class SelectorDialogComponent<T> {
   selectValue?: T | null;
   searchControl = new FormControl('');
 
+  get subtitle(): string | undefined {
+    return this.data.subtitle;
+  }
+
   get searchValue(): string {
     return this.searchControl.value;
   }

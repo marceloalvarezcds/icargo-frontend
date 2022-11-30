@@ -61,6 +61,8 @@ export class SemiByCamionProductoDialogFieldComponent {
   @Input() controlName = 'semi_id';
   @Input() groupName = '';
   @Input() title = 'Semi-remolque';
+  @Input() subtitle =
+    'Si no encuentra al semi deseado se debe a que este no está activo';
   @Input() set camionId(id: number | undefined) {
     this.cId = id;
     this.getList();
