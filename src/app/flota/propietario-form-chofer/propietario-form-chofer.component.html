@@ -26,26 +26,34 @@
       </div>
     </div>
 
-    <app-file-field
-      title="Foto del documento - frontal"
-      groupName="chofer"
-      controlName="foto_documento_frente_chofer"
-      [field]="fotoDocumentoFrente"
-      [form]="form"
-      [isEdit]="isEdit"
-      [isShow]="isShow"
-      (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-    ></app-file-field>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Foto del documento - frontal"
+          groupName="chofer"
+          controlName="foto_documento_frente_chofer"
+          [field]="fotoDocumentoFrente"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+        ></app-file-field>
+      </div>
+    </div>
 
-    <app-file-field
-      title="Foto del documento - reverso"
-      groupName="chofer"
-      controlName="foto_documento_reverso_chofer"
-      [field]="fotoDocumentoReverso"
-      [form]="form"
-      [isEdit]="isEdit"
-      [isShow]="isShow"
-      (fileChange)="fotoDocumentoReversoChange.emit($event)"
-    ></app-file-field>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Foto del documento - reverso"
+          groupName="chofer"
+          controlName="foto_documento_reverso_chofer"
+          [field]="fotoDocumentoReverso"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoReversoChange.emit($event)"
+        ></app-file-field>
+      </div>
+    </div>
   </div>
 </div>

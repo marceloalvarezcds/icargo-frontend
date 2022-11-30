@@ -20,29 +20,35 @@
         </div>
       </div>
 
-      <app-file-field
-        title="Foto del registro - frontal"
-        className="col-xs-12"
-        [groupName]="groupName"
-        controlName="foto_habilitacion_automotor_frente"
-        [field]="fotoFrente"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoFrenteChange.emit($event)"
-      ></app-file-field>
+      <div class="row page-form-row">
+        <div class="col-xs-12 col-sm-6">
+          <app-file-field
+            title="Foto del registro - frontal"
+            [groupName]="groupName"
+            controlName="foto_habilitacion_automotor_frente"
+            [field]="fotoFrente"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoFrenteChange.emit($event)"
+          ></app-file-field>
+        </div>
+      </div>
 
-      <app-file-field
-        title="Foto del registro - reverso"
-        className="col-xs-12"
-        [groupName]="groupName"
-        controlName="foto_habilitacion_automotor_reverso"
-        [field]="fotoReverso"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoReversoChange.emit($event)"
-      ></app-file-field>
+      <div class="row page-form-row">
+        <div class="col-xs-12 col-sm-6">
+          <app-file-field
+            title="Foto del registro - reverso"
+            [groupName]="groupName"
+            controlName="foto_habilitacion_automotor_reverso"
+            [field]="fotoReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoReversoChange.emit($event)"
+          ></app-file-field>
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>
