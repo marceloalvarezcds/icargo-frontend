@@ -5,10 +5,9 @@ import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 @Component({
   selector: 'app-file-field',
   templateUrl: './file-field.component.html',
-  styleUrls: ['./file-field.component.scss']
+  styleUrls: ['./file-field.component.scss'],
 })
 export class FileFieldComponent {
-
   fieldFile: File | null = null;
 
   get group(): FormGroup {
@@ -22,7 +21,7 @@ export class FileFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
-  @Input() className = 'col-xs-12 col-sm-6';
+  @Input() className = '';
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() file: File | null = null;

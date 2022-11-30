@@ -100,37 +100,49 @@
       </div>
     </div>
 
-    <app-file-field
-      title="Foto del documento - frontal"
-      groupName="info"
-      controlName="foto_documento_frente"
-      [field]="fotoDocumentoFrente"
-      [form]="form"
-      [isEdit]="isEdit"
-      [isShow]="isShow"
-      (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-    ></app-file-field>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Foto del documento - frontal"
+          groupName="info"
+          controlName="foto_documento_frente"
+          [field]="fotoDocumentoFrente"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+        ></app-file-field>
+      </div>
+    </div>
 
-    <app-file-field
-      title="Foto del documento - reverso"
-      groupName="info"
-      controlName="foto_documento_reverso"
-      [field]="fotoDocumentoReverso"
-      [form]="form"
-      [isEdit]="isEdit"
-      [isShow]="isShow"
-      (fileChange)="fotoDocumentoReversoChange.emit($event)"
-    ></app-file-field>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Foto del documento - reverso"
+          groupName="info"
+          controlName="foto_documento_reverso"
+          [field]="fotoDocumentoReverso"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoReversoChange.emit($event)"
+        ></app-file-field>
+      </div>
+    </div>
 
-    <app-file-field
-      title="Avatar"
-      groupName="info"
-      controlName="foto_perfil"
-      [field]="fotoPerfil"
-      [form]="form"
-      [isEdit]="isEdit"
-      [isShow]="isShow"
-      (fileChange)="fotoPerfilChange.emit($event)"
-    ></app-file-field>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Avatar"
+          groupName="info"
+          controlName="foto_perfil"
+          [field]="fotoPerfil"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoPerfilChange.emit($event)"
+        ></app-file-field>
+      </div>
+    </div>
   </div>
 </div>
