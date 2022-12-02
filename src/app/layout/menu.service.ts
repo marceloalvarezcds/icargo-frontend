@@ -5,6 +5,8 @@ import { filter } from 'rxjs/operators';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  permisoModeloTitulo as t,
+  PermisoModuloEnum as u,
 } from 'src/app/enums/permiso-enum';
 import { MenuItem } from 'src/app/interfaces/menu-item';
 import { MenuConfigService } from 'src/app/services/menu-config.service';
@@ -85,30 +87,30 @@ export class MenuService {
         isRouteExact: true,
       },
       {
-        name: 'Entidades',
+        name: u.ENTIDADES,
         iconName: 'business',
         active: true,
         children: [
           {
-            name: 'Centros Operativos',
+            name: t[m.CENTRO_OPERATIVO],
             iconName: 'public',
             path: `/entities/${m.CENTRO_OPERATIVO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO),
           },
           {
-            name: 'Remitentes',
+            name: t[m.REMITENTE],
             iconName: 'open_with',
             path: `/entities/${m.REMITENTE}`,
             active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
           },
           {
-            name: 'Proveedores',
+            name: t[m.PROVEEDOR],
             iconName: 'event_available',
             path: `/entities/${m.PROVEEDOR}`,
             active: this.userService.checkPermiso(a.LISTAR, m.PROVEEDOR),
           },
           {
-            name: 'Gestores de Carga',
+            name: t[m.GESTOR_CARGA],
             iconName: 'directions_bus',
             iconOutline: true,
             path: `/entities/${m.GESTOR_CARGA}`,
@@ -117,33 +119,33 @@ export class MenuService {
         ],
       },
       {
-        name: 'Flota',
+        name: u.FLOTA,
         iconName: 'local_shipping',
         iconOutline: true,
         active: true,
         children: [
           {
-            name: 'Propietarios',
+            name: t[m.PROPIETARIO],
             iconName: 'key',
             path: `/flota/${m.PROPIETARIO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
           },
           {
-            name: 'Choferes',
+            name: t[m.CHOFER],
             iconName: 'badge',
             iconOutline: true,
             path: `/flota/${m.CHOFER}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
           },
           {
-            name: 'Camiones',
+            name: t[m.CAMION],
             iconName: 'local_shipping',
             iconOutline: true,
             path: `/flota/${m.CAMION}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CAMION),
           },
           {
-            name: 'Semi-remolques',
+            name: t[m.SEMIRREMOLQUE],
             iconName: 'local_shipping',
             path: `/flota/${m.SEMIRREMOLQUE}`,
             active: this.userService.checkPermiso(a.LISTAR, m.SEMIRREMOLQUE),
@@ -151,35 +153,35 @@ export class MenuService {
         ],
       },
       {
-        name: 'Flete',
+        name: u.FLETE,
         iconName: 'timeline',
         iconOutline: true,
         path: `/flete/${m.FLETE}`,
         active: this.userService.checkPermiso(a.LISTAR, m.FLETE),
       },
       {
-        name: 'Orden de Carga',
+        name: u.OC,
         iconName: 'description',
         iconOutline: true,
         path: `/orden-carga/${m.ORDEN_CARGA}`,
         active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
       },
       {
-        name: 'Caja & Banco',
+        name: u.CAJA_BANCO,
         iconName: 'account_balance_wallet',
         // iconName: 'local_atm',
         iconOutline: true,
         active: true,
         children: [
           {
-            name: 'Caja',
+            name: t[m.CAJA],
             iconName: 'inventory_2',
             iconOutline: true,
             path: `/caja/${m.CAJA}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CAJA),
           },
           {
-            name: 'Banco',
+            name: t[m.BANCO],
             iconName: 'account_balance',
             iconOutline: true,
             path: `/banco/${m.BANCO}`,
@@ -188,28 +190,28 @@ export class MenuService {
         ],
       },
       {
-        name: 'Estado de Cuenta',
+        name: u.ESTADO_CUENTA,
         iconName: 'summarize',
         iconOutline: true,
         path: `/estado-cuenta/${m.ESTADO_CUENTA}`,
         active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
       },
       {
-        name: 'Listados',
+        name: u.LISTADOS,
         iconName: 'format_list_numbered',
         // iconName: 'local_atm',
         iconOutline: true,
         active: true,
         children: [
           {
-            name: 'Rentabilidad',
+            name: t[m.RENTABILIDAD],
             iconName: 'request_quote',
             iconOutline: true,
             path: `/listado/${m.RENTABILIDAD}`,
             active: this.userService.checkPermiso(a.LISTAR, m.RENTABILIDAD),
           },
           {
-            name: 'Movimientos',
+            name: t[m.MOVIMIENTO],
             iconName: 'list_alt',
             iconOutline: true,
             path: `/listado/${m.MOVIMIENTO}`,
@@ -218,13 +220,13 @@ export class MenuService {
         ],
       },
       {
-        name: 'Biblioteca de Usuarios',
+        name: u.BIBLIOTECA,
         iconName: 'settings',
         iconOutline: true,
         active: true,
         children: [
           {
-            name: 'Cargo',
+            name: t[m.CARGO],
             iconName: 'badge',
             iconOutline: true,
             path: `/biblioteca/${m.CARGO}`,
@@ -233,20 +235,20 @@ export class MenuService {
         ],
       },
       {
-        name: 'Parámetros del Sistema',
+        name: u.PARAMETROS,
         iconName: 'build_circle',
         iconOutline: true,
         active: this.userService.checkIfIsAdminIcargo(),
         children: [
           {
-            name: 'Cuenta',
+            name: t[m.TIPO_CUENTA],
             iconName: 'wallet',
             iconOutline: true,
             path: `/parametros/${m.TIPO_CUENTA}`,
             active: this.userService.checkPermiso(a.LISTAR, m.TIPO_CUENTA),
           },
           {
-            name: 'Concepto',
+            name: t[m.TIPO_MOVIMIENTO],
             iconName: 'wysiwyg',
             iconOutline: true,
             path: `/parametros/${m.TIPO_MOVIMIENTO}`,
@@ -255,20 +257,20 @@ export class MenuService {
         ],
       },
       {
-        name: 'Usuarios',
+        name: u.USUARIOS,
         iconName: 'supervisor_account',
         iconOutline: true,
         active: true,
         children: [
           {
-            name: 'Usuarios',
+            name: t[m.USER],
             iconName: 'person',
             iconOutline: true,
             path: `/users/${m.USER}`,
             active: this.userService.checkPermiso(a.LISTAR, m.USER),
           },
           {
-            name: 'Roles',
+            name: t[m.ROL],
             iconName: 'admin_panel_settings',
             iconOutline: true,
             path: `/users/${m.ROL}`,
