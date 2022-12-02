@@ -1,8 +1,12 @@
 import { Injectable } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
-import { PermisoAccionEnum as a } from 'src/app/enums/permiso-enum';
+import {
+  PermisoAccionEnum as a,
+  PermisoModeloEnum as m,
+  permisoModeloTitulo as t,
+} from 'src/app/enums/permiso-enum';
 import { MenuItem } from 'src/app/interfaces/menu-item';
 import { Tab } from 'src/app/interfaces/tab';
 import { MenuService } from './menu.service';
@@ -17,7 +21,7 @@ export class TabService {
     this.menuList$,
     this.routerEvents$,
   ]).subscribe(([menuList, routerEvent]) => {
-    const routerUrl = routerEvent.url;
+    const routerUrl = routerEvent.url.split('?')[0];
     const dArray = routerEvent.url.match(/\d+/);
     const id = dArray && dArray.length ? parseInt(dArray[0], 10) : undefined;
     const menu = menuList.find((m) => {
@@ -26,10 +30,15 @@ export class TabService {
     if (menu) {
       const path = this.getPathStr(menu.path);
       const url = path === routerUrl ? `${routerUrl}/${a.LISTAR}` : routerUrl;
-      const name = this.getTabNameByMenuAndUrl(menu, url, id);
-      const find = this.tabs.some((m) => m.url === url);
+      const queryParams = this.activatedRoute.snapshot.queryParams;
+      const extras = Object.keys(queryParams).length ? { queryParams } : {};
+      const str = JSON.stringify;
+      const find = this.tabs.some(
+        (tab) => tab.url === url && str(tab.extras) === str(extras)
+      );
       if (!find) {
-        this.addTab({ name, path, url });
+        const name = this.getTabNameByMenuAndUrl(menu, url, queryParams, id);
+        this.addTab({ name, path, url, extras });
       }
     }
   });
@@ -57,7 +66,11 @@ export class TabService {
     );
   }
 
-  constructor(private router: Router, private menuService: MenuService) {}
+  constructor(
+    private activatedRoute: ActivatedRoute,
+    private router: Router,
+    private menuService: MenuService
+  ) {}
 
   unsubscribe(): void {
     this.routerSubscription.unsubscribe();
@@ -68,17 +81,25 @@ export class TabService {
   }
 
   removeTab(index: number) {
-    const url = this.tabs[index].url;
-    if (url === this.router.url) {
-      const path = this.tabs[index].path;
+    const currentTab = this.tabs[index];
+    const routerUrl = this.router.url.split('?')[0];
+    const url = currentTab.url;
+    if (url === routerUrl) {
+      const path = currentTab.path;
+      const listarUrl = `${path}/${a.LISTAR}`;
       const existUrlInTabs = this.tabs.some(
-        (t, idx) => t.url === `${path}/${a.LISTAR}` && idx !== index
+        (t, idx) => t.url === listarUrl && idx !== index
       );
       const previousTab = index > 0 ? this.tabs[index - 1] : this.tabs[0];
-      const previousUrl = previousTab.url;
-      const pathToRedirect =
-        !existUrlInTabs || `${path}/${a.LISTAR}` === url ? previousUrl : path;
-      this.router.navigateByUrl(pathToRedirect);
+      let pathToRedirect, extras;
+      if (!existUrlInTabs || listarUrl === url) {
+        extras = previousTab.extras;
+        pathToRedirect = previousTab.url;
+      } else {
+        extras = currentTab.extras;
+        pathToRedirect = path;
+      }
+      this.router.navigateByUrl(pathToRedirect, extras);
     }
     this.tabs.splice(index, 1);
   }
@@ -97,19 +118,29 @@ export class TabService {
   private getTabNameByMenuAndUrl(
     menu: MenuItem,
     url: string,
+    queryParams: Params,
     id: number | undefined
   ): string {
+    const isLiquidacion = this.router.url.includes(m.LIQUIDACION);
+    const isMovimiento = this.router.url.includes(m.MOVIMIENTO);
+    const name = isLiquidacion
+      ? t[m.LIQUIDACION]
+      : isMovimiento
+      ? t[m.MOVIMIENTO]
+      : menu.name;
+    const etapa = queryParams.etapa;
+    const etapaInfo = etapa ? ` ${etapa}` : '';
     const createRegex = new RegExp(a.CREAR);
     const editRegex = new RegExp(a.EDITAR);
     const showRegex = new RegExp(a.VER);
     const idInfo = id ? ` Nº ${id}` : '';
     if (createRegex.test(url)) {
-      return `Crear ${menu.name}`;
+      return `Crear ${name}`;
     } else if (editRegex.test(url)) {
-      return `Editar ${menu.name}${idInfo}`;
+      return `Editar ${name}${etapaInfo}${idInfo}`;
     } else if (showRegex.test(url)) {
-      return `Ver ${menu.name}${idInfo}`;
+      return `Ver ${name}${etapaInfo}${idInfo}`;
     }
-    return `Listar ${menu.name}`;
+    return `Listar ${name}${etapaInfo}`;
   }
 }

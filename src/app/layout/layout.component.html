@@ -88,6 +88,7 @@
           mat-tab-link
           *ngFor="let tab of tabs; let index = index"
           [routerLink]="tab.url"
+          [queryParams]="tab.extras.queryParams"
           routerLinkActive
           #rla="routerLinkActive"
           [active]="rla.isActive"
