@@ -2,7 +2,7 @@
   <app-header></app-header>
   <mat-sidenav-container
     autosize
-    class="sidebar content"
+    class="sidebar"
     [ngClass]="{ 'sidebar-expanded': isExpanded }"
   >
     <mat-sidenav #sidenav [mode]="sidebarMode" class="mat-elevation-z2">
@@ -83,26 +83,8 @@
       </mat-nav-list>
     </mat-sidenav>
     <mat-sidenav-content>
-      <!-- <mat-tab-group
-        [selectedIndex]="selectedTab.value"
-        (selectedIndexChange)="selectedTab.setValue($event)"
-      >
-        <mat-tab *ngFor="let tab of tabs; let index = index">
-          <ng-template mat-tab-label>
-            <span>{{ tab.name }}</span>
-            <button
-              mat-icon-button
-              [disabled]="tabs.length === 1"
-              (click)="removeTab($event, index)"
-            >
-              <mat-icon>close</mat-icon>
-            </button>
-          </ng-template>
-        </mat-tab>
-      </mat-tab-group> -->
       <nav mat-tab-nav-bar>
-        <a
-          type="button"
+        <div
           mat-tab-link
           *ngFor="let tab of tabs; let index = index"
           [routerLink]="tab.url"
@@ -119,9 +101,11 @@
           >
             <mat-icon>close</mat-icon>
           </button>
-        </a>
+        </div>
       </nav>
-      <router-outlet></router-outlet>
+      <div class="content">
+        <router-outlet></router-outlet>
+      </div>
     </mat-sidenav-content>
   </mat-sidenav-container>
 </div>

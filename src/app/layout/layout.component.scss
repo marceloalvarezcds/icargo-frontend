@@ -1,11 +1,12 @@
 @import "~src/assets/styles/colors.scss";
 
-$header-heigth: 64px;
 $active-background: rgba(51, 153, 255, 0.2);
+$header-heigth: 64px;
+$tab-heigth: 50px;
 
 .content {
   background-color: #eff2f5;
-  height: calc(100vh - #{$header-heigth});
+  height: calc(100vh - #{$header-heigth} - #{$tab-heigth});
   overflow: auto;
 }
 

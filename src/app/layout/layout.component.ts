@@ -16,7 +16,7 @@ import { TabService } from './tab.service';
   selector: 'app-layout',
   templateUrl: './layout.component.html',
   styleUrls: ['./layout.component.scss'],
-  providers: [MenuService],
+  providers: [MenuService, TabService],
 })
 export class LayoutComponent implements OnDestroy, AfterViewInit {
   @HostListener('window:resize')

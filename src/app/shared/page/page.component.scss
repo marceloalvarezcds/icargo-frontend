@@ -1,8 +1,9 @@
 $header-heigth: 64px;
+$tab-heigth: 50px;
 
 .sidebar-filter {
   background-color: #eff2f5;
-  height: calc(100vh - #{$header-heigth});
+  height: calc(100vh - #{$header-heigth} - #{$tab-heigth});
   overflow-y: auto;
 
   &::ng-deep {

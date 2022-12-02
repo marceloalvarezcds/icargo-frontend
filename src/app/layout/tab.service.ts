@@ -17,16 +17,19 @@ export class TabService {
     this.menuList$,
     this.routerEvents$,
   ]).subscribe(([menuList, routerEvent]) => {
-    const url = routerEvent.url;
+    const routerUrl = routerEvent.url;
+    const dArray = routerEvent.url.match(/\d+/);
+    const id = dArray && dArray.length ? parseInt(dArray[0], 10) : undefined;
     const menu = menuList.find((m) => {
-      return this.compareMenuPathWithRouterUrl(m, url);
+      return this.comparePathWithRouterUrl(this.getPathStr(m.path), routerUrl);
     });
-    console.log(routerEvent, menu);
     if (menu) {
-      const name = this.getTabNameByMenuAndUrl(menu, url);
-      const find = this.tabs.some((m) => m.name === name);
+      const path = this.getPathStr(menu.path);
+      const url = path === routerUrl ? `${routerUrl}/${a.LISTAR}` : routerUrl;
+      const name = this.getTabNameByMenuAndUrl(menu, url, id);
+      const find = this.tabs.some((m) => m.url === url);
       if (!find) {
-        this.addTab({ name, url });
+        this.addTab({ name, path, url });
       }
     }
   });
@@ -49,6 +52,7 @@ export class TabService {
 
   get routerEvents$(): Observable<NavigationEnd> {
     return this.router.events.pipe(
+      // e: ActivationEnd | ChildActivationEnd | Scroll | NavigationEnd
       filter((e: any) => e instanceof NavigationEnd)
     );
   }
@@ -64,26 +68,44 @@ export class TabService {
   }
 
   removeTab(index: number) {
+    const url = this.tabs[index].url;
+    if (url === this.router.url) {
+      const path = this.tabs[index].path;
+      const previousTab = index > 0 ? this.tabs[index - 1] : undefined;
+      const previousPath = previousTab ? previousTab.path : '/';
+      const pathToRedirect =
+        `${path}/${a.LISTAR}` === url ? previousPath : path;
+      this.router.navigateByUrl(pathToRedirect);
+    }
     this.tabs.splice(index, 1);
   }
 
-  private compareMenuPathWithRouterUrl(menu: MenuItem, url: string): boolean {
-    const path = Array.isArray(menu.path) ? menu.path.join('/') : menu.path!;
-    const pathRegex = new RegExp(path);
+  private comparePathWithRouterUrl(path: string, url: string): boolean {
+    const pathStr = Array.isArray(path) ? path.join('/') : path!;
+    const pathRegex = new RegExp(pathStr);
     const urlRegex = new RegExp(url);
-    return pathRegex.test(url) || urlRegex.test(path);
+    return url !== '/' && (pathRegex.test(url) || urlRegex.test(pathStr));
   }
 
-  private getTabNameByMenuAndUrl(menu: MenuItem, url: string): string {
+  private getPathStr(path: any[] | string | undefined): string {
+    return path ? (Array.isArray(path) ? path.join('/') : path) : '/';
+  }
+
+  private getTabNameByMenuAndUrl(
+    menu: MenuItem,
+    url: string,
+    id: number | undefined
+  ): string {
     const createRegex = new RegExp(a.CREAR);
     const editRegex = new RegExp(a.EDITAR);
     const showRegex = new RegExp(a.VER);
+    const idInfo = id ? ` Nº ${id}` : '';
     if (createRegex.test(url)) {
       return `Crear ${menu.name}`;
     } else if (editRegex.test(url)) {
-      return `Editar ${menu.name}`;
+      return `Editar ${menu.name}${idInfo}`;
     } else if (showRegex.test(url)) {
-      return `Ver ${menu.name}`;
+      return `Ver ${menu.name}${idInfo}`;
     }
     return `Listar ${menu.name}`;
   }
