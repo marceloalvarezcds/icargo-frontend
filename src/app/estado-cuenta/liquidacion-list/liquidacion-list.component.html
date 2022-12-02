@@ -2,7 +2,7 @@
   class="liquidacion-page"
   module="Estado de Cuenta"
   submodule="Liquidaciones"
-  viewTitle="Finalizados"
+  [viewTitle]="etapa?.toString() ?? ''"
   [hideBack]="false"
   [hideCreate]="true"
   [hideFilter]="true"
