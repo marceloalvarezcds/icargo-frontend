@@ -71,10 +71,13 @@ export class TabService {
     const url = this.tabs[index].url;
     if (url === this.router.url) {
       const path = this.tabs[index].path;
-      const previousTab = index > 0 ? this.tabs[index - 1] : undefined;
-      const previousPath = previousTab ? previousTab.path : '/';
+      const existUrlInTabs = this.tabs.some(
+        (t, idx) => t.url === `${path}/${a.LISTAR}` && idx !== index
+      );
+      const previousTab = index > 0 ? this.tabs[index - 1] : this.tabs[0];
+      const previousUrl = previousTab.url;
       const pathToRedirect =
-        `${path}/${a.LISTAR}` === url ? previousPath : path;
+        !existUrlInTabs || `${path}/${a.LISTAR}` === url ? previousUrl : path;
       this.router.navigateByUrl(pathToRedirect);
     }
     this.tabs.splice(index, 1);
