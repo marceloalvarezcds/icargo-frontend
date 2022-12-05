@@ -1,23 +1,23 @@
 <ng-container *ngIf="form">
   <ng-container *ngIf="pId; else inputTemplate">
     <ng-container *ngIf="list$ | async as list">
-      <ng-container *ngIf="list.length; else inputTemplate">
-        <app-dialog-field
-          [title]="title"
-          [subtitle]="subtitle"
-          [columns]="columns"
-          [list]="list"
-          [groupName]="groupName"
-          [controlName]="controlName"
-          [inputValuePropName]="inputValuePropName"
-          [form]="form"
-          (valueChange)="valueChange.emit($event)"
-        ></app-dialog-field>
-      </ng-container>
+      <app-dialog-field
+        [emptyHint]="emptyHint"
+        [title]="title"
+        [subtitle]="subtitle"
+        [columns]="columns"
+        [list]="list"
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [inputValuePropName]="inputValuePropName"
+        [form]="form"
+        (valueChange)="valueChange.emit($event)"
+      ></app-dialog-field>
     </ng-container>
   </ng-container>
   <ng-template #inputTemplate>
     <app-input-field
+      [hint]="emptyHint"
       [title]="title"
       [readonly]="true"
       [groupName]="groupName"
