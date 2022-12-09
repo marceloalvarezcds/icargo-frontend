@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
@@ -8,6 +8,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Banco } from 'src/app/interfaces/banco';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { BancoService } from 'src/app/services/banco.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -55,7 +56,7 @@ export class BancoFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router,
     private snackbar: SnackbarService,
     private bancoService: BancoService,
@@ -117,8 +118,8 @@ export class BancoFormComponent implements OnInit, OnDestroy {
     }
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       this.bancoService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.form.patchValue({

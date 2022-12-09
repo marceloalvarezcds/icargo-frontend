@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
@@ -17,6 +17,7 @@ import {
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -109,7 +110,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     private remitenteService: RemitenteService,
     private userService: UserService,
     private snackbar: SnackbarService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -184,8 +185,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

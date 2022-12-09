@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
@@ -17,6 +17,7 @@ import {
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ProveedorContactoGestorCargaList } from 'src/app/interfaces/proveedor-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -116,7 +117,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private dialog: DialogService,
     private snackbar: SnackbarService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -221,8 +222,8 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

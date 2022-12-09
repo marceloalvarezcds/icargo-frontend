@@ -1,0 +1,32 @@
+.mat-form-field-flex > .mat-form-field-infix {
+  padding: 0.4em 0px !important;
+}
+
+label.ng-star-inserted {
+  transform: translateY(-0.59375em) scale(.75) !important;
+}
+
+.mat-form-field-label-wrapper {
+  top: 0.3em;
+}
+
+.mat-form-field-should-float .mat-form-field-label-wrapper {
+  top: -0.6em;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-label {
+  margin-top:-15px;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float .mat-form-field-outline {
+  top:0.8em;
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float .mat-select-arrow-wrapper {
+  transform: translateY(5%);
+}
+
+.mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+  transform: translateY(-1.1em) scale(.75);
+  width: 133.33333%;
+}

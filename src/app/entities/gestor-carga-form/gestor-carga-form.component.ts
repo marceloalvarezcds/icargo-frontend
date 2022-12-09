@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
@@ -9,6 +9,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaService } from 'src/app/services/moneda.service';
@@ -105,7 +106,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     private monedaService: MonedaService,
     private gestorCargaService: GestorCargaService,
     private snackbar: SnackbarService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -186,8 +187,8 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
       }

@@ -3,8 +3,12 @@ import {
   Component,
   HostListener,
   OnDestroy,
+  QueryList,
   ViewChild,
+  ViewChildren,
+  ViewContainerRef,
 } from '@angular/core';
+import { FormControl } from '@angular/forms';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
 import { MenuItem } from 'src/app/interfaces/menu-item';
@@ -36,6 +40,15 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
   }
   nav?: MatSidenav;
 
+  @ViewChildren('frame', { read: ViewContainerRef })
+  set frame(f: QueryList<ViewContainerRef> | undefined) {
+    this.tabService.setFrameList(f);
+  }
+
+  get currentUrl(): string {
+    return this.tabService.currentUrl;
+  }
+
   get isExpanded(): boolean {
     return this.menuService.isExpanded;
   }
@@ -50,6 +63,10 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
 
   get tabs(): Tab[] {
     return this.tabService.list;
+  }
+
+  get selected(): FormControl {
+    return this.tabService.selected;
   }
 
   constructor(
@@ -72,5 +89,9 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
 
   removeTab(index: number) {
     this.tabService.removeTab(index);
+  }
+
+  setSelectedIndexChange(index: number) {
+    this.tabService.setSelectedIndexChange(index);
   }
 }
