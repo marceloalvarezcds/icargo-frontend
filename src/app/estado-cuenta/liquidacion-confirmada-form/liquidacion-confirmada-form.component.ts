@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -14,6 +14,7 @@ import {
 } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -60,7 +61,7 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
     private reportsService: ReportsService

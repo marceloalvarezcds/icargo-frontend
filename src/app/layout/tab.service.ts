@@ -1,5 +1,18 @@
-import { Injectable } from '@angular/core';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { Location } from '@angular/common';
+import {
+  ComponentFactoryResolver,
+  Injectable,
+  QueryList,
+  ViewContainerRef,
+} from '@angular/core';
+import { FormControl } from '@angular/forms';
+import {
+  NavigationEnd,
+  NavigationExtras,
+  Params,
+  Route,
+  Router,
+} from '@angular/router';
 import { combineLatest, Observable } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 import {
@@ -9,39 +22,59 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { MenuItem } from 'src/app/interfaces/menu-item';
 import { Tab } from 'src/app/interfaces/tab';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { MenuService } from './menu.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TabService {
+  currentUrl = this.route.url;
+  selected = new FormControl(0);
+
   private tabs: Tab[] = [];
+  private frameList?: QueryList<ViewContainerRef>;
+  private urlSubscription = this.route.urlChange.subscribe((url) => {
+    this.currentUrl = url;
+  });
 
   private routerSubscription = combineLatest([
     this.menuList$,
     this.routerEvents$,
   ]).subscribe(([menuList, routerEvent]) => {
-    const routerUrl = routerEvent.url.split('?')[0];
-    const dArray = routerEvent.url.match(/\d+/);
-    const id = dArray && dArray.length ? parseInt(dArray[0], 10) : undefined;
+    const urlSplit = routerEvent.url.split('?');
+    const routerUrl = urlSplit[0];
+    const menuPath = this.route.currentRoute?.data?.menuPath;
     const menu = menuList.find((m) => {
-      return this.comparePathWithRouterUrl(this.getPathStr(m.path), routerUrl);
+      return this.comparePathWithRouterUrl(
+        this.getPathStr(m.path),
+        routerUrl,
+        menuPath
+      );
     });
     if (menu) {
       const path = this.getPathStr(menu.path);
       const url = path === routerUrl ? `${routerUrl}/${a.LISTAR}` : routerUrl;
-      const queryParams = this.activatedRoute.snapshot.queryParams;
+      const queryParams = this.route.getQueryParamsBySplit(urlSplit);
       const extras = Object.keys(queryParams).length ? { queryParams } : {};
-      const str = JSON.stringify;
-      const find = this.tabs.some(
-        (tab) => tab.url === url && str(tab.extras) === str(extras)
-      );
-      if (!find) {
+      const str = this.route.getQueryParamsByObject;
+      const currentTabIndex = this.tabs.findIndex((tab) => {
+        const query = tab.extras.queryParams;
+        return tab.url === url && str(query) === str(queryParams);
+      });
+      if (currentTabIndex === -1) {
+        const id = this.route.snapshot.params.id;
         const name = this.getTabNameByMenuAndUrl(menu, url, queryParams, id);
         this.addTab({ name, path, url, extras });
+      } else {
+        this.setSelectedIndexChange(currentTabIndex);
       }
     }
   });
+
+  get currentRoute(): Route | undefined {
+    return this.route.currentRoute;
+  }
 
   get list(): Tab[] {
     return this.tabs;
@@ -67,22 +100,38 @@ export class TabService {
   }
 
   constructor(
-    private activatedRoute: ActivatedRoute,
+    private location: Location,
     private router: Router,
-    private menuService: MenuService
+    private route: ActivatedRouteService,
+    private menuService: MenuService,
+    private cfr: ComponentFactoryResolver
   ) {}
+
+  setFrameList(frameList: QueryList<ViewContainerRef> | undefined): void {
+    // ACÁ entra cada vez que se setea un nuevo tab
+    this.frameList = frameList;
+    this.drawComponent();
+  }
+
+  setSelectedIndexChange(index: number): void {
+    this.selected.setValue(index);
+    const currentTab = this.tabs[index];
+    this.navigate(currentTab.url, currentTab.extras);
+  }
 
   unsubscribe(): void {
     this.routerSubscription.unsubscribe();
+    this.urlSubscription.unsubscribe();
   }
 
   addTab(tab: Tab) {
+    this.selected.setValue(this.tabs.length);
     this.tabs.push(tab);
   }
 
   removeTab(index: number) {
     const currentTab = this.tabs[index];
-    const routerUrl = this.router.url.split('?')[0];
+    const routerUrl = this.currentUrl.split('?')[0];
     const url = currentTab.url;
     if (url === routerUrl) {
       const path = currentTab.path;
@@ -99,16 +148,29 @@ export class TabService {
         extras = currentTab.extras;
         pathToRedirect = path;
       }
-      this.router.navigateByUrl(pathToRedirect, extras);
+      this.navigate(pathToRedirect, extras);
     }
     this.tabs.splice(index, 1);
   }
 
-  private comparePathWithRouterUrl(path: string, url: string): boolean {
-    const pathStr = Array.isArray(path) ? path.join('/') : path!;
-    const pathRegex = new RegExp(pathStr);
-    const urlRegex = new RegExp(url);
-    return url !== '/' && (pathRegex.test(url) || urlRegex.test(pathStr));
+  private navigate(url: string, extras?: NavigationExtras): void {
+    const queryParams = extras?.queryParams ?? {};
+    const q = this.route.getQueryParamsByObject(queryParams);
+    if (`${url}${q}` !== this.currentUrl) {
+      this.location.go(url, q);
+    }
+  }
+
+  private comparePathWithRouterUrl(
+    path: string,
+    url: string,
+    menuPath?: string
+  ): boolean {
+    return (
+      (url === '/' && path === '/') ||
+      (url !== '/' &&
+        (menuPath ? path.startsWith(menuPath) : url.startsWith(path)))
+    );
   }
 
   private getPathStr(path: any[] | string | undefined): string {
@@ -121,12 +183,15 @@ export class TabService {
     queryParams: Params,
     id: number | undefined
   ): string {
-    const isLiquidacion = this.router.url.includes(m.LIQUIDACION);
-    const isMovimiento = this.router.url.includes(m.MOVIMIENTO);
+    const isLiquidacion = this.currentUrl.includes(m.LIQUIDACION);
+    const isMovimiento = this.currentUrl.includes(m.MOVIMIENTO);
+    const isPuntoVenta = this.currentUrl.includes(m.PUNTO_VENTA);
     const name = isLiquidacion
       ? t[m.LIQUIDACION]
       : isMovimiento
       ? t[m.MOVIMIENTO]
+      : isPuntoVenta
+      ? t[m.PUNTO_VENTA]
       : menu.name;
     const etapa = queryParams.etapa;
     const etapaInfo = etapa ? ` ${etapa}` : '';
@@ -134,13 +199,29 @@ export class TabService {
     const editRegex = new RegExp(a.EDITAR);
     const showRegex = new RegExp(a.VER);
     const idInfo = id ? ` Nº ${id}` : '';
+    const proveedorId = this.route.snapshot.params.proveedorId;
+    const puntoVentaInfo =
+      isPuntoVenta && proveedorId ? ` P: ${proveedorId}` : '';
     if (createRegex.test(url)) {
-      return `Crear ${name}`;
+      return `Crear ${name}${puntoVentaInfo}`;
     } else if (editRegex.test(url)) {
-      return `Editar ${name}${etapaInfo}${idInfo}`;
+      return `Editar ${name}${etapaInfo}${idInfo}${puntoVentaInfo}`;
     } else if (showRegex.test(url)) {
-      return `Ver ${name}${etapaInfo}${idInfo}`;
+      return `Ver ${name}${etapaInfo}${idInfo}${puntoVentaInfo}`;
     }
     return `Listar ${name}${etapaInfo}`;
+  }
+
+  private drawComponent(): void {
+    const url = this.currentUrl;
+    const currentTabIndex = this.tabs.findIndex((x) => url.startsWith(x.url));
+    const currentURL = this.route.currentRoute;
+    const frame = this.frameList?.get(currentTabIndex);
+    const component = currentURL?.component;
+    if (frame && component) {
+      frame.clear();
+      const cf = this.cfr.resolveComponentFactory(component);
+      frame.createComponent<any>(cf);
+    }
   }
 }

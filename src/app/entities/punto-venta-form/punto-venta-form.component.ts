@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
   PermisoAccionEnum as a,
@@ -18,6 +18,7 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { PuntoVenta } from 'src/app/interfaces/punto-venta';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -113,7 +114,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     private puntoVentaService: PuntoVentaService,
     private userService: UserService,
     private snackbar: SnackbarService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -202,8 +203,8 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       this.info.get('proveedor_id')!.setValue(this.proveedorId);
     }
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
       }

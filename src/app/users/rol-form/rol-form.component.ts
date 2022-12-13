@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { RolFormService } from './rol-form.service';
 import { UserService } from 'src/app/services/user.service';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-rol-form',
@@ -44,7 +44,7 @@ export class RolFormComponent implements OnInit, OnDestroy {
   }
 
   constructor(
-    route: ActivatedRoute,
+    route: ActivatedRouteService,
     private service: RolFormService,
     private userService: UserService
   ) {

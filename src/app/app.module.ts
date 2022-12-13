@@ -26,6 +26,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { LayoutComponent } from './layout/layout.component';
 import { MaterialModule } from './material/material.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { PipesModule } from './pipes/pipes.module';
 import { SharedModule } from './shared/shared.module';
 
 registerLocaleData(es);
@@ -66,6 +67,7 @@ if (environment.sentryUrl) {
     DialogsModule,
     HttpClientModule,
     MaterialModule,
+    PipesModule,
     SharedModule,
   ],
   providers: [

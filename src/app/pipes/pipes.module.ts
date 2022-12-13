@@ -4,6 +4,7 @@ import { ImageFileBase64Pipe } from './image-file-base64.pipe';
 import { MomentFormatPipe } from './moment-format.pipe';
 import { NumberFormatPipe } from './number-format.pipe';
 import { PermisoPipe } from './permiso.pipe';
+import { UrlActivePipe } from './url-active.pipe';
 import { UserGestorCuentaPipe } from './user-gestor-cuenta.pipe';
 
 const modules = [
@@ -11,6 +12,7 @@ const modules = [
   MomentFormatPipe,
   NumberFormatPipe,
   PermisoPipe,
+  UrlActivePipe,
   UserGestorCuentaPipe,
 ];
 

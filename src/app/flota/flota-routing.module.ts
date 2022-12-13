@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as u,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { CamionFormComponent } from './camion-form/camion-form.component';
@@ -14,6 +15,146 @@ import { PropietarioListComponent } from './propietario-list/propietario-list.co
 import { SemiFormComponent } from './semi-form/semi-form.component';
 import { SemiListComponent } from './semi-list/semi-list.component';
 
+export const propietarioUrls = [
+  {
+    path: a.LISTAR,
+    component: PropietarioListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.PROPIETARIO}/${a.LISTAR}`,
+    },
+  },
+  {
+    path: a.CREAR,
+    component: PropietarioFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.PROPIETARIO}/${a.CREAR}`,
+    },
+  },
+  {
+    path: `${a.EDITAR}/:id`,
+    component: PropietarioFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.PROPIETARIO}/${a.EDITAR}`,
+    },
+  },
+  {
+    path: `${a.VER}/:id`,
+    component: PropietarioFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.PROPIETARIO}/${a.VER}`,
+    },
+  },
+];
+
+export const choferUrls = [
+  {
+    path: a.LISTAR,
+    component: ChoferListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.LISTAR}`,
+    },
+  },
+  {
+    path: a.CREAR,
+    component: ChoferFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.CREAR}`,
+    },
+  },
+  {
+    path: `${a.EDITAR}/:id`,
+    component: ChoferFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.EDITAR}`,
+    },
+  },
+  {
+    path: `${a.VER}/:id`,
+    component: ChoferFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.VER}`,
+    },
+  },
+];
+
+export const camionUrls = [
+  {
+    path: a.LISTAR,
+    component: CamionListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CAMION}/${a.LISTAR}`,
+    },
+  },
+  {
+    path: a.CREAR,
+    component: CamionFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CAMION}/${a.CREAR}`,
+    },
+  },
+  {
+    path: `${a.EDITAR}/:id`,
+    component: CamionFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CAMION}/${a.EDITAR}`,
+    },
+  },
+  {
+    path: `${a.VER}/:id`,
+    component: CamionFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.CAMION}/${a.VER}`,
+    },
+  },
+];
+
+export const semiUrls = [
+  {
+    path: a.LISTAR,
+    component: SemiListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.LISTAR}`,
+    },
+  },
+  {
+    path: a.CREAR,
+    component: SemiFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.CREAR}`,
+    },
+  },
+  {
+    path: `${a.EDITAR}/:id`,
+    component: SemiFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
+    },
+  },
+  {
+    path: `${a.VER}/:id`,
+    component: SemiFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.VER}`,
+    },
+  },
+];
+
 const routes: Routes = [
   {
     path: m.PROPIETARIO,
@@ -23,26 +164,7 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
-      {
-        path: a.LISTAR,
-        component: PropietarioListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: PropietarioFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: PropietarioFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: PropietarioFormComponent,
-        canActivate: [PermisoGuard],
-      },
+      ...propietarioUrls,
     ],
   },
   {
@@ -53,26 +175,7 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
-      {
-        path: a.LISTAR,
-        component: ChoferListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: ChoferFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: ChoferFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: ChoferFormComponent,
-        canActivate: [PermisoGuard],
-      },
+      ...choferUrls,
     ],
   },
   {
@@ -83,26 +186,7 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
-      {
-        path: a.LISTAR,
-        component: CamionListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: CamionFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: CamionFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: CamionFormComponent,
-        canActivate: [PermisoGuard],
-      },
+      ...camionUrls,
     ],
   },
   {
@@ -113,26 +197,7 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
-      {
-        path: a.LISTAR,
-        component: SemiListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: SemiFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: SemiFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: SemiFormComponent,
-        canActivate: [PermisoGuard],
-      },
+      ...semiUrls,
     ],
   },
 ];

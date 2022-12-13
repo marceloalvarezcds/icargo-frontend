@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -17,6 +17,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PropietarioService } from 'src/app/services/propietario.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -182,7 +183,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -339,8 +340,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
       }

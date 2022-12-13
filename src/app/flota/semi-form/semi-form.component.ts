@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -10,6 +10,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Semi } from 'src/app/interfaces/semi';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SemiService } from 'src/app/services/semi.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -153,7 +154,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -290,8 +291,8 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
       }

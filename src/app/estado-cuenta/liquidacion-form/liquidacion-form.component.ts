@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
@@ -14,6 +14,7 @@ import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento'
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
@@ -49,7 +50,7 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   constructor(
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router,
     private dialog: MatDialog,
     private snackbar: SnackbarService,

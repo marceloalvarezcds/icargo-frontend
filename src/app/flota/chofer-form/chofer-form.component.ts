@@ -5,7 +5,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -15,6 +15,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -158,7 +159,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -307,8 +308,8 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
       }

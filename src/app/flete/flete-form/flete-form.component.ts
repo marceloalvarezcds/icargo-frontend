@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { FleteConfirmationDialogComponent } from 'src/app/dialogs/flete-confirmation-dialog/flete-confirmation-dialog.component';
@@ -17,6 +17,7 @@ import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { FleteConfirmationDialogData } from 'src/app/interfaces/flete-confirmation-dialog-data';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -185,7 +186,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -298,8 +299,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
       }

@@ -91,17 +91,21 @@ export class PuntoVentaListComponent {
   ) {}
 
   redirectToEdit(event: TableEvent<PuntoVentaList>): void {
-    this.router.navigate(
-      [`/entities/${m.PUNTO_VENTA}/${a.EDITAR}`, this.provId, event.row.id],
-      { queryParams: { backUrl: this.backUrl } }
-    );
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(
+        [`/entities/${m.PUNTO_VENTA}/${a.EDITAR}`, this.provId, event.row.id],
+        { queryParams: { backUrl: this.backUrl } }
+      );
+    });
   }
 
   redirectToShow(event: TableEvent<PuntoVentaList>): void {
-    this.router.navigate(
-      [`/entities/${m.PUNTO_VENTA}/${a.VER}`, this.provId, event.row.id],
-      { queryParams: { backUrl: this.backUrl } }
-    );
+    this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigate(
+        [`/entities/${m.PUNTO_VENTA}/${a.VER}`, this.provId, event.row.id],
+        { queryParams: { backUrl: this.backUrl } }
+      );
+    });
   }
 
   deleteRow({ row }: TableEvent<PuntoVentaList>): void {

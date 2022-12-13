@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { filter } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -17,6 +17,7 @@ import { MovimientoService } from 'src/app/services/movimiento.service';
 import { subtract } from 'src/app/utils/math';
 import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-liquidacion-finalizada',
@@ -50,7 +51,7 @@ export class LiquidacionFinalizadaComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private estadoCuentaService: EstadoCuentaService,
     private movimientoService: MovimientoService,
     private reportsService: ReportsService
