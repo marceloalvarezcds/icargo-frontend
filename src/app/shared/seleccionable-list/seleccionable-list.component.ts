@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { SeleccionableRouteData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { TableEvent } from 'src/app/interfaces/table';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { SeleccionableListService } from './seleccionable-list.service';
 
 @Component({
@@ -33,7 +33,7 @@ export class SeleccionableListComponent<DialogComponent, DialogData>
   }
 
   constructor(
-    route: ActivatedRoute,
+    route: ActivatedRouteService,
     private service: SeleccionableListService<DialogComponent, DialogData>
   ) {
     this.service.setRouteData(

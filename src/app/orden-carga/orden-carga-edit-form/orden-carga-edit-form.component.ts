@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -19,6 +19,7 @@ import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -193,7 +194,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
     private snackbar: SnackbarService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router,
     private chRef: ChangeDetectorRef
   ) {}
@@ -267,7 +268,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.backUrl = backUrl;
     }
     this.id = +this.route.snapshot.params.id;
-    this.isEdit = /edit/.test(this.router.url);
+    this.isEdit = /edit/.test(this.route.url);
     this.ordenCargaService.getById(this.id).subscribe((data) => {
       this.item = data;
       this.form.patchValue({

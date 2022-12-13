@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { UserAccount } from 'src/app/interfaces/user';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { UserFormService } from './user-form.service';
 
 @Component({
@@ -57,7 +57,7 @@ export class UserFormComponent implements OnInit, OnDestroy {
     return 'Usuario';
   }
 
-  constructor(route: ActivatedRoute, private service: UserFormService) {
+  constructor(route: ActivatedRouteService, private service: UserFormService) {
     this.service.setBackUrl(route.snapshot.queryParams.backUrl);
     this.service.setId(route.snapshot.params.id);
   }

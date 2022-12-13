@@ -4,25 +4,42 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
   permisoModeloTitulo,
+  PermisoModuloRouterEnum as u,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { SeleccionableFormDialogComponent } from 'src/app/dialogs/seleccionable-form-dialog/seleccionable-form-dialog.component';
 import { SeleccionableListComponent } from 'src/app/shared/seleccionable-list/seleccionable-list.component';
 import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 
+const cargoData = {
+  modelo: m.CARGO,
+  submodule: permisoModeloTitulo[m.CARGO],
+  changeStatusMsg: 'al Cargo',
+  dialogComponent: SeleccionableFormDialogComponent,
+  getDialogData: (item?: SeleccionableBaseModel) => ({
+    item,
+    modelo: m.CARGO,
+    submodule: permisoModeloTitulo[m.CARGO],
+  }),
+};
+
+export const cargoUrls = [
+  {
+    path: a.LISTAR,
+    component: SeleccionableListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.BIBLIOTECA}/${m.CARGO}/${a.LISTAR}`,
+      ...cargoData,
+    },
+  },
+];
+
 const routes: Routes = [
   {
     path: m.CARGO,
     data: {
-      modelo: m.CARGO,
-      submodule: permisoModeloTitulo[m.CARGO],
-      changeStatusMsg: 'al Cargo',
-      dialogComponent: SeleccionableFormDialogComponent,
-      getDialogData: (item?: SeleccionableBaseModel) => ({
-        item,
-        modelo: m.CARGO,
-        submodule: permisoModeloTitulo[m.CARGO],
-      }),
+      ...cargoData,
     },
     children: [
       {
@@ -30,11 +47,7 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
-      {
-        path: a.LISTAR,
-        component: SeleccionableListComponent,
-        canActivate: [PermisoGuard],
-      },
+      ...cargoUrls,
     ],
   },
 ];
