@@ -18,7 +18,7 @@ RUN yarn install
 COPY . /app
 
 ARG ENVIRONMENT=production
-RUN npm run build -- --configuration ${ENVIRONMENT}
+RUN yarn run build -- --configuration ${ENVIRONMENT}
 
 # Deploy stage image based on nginx
 FROM nginx:1.21.3-alpine
