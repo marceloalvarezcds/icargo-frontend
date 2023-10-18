@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 import { DirectivesModule } from 'src/app/directives/directives.module';
 import { FormFieldModule } from 'src/app/form-field/form-field.module';
 import { MaterialModule } from 'src/app/material/material.module';
@@ -16,12 +17,12 @@ import { LiquidacionConfirmadaFormComponent } from './liquidacion-confirmada-for
 import { LiquidacionEditFormAccionesComponent } from './liquidacion-edit-form-acciones/liquidacion-edit-form-acciones.component';
 import { LiquidacionEditFormMovimientosComponent } from './liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
 import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacion-edit-form.component';
+import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquidacion-finalizada.component';
+import { LiquidacionFormMovimientosComponent } from './liquidacion-form-movimientos/liquidacion-form-movimientos.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionInstrumentosComponent } from './liquidacion-instrumentos/liquidacion-instrumentos.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
-import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquidacion-finalizada.component';
 import { LiquidacionMovimientosComponent } from './liquidacion-movimientos/liquidacion-movimientos.component';
-import { LiquidacionFormMovimientosComponent } from './liquidacion-form-movimientos/liquidacion-form-movimientos.component';
 import { OperacionComponent } from './operacion/operacion.component';
 import { SaldoComponent } from './saldo/saldo.component';
 
@@ -55,6 +56,7 @@ import { SaldoComponent } from './saldo/saldo.component';
     MaterialModule,
     PipesModule,
     SharedModule,
+    RouterModule,
   ],
 })
 export class EstadoCuentaModule {}
