@@ -5,6 +5,7 @@ import {
   HttpEvent,
   HttpInterceptor,
   HttpErrorResponse,
+  HttpStatusCode,
 } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
@@ -26,11 +27,12 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<any>> {
     return next.handle(request).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 401) {
+        if (err.status === HttpStatusCode.Unauthorized) {
           this.authService.logout();
         }
-        if (err.status === 403) {
-          this.router.navigate(['/']);
+        if (err.status === HttpStatusCode.Forbidden) {
+          this.authService.logout();
+          // this.router.navigate(['/']);
         }
         let errors = [];
         if (err.error) {
@@ -38,7 +40,7 @@ export class ErrorInterceptor implements HttpInterceptor {
             errors = [
               'No tiene acceso al servidor, por favor verifique su conexión',
             ];
-          } else if (err.status === 404) {
+          } else if (err.status === HttpStatusCode.NotFound) {
             errors = ['Error 404: No existe el recurso en el servidor'];
           } else if (err.error.detail instanceof Array) {
             errors = err.error.detail.map((e: any) =>

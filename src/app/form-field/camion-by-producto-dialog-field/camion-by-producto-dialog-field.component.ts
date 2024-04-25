@@ -60,7 +60,11 @@ export class CamionByProductoDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'camion_id';
   @Input() groupName = '';
+  @Input() emptyHint =
+    'No existen camiones. Debe crearlos/activarlos, asignarles un chofer, activar el chofer asignado o crear una combinación';
   @Input() title = 'Camión';
+  @Input() subtitle =
+    'Si no encuentra al camión deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
   @Input() set productoId(id: number | undefined) {
     this.pId = id;
     this.getList();

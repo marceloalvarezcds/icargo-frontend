@@ -55,27 +55,35 @@
         </div>
       </div>
 
-      <app-file-field
-        title="Foto del registro - frontal"
-        groupName="registro"
-        controlName="foto_registro_frente"
-        [field]="fotoRegistroFrente"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoRegistroFrenteChange.emit($event)"
-      ></app-file-field>
+      <div class="row page-form-row">
+        <div class="col-xs-12 col-sm-6">
+          <app-file-field
+            title="Foto del registro - frontal"
+            groupName="registro"
+            controlName="foto_registro_frente"
+            [field]="fotoRegistroFrente"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoRegistroFrenteChange.emit($event)"
+          ></app-file-field>
+        </div>
+      </div>
 
-      <app-file-field
-        title="Foto del registro - reverso"
-        groupName="registro"
-        controlName="foto_registro_reverso"
-        [field]="fotoRegistroReverso"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoRegistroReversoChange.emit($event)"
-      ></app-file-field>
+      <div class="row page-form-row">
+        <div class="col-xs-12 col-sm-6">
+          <app-file-field
+            title="Foto del registro - reverso"
+            groupName="registro"
+            controlName="foto_registro_reverso"
+            [field]="fotoRegistroReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoRegistroReversoChange.emit($event)"
+          ></app-file-field>
+        </div>
+      </div>
     </div>
   </div>
 </ng-container>

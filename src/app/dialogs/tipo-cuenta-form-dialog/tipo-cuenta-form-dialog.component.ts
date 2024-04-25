@@ -45,7 +45,6 @@ export class TipoCuentaFormDialogComponent {
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    console.log(this.form.controls['codigo']);
     if (this.form.valid) {
       const data = seleccionableData(this.form, this.data);
       const formData = new FormData();

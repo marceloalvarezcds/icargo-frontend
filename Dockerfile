@@ -1,4 +1,5 @@
-FROM node:16.8.0-alpine
+# Build stage image based on node 12
+FROM node:16.8.0 AS build-stage
 
 # set working directory
 WORKDIR /app
@@ -6,14 +7,19 @@ WORKDIR /app
 # add `/app/node_modules/.bin` to $PATH
 ENV PATH /app/node_modules/.bin:$PATH
 
+RUN npm install yarn
+
 # install and cache app dependencies
 COPY package.json /app/package.json
-COPY package-lock.json /app/package-lock.json
-RUN npm install
+COPY yarn.lock /app/yarn.lock
+RUN yarn install
 
 # add app
 COPY . /app
 
-EXPOSE 4200
+RUN yarn run build -- --configuration testing
 
-CMD ["npm", "start"]
+# Deploy stage image based on nginx
+FROM nginx:1.21.3-alpine
+COPY --from=build-stage /app/dist/icargo-frontend /usr/share/nginx/html
+COPY --from=build-stage /app/nginx/nginx.conf /etc/nginx/nginx.conf

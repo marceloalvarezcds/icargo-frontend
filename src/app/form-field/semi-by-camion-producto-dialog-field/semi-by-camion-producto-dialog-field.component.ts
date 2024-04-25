@@ -60,7 +60,11 @@ export class SemiByCamionProductoDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'semi_id';
   @Input() groupName = '';
+  @Input() emptyHint =
+    'No existen semiremolques. Debe crearlos/activarlos o crear una combinación';
   @Input() title = 'Semi-remolque';
+  @Input() subtitle =
+    'Si no encuentra al semi deseado se debe a que este no está activo';
   @Input() set camionId(id: number | undefined) {
     this.cId = id;
     this.getList();

@@ -47,16 +47,6 @@ export class PropietarioListComponent implements OnInit {
       value: (element: PropietarioList) => element.nombre,
     },
     {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: PropietarioList) => element.direccion,
-    },
-    {
-      def: 'telefono',
-      title: 'Teléfono',
-      value: (element: PropietarioList) => element.telefono,
-    },
-    {
       def: 'tipo_persona',
       title: 'Tipo de Persona',
       value: (element: PropietarioList) => element.tipo_persona_descripcion,
@@ -65,6 +55,16 @@ export class PropietarioListComponent implements OnInit {
       def: 'ruc',
       title: 'Número de Documento',
       value: (element: PropietarioList) => element.ruc,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: PropietarioList) => element.direccion,
+    },
+    {
+      def: 'telefono',
+      title: 'Teléfono',
+      value: (element: PropietarioList) => element.telefono,
     },
     {
       def: 'gestor_cuenta_nombre',
@@ -83,6 +83,28 @@ export class PropietarioListComponent implements OnInit {
         element.ciudad_nombre
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
+    },
+    {
+      def: 'created_by',
+      title: 'Usuario creación',
+      value: (element: PropietarioList) => element.created_by,
+    },
+    {
+      def: 'created_at',
+      title: 'Fecha creación',
+      value: (element: PropietarioList) => element.created_at,
+      type: 'date',
+    },
+    {
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: PropietarioList) => element.modified_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha modificación',
+      value: (element: PropietarioList) => element.modified_at,
+      type: 'date',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

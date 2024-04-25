@@ -153,6 +153,7 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'created_at',
       title: 'Fecha creación',
       value: (element: OrdenCargaList) => element.created_at,
+      type: 'date',
     },
     {
       def: 'modified_by',
@@ -163,6 +164,7 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'modified_at',
       title: 'Fecha modificación',
       value: (element: OrdenCargaList) => element.modified_at,
+      type: 'date',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

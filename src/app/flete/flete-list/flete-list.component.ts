@@ -221,6 +221,7 @@ export class FleteListComponent implements OnInit {
       def: 'created_at',
       title: 'Fecha creación',
       value: (element: FleteList) => element.created_at,
+      type: 'date',
     },
     {
       def: 'modified_by',
@@ -231,6 +232,7 @@ export class FleteListComponent implements OnInit {
       def: 'modified_at',
       title: 'Fecha modificación',
       value: (element: FleteList) => element.modified_at,
+      type: 'date',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
