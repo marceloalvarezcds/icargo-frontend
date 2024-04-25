@@ -151,7 +151,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
           },
           {
-            name: 'Camiones',
+            name: 'Tracto',
             iconName: 'local_shipping',
             iconOutline: true,
             path: `/flota/${m.CAMION}`,
