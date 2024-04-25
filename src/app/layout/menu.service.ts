@@ -92,7 +92,7 @@ export class MenuService {
         active: true,
         children: [
           {
-            name: 'Cliente',
+            name: 'Clientes',
             iconName: 'open_with',
             path: `/entities/${m.REMITENTE}`,
             active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
@@ -132,7 +132,7 @@ export class MenuService {
         children: [
 
           {
-            name: 'Titulares',
+            name: 'Propietarios',
             iconName: 'key',
             path: `/flota/${m.PROPIETARIO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
@@ -151,7 +151,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
           },
           {
-            name: 'Tracto',
+            name: 'Camiones',
             iconName: 'local_shipping',
             iconOutline: true,
             path: `/flota/${m.CAMION}`,
@@ -166,7 +166,7 @@ export class MenuService {
         ],
       },
       {
-        name: 'Pedido',
+        name: 'Flete',
         iconName: 'timeline',
         iconOutline: true,
         path: `/flete/${m.FLETE}`,
