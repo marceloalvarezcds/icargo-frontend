@@ -103,12 +103,7 @@ export class MenuService {
             path: `/entities/${m.CENTRO_OPERATIVO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO),
           },
-          {
-            name: t[m.REMITENTE],
-            iconName: 'open_with',
-            path: `/entities/${m.REMITENTE}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
-          },
+ 
           {
             name: t[m.PROVEEDOR],
             iconName: 'event_available',
@@ -132,7 +127,7 @@ export class MenuService {
         children: [
 
           {
-            name: 'Propietarios',
+            name: 'Titulares',
             iconName: 'key',
             path: `/flota/${m.PROPIETARIO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
@@ -151,7 +146,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
           },
           {
-            name: 'Tracto',
+            name: 'Tractos',
             iconName: 'local_shipping',
             iconOutline: true,
             path: `/flota/${m.CAMION}`,
