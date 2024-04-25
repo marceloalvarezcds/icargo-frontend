@@ -90,17 +90,18 @@ export class MenuService {
         active: true,
         children: [
           {
+            name: 'Cliente',
+            iconName: 'open_with',
+            path: `/entities/${m.REMITENTE}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
+          },
+          {
             name: 'Centros Operativos',
             iconName: 'public',
             path: `/entities/${m.CENTRO_OPERATIVO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO),
           },
-          {
-            name: 'Remitentes',
-            iconName: 'open_with',
-            path: `/entities/${m.REMITENTE}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
-          },
+
           {
             name: 'Proveedores',
             iconName: 'event_available',
@@ -122,11 +123,18 @@ export class MenuService {
         iconOutline: true,
         active: true,
         children: [
+
           {
-            name: 'Propietarios',
+            name: 'Titulares',
             iconName: 'key',
             path: `/flota/${m.PROPIETARIO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
+          },
+          {
+            name: 'Combinacion',
+            iconName: 'key',
+            path: `/flota/${m.COMBINACION}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.COMBINACION),
           },
           {
             name: 'Choferes',
@@ -136,7 +144,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
           },
           {
-            name: 'Camiones',
+            name: 'Tracto',
             iconName: 'local_shipping',
             iconOutline: true,
             path: `/flota/${m.CAMION}`,
@@ -151,7 +159,7 @@ export class MenuService {
         ],
       },
       {
-        name: 'Flete',
+        name: 'Pedido',
         iconName: 'timeline',
         iconOutline: true,
         path: `/flete/${m.FLETE}`,

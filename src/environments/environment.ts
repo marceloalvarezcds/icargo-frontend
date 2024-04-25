@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'http://localhost:8101',
+  api: 'http://localhost:9101',
   baseUrl: 'http://localhost:4200',
   sentryUrl: '',
 };
