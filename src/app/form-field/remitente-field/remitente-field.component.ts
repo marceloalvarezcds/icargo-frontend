@@ -23,7 +23,7 @@ export class RemitenteFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() readonly = false;
-  @Input() title = 'Remitente';
+  @Input() title = 'Cliente';
 
   @Output() valueChange = new EventEmitter<Remitente | undefined>();
 

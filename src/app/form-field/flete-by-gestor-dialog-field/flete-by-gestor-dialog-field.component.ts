@@ -32,7 +32,7 @@ export class FleteByGestorDialogFieldComponent {
     },
     {
       def: 'remitente_nombre',
-      title: 'Remitente',
+      title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
     },
     {
