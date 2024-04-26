@@ -161,7 +161,7 @@ export class MenuService {
         ],
       },
       {
-        name: 'Flete',
+        name: 'Pedido',
         iconName: 'timeline',
         iconOutline: true,
         path: `/flete/${m.FLETE}`,
