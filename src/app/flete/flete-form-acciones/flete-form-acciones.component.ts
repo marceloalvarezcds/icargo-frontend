@@ -25,7 +25,7 @@ export class FleteFormAccionesComponent {
 
   cancelar(): void {
     this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea cancelar el Flete?',
+      '¿Está seguro que desea cancelar el Pedido?',
       this.service.cancel(this.flete!.id),
       () => {
         this.snackbar.open('Estado cambiado satisfactoriamente');

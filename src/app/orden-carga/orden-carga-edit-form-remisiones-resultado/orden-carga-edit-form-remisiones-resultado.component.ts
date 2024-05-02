@@ -22,13 +22,13 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     },
     {
       def: 'tarifa_flete',
-      title: 'Tarifa de flete',
+      title: 'Tarifa de Pedido',
       value: (element: OrdenCargaRemisionResultado) => element.tarifa_flete,
       type: 'number',
     },
     {
       def: 'total_flete',
-      title: 'Total flete',
+      title: 'Total Pedido',
       value: (element: OrdenCargaRemisionResultado) => element.total_flete,
       type: 'number',
     },

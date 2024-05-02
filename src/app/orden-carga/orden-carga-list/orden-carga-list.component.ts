@@ -89,7 +89,7 @@ export class OrdenCargaListComponent implements OnInit {
     },
     {
       def: 'flete_remitente_nombre',
-      title: 'Remitente',
+      title: 'Cliente',
       value: (element: OrdenCargaList) => element.flete_remitente_nombre,
     },
     {

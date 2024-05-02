@@ -71,7 +71,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'camion_placa',
-      title: 'Placa Camión',
+      title: 'Placa Tracto',
       value: (element: Rentabilidad) => element.camion_placa,
     },
     {
@@ -86,7 +86,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'flete_tipo',
-      title: 'Tipo de Flete',
+      title: 'Tipo de Pedido',
       value: (element: Rentabilidad) => element.flete_tipo,
     },
     {
@@ -96,7 +96,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'remitente_nombre',
-      title: 'Remitente',
+      title: 'Cliente',
       value: (element: Rentabilidad) => element.remitente_nombre,
     },
     {
@@ -145,7 +145,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'condicion_propietario_tarifa',
-      title: 'Tarifa Flete a Pagar',
+      title: 'Tarifa Pedido a Pagar',
       value: (element: Rentabilidad) => element.condicion_propietario_tarifa,
       type: 'number',
     },
@@ -163,13 +163,13 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'propietario_flete_total',
-      title: 'Tot. Flete a Pagar',
+      title: 'Tot. Pedido a Pagar',
       value: (element: Rentabilidad) => element.propietario_flete_total,
       type: 'number',
     },
     {
       def: 'propietario_flete_total_ml',
-      title: 'Tot. Flete a Pagar (Moneda Local)',
+      title: 'Tot. Pedido a Pagar (Moneda Local)',
       value: (element: Rentabilidad) => element.propietario_flete_total_ml,
       type: 'number',
     },
@@ -210,7 +210,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'condicion_gestor_carga_tarifa',
-      title: 'Tarifa Flete a Cobrar',
+      title: 'Tarifa Pedido a Cobrar',
       value: (element: Rentabilidad) => element.condicion_gestor_carga_tarifa,
       type: 'number',
     },
@@ -228,13 +228,13 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'gestor_carga_flete_total',
-      title: 'Tot. Flete a Cobrar',
+      title: 'Tot. Pedido a Cobrar',
       value: (element: Rentabilidad) => element.gestor_carga_flete_total,
       type: 'number',
     },
     {
       def: 'gestor_carga_flete_total_ml',
-      title: 'Tot. Flete a Cobrar (Moneda Local)',
+      title: 'Tot. Pedido a Cobrar (Moneda Local)',
       value: (element: Rentabilidad) => element.gestor_carga_flete_total_ml,
       type: 'number',
     },
@@ -277,7 +277,7 @@ export class RentabilidadListComponent implements OnInit {
     // Resutados del Flete
     {
       def: 'flete_condicion_propietario_tarifa',
-      title: 'Tarifa Flete a Pagar (Pedido)',
+      title: 'Tarifa Pedido a Pagar (Pedido)',
       value: (element: Rentabilidad) =>
         element.flete_condicion_propietario_tarifa,
       type: 'number',
@@ -296,7 +296,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'flete_propietario_total_ml',
-      title: 'Tot. Flete a Pagar (Pedido - Moneda Local)',
+      title: 'Tot. Pedido a Pagar (Pedido - Moneda Local)',
       value: (element: Rentabilidad) => element.flete_propietario_total_ml,
       type: 'number',
     },
@@ -334,7 +334,7 @@ export class RentabilidadListComponent implements OnInit {
     },
     {
       def: 'flete_condicion_gestor_carga_tarifa',
-      title: 'Tarifa Flete a Cobrar (Pedido)',
+      title: 'Tarifa Pedido a Cobrar (Pedido)',
       value: (element: Rentabilidad) =>
         element.flete_condicion_gestor_carga_tarifa,
       type: 'number',

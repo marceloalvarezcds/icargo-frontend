@@ -1,6 +1,6 @@
 <div class="row page-form-row" *ngIf="oc">
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Tarifa Flete</mat-label>
+    <mat-label>Tarifa Pedido</mat-label>
     <input
       matInput
       [value]="oc.flete_tarifa"
@@ -18,7 +18,7 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Flete Proyectado</mat-label>
+    <mat-label>Pedido Proyectado</mat-label>
     <input
       matInput
       [value]="oc.flete_proyectado"
@@ -88,7 +88,7 @@
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
     <mat-label>
-      Límite de Crédito OC (% Max. Liberado x Flete Proyectado)
+      Límite de Crédito OC (% Max. Liberado x Pedido Proyectado)
     </mat-label>
     <input
       matInput

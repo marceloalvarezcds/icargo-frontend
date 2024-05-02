@@ -97,7 +97,7 @@ export class FleteByGestorDialogFieldComponent {
     },
     {
       def: 'tipo_flete',
-      title: 'Tipo de Flete',
+      title: 'Tipo de Pedido',
       value: (element: FleteList) => element.tipo_flete,
     },
     {

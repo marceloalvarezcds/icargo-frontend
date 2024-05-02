@@ -73,7 +73,7 @@ export class CamionListComponent implements OnInit {
     },
     {
       def: 'tipo',
-      title: 'Tipo de Camion',
+      title: 'Tipo de Tracto',
       value: (element: CamionList) => element.tipo_descripcion,
     },
     {
