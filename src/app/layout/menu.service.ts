@@ -134,7 +134,7 @@ export class MenuService {
           },
           {
             name: 'Combinacion',
-            iconName: 'key',
+            iconName: 'airport_shuttle',
             path: `/flota/${m.COMBINACION}`,
             active: this.userService.checkPermiso(a.LISTAR, m.COMBINACION),
           },

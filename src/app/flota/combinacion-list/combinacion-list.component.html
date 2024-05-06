@@ -1,1 +1,50 @@
-<app-page></app-page>
+<app-page
+  class="combinacion-page"
+  module="Flota"
+  submodule="Combinacion"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+>
+  <h1 class="page-title">COMBINACIÓN DE FLOTA</h1> <!-- Título agregado -->
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <!-- Aquí puedes colocar tus filtros para el estado si los tienes -->
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Camión</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <!-- Aquí puedes colocar tus filtros para el camión si los tienes -->
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Marca</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <!-- Aquí puedes colocar tus filtros para la marca si los tienes -->
+        </div>
+      </mat-expansion-panel>
+      <!-- Otros paneles de filtro según sea necesario -->
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <!-- Aquí puedes colocar la lógica para mostrar los filtros aplicados -->
+  </mat-chip-list>
+  <!-- Aquí puedes colocar tu tabla paginada con los datos de combinaciones -->
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [modelo]="modelo"
+  ></app-table-paginator>
+
+</app-page>

@@ -178,7 +178,7 @@ export class CamionListComponent implements OnInit {
   }
 
   deleteRow({ row }: TableEvent<CamionList>): void {
-    const message = `¿Está seguro que desea eliminar el Camión con placa ${row.placa}?`;
+    const message = `¿Está seguro que desea eliminar el Tracto con placa ${row.placa}?`;
     this.dialog.confirmationToDelete(
       message,
       this.camionService.delete(row.id),
