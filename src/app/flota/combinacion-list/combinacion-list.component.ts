@@ -50,11 +50,11 @@ export class CombinacionListComponent implements OnInit{
       title: 'Marca',
       value: (element: Combinacion) => element.camion.marca.descripcion,
     },
-      // {
-      //   def: 'camion_semi_neto',
-      //   title: 'Neto',
-      //   value: (element: Combinacion) => element.camion_semi_neto.neto,
-      // },
+    // {
+    //       def: 'camion_semi_neto',
+    //      title: 'Neto',
+    //       value: (element: Combinacion) => element.camion_semi_neto,
+    //  },
     //  {
     //    def: 'producto',
     //    title: 'Producto',
@@ -80,11 +80,11 @@ export class CombinacionListComponent implements OnInit{
       title: 'Propietario',
       value: (element: Combinacion) => element.propietario.nombre,
     },
-    // {
-    //     def: 'usuario',
-    //    title: 'Usuario',
-    //     value: (element: Combinacion) => element.usuario.username,
-    // },
+     {
+         def: 'usuario',
+        title: 'Usuario',
+         value: (element: Combinacion) => element.created_by,
+     },
     {
       def: 'modified_at',
       title: 'Fecha',
