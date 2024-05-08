@@ -17,6 +17,8 @@ import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
   camion?: string;
+  semi?: string;
+  chofer?: string;
   marca?: string;
   propietario?: string;
 };
@@ -93,6 +95,10 @@ export class CombinacionListComponent implements OnInit{
   propietarioFiltered: string[] = [];
   camionFilterList: string[] = [];
   camionFiltered: string[] = [];
+  choferFilterList: string[] = [];
+  choferFiltered: string[] = [];
+  semiFilterList: string[] = [];
+  semiFiltered: string[] = [];
 
   get isFilteredByMarca(): boolean {
     return this.marcaFiltered.length !== this.marcaFilterList.length;
@@ -107,7 +113,14 @@ export class CombinacionListComponent implements OnInit{
   get isFilteredByCamion(): boolean {
     return this.camionFiltered.length !== this.camionFilterList.length;
   }
-  
+
+  get isFilteredBySemi(): boolean {
+    return this.semiFiltered.length !== this.semiFilterList.length;
+  }
+
+  get isFilteredByChofer(): boolean {
+    return this.choferFiltered.length !== this.choferFilterList.length;
+  }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('marcaCheckboxFilter')
@@ -116,7 +129,8 @@ export class CombinacionListComponent implements OnInit{
   @ViewChild('propietarioCheckboxFilter')
   propietarioCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('camionCheckboxFilter') camionCheckboxFilter!: CheckboxFilterComponent;
-
+  @ViewChild('semiCheckboxFilter') semiCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('choferCheckboxFilter') choferCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private combinacionService: CombinacionService,
@@ -160,7 +174,17 @@ export class CombinacionListComponent implements OnInit{
         ?.split('|')
         .some((x) => obj.camion.placa.toLowerCase().indexOf(x) >= 0) ??
       true;
-    return filterByPropietario && filterByMarca && filterBycamion;
+      const filterBySemi =
+      filter.semi
+        ?.split('|')
+        .some((x) => obj.semi.placa.toLowerCase().indexOf(x) >= 0) ??
+      true;
+      const filterByChofer =
+      filter.chofer
+        ?.split('|')
+        .some((x) => obj.chofer.nombre.toLowerCase().indexOf(x) >= 0) ??
+      true;
+    return filterByPropietario && filterByMarca && filterBycamion && filterBySemi && filterByChofer;
   }
 
   applyFilter(): void {
@@ -169,6 +193,8 @@ export class CombinacionListComponent implements OnInit{
     this.propietarioFiltered = this.propietarioCheckboxFilter.getFilteredList();
     this.marcaFiltered = this.marcaCheckboxFilter.getFilteredList();
     this.camionFiltered = this.camionCheckboxFilter.getFilteredList();
+    this.semiFiltered = this.semiCheckboxFilter.getFilteredList();
+    this.choferFiltered = this.choferCheckboxFilter.getFilteredList();
     if (this.isFilteredByPropietario) {
       filter.propietario = this.propietarioFiltered.join('|');
       this.isFiltered = true;
@@ -179,6 +205,14 @@ export class CombinacionListComponent implements OnInit{
     }
     if (this.isFilteredByCamion) {
       filter.camion = this.camionFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredBySemi) {
+      filter.semi = this.semiFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByChofer) {
+      filter.chofer = this.choferFiltered.join('|');
       this.isFiltered = true;
     }
     this.filter(
@@ -198,6 +232,8 @@ export class CombinacionListComponent implements OnInit{
       this.propietarioFilterList = getFilterList(list,(x) => x.propietario.nombre);
       this.marcaFilterList = getFilterList(list,(x) => x.camion.marca.descripcion);
       this.camionFilterList = getFilterList(list,(x) => x.camion.placa);
+      this.semiFilterList = getFilterList(list,(x) => x.semi.placa);
+      this.choferFilterList = getFilterList(list,(x) => x.chofer.nombre);
       this.resetFilterList();
     });
   }
@@ -215,6 +251,8 @@ export class CombinacionListComponent implements OnInit{
     this.propietarioFiltered = this.propietarioFilterList.slice();
     this.marcaFiltered = this.marcaFilterList.slice();
     this.camionFiltered = this.camionFilterList.slice();
+    this.semiFiltered = this.semiFilterList.slice();
+    this.choferFiltered = this.choferFilterList.slice();
   }
 }
 

@@ -13,6 +13,18 @@
   <mat-accordion [multi]="true">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
+        <mat-panel-title>Tracto</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #camionCheckboxFilter
+          [value]="camionFiltered"
+          [list]="camionFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
         <mat-panel-title>Marca</mat-panel-title>
       </mat-expansion-panel-header>
       <div>
@@ -20,6 +32,30 @@
           #marcaCheckboxFilter
           [value]="marcaFiltered"
           [list]="marcaFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Semi</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #semiCheckboxFilter
+          [value]="semiFiltered"
+          [list]="semiFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>    
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Chofer</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #choferCheckboxFilter
+          [value]="choferFiltered"
+          [list]="choferFilterList"
         ></app-checkbox-filter>
       </div>
     </mat-expansion-panel>
@@ -35,31 +71,27 @@
         ></app-checkbox-filter>
       </div>
     </mat-expansion-panel>
-    <mat-expansion-panel>
-      <mat-expansion-panel-header>
-        <mat-panel-title>Tracto</mat-panel-title>
-      </mat-expansion-panel-header>
-      <div>
-        <app-checkbox-filter
-          #camionCheckboxFilter
-          [value]="camionFiltered"
-          [list]="camionFilterList"
-        ></app-checkbox-filter>
-      </div>
-    </mat-expansion-panel>
   </mat-accordion>
 </div>
 <mat-chip-list filterValues>
   <ng-container *ngIf="isFiltered">Filtros:</ng-container>
-  <ng-container *ngIf="isFilteredByPropietario">
-    <mat-chip *ngFor="let item of propietarioFiltered">{{item}}</mat-chip>
-  </ng-container>
+  <ng-container *ngIf="isFilteredByCamion">
+    <mat-chip *ngFor="let item of camionFiltered">{{item}}</mat-chip>
+  </ng-container>  
   <ng-container *ngIf="isFilteredByMarca">
     <mat-chip *ngFor="let item of marcaFiltered">{{item}}</mat-chip>
   </ng-container>
-  <ng-container *ngIf="isFilteredByCamion">
-    <mat-chip *ngFor="let item of camionFiltered">{{item}}</mat-chip>
+  <ng-container *ngIf="isFilteredBySemi">
+    <mat-chip *ngFor="let item of semiFiltered">{{item}}</mat-chip>
+  </ng-container>  
+  <ng-container *ngIf="isFilteredByChofer">
+    <mat-chip *ngFor="let item of choferFiltered">{{item}}</mat-chip>
+  </ng-container>  
+  <ng-container *ngIf="isFilteredByPropietario">
+    <mat-chip *ngFor="let item of propietarioFiltered">{{item}}</mat-chip>
   </ng-container>
+
+
 </mat-chip-list>
 <app-table-paginator
   [columns]="columns"
