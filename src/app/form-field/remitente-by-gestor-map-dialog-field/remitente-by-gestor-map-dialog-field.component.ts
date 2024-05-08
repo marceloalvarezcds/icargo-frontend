@@ -32,7 +32,7 @@ export class RemitenteByGestorMapDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'remitente_id';
   @Input() groupName = '';
-  @Input() title = 'Remitente';
+  @Input() title = 'Pedido';
 
   @Output() valueChange = new EventEmitter<RemitenteList>();
 

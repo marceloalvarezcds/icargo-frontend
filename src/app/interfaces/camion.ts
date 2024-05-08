@@ -115,6 +115,8 @@ export interface CamionList {
   modified_at: string;
 }
 
+
+
 const color0 = mockColorList[0];
 const chofer0 = mockChoferList[0];
 const chofer1 = mockChoferList[1];

@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import * as saveAs from 'file-saver';
 import {
@@ -11,13 +12,22 @@ import { CombinacionService } from 'src/app/services/combinacion.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
+import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
+import { getFilterList } from 'src/app/utils/filter';
+
+type Filter = {
+  camion?: string;
+  marca?: string;
+  propietario?: string;
+};
 @Component({
   selector: 'app-combinacion-list',
   templateUrl: './combinacion-list.component.html',
   styleUrls: ['./combinacion-list.component.scss']
 })
-export class CombinacionListComponent{
+export class CombinacionListComponent implements OnInit{
   modelo = m.COMBINACION;
+  module: string = "Nombre del Módulo";
   columns: Column[] = [
     {
       def: 'id',
@@ -38,18 +48,18 @@ export class CombinacionListComponent{
     {
       def: 'marca_camion',
       title: 'Marca',
-      value: (element: Combinacion) => element.camion.marca,
+      value: (element: Combinacion) => element.camion.marca.descripcion,
     },
-    {
-      def: 'camion_neto',
-      title: 'Neto',
-      value: (element: Combinacion) => element.camion_neto.neto,
-    },
-    {
-      def: 'producto',
-      title: 'Producto',
-      value: (element: Combinacion) => element.producto.descripcion,
-    },
+      // {
+      //   def: 'camion_semi_neto',
+      //   title: 'Neto',
+      //   value: (element: Combinacion) => element.camion_semi_neto.neto,
+      // },
+    //  {
+    //    def: 'producto',
+    //    title: 'Producto',
+    //    value: (element: Combinacion) => element.producto.descripcion,
+    //  },
     {
       def: 'semi',
       title: 'Semi',
@@ -58,7 +68,7 @@ export class CombinacionListComponent{
     {
       def: 'marca_semi',
       title: 'Marca',
-      value: (element: Combinacion) => element.semi.marca,
+      value: (element: Combinacion) => element.semi.marca.descripcion,
     },
     {
       def: 'chofer',
@@ -70,14 +80,14 @@ export class CombinacionListComponent{
       title: 'Propietario',
       value: (element: Combinacion) => element.propietario.nombre,
     },
-    {
-      def: 'usuario',
-      title: 'Usuario',
-      value: (element: Combinacion) => element.usuario.username,
-    },
+    // {
+    //     def: 'usuario',
+    //    title: 'Usuario',
+    //     value: (element: Combinacion) => element.usuario.username,
+    // },
     {
       def: 'modified_at',
-      title: 'Fecha modificación',
+      title: 'Fecha',
       value: (element: Combinacion) => element.modified_at,
       type: 'date',
     },
@@ -87,17 +97,36 @@ export class CombinacionListComponent{
 
   isFiltered = false;
   list: Combinacion[] = [];
-  // Otros campos y propiedades...
+  marcaFilterList: string[] = [];
+  marcaFiltered: string[] = [];
+  propietarioFilterList: string[] = [];
+  propietarioFiltered: string[] = [];
+  camionFilterList: string[] = [];
+  camionFiltered: string[] = [];
 
-  get isFilteredByEstado(): boolean {
-    // Lógica para determinar si se ha filtrado por estado
-    return false; // Cambiar por la lógica correcta
+  get isFilteredByMarca(): boolean {
+    return this.marcaFiltered.length !== this.marcaFilterList.length;
   }
 
-  // Otros getters isFilteredByX según los filtros que tengas...
-
+  get isFilteredByPropietario(): boolean {
+    return (
+      this.propietarioFiltered.length !== this.propietarioFilterList.length
+    );
+  }
   
-  // Otros ViewChild según los filtros que tengas...
+  get isFilteredByCamion(): boolean {
+    return this.camionFiltered.length !== this.camionFilterList.length;
+  }
+  
+
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
+  @ViewChild('marcaCheckboxFilter')
+  marcaCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('propietarioCheckboxFilter')
+  propietarioCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('camionCheckboxFilter') camionCheckboxFilter!: CheckboxFilterComponent;
+
 
   constructor(
     private combinacionService: CombinacionService,
@@ -115,25 +144,6 @@ export class CombinacionListComponent{
     this.router.navigate([`/flota/${m.COMBINACION}/${a.CREAR}`]);
   }
 
-  // Métodos redirectToEdit, redirectToShow, deleteRow, downloadFile, filterPredicate, applyFilter, resetFilter...
-
-  private getList(): void {
-    this.combinacionService.getList().subscribe((list) => {
-      this.list = list;
-      // Lógica para obtener las listas de filtros
-      // Ejemplo:
-      // this.estadoFilterList = getFilterList(list, (x) => x.estado);
-      this.resetFilterList();
-    });
-  }
-
-  private resetFilterList(): void {
-    this.isFiltered = false;
-    // Lógica para reiniciar las listas de filtros
-    // Ejemplo:
-    // this.estadoFiltered = this.estadoFilterList.slice();
-  }
-
 
   downloadFile(): void {
     this.combinacionService.generateReports().subscribe((filename) => {
@@ -143,16 +153,78 @@ export class CombinacionListComponent{
     });
   }
 
-
+  filterPredicate(obj: Combinacion, filterJson: string): boolean {
+    const filter: Filter = JSON.parse(filterJson);
+    const filterByPropietario =
+    filter.propietario
+      ?.split('|')
+      .some((x) => obj.propietario.nombre.toLowerCase().indexOf(x) >= 0) ??
+    true;
+    const filterByMarca =
+      filter.marca
+        ?.split('|')
+        .some((x) => obj.camion.marca.descripcion.toLowerCase().indexOf(x) >= 0) ??
+      true;
+      const filterBycamion =
+      filter.camion
+        ?.split('|')
+        .some((x) => obj.camion.placa.toLowerCase().indexOf(x) >= 0) ??
+      true;
+    return filterByPropietario && filterByMarca && filterBycamion;
+  }
 
   applyFilter(): void {
-    // Implement the logic to apply filters here
+    let filter: Filter = {};
+    this.isFiltered = false;
+    this.propietarioFiltered = this.propietarioCheckboxFilter.getFilteredList();
+    this.marcaFiltered = this.marcaCheckboxFilter.getFilteredList();
+    this.camionFiltered = this.camionCheckboxFilter.getFilteredList();
+    if (this.isFilteredByPropietario) {
+      filter.propietario = this.propietarioFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByMarca) {
+      filter.marca = this.marcaFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByCamion) {
+      filter.camion = this.camionFiltered.join('|');
+      this.isFiltered = true;
+    }
+    this.filter(
+      this.isFiltered ? JSON.stringify(filter) : '',
+      !this.isFiltered
+    );
   }
 
   resetFilter(): void {
-    // Implement the logic to reset filters here
+    this.resetFilterList();
+    this.filter('');
   }
 
+  private getList(): void {
+    this.combinacionService.getList().subscribe((list) => {
+      this.list = list;
+      this.propietarioFilterList = getFilterList(list,(x) => x.propietario.nombre);
+      this.marcaFilterList = getFilterList(list,(x) => x.camion.marca.descripcion);
+      this.camionFilterList = getFilterList(list,(x) => x.camion.placa);
+      this.resetFilterList();
+    });
+  }
 
+  private filter(
+    filter: string,
+    isFilteredByGlobalSearch: boolean = true
+  ): void {
+    this.searchService.search(filter, isFilteredByGlobalSearch);
+    this.accordion.closeAll();
+  }
+  
+  private resetFilterList(): void {
+    this.isFiltered = false;
+    this.propietarioFiltered = this.propietarioFilterList.slice();
+    this.marcaFiltered = this.marcaFilterList.slice();
+    this.camionFiltered = this.camionFilterList.slice();
+  }
 }
 

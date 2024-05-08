@@ -4,34 +4,34 @@
       max-width: 10%;
     }
   }
-  ::ng-deep .combinacion-page {
-    // Estilos para el recuadro principal
-    border: 1px solid #ccc; // Añade un borde de 1px sólido de color gris claro
-    padding: 20px; // Añade relleno alrededor del contenido
+  // ::ng-deep .combinacion-page {
+  //   // Estilos para el recuadro principal
+  //   border: 1px solid #ccc; // Añade un borde de 1px sólido de color gris claro
+  //   padding: 20px; // Añade relleno alrededor del contenido
     
-    // Estilos para la fila de encabezados de la tabla
-    .mat-header-row {
-      background-color: #f2f2f2; // Establece un fondo gris claro para la fila de encabezados
-    }
-  }
-  .combinacion-page {
-    .page-title {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
+  //   // Estilos para la fila de encabezados de la tabla
+  //   .mat-header-row {
+  //     background-color: #f2f2f2; // Establece un fondo gris claro para la fila de encabezados
+  //   }
+  // }
+  // .combinacion-page {
+  //   .page-title {
+  //     text-align: center;
+  //     margin-bottom: 20px;
+  //     font-size: 18px;
+  //     font-weight: bold;
+  //   }
   
-    .form-container {
-      border: 1px solid #ccc;
-      padding: 20px;
-    }
+  //   .form-container {
+  //     border: 1px solid #ccc;
+  //     padding: 20px;
+  //   }
   
-    .lista-combinaciones {
-      border: 2px solid #00bcd4; // Borde celeste
-      padding: 10px; // Ajusta el relleno dentro de la lista si es necesario
-    }
+  //   .lista-combinaciones {
+  //     border: 2px solid #00bcd4; // Borde celeste
+  //     padding: 10px; // Ajusta el relleno dentro de la lista si es necesario
+  //   }
   
-    // Otros estilos necesarios
-  }
+  //   // Otros estilos necesarios
+  // }
  

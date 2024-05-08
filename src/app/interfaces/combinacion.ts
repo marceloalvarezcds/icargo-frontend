@@ -1,7 +1,7 @@
 import { User } from '@sentry/angular';
 import { EstadoEnum } from '../enums/estado-enum';
 import { Camion } from './camion';
-import { CamionSemiNeto } from './camion-semi-neto';
+import { CamionSemiNeto, CamionSemiNetoForm } from './camion-semi-neto';
 import { Chofer } from './chofer';
 import {
     GestorCargaPropietario,
@@ -14,22 +14,19 @@ import { Semi } from './semi';
 
 export interface Combinacion {
     id: number;
+    estado: EstadoEnum;
     propietario_id: number;
     camion_id: number;
-    semi_id: number;
     chofer_id: number;
+    semi_id: number;
+    comentario: number;
+    capacidad_total_combinacion: number;
+    camion: Camion;
+    semi: Semi;
+    propietario: Propietario;
     chofer: Chofer
-    camion: Camion
-    camion_marca: Camion
-    camion_neto: CamionSemiNeto
-    producto: Producto
-    semi: Semi
-    propietario: Propietario
+    camion_semi_neto: CamionSemiNeto
     usuario: User
-    estado: EstadoEnum
-    created_by: string;
-    created_at: string;
-    modified_by: string;
     modified_at: string;
 }
 

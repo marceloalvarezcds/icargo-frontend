@@ -1,50 +1,71 @@
 <app-page
   class="combinacion-page"
   module="Flota"
-  submodule="Combinacion"
+  submodule="COMBINACION DE FLOTA"
   [modelo]="modelo"
   (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
   (downloadClick)="downloadFile()"
   (resetClick)="resetFilter()"
 >
-  <h1 class="page-title">COMBINACIÓN DE FLOTA</h1> <!-- Título agregado -->
-  <div filterMenu>
-    <mat-accordion [multi]="true">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Estado</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <!-- Aquí puedes colocar tus filtros para el estado si los tienes -->
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Camión</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <!-- Aquí puedes colocar tus filtros para el camión si los tienes -->
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Marca</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <!-- Aquí puedes colocar tus filtros para la marca si los tienes -->
-        </div>
-      </mat-expansion-panel>
-      <!-- Otros paneles de filtro según sea necesario -->
-    </mat-accordion>
-  </div>
-  <mat-chip-list filterValues>
-    <!-- Aquí puedes colocar la lógica para mostrar los filtros aplicados -->
-  </mat-chip-list>
-  <!-- Aquí puedes colocar tu tabla paginada con los datos de combinaciones -->
-  <app-table-paginator
-    [columns]="columns"
-    [data]="list"
-    [modelo]="modelo"
-  ></app-table-paginator>
+  
+<div filterMenu>
+  <mat-accordion [multi]="true">
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Marca</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #marcaCheckboxFilter
+          [value]="marcaFiltered"
+          [list]="marcaFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Propietario</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #propietarioCheckboxFilter
+          [value]="propietarioFiltered"
+          [list]="propietarioFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>Tracto</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #camionCheckboxFilter
+          [value]="camionFiltered"
+          [list]="camionFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+<mat-chip-list filterValues>
+  <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+  <ng-container *ngIf="isFilteredByPropietario">
+    <mat-chip *ngFor="let item of propietarioFiltered">{{item}}</mat-chip>
+  </ng-container>
+  <ng-container *ngIf="isFilteredByMarca">
+    <mat-chip *ngFor="let item of marcaFiltered">{{item}}</mat-chip>
+  </ng-container>
+  <ng-container *ngIf="isFilteredByCamion">
+    <mat-chip *ngFor="let item of camionFiltered">{{item}}</mat-chip>
+  </ng-container>
+</mat-chip-list>
+<app-table-paginator
+  [columns]="columns"
+  [data]="list"
+  [filterPredicate]="filterPredicate"
+  [modelo]="modelo"
 
+></app-table-paginator>
 </app-page>
