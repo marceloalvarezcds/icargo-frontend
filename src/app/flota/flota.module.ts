@@ -35,6 +35,7 @@ import { SemiFormComponent } from './semi-form/semi-form.component';
 import { SemiListComponent } from './semi-list/semi-list.component';
 import { CamionFormLimiteComponent } from './camion-form-limite/camion-form-limite.component';
 import { CombinacionListComponent } from './combinacion-list/combinacion-list.component';
+import { CombinacionFormComponent } from './combinacion-form/combinacion-form.component';
 
 @NgModule({
   declarations: [
@@ -65,6 +66,7 @@ import { CombinacionListComponent } from './combinacion-list/combinacion-list.co
     SemiListComponent,
     CamionFormLimiteComponent,
     CombinacionListComponent,
+    CombinacionFormComponent,
   ],
   imports: [
     CommonModule,

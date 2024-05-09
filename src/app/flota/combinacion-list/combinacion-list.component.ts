@@ -53,6 +53,16 @@ export class CombinacionListComponent implements OnInit{
       value: (element: Combinacion) => element.camion.marca.descripcion,
     },
     {
+      def: 'camion_semi_neto',
+      title: 'Neto',
+      value: (element: Combinacion) => element.neto,
+    },
+    {
+      def: 'producto',
+      title: 'Producto',
+      value: (element: Combinacion) => element.producto.descripcion,
+    },
+    {
       def: 'semi',
       title: 'Semi',
       value: (element: Combinacion) => element.semi.placa,
