@@ -1,0 +1,73 @@
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { Camion, CamionList } from 'src/app/interfaces/camion';
+import { Column } from 'src/app/interfaces/column';
+import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { CamionService } from 'src/app/services/camion.service';
+import { Semi } from 'src/app/interfaces/semi';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+
+@Component({
+  selector: 'app-camion-by-propietario-dialog-field',
+  templateUrl: './camion-by-propietario-dialog-field.component.html',
+  styleUrls: ['./camion-by-propietario-dialog-field.component.scss']
+})
+export class CamionByPropietarioDialogFieldComponent{
+  readonly inputValuePropName = 'placa';
+  list$?: Observable<CamionList[]>;
+  cId?: number;
+  sId?: number;
+  id?: number;
+  columns: Column[] = [
+    { def: 'selector', title: '', sticky: true },
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: CamionList) => element.id,
+    },
+    {
+      def: 'placa',
+      title: 'Placa',
+      value: (element: CamionList) => element.placa,
+    },
+  
+    {
+      def: 'marca_descripcion',
+      title: 'Marca',
+      value: (element: CamionList) => element.marca_descripcion,
+    },
+    {
+      def: 'color_descripcion',
+      title: 'Color',
+      value: (element: CamionList) => element.color_descripcion,
+    },
+  ];
+
+  @Input() controlName = 'camion_id';
+  @Input() form!: FormGroup;
+  @Input() groupName = '';
+  @Input() title = 'Tracto';
+  @Input() set camionId(id: number | undefined) {
+    this.cId = id;
+    this.getList();
+  }
+  @Input() set propietarioId(id: number | undefined) {
+    this.id = id;
+    this.getList();
+  }
+  @Input() set semiId(id: number | undefined) {
+    this.sId = id;
+    this.getList();
+  }
+  @Output() valueChange = new EventEmitter<CamionList | undefined>();
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
+
+  constructor(private service: CamionService) {
+    this.getList();
+  }
+
+  private getList(): void {
+    this.list$ = this.service.getList();
+  }
+}

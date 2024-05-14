@@ -1,0 +1,308 @@
+<div *ngIf="form" [formGroup]="form">
+  <div [formGroupName]="groupName">
+    <!-- ################## Camion ########################## -->
+    <div class="row page-form-row">
+      <div class="col-xs-12">
+        <h4>ELementos</h4>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+          <app-camion-by-propietario-dialog-field
+            [groupName]="groupName"
+            [form]="form"
+            [camionId]="camion?.id"
+            [semiId]="semi?.id"
+            (valueChange)="camionChange($event)"
+        ></app-camion-by-propietario-dialog-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Marca"
+          [groupName]="groupName"
+          controlName="marca"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Color"
+          [groupName]="groupName"
+          controlName="color"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Propietario"
+          [groupName]="groupName"
+          controlName="propietario"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Oc Activas"
+          [groupName]="groupName"
+          controlName="oc_activa"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Limite Anticipos"
+          [groupName]="groupName"
+          controlName="limite_anticipos"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Foto del Tracto"
+          [groupName]="groupName"
+          controlName="foto_camion"
+          [field]="fotoCamion"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoCamionChange.emit($event)"
+        ></app-file-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <div class="d-flex align-items-center">
+          <app-slide
+            [isShow]="isShow"
+            [control]="estadoControlCamion"
+            controlName="estado_camion"
+            trueTitle="Activo"
+            falseTitle="Inactivo"
+            (valueChange)="estadoCamionChange.emit($event)"
+          ></app-slide>
+        </div>
+      </div>
+      
+    </div>
+<!-- ################## Semi ########################## -->
+  <div class="row page-form-row">
+    <div class="col-xs-12">
+      <h4>Semi</h4>
+    
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-semi-by-propietario-dialog-field
+        [groupName]="groupName"
+        [form]="form"
+        [camionId]="camion?.id"
+        (valueChange)="semiChange($event)"
+      ></app-semi-by-propietario-dialog-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-input-field
+        title="Marca"
+        [groupName]="groupName"
+        controlName="marca_semi"
+        [form]="form"
+      ></app-input-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-input-field
+        title="Color"
+        [groupName]="groupName"
+        controlName="color_semi"
+        [form]="form"
+      ></app-input-field>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+      <app-file-field
+        title="Foto del Semi"
+        [groupName]="groupName"
+        controlName="foto_semi"
+        [field]="fotoSemi"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoSemiChange.emit($event)"
+      ></app-file-field>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-slide
+        [isShow]="isShow"
+        [control]="estadoControlSemi"
+        controlName="estado_semi"
+        trueTitle="Activo"
+        falseTitle="Inactivo"
+        (valueChange)="estadoSemiChange.emit($event)"
+      ></app-slide>
+    </div>
+  </div>
+
+<!-- ################## Chofer ########################## -->
+   <div class="row page-form-row">
+    <div class="col-xs-12">
+      <h4>Chofer</h4>
+    </div>
+    <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-chofer-by-propietario-dialog-field
+          [groupName]="groupName"
+          [form]="form"
+          [camionId]="camion?.id"
+          (valueChange)="choferChange($event)"
+        ></app-chofer-by-propietario-dialog-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Documento"
+          [groupName]="groupName"
+          controlName="chofer_documento"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Nombre"
+          [groupName]="groupName"
+          controlName="nombre_chofer"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Celular"
+          [groupName]="groupName"
+          controlName="chofer_celular"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-slide
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControl"
+          controlName="puede_recibir_anticipos"
+          trueTitle="Puede recibir anticipos"
+          falseTitle="No puede recibir anticipos"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
+        ></app-slide>
+      </div>     
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-slide
+          [isShow]="isShow"
+          [control]="estadoControl"
+          controlName="estado"
+          trueTitle="Activo"
+          falseTitle="Inactivo"
+          (valueChange)="estadoChoferChange.emit($event)"
+        ></app-slide>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Avatar"
+          groupName="info"
+          controlName="foto_perfil_chofer"
+          [field]="fotoPerfilChofer"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoPerfilChoferChange.emit($event)"
+        ></app-file-field>
+      </div>
+       
+    </div>   
+<!-- ################## Propietario ########################## -->
+    <div class="row page-form-row">
+      <div class="col-xs-12">
+        <h4>Facturacion</h4>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-tipo-persona-field
+          groupName="info"
+          controlName="tipo_persona_id"
+          [form]="form"
+ 
+        ></app-tipo-persona-field>
+      </div>      
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-tipo-persona-by-propietario-field
+          [groupName]="groupName"
+          [form]="form"
+          [camionId]="camion?.id"
+          [semiId]="semi?.id"
+          (valueChange)="tipoPersonaChange($event)">
+        </app-tipo-persona-by-propietario-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="N Documento Fiscal"
+          groupName="info"
+          controlName="ruc"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4" >
+        <app-input-field
+          title="N documento"
+          groupName="info"
+          controlName="cedula"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-telefono-field title="Celular" groupName="info" [form]="form"></app-telefono-field>
+      </div>
+    </div>    
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Comentario"
+          [groupName]="groupName"
+          controlName="comentario"
+          [form]="form"
+        >
+        <input
+        matInput
+        [formControlName]="'comentario'"
+        [placeholder]="'Comentario'"
+      />
+      <mat-label>Comentario</mat-label>
+      </app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+        title="Capacidad Total De Combinacion (Kg)"
+        [groupName]="groupName"
+        controlName="neto"
+        [form]="form"
+        ></app-input-field>
+      </div> 
+      
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-slide
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControlPropietario"
+          controlName="anticipo_propietario"
+          trueTitle="Puede recibir anticipos"
+          falseTitle="No puede recibir anticipos"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
+        ></app-slide>
+      </div>   
+        <div class="col-xs-12 col-sm-6">
+          <app-file-field
+            title="Avatar"
+            groupName="info"
+            controlName="foto_perfil"
+            [field]="fotoPerfil"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoPerfilChange.emit($event)"
+          ></app-file-field>
+        </div>
+
+    </div>
+  </div>
+</div>

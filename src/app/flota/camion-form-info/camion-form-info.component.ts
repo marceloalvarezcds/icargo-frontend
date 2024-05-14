@@ -14,6 +14,7 @@ export class CamionFormInfoComponent {
   fotoFile: File | null = null;
 
   @Input() propietarioId?: number;
+  @Input() tractoId?: number;
   @Input() form?: FormGroup;
   @Input() camion?: Camion;
   @Input() isEdit = false;

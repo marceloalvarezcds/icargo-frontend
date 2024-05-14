@@ -8,7 +8,6 @@
   (downloadClick)="downloadFile()"
   (resetClick)="resetFilter()"
 >
-  
 <div filterMenu>
   <mat-accordion [multi]="true">
     <mat-expansion-panel>
@@ -25,7 +24,7 @@
     </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
-        <mat-panel-title>Marca</mat-panel-title>
+        <mat-panel-title>Marca Tracto</mat-panel-title>
       </mat-expansion-panel-header>
       <div>
         <app-checkbox-filter
@@ -98,6 +97,8 @@
   [data]="list"
   [filterPredicate]="filterPredicate"
   [modelo]="modelo"
-
+  [hideDelete]="true"
+  (editClick)="redirectToEdit($event)"
+  (showClick)="redirectToShow($event)"
 ></app-table-paginator>
 </app-page>

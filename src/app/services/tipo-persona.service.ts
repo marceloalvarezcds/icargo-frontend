@@ -8,6 +8,7 @@ import { TipoPersona } from '../interfaces/tipo-persona';
   providedIn: 'root'
 })
 export class TipoPersonaService {
+  [x: string]: any;
 
   private url = `${environment.api}/tipo_persona`;
 
@@ -16,4 +17,5 @@ export class TipoPersonaService {
   getList(): Observable<TipoPersona[]> {
     return this.http.get<TipoPersona[]>(`${this.url}/`);
   }
+  
 }

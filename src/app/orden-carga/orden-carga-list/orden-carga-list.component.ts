@@ -53,7 +53,7 @@ export class OrdenCargaListComponent implements OnInit {
     },
     {
       def: 'camion_placa',
-      title: 'Placa Camión',
+      title: 'Placa Tracto',
       value: (element: OrdenCargaList) => element.camion_placa,
     },
     {

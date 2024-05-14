@@ -412,6 +412,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           },
           contactos: [],
         });
+    
         this.contactoList = data.contactos.slice();
         setTimeout(() => {
           this.hasChange = false;

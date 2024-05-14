@@ -14,6 +14,7 @@ export class SearchService {
   constructor(private router: Router) {}
 
   search(textToSearch: string, isFilteredByGlobalSearch: boolean = true): void {
+    const filterParts = textToSearch.split('.');
     this.searchBehaviorSubject.next({
       textToSearch,
       isFilteredByGlobalSearch,

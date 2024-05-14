@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { Combinacion } from '../interfaces/combinacion';
+import { Combinacion, CombinacionList } from '../interfaces/combinacion';
 
 @Injectable({
   providedIn: 'root',
@@ -12,8 +12,8 @@ export class CombinacionService {
 
   constructor(private http: HttpClient) {}
 
-  getList(): Observable<Combinacion[]> {
-    return this.http.get<Combinacion[]>(`${this.url}/`);
+  getList(): Observable<CombinacionList[]> {
+    return this.http.get<CombinacionList[]>(`${this.url}/`);
   }
 
   getListByGestorCarga(): Observable<Combinacion[]> {
@@ -29,21 +29,36 @@ export class CombinacionService {
       `${this.url}/propietario/${propietarioId}`
     );
   }
+  getListByGestorCuentaByCamionId(
+    camionId: number
+  ): Observable<Combinacion[]> {
+    return this.http.get<Combinacion[]>(
+      `${this.url}/gestor_cuenta/camion/${camionId}`
+    );
+  }
+  getListByGestorCuenta(): Observable<Combinacion[]> {
+    return this.http.get<Combinacion[]>(`${this.url}/gestor_cuenta`);
+  }
 
-  getById(id: number): Observable<Combinacion> {
-    return this.http.get<Combinacion>(`${this.url}/${id}`);
+  getListByGestorCuentaBySemiId(semiId: number): Observable<Combinacion[]> {
+    return this.http.get<Combinacion[]>(
+      `${this.url}/gestor_cuenta/semi/${semiId}`
+    );
+  }
+  getById(id: number): Observable<CombinacionList> {
+    return this.http.get<CombinacionList>(`${this.url}/${id}`);
   }
 
   generateReports(): Observable<string> {
     return this.http.get<string>(`${this.url}/reports`);
   }
 
-  create(combinacion: Combinacion): Observable<Combinacion> {
-    return this.http.post<Combinacion>(`${this.url}/`, combinacion);
+  create(formData: FormData): Observable<Combinacion> {
+    return this.http.post<Combinacion>(`${this.url}/`, formData);
   }
 
-  edit(id: number, combinacion: Combinacion): Observable<Combinacion> {
-    return this.http.put<Combinacion>(`${this.url}/${id}`, combinacion);
+  edit(id: number, formData: FormData): Observable<Combinacion> {
+    return this.http.put<Combinacion>(`${this.url}/${id}`, formData);
   }
 
   delete(id: number): Observable<Combinacion> {

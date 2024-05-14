@@ -14,6 +14,7 @@ import { PropietarioListComponent } from './propietario-list/propietario-list.co
 import { SemiFormComponent } from './semi-form/semi-form.component';
 import { SemiListComponent } from './semi-list/semi-list.component';
 import { CombinacionListComponent } from './combinacion-list/combinacion-list.component'
+import { CombinacionFormComponent } from './combinacion-form/combinacion-form.component';
 
 const routes: Routes = [
   {
@@ -61,17 +62,17 @@ const routes: Routes = [
       },
       {
         path: a.CREAR,
-        component: CombinacionListComponent,
+        component: CombinacionFormComponent,
         canActivate: [PermisoGuard],
       },
       {
         path: `${a.EDITAR}/:id`,
-        component: CombinacionListComponent,
+        component: CombinacionFormComponent,
         canActivate: [PermisoGuard],
       },
       {
         path: `${a.VER}/:id`,
-        component: CombinacionListComponent,
+        component: CombinacionFormComponent,
         canActivate: [PermisoGuard],
       },
     ],

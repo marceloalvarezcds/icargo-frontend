@@ -1,15 +1,15 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
-import * as saveAs from 'file-saver';
+import { saveAs } from 'file-saver';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { Combinacion } from 'src/app/interfaces/combinacion';
+import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
+import { TableEvent } from 'src/app/interfaces/table';
 import { CombinacionService } from 'src/app/services/combinacion.service';
-import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
@@ -29,76 +29,75 @@ type Filter = {
 })
 export class CombinacionListComponent implements OnInit{
   modelo = m.COMBINACION;
-  module: string = "Nombre del Módulo";
   columns: Column[] = [
     {
       def: 'id',
       title: 'ID',
-      value: (element: Combinacion) => element.id,
+      value: (element: CombinacionList) => element.id,
       sticky: true,
     },
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: Combinacion) => element.estado,
+      value: (element: CombinacionList) => element.estado,
     },
     {
-      def: 'camion',
-      title: 'Tracto',
-      value: (element: Combinacion) => element.camion.placa,
-    },
-    {
-      def: 'marca_camion',
-      title: 'Marca',
-      value: (element: Combinacion) => element.camion.marca.descripcion,
-    },
+       def: 'camion',
+       title: 'Tracto',
+       value: (element: CombinacionList) => element.camion_placa,
+     },
+     {
+       def: 'marca_camion',
+       title: 'Marca Tracto',
+       value: (element: CombinacionList) => element.marca_descripcion,
+     },
     {
       def: 'camion_semi_neto',
       title: 'Neto',
-      value: (element: Combinacion) => element.neto,
+      value: (element: CombinacionList) => element.neto,
+      type: 'number',
     },
     {
       def: 'producto',
       title: 'Producto',
-      value: (element: Combinacion) => element.producto.descripcion,
+      value: (element: CombinacionList) => element.producto_descripcion,
     },
     {
       def: 'semi',
       title: 'Semi',
-      value: (element: Combinacion) => element.semi.placa,
+      value: (element: CombinacionList) => element.semi_placa,
     },
     {
       def: 'marca_semi',
-      title: 'Marca',
-      value: (element: Combinacion) => element.semi.marca.descripcion,
+      title: 'Marca Semi',
+      value: (element: CombinacionList) => element.marca_descripcion_semi,
     },
     {
       def: 'chofer',
       title: 'Chofer',
-      value: (element: Combinacion) => element.chofer.nombre,
+      value: (element: CombinacionList) => element.chofer_nombre,
     },
     {
       def: 'propietario',
       title: 'Propietario',
-      value: (element: Combinacion) => element.propietario.nombre,
+      value: (element: CombinacionList) => element.propietario_nombre,
     },
      {
-         def: 'usuario',
-        title: 'Usuario',
-         value: (element: Combinacion) => element.created_by,
+      def: 'usuario',
+      title: 'Usuario',
+      value: (element: CombinacionList) => element.created_by,
      },
     {
       def: 'modified_at',
       title: 'Fecha',
-      value: (element: Combinacion) => element.modified_at,
+      value: (element: CombinacionList) => element.modified_at,
       type: 'date',
     },
-    // Otros campos y columnas...
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   isFiltered = false;
-  list: Combinacion[] = [];
+  list: CombinacionList[] = [];
   marcaFilterList: string[] = [];
   marcaFiltered: string[] = [];
   propietarioFilterList: string[] = [];
@@ -146,7 +145,6 @@ export class CombinacionListComponent implements OnInit{
     private combinacionService: CombinacionService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private dialog: DialogService,
     private router: Router
   ) {}
 
@@ -158,6 +156,12 @@ export class CombinacionListComponent implements OnInit{
     this.router.navigate([`/flota/${m.COMBINACION}/${a.CREAR}`]);
   }
 
+  redirectToEdit(event: TableEvent<CombinacionList>): void {
+    this.router.navigate([`/flota/${m.COMBINACION}/${a.EDITAR}`, event.row.id]);
+  }
+  redirectToShow(event: TableEvent<CombinacionList>): void {
+    this.router.navigate([`/flota/${m.COMBINACION}/${a.VER}`, event.row.id]);
+  }
 
   downloadFile(): void {
     this.combinacionService.generateReports().subscribe((filename) => {
@@ -167,7 +171,8 @@ export class CombinacionListComponent implements OnInit{
     });
   }
 
-  filterPredicate(obj: Combinacion, filterJson: string): boolean {
+  filterPredicate(obj: CombinacionList, filterJson: string): boolean {
+    console.log("filterPredicate", obj, filterJson)
     const filter: Filter = JSON.parse(filterJson);
     const filterByPropietario =
     filter.propietario

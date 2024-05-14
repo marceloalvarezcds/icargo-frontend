@@ -86,7 +86,7 @@ export interface Semi {
   modified_at: string;
 }
 
-export interface SemiList {
+export interface SemiList  {
   id: number;
   placa: string;
   propietario_nombre: string;
@@ -107,11 +107,13 @@ export interface SemiList {
   pais_emisor_placa_nombre_corto: string;
   tipo_descripcion: string;
   tipo_carga_descripcion: string;
+  color_descripcion: string | null;
   created_by: string;
   created_at: string;
   modified_by: string;
   modified_at: string;
 }
+
 
 const color0 = mockColorList[0];
 const ciudad0 = mockCiudadList[0];
@@ -209,6 +211,7 @@ export const mockSemiList: SemiList[] = [
     propietario_ruc: propietario0.ruc,
     numero_chasis: '23100100',
     estado: EstadoEnum.ACTIVO,
+    color_descripcion: '',
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
     gestor_cuenta_id: mockUserAccount.id,
     gestor_cuenta_nombre: mockUserAccount.first_name,
@@ -234,6 +237,7 @@ export const mockSemiList: SemiList[] = [
     propietario_nombre: propietario1.nombre,
     propietario_ruc: propietario1.ruc,
     numero_chasis: '23100100',
+    color_descripcion: '',
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad1.nombre,
     gestor_cuenta_id: mockUserAccount.id,

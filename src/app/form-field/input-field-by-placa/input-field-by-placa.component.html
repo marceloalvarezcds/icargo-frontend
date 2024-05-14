@@ -1,0 +1,44 @@
+<ng-container *ngIf="form">
+  <div *ngIf="control" [formGroup]="form" class="field-content">
+    <ng-container *ngIf="groupName; else noGroupName">
+      <mat-form-field [formGroupName]="groupName">
+        <mat-label>{{ title }}</mat-label>
+        <mat-select [formControlName]="controlName" [disabled]="readonly">
+          <mat-option *ngFor="let option of options" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+        <mat-error *ngIf="control.hasError('maxlength')">
+          Hasta <strong>{{ control.getError("maxlength").requiredLength | numberFormat }}</strong> caracteres
+        </mat-error>
+        <mat-error *ngIf="control.hasError('required')">
+          Este campo es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="control.hasError('email')">
+          El email no es <strong>válido</strong>
+        </mat-error>
+      </mat-form-field>
+    </ng-container>
+    <ng-template #noGroupName>
+      <mat-form-field>
+        <mat-label>{{ title }}</mat-label>
+        <mat-select [formControlName]="controlName" [disabled]="readonly">
+          <mat-option *ngFor="let option of options" [value]="option.value">
+            {{ option.label }}
+          </mat-option>
+        </mat-select>
+        <mat-hint *ngIf="hint">{{ hint }}</mat-hint>
+        <mat-error *ngIf="control.hasError('maxlength')">
+          Hasta <strong>{{ control.getError("maxlength").requiredLength | numberFormat }}</strong> caracteres
+        </mat-error>
+        <mat-error *ngIf="control.hasError('required')">
+          Este campo es <strong>requerido</strong>
+        </mat-error>
+        <mat-error *ngIf="control.hasError('email')">
+          El email no es <strong>válido</strong>
+        </mat-error>
+      </mat-form-field>
+    </ng-template>
+  </div>
+</ng-container>

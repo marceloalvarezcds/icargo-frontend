@@ -93,6 +93,8 @@ export interface CamionList {
   propietario_telefono: string | null;
   chofer_nombre: string | null;
   chofer_numero_documento: string | null;
+  limite_monto_anticipo: number | null;
+  oc_activa: number | null;
   color_descripcion: string | null;
   numero_chasis: string | null;
   estado: EstadoEnum;
@@ -152,7 +154,7 @@ export const mockCamion: Camion = {
   gestor_cuenta_id: 1,
   // INICIO Limitaciones del Camión
   limites: '',
-  limite_cantidad_oc_activas: 1,
+  limite_cantidad_oc_activas: 2,
   limite_monto_anticipos: 1000000,
   monto_anticipo_disponible: 0,
   total_anticipos_retirados_en_estado_pendiente_o_en_proceso: 0,
@@ -216,7 +218,9 @@ export const mockCamionList: CamionList[] = [
     chofer_nombre: chofer0.nombre,
     chofer_numero_documento: chofer0.numero_documento,
     color_descripcion: null,
+    limite_monto_anticipo: 2,
     numero_chasis: '23100100',
+    oc_activa: 1,
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
     gestor_cuenta_id: mockUserAccount.id,
@@ -243,6 +247,8 @@ export const mockCamionList: CamionList[] = [
     propietario_ruc: propietario1.ruc,
     propietario_telefono: propietario1.telefono,
     chofer_nombre: chofer1.nombre,
+    limite_monto_anticipo: 2,
+    oc_activa: 1,
     chofer_numero_documento: chofer1.numero_documento,
     color_descripcion: null,
     numero_chasis: '23100100',

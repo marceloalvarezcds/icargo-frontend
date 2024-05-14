@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { PropietarioList } from 'src/app/interfaces/propietario';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { isFisica } from 'src/app/utils/tipo-persona';
@@ -39,11 +40,12 @@ export class TipoPersonaFieldComponent implements OnDestroy {
   @Input() title = 'Tipo de Persona';
 
   @Output() isFisicaSelected = new EventEmitter<boolean>();
-
+  @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
   constructor(private tipoPersonaService: TipoPersonaService) { }
 
   ngOnDestroy(): void {
     this.controlSubscription?.unsubscribe();
     this.tipoPersonaSubscription.unsubscribe();
   }
+  
 }
