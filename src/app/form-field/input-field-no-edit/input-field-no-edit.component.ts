@@ -1,12 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-input-field',
-  templateUrl: './input-field.component.html',
-  styleUrls: ['./input-field.component.scss'],
+  selector: 'app-input-field-no-edit',
+  templateUrl: './input-field-no-edit.component.html',
+  styleUrls: ['./input-field-no-edit.component.scss']
 })
-export class InputFieldComponent {
+export class InputFieldNoEditComponent{
+
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
@@ -34,5 +35,7 @@ export class InputFieldComponent {
   @Input() readonly = false;
   @Input() title = '';
   @Input() disabled: boolean = false;
+
+ 
 
 }

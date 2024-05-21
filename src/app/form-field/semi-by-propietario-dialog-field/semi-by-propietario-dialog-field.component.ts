@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
@@ -11,8 +11,7 @@ import { SemiService } from 'src/app/services/semi.service';
   templateUrl: './semi-by-propietario-dialog-field.component.html',
   styleUrls: ['./semi-by-propietario-dialog-field.component.scss']
 })
-export class SemiByPropietarioDialogFieldComponent {
-
+export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
   list$?: Observable<SemiList[]>;
   cId?: number;
@@ -51,22 +50,13 @@ export class SemiByPropietarioDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Semi';
-  @Input() set camionId(id: number | undefined) {
-    this.cId = id;
-    this.getList();
-  }
-  @Input() set propietarioId(id: number | undefined) {
-    this.id = id;
-    this.getList();
-  }
-  @Input() set semiId(id: number | undefined) {
-    this.sId = id;
-    this.getList();
-  }
+
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<SemiList>;
 
-  constructor(private service: SemiService) {
+  constructor(private service: SemiService) { }
+
+  ngAfterViewInit(): void {
     this.getList();
   }
 

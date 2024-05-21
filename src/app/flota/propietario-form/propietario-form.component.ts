@@ -242,6 +242,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           contactos: this.contactos.value,
         })
       );
+      console.log("Pasa el info propietario")
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFrenteFile) {
@@ -291,6 +292,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           this.getData();
         });
       } else {
+        console.log('crea el propietario')
         this.propietarioService.create(formData).subscribe((propietario) => {
           this.snackbar.openSaveAndRedirect(
             confirmed,

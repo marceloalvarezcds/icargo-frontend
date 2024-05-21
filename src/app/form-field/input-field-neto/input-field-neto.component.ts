@@ -1,12 +1,13 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-input-field',
-  templateUrl: './input-field.component.html',
-  styleUrls: ['./input-field.component.scss'],
+  selector: 'app-input-field-neto',
+  templateUrl: './input-field-neto.component.html',
+  styleUrls: ['./input-field-neto.component.scss']
 })
-export class InputFieldComponent {
+export class InputFieldNetoComponent{
+
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
@@ -33,6 +34,5 @@ export class InputFieldComponent {
   @Input() groupName?: string;
   @Input() readonly = false;
   @Input() title = '';
-  @Input() disabled: boolean = false;
 
 }

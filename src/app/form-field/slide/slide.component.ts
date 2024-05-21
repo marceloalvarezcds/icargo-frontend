@@ -11,7 +11,7 @@ export class SlideComponent {
   @Input() isShow = false;
   @Input() trueTitle = 'Si';
   @Input() falseTitle = 'No';
-
+  @Input() readonly = false;
   @Output() valueChange = new EventEmitter<boolean>();
 
   get controlValue(): boolean {

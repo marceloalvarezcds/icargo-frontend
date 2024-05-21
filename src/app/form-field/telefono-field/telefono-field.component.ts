@@ -20,4 +20,5 @@ export class TelefonoFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Teléfono';
+  @Input() readonly = false;
 }

@@ -305,6 +305,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   private getData(): void {
+  
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Camion, CamionList } from 'src/app/interfaces/camion';
@@ -13,7 +13,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
   templateUrl: './camion-by-propietario-dialog-field.component.html',
   styleUrls: ['./camion-by-propietario-dialog-field.component.scss']
 })
-export class CamionByPropietarioDialogFieldComponent{
+export class CamionByPropietarioDialogFieldComponent implements AfterViewInit{
   readonly inputValuePropName = 'placa';
   list$?: Observable<CamionList[]>;
   cId?: number;
@@ -48,25 +48,15 @@ export class CamionByPropietarioDialogFieldComponent{
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Tracto';
-  @Input() set camionId(id: number | undefined) {
-    this.cId = id;
-    this.getList();
-  }
-  @Input() set propietarioId(id: number | undefined) {
-    this.id = id;
-    this.getList();
-  }
-  @Input() set semiId(id: number | undefined) {
-    this.sId = id;
-    this.getList();
-  }
+
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
 
-  constructor(private service: CamionService) {
+  constructor(private service: CamionService) {  }
+  
+  ngAfterViewInit(): void {
     this.getList();
   }
-
   private getList(): void {
     this.list$ = this.service.getList();
   }

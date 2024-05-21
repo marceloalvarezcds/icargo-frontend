@@ -103,6 +103,7 @@ export interface CamionList {
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
   limites: string;
+  foto_camion: string;
   info: string;
   marca_descripcion: string;
   oficial_cuenta_nombre: string;
@@ -221,6 +222,7 @@ export const mockCamionList: CamionList[] = [
     limite_monto_anticipo: 2,
     numero_chasis: '23100100',
     oc_activa: 1,
+    foto_camion: "camion",
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
     gestor_cuenta_id: mockUserAccount.id,
@@ -247,6 +249,7 @@ export const mockCamionList: CamionList[] = [
     propietario_ruc: propietario1.ruc,
     propietario_telefono: propietario1.telefono,
     chofer_nombre: chofer1.nombre,
+    foto_camion: "camion2",
     limite_monto_anticipo: 2,
     oc_activa: 1,
     chofer_numero_documento: chofer1.numero_documento,

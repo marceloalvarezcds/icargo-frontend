@@ -17,7 +17,6 @@ export interface Combinacion {
     neto: number;
     semi_id: number;
     comentario: number;
-    capacidad_total_combinacion: number;
     semi: Semi;
     propietario: Propietario;
     chofer: Chofer;

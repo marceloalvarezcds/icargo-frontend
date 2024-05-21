@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ChoferList } from 'src/app/interfaces/chofer';
@@ -12,7 +12,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   templateUrl: './chofer-by-propietario-dialog-field.component.html',
   styleUrls: ['./chofer-by-propietario-dialog-field.component.scss']
 })
-export class ChoferByPropietarioDialogFieldComponent {
+export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'nombre';
   list$?: Observable<ChoferList[]>;
   cId?: number;
@@ -26,7 +26,7 @@ export class ChoferByPropietarioDialogFieldComponent {
       value: (element: ChoferList) => element.id,
     },
     {
-      def: 'Documento',
+      def: 'documento',
       title: 'N. Documento',
       value: (element: ChoferList) => element.numero_documento,
     },
@@ -46,22 +46,13 @@ export class ChoferByPropietarioDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Chofer';
-  @Input() set camionId(id: number | undefined) {
-    this.cId = id;
-    this.getList();
-  }
-  @Input() set propietarioId(id: number | undefined) {
-    this.id = id;
-    this.getList();
-  }
-  @Input() set semiId(id: number | undefined) {
-    this.sId = id;
-    this.getList();
-  }
+
   @Output() valueChange = new EventEmitter<ChoferList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<ChoferList>;
 
-  constructor(private service: ChoferService) {
+  constructor(private service: ChoferService) { }
+
+  ngAfterViewInit(): void {
     this.getList();
   }
 

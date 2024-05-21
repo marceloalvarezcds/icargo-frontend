@@ -1,71 +1,54 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { Subscription } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { PropietarioList } from 'src/app/interfaces/propietario';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { PropietarioService } from 'src/app/services/propietario.service';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
-
+import { isFisica } from 'src/app/utils/tipo-persona';
 @Component({
   selector: 'app-tipo-persona-by-propietario-field',
   templateUrl: './tipo-persona-by-propietario-field.component.html',
   styleUrls: ['./tipo-persona-by-propietario-field.component.scss']
 })
-export class TipoPersonaByPropietarioFieldComponent{
-  readonly inputValuePropName = 'info';
-  list$?: Observable<PropietarioList[]>;
+export class TipoPersonaByPropietarioFieldComponent implements OnDestroy {
+
   formGroup?: FormGroup;
-  cId?: number;
-  sId?: number;
-  id?: number;
-  tipoPersonaList: PropietarioList[] = [];
-  columns: Column[] = [
-    { def: 'selector', title: '', sticky: true },
+  controlSubscription?: Subscription;
+  tipoPersonaList: TipoPersona[] = [];
+  tipoPersonaSubscription = this.tipoPersonaService.getList().subscribe(list => {
+    this.tipoPersonaList = list.slice();
+    this.cdRef.detectChanges();
+  });
 
-    {
-      def: 'propietario',
-      title: 'Beneficiario',
-      value: (element: PropietarioList) => element.nombre,
-    },
-
-  ];
-
-
-  
-  @Input() controlName = 'propietario_id';
-  @Input() form!: FormGroup;
-  @Input() groupName = '';
-  @Input() title = 'Beneficiario';
-  @Input() set camionId(id: number | undefined) {
-    this.cId = id;
-    this.getList();
-  }
-  @Input() set propietarioId(id: number | undefined) {
-    this.id = id;
-    this.getList();
-  }
-  @Input() set semiId(id: number | undefined) {
-    this.sId = id;
-    this.getList();
-  }
-  @Output() isFisicaSelected = new EventEmitter<boolean>();
-  @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<PropietarioList>;
-
-  constructor(private service: PropietarioService, private tipoPersonaService: TipoPersonaService) {
-    this.getList();
-  }
-
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
-    get group(): FormGroup {
+  get group(): FormGroup {
     return this.formGroup!.get(this.groupName) as FormGroup;
   }
 
   get control(): FormControl {
     return this.group.get(this.controlName) as FormControl;
+  }
+
+  @Input() set form(f: FormGroup) {
+    this.formGroup = f;
+    this.controlSubscription = this.control.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
+      this.isFisicaSelected.emit(isFisica(this.tipoPersonaList, id));
+    });
+  }
+  @Input() controlName = 'tipo_persona_id';
+  @Input() groupName = '';
+  @Input() title = 'Tipo de Persona';
+
+  @Output() isFisicaSelected = new EventEmitter<boolean>();
+  @Output() valueChange = new EventEmitter<TipoPersona | undefined>();
+
+  constructor(private tipoPersonaService: TipoPersonaService, private cdRef: ChangeDetectorRef) { }
+
+  ngOnDestroy(): void {
+    this.controlSubscription?.unsubscribe();
+    this.tipoPersonaSubscription.unsubscribe();
   }
 }

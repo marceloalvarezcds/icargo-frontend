@@ -73,3 +73,4 @@ export class CombinacionService {
     return this.http.get<Combinacion>(`${this.url}/${id}/inactive`);
   }
 }
+

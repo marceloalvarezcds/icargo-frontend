@@ -58,11 +58,6 @@ export class CombinacionListComponent implements OnInit{
       type: 'number',
     },
     {
-      def: 'producto',
-      title: 'Producto',
-      value: (element: CombinacionList) => element.producto_descripcion,
-    },
-    {
       def: 'semi',
       title: 'Semi',
       value: (element: CombinacionList) => element.semi_placa,

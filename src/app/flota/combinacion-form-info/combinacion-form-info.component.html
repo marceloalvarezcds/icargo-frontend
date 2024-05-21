@@ -3,14 +3,12 @@
     <!-- ################## Camion ########################## -->
     <div class="row page-form-row">
       <div class="col-xs-12">
-        <h4>ELementos</h4>
+        <h4>Elementos</h4>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
           <app-camion-by-propietario-dialog-field
             [groupName]="groupName"
             [form]="form"
-            [camionId]="camion?.id"
-            [semiId]="semi?.id"
             (valueChange)="camionChange($event)"
         ></app-camion-by-propietario-dialog-field>
       </div>
@@ -18,6 +16,7 @@
         <app-input-field
           title="Marca"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="marca"
           [form]="form"
         ></app-input-field>
@@ -26,6 +25,7 @@
         <app-input-field
           title="Color"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="color"
           [form]="form"
         ></app-input-field>
@@ -34,6 +34,7 @@
         <app-input-field
           title="Propietario"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="propietario"
           [form]="form"
         ></app-input-field>
@@ -42,35 +43,35 @@
         <app-input-field
           title="Oc Activas"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="oc_activa"
           [form]="form"
         ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
+        <app-input-field-neto
           title="Limite Anticipos"
+          [readonly]="true"
           [groupName]="groupName"
           controlName="limite_anticipos"
           [form]="form"
-        ></app-input-field>
+        ></app-input-field-neto>
       </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del Tracto"
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Avatar"
           [groupName]="groupName"
-          controlName="foto_camion"
-          [field]="fotoCamion"
+          [readonly]="true"
+          controlName="foto_perfil_camion"
           [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoCamionChange.emit($event)"
-        ></app-file-field>
+        ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <div class="d-flex align-items-center">
           <app-slide
             [isShow]="isShow"
             [control]="estadoControlCamion"
+            [readonly]="true"
             controlName="estado_camion"
             trueTitle="Activo"
             falseTitle="Inactivo"
@@ -90,7 +91,6 @@
       <app-semi-by-propietario-dialog-field
         [groupName]="groupName"
         [form]="form"
-        [camionId]="camion?.id"
         (valueChange)="semiChange($event)"
       ></app-semi-by-propietario-dialog-field>
     </div>
@@ -98,6 +98,7 @@
       <app-input-field
         title="Marca"
         [groupName]="groupName"
+        [readonly]="true"
         controlName="marca_semi"
         [form]="form"
       ></app-input-field>
@@ -106,6 +107,7 @@
       <app-input-field
         title="Color"
         [groupName]="groupName"
+        [readonly]="true"
         controlName="color_semi"
         [form]="form"
       ></app-input-field>
@@ -114,7 +116,8 @@
       <app-file-field
         title="Foto del Semi"
         [groupName]="groupName"
-        controlName="foto_semi"
+        controlName="perfil_foto_semi"
+        [readonly]="true"
         [field]="fotoSemi"
         [form]="form"
         [isEdit]="isEdit"
@@ -126,6 +129,7 @@
       <app-slide
         [isShow]="isShow"
         [control]="estadoControlSemi"
+        [readonly]="true"
         controlName="estado_semi"
         trueTitle="Activo"
         falseTitle="Inactivo"
@@ -143,7 +147,7 @@
       <app-chofer-by-propietario-dialog-field
           [groupName]="groupName"
           [form]="form"
-          [camionId]="camion?.id"
+          
           (valueChange)="choferChange($event)"
         ></app-chofer-by-propietario-dialog-field>
       </div>
@@ -151,6 +155,7 @@
         <app-input-field
           title="Documento"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="chofer_documento"
           [form]="form"
         ></app-input-field>
@@ -159,6 +164,7 @@
         <app-input-field
           title="Nombre"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="nombre_chofer"
           [form]="form"
         ></app-input-field>
@@ -167,6 +173,7 @@
         <app-input-field
           title="Celular"
           [groupName]="groupName"
+          [readonly]="true"
           controlName="chofer_celular"
           [form]="form"
         ></app-input-field>
@@ -177,6 +184,7 @@
           [control]="puedeRecibirAnticiposControl"
           controlName="puede_recibir_anticipos"
           trueTitle="Puede recibir anticipos"
+          [readonly]="true"
           falseTitle="No puede recibir anticipos"
           (valueChange)="
             !$event &&
@@ -190,6 +198,7 @@
           [isShow]="isShow"
           [control]="estadoControl"
           controlName="estado"
+          [readonly]="true"
           trueTitle="Activo"
           falseTitle="Inactivo"
           (valueChange)="estadoChoferChange.emit($event)"
@@ -199,7 +208,8 @@
         <app-file-field
           title="Avatar"
           groupName="info"
-          controlName="foto_perfil_chofer"
+          [readonly]="true"
+          controlName="foto_chofer"
           [field]="fotoPerfilChofer"
           [form]="form"
           [isEdit]="isEdit"
@@ -209,46 +219,47 @@
       </div>
        
     </div>   
-<!-- ################## Propietario ########################## -->
+<!-- ################## Facturacion ########################## -->
     <div class="row page-form-row">
       <div class="col-xs-12">
         <h4>Facturacion</h4>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-tipo-persona-field
-          groupName="info"
+          [groupName]="groupName"
           controlName="tipo_persona_id"
           [form]="form"
- 
+          (valueChange)="onTipoPersonaChange($event)"
+          (isFisicaSelected)="isFisicaSelected = $event"
         ></app-tipo-persona-field>
-      </div>      
+      </div> 
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-tipo-persona-by-propietario-field
+        <app-tipo-persona-by-beneficiario-dialog-field
           [groupName]="groupName"
+          [inputValuePropName]="isFisicaSelected ? 'numero_documento' : 'ruc'"
           [form]="form"
-          [camionId]="camion?.id"
-          [semiId]="semi?.id"
-          (valueChange)="tipoPersonaChange($event)">
-        </app-tipo-persona-by-propietario-field>
-      </div>
+          [tipoPersonaId]="tipoPersona?.id"
+          (valueChange)="tipoPersonaChange($event)"
+          
+        ></app-tipo-persona-by-beneficiario-dialog-field>
+      </div> 
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field
-          title="N Documento Fiscal"
+          title="Beneficiario"
           groupName="info"
-          controlName="ruc"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4" >
-        <app-input-field
-          title="N documento"
-          groupName="info"
-          controlName="cedula"
+          [readonly]="true"
+          controlName="nombre"
           [form]="form"
         ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-telefono-field title="Celular" groupName="info" [form]="form"></app-telefono-field>
+        <app-input-field
+          title="Celular"
+          [groupName]="groupName"
+          [readonly]="true"
+          controlName="telefono"
+          [form]="form"
+        ></app-input-field>
       </div>
     </div>    
     <div class="row page-form-row">
@@ -268,19 +279,30 @@
       </app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
+        <app-input-field-neto
         title="Capacidad Total De Combinacion (Kg)"
         [groupName]="groupName"
         controlName="neto"
         [form]="form"
-        ></app-input-field>
+        ></app-input-field-neto>
       </div> 
-      
+      <!-- <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-slide
+          [isShow]="isShow"
+          [control]="estadoControl"
+          controlName="estado_propietario"
+          [readonly]="true"
+          trueTitle="Activo"
+          falseTitle="Inactivo"
+          (valueChange)="estadoChoferChange.emit($event)"
+        ></app-slide>
+      </div> -->
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-slide
           [isShow]="isShow"
           [control]="puedeRecibirAnticiposControlPropietario"
           controlName="anticipo_propietario"
+          [readonly]="true"
           trueTitle="Puede recibir anticipos"
           falseTitle="No puede recibir anticipos"
           (valueChange)="
@@ -294,12 +316,13 @@
           <app-file-field
             title="Avatar"
             groupName="info"
-            controlName="foto_perfil"
+            controlName="foto_propietario"
+            [readonly]="true"
             [field]="fotoPerfil"
             [form]="form"
-            [isEdit]="isEdit"
+
             [isShow]="isShow"
-            (fileChange)="fotoPerfilChange.emit($event)"
+         
           ></app-file-field>
         </div>
 

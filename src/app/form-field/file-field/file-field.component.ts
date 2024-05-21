@@ -29,6 +29,7 @@ export class FileFieldComponent {
   @Input() groupName?: string;
   @Input() isShow = false;
   @Input() title = '';
+  @Input() readonly = false;
   @Input() set isEdit(isEdit: boolean) {
     if (isEdit) {
       this.fieldControl.removeValidators(Validators.required);

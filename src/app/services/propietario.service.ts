@@ -25,7 +25,7 @@ export class PropietarioService {
     return this.http.get<PropietarioList[]>(`${this.url}/gestor_cuenta`);
   }
   getPropietario(): Observable<PropietarioList> {
-    // Aquí haces la solicitud HTTP para obtener los datos del propietario
+
     return this.http.get<PropietarioList>(`${this.url}/propietario`);
   }
   getListByGestorCuentaByCamionId(
@@ -41,8 +41,10 @@ export class PropietarioService {
       `${this.url}/gestor_cuenta/semi/${semiId}`
     );
   }
-
-  getById(id: number): Observable<Propietario> {
+  getListByTipoPersonaId(tipoPersonaId: number): Observable<Propietario[]> {
+    return this.http.get<Propietario[]>(`${this.url}/propietario?tipoPersonaId=${tipoPersonaId}`);
+  }
+  getById(id: number): Observable<Propietario> { 
     return this.http.get<Propietario>(`${this.url}/${id}`);
   }
 
@@ -65,8 +67,19 @@ export class PropietarioService {
   active(id: number): Observable<Propietario> {
     return this.http.get<Propietario>(`${this.url}/${id}/active`);
   }
-
+  getListByPersonaId(tipoPersonaId: number): Observable<PropietarioList[]> {
+    return this.http.get<PropietarioList[]>(`${this.url}/tipo_persona/${tipoPersonaId}`);
+  }
   inactive(id: number): Observable<Propietario> {
     return this.http.get<Propietario>(`${this.url}/${id}/inactive`);
+  }
+  getListByTipoPersona(tipoPersona: string): Observable<TipoPersona> {
+    return this.http.get<TipoPersona>(
+      `${this.url}/tipo_persona/${tipoPersona}`
+    );
+  }
+  
+  getPropietariosByTipoPersona(tipoPersona: string): Observable<Propietario[]> {
+    return this.http.get<Propietario[]>(`api/propietario?tipoPersona=${tipoPersona}`); // Ajusta la URL a tu API
   }
 }
