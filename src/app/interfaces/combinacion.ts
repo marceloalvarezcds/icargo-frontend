@@ -37,6 +37,7 @@ export interface Combinacion {
     semi_placa: string;
     color_semi: string;
     estado_descripcion: string;
+    foto_camion: string;
     camion_marca: string;
     camion_placa: string;
     limite_cantidad_oc_activas: number;

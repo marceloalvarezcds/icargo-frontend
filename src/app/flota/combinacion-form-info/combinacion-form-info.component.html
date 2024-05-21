@@ -57,14 +57,16 @@
           [form]="form"
         ></app-input-field-neto>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
           title="Avatar"
-          [groupName]="groupName"
+          groupName="info"
+          controlName="foto_camion"
           [readonly]="true"
-          controlName="foto_perfil_camion"
+          [field]="fotoPerfil"
           [form]="form"
-        ></app-input-field>
+          [isShow]="isShow"
+        ></app-file-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <div class="d-flex align-items-center">
@@ -114,15 +116,13 @@
     </div>
     <div class="col-xs-12 col-sm-6">
       <app-file-field
-        title="Foto del Semi"
-        [groupName]="groupName"
-        controlName="perfil_foto_semi"
+        title="Avatar"
+        groupName="info"
+        controlName="foto_perfil"
         [readonly]="true"
-        [field]="fotoSemi"
+        [field]="fotoPerfil"
         [form]="form"
-        [isEdit]="isEdit"
         [isShow]="isShow"
-        (fileChange)="fotoSemiChange.emit($event)"
       ></app-file-field>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
@@ -208,15 +208,15 @@
         <app-file-field
           title="Avatar"
           groupName="info"
+          controlName="foto_documento_reverso"
+          [field]="fotoDocumentoReverso"
           [readonly]="true"
-          controlName="foto_chofer"
-          [field]="fotoPerfilChofer"
+       
           [form]="form"
-          [isEdit]="isEdit"
           [isShow]="isShow"
-          (fileChange)="fotoPerfilChoferChange.emit($event)"
         ></app-file-field>
       </div>
+
        
     </div>   
 <!-- ################## Facturacion ########################## -->
@@ -240,7 +240,6 @@
           [form]="form"
           [tipoPersonaId]="tipoPersona?.id"
           (valueChange)="tipoPersonaChange($event)"
-          
         ></app-tipo-persona-by-beneficiario-dialog-field>
       </div> 
       <div class="col-xs-12 col-sm-6 col-md-4">
@@ -320,9 +319,7 @@
             [readonly]="true"
             [field]="fotoPerfil"
             [form]="form"
-
             [isShow]="isShow"
-         
           ></app-file-field>
         </div>
 

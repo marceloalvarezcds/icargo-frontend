@@ -46,19 +46,21 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   camionModelo = m.CAMION;
   choferModelo = m.CHOFER;
   semirremolqueModelo = m.SEMIRREMOLQUE;
-  fotoCamion: string | null = null;
-  fotoSemi: string | null = null;
-  fotoPerfil: string | null = null;
-  fotoPerfilChofer: string | null = null;
+  modelo = m.COMBINACION;
   fotoDocumentoFrente: string | null = null;
   fotoDocumentoFrenteFile: File | null = null;
   fotoDocumentoReverso: string | null = null;
   fotoDocumentoReversoFile: File | null = null;
+  fotoPerfil: string | null = null;
   fotoPerfilFile: File | null = null;
-  fotoPerfilChoferFile: File | null = null;
-  fotoCamionFile: File | null = null;
-  fotoSemiFile: File | null = null;
-  modelo = m.COMBINACION;
+  fotoDocumentoFrenteChofer: string | null = null;
+  fotoDocumentoFrenteChoferFile: File | null = null;
+  fotoDocumentoReversoChofer: string | null = null;
+  fotoDocumentoReversoChoferFile: File | null = null;
+  fotoRegistroFrente: string | null = null;
+  fotoRegistroFrenteFile: File | null = null;
+  fotoRegistroReverso: string | null = null;
+  fotoRegistroReversoFile: File | null = null;
   backUrl = `/flota/${m.COMBINACION}/${a.LISTAR}`;
   created_by = '';
   created_at = '';
@@ -69,19 +71,18 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       //Datos del camion
       camion_id: [null, Validators.required],
-      // placa: [null, Validators.required],
       color: null,
       propietario: null,
       oc_activa: null,
       estado_camion: null,
-      foto_perfil_camion: null,
+      foto_camion: null,
       //Datos del Semi
       semi_id: [null, Validators.required],
       marca: null,
       marca_semi: null,
       color_semi: null,
       estado_semi: null,
-      perfil_foto_semi: null,
+      foto_perfil: [null],
       //Datos del chofer
       chofer_id: [null, Validators.required],
       chofer_nombre: null,
@@ -90,8 +91,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       chofer_documento: null,
       puede_recibir_anticipos: null,
       estado: null,
-      foto_chofer: null,
-
+      foto_documento_reverso: null,
       //Facturacion
       propietario_id: [null, Validators.required],
       tipo_persona_id: null,
@@ -103,9 +103,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       telefono: null,
       estado_propietario: null,
       foto_propietario: null,
-
       //Combinacion
-      // producto_id: null,
       comentario: [null, Validators.required],
       neto: [null, Validators.required],
     }),
@@ -162,8 +160,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   get numeroDocumentoControl(): FormGroup {
     return this.chofer.get('numero_documento') as FormGroup;
   }
-  
-
 
   constructor(
     private fb: FormBuilder,
@@ -218,11 +214,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
 
   submit(confirmed: boolean): void {
-    console.log('entra en el submit')
     this.isInfoTouched = false;
-    console.log('isInfoTouched')
     this.form.markAsDirty();
-    console.log('markAsDirty')
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
@@ -231,11 +224,10 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           ...this.info.value,
         })
       );
-      console.log("Pasa el this.form.valid")
       formData.append('data', JSON.stringify(data));
-      console.log("pasa el formData")
-
-      console.log('edita la combinacion')
+      if (this.fotoPerfilFile) {
+        formData.append('foto_perfil_file', this.fotoPerfilFile);
+      }
       this.hasChange = false;
       this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
@@ -244,7 +236,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           this.getData();
         });
       } else {
-        console.log('crea la combinacion')
+
         this.combinacionService.create(formData).subscribe((combinacion) => {
           this.snackbar.openSaveAndRedirect(
             confirmed,
@@ -271,20 +263,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  esChoferChange(esChofer: boolean): void {
-    if (esChofer) {
-      this.tipoDocumentoIdControl.setValidators(Validators.required);
-      this.paisEmisorDocumentoIdControl.setValidators(Validators.required);
-      this.numeroDocumentoControl.setValidators(Validators.required);
-    } else {
-      this.tipoDocumentoIdControl.removeValidators(Validators.required);
-      this.paisEmisorDocumentoIdControl.removeValidators(Validators.required);
-      this.numeroDocumentoControl.removeValidators(Validators.required);
-    }
-    this.tipoDocumentoIdControl.updateValueAndValidity();
-    this.paisEmisorDocumentoIdControl.updateValueAndValidity();
-    this.numeroDocumentoControl.updateValueAndValidity();
-  }
+
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
@@ -311,15 +290,15 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             oc_activa: data?.camion?.limite_cantidad_oc_activas,
             limite_anticipos: data?.camion?.limite_monto_anticipos,
             estado_camion: data?.estado,
-            foto_perfil_camion: data?.camion?.foto,
+            foto_camion: data?.camion?.foto,
             //Datos Semi
             semi_id: data?.semi_id,
-            marca: data?.camion.marca.descripcion,
+            marca: data?.marca_descripcion,
             propietario: data?.camion?.propietario.nombre,
             marca_semi: data?.semi?.marca?.descripcion,
             color_semi: data?.semi?.color?.descripcion,
             estado_semi: data?.semi?.estado,
-            perfil_foto_semi: data?.semi?.foto,
+            foto_perfil: data?.semi?.foto,
             //Datos Chofer
             chofer_documento: data?.chofer?.numero_documento,
             chofer_nombre: data?.chofer?.nombre,
@@ -327,7 +306,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             puede_recibir_anticipos: data?.chofer?.puede_recibir_anticipos,
             estado: data?.chofer?.estado,
             gestor_carga_id: data?.gestor_carga_id,
-            foto_chofer: data?.chofer?.foto_registro_reverso,
+            foto_documento_reverso: data?.chofer?.foto_documento_reverso,
             //Datos Facturacion
             tipo_persona_id: data?.propietario.tipo_persona_id,
             propietario_id: data?.propietario_id,
@@ -344,9 +323,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           
           },
         });
-        console.log("foto camion", data?.camion?.foto)
-        console.log("foto propietario", data?.propietario?.foto_perfil)
-        console.log("foto semi", data?.semi?.foto)
+        console.log("Combinacion Form Camion", data?.camion)
+        console.log("Foto_Camion", data?.foto_camion)
+        console.log("foto registro", data?.chofer?.foto_registro_reverso)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;

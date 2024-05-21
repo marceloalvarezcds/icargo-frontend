@@ -86,7 +86,7 @@ export interface Semi {
   modified_at: string;
 }
 
-export interface SemiList  {
+export interface SemiList   {
   id: number;
   placa: string;
   propietario_nombre: string;
@@ -98,7 +98,7 @@ export interface SemiList  {
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
   info: string;
-  foto_semi: string;
+  foto_semi: string | null;
   marca_descripcion: string;
   clasificacion_descripcion: string;
   oficial_cuenta_nombre: string;

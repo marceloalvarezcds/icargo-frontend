@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion, CamionList } from 'src/app/interfaces/camion';
@@ -27,6 +28,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   docBeneficiario?: PropietarioList
   ngOnInit(){
     this.loading = false;
+    
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -65,7 +67,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   //   }),
   // });
   @Input() form?: FormGroup;
-
+  @Input() fotoDocumentoReverso: string | null = null;
   @Input() fotoPerfil: string | null = null;
   @Input() fotoPerfilChofer: string | null = null;
   @Input() combinacion?: Combinacion;
@@ -128,10 +130,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     return this.info?.controls['estado_semi'] as FormControl;
   }
 
-  // get contactos(): FormArray | null {
-  //   return this.form.get('contactos') as FormArray;
-  // }
-
   handleEstadoChange(): void {
     const estadoActual = this.estadoControl.value;
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
@@ -145,7 +143,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["oc_activa"].setValue(camion?.oc_activa)
     this.info?.controls["limite_anticipos"].setValue(camion?.limite_monto_anticipo)
     this.info?.controls["estado_camion"].setValue(camion?.estado)
-    this.info?.controls["foto_perfil_camion"].setValue(camion?.foto_camion)
+    this.info?.controls["foto_camion"].setValue(camion?.foto);
+    console.log("Camion", camion)
   }
 
   semiChange(semi?: SemiList){
@@ -153,7 +152,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
      this.info?.controls["marca_semi"].setValue(semi?.marca_descripcion)
      this.info?.controls["color_semi"].setValue(semi?.color_descripcion)
      this.info?.controls["estado_semi"].setValue(semi?.estado)
-     this.info?.controls["perfil_foto_semi"].setValue(semi?.foto_semi)
+     this.info?.controls["foto_perfil"].setValue(semi?.foto_semi)
    }
 
   choferChange(chofer?: ChoferList){
@@ -163,7 +162,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["chofer_celular"].setValue(chofer?.telefono_chofer)
     this.info?.controls["estado"].setValue(chofer?.estado)
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
-    this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
+    // this.info?.controls["foto_documento_reverso"].setValue(chofer?.foto_perfil)
+    console.log("Chofer", chofer?.foto_perfil)
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
@@ -172,12 +172,10 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["tipo_persona_id"].setValue(propietario?.tipo_persona_id);
     this.info?.controls["telefono"].setValue(propietario?.telefono);
     this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
-    // this.info?.controls["numero_documento"].setValue(propietario?.numero_documento);
-    // this.info?.controls["ruc"].setValue(propietario?.ruc);
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
     this.info?.controls["foto_propietario"].setValue(propietario?.foto_perfil);
-    console.log("trae el propietario", propietario?.foto_perfil)
-    console.log("trae el propietario", propietario)
+    console.log("Propietario", propietario)
+
   }
   
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
@@ -191,31 +189,31 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
 
-  isFisicaChange(propietario?: PropietarioList | boolean): void {
-    if (typeof propietario === 'boolean') {
-      setTimeout(() => {
-        this.isFisicaSelected = propietario;
-      });
-    } else {
-      setTimeout(() => {
-        this.isFisicaSelected = propietario?.tipo_persona.descripcion === 'Física';
-        if (!this.isFisicaSelected) {
-          if (propietario?.tipo_persona.descripcion === 'Jurídica' && propietario?.ruc) {
-            this.tipoPersonaChange(propietario);
-          }
-        }
-      });
-    }
-    if (this.info) {
-      if (this.isFisicaSelected) {
-        this.info.controls['cedula'].enable(); 
-        this.info.controls['ruc'].disable();
-      } else {
-        this.info.controls['ruc'].enable(); 
-        this.info.controls['cedula'].disable(); 
-      }
-    }
-  }
+  // isFisicaChange(propietario?: PropietarioList | boolean): void {
+  //   if (typeof propietario === 'boolean') {
+  //     setTimeout(() => {
+  //       this.isFisicaSelected = propietario;
+  //     });
+  //   } else {
+  //     setTimeout(() => {
+  //       this.isFisicaSelected = propietario?.tipo_persona.descripcion === 'Física';
+  //       if (!this.isFisicaSelected) {
+  //         if (propietario?.tipo_persona.descripcion === 'Jurídica' && propietario?.ruc) {
+  //           this.tipoPersonaChange(propietario);
+  //         }
+  //       }
+  //     });
+  //   }
+  //   if (this.info) {
+  //     if (this.isFisicaSelected) {
+  //       this.info.controls['cedula'].enable(); 
+  //       this.info.controls['ruc'].disable();
+  //     } else {
+  //       this.info.controls['ruc'].enable(); 
+  //       this.info.controls['cedula'].disable(); 
+  //     }
+  //   }
+  // }
 }
 
 
