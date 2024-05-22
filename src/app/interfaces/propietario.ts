@@ -82,6 +82,7 @@ export interface PropietarioList extends Propietario {
   ciudad_nombre: string;
   info: string;
   localidad_nombre: string;
+  foto_perfil?: string | null;
   pais_nombre: string;
   pais_nombre_corto: string;
   tipo_persona_descripcion: string;

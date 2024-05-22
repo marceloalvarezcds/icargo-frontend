@@ -52,6 +52,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   fotoDocumentoReverso: string | null = null;
   fotoDocumentoReversoFile: File | null = null;
   fotoPerfil: string | null = null;
+  fotoPerfilSemi: string | null = null;
+  fotoPerfilChofer: string | null = null;
+  fotoPerfilPropietario:string | null | undefined;
   fotoPerfilFile: File | null = null;
   fotoDocumentoFrenteChofer: string | null = null;
   fotoDocumentoFrenteChoferFile: File | null = null;
@@ -91,7 +94,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       chofer_documento: null,
       puede_recibir_anticipos: null,
       estado: null,
-      foto_documento_reverso: null,
+      foto_chofer: null,
       //Facturacion
       propietario_id: [null, Validators.required],
       tipo_persona_id: null,
@@ -277,6 +280,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.item = data;
         this.estado = data?.estado;
         this.created_by = data?.created_by;
+        this.fotoPerfil = data?.foto_camion;
+        this.fotoPerfilSemi = data?.semi?.foto;
+        this.fotoPerfilPropietario = data?.propietario?.foto_perfil;
         this.created_at = data?.created_at;
         this.gestorCargaId = data.gestor_carga_id;
         this.modified_by = data?.modified_by;
@@ -306,7 +312,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             puede_recibir_anticipos: data?.chofer?.puede_recibir_anticipos,
             estado: data?.chofer?.estado,
             gestor_carga_id: data?.gestor_carga_id,
-            foto_documento_reverso: data?.chofer?.foto_documento_reverso,
+            foto_chofer: data?.chofer?.foto_registro_reverso,
             //Datos Facturacion
             tipo_persona_id: data?.propietario.tipo_persona_id,
             propietario_id: data?.propietario_id,

@@ -68,8 +68,10 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   // });
   @Input() form?: FormGroup;
   @Input() fotoDocumentoReverso: string | null = null;
-  @Input() fotoPerfil: string | null = null;
-  @Input() fotoPerfilChofer: string | null = null;
+  fotoPerfil: string | null = null;
+  fotoPerfilSemi: string | null = null;
+  fotoPerfilChofer: string | null = null;
+  fotoPerfilPropietario: string | null = null;
   @Input() combinacion?: Combinacion;
   @Input() isEdit = false;
   @Input() isShow = false;
@@ -144,7 +146,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["limite_anticipos"].setValue(camion?.limite_monto_anticipo)
     this.info?.controls["estado_camion"].setValue(camion?.estado)
     this.info?.controls["foto_camion"].setValue(camion?.foto);
+    this.fotoPerfil = camion?.foto ?? null
     console.log("Camion", camion)
+    console.log("Foto Camion", camion?.foto)
   }
 
   semiChange(semi?: SemiList){
@@ -152,7 +156,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
      this.info?.controls["marca_semi"].setValue(semi?.marca_descripcion)
      this.info?.controls["color_semi"].setValue(semi?.color_descripcion)
      this.info?.controls["estado_semi"].setValue(semi?.estado)
-     this.info?.controls["foto_perfil"].setValue(semi?.foto_semi)
+     this.info?.controls["foto_perfil"].setValue(semi?.foto)
+     this.fotoPerfilSemi = semi?.foto ?? null
    }
 
   choferChange(chofer?: ChoferList){
@@ -162,8 +167,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["chofer_celular"].setValue(chofer?.telefono_chofer)
     this.info?.controls["estado"].setValue(chofer?.estado)
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
-    // this.info?.controls["foto_documento_reverso"].setValue(chofer?.foto_perfil)
-    console.log("Chofer", chofer?.foto_perfil)
+    this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
+    this.fotoPerfilChofer = chofer?.foto_registro_reverso ?? null
+    console.log("foto_registro_reverso", chofer?.foto_registro_reverso)
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
@@ -174,8 +180,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
     this.info?.controls["foto_propietario"].setValue(propietario?.foto_perfil);
+    this.fotoPerfilPropietario = propietario?.foto_perfil ?? null
     console.log("Propietario", propietario)
-
+    console.log("Foto Propietario", propietario?.foto_perfil)
   }
   
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
@@ -187,7 +194,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.docBeneficiario = docBeneficiario;
     this.propietarioChange.emit(docBeneficiario); 
   }
-
+  handleFisicaSelected(isFisica: boolean) {
+    this.isFisicaSelected = isFisica;
+  }
 
   // isFisicaChange(propietario?: PropietarioList | boolean): void {
   //   if (typeof propietario === 'boolean') {

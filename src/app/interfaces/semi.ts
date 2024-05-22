@@ -98,7 +98,7 @@ export interface SemiList   {
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
   info: string;
-  foto_semi: string | null;
+  foto: string | null;
   marca_descripcion: string;
   clasificacion_descripcion: string;
   oficial_cuenta_nombre: string;
@@ -213,7 +213,7 @@ export const mockSemiList: SemiList[] = [
     numero_chasis: '23100100',
     estado: EstadoEnum.ACTIVO,
     color_descripcion: '',
-    foto_semi: "foto2",
+    foto: "foto2",
     ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
     gestor_cuenta_id: mockUserAccount.id,
     gestor_cuenta_nombre: mockUserAccount.first_name,
@@ -240,7 +240,7 @@ export const mockSemiList: SemiList[] = [
     propietario_ruc: propietario1.ruc,
     numero_chasis: '23100100',
     color_descripcion: '',
-    foto_semi: "foto1",
+    foto: "foto1",
     estado: EstadoEnum.ACTIVO,
     ciudad_habilitacion_municipal_nombre: ciudad1.nombre,
     gestor_cuenta_id: mockUserAccount.id,
