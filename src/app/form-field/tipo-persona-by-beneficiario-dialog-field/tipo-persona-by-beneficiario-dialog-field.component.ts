@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
-import { Observable, Subscription, of } from 'rxjs';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { Observable} from 'rxjs';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Column } from 'src/app/interfaces/column';
-import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
+import { PropietarioList } from 'src/app/interfaces/propietario';
 import { PropietarioService } from 'src/app/services/propietario.service';
 
 @Component({

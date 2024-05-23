@@ -107,7 +107,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       estado_propietario: null,
       foto_propietario: null,
       //Combinacion
-      comentario: [null, Validators.required],
+      comentario: null,
       neto: [null, Validators.required],
     }),
   });
@@ -284,6 +284,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.fotoPerfilSemi = data?.semi?.foto;
         this.fotoPerfilPropietario = data?.propietario?.foto_perfil;
         this.created_at = data?.created_at;
+        this.created_by = data?.created_by;
         this.gestorCargaId = data.gestor_carga_id;
         this.modified_by = data?.modified_by;
         this.modified_at = data?.modified_at;
@@ -329,9 +330,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           
           },
         });
-        console.log("Combinacion Form Camion", data?.camion)
-        console.log("Foto_Camion", data?.foto_camion)
-        console.log("foto registro", data?.chofer?.foto_registro_reverso)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
