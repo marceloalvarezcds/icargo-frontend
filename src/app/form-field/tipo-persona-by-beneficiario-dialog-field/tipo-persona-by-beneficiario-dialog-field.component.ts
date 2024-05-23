@@ -23,8 +23,8 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
       value: (element: PropietarioList) => element.nombre,
     },
     {
-      def: 'Nº Documento',
-      title: 'Ruc',
+      def: 'ruc',
+      title: 'Nº Documento',
       value: (element: PropietarioList) => element.ruc,
     },
 
