@@ -97,11 +97,11 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       foto_chofer: null,
       //Facturacion
       propietario_id: [null, Validators.required],
-      tipo_persona_id: null,
+      tipo_persona_id: [null, Validators.required],
       tipo_persona: null,
       nombre: null,
       anticipo_propietario: null,
-      ruc: null,
+      ruc: [null, Validators.required],
       numero_documento: null,
       telefono: null,
       estado_propietario: null,

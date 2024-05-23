@@ -321,6 +321,18 @@ export class DialogFormFieldControlComponent<
     );
   }
 
+  keyPress(): void{
+    const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
+    const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
+    if(result){
+      this.formGroup.controls["id"].setValue(result.id)
+      this.value = result.id
+    }else {
+      alert("Elemento no encontrado");
+    }
+  
+  }
+
   private loadDescripcionAndEmitValue(): void {
     const selectedValue = this.selectedValue;
     let descripcion = null;

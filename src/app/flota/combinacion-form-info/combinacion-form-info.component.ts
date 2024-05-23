@@ -24,8 +24,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   loading = true;
   personaId?: number;
   tipoPersona?: TipoPersona
-
   docBeneficiario?: PropietarioList
+
   ngOnInit(){
     this.loading = false;
     
@@ -36,36 +36,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     }, 0);
     
   }
+
   controlName = 'numero_documento'; 
   @Input() propietarioId?: number;
-  // @Input() form = new FormGroup({
-  //   info: new FormGroup({
-  //     nombre: new FormControl(null),
-  //     tipo_persona_id: new FormControl(null),
-  //     ruc: new FormControl(null),
-  //     digito_verificador: new FormControl(null),
-  //     pais_origen_id: new FormControl(null),
-  //     fecha_nacimiento: new FormControl(null),
-  //     oficial_cuenta_id: new FormControl(null),
-  //     alias: new FormControl(null),
-  //     foto_documento_frente: new FormControl(null),
-  //     foto_documento_reverso: new FormControl(null),
-  //     foto_perfil: new FormControl(null),
-  //     es_chofer: new FormControl(false),
-  //     telefono: new FormControl(null),
-  //     email: new FormControl(null),
-  //     neto: new FormControl(null),
-  //     puede_recibir_anticipos: new FormControl(null),
-  //     anticipo_propietario: new FormControl(null),
-  //     estado: new FormControl(null),
-  //     estado_camion: new FormControl(null),
-  //     estado_semi: new FormControl(null),
-  //     limite_anticipos: new FormControl(null),
-  //     chofer_celular: new FormControl(null),
-  //     oc_activa: new FormControl(null),
-  //     tipo_persona: new FormControl(null),
-  //   }),
-  // });
   @Input() form?: FormGroup;
   @Input() fotoDocumentoReverso: string | null = null;
   fotoPerfil: string | null = null;
@@ -80,7 +53,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Input() foto: string | null = null;
   @Input() fotoCamion: string | null = null;
   @Input() fotoSemi: string | null = null;
-  @Input() semi?: Semi;
+  semi?: SemiList;
   @Input() camion?: Camion;
   @Input() propietarioTipoPersona?: Propietario;
   @Input() cantidadOCConAnticiposLiberados = 0;
@@ -93,14 +66,15 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Output() estadoCamionChange = new EventEmitter<boolean>();
   @Output() estadoChoferChange = new EventEmitter<boolean>();
   @Output() esChoferChange = new EventEmitter<boolean>();
-  @Output() valueChange = new EventEmitter<SemiList | undefined>();
   @Output() fotoChange = new EventEmitter<File | null>();
   @Output() fotoCamionChange = new EventEmitter<File | null>();
   @Output() fotoSemiChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChoferChange = new EventEmitter<File | null>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
- 
+
+  @Output() valueChange = new EventEmitter<SemiList | undefined>();
+  
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup;
@@ -160,6 +134,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
      this.fotoPerfilSemi = semi?.foto ?? null
    }
 
+
   choferChange(chofer?: ChoferList){
     this.info?.controls["chofer_id"].setValue(chofer?.id)
     this.info?.controls["chofer_documento"].setValue(chofer?.numero_documento)
@@ -188,8 +163,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
     this.tipoPersona = tipoPersona;
     this.personaChange.emit(tipoPersona); 
-   
   }
+
   onBeneficiarioChange(docBeneficiario: PropietarioList | undefined): void {
     this.docBeneficiario = docBeneficiario;
     this.propietarioChange.emit(docBeneficiario); 

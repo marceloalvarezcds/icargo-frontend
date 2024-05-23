@@ -12,7 +12,6 @@ import { PropietarioService } from 'src/app/services/propietario.service';
   styleUrls: ['./tipo-persona-by-beneficiario-dialog-field.component.scss']
 })
 export class TipoPersonaByBeneficiarioDialogFieldComponent{
-  
   pId?: number;
   list$?: Observable<PropietarioList[]>;
 

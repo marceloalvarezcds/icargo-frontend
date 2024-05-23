@@ -2,7 +2,6 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } 
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { PropietarioList } from 'src/app/interfaces/propietario';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { isFisica } from 'src/app/utils/tipo-persona';
@@ -13,7 +12,6 @@ import { isFisica } from 'src/app/utils/tipo-persona';
   styleUrls: ['./tipo-persona-field.component.scss']
 })
 export class TipoPersonaFieldComponent implements OnDestroy {
-
   formGroup?: FormGroup;
   controlSubscription?: Subscription;
   tipoPersonaList: TipoPersona[] = [];

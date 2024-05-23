@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
@@ -15,8 +15,7 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
   list$?: Observable<SemiList[]>;
   cId?: number;
-  sId?: number;
-  id?: number;
+
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -46,12 +45,13 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
-  @Input() controlName = 'camion_id';
+  @Input() controlName = 'semi_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Semi';
 
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
+
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<SemiList>;
 
   constructor(private service: SemiService) { }
