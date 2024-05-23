@@ -23,12 +23,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
       value: (element: PropietarioList) => element.nombre,
     },
     {
-      def: 'numero_documento',
-      title: 'Cedula',
-      value: (element: PropietarioList) => element.numero_documento,
-    },
-    {
-      def: 'ruc',
+      def: 'Nº Documento',
       title: 'Ruc',
       value: (element: PropietarioList) => element.ruc,
     },
