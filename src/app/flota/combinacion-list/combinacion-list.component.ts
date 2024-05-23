@@ -80,7 +80,7 @@ export class CombinacionListComponent implements OnInit{
      {
       def: 'usuario',
       title: 'Usuario',
-      value: (element: CombinacionList) => element.created_by,
+      value: (element: CombinacionList) => element.modified_by,
      },
     {
       def: 'modified_at',

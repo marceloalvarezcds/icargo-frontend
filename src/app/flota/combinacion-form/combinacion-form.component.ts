@@ -330,6 +330,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           
           },
         });
+        console.log("Create by", data?.created_by)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;

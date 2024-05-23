@@ -121,8 +121,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["estado_camion"].setValue(camion?.estado)
     this.info?.controls["foto_camion"].setValue(camion?.foto);
     this.fotoPerfil = camion?.foto ?? null
-    console.log("Camion", camion)
-    console.log("Foto Camion", camion?.foto)
   }
 
   semiChange(semi?: SemiList){
@@ -144,7 +142,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
     this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
     this.fotoPerfilChofer = chofer?.foto_registro_reverso ?? null
-    console.log("foto_registro_reverso", chofer?.foto_registro_reverso)
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
@@ -156,8 +153,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
     this.info?.controls["foto_propietario"].setValue(propietario?.foto_perfil);
     this.fotoPerfilPropietario = propietario?.foto_perfil ?? null
-    console.log("Propietario", propietario)
-    console.log("Foto Propietario", propietario?.foto_perfil)
   }
   
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
