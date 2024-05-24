@@ -27,7 +27,7 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
     },
     {
       def: 'documento',
-      title: 'N. Documento',
+      title: 'Nº Documento',
       value: (element: ChoferList) => element.numero_documento,
     },
     {
@@ -42,7 +42,7 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
-  @Input() controlName = 'camion_id';
+  @Input() controlName = 'chofer_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Chofer';

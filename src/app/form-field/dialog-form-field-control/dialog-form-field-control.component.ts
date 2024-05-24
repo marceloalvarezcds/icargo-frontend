@@ -327,6 +327,7 @@ export class DialogFormFieldControlComponent<
     if(result){
       this.formGroup.controls["id"].setValue(result.id)
       this.value = result.id
+      
     }else {
       alert("Elemento no encontrado");
     }

@@ -105,7 +105,7 @@ export interface CamionList extends Camion{
   limites: string;
   foto_camion: string;
   info: string;
-  marca_descripcion: string;
+  marca_descripcion: string | null;
   oficial_cuenta_nombre: string;
   pais_habilitacion_municipal_nombre: string;
   pais_habilitacion_municipal_nombre_corto: string;

@@ -38,6 +38,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
   controlName = 'numero_documento'; 
+  @Input() gestorCargaId?: number;
   @Input() propietarioId?: number;
   @Input() form?: FormGroup;
   @Input() fotoDocumentoReverso: string | null = null;
@@ -113,8 +114,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
   
   camionChange(camion?: CamionList){
-    this.info?.controls["marca"].setValue(camion?.marca_descripcion)
-    this.info?.controls["color"].setValue(camion?.color_descripcion)
+    this.info?.controls["camion_id"].setValue(camion?.id)
+    this.info?.controls["marca"].setValue(camion?.marca_descripcion ?? null)
+    this.info?.controls["color"].setValue(camion?.color_descripcion ?? null)
     this.info?.controls["propietario"].setValue(camion?.propietario_nombre)
     this.info?.controls["oc_activa"].setValue(camion?.oc_activa)
     this.info?.controls["limite_anticipos"].setValue(camion?.limite_monto_anticipo)
@@ -140,8 +142,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["chofer_celular"].setValue(chofer?.telefono_chofer)
     this.info?.controls["estado"].setValue(chofer?.estado)
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
-    this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
-    this.fotoPerfilChofer = chofer?.foto_registro_reverso ?? null
+    this.info?.controls["foto_chofer"].setValue(chofer?.foto_documento_frente)
+    this.fotoPerfilChofer = chofer?.foto_documento_frente ?? null
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {

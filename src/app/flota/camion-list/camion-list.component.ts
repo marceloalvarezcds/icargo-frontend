@@ -201,7 +201,8 @@ export class CamionListComponent implements OnInit {
     const filterByMarca =
       filter.marca
         ?.split('|')
-        .some((x) => obj.marca_descripcion.toLowerCase().indexOf(x) >= 0) ??
+        .some((x) => obj.marca_descripcion ? obj.marca_descripcion.toLowerCase().indexOf(x) >= 0 : false) ?? true;
+        // .some((x) => obj.marca_descripcion.toLowerCase().indexOf(x) >= 0) ??
       true;
     const filterByPais =
       filter.pais
