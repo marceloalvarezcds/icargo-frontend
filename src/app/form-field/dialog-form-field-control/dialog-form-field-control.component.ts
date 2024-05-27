@@ -99,7 +99,8 @@ export class DialogFormFieldControlComponent<
   get shouldLabelFloat(): boolean {
     return this.focused || !this.empty || !!this.selectedValue;
   }
-
+  
+  @Input() excludeInactive: boolean = false;
   @Input() dialogRefFunction?: (
     selectedValue: T | undefined
   ) => MatDialogRef<DialogComponent>;
@@ -284,20 +285,31 @@ export class DialogFormFieldControlComponent<
     this.writeValue(null);
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialogRefFunction
-      ? this.dialogRefFunction(this.selectedValue)
-      : this.getDefaultDialogRef();
-    dialogRef
-      .afterClosed()
-      .pipe(filter((contacto) => !!contacto))
-      .subscribe((selectedValue: T) => {
+  private deshabilitarOpcion(estado: string): boolean {
+    const estadosNoSeleccionables = ['Inactivo', 'Finalizado']; 
+    return estadosNoSeleccionables.includes(estado);
+  }
+
+openDialog(): void {
+  const dialogRef = this.dialogRefFunction
+    ? this.dialogRefFunction(this.selectedValue)
+    : this.getDefaultDialogRef();
+
+  dialogRef
+    .afterClosed()
+    .pipe(filter((selectedValue: T) => !!selectedValue))
+    .subscribe((selectedValue: T) => {
+      if (!this.deshabilitarOpcion((selectedValue as any).estado)) {
         if (!this.lista.length) {
           this.lista = [selectedValue];
         }
         this.writeValue(selectedValue.id);
-      });
-  }
+      } else {
+        alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+      }
+    });
+}
+
 
   private getDefaultDialogRef(): MatDialogRef<SelectorDialogComponent<T>> {
     const data: SelectorDialogData<T> = {
@@ -331,7 +343,6 @@ export class DialogFormFieldControlComponent<
     }else {
       alert("Elemento no encontrado");
     }
-  
   }
 
   private loadDescripcionAndEmitValue(): void {
@@ -343,4 +354,5 @@ export class DialogFormFieldControlComponent<
     this.formGroup.patchValue({ descripcion });
     setTimeout(() => this.valueChange.emit(this.selectedValue), 0);
   }
+  
 }

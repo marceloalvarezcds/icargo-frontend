@@ -25,7 +25,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   personaId?: number;
   tipoPersona?: TipoPersona
   docBeneficiario?: PropietarioList
-
+  isDisabled = true;
   ngOnInit(){
     this.loading = false;
     
@@ -112,7 +112,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
     this.estadoControl.setValue(nuevoEstado);
   }
-  
+
   camionChange(camion?: CamionList){
     this.info?.controls["camion_id"].setValue(camion?.id)
     this.info?.controls["marca"].setValue(camion?.marca_descripcion ?? null)
@@ -142,8 +142,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["chofer_celular"].setValue(chofer?.telefono_chofer)
     this.info?.controls["estado"].setValue(chofer?.estado)
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
-    this.info?.controls["foto_chofer"].setValue(chofer?.foto_documento_frente)
-    this.fotoPerfilChofer = chofer?.foto_documento_frente ?? null
+    this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
+    this.fotoPerfilChofer = chofer?.foto_registro_reverso ?? null
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
@@ -153,13 +153,15 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["telefono"].setValue(propietario?.telefono);
     this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
-    this.info?.controls["foto_propietario"].setValue(propietario?.foto_perfil);
-    this.fotoPerfilPropietario = propietario?.foto_perfil ?? null
+    this.info?.controls["foto_propietario"].setValue(propietario?.foto_documento_frente);
+    this.fotoPerfilPropietario = propietario?.foto_documento_frente ?? null
   }
   
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
     this.tipoPersona = tipoPersona;
     this.personaChange.emit(tipoPersona); 
+    
+    
   }
 
   onBeneficiarioChange(docBeneficiario: PropietarioList | undefined): void {
@@ -169,6 +171,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   handleFisicaSelected(isFisica: boolean) {
     this.isFisicaSelected = isFisica;
   }
+
+  
 
   // isFisicaChange(propietario?: PropietarioList | boolean): void {
   //   if (typeof propietario === 'boolean') {

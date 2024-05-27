@@ -5,8 +5,6 @@ import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CamionService } from 'src/app/services/camion.service';
-import { Semi } from 'src/app/interfaces/semi';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 @Component({
   selector: 'app-camion-by-propietario-dialog-field',

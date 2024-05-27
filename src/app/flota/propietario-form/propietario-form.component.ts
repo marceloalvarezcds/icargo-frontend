@@ -292,7 +292,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           this.getData();
         });
       } else {
-        console.log('crea el propietario')
         this.propietarioService.create(formData).subscribe((propietario) => {
           this.snackbar.openSaveAndRedirect(
             confirmed,

@@ -7,3 +7,9 @@
   width: 100%;
   margin: 8px;
 }
+
+input[type="file"][disabled] {
+  opacity: 0.5; /* Cambia la opacidad cuando está desactivado */
+  cursor: not-allowed; /* Cambia el cursor cuando está desactivado */
+  pointer-events: none; /* Deshabilita los eventos del mouse cuando está desactivado */
+}

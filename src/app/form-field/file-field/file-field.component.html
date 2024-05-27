@@ -1,4 +1,4 @@
-<ng-container *ngIf="form">
+<ng-container *ngIf="form" >
   <ng-container *ngIf="groupName">
     <div *ngIf="form" [formGroup]="form">
       <div class="{{ className }}" [formGroupName]="groupName">
@@ -11,7 +11,6 @@
             [src]="fieldFile | imageFileBase64 | async"
             alt=""
             class="file-field"
-            
           />
           <img *ngIf="field" [src]="field" alt="" class="file-field" />
         </div>
@@ -19,7 +18,7 @@
           id="file-input"
           #fileInput
           type="file"
-          [disabled]="readonly"
+          [disabled]="disabled"
           accept="images/*"
           (change)="fieldChange($event)"
           style="display: none"
@@ -30,15 +29,16 @@
             matInput
             readonly
             [formControlName]="controlName"
-            [disabled]="readonly"
-            (click)="fileInput.click()"
+            [disabled]="disabled"
+            (click)="!disabled && fileInput.click()"
           />
           <button
             type="button"
             color="primary"
             matSuffix
             mat-icon-button
-            (click)="fileInput.click()"
+            [disabled]="disabled"
+            (click)="!disabled && fileInput.click()"
           >
             <mat-icon>attach_file</mat-icon>
           </button>
@@ -68,7 +68,7 @@
         #fileInput
         type="file"
         accept="images/*"
-        [disabled]="readonly"
+        [disabled]="disabled"
         (change)="fieldChange($event)"
         style="display: none"
       />
@@ -78,16 +78,16 @@
           matInput
           readonly
           [formControlName]="controlName"
-          [disabled]="readonly"
-          (click)="fileInput.click()"
+          [disabled]="disabled"
+          (click)="!disabled && fileInput.click()"
         />
         <button
           type="button"
           color="primary"
           matSuffix
           mat-icon-button
-          [disabled]="readonly"
-          (click)="fileInput.click()"
+          [disabled]="disabled"
+          (click)="!disabled && fileInput.click()"
         >
           <mat-icon>attach_file</mat-icon>
         </button>

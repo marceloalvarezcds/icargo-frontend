@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Observable} from 'rxjs';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Column } from 'src/app/interfaces/column';
@@ -13,6 +13,7 @@ import { PropietarioService } from 'src/app/services/propietario.service';
 })
 export class TipoPersonaByBeneficiarioDialogFieldComponent{
   pId?: number;
+  formGroup?: FormGroup;
   list$?: Observable<PropietarioList[]>;
 
   columns: Column[] = [
@@ -29,6 +30,15 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
     },
 
   ];
+
+  get group(): FormGroup {
+    return this.formGroup!.get(this.groupName) as FormGroup;
+  }
+  
+  get control() {
+    return this.form.get(this.groupName)?.get(this.controlName);
+  }
+  
   @Input() inputValuePropName = 'ruc';
   @Input() form!: FormGroup;
   @Input() controlName = 'ruc';
@@ -45,7 +55,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   }
 
   @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
-
+  @Output() isFisicaSelected = new EventEmitter<boolean>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<PropietarioList>;
 
   constructor(private service: PropietarioService) {}

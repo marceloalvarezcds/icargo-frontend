@@ -57,15 +57,15 @@
           [form]="form"
         ></app-input-field-neto>
       </div>
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-xs-12 col-sm-6" disabled>
         <app-file-field
           title="Avatar"
           groupName="info"
           controlName="foto_camion"
-          [readonly]="true"
           [field]="fotoPerfil"
           [form]="form"
-          [isShow]="isShow"
+          [disabled]="true" 
+          [readonly]="true"
         ></app-file-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
@@ -119,10 +119,11 @@
         title="Avatar"
         groupName="info"
         controlName="foto_perfil"
-        [readonly]="true"
         [field]="fotoPerfilSemi"
         [form]="form"
         [isShow]="isShow"
+        [disabled]="true" 
+        [readonly]="true"
       ></app-file-field>
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4">
@@ -213,6 +214,8 @@
           [field]="fotoPerfilChofer"
           [form]="form"
           [isShow]="isShow"
+          [disabled]="true" 
+          [readonly]="true"
         ></app-file-field>
       </div>
        
@@ -317,6 +320,8 @@
           [field]="fotoPerfilPropietario"
           [form]="form"
           [isShow]="isShow"
+          [disabled]="true" 
+          [readonly]="true"
         ></app-file-field>
       </div>
 

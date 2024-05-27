@@ -7,7 +7,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { TableEvent } from 'src/app/interfaces/table';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { ReportsService } from 'src/app/services/reports.service';

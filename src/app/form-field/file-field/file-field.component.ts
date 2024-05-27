@@ -21,6 +21,8 @@ export class FileFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
+  @Input() autofocus = false; 
+  @Input() disabled = false; 
   @Input() className = '';
   @Input() controlName = '';
   @Input() form?: FormGroup;
@@ -35,7 +37,14 @@ export class FileFieldComponent {
       this.fieldControl.removeValidators(Validators.required);
     }
   }
+  handleClick(event: Event): void {
+    if (this.disabled) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
 
+  
   @Output() fileChange = new EventEmitter<File | null>();
 
   fieldChange(fieldEvent: FileChangeEvent): void {

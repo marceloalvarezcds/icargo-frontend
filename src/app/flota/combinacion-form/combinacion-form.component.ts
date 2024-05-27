@@ -291,7 +291,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.fotoPerfil = data?.foto_camion;
         this.fotoPerfilSemi = data?.semi?.foto;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
-        this.fotoPerfilPropietario = data?.propietario?.foto_perfil;
+        this.fotoPerfilChofer = data?.chofer?.foto_registro_reverso;
+        this.fotoPerfilPropietario = data?.propietario?.foto_documento_frente;
         this.created_at = data?.created_at;
         this.created_by = data?.created_by;
         this.gestorCargaId = data.gestor_carga_id;
@@ -322,7 +323,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             puede_recibir_anticipos: data?.chofer?.puede_recibir_anticipos,
             estado: data?.chofer?.estado,
             gestor_carga_id: data?.gestor_carga_id,
-            foto_chofer: data?.chofer?.foto_documento_frente,
+            foto_chofer: data?.chofer?.foto_registro_reverso,
             //Datos Facturacion
             tipo_persona_id: data?.propietario.tipo_persona_id,
             propietario_id: data?.propietario_id,
@@ -332,7 +333,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             telefono: data?.propietario?.telefono,
             anticipo_propietario: data?.propietario?.puede_recibir_anticipos,
             estado_propietario: data?.propietario?.estado,
-            foto_propietario: data?.propietario?.foto_perfil,
+            foto_propietario: data?.propietario?.foto_documento_frente,
             //Datos combinacion
             neto: data?.neto,
             comentario: data?.comentario,
