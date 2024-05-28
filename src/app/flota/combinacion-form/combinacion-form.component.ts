@@ -42,27 +42,12 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   isShow = false;
   isPanelOpen = false;
   isInfoTouched = true;
-  camionModelo = m.CAMION;
-  choferModelo = m.CHOFER;
-  semirremolqueModelo = m.SEMIRREMOLQUE;
   modelo = m.COMBINACION;
-  fotoDocumentoFrente: string | null = null;
-  fotoDocumentoFrenteFile: File | null = null;
-  fotoDocumentoReverso: string | null = null;
-  fotoDocumentoReversoFile: File | null = null;
   fotoPerfil: string | null = null;
   fotoPerfilSemi: string | null = null;
   fotoPerfilChofer: string | null | undefined;
-  fotoPerfilPropietario:string | null | undefined;
-  fotoPerfilFile: File | null = null;
-  fotoDocumentoFrenteChofer: string | null = null;
-  fotoDocumentoFrenteChoferFile: File | null = null;
-  fotoDocumentoReversoChofer: string | null = null;
-  fotoDocumentoReversoChoferFile: File | null = null;
-  fotoRegistroFrente: string | null = null;
-  fotoRegistroFrenteFile: File | null = null;
-  fotoRegistroReverso: string | null = null;
-  fotoRegistroReversoFile: File | null = null;
+  fotoBeneficiario:  string | null | undefined;
+  fotoDocumentoFrente: string | null = null;
   backUrl = `/flota/${m.COMBINACION}/${a.LISTAR}`;
   created_by = '';
   created_at = '';
@@ -78,13 +63,13 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       propietario: null,
       oc_activa: null,
       estado_camion: null,
-      foto_camion: null,
+      foto_camion: new FormControl({value: null, disabled: true}),
       //Datos del Semi
       semi_id: [null, Validators.required],
       marca_semi: null,
       color_semi: null,
       estado_semi: null,
-      foto_perfil: [null],
+      foto_semi: new FormControl({value: null, disabled: true}),
       //Datos del chofer
       chofer_id: [null, Validators.required],
       chofer_nombre: null,
@@ -93,18 +78,18 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       chofer_documento: null,
       puede_recibir_anticipos: null,
       estado: null,
-      foto_chofer: null,
+      foto_chofer: new FormControl({value: null, disabled: true}),
       //Facturacion
       propietario_id: [null, Validators.required],
       tipo_persona_id: [null, Validators.required],
-      tipo_persona: null,
+      tipo_persona: new FormControl({value: null, disabled: true}),
       nombre: null,
-      anticipo_propietario: null,
+      anticipo_propietario: new FormControl({value: null, disabled: true}),
       ruc: [null, Validators.required],
       numero_documento: null,
-      telefono: null,
-      estado_propietario: null,
-      foto_propietario: null,
+      telefono: new FormControl({value: null, disabled: true}),
+      estado_propietario: new FormControl({value: null, disabled: true}),
+      foto_documento_frente: new FormControl({value: null, disabled: true}),
       //Combinacion
       comentario: null,
       neto: [null, Validators.required],
@@ -238,9 +223,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         })
       );
       formData.append('data', JSON.stringify(data));
-      if (this.fotoPerfilFile) {
-        formData.append('foto_perfil_file', this.fotoPerfilFile);
-      }
       this.hasChange = false;
       this.initialFormValue = this.form.value;
       if (this.isEdit && this.id) {
@@ -249,7 +231,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           this.getData();
         });
       } else {
-
         this.combinacionService.create(formData).subscribe((combinacion) => {
           this.snackbar.openSaveAndRedirect(
             confirmed,
@@ -285,17 +266,21 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
+
+      // if (this.isEdit) {
+      //   this.form.disable();
+      // }
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data?.estado;
+        this.gestorCargaId = data.gestor_carga_id;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.fotoPerfil = data?.foto_camion;
         this.fotoPerfilSemi = data?.semi?.foto;
-        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.fotoPerfilChofer = data?.chofer?.foto_registro_reverso;
-        this.fotoPerfilPropietario = data?.propietario?.foto_documento_frente;
+        this.fotoDocumentoFrente = data?.propietario?.foto_perfil ?? null;
         this.created_at = data?.created_at;
         this.created_by = data?.created_by;
-        this.gestorCargaId = data.gestor_carga_id;
         this.modified_by = data?.modified_by;
         this.modified_at = data?.modified_at;
         this.form.patchValue({
@@ -314,7 +299,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             marca_semi: data?.semi?.marca?.descripcion,
             color_semi: data?.semi?.color?.descripcion,
             estado_semi: data?.semi?.estado,
-            foto_perfil: data?.semi?.foto,
+            foto_semi: data?.semi?.foto,
             //Datos Chofer
             chofer_id: data?.chofer_id,
             chofer_documento: data?.chofer?.numero_documento,
@@ -333,16 +318,14 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             telefono: data?.propietario?.telefono,
             anticipo_propietario: data?.propietario?.puede_recibir_anticipos,
             estado_propietario: data?.propietario?.estado,
-            foto_propietario: data?.propietario?.foto_documento_frente,
+            foto_documento_frente: data?.propietario?.foto_perfil,
             //Datos combinacion
             neto: data?.neto,
             comentario: data?.comentario,
           
           },
         })
-        console.log("camion_id:", data?.camion_id)
-        console.log("marca:", data?.camion?.marca)
-        console.log("color:", data?.camion?.color?.descripcion)
+        console.log("Foto Beneficiario", data?.propietario?.foto_perfil)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;

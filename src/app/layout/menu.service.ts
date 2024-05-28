@@ -125,19 +125,19 @@ export class MenuService {
         iconOutline: true,
         active: true,
         children: [
-
-          {
-            name: 'Titulares',
-            iconName: 'key',
-            path: `/flota/${m.PROPIETARIO}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
-          },
           {
             name: 'Combinacion',
             iconName: 'airport_shuttle',
             path: `/flota/${m.COMBINACION}`,
             active: this.userService.checkPermiso(a.LISTAR, m.COMBINACION),
           },
+          {
+            name: 'Titulares',
+            iconName: 'key',
+            path: `/flota/${m.PROPIETARIO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
+          },
+
           {
             name: t[m.CHOFER],
             iconName: 'badge',

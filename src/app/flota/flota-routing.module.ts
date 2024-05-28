@@ -18,36 +18,6 @@ import { CombinacionFormComponent } from './combinacion-form/combinacion-form.co
 
 const routes: Routes = [
   {
-    path: m.PROPIETARIO,
-    children: [
-      {
-        path: '',
-        redirectTo: a.LISTAR,
-        pathMatch: 'full',
-      },
-      {
-        path: a.LISTAR,
-        component: PropietarioListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: a.CREAR,
-        component: PropietarioFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.EDITAR}/:id`,
-        component: PropietarioFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.VER}/:id`,
-        component: PropietarioFormComponent,
-        canActivate: [PermisoGuard],
-      },
-    ],
-  },
-  {
     path: m.COMBINACION,
     children: [
       {
@@ -77,6 +47,37 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: m.PROPIETARIO,
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: a.LISTAR,
+        component: PropietarioListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: PropietarioFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: PropietarioFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: PropietarioFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
+  },
+
   {
     path: m.CHOFER,
     children: [

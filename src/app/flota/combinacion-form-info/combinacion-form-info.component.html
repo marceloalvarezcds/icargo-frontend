@@ -57,9 +57,9 @@
           [form]="form"
         ></app-input-field-neto>
       </div>
-      <div class="col-xs-12 col-sm-6" disabled>
+      <div class="col-xs-12 col-sm-6">
         <app-file-field
-          title="Avatar"
+          title="Foto Tracto"
           groupName="info"
           controlName="foto_camion"
           [field]="fotoPerfil"
@@ -87,7 +87,6 @@
   <div class="row page-form-row">
     <div class="col-xs-12">
       <h4>Semi</h4>
-    
     </div>
     <div class="col-xs-12 col-sm-6 col-md-4" >
       <app-semi-by-propietario-dialog-field
@@ -116,12 +115,11 @@
     </div>
     <div class="col-xs-12 col-sm-6">
       <app-file-field
-        title="Avatar"
+        title="Foto Semi"
         groupName="info"
-        controlName="foto_perfil"
+        controlName="foto_semi"
         [field]="fotoPerfilSemi"
         [form]="form"
-        [isShow]="isShow"
         [disabled]="true" 
         [readonly]="true"
       ></app-file-field>
@@ -176,6 +174,8 @@
           [readonly]="true"
           controlName="chofer_celular"
           [form]="form"
+          [disabled]="true" 
+          [readonly]="true"
         ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
@@ -203,17 +203,15 @@
       ></app-slide>
       </div>     
       <div class="col-xs-12 col-sm-6 col-md-4">
-  
       </div>
       <div class="col-xs-12 col-sm-6">
         <app-file-field
-          title="Avatar"
+          title="Foto Chofer"
           groupName="info"
           controlName="foto_chofer"
           [readonly]="true"
           [field]="fotoPerfilChofer"
           [form]="form"
-          [isShow]="isShow"
           [disabled]="true" 
           [readonly]="true"
         ></app-file-field>
@@ -223,7 +221,7 @@
 <!-- ################## Facturacion ########################## -->
     <div class="row page-form-row">
       <div class="col-xs-12">
-        <h4>Facturacion</h4>
+        <h4>Facturación</h4>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-tipo-persona-field
@@ -259,6 +257,17 @@
           controlName="telefono"
           [form]="form"
         ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6">
+        <app-file-field
+          title="Foto Beneficiario"
+          [groupName]="groupName"
+          controlName="foto_documento_frente"
+          [field]="fotoDocumentoFrente"
+          [disabled]="true" 
+          [readonly]="true"
+          [form]="form"
+        ></app-file-field>
       </div>
     </div>    
     <div class="row page-form-row">
@@ -311,19 +320,6 @@
           "
         ></app-slide>
       </div>   
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Avatar"
-          groupName="info"
-          controlName="foto_propietario"
-          [readonly]="true"
-          [field]="fotoPerfilPropietario"
-          [form]="form"
-          [isShow]="isShow"
-          [disabled]="true" 
-          [readonly]="true"
-        ></app-file-field>
-      </div>
 
     </div>
   </div>
