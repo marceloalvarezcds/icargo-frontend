@@ -333,18 +333,36 @@ openDialog(): void {
     );
   }
 
-  keyPress(): void{
-    const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
-    const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
-    if(result){
-      this.formGroup.controls["id"].setValue(result.id)
-      this.value = result.id
-      
-    }else {
-      alert("Elemento no encontrado");
+  keyPress() {
+    const event = window.event as KeyboardEvent;
+    
+    if (event.key === 'Enter') {
+
+      event.preventDefault();
+      const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
+  
+      const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
+  
+      if (result) {
+        this.formGroup.controls["id"].setValue(result.id);
+      } else {
+    
+        alert("Elemento no encontrado");
+        return; 
+      }
+  
+      const nextField = document.querySelector('input:not([readonly])') as HTMLInputElement;
+      if (nextField) {
+        nextField.focus();
+      } else {
+       
+        console.log("No hay siguiente campo editable");
+      }
     }
   }
-
+  
+  
+  
   private loadDescripcionAndEmitValue(): void {
     const selectedValue = this.selectedValue;
     let descripcion = null;
