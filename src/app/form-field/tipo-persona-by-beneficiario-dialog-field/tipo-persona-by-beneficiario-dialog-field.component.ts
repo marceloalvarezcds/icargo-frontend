@@ -45,7 +45,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   @Input() groupName = '';
   // @Input() emptyHint =
   //   'No existen tipo persona';
-  @Input() title = 'Documento';
+  @Input() title = 'Nº Doc.';
   @Input() subtitle =
     'Si no encuentra el tipo persona';
 

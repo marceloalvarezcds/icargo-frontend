@@ -13,7 +13,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./chofer-by-propietario-dialog-field.component.scss']
 })
 export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
-  readonly inputValuePropName = 'nombre';
+  readonly inputValuePropName = 'numero_documento';
   list$?: Observable<ChoferList[]>;
   cId?: number;
   sId?: number;
@@ -26,7 +26,7 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
       value: (element: ChoferList) => element.id,
     },
     {
-      def: 'documento',
+      def: 'numero_documento',
       title: 'Nº Documento',
       value: (element: ChoferList) => element.numero_documento,
     },
@@ -45,7 +45,7 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
   @Input() controlName = 'chofer_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
-  @Input() title = 'Chofer';
+  @Input() title = 'Nº Doc.';
 
   @Output() valueChange = new EventEmitter<ChoferList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<ChoferList>;

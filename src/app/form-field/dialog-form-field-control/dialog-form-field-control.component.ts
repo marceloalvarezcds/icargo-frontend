@@ -337,29 +337,44 @@ openDialog(): void {
     const event = window.event as KeyboardEvent;
     
     if (event.key === 'Enter') {
-
       event.preventDefault();
+      
       const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
   
+      // Validar que el campo descripción tenga un valor
+      if (!inputValue) {
+        this.formGroup.controls["descripcion"].markAsTouched(); // Marcar el campo como tocado para mostrar errores de validación
+        return;
+      }
+      
       const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
   
       if (result) {
         this.formGroup.controls["id"].setValue(result.id);
       } else {
-    
-        alert("Elemento no encontrado");
+        // Mostrar un mensaje de error en el formulario en lugar de usar alert
+        this.formGroup.controls["descripcion"].setErrors({ 'notFound': true });
         return; 
       }
   
-      const nextField = document.querySelector('input:not([readonly])') as HTMLInputElement;
+      const nextField = this.findNextEditableField();
       if (nextField) {
         nextField.focus();
       } else {
-       
         console.log("No hay siguiente campo editable");
       }
     }
   }
+  
+  findNextEditableField(): HTMLElement | null {
+    const formControls = Array.from(document.querySelectorAll('input:not([readonly]), select:not([disabled]), textarea:not([disabled])')) as HTMLElement[];
+    const currentIndex = formControls.findIndex(control => control === document.activeElement);
+    const nextIndex = currentIndex + 1;
+    const nextField = formControls[nextIndex];
+    
+    return nextField || null;
+  }
+  
   
   
   

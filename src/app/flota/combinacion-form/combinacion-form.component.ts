@@ -266,10 +266,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-
-      // if (this.isEdit) {
-      //   this.form.disable();
-      // }
+      if (this.isEdit) {
+        this.form.disable();
+       }
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data?.estado;
@@ -325,7 +324,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           
           },
         })
-        console.log("Foto Beneficiario", data?.propietario?.foto_perfil)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
