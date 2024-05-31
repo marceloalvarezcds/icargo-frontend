@@ -29,7 +29,17 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   isDisabled = true;
   ngOnInit(){
     this.loading = false;
-    
+    this.form = this.fb.group({
+      camion_id: [''],
+      marca: [''],
+      color: [''],
+      propietario: [''],
+      oc_activa: [''],
+      limite_anticipos: [''],
+      estado_camion: [''],
+      foto_camion: ['']
+    });
+  
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -111,24 +121,31 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     return this.info?.controls['estado_semi'] as FormControl;
   }
 
+  get estadoControlPropietario(): FormControl {
+    return this.info?.controls['estado_propietario'] as FormControl;
+  }
+  
   handleEstadoChange(): void {
     const estadoActual = this.estadoControl.value;
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
     this.estadoControl.setValue(nuevoEstado);
   }
 
-  camionChange(camion?: CamionList){
-    this.info?.controls["camion_id"].setValue(camion?.id)
-    this.info?.controls["marca"].setValue(camion?.marca_descripcion ?? null)
-    this.info?.controls["color"].setValue(camion?.color_descripcion ?? null)
-    this.info?.controls["propietario"].setValue(camion?.propietario_nombre)
-    this.info?.controls["oc_activa"].setValue(camion?.oc_activa)
-    this.info?.controls["limite_anticipos"].setValue(camion?.limite_monto_anticipo)
-    this.info?.controls["estado_camion"].setValue(camion?.estado)
-    this.info?.controls["foto_camion"].setValue(camion?.foto);
-    this.fotoPerfil = camion?.foto ?? null
+  camionChange(camion?: CamionList) {
+    if (camion && camion.id !== this.currentCamionId) {
+      this.currentCamionId = camion.id;
+      this.info?.controls["camion_id"].setValue(camion.id);
+      this.info?.controls["marca"].setValue(camion.marca_descripcion ?? null);
+      this.info?.controls["color"].setValue(camion.color_descripcion ?? null);
+      this.info?.controls["propietario"].setValue(camion.propietario_nombre);
+      this.info?.controls["oc_activa"].setValue(camion.oc_activa);
+      this.info?.controls["limite_anticipos"].setValue(camion.limite_monto_anticipo);
+      this.info?.controls["estado_camion"].setValue(camion.estado);
+      this.info?.controls["foto_camion"].setValue(camion.foto);
+      this.fotoPerfil = camion.foto ?? null;
+    }
   }
-
+  
   semiChange(semi?: SemiList){
      this.info?.controls["semi_id"].setValue(semi?.id)
      this.info?.controls["marca_semi"].setValue(semi?.marca_descripcion)
@@ -139,6 +156,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
    }
 
   choferChange(chofer?: ChoferList){
+    if (chofer && chofer.id !== this.currentChoferId) {
+      this.currentChoferId = chofer.id;
     this.info?.controls["chofer_id"].setValue(chofer?.id)
     this.info?.controls["chofer_documento"].setValue(chofer?.numero_documento)
     this.info?.controls["chofer_nombre"].setValue(chofer?.nombre)
@@ -147,6 +166,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
     this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
     this.fotoPerfilChofer = chofer?.foto_registro_reverso ?? null
+    }
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
@@ -174,7 +194,3 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
 }
-
-
-
-

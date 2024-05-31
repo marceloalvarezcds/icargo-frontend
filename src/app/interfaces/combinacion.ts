@@ -41,5 +41,6 @@ export interface Combinacion {
     camion_marca: string;
     camion_placa: string;
     limite_cantidad_oc_activas: number;
+    camion_oc_activa: number;
   }
   

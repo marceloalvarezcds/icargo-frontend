@@ -341,9 +341,8 @@ openDialog(): void {
       
       const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
   
-      // Validar que el campo descripción tenga un valor
       if (!inputValue) {
-        this.formGroup.controls["descripcion"].markAsTouched(); // Marcar el campo como tocado para mostrar errores de validación
+        this.formGroup.controls["descripcion"].markAsTouched(); 
         return;
       }
       
@@ -352,7 +351,6 @@ openDialog(): void {
       if (result) {
         this.formGroup.controls["id"].setValue(result.id);
       } else {
-        // Mostrar un mensaje de error en el formulario en lugar de usar alert
         this.formGroup.controls["descripcion"].setErrors({ 'notFound': true });
         return; 
       }
@@ -374,8 +372,6 @@ openDialog(): void {
     
     return nextField || null;
   }
-  
-  
   
   
   private loadDescripcionAndEmitValue(): void {

@@ -43,15 +43,14 @@
         <app-input-field
           title="Oc Activas"
           [groupName]="groupName"
-          [readonly]="true"
           controlName="oc_activa"
           [form]="form"
+          [autocomplete]="off"
         ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field-neto
           title="Limite Anticipos"
-          [readonly]="true"
           [groupName]="groupName"
           controlName="limite_anticipos"
           [form]="form"
@@ -176,7 +175,6 @@
           [control]="puedeRecibirAnticiposControl"
           controlName="puede_recibir_anticipos"
           trueTitle="Puede recibir anticipos"
-          [readonly]="true"
           falseTitle="No puede recibir anticipos"
           (valueChange)="
             !$event &&
@@ -302,7 +300,6 @@
           [isShow]="isShow"
           [control]="puedeRecibirAnticiposControlPropietario"
           controlName="anticipo_propietario"
-          [readonly]="true"
           trueTitle="Puede recibir anticipos"
           falseTitle="No puede recibir anticipos"
           (valueChange)="

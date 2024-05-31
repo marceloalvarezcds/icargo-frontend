@@ -17,6 +17,7 @@ import { CombinacionService } from 'src/app/services/combinacion.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
+import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
 @Component({
   selector: 'app-combinacion-form',
   templateUrl: './combinacion-form.component.html',
@@ -43,6 +44,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   isPanelOpen = false;
   isInfoTouched = true;
   modelo = m.COMBINACION;
+  cantidadOCConAnticiposLiberados = 0;
   fotoPerfil: string | null = null;
   fotoPerfilSemi: string | null = null;
   fotoPerfilChofer: string | null | undefined;
@@ -61,7 +63,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       marca: null,
       color: null,
       propietario: null,
-      oc_activa: null,
+      oc_activa: [null, Validators.required],
       estado_camion: null,
       foto_camion: new FormControl({value: null, disabled: true}),
       //Datos del Semi
@@ -74,7 +76,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       chofer_id: [null, Validators.required],
       chofer_nombre: null,
       chofer_celular: null,
-      limite_anticipos: null,
+      limite_anticipos: [null, Validators.required],
       chofer_documento: null,
       puede_recibir_anticipos: null,
       estado: null,
@@ -84,7 +86,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       tipo_persona_id: [null, Validators.required],
       tipo_persona: new FormControl({value: null, disabled: true}),
       nombre: null,
-      anticipo_propietario: new FormControl({value: null, disabled: true}),
+      anticipo_propietario: null,
       ruc: [null, Validators.required],
       numero_documento: null,
       telefono: new FormControl({value: null, disabled: true}),
@@ -94,6 +96,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       comentario: null,
       neto: [null, Validators.required],
     }),
+    
   });
 
   initialFormValue = this.form.value;
@@ -103,7 +106,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
+
   @Output() personaChange = new EventEmitter<PropietarioList>();
+
 
   get puedeModificar(): boolean {
     if (this.isShow || !this.isEdit) {
@@ -324,6 +329,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           
           },
         })
+        console.log("Puede ", data?.chofer?.puede_recibir_anticipos)
+        console.log("NOmber ", data?.chofer?.nombre)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
