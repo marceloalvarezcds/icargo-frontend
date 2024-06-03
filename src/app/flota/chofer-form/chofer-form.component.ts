@@ -217,6 +217,12 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
           anticipos_bloqueados: this.anticiposBloqueados,
         })
       );
+      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string' && key !== 'email') {
+          data[key] = data[key].toUpperCase();
+        }
+      });      
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFrenteFile) {

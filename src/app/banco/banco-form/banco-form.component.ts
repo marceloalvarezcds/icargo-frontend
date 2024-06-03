@@ -88,7 +88,15 @@ export class BancoFormComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
+      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string' && key !== 'email') {
+          data[key] = data[key].toUpperCase();
+        }
+      });  
+              
       formData.append('data', JSON.stringify(data));
+
       this.hasChange = false;
       this.initialFormValue = this.form.value;
       if (this.isEdit) {

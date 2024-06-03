@@ -148,12 +148,12 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         })
       );
   
-      // Convertir propiedades a mayúsculas
+      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
-        if (typeof data[key] === 'string') {
+        if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });
+      });  
   
       delete data.logo;
       delete data.pais_id;

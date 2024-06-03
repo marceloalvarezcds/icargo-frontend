@@ -96,6 +96,18 @@ export class ContactoFormDialogComponent implements OnDestroy {
       const cargo: Cargo = value.cargo;
       delete value.cargo;
       const contacto: Contacto = value;
+  
+      // Convertir solo las propiedades nombre, apellido y alias a mayúsculas
+      if (contacto.nombre) {
+        contacto.nombre = contacto.nombre.toUpperCase();
+      }
+      if (contacto.apellido) {
+        contacto.apellido = contacto.apellido.toUpperCase();
+      }
+      if (value.alias) {
+        value.alias = value.alias.toUpperCase();
+      }
+  
       const data: ContactoGestorCargaList = {
         id: this.data?.id,
         cargo_id: cargo.id,
@@ -110,9 +122,12 @@ export class ContactoFormDialogComponent implements OnDestroy {
         contacto_telefono: contacto.telefono,
         contacto_email: contacto.email,
       };
+  
       this.dialogRef.close(data);
     }
   }
+  
+  
 
   compareWith(o1?: Cargo, o2?: Cargo): boolean {
     return o1?.id === o2?.id;

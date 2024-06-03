@@ -243,6 +243,12 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
           porcentaje_anticipos: this.porcentajeAnticipos.value,
         })
       );
+      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string' && key !== 'email') {
+          data[key] = data[key].toUpperCase();
+        }
+      });   
       formData.append('data', JSON.stringify(data));
       if (this.isEdit) {
         this.hasChange = false;

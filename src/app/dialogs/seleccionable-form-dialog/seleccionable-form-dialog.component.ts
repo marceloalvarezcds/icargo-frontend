@@ -39,5 +39,6 @@ export class SeleccionableFormDialogComponent {
 
   submit(): void {
     this.service.submit();
+    
   }
 }
