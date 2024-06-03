@@ -334,14 +334,19 @@ openDialog(): void {
   }
 
   keyPress(event: Event) {
-    event.preventDefault()
-    event.stopPropagation()
+    event.preventDefault();
+    event.stopPropagation();
+  
     const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
     const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
+  
     if (result) {
-      this.value = result.id
-    }     
+      this.value = result.id;
+    } else {
+      alert('No se encontró ningún elemento en la lista con el valor proporcionado');
+    }
   }
+  
   
   findNextEditableField(): HTMLElement | null {
     const formControls = Array.from(document.querySelectorAll('input:not([readonly]), select:not([disabled]), textarea:not([disabled])')) as HTMLElement[];
