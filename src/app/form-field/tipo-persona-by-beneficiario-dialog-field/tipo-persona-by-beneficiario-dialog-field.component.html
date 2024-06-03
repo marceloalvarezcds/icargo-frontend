@@ -3,7 +3,6 @@
     <ng-container *ngIf="list$ | async as list">
       <app-dialog-field
         [title]="title"
-        [subtitle]="subtitle"
         [columns]="columns"
         [list]="list"
         [groupName]="groupName"
@@ -16,8 +15,9 @@
   </ng-container>
   <ng-template #inputTemplate>
     <app-input-field
+      
       [title]="title"
-      [readonly]="true"
+   
       [groupName]="groupName"
       [controlName]="controlName"
       [form]="form"

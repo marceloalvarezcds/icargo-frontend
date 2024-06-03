@@ -333,35 +333,14 @@ openDialog(): void {
     );
   }
 
-  keyPress() {
-    const event = window.event as KeyboardEvent;
-    
-    if (event.key === 'Enter') {
-      event.preventDefault();
-      
-      const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
-  
-      if (!inputValue) {
-        this.formGroup.controls["descripcion"].markAsTouched(); 
-        return;
-      }
-      
-      const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
-  
-      if (result) {
-        this.formGroup.controls["id"].setValue(result.id);
-      } else {
-        this.formGroup.controls["descripcion"].setErrors({ 'notFound': true });
-        return; 
-      }
-  
-      const nextField = this.findNextEditableField();
-      if (nextField) {
-        nextField.focus();
-      } else {
-        console.log("No hay siguiente campo editable");
-      }
-    }
+  keyPress(event: Event) {
+    event.preventDefault()
+    event.stopPropagation()
+    const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
+    const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
+    if (result) {
+      this.value = result.id
+    }     
   }
   
   findNextEditableField(): HTMLElement | null {

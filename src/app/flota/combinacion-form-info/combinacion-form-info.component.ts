@@ -19,6 +19,7 @@ import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   [x: string]: any;
   groupName = 'info';
+ 
   semi?: SemiList;
   fotoFile: File | null = null;
   isFisicaSelected = false;
@@ -37,7 +38,9 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       oc_activa: [''],
       limite_anticipos: [''],
       estado_camion: [''],
-      foto_camion: ['']
+      foto_camion: [''],
+      tipo_persona_id: ['1', Validators.required],
+      nombre: [''] 
     });
   
   }
@@ -49,7 +52,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
 
-  controlName = 'numero_documento'; 
+  // controlName = 'ruc'; 
   fotoPerfil: string | null = null;
   fotoPerfilSemi: string | null = null;
   fotoPerfilChofer: string | null = null;
@@ -75,6 +78,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Input() readonly = true;
   @Input() disabled: boolean = false;
 
+  @Input() controlName!: string;
   @Output() personaChange = new EventEmitter<TipoPersona | undefined>();
   @Output() propietarioChange = new EventEmitter<Propietario | undefined>();
   @Output() estadoSemiChange = new EventEmitter<boolean>();
@@ -170,27 +174,26 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
-    this.info?.controls["propietario_id"].setValue(propietario?.id)
+    this.info?.controls["propietario_id"].setValue(propietario?.id);
     this.info?.controls["nombre"].setValue(propietario?.nombre);
     this.info?.controls["tipo_persona_id"].setValue(propietario?.tipo_persona_id);
     this.info?.controls["telefono"].setValue(propietario?.telefono);
     this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
     this.info?.controls["foto_documento_frente"].setValue(propietario?.foto_perfil);
-    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null
+    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;
+  
   }
   
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
-    this.tipoPersona = tipoPersona;
-    this.personaChange.emit(tipoPersona); 
+    if(tipoPersona){
+      this.tipoPersona = tipoPersona;
+      this.personaChange.emit(tipoPersona);
+    } 
   }
 
-  onBeneficiarioChange(docBeneficiario: PropietarioList | undefined): void {
-    this.docBeneficiario = docBeneficiario;
-    this.propietarioChange.emit(docBeneficiario); 
-  }
   handleFisicaSelected(isFisica: boolean) {
     this.isFisicaSelected = isFisica;
   }
-
+  
 }

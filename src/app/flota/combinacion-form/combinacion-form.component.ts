@@ -17,7 +17,8 @@ import { CombinacionService } from 'src/app/services/combinacion.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
-import { AbstractControl, ValidationErrors, ValidatorFn } from '@angular/forms';
+
+
 @Component({
   selector: 'app-combinacion-form',
   templateUrl: './combinacion-form.component.html',
@@ -83,8 +84,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       foto_chofer: new FormControl({value: null, disabled: true}),
       //Facturacion
       propietario_id: [null, Validators.required],
-      tipo_persona_id: [null, Validators.required],
-      tipo_persona: new FormControl({value: null, disabled: true}),
+      tipo_persona_id: null,
+      // tipo_persona: new FormControl({value: null, disabled: true}),
       nombre: null,
       anticipo_propietario: null,
       ruc: [null, Validators.required],
@@ -152,8 +153,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     return this.router.url;
   }
 
-  get tipoDocumentoIdControl(): FormGroup {
-    return this.chofer.get('tipo_documento_id') as FormGroup;
+  get rucControl(): FormGroup {
+    return this.info.get('ruc') as FormGroup;
   }
 
   get paisEmisorDocumentoIdControl(): FormGroup {
@@ -214,26 +215,32 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-
+  
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+ 
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(
         JSON.stringify({
           ...this.info.value,
+      
         })
+        
       );
+    
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
       this.initialFormValue = this.form.value;
+
       if (this.isEdit && this.id) {
         this.combinacionService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
+   
         });
       } else {
         this.combinacionService.create(formData).subscribe((combinacion) => {
@@ -245,22 +252,21 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             combinacion.id
           );
         });
+      
       }
+      this.rucControl.clearValidators();
+      this.rucControl.updateValueAndValidity();
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
+        
       });
     }
+   
   }
 
-  bloquearAnticipos(): void {
-    this.dialog.confirmation(
-      'Existen Órdenes de Carga Aceptadas y con Anticipos liberados ¿Desea bloquearlos después de guardar los cambios?',
-      () => {
-        this.anticiposBloqueados = true;
-      }
-    );
-  }
+
+
 
 
   private getData(): void {
@@ -329,8 +335,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           
           },
         })
-        console.log("Puede ", data?.chofer?.puede_recibir_anticipos)
-        console.log("NOmber ", data?.chofer?.nombre)
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
