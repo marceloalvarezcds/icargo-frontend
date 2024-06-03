@@ -221,7 +221,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
- 
+
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(
@@ -254,8 +254,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         });
       
       }
-      this.rucControl.clearValidators();
-      this.rucControl.updateValueAndValidity();
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
@@ -264,10 +262,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     }
    
   }
-
-
-
-
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;

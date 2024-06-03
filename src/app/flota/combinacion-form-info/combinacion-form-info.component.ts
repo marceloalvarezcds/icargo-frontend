@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -181,19 +181,27 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
     this.info?.controls["foto_documento_frente"].setValue(propietario?.foto_perfil);
-    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;
-  
+    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;   
   }
+
   
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
-    if(tipoPersona){
+    if (!tipoPersona || tipoPersona.id !== this.tipoPersonaAnterior?.id) {
+      // Si no hay un tipo de persona seleccionado o el tipo de persona ha cambiado, borrar el campo "ruc"
+      this.info?.controls["ruc"].setValue('');
+    }
+  
+    if (tipoPersona) {
       this.tipoPersona = tipoPersona;
       this.personaChange.emit(tipoPersona);
-    } 
+    }
+  
+    // Actualizar el valor anterior de tipoPersona
+    this.tipoPersonaAnterior = tipoPersona;
   }
 
   handleFisicaSelected(isFisica: boolean) {
     this.isFisicaSelected = isFisica;
   }
-  
+ 
 }
