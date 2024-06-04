@@ -123,6 +123,10 @@ export class MovimientoFormDialogComponent {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
+      const descripcionControl = this.form.get('detalle');
+    if (descripcionControl && descripcionControl.value) {
+      descripcionControl.setValue(descripcionControl.value.toUpperCase());
+    }
       const formData = movimientoData(
         this.form,
         this.liquidacionId,
