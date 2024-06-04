@@ -110,6 +110,12 @@ export class UserFormService {
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string' && key !== 'email'  && key !== 'usuario') {
+          data[key] = data[key].toUpperCase();
+        }
+      });  
+
       data.username = data.usuario;
       data.password = data.contrasena;
       delete data.usuario;

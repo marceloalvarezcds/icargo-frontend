@@ -334,18 +334,22 @@ openDialog(): void {
   }
 
   keyPress(event: Event) {
-    event.preventDefault();
-    event.stopPropagation();
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter' || keyboardEvent.key === 'Tab') {
+      event.preventDefault();
+      event.stopPropagation();
   
-    const inputValue = this.formGroup.controls["descripcion"].value?.toString().trim();
-    const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
+      const inputValue = this.formGroup.controls['descripcion'].value?.toString().trim();
+      const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
   
-    if (result) {
-      this.value = result.id;
-    } else {
-      alert('No se encontró ningún elemento en la lista con el valor proporcionado');
+      if (result) {
+        this.value = result.id;
+      } else {
+        alert('No se encontró ningún elemento en la lista con el valor proporcionado');
+      }
     }
   }
+  
   
   
   findNextEditableField(): HTMLElement | null {
