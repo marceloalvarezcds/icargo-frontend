@@ -170,6 +170,12 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
           contactos: this.contactos.value,
         })
       );
+      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string' && key !== 'email') {
+          data[key] = data[key].toUpperCase();
+        }
+      });  
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;

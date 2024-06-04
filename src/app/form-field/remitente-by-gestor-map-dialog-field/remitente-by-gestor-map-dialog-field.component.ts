@@ -16,6 +16,7 @@ import { RemitenteList } from 'src/app/interfaces/remitente';
 import { DialogService } from 'src/app/services/dialog.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 
 @Component({
   selector: 'app-remitente-by-gestor-map-dialog-field',
@@ -32,7 +33,7 @@ export class RemitenteByGestorMapDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'remitente_id';
   @Input() groupName = '';
-  @Input() title = 'Remitente';
+  @Input() title = 'Pedido';
 
   @Output() valueChange = new EventEmitter<RemitenteList>();
 

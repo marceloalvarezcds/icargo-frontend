@@ -21,6 +21,12 @@ export class FileFieldComponent {
     return this.group.get(this.controlName) as FormControl;
   }
 
+  // get disabled(): boolean {
+  //   return this.fieldControl.disabled
+  // }
+
+  @Input() autofocus = false; 
+  @Input() disabled = false; 
   @Input() className = '';
   @Input() controlName = '';
   @Input() form?: FormGroup;
@@ -29,12 +35,15 @@ export class FileFieldComponent {
   @Input() groupName?: string;
   @Input() isShow = false;
   @Input() title = '';
+  @Input() readonly = false;
   @Input() set isEdit(isEdit: boolean) {
     if (isEdit) {
       this.fieldControl.removeValidators(Validators.required);
     }
   }
 
+
+  
   @Output() fileChange = new EventEmitter<File | null>();
 
   fieldChange(fieldEvent: FileChangeEvent): void {

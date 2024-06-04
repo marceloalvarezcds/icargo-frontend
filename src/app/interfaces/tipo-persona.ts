@@ -19,3 +19,4 @@ export const mockTipoPersonaList: TipoPersona[] = [
     estado: EstadoEnum.ACTIVO,
   },
 ];
+

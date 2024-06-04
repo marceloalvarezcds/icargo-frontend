@@ -31,7 +31,8 @@ export class ErrorInterceptor implements HttpInterceptor {
           this.authService.logout();
         }
         if (err.status === HttpStatusCode.Forbidden) {
-          this.router.navigate(['/']);
+          this.authService.logout();
+          // this.router.navigate(['/']);
         }
         let errors = [];
         if (err.error) {

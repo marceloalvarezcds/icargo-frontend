@@ -242,6 +242,12 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           contactos: this.contactos.value,
         })
       );
+      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+      Object.keys(data).forEach(key => {
+        if (typeof data[key] === 'string' && key !== 'email') {
+          data[key] = data[key].toUpperCase();
+        }
+      });  
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFrenteFile) {
@@ -412,6 +418,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           },
           contactos: [],
         });
+    
         this.contactoList = data.contactos.slice();
         setTimeout(() => {
           this.hasChange = false;

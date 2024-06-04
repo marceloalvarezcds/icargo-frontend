@@ -31,7 +31,7 @@ describe('DialogFormFieldControlComponent', () => {
     ];
     list = mockFleteList;
     inputValuePropName = 'info';
-    title = 'Flete';
+    title = 'Pedido';
     control = new FormControl('');
 
     @ViewChild(DialogFormFieldControlComponent)

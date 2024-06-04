@@ -13,8 +13,40 @@ import { PropietarioFormComponent } from './propietario-form/propietario-form.co
 import { PropietarioListComponent } from './propietario-list/propietario-list.component';
 import { SemiFormComponent } from './semi-form/semi-form.component';
 import { SemiListComponent } from './semi-list/semi-list.component';
+import { CombinacionListComponent } from './combinacion-list/combinacion-list.component'
+import { CombinacionFormComponent } from './combinacion-form/combinacion-form.component';
 
 const routes: Routes = [
+  {
+    path: m.COMBINACION,
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: a.LISTAR,
+        component: CombinacionListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: CombinacionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: CombinacionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: CombinacionFormComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
+  },
   {
     path: m.PROPIETARIO,
     children: [
@@ -45,6 +77,7 @@ const routes: Routes = [
       },
     ],
   },
+
   {
     path: m.CHOFER,
     children: [

@@ -32,7 +32,7 @@ export class FleteByGestorDialogFieldComponent {
     },
     {
       def: 'remitente_nombre',
-      title: 'Remitente',
+      title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
     },
     {
@@ -97,7 +97,7 @@ export class FleteByGestorDialogFieldComponent {
     },
     {
       def: 'tipo_flete',
-      title: 'Tipo de Flete',
+      title: 'Tipo de Pedido',
       value: (element: FleteList) => element.tipo_flete,
     },
     {
@@ -120,7 +120,7 @@ export class FleteByGestorDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'flete_id';
   @Input() groupName = '';
-  @Input() title = 'Flete';
+  @Input() title = 'Pedido';
 
   @Output() valueChange = new EventEmitter<FleteList>();
 

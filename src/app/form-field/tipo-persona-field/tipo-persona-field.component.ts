@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -12,7 +12,6 @@ import { isFisica } from 'src/app/utils/tipo-persona';
   styleUrls: ['./tipo-persona-field.component.scss']
 })
 export class TipoPersonaFieldComponent implements OnDestroy {
-
   formGroup?: FormGroup;
   controlSubscription?: Subscription;
   tipoPersonaList: TipoPersona[] = [];
@@ -31,19 +30,23 @@ export class TipoPersonaFieldComponent implements OnDestroy {
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.controlSubscription = this.control.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
+      const tipoPersona = this.tipoPersonaList.find(x => x.id === id)
+      this.valueChange.emit(tipoPersona)
       this.isFisicaSelected.emit(isFisica(this.tipoPersonaList, id));
     });
   }
   @Input() controlName = 'tipo_persona_id';
   @Input() groupName = '';
   @Input() title = 'Tipo de Persona';
-
+  
   @Output() isFisicaSelected = new EventEmitter<boolean>();
-
-  constructor(private tipoPersonaService: TipoPersonaService) { }
+  @Output() valueChange = new EventEmitter<TipoPersona | undefined>();
+  
+  constructor(private tipoPersonaService: TipoPersonaService, private cdRef: ChangeDetectorRef) { }
 
   ngOnDestroy(): void {
     this.controlSubscription?.unsubscribe();
     this.tipoPersonaSubscription.unsubscribe();
   }
+  
 }

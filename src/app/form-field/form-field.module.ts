@@ -85,6 +85,18 @@ import { TipoPersonaFieldComponent } from './tipo-persona-field/tipo-persona-fie
 import { TipoRegistroFieldComponent } from './tipo-registro-field/tipo-registro-field.component';
 import { TipoSemiFieldComponent } from './tipo-semi-field/tipo-semi-field.component';
 import { UnidadFieldComponent } from './unidad-field/unidad-field.component';
+import { CombinacionReadonlyByIdDialogFieldComponent } from './combinacion-readonly-by-id-dialog-field/combinacion-readonly-by-id-dialog-field.component';
+import { CamionByPropietarioDialogFieldComponent } from './camion-by-propietario-dialog-field/camion-by-propietario-dialog-field.component';
+import { SemiByPropietarioDialogFieldComponent } from './semi-by-propietario-dialog-field/semi-by-propietario-dialog-field.component';
+import { ChoferByPropietarioDialogFieldComponent } from './chofer-by-propietario-dialog-field/chofer-by-propietario-dialog-field.component';
+import { TipoPersonaByBeneficiarioDialogFieldComponent } from './tipo-persona-by-beneficiario-dialog-field/tipo-persona-by-beneficiario-dialog-field.component';
+import { TipoPersonaByPropietarioFieldComponent } from './tipo-persona-by-propietario-field/tipo-persona-by-propietario-field.component';
+import { InputFieldByPlacaComponent } from './input-field-by-placa/input-field-by-placa.component';
+import { DialogFieldPlacaComponent } from './dialog-field-placa/dialog-field-placa.component';
+import { InputFieldNetoComponent } from './input-field-neto/input-field-neto.component';
+import { InputFieldNoEditComponent } from './input-field-no-edit/input-field-no-edit.component';
+import { PropietarioByTipoPersonaMapDialogFieldComponent } from './propietario-by-tipo-persona-map-dialog-field/propietario-by-tipo-persona-map-dialog-field.component';
+
 
 const modules = [
   AliasFieldComponent,
@@ -92,18 +104,22 @@ const modules = [
   CajaByGestorDialogFieldComponent,
   CamionByGestorFieldComponent,
   CamionByProductoDialogFieldComponent,
+  CamionByPropietarioDialogFieldComponent,
   CargoFieldComponent,
   CentroOperativoByGestorDialogFieldComponent,
   CentroOperativoByGestorMapDialogFieldComponent,
   CentroOperativoFieldComponent,
+  CombinacionReadonlyByIdDialogFieldComponent,
   ChoferByCamionDialogFieldComponent,
   ChoferFieldComponent,
+  ChoferByPropietarioDialogFieldComponent,
   CiudadDialogFieldComponent,
   CiudadFieldComponent,
   ColorFieldComponent,
   ContraparteByTipoDialogFieldComponent,
   ContraparteFieldComponent,
   DialogFieldComponent,
+  InputFieldByPlacaComponent,
   DialogFormFieldControlComponent,
   DigitoVerificadorFieldComponent,
   EmailFieldComponent,
@@ -135,6 +151,8 @@ const modules = [
   ProductoFieldComponent,
   PropietarioFieldComponent,
   PropietarioReadonlyByIdDialogFieldComponent,
+  PropietarioByTipoPersonaMapDialogFieldComponent,
+  InputFieldNetoComponent,
   ProveedorByInsumoFieldComponent,
   ProveedorFieldComponent,
   PuntoVentaByInsumoProveedorFieldComponent,
@@ -146,6 +164,7 @@ const modules = [
   RolFormFieldControlComponent,
   SemiByCamionProductoDialogFieldComponent,
   SemiByGestorDialogFieldComponent,
+  SemiByPropietarioDialogFieldComponent,
   SemiClasificacionFieldComponent,
   SlideComponent,
   TelefonoFieldComponent,
@@ -164,13 +183,16 @@ const modules = [
   TipoIvaFieldComponent,
   TipoMovimientoDialogFieldComponent,
   TipoPersonaFieldComponent,
+  TipoPersonaByPropietarioFieldComponent,
   TipoRegistroFieldComponent,
+  TipoPersonaByBeneficiarioDialogFieldComponent,
+  InputFieldNoEditComponent,
   TipoSemiFieldComponent,
   UnidadFieldComponent,
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, InputFieldNoEditComponent, PropietarioByTipoPersonaMapDialogFieldComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

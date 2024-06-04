@@ -22,7 +22,7 @@ export class TipoCamionFieldComponent {
   @Input() controlName = 'tipo_camion_id';
   @Input() form?: FormGroup;
   @Input() groupName = '';
-  @Input() title = 'Tipo de Camion';
+  @Input() title = 'Tipo de Tracto';
 
   constructor(private tipoCamionService: TipoCamionService) { }
 }

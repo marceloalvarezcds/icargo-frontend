@@ -46,9 +46,14 @@ export class TipoCuentaFormDialogComponent {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
+      const descripcionControl = this.form.get('descripcion');
+      if (descripcionControl && descripcionControl.value) {
+        descripcionControl.setValue(descripcionControl.value.toUpperCase());
+      }
       const data = seleccionableData(this.form, this.data);
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
+  
       if (this.data && this.data.id) {
         this.service.edit(this.data.id, formData).subscribe(() => {
           this.snackbar.openUpdate();

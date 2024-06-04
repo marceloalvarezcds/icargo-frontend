@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="tableDataSource" matSort>
+<table mat-table [dataSource]="tableDataSource" matSort >
   <ng-container
     *ngFor="let column of filteredColumns"
     [matColumnDef]="column.def"
@@ -30,11 +30,12 @@
         *matCellDef="let row; let index = index"
         [class.mat-cell-checkbox]="column.type === 'checkbox'"
         [class.row-error]="formArray.at(index)?.get(column.def)?.errors"
+        
       >
         <ng-container
           *ngIf="
             column.value &&
-            (!column.isHidden || (column.isHidden && column.isHidden(row)))
+            (!column.isHidden || (column.isHidden(row) && column.isHidden(row)))
           "
         >
           <ng-container [ngSwitch]="column.type">
@@ -169,6 +170,7 @@
         mat-cell
         *matCellDef="let row; let index = index"
         [hidden]="isShow && !addShowButton"
+        
       >
         <button
           type="button"

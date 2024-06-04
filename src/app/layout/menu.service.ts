@@ -92,17 +92,18 @@ export class MenuService {
         active: true,
         children: [
           {
+            name: 'Clientes',
+            iconName: 'open_with',
+            path: `/entities/${m.REMITENTE}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
+          },
+          {
             name: t[m.CENTRO_OPERATIVO],
             iconName: 'public',
             path: `/entities/${m.CENTRO_OPERATIVO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO),
           },
-          {
-            name: t[m.REMITENTE],
-            iconName: 'open_with',
-            path: `/entities/${m.REMITENTE}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.REMITENTE),
-          },
+ 
           {
             name: t[m.PROVEEDOR],
             iconName: 'event_available',
@@ -125,11 +126,18 @@ export class MenuService {
         active: true,
         children: [
           {
-            name: t[m.PROPIETARIO],
+            name: 'Combinacion',
+            iconName: 'airport_shuttle',
+            path: `/flota/${m.COMBINACION}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.COMBINACION),
+          },
+          {
+            name: 'Titulares',
             iconName: 'key',
             path: `/flota/${m.PROPIETARIO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO),
           },
+
           {
             name: t[m.CHOFER],
             iconName: 'badge',
@@ -138,7 +146,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.CHOFER),
           },
           {
-            name: t[m.CAMION],
+            name: 'Tractos',
             iconName: 'local_shipping',
             iconOutline: true,
             path: `/flota/${m.CAMION}`,
@@ -153,7 +161,7 @@ export class MenuService {
         ],
       },
       {
-        name: u.FLETE,
+        name: 'Pedido',
         iconName: 'timeline',
         iconOutline: true,
         path: `/flete/${m.FLETE}`,

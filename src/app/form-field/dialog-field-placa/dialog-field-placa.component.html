@@ -1,0 +1,26 @@
+<ng-container *ngIf="form">
+  <div *ngIf="form.get(controlName)" [formGroup]="form" class="field-content">
+    <mat-form-field>
+      <mat-label>{{ title }}</mat-label>
+      <input
+        matInput
+        [value]="form.get(controlName)?.value?.placa"
+        [disabled]="true"
+      />
+      <mat-error *ngIf="form.get(controlName)?.hasError('maxlength')">
+        Hasta
+        <strong>
+          {{ form.get(controlName)?.getError('maxlength').requiredLength | numberFormat }}
+          caracteres
+        </strong>
+      </mat-error>
+      <mat-error *ngIf="form.get(controlName)?.hasError('required')">
+        Este campo es <strong>requerido</strong>
+      </mat-error>
+      <mat-error *ngIf="form.get(controlName)?.hasError('email')">
+        El email no es <strong>válido</strong>
+      </mat-error>
+    </mat-form-field>
+  </div>
+</ng-container>
+

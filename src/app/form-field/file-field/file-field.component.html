@@ -1,4 +1,4 @@
-<ng-container *ngIf="form">
+<ng-container *ngIf="form" >
   <ng-container *ngIf="groupName">
     <div *ngIf="form" [formGroup]="form">
       <div class="{{ className }}" [formGroupName]="groupName">
@@ -18,6 +18,7 @@
           id="file-input"
           #fileInput
           type="file"
+          [disabled]="disabled"
           accept="images/*"
           (change)="fieldChange($event)"
           style="display: none"
@@ -28,14 +29,16 @@
             matInput
             readonly
             [formControlName]="controlName"
-            (click)="fileInput.click()"
+            [disabled]="disabled"
+            (click)="!disabled && fileInput.click()"
           />
           <button
             type="button"
             color="primary"
             matSuffix
             mat-icon-button
-            (click)="fileInput.click()"
+            [disabled]="disabled"
+            (click)="!disabled && fileInput.click()"
           >
             <mat-icon>attach_file</mat-icon>
           </button>
@@ -65,6 +68,7 @@
         #fileInput
         type="file"
         accept="images/*"
+        [disabled]="disabled"
         (change)="fieldChange($event)"
         style="display: none"
       />
@@ -74,14 +78,16 @@
           matInput
           readonly
           [formControlName]="controlName"
-          (click)="fileInput.click()"
+          [disabled]="disabled"
+          (click)="!disabled && fileInput.click()"
         />
         <button
           type="button"
           color="primary"
           matSuffix
           mat-icon-button
-          (click)="fileInput.click()"
+          [disabled]="disabled"
+          (click)="!disabled && fileInput.click()"
         >
           <mat-icon>attach_file</mat-icon>
         </button>

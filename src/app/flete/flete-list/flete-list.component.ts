@@ -43,7 +43,7 @@ export class FleteListComponent implements OnInit {
     },
     {
       def: 'remitente_nombre',
-      title: 'Remitente',
+      title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
     },
     {

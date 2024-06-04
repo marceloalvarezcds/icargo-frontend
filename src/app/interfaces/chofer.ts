@@ -73,6 +73,7 @@ export interface ChoferList extends Chofer {
   pais_emisor_documento_nombre: string;
   ciudad_nombre: string | null;
   info: string;
+  telefono_chofer: string | null;
   localidad_nombre: string | null;
   pais_nombre: string | null;
   pais_nombre_corto: string | null;
@@ -109,6 +110,7 @@ export const mockChoferList: ChoferList[] = [
     pais_emisor_documento_id: pais0.id,
     pais_emisor_documento: pais0,
     numero_documento: '800100100',
+    telefono_chofer: '0992546511',
     puede_recibir_anticipos: false,
     ruc: '800100100',
     digito_verificador: '1',
@@ -170,6 +172,7 @@ export const mockChoferList: ChoferList[] = [
     numero_documento: '800100100',
     puede_recibir_anticipos: false,
     ruc: '800100100',
+    telefono_chofer: '0992546511',
     digito_verificador: '1',
     gestor_cuenta_id: 1,
     gestor_cuenta_nombre: 'Transred',
@@ -221,6 +224,7 @@ export const mockChoferList: ChoferList[] = [
     pais_emisor_documento_id: pais2.id,
     pais_emisor_documento: pais2,
     numero_documento: '800100100',
+    telefono_chofer: '0992546511',
     puede_recibir_anticipos: false,
     ruc: '800100100',
     digito_verificador: '1',

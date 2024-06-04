@@ -35,7 +35,7 @@ export interface Propietario {
   gestor_cuenta_nombre?: string;
   oficial_cuenta_id: number;
   oficial_cuenta_nombre: string;
-  foto_documento_frente?: string | null;
+  foto_documento_frente: string | null;
   foto_documento_reverso?: string | null;
   foto_perfil?: string | null;
   es_chofer: boolean;
@@ -82,6 +82,7 @@ export interface PropietarioList extends Propietario {
   ciudad_nombre: string;
   info: string;
   localidad_nombre: string;
+  foto_perfil: string | null;
   pais_nombre: string;
   pais_nombre_corto: string;
   tipo_persona_descripcion: string;

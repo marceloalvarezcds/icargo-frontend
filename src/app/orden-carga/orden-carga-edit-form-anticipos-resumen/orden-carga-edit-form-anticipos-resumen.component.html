@@ -1,6 +1,6 @@
 <div class="row page-form-row" *ngIf="oc">
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Tarifa Flete</mat-label>
+    <mat-label>Tarifa Pedido</mat-label>
     <input
       matInput
       [value]="oc.flete_tarifa"
@@ -18,7 +18,7 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Flete Proyectado</mat-label>
+    <mat-label>Pedido Proyectado</mat-label>
     <input
       matInput
       [value]="oc.flete_proyectado"
@@ -30,7 +30,7 @@
     class="col-xs-12 col-sm-6 col-md-4"
     *ngIf="oc.camion_limite_monto_anticipos"
   >
-    <mat-label>Monto Límite de Crédito del Camión</mat-label>
+    <mat-label>Monto Límite de Crédito del Tracto</mat-label>
     <input
       matInput
       [value]="oc.camion_limite_monto_anticipos"
@@ -39,7 +39,7 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Monto Anticipos Retirados del Camión</mat-label>
+    <mat-label>Monto Anticipos Retirados del Tracto</mat-label>
     <input
       matInput
       [value]="
@@ -51,7 +51,7 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Monto Anticipo Disponible del Camión</mat-label>
+    <mat-label>Monto Anticipo Disponible del Tracto</mat-label>
     <input
       matInput
       [value]="oc.camion_monto_anticipo_disponible ?? 0"
@@ -87,7 +87,9 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-    <mat-label>Límite de Crédito OC</mat-label>
+    <mat-label>
+      Límite de Crédito OC (% Max. Liberado x Pedido Proyectado)
+    </mat-label>
     <input
       matInput
       [value]="oc.flete_limite_credito"

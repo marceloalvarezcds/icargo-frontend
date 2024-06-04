@@ -85,7 +85,7 @@ export interface Camion {
   modified_at: string;
 }
 
-export interface CamionList {
+export interface CamionList extends Camion{
   id: number;
   placa: string;
   propietario_nombre: string;
@@ -93,6 +93,8 @@ export interface CamionList {
   propietario_telefono: string | null;
   chofer_nombre: string | null;
   chofer_numero_documento: string | null;
+  limite_monto_anticipo: number | null;
+  oc_activa: number | null;
   color_descripcion: string | null;
   numero_chasis: string | null;
   estado: EstadoEnum;
@@ -101,8 +103,9 @@ export interface CamionList {
   gestor_cuenta_nombre: string;
   localidad_habilitacion_municipal_nombre: string;
   limites: string;
+  foto_camion: string;
   info: string;
-  marca_descripcion: string;
+  marca_descripcion: string | null;
   oficial_cuenta_nombre: string;
   pais_habilitacion_municipal_nombre: string;
   pais_habilitacion_municipal_nombre_corto: string;
@@ -114,6 +117,8 @@ export interface CamionList {
   modified_by: string;
   modified_at: string;
 }
+
+
 
 const color0 = mockColorList[0];
 const chofer0 = mockChoferList[0];
@@ -150,7 +155,7 @@ export const mockCamion: Camion = {
   gestor_cuenta_id: 1,
   // INICIO Limitaciones del Camión
   limites: '',
-  limite_cantidad_oc_activas: 1,
+  limite_cantidad_oc_activas: 2,
   limite_monto_anticipos: 1000000,
   monto_anticipo_disponible: 0,
   total_anticipos_retirados_en_estado_pendiente_o_en_proceso: 0,
@@ -205,62 +210,68 @@ export const mockCamion: Camion = {
 };
 
 export const mockCamionList: CamionList[] = [
-  {
-    id: 1,
-    placa: placa0,
-    propietario_nombre: propietario0.nombre,
-    propietario_ruc: propietario0.ruc,
-    propietario_telefono: propietario0.telefono,
-    chofer_nombre: chofer0.nombre,
-    chofer_numero_documento: chofer0.numero_documento,
-    color_descripcion: null,
-    numero_chasis: '23100100',
-    estado: EstadoEnum.ACTIVO,
-    ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
-    gestor_cuenta_id: mockUserAccount.id,
-    gestor_cuenta_nombre: mockUserAccount.first_name,
-    localidad_habilitacion_municipal_nombre: ciudad0.localidad_nombre,
-    info: info0,
-    limites: '',
-    marca_descripcion: marca0.descripcion,
-    oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
-    pais_habilitacion_municipal_nombre: ciudad0.pais_nombre,
-    pais_habilitacion_municipal_nombre_corto: ciudad0.pais_nombre_corto,
-    tipo_descripcion: tipoCamion0.descripcion,
-    pais_emisor_placa_nombre: pais0.nombre,
-    pais_emisor_placa_nombre_corto: pais0.nombre_corto,
-    created_by: 'system',
-    created_at: '2021-11-30T20:38:09.553757',
-    modified_by: 'system',
-    modified_at: '2021-11-30T20:38:09.553757',
-  },
-  {
-    id: 2,
-    placa: placa1,
-    propietario_nombre: propietario1.nombre,
-    propietario_ruc: propietario1.ruc,
-    propietario_telefono: propietario1.telefono,
-    chofer_nombre: chofer1.nombre,
-    chofer_numero_documento: chofer1.numero_documento,
-    color_descripcion: null,
-    numero_chasis: '23100100',
-    estado: EstadoEnum.ACTIVO,
-    ciudad_habilitacion_municipal_nombre: ciudad1.nombre,
-    gestor_cuenta_id: mockUserAccount.id,
-    gestor_cuenta_nombre: mockUserAccount.first_name,
-    localidad_habilitacion_municipal_nombre: ciudad1.localidad_nombre,
-    info: info1,
-    limites: '',
-    marca_descripcion: marca1.descripcion,
-    oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
-    pais_habilitacion_municipal_nombre: ciudad1.pais_nombre,
-    pais_habilitacion_municipal_nombre_corto: ciudad1.pais_nombre_corto,
-    tipo_descripcion: tipoCamion1.descripcion,
-    pais_emisor_placa_nombre: pais1.nombre,
-    pais_emisor_placa_nombre_corto: pais1.nombre_corto,
-    created_by: 'system',
-    created_at: '2021-11-30T20:38:09.553757',
-    modified_by: 'system',
-    modified_at: '2021-11-30T20:38:09.553757',
-  },
+  // {
+  //   id: 1,
+  //   placa: placa0,
+  //   propietario_nombre: propietario0.nombre,
+  //   propietario_ruc: propietario0.ruc,
+  //   propietario_telefono: propietario0.telefono,
+  //   chofer_nombre: chofer0.nombre,
+  //   chofer_numero_documento: chofer0.numero_documento,
+  //   color_descripcion: null,
+  //   limite_monto_anticipo: 2,
+  //   numero_chasis: '23100100',
+  //   oc_activa: 1,
+  //   foto_camion: "camion",
+  //   estado: EstadoEnum.ACTIVO,
+  //   ciudad_habilitacion_municipal_nombre: ciudad0.nombre,
+  //   gestor_cuenta_id: mockUserAccount.id,
+  //   gestor_cuenta_nombre: mockUserAccount.first_name,
+  //   localidad_habilitacion_municipal_nombre: ciudad0.localidad_nombre,
+  //   info: info0,
+  //   limites: '',
+  //   marca_descripcion: marca0.descripcion,
+  //   oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
+  //   pais_habilitacion_municipal_nombre: ciudad0.pais_nombre,
+  //   pais_habilitacion_municipal_nombre_corto: ciudad0.pais_nombre_corto,
+  //   tipo_descripcion: tipoCamion0.descripcion,
+  //   pais_emisor_placa_nombre: pais0.nombre,
+  //   pais_emisor_placa_nombre_corto: pais0.nombre_corto,
+  //   created_by: 'system',
+  //   created_at: '2021-11-30T20:38:09.553757',
+  //   modified_by: 'system',
+  //   modified_at: '2021-11-30T20:38:09.553757',
+  // },
+  // {
+  //   id: 2,
+  //   placa: placa1,
+  //   propietario_nombre: propietario1.nombre,
+  //   propietario_ruc: propietario1.ruc,
+  //   propietario_telefono: propietario1.telefono,
+  //   chofer_nombre: chofer1.nombre,
+  //   foto_camion: "camion2",
+  //   limite_monto_anticipo: 2,
+  //   oc_activa: 1,
+  //   chofer_numero_documento: chofer1.numero_documento,
+  //   color_descripcion: null,
+  //   numero_chasis: '23100100',
+  //   estado: EstadoEnum.ACTIVO,
+  //   ciudad_habilitacion_municipal_nombre: ciudad1.nombre,
+  //   gestor_cuenta_id: mockUserAccount.id,
+  //   gestor_cuenta_nombre: mockUserAccount.first_name,
+  //   localidad_habilitacion_municipal_nombre: ciudad1.localidad_nombre,
+  //   info: info1,
+  //   limites: '',
+  //   marca_descripcion: marca1.descripcion,
+  //   oficial_cuenta_nombre: `${mockUserAccount.first_name} ${mockUserAccount.last_name}`,
+  //   pais_habilitacion_municipal_nombre: ciudad1.pais_nombre,
+  //   pais_habilitacion_municipal_nombre_corto: ciudad1.pais_nombre_corto,
+  //   tipo_descripcion: tipoCamion1.descripcion,
+  //   pais_emisor_placa_nombre: pais1.nombre,
+  //   pais_emisor_placa_nombre_corto: pais1.nombre_corto,
+  //   created_by: 'system',
+  //   created_at: '2021-11-30T20:38:09.553757',
+  //   modified_by: 'system',
+  //   modified_at: '2021-11-30T20:38:09.553757',
+  // },
 ];

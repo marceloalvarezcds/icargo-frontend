@@ -33,4 +33,6 @@ export class InputFieldComponent {
   @Input() groupName?: string;
   @Input() readonly = false;
   @Input() title = '';
+  @Input() disabled: boolean = false;
+
 }

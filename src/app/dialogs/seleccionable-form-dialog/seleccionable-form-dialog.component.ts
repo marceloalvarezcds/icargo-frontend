@@ -38,6 +38,11 @@ export class SeleccionableFormDialogComponent {
   }
 
   submit(): void {
+    const descripcionControl = this.form.get('descripcion');
+    if (descripcionControl) {
+      descripcionControl.setValue(descripcionControl.value.toUpperCase());
+    }
     this.service.submit();
+    
   }
 }

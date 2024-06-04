@@ -97,6 +97,12 @@ export class OrdenCargaCreateFormComponent {
         ...this.info.value,
       })
     );
+    // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+    Object.keys(data).forEach(key => {
+      if (typeof data[key] === 'string' && key !== 'email') {
+        data[key] = data[key].toUpperCase();
+      }
+    });  
     formData.append('data', JSON.stringify(data));
     this.ordenCargaService.create(formData).subscribe((item) => {
       this.snackbar.openSaveAndRedirect(

@@ -4,7 +4,6 @@
   [formGroup]="formGroup"
   (focusin)="onFocusIn($event)"
   (focusout)="onFocusOut($event)"
-  (click)="$event.stopPropagation(); disabled ? '' : openDialog()"
 >
   <input formControlName="id" aria-label="Id" readonly hidden #id />
   <input
@@ -12,6 +11,6 @@
     formControlName="descripcion"
     aria-label="Descripción"
     #descripcion
-    readonly
+    (keydown)="keyPress($event)"
   />
 </div>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
 import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
@@ -192,6 +192,7 @@ export class LiquidacionEditFormMovimientosComponent {
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
   constructor(
+    private route: ActivatedRoute,
     private router: Router,
     private dialog: MatDialog,
     private dialogService: DialogService,
@@ -201,7 +202,17 @@ export class LiquidacionEditFormMovimientosComponent {
   ) {}
 
   addMovimientos(): void {
-    const contraparteId = getContraparteId(this.liquidacion!);
+    let contraparteId = getContraparteId(this.liquidacion!);
+    if (!contraparteId) {
+      const queryContraparteId =
+        this.route.snapshot.queryParamMap.get('contraparte_id');
+      if (queryContraparteId) {
+        contraparteId = parseInt(queryContraparteId, 10);
+      }
+    }
+    if (!contraparteId) {
+      console.error('La contraparteId es nula');
+    }
     this.movimientoService
       .getListByEstadoCuenta(
         this.liquidacion!,

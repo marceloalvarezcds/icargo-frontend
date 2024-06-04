@@ -1,0 +1,24 @@
+<ng-container *ngIf="form">
+  <mat-form-field>
+    <mat-label>{{ title }}</mat-label>
+    <input
+      matInput
+      [value]="rowValue"
+      [readonly]="true"
+    />
+    <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
+    <mat-error *ngIf="control.hasError('maxlength')">
+      Hasta
+      <strong>
+        {{ control.getError("maxlength").requiredLength | numberFormat }}
+        caracteres
+      </strong>
+    </mat-error>
+    <mat-error *ngIf="control.hasError('required')">
+      Este campo es <strong>requerido</strong>
+    </mat-error>
+    <mat-error *ngIf="control.hasError('email')">
+      El email no es <strong>válido</strong>
+    </mat-error>
+  </mat-form-field>
+</ng-container>

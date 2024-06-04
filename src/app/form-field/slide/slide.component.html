@@ -6,6 +6,7 @@
     <mat-slide-toggle
       [formControl]="control"
       (change)="valueChange.emit($event.checked)"
+      [disabled]="readonly"
     >
       {{ controlValue ? trueTitle : falseTitle }}
     </mat-slide-toggle>
