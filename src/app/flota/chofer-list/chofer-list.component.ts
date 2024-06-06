@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import {
   PermisoAccionEnum as a,
@@ -9,6 +9,7 @@ import {
 import { ChoferList } from 'src/app/interfaces/chofer';
 import { Column } from 'src/app/interfaces/column';
 import { TableEvent } from 'src/app/interfaces/table';
+import { TabService } from 'src/app/layout/tab.service';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -144,7 +145,9 @@ export class ChoferListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private tabService: TabService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {

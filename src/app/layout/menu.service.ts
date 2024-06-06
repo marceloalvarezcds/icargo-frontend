@@ -122,7 +122,7 @@ export class MenuService {
       {
         name: u.FLOTA,
         iconName: 'local_shipping',
-        iconOutline: true,
+        // iconOutline: true,
         active: true,
         children: [
           {

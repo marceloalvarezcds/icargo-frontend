@@ -22,6 +22,7 @@ import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remi
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-orden-carga-edit-form',
@@ -193,7 +194,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
     private snackbar: SnackbarService,
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router,
     private chRef: ChangeDetectorRef
   ) {}
@@ -273,7 +275,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.backUrl = backUrl;
     }
     this.id = +this.route.snapshot.params.id;
-    this.isEdit = /edit/.test(this.router.url);
+    // this.isEdit = /edit/.test(this.router.url);
+    this.isEdit = /edit/.test(this.route.url);
     this.ordenCargaService.getById(this.id).subscribe((data) => {
       this.item = data;
       this.form.patchValue({

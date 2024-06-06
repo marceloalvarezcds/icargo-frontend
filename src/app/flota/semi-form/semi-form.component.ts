@@ -15,6 +15,7 @@ import { SemiService } from 'src/app/services/semi.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { DateValidator } from 'src/app/validators/date-validator';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-semi-form',
@@ -153,7 +154,8 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 
@@ -218,7 +220,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });      
+      });
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoFile) {
@@ -296,8 +298,10 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      // this.isEdit = /edit/.test(this.router.url);
+      // this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
       }

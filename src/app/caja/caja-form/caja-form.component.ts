@@ -11,6 +11,7 @@ import { Caja } from 'src/app/interfaces/caja';
 import { CajaService } from 'src/app/services/caja.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-caja-form',
@@ -53,11 +54,13 @@ export class CajaFormComponent implements OnInit, OnDestroy {
 
   constructor(
     private fb: FormBuilder,
-    private route: ActivatedRoute,
+    // private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router,
     private snackbar: SnackbarService,
     private cajaService: CajaService,
     private userService: UserService
+    
   ) {}
 
   ngOnInit(): void {
@@ -123,8 +126,10 @@ export class CajaFormComponent implements OnInit, OnDestroy {
     }
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      // this.isEdit = /edit/.test(this.router.url);
+      // this.isShow = /ver/.test(this.router.url);
+      this.isEdit = /edit/.test(this.route.url);
+      this.isShow = /ver/.test(this.route.url);
       this.cajaService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.form.patchValue({

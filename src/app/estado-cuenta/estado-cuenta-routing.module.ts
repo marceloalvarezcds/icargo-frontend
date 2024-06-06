@@ -4,6 +4,7 @@ import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
+  PermisoModuloRouterEnum as u,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { EstadoCuentaListComponent } from './estado-cuenta-list/estado-cuenta-list.component';
@@ -12,6 +13,53 @@ import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacio
 import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquidacion-finalizada.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
+
+
+export const estadoCuentaUrls = [
+  {
+    path: a.LISTAR,
+    component: EstadoCuentaListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.ESTADO_CUENTA}/${m.ESTADO_CUENTA}/${a.LISTAR}`,
+    },
+  },
+];
+
+export const liquidacionUrls = [
+  {
+    path: a.LISTAR,
+    component: LiquidacionListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`,
+    },
+  },
+  {
+    path: a.CREAR,
+    component: LiquidacionFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+    },
+  },
+  {
+    path: `${a.EDITAR}/:id`,
+    component: LiquidacionFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}`,
+    },
+  },
+  {
+    path: `${a.VER}/:id`,
+    component: LiquidacionFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.VER}`,
+    },
+  },
+];
 
 const routes: Routes = [
   {
@@ -22,79 +70,94 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
-      {
-        path: a.LISTAR,
-        component: EstadoCuentaListComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: m.LIQUIDACION,
-        children: [
-          {
-            path: '',
-            redirectTo: a.LISTAR,
-            pathMatch: 'full',
-          },
-          {
-            path: a.LISTAR,
-            component: LiquidacionListComponent,
-            canActivate: [PermisoGuard],
-          },
-          {
-            path: a.CREAR,
-            component: LiquidacionFormComponent,
-            canActivate: [PermisoGuard],
-          },
-          {
-            path: `${a.EDITAR}/:id`,
-            component: LiquidacionEditFormComponent,
-            canActivate: [PermisoGuard],
-          },
-          {
-            path: `${a.VER}/:id`,
-            component: LiquidacionEditFormComponent,
-            canActivate: [PermisoGuard],
-          },
-        ],
-      },
-      {
-        path: LiquidacionEtapaEnum.CONFIRMADO.toLowerCase(),
-        children: [
-          {
-            path: m.LIQUIDACION,
-            children: [
-              {
-                path: `${a.EDITAR}/:id`,
-                component: LiquidacionConfirmadaFormComponent,
-                canActivate: [PermisoGuard],
-              },
-              {
-                path: `${a.VER}/:id`,
-                component: LiquidacionConfirmadaFormComponent,
-                canActivate: [PermisoGuard],
-              },
-            ],
-          },
-        ],
-      },
-      {
-        path: m.MOVIMIENTO,
-        children: [
-          {
-            path: '',
-            redirectTo: a.LISTAR,
-            pathMatch: 'full',
-          },
-          {
-            path: a.LISTAR,
-            component: LiquidacionFinalizadaComponent,
-            canActivate: [PermisoGuard],
-          },
-        ],
-      },
+      ...estadoCuentaUrls,
     ],
   },
 ];
+
+
+// const routes: Routes = [
+//   {
+//     path: m.ESTADO_CUENTA,
+//     children: [
+//       {
+//         path: '',
+//         redirectTo: a.LISTAR,
+//         pathMatch: 'full',
+//       },
+//       {
+//         path: a.LISTAR,
+//         component: EstadoCuentaListComponent,
+//         canActivate: [PermisoGuard],
+//       },
+//       {
+//         path: m.LIQUIDACION,
+//         children: [
+//           {
+//             path: '',
+//             redirectTo: a.LISTAR,
+//             pathMatch: 'full',
+//           },
+//           {
+//             path: a.LISTAR,
+//             component: LiquidacionListComponent,
+//             canActivate: [PermisoGuard],
+//           },
+//           {
+//             path: a.CREAR,
+//             component: LiquidacionFormComponent,
+//             canActivate: [PermisoGuard],
+//           },
+//           {
+//             path: `${a.EDITAR}/:id`,
+//             component: LiquidacionEditFormComponent,
+//             canActivate: [PermisoGuard],
+//           },
+//           {
+//             path: `${a.VER}/:id`,
+//             component: LiquidacionEditFormComponent,
+//             canActivate: [PermisoGuard],
+//           },
+//         ],
+//       },
+//       {
+//         path: LiquidacionEtapaEnum.CONFIRMADO.toLowerCase(),
+//         children: [
+//           {
+//             path: m.LIQUIDACION,
+//             children: [
+//               {
+//                 path: `${a.EDITAR}/:id`,
+//                 component: LiquidacionConfirmadaFormComponent,
+//                 canActivate: [PermisoGuard],
+//               },
+//               {
+//                 path: `${a.VER}/:id`,
+//                 component: LiquidacionConfirmadaFormComponent,
+//                 canActivate: [PermisoGuard],
+//               },
+//             ],
+//           },
+//         ],
+//       },
+//       {
+//         path: m.MOVIMIENTO,
+//         children: [
+//           {
+//             path: '',
+//             redirectTo: a.LISTAR,
+//             pathMatch: 'full',
+//           },
+//           {
+//             path: a.LISTAR,
+//             component: LiquidacionFinalizadaComponent,
+//             canActivate: [PermisoGuard],
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

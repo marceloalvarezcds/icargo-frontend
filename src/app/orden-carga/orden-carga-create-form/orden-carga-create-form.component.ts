@@ -16,6 +16,7 @@ import { SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-orden-carga-create-form',
@@ -55,7 +56,8 @@ export class OrdenCargaCreateFormComponent {
     private router: Router,
     private dialog: DialogService,
     private snackbar: SnackbarService,
-    private ordenCargaService: OrdenCargaService
+    private ordenCargaService: OrdenCargaService,
+    private route: ActivatedRouteService,
   ) {}
 
   back(confirmed: boolean): void {
@@ -67,6 +69,7 @@ export class OrdenCargaCreateFormComponent {
   }
 
   save(confirmed: boolean): void {
+    
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {

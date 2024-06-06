@@ -11,6 +11,19 @@ import {
   puntoVentaUrls,
   remitenteUrls,
 } from 'src/app/entities/entities-routing.module';
+import {
+  combinacionUrls,
+  propietarioUrls,
+  choferUrls,
+  camionUrls,
+  semiUrls,
+} from 'src/app/flota/flota-routing.module';
+import { fleteUrls } from 'src/app/flete/flete-routing.module'
+import { ordenCargaUrls } from 'src/app/orden-carga/orden-carga-routing.module'
+import { estadoCuentaUrls } from 'src/app/estado-cuenta/estado-cuenta-routing.module'
+import { cajaUrls } from 'src/app/caja/caja-routing.module'
+import { listadoUrls } from 'src/app/listado/listado-routing.module'
+import { usersUrls } from 'src/app/users/users-routing.module'
 import { RouterSnapshot } from 'src/app/interfaces/router-snapshot';
 
 @Injectable({
@@ -24,6 +37,17 @@ export class ActivatedRouteService {
     ...proveedorUrls,
     ...puntoVentaUrls,
     ...remitenteUrls,
+    ...combinacionUrls,
+    ...propietarioUrls,
+    ...choferUrls,
+    ...camionUrls,
+    ...semiUrls,
+    ...fleteUrls,
+    ...ordenCargaUrls,
+    ...estadoCuentaUrls,
+    ...cajaUrls,
+    ...listadoUrls,
+    ...usersUrls,
   ];
 
   snapshot$ = new BehaviorSubject<RouterSnapshot>({

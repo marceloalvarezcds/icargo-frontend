@@ -50,15 +50,18 @@ export class TabService {
         menuPath
       );
     });
+    console.log("Router Event: ", routerEvent); 
     if (menu) {
       const path = this.getPathStr(menu.path);
       const url = path === routerUrl ? `${routerUrl}/${a.LISTAR}` : routerUrl;
+      console.log("url  :", url)
       const queryParams = this.route.snapshot.queryParams;
       const extras = Object.keys(queryParams).length ? { queryParams } : {};
       const str = JSON.stringify;
       const currentTabIndex = this.tabs.findIndex(
         (tab) => tab.url === url && str(tab.extras) === str(extras)
       );
+      console.log("Tab Found: ", currentTabIndex); 
       if (currentTabIndex === -1) {
         const id = this.route.snapshot.params.id;
         const name = this.getTabNameByMenuAndUrl(menu, url, queryParams, id);
@@ -206,9 +209,13 @@ export class TabService {
   private drawComponent(): void {
     const url = this.currentUrl;
     const currentTabIndex = this.tabs.findIndex((x) => url.startsWith(x.url));
+    console.log("currentTabIndex :", currentTabIndex)
     const currentURL = this.route.currentRoute;
+    console.log("currentURL :", currentURL)
     const frame = this.frameList?.get(currentTabIndex);
+    console.log("frame :", frame)
     const component = currentURL?.component;
+    console.log("component :", component)
     if (frame && component) {
       frame.clear();
       const cf = this.cfr.resolveComponentFactory(component);
