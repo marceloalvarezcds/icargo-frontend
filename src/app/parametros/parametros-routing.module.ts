@@ -4,6 +4,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
   permisoModeloTitulo,
+  PermisoModuloRouterEnum as u,
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { TipoMovimiento } from 'src/app/interfaces/tipo-movimiento';
@@ -12,10 +13,14 @@ import { TipoCuentaFormDialogComponent } from '../dialogs/tipo-cuenta-form-dialo
 import { TipoMovimientoFormDialogComponent } from '../dialogs/tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { TipoCuenta } from '../interfaces/tipo-cuenta';
 
-const routes: Routes = [
+
+export const tipoCuentaUrls = [
   {
-    path: m.TIPO_CUENTA,
+    path: a.LISTAR,
+    component: SeleccionableListComponent,
+    canActivate: [PermisoGuard],
     data: {
+      url: `/${u.PARAMETROS}/${m.TIPO_CUENTA}/${a.LISTAR}`,
       modelo: m.TIPO_CUENTA,
       submodule: permisoModeloTitulo[m.TIPO_CUENTA],
       changeStatusMsg: 'a la Cuenta',
@@ -33,25 +38,20 @@ const routes: Routes = [
         },
       ],
     },
-    children: [
-      {
-        path: '',
-        redirectTo: a.LISTAR,
-        pathMatch: 'full',
-      },
-      {
-        path: a.LISTAR,
-        component: SeleccionableListComponent,
-        canActivate: [PermisoGuard],
-      },
-    ],
   },
+
+];
+
+export const tipoMovimientoUrls = [
   {
-    path: m.TIPO_MOVIMIENTO,
+    path: a.LISTAR,
+    component: SeleccionableListComponent,
+    canActivate: [PermisoGuard],
     data: {
+      url: `/${u.PARAMETROS}/${m.TIPO_MOVIMIENTO}/${a.LISTAR}`,
       modelo: m.TIPO_MOVIMIENTO,
       submodule: permisoModeloTitulo[m.TIPO_MOVIMIENTO],
-      changeStatusMsg: 'al Concepto',
+      changeStatusMsg: 'a la Cuenta',
       dialogComponent: TipoMovimientoFormDialogComponent,
       getDialogData: (item?: TipoMovimiento) => ({
         item,
@@ -60,31 +60,116 @@ const routes: Routes = [
       }),
       additionalColumns: [
         {
-          def: 'cuenta_codigo_descripcion',
-          title: 'Cuenta',
-          value: (element: TipoMovimiento) => element.cuenta_codigo_descripcion,
-        },
-        {
           def: 'codigo',
           title: 'Código',
           value: (element: TipoMovimiento) => element.codigo,
         },
       ],
     },
+  },
+
+];
+
+const routes: Routes = [
+  {
+    path: m.TIPO_CUENTA,
     children: [
       {
         path: '',
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
+      ...tipoCuentaUrls
+    ],
+  },
+  {
+    path: m.TIPO_MOVIMIENTO,
+    children: [
       {
-        path: a.LISTAR,
-        component: SeleccionableListComponent,
-        canActivate: [PermisoGuard],
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
       },
+      ...tipoMovimientoUrls,
     ],
   },
 ];
+
+// const routes: Routes = [
+//   {
+//     path: m.TIPO_CUENTA,
+//     data: {
+//       modelo: m.TIPO_CUENTA,
+//       submodule: permisoModeloTitulo[m.TIPO_CUENTA],
+//       changeStatusMsg: 'a la Cuenta',
+//       dialogComponent: TipoCuentaFormDialogComponent,
+//       getDialogData: (item?: TipoCuenta) => ({
+//         item,
+//         modelo: m.TIPO_CUENTA,
+//         submodule: permisoModeloTitulo[m.TIPO_CUENTA],
+//       }),
+//       additionalColumns: [
+//         {
+//           def: 'codigo',
+//           title: 'Código',
+//           value: (element: TipoCuenta) => element.codigo,
+//         },
+//       ],
+//     },
+//     children: [
+//       {
+//         path: '',
+//         redirectTo: a.LISTAR,
+//         pathMatch: 'full',
+//       },
+//       {
+//         path: a.LISTAR,
+//         component: SeleccionableListComponent,
+//         canActivate: [PermisoGuard],
+//       },
+//     ],
+//   },
+//   {
+//     path: m.TIPO_MOVIMIENTO,
+//     data: {
+//       modelo: m.TIPO_MOVIMIENTO,
+//       submodule: permisoModeloTitulo[m.TIPO_MOVIMIENTO],
+//       changeStatusMsg: 'al Concepto',
+//       dialogComponent: TipoMovimientoFormDialogComponent,
+//       getDialogData: (item?: TipoMovimiento) => ({
+//         item,
+//         modelo: m.TIPO_MOVIMIENTO,
+//         submodule: permisoModeloTitulo[m.TIPO_MOVIMIENTO],
+//       }),
+//       additionalColumns: [
+//         {
+//           def: 'cuenta_codigo_descripcion',
+//           title: 'Cuenta',
+//           value: (element: TipoMovimiento) => element.cuenta_codigo_descripcion,
+//         },
+//         {
+//           def: 'codigo',
+//           title: 'Código',
+//           value: (element: TipoMovimiento) => element.codigo,
+//         },
+//       ],
+//     },
+//     children: [
+//       {
+//         path: '',
+//         redirectTo: a.LISTAR,
+//         pathMatch: 'full',
+//       },
+//       {
+//         path: a.LISTAR,
+//         component: SeleccionableListComponent,
+//         canActivate: [PermisoGuard],
+//       },
+//     ],
+//   },
+// ];
+
+
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],

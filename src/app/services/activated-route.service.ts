@@ -23,8 +23,11 @@ import { ordenCargaUrls } from 'src/app/orden-carga/orden-carga-routing.module'
 import { estadoCuentaUrls } from 'src/app/estado-cuenta/estado-cuenta-routing.module'
 import { cajaUrls } from 'src/app/caja/caja-routing.module'
 import { listadoUrls } from 'src/app/listado/listado-routing.module'
-import { usersUrls } from 'src/app/users/users-routing.module'
+import { usersUrls, rolUrls } from 'src/app/users/users-routing.module'
+import { cargoUrls } from 'src/app/biblioteca/biblioteca-routing.module'
+import { tipoCuentaUrls, tipoMovimientoUrls } from 'src/app/parametros/parametros-routing.module'
 import { RouterSnapshot } from 'src/app/interfaces/router-snapshot';
+
 
 @Injectable({
   providedIn: 'root',
@@ -48,11 +51,17 @@ export class ActivatedRouteService {
     ...cajaUrls,
     ...listadoUrls,
     ...usersUrls,
+    ...rolUrls,
+    ...cajaUrls,
+    ...cargoUrls,
+    ...tipoCuentaUrls,
+    ...tipoMovimientoUrls,
   ];
 
   snapshot$ = new BehaviorSubject<RouterSnapshot>({
     params: {},
     queryParams: {},
+    data: {},
   });
 
   private url$ = new BehaviorSubject(this.location.path());
@@ -103,7 +112,9 @@ export class ActivatedRouteService {
         : {};
     const currentURL = this.findRoute(url);
     const params: Params = {};
+    let data = {};
     if (currentURL && currentURL.data) {
+      data = currentURL.data;
       const currentPath = currentURL.path ?? '';
       const colonIndex = (/:/.exec(currentPath)?.index ?? 0) - 1;
       if (colonIndex >= 0) {
@@ -121,7 +132,7 @@ export class ActivatedRouteService {
         }
       }
     }
-    this.snapshot$.next({ params, queryParams });
+    this.snapshot$.next({ params, queryParams, data });
     this.url$.next(url);
   }
 }

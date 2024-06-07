@@ -209,13 +209,9 @@ export class TabService {
   private drawComponent(): void {
     const url = this.currentUrl;
     const currentTabIndex = this.tabs.findIndex((x) => url.startsWith(x.url));
-    console.log("currentTabIndex :", currentTabIndex)
     const currentURL = this.route.currentRoute;
-    console.log("currentURL :", currentURL)
     const frame = this.frameList?.get(currentTabIndex);
-    console.log("frame :", frame)
     const component = currentURL?.component;
-    console.log("component :", component)
     if (frame && component) {
       frame.clear();
       const cf = this.cfr.resolveComponentFactory(component);

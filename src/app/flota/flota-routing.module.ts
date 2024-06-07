@@ -104,7 +104,7 @@ export const choferUrls = [
     component: ChoferFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.CHOFER}/${a.CREAR}`,
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.CREAR}`,
     },
   },
   {
@@ -112,7 +112,7 @@ export const choferUrls = [
     component: ChoferFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.CHOFER}/${a.EDITAR}`,
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.EDITAR}`,
     },
   },
   {
@@ -120,7 +120,7 @@ export const choferUrls = [
     component: ChoferFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.CHOFER}/${a.VER}`,
+      url: `/${u.FLOTA}/${m.CHOFER}/${a.VER}`,
     },
   },
 ];
@@ -139,7 +139,7 @@ export const camionUrls = [
     component: CamionFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.CAMION}/${a.CREAR}`,
+      url: `/${u.FLOTA}/${m.CAMION}/${a.CREAR}`,
     },
   },
   {
@@ -147,7 +147,7 @@ export const camionUrls = [
     component: CamionFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.CAMION}/${a.EDITAR}`,
+      url: `/${u.FLOTA}/${m.CAMION}/${a.EDITAR}`,
     },
   },
   {
@@ -155,7 +155,7 @@ export const camionUrls = [
     component: CamionFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.CAMION}/${a.VER}`,
+      url: `/${u.FLOTA}/${m.CAMION}/${a.VER}`,
     },
   },
 ];
@@ -174,7 +174,7 @@ export const semiUrls = [
     component: SemiFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.SEMIRREMOLQUE}/${a.CREAR}`,
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.CREAR}`,
     },
   },
   {
@@ -182,7 +182,7 @@ export const semiUrls = [
     component: SemiFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
     },
   },
   {
@@ -190,7 +190,7 @@ export const semiUrls = [
     component: SemiFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ENTITIES}/${m.SEMIRREMOLQUE}/${a.VER}`,
+      url: `/${u.FLOTA}/${m.SEMIRREMOLQUE}/${a.VER}`,
     },
   },
 ];

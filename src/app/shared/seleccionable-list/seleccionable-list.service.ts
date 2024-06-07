@@ -1,20 +1,23 @@
 import { ComponentType } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
-import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
+import { PermisoModeloEnum as m,  PermisoAccionEnum as a, } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { SeleccionableRouteData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SeleccionableService } from 'src/app/services/seleccionable.service';
 import { create, edit } from 'src/app/utils/table-event-crud';
-
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 @Injectable({
   providedIn: 'root',
 })
 export class SeleccionableListService<DialogComponent, DialogData> {
+  id?: number;
+  route!: ActivatedRouteService;
   modelo!: m;
   submodule!: string;
+  backUrl = `/biblioteca/${m.CARGO}/${a.LISTAR}`;
   private changeStatusMsg!: string;
   private dialogComponent!: ComponentType<DialogComponent>;
   private getDialogData?: (item?: SeleccionableBaseModel) => DialogData;
@@ -73,10 +76,12 @@ export class SeleccionableListService<DialogComponent, DialogData> {
 
   constructor(
     private dialog: DialogService,
-    private service: SeleccionableService<SeleccionableBaseModel>
+    private service: SeleccionableService<SeleccionableBaseModel>,
+    private router: ActivatedRouteService,
   ) {}
 
   setRouteData(
+    
     data: SeleccionableRouteData<DialogComponent, DialogData>
   ): void {
     const {

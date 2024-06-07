@@ -5,7 +5,7 @@ import {
   mockSeleccionableBaseModel1,
   SeleccionableBaseModel,
 } from './seleccionable';
-
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 export interface SeleccionableRouteData<DialogComponent, DialogData> {
   modelo: m;
   submodule: string;

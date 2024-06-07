@@ -27,7 +27,7 @@ export const usersUrls = [
     component: UserFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ORDEN_CARGA}/${m.ORDEN_CARGA}/${a.CREAR}`,
+      url: `/${u.USERS}/${m.USER}/${a.CREAR}`,
     },
   },
   {
@@ -35,7 +35,7 @@ export const usersUrls = [
     component: UserFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ORDEN_CARGA}/${m.ORDEN_CARGA}/${a.EDITAR}`,
+      url: `/${u.USERS}/${m.USER}/${a.EDITAR}`,
     },
   },
   {
@@ -43,7 +43,43 @@ export const usersUrls = [
     component: UserFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.ORDEN_CARGA}/${m.ORDEN_CARGA}/${a.VER}`,
+      url: `/${u.USERS}/${m.USER}/${a.VER}`,
+    },
+  },
+
+];
+
+export const rolUrls = [
+  {
+    path: a.LISTAR,
+    component: RolListComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.USERS}/${m.ROL}/${a.LISTAR}`,
+    },
+  },
+  {
+    path: a.CREAR,
+    component: RolFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.USERS}/${m.ROL}/${a.CREAR}`,
+    },
+  },
+  {
+    path: `${a.EDITAR}/:id`,
+    component: RolFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.USERS}/${m.ROL}/${a.EDITAR}`,
+    },
+  },
+  {
+    path: `${a.VER}/:id`,
+    component: RolFormComponent,
+    canActivate: [PermisoGuard],
+    data: {
+      url: `/${u.USERS}/${m.ROL}/${a.VER}`,
     },
   },
 
@@ -61,6 +97,17 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       ...usersUrls,
+    ],
+  },
+  {
+    path: m.ROL,
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      ...rolUrls,
     ],
   },
 ];

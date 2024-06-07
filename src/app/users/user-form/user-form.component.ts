@@ -6,7 +6,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { UserAccount } from 'src/app/interfaces/user';
 import { UserFormService } from './user-form.service';
-
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 @Component({
   selector: 'app-user-form',
   templateUrl: './user-form.component.html',

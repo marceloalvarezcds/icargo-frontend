@@ -6,6 +6,7 @@ import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { SeleccionableRouteData } from 'src/app/interfaces/seleccionable-form-dialog-data';
 import { TableEvent } from 'src/app/interfaces/table';
 import { SeleccionableListService } from './seleccionable-list.service';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 
 @Component({
   selector: 'app-seleccionable-list',
@@ -33,7 +34,7 @@ export class SeleccionableListComponent<DialogComponent, DialogData>
   }
 
   constructor(
-    route: ActivatedRoute,
+    route: ActivatedRouteService,
     private service: SeleccionableListService<DialogComponent, DialogData>
   ) {
     this.service.setRouteData(
