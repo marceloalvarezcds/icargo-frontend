@@ -13,11 +13,11 @@
       [hidden]="!liquidacionId"
       [readonly]="!isContraparteEditable"
     ></app-input-field>
-    <app-tipo-movimiento-dialog-field
+    <!-- <app-tipo-movimiento-dialog-field
       title="Cuenta - Concepto"
       [form]="form"
       (valueChange)="$event && cuentaControl.setValue($event.cuenta_id)"
-    ></app-tipo-movimiento-dialog-field>
+    ></app-tipo-movimiento-dialog-field> -->
     <app-tipo-contraparte-field
       [form]="form"
       [readonly]="!isContraparteEditable"
