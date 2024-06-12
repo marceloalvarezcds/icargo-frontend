@@ -242,9 +242,10 @@ export class RemitenteListComponent implements OnInit {
     this.filter('');
   }
 
-  private getList(): void {
+   getList(): void {
     this.remitenteService.getList().subscribe((list) => {
-      this.list = list;
+      console.log("getlist remitente", list)
+      this.list = list.slice();
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.composicionJuridicaFilterList = getFilterList(
         list,

@@ -30,7 +30,7 @@ import { MenuService } from './menu.service';
 export class TabService {
   currentUrl = this.route.url;
   selected = new FormControl(0);
-
+  private componentList: any[] = [];
   private tabs: Tab[] = [];
   private frameList?: QueryList<ViewContainerRef>;
   private urlSubscription = this.route.urlChange.subscribe((url) => {
@@ -50,18 +50,15 @@ export class TabService {
         menuPath
       );
     });
-    console.log("Router Event: ", routerEvent); 
     if (menu) {
       const path = this.getPathStr(menu.path);
       const url = path === routerUrl ? `${routerUrl}/${a.LISTAR}` : routerUrl;
-      console.log("url  :", url)
       const queryParams = this.route.snapshot.queryParams;
       const extras = Object.keys(queryParams).length ? { queryParams } : {};
       const str = JSON.stringify;
       const currentTabIndex = this.tabs.findIndex(
         (tab) => tab.url === url && str(tab.extras) === str(extras)
-      );
-      console.log("Tab Found: ", currentTabIndex); 
+      ); 
       if (currentTabIndex === -1) {
         const id = this.route.snapshot.params.id;
         const name = this.getTabNameByMenuAndUrl(menu, url, queryParams, id);
@@ -100,7 +97,7 @@ export class TabService {
     private router: Router,
     private route: ActivatedRouteService,
     private menuService: MenuService,
-    private cfr: ComponentFactoryResolver
+    private cfr: ComponentFactoryResolver,
   ) {}
 
   setFrameList(frameList: QueryList<ViewContainerRef> | undefined): void {
@@ -112,7 +109,7 @@ export class TabService {
   setSelectedIndexChange(index: number): void {
     this.selected.setValue(index);
     const currentTab = this.tabs[index];
-    this.navigate(currentTab.url, currentTab.extras);
+    this.navigate(currentTab.url, currentTab.extras, index);
   }
 
   unsubscribe(): void {
@@ -149,11 +146,16 @@ export class TabService {
     this.tabs.splice(index, 1);
   }
 
-  private navigate(url: string, extras?: NavigationExtras): void {
+  private navigate(url: string, extras?: NavigationExtras, currentTabIndex: number = 0): void {
     const queryParams = extras?.queryParams ?? {};
     const q = this.route.getQueryParamsByObject(queryParams);
     if (`${url}${q}` !== this.currentUrl) {
       this.location.go(url, q);
+      const component = this.componentList[currentTabIndex]
+      if (component && (component as any).getList)
+        {
+          (component as any).getList()
+        }
     }
   }
 
@@ -207,6 +209,7 @@ export class TabService {
   }
 
   private drawComponent(): void {
+
     const url = this.currentUrl;
     const currentTabIndex = this.tabs.findIndex((x) => url.startsWith(x.url));
     const currentURL = this.route.currentRoute;
@@ -215,7 +218,8 @@ export class TabService {
     if (frame && component) {
       frame.clear();
       const cf = this.cfr.resolveComponentFactory(component);
-      frame.createComponent<any>(cf);
+      const comp = frame.createComponent<any>(cf);
+      this.componentList.push(comp.instance);
     }
   }
 }
