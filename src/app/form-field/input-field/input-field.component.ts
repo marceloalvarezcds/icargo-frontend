@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { SemiList } from 'src/app/interfaces/semi';
+import { SemiService } from 'src/app/services/semi.service';
 
 @Component({
   selector: 'app-input-field',
@@ -7,6 +10,9 @@ import { FormControl, FormGroup } from '@angular/forms';
   styleUrls: ['./input-field.component.scss'],
 })
 export class InputFieldComponent {
+  cId?: number;
+  pId?: number;
+  list$?: Observable<SemiList[]>;
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
@@ -34,5 +40,22 @@ export class InputFieldComponent {
   @Input() readonly = false;
   @Input() title = '';
   @Input() disabled: boolean = false;
+  @Input() set camionId(id: number | undefined) {
+    this.cId = id;
+    this.getList();
+  }
+  @Input() set productoId(id: number | undefined) {
+    this.pId = id;
+   
+ this.getList();
+  }
+  constructor(private service: SemiService) {}
 
+  private getList(): void {
+    if (this.cId && this.pId) {
+      this.list$ = this.service.getListByCamionId(
+        this.cId
+      );
+    }
+  }
 }

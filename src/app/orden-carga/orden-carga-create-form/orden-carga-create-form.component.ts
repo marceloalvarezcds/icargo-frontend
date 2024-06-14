@@ -35,6 +35,7 @@ export class OrdenCargaCreateFormComponent {
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
       semi_id: [null, Validators.required],
+      semi_details: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
