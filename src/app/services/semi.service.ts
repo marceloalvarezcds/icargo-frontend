@@ -25,6 +25,14 @@ export class SemiService {
     );
   }
 
+  getListByCamionId(
+    camionId: number,
+  ): Observable<SemiList[]> {
+    return this.http.get<SemiList[]>(
+      `${this.url}/camion/${camionId}`
+    );
+  }
+
   getListByPropietarioId(propietarioId: number): Observable<SemiList[]> {
     return this.http.get<SemiList[]>(
       `${this.url}/propietario/${propietarioId}`

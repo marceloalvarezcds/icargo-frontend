@@ -61,7 +61,7 @@ export class CamionByProductoDialogFieldComponent {
   @Input() controlName = 'camion_id';
   @Input() groupName = '';
   @Input() emptyHint =
-    'No existen tractos. Debe crearlos/activarlos, asignarles un chofer, activar el chofer asignado o crear una combinación';
+    'No existen tractos. Debe crearlos/activarlos o crear una combinación';
   @Input() title = 'Tracto';
   @Input() subtitle =
     'Si no encuentra al tracto deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
@@ -78,7 +78,7 @@ export class CamionByProductoDialogFieldComponent {
 
   private getList(): void {
     if (this.pId) {
-      this.list$ = this.service.getListByProductoId(this.pId);
+      this.list$ = this.service.getListByCamionId(this.pId);
     }
   }
 }

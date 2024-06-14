@@ -82,9 +82,8 @@ export class SemiByCamionProductoDialogFieldComponent {
 
   private getList(): void {
     if (this.cId && this.pId) {
-      this.list$ = this.service.getListByCamionIdAndProductoId(
-        this.cId,
-        this.pId
+      this.list$ = this.service.getListByCamionId(
+        this.cId
       );
     }
   }

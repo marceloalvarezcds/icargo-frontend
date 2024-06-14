@@ -24,6 +24,10 @@ export class CamionService {
     return this.http.get<CamionList[]>(`${this.url}/producto/${productoId}`);
   }
 
+  getListByCamionId(camionId: number): Observable<CamionList[]> {
+    return this.http.get<CamionList[]>(`${this.url}/combinacion/${camionId}`);
+  }
+
   getListByPropietarioId(propietarioId: number): Observable<CamionList[]> {
     return this.http.get<CamionList[]>(
       `${this.url}/propietario/${propietarioId}`

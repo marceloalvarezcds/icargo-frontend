@@ -45,6 +45,16 @@ export class CombinacionService {
       `${this.url}/gestor_cuenta/semi/${semiId}`
     );
   }
+
+  getListByCamionIdAndSemiId(
+    camionId: number,
+    semiId: number
+  ): Observable<Combinacion | null> {
+    return this.http.get<Combinacion | null>(
+      `${this.url}/camion/${camionId}/semi/${semiId}`
+    );
+  }
+
   getById(id: number): Observable<CombinacionList> {
     return this.http.get<CombinacionList>(`${this.url}/${id}`);
   }

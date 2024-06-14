@@ -11,6 +11,7 @@ import { filter } from 'rxjs/operators';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCargaForm } from 'src/app/interfaces/orden-carga';
 import { CamionSemiNetoService } from 'src/app/services/camion-semi-neto.service';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
@@ -37,11 +38,11 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
           )
         )
         .subscribe((c: Partial<OrdenCargaForm>) => {
-          this.getListByCamionIdAndSemiIdAndProductoId(c.camion_id, c.semi_id);
+          this.getListByCamionIdAndSemiId(c.camion_id, c.semi_id);
         });
     }
     if (this.flete) {
-      this.getListByCamionIdAndSemiIdAndProductoId(
+      this.getListByCamionIdAndSemiId(
         this.camionIdControl.value,
         this.semiIdControl.value
       );
@@ -50,7 +51,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   @Input() set flete(f: FleteList | undefined) {
     this.fl = f;
     if (f) {
-      this.getListByCamionIdAndSemiIdAndProductoId(
+      this.getListByCamionIdAndSemiId(
         this.camionIdControl.value,
         this.semiIdControl.value
       );
@@ -83,22 +84,21 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.combinacion.get('semi_id') as FormControl;
   }
 
-  constructor(private camionSemiNetoService: CamionSemiNetoService) {}
+  constructor(private camionSemiNetoService: CombinacionService) {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
-  private getListByCamionIdAndSemiIdAndProductoId(
+  private getListByCamionIdAndSemiId(
     camionId?: number,
     semiId?: number
   ): void {
     if (camionId && semiId) {
       this.camionSemiNetoService
-        .getListByCamionIdAndSemiIdAndProductoId(
+        .getListByCamionIdAndSemiId(
           camionId,
-          semiId,
-          this.flete!.producto_id
+          semiId
         )
         .subscribe((camionSemiNeto) => {
           this.neto = camionSemiNeto?.neto;
