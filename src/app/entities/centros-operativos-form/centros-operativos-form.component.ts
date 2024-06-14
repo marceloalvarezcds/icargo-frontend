@@ -17,6 +17,7 @@ import { CentroOperativoService } from 'src/app/services/centro-operativo.servic
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { emailValidator } from 'src/app/validators/email-validator';
+import { CommunicationService } from 'src/app/services/communication.service';  
 
 @Component({
   selector: 'app-centros-operativos-form',
@@ -94,7 +95,8 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRouteService,
-    private router: Router
+    private router: Router,
+    private communicationService: CommunicationService
   ) {}
 
   ngOnInit(): void {
@@ -171,6 +173,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
               centroOperativo.id
             );
           });
+          this.communicationService.triggerRefresh();
       }
     } else {
       setTimeout(() => {
@@ -188,6 +191,9 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       this.isShow = /ver/.test(this.route.url);
       if (this.isShow) {
         this.form.disable();
+      }
+      if (this.isEdit) {
+        this.communicationService.triggerRefresh();
       }
       this.centroOperativoService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;

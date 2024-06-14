@@ -23,7 +23,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
-
+import { CommunicationService } from 'src/app/services/communication.service';  
 @Component({
   selector: 'app-remitente-form',
   templateUrl: './remitente-form.component.html',
@@ -111,7 +111,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRouteService,
-    private router: Router
+    private router: Router,
+    private communicationService: CommunicationService
   ) {}
 
   ngOnInit(): void {
@@ -178,8 +179,10 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
             r.ENTITIES,
             m.REMITENTE,
             remitente.id
+            
           );
         });
+        this.communicationService.triggerRefresh();
       }
      
     } else {
@@ -199,6 +202,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       this.isShow = /ver/.test(this.route.url);
       if (this.isEdit) {
         this.fileControl.removeValidators(Validators.required);
+        this.communicationService.triggerRefresh();
       }
       if (this.isShow) {
         this.form.disable();

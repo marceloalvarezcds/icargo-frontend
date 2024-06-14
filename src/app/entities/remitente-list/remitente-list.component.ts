@@ -15,7 +15,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
-
+import { CommunicationService } from 'src/app/services/communication.service'; 
 type Filter = {
   ciudad?: string;
   composicion_juridica?: string;
@@ -125,11 +125,15 @@ export class RemitenteListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private communicationService: CommunicationService
   ) {}
 
   ngOnInit(): void {
     this.getList();
+    this.communicationService.refreshNeeded$.subscribe(() => {
+      this.getList();
+    });
   }
 
   redirectToCreate(): void {
