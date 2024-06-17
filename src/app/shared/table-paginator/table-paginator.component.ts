@@ -33,7 +33,6 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
 
   @Input() columns: Column[] = [];
   @Input() set data(list: any[]) {
-    console.log("dataSource")
     this._list = list;
     this.dataSource.data = list.slice();
   }

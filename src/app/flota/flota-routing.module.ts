@@ -66,8 +66,7 @@ export const propietarioUrls = [
     component: PropietarioFormComponent,
     canActivate: [PermisoGuard],
     data: {
-      url: `/${u.FLOTA}/${m.PROPIETARIO}/${a.CREAR}`,
-      menuPath: `${u.FLOTA}/${m.PROPIETARIO}/${a.CREAR}`, 
+      url: `/${u.FLOTA}/${m.PROPIETARIO}/${a.CREAR}`, 
     },
   },
   {

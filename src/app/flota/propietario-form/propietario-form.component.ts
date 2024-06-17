@@ -6,7 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -24,6 +24,7 @@ import { UserService } from 'src/app/services/user.service';
 import { DateValidator } from 'src/app/validators/date-validator';
 import { emailValidator } from 'src/app/validators/email-validator';
 import { ActivatedRouteService } from 'src/app/services/activated-route.service';
+import { CommunicationService } from 'src/app/services/communication.service';  
 
 @Component({
   selector: 'app-propietario-form',
@@ -183,9 +184,9 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    // private route: ActivatedRoute,
     private route: ActivatedRouteService,
-    private router: Router
+    private router: Router,
+    private communicationService: CommunicationService
   ) {}
 
   ngOnInit(): void {
@@ -346,9 +347,13 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
+    console.log("id", this.id)
     if (this.id) {
       this.isEdit = /edit/.test(this.route.url);
       this.isShow = /ver/.test(this.route.url);
+      if (this.isEdit) {
+        this.communicationService.triggerRefresh();
+      }
       if (this.isShow) {
         this.form.disable();
       }
@@ -420,7 +425,6 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           },
           contactos: [],
         });
-    
         this.contactoList = data.contactos.slice();
         setTimeout(() => {
           this.hasChange = false;

@@ -197,6 +197,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
+    console.log("id", this.id)
     if (this.id) {
       this.isEdit = /edit/.test(this.route.url);
       this.isShow = /ver/.test(this.route.url);
