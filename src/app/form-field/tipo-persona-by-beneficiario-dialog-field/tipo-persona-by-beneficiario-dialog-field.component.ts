@@ -24,6 +24,11 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
       value: (element: PropietarioList) => element.nombre,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: PropietarioList) => element.estado,
+    },
+    {
       def: 'ruc',
       title: 'Nº Documento',
       value: (element: PropietarioList) => element.ruc,

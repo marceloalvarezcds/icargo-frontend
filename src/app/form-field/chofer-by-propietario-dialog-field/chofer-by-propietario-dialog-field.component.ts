@@ -26,10 +26,16 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
       value: (element: ChoferList) => element.id,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: ChoferList) => element.estado,
+    },
+    {
       def: 'numero_documento',
       title: 'Nº Documento',
       value: (element: ChoferList) => element.numero_documento,
     },
+
     {
       def: 'nombre',
       title: 'Nombre',

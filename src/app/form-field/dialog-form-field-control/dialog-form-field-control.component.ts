@@ -286,7 +286,7 @@ export class DialogFormFieldControlComponent<
   }
 
   private deshabilitarOpcion(estado: string): boolean {
-    const estadosNoSeleccionables = ['Inactivo', 'Finalizado']; 
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente']; 
     return estadosNoSeleccionables.includes(estado);
   }
 

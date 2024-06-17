@@ -24,6 +24,11 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
       value: (element: SemiList) => element.id,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: SemiList) => element.estado,
+    },
+    {
       def: 'placa',
       title: 'Placa',
       value: (element: SemiList) => element.placa,

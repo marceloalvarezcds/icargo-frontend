@@ -25,6 +25,11 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit{
       value: (element: CamionList) => element.id,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: CamionList) => element.estado,
+    },
+    {
       def: 'placa',
       title: 'Placa',
       value: (element: CamionList) => element.placa,
