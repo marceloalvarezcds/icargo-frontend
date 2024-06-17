@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Column } from 'src/app/interfaces/column';
 import { SemiList } from 'src/app/interfaces/semi';
 import { SemiService } from 'src/app/services/semi.service';
 
@@ -13,6 +14,40 @@ export class InputFieldComponent {
   cId?: number;
   pId?: number;
   list$?: Observable<SemiList[]>;
+
+  columns: Column[] = [
+    { def: 'selector', title: '', sticky: true },
+    {
+      def: 'id',
+      title: 'Nº',
+      value: (element: SemiList) => element.id,
+    },
+    {
+      def: 'placa',
+      title: 'Placa',
+      value: (element: SemiList) => element.placa,
+    },
+    {
+      def: 'propietario_nombre',
+      title: 'Propietario',
+      value: (element: SemiList) => element.propietario_nombre,
+    },
+    {
+      def: 'numero_chasis',
+      title: 'Nº de Chasis',
+      value: (element: SemiList) => element.numero_chasis,
+    },
+    {
+      def: 'marca_descripcion',
+      title: 'Marca',
+      value: (element: SemiList) => element.marca_descripcion,
+    },
+    {
+      def: 'clasificacion_descripcion',
+      title: 'Clasificación',
+      value: (element: SemiList) => element.clasificacion_descripcion,
+    },
+  ];
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;

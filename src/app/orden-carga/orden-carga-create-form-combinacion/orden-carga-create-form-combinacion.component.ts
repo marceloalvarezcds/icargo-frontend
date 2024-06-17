@@ -58,15 +58,8 @@ export class OrdenCargaCreateFormCombinacionComponent {
             const semi = semis[0]; 
             this.form?.get(this.groupName)?.get('semi_id')?.setValue(semi.id); 
             this.form?.get(this.groupName)?.get('semi_details')?.setValue(semi.info); 
-            this.form?.get(this.groupName)?.get('semi_id')?.setValue(null); 
-            this.form?.get(this.groupName)?.get('semi_details')?.setValue(null); 
           }
         },
-        (error) => {
-          console.error('Error al obtener semirremolques asociados', error);
-          this.form?.get(this.groupName)?.get('semi_id')?.setValue(null); 
-          this.form?.get(this.groupName)?.get('semi_details')?.setValue(null); 
-        }
       );
     }
   }
