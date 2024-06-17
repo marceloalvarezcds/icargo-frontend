@@ -215,6 +215,7 @@ export class TabService {
     const currentURL = this.route.currentRoute;
     const frame = this.frameList?.get(currentTabIndex);
     const component = currentURL?.component;
+    console.log("Component", component)
     if (frame && component) {
       frame.clear();
       const cf = this.cfr.resolveComponentFactory(component);

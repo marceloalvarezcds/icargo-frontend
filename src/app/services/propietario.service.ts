@@ -80,6 +80,6 @@ export class PropietarioService {
   }
   
   getPropietariosByTipoPersona(tipoPersona: string): Observable<Propietario[]> {
-    return this.http.get<Propietario[]>(`api/propietario?tipoPersona=${tipoPersona}`); // Ajusta la URL a tu API
+    return this.http.get<Propietario[]>(`api/propietario?tipoPersona=${tipoPersona}`); 
   }
 }
