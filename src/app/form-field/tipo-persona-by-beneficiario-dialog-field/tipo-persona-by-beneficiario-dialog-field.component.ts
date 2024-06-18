@@ -19,14 +19,14 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
-      def: 'nombre',
-      title: 'Beneficiario',
-      value: (element: PropietarioList) => element.nombre,
-    },
-    {
       def: 'estado',
       title: 'Estado',
       value: (element: PropietarioList) => element.estado,
+    },
+    {
+      def: 'nombre',
+      title: 'Beneficiario',
+      value: (element: PropietarioList) => element.nombre,
     },
     {
       def: 'ruc',
