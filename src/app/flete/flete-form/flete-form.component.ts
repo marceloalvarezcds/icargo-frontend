@@ -17,6 +17,7 @@ import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { FleteConfirmationDialogData } from 'src/app/interfaces/flete-confirmation-dialog-data';
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
+import { ActivatedRouteService } from 'src/app/services/activated-route.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -185,7 +186,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
-    private route: ActivatedRoute,
+    private route: ActivatedRouteService,
     private router: Router
   ) {}
 

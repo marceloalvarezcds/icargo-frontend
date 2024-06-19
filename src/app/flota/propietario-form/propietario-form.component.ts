@@ -347,13 +347,9 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
-    console.log("id", this.id)
     if (this.id) {
-      this.isEdit = /edit/.test(this.route.url);
-      this.isShow = /ver/.test(this.route.url);
-      if (this.isEdit) {
-        this.communicationService.triggerRefresh();
-      }
+      this.isEdit = /edit/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
       if (this.isShow) {
         this.form.disable();
       }
@@ -431,6 +427,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           this.initialFormValue = this.form.value;
         }, 500);
       });
+      
     }
   }
 }
