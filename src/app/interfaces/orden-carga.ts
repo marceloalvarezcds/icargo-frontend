@@ -157,6 +157,7 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_remitente_numero_documento: string;
   flete_tipo: TipoFleteEnum;
   gestor_carga_nombre: string;
+  condicion_propietario_tarifa: number;
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -314,6 +315,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_remitente_numero_documento: flete0.remitente_numero_documento,
     flete_tipo: flete0.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
+    condicion_propietario_tarifa: 90,
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -366,6 +368,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_remitente_numero_documento: flete1.remitente_numero_documento,
     flete_tipo: flete1.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
+    condicion_propietario_tarifa: 90,
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -418,6 +421,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_remitente_numero_documento: flete2.remitente_numero_documento,
     flete_tipo: flete2.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
+    condicion_propietario_tarifa: 100,
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',

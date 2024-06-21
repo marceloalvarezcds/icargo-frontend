@@ -60,6 +60,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;
 
+    
   constructor(private tableService: TableService) {}
 
   ngOnInit(): void {
@@ -72,5 +73,21 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
 
   setPageOptions(event: PageEvent): void {
     this.tableService.setPageOptions(event);
+  }
+
+  getPageList(): number[] {
+    const pageIndex = this.pageOptions?.pageIndex || 0;
+    const pageCount = this.paginator?.getNumberOfPages() || 0;
+    const pagesToShow = Math.min(pageCount, 5); // Mostrar hasta 5 páginas
+
+    const pages: number[] = [];
+    for (let i = pageIndex; i < pageIndex + pagesToShow; i++) {
+      pages.push(i);
+    }
+    return pages;
+  }
+
+  goToPage(pageNumber: number): void {
+
   }
 }

@@ -39,44 +39,50 @@ export class MovimientoListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº de Movimiento',
+      title: 'ID Liq.',
       value: (element: Movimiento) => element.id,
       sticky: true,
     },
-    {
-      def: 'liquidacion_id',
-      title: 'Nº de Liquiddación',
-      value: (element: Movimiento) => element.liquidacion_id,
-    },
-    {
-      def: 'liquidacion_fecha_creacion',
-      title: 'Fecha de creación Liq.',
-      value: (element: Movimiento) => element.liquidacion_fecha_creacion,
-      type: 'date',
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: Movimiento) => element.estado,
-    },
+    // {
+    //   def: 'liquidacion_id',
+    //   title: 'Nº de Liquiddación',
+    //   value: (element: Movimiento) => element.liquidacion_id,
+    // },
     {
       def: 'tipo_contraparte_descripcion',
       title: 'Tipo de Contraparte',
       value: (element: Movimiento) => element.tipo_contraparte_descripcion,
     },
     {
+      def: 'numero_documento_relacionado',
+      title: 'Documento',
+      value: (element: Movimiento) => element.numero_documento_relacionado,
+    },
+    {
+      def: 'liquidacion_fecha_creacion',
+      title: 'Fecha de Aprobación',
+      value: (element: Movimiento) => element.liquidacion_fecha_creacion,
+      type: 'date',
+    },
+    {
       def: 'contraparte',
-      title: 'Contraparte',
+      title: 'Arpobado por',
       value: (element: Movimiento) => element.contraparte,
     },
     {
-      def: 'contraparte_numero_documento',
-      title: 'Nº Doc. Contraparte',
-      value: (element: Movimiento) => element.contraparte_numero_documento,
+      def: 'estado',
+      title: 'Estado Liq.',
+      value: (element: Movimiento) => element.estado,
     },
+
+    // {
+    //   def: 'contraparte_numero_documento',
+    //   title: 'Nº Doc. Contraparte',
+    //   value: (element: Movimiento) => element.contraparte_numero_documento,
+    // },
     {
       def: 'monto',
-      title: 'Monto',
+      title: 'Tot. Movimiento',
       value: (element: Movimiento) => element.monto,
       type: 'number',
     },
@@ -111,11 +117,7 @@ export class MovimientoListComponent implements OnInit {
       value: (element: Movimiento) =>
         element.tipo_documento_relacionado_descripcion,
     },
-    {
-      def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
-    },
+ 
     {
       def: 'moneda_nombre',
       title: 'Moneda',

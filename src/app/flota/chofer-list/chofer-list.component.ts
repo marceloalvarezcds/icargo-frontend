@@ -32,7 +32,7 @@ export class ChoferListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: ChoferList) => element.id,
       sticky: true,
     },
@@ -40,11 +40,20 @@ export class ChoferListComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: ChoferList) => element.estado,
+      sticky: true,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha',
+      value: (element: ChoferList) => element.modified_at,
+      type: 'date',
+      sticky: true,
     },
     {
       def: 'nombre',
-      title: 'Nombre o Razón Social',
+      title: 'Nombre',
       value: (element: ChoferList) => element.nombre,
+      sticky: true,
     },
     {
       def: 'tipo_documento',
@@ -53,12 +62,12 @@ export class ChoferListComponent implements OnInit {
     },
     {
       def: 'pais_emisor_documento',
-      title: 'País Emisor del Documento',
+      title: 'País',
       value: (element: ChoferList) => element.pais_emisor_documento_nombre,
     },
     {
       def: 'numero_documento',
-      title: 'Número de Documento',
+      title: 'Documento',
       value: (element: ChoferList) => element.numero_documento,
     },
     {
@@ -86,26 +95,26 @@ export class ChoferListComponent implements OnInit {
     },
     {
       def: 'created_by',
-      title: 'Usuario creación',
+      title: 'Usuario',
       value: (element: ChoferList) => element.created_by,
     },
-    {
-      def: 'created_at',
-      title: 'Fecha creación',
-      value: (element: ChoferList) => element.created_at,
-      type: 'date',
-    },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: ChoferList) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: ChoferList) => element.modified_at,
-      type: 'date',
-    },
+    // {
+    //   def: 'created_at',
+    //   title: 'Fecha creación',
+    //   value: (element: ChoferList) => element.created_at,
+    //   type: 'date',
+    // },
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: ChoferList) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: ChoferList) => element.modified_at,
+    //   type: 'date',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

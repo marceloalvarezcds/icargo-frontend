@@ -31,10 +31,27 @@ export class BancoListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: Banco) => element.id,
       sticky: true,
     },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Banco) => element.estado,
+      sticky: true,
+    },
+    {
+      def: 'nombre',
+      title: 'Banco',
+      value: (element: Banco) => element.nombre,
+      sticky: true,
+    },
+    {
+      def: 'moneda_nombre',
+      title: 'Moneda',
+      value: (element: Banco) => element.moneda_nombre,
+    },    
     {
       def: 'numero_cuenta',
       title: 'Nº de Cuenta',
@@ -45,16 +62,8 @@ export class BancoListComponent implements OnInit {
       title: 'Titular',
       value: (element: Banco) => element.titular,
     },
-    {
-      def: 'nombre',
-      title: 'Nombre',
-      value: (element: Banco) => element.nombre,
-    },
-    {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Banco) => element.moneda_nombre,
-    },
+ 
+
     {
       def: 'credito',
       title: 'Crédito',
@@ -79,11 +88,7 @@ export class BancoListComponent implements OnInit {
       value: (element: Banco) => element.saldo_provisional,
       type: 'number',
     },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: Banco) => element.estado,
-    },
+ 
     {
       def: 'created_by',
       title: 'Usuario creación',

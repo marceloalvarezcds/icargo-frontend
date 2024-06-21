@@ -37,14 +37,22 @@ export class FleteListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'numero_lote',
+      title: 'Nº de Lote',
+      value: (element: FleteList) => element.numero_lote,
+      sticky: true,
+    },
+    {
       def: 'estado',
       title: 'Estado',
       value: (element: FleteList) => element.estado,
+      sticky: true,
     },
     {
       def: 'remitente_nombre',
       title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
+      sticky: true,
     },
     {
       def: 'producto_descripcion',
@@ -52,39 +60,9 @@ export class FleteListComponent implements OnInit {
       value: (element: FleteList) => element.producto_descripcion,
     },
     {
-      def: 'tipo_carga_descripcion',
-      title: 'Tipo de Carga',
-      value: (element: FleteList) => element.tipo_carga_descripcion,
-    },
-    {
-      def: 'numero_lote',
-      title: 'Nº de Lote',
-      value: (element: FleteList) => element.numero_lote,
-    },
-    {
-      def: 'publicado_descripcion',
-      title: 'Publicado',
-      value: (element: FleteList) => element.publicado_descripcion,
-    },
-    {
-      def: 'es_subasta',
-      title: 'Tipo de Pedido',
-      value: (element: FleteList) => (element.es_subasta ? 'Subasta' : 'Flete'),
-    },
-    {
-      def: 'gestor_carga_nombre',
-      title: 'Gestor de Carga',
-      value: (element: FleteList) => element.gestor_carga_nombre,
-    },
-    {
       def: 'origen_nombre',
       title: 'Origen',
       value: (element: FleteList) => element.origen_nombre,
-    },
-    {
-      def: 'origen_indicacion',
-      title: 'Origen Indicaciones',
-      value: (element: FleteList) => element.origen_indicacion,
     },
     {
       def: 'destino_nombre',
@@ -92,121 +70,170 @@ export class FleteListComponent implements OnInit {
       value: (element: FleteList) => element.destino_nombre,
     },
     {
-      def: 'destino_indicacion',
-      title: 'Destino Indicaciones',
-      value: (element: FleteList) => element.destino_indicacion,
-    },
-    {
-      def: 'distancia',
-      title: 'Distancia',
-      value: (element: FleteList) => element.distancia,
-      type: 'number',
-    },
-    {
-      def: 'tipo_flete',
-      title: 'Tipo de Flete',
-      value: (element: FleteList) => element.tipo_flete,
-    },
-    {
-      def: 'condicion_cantidad',
-      title: 'Cantidad a Transportar',
-      value: (element: FleteList) => element.condicion_cantidad,
-      type: 'number',
-    },
-    {
-      def: 'condicion_gestor_carga_moneda_nombre',
-      title: 'Condición para Gestor - Moneda',
-      value: (element: FleteList) =>
-        element.condicion_gestor_carga_moneda_nombre,
-    },
-    {
       def: 'condicion_gestor_carga_tarifa',
-      title: 'Condición para Gestor - Tarifa',
+      title: 'A Cobrar',
       value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
       type: 'number',
     },
     {
-      def: 'condicion_gestor_carga_unidad_descripcion',
-      title: 'Condición para Gestor - Unidad',
-      value: (element: FleteList) =>
-        element.condicion_gestor_carga_unidad_descripcion,
-    },
-    {
-      def: 'condicion_propietario_moneda_nombre',
-      title: 'Condición para Propietario - Moneda',
-      value: (element: FleteList) =>
-        element.condicion_propietario_moneda_nombre,
-    },
-    {
       def: 'condicion_propietario_tarifa',
-      title: 'Condición para Propietario - Tarifa',
+      title: 'A Pagar',
       value: (element: FleteList) => element.condicion_propietario_tarifa,
       type: 'number',
     },
     {
-      def: 'condicion_propietario_unidad_descripcion',
-      title: 'Condición para Propietario - Unidad',
-      value: (element: FleteList) =>
-        element.condicion_propietario_unidad_descripcion,
-    },
-    {
-      def: 'merma_gestor_carga_valor',
-      title: 'Merma para Gestor - Valor',
-      value: (element: FleteList) => element.merma_gestor_carga_valor,
+      def: 'condicion_cantidad',
+      title: 'Cantidad',
+      value: (element: FleteList) => element.condicion_cantidad,
       type: 'number',
     },
     {
-      def: 'merma_gestor_carga_moneda_nombre',
-      title: 'Merma para Gestor - Moneda',
-      value: (element: FleteList) => element.merma_gestor_carga_moneda_nombre,
+      def: 'tipo_carga_descripcion',
+      title: 'UM',
+      value: (element: FleteList) => element.tipo_carga_descripcion,
+      type: 'number',
     },
+
     {
-      def: 'merma_gestor_carga_unidad_descripcion',
-      title: 'Merma para Gestor - Unidad',
-      value: (element: FleteList) =>
-        element.merma_gestor_carga_unidad_descripcion,
-    },
-    {
-      def: 'merma_gestor_carga_es_porcentual',
-      title: 'Merma para Gestor - Es Cálculo porcentual',
-      value: (element: FleteList) =>
-        element.merma_gestor_carga_es_porcentual_descripcion,
-    },
-    {
-      def: 'merma_gestor_carga_tolerancia',
-      title: 'Merma para Gestor - Tolerancia',
-      value: (element: FleteList) => element.merma_gestor_carga_tolerancia,
+      def: 'cargado',
+      title: 'Cargado',
+      // value: (element: FleteList) => element.tipo_carga_descripcion,
       type: 'number',
     },
     {
-      def: 'merma_propietario_valor',
-      title: 'Merma para Propietario - Valor',
-      value: (element: FleteList) => element.merma_propietario_valor,
+      def: 'saldo',
+      title: 'Saldo',
+      // value: (element: FleteList) => element.tipo_carga_descripcion,
       type: 'number',
     },
+    // {
+    //   def: 'tipo_carga_descripcion',
+    //   title: 'Tipo de Carga',
+    //   value: (element: FleteList) => element.tipo_carga_descripcion,
+    // },
+
     {
-      def: 'merma_propietario_moneda_nombre',
-      title: 'Merma para Propietario - Moneda',
-      value: (element: FleteList) => element.merma_propietario_moneda_nombre,
+      def: 'publicado_descripcion',
+      title: 'Publicar',
+      value: (element: FleteList) => element.publicado_descripcion,
     },
+    // {
+    //   def: 'es_subasta',
+    //   title: 'Tipo de Pedido',
+    //   value: (element: FleteList) => (element.es_subasta ? 'Subasta' : 'Flete'),
+    // },
+    // {
+    //   def: 'gestor_carga_nombre',
+    //   title: 'Gestor de Carga',
+    //   value: (element: FleteList) => element.gestor_carga_nombre,
+    // },
     {
-      def: 'merma_propietario_unidad_descripcion',
-      title: 'Merma para Propietario - Unidad',
-      value: (element: FleteList) =>
-        element.merma_propietario_unidad_descripcion,
+      def: 'origen_indicacion',
+      title: 'Tramo',
+      value: (element: FleteList) => element.origen_indicacion,
     },
-    {
-      def: 'merma_propietario_es_porcentual',
-      title: 'Merma para Propietario - Es Cálculo porcentual',
-      value: (element: FleteList) =>
-        element.merma_propietario_es_porcentual_descripcion,
-    },
-    {
-      def: 'merma_propietario_tolerancia',
-      title: 'Merma para Propietario - Tolerancia',
-      value: (element: FleteList) => element.merma_propietario_tolerancia,
-      type: 'number',
-    },
+ 
+    // {
+    //   def: 'destino_indicacion',
+    //   title: 'Destino Indicaciones',
+    //   value: (element: FleteList) => element.destino_indicacion,
+    // },
+    // {
+    //   def: 'distancia',
+    //   title: 'Distancia',
+    //   value: (element: FleteList) => element.distancia,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'tipo_flete',
+    //   title: 'Tipo de Flete',
+    //   value: (element: FleteList) => element.tipo_flete,
+    // },
+
+    // {
+    //   def: 'condicion_gestor_carga_moneda_nombre',
+    //   title: 'Condición para Gestor - Moneda',
+    //   value: (element: FleteList) =>
+    //     element.condicion_gestor_carga_moneda_nombre,
+    // },
+
+    // {
+    //   def: 'condicion_gestor_carga_unidad_descripcion',
+    //   title: 'Condición para Gestor - Unidad',
+    //   value: (element: FleteList) =>
+    //     element.condicion_gestor_carga_unidad_descripcion,
+    // },
+    // {
+    //   def: 'condicion_propietario_moneda_nombre',
+    //   title: 'Condición para Propietario - Moneda',
+    //   value: (element: FleteList) =>
+    //     element.condicion_propietario_moneda_nombre,
+    // },
+
+    // {
+    //   def: 'condicion_propietario_unidad_descripcion',
+    //   title: 'Condición para Propietario - Unidad',
+    //   value: (element: FleteList) =>
+    //     element.condicion_propietario_unidad_descripcion,
+    // },
+    // {
+    //   def: 'merma_gestor_carga_valor',
+    //   title: 'Merma para Gestor - Valor',
+    //   value: (element: FleteList) => element.merma_gestor_carga_valor,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'merma_gestor_carga_moneda_nombre',
+    //   title: 'Merma para Gestor - Moneda',
+    //   value: (element: FleteList) => element.merma_gestor_carga_moneda_nombre,
+    // },
+    // {
+    //   def: 'merma_gestor_carga_unidad_descripcion',
+    //   title: 'Merma para Gestor - Unidad',
+    //   value: (element: FleteList) =>
+    //     element.merma_gestor_carga_unidad_descripcion,
+    // },
+    // {
+    //   def: 'merma_gestor_carga_es_porcentual',
+    //   title: 'Merma para Gestor - Es Cálculo porcentual',
+    //   value: (element: FleteList) =>
+    //     element.merma_gestor_carga_es_porcentual_descripcion,
+    // },
+    // {
+    //   def: 'merma_gestor_carga_tolerancia',
+    //   title: 'Merma para Gestor - Tolerancia',
+    //   value: (element: FleteList) => element.merma_gestor_carga_tolerancia,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'merma_propietario_valor',
+    //   title: 'Merma para Propietario - Valor',
+    //   value: (element: FleteList) => element.merma_propietario_valor,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'merma_propietario_moneda_nombre',
+    //   title: 'Merma para Propietario - Moneda',
+    //   value: (element: FleteList) => element.merma_propietario_moneda_nombre,
+    // },
+    // {
+    //   def: 'merma_propietario_unidad_descripcion',
+    //   title: 'Merma para Propietario - Unidad',
+    //   value: (element: FleteList) =>
+    //     element.merma_propietario_unidad_descripcion,
+    // },
+    // {
+    //   def: 'merma_propietario_es_porcentual',
+    //   title: 'Merma para Propietario - Es Cálculo porcentual',
+    //   value: (element: FleteList) =>
+    //     element.merma_propietario_es_porcentual_descripcion,
+    // },
+    // {
+    //   def: 'merma_propietario_tolerancia',
+    //   title: 'Merma para Propietario - Tolerancia',
+    //   value: (element: FleteList) => element.merma_propietario_tolerancia,
+    //   type: 'number',
+    // },
     // {
     //   def: 'vigencia_anticipos',
     //   title: 'Vigencia de Anticipos',
@@ -214,26 +241,26 @@ export class FleteListComponent implements OnInit {
     // },
     {
       def: 'created_by',
-      title: 'Usuario creación',
+      title: 'Usuario',
       value: (element: FleteList) => element.created_by,
     },
     {
       def: 'created_at',
-      title: 'Fecha creación',
+      title: 'Fecha',
       value: (element: FleteList) => element.created_at,
       type: 'date',
     },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: FleteList) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: FleteList) => element.modified_at,
-      type: 'date',
-    },
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: FleteList) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: FleteList) => element.modified_at,
+    //   type: 'date',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

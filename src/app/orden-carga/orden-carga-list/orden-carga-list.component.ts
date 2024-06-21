@@ -39,6 +39,19 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado,
+      sticky: true,
+    },
+    {
+      def: 'created_at',
+      title: 'Fecha',
+      value: (element: OrdenCargaList) => element.created_at,
+      type: 'date',
+      sticky: true,
+    },
+    {
+      def: 'nro_tickets',
+      title: 'Comprobantes',
+      value: (element: OrdenCargaList) => element.nro_tickets,
     },
     {
       def: 'anticipos_liberados_descripcion',
@@ -47,66 +60,58 @@ export class OrdenCargaListComponent implements OnInit {
         element.anticipos_liberados_descripcion,
     },
     {
-      def: 'flete_id',
-      title: 'Nº Pedido',
-      value: (element: OrdenCargaList) => element.flete_id,
-    },
-    {
       def: 'camion_placa',
-      title: 'Placa Tracto',
+      title: 'Tracto',
       value: (element: OrdenCargaList) => element.camion_placa,
     },
     {
       def: 'semi_placa',
-      title: 'Placa Semirrelque',
+      title: 'Semi',
       value: (element: OrdenCargaList) => element.semi_placa,
     },
-    {
-      def: 'cantidad_nominada',
-      title: 'Cant. Nominada (kg)',
-      value: (element: OrdenCargaList) => element.cantidad_nominada,
-      type: 'number',
-    },
-    {
-      def: 'comentarios',
-      title: 'Comentarios',
-      value: (element: OrdenCargaList) => element.comentarios,
-    },
-    {
-      def: 'gestor_carga_nombre',
-      title: 'Gestor de Cuenta',
-      value: (element: OrdenCargaList) => element.gestor_carga_nombre,
-    },
-    {
-      def: 'remisiones',
-      title: 'Remisiones',
-      value: (element: OrdenCargaList) => element.remisiones,
-    },
-    {
-      def: 'nro_tickets',
-      title: 'Nº Ticket',
-      value: (element: OrdenCargaList) => element.nro_tickets,
-    },
-    {
-      def: 'flete_remitente_nombre',
-      title: 'Cliente',
-      value: (element: OrdenCargaList) => element.flete_remitente_nombre,
-    },
+
+    // {
+    //   def: 'comentarios',
+    //   title: 'Comentarios',
+    //   value: (element: OrdenCargaList) => element.comentarios,
+    // },
+    // {
+    //   def: 'gestor_carga_nombre',
+    //   title: 'Gestor de Cuenta',
+    //   value: (element: OrdenCargaList) => element.gestor_carga_nombre,
+    // },
+    // {
+    //   def: 'remisiones',
+    //   title: 'Remisiones',
+    //   value: (element: OrdenCargaList) => element.remisiones,
+    // },
+
+
     {
       def: 'camion_chofer_nombre',
       title: 'Chofer',
       value: (element: OrdenCargaList) => element.camion_chofer_nombre,
     },
     {
-      def: 'camion_propietario_nombre',
-      title: 'Propietario',
-      value: (element: OrdenCargaList) => element.camion_propietario_nombre,
+      def: 'flete_id',
+      title: 'Pedido',
+      value: (element: OrdenCargaList) => element.flete_id,
     },
     {
-      def: 'flete_tipo',
-      title: 'Tipo de Flete',
-      value: (element: OrdenCargaList) => element.flete_tipo,
+      def: 'flete_remitente_nombre',
+      title: 'Cliente',
+      value: (element: OrdenCargaList) => element.flete_remitente_nombre,
     },
+    // {
+    //   def: 'camion_propietario_nombre',
+    //   title: 'Propietario',
+    //   value: (element: OrdenCargaList) => element.camion_propietario_nombre,
+    // },
+    // {
+    //   def: 'flete_tipo',
+    //   title: 'Tipo de Flete',
+    //   value: (element: OrdenCargaList) => element.flete_tipo,
+    // },
     {
       def: 'flete_producto_descripcion',
       title: 'Producto',
@@ -123,49 +128,55 @@ export class OrdenCargaListComponent implements OnInit {
       value: (element: OrdenCargaList) => element.flete_destino_nombre,
     },
     {
-      def: 'cantidad_origen',
-      title: 'Cant. Origen (kg)',
-      value: (element: OrdenCargaList) => element.cantidad_origen,
+      def: 'condicion_propietario_tarifa',
+      title: 'A Cobrar',
+      value: (element: OrdenCargaList) => element.condicion_propietario_tarifa,
+    },    
+    {
+      def: 'cantidad_nominada',
+      title: 'Cant. Nominada',
+      value: (element: OrdenCargaList) => element.cantidad_nominada,
       type: 'number',
     },
-    {
-      def: 'cantidad_destino',
-      title: 'Cant. Destino (kg)',
-      value: (element: OrdenCargaList) => element.cantidad_destino,
-      type: 'number',
-    },
-    {
-      def: 'origen_nombre',
-      title: 'Lugar de Carga',
-      value: (element: OrdenCargaList) => element.origen_nombre,
-    },
-    {
-      def: 'destino_nombre',
-      title: 'Lugar de Descarga',
-      value: (element: OrdenCargaList) => element.destino_nombre,
-    },
+    // {
+    //   def: 'cantidad_origen',
+    //   title: 'Cant. Origen (kg)',
+    //   value: (element: OrdenCargaList) => element.cantidad_origen,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'cantidad_destino',
+    //   title: 'Cant. Destino (kg)',
+    //   value: (element: OrdenCargaList) => element.cantidad_destino,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'origen_nombre',
+    //   title: 'Lugar de Carga',
+    //   value: (element: OrdenCargaList) => element.origen_nombre,
+    // },
+    // {
+    //   def: 'destino_nombre',
+    //   title: 'Lugar de Descarga',
+    //   value: (element: OrdenCargaList) => element.destino_nombre,
+    // },
     {
       def: 'created_by',
-      title: 'Usuario creación',
+      title: 'Usuario',
       value: (element: OrdenCargaList) => element.created_by,
     },
-    {
-      def: 'created_at',
-      title: 'Fecha creación',
-      value: (element: OrdenCargaList) => element.created_at,
-      type: 'date',
-    },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: OrdenCargaList) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: OrdenCargaList) => element.modified_at,
-      type: 'date',
-    },
+ 
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: OrdenCargaList) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: OrdenCargaList) => element.modified_at,
+    //   type: 'date',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

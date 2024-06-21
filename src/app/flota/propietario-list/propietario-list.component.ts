@@ -32,7 +32,7 @@ export class PropietarioListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: PropietarioList) => element.id,
       sticky: true,
     },
@@ -40,31 +40,33 @@ export class PropietarioListComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: PropietarioList) => element.estado,
+      sticky: true,
     },
     {
       def: 'nombre',
-      title: 'Nombre o Razón Social',
+      title: 'Propietarios',
       value: (element: PropietarioList) => element.nombre,
+      sticky: true,
     },
     {
       def: 'tipo_persona',
-      title: 'Tipo de Persona',
+      title: 'Tipo',
       value: (element: PropietarioList) => element.tipo_persona_descripcion,
     },
     {
       def: 'ruc',
-      title: 'Número de Documento',
+      title: 'Documento',
       value: (element: PropietarioList) => element.ruc,
-    },
-    {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: PropietarioList) => element.direccion,
     },
     {
       def: 'telefono',
       title: 'Teléfono',
       value: (element: PropietarioList) => element.telefono,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: PropietarioList) => element.direccion,
     },
     {
       def: 'gestor_cuenta_nombre',
@@ -86,26 +88,26 @@ export class PropietarioListComponent implements OnInit {
     },
     {
       def: 'created_by',
-      title: 'Usuario creación',
+      title: 'Usuario',
       value: (element: PropietarioList) => element.created_by,
     },
     {
       def: 'created_at',
-      title: 'Fecha creación',
+      title: 'Fecha',
       value: (element: PropietarioList) => element.created_at,
       type: 'date',
     },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: PropietarioList) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: PropietarioList) => element.modified_at,
-      type: 'date',
-    },
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: PropietarioList) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: PropietarioList) => element.modified_at,
+    //   type: 'date',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

@@ -33,35 +33,53 @@ export class RemitenteListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: RemitenteList) => element.id,
       sticky: true,
     },
     {
-      def: 'nombre',
-      title: 'Nombre',
-      value: (element: RemitenteList) => element.nombre,
+      def: 'estado',
+      title: 'Estado',
+      value: (element: RemitenteList) => element.estado,
       sticky: true,
     },
     {
-      def: 'nombre_corto',
-      title: 'Nombre de Fantasía',
-      value: (element: RemitenteList) => element.nombre_corto,
+      def: 'created_at',
+      title: 'Fecha',
+      value: (element: RemitenteList) => element.created_at,
+      sticky: true,
+      type: 'date',
     },
     {
+      def: 'nombre',
+      title: 'Clientes',
+      value: (element: RemitenteList) => element.nombre,
+      sticky: true,
+    },
+    // {
+    //   def: 'nombre_corto',
+    //   title: 'Nombre de Fantasía',
+    //   value: (element: RemitenteList) => element.nombre_corto,
+    // },
+    {
       def: 'tipo_documento',
-      title: 'Tipo de Documento',
+      title: 'Tipo',
       value: (element: RemitenteList) => element.tipo_documento_descripcion,
     },
     {
       def: 'numero_documento',
-      title: 'Número de Documento',
+      title: 'Documento',
       value: (element: RemitenteList) => element.numero_documento,
     },
     {
       def: 'composicion_juridica',
-      title: 'Composición Jurídica',
+      title: 'Tipo',
       value: (element: RemitenteList) => element.composicion_juridica_nombre,
+    },
+    {
+      def: 'telefono',
+      title: 'Celular',
+      value: (element: RemitenteList) => element.telefono,
     },
     {
       def: 'direccion',
@@ -75,6 +93,11 @@ export class RemitenteListComponent implements OnInit {
         element.ciudad_nombre
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
+    },
+    {
+      def: 'created_by',
+      title: 'Usuario',
+      value: (element: RemitenteList) => element.created_by,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

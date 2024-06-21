@@ -46,12 +46,12 @@ export class SemiListComponent implements OnInit {
     },
     {
       def: 'placa',
-      title: 'Placa',
+      title: 'Chapa',
       value: (element: SemiList) => element.placa,
     },
     {
       def: 'pais_emisor_placa',
-      title: 'País Emisor de la Placa',
+      title: 'País Emisor de la Chapa',
       value: (element: SemiList) => element.pais_emisor_placa_nombre,
     },
     {
@@ -67,12 +67,12 @@ export class SemiListComponent implements OnInit {
     },
     {
       def: 'tipo',
-      title: 'Tipo de Semi',
+      title: 'Tipo Semi',
       value: (element: SemiList) => element.tipo_descripcion,
     },
     {
       def: 'tipo_carga',
-      title: 'Tipo de Carga',
+      title: 'Tipo Carga',
       value: (element: SemiList) => element.tipo_carga_descripcion,
     },
     {
@@ -92,26 +92,26 @@ export class SemiListComponent implements OnInit {
     },
     {
       def: 'created_by',
-      title: 'Usuario creación',
+      title: 'Usuario',
       value: (element: SemiList) => element.created_by,
     },
     {
       def: 'created_at',
-      title: 'Fecha creación',
+      title: 'Fecha',
       value: (element: SemiList) => element.created_at,
       type: 'date',
     },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: SemiList) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: SemiList) => element.modified_at,
-      type: 'date',
-    },
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: SemiList) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: SemiList) => element.modified_at,
+    //   type: 'date',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

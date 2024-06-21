@@ -32,20 +32,35 @@ export class CentrosOperativosListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: CentroOperativoList) => element.id,
       sticky: true,
     },
     {
-      def: 'nombre',
-      title: 'Nombre',
-      value: (element: CentroOperativoList) => element.nombre,
+      def: 'estado',
+      title: 'Estado',
+      value: (element: CentroOperativoList) => element.estado,
       sticky: true,
     },
     {
-      def: 'nombre_corto',
-      title: 'Nombre de Fantasía',
-      value: (element: CentroOperativoList) => element.nombre_corto,
+      def: 'nombre',
+      title: 'Centros Operativos',
+      value: (element: CentroOperativoList) => element.nombre,
+    },
+    // {
+    //   def: 'nombre_corto',
+    //   title: 'Nombre de Fantasía',
+    //   value: (element: CentroOperativoList) => element.nombre_corto,
+    // },
+    {
+      def: 'categoria',
+      title: 'Clasificación',
+      value: (element: CentroOperativoList) => element.clasificacion_nombre,
+    },
+    {
+      def: 'telefono',
+      title: 'Celular',
+      value: (element: CentroOperativoList) => element.telefono,
     },
     {
       def: 'direccion',
@@ -61,9 +76,9 @@ export class CentrosOperativosListComponent implements OnInit {
           : '',
     },
     {
-      def: 'categoria',
-      title: 'Clasificación',
-      value: (element: CentroOperativoList) => element.clasificacion_nombre,
+      def: 'created_by',
+      title: 'Usuario',
+      value: (element: CentroOperativoList) => element.created_by,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

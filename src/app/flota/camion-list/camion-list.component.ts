@@ -33,7 +33,7 @@ export class CamionListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: CamionList) => element.id,
       sticky: true,
     },
@@ -41,15 +41,16 @@ export class CamionListComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: CamionList) => element.estado,
+      sticky: true,
     },
     {
       def: 'placa',
-      title: 'Placa',
+      title: 'Chapa',
       value: (element: CamionList) => element.placa,
     },
     {
       def: 'pais_emisor_placa',
-      title: 'País Emisor de la Placa',
+      title: 'País Emisor de la Chapa',
       value: (element: CamionList) => element.pais_emisor_placa_nombre,
     },
     {
@@ -67,6 +68,11 @@ export class CamionListComponent implements OnInit {
           : '',
     },
     {
+      def: 'marca',
+      title: 'Marca',
+      value: (element: CamionList) => element.marca_descripcion,
+    },
+    {
       def: 'limites',
       title: 'Límites',
       value: (element: CamionList) => element.limites,
@@ -77,42 +83,37 @@ export class CamionListComponent implements OnInit {
       value: (element: CamionList) => element.tipo_descripcion,
     },
     {
-      def: 'marca',
-      title: 'Marca',
-      value: (element: CamionList) => element.marca_descripcion,
-    },
-    {
       def: 'gestor_cuenta_nombre',
       title: 'Gestor de Cuenta',
       value: (element: CamionList) => element.gestor_cuenta_nombre,
     },
-    {
-      def: 'oficial_cuenta_nombre',
-      title: 'Oficial de Cuenta',
-      value: (element: CamionList) => element.oficial_cuenta_nombre,
-    },
-    {
-      def: 'created_by',
-      title: 'Usuario creación',
-      value: (element: CamionList) => element.created_by,
-    },
-    {
-      def: 'created_at',
-      title: 'Fecha creación',
-      value: (element: CamionList) => element.created_at,
-      type: 'date',
-    },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: CamionList) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: CamionList) => element.modified_at,
-      type: 'date',
-    },
+    // {
+    //   def: 'oficial_cuenta_nombre',
+    //   title: 'Oficial de Cuenta',
+    //   value: (element: CamionList) => element.oficial_cuenta_nombre,
+    // },
+    // {
+    //   def: 'created_by',
+    //   title: 'Usuario creación',
+    //   value: (element: CamionList) => element.created_by,
+    // },
+    // {
+    //   def: 'created_at',
+    //   title: 'Fecha creación',
+    //   value: (element: CamionList) => element.created_at,
+    //   type: 'date',
+    // },
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: CamionList) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: CamionList) => element.modified_at,
+    //   type: 'date',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

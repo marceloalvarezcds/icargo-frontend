@@ -34,20 +34,15 @@ export class GestorCargaListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: GestorCargaList) => element.id,
       sticky: true,
     },
     {
       def: 'nombre',
-      title: 'Nombre',
+      title: 'Gestora de Carga',
       value: (element: GestorCargaList) => element.nombre,
       sticky: true,
-    },
-    {
-      def: 'nombre_corto',
-      title: 'Nombre de Fantasía',
-      value: (element: GestorCargaList) => element.nombre_corto,
     },
     {
       def: 'tipo_documento',
@@ -56,7 +51,7 @@ export class GestorCargaListComponent implements OnInit {
     },
     {
       def: 'numero_documento',
-      title: 'Número de Documento',
+      title: 'Nº Documento',
       value: (element: GestorCargaList) => element.numero_documento,
     },
     {
@@ -81,6 +76,16 @@ export class GestorCargaListComponent implements OnInit {
         element.ciudad_nombre
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
+    },
+    {
+      def: 'created_by',
+      title: 'Admin',
+      value: (element: GestorCargaList) => element.created_by,
+    },
+    {
+      def: 'telefono',
+      title: 'Celular Admin',
+      value: (element: GestorCargaList) => element.telefono,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

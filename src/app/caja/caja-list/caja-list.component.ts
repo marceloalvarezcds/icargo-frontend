@@ -31,14 +31,21 @@ export class CajaListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: Caja) => element.id,
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Caja) => element.estado,
+      sticky: true,
+    },
+    {
       def: 'nombre',
-      title: 'Nombre',
+      title: 'Caja',
       value: (element: Caja) => element.nombre,
+      sticky: true,
     },
     {
       def: 'moneda_nombre',
@@ -62,11 +69,6 @@ export class CajaListComponent implements OnInit {
       title: 'Saldo',
       value: (element: Caja) => element.saldo_confirmado,
       type: 'number',
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: Caja) => element.estado,
     },
     {
       def: 'created_by',

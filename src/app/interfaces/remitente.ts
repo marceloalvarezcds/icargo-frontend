@@ -42,6 +42,8 @@ export interface Remitente {
   ciudad: Ciudad | null;
   contactos: RemitenteContactoGestorCargaList[];
   gestor_carga_remitente?: GestorCargaRemitente;
+  created_at: string; //Agregar para la lista remitente
+  created_by: string; //Agregar para la lista remitente
 }
 
 const gestorCargaRemitente0 = mockGestorCargaRemitenteList[0];
@@ -92,6 +94,8 @@ export const mockRemitenteList: RemitenteList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento0.descripcion,
+    created_at: '2024-06-18',
+    created_by: 'admin',
   },
   {
     id: 2,
@@ -121,6 +125,8 @@ export const mockRemitenteList: RemitenteList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento1.descripcion,
+    created_at: '2024-06-18',
+    created_by: 'admin',
   },
   {
     id: 3,
@@ -151,5 +157,7 @@ export const mockRemitenteList: RemitenteList[] = [
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
     tipo_documento_descripcion: tipoDocumento2.descripcion,
+    created_at: '2024-06-18',
+    created_by: 'admin',
   },
 ];

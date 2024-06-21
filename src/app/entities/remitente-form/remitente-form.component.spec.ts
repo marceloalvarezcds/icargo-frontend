@@ -21,7 +21,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { mockCiudadList } from 'src/app/interfaces/ciudad';
 import { mockComposicionJuridicaList } from 'src/app/interfaces/composicion-juridica';
-import { mockRemitenteList } from 'src/app/interfaces/remitente';
+// import { mockRemitenteList } from 'src/app/interfaces/remitente';
 import { mockTipoDocumentoList } from 'src/app/interfaces/tipo-documento';
 import { mockUserAccount } from 'src/app/interfaces/user';
 import { MaterialModule } from 'src/app/material/material.module';

@@ -76,10 +76,12 @@
     </ng-container>
   </mat-chip-list>
   <app-table-paginator
+    class="lista-remitente"
     [columns]="columns"
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
+    [hideDelete]="true"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     (deleteClick)="deleteRow($event)"

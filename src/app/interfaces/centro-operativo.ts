@@ -33,6 +33,7 @@ export interface CentroOperativo {
   ciudad: Ciudad | null;
   contactos: CentroOperativoContactoGestorCargaList[];
   gestor_carga_centro_operativo?: GestorCargaCentroOperativo;
+  
 }
 
 const gestorCargaCentroOperativo0 = mockGestorCargaCentroOperativoList[0];
@@ -43,6 +44,7 @@ export interface CentroOperativoList extends CentroOperativo {
   localidad_nombre: string | null;
   pais_nombre: string | null;
   pais_nombre_corto: string | null;
+  created_by: string; //Agregar para vista CO
 }
 
 export const mockCentroOperativoList: CentroOperativoList[] = [
@@ -73,6 +75,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    created_by: 'admin',
   },
   {
     id: 2,
@@ -100,6 +103,7 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    created_by: 'admin',
   },
   {
     id: 3,
@@ -128,5 +132,6 @@ export const mockCentroOperativoList: CentroOperativoList[] = [
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
+    created_by: 'admin',
   },
 ];

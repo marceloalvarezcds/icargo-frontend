@@ -1,4 +1,4 @@
-<table mat-table [dataSource]="tableDataSource" matSort >
+<table mat-table [dataSource]="tableDataSource" matSort  >
   <ng-container
     *ngFor="let column of filteredColumns"
     [matColumnDef]="column.def"
@@ -30,7 +30,7 @@
         *matCellDef="let row; let index = index"
         [class.mat-cell-checkbox]="column.type === 'checkbox'"
         [class.row-error]="formArray.at(index)?.get(column.def)?.errors"
-        
+        [style.color]="column.def === 'estado' ? getColorForState(row[column.def]) : 'inherit'"
       >
         <ng-container
           *ngIf="

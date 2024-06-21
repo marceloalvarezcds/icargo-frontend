@@ -2,13 +2,16 @@
 @import "~src/assets/styles/filter.scss";
 
 .row_menu::ng-deep {
-  width: 30px;
-  height: 30px;
+  width: 89px;
+  height: 22px;
+  font-weight: 500;
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
   .mat-button-wrapper {
-    line-height: 24px;
+    line-height: 14.06px;
   }
   .mat-icon-button .mat-icon {
-    line-height: 14px;
+    line-height: 14.06px;
   }
 }
 
@@ -16,28 +19,162 @@
   text-align: center;
 }
 
-.row-error {
-  border: 1px solid $error-color;
-}
+// .row-error {
+//   border: 1px solid $error-color;
+// }
 
-.row-button::ng-deep {
-  height: 24px;
-  line-height: 24px;
-  font-size: 12px;
-}
+// .row-button::ng-deep {
+//   height: 24px;
+//   line-height: 24px;
+//   font-size: 12px;
+// }
 
-.mat-table::ng-deep {
-  .mat-column-id {
-    width: 68px !important;
-    box-sizing: border-box;
-  }
+// .mat-table::ng-deep {
+//   .mat-column-id {
+//     width: 68px !important;
+//     box-sizing: border-box;
+//   }
   .mat-header-cell-checkbox .mat-checkbox-mixedmark {
     left: 3px;
     position: absolute;
     top: 7px;
   }
-  .mat-header-cell-checkbox .mat-checkbox-inner-container,
-  .mat-cell-checkbox .mat-checkbox-inner-container {
-    overflow: visible;
-  }
+//   .mat-header-cell-checkbox .mat-checkbox-inner-container,
+//   .mat-cell-checkbox .mat-checkbox-inner-container {
+//     overflow: visible;
+//   }
+// }
+
+
+// .mat-table-container {
+//   width: 75%; /* Ancho fijo de la tabla */
+//   max-width: 100%; /* Máximo ancho del contenedor */
+//   overflow-x: auto; /* Barra de desplazamiento horizontal si es necesario */
+//   border: 2px solid #5BC0EB; /* Borde de 2px sólido celeste */
+//   border-radius: 5px; /* Borde redondeado de 5px */
+//   // margin-top: 10px; /* Ajuste de margen superior */
+//   // padding: 20px; /* Espaciado interno */
+
+//   @media (max-width: 1024px) {
+//     width: 90%; /* Reducir el ancho en pantallas más pequeñas */
+//     padding: 8px; /* Reducir el padding interno en pantallas más pequeñas */
+//   }
+// }
+
+// .mat-table tbody tr {
+//   margin-bottom: 4px; /* Espacio entre filas */
+// }
+// ::ng-deep .mat-header-row, 
+// ::ng-deep .mat-footer-row {
+//   font-family: Roboto, sans-serif;
+//   font-size: 12px;
+//   font-weight: 500;
+//   line-height: 14.06px;
+//   text-align: left;
+//   background-color: #DDE1E6; /* Color de fondo gris */
+//   padding: 4px; /* Ajusta el padding superior e inferior a 2px, y el padding izquierdo y derecho a 4px */
+//   gap: 6px; /* Espacio entre elementos */
+// }
+// thead {
+//   font-family: Roboto, sans-serif;
+//   font-size: 12px;
+//   font-weight: 500;
+//   line-height: 14.06px;
+//   text-align: left;
+//   background-color: #DDE1E6; /* Color de fondo gris */
+// }
+// thead th {
+//   padding: 0.5em; /* Ajusta el padding en todas las direcciones */
+//   padding-top: 0.25em; /* Ajuste específico para el padding superior */
+//   border: 2px solid #5bc0eb; /* Borde celeste */
+//   border-radius: 5px; /* Borde redondeado */
+//   white-space: nowrap; /* Evitar el salto de línea del texto */
+//   overflow: hidden; /* Ocultar el contenido que desborda */
+//   text-overflow: ellipsis; /* Agregar puntos suspensivos si el contenido desborda */
+// }
+
+.mat-header-row {
+  background-color: #DDE1E6 !important; /* Asegura que el color de fondo gris se aplique */
 }
+
+/* Estilos para la tabla */
+.mat-table {
+  width: 100%; /* Ocupa todo el ancho disponible */
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.06px;
+  text-align: left;
+  border: 2px solid #5bc0eb; /* Borde celeste */
+  border-radius: 5px; /* Borde redondeado */
+  padding: 4px;
+  box-sizing: border-box; /* Incluye el padding en el ancho total */
+}
+
+
+.mat-table .mat-icon-button {
+  position: sticky;
+  right: 2px; /* Ajusta el margen derecho según el ancho del borde */
+  z-index: 3; /* Asegura que esté por encima del borde derecho */
+}
+
+/* Opcional: Estilos para las filas de encabezado y pie de página */
+
+
+th.mat-header-cell {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.06px;
+  color: black; /* Cambia el color del texto a negro */
+}
+
+td.mat-cell {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.06px;
+  color: black; /* Cambia el color del texto a negro */
+}
+
+.mat-cell, .mat-header-cell, .mat-footer-cell {
+  padding: 0;
+  font-size: small;
+}
+
+.mat-table {
+  border-collapse: collapse;
+}
+
+.mat-form-field-label {
+  font-weight: normal; /* Quita el negritado */
+  font-size: 12px; /* Tamaño de fuente */
+  line-height: 14px; /* Altura de línea */
+  width: 95px; /* Ancho del label */
+  height: 14px; /* Altura del label */
+  gap: 0px; /* Espacio entre elementos del label */
+  opacity: 1; /* Opacidad del label (1 es completamente visible) */
+}
+
+.mat-row {
+  width: 100%; /* Ancho de la fila */
+  height: 22px; /* Altura de la fila */
+  padding: 4px 0px; /* Padding de la fila (arriba y abajo) */
+  gap: 0px; /* Espacio entre elementos de la fila */
+  opacity: 1; /* Opacidad de la fila (1 es completamente visible) */
+}
+
+.mat-header-cell, .mat-cell, .mat-footer-cell {
+  border-right: none; /* Quita el borde derecho en las celdas */
+  padding: 4px; /* Padding entre las celdas */
+  white-space: normal; /* Asegura que el contenido se ajuste al ancho */
+  overflow: hidden; /* Oculta el contenido que desborda */
+  text-overflow: ellipsis; /* Agrega puntos suspensivos si el contenido desborda */
+}
+
+.mat-header-row:last-child .mat-header-cell,
+.mat-row:last-child .mat-cell,
+.mat-footer-row:last-child .mat-footer-cell {
+  border-bottom: none; /* Evita la doble línea en la última fila */
+}
+

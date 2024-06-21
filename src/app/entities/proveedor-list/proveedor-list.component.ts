@@ -33,34 +33,40 @@ export class ProveedorListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: ProveedorList) => element.id,
       sticky: true,
     },
     {
-      def: 'nombre',
-      title: 'Nombre',
-      value: (element: ProveedorList) => element.nombre,
+      def: 'estado',
+      title: 'Estado',
+      value: (element: ProveedorList) => element.estado,
       sticky: true,
     },
     {
-      def: 'nombre_corto',
-      title: 'Nombre de Fantasía',
-      value: (element: ProveedorList) => element.nombre_corto,
+      def: 'nombre',
+      title: 'Proveedor',
+      value: (element: ProveedorList) => element.nombre,
+      sticky: true,
     },
+    // {
+    //   def: 'nombre_corto',
+    //   title: 'Nombre de Fantasía',
+    //   value: (element: ProveedorList) => element.nombre_corto,
+    // },
     {
       def: 'tipo_documento',
-      title: 'Tipo de Documento',
+      title: 'Tipo Doc',
       value: (element: ProveedorList) => element.tipo_documento_descripcion,
     },
     {
       def: 'numero_documento',
-      title: 'Número de Documento',
+      title: 'Nº de Doc.',
       value: (element: ProveedorList) => element.numero_documento,
     },
     {
       def: 'composicion_juridica',
-      title: 'Composición Jurídica',
+      title: 'Comp. Jurídica',
       value: (element: ProveedorList) => element.composicion_juridica_nombre,
     },
     {

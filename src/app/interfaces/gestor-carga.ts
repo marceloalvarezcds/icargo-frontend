@@ -35,6 +35,7 @@ export interface GestorCarga {
   longitud: number | null;
   ciudad_id: number | null;
   ciudad: Ciudad | null;
+  created_by: string; //Agregar para vista GC
   // INICIO Limitaciones de la Gestora
   limite_cantidad_oc_activas: number | null;
   // FIN Limitaciones de la Gestora
@@ -90,6 +91,7 @@ export const mockGestorCargaList: GestorCargaList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento0.descripcion,
+    created_by: 'admin',
     // INICIO Limitaciones de la Gestora
     limite_cantidad_oc_activas: 1,
 
@@ -125,6 +127,7 @@ export const mockGestorCargaList: GestorCargaList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento1.descripcion,
+    created_by: 'admin',
     // INICIO Limitaciones de la Gestora
     limite_cantidad_oc_activas: null,
     // FIN Limitaciones de la Gestora
@@ -159,6 +162,7 @@ export const mockGestorCargaList: GestorCargaList[] = [
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
     tipo_documento_descripcion: tipoDocumento2.descripcion,
+    created_by: 'admin',
     // INICIO Limitaciones de la Gestora
     limite_cantidad_oc_activas: null,
     // FIN Limitaciones de la Gestora

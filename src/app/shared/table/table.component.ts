@@ -155,4 +155,17 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   updateAllChecked() {
     this.allChecked = this.checkedList.every((t) => t);
   }
+  
+  getColorForState(state: string): string {
+    switch (state) {
+      case 'Activo':
+        return '#008000'; // Verde
+      case 'Inactivo':
+        return '#FF0000'; // Rojo
+      case 'Pendiente':
+        return '#FFA500'; // Naranja
+      default:
+        return '#000000'; // Color por defecto o para otros estados
+    }
+  }
 }
