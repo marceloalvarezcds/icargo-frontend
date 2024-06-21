@@ -39,25 +39,19 @@ export class ChoferListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: ChoferList) => element.estado,
+      value: (element: ChoferList) => element.estado.toUpperCase(),
       sticky: true,
     },
-    {
-      def: 'modified_at',
-      title: 'Fecha',
-      value: (element: ChoferList) => element.modified_at,
-      type: 'date',
-      sticky: true,
-    },
+
     {
       def: 'nombre',
-      title: 'Nombre',
+      title: 'Choferes',
       value: (element: ChoferList) => element.nombre,
       sticky: true,
     },
     {
       def: 'tipo_documento',
-      title: 'Tipo de Documento',
+      title: 'Tipo Doc.',
       value: (element: ChoferList) => element.tipo_documento_descripcion,
     },
     {
@@ -85,18 +79,17 @@ export class ChoferListComponent implements OnInit {
       title: 'Dirección',
       value: (element: ChoferList) => element.direccion,
     },
-    {
-      def: 'ubicacion',
-      title: 'Ubicación',
-      value: (element: ChoferList) =>
-        element.ciudad_nombre
-          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-          : '',
-    },
+
     {
       def: 'created_by',
       title: 'Usuario',
       value: (element: ChoferList) => element.created_by,
+    },
+    {
+      def: 'modified_at',
+      title: 'Fecha',
+      value: (element: ChoferList) => this.formatDate(element.created_at),
+      sticky: true,
     },
     // {
     //   def: 'created_at',
@@ -126,6 +119,14 @@ export class ChoferListComponent implements OnInit {
   paisFiltered: string[] = [];
   tipoDocumentoFilterList: string[] = [];
   tipoDocumentoFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   get isFilteredByCiudad(): boolean {
     return this.ciudadFiltered.length !== this.ciudadFilterList.length;

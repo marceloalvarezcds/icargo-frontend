@@ -39,7 +39,7 @@ export class CombinacionListComponent implements OnInit{
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: CombinacionList) => element.estado,
+      value: (element: CombinacionList) => element.estado.toUpperCase(),
     },
     {
        def: 'camion',
@@ -48,7 +48,7 @@ export class CombinacionListComponent implements OnInit{
      },
      {
        def: 'marca_camion',
-       title: 'Marca Tracto',
+       title: 'Marca',
        value: (element: CombinacionList) => element.marca_descripcion,
      },
     {
@@ -64,7 +64,7 @@ export class CombinacionListComponent implements OnInit{
     },
     {
       def: 'marca_semi',
-      title: 'Marca Semi',
+      title: 'Marca',
       value: (element: CombinacionList) => element.marca_descripcion_semi,
     },
     {
@@ -85,8 +85,7 @@ export class CombinacionListComponent implements OnInit{
     {
       def: 'modified_at',
       title: 'Fecha',
-      value: (element: CombinacionList) => element.modified_at,
-      type: 'date',
+      value: (element: CombinacionList) => this.formatDate(element.modified_at),
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -103,6 +102,14 @@ export class CombinacionListComponent implements OnInit{
   choferFiltered: string[] = [];
   semiFilterList: string[] = [];
   semiFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   get isFilteredByMarca(): boolean {
     return this.marcaFiltered.length !== this.marcaFilterList.length;

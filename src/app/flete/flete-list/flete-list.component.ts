@@ -38,14 +38,14 @@ export class FleteListComponent implements OnInit {
     },
     {
       def: 'numero_lote',
-      title: 'Nº de Lote',
+      title: 'Nº Lote',
       value: (element: FleteList) => element.numero_lote,
       sticky: true,
     },
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: FleteList) => element.estado,
+      value: (element: FleteList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
@@ -247,8 +247,7 @@ export class FleteListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha',
-      value: (element: FleteList) => element.created_at,
-      type: 'date',
+      value: (element: FleteList) => this.formatDate(element.created_at),
     },
     // {
     //   def: 'modified_by',
@@ -272,6 +271,15 @@ export class FleteListComponent implements OnInit {
   productoFiltered: string[] = [];
   publicadoFilterList: string[] = [];
   publicadoFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;

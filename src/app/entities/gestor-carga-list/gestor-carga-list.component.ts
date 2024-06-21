@@ -39,6 +39,11 @@ export class GestorCargaListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: GestorCargaList) => element.estado.toUpperCase(),
+    },
+    {
       def: 'nombre',
       title: 'Gestora de Carga',
       value: (element: GestorCargaList) => element.nombre,
@@ -51,41 +56,45 @@ export class GestorCargaListComponent implements OnInit {
     },
     {
       def: 'numero_documento',
-      title: 'Nº Documento',
+      title: 'Nº Doc.',
       value: (element: GestorCargaList) => element.numero_documento,
     },
     {
       def: 'composicion_juridica',
-      title: 'Composición Jurídica',
+      title: 'Comp. Jurídica',
       value: (element: GestorCargaList) => element.composicion_juridica_nombre,
     },
-    {
-      def: 'moneda',
-      title: 'Moneda',
-      value: (element: GestorCargaList) => element.moneda_nombre,
-    },
-    {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: GestorCargaList) => element.direccion,
-    },
-    {
-      def: 'ubicacion',
-      title: 'Ubicación',
-      value: (element: GestorCargaList) =>
-        element.ciudad_nombre
-          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-          : '',
-    },
+    // {
+    //   def: 'moneda',
+    //   title: 'Moneda',
+    //   value: (element: GestorCargaList) => element.moneda_nombre,
+    // },
+    // {
+    //   def: 'direccion',
+    //   title: 'Dirección',
+    //   value: (element: GestorCargaList) => element.direccion,
+    // },
+    // {
+    //   def: 'ubicacion',
+    //   title: 'Ubicación',
+    //   value: (element: GestorCargaList) =>
+    //     element.ciudad_nombre
+    //       ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
+    //       : '',
+    // },
     {
       def: 'created_by',
       title: 'Admin',
-      value: (element: GestorCargaList) => element.created_by,
+      // value: (element: GestorCargaList) => element.created_by,
+    },
+    {
+      def: 'gestor_elemento',
+      title: 'G.E.',
     },
     {
       def: 'telefono',
       title: 'Celular Admin',
-      value: (element: GestorCargaList) => element.telefono,
+      // value: (element: GestorCargaList) => element.telefono,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -102,6 +111,14 @@ export class GestorCargaListComponent implements OnInit {
   paisFiltered: string[] = [];
   tipoDocumentoFilterList: string[] = [];
   tipoDocumentoFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   get isFilteredByCiudad(): boolean {
     return this.ciudadFiltered.length !== this.ciudadFilterList.length;

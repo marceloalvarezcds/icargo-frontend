@@ -451,8 +451,7 @@ export class RentabilidadListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha y hora',
-      value: (element: Rentabilidad) => element.created_at,
-      type: 'date',
+      value: (element: Rentabilidad) => this.formatDate(element.created_at),
     },
     {
       def: 'created_by',
@@ -462,8 +461,7 @@ export class RentabilidadListComponent implements OnInit {
     {
       def: 'modified_at',
       title: 'Fecha y hora',
-      value: (element: Rentabilidad) => element.modified_at,
-      type: 'date',
+      value: (element: Rentabilidad) => this.formatDate(element.modified_at),
     },
     {
       def: 'modified_by',
@@ -473,6 +471,14 @@ export class RentabilidadListComponent implements OnInit {
   ];
 
   list: Rentabilidad[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   constructor(
     private rentabilidadService: RentabilidadService,

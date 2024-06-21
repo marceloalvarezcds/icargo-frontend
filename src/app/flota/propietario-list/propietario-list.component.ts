@@ -39,7 +39,7 @@ export class PropietarioListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: PropietarioList) => element.estado,
+      value: (element: PropietarioList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
@@ -49,18 +49,19 @@ export class PropietarioListComponent implements OnInit {
       sticky: true,
     },
     {
-      def: 'tipo_persona',
-      title: 'Tipo',
-      value: (element: PropietarioList) => element.tipo_persona_descripcion,
-    },
-    {
       def: 'ruc',
       title: 'Documento',
       value: (element: PropietarioList) => element.ruc,
     },
     {
+      def: 'tipo_persona',
+      title: 'Comp. Jurídica',
+      value: (element: PropietarioList) => element.tipo_persona_descripcion,
+    },
+
+    {
       def: 'telefono',
-      title: 'Teléfono',
+      title: 'Celular',
       value: (element: PropietarioList) => element.telefono,
     },
     {
@@ -79,14 +80,6 @@ export class PropietarioListComponent implements OnInit {
       value: (element: PropietarioList) => element.oficial_cuenta_nombre,
     },
     {
-      def: 'ubicacion',
-      title: 'Ubicación',
-      value: (element: PropietarioList) =>
-        element.ciudad_nombre
-          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-          : '',
-    },
-    {
       def: 'created_by',
       title: 'Usuario',
       value: (element: PropietarioList) => element.created_by,
@@ -94,8 +87,7 @@ export class PropietarioListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha',
-      value: (element: PropietarioList) => element.created_at,
-      type: 'date',
+      value: (element: PropietarioList) => this.formatDate(element.created_at),
     },
     // {
     //   def: 'modified_by',
@@ -119,6 +111,15 @@ export class PropietarioListComponent implements OnInit {
   paisFiltered: string[] = [];
   tipoPersonaFilterList: string[] = [];
   tipoPersonaFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByCiudad(): boolean {
     return this.ciudadFiltered.length !== this.ciudadFilterList.length;

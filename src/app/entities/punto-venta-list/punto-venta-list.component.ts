@@ -29,44 +29,44 @@ export class PuntoVentaListComponent {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: PuntoVentaList) => element.estado.toUpperCase(),
+    },
+    {
       def: 'nombre',
-      title: 'Nombre',
+      title: 'Puntos de Venta',
       value: (element: PuntoVentaList) => element.nombre,
       sticky: true,
     },
     {
-      def: 'nombre_corto',
-      title: 'Nombre de Fantasía',
-      value: (element: PuntoVentaList) => element.nombre_corto,
-    },
-    {
       def: 'tipo_documento',
-      title: 'Tipo de Documento',
+      title: 'Tipo de Doc.',
       value: (element: PuntoVentaList) => element.tipo_documento_descripcion,
     },
     {
       def: 'numero_documento',
-      title: 'Número de Documento',
+      title: 'Nº Doc.',
       value: (element: PuntoVentaList) => element.numero_documento,
     },
     {
       def: 'composicion_juridica',
-      title: 'Composición Jurídica',
+      title: 'Comp. Jurídica',
       value: (element: PuntoVentaList) => element.composicion_juridica_nombre,
     },
-    {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: PuntoVentaList) => element.direccion,
-    },
-    {
-      def: 'ubicacion',
-      title: 'Ubicación',
-      value: (element: PuntoVentaList) =>
-        element.ciudad_nombre
-          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-          : '',
-    },
+    // {
+    //   def: 'direccion',
+    //   title: 'Dirección',
+    //   value: (element: PuntoVentaList) => element.direccion,
+    // },
+    // {
+    //   def: 'ubicacion',
+    //   title: 'Ubicación',
+    //   value: (element: PuntoVentaList) =>
+    //     element.ciudad_nombre
+    //       ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
+    //       : '',
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

@@ -49,7 +49,7 @@ export class UserListService {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: User) => element.estado,
+      value: (element: User) => element.estado.toUpperCase(),
     },
     {
       def: 'created_by',
@@ -59,8 +59,7 @@ export class UserListService {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: User) => element.created_at,
-      type: 'date',
+      value: (element: User) => this.formatDate(element.created_at),
     },
     {
       def: 'modified_by',
@@ -70,12 +69,20 @@ export class UserListService {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: User) => element.modified_at,
-      type: 'date',
+      value: (element: User) => this.formatDate(element.modified_at),
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
   private lista: User[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get columns(): Column[] {
     return this.cols;

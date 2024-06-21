@@ -38,7 +38,7 @@ export class BancoListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: Banco) => element.estado,
+      value: (element: Banco) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
@@ -82,35 +82,27 @@ export class BancoListComponent implements OnInit {
       value: (element: Banco) => element.saldo_confirmado,
       type: 'number',
     },
-    {
-      def: 'saldo_provisional',
-      title: 'Saldo Provisional',
-      value: (element: Banco) => element.saldo_provisional,
-      type: 'number',
-    },
  
     {
       def: 'created_by',
-      title: 'Usuario creación',
+      title: 'Usuario',
       value: (element: Banco) => element.created_by,
     },
     {
       def: 'created_at',
-      title: 'Fecha creación',
-      value: (element: Banco) => element.created_at,
-      type: 'date',
+      title: 'Fecha',
+      value: (element: Banco) => this.formatDate(element.created_at),
     },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: Banco) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: Banco) => element.modified_at,
-      type: 'date',
-    },
+    // {
+    //   def: 'modified_by',
+    //   title: 'Usuario modificación',
+    //   value: (element: Banco) => element.modified_by,
+    // },
+    // {
+    //   def: 'modified_at',
+    //   title: 'Fecha modificación',
+    //   value: (element: Banco) => this.formatDate(element.modified_at),
+    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
@@ -120,6 +112,14 @@ export class BancoListComponent implements OnInit {
   estadoFiltered: string[] = [];
   monedaFilterList: string[] = [];
   monedaFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;

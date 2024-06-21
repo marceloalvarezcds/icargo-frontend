@@ -34,7 +34,7 @@ export class SeleccionableListService<DialogComponent, DialogData> {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: SeleccionableBaseModel) => element.estado,
+      value: (element: SeleccionableBaseModel) => element.estado.toUpperCase(),
     },
     {
       def: 'created_by',
@@ -44,8 +44,7 @@ export class SeleccionableListService<DialogComponent, DialogData> {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: SeleccionableBaseModel) => element.created_at,
-      type: 'date',
+      value: (element: SeleccionableBaseModel) => this.formatDate(element.created_at),
     },
     {
       def: 'modified_by',
@@ -55,13 +54,21 @@ export class SeleccionableListService<DialogComponent, DialogData> {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: SeleccionableBaseModel) => element.modified_at,
-      type: 'date',
+      value: (element: SeleccionableBaseModel) => this.formatDate(element.modified_at),
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   private lista: SeleccionableBaseModel[] = [];
+
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   get columns(): Column[] {
     return this.cols;

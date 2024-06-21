@@ -38,7 +38,7 @@ export class CajaListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: Caja) => element.estado,
+      value: (element: Caja) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
@@ -78,8 +78,7 @@ export class CajaListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: Caja) => element.created_at,
-      type: 'date',
+      value: (element: Caja) => this.formatDate(element.created_at),
     },
     {
       def: 'modified_by',
@@ -89,8 +88,7 @@ export class CajaListComponent implements OnInit {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: Caja) => element.modified_at,
-      type: 'date',
+      value: (element: Caja) => this.formatDate(element.modified_at),
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -101,6 +99,15 @@ export class CajaListComponent implements OnInit {
   estadoFiltered: string[] = [];
   monedaFilterList: string[] = [];
   monedaFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;

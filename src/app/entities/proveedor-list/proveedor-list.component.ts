@@ -40,7 +40,7 @@ export class ProveedorListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: ProveedorList) => element.estado,
+      value: (element: ProveedorList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {

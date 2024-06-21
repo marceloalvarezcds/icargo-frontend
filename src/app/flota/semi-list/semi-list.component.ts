@@ -42,7 +42,7 @@ export class SemiListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: SemiList) => element.estado,
+      value: (element: SemiList) => element.estado.toUpperCase(),
     },
     {
       def: 'placa',
@@ -51,7 +51,7 @@ export class SemiListComponent implements OnInit {
     },
     {
       def: 'pais_emisor_placa',
-      title: 'País Emisor de la Chapa',
+      title: 'País Emisor de Chapa',
       value: (element: SemiList) => element.pais_emisor_placa_nombre,
     },
     {
@@ -98,8 +98,7 @@ export class SemiListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha',
-      value: (element: SemiList) => element.created_at,
-      type: 'date',
+      value: (element: SemiList) => this.formatDate(element.created_at),
     },
     // {
     //   def: 'modified_by',
@@ -129,6 +128,15 @@ export class SemiListComponent implements OnInit {
   tipoFiltered: string[] = [];
   tipoCargaFilterList: string[] = [];
   tipoCargaFiltered: string[] = [];
+
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   get isFilteredByClasificacion(): boolean {
     return (

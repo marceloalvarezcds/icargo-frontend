@@ -40,17 +40,18 @@ export class CamionListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: CamionList) => element.estado,
+      value: (element: CamionList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
       def: 'placa',
       title: 'Chapa',
       value: (element: CamionList) => element.placa,
+      sticky: true,
     },
     {
       def: 'pais_emisor_placa',
-      title: 'País Emisor de la Chapa',
+      title: 'País Emisor de Chapa',
       value: (element: CamionList) => element.pais_emisor_placa_nombre,
     },
     {
@@ -83,26 +84,29 @@ export class CamionListComponent implements OnInit {
       value: (element: CamionList) => element.tipo_descripcion,
     },
     {
+      def: 'marca_semi',
+      title: 'Marca',
+    },
+    {
       def: 'gestor_cuenta_nombre',
       title: 'Gestor de Cuenta',
       value: (element: CamionList) => element.gestor_cuenta_nombre,
     },
-    // {
-    //   def: 'oficial_cuenta_nombre',
-    //   title: 'Oficial de Cuenta',
-    //   value: (element: CamionList) => element.oficial_cuenta_nombre,
-    // },
+    {
+      def: 'oficial_cuenta_nombre',
+      title: 'Oficial de Cuenta',
+      value: (element: CamionList) => element.oficial_cuenta_nombre,
+    },
     // {
     //   def: 'created_by',
     //   title: 'Usuario creación',
     //   value: (element: CamionList) => element.created_by,
     // },
-    // {
-    //   def: 'created_at',
-    //   title: 'Fecha creación',
-    //   value: (element: CamionList) => element.created_at,
-    //   type: 'date',
-    // },
+    {
+      def: 'created_at',
+      title: 'Fecha',
+      value: (element: CamionList) => this.formatDate(element.created_at),
+    },
     // {
     //   def: 'modified_by',
     //   title: 'Usuario modificación',
@@ -127,6 +131,15 @@ export class CamionListComponent implements OnInit {
   propietarioFiltered: string[] = [];
   tipoFilterList: string[] = [];
   tipoFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByMarca(): boolean {
     return this.marcaFiltered.length !== this.marcaFilterList.length;

@@ -61,18 +61,17 @@ export class MovimientoListComponent implements OnInit {
     {
       def: 'liquidacion_fecha_creacion',
       title: 'Fecha de Aprobación',
-      value: (element: Movimiento) => element.liquidacion_fecha_creacion,
-      type: 'date',
+      value: (element: Movimiento) => element.liquidacion_fecha_creacion ? this.formatDate(element.liquidacion_fecha_creacion) : '',
     },
     {
       def: 'contraparte',
-      title: 'Arpobado por',
+      title: 'Aprobado por',
       value: (element: Movimiento) => element.contraparte,
     },
     {
       def: 'estado',
       title: 'Estado Liq.',
-      value: (element: Movimiento) => element.estado,
+      value: (element: Movimiento) => element.estado.toUpperCase(),
     },
 
     // {
@@ -132,8 +131,7 @@ export class MovimientoListComponent implements OnInit {
     {
       def: 'fecha_cambio_moneda',
       title: 'Fecha de cambio',
-      value: (element: Movimiento) => element.fecha_cambio_moneda,
-      type: 'date',
+      value: (element: Movimiento) => this.formatDate(element.fecha_cambio_moneda),
     },
     {
       def: 'monto_ml',
@@ -144,8 +142,7 @@ export class MovimientoListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
+      value: (element: Movimiento) => this.formatDate(element.created_at),
     },
     {
       def: 'created_by',
@@ -176,6 +173,15 @@ export class MovimientoListComponent implements OnInit {
     end: new FormControl(null),
   });
   fechaMovimientoFiltered = '';
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByContraparte(): boolean {
     return this.contraparteFiltered !== '';

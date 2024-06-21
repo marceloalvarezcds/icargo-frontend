@@ -40,7 +40,7 @@ export class RemitenteListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: RemitenteList) => element.estado,
+      value: (element: RemitenteList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {

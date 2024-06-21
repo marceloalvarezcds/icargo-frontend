@@ -38,14 +38,13 @@ export class OrdenCargaListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: OrdenCargaList) => element.estado,
+      value: (element: OrdenCargaList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
       def: 'created_at',
       title: 'Fecha',
-      value: (element: OrdenCargaList) => element.created_at,
-      type: 'date',
+      value: (element: OrdenCargaList) => this.formatDate(element.created_at),
       sticky: true,
     },
     {
@@ -186,6 +185,15 @@ export class OrdenCargaListComponent implements OnInit {
   estadoFiltered: string[] = [];
   productoFilterList: string[] = [];
   productoFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;

@@ -39,7 +39,7 @@ export class CentrosOperativosListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: CentroOperativoList) => element.estado,
+      value: (element: CentroOperativoList) => element.estado.toUpperCase(),
       sticky: true,
     },
     {
