@@ -46,6 +46,54 @@ $header-heigth: 64px;
     }
   }
 }
+/* Extra small devices (phones, less than 576px) */
+@media (max-width: 575.98px) {
+  .page {
+    width: 100%;
+    /* Otros estilos específicos para pantallas pequeñas */
+  }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+  .page {
+    width: 95%;
+    /* Otros estilos específicos para pantallas pequeñas/medianas */
+  }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .page {
+    width: 90%;
+    /* Otros estilos específicos para pantallas medianas */
+  }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+  .page {
+    width: 95%;
+    /* Otros estilos específicos para pantallas grandes */
+  }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) and (max-width: 1599.98px) {
+  .page {
+    width: 80%;
+    /* Otros estilos específicos para pantallas extra grandes */
+  }
+}
+
+/* Ultra large devices (very large desktops, 1600px and up) */
+@media (min-width: 1600px) {
+  .page {
+    width: 43%;
+    /* Otros estilos específicos para pantallas ultra grandes */
+  }
+}
+
 // .custom-style-for-combinacion {
 //   // Estilos específicos para el módulo "Combinacion"
 //   // Puedes personalizar según tus necesidades

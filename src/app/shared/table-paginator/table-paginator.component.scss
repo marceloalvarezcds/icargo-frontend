@@ -25,71 +25,13 @@
   border-radius: 4px; /* Bordes redondeados para el thumb */
 }
 
-
-
-// .table-container {
-//   position: relative; /* Establece posición relativa para el contenedor */
-//   max-height: calc(100vh - 235px); /* Ajusta la altura máxima según sea necesario */
-//   overflow: auto; /* Añade scroll vertical cuando es necesario */
-//   width: 95%; /* Ancho deseado para la tabla */
-//   max-width: 100%; /* Ajusta el ancho máximo */
-// }
-
-// .table-scroll {
-//   overflow-x: auto; /* Añade scroll horizontal */
-//   overflow-y: hidden; /* Oculta el scroll vertical */
-//   max-width: 100%; /* Ajusta el ancho máximo */
-// }
-
-// .paginator-container {
-//   position: absolute; /* Establece posición absoluta para el paginator */
-//   right: 20px; /* Alinea el paginator a la derecha */
-//   bottom: 20px; /* Alinea el paginator a 20px del borde inferior del contenedor */
-//   display: flex; /* Usa flexbox para alinear elementos */
-//   align-items: center; /* Centra verticalmente el contenido */
-// }
-
-// .table-container::-webkit-scrollbar {
-//   width: 5px; /* Ancho más delgado de la barra de desplazamiento */
-// }
-
-// .table-container::-webkit-scrollbar-thumb {
-//   background-color: rgba(200, 200, 200, 0.5); /* Color de fondo semi-transparente gris claro */
-//   border-radius: 6px; /* Borde redondeado */
-// }
-
-// .table-container::-webkit-scrollbar-track {
-//   background-color: transparent; /* Color de fondo transparente */
-// }
-// // .mat-paginator {
-// //   display: flex;
-// //   justify-content: flex-end; /* Alinear contenido a la derecha */
-// //   align-items: center; /* Centrar verticalmente */
-// //   padding-right: 500px; /* Espacio adicional a la derecha */
-// //   font-size: 12px;
-// //   height: 40px; /* Mismo alto que el contenedor de la tabla */
-// //   height: 30px;
-// //   margin: 20px;
-// //   padding-bottom: 20px;
-// // }
-
-// .mat-paginator-page-size {
-//   font-size: 12px;
-// }
-
-// .mat-paginator-range-label,
-// .mat-paginator-page-size-label {
-//   font-size: 12px;
-// }
-
-// .mat-select-value {
-//   font-size: 12px;
-// }
-
-// .mat-paginator-navigation {
-//   height: 24px;
-// }
-
-// .mat-paginator-navigation button {
-//   padding: 4px;
-// }
+/* Estilos para reducir el tamaño del cuadro de selección del mat-paginator */
+.mat-paginator{
+  font-size: 12px; /* Tamaño de fuente más pequeño */
+  height: 28px; /* Altura más pequeña */
+  padding: 4px 8px; /* Ajustar el padding según sea necesario */
+  background-color: #f0f0f0; /* Color de fondo para resaltar */
+  color: black; /* Color de texto */
+  font-family: Roboto, sans-serif;
+  
+}

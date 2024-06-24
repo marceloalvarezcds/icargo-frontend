@@ -4,3 +4,10 @@
     max-width: 10%;
   }
 }
+@media (max-width: 1940px) {
+  .flete-page,
+  .mat-cell,
+  .mat-header-cell {
+    max-width: 50%;
+  }
+}
