@@ -42,6 +42,7 @@
   .mat-column-condicion_cantidad{
     text-align: right; /* Alinear el texto a la derecha */
   }
+
   .mat-column-remitente_nombre {
     width: 150px !important;
   }
@@ -57,6 +58,9 @@
     width: 100px !important;
     box-sizing: border-box;
     text-align: right; 
+  }
+  .mat-column-condicion_gestor_carga_tarifa{
+    text-align: right; /* Alinear el texto a la derecha */
   }
   .mat-column-condicion_propietario_tarifa{
     width: 100px !important;
