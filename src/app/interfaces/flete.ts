@@ -149,6 +149,7 @@ export interface FleteList extends FleteFormBaseModel {
   merma_propietario_moneda_nombre: string;
   merma_propietario_unidad_descripcion: string;
   merma_propietario_es_porcentual_descripcion: string;
+  condicion_cantidad: number;
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
 }

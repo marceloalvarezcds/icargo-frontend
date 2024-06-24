@@ -90,14 +90,13 @@ export class FleteListComponent implements OnInit {
     {
       def: 'tipo_carga_descripcion',
       title: 'UM',
-      value: (element: FleteList) => element.tipo_carga_descripcion,
-      type: 'number',
+      value: (element: FleteList) => element.merma_gestor_carga_unidad_descripcion,
     },
 
     {
       def: 'cargado',
       title: 'Cargado',
-      // value: (element: FleteList) => element.tipo_carga_descripcion,
+      // value: (element: FleteList) => element.condicion_cantidad,
       type: 'number',
     },
     {

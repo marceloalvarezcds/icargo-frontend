@@ -31,7 +31,7 @@ export class OrdenCargaListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: OrdenCargaList) => element.id,
       sticky: true,
     },
@@ -90,6 +90,11 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'camion_chofer_nombre',
       title: 'Chofer',
       value: (element: OrdenCargaList) => element.camion_chofer_nombre,
+    },
+    {
+      def: 'camion_chofer_documento',
+      title: 'Nº de Doc.',
+      value: (element: OrdenCargaList) => element.camion_chofer_numero_documento,
     },
     {
       def: 'flete_id',

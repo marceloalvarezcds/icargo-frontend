@@ -38,6 +38,42 @@
     width: 68px !important;
     box-sizing: border-box;
   }
+  //Pedidos
+  .mat-column-condicion_cantidad{
+    text-align: right; /* Alinear el texto a la derecha */
+  }
+  .mat-column-remitente_nombre {
+    width: 150px !important;
+  }
+  .mat-column-producto_descripcion {
+    width: 150px !important;
+  }
+  .mat-column-origen_nombre{
+    width: 100px !important;
+    box-sizing: border-box;
+  }
+  //OC
+  .mat-column-cantidad_nominada{
+    width: 100px !important;
+    box-sizing: border-box;
+    text-align: right; 
+  }
+  .mat-column-condicion_propietario_tarifa{
+    width: 100px !important;
+    box-sizing: border-box;
+    text-align: right; 
+  }
+  //caja
+  .mat-column-credito{
+    text-align: right; /* Alinear el texto a la derecha */
+  }
+  .mat-column-debito{
+    text-align: right; /* Alinear el texto a la derecha */
+  }
+  //banco
+  .mat-column-saldo{
+    text-align: right; /* Alinear el texto a la derecha */
+  }
   .mat-header-cell-checkbox .mat-checkbox-mixedmark {
     left: 3px;
     position: absolute;
@@ -149,23 +185,23 @@ td.mat-cell {
   border-collapse: collapse;
 }
 
-.mat-form-field-label {
-  font-weight: normal; /* Quita el negritado */
-  font-size: 12px; /* Tamaño de fuente */
-  line-height: 14px; /* Altura de línea */
-  width: 95px; /* Ancho del label */
-  height: 14px; /* Altura del label */
-  gap: 0px; /* Espacio entre elementos del label */
-  opacity: 1; /* Opacidad del label (1 es completamente visible) */
-}
+// .mat-form-field-label {
+//   font-weight: normal; /* Quita el negritado */
+//   font-size: 12px; /* Tamaño de fuente */
+//   line-height: 14px; /* Altura de línea */
+//   width: 95px; /* Ancho del label */
+//   height: 14px; /* Altura del label */
+//   gap: 0px; /* Espacio entre elementos del label */
+//   opacity: 1; /* Opacidad del label (1 es completamente visible) */
+// }
 
-.mat-row {
-  width: 100%; /* Ancho de la fila */
-  height: 22px; /* Altura de la fila */
-  padding: 4px 0px; /* Padding de la fila (arriba y abajo) */
-  gap: 0px; /* Espacio entre elementos de la fila */
-  opacity: 1; /* Opacidad de la fila (1 es completamente visible) */
-}
+// .mat-row {
+//   width: 100%; /* Ancho de la fila */
+//   height: 22px; /* Altura de la fila */
+//   padding: 4px 0px; /* Padding de la fila (arriba y abajo) */
+//   gap: 0px; /* Espacio entre elementos de la fila */
+//   opacity: 1; /* Opacidad de la fila (1 es completamente visible) */
+// }
 
 .mat-header-cell, .mat-cell, .mat-footer-cell {
   border-right: none; /* Quita el borde derecho en las celdas */
