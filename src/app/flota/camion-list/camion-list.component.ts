@@ -97,11 +97,11 @@ export class CamionListComponent implements OnInit {
       title: 'Oficial de Cuenta',
       value: (element: CamionList) => element.oficial_cuenta_nombre,
     },
-    // {
-    //   def: 'created_by',
-    //   title: 'Usuario creación',
-    //   value: (element: CamionList) => element.created_by,
-    // },
+    {
+      def: 'created_by',
+      title: 'Usuario',
+      value: (element: CamionList) => element.created_by,
+    },
     {
       def: 'created_at',
       title: 'Fecha',

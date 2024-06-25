@@ -20,31 +20,36 @@ export class BancoFormInstrumentosComponent {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: Instrumento) => element.id,
       sticky: true,
     },
     {
-      def: 'fecha_instrumento',
-      title: 'Fecha',
-      value: (element: Instrumento) => element.fecha_instrumento,
-      type: 'date',
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Instrumento) => element.operacion_estado.toUpperCase(),
     },
     {
-      def: 'tipo_instrumento_descripcion',
-      title: 'Tipo de instrumento',
-      value: (element: Instrumento) => element.tipo_instrumento_descripcion,
+      def: 'numero_referencia',
+      title: 'Referencia',
+      value: (element: Instrumento) => element.numero_referencia,
+    },
+    {
+      def: 'created_by',
+      title: 'Usuario',
+      value: (element: Instrumento) => element.created_by,
+    },
+    {
+      def: 'fecha_instrumento',
+      title: 'Fecha',
+      value: (element: Instrumento) => this.formatDate(element.fecha_instrumento),
     },
     {
       def: 'tipo_operacion_descripcion',
       title: 'Operación',
       value: (element: Instrumento) => element.tipo_operacion_descripcion,
     },
-    {
-      def: 'operacion_estado',
-      title: 'Estado',
-      value: (element: Instrumento) => element.operacion_estado,
-    },
+
     {
       def: 'credito',
       title: 'Crédito',
@@ -81,11 +86,7 @@ export class BancoFormInstrumentosComponent {
       value: (element: Instrumento) => element.provision_rechazada,
       type: 'number',
     },
-    {
-      def: 'numero_referencia',
-      title: 'Referencia',
-      value: (element: Instrumento) => element.numero_referencia,
-    },
+
     {
       def: 'cheque_es_diferido',
       title: 'Es cheque diferido',
@@ -122,6 +123,14 @@ export class BancoFormInstrumentosComponent {
 
   @Input() list: Instrumento[] = [];
   @Output() instrumentosChange = new EventEmitter();
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   constructor(
     private dialog: DialogService,
