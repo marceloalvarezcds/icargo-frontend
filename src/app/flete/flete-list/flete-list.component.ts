@@ -32,7 +32,7 @@ export class FleteListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: FleteList) => element.id,
       sticky: true,
     },

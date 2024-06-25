@@ -45,11 +45,19 @@ export class BancoFormInstrumentosComponent {
       value: (element: Instrumento) => this.formatDate(element.fecha_instrumento),
     },
     {
+      def: 'id_liq',
+      title: 'ID liq.',
+      value: (element: Instrumento) => element.liquidacion_id,
+    },
+    {
       def: 'tipo_operacion_descripcion',
       title: 'Operación',
       value: (element: Instrumento) => element.tipo_operacion_descripcion,
     },
-
+    {
+      def: 'vencimiento',
+      title: 'Vencimiento',
+    },
     {
       def: 'credito',
       title: 'Crédito',
@@ -63,42 +71,59 @@ export class BancoFormInstrumentosComponent {
       type: 'number',
     },
     {
-      def: 'saldo_confirmado',
-      title: 'Saldo confirmado',
-      value: (element: Instrumento) => element.saldo_confirmado,
+      def: 'pendiente',
+      title: 'Pendiente',
+      value: (element: Instrumento) => element.debito,
       type: 'number',
     },
     {
-      def: 'provision',
-      title: 'Provisión',
-      value: (element: Instrumento) => element.provision,
+      def: 'saldo',
+      title: 'Saldo',
+      value: (element: Instrumento) => element.saldo_total,
       type: 'number',
     },
     {
-      def: 'saldo_provisional',
-      title: 'Saldo provisional',
-      value: (element: Instrumento) => element.saldo_provisional,
-      type: 'number',
+      def: 'contraparte',
+      title: 'Contraparte',
+      value: (element: Instrumento) => element.contraparte,
     },
-    {
-      def: 'provision_rechazada',
-      title: 'Provisión Rechazada',
-      value: (element: Instrumento) => element.provision_rechazada,
-      type: 'number',
-    },
+    // {
+    //   def: 'saldo_confirmado',
+    //   title: 'Saldo confirmado',
+    //   value: (element: Instrumento) => element.saldo_confirmado,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'provision',
+    //   title: 'Provisión',
+    //   value: (element: Instrumento) => element.provision,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'saldo_provisional',
+    //   title: 'Saldo provisional',
+    //   value: (element: Instrumento) => element.saldo_provisional,
+    //   type: 'number',
+    // },
+    // {
+    //   def: 'provision_rechazada',
+    //   title: 'Provisión Rechazada',
+    //   value: (element: Instrumento) => element.provision_rechazada,
+    //   type: 'number',
+    // },
 
-    {
-      def: 'cheque_es_diferido',
-      title: 'Es cheque diferido',
-      value: (element: Instrumento) =>
-        element.cheque_es_diferido ? 'Si' : 'No',
-    },
-    {
-      def: 'cheque_fecha_vencimiento',
-      title: 'Fecha de vencimiento del cheque',
-      value: (element: Instrumento) => element.cheque_fecha_vencimiento,
-      type: 'date',
-    },
+    // {
+    //   def: 'cheque_es_diferido',
+    //   title: 'Es cheque diferido',
+    //   value: (element: Instrumento) =>
+    //     element.cheque_es_diferido ? 'Si' : 'No',
+    // },
+    // {
+    //   def: 'cheque_fecha_vencimiento',
+    //   title: 'Fecha de vencimiento del cheque',
+    //   value: (element: Instrumento) => element.cheque_fecha_vencimiento,
+    //   type: 'date',
+    // },
     {
       def: 'confirmar',
       title: '',
