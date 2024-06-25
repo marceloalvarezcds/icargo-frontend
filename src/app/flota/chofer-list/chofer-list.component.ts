@@ -50,6 +50,11 @@ export class ChoferListComponent implements OnInit {
       sticky: true,
     },
     {
+      def: 'numero_documento',
+      title: 'Nº de Doc.',
+      value: (element: ChoferList) => element.numero_documento,
+    },
+    {
       def: 'tipo_documento',
       title: 'Tipo Doc.',
       value: (element: ChoferList) => element.tipo_documento_descripcion,
@@ -59,11 +64,7 @@ export class ChoferListComponent implements OnInit {
       title: 'País',
       value: (element: ChoferList) => element.pais_emisor_documento_nombre,
     },
-    {
-      def: 'numero_documento',
-      title: 'Documento',
-      value: (element: ChoferList) => element.numero_documento,
-    },
+ 
     {
       def: 'gestor_cuenta_nombre',
       title: 'Gestor de Cuenta',
@@ -79,7 +80,11 @@ export class ChoferListComponent implements OnInit {
       title: 'Dirección',
       value: (element: ChoferList) => element.direccion,
     },
-
+    {
+      def: 'localidad_nombre',
+      title: 'Ubicación',
+      value: (element: ChoferList) => element.localidad_nombre,
+    },
     {
       def: 'created_by',
       title: 'Usuario',
@@ -89,7 +94,6 @@ export class ChoferListComponent implements OnInit {
       def: 'modified_at',
       title: 'Fecha',
       value: (element: ChoferList) => this.formatDate(element.created_at),
-      sticky: true,
     },
     // {
     //   def: 'created_at',

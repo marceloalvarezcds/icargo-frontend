@@ -50,7 +50,7 @@ export class PropietarioListComponent implements OnInit {
     },
     {
       def: 'ruc',
-      title: 'Documento',
+      title: 'Nº de Doc.',
       value: (element: PropietarioList) => element.ruc,
     },
     {
@@ -69,6 +69,7 @@ export class PropietarioListComponent implements OnInit {
       title: 'Dirección',
       value: (element: PropietarioList) => element.direccion,
     },
+
     {
       def: 'gestor_cuenta_nombre',
       title: 'Gestor de Cuenta',
