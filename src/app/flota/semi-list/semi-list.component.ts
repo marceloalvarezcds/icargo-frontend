@@ -35,7 +35,7 @@ export class SemiListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: SemiList) => element.id,
       sticky: true,
     },

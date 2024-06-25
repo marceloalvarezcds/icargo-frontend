@@ -84,8 +84,9 @@ export class CamionListComponent implements OnInit {
       value: (element: CamionList) => element.tipo_descripcion,
     },
     {
-      def: 'marca_semi',
-      title: 'Marca',
+      def: 'anho',
+      title: 'Año',
+      value: (element: CamionList) => element.anho,
     },
     {
       def: 'gestor_cuenta_nombre',
