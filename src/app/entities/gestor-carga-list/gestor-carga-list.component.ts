@@ -42,20 +42,22 @@ export class GestorCargaListComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: GestorCargaList) => element.estado.toUpperCase(),
+      sticky: true,
     },
     {
       def: 'nombre',
       title: 'Gestora de Carga',
       value: (element: GestorCargaList) => element.nombre,
+      sticky: true,
     },
     {
       def: 'numero_documento',
-      title: 'Nº Doc.',
+      title: 'Nº de Doc.',
       value: (element: GestorCargaList) => element.numero_documento,
     },
     {
       def: 'tipo_documento',
-      title: 'Tipo de Documento',
+      title: 'Tipo Doc.',
       value: (element: GestorCargaList) => element.tipo_documento_descripcion,
     },
 
