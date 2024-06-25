@@ -24,7 +24,7 @@ export class PuntoVentaListComponent {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID',
       value: (element: PuntoVentaList) => element.id,
       sticky: true,
     },
@@ -37,12 +37,21 @@ export class PuntoVentaListComponent {
       def: 'nombre',
       title: 'Puntos de Venta',
       value: (element: PuntoVentaList) => element.nombre,
-      sticky: true,
     },
     {
-      def: 'tipo_documento',
-      title: 'Tipo de Doc.',
-      value: (element: PuntoVentaList) => element.tipo_documento_descripcion,
+      def: 'proveedor',
+      title: 'Proveedor',
+      value: (element: PuntoVentaList) => element.proveedor_nombre,
+    },
+    {
+      def: 'direccion',
+      title: 'Dirección',
+      value: (element: PuntoVentaList) => element.direccion,
+    },
+    {
+      def: 'ubicacion',
+      title: 'Ubicación',
+      value: (element: PuntoVentaList) => element.localidad_nombre,
     },
     {
       def: 'numero_documento',
@@ -50,23 +59,15 @@ export class PuntoVentaListComponent {
       value: (element: PuntoVentaList) => element.numero_documento,
     },
     {
+      def: 'tipo_documento',
+      title: 'Tipo de Doc.',
+      value: (element: PuntoVentaList) => element.tipo_documento_descripcion,
+    },
+    {
       def: 'composicion_juridica',
       title: 'Comp. Jurídica',
       value: (element: PuntoVentaList) => element.composicion_juridica_nombre,
     },
-    // {
-    //   def: 'direccion',
-    //   title: 'Dirección',
-    //   value: (element: PuntoVentaList) => element.direccion,
-    // },
-    // {
-    //   def: 'ubicacion',
-    //   title: 'Ubicación',
-    //   value: (element: PuntoVentaList) =>
-    //     element.ciudad_nombre
-    //       ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-    //       : '',
-    // },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

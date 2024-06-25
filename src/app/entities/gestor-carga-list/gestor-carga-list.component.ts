@@ -47,12 +47,6 @@ export class GestorCargaListComponent implements OnInit {
       def: 'nombre',
       title: 'Gestora de Carga',
       value: (element: GestorCargaList) => element.nombre,
-      sticky: true,
-    },
-    {
-      def: 'tipo_documento',
-      title: 'Tipo de Documento',
-      value: (element: GestorCargaList) => element.tipo_documento_descripcion,
     },
     {
       def: 'numero_documento',
@@ -60,36 +54,24 @@ export class GestorCargaListComponent implements OnInit {
       value: (element: GestorCargaList) => element.numero_documento,
     },
     {
+      def: 'tipo_documento',
+      title: 'Tipo de Documento',
+      value: (element: GestorCargaList) => element.tipo_documento_descripcion,
+    },
+
+    {
       def: 'composicion_juridica',
       title: 'Comp. Jurídica',
       value: (element: GestorCargaList) => element.composicion_juridica_nombre,
     },
-    // {
-    //   def: 'moneda',
-    //   title: 'Moneda',
-    //   value: (element: GestorCargaList) => element.moneda_nombre,
-    // },
-    // {
-    //   def: 'direccion',
-    //   title: 'Dirección',
-    //   value: (element: GestorCargaList) => element.direccion,
-    // },
-    // {
-    //   def: 'ubicacion',
-    //   title: 'Ubicación',
-    //   value: (element: GestorCargaList) =>
-    //     element.ciudad_nombre
-    //       ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-    //       : '',
-    // },
+    {
+      def: 'gestor_elemento',
+      title: 'G.E.',
+    },
     {
       def: 'created_by',
       title: 'Admin',
       // value: (element: GestorCargaList) => element.created_by,
-    },
-    {
-      def: 'gestor_elemento',
-      title: 'G.E.',
     },
     {
       def: 'telefono',

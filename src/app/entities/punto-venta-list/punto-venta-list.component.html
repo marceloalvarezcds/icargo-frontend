@@ -1,28 +1,27 @@
-<div>
-  <div class="row page-form-row">
-    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
-      <div class="download-button-container" *ngIf="modelo | puede: a.REPORTE">
-        <button
-          type="button"
-          class="download-button"
-          mat-mini-fab
-          color="primary"
-          matTooltip="Exportar lista"
-          (click)="downloadFile()"
-        >
-          <mat-icon>download</mat-icon>
-        </button>
-      </div>
-      <app-table-paginator
-        [columns]="columns"
-        [data]="list"
-        [isShow]="isShow"
-        [addShowButton]="isShow"
-        [modelo]="modelo"
-        (editClick)="redirectToEdit($event)"
-        (showClick)="redirectToShow($event)"
-        (deleteClick)="deleteRow($event)"
-      ></app-table-paginator>
+<div class="row page-form-row">
+  <div class="col-xs-12 table-container small-table-container" [hidden]="!(list && list.length)">
+    <div class="download-button-container" *ngIf="modelo | puede: a.REPORTE">
+      <button
+        type="button"
+        class="download-button"
+        mat-mini-fab
+        color="primary"
+        matTooltip="Exportar lista"
+        (click)="downloadFile()"
+      >
+        <mat-icon>download</mat-icon>
+      </button>
     </div>
+    <app-table-paginator
+      class="small-table"
+      [columns]="columns"
+      [data]="list"
+      [isShow]="isShow"
+      [addShowButton]="isShow"
+      [modelo]="modelo"
+      (editClick)="redirectToEdit($event)"
+      (showClick)="redirectToShow($event)"
+      (deleteClick)="deleteRow($event)"
+    ></app-table-paginator>
   </div>
 </div>
