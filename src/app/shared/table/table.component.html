@@ -12,19 +12,39 @@
         mat-sort-header
         [disabled]="disableSort"
         [class.mat-header-cell-checkbox]="column.type === 'checkbox'"
-      >
-        <ng-container *ngIf="column.type === 'checkbox'">
-          <mat-checkbox
-            [checked]="allChecked"
-            [indeterminate]="someChecked()"
-            (change)="setAll($event.checked)"
-            (click)="$event.stopPropagation()"
-          >
-            {{ column.title }}
-          </mat-checkbox>
-        </ng-container>
-        <span *ngIf="column.type !== 'checkbox'">{{ column.title }}</span>
-      </th>
+    >
+      <ng-container *ngIf="column.type === 'checkbox'">
+        <mat-checkbox
+          [checked]="allChecked"
+          [indeterminate]="someChecked()"
+          (change)="setAll($event.checked)"
+          (click)="$event.stopPropagation()"
+        >
+          {{ column.title }} 
+        </mat-checkbox>
+      </ng-container>
+      <span *ngIf="column.type !== 'checkbox'"
+      [ngClass]="{
+        'align-right-title': column.def === 'condicion_gestor_carga_tarifa' ||
+                            column.def === 'condicion_propietario_tarifa' ||
+                            column.def === 'saldo' ||
+                            column.def === 'condicion_cantidad' ||
+                            column.def === 'cantidad_nominada' ||
+                            column.def === 'credito' ||
+                            column.def === 'debito' ||
+                            column.def === 'saldo_confirmado',
+        'align-right-title-special': column.def === 'pendiente' ||
+                                     column.def === 'en_proceso' ||
+                                     column.def === 'confirmado' ||
+                                     column.def === 'finalizado'
+      }"
+    >
+  
+      
+        {{ column.title }}
+      </span>
+    </th>
+    
       <td
         mat-cell
         *matCellDef="let row; let index = index"

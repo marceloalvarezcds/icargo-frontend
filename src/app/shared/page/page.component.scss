@@ -46,6 +46,11 @@ $header-heigth: 64px;
     }
   }
 }
+/* Alinea el texto del encabezado de la columna "A Cobrar" a la derecha */
+.mat-header-cell.mat-column-condicion_gestor_carga_tarifa {
+  text-align: right !important;
+}
+
 /* Extra small devices (phones, less than 576px) */
 @media (max-width: 575.98px) {
   .page {

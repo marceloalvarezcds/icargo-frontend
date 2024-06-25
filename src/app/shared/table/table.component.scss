@@ -1,6 +1,7 @@
 @import "~src/assets/styles/colors.scss";
 @import "~src/assets/styles/filter.scss";
 
+
 .row_menu::ng-deep {
   width: 89px;
   height: 22px;
@@ -14,8 +15,6 @@
     line-height: 14.06px;
   }
 }
-
-
 
 .row-error {
   border: 1px solid $error-color;
@@ -55,25 +54,45 @@
   .mat-column-created_by,
   .mat-column-created_by{
     width: 58px !important;
-    padding-right: 2px;
     box-sizing: border-box;
   }
   .mat-column-condicion_cantidad{
-    width: 58px !important;
-    padding-right: 2px;
-    box-sizing: border-box;
     text-align: right; 
   }
+  .mat-column-condicion_gestor_carga_tarifa {
+    text-align: right !important; 
+  }
+  
+  .align-right-title {
+    position: relative;
+    left: 22px; 
+  }
+  .align-right-title-special{
+    position: relative;
+    left: 30px; 
+  }
+  
   //OC
   .mat-column-cantidad_nominada,
+  .mat-column-saldo,
   .mat-column-condicion_gestor_carga_tarifa,
   .mat-column-condicion_propietario_tarifa{
-    width: 58px !important;
-    padding-right: 2px;
-    box-sizing: border-box;
     text-align: right; 
   }
 
+  //Estado Cuenta
+  .mat-column-pendiente {
+    text-align: right !important; 
+  }
+  .mat-column-en_proceso {
+    text-align: right !important; 
+  }
+  .mat-column-confirmado {
+    text-align: right !important; 
+  }
+  .mat-column-finalizado {
+    text-align: right !important; 
+  }
   .mat-column-publicado_descripcion{
     width: 58px !important;
     padding-right: 2px;
@@ -120,8 +139,6 @@
     overflow: visible;
   }
 }
-
-
 
 
 .mat-header-row {

@@ -46,9 +46,8 @@ export class RemitenteListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha',
-      value: (element: RemitenteList) => element.created_at,
+      value: (element: RemitenteList) => this.formatDate(element.created_at),
       sticky: true,
-      type: 'date',
     },
     {
       def: 'nombre',
@@ -112,6 +111,15 @@ export class RemitenteListComponent implements OnInit {
   paisFiltered: string[] = [];
   tipoDocumentoFilterList: string[] = [];
   tipoDocumentoFiltered: string[] = [];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   get isFilteredByCiudad(): boolean {
     return this.ciudadFiltered.length !== this.ciudadFilterList.length;
