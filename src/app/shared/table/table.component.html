@@ -32,11 +32,51 @@
                             column.def === 'cantidad_nominada' ||
                             column.def === 'credito' ||
                             column.def === 'debito' ||
-                            column.def === 'saldo_confirmado',
+                            column.def === 'saldo_confirmado'||
+                            column.def === 'cantidad_origen'||
+                            column.def === 'cantidad_destino'||
+                            column.def === 'diferencia_origen_destino'||
+                            column.def === 'merma_propietario_valor'||
+                            column.def === 'propietario_flete_total'||
+                            column.def === 'propietario_flete_total_ml'||
+                            column.def === 'merma_propietario_tolerancia'||
+                            column.def === 'merma_propietario_merma'||
+                            column.def === 'merma_propietario_valor_merma'||
+                            column.def === 'merma_gestor_carga_valor_merma'||
+                            column.def === 'merma_gestor_carga_tolerancia'||
+                            column.def === 'gestor_carga_flete_total'||
+                            column.def === 'gestor_carga_flete_total_ml'||
+                            column.def === 'merma_gestor_carga_valor'||
+                            column.def === 'flete_propietario_total'||
+                            column.def === 'flete_propietario_total_ml'||
+                            column.def === 'flete_merma_propietario_valor'||
+                            column.def === 'flete_merma_propietario_tolerancia'||
+                            column.def === 'flete_merma_propietario_merma'||
+                            column.def === 'flete_merma_propietario_valor_merma'||
+                            column.def === 'flete_condicion_gestor_carga_tarifa'||
+                            column.def === 'flete_gestor_carga_total'||
+                            column.def === 'flete_gestor_carga_total_ml'||
+                            column.def === 'flete_merma_gestor_carga_tolerancia'||
+                      
+                            column.def === 'flete_merma_gestor_carga_valor_merma'||
+                            column.def === 'total_complemento_a_cobrar'||
+                            column.def === 'total_complemento_a_pagar'||
+                            column.def === 'total_descuento_a_cobrar'||
+                            column.def === 'diferencia_descuento'||
+                            column.def === 'total_anticipo_retirado'||
+                            column.def === 'saldo_propietario'||
+                            column.def === 'saldo_gestor_carga'||
+                            column.def === 'flete_condicion_propietario_tarifa'||
+                            column.def === 'flete_merma_gestor_carga_valor'||
+                            column.def === 'diferencia_complemento'||
+                            column.def === 'total_descuento_a_pagar'||
+                            column.def === 'monto',
         'align-right-title-special': column.def === 'pendiente' ||
                                      column.def === 'en_proceso' ||
                                      column.def === 'confirmado' ||
-                                     column.def === 'finalizado'
+                                     column.def === 'finalizado',
+        'align-right-merma': column.def === 'flete_merma_gestor_carga_merma'                             
+                                           
       }"
     >
   

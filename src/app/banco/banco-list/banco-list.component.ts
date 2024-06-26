@@ -62,8 +62,6 @@ export class BancoListComponent implements OnInit {
       title: 'Titular',
       value: (element: Banco) => element.titular,
     },
- 
-
     {
       def: 'credito',
       title: 'Crédito',

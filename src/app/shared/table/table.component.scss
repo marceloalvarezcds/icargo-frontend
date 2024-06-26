@@ -71,7 +71,10 @@
     position: relative;
     left: 30px; 
   }
-  
+  .align-right-merma{
+    position: relative;
+    left: 60px; 
+  }
   //OC
   .mat-column-cantidad_nominada,
   .mat-column-saldo,
@@ -106,7 +109,8 @@
   }
 
   //caja
-  .mat-column-credito{
+  .mat-column-credito,
+  .mat-column-monto{
     text-align: right; 
   }
   .mat-column-debito{
@@ -138,6 +142,50 @@
   .mat-cell-checkbox .mat-checkbox-inner-container {
     overflow: visible;
   }
+  //listados
+  .mat-column-cantidad_origen,
+  .mat-column-cantidad_destino,
+  .mat-column-diferencia_origen_destino,
+  .mat-column-merma_propietario_valor,
+
+  .mat-column-propietario_flete_total,
+  .mat-column-propietario_flete_total_ml,
+  .mat-column-merma_propietario_tolerancia,
+  .mat-column-merma_propietario_merma,
+  .mat-column-merma_propietario_valor_merma,
+  .mat-column-merma_gestor_carga_valor_merma,
+  .mat-column-merma_gestor_carga_tolerancia,
+  .mat-column-gestor_carga_flete_total,
+  .mat-column-gestor_carga_flete_total_ml,
+  .mat-column-merma_gestor_carga_merma,
+  .mat-column-merma_gestor_carga_valor,
+  .mat-column-flete_condicion_propietario_tarifa,
+  .mat-column-flete_propietario_total,
+  .mat-column-flete_propietario_total_ml,
+  .mat-column-flete_merma_propietario_valor,
+  .mat-column-flete_merma_propietario_tolerancia,
+  .mat-column-flete_merma_propietario_merma,
+  .mat-column-flete_merma_propietario_valor_merma,
+  .mat-column-flete_condicion_gestor_carga_tarifa,
+  .mat-column-flete_gestor_carga_total,
+  .mat-column-flete_gestor_carga_total_ml,
+  .mat-column-flete_merma_gestor_carga_tolerancia,
+  .mat-column-flete_merma_gestor_carga_merma,
+  .mat-column-flete_merma_gestor_carga_valor_merma,
+  .mat-column-total_complemento_a_cobrar,
+  .mat-column-total_complemento_a_cobrar,
+  .mat-column-total_descuento_a_cobrar,
+  .mat-column-diferencia_descuento,
+  .mat-column-total_anticipo_retirado,
+  .mat-column-saldo_gestor_carga,
+  .mat-column-saldo_propietario,
+  .mat-column-total_descuento_a_pagar,
+  .mat-column-diferencia_complemento,
+  .mat-column-total_complemento_a_pagar,
+  .mat-column-flete_merma_gestor_carga_valor
+  {
+    text-align: right; 
+  }
 }
 
 .mat-header-row {
@@ -154,6 +202,7 @@
   border-radius: 5px; 
   box-sizing: border-box; 
 }
+
 
 
 .mat-table .mat-icon-button {
