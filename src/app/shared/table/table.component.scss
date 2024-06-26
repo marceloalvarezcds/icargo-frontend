@@ -43,7 +43,19 @@
     width: 28px !important;
     box-sizing: border-box;
   }
-
+  .mat-column-numero_referencia,
+  .mat-column-vencimiento
+  .mat-column-pendiente{
+    width: 28px !important;
+    box-sizing: border-box;
+    
+  }
+  .mat-column-id_liq{
+    width: 28px !important;
+    box-sizing: border-box;
+    padding-right: 15px;
+  }
+  
   //Pedidos
   .mat-column-remitente_nombre, 
   .mat-column-producto_descripcion,
@@ -56,13 +68,50 @@
     width: 58px !important;
     box-sizing: border-box;
   }
+  .mat-column-credito_banco{
+    width: 58px !important;
+    box-sizing: border-box;
+    text-align: right !important; 
+  }
+  .mat-column-credito_caja{
+    width: 58px !important;
+    box-sizing: border-box;
+    left: 12px;
+    text-align: right !important; 
+  }
+  .mat-column-debito_banco{
+    width: 51px !important;
+    box-sizing: border-box;
+    padding-left: -50px;
+    text-align: right !important; 
+  }
+  .mat-column-pendiente_banco,
+  .mat-column-saldo_banco{
+    width: 60px !important;
+    box-sizing: border-box;
+    padding-right: 12px;
+    text-align: right !important; 
+  }
+  .mat-column-id_liq,
+  .mat-column-fecha_instrumento{
+    width: 178px !important;
+    padding-right: 12px;
+  }
   .mat-column-condicion_cantidad{
-    text-align: right; 
+    text-align: right !important; 
+  }
+  .mat-column-confirmar{
+    width: 50px;
   }
   .mat-column-condicion_gestor_carga_tarifa {
     text-align: right !important; 
   }
-  
+  .mat-column-credito_caja_instrumento{
+    width: 51px !important;
+    box-sizing: border-box;
+    padding-left: -60px;
+    text-align: right !important; 
+  }
   .align-right-title {
     position: relative;
     left: 22px; 
@@ -75,6 +124,26 @@
     position: relative;
     left: 60px; 
   }
+  .align-right-caja{
+    position: relative;
+    left: 17px;
+  }
+  .align-right-saldo{
+    position: relative;
+    left: 17px;
+  }
+  .align-right-credito{
+    position: relative;
+    left: 13px;
+
+  }
+  .align-right-banco{
+    position: relative;
+
+  }
+  .color-labels{
+    color: #DAA520;
+  }
   //OC
   .mat-column-cantidad_nominada,
   .mat-column-saldo,
@@ -82,6 +151,44 @@
   .mat-column-condicion_propietario_tarifa{
     text-align: right; 
   }
+  .mat-column-id_caja{
+    width: 48px !important;
+  }
+  .mat-column-usuario_caja{
+    width: 48px !important;
+    box-sizing: border-box;
+  }
+  .mat-column-numero_referencia_caja{
+    width: 48px !important;
+    padding-right: 20px;
+    box-sizing: border-box;
+  }
+  .mat-column-fecha_instrumento_caja{
+    padding-left: 100px;
+    box-sizing: border-box;
+    padding-right: 5px;
+  }
+  .mat-column-contraparte_caja{
+    box-sizing: border-box;
+    padding-left: 5px;
+  }
+  .mat-column-tipo_contraparte{
+    padding-right: 5px;
+    box-sizing: border-box;
+  }
+  .mat-column-id_liq_caja{
+    width: 68px !important;
+    margin-right: 12px;
+    box-sizing: border-box;
+    text-align: right !important; 
+  }
+
+  .mat-column-tipo_operacion_descripcion_caja{
+    width: 48px !important;
+    margin-right: 22px;
+    box-sizing: border-box;
+  }
+
 
   //Estado Cuenta
   .mat-column-pendiente {
@@ -109,20 +216,19 @@
   }
 
   //caja
-  .mat-column-credito,
   .mat-column-monto{
     text-align: right; 
   }
-  .mat-column-debito{
-    text-align: right; 
-  }
+
   //banco
-  .mat-column-saldo_confirmado{
-    width: 58px !important;
+  .mat-column-saldo_confirmado,
+  .mat-column-debito,
+  .mat-column-credito{
     padding-right: 2px;
     box-sizing: border-box;
     text-align: right; 
   }
+
   .mat-column-nombre{
     width: 58px !important;
     padding-right: 2px;

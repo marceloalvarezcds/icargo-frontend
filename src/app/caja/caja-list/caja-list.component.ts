@@ -53,19 +53,19 @@ export class CajaListComponent implements OnInit {
       value: (element: Caja) => element.moneda_nombre,
     },
     {
-      def: 'credito',
+      def: 'credito_caja',
       title: 'Crédito',
       value: (element: Caja) => element.credito,
       type: 'number',
     },
     {
-      def: 'debito',
+      def: 'debito_caja',
       title: 'Débito',
       value: (element: Caja) => element.debito,
       type: 'number',
     },
     {
-      def: 'saldo_confirmado',
+      def: 'saldo_caja',
       title: 'Saldo',
       value: (element: Caja) => element.saldo_confirmado,
       type: 'number',

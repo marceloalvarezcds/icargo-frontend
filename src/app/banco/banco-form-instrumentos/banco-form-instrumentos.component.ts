@@ -57,27 +57,29 @@ export class BancoFormInstrumentosComponent {
     {
       def: 'vencimiento',
       title: 'Vencimiento',
+      value: (element: Instrumento) => element.cheque_fecha_vencimiento ? this.formatDate(element.cheque_fecha_vencimiento) : '',
+
     },
     {
-      def: 'credito',
+      def: 'credito_banco',
       title: 'Crédito',
       value: (element: Instrumento) => element.credito,
       type: 'number',
     },
     {
-      def: 'debito',
+      def: 'debito_banco',
       title: 'Débito',
       value: (element: Instrumento) => element.debito,
       type: 'number',
     },
     {
-      def: 'pendiente',
+      def: 'pendiente_banco',
       title: 'Pendiente',
       value: (element: Instrumento) => element.debito,
       type: 'number',
     },
     {
-      def: 'saldo',
+      def: 'saldo_banco',
       title: 'Saldo',
       value: (element: Instrumento) => element.saldo_total,
       type: 'number',

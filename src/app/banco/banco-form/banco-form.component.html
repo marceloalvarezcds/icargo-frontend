@@ -17,10 +17,20 @@
     <div class="row page-form-row">
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field
+          title="Banco"
+          controlName="nombre"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
           title="Número de cuenta"
           controlName="numero_cuenta"
           [form]="form"
         ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-moneda-field [form]="form"></app-moneda-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field
@@ -29,16 +39,33 @@
           [form]="form"
         ></app-input-field>
       </div>
+
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field
-          title="Banco"
-          controlName="nombre"
+          title="Tot. Creditos"
+          controlName="tot_credito"
           [form]="form"
+          [readonly]="true"
         ></app-input-field>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-moneda-field [form]="form"></app-moneda-field>
+        <app-input-field
+          title="Tot. Debitos"
+          controlName="tot_credito"
+          [form]="form"
+          [readonly]="true"
+        ></app-input-field>
       </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Tot. Pendientes"
+          controlName="tot_credito"
+          [form]="form"
+          [readonly]="true"
+          
+        ></app-input-field>
+      </div>
+      
       <ng-container *ngIf="item">
         <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
           <mat-label>Saldo Confirmado</mat-label>

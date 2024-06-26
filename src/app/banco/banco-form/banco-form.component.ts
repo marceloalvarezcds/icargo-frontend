@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -29,7 +29,8 @@ export class BancoFormComponent implements OnInit, OnDestroy {
     titular: [null, Validators.required],
     nombre: [null, Validators.required],
     moneda_id: [null, Validators.required],
-  });
+    tot_credito: null
+  })
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe((value) => {

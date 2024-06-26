@@ -12,6 +12,7 @@ interface InstrumentoBaseModel {
   banco_id: number;
   liquidacion_id: number;
   fecha_instrumento: string;
+  fecha_cobro: string;
   numero_referencia: string;
   comentario: string | null;
   // Datos mostrados solo para Banco
@@ -69,6 +70,7 @@ export const mockInstrumentoForm: InstrumentoForm = {
   liquidacion_id: mockLiquidacion1.id,
   monto: 0,
   fecha_instrumento: '2022-03-16T12:32:14.859823',
+  fecha_cobro: '2022-03-16T12:32:14.859823',
   numero_referencia: '111111-1',
   comentario: '',
   // Datos mostrados solo para Banco
@@ -87,6 +89,7 @@ export const mockInstrumentoLiquidacionItem: InstrumentoLiquidacionItem = {
   liquidacion_id: mockLiquidacion1.id,
   monto: 0,
   fecha_instrumento: '2022-03-16T12:32:14.859823',
+  fecha_cobro: '2022-03-16T12:32:14.859823',
   numero_referencia: '111111-1',
   comentario: '',
   // Datos mostrados solo para Banco
@@ -105,6 +108,7 @@ export const mockInstrumentoList: Instrumento[] = [
     caja_id: mockCaja1.id,
     banco_id: mockBanco1.id,
     liquidacion_id: mockLiquidacion1.id,
+    fecha_cobro: '2022-03-16T12:32:14.859823',
     monto: 0,
     credito: 0,
     debito: 0,
@@ -146,6 +150,7 @@ export const mockInstrumentoList: Instrumento[] = [
     via_id: mockInstrumentoVia2.id,
     caja_id: mockCaja2.id,
     banco_id: mockBanco2.id,
+    fecha_cobro: '2022-03-16T12:32:14.859823',
     liquidacion_id: mockLiquidacion2.id,
     monto: 0,
     credito: 0,

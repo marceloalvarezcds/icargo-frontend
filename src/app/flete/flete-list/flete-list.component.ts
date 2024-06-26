@@ -94,13 +94,13 @@ export class FleteListComponent implements OnInit {
     },
 
     {
-      def: 'cargado',
+      def: 'cargado_flete',
       title: 'Cargado',
       // value: (element: FleteList) => element.condicion_cantidad,
       type: 'number',
     },
     {
-      def: 'saldo',
+      def: 'saldo_flete',
       title: 'Saldo',
       // value: (element: FleteList) => element.tipo_carga_descripcion,
       type: 'number',

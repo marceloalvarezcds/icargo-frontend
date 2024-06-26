@@ -27,6 +27,7 @@ export class CajaFormComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     nombre: [null, Validators.required],
     moneda_id: [null, Validators.required],
+    ingreso_egreso: null
   });
   initialFormValue = this.form.value;
   hasChange = false;
