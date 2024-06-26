@@ -56,7 +56,9 @@
                             column.def === 'flete_condicion_gestor_carga_tarifa'||
                             column.def === 'flete_gestor_carga_total'||
                             column.def === 'flete_gestor_carga_total_ml'||
-                  
+                            column.def === 'credito_caja'||
+                            column.def === 'debito_caja'||
+                            column.def === 'saldo_caja'||
                             column.def === 'flete_merma_gestor_carga_tolerancia'||
                             column.def === 'flete_merma_gestor_carga_valor_merma'||
                             column.def === 'total_complemento_a_cobrar'||
@@ -79,7 +81,7 @@
         'align-right-banco': column.def === 'credito_banco' ||
                              column.def === 'debito_banco',
 
-        'align-right-saldo': column.def === 'saldo_caja'||
+        'align-right-saldo': 
                              column.def === 'credito_caja_instrumento' ||
                              column.def === 'id_liq_caja',
         'color-labels': column.def === 'cargado_flete' ||

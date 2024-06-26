@@ -76,7 +76,15 @@
   .mat-column-credito_caja{
     width: 58px !important;
     box-sizing: border-box;
-    left: 12px;
+    left: 14px;
+    text-align: right !important; 
+  }
+  .mat-column-debito_caja,
+  .mat-column-saldo_caja{
+    width: 57px !important;
+    box-sizing: border-box;
+    left: 9px;
+    padding-left: 12px;
     text-align: right !important; 
   }
   .mat-column-debito_banco{
@@ -139,7 +147,6 @@
   }
   .align-right-banco{
     position: relative;
-
   }
   .color-labels{
     color: #DAA520;
