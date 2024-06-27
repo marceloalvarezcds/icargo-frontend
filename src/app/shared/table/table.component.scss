@@ -88,14 +88,14 @@
     text-align: right !important; 
   }
   .mat-column-debito_banco{
-    width: 51px !important;
+  
     box-sizing: border-box;
     padding-left: -50px;
     text-align: right !important; 
   }
   .mat-column-pendiente_banco,
   .mat-column-saldo_banco{
-    width: 60px !important;
+
     box-sizing: border-box;
     padding-right: 12px;
     text-align: right !important; 
@@ -114,11 +114,19 @@
   .mat-column-condicion_gestor_carga_tarifa {
     text-align: right !important; 
   }
-  .mat-column-credito_caja_instrumento{
-    width: 51px !important;
+  .mat-column-credito_caja_instrumento
+ {
+    width: 58px !important;
     box-sizing: border-box;
-    padding-left: -60px;
+    left: 10px;
     text-align: right !important; 
+  }
+  .mat-column-debito_caja_instrumento{
+    width: 75px !important;
+    text-align: right !important; 
+    box-sizing: border-box;
+    left: 10px;
+    padding-right: 12px;
   }
   .align-right-title {
     position: relative;
@@ -138,7 +146,7 @@
   }
   .align-right-saldo{
     position: relative;
-    left: 17px;
+    left: 15px;
   }
   .align-right-credito{
     position: relative;

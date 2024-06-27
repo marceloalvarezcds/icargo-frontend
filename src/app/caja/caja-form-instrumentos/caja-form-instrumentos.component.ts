@@ -64,7 +64,7 @@ export class CajaFormInstrumentosComponent {
       type: 'number',
     },
     {
-      def: 'debito_banco',
+      def: 'debito_caja_instrumento',
       title: 'Débito',
       value: (element: Instrumento) => element.debito,
       type: 'number',

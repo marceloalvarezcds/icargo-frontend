@@ -2,3 +2,19 @@
   max-height: calc(100vh - 155px);
   overflow: auto;
 }
+/* styles.css o styles.scss */
+
+/* styles.css o styles.scss */
+
+/* Estilos generales para todos los input */
+input {
+  width: 200px; /* Ancho general para todos los input */
+  padding: 8px; /* Padding interior para todos los input */
+  font-size: 14px; /* Tamaño de fuente para todos los input */
+  border: 1px solid #ccc; /* Borde del input */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  
+  /* Color de fondo para verificar el cambio */
+  background-color: #f0f0f0;
+}
