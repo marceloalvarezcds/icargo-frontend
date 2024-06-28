@@ -84,9 +84,30 @@ th.mat-header-cell {
   color: black; 
 }
 
-/* Estilo para celdas sticky */
 .last-sticky-cell {
+  position: sticky;
+  left: 0; /* Ajusta este valor según el ancho de la columna fija anterior */
+  z-index: 10; /* Asegúrate de que el z-index sea mayor que el de otras columnas */
   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1); /* Sombras solo a la izquierda */
+}
+// .mat-column-actions {
+//   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
+// }
+
+//Tamano de fuente de las letras
+.mat-cell, .mat-header-cell, .mat-footer-cell {
+  font-size: 12px;
+}
+
+.mat-header-cell, .mat-cell, .mat-footer-cell  {
+  border-right: none; 
+  white-space: normal; 
+  text-overflow: ellipsis; 
+}
+
+.mat-column-pais_emisor_placa{
+  width: 158px !important;
+  padding-right: 12px;
 }
 // .mat-column-actions {
 //   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
