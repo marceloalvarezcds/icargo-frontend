@@ -22,7 +22,6 @@ export class BancoFormInstrumentosComponent {
       def: 'id',
       title: 'ID',
       value: (element: Instrumento) => element.id,
-      sticky: true,
     },
     {
       def: 'estado',
@@ -61,25 +60,25 @@ export class BancoFormInstrumentosComponent {
 
     },
     {
-      def: 'credito_banco',
+      def: 'credito_inst_banco',
       title: 'Crédito',
       value: (element: Instrumento) => element.credito,
       type: 'number',
     },
     {
-      def: 'debito_banco',
+      def: 'debito_inst_banco',
       title: 'Débito',
       value: (element: Instrumento) => element.debito,
       type: 'number',
     },
     {
-      def: 'pendiente_banco',
+      def: 'pendiente_inst_banco',
       title: 'Pendiente',
       value: (element: Instrumento) => element.debito,
       type: 'number',
     },
     {
-      def: 'saldo_banco',
+      def: 'saldo_inst_banco',
       title: 'Saldo',
       value: (element: Instrumento) => element.saldo_total,
       type: 'number',

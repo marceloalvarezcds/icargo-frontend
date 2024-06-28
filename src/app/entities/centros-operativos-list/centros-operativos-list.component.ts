@@ -34,13 +34,12 @@ export class CentrosOperativosListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: CentroOperativoList) => element.id,
-      sticky: true,
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: CentroOperativoList) => element.estado.toUpperCase(),
-      sticky: true,
+
     },
     {
       def: 'nombre',

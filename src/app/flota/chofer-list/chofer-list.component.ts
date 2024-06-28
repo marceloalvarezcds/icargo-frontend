@@ -34,20 +34,20 @@ export class ChoferListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: ChoferList) => element.id,
-      sticky: true,
+    
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: ChoferList) => element.estado.toUpperCase(),
-      sticky: true,
+      
     },
 
     {
       def: 'nombre',
       title: 'Choferes',
       value: (element: ChoferList) => element.nombre,
-      sticky: true,
+   
     },
     {
       def: 'numero_documento',

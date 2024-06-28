@@ -34,19 +34,19 @@ export class PropietarioListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: PropietarioList) => element.id,
-      sticky: true,
+     
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: PropietarioList) => element.estado.toUpperCase(),
-      sticky: true,
+     
     },
     {
       def: 'nombre',
       title: 'Propietarios',
       value: (element: PropietarioList) => element.nombre,
-      sticky: true,
+    
     },
     {
       def: 'ruc',

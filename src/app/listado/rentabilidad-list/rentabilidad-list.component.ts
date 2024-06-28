@@ -27,7 +27,6 @@ export class RentabilidadListComponent implements OnInit {
       value: () => 'Ver OC',
       buttonCallback: (element: Rentabilidad) =>
         redirectToShowOC(this.router, element.oc_id),
-      sticky: true,
     },
     {
       def: 'estado',

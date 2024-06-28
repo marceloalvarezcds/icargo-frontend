@@ -28,7 +28,6 @@ export class LiquidacionListComponent implements OnInit {
       def: 'id',
       title: 'Nº de Liquidación',
       value: (element: Liquidacion) => element.id,
-      sticky: true,
     },
     {
       def: 'created_at',

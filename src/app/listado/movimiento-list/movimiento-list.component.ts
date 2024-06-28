@@ -41,7 +41,6 @@ export class MovimientoListComponent implements OnInit {
       def: 'id',
       title: 'ID Liq.',
       value: (element: Movimiento) => element.id,
-      sticky: true,
     },
     // {
     //   def: 'liquidacion_id',

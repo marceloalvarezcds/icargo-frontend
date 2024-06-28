@@ -35,19 +35,19 @@ export class ProveedorListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: ProveedorList) => element.id,
-      sticky: true,
+   
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: ProveedorList) => element.estado.toUpperCase(),
-      sticky: true,
+   
     },
     {
       def: 'nombre',
       title: 'Proveedor',
       value: (element: ProveedorList) => element.nombre,
-      sticky: true,
+     
     },
     // {
     //   def: 'nombre_corto',

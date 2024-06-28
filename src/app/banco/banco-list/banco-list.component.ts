@@ -33,19 +33,18 @@ export class BancoListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: Banco) => element.id,
-      sticky: true,
+     
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: Banco) => element.estado.toUpperCase(),
-      sticky: true,
+     
     },
     {
       def: 'nombre',
       title: 'Banco',
       value: (element: Banco) => element.nombre,
-      sticky: true,
     },
     {
       def: 'moneda_nombre',

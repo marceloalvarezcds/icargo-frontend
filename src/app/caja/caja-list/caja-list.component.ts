@@ -33,19 +33,18 @@ export class CajaListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: Caja) => element.id,
-      sticky: true,
+     
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: Caja) => element.estado.toUpperCase(),
-      sticky: true,
+      
     },
     {
       def: 'nombre',
       title: 'Caja',
       value: (element: Caja) => element.nombre,
-      sticky: true,
     },
     {
       def: 'moneda_nombre',

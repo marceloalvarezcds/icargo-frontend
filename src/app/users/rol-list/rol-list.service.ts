@@ -18,7 +18,6 @@ export class RolListService {
       def: 'id',
       title: 'Nº',
       value: (element: Rol) => element.id,
-      sticky: true,
     },
     {
       def: 'descripcion',

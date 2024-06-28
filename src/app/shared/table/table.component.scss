@@ -1,19 +1,19 @@
 @import "~src/assets/styles/colors.scss";
 @import "~src/assets/styles/filter.scss";
 
-
 .row_menu::ng-deep {
-  width: 89px;
-  height: 22px;
-  font-weight: 500;
-  font-family: Roboto, sans-serif;
-  font-size: 12px;
+  width: 30px;
+  height: 30px;
   .mat-button-wrapper {
-    line-height: 14.06px;
+    line-height: 24px;
   }
   .mat-icon-button .mat-icon {
-    line-height: 14.06px;
+    line-height: 14px;
   }
+}
+
+.mat-column-actions {
+  text-align: center;
 }
 
 .row-error {
@@ -27,231 +27,12 @@
 }
 
 .mat-table::ng-deep {
-  table {
-    table-layout: fixed; 
-    width: 100%; 
-  }
-  .mat-column-actions {
-    text-align: center;
-    box-sizing: border-box;
-    width: 100%; /* Asegura que la tabla ocupe todo el ancho del contenedor */
-    table-layout: fixed; /* Fija el layout de la tabla */
-  }
-  .mat-column-id,
-  .mat-column-numero_lote,
-  .mat-column-estado {
-    width: 28px !important;
-    box-sizing: border-box;
-  }
-  .mat-column-numero_referencia,
-  .mat-column-vencimiento
-  .mat-column-pendiente{
-    width: 28px !important;
-    box-sizing: border-box;
-    
-  }
-  .mat-column-id_liq{
-    width: 28px !important;
-    box-sizing: border-box;
-    padding-right: 15px;
-  }
-  
-  //Pedidos
-  .mat-column-remitente_nombre, 
-  .mat-column-producto_descripcion,
-  .mat-column-destino_nombre,
-  .mat-column-origen_nombre,
-  .mat-column-tipo_carga_descripcion,
-  .mat-column-cargado,
-  .mat-column-created_by,
-  .mat-column-created_by{
-    width: 58px !important;
-    box-sizing: border-box;
-  }
-  .mat-column-credito_banco{
-    width: 58px !important;
-    box-sizing: border-box;
-    text-align: right !important; 
-  }
-  .mat-column-credito_caja{
-    width: 58px !important;
-    box-sizing: border-box;
-    left: 14px;
-    text-align: right !important; 
-  }
-  .mat-column-debito_caja,
-  .mat-column-saldo_caja{
-    width: 57px !important;
-    box-sizing: border-box;
-    left: 9px;
-    padding-left: 12px;
-    text-align: right !important; 
-  }
-  .mat-column-debito_banco{
-  
-    box-sizing: border-box;
-    padding-left: -50px;
-    text-align: right !important; 
-  }
-  .mat-column-pendiente_banco,
-  .mat-column-saldo_banco{
-
-    box-sizing: border-box;
-    padding-right: 12px;
-    text-align: right !important; 
-  }
-  .mat-column-id_liq,
-  .mat-column-fecha_instrumento{
-    width: 178px !important;
-    padding-right: 12px;
-  }
-  .mat-column-condicion_cantidad{
-    text-align: right !important; 
-  }
-  .mat-column-confirmar{
-    width: 50px;
-  }
-  .mat-column-condicion_gestor_carga_tarifa {
-    text-align: right !important; 
-  }
-  .mat-column-credito_caja_instrumento
- {
-    width: 58px !important;
-    box-sizing: border-box;
-    left: 10px;
-    text-align: right !important; 
-  }
-  .mat-column-debito_caja_instrumento{
-    width: 75px !important;
-    text-align: right !important; 
-    box-sizing: border-box;
-    left: 10px;
-    padding-right: 12px;
-  }
-  .align-right-title {
-    position: relative;
-    left: 22px; 
-  }
-  .align-right-title-special{
-    position: relative;
-    left: 30px; 
-  }
-  .align-right-merma{
-    position: relative;
-    left: 60px; 
-  }
-  .align-right-caja{
-    position: relative;
-    left: 17px;
-  }
-  .align-right-saldo{
-    position: relative;
-    left: 15px;
-  }
-  .align-right-credito{
-    position: relative;
-    left: 13px;
-
-  }
-  .align-right-banco{
-    position: relative;
-  }
-  .color-labels{
-    color: #DAA520;
-  }
-  //OC
-  .mat-column-cantidad_nominada,
-  .mat-column-saldo,
-  .mat-column-condicion_gestor_carga_tarifa,
-  .mat-column-condicion_propietario_tarifa{
-    text-align: right; 
-  }
-  .mat-column-id_caja{
-    width: 48px !important;
-  }
-  .mat-column-usuario_caja{
-    width: 48px !important;
-    box-sizing: border-box;
-  }
-  .mat-column-numero_referencia_caja{
-    width: 48px !important;
-    padding-right: 20px;
-    box-sizing: border-box;
-  }
-  .mat-column-fecha_instrumento_caja{
-    padding-left: 100px;
-    box-sizing: border-box;
-    padding-right: 5px;
-  }
-  .mat-column-contraparte_caja{
-    box-sizing: border-box;
-    padding-left: 5px;
-  }
-  .mat-column-tipo_contraparte{
-    padding-right: 5px;
-    box-sizing: border-box;
-  }
-  .mat-column-id_liq_caja{
+  .mat-column-id {
     width: 68px !important;
-    margin-right: 12px;
-    box-sizing: border-box;
-    text-align: right !important; 
-  }
-
-  .mat-column-tipo_operacion_descripcion_caja{
-    width: 48px !important;
-    margin-right: 22px;
     box-sizing: border-box;
   }
-
-
-  //Estado Cuenta
-  .mat-column-pendiente {
-    text-align: right !important; 
-  }
-  .mat-column-en_proceso {
-    text-align: right !important; 
-  }
-  .mat-column-confirmado {
-    text-align: right !important; 
-  }
-  .mat-column-finalizado {
-    text-align: right !important; 
-  }
-  .mat-column-publicado_descripcion{
-    width: 58px !important;
-    padding-right: 2px;
-    box-sizing: border-box;
-  }
-
-  .mat-column-origen_indicacion{
-    width: 58px !important;
-    padding-right: 2px;
-    box-sizing: border-box;
-  }
-
-  //caja
-  .mat-column-monto{
-    text-align: right; 
-  }
-
-  //banco
-  .mat-column-saldo_confirmado,
-  .mat-column-debito,
-  .mat-column-credito{
-    padding-right: 2px;
-    box-sizing: border-box;
-    text-align: right; 
-  }
-
-  .mat-column-nombre{
-    width: 58px !important;
-    padding-right: 2px;
-    box-sizing: border-box;
-  }
-  .mat-column-moneda_nombre{
-    width: 58px !important;
-    padding-right: 2px;
+  .mat-column-numero_lote{
+    width: 68px !important;
     box-sizing: border-box;
   }
   .mat-header-cell-checkbox .mat-checkbox-mixedmark {
@@ -263,55 +44,14 @@
   .mat-cell-checkbox .mat-checkbox-inner-container {
     overflow: visible;
   }
-  //listados
-  .mat-column-cantidad_origen,
-  .mat-column-cantidad_destino,
-  .mat-column-diferencia_origen_destino,
-  .mat-column-merma_propietario_valor,
-
-  .mat-column-propietario_flete_total,
-  .mat-column-propietario_flete_total_ml,
-  .mat-column-merma_propietario_tolerancia,
-  .mat-column-merma_propietario_merma,
-  .mat-column-merma_propietario_valor_merma,
-  .mat-column-merma_gestor_carga_valor_merma,
-  .mat-column-merma_gestor_carga_tolerancia,
-  .mat-column-gestor_carga_flete_total,
-  .mat-column-gestor_carga_flete_total_ml,
-  .mat-column-merma_gestor_carga_merma,
-  .mat-column-merma_gestor_carga_valor,
-  .mat-column-flete_condicion_propietario_tarifa,
-  .mat-column-flete_propietario_total,
-  .mat-column-flete_propietario_total_ml,
-  .mat-column-flete_merma_propietario_valor,
-  .mat-column-flete_merma_propietario_tolerancia,
-  .mat-column-flete_merma_propietario_merma,
-  .mat-column-flete_merma_propietario_valor_merma,
-  .mat-column-flete_condicion_gestor_carga_tarifa,
-  .mat-column-flete_gestor_carga_total,
-  .mat-column-flete_gestor_carga_total_ml,
-  .mat-column-flete_merma_gestor_carga_tolerancia,
-  .mat-column-flete_merma_gestor_carga_merma,
-  .mat-column-flete_merma_gestor_carga_valor_merma,
-  .mat-column-total_complemento_a_cobrar,
-  .mat-column-total_complemento_a_cobrar,
-  .mat-column-total_descuento_a_cobrar,
-  .mat-column-diferencia_descuento,
-  .mat-column-total_anticipo_retirado,
-  .mat-column-saldo_gestor_carga,
-  .mat-column-saldo_propietario,
-  .mat-column-total_descuento_a_pagar,
-  .mat-column-diferencia_complemento,
-  .mat-column-total_complemento_a_pagar,
-  .mat-column-flete_merma_gestor_carga_valor
-  {
-    text-align: right; 
-  }
+  
 }
 
-.mat-header-row {
-  background-color: #DDE1E6 !important; 
+.mat-table td.mat-cell.mat-column-actions {
+  border-right: none; /* Elimina la línea vertical a la derecha */
 }
+
+
 
 /* Estilos para la tabla */
 .mat-table {
@@ -324,20 +64,8 @@
   box-sizing: border-box; 
 }
 
-
-
-.mat-table .mat-icon-button {
-  position: sticky;
-  right: 2px; 
-  z-index: 3; 
-}
-
-th.mat-header-cell {
-  font-family: Roboto, sans-serif;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 14.06px;
-  color: black; 
+.mat-header-row {
+  background-color: #DDE1E6 !important; 
 }
 
 td.mat-cell {
@@ -348,25 +76,203 @@ td.mat-cell {
   color: black;
 }
 
+th.mat-header-cell {
+  font-family: Roboto, sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 14.06px;
+  color: black; 
+}
+
+/* Estilo para celdas sticky */
+.last-sticky-cell {
+  box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1); /* Sombras solo a la izquierda */
+}
+// .mat-column-actions {
+//   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
+// }
+
+//Tamano de fuente de las letras
 .mat-cell, .mat-header-cell, .mat-footer-cell {
-  font-size: small;
+  font-size: 12px;
 }
 
-.mat-table {
-  border-collapse: collapse;
-}
-
-.mat-header-cell, .mat-cell, .mat-footer-cell, .mat-column-actions  {
+.mat-header-cell, .mat-cell, .mat-footer-cell  {
   border-right: none; 
   white-space: normal; 
-  overflow: hidden; 
-  padding-right: 2px;
   text-overflow: ellipsis; 
 }
 
-.mat-header-row:last-child .mat-header-cell,
-.mat-row:last-child .mat-cell,
-.mat-footer-row:last-child .mat-footer-cell {
-  border-bottom: none; 
+///////////////////////Alinear etiquetas//////////////////////////////////////////////
+.align-right-title {
+  text-align: right;
+  width: 50px !important;
 }
 
+//Alinear etiquetas. Estado Cuenta
+.align-right-title-cuenta {
+  text-align: right;
+  width: 80px !important;
+}
+
+////Alinear etiquetas. Listado, Movimientos
+.align-right-monto {
+  text-align: right;
+  width: 90px !important;
+}
+
+.align-right-instr{
+  text-align: right;
+  width: 90px !important;
+}
+
+.align-right-liq{
+  text-align: right;
+  width: 138px !important;
+}
+/////////////////////Alinear Numeros/////////////////////////////////////////////////
+//Pedidos
+/* Alinea el contenido de las celdas hacia la derecha, excluyendo el primer hijo (el encabezado) */
+td.mat-column-a_cobrar_flete:not(:first-child), /* A cobrar pedido y OC */
+td.mat-column-a_pagar_flete:not(:first-child),
+td.mat-column-cantidad_flete:not(:first-child) {
+    width: 50px;
+    text-align: right; /* Alinea el contenido a la derecha */
+    padding-right: 25px; /* Opcional: añade padding derecho para separación */
+}
+
+//Orden de carga
+td.mat-column-cantidad_nominada_oc:not(:first-child) {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+}
+
+//Caja
+td.mat-column-credito_caja:not(:first-child),
+td.mat-column-debito_caja:not(:first-child),
+td.mat-column-saldo_caja:not(:first-child)  {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 22px; /* Opcional: añade padding derecho para separación */
+}
+
+//Banco
+td.mat-column-credito_banco:not(:first-child),
+td.mat-column-debito_banco:not(:first-child),
+td.mat-column-saldo_banco:not(:first-child)  {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 22px; /* Opcional: añade padding derecho para separación */
+}
+
+//Estado de Cuenta
+td.mat-column-pendiente:not(:first-child),
+td.mat-column-en_proceso:not(:first-child),
+td.mat-column-confirmado:not(:first-child),
+td.mat-column-finalizado:not(:first-child)  {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 22px; /* Opcional: añade padding derecho para separación */
+}
+
+
+//LISTADOS
+///Rentabilidad
+td.mat-column-cantidad_nominada:not(:first-child),
+td.mat-column-cantidad_origen:not(:first-child),
+td.mat-column-cantidad_destino:not(:first-child),
+td.mat-column-diferencia_origen_destino:not(:first-child),
+
+td.mat-column-condicion_propietario_tarifa:not(:first-child),
+td.mat-column-propietario_flete_total:not(:first-child),
+td.mat-column-propietario_flete_total_ml:not(:first-child),
+
+td.mat-column-merma_propietario_valor:not(:first-child),
+td.mat-column-merma_propietario_tolerancia:not(:first-child),
+td.mat-column-merma_propietario_merma:not(:first-child),
+
+td.mat-column-merma_propietario_valor_merma:not(:first-child),
+td.mat-column-condicion_gestor_carga_tarifa:not(:first-child),
+td.mat-column-gestor_carga_flete_total:not(:first-child),
+
+td.mat-column-gestor_carga_flete_total_ml:not(:first-child),
+td.mat-column-merma_gestor_carga_valor:not(:first-child),
+td.mat-column-merma_gestor_carga_tolerancia:not(:first-child),
+
+td.mat-column-merma_gestor_carga_merma:not(:first-child),
+td.mat-column-merma_gestor_carga_valor_merma:not(:first-child),
+td.mat-column-flete_condicion_propietario_tarifa:not(:first-child),
+
+td.mat-column-flete_condicion_propietario_moneda_nombre:not(:first-child),
+td.mat-column-flete_propietario_total:not(:first-child),
+td.mat-column-flete_propietario_total_ml:not(:first-child),
+
+td.mat-column-flete_merma_propietario_valor:not(:first-child),
+td.mat-column-flete_merma_propietario_moneda_nombre:not(:first-child),
+td.mat-column-flete_merma_propietario_tolerancia:not(:first-child),
+
+td.mat-column-flete_merma_propietario_merma:not(:first-child),
+td.mat-column-flete_merma_propietario_valor_merma:not(:first-child),
+td.mat-column-flete_condicion_gestor_carga_tarifa:not(:first-child),
+
+td.mat-column-flete_gestor_carga_total:not(:first-child),
+td.mat-column-flete_gestor_carga_total_ml:not(:first-child),
+td.mat-column-flete_merma_gestor_carga_valor:not(:first-child),
+td.mat-column-flete_merma_gestor_carga_tolerancia:not(:first-child),
+td.mat-column-flete_merma_gestor_carga_merma:not(:first-child),
+td.mat-column-flete_merma_gestor_carga_valor_merma:not(:first-child),
+td.mat-column-total_complemento_a_pagar:not(:first-child),
+td.mat-column-total_complemento_a_cobrar:not(:first-child),
+td.mat-column-diferencia_complemento:not(:first-child),
+td.mat-column-total_descuento_a_pagar:not(:first-child),
+
+
+td.mat-column-total_descuento_a_cobrar:not(:first-child),
+td.mat-column-diferencia_descuento:not(:first-child),
+td.mat-column-total_anticipo_retirado:not(:first-child),
+td.mat-column-saldo_gestor_carga:not(:first-child),
+td.mat-column-saldo_propietario:not(:first-child)
+
+{
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 22px; /* Opcional: añade padding derecho para separación */
+} 
+
+//Movimiento
+td.mat-column-monto:not(:first-child),
+td.mat-column-monto_ml:not(:first-child){
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+} 
+
+//Instrumentos
+//Caja
+td.mat-column-credito_caja_instrumento:not(:first-child),
+td.mat-column-debito_caja_instrumento:not(:first-child),
+td.mat-column-saldo_caja:not(:first-child){
+  width: 40px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 10px; /* Opcional: añade padding derecho para separación */
+} 
+
+//Banco
+td.mat-column-credito_inst_banco:not(:first-child),
+td.mat-column-debito_inst_banco:not(:first-child),
+td.mat-column-pendiente_inst_banco:not(:first-child),
+td.mat-column-saldo_inst_banco:not(:first-child){
+  width: 40px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 10px; /* Opcional: añade padding derecho para separación */
+} 
+
+
+td.mat-column-movimientos_saldo:not(:first-child),
+td.mat-column-instrumentos_saldo:not(:first-child),
+td.mat-column-saldo_residual:not(:first-child) {
+  width: 90px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 10px;
+} 

@@ -48,7 +48,7 @@ export class GestorCargaListComponent implements OnInit {
       def: 'nombre',
       title: 'Gestora de Carga',
       value: (element: GestorCargaList) => element.nombre,
-      sticky: true,
+   
     },
     {
       def: 'numero_documento',

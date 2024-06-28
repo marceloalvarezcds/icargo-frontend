@@ -35,25 +35,25 @@ export class RemitenteListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: RemitenteList) => element.id,
-      sticky: true,
+
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: RemitenteList) => element.estado.toUpperCase(),
-      sticky: true,
+
     },
     {
       def: 'created_at',
       title: 'Fecha',
       value: (element: RemitenteList) => this.formatDate(element.created_at),
-      sticky: true,
+
     },
     {
       def: 'nombre',
       title: 'Clientes',
       value: (element: RemitenteList) => element.nombre,
-      sticky: true,
+ 
     },
     // {
     //   def: 'nombre_corto',

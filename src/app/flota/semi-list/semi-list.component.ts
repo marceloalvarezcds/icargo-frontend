@@ -37,7 +37,7 @@ export class SemiListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: SemiList) => element.id,
-      sticky: true,
+   
     },
     {
       def: 'estado',

@@ -34,7 +34,6 @@ export class CombinacionListComponent implements OnInit{
       def: 'id',
       title: 'ID',
       value: (element: CombinacionList) => element.id,
-      sticky: true,
     },
     {
       def: 'estado',

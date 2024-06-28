@@ -18,7 +18,6 @@ export class UserListService {
       def: 'id',
       title: 'Nº',
       value: (element: User) => element.id,
-      sticky: true,
     },
     {
       def: 'first_name',

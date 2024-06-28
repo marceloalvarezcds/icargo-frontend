@@ -34,25 +34,24 @@ export class FleteListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: FleteList) => element.id,
-      sticky: true,
+     
     },
     {
       def: 'numero_lote',
       title: 'Nº Lote',
       value: (element: FleteList) => element.numero_lote,
-      sticky: true,
+     
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: FleteList) => element.estado.toUpperCase(),
-      sticky: true,
+    
     },
     {
       def: 'remitente_nombre',
       title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
-      sticky: true,
     },
     {
       def: 'producto_descripcion',
@@ -70,19 +69,19 @@ export class FleteListComponent implements OnInit {
       value: (element: FleteList) => element.destino_nombre,
     },
     {
-      def: 'condicion_gestor_carga_tarifa',
+      def: 'a_cobrar_flete',
       title: 'A Cobrar',
       value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
       type: 'number',
     },
     {
-      def: 'condicion_propietario_tarifa',
+      def: 'a_pagar_flete',
       title: 'A Pagar',
       value: (element: FleteList) => element.condicion_propietario_tarifa,
       type: 'number',
     },
     {
-      def: 'condicion_cantidad',
+      def: 'cantidad_flete',
       title: 'Cantidad',
       value: (element: FleteList) => element.condicion_cantidad,
       type: 'number',

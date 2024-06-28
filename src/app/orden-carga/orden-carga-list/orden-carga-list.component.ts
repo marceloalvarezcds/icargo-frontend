@@ -33,19 +33,20 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
-      sticky: true,
+   
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado.toUpperCase(),
-      sticky: true,
+    
     },
     {
       def: 'created_at',
       title: 'Fecha',
       value: (element: OrdenCargaList) => this.formatDate(element.created_at),
-      sticky: true,
+    
+      
     },
     {
       def: 'nro_tickets',
@@ -132,12 +133,12 @@ export class OrdenCargaListComponent implements OnInit {
       value: (element: OrdenCargaList) => element.flete_destino_nombre,
     },
     {
-      def: 'condicion_propietario_tarifa',
+      def: 'a_cobrar_flete',
       title: 'A Cobrar',
       value: (element: OrdenCargaList) => element.condicion_propietario_tarifa,
     },    
     {
-      def: 'cantidad_nominada',
+      def: 'cantidad_nominada_oc',
       title: 'Cant. Nominada',
       value: (element: OrdenCargaList) => element.cantidad_nominada,
       type: 'number',

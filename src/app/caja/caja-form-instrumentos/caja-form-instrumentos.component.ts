@@ -19,7 +19,6 @@ export class CajaFormInstrumentosComponent {
       def: 'id_caja',
       title: 'ID',
       value: (element: Instrumento) => element.id,
-      sticky: true,
     },
     {
       def: 'numero_referencia_caja',

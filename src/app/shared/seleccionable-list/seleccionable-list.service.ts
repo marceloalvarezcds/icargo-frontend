@@ -24,7 +24,6 @@ export class SeleccionableListService<DialogComponent, DialogData> {
       def: 'id',
       title: 'Nº',
       value: (element: SeleccionableBaseModel) => element.id,
-      sticky: true,
     },
     {
       def: 'descripcion',
