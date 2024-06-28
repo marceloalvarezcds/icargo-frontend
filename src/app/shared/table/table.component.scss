@@ -103,8 +103,25 @@ th.mat-header-cell {
   text-overflow: ellipsis; 
 }
 
-.mat-column-placa_camion{
-  width: 90px !important;
+/* Estilo para las columnas fijas */
+.mat-column-placa_camion {
+  position: sticky;
+  left: 0;
+  z-index: 10; /* Asegúrate de que el z-index sea mayor que el de otras columnas */
+
+}
+
+.mat-column-pais_emisor_placa {
+  position: sticky;
+  left: 48px; /* Ajusta este valor según el ancho de la columna placa_camion */
+  z-index: 9; /* Asegúrate de que el z-index sea menor que el de placa_camion */
+
+}
+
+/* Estilos adicionales para ajustar el ancho y el padding */
+.mat-column-placa_camion,
+.mat-column-pais_emisor_placa {
+  width: 48px !important;
   padding-right: 12px;
 }
 
