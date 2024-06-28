@@ -96,12 +96,6 @@ th.mat-header-cell {
   background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
 }
 
-/* Estilo para todas las columnas, excluyendo el encabezado */
-.mat-column:not(.mat-header-cell) {
-  /* Estilos que deseas aplicar */
-  background-color: #f7f7f7;
-}
-
 
 .mat-cell, .mat-header-cell, .mat-footer-cell {
   font-size: 12px;
@@ -112,7 +106,11 @@ th.mat-header-cell {
   white-space: normal; 
   text-overflow: ellipsis; 
 }
-
+/* Estilo para todas las columnas, excluyendo el encabezado */
+.mat-column-actions:not(.mat-header-cell) {
+  /* Estilos que deseas aplicar */
+  background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
+}
 
 // .mat-column-actions {
 //   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
