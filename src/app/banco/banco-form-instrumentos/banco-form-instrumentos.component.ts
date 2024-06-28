@@ -80,7 +80,7 @@ export class BancoFormInstrumentosComponent {
     {
       def: 'saldo_inst_banco',
       title: 'Saldo',
-      value: (element: Instrumento) => element.saldo_total,
+      value: (element: Instrumento) => element.saldo_provisional,
       type: 'number',
     },
     {

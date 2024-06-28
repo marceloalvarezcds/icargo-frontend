@@ -44,7 +44,7 @@ export class CamionListComponent implements OnInit {
       sticky: true,
     },
     {
-      def: 'placa',
+      def: 'placa_camion',
       title: 'Chapa',
       value: (element: CamionList) => element.placa,
       sticky: true,
