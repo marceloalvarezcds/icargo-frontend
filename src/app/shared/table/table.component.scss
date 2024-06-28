@@ -85,16 +85,24 @@ th.mat-header-cell {
 }
 
 .last-sticky-cell {
-  position: sticky;
-  left: 0; /* Ajusta este valor según el ancho de la columna fija anterior */
-  z-index: 10; /* Asegúrate de que el z-index sea mayor que el de otras columnas */
-  box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1); /* Sombras solo a la izquierda */
+  background-color: gray;
 }
-// .mat-column-actions {
-//   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
-// }
 
-//Tamano de fuente de las letras
+/* Estilo específico para las celdas fijas del cuerpo */
+.mat-cell.sticky-column {
+  border: none; 
+  position: sticky;
+  z-index: 10;
+  background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
+}
+
+/* Estilo para todas las columnas, excluyendo el encabezado */
+.mat-column:not(.mat-header-cell) {
+  /* Estilos que deseas aplicar */
+  background-color: #f7f7f7;
+}
+
+
 .mat-cell, .mat-header-cell, .mat-footer-cell {
   font-size: 12px;
 }
@@ -105,10 +113,7 @@ th.mat-header-cell {
   text-overflow: ellipsis; 
 }
 
-.mat-column-pais_emisor_placa{
-  width: 158px !important;
-  padding-right: 12px;
-}
+
 // .mat-column-actions {
 //   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
 // }
@@ -124,12 +129,7 @@ th.mat-header-cell {
   text-overflow: ellipsis; 
 }
 .mat-column-placa_camion{
-  width: 58px !important;
-  padding-right: 12px;
-}
-.mat-column-pais_emisor_placa{
-  width: 158px !important;
-  padding-right: 12px;
+  width: 48px !important;
 }
 
 ///////////////////////Alinear etiquetas//////////////////////////////////////////////

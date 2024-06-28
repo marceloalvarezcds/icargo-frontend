@@ -36,13 +36,13 @@ export class GestorCargaListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: GestorCargaList) => element.id,
-      sticky: true,
+  
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: GestorCargaList) => element.estado.toUpperCase(),
-      sticky: true,
+
     },
     {
       def: 'nombre',

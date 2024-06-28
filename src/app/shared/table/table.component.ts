@@ -140,11 +140,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
 
   
 
-  isLastStickyColumn(column: Column): boolean {
-    const stickyColumns = this.columnStickyList.filter(c => c.sticky);
-    return stickyColumns.length > 0 && column === stickyColumns[stickyColumns.length - 1];
+  isStickyColumn(column: any): boolean {
+    return column.sticky;
   }
-  
 
   onCheckboxChange(event: MatCheckboxChange, row: any, index: number): void {
     this.checkboxChange.emit({ event, value: { row, index } });
