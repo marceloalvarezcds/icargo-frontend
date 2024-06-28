@@ -33,9 +33,12 @@
   }
   .mat-column-estado{
     width: 68px !important;
+    margin: 0 !important;
   }
   .mat-column-placa_camion{
     width: 68px !important;
+    margin: 0 !important;
+    
   }
   .mat-column-numero_lote{
     width: 68px !important;
@@ -96,6 +99,7 @@ th.mat-header-cell {
 
 /* Estilo específico para las celdas fijas del cuerpo */
 .mat-cell.sticky-column {
+ 
   border: none; 
   position: sticky;
   z-index: 10;
