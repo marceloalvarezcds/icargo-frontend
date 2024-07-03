@@ -311,16 +311,31 @@ export class FleteListComponent implements OnInit {
     this.getList();
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/flete/${m.FLETE}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(event: TableEvent<FleteList>): void {
+  //   this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, event.row.id]);
+  // }
+
+  // redirectToShow(event: TableEvent<FleteList>): void {
+  //   this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
+  // }
+
   redirectToCreate(): void {
-    this.router.navigate([`/flete/${m.FLETE}/${a.CREAR}`]);
+    const url = `/flete/${m.FLETE}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
 
   redirectToEdit(event: TableEvent<FleteList>): void {
-    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, event.row.id]);
+    const url = `/flete/${m.FLETE}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   redirectToShow(event: TableEvent<FleteList>): void {
-    this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
+    const url = `/flete/${m.FLETE}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   deleteRow({ row }: TableEvent<FleteList>): void {

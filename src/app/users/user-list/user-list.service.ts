@@ -103,17 +103,33 @@ export class UserListService {
     });
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/users/${m.USER}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(rol: User): void {
+  //   this.router.navigate([`/users/${m.USER}/${a.EDITAR}`, rol.id]);
+  // }
+
+  // redirectToShow(rol: User): void {
+  //   this.router.navigate([`/users/${m.USER}/${a.VER}`, rol.id]);
+  // }
+
   redirectToCreate(): void {
-    this.router.navigate([`/users/${m.USER}/${a.CREAR}`]);
+    const url = `/users/${m.USER}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
-
+  
   redirectToEdit(rol: User): void {
-    this.router.navigate([`/users/${m.USER}/${a.EDITAR}`, rol.id]);
+    const url = `/users/${m.USER}/${a.EDITAR}/${rol.id}`;
+    window.open(url, '_blank');
+  }
+  
+  redirectToShow(rol: User): void {
+    const url = `/users/${m.USER}/${a.VER}/${rol.id}`;
+    window.open(url, '_blank');
   }
 
-  redirectToShow(rol: User): void {
-    this.router.navigate([`/users/${m.USER}/${a.VER}`, rol.id]);
-  }
 
   active(user: User): void {
     this.dialog.changeStatusConfirm(

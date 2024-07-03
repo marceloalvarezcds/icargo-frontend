@@ -163,20 +163,36 @@ export class RemitenteListComponent implements OnInit {
     this.getList();
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/entities/${m.REMITENTE}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(event: TableEvent<RemitenteList>): void {
+  //   this.router.navigate([
+  //     `/entities/${m.REMITENTE}/${a.EDITAR}`,
+  //     event.row.id,
+  //   ]);
+  // }
+
+  // redirectToShow(event: TableEvent<RemitenteList>): void {
+  //   this.router.navigate([`/entities/${m.REMITENTE}/${a.VER}`, event.row.id]);
+  // }
+
   redirectToCreate(): void {
-    this.router.navigate([`/entities/${m.REMITENTE}/${a.CREAR}`]);
+    const url = `/entities/${m.REMITENTE}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
-
+  
   redirectToEdit(event: TableEvent<RemitenteList>): void {
-    this.router.navigate([
-      `/entities/${m.REMITENTE}/${a.EDITAR}`,
-      event.row.id,
-    ]);
+    const url = `/entities/${m.REMITENTE}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
-
+  
   redirectToShow(event: TableEvent<RemitenteList>): void {
-    this.router.navigate([`/entities/${m.REMITENTE}/${a.VER}`, event.row.id]);
+    const url = `/entities/${m.REMITENTE}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
   }
+  
 
   deleteRow({ row }: TableEvent<RemitenteList>): void {
     const message = `¿Está seguro que desea eliminar el Remitente ${row.nombre}?`;

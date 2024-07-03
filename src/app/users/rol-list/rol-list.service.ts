@@ -82,17 +82,34 @@ export class RolListService {
     });
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/users/${m.ROL}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(rol: Rol): void {
+  //   this.router.navigate([`/users/${m.ROL}/${a.EDITAR}`, rol.id]);
+  // }
+
+  // redirectToShow(rol: Rol): void {
+  //   this.router.navigate([`/users/${m.ROL}/${a.VER}`, rol.id]);
+  // }
   redirectToCreate(): void {
-    this.router.navigate([`/users/${m.ROL}/${a.CREAR}`]);
+    const url = `/users/${m.ROL}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
-
+  
   redirectToEdit(rol: Rol): void {
-    this.router.navigate([`/users/${m.ROL}/${a.EDITAR}`, rol.id]);
+    const url = `/users/${m.ROL}/${a.EDITAR}/${rol.id}`;
+    window.open(url, '_blank');
+  }
+  
+  redirectToShow(rol: Rol): void {
+    const url = `/users/${m.ROL}/${a.VER}/${rol.id}`;
+    window.open(url, '_blank');
   }
 
-  redirectToShow(rol: Rol): void {
-    this.router.navigate([`/users/${m.ROL}/${a.VER}`, rol.id]);
-  }
+  
+
 
   active(user: Rol): void {
     this.dialog.changeStatusConfirm(

@@ -59,4 +59,17 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
   closeSidebarMenu(): void {
     this.menuService.closeSidebarMenu();
   }
+
+  openInNewTab(path: string | any[] | undefined): void {
+    if (typeof path === 'string') {
+      window.open(path, '_blank');
+    } else if (Array.isArray(path)) {
+      window.open(this.constructPathFromArray(path), '_blank');
+    }
+  }
+
+  private constructPathFromArray(pathArray: any[]): string {
+    // Construir la ruta desde el array, si es necesario.
+    return pathArray.join('/');
+  }
 }

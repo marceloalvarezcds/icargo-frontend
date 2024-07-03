@@ -144,17 +144,32 @@ export class BancoListComponent implements OnInit {
     this.getList();
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/banco/${m.BANCO}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(event: TableEvent<Banco>): void {
+  //   this.router.navigate([`/banco/${m.BANCO}/${a.EDITAR}`, event.row.id]);
+  // }
+
+  // redirectToShow(event: TableEvent<Banco>): void {
+  //   this.router.navigate([`/banco/${m.BANCO}/${a.VER}`, event.row.id]);
+  // }
+
   redirectToCreate(): void {
-    this.router.navigate([`/banco/${m.BANCO}/${a.CREAR}`]);
+    const url = `/banco/${m.BANCO}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
 
   redirectToEdit(event: TableEvent<Banco>): void {
-    this.router.navigate([`/banco/${m.BANCO}/${a.EDITAR}`, event.row.id]);
+    const url = `/banco/${m.BANCO}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   redirectToShow(event: TableEvent<Banco>): void {
-    this.router.navigate([`/banco/${m.BANCO}/${a.VER}`, event.row.id]);
-  }
+    const url = `/banco/${m.BANCO}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
+  }  
 
   deleteRow({ row }: TableEvent<Banco>): void {
     const message = `¿Está seguro que desea eliminar la banco ${row.numero_cuenta}?`;

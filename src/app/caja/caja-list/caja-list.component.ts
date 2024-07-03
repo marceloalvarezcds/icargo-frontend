@@ -134,16 +134,31 @@ export class CajaListComponent implements OnInit {
     this.getList();
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/caja/${m.CAJA}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(event: TableEvent<Caja>): void {
+  //   this.router.navigate([`/caja/${m.CAJA}/${a.EDITAR}`, event.row.id]);
+  // }
+
+  // redirectToShow(event: TableEvent<Caja>): void {
+  //   this.router.navigate([`/caja/${m.CAJA}/${a.VER}`, event.row.id]);
+  // }
+
   redirectToCreate(): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.CREAR}`]);
+    const url = `/caja/${m.CAJA}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
 
   redirectToEdit(event: TableEvent<Caja>): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.EDITAR}`, event.row.id]);
+    const url = `/caja/${m.CAJA}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   redirectToShow(event: TableEvent<Caja>): void {
-    this.router.navigate([`/caja/${m.CAJA}/${a.VER}`, event.row.id]);
+    const url = `/caja/${m.CAJA}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   deleteRow({ row }: TableEvent<Caja>): void {

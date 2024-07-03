@@ -166,15 +166,18 @@ export class ChoferListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/flota/${m.CHOFER}/${a.CREAR}`]);
+    const url = `/flota/${m.CHOFER}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
 
   redirectToEdit(event: TableEvent<ChoferList>): void {
-    this.router.navigate([`/flota/${m.CHOFER}/${a.EDITAR}`, event.row.id]);
+    const url = `/flota/${m.CHOFER}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   redirectToShow(event: TableEvent<ChoferList>): void {
-    this.router.navigate([`/flota/${m.CHOFER}/${a.VER}`, event.row.id]);
+    const url = `/flota/${m.CHOFER}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   deleteRow({ row }: TableEvent<ChoferList>): void {

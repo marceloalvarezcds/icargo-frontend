@@ -227,22 +227,37 @@ export class OrdenCargaListComponent implements OnInit {
     this.getList();
   }
 
+  // redirectToCreate(): void {
+  //   this.router.navigate([`/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`]);
+  // }
+
+  // redirectToEdit(event: TableEvent<OrdenCargaList>): void {
+  //   this.router.navigate([
+  //     `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
+  //     event.row.id,
+  //   ]);
+  // }
+
+  // redirectToShow(event: TableEvent<OrdenCargaList>): void {
+  //   this.router.navigate([
+  //     `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
+  //     event.row.id,
+  //   ]);
+  // }
+
   redirectToCreate(): void {
-    this.router.navigate([`/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`]);
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
 
   redirectToEdit(event: TableEvent<OrdenCargaList>): void {
-    this.router.navigate([
-      `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
-      event.row.id,
-    ]);
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   redirectToShow(event: TableEvent<OrdenCargaList>): void {
-    this.router.navigate([
-      `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
-      event.row.id,
-    ]);
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   deleteRow({ row }: TableEvent<OrdenCargaList>): void {

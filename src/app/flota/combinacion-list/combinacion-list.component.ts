@@ -154,14 +154,18 @@ export class CombinacionListComponent implements OnInit{
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/flota/${m.COMBINACION}/${a.CREAR}`]);
+    const url = `/flota/${m.COMBINACION}/${a.CREAR}`;
+    window.open(url, '_blank');
   }
 
   redirectToEdit(event: TableEvent<CombinacionList>): void {
-    this.router.navigate([`/flota/${m.COMBINACION}/${a.EDITAR}`, event.row.id]);
+    const url = `/flota/${m.COMBINACION}/${a.EDITAR}/${event.row.id}`;
+    window.open(url, '_blank');
   }
+
   redirectToShow(event: TableEvent<CombinacionList>): void {
-    this.router.navigate([`/flota/${m.COMBINACION}/${a.VER}`, event.row.id]);
+    const url = `/flota/${m.COMBINACION}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
   }
 
   downloadFile(): void {

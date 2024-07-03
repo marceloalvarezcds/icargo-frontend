@@ -160,6 +160,24 @@ export class LiquidacionListComponent implements OnInit {
     );
   }
 
+  // redirectToEdit(event: TableEvent<Liquidacion>): void {
+  //   const url = `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.EDITAR}/${event.row.id}`
+  //               + `?contraparte_id=${this.estadoCuenta!.contraparte_id}`
+  //               + `&actual_contraparte=${this.estadoCuenta!.contraparte}`
+  //               + `&actual_contraparte_numero_documento=${this.estadoCuenta!.contraparte_numero_documento}`;
+  //   window.open(url, '_blank');
+  // }
+  
+
+  // redirectToShow(event: TableEvent<Liquidacion>): void {
+  //   const url = `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}/${event.row.id}`
+  //               + `?contraparte_id=${this.estadoCuenta!.contraparte_id}`
+  //               + `&actual_contraparte=${this.estadoCuenta!.contraparte}`
+  //               + `&actual_contraparte_numero_documento=${this.estadoCuenta!.contraparte_numero_documento}`;
+  //   window.open(url, '_blank');
+  // }
+  
+  
   redirectToMovView(): void {
     this.router.navigate(
       [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.MOVIMIENTO}/${a.LISTAR}`],
