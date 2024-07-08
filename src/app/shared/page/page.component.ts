@@ -55,4 +55,22 @@ export class PageComponent {
       }
     });
   }
+  getButtonStyles(submodule: string): { [key: string]: string } {
+    switch (submodule) {
+      case 'CLIENTES':
+        return {
+          'padding': '14px',
+          'font-family': "'Roboto', sans-serif",
+          'font-size': '12px',
+          'font-weight': '580',
+          'line-height': '18.75px',
+          'letter-spacing': '0.06em',
+        };
+      case 'Productos':
+        return { 'padding': '8px', 'min-width': '90px' };
+      default:
+        return { 'padding': '6px', 'min-width': '80px' };
+    }
+  }
+  
 }

@@ -1,119 +1,95 @@
 <div [formGroup]="form">
   <div formGroupName="info">
     <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Nombre</mat-label>
-        <input matInput formControlName="nombre" appAutofocus />
-        <mat-error *ngIf="info.controls['nombre'].hasError('required')">
-          El nombre es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Nombre de Fantasía</mat-label>
-        <input matInput formControlName="nombre_corto" />
-        <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
-          El nombre corto es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Composición Jurídica</mat-label>
-        <mat-select formControlName="composicion_juridica_id">
-          <ng-container *ngFor="let o of composicionJuridicaList$ | async">
-            <mat-option [value]="o.id">{{ o.nombre }}</mat-option>
-          </ng-container>
-        </mat-select>
-        <mat-error
-          *ngIf="info.controls['composicion_juridica_id'].hasError('required')"
-        >
-          La composición jurídica es <strong>requerida</strong>
-        </mat-error>
-      </mat-form-field>
+      <div class="form-horizontal-container">
+        <div class="form-field-container">
+          <mat-error *ngIf="info.controls['nombre'].hasError('required') && (info.controls['nombre'].dirty || info.controls['nombre'].touched)" >
+            <strong style="padding: 3px;">*</strong>
+          </mat-error>
+          <label for="nombre" class="custom-label">Cliente</label>
+          <input type="text" id="nombre" name="nombre" formControlName="nombre" matInput appAutofocus class="custom-input-cliente">
+        </div>
+        
+        <div class="form-field-container">
+          <!-- Campo Nombre de Fantasía -->
+          <label for="nombreFantasia" class="custom-label">Nombre de Fantasía</label>
+          <input type="text" id="nombreFantasia" name="nombre_corto" formControlName="nombre_corto" matInput class="custom-input-nombre">
+          <mat-error *ngIf="info.controls['nombre_corto'].hasError('required') && (info.controls['nombre_corto'].dirty || info.controls['nombre_corto'].touched)">
+            El nombre corto es <strong>requerido</strong>
+          </mat-error>
+        </div>
+        
+        <div class="form-field-container">
+          <!-- Campo Composición Jurídica -->
+          <label for="composicionJuridica" class="custom-label">Composición Jurídica</label>
+          <mat-select id="composicionJuridica" formControlName="composicion_juridica_id" class="composicion-juridica-select">
+            <mat-option *ngFor="let o of composicionJuridicaList$ | async" [value]="o.id">{{ o.nombre }}</mat-option>
+          </mat-select>
+          <mat-error *ngIf="info.controls['composicion_juridica_id'].hasError('required') && (info.controls['composicion_juridica_id'].dirty || info.controls['composicion_juridica_id'].touched)">
+            La composición jurídica es <strong>requerida</strong>
+          </mat-error>
+        </div> 
+      </div>
+      <div class="form-field-container">
+        <mat-slide-toggle 
+          id="estado" 
+          formControlName="estado" 
+          class="custom-slide-toggle"
+          [color]="info.controls['estado'].value ? 'primary' : 'accent'"
+          [ngClass]="{
+            'mat-primary': info.controls['estado'].value,
+            'mat-accent': !info.controls['estado'].value
+          }"
+          labelPosition="before" 
+          [aria-label]="info.controls['estado'].value ? 'Activo' : 'Inactivo'">
+          {{ info.controls['estado'].value ? 'Activo' : 'Inactivo' }}
+        </mat-slide-toggle>
+      </div>
     </div>
-    <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Tipo de Documento</mat-label>
-        <mat-select formControlName="tipo_documento_id">
-          <ng-container *ngFor="let o of tipoDocumentoList">
-            <mat-option [value]="o.id">{{ o.descripcion }}</mat-option>
-          </ng-container>
+
+    <div class="form-horizontal-container">
+      <div class="form-field-container">
+        <!-- Campo Tipo de Documento -->
+        <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required') && (info.controls['tipo_documento_id'].dirty || info.controls['tipo_documento_id'].touched)">
+          <strong style="padding: 3px;">*</strong>
+        </mat-error>
+        <label for="tipoDocumento" class="custom-label">Tipo de Documento</label>
+        <mat-select id="tipoDocumento" formControlName="tipo_documento_id" class="documento-select">
+          <mat-option *ngFor="let o of tipoDocumentoList" [value]="o.id">{{ o.descripcion }}</mat-option>
         </mat-select>
-        <mat-error
-          *ngIf="info.controls['tipo_documento_id'].hasError('required')"
-        >
-          El tipo de documento es <strong>requerido</strong>
+    
+      </div>
+    
+      <div class="form-field-container small-input-container">
+        <!-- Campo Número de Documento -->
+        <mat-error *ngIf="info.controls['numero_documento'].hasError('required') && (info.controls['numero_documento'].dirty || info.controls['numero_documento'].touched)">
+          <strong style="padding: 3px;">*</strong>
         </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Número de Documento</mat-label>
-        <input matInput formControlName="numero_documento" />
-        <mat-error
-          *ngIf="info.controls['numero_documento'].hasError('required')"
-        >
-          El número de documento es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field
-        class="col-xs-12 col-sm-6 col-md-4"
-        [class.mat-form-field-disabled]="!isRucSelected"
-      >
-        <mat-label>Dígito verificador</mat-label>
-        <input
-          matInput
-          formControlName="digito_verificador"
-          tabindex="{{ isRucSelected ? 0 : -1 }}"
-          [readonly]="!isRucSelected"
-          appInputThousandsSeparator
-        />
-        <mat-error
-          *ngIf="info.controls['digito_verificador'].hasError('required')"
-        >
+        <label for="numeroDocumento" class="custom-label">N Doc.</label>
+        <input type="text" id="numeroDocumento" name="numero_documento" formControlName="numero_documento" matInput class="custom-input-doc">
+      </div>
+    
+      <div class="form-field-container small-input-container" [class.mat-form-field-disabled]="!isRucSelected">
+        <!-- Campo Dígito verificador -->
+        <label for="digitoVerificador" class="custom-label">Dígito verificador</label>
+        <input type="text" id="digitoVerificador" name="digito_verificador" formControlName="digito_verificador" matInput class="custom-input-digito" [readonly]="!isRucSelected" tabindex="{{ isRucSelected ? 0 : -1 }}" appInputThousandsSeparator>
+        <mat-error *ngIf="info.controls['digito_verificador'].hasError('required') && (info.controls['digito_verificador'].dirty || info.controls['digito_verificador'].touched)">
           El dígito verificador es <strong>requerido</strong>
         </mat-error>
         <mat-error *ngIf="info.controls['digito_verificador'].hasError('min')">
           El valor <strong>mínimo</strong> es 0
         </mat-error>
-      </mat-form-field>
+      </div>
+    
+      <div class="form-field-container">
+        <label for="paginaWeb" class="custom-label">Web</label>
+        <input type="url" id="paginaWeb" name="pagina_web" formControlName="pagina_web" matInput class="custom-input-web">
+      </div>
     </div>
-    <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <mat-label>Teléfono</mat-label>
-        <input matInput formControlName="telefono" appFormatToPastePhone />
-        <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
-        <mat-error *ngIf="info.controls['telefono'].hasError('required')">
-          El teléfono es <strong>requerido</strong>
-        </mat-error>
-        <mat-error *ngIf="info.controls['telefono'].hasError('pattern')">
-          <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <mat-label>Correo electrónico</mat-label>
-        <input matInput formControlName="email" />
-        <mat-error *ngIf="info.get('email')?.hasError('email')">
-          El correo es <strong>inválido</strong>
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-        <mat-label>Página web</mat-label>
-        <input matInput formControlName="pagina_web" />
-      </mat-form-field>
-      <mat-form-field
-        class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
-        [hidden]="
-          !(user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_ALIAS))
-        "
-      >
-        <mat-label>Alias</mat-label>
-        <input matInput formControlName="alias" />
-        <mat-error *ngIf="info.controls['alias'].hasError('required')">
-          El alias es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-    </div>
-
-    <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6">
-        <mat-label>Información complementaria</mat-label>
+    
+    <div class="form-textarea-container">
+      <div class="form-field-container">
+        <label for="infoComplementaria" class="custom-label">Comentario</label>
         <textarea
           matInput
           formControlName="info_complementaria"
@@ -121,22 +97,18 @@
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
         ></textarea>
-      </mat-form-field>
-    </div>
-
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          className=""
-          title="Foto"
-          groupName="info"
-          controlName="logo"
-          [field]="logo"
-          [form]="form"
-          [isEdit]="isEdit"
-          (fileChange)="fileChange($event)"
-        ></app-file-field>
       </div>
     </div>
+    <div class="custom-file-field">
+      <app-file-field
+        className=""
+        groupName="info"
+        controlName="logo"
+        [field]="logo"
+        [form]="form"
+        [isEdit]="isEdit"
+        (fileChange)="fileChange($event)"
+      ></app-file-field>
+    </div> 
   </div>
 </div>

@@ -99,7 +99,7 @@ export class DialogFormFieldControlComponent<
   get shouldLabelFloat(): boolean {
     return this.focused || !this.empty || !!this.selectedValue;
   }
-  
+  @Input() smallInput: boolean | undefined;
   @Input() excludeInactive: boolean = false;
   @Input() dialogRefFunction?: (
     selectedValue: T | undefined

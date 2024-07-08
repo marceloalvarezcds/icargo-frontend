@@ -9,11 +9,13 @@
   >
     <span>Ubicar</span>
   </button>
-  <google-map
-    [height]="height + 'px'"
-    [width]="(width$ | async) + 'px'"
-    [center]="latLng"
-    [options]="options"
-    [zoom]="zoom"
-  ></google-map>
+  <div class="google-map-wrapper">
+    <google-map
+      [height]="height + 'px'"
+      [width]="(width$ | async) + 'px'"
+      [center]="latLng"
+      [options]="options"
+      [zoom]="zoom"
+    ></google-map>
+  </div>
 </div>

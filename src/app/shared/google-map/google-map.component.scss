@@ -7,3 +7,31 @@
     cursor: cell !important;
   }
 }
+
+.google-map-container {
+  position: relative;
+  float: right; /* Usa float para colocar a la derecha */
+  bottom: 88px;
+  width: 100px; /* Ajusta el tamaño según sea necesario */
+  height: 10px; /* Hacerlo cuadrado */
+  margin-bottom: 0; /* Elimina el margen inferior */
+  margin-left: 993px;
+}
+
+.google-map-wrapper {
+  display: flex;
+  width: 134px; /* Ajusta el tamaño del mapa */
+  height: 140px; /* Ajusta el tamaño del mapa */
+  overflow: hidden; /* Oculta cualquier desbordamiento del contenido */
+  background-color: aqua;
+  border-radius: 4%;
+}
+
+
+.click-on-map-button {
+  /* Ajusta el botón si es necesario */
+  position: relative;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+}

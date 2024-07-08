@@ -1,20 +1,106 @@
 .page-content {
   max-height: calc(100vh - 155px);
-  overflow: auto;
+  // overflow: auto;
 }
-/* styles.css o styles.scss */
+.page {
+  background-color: white; /* Fondo blanco para el formulario */
+  padding: 20px; /* Espacio interno alrededor del formulario */
+}
 
 /* styles.css o styles.scss */
 
-/* Estilos generales para todos los input */
-input {
-  width: 200px; /* Ancho general para todos los input */
-  padding: 8px; /* Padding interior para todos los input */
-  font-size: 14px; /* Tamaño de fuente para todos los input */
-  border: 1px solid #ccc; /* Borde del input */
-  border-radius: 4px; /* Bordes redondeados para el input */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+/* styles.css o styles.scss */
+.title .module {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #F25A38; /* Ejemplo de color para el módulo */
+}
+
+.title .submodule {
+  font-family: Roboto;
+
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
   
-  /* Color de fondo para verificar el cambio */
-  background-color: #f0f0f0;
+  color: #3B9EFF; /* Ejemplo de color para el submódulo */
+}
+.title .module::after{
+  content: " >> ";
+  margin-top: -22px; /* Espacio entre los elementos */
+  color: #3B9EFF; /* Color del signo de mayor */
+  font-style: italic;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+.linea-horizontal {
+  border-bottom: 0.5px solid rgba(242, 90, 56, 0.5); /* Cambia el grosor y el color según tus necesidades */
+  margin-top: -10px;
+  margin-bottom: 15px;
+}
+
+.page-title-buttons {
+  display: flex;
+  gap: 2px; /* Espacio entre los botones */
+}
+
+.save-button{
+  width: auto; /* Ajusta el ancho automáticamente basado en el contenido */
+  height: 25px;
+  padding: 4px 12px 4px 6px;
+  border-radius: 5px; /* Ajusta el valor para redondear más o menos el borde */
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  font-weight: 580;
+  line-height: 16.41px;
+}
+
+.save-button mat-icon{
+  padding-top: 8px;
+  font-size: 13px; /* Ajusta el tamaño del icono */
+  margin-right: -2px;
+}
+
+.list-button {
+  background-color: #e0e0e0;
+  color: #3B9EFF; 
+  width: auto; /* Ajusta el ancho automáticamente basado en el contenido */
+  height: 25px;
+  border-radius: 5px; /* Ajusta el valor para redondear más o menos el borde */
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: -6px; /* Espacio entre el ícono y el texto (ajustado para reducir la separación) */
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  font-weight: 580;
+  line-height: 16.41px;
+  padding: 4px 12px 4px 6px;
+  margin-left: 2px;
+  border: 0.5px solid #3B9EFF;
+}
+
+.list-button mat-icon {
+  font-size: 10px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: #3B9EFF; /* Fondo del ícono */
+  width: 14px; /* Ancho del ícono */
+  height: 12px; /* Altura del ícono */
+  padding-top: 3px; /* Ajuste del padding superior */
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  color: white; /* Color del ícono */
+  margin-left: 2px;
+  padding-top: 2px;
+  margin-right: 3px;
+  margin-top: -2px;
 }

@@ -2,19 +2,25 @@
   <div class="page">
     <div class="page-title">
       <span class="title">
-        {{ module }} > {{ submodule }} > <strong> {{ viewTitle }} </strong>
+        <span class="module">{{ module }}</span> 
+        <span class="submodule">{{ submodule }}</span> 
+        <strong class="view-title">{{ viewTitle }}</strong>
+        
       </span>
+      
       <div class="page-title-buttons">
         <button
           type="button"
           mat-mini-fab
-          color="primary"
+          
           matTooltip="Volver al listado"
           [disabled]="loading"
           (click)="back()"
           id="back-button"
+          class="list-button"
         >
-          <mat-icon>arrow_back</mat-icon>
+          <mat-icon>arrow_back</mat-icon> 
+          Volver
         </button>
         <button
           type="button"
@@ -79,13 +85,19 @@
           matTooltip="Guardar"
           [disabled]="loading"
           *ngIf="!isShow && !hideSaveButton"
+          class="save-button"
         >
-          <mat-icon>save</mat-icon>
+          <mat-icon>save</mat-icon> 
+          GUARDAR
         </button>
       </div>
     </div>
     <div class="page-content">
+      <div class="linea-horizontal"></div>
+
       <ng-content></ng-content>
+      
     </div>
   </div>
+  
 </form>

@@ -31,6 +31,7 @@
             [formControlName]="controlName"
             [disabled]="disabled"
             (click)="!disabled && fileInput.click()"
+            class="custom-input"
           />
           <button
             type="button"
@@ -39,8 +40,9 @@
             mat-icon-button
             [disabled]="disabled"
             (click)="!disabled && fileInput.click()"
+            class="custom-button"
           >
-            <mat-icon>attach_file</mat-icon>
+           
           </button>
           <mat-error *ngIf="fieldControl.hasError('required')">
             El archivo es <strong>requerido</strong>
@@ -71,6 +73,7 @@
         [disabled]="disabled"
         (change)="fieldChange($event)"
         style="display: none"
+        class="custom-input"
       />
       <mat-form-field class="file-form-field" *ngIf="!isShow">
         <mat-label>{{ title }}</mat-label>
@@ -80,6 +83,7 @@
           [formControlName]="controlName"
           [disabled]="disabled"
           (click)="!disabled && fileInput.click()"
+          class="custom-input"
         />
         <button
           type="button"
@@ -88,8 +92,9 @@
           mat-icon-button
           [disabled]="disabled"
           (click)="!disabled && fileInput.click()"
+          class="custom-button"
         >
-          <mat-icon>attach_file</mat-icon>
+    
         </button>
         <mat-error *ngIf="fieldControl.hasError('required')">
           El archivo es <strong>requerido</strong>

@@ -10,10 +10,9 @@
     visibility: hidden;
   }
 }
-.custom-color-1 {
-  background-color: lightblue;
-}
-
-.custom-color-2 {
-  background-color: lightgreen;
+/* Estilos para ajustar el tamaño del input */
+.mat-form-field .mat-input-element {
+  font-size: 14px; /* Tamaño de fuente */
+  padding: 8px; /* Espaciado interno */
+  width: 200px; /* Ancho del input */
 }

@@ -1,8 +1,7 @@
 <app-page-form
   class="remitente-page"
-  module="Entidades"
-  submodule="Cliente"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  module="NUEVO"
+  submodule="CLIENTE"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -12,7 +11,7 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-  <mat-accordion multi>
+  <!-- <mat-accordion multi>
     <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
       <mat-expansion-panel-header>
         <mat-panel-title> Información principal </mat-panel-title>
@@ -57,10 +56,10 @@
         [isPanelOpen]="isPanelOpen"
       ></app-page-form-geo>
     </mat-expansion-panel>
-  </mat-accordion>
-<!-- <div class="page-container">
+  </mat-accordion> -->
+<div class="page-container">
   <div class="section" formGroupName="info">
-    <h2>Información principal</h2>
+    <h2>INFORMACIÓN PRINCIPAL</h2>
     <app-page-form-entities-info
       [form]="form"
       [isEdit]="isEdit"
@@ -70,18 +69,9 @@
       [modelo]="modelo"
     ></app-page-form-entities-info>
   </div>
-
-  <div class="section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
-    <h2>Libreta de Contactos</h2>
-    <app-page-form-contactos
-      [form]="form"
-      [isShow]="isShow"
-      [contactoList]="contactoList"
-    ></app-page-form-contactos>
-  </div>
-
+  
   <div class="section geolocation-section">
-    <h2>Geolocalización</h2>
+    <h2>GEOLOCALIZACIÓN</h2>
     <div class="geolocation-content">
       <app-page-form-geo
         [ciudadSelected]="ciudadSelected"
@@ -91,6 +81,15 @@
       ></app-page-form-geo>
     </div>
   </div>
-</div> -->
+
+  <div class="section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+    <h2 class="contactos-heading">CONTACTOS</h2>
+    <app-page-form-contactos
+      [form]="form"
+      [isShow]="isShow"
+      [contactoList]="contactoList"
+    ></app-page-form-contactos>
+  </div>
+</div>
 
 </app-page-form>

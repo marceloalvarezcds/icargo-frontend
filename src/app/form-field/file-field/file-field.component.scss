@@ -4,10 +4,25 @@
   align-items: center; 
 }
 
-.file-field {
-  max-width: 200px; 
-  max-height: 200px; 
-  width: auto; 
-  height: auto; 
-  margin: 8px;
+.form-container {
+  padding: 20px; /* Espaciado interno del contenedor principal */
+}
+
+.field-title {
+  margin-bottom: 10px; /* Espaciado inferior del título */
+}
+
+.file-field-container {
+  margin-bottom: 15px; /* Espaciado inferior del contenedor de imágenes */
+}
+
+.custom-input,
+.custom-button {
+  height: 100px; /* Altura del input y botón */
+  font-size: 16px; /* Tamaño de fuente */
+  padding: 8px; /* Espaciado interno */
+}
+
+.file-form-field {
+  width: 100%; /* Ancho completo del mat-form-field */
 }

@@ -18,24 +18,28 @@ export class PageFormContactosComponent {
   m = PermisoModeloEnum;
   columns: Column[] = [
     {
+      def: 'id',
+      title: 'ID',
+      value: (element: ContactoGestorCargaList) => element.id,
+    },
+    {
       def: 'nombre',
-      title: 'Nombre',
+      title: 'Nombres',
       value: (element: ContactoGestorCargaList) => element.contacto_nombre,
-      sticky: true,
     },
     {
       def: 'apellido',
-      title: 'Apellido',
+      title: 'Apellidos',
       value: (element: ContactoGestorCargaList) => element.contacto_apellido,
     },
     {
       def: 'telefono',
-      title: 'Teléfono',
+      title: 'Celular',
       value: (element: ContactoGestorCargaList) => element.contacto_telefono,
     },
     {
       def: 'email',
-      title: 'Correo electrónico',
+      title: 'Mail',
       value: (element: ContactoGestorCargaList) => element.contacto_email,
     },
     {

@@ -1,5 +1,5 @@
 <ng-container *ngIf="formGroup">
-  <div class="row page-form-row" [formGroup]="formGroup">
+  <div class="row page-form-row" [formGroup]="formGroup" >
     <div formGroupName="geo">
       <app-page-form-address
         groupName="geo"
@@ -12,14 +12,16 @@
         <mat-error class="latlng-error" *ngIf="latitudControl.touched && latitudControl.hasError('required')">
           La latitud y longitud son <strong>requeridas</strong>, favor ubicar un punto en el mapa
         </mat-error>
-        <app-google-map
-          [title]="info.controls['nombre'].value"
-          [center]="markerPosition"
-          [isShow]="isShow"
-          [isPanelOpen]="isPanelOpen"
-          [showMarker]="!!markerPosition"
-          (mapClick)="updateMarkerPosition($event)">
-        </app-google-map>
+        <div class="google-map-container">
+          <app-google-map
+            [title]="info.controls['nombre'].value"
+            [center]="markerPosition"
+            [isShow]="isShow"
+            [isPanelOpen]="isPanelOpen"
+            [showMarker]="!!markerPosition"
+            (mapClick)="updateMarkerPosition($event)">
+          </app-google-map>
+        </div>
       </div>
     </div>
   </div>

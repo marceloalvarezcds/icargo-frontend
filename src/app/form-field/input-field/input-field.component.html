@@ -1,7 +1,7 @@
 <ng-container *ngIf="form">
   <div *ngIf="control" [formGroup]="form" class="field-content">
     <ng-container *ngIf="groupName">
-      <mat-form-field [formGroupName]="groupName">
+      <mat-form-field [formGroupName]="groupName" class="red-input">
         <mat-label>{{ title }}</mat-label>
         <input
           matInput
@@ -17,7 +17,6 @@
           [appFormatToPastePhone]="formatToPastePhone"
           [appAutofocus]="autofocus"
           [hidden]="readonly"
-        
         />
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">
@@ -36,7 +35,7 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="!groupName">
-      <mat-form-field>
+      <mat-form-field class="red-input">
         <mat-label>{{ title }}</mat-label>
         <input
           matInput

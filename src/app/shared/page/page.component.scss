@@ -1,7 +1,7 @@
 $header-heigth: 64px;
 
 .sidebar-filter {
-  background-color: #eff2f5;
+  background-color: white;
   height: calc(100vh - #{$header-heigth});
   overflow-y: auto;
 
@@ -34,16 +34,124 @@ $header-heigth: 64px;
     }
   }
 }
-
-.buttons {
-  .mat-button-base {
-    min-width: 100px;
-    margin-left: 1rem;
-    margin-right: 1rem;
-
-    &:first-of-type {
-      margin-right: 0;
-    }
+.page-title{
+  margin-bottom: 5px;
+  // border-top: 1px solid #F25A38; /* Borde rojo en la parte superior */
+  // border-left: 1px solid #F25A38; /* Borde rojo en el lado izquierdo */
+  // border-right: 1px solid #F25A38; /* Borde rojo en el lado derecho */
+  // border-bottom: none; /* Sin borde en la parte inferior */
+}
+.title{
+  margin-bottom: -9px;
+  margin-left: 0;
+}
+.filter-values{
+  padding: 0;
+  margin: 0;
+}
+.submodule{
+  font-family: 'Poppins', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 21px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  margin-left: 8px;
+  margin-bottom: -12px;
   }
+  
+.button-container {
+  display: flex;
+  gap: 2px; /* Espacio entre los botones */
+  align-items: center; /* Alineación vertical centrada */
 }
 
+.download-button{
+  width: auto;
+  padding: 4px 12px 4px 6px;
+  gap: 2px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  background: #FFFFFF59;
+  color: black;
+}
+
+.download-button mat-icon {
+  font-size: 18px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  width: 13px;
+  height: 10px;
+  padding: 3px;
+  margin-top: -10px;
+  margin-right: 2px;
+}
+
+.add-button{
+  width: auto;
+  padding: 4px 12px 4px 6px;
+  gap: 2px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+}
+
+.add-button mat-icon {
+  font-size: 11px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: white; /* Fondo del ícono */
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  color: #1976D2; /* Color del ícono */
+  width: 13px;
+  height: 10px;
+  padding: 3px;
+  margin-top: -2px;
+  margin-right: 2px;
+}
+
+.filter-button{
+  width: auto;
+  padding: 3px;
+  height: 26px;
+}
+
+.filter-button mat-icon{
+  font-size: 16px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  width: 18px;
+  height: 15px;
+  padding: 3px;
+  margin-top: -19px;
+}
+
+.button-cliente {
+  padding: 10px;
+  width: 150px; /* Ancho aumentado */
+}
+
+.button-producto {
+  padding: 8px;
+  min-width: 90px;
+}
+
+.button-elemento {
+  padding: 6px;
+  min-width: 80px;
+}

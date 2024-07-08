@@ -1,7 +1,7 @@
-<div *ngIf="form">
+<div *ngIf="form" class="search-container">
   <ng-container *ngIf="fetchFunction || list.length; else inputTemplate">
-    <mat-form-field>
-      <mat-label>{{ title }}</mat-label>
+    <mat-form-field class="custom-mat-form-field">
+      <label>{{ title }}</label>
       <app-dialog-form-field-control
         [descripcionPropName]="inputValuePropName"
         [columns]="columns"
@@ -31,7 +31,7 @@
         (click)="$event.stopPropagation(); openDialog()"
         [disabled]="disabled || readonly"
       >
-        <mat-icon>list</mat-icon>
+        <mat-icon>search</mat-icon>
       </button>
       <mat-error *ngIf="control.hasError('required')">
         El campo es <strong>requerido</strong>
@@ -56,3 +56,4 @@
     </mat-form-field>
   </ng-template>
 </div>
+

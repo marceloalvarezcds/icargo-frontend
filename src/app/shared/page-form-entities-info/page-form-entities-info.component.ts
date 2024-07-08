@@ -38,10 +38,15 @@ export class PageFormEntitiesInfoComponent implements OnDestroy {
     );
   }
 
+  get estadoControl(): FormControl {
+    return this.info?.controls['estado'] as FormControl;
+  }
+  
   @Input() form = new FormGroup({
     info: new FormGroup({
       nombre: new FormControl(null),
       nombre_corto: new FormControl(null),
+      estado: new FormControl(null), 
       tipo_documento_id: new FormControl(null),
       numero_documento: new FormControl(null),
       digito_verificador: new FormControl(null),

@@ -1,18 +1,21 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <div [formGroupName]="groupName" class="row page-form-row">
-    <div class="col-xs-12 col-sm-6">
+    <div class="col-xs-12 col-sm-6 pr-sm-1">
       <app-ciudad-dialog-field
         [ciudadSelected]="ciudadSelected"
         [groupName]="groupName"
         [form]="formGroup"
       ></app-ciudad-dialog-field>
     </div>
-    <mat-form-field class="col-xs-12 col-sm-6">
-      <mat-label>Dirección</mat-label>
-      <input matInput formControlName="direccion" />
-      <mat-error *ngIf="address.controls['direccion'].hasError('required')">
-        La dirección es <strong>requerida</strong>
-      </mat-error>
-    </mat-form-field>
+    <div class="col-xs-12 col-sm-6 pl-sm-1">
+      <mat-form-field class="custom-mat-form-field direccion-field">
+        <input matInput formControlName="direccion" class="custom-input" />
+        <mat-error *ngIf="address.controls['direccion'].hasError('required')">
+          La dirección es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
   </div>
 </div>
+
+

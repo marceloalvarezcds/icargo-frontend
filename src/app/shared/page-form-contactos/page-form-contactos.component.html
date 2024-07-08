@@ -1,6 +1,18 @@
 <div>
   <div class="row page-form-row">
-    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+    <div class="col-xs-12" [hidden]="isShow">
+      <button
+        mat-raised-button
+        class="outline round custom-button"
+        color="primary"
+        type="button"
+        (click)="addContacto()"
+        id="add-button"
+      >
+        <mat-icon class="small-icon">add</mat-icon> CONTACTO
+      </button>
+    </div>
+    <div class="col-xs-12 table-container small-table" [hidden]="!(list && list.length)">
       <app-table
         [modelo]="m.CONTACTO"
         [columns]="columns"
@@ -19,17 +31,6 @@
     >
       Debe cargar al menos un contacto
     </div>
-    <div class="col-xs-12" [hidden]="isShow">
-      <button
-        mat-raised-button
-        class="outline round"
-        color="primary"
-        type="button"
-        (click)="addContacto()"
-        id="add-button"
-      >
-        Nuevo contacto
-      </button>
-    </div>
   </div>
 </div>
+

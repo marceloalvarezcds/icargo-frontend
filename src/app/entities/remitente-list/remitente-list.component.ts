@@ -1,8 +1,11 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
+import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import {
+  PermisoAccionEnum,
+  PermisoModeloEnum,
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
@@ -12,6 +15,7 @@ import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { ResponsiveService } from 'src/app/services/responsive.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
@@ -156,13 +160,50 @@ export class RemitenteListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private responsiveService: ResponsiveService
   ) {}
 
   ngOnInit(): void {
     this.getList();
   }
 
+  a = PermisoAccionEnum;
+  sidebarMode: MatDrawerMode = 'side';
+
+  @Input() hideBack = true;
+  @Input() hideCreate = false;
+  @Input() hideFilter = false;
+  @Input() module = '';
+  @Input() submodule = '';
+  @Input() viewTitle = '';
+  @Input() modeloList?: PermisoModeloEnum;
+
+  @Output() applyClick = new EventEmitter<MouseEvent>();
+  @Output() backClick = new EventEmitter<boolean>();
+  @Output() createClick = new EventEmitter<MouseEvent>();
+  @Output() downloadClick = new EventEmitter<MouseEvent>();
+  @Output() resetClick = new EventEmitter<MouseEvent>();
+
+  @ViewChild('sidenav') sidenav?: MatSidenav;
+
+  @HostListener('window:resize')
+  onResize(): void {
+    this.configSidebarMode();
+  }
+
+
+
+  private configSidebarMode(): void {
+    setTimeout(() => {
+      if (this.responsiveService.isMobileScreen) {
+        this.sidebarMode = 'over';
+        this.sidenav!.close();
+      } else {
+        this.sidebarMode = 'side';
+      }
+    });
+  }
   // redirectToCreate(): void {
   //   this.router.navigate([`/entities/${m.REMITENTE}/${a.CREAR}`]);
   // }

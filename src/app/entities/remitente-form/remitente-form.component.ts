@@ -53,6 +53,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: null,
+      estado: null,
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
@@ -207,6 +208,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
           info: {
             alias: data.gestor_carga_remitente?.alias ?? null,
             nombre: data.nombre,
+            estado: data.estado,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,
             numero_documento: data.numero_documento,

@@ -10,3 +10,47 @@
   color: #f44336;
   font-size: 10.5px;
 }
+
+.table-button-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#add-button {
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 4px; /* Espacio entre el ícono y el texto */
+  margin-left: 63%; /* Margen izquierdo ajustado */
+  top: -29px; /* Ajuste de posición vertical */
+  height: 24px; /* Altura del botón */
+  font-family: 'Roboto', sans-serif;
+  font-size: 10px;
+  font-weight: 530;
+  line-height: 16.41px;
+  padding: 8px, 12px; /* Ajuste del padding superior */
+}
+
+.small-icon {
+  font-size: 10px; /* Tamaño del ícono */
+  font-weight: bold; /* Peso de la fuente */
+  background-color: white; /* Fondo del ícono */
+  width: 13px; /* Ancho del ícono */
+  height: 12px; /* Altura del ícono */
+  padding-top: 2px;
+  margin-right: 3px;
+  margin-top: -3px;
+  border-radius: 50%; /* Borde redondeado para el ícono */
+  border: 1px solid #1976D2; /* Borde azul alrededor del ícono */
+  color: #1976D2; /* Color del ícono */
+}
+
+.small-table {
+  max-width: 850px; /* Ajusta el ancho máximo según tus necesidades */
+}
+
+.small-table app-table {
+  width: 100%; /* Ajusta el ancho de la tabla dentro del contenedor */
+}
+
+/* Otros estilos específicos según tu diseño */
