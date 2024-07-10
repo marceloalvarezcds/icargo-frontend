@@ -8,30 +8,52 @@
   }
 }
 
+
+.geo-container {
+  max-width: 600px; /* Ajusta el ancho máximo según tus necesidades */
+  margin: 0 auto; /* Centra el contenedor */
+}
+
 .google-map-container {
   position: relative;
-  float: right; /* Usa float para colocar a la derecha */
-  bottom: 88px;
-  width: 100px; /* Ajusta el tamaño según sea necesario */
-  height: 10px; /* Hacerlo cuadrado */
-  margin-bottom: 0; /* Elimina el margen inferior */
-  margin-left: 993px;
+  width: 80%;
+  height: 300px; /* Ajusta la altura del contenedor del mapa */
+  margin-top: 20px; /* Espacio adicional opcional */
 }
 
-.google-map-wrapper {
-  display: flex;
-  width: 134px; /* Ajusta el tamaño del mapa */
-  height: 140px; /* Ajusta el tamaño del mapa */
-  overflow: hidden; /* Oculta cualquier desbordamiento del contenido */
-  background-color: aqua;
-  border-radius: 4%;
-}
-
-
-.click-on-map-button {
-  /* Ajusta el botón si es necesario */
-  position: relative;
+.google-map-container .click-on-map-button {
+  position: absolute;
   top: 10px;
   left: 10px;
   z-index: 10;
 }
+
+.google-map-container.google-map-container.on {
+  height: 300px; /* Ajusta la altura cuando el listener está activo */
+}
+
+.google-map-container google-map {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.close-button {
+  position: absolute;
+  top: 10px; /* Ajusta la posición vertical según necesidad */
+  right: 10px; /* Ajusta la posición horizontal según necesidad */
+  z-index: 10; /* Asegura que esté por encima del mapa */
+}
+
+.close-button {
+  background: none; /* Quita el fondo */
+  border: none; /* Quita el borde */
+  padding: 0; /* Elimina el relleno para que el ícono esté justo alineado */
+  cursor: pointer; /* Cambia el cursor al pasar sobre el ícono */
+  transition: color 0.3s; /* Transición suave para el color del ícono */
+}
+
+.close-button mat-icon {
+  font-size: 24px; /* Tamaño del ícono */
+  color: black; /* Color inicial del ícono */
+}
+

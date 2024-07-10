@@ -53,54 +53,85 @@
 }
 
 .save-button{
-  width: auto; /* Ajusta el ancho automáticamente basado en el contenido */
-  height: 25px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
   padding: 4px 12px 4px 6px;
-  border-radius: 5px; /* Ajusta el valor para redondear más o menos el borde */
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  opacity: 0px;
+  height: 25px;
   display: flex; /* Asegura que el contenido esté alineado correctamente */
   align-items: center; /* Alinea verticalmente el contenido */
   gap: 3px; /* Espacio entre el icono y el texto */
-  font-family: 'Roboto', sans-serif;
-  font-size: 10px;
-  font-weight: 580;
-  line-height: 16.41px;
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s;
 }
 
 .save-button mat-icon{
-  padding-top: 8px;
-  font-size: 13px; /* Ajusta el tamaño del icono */
-  margin-right: -2px;
+  font-size: 15px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  width: 10px;
+  height: 12px;
+  padding: 3px;
+  margin-top: -5px;
+  margin-right: 2px;
+}
+
+.save-button:hover {
+  background-color: #155A9E; /* Color más oscuro al pasar el ratón */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
 }
 
 .list-button {
-  background-color: #e0e0e0;
-  color: #3B9EFF; 
-  width: auto; /* Ajusta el ancho automáticamente basado en el contenido */
+  background: #FFFFFF;
+  color: #3B9EFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
+  padding: 4px 12px 4px 6px;
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 0.5px solid #3B9EFF; /* Borde inicial */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
   height: 25px;
-  border-radius: 5px; /* Ajusta el valor para redondear más o menos el borde */
   display: flex; /* Asegura que el contenido esté alineado correctamente */
   align-items: center; /* Alinea verticalmente el contenido */
-  gap: -6px; /* Espacio entre el ícono y el texto (ajustado para reducir la separación) */
-  font-family: 'Roboto', sans-serif;
-  font-size: 10px;
-  font-weight: 580;
-  line-height: 16.41px;
-  padding: 4px 12px 4px 6px;
-  margin-left: 2px;
-  border: 0.5px solid #3B9EFF;
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+}
+
+.list-button:hover {
+  background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
+  color: #1e88e5; /* Color de texto más oscuro al hacer hover */
+  border-color: #1e88e5; /* Color de borde más oscuro al hacer hover */
+}
+
+.list-button:hover .mat-icon {
+  background: #1976D2; /* Color de ícono más oscuro al hacer hover */
 }
 
 .list-button mat-icon {
-  font-size: 10px; /* Ajusta el tamaño del ícono */
+  font-size: 11px; /* Ajusta el tamaño del ícono */
   font-weight: bold;
   background-color: #3B9EFF; /* Fondo del ícono */
-  width: 14px; /* Ancho del ícono */
-  height: 12px; /* Altura del ícono */
-  padding-top: 3px; /* Ajuste del padding superior */
-  border-radius: 90%; /* Borde redondeado para el ícono */
+  border-radius: 50%; /* Borde redondeado para el ícono */
   color: white; /* Color del ícono */
-  margin-left: 2px;
-  padding-top: 2px;
-  margin-right: 3px;
+  width: 12px;
+  height: 12px;
+  gap: 0px;
+  padding-top: 1px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
   margin-top: -2px;
+  margin-left: 2px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
 }
+

@@ -1,0 +1,46 @@
+/* cargo-field.component.scss */
+
+.mat-form-field {
+    width: 100%; /* Establece un ancho del 100% */
+    margin-bottom: 10px; /* Margen inferior */
+  }
+  
+  .mat-label {
+    color: #333; /* Color del texto de la etiqueta */
+  }
+  
+  .mat-select-trigger {
+    /* Estilos para el contenedor del select */
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    padding: 8px 12px;
+    
+  }
+  
+  .mat-error {
+    color: red; /* Color del texto de error */
+    font-size: 12px; /* Tamaño de fuente del mensaje de error */
+  }
+  
+  label{
+    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+    margin-right: 4px; /* Espacio entre el label y el input */
+  }
+
+  .cargo-select{
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16.41px;
+    width: 168px; /* Ancho específico para el selector de Composición Jurídica */
+    min-width: 120px; /* Ancho mínimo */
+    height: 22px; /* Ajusta la altura según tus necesidades */
+    border: 1px solid #F25A38; /* Borde rojo */
+    border-radius: 4px; /* Bordes redondeados */
+    padding-top: 4px;
+    overflow: hidden; /* Oculta el desbordamiento */
+    white-space: nowrap; /* Evita saltos de línea */
+    text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
+    margin-bottom: 12px;
+    margin-right: 12px;
+  }

@@ -4,15 +4,15 @@
       <div class="form-horizontal-container">
         <div class="form-field-container">
           <mat-error *ngIf="info.controls['nombre'].hasError('required') && (info.controls['nombre'].dirty || info.controls['nombre'].touched)" >
-            <strong style="padding: 3px;">*</strong>
+            <strong></strong>
           </mat-error>
-          <label for="nombre" class="custom-label">Cliente</label>
+          <label for="nombre" class="custom-label"><span class="required-label">*</span>Cliente</label>
           <input type="text" id="nombre" name="nombre" formControlName="nombre" matInput appAutofocus class="custom-input-cliente">
         </div>
         
         <div class="form-field-container">
           <!-- Campo Nombre de Fantasía -->
-          <label for="nombreFantasia" class="custom-label">Nombre de Fantasía</label>
+          <label for="nombreFantasia" class="custom-label"><span class="required-label">*</span>Nombre de Fantasía</label>
           <input type="text" id="nombreFantasia" name="nombre_corto" formControlName="nombre_corto" matInput class="custom-input-nombre">
           <mat-error *ngIf="info.controls['nombre_corto'].hasError('required') && (info.controls['nombre_corto'].dirty || info.controls['nombre_corto'].touched)">
             El nombre corto es <strong>requerido</strong>
@@ -51,9 +51,9 @@
       <div class="form-field-container">
         <!-- Campo Tipo de Documento -->
         <mat-error *ngIf="info.controls['tipo_documento_id'].hasError('required') && (info.controls['tipo_documento_id'].dirty || info.controls['tipo_documento_id'].touched)">
-          <strong style="padding: 3px;">*</strong>
+          <strong></strong>
         </mat-error>
-        <label for="tipoDocumento" class="custom-label">Tipo de Documento</label>
+        <label for="tipoDocumento" class="custom-label"><span class="required-label">*</span>Tipo de Documento</label>
         <mat-select id="tipoDocumento" formControlName="tipo_documento_id" class="documento-select">
           <mat-option *ngFor="let o of tipoDocumentoList" [value]="o.id">{{ o.descripcion }}</mat-option>
         </mat-select>
@@ -63,9 +63,9 @@
       <div class="form-field-container small-input-container">
         <!-- Campo Número de Documento -->
         <mat-error *ngIf="info.controls['numero_documento'].hasError('required') && (info.controls['numero_documento'].dirty || info.controls['numero_documento'].touched)">
-          <strong style="padding: 3px;">*</strong>
+          <strong></strong>
         </mat-error>
-        <label for="numeroDocumento" class="custom-label">N Doc.</label>
+        <label for="numeroDocumento" class="custom-label"><span class="required-label">*</span>Nº Doc.</label>
         <input type="text" id="numeroDocumento" name="numero_documento" formControlName="numero_documento" matInput class="custom-input-doc">
       </div>
     
@@ -90,25 +90,31 @@
     <div class="form-textarea-container">
       <div class="form-field-container">
         <label for="infoComplementaria" class="custom-label">Comentario</label>
-        <textarea
+        <input
           matInput
           formControlName="info_complementaria"
           cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
+          class="input-info"
           cdkAutosizeMinRows="1"
-        ></textarea>
+        >
       </div>
     </div>
-    <div class="custom-file-field">
-      <app-file-field
-        className=""
-        groupName="info"
-        controlName="logo"
-        [field]="logo"
-        [form]="form"
-        [isEdit]="isEdit"
-        (fileChange)="fileChange($event)"
-      ></app-file-field>
-    </div> 
+    <div class="custom-file-field-wrapper">
+      <div class="custom-file-field">
+        <app-file-field
+          className=""
+          groupName="info"
+          controlName="logo"
+          [field]="logo"
+          [form]="form"
+          [isEdit]="isEdit"
+          (fileChange)="fileChange($event)"
+        ></app-file-field>
+      </div>
+      <div class="custom-file-field-footer">
+        <label for="">Logotipo</label>
+      </div>
+    </div>
+    
   </div>
 </div>

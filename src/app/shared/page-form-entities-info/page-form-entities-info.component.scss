@@ -24,7 +24,7 @@
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
 }
 
-.custom-input-web{
+.custom-input-web {
   font-family: 'Roboto', sans-serif; 
   font-size: 13px;
   font-weight: 400;
@@ -36,13 +36,34 @@
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
 }
+
+.input-info{
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 75em; /* Ancho automático para adaptarse al contenido */
+  height: 28px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+}
+  
   
 .form-field-container {
   display: flex;
   align-items: center;
   margin-right: 2px; /* Espacio horizontal entre los campos */
-  margin-bottom: 2px; /* Espacio vertical entre los campos */
+  margin-bottom: 0; /* Espacio vertical entre los contenedores */
+  padding-top: 0;
 }
+
+.required-label {
+  color: red; /* Color del asterisco (opcional) */
+  padding: 3px;
+}
+
 .required-field {
   position: absolute; /* Posición absoluta para el asterisco */
   right: 0; /* Alineación a la derecha dentro del espacio reservado */
@@ -50,6 +71,7 @@
   color: red; /* Color del asterisco (opcional) */
   z-index: 1; /* Asegura que esté por detrás del contenido del label */
 }
+
 .form-field-container label {
   margin-bottom: 5px; /* Espacio entre el label y el textarea */
   font-family: Roboto, sans-serif; /* Fuente para el label */
@@ -101,6 +123,7 @@
   box-sizing: border-box;
 }
 
+
 .custom-input-digito {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -134,7 +157,6 @@
   background-color: #f8d7da; /* Gris claro */
   border-color: #6c757d; /* Gris oscuro */
 }
-
 
 //Selector
 .composicion-juridica-select {
@@ -225,14 +247,15 @@
   display: flex;
   gap: 15px; /* Espacio entre los campos */
   margin-left: 3px;
+  margin-top: -12px;
 }
 
 .form-textarea-container{
   display: block;
   width: 81%;
   gap: 15px; /* Espacio entre los campos */
-  margin-left: 3px;
-  margin-top: 14px;
+  margin-left: 9px;
+  margin-top: 11px;
 }
 
 .form-textarea-container .form-field-container textarea {
@@ -247,20 +270,26 @@
   border: 1px solid #F25A38; /* Borde rojo */
 }
 
+
+.custom-file-field-wrapper {
+  position: relative;
+  float: right;
+  width: 115px;
+  left: -45px;
+  top: -135px;
+}
+
 .custom-file-field {
-  position: relative; /* Cambia a posición relativa */
-  float: right; /* Usa float para colocar a la derecha */
-  width: 130px; /* Ancho deseado */
-  height: 180px; /* Altura deseada */
-  left: -45px; /* Ajusta el margen izquierdo según necesidad */
-  margin-bottom: 0; /* Elimina el margen inferior */
-  top: -140px;
+  width: 120px; /* Mantén el mismo ancho */
+  height: 152px; /* Mantén la misma altura */
   border-radius: 4%;
 }
 
-.custom-label-logo {
-  margin-top: 80px;
-  margin-left: 10px; /* Ajusta el margen izquierdo según sea necesario */
-  font-size: 12px; /* Tamaño de fuente deseado */
+.custom-file-field-footer {
+  width: 100%; /* Asegúrate de que ocupe todo el ancho */
+  text-align: center; /* Centra el texto */
+  font-size: 12px; /* Ajusta el tamaño de la fuente */
+  color: #555; /* Ajusta el color */
+  margin-top: 5px; /* Añade un margen superior si es necesario */
 }
 

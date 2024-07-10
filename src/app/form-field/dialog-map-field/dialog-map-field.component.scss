@@ -1,0 +1,31 @@
+.empty-form-field {
+    margin-bottom: 1rem;
+  }
+  
+  
+  ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+  ::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+  
+  ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+      transform: translateY(-1.1em) scale(.75);
+      width: 103.33333%;
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .input-container label {
+    margin-right: 10px; /* Espacio entre el label y el input */
+    background-color: aqua;
+  }
+  .custom-mat-form-field {
+    width: 250px; /* Ancho del mat-form-field ajustado según tu diseño */
+    
+  }
+  .search-container{
+    width: 150px;
+  }
+
+  

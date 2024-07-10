@@ -161,7 +161,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
 
   choferChange(chofer?: ChoferList){
     if (chofer && chofer.id !== this.currentChoferId) {
-      this.currentChoferId = chofer.id;
+    this.currentChoferId = chofer.id;
     this.info?.controls["chofer_id"].setValue(chofer?.id)
     this.info?.controls["chofer_documento"].setValue(chofer?.numero_documento)
     this.info?.controls["chofer_nombre"].setValue(chofer?.nombre)

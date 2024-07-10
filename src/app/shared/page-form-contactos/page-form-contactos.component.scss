@@ -5,6 +5,16 @@
   padding-right: 0;
   padding-left: 0;
 }
+.page-form-row {
+  margin: 0;
+  left: -2px;
+}
+.main-container {
+  margin-left: -1.5em; /* Ajusta el margen izquierdo a 0 */
+  padding-left: 0; /* Ajusta el relleno izquierdo a 0 */
+  padding-bottom: -5em;
+  padding-top: -3em;
+}
 
 .error {
   color: #f44336;
@@ -47,6 +57,7 @@
 
 .small-table {
   max-width: 850px; /* Ajusta el ancho máximo según tus necesidades */
+
 }
 
 .small-table app-table {

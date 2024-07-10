@@ -71,9 +71,9 @@ $header-heigth: 64px;
   padding: 4px 12px 4px 6px;
   gap: 2px;
   border-radius: 5.25px;
-  border: 1px;
+  border: 1px solid #1C1C1C29;
   opacity: 0px;
-  
+  box-shadow: none; /* Elimina la sombra */
   height: 25px;
   display: flex; /* Asegura que el contenido esté alineado correctamente */
   align-items: center; /* Alinea verticalmente el contenido */
@@ -84,32 +84,40 @@ $header-heigth: 64px;
   letter-spacing: 0.06em;
   background: #FFFFFF59;
   color: black;
+  transition: border-color 0.3s; 
 }
 
 .download-button mat-icon {
-  font-size: 18px; /* Ajusta el tamaño del ícono */
+  font-size: 15px; /* Ajusta el tamaño del ícono */
   font-weight: bold;
   border-radius: 90%; /* Borde redondeado para el ícono */
-  width: 13px;
-  height: 10px;
+  width: 10px;
+  height: 12px;
   padding: 3px;
-  margin-top: -10px;
+  margin-top: -6px;
   margin-right: 2px;
 }
 
+.download-button:hover {
+  border-color: #1C1C1C; /* Color de borde más oscuro al pasar el ratón */
+}
+
 .add-button{
+  font-family: 'Roboto', sans-serif;
   width: auto;
   padding: 4px 12px 4px 6px;
-  gap: 2px;
+  gap: 4px;
   border-radius: 5.25px;
   border: 1px;
   opacity: 0px;
-  
+  box-shadow: none; /* Elimina la sombra */
+  opacity: 0px;
   height: 25px;
   display: flex; /* Asegura que el contenido esté alineado correctamente */
   align-items: center; /* Alinea verticalmente el contenido */
   gap: 3px; /* Espacio entre el icono y el texto */
   letter-spacing: 0.06em;
+  transition: background-color 0.3s;
 }
 
 .add-button mat-icon {
@@ -118,11 +126,20 @@ $header-heigth: 64px;
   background-color: white; /* Fondo del ícono */
   border-radius: 90%; /* Borde redondeado para el ícono */
   color: #1976D2; /* Color del ícono */
-  width: 13px;
-  height: 10px;
-  padding: 3px;
+  width: 12px;
+  height: 12px;
+  gap: 0px;
+  padding-top: 1px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
   margin-top: -2px;
-  margin-right: 2px;
+  margin-left: 1px;
+}
+
+.add-button:hover {
+  background-color: #155A9E; /* Color más oscuro al pasar el ratón */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
 }
 
 .filter-button{

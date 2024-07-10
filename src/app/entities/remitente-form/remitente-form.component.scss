@@ -10,16 +10,21 @@
     visibility: hidden;
   }
 }
+
 .page-container {
   margin-bottom: 0;
   padding-bottom: 0;
   overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
 }
 
-
 .section {
   text-align: left; /* Alinea el texto y contenido a la izquierda */
   margin-bottom: 20px; /* Espacio inferior entre secciones (ajústalo según necesites) */
+}
+
+.geolocation-content {
+  margin-right: 0;
+  left: 200px;
 }
 
 .section h2 {
@@ -46,7 +51,6 @@
 
 
 .geolocation-content app-page-form-geo .some-inner-element {
-  /* Ajustes específicos para elementos internos */
   font-size: 12px; /* Cambia este valor según sea necesario */
   padding: 5px; /* Cambia este valor según sea necesario */
 }

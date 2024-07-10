@@ -1,8 +1,13 @@
 import { Component, Input, OnDestroy } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription, zip } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
+import { ContactoFormDialogComponent } from 'src/app/dialogs/contacto-form-dialog/contacto-form-dialog.component';
+import { MapaFormDialogComponent } from 'src/app/dialogs/mapa-form-dialog/mapa-form-dialog.component';
 import { Ciudad } from 'src/app/interfaces/ciudad';
+import { ContactoGestorCargaList } from 'src/app/interfaces/contacto-gestor-carga';
+import { GoogleMapComponent } from '../google-map/google-map.component';
 
 @Component({
   selector: 'app-page-form-geo',
@@ -52,4 +57,15 @@ export class PageFormGeoComponent implements OnDestroy {
     this.geo!.controls['latitud'].setValue(event.latLng.lat());
     this.geo!.controls['longitud'].setValue(event.latLng.lng());
   }
+  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
+  addCiudad(): void {
+    this.dialog
+    .open(GoogleMapComponent, {
+      width: '80%', // Aquí puedes especificar el ancho deseado
+      height: '80%',
+      data:{form: this.formGroup}
+      
+    })
+  }
+
 }

@@ -1,0 +1,44 @@
+<div class="main-container">
+  <div *ngIf="formGroup" [formGroup]="formGroup">
+    <!-- Título y línea horizontal -->
+    <div class="title-container">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+    </div>
+
+    <div [formGroupName]="groupName" class="row page-form-row">
+      <!-- Contenedor de la ciudad -->
+      <div class="col-xs-12 col-sm-6 pr-sm-1">
+          <app-ciudad-map-dialog-field
+            [ciudadSelected]="ciudadSelected"
+            [groupName]="groupName"
+            [form]="formGroup"
+          ></app-ciudad-map-dialog-field>
+      </div>
+      <!-- Contenedor de localidad y país -->
+      <div class="localidad-container">
+        <label for="" class="localidad-label"><span class="required-label"></span>Localidad</label>
+        <mat-form-field class="custom-mat-form-field localidad-field">
+          <input matInput formControlName="localidad" class="custom-input" readonly />
+        </mat-form-field>
+      </div>
+      <div class="pais-container">
+        <label for="" class="pais-label"><span class="required-label"></span>País</label>
+        <mat-form-field class="custom-mat-form-field pais-field">
+          <input matInput formControlName="pais" class="custom-input" readonly />
+        </mat-form-field>
+      </div>
+      <!-- Contenedor de la dirección -->
+      <div class="col-xs-12 direccion-container">
+        <label for="direccion" class="direccion-label"><span class="required-label"></span> Dirección</label>
+        <mat-form-field class="custom-mat-form-field direccion-field">
+          <input matInput formControlName="direccion" class="custom-input" />
+          <mat-error *ngIf="address.controls['direccion'].hasError('required')">
+            La dirección es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>
+
+

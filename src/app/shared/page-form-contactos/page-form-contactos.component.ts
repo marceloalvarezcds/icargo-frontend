@@ -74,7 +74,11 @@ export class PageFormContactosComponent {
 
   addContacto(): void {
     this.dialog
-      .open(ContactoFormDialogComponent)
+    .open(ContactoFormDialogComponent, {
+      width: '500px', // Aquí puedes especificar el ancho deseado
+      height: '300px',
+      // También puedes usar valores fijos como '500px'
+    })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
       .subscribe((contacto: ContactoGestorCargaList) => {

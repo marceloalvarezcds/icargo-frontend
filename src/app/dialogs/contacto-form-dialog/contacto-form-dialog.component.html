@@ -1,45 +1,98 @@
 <form [formGroup]="form">
-  <h1 mat-dialog-title>
-    {{ actionText }} Contacto
-    <button mat-button type="button" (click)="dialogRef.close()" class="close">
+  <h1 mat-dialog-title >
+    <span class="submodule">NUEVO</span> <span class="module">CONTACTO</span>
+    <!-- {{ actionText }} NUEVO >> CONTACTO -->
+    <!-- <button mat-button type="button" (click)="dialogRef.close()" class="close">
       <mat-icon>close</mat-icon>
-    </button>
+    </button> -->
   </h1>
-  <div mat-dialog-content>
-    <mat-form-field>
-      <input
-        matInput
-        formControlName="telefono"
-        placeholder="Teléfono"
-        appAutofocus
-        appFormatToPastePhone
-        (focus)="telefonoBlur$.next(false)"
-        (blur)="telefonoBlur$.next(true)"
-      />
-      <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
-      <mat-error *ngIf="form.get('telefono')?.hasError('required')">
-        El teléfono es <strong>requerido</strong>
-      </mat-error>
-      <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
-        <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        formControlName="email"
-        placeholder="E-mail"
-        (focus)="emailBlur$.next(false)"
-        (blur)="emailBlur$.next(true)"
-      />
-      <mat-error *ngIf="form.get('email')?.hasError('required')">
-        El e-mail es <strong>requerido</strong>
-      </mat-error>
-      <mat-error *ngIf="form.get('email')?.hasError('email')">
-        El e-mail es <strong>inválido</strong>
-      </mat-error>
-    </mat-form-field>
-    <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
+  <div mat-dialog-content class="form-container">
+    <div class="left-column">
+      <div class="nombre-form-field" [class.disabled]="isExistContacto">
+        <label for="nombre" class="custom-label"><span class="required-label">*</span>Nombre</label>
+        <input
+          type="text"
+          formControlName="nombre"
+          placeholder="Nombre"
+          [readonly]="isExistContacto"
+          [ngClass]="{ 'is-invalid': form.get('nombre')?.hasError('required') }"
+          class="input-nombre"
+        />
+        <div *ngIf="form.get('nombre')?.hasError('required')" class="error-message">
+           <strong></strong>
+        </div>
+      </div>
+      <div class="telefono">
+        <label for="nombre" class="custom-label"><span class="required-label">*</span>Celular</label>
+        <input
+          class="input-telefono"
+          matInput
+          formControlName="telefono"
+          placeholder="+595981 ó 0981"
+          appAutofocus
+          appFormatToPastePhone
+          (focus)="telefonoBlur$.next(false)"
+          (blur)="telefonoBlur$.next(true)"
+        />
+        <mat-hint></mat-hint>
+        <mat-error *ngIf="form.get('telefono')?.hasError('required')">
+          <strong></strong>
+        </mat-error>
+        <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
+          <strong>Inválido</strong>. Formato: +595981 ó 0981
+        </mat-error>
+      </div>
+      
+      <div class="alias">
+        <label for="nombre" class="custom-label"><span class="required-label">*</span>Alias</label>
+          <input class="input-alias" matInput  placeholder="Alias" formControlName="alias" />
+          <mat-error *ngIf="form.controls['alias'].hasError('required')">
+             <strong></strong>
+          </mat-error>
+      
+      </div>
+    </div>
+    
+    <div class="right-column">
+      <div class="apellido-form-field" [class.disabled]="isExistContacto">
+        <label for="apellido" class="custom-label"><span class="required-label">*</span>Apellido</label>
+        <input
+          matInput
+          formControlName="apellido"
+          placeholder="Apellido"
+          [readonly]="isExistContacto"
+          class="input-apellido"
+        />
+        <mat-error *ngIf="form.get('apellido')?.hasError('required')">
+          <strong></strong>
+        </mat-error>
+      </div>
+      
+      <div class="email">
+        <label for="email" class="custom-label"><span class="required-label">*</span>Email</label>
+        <input
+          class="input-email"
+          matInput
+          formControlName="email"
+          placeholder="E-mail"
+          (focus)="emailBlur$.next(false)"
+          (blur)="emailBlur$.next(true)"
+        />
+        <mat-error *ngIf="form.get('email')?.hasError('required')">
+           <strong></strong>
+        </mat-error>
+        <mat-error *ngIf="form.get('email')?.hasError('email')">
+          El e-mail es <strong>inválido</strong>
+        </mat-error>
+      </div>
+      
+      <div class="cargo">
+        <app-cargo-field [control]="cargoControl"></app-cargo-field>
+      </div>
+    </div>
+  </div>
+  
+    <!-- <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
       <input
         matInput
         formControlName="nombre"
@@ -49,8 +102,8 @@
       <mat-error *ngIf="form.get('nombre')?.hasError('required')">
         El nombre es <strong>requerido</strong>
       </mat-error>
-    </mat-form-field>
-    <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
+    </mat-form-field> -->
+    <!-- <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
       <input
         matInput
         formControlName="apellido"
@@ -60,19 +113,12 @@
       <mat-error *ngIf="form.get('apellido')?.hasError('required')">
         El apellido es <strong>requerido</strong>
       </mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <mat-label>Alias</mat-label>
-      <input matInput formControlName="alias" />
-      <mat-error *ngIf="form.controls['alias'].hasError('required')">
-        El alias es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field>
-    <app-cargo-field [control]="cargoControl"></app-cargo-field>
-  </div>
+    </mat-form-field> -->
+
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" (click)="dialogRef.close()">
-      Cancelar
+    <button mat-raised-button type="button" class="close-button" (click)="dialogRef.close()">
+      <mat-icon>close</mat-icon>
+      Cerrar
     </button>
     <button
       mat-raised-button
@@ -81,8 +127,9 @@
       cdkFocusInitial
       color="primary"
       id="submit-button"
+      class="save-button"
     >
-      Aceptar
+      <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>
 </form>

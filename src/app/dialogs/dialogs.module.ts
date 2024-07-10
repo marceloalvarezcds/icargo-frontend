@@ -34,6 +34,7 @@ import { TipoCuentaFormDialogComponent } from './tipo-cuenta-form-dialog/tipo-cu
 import { TipoMovimientoFormDialogComponent } from './tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
 
+
 const modules = [
   CamionSemiNetoFormDialogComponent,
   ComentarioConfirmDialogComponent,

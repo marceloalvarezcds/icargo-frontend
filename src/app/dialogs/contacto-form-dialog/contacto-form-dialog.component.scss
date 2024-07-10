@@ -1,0 +1,284 @@
+.input-nombre{
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 12em; /* Ancho automático para adaptarse al contenido */
+  height: 25px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  margin-top: 10px;
+}
+
+.input-apellido{
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 12em; /* Ancho automático para adaptarse al contenido */
+  height: 25px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  margin-top: 10px;
+}
+
+.input-telefono{
+    font-family: 'Roboto', sans-serif; 
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16.41px;
+    width: 12em; /* Ancho automático para adaptarse al contenido */
+    height: 25px;
+    padding: 8px; /* Padding interior para todos los input */
+    border: 1px solid #F25A38; /* Borde rojo */
+    border-radius: 4px; /* Bordes redondeados para el input */
+    box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+   
+  }
+
+.input-email{
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 13em; /* Ancho automático para adaptarse al contenido */
+  height: 25px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  
+}
+
+  .input-alias{
+    font-family: 'Roboto', sans-serif; 
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16.41px;
+    width: 12em; /* Ancho automático para adaptarse al contenido */
+    height: 25px;
+    padding: 8px; /* Padding interior para todos los input */
+    border: 1px solid #F25A38; /* Borde rojo */
+    border-radius: 4px; /* Bordes redondeados para el input */
+    box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  
+  }
+
+  .form-container {
+    display: flex;
+  }
+  
+  .left-column, .right-column {
+    width: 50%; /* Ajusta el ancho según sea necesario */
+    float: left; /* Alinea las columnas horizontalmente */
+    box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  }
+  .left-column > div, .right-column > div {
+    margin-bottom: 18px; /* Ajusta este valor según sea necesario */
+  }
+  
+  .left-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .right-column {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .mat-hint {
+    font-size: 10px; /* Tamaño de fuente más pequeño */
+    color: #666; /* Color del texto */
+  }
+  .mat-error {
+    font-size: 10px; /* Tamaño de fuente más pequeño */
+    color: red; /* Color del texto de error */
+  }
+
+  .nombre-form-field {
+    display: flex;
+    align-items: flex-end; /* Alinea el label y el input al inicio */
+    margin-bottom: 10px; /* Espacio entre los campos */
+  }
+  
+  .input-container {
+    display: flex;
+    align-items: center;
+    flex: 1; /* El input ocupa todo el espacio restante */
+  }
+  
+  .custom-label {
+    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+    margin-right: 4px; /* Espacio entre el label y el input */
+  }
+  
+  .input-telefono {
+    flex: 1; /* El input ocupa todo el espacio restante */
+    /* Otros estilos según tu diseño */
+  }
+  
+  .error-message {
+    font-size: 12px; /* Tamaño de fuente más pequeño para el mensaje de error */
+    color: red; /* Color del mensaje de error */
+    margin-top: 5px; /* Espacio encima del mensaje de error */
+  }
+
+  .required-label {
+    color: red; /* Color del asterisco (opcional) */
+    padding: 3px;
+  }
+  .apellido-form-field {
+    display: flex;
+    align-items: flex-end; /* Alinea verticalmente el label con el input */
+  }
+  
+  .apellido-form-field .custom-label {
+    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+    margin-right: 4px; /* Espacio entre el label y el input */
+  }
+
+  .email {
+    display: flex;
+    align-items: flex-end; /* Alinea verticalmente el label con el input */
+  }
+  
+  .email .custom-label {
+    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+    margin-right: 4px; /* Espacio entre el label y el input */
+  }
+  .alias {
+    display: flex;
+    align-items: flex-end; /* Alinea verticalmente el label con el input */
+  }
+  
+  .alias .custom-label {
+    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+    margin-right: 4px; /* Espacio entre el label y el input */
+  }
+  .cargo {
+    margin-left: auto;
+  }
+  .cargo {
+    margin-bottom: -20px; /* Espacio vertical entre Cargo y el siguiente elemento */
+  }
+  
+  .cargo .custom-label {
+    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+    margin-right: 4px; /* Espacio entre el label y el input */
+    margin-bottom: 18px;
+  }
+  .submodule {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0.06em;
+    text-align: left;
+    color: #F25A38; /* Color para el submódulo */
+  }
+  .module {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0.06em;
+    text-align: left;
+    color: #F25A38; /* Color para el submódulo */
+  }
+  
+  .submodule::after {
+    content: " >> ";
+    margin-top: -22px; /* Espacio entre los elementos */
+    color: #F25A38; /* Color del signo de mayor */
+    font-style: italic;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 18.75px;
+    letter-spacing: 0.06em;
+    text-align: left;
+  }
+  
+  .save-button{
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    width: auto;
+    padding: 4px 12px 4px 6px;
+    gap: 4px;
+    border-radius: 5.25px;
+    border: 1px;
+    opacity: 0px;
+    box-shadow: none; /* Elimina la sombra */
+    opacity: 0px;
+    height: 25px;
+    display: flex; /* Asegura que el contenido esté alineado correctamente */
+    align-items: center; /* Alinea verticalmente el contenido */
+    gap: 3px; /* Espacio entre el icono y el texto */
+    letter-spacing: 0.06em;
+    transition: background-color 0.3s;
+  }
+  
+  .save-button mat-icon{
+    font-size: 15px; /* Ajusta el tamaño del ícono */
+    font-weight: bold;
+    border-radius: 90%; /* Borde redondeado para el ícono */
+    width: 10px;
+    height: 12px;
+    padding: 3px;
+    margin-top: -5px;
+    margin-right: 2px;
+  }
+  
+  .save-button:hover {
+    background-color: #155A9E; /* Color más oscuro al pasar el ratón */
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
+  }
+
+  .close-button {
+    background: #FFFFFF;
+    color: #3B9EFF;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    width: auto;
+    padding: 4px 12px 4px 6px;
+    gap: 4px;
+    border-radius: 5.25px;
+    border: 1px solid transparent; /* Borde inicial transparente */
+    opacity: 0px;
+    box-shadow: none; /* Elimina la sombra */
+    height: 25px;
+    display: flex; /* Asegura que el contenido esté alineado correctamente */
+    align-items: center; /* Alinea verticalmente el contenido */
+    gap: 3px; /* Espacio entre el icono y el texto */
+    letter-spacing: 0.06em;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  }
+  
+  .close-button:hover {
+    background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
+    color: #1e88e5; /* Color de texto más oscuro al hacer hover */
+    border-color: black; /* Color de borde más oscuro al hacer hover */
+  }
+  
+  
+  .close-button mat-icon {
+    font-size: 11px; /* Ajusta el tamaño del ícono */
+    font-weight: bold;
+    background-color: red; /* Fondo del ícono */
+    border-radius: 50%; /* Borde redondeado para el ícono */
+    color: white; /* Color del ícono */
+    width: 12px;
+    height: 12px;
+    gap: 0px;
+    padding-top: 1px;
+    opacity: 0px;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2px;
+    margin-left: 2px;
+    transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+  }

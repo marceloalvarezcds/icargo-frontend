@@ -1,16 +1,17 @@
 .app-dialog-field {
     margin-bottom: 0;
     padding-bottom: 0;
+    background-color: aqua;
   }
   
   .dialog-field-container {
     display: flex;
     align-items: center; /* Alinear verticalmente los elementos */
-    padding: 10px; /* Ajusta el relleno según sea necesario */
+    justify-content: flex-start;
     border-radius: 5px; /* Borde redondeado opcional */
-    margin-right: 150px;
+    margin-right: 50em;
   }
-  
+
   .dialog-field-label {
     width: 150px; /* Ancho deseado para la etiqueta */
     text-align: right; /* Alineación del texto a la derecha */

@@ -1,10 +1,89 @@
 .page-form-row {
   margin: 0;
-  left: -2px;
+  padding-top: 0;
 }
+
 .main-container {
-  margin-left: -1.5em; /* Ajusta el margen izquierdo a 0 */
-  padding-left: 0; /* Ajusta el relleno izquierdo a 0 */
+  padding-left: 0;
+}
+.page-form-row{
+  margin: 0;
+}
+.title-container h2{
+  margin: 0 0 15px 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc;  /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+  width: 92%;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* Aumenta el espacio entre los campos de entrada */
+  margin-top: 20px; /* Baja los campos de localidad y país */
+  margin-left: -1.5em; /* Lleva los campos de localidad y país a la izquierda */
+}
+
+.localidad-field .custom-input,
+.pais-field .custom-input {
+  background-color: #e0e0e0; /* Color de fondo gris */
+  color: #ccc;
+  height: auto;
+  cursor: not-allowed; /* Cambia el cursor para indicar que no es editable */
+}
+
+/* Opcional: Si deseas añadir un borde adicional para los campos no editables */
+.localidad-field .custom-input:disabled,
+.pais-field .custom-input:disabled {
+  border: 1px solid #ccc; /* Color del borde para campos no editables */
+}
+
+.localidad-container {
+ 
+  border-radius: 5px; /* Borde redondeado opcional */
+  display: flex; /* Utiliza flexbox para alinear elementos */
+  align-items: center; /* Alinea verticalmente los elementos */
+  margin-top: -20px;
+}
+
+.localidad-field {
+  margin-left: 50px; /* Ajusta el margen izquierdo según sea necesario */
+  top: 10px;
+  width: 140px; /* Ancho deseado del campo de entrada */
+}
+
+.localidad-label {
+
+  margin-left: -190px;/* Margen derecho ajustado para separación */
+  width: 10px; /* Ancho deseado para la etiqueta */
+  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
+  padding-right: 16px;
+}
+
+.pais-container {
+  padding: 10px; /* Ajusta el relleno según sea necesario */
+  border-radius: 5px; /* Borde redondeado opcional */
+  display: flex; /* Utiliza flexbox para alinear elementos */
+  align-items: center; /* Alinea verticalmente los elementos */
+  margin-left: -60px;
+  padding: 0;
+  margin-top: -20px;
+}
+
+.pais-field {
+  margin-left: -90px; /* Ajusta el margen izquierdo según sea necesario */
+  top: 10px;
+  width: 240px; /* Ancho deseado del campo de entrada */
+}
+
+.pais-label {
+  margin-right: 95px; /* Margen derecho ajustado para separación */
+  width: 100px; /* Ancho deseado para la etiqueta */
+  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
 }
 
 .direccion-container {
@@ -12,7 +91,7 @@
   border-radius: 5px; /* Borde redondeado opcional */
   display: flex; /* Utiliza flexbox para alinear elementos */
   align-items: center; /* Alinea verticalmente los elementos */
-  margin-left: -80px;
+  margin-left: -23px;
   padding: 0;
   margin-top: -20px;
 }
@@ -20,7 +99,7 @@
 .direccion-field {
   margin-left: -90px; /* Ajusta el margen izquierdo según sea necesario */
   top: 10px;
-  width: 390px; /* Ancho deseado del campo de entrada */
+  width: 690px; /* Ancho deseado del campo de entrada */
   
 }
 
@@ -29,6 +108,7 @@
   width: 100px; /* Ancho deseado para la etiqueta */
   text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
 }
+
 
 /* Estilos generales del mat-form-field */
 ::ng-deep .custom-mat-form-field .mat-form-field-outline {
@@ -78,7 +158,6 @@
 ::ng-deep .custom-mat-form-field .mat-form-field-underline {
   background-color: #F25A38 !important; /* Línea inferior roja */
 }
-
 
 .required-label {
   color: red; /* Color del asterisco (opcional) */

@@ -1,3 +1,19 @@
+  <button mat-button type="button" (click)="dialogRef.close()" class="close">
+      <mat-icon>close</mat-icon>
+  </button> 
+<ng-container *ngIf="formGroup" class="geo-container">
+  <div class="row page-form-row" [formGroup]="formGroup" >
+    <div formGroupName="geo" class="geo-content">
+      <app-page-form-map
+        groupName="geo"
+        [ciudadSelected]="ciudadSelected"
+        [form]="formGroup"
+        [isShow]="isShow"
+        [isPanelOpen]="isPanelOpen"
+      ></app-page-form-map>
+    </div>
+  </div>
+</ng-container>
 <div class="google-map-container" [class.on]="listenerActive">
   <button
     type="button"
@@ -9,13 +25,14 @@
   >
     <span>Ubicar</span>
   </button>
-  <div class="google-map-wrapper">
-    <google-map
-      [height]="height + 'px'"
-      [width]="(width$ | async) + 'px'"
-      [center]="latLng"
-      [options]="options"
-      [zoom]="zoom"
-    ></google-map>
-  </div>
+  <google-map
+    [height]="height + 'px'"
+    [width]="(width$ | async) + 'px'"
+    [center]="latLng"
+    [options]="options"
+    [zoom]="zoom"
+  ></google-map>
 </div>
+
+
+
