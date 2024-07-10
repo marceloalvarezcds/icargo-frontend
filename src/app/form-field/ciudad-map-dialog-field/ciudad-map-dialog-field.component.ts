@@ -10,6 +10,7 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { Column } from 'src/app/interfaces/column';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ciudad-map-dialog-field',
@@ -17,7 +18,9 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./ciudad-map-dialog-field.component.scss']
 })
 export class CiudadMapDialogFieldComponent {
-
+  pId?: number;
+  formGroup?: FormGroup;
+  list$?: Observable<Ciudad[]>;
   readonly inputValuePropName = 'nombre';
   fetchFunction = this.service.getPaginatedList.bind(this.service);
 
@@ -58,4 +61,10 @@ export class CiudadMapDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Ciudad>;
 
   constructor(private service: CiudadService) {}
+
+  private getList(): void {
+    if (this.pId) {
+      this.list$ = this.service.getList(this.pId);
+    }
+  }
 }

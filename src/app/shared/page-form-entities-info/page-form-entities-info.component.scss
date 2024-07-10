@@ -50,7 +50,6 @@
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
 }
   
-  
 .form-field-container {
   display: flex;
   align-items: center;
@@ -102,12 +101,9 @@
 .custom-input-doc:focus,
 .custom-input-digito:focus,
 .custom-input-web:focus,
-.composicion-juridica-select:focus,
-.documento-select:focus,
 .mat-input-element:focus {
   border-color: red; /* Cambia el color del borde cuando el input está enfocado */
-  border-width: 2px;
-  box-shadow: 0 0 5px rgba(255, 0, 0, 0.5); /* Sombreado rojo al enfocar */
+  border-width: 1px;
 }
 
 .custom-input-doc {
@@ -122,7 +118,6 @@
   border-radius: 4px;
   box-sizing: border-box;
 }
-
 
 .custom-input-digito {
   font-family: 'Roboto', sans-serif;
@@ -166,15 +161,21 @@
   line-height: 16.41px;
   width: 138px; /* Ancho específico para el selector de Composición Jurídica */
   min-width: 120px; /* Ancho mínimo */
-  height: 22px; /* Ajusta la altura según tus necesidades */
+  height: 19px; /* Ajusta la altura según tus necesidades */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados */
-  padding-top: 4px;
+  padding: 4px 8px; /* Agrega padding en los lados izquierdo y derecho */
   overflow: hidden; /* Oculta el desbordamiento */
   white-space: nowrap; /* Evita saltos de línea */
   text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
 }
 
+.composicion-juridica-select:focus,
+.documento-select:focus {
+  outline: none; /* Evita el cambio de tamaño al enfocar */
+  border: 1px solid #F25A38; /* Asegura que el borde siga siendo el mismo */
+  border-color: red;
+}
 .documento-select {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -182,10 +183,10 @@
   line-height: 16.41px;
   width: 138px; /* Ancho específico para el selector de Composición Jurídica */
   min-width: 120px; /* Ancho mínimo */
-  height: 22px; /* Ajusta la altura según tus necesidades */
+  height: 19px; /* Ajusta la altura según tus necesidades */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados */
-  padding-top: 4px;
+  padding: 4px 8px; /* Agrega padding en los lados izquierdo y derecho */
   overflow: hidden; /* Oculta el desbordamiento */
   white-space: nowrap; /* Evita saltos de línea */
   text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
@@ -269,16 +270,13 @@
   overflow: auto; /* Evita la barra de desplazamiento */
   border: 1px solid #F25A38; /* Borde rojo */
 }
-
-
 .custom-file-field-wrapper {
   position: relative;
   float: right;
   width: 115px;
-  left: -45px;
+  left: -37px;
   top: -135px;
 }
-
 .custom-file-field {
   width: 120px; /* Mantén el mismo ancho */
   height: 152px; /* Mantén la misma altura */

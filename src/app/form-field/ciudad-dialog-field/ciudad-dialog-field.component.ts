@@ -10,6 +10,7 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { Column } from 'src/app/interfaces/column';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-ciudad-dialog-field',
@@ -17,6 +18,9 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./ciudad-dialog-field.component.scss'],
 })
 export class CiudadDialogFieldComponent {
+  pId?: number;
+  formGroup?: FormGroup;
+  list$?: Observable<Ciudad[]>;
   readonly inputValuePropName = 'nombre';
   fetchFunction = this.service.getPaginatedList.bind(this.service);
 
@@ -49,6 +53,7 @@ export class CiudadDialogFieldComponent {
   @Input() ciudadSelected?: Ciudad | null;
   @Input() form!: FormGroup;
   @Input() controlName = 'ciudad_id';
+  @Input() controlNamePais = 'localidad_nombre';
   @Input() groupName = '';
   @Input() title = 'Ciudad';
 
@@ -57,4 +62,10 @@ export class CiudadDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Ciudad>;
 
   constructor(private service: CiudadService) {}
+
+  private getList(): void {
+    if (this.pId) {
+      this.list$ = this.service.getList(this.pId);
+    }
+  }
 }

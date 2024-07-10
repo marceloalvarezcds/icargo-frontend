@@ -15,6 +15,7 @@ export class PageFormAddressComponent {
   @Input() isShow = false;
   @Input() isPanelOpen = false;
   @Input() groupName = 'address';
+  @Input() controlName = 'localidad';
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
   }

@@ -18,7 +18,6 @@
 .button-container {
   display: flex;
   justify-content: flex-end; /* Alínea el botón a la derecha */
-  padding-right: -50px; 
   
 }
 
@@ -45,3 +44,15 @@
   padding-right: -20px; /* Añade espacio a la derecha para separación */
 }
 
+.custom-file-field-wrapper {
+  position: relative;
+  float: right;
+  width: 115px;
+  left: -45px;
+  top: -135px;
+}
+.custom-file-field {
+  width: 120px; /* Mantén el mismo ancho */
+  height: 152px; /* Mantén la misma altura */
+  border-radius: 4%;
+}
