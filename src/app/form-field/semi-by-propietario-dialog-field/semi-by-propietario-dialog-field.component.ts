@@ -68,4 +68,5 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
   private getList(): void {
     this.list$ = this.service.getList();
   }
+  
 }

@@ -11,13 +11,14 @@ export class PageFormMapComponent {
 
   formGroup?: FormGroup;
   markerPosition?: google.maps.LatLngLiteral;
-
+  
   @Input() ciudadSelected?: Ciudad | null;
   @Input() isShow = false;
   @Input() isPanelOpen = false;
   @Input() groupName = 'address';
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
+    console.log("FormGroup", this.formGroup)
   }
 
   get address(): FormGroup {

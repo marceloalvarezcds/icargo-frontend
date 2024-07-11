@@ -61,7 +61,7 @@ export class PageFormGeoComponent implements OnDestroy {
   addCiudad(): void {
     this.dialog
     .open(GoogleMapComponent, {
-      width: '80%', // Aquí puedes especificar el ancho deseado
+      width: '80%', 
       height: '80%',
       data:{form: this.formGroup}
       

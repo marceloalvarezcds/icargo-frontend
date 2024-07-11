@@ -1,4 +1,4 @@
-<div class="dialog-field-container">
+<!-- <div class="dialog-field-container">
   <label for="dialogField" class="dialog-field-label"><span class="required-label">*</span>Ciudad</label>
   <app-dialog-map-field
     id="dialogField"
@@ -12,4 +12,44 @@
     (valueChange)="valueChange.emit($event)"
     class="dialog-field-small mb-0 pb-0"
   ></app-dialog-map-field>
+  <app-input-field
+  hidden
+  [title]="title"
+  [readonly]="true"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [form]="form"
+></app-input-field>
+
+</div> -->
+
+<div class="dialog-field-container">
+  <ng-container>
+    <ng-container>
+      <ng-container>
+        <app-dialog-map-field
+          id="dialogField"
+          [columns]="columns"
+          [list]="ciudadSelected ? [ciudadSelected] : []"
+          [groupName]="groupName"
+          [controlName]="controlName"
+          [inputValuePropName]="inputValuePropName"
+          [fetchFunction]="fetchFunction"
+          [form]="form"
+          (valueChange)="valueChange.emit($event)"
+          class="dialog-field-small mb-0 pb-0"
+        ></app-dialog-map-field>
+      </ng-container>
+    </ng-container>
+    <ng-template>
+      <app-input-field
+        [title]="title"
+        [readonly]="true"
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [form]="form"
+      ></app-input-field>
+    </ng-template>
+  </ng-container>
+  
 </div>

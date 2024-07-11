@@ -16,3 +16,9 @@
   padding: 8px; /* Espaciado interno */
   width: 200px; /* Ancho del input */
 }
+
+.mat-form-field .mat-input-element:focus {
+  outline: none; /* Evita el cambio de tamaño al enfocar */
+  border: 1px solid #F25A38; /* Mantiene el borde original */
+  box-shadow: 0 0 0 2px red; /* Añade un "borde" adicional usando box-shadow */
+}

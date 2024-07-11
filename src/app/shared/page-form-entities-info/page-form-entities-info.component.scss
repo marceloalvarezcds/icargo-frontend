@@ -103,7 +103,7 @@
 .custom-input-web:focus,
 .mat-input-element:focus {
   border-color: red; /* Cambia el color del borde cuando el input está enfocado */
-  border-width: 1px;
+  border-width: 2px;
 }
 
 .custom-input-doc {
@@ -173,8 +173,7 @@
 .composicion-juridica-select:focus,
 .documento-select:focus {
   outline: none; /* Evita el cambio de tamaño al enfocar */
-  border: 1px solid #F25A38; /* Asegura que el borde siga siendo el mismo */
-  border-color: red;
+  box-shadow: 0 0 0 1px red;
 }
 .documento-select {
   font-family: 'Roboto', sans-serif;

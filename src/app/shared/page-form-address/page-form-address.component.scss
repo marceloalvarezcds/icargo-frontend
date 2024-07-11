@@ -45,14 +45,14 @@
 /* Estilos para el campo de entrada al estar enfocado */
 ::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-outline,
 ::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-outline-thick {
-  border-color: #F25A38 !important; /* Borde rojo al enfocar */
+  border-color: red !important; /* Borde rojo al enfocar */
 }
 
 /* Estilos para el campo de entrada al estar en hover */
 ::ng-deep .custom-mat-form-field:hover .mat-form-field-outline,
 ::ng-deep .custom-mat-form-field:hover .mat-form-field-outline-thick {
-  border-color: #F25A38 !important; /* Borde rojo al hacer hover */
-  color: #F25A38; /* Texto rojo al hacer hover */
+  border-color: red !important; /* Borde rojo al hacer hover */
+  color: red; /* Texto rojo al hacer hover */
 }
 
 /* Estilos adicionales para asegurarse de que el borde no se torne azul */
