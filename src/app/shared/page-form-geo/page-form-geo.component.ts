@@ -48,6 +48,8 @@ export class PageFormGeoComponent implements OnDestroy {
   }
   @Input() isShow = false;
   @Input() isPanelOpen = false;
+  @Input() isEdit = false;
+
 
   ngOnDestroy(): void {
     this.latLngSubscription?.unsubscribe();
@@ -65,6 +67,11 @@ export class PageFormGeoComponent implements OnDestroy {
       height: '80%',
       data:{form: this.formGroup}
       
+    }).afterClosed().subscribe((data: any) => {
+        this.geo.setValue({
+          ciudad_id: data.ciudad_id,
+          direccion: data.direccion
+        })
     })
   }
 

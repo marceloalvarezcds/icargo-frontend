@@ -28,6 +28,10 @@ export class PageFormMapComponent {
   get ciudadControl(): FormControl {
     return this.address!.get('ciudad_id') as FormControl;
   }
+  ciudadChange(ciudad: Ciudad){
+    this.address.get("localidad_nombre")?.setValue(ciudad.localidad_nombre)
+    this.address.get("pais_nombre")?.setValue(ciudad.pais_nombre)
+  }
 }
 
 

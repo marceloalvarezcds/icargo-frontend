@@ -1,86 +1,45 @@
 .page-form-row {
   margin: 0;
   left: -2px;
+  gap: 35px;
 }
 .main-container {
-  margin-left: -1.5em; /* Ajusta el margen izquierdo a 0 */
+  margin-left: 10px; /* Ajusta el margen izquierdo a 0 */
   padding-left: 0; /* Ajusta el relleno izquierdo a 0 */
+  margin-bottom: 12px;
 }
 
-.direccion-container {
-  padding: 10px; /* Ajusta el relleno según sea necesario */
-  border-radius: 5px; /* Borde redondeado opcional */
-  display: flex; /* Utiliza flexbox para alinear elementos */
-  align-items: center; /* Alinea verticalmente los elementos */
-  margin-left: -80px;
-  padding: 0;
-  margin-top: -20px;
+/* Ciudad and Direccion container styles */
+.ciudad-container, .direccion-container {
+  display: flex;
+  align-items: center;
 }
 
-.direccion-field {
-  margin-left: -90px; /* Ajusta el margen izquierdo según sea necesario */
-  top: 10px;
-  width: 390px; /* Ancho deseado del campo de entrada */
-  
+.ciudad-label, .direccion-label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  line-height: 16.41px;
+  font-weight: 400;
+  text-align: right;
+  margin-right: 10px; /* Espacio entre el label y el input/select */
 }
 
-.direccion-label {
-  margin-right: 95px; /* Margen derecho ajustado para separación */
-  width: 100px; /* Ancho deseado para la etiqueta */
-  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
-}
-
-/* Estilos generales del mat-form-field */
-::ng-deep .custom-mat-form-field .mat-form-field-outline {
-  border: 1px solid #F25A38 !important; /* Borde rojo */
-  border-radius: 4px;
-}
-
-/* Estilos para el grosor del borde del mat-form-field */
-::ng-deep .custom-mat-form-field .mat-form-field-outline-thick {
-  border: 1px solid #F25A38 !important; /* Borde rojo */
-  border-radius: 4px;
-}
-
-/* Estilos para el campo de entrada al estar enfocado */
-::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-outline,
-::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-outline-thick {
-  border-color: red !important; /* Borde rojo al enfocar */
-}
-
-/* Estilos para el campo de entrada al estar en hover */
-::ng-deep .custom-mat-form-field:hover .mat-form-field-outline,
-::ng-deep .custom-mat-form-field:hover .mat-form-field-outline-thick {
-  border-color: red !important; /* Borde rojo al hacer hover */
-  color: red; /* Texto rojo al hacer hover */
-}
-
-/* Estilos adicionales para asegurarse de que el borde no se torne azul */
-::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-ripple {
-  background-color: transparent !important; /* Eliminar el color azul */
-}
-
-/* Estilos para el borde del input al enfocarse */
-::ng-deep .custom-mat-form-field .mat-input-element:focus {
-  border-color: #F25A38 !important; /* Borde rojo del input al enfocar */
-}
-
-/* Estilos para el borde del input en hover */
-::ng-deep .custom-mat-form-field .mat-input-element:hover {
-  border-color: #F25A38 !important; /* Borde rojo del input al hacer hover */
-}
-
-/* Elimina el color azul del borde al hacer click */
-::ng-deep .custom-mat-form-field .mat-form-field-flex {
-  border-color: #F25A38 !important; /* Asegura el color rojo del borde */
-}
-
-::ng-deep .custom-mat-form-field .mat-form-field-underline {
-  background-color: #F25A38 !important; /* Línea inferior roja */
+/* Custom input styles */
+.custom-input {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 449px; /* Ancho automático para adaptarse al contenido */
+  height: 28px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #D9D9D9; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  background-color: #FBFBFE; /* Fondo gris para inputs readonly */
 }
 
 
-.required-label {
-  color: red; /* Color del asterisco (opcional) */
-  padding: 3px;
-}
+
+
+

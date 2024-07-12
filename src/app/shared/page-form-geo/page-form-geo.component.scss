@@ -1,10 +1,8 @@
-.latlng-error {
-  margin: 1rem 0 8px;
-}
 .row {
   margin-left: -155px;
   display: flex;
 }
+
 .button-background {
   position: absolute;
   top: 0;
@@ -15,20 +13,21 @@
   background-size: cover;
   z-index: -1; /* Asegura que la imagen esté detrás del contenido del botón */
 }
+
 .button-container {
+  position: relative; /* Necesario para el posicionamiento absoluto del label */
   display: flex;
-  justify-content: flex-end; /* Alínea el botón a la derecha */
-  
+  justify-content: flex-end; /* Alinea el botón a la derecha */
 }
 
 .button-with-image {
   border-radius: 4px;
   position: relative;
   overflow: hidden;
-  width: 122px; /* Ajusta el ancho del botón a un tamaño mayor */
-  height: 150px; /* Ajusta la altura del botón a un tamaño mayor */
-  margin-top: -90px;
-  margin-right: -86px;
+  width: 135px; /* Ajusta el ancho del botón a un tamaño mayor */
+  height: 135px; /* Ajusta la altura del botón a un tamaño mayor */
+  margin-top: -70px;
+  margin-right: -80px;
 }
 
 .button-with-image .mat-icon {
@@ -37,22 +36,16 @@
   font-size: 1px; /* Ajusta el tamaño del ícono según tus necesidades */
 }
 
-.label-container {
-  display: flex;
-  justify-content: flex-end; /* Alinea el contenido hacia la derecha */
-  width: 100%; /* Asegura que ocupe todo el ancho disponible */
-  padding-right: -20px; /* Añade espacio a la derecha para separación */
-}
-
-.custom-file-field-wrapper {
+.mapa-label {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #354242;
+  border-radius: 4px;
   position: relative;
-  float: right;
-  width: 115px;
-  left: -45px;
-  top: -135px;
-}
-.custom-file-field {
-  width: 120px; /* Mantén el mismo ancho */
-  height: 152px; /* Mantén la misma altura */
-  border-radius: 4%;
+  overflow: hidden;
+  margin-top: 65px;
+  margin-right: -48px;
+ 
 }

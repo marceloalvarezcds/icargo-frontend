@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild, Renderer2 } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { Router } from '@angular/router';
@@ -161,7 +161,8 @@ export class RemitenteListComponent implements OnInit {
     private searchService: SearchService,
     private dialog: DialogService,
     private router: Router,
-    private responsiveService: ResponsiveService
+    private responsiveService: ResponsiveService,
+    private renderer: Renderer2
   ) {}
 
   ngOnInit(): void {
@@ -230,8 +231,17 @@ export class RemitenteListComponent implements OnInit {
   }
   
   redirectToShow(event: TableEvent<RemitenteList>): void {
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+      this.renderer.addClass(input, 'highlight-border');
+    });
     const url = `/entities/${m.REMITENTE}/${a.VER}/${event.row.id}`;
     window.open(url, '_blank');
+    setTimeout(() => {
+      inputs.forEach(input => {
+        this.renderer.removeClass(input, 'highlight-border');
+      });
+    }, 2000); // Cambia el retardo según sea necesario
   }
   
 

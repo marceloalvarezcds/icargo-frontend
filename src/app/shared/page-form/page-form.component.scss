@@ -21,7 +21,6 @@
 
 .title .submodule {
   font-family: Roboto;
-
   font-weight: 700;
   line-height: 14.06px;
   letter-spacing: 0.06em;
@@ -46,6 +45,34 @@
   margin-top: -10px;
   margin-bottom: 15px;
 }
+
+.edicion-mode {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #F25A38; /* Ejemplo de color para el módulo */
+}
+
+.ver-mode {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #F25A38; /* Ejemplo de color para el módulo */
+}
+
+.nuevo-mode {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #F25A38; /* Ejemplo de color para el módulo */
+}
+
 
 .page-title-buttons {
   display: flex;
@@ -82,8 +109,39 @@
   margin-right: 2px;
 }
 
-.save-button:hover {
-  background-color: #155A9E; /* Color más oscuro al pasar el ratón */
+.edit-button{
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
+  padding: 4px 12px 4px 6px;
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  opacity: 0px;
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s;
+}
+
+.edit-button mat-icon{
+  font-size: 14px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  width: 11px;
+  height: 12px;
+  padding: 3px;
+  margin-top: -5px;
+  margin-right: 2px;
+  padding: 8px;
+}
+
+.edit-button:hover {
+  background-color: #970101; /* Color más oscuro al pasar el ratón */
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
 }
 

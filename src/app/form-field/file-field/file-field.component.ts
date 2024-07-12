@@ -43,12 +43,30 @@ export class FileFieldComponent {
   }
 
 
-  
+  imageLoaded: boolean = false;
+
+  onFileChange(event: Event) {
+    const fileInput = event.target as HTMLInputElement;
+    const file = fileInput.files?.[0];
+    if (file) {
+      // Handle file upload or processing logic here
+      // For simplicity, let's assume the image is loaded after a short delay
+      setTimeout(() => {
+        this.imageLoaded = true; // Set imageLoaded to true once image is processed
+      }, 1000); // Adjust this delay based on your actual processing time
+    }
+  }
   @Output() fileChange = new EventEmitter<File | null>();
 
-  fieldChange(fieldEvent: FileChangeEvent): void {
-    this.fieldFile = fieldEvent.target!.files!.item(0);
-    this.fieldControl.setValue(this.fieldFile?.name);
-    this.fileChange.emit(this.fieldFile);
+  fieldChange(fieldEvent: Event): void {
+    const inputElement = fieldEvent.target as HTMLInputElement;
+    const file = inputElement.files?.item(0);
+    if (file) {
+      this.fieldFile = file;
+      this.fieldControl.setValue(file.name);
+      this.fileChange.emit(file);
+      // Optional: Set imageLoaded to true if you want to track image loaded state separately
+      // this.imageLoaded = true;
+    }
   }
 }

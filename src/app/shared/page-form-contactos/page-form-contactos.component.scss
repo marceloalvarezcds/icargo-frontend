@@ -31,7 +31,7 @@
   display: flex; /* Asegura que el contenido esté alineado correctamente */
   align-items: center; /* Alinea verticalmente el contenido */
   gap: 4px; /* Espacio entre el ícono y el texto */
-  margin-left: 63%; /* Margen izquierdo ajustado */
+  margin-left: 82%; /* Margen izquierdo ajustado */
   top: -29px; /* Ajuste de posición vertical */
   height: 24px; /* Altura del botón */
   font-family: 'Roboto', sans-serif;
@@ -56,12 +56,19 @@
 }
 
 .small-table {
-  max-width: 850px; /* Ajusta el ancho máximo según tus necesidades */
-
+  max-width: 90%; /* Ajusta el ancho máximo de la tabla */
+  width: 100%; /* Asegura que la tabla ocupe el ancho completo de su contenedor */
+ 
 }
 
+/* Ajustes adicionales si es necesario */
 .small-table app-table {
-  width: 100%; /* Ajusta el ancho de la tabla dentro del contenedor */
+  width: 100%; /* Asegura que el componente de tabla interno ocupe el ancho completo */
 }
 
-/* Otros estilos específicos según tu diseño */
+.view-mode {
+  background-color: #FBFBFE; /* Ejemplo de estilo: color de fondo gris */
+  border: 1px solid #D9D9D9; /* Agregar borde gris */
+  color: #666; /* Cambiar el color del texto si es necesario */
+  pointer-events: none;
+}

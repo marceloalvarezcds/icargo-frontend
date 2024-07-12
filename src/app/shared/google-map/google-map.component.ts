@@ -153,8 +153,9 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.menuToggleSubscription.unsubscribe();
   }
+  
   closeMap(): void {
-    this.dialogRef.close(); 
+    this.dialogRef.close(this.geo.value); 
   }
   
   addListenerMapClick(): void {

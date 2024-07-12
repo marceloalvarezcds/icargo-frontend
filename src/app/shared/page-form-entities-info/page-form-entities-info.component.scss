@@ -259,7 +259,7 @@
 }
 
 .form-textarea-container .form-field-container textarea {
-  width: calc(100% - 20px); /* Ancho del textarea al 90% del contenedor */
+  width: 433px; /* Ancho del textarea al 90% del contenedor */
   min-height: 28px; /* Altura mínima */
   padding: 8px; /* Padding interior */
   font-size: 13px; /* Tamaño de fuente */
@@ -274,7 +274,8 @@
   float: right;
   width: 115px;
   left: -37px;
-  top: -135px;
+  top: -105px;
+  // border: 1px solid black;
 }
 .custom-file-field {
   width: 120px; /* Mantén el mismo ancho */
@@ -290,3 +291,22 @@
   margin-top: 5px; /* Añade un margen superior si es necesario */
 }
 
+.label-logo{
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #354242;
+  flex: 1;
+  border-radius: 4px;
+  position: absolute; /* Posicionamiento absoluto */
+  top: 122px; /* Ajusta según sea necesario */
+  left: 43px; /* Ajusta según sea necesario */
+  z-index: 10; /* Asegura que el input esté sobre otros elementos */
+}
+
+.view-mode {
+  background-color: #FBFBFE; /* Ejemplo de estilo: color de fondo gris */
+  border: 1px solid #D9D9D9; /* Agregar borde gris */
+  color: #666; /* Cambiar el color del texto si es necesario */
+}

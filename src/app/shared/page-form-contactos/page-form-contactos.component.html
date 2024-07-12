@@ -1,6 +1,6 @@
 <div class="main-container">
   <div class="row page-form-row">
-    <div class="col-xs-12" [hidden]="isShow">
+    <div class="col-xs-12">
       <button
         mat-raised-button
         class="outline round custom-button"
@@ -8,11 +8,13 @@
         type="button"
         (click)="addContacto()"
         id="add-button"
+       
+        [ngClass]="{'view-mode': isShow}" 
       >
         <mat-icon class="small-icon">add</mat-icon> CONTACTO
       </button>
     </div>
-    <div class="col-xs-12 table-container small-table" [hidden]="!(list && list.length)">
+    <div class="col-xs-12 table-container small-table" style="margin-top: -20px;" [hidden]="!(list && list.length)">
       <app-table
         [modelo]="m.CONTACTO"
         [columns]="columns"

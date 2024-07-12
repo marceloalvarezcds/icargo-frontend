@@ -22,8 +22,9 @@
           accept="images/*"
           (change)="fieldChange($event)"
           style="display: none"
+          class="custom-input"
         />
-        <mat-form-field class="file-form-field" *ngIf="!isShow">
+        <div class="file-form-field" *ngIf="!isShow">
           <mat-label>{{ title }}</mat-label>
           <input
             matInput
@@ -47,7 +48,7 @@
           <mat-error *ngIf="fieldControl.hasError('required')">
             El archivo es <strong>requerido</strong>
           </mat-error>
-        </mat-form-field>
+        </div>
       </div>
     </div>
   </ng-container>

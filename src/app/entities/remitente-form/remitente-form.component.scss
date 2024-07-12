@@ -13,7 +13,7 @@
 
 .page-container {
   margin-bottom: 0;
-  padding-bottom: 0;
+  padding-bottom: 0px;
   overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
 }
 
@@ -46,12 +46,33 @@
   line-height: 16.41px;
   color: #007acc; /* Celeste más oscuro */
   border-bottom: 1px solid #007acc; /* Línea inferior en celeste más oscuro */
-  width: 62%;
+  width: 82%;
+  z-index: 1;
 }
-
 
 .geolocation-content app-page-form-geo .some-inner-element {
   font-size: 12px; /* Cambia este valor según sea necesario */
   padding: 5px; /* Cambia este valor según sea necesario */
 }
 
+.contactos-section {
+  margin-top: -100px; /* Ajusta este valor según sea necesario para subir más la sección */
+}
+
+.edicion-mode {
+  // Estilos para modo de Edición
+  background-color: #2196f3; // Ejemplo de color de fondo
+  color: blue; // Ejemplo de color de texto
+}
+
+.ver-mode {
+  // Estilos para modo de Ver
+  background-color: #4caf50; // Ejemplo de color de fondo
+  color: white; // Ejemplo de color de texto
+}
+
+.nuevo-mode {
+  // Estilos para modo Nuevo
+  background-color: #ff9800; // Ejemplo de color de fondo
+  color: white; // Ejemplo de color de texto
+}

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import {
   PermisoAccionEnum,
@@ -15,7 +15,7 @@ import { isRuc } from 'src/app/utils/tipo-documento';
   templateUrl: './page-form-entities-info.component.html',
   styleUrls: ['./page-form-entities-info.component.scss'],
 })
-export class PageFormEntitiesInfoComponent implements OnDestroy {
+export class PageFormEntitiesInfoComponent implements OnDestroy, AfterViewInit  {
   a = PermisoAccionEnum;
   file: File | null = null;
 
@@ -78,4 +78,19 @@ export class PageFormEntitiesInfoComponent implements OnDestroy {
     this.logo = null;
     this.file = file;
   }
+
+  ngAfterViewInit() {
+    // Selecciona todos los elementos con la clase 'view-mode'
+    const viewModeElements = document.querySelectorAll('.view-mode');
+
+    viewModeElements.forEach(element => {
+      // Agrega un evento de enfoque que elimine el enfoque del elemento
+      element.addEventListener('focus', function (event) {
+        if (element.classList.contains('view-mode')) {
+          (event.target as HTMLElement).blur(); // Elimina el enfoque del elemento
+        }
+      });
+    });
+  }
+  
 }

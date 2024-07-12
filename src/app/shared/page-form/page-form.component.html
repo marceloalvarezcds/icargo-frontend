@@ -2,10 +2,14 @@
   <div class="page">
     <div class="page-title">
       <span class="title">
-        <span class="module">{{ module }}</span> 
+        <span class="module"   [ngClass]="{
+          'edicion-mode': isEdit,
+          'ver-mode': isShow && !isEdit,
+          'nuevo-mode': !isShow && !isEdit
+        }">{{ module }}</span> 
         <span class="submodule">{{ submodule }}</span> 
-        <strong class="view-title">{{ viewTitle }}</strong>
         
+        <strong class="view-title" >{{ viewTitle }}</strong>
       </span>
       
       <div class="page-title-buttons">
@@ -36,8 +40,9 @@
         <button
           type="button"
           mat-mini-fab
-          color="primary"
+          color="warn"
           matTooltip="Editar"
+          class="edit-button"
           [disabled]="loading"
           (click)="editClick.emit($event)"
           *ngIf="
@@ -46,7 +51,7 @@
             (modelo | puede: a.EDITAR:gestorCargaId)
           "
         >
-          <mat-icon>edit</mat-icon>
+          <mat-icon>save</mat-icon>EDITAR
         </button>
         <button
           type="button"

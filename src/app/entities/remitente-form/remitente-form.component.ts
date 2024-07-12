@@ -30,6 +30,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class RemitenteFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  isViewMode: boolean = false; 
   id?: number;
   isEdit = false;
   isShow = false;
@@ -71,6 +72,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       latitud: null,
       longitud: null,
       direccion: null,
+      localidad_nombre: null,
+      pais_nombre: null,
     }),
   });
 

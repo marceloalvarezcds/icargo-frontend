@@ -8,10 +8,9 @@
         [isShow]="isShow"
         [isPanelOpen]="isPanelOpen"
       ></app-page-form-address>
- 
     </div>
-  </div>
-  <div class="button-container" [hidden]="isShow">
+  </div> 
+  <div class="button-container" >
     <button
       mat-raised-button
       class="outline round custom-button button-with-image"
@@ -19,25 +18,11 @@
       type="button"
       (click)="addCiudad()"
       id="add-button"
+      [disabled]="isShow"
     >
       <mat-icon class="small-icon">add</mat-icon>
       <div class="button-background"></div>
     </button>
-</div>
+    <label for="" class="mapa-label">Mapa</label>
+  </div> 
 </ng-container>
-
-
-        
-            <!-- <mat-error class="latlng-error" *ngIf="latitudControl.touched && latitudControl.hasError('required')">
-          La latitud y longitud son <strong>requeridas</strong>, favor ubicar un punto en el mapa
-        </mat-error> -->
-        <!-- <div class="google-map-container">
-          <app-google-map
-            [title]="info.controls['nombre'].value"
-            [center]="markerPosition"
-            [isShow]="isShow"
-            [isPanelOpen]="isPanelOpen"
-            [showMarker]="!!markerPosition"
-            (mapClick)="updateMarkerPosition($event)">
-          </app-google-map>
-        </div> -->

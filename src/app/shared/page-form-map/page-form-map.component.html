@@ -12,19 +12,20 @@
             [ciudadSelected]="ciudadSelected"
             [groupName]="groupName"
             [form]="formGroup"
+            (valueChange)="ciudadChange($event)"
           ></app-ciudad-map-dialog-field>
       </div>
       <!-- Contenedor de localidad y país -->
       <div class="localidad-container">
         <label for="" class="localidad-label"><span class="required-label"></span>Localidad</label>
         <mat-form-field class="custom-mat-form-field localidad-field">
-          <input matInput formControlName="localidad" class="custom-input" readonly />
+          <input matInput formControlName="localidad_nombre" class="custom-input" readonly />
         </mat-form-field>
       </div>
       <div class="pais-container">
         <label for="" class="pais-label"><span class="required-label"></span>País</label>
         <mat-form-field class="custom-mat-form-field pais-field">
-          <input matInput formControlName="pais" class="custom-input" readonly />
+          <input matInput formControlName="pais_nombre" class="custom-input" readonly />
         </mat-form-field>
       </div>
       <!-- Contenedor de la dirección -->
