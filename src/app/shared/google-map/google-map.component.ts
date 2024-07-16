@@ -5,23 +5,17 @@ import {
   ElementRef,
   EventEmitter,
   HostListener,
-  Inject,
   Input,
   OnDestroy,
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
 import { GoogleMap } from '@angular/google-maps';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { PARAGUAY_LATLNG, PRINCIPAL_BREAKPOINT } from 'src/app/contanst';
-import { Ciudad } from 'src/app/interfaces/ciudad';
-import { GoogleMapDialogData } from 'src/app/interfaces/google-map-dialog-data';
 import { GoogleMapService } from 'src/app/services/google-map.service';
 import { MenuConfigService } from 'src/app/services/menu-config.service';
-import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
   selector: 'app-google-map',
@@ -29,24 +23,7 @@ import { ResponsiveService } from 'src/app/services/responsive.service';
   styleUrls: ['./google-map.component.scss'],
 })
 export class GoogleMapComponent implements AfterViewInit, OnDestroy {
-  formGroup?: FormGroup;
   googleMap?: GoogleMap;
-  get info(): FormGroup {
-    return this.formGroup!.get('info') as FormGroup;
-  }
-
-  get geo(): FormGroup {
-    return this.formGroup!.get('geo') as FormGroup;
-  }
-
-  get latitudControl(): FormControl {
-    return this.geo!.get('latitud') as FormControl;
-  }
-
-  get longitudControl(): FormControl {
-    return this.geo!.get('longitud') as FormControl;
-  }
-
   options: google.maps.MapOptions = {
     streetViewControl: false,
     fullscreenControlOptions: {
@@ -71,32 +48,12 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
       this.updateWidth(isOpen);
     });
 
-  @Input() groupName = 'address';
-  
   get map(): google.maps.Map | undefined {
     return this.googleMap!.googleMap;
   }
 
   get width$(): Observable<number> {
     return this.googleMapService.width$;
-  }
- 
-  markerPosition?: google.maps.LatLngLiteral;
-
-  @Input() ciudadSelected?: Ciudad | null;
-  @Input() isShowAddress = false;
-  @Input() isPanelOpenAddress = false;
-  @Input() groupNameAddress = 'address';
-  @Input() set form(f: FormGroup) {
-    this.formGroup = f;
-  }
-
-  get address(): FormGroup {
-    return this.formGroup!.get(this.groupName) as FormGroup;
-  }
-
-  get ciudadControl(): FormControl {
-    return this.address!.get('ciudad_id') as FormControl;
   }
 
   @HostListener('window:resize')
@@ -107,8 +64,8 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   @Input() title = '';
   @Input() isShow = false;
   @Input() showMarker = false;
-  @Input() height = 320;
-  @Input() width = 1000;
+  @Input() height = 450;
+  @Input() width = 0;
   @Input() set center(latLng: google.maps.LatLngLiteral | undefined) {
     if (latLng) {
       this.latLng = latLng;
@@ -132,18 +89,9 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   constructor(
     private cdRef: ChangeDetectorRef,
     private googleMapService: GoogleMapService,
-    private menuConfigService: MenuConfigService,
-    private responsiveService: ResponsiveService,
-    public dialogRef: MatDialogRef<GoogleMapComponent>,
-    @Inject(MAT_DIALOG_DATA) private data?: GoogleMapDialogData
-  ) {
-    this.formGroup = data?.form
-    console.log("data", data)
-    }
-    updateMarkerPosition(event: google.maps.MapMouseEvent): void {
-      this.geo!.controls['latitud'].setValue(event.latLng.lat());
-      this.geo!.controls['longitud'].setValue(event.latLng.lng());
-    }
+    private menuConfigService: MenuConfigService
+  ) {}
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.updateWidth(PRINCIPAL_BREAKPOINT <= window.innerWidth);
@@ -153,11 +101,7 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.menuToggleSubscription.unsubscribe();
   }
-  
-  closeMap(): void {
-    this.dialogRef.close(this.geo.value); 
-  }
-  
+
   addListenerMapClick(): void {
     this.listenerActive = true;
     google.maps.event.addListener(
@@ -198,20 +142,10 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
       this.googleMapService.setWidth(this.width);
       return;
     }
-    let widthToSustract = 0;
-    if (this.responsiveService.isMobileScreen) {
-      if (isOpenMenu) {
-        widthToSustract = 336;
-      } else {
-        widthToSustract = 96;
-      }
+    if (isOpenMenu) {
+      this.googleMapService.setWidth(window.innerWidth - 336);
     } else {
-      if (isOpenMenu) {
-        widthToSustract = 398;
-      } else {
-        widthToSustract = 158;
-      }
+      this.googleMapService.setWidth(window.innerWidth - 96);
     }
-    this.googleMapService.setWidth(window.innerWidth - widthToSustract);
   }
 }

@@ -5,7 +5,7 @@
   line-height: 16.41px;
   width: 16em; /* Ancho automático para adaptarse al contenido */
   height: 28px;
-  padding: 8px; /* Padding interior para todos los input */
+  padding: 8px 4px 0 8px;
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
@@ -18,7 +18,7 @@
   line-height: 16.41px;
   width: 12em; /* Ancho automático para adaptarse al contenido */
   height: 28px;
-  padding: 8px; /* Padding interior para todos los input */
+  padding: 8px 4px 0 8px;
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
@@ -31,7 +31,7 @@
   line-height: 16.41px;
   width: 18em; /* Ancho automático para adaptarse al contenido */
   height: 28px;
-  padding: 8px; /* Padding interior para todos los input */
+  padding: 8px 4px 0 8px;
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
@@ -44,7 +44,7 @@
   line-height: 16.41px;
   width: 75em; /* Ancho automático para adaptarse al contenido */
   height: 28px;
-  padding: 8px; /* Padding interior para todos los input */
+  padding: 8px 4px 0 8px;
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
@@ -72,12 +72,11 @@
 }
 
 .form-field-container label {
-  margin-bottom: 5px; /* Espacio entre el label y el textarea */
-  font-family: Roboto, sans-serif; /* Fuente para el label */
+  font-family: 'Roboto', sans-serif;
   font-size: 12px; /* Tamaño de fuente para el label */
   font-weight: 400;
-  line-height: 16.41px; /* Altura de línea para el label */
   text-align: left; /* Alineación del texto del label */
+  margin-bottom: -12px; /* Espacio vertical inferior del label */
 }
 
 .form-field-container:last-child {
@@ -88,14 +87,6 @@
   margin-right: 10px; /* Espacio entre el label y el input */
 }
 
-.custom-label {
-  font-family: 'Roboto', sans-serif;
-  font-size: 13px;
-  line-height: 16.41px;
-  font-weight: 530;
-  text-align: right;
-  margin-right: 10px; /* Espacio entre el label y el input/select */
-}
 .custom-input-cliente:focus,
 .custom-input-nombre:focus,
 .custom-input-doc:focus,
@@ -109,7 +100,7 @@
 .custom-input-doc {
   width: 8em;
   height: 28px;
-  padding: 8px;
+  padding: 8px 4px 0 8px;
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   font-weight: 400;
@@ -131,6 +122,7 @@
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px;
   box-sizing: border-box;
+  padding: 8px 4px 0 8px;
 }
 
 .small-input-container .custom-input {
@@ -158,23 +150,27 @@
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   font-weight: 400;
-  line-height: 16.41px;
+  line-height: 18px; /* Aumenta la altura de la línea para bajar la letra */
   width: 138px; /* Ancho específico para el selector de Composición Jurídica */
   min-width: 120px; /* Ancho mínimo */
-  height: 19px; /* Ajusta la altura según tus necesidades */
+  height: 18px; /* Ajusta la altura según tus necesidades */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados */
-  padding: 4px 8px; /* Agrega padding en los lados izquierdo y derecho */
+  padding: 8px 4px 0 8px;
   overflow: hidden; /* Oculta el desbordamiento */
   white-space: nowrap; /* Evita saltos de línea */
   text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
 }
 
+.grey-background {
+  background-color: #f2f2f2; /* Fondo gris */
+}
 .composicion-juridica-select:focus,
 .documento-select:focus {
   outline: none; /* Evita el cambio de tamaño al enfocar */
   box-shadow: 0 0 0 1px red;
 }
+
 .documento-select {
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
@@ -182,10 +178,10 @@
   line-height: 16.41px;
   width: 138px; /* Ancho específico para el selector de Composición Jurídica */
   min-width: 120px; /* Ancho mínimo */
-  height: 19px; /* Ajusta la altura según tus necesidades */
+  height: 18px; /* Ajusta la altura según tus necesidades */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados */
-  padding: 4px 8px; /* Agrega padding en los lados izquierdo y derecho */
+  padding: 8px 4px 0 8px;
   overflow: hidden; /* Oculta el desbordamiento */
   white-space: nowrap; /* Evita saltos de línea */
   text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
@@ -252,7 +248,7 @@
 
 .form-textarea-container{
   display: block;
-  width: 81%;
+  width: 67.9em;
   gap: 15px; /* Espacio entre los campos */
   margin-left: 9px;
   margin-top: 11px;
@@ -269,6 +265,7 @@
   overflow: auto; /* Evita la barra de desplazamiento */
   border: 1px solid #F25A38; /* Borde rojo */
 }
+
 .custom-file-field-wrapper {
   position: relative;
   float: right;

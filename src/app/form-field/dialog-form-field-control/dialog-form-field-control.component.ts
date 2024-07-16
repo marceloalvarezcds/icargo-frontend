@@ -155,6 +155,7 @@ export class DialogFormFieldControlComponent<
       this.emptyListChange.emit();
     }
     if (this.value) {
+      this.selectedValue = this.list.find(x => x.id === this.value) 
       this.loadDescripcionAndEmitValue();
     }
   }
@@ -176,9 +177,7 @@ export class DialogFormFieldControlComponent<
     return this.formGroup.controls['id'] as FormControl;
   }
 
-  get selectedValue(): T | undefined {
-    return this.list.find((x) => x.id === this.value);
-  }
+  selectedValue ?: T;
 
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T | null>();
@@ -299,6 +298,7 @@ openDialog(): void {
     .afterClosed()
     .pipe(filter((selectedValue: T) => !!selectedValue))
     .subscribe((selectedValue: T) => {
+      this.selectedValue = selectedValue
       if (!this.deshabilitarOpcion((selectedValue as any).estado)) {
         if (!this.lista.length) {
           this.lista = [selectedValue];

@@ -1,6 +1,18 @@
 <div class="main-container">
   <div class="row page-form-row">
-    <div class="col-xs-12">
+    <div class="col-xs-12 button-container">
+      <button
+        mat-raised-button
+        class="outline round custom-button"
+        color="primary"
+        type="button"
+        (click)="addContacto()"
+        id="download-button"
+        [ngClass]="{'view-mode': isShow}" 
+        >
+        <mat-icon class="download-icon">description</mat-icon> DESCARGAR
+      </button>
+
       <button
         mat-raised-button
         class="outline round custom-button"
@@ -8,23 +20,25 @@
         type="button"
         (click)="addContacto()"
         id="add-button"
-       
         [ngClass]="{'view-mode': isShow}" 
-      >
+        >
         <mat-icon class="small-icon">add</mat-icon> CONTACTO
       </button>
-    </div>
-    <div class="col-xs-12 table-container small-table" style="margin-top: -20px;" [hidden]="!(list && list.length)">
+    </div> 
+
+    <div class="col-xs-12 table-container small-table" style="margin-top: -65px;" [hidden]="!(list && list.length)" >
       <app-table
+        [hideEdit]="isShow" 
+        [hideShow]="!isShow" 
         [modelo]="m.CONTACTO"
         [columns]="columns"
         [data]="list"
-        [hideShow]="true"
-        [isShow]="isShow"
+        [ngClass]="{'view-mode-table': isShow}" 
         [formArray]="contactoArray"
         [noCheckGestorCuentaId]="true"
         (editClick)="editContacto($event)"
         (deleteClick)="removeContacto($event)"
+        (showClick)="viewContacto($event)"
       ></app-table>
     </div>
     <div

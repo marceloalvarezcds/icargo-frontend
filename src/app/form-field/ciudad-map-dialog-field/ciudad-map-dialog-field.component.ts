@@ -10,7 +10,7 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { Column } from 'src/app/interfaces/column';
 import { CiudadService } from 'src/app/services/ciudad.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-ciudad-map-dialog-field',
@@ -20,7 +20,7 @@ import { Observable } from 'rxjs';
 export class CiudadMapDialogFieldComponent {
   pId?: number;
   formGroup?: FormGroup;
-  list$?: Observable<Ciudad[]>;
+  list$: Observable<Ciudad[]> = of([]) ;
   readonly inputValuePropName = 'nombre';
   fetchFunction = this.service.getPaginatedList.bind(this.service);
 
@@ -50,11 +50,16 @@ export class CiudadMapDialogFieldComponent {
     },
   ];
 
+  @Input() set localidadId(id: number | undefined) {
+    this.pId = id;
+    this.getList();
+  }
   @Input() ciudadSelected?: Ciudad | null;
   @Input() form!: FormGroup;
   @Input() controlName = 'ciudad_id';
   @Input() groupName = '';
   @Input() title = 'Ciudad';
+  
 
   @Output() valueChange = new EventEmitter<Ciudad>();
 

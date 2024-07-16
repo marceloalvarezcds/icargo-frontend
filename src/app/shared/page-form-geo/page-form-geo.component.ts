@@ -51,6 +51,7 @@ export class PageFormGeoComponent implements OnDestroy {
   @Input() isEdit = false;
 
 
+  @Input() groupName = 'address';
   ngOnDestroy(): void {
     this.latLngSubscription?.unsubscribe();
   }
@@ -60,19 +61,21 @@ export class PageFormGeoComponent implements OnDestroy {
     this.geo!.controls['longitud'].setValue(event.latLng.lng());
   }
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
-  addCiudad(): void {
-    this.dialog
-    .open(GoogleMapComponent, {
-      width: '80%', 
-      height: '80%',
-      data:{form: this.formGroup}
-      
-    }).afterClosed().subscribe((data: any) => {
-        this.geo.setValue({
-          ciudad_id: data.ciudad_id,
-          direccion: data.direccion
-        })
-    })
+
+  get address(): FormGroup {
+    return this.formGroup!.get(this.groupName) as FormGroup;
   }
 
+  get ciudadControl(): FormControl {
+    return this.address!.get('ciudad_id') as FormControl;
+  }
+
+  ciudadChange(ciudad: Ciudad): void {
+    // Actualiza los campos del formulario con los datos de la nueva ciudad seleccionada
+    this.formGroup!.get('geo')!.patchValue({
+      ciudad_id: ciudad.id,
+      localidad_nombre: ciudad.localidad_nombre,
+      pais_nombre: ciudad.pais_nombre
+    });
+  }
 }

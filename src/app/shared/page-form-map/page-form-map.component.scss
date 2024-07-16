@@ -9,80 +9,17 @@
 .page-form-row{
   margin: 0;
 }
-.title-container h2{
-  margin: 0 0 15px 0;
-  font-family: 'Roboto', sans-serif;
-  font-size: 13px;
-  font-weight: 530;
-  line-height: 16.41px;
-  color: #007acc;  /* Celeste más oscuro */
-  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
-  width: 92%;
-}
 
-.input-container {
+.field-container {
   display: flex;
-  align-items: center;
-  gap: 20px; /* Aumenta el espacio entre los campos de entrada */
-  margin-top: 20px; /* Baja los campos de localidad y país */
-  margin-left: -1.5em; /* Lleva los campos de localidad y país a la izquierda */
+  justify-content: space-between;
+  margin-left: 23.28rem;
+  margin-top: -5rem;
 }
 
-.localidad-field .custom-input,
-.pais-field .custom-input {
-
-  height: auto;
-  cursor: not-allowed; /* Cambia el cursor para indicar que no es editable */
-}
-
-/* Opcional: Si deseas añadir un borde adicional para los campos no editables */
-.localidad-field .custom-input:disabled,
-.pais-field .custom-input:disabled {
-  border: 1px solid #ccc; /* Color del borde para campos no editables */
-}
-
-.localidad-container {
- 
-  border-radius: 5px; /* Borde redondeado opcional */
-  display: flex; /* Utiliza flexbox para alinear elementos */
-  align-items: center; /* Alinea verticalmente los elementos */
-  margin-top: -20px;
-}
-
-.localidad-field {
-  margin-left: 50px; /* Ajusta el margen izquierdo según sea necesario */
-  top: 10px;
-  width: 140px; /* Ancho deseado del campo de entrada */
-}
-
-.localidad-label {
-
-  margin-left: -190px;/* Margen derecho ajustado para separación */
-  width: 10px; /* Ancho deseado para la etiqueta */
-  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
-  padding-right: 16px;
-}
-
-.pais-container {
-  padding: 10px; /* Ajusta el relleno según sea necesario */
-  border-radius: 5px; /* Borde redondeado opcional */
-  display: flex; /* Utiliza flexbox para alinear elementos */
-  align-items: center; /* Alinea verticalmente los elementos */
-  margin-left: -60px;
-  padding: 0;
-  margin-top: -20px;
-}
-
-.pais-field {
-  margin-left: -90px; /* Ajusta el margen izquierdo según sea necesario */
-  top: 10px;
-  width: 240px; /* Ancho deseado del campo de entrada */
-}
-
-.pais-label {
-  margin-right: 95px; /* Margen derecho ajustado para separación */
-  width: 100px; /* Ancho deseado para la etiqueta */
-  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
+.localidad-container,
+.pais-container{
+  margin-top: 2rem;
 }
 
 .direccion-container {
@@ -96,42 +33,110 @@
 }
 
 .direccion-field {
-  margin-left: -90px; /* Ajusta el margen izquierdo según sea necesario */
+  margin-left: -89px; /* Ajusta el margen izquierdo según sea necesario */
   top: 10px;
-  width: 690px; /* Ancho deseado del campo de entrada */
-  
+  width: 889px; /* Ancho deseado del campo de entrada */
 }
 
 .direccion-label {
   margin-right: 95px; /* Margen derecho ajustado para separación */
   width: 100px; /* Ancho deseado para la etiqueta */
+  margin-top: 19px;
+  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  margin-left: -6px;
+}
+
+.required-label {
+  color: red; /* Color del asterisco (opcional) */
+  padding: 3px;
+}
+
+.localidad-container label {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  margin-right: 0; /* Ajusta el margen derecho según sea necesario */
+  width: 80px; /* Ancho deseado para la etiqueta */
+  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
+  margin: 4px -6px 0 -5px; /* Ajusta el margen derecho según sea necesario */
+}
+
+.pais-container label {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  margin: 4px -6px 0 20px; /* Ajusta el margen derecho según sea necesario */
   text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
 }
 
+.localidad-input,
+.pais-input {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 18.1em; /* Ancho automático para adaptarse al contenido */
+  height: 30px;
+  padding: 8px 2px 0 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  margin-left: 15px; /* Ajusta el margen izquierdo según sea necesario */
+  pointer-events: none;
+}
 
-/* Estilos generales del mat-form-field */
+.direccion-input{
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 83em; /* Ancho automático para adaptarse al contenido */
+  height: 28px;
+  padding: 8px 4px 0 8px;
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  margin-top: 6px;
+}
+.direccion-input:focus,
+.custom-input-nombre:focus,
+.custom-input-doc:focus,
+.custom-input-digito:focus,
+.custom-input-web:focus,
+.mat-input-element:focus {
+  border-color: red; /* Cambia el color del borde cuando el input está enfocado */
+  border-width: 2px;
+}
+.view-mode {
+  background-color: #FBFBFE; 
+  border: 1px solid #D9D9D9; 
+  color: #666; 
+  pointer-events: none;
+}
 ::ng-deep .custom-mat-form-field .mat-form-field-outline {
   border: 1px solid #F25A38 !important; /* Borde rojo */
   border-radius: 4px;
 }
 
-/* Estilos para el grosor del borde del mat-form-field */
-::ng-deep .custom-mat-form-field .mat-form-field-outline-thick {
-  border: 1px solid #F25A38 !important; /* Borde rojo */
-  border-radius: 4px;
-}
 
 /* Estilos para el campo de entrada al estar enfocado */
 ::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-outline,
 ::ng-deep .custom-mat-form-field.mat-focused .mat-form-field-outline-thick {
-  border-color: #F25A38 !important; /* Borde rojo al enfocar */
+  border-color: red !important; /* Borde rojo al enfocar */
 }
 
 /* Estilos para el campo de entrada al estar en hover */
 ::ng-deep .custom-mat-form-field:hover .mat-form-field-outline,
 ::ng-deep .custom-mat-form-field:hover .mat-form-field-outline-thick {
-  border-color: #F25A38 !important; /* Borde rojo al hacer hover */
-  color: #F25A38; /* Texto rojo al hacer hover */
+  border: 1px solid red; /* Borde rojo */
+  color: red; /* Texto rojo al hacer hover */
+  border-radius: 6px;
 }
 
 /* Estilos adicionales para asegurarse de que el borde no se torne azul */
@@ -141,24 +146,66 @@
 
 /* Estilos para el borde del input al enfocarse */
 ::ng-deep .custom-mat-form-field .mat-input-element:focus {
-  border-color: #F25A38 !important; /* Borde rojo del input al enfocar */
+  border-color: red !important; /* Borde rojo del input al enfocar */
 }
 
 /* Estilos para el borde del input en hover */
 ::ng-deep .custom-mat-form-field .mat-input-element:hover {
-  border-color: #F25A38 !important; /* Borde rojo del input al hacer hover */
+  border-color: red !important; /* Borde rojo del input al hacer hover */
 }
 
 /* Elimina el color azul del borde al hacer click */
 ::ng-deep .custom-mat-form-field .mat-form-field-flex {
-  border-color: #F25A38 !important; /* Asegura el color rojo del borde */
+  border-color: red !important; /* Asegura el color rojo del borde */
 }
 
-::ng-deep .custom-mat-form-field .mat-form-field-underline {
-  background-color: #F25A38 !important; /* Línea inferior roja */
+
+
+/* Deshabilitar el hover y otros eventos en el modo de vista */
+::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-form-field-outline {
+  border: 1px solid #D9D9D9 !important; /* Borde rojo */
+  border-radius: 4px;
 }
 
-.required-label {
-  color: red; /* Color del asterisco (opcional) */
-  padding: 3px;
+/* Estilos para el grosor del borde del mat-form-field */
+::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-form-field-outline-thick {
+  border: 1px solid #D9D9D9 !important; /* Borde rojo */
+  border-radius: 4px;
+}
+
+/* Estilos para el campo de entrada al estar enfocado */
+::ng-deep .view-mode-ciudad .custom-mat-form-field.mat-focused .mat-form-field-outline,
+::ng-deep .view-mode-ciudad .custom-mat-form-field.mat-focused .mat-form-field-outline-thick {
+  border-color: #D9D9D9 !important; /* Borde rojo al enfocar */
+}
+
+/* Estilos para el campo de entrada al estar en hover */
+::ng-deep .view-mode-ciudad .custom-mat-form-field:hover .mat-form-field-outline,
+::ng-deep .view-mode-ciudad .custom-mat-form-field:hover .mat-form-field-outline-thick {
+  border-color: #D9D9D9 ; /* Borde rojo al hacer hover */
+  color: #D9D9D9; /* Texto rojo al hacer hover */
+}
+
+/* Estilos adicionales para asegurarse de que el borde no se torne azul */
+::ng-deep .view-mode-ciudad .custom-mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: transparent !important; /* Eliminar el color azul */
+}
+
+/* Estilos para el borde del input al enfocarse */
+::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-input-element:focus {
+  border-color: #D9D9D9 !important; /* Borde rojo del input al enfocar */
+}
+
+/* Estilos para el borde del input en hover */
+::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-input-element:hover {
+  border-color: #D9D9D9 !important; /* Borde rojo del input al hacer hover */
+}
+
+/* Elimina el color azul del borde al hacer click */
+::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-form-field-flex {
+  border-color: #D9D9D9 !important; /* Asegura el color rojo del borde */
+}
+
+::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-form-field-underline {
+  background-color: #D9D9D9 !important; /* Línea inferior roja */
 }

@@ -38,7 +38,13 @@ export class ContactoFormDialogComponent implements OnDestroy {
   });
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    if (this.data) {
+      if (this.data.action === 'view') {
+        return 'VER';
+      }
+      return 'EDITAR';
+    }
+    return 'NUEVO';
   }
 
   get cargoControl(): FormControl {
@@ -51,6 +57,10 @@ export class ContactoFormDialogComponent implements OnDestroy {
 
   get emailControl(): FormControl {
     return this.form.get('email') as FormControl;
+  }
+
+  get isViewMode(): boolean {
+    return this.data?.action === 'view';
   }
 
   telefonoEmailSubscription = combineLatest([
@@ -80,8 +90,12 @@ export class ContactoFormDialogComponent implements OnDestroy {
     private fb: FormBuilder,
     private contactoService: ContactoService,
     private userService: UserService,
-    @Inject(MAT_DIALOG_DATA) private data?: ContactoGestorCargaList
-  ) {}
+    @Inject(MAT_DIALOG_DATA) private data?: ContactoGestorCargaList & { action?: string }
+  ) {
+    if (this.data?.action === 'view') {
+      this.form.disable(); // Deshabilitar el formulario si es acción "ver"
+    }
+  }
 
   ngOnDestroy(): void {
     this.telefonoEmailSubscription.unsubscribe();
@@ -127,8 +141,6 @@ export class ContactoFormDialogComponent implements OnDestroy {
     }
   }
   
-  
-
   compareWith(o1?: Cargo, o2?: Cargo): boolean {
     return o1?.id === o2?.id;
   }

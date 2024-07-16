@@ -8,6 +8,7 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { saveAs } from 'file-saver';
 import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
@@ -18,6 +19,7 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { RemitenteContactoGestorCargaList } from 'src/app/interfaces/remitente-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
 import { RemitenteService } from 'src/app/services/remitente.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
@@ -114,7 +116,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private reportsService: ReportsService
   ) {}
 
   ngOnInit(): void {
@@ -238,5 +241,13 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         }, 500);
       });
     }
+  }
+
+  downloadFile(): void {
+    this.remitenteService.generateReports().subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        saveAs(file, filename);
+      });
+    });
   }
 }

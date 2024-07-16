@@ -1,22 +1,7 @@
-<!-- <mat-form-field *ngIf="list$ && control">
-  <mat-label>{{ title }}</mat-label>
-  <mat-select
-    [formControl]="control"
-    [compareWith]="compareWith"
-    (valueChange)="valueChange.emit($event)"
-  >
-    <ng-container *ngFor="let o of list$ | async">
-      <mat-option [value]="o">{{ o.descripcion }}</mat-option>
-    </ng-container>
-  </mat-select>
-  <mat-error *ngIf="control.hasError('required')">
-    El cargo es <strong>requerido</strong>
-  </mat-error>
-</mat-form-field> -->
 
-<div *ngIf="list$ && control" class="select-container">
+<div *ngIf="list$ && control" [ngClass]="{'view-mode-cargo': isViewMode}" class="select-container">
   <label>{{ title }}</label>
-  <select [formControl]="control" (change)="valueChange.emit(control.value)" class="cargo-select">
+  <select [formControl]="control" (change)="valueChange.emit(control.value)" class="cargo-select" >
     <option *ngFor="let o of list$ | async" [value]="o">{{ o.descripcion }}</option>
   </select>
   <div *ngIf="control.invalid && (control.dirty || control.touched)" class="error-message">

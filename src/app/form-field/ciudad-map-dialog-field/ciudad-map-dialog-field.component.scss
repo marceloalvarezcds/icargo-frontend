@@ -14,12 +14,12 @@
   .dialog-field-label {
     width: 150px; /* Ancho deseado para la etiqueta */
     text-align: right; /* Alineación del texto a la derecha */
-    margin-right: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+    margin-right: 18px; /* Espacio entre la etiqueta y el campo de entrada */
     font-family: 'Roboto', sans-serif;
-    font-size: 14px;
+    font-size: 13px;
     font-weight: 400;
     line-height: 16.41px;
-    margin-top: -20px; /* Ajusta el margen superior para subir la etiqueta */
+    margin-top: -3px; /* Ajusta el margen superior para subir la etiqueta */
   }
   
   .dialog-field-small {
@@ -30,3 +30,5 @@
     color: red; /* Color del asterisco (opcional) */
     padding: 3px;
   }
+
+  

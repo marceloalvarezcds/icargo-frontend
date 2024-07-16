@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 
@@ -16,9 +16,9 @@ export class PageFormMapComponent {
   @Input() isShow = false;
   @Input() isPanelOpen = false;
   @Input() groupName = 'address';
+  @Output() ciudadChanged = new EventEmitter<Ciudad>();
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
-    console.log("FormGroup", this.formGroup)
   }
 
   get address(): FormGroup {
@@ -28,9 +28,10 @@ export class PageFormMapComponent {
   get ciudadControl(): FormControl {
     return this.address!.get('ciudad_id') as FormControl;
   }
+
   ciudadChange(ciudad: Ciudad){
-    this.address.get("localidad_nombre")?.setValue(ciudad.localidad_nombre)
-    this.address.get("pais_nombre")?.setValue(ciudad.pais_nombre)
+    this.address.controls["localidad_nombre"]?.setValue(ciudad.localidad_nombre)
+    this.address.controls["pais_nombre"]?.setValue(ciudad.pais_nombre)
   }
 }
 

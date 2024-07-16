@@ -1,21 +1,19 @@
-<form [formGroup]="form">
+<form [formGroup]="form" >
   <h1 mat-dialog-title >
-    <span class="submodule">NUEVO</span> <span class="module">CONTACTO</span>
-    <!-- {{ actionText }} NUEVO >> CONTACTO -->
-    <!-- <button mat-button type="button" (click)="dialogRef.close()" class="close">
-      <mat-icon>close</mat-icon>
-    </button> -->
+     <span class="submodule"> {{ actionText }}</span> <span class="module">CONTACTO</span>
   </h1>
   <div mat-dialog-content class="form-container">
     <div class="left-column">
       <div class="nombre-form-field" [class.disabled]="isExistContacto">
-        <label for="nombre" class="custom-label"><span class="required-label">*</span>Nombre</label>
+        <label for="nombre" class="custom-label">Nombre</label>
         <input
           type="text"
           formControlName="nombre"
           placeholder="Nombre"
           [readonly]="isExistContacto"
-          [ngClass]="{ 'is-invalid': form.get('nombre')?.hasError('required') }"
+          appAutofocus
+          [ngClass]="{ 'view-mode': isViewMode }"
+          
           class="input-nombre"
         />
         <div *ngIf="form.get('nombre')?.hasError('required')" class="error-message">
@@ -23,13 +21,13 @@
         </div>
       </div>
       <div class="telefono">
-        <label for="nombre" class="custom-label"><span class="required-label">*</span>Celular</label>
+        <label for="nombre" class="custom-label">Celular</label>
         <input
           class="input-telefono"
           matInput
           formControlName="telefono"
+          [ngClass]="{ 'view-mode': isViewMode }"
           placeholder="+595981 ó 0981"
-          appAutofocus
           appFormatToPastePhone
           (focus)="telefonoBlur$.next(false)"
           (blur)="telefonoBlur$.next(true)"
@@ -44,8 +42,8 @@
       </div>
       
       <div class="alias">
-        <label for="nombre" class="custom-label"><span class="required-label">*</span>Alias</label>
-          <input class="input-alias" matInput  placeholder="Alias" formControlName="alias" />
+        <label for="nombre" class="custom-label">Alias</label>
+          <input class="input-alias" matInput  placeholder="Alias" formControlName="alias" [ngClass]="{ 'view-mode': isViewMode }" />
           <mat-error *ngIf="form.controls['alias'].hasError('required')">
              <strong></strong>
           </mat-error>
@@ -55,11 +53,12 @@
     
     <div class="right-column">
       <div class="apellido-form-field" [class.disabled]="isExistContacto">
-        <label for="apellido" class="custom-label"><span class="required-label">*</span>Apellido</label>
+        <label for="apellido" class="custom-label">Apellido</label>
         <input
           matInput
           formControlName="apellido"
           placeholder="Apellido"
+          [ngClass]="{ 'view-mode': isViewMode }"
           [readonly]="isExistContacto"
           class="input-apellido"
         />
@@ -69,11 +68,12 @@
       </div>
       
       <div class="email">
-        <label for="email" class="custom-label"><span class="required-label">*</span>Email</label>
+        <label for="email" class="custom-label">mail</label>
         <input
           class="input-email"
           matInput
           formControlName="email"
+          [ngClass]="{ 'view-mode': isViewMode }"
           placeholder="E-mail"
           (focus)="emailBlur$.next(false)"
           (blur)="emailBlur$.next(true)"
@@ -87,40 +87,17 @@
       </div>
       
       <div class="cargo">
-        <app-cargo-field [control]="cargoControl"></app-cargo-field>
+        <app-cargo-field [control]="cargoControl" [isViewMode]="isViewMode" [ngClass]="{ 'view-mode-cargo': isViewMode }"></app-cargo-field>
       </div>
     </div>
   </div>
-  
-    <!-- <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
-      <input
-        matInput
-        formControlName="nombre"
-        placeholder="Nombre"
-        [readonly]="isExistContacto"
-      />
-      <mat-error *ngIf="form.get('nombre')?.hasError('required')">
-        El nombre es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field> -->
-    <!-- <mat-form-field [class.mat-form-field-disabled]="isExistContacto">
-      <input
-        matInput
-        formControlName="apellido"
-        placeholder="Apellido"
-        [readonly]="isExistContacto"
-      />
-      <mat-error *ngIf="form.get('apellido')?.hasError('required')">
-        El apellido es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field> -->
-
   <div mat-dialog-actions>
     <button mat-raised-button type="button" class="close-button" (click)="dialogRef.close()">
       <mat-icon>close</mat-icon>
       Cerrar
     </button>
     <button
+    *ngIf="!isViewMode"
       mat-raised-button
       type="button"
       (click)="submit()"

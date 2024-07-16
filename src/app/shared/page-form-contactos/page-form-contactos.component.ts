@@ -8,6 +8,8 @@ import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { ContactoGestorCargaList } from 'src/app/interfaces/contacto-gestor-carga';
 import { TableEvent } from 'src/app/interfaces/table';
+import { saveAs } from 'file-saver';
+import { ReportsService } from 'src/app/services/reports.service';
 
 @Component({
   selector: 'app-page-form-contactos',
@@ -15,6 +17,7 @@ import { TableEvent } from 'src/app/interfaces/table';
   styleUrls: ['./page-form-contactos.component.scss'],
 })
 export class PageFormContactosComponent {
+  isEditMode: boolean = false;
   m = PermisoModeloEnum;
   columns: Column[] = [
     {
@@ -59,6 +62,7 @@ export class PageFormContactosComponent {
 
   @Input() form!: FormGroup;
   @Input() isShow = false;
+  @Input() modoVer = false;
   @Input() set contactoList(list: ContactoGestorCargaList[]) {
     list.forEach((contacto) => {
       this.contactoArray.push(this.createConactoForm(contacto));
@@ -70,14 +74,13 @@ export class PageFormContactosComponent {
     return this.form.get('contactos') as FormArray;
   }
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog) {}
+  constructor(private fb: FormBuilder, private dialog: MatDialog, private reportsService: ReportsService) {}
 
   addContacto(): void {
     this.dialog
     .open(ContactoFormDialogComponent, {
-      width: '500px', // Aquí puedes especificar el ancho deseado
+      width: '500px',
       height: '300px',
-      // También puedes usar valores fijos como '500px'
     })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
@@ -88,10 +91,15 @@ export class PageFormContactosComponent {
   }
 
   editContacto(event: TableEvent<ContactoGestorCargaList>): void {
+
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(ContactoFormDialogComponent, { data })
+      .open(ContactoFormDialogComponent, { 
+        data, 
+        width: '500px', 
+        height: '300px',
+       disableClose: true, })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
       .subscribe((contacto: ContactoGestorCargaList) => {
@@ -100,6 +108,26 @@ export class PageFormContactosComponent {
         this.contactoArray.setControl(index, this.createConactoForm(contacto));
       });
   }
+
+  viewContacto(event: TableEvent<ContactoGestorCargaList>): void {
+    const data = { ...event.row, action: 'view' }; // Agregar un indicador de acción
+    const index = event.index;
+    this.dialog
+      .open(ContactoFormDialogComponent, { 
+        data, 
+        width: '500px', 
+        height: '300px',
+      })
+      .afterClosed()
+      .pipe(filter((contacto) => !!contacto))
+      .subscribe((contacto: ContactoGestorCargaList) => {
+        this.list[index] = contacto;
+        this.list = this.list.slice();
+        this.contactoArray.setControl(index, this.createConactoForm(contacto));
+      });
+  }
+  
+ 
 
   removeContacto(event: TableEvent<ContactoGestorCargaList>): void {
     const contacto = event.row;
@@ -117,6 +145,11 @@ export class PageFormContactosComponent {
         this.list = this.list.filter((_, i) => i !== index);
         this.contactoArray.removeAt(index);
       });
+  }
+
+  downloadFile(): void {
+    console.log("descarga")
+ 
   }
 
   private createConactoForm(contacto: ContactoGestorCargaList): FormGroup {

@@ -3,7 +3,7 @@
   font-size: 13px;
   font-weight: 400;
   line-height: 16.41px;
-  width: 12em; /* Ancho automático para adaptarse al contenido */
+  width: 10em; /* Ancho automático para adaptarse al contenido */
   height: 25px;
   padding: 8px; /* Padding interior para todos los input */
   border: 1px solid #F25A38; /* Borde rojo */
@@ -37,248 +37,306 @@
     border: 1px solid #F25A38; /* Borde rojo */
     border-radius: 4px; /* Bordes redondeados para el input */
     box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-   
-  }
+}
+
+
+.input-view-mode {
+  border: 1px solid black; /* Borde rojo */
+  color: #555; /* Texto gris en modo de vista */
+}
 
 .input-email{
   font-family: 'Roboto', sans-serif; 
   font-size: 13px;
   font-weight: 400;
   line-height: 16.41px;
-  width: 13em; /* Ancho automático para adaptarse al contenido */
+  width: 14em; /* Ancho automático para adaptarse al contenido */
   height: 25px;
   padding: 8px; /* Padding interior para todos los input */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-  
 }
 
-  .input-alias{
-    font-family: 'Roboto', sans-serif; 
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16.41px;
-    width: 12em; /* Ancho automático para adaptarse al contenido */
-    height: 25px;
-    padding: 8px; /* Padding interior para todos los input */
-    border: 1px solid #F25A38; /* Borde rojo */
-    border-radius: 4px; /* Bordes redondeados para el input */
-    box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-  
-  }
+.input-alias{
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 12em; /* Ancho automático para adaptarse al contenido */
+  height: 25px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+}
 
-  .form-container {
-    display: flex;
-  }
-  
-  .left-column, .right-column {
-    width: 50%; /* Ajusta el ancho según sea necesario */
-    float: left; /* Alinea las columnas horizontalmente */
-    box-sizing: border-box; /* Incluye padding y border en el ancho total */
-  }
-  .left-column > div, .right-column > div {
-    margin-bottom: 18px; /* Ajusta este valor según sea necesario */
-  }
-  
-  .left-column {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .right-column {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .mat-hint {
-    font-size: 10px; /* Tamaño de fuente más pequeño */
-    color: #666; /* Color del texto */
-  }
-  .mat-error {
-    font-size: 10px; /* Tamaño de fuente más pequeño */
-    color: red; /* Color del texto de error */
-  }
+.form-container {
+  display: flex;
+  margin-top: -10px;
+  bottom: 0;
+}
 
-  .nombre-form-field {
-    display: flex;
-    align-items: flex-end; /* Alinea el label y el input al inicio */
-    margin-bottom: 10px; /* Espacio entre los campos */
-  }
-  
-  .input-container {
-    display: flex;
-    align-items: center;
-    flex: 1; /* El input ocupa todo el espacio restante */
-  }
-  
-  .custom-label {
-    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
-    margin-right: 4px; /* Espacio entre el label y el input */
-  }
-  
-  .input-telefono {
-    flex: 1; /* El input ocupa todo el espacio restante */
-    /* Otros estilos según tu diseño */
-  }
-  
-  .error-message {
-    font-size: 12px; /* Tamaño de fuente más pequeño para el mensaje de error */
-    color: red; /* Color del mensaje de error */
-    margin-top: 5px; /* Espacio encima del mensaje de error */
-  }
+.left-column, .right-column {
+  width: 50%; /* Ajusta el ancho según sea necesario */
+  float: left; /* Alinea las columnas horizontalmente */
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+.left-column > div, .right-column > div {
+  margin-bottom: 18px; /* Ajusta este valor según sea necesario */
+}
 
-  .required-label {
-    color: red; /* Color del asterisco (opcional) */
-    padding: 3px;
-  }
-  .apellido-form-field {
-    display: flex;
-    align-items: flex-end; /* Alinea verticalmente el label con el input */
-  }
-  
-  .apellido-form-field .custom-label {
-    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
-    margin-right: 4px; /* Espacio entre el label y el input */
-  }
+.left-column {
+  display: flex;
+  flex-direction: column;
+}
 
-  .email {
-    display: flex;
-    align-items: flex-end; /* Alinea verticalmente el label con el input */
-  }
-  
-  .email .custom-label {
-    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
-    margin-right: 4px; /* Espacio entre el label y el input */
-  }
-  .alias {
-    display: flex;
-    align-items: flex-end; /* Alinea verticalmente el label con el input */
-  }
-  
-  .alias .custom-label {
-    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
-    margin-right: 4px; /* Espacio entre el label y el input */
-  }
-  .cargo {
-    margin-left: auto;
-  }
-  .cargo {
-    margin-bottom: -20px; /* Espacio vertical entre Cargo y el siguiente elemento */
-  }
-  
-  .cargo .custom-label {
-    font-size: 13px; /* Tamaño de fuente más pequeño para el label */
-    margin-right: 4px; /* Espacio entre el label y el input */
-    margin-bottom: 18px;
-  }
-  .submodule {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 14.06px;
-    letter-spacing: 0.06em;
-    text-align: left;
-    color: #F25A38; /* Color para el submódulo */
-  }
-  .module {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 14.06px;
-    letter-spacing: 0.06em;
-    text-align: left;
-    color: #F25A38; /* Color para el submódulo */
-  }
-  
-  .submodule::after {
-    content: " >> ";
-    margin-top: -22px; /* Espacio entre los elementos */
-    color: #F25A38; /* Color del signo de mayor */
-    font-style: italic;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 18.75px;
-    letter-spacing: 0.06em;
-    text-align: left;
-  }
-  
-  .save-button{
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
-    width: auto;
-    padding: 4px 12px 4px 6px;
-    gap: 4px;
-    border-radius: 5.25px;
-    border: 1px;
-    opacity: 0px;
-    box-shadow: none; /* Elimina la sombra */
-    opacity: 0px;
-    height: 25px;
-    display: flex; /* Asegura que el contenido esté alineado correctamente */
-    align-items: center; /* Alinea verticalmente el contenido */
-    gap: 3px; /* Espacio entre el icono y el texto */
-    letter-spacing: 0.06em;
-    transition: background-color 0.3s;
-  }
-  
-  .save-button mat-icon{
-    font-size: 15px; /* Ajusta el tamaño del ícono */
-    font-weight: bold;
-    border-radius: 90%; /* Borde redondeado para el ícono */
-    width: 10px;
-    height: 12px;
-    padding: 3px;
-    margin-top: -5px;
-    margin-right: 2px;
-  }
-  
-  .save-button:hover {
-    background-color: #155A9E; /* Color más oscuro al pasar el ratón */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
-  }
+.right-column {
+  display: flex;
+  flex-direction: column;
+}
 
-  .close-button {
-    background: #FFFFFF;
-    color: #3B9EFF;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px;
-    width: auto;
-    padding: 4px 12px 4px 6px;
-    gap: 4px;
-    border-radius: 5.25px;
-    border: 1px solid transparent; /* Borde inicial transparente */
-    opacity: 0px;
-    box-shadow: none; /* Elimina la sombra */
-    height: 25px;
-    display: flex; /* Asegura que el contenido esté alineado correctamente */
-    align-items: center; /* Alinea verticalmente el contenido */
-    gap: 3px; /* Espacio entre el icono y el texto */
-    letter-spacing: 0.06em;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
-  }
-  
-  .close-button:hover {
-    background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
-    color: #1e88e5; /* Color de texto más oscuro al hacer hover */
-    border-color: black; /* Color de borde más oscuro al hacer hover */
-  }
-  
-  
-  .close-button mat-icon {
-    font-size: 11px; /* Ajusta el tamaño del ícono */
-    font-weight: bold;
-    background-color: red; /* Fondo del ícono */
-    border-radius: 50%; /* Borde redondeado para el ícono */
-    color: white; /* Color del ícono */
-    width: 12px;
-    height: 12px;
-    gap: 0px;
-    padding-top: 1px;
-    opacity: 0px;
-    align-items: center;
-    justify-content: center;
-    margin-top: -2px;
-    margin-left: 2px;
-    transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
-  }
+.mat-hint {
+  font-size: 10px; /* Tamaño de fuente más pequeño */
+  color: #666; /* Color del texto */
+}
+.mat-error {
+  font-size: 10px; /* Tamaño de fuente más pequeño */
+  color: red; /* Color del texto de error */
+}
+
+.nombre-form-field {
+  display: flex;
+  align-items: flex-end; /* Alinea el label y el input al inicio */
+  margin-bottom: 10px; /* Espacio entre los campos */
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  flex: 1; /* El input ocupa todo el espacio restante */
+}
+
+.custom-label {
+  font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+  margin-right: 4px; /* Espacio entre el label y el input */
+}
+
+.input-telefono {
+  flex: 1; /* El input ocupa todo el espacio restante */
+}
+
+.error-message {
+  font-size: 12px; /* Tamaño de fuente más pequeño para el mensaje de error */
+  color: red; /* Color del mensaje de error */
+  margin-top: 5px; /* Espacio encima del mensaje de error */
+}
+
+.required-label {
+  color: red; /* Color del asterisco (opcional) */
+  padding: 3px;
+}
+.apellido-form-field {
+  display: flex;
+  align-items: flex-end; /* Alinea verticalmente el label con el input */
+}
+
+.apellido-form-field .custom-label {
+  font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+  margin-right: 4px; /* Espacio entre el label y el input */
+}
+
+.email {
+  display: flex;
+  align-items: flex-end; /* Alinea verticalmente el label con el input */
+}
+
+.email .custom-label {
+  font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+  margin-right: 4px; /* Espacio entre el label y el input */
+}
+.alias {
+  display: flex;
+  align-items: flex-end; /* Alinea verticalmente el label con el input */
+}
+
+.alias .custom-label {
+  font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+  margin-right: 4px; /* Espacio entre el label y el input */
+}
+.cargo {
+  margin-left: auto;
+}
+.cargo {
+  margin-bottom: -20px; /* Espacio vertical entre Cargo y el siguiente elemento */
+}
+
+.cargo .custom-label {
+  font-size: 13px; /* Tamaño de fuente más pequeño para el label */
+  margin-right: 4px; /* Espacio entre el label y el input */
+  margin-bottom: 18px;
+}
+.input-nombre:focus, .input-apellido:focus, .input-telefono:focus, .input-email:focus, .input-alias:focus, .selector:focus {
+  border-color: red; /* Cambia el color del borde cuando el input está enfocado */
+  border-width: 2px;
+  outline: red;
+}
+
+.submodule {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #3B9EFF; /* Color para el submódulo */
+}
+
+.module {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  color: #F25A38; /* Color para el submódulo */
+}
+
+.submodule::after {
+  content: " >> ";
+  margin-top: -22px; /* Espacio entre los elementos */
+  color: #F25A38; /* Color del signo de mayor */
+  font-style: italic;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+.mat-dialog-title {
+  position: relative; /* Asegura que la posición sea relativa para el seudoelemento */
+}
+
+.mat-dialog-title::after {
+  content: ''; /* Contenido vacío para el seudoelemento */
+  position: absolute; /* Posición absoluta para ajustar la línea */
+  bottom: 0; /* Coloca la línea en la parte inferior del título */
+  left: 0; /* Alinea la línea desde el borde izquierdo */
+  width: 100%; /* Ancho completo de la línea */
+  height: 1px; /* Grosor de la línea */
+  background-color: #3B9EFF; /* Color de la línea */
+}
+
+.save-button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: auto;
+  padding: 10px 16px 10px 16px;
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  opacity: 0px;
+  height: 32px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s;
+  margin-left: auto; /* Mueve el botón hacia la derecha */
+  margin-top: -25px;
+}
+
+.save-button mat-icon {
+  font-size: 15px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  width: 10px;
+  height: 12px;
+  padding: 3px;
+  margin-top: -5px;
+  margin-right: 2px;
+}
+
+.save-button:hover {
+  background-color: #155A9E; /* Color más oscuro al pasar el ratón */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
+}
+
+.close-button {
+  background: #FFFFFF;
+  color: #3B9EFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: auto;
+  padding: 8px 16px; /* Aumenta el padding horizontal para hacer el botón más largo */
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px solid transparent; /* Borde inicial transparente */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 32px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  margin-left: auto; /* Mueve el botón hacia la derecha */
+  margin-top: -25px; /* Ajusta el margen hacia arriba según sea necesario */
+  border-color: rgb(211, 200, 200);
+}
+
+.close-button:hover {
+  background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
+  color: #1e88e5; /* Color de texto más oscuro al hacer hover */
+  border-color: black; /* Color de borde más oscuro al hacer hover */
+}
+
+.close-button mat-icon {
+  font-size: 10.5px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: red; /* Fondo del ícono */
+  border-radius: 50%; /* Borde redondeado para el ícono */
+  color: white; /* Color del ícono */
+  width: auto;
+  height: 9px;
+  gap: 0px;
+  padding: 3px 3px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1;
+  margin-left: 2px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}
+
+.mat-dialog-actions {
+  position: relative; /* Asegura que la posición sea relativa para el seudoelemento */
+  margin-top: 20px; /* Espacio superior opcional antes de los botones */
+}
+
+.mat-dialog-actions::before {
+  content: ''; /* Contenido vacío para el seudoelemento */
+  position: absolute; /* Posición absoluta para ajustar la línea */
+  top: -10px; /* Coloca la línea encima de los botones */
+  left: 0; /* Alinea la línea desde el borde izquierdo */
+  width: 100%; /* Ancho completo de la línea */
+  height: 1px; /* Grosor de la línea */
+  background-color: #ccc; /* Color de la línea */
+}
+/* Estilos para el modo de vista */
+.view-mode {
+  border: 1px solid #D9D9D9 !important;
+}
+
+.view-mode:hover {
+  border-color: #D9D9D9 !important;
+}
+
+.view-mode:focus {
+  border-color: #D9D9D9 !important;
+  background-color: #FBFBFE; /* Asegurar que el fondo permanezca gris claro */
+}
+

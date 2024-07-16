@@ -25,7 +25,7 @@
     ></app-page-form-entities-info>
   </div>
 
-  <div class="section geolocation-section">
+ <div class="section geolocation-section">
     <h2>GEOLOCALIZACIÓN</h2>
     <div class="geolocation-content">
       <app-page-form-geo
@@ -36,18 +36,16 @@
         [isPanelOpen]="true"
       ></app-page-form-geo>
     </div>
-  </div>
+  </div>   
 
-  <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+ <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
     <h2 class="contactos-heading">CONTACTOS</h2>
     <app-page-form-contactos
       [form]="form"
       [isShow]="isShow"
       [contactoList]="contactoList"
+      (downloadClick)="downloadFile()"
     ></app-page-form-contactos>
-  </div>
+  </div>  
 </div>
-
-
-
 </app-page-form>
