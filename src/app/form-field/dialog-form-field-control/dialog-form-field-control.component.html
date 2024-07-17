@@ -4,10 +4,11 @@
   [formGroup]="formGroup"
   (focusin)="onFocusIn($event)"
   (focusout)="onFocusOut($event)"
+
 >
   <input formControlName="id" aria-label="Id" readonly hidden #id />
   <input
-    class="app-dialog-form-field-control-element small-input small-height-input"
+    class="small-height-input"
     formControlName="descripcion"
     aria-label="Descripción"
     #descripcion

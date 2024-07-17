@@ -32,7 +32,7 @@
   font-weight: 400;
   line-height: 16.41px;
   width: 12em; /* Ancho automático para adaptarse al contenido */
-  height: 25px;
+  height: 24px;
   padding: 8px; /* Padding interior para todos los input */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
@@ -56,14 +56,13 @@
   font-size: 14px; /* Puedes ajustar el tamaño de la fuente si es necesario */
 }
 
-
 .input-email{
   font-family: 'Roboto', sans-serif; 
   font-size: 13px;
   font-weight: 400;
   line-height: 16.41px;
   width: 14em; /* Ancho automático para adaptarse al contenido */
-  height: 25px;
+  height: 24px;
   padding: 8px; /* Padding interior para todos los input */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
@@ -76,7 +75,7 @@
   font-weight: 400;
   line-height: 16.41px;
   width: 12em; /* Ancho automático para adaptarse al contenido */
-  height: 25px;
+  height: 24px;
   padding: 8px; /* Padding interior para todos los input */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
@@ -88,6 +87,7 @@
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .mat-dialog-title {
   margin-top: -20px;
   padding-top: 0;
@@ -142,7 +142,6 @@
   font-size: 13px; /* Tamaño de fuente más pequeño para el label */
   margin-right: 4px; /* Espacio entre el label y el input */
 }
-
 
 .input-telefono {
   flex: 1; /* El input ocupa todo el espacio restante */
@@ -355,9 +354,15 @@
 }
 /* Estilos para el modo de vista */
 .view-mode {
-  border: 1px solid #D9D9D9 !important;
-  color:  #D9D9D9 !important;;
-  background-color: #FFFFFF;
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
+  color: rgba(28, 28, 28, 0.70);
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
 }
 
 .view-mode:hover {

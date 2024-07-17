@@ -3,6 +3,7 @@
 $header-heigth: 64px;
 $active-background: rgba(51, 153, 255, 0.2);
 
+
 .content {
   background-color: #eff2f5;
   height: calc(100vh - #{$header-heigth});
@@ -33,6 +34,7 @@ $active-background: rgba(51, 153, 255, 0.2);
 
 .sidebar-expanded .mat-expansion-panel-header {
   padding: 0 16px;
+  background-color: white;
 }
 
 .mat-expansion-panel-header-title {
@@ -74,4 +76,7 @@ $active-background: rgba(51, 153, 255, 0.2);
   .sidebar-expanded .mat-expansion-panel .mat-list-item-content {
     padding: 0 36px;
   }
+}
+.side-bar-content{
+  background-color: white;
 }

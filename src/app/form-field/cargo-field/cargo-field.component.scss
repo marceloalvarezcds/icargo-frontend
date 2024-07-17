@@ -51,7 +51,7 @@ label {
   line-height: 16.41px;
   width: 172px; /* Ancho específico para el selector de Composición Jurídica */
   min-width: 120px; /* Ancho mínimo */
-  height: 22px; /* Ajusta la altura según tus necesidades */
+  height: 24px; /* Ajusta la altura según tus necesidades */
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados */
   padding-top: 4px;
@@ -69,7 +69,14 @@ label {
 }
 
 .view-mode-cargo .cargo-select {
-  border: 1px solid #d9d9d9; /* Borde rojo */
-  background-color: #FBFBFE; /* Fondo gris claro */
+  border-radius: 4px;
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
+  color: rgba(28, 28, 28, 0.70);
+  font-family: Roboto;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 600;
+  line-height: normal;
   pointer-events: none; /* Deshabilitar interacción */
 }

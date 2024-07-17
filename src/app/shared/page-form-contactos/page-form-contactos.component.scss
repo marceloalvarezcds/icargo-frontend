@@ -38,11 +38,8 @@
   gap: 10px; /* Espacio entre los botones */
   margin-bottom: 70px; /* Margen inferior */
   margin-left: 72%;
-  background-color: #f44336;
 }
-.custom-dialog-container {
-  background-color: #f44336;
-}
+
 .button-container button {
   display: flex; /* Asegura que el contenido esté alineado correctamente */
   align-items: center; /* Alinea verticalmente el contenido */
@@ -56,11 +53,6 @@
   margin-top: -30px; /* Margen inferior */
  
 }
-
-::ng-deep .custom-dialog-container {
-  background-color: red; /* Cambia este color al que prefieras */
-}
-
 
 @media (max-width: 768px) {
   .button-container {

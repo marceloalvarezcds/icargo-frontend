@@ -3,7 +3,6 @@
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   submodule="CLIENTE"
   [class.page-form-show]="isShow"
-
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
@@ -13,39 +12,39 @@
   (submitEvent)="submit(false)"
 >
 <div class="page-container">
-  <div class="section" formGroupName="info">
-    <h2>INFORMACIÓN PRINCIPAL</h2>
-    <app-page-form-entities-info
-      [form]="form"
-      [isEdit]="isEdit"
-      [isShow]="isShow"
-      [logo]="logo"
-      [user]="user"
-      [modelo]="modelo"
-    ></app-page-form-entities-info>
-  </div>
+    <div class="section" formGroupName="info">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+      <app-page-form-entities-info
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        [logo]="logo"
+        [user]="user"
+        [modelo]="modelo"
+      ></app-page-form-entities-info>
+    </div>
 
- <div class="section geolocation-section">
-    <h2>GEOLOCALIZACIÓN</h2>
-    <div class="geolocation-content">
-      <app-page-form-geo
-        class="page-geo"
-        [ciudadSelected]="ciudadSelected"
+  <div class="section geolocation-section">
+      <h2>GEOLOCALIZACIÓN</h2>
+      <div class="geolocation-content">
+        <app-page-form-geo
+          class="page-geo"
+          [ciudadSelected]="ciudadSelected"
+          [form]="form"
+          [isShow]="isShow"
+          [isPanelOpen]="true"
+        ></app-page-form-geo>
+      </div>
+    </div>   
+
+  <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+      <h2 class="contactos-heading">CONTACTOS</h2>
+      <app-page-form-contactos
         [form]="form"
         [isShow]="isShow"
-        [isPanelOpen]="true"
-      ></app-page-form-geo>
-    </div>
-  </div>   
-
- <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
-    <h2 class="contactos-heading">CONTACTOS</h2>
-    <app-page-form-contactos
-      [form]="form"
-      [isShow]="isShow"
-      [contactoList]="contactoList"
-      (downloadClick)="downloadFile()"
-    ></app-page-form-contactos>
-  </div>  
+        [contactoList]="contactoList"
+        (downloadClick)="downloadFile()"
+      ></app-page-form-contactos>
+    </div>  
 </div>
 </app-page-form>
