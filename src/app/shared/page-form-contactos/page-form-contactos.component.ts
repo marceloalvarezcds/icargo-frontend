@@ -80,7 +80,8 @@ export class PageFormContactosComponent {
     this.dialog
     .open(ContactoFormDialogComponent, {
       width: '500px',
-      height: '300px',
+      height: 'auto',
+      panelClass: 'custom-dialog-container' 
     })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
@@ -98,7 +99,7 @@ export class PageFormContactosComponent {
       .open(ContactoFormDialogComponent, { 
         data, 
         width: '500px', 
-        height: '300px',
+        height: 'auto',
        disableClose: true, })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
@@ -116,7 +117,7 @@ export class PageFormContactosComponent {
       .open(ContactoFormDialogComponent, { 
         data, 
         width: '500px', 
-        height: '300px',
+        height: 'auto',
       })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))

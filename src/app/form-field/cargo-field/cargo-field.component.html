@@ -1,7 +1,7 @@
 
 <div *ngIf="list$ && control" [ngClass]="{'view-mode-cargo': isViewMode}" class="select-container">
   <label>{{ title }}</label>
-  <select [formControl]="control" (change)="valueChange.emit(control.value)" class="cargo-select" >
+  <select [formControl]="control" (change)="valueChange.emit(control.value)" class="cargo-select" tabindex="6">
     <option *ngFor="let o of list$ | async" [value]="o">{{ o.descripcion }}</option>
   </select>
   <div *ngIf="control.invalid && (control.dirty || control.touched)" class="error-message">

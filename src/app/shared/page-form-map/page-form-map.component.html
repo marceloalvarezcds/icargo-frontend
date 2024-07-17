@@ -14,24 +14,20 @@
       <!-- Contenedor de localidad y país -->
       <div class="field-container">
         <div class="localidad-container">
-          <div class="localidad-field">
-            <label><span class="localidad-label"></span>Localidad</label>
-            <input matInput formControlName="localidad_nombre" class="localidad-input" readonly [ngClass]="{'view-mode': isShow}"/>
-          </div>
+            <label for="localidad" class="localidad-label">Localidad</label>
+            <input id="localidad" class="localidad-input" matInput formControlName="localidad_nombre" class="localidad-input" readonly [ngClass]="{'view-mode': isShow}"/>
         </div>
         
         <div class="pais-container">
-          <div class="custom-mat-form-field pais-field">
-            <label for="" class="pais-label"><span class="required-label"></span>País</label>
-            <input matInput formControlName="pais_nombre" class="pais-input" readonly  [ngClass]="{'view-mode': isShow}"/>
-          </div>
+            <label for="pais" class="pais-label">País</label>
+            <input matInput formControlName="pais_nombre" id="pais" class="pais-input" readonly  [ngClass]="{'view-mode': isShow}"/>
         </div>
     </div>
       <!-- Contenedor de la dirección -->
       <div class="col-xs-12 direccion-container">
-        <label for="direccion" class="direccion-label"><span class="required-label"></span> Dirección</label>
+        <label for="direccion" class="direccion-label">Dirección</label>
         <div class="custom-mat-form-field direccion-field">
-          <input matInput formControlName="direccion" class="direccion-input" [ngClass]="{'view-mode': isShow}" />
+          <input matInput formControlName="direccion" id="direccion" class="direccion-input" [ngClass]="{'view-mode': isShow}" />
           <mat-error *ngIf="address.controls['direccion'].hasError('required')">
             La dirección es <strong>requerida</strong>
           </mat-error>

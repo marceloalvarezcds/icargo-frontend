@@ -9,7 +9,7 @@
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .input-apellido{
@@ -23,22 +23,21 @@
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-  margin-top: 10px;
+  margin-top: 0;
 }
 
 .input-telefono{
-    font-family: 'Roboto', sans-serif; 
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 16.41px;
-    width: 12em; /* Ancho automático para adaptarse al contenido */
-    height: 25px;
-    padding: 8px; /* Padding interior para todos los input */
-    border: 1px solid #F25A38; /* Borde rojo */
-    border-radius: 4px; /* Bordes redondeados para el input */
-    box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 12em; /* Ancho automático para adaptarse al contenido */
+  height: 25px;
+  padding: 8px; /* Padding interior para todos los input */
+  border: 1px solid #F25A38; /* Borde rojo */
+  border-radius: 4px; /* Bordes redondeados para el input */
+  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
 }
-
 
 .input-view-mode {
   border: 1px solid black; /* Borde rojo */
@@ -73,8 +72,12 @@
 
 .form-container {
   display: flex;
-  margin-top: -10px;
-  bottom: 0;
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.mat-dialog-title {
+  margin-top: -20px;
+  padding-top: 0;
 }
 
 .left-column, .right-column {
@@ -246,7 +249,7 @@
   letter-spacing: 0.06em;
   transition: background-color 0.3s;
   margin-left: auto; /* Mueve el botón hacia la derecha */
-  margin-top: -25px;
+  margin-top: -15px;
 }
 
 .save-button mat-icon {
@@ -284,8 +287,9 @@
   letter-spacing: 0.06em;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
   margin-left: auto; /* Mueve el botón hacia la derecha */
-  margin-top: -25px; /* Ajusta el margen hacia arriba según sea necesario */
+  margin-top: -15px; /* Ajusta el margen hacia arriba según sea necesario */
   border-color: rgb(211, 200, 200);
+  margin-top: -15px;
 }
 
 .close-button:hover {
@@ -314,13 +318,17 @@
 
 .mat-dialog-actions {
   position: relative; /* Asegura que la posición sea relativa para el seudoelemento */
-  margin-top: 20px; /* Espacio superior opcional antes de los botones */
+  justify-content: flex-end; /* Alinea los botones a la derecha */
+  gap: 10px; /* Espacio entre los botones */
+  margin-top: -15px; /* Aumenta el espacio superior entre los botones y el contenido */
+  margin-bottom: 0; /* Elimina el margen inferior */
+  padding-bottom: 0; /* Elimina el padding inferior */
 }
 
 .mat-dialog-actions::before {
   content: ''; /* Contenido vacío para el seudoelemento */
   position: absolute; /* Posición absoluta para ajustar la línea */
-  top: -10px; /* Coloca la línea encima de los botones */
+  top: -2px; /* Coloca la línea encima de los botones */
   left: 0; /* Alinea la línea desde el borde izquierdo */
   width: 100%; /* Ancho completo de la línea */
   height: 1px; /* Grosor de la línea */

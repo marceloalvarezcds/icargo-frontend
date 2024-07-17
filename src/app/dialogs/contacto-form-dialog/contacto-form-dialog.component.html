@@ -1,4 +1,4 @@
-<form [formGroup]="form" >
+<form [formGroup]="form" class="main-container">
   <h1 mat-dialog-title >
      <span class="submodule"> {{ actionText }}</span> <span class="module">CONTACTO</span>
   </h1>
@@ -12,9 +12,9 @@
           placeholder="Nombre"
           [readonly]="isExistContacto"
           appAutofocus
-          [ngClass]="{ 'view-mode': isViewMode }"
-          
+          [ngClass]="{ 'view-mode': isViewMode }"        
           class="input-nombre"
+          tabindex="1"
         />
         <div *ngIf="form.get('nombre')?.hasError('required')" class="error-message">
            <strong></strong>
@@ -31,6 +31,7 @@
           appFormatToPastePhone
           (focus)="telefonoBlur$.next(false)"
           (blur)="telefonoBlur$.next(true)"
+          tabindex="3"
         />
         <mat-hint></mat-hint>
         <mat-error *ngIf="form.get('telefono')?.hasError('required')">
@@ -43,11 +44,16 @@
       
       <div class="alias">
         <label for="nombre" class="custom-label">Alias</label>
-          <input class="input-alias" matInput  placeholder="Alias" formControlName="alias" [ngClass]="{ 'view-mode': isViewMode }" />
+          <input 
+          class="input-alias" 
+          matInput  
+          placeholder="Alias" 
+          formControlName="alias"
+           [ngClass]="{ 'view-mode': isViewMode }"
+           tabindex="5" />
           <mat-error *ngIf="form.controls['alias'].hasError('required')">
              <strong></strong>
           </mat-error>
-      
       </div>
     </div>
     
@@ -61,6 +67,7 @@
           [ngClass]="{ 'view-mode': isViewMode }"
           [readonly]="isExistContacto"
           class="input-apellido"
+          tabindex="2"
         />
         <mat-error *ngIf="form.get('apellido')?.hasError('required')">
           <strong></strong>
@@ -77,6 +84,7 @@
           placeholder="E-mail"
           (focus)="emailBlur$.next(false)"
           (blur)="emailBlur$.next(true)"
+          tabindex="4"
         />
         <mat-error *ngIf="form.get('email')?.hasError('required')">
            <strong></strong>
@@ -87,12 +95,22 @@
       </div>
       
       <div class="cargo">
-        <app-cargo-field [control]="cargoControl" [isViewMode]="isViewMode" [ngClass]="{ 'view-mode-cargo': isViewMode }"></app-cargo-field>
+        <app-cargo-field 
+        [control]="cargoControl" 
+        [isViewMode]="isViewMode" 
+        [ngClass]="{ 'view-mode-cargo': isViewMode }"
+        >
+      </app-cargo-field>
       </div>
     </div>
   </div>
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" class="close-button" (click)="dialogRef.close()">
+    <button 
+      mat-raised-button 
+      type="button" 
+      class="close-button" 
+      (click)="dialogRef.close()"
+      tabindex="7">
       <mat-icon>close</mat-icon>
       Cerrar
     </button>
@@ -105,6 +123,7 @@
       color="primary"
       id="submit-button"
       class="save-button"
+      tabindex="8"
     >
       <mat-icon>save</mat-icon> GUARDAR
     </button>

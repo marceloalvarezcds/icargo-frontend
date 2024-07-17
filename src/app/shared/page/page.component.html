@@ -45,6 +45,22 @@
           >
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
+            <!-- Botón específico para Orden de Carga -->
+          <button 
+            mat-mini-fab color="primary" 
+            matTooltip="Tu Tooltip Aquí" 
+            class="add-button"
+            *ngIf="submodule === 'Orden de Carga'">
+            <mat-icon>add</mat-icon> Anticipo
+          </button>
+            <!-- Botón específico para Orden de Carga -->
+            <button 
+              mat-mini-fab color="primary" 
+              matTooltip="Tu Tooltip Aquí" 
+              class="add-button"
+              *ngIf="submodule === 'Orden de Carga'">
+              <mat-icon>add</mat-icon> Recepcion
+            </button>
           <button
             mat-mini-fab
             color="primary"
@@ -55,8 +71,32 @@
             [ngStyle]="getButtonStyles(submodule)"
           >
             <mat-icon >add</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
-            {{ submodule === 'CLIENTES' ? 'CLIENTE' : submodule === 'Productos' ? 'Producto' : 'Elemento' }}
+            {{ submodule === 'CLIENTES' ? 'CLIENTE' : submodule === 'Orden de Carga' ? 'Orden de Carga' : 'Elemento' }}
           </button>
+              <!-- Botón específico para Orden de Carga -->
+          <button 
+            mat-mini-fab color="primary" 
+            matTooltip="Tu Tooltip Aquí" 
+            class="add-button"
+            *ngIf="submodule === 'Orden de Carga'">
+              Aceptar
+          </button>
+          <!-- Botón específico para Orden de Carga -->
+          <button 
+            mat-mini-fab color="primary" 
+            matTooltip="Tu Tooltip Aquí" 
+            class="add-button"
+            *ngIf="submodule === 'Orden de Carga'">
+              FINALIZAR
+        </button>
+            <!-- Botón específico para Orden de Carga -->
+        <button 
+            mat-mini-fab color="primary" 
+            matTooltip="Tu Tooltip Aquí" 
+            class="add-button"
+            *ngIf="submodule === 'Orden de Carga'">
+              CONCILIAR
+        </button>
           <button
             mat-mini-fab
             color="primary"
@@ -67,6 +107,7 @@
           >
             <mat-icon>filter_alt</mat-icon>
           </button>
+    
         </div>
       </div>
       <div class="filter-values">

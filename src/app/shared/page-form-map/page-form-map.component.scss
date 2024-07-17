@@ -6,9 +6,6 @@
 .main-container {
   padding-left: 0;
 }
-.page-form-row{
-  margin: 0;
-}
 
 .field-container {
   display: flex;
@@ -17,10 +14,93 @@
   margin-top: -5rem;
 }
 
-.localidad-container,
-.pais-container{
-  margin-top: 2rem;
+.localidad-container{
+  display: flex;
+  align-items: center;
+  margin-top: 12px; /* Eliminar margen superior */
+  margin-left: -25px;
 }
+.pais-container {
+  display: flex;
+  align-items: center;
+  margin-top: 12px; /* Eliminar margen superior */
+  margin-left: -52px;
+}
+
+.direccion-container {
+  display: flex; 
+  align-items: center; 
+  margin-left: -23px;
+  margin-top: -20px;
+  padding: 0;
+}
+
+.direccion-field {
+  margin-left: -89px; 
+  width: 889px; 
+}
+
+.direccion-label {
+  margin-right: 95px; 
+  width: 100px; 
+  text-align: right;
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  margin-left: -6px;
+}
+
+.required-label {
+  color: red; 
+  padding: 3px;
+}
+
+.localidad-container label,
+.pais-container label {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 80px; 
+  text-align: right; 
+  margin: 0; /* Eliminar márgenes para alineación precisa */
+}
+
+.localidad-container {
+  margin-right: 10px; /* Espaciado entre localidad y país */
+}
+
+.localidad-input,
+.pais-input {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 18.1em; 
+  height: 30px;
+  padding: 8px 4px; 
+  border: 1px solid #D9D9D9 ; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  margin-left: 15px; 
+  pointer-events: none;
+}
+
+.direccion-input {
+  font-family: 'Roboto', sans-serif; 
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 16.41px;
+  width: 83em; 
+  height: 28px;
+  padding: 8px 4px;
+  border: 1px solid #F25A38; 
+  border-radius: 4px; 
+  box-sizing: border-box; 
+  margin-top: 6px;
+}
+
 
 .direccion-container {
   padding: 10px; /* Ajusta el relleno según sea necesario */
@@ -41,54 +121,13 @@
 .direccion-label {
   margin-right: 95px; /* Margen derecho ajustado para separación */
   width: 100px; /* Ancho deseado para la etiqueta */
-  margin-top: 19px;
+  margin-top: 12px;
   text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
   font-family: 'Roboto', sans-serif; 
   font-size: 13px;
   font-weight: 400;
   line-height: 16.41px;
   margin-left: -6px;
-}
-
-.required-label {
-  color: red; /* Color del asterisco (opcional) */
-  padding: 3px;
-}
-
-.localidad-container label {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16.41px;
-  margin-right: 0; /* Ajusta el margen derecho según sea necesario */
-  width: 80px; /* Ancho deseado para la etiqueta */
-  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
-  margin: 4px -6px 0 -5px; /* Ajusta el margen derecho según sea necesario */
-}
-
-.pais-container label {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16.41px;
-  margin: 4px -6px 0 20px; /* Ajusta el margen derecho según sea necesario */
-  text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
-}
-
-.localidad-input,
-.pais-input {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 18.1em; /* Ancho automático para adaptarse al contenido */
-  height: 30px;
-  padding: 8px 2px 0 8px; /* Padding interior para todos los input */
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados para el input */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-  margin-left: 15px; /* Ajusta el margen izquierdo según sea necesario */
-  pointer-events: none;
 }
 
 .direccion-input{
@@ -98,12 +137,13 @@
   line-height: 16.41px;
   width: 83em; /* Ancho automático para adaptarse al contenido */
   height: 28px;
-  padding: 8px 4px 0 8px;
+  padding: 8px 4px 4px 8px;
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
   margin-top: 6px;
 }
+
 .direccion-input:focus,
 .custom-input-nombre:focus,
 .custom-input-doc:focus,
@@ -113,12 +153,14 @@
   border-color: red; /* Cambia el color del borde cuando el input está enfocado */
   border-width: 2px;
 }
+
 .view-mode {
   background-color: #FBFBFE; 
   border: 1px solid #D9D9D9; 
   color: #666; 
   pointer-events: none;
 }
+
 ::ng-deep .custom-mat-form-field .mat-form-field-outline {
   border: 1px solid #F25A38 !important; /* Borde rojo */
   border-radius: 4px;
@@ -158,8 +200,6 @@
 ::ng-deep .custom-mat-form-field .mat-form-field-flex {
   border-color: red !important; /* Asegura el color rojo del borde */
 }
-
-
 
 /* Deshabilitar el hover y otros eventos en el modo de vista */
 ::ng-deep .view-mode-ciudad .custom-mat-form-field .mat-form-field-outline {
