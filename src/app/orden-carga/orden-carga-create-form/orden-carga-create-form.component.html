@@ -2,7 +2,6 @@
   class="orden-carga-page"
   module="Orden de Carga"
   submodule="Orden de Carga"
-  viewTitle="Nuevo"
   [formGroup]="form"
   [modelo]="modelo"
   (backClick)="back($event)"
@@ -13,7 +12,6 @@
       [form]="form"
       (fleteChange)="flete = $event"
       (camionChange)="camion = $event"
-
     ></app-orden-carga-create-form-combinacion>
     <app-orden-carga-create-form-info
       [form]="form"

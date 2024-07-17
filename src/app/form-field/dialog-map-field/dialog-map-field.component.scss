@@ -3,7 +3,7 @@
 }
 
 
-::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.1em 0px !important; top:-1.8px !important}
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0 0px !important; top:-1.8px !important}
 ::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
 
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
@@ -29,11 +29,10 @@
 .custom-mat-form-field {
   width: 260px;
   font-family: 'Roboto', sans-serif;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
 }
 .search-container{
   width: 400px;
-
 }

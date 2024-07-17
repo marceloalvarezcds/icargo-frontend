@@ -11,7 +11,7 @@
   display: flex;
   justify-content: space-between;
   margin-left: 23.28rem;
-  margin-top: -5rem;
+  margin-top: -5.3rem;
 }
 
 .localidad-container{
@@ -45,7 +45,7 @@
   width: 100px; 
   text-align: right;
   font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
   margin-left: -6px;
@@ -59,7 +59,7 @@
 .localidad-container label,
 .pais-container label {
   font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
   width: 80px; 
@@ -74,31 +74,17 @@
 .localidad-input,
 .pais-input {
   font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  width: 18.1em; 
+  width: 16.7em; 
   height: 30px;
-  padding: 2px 2px 2px 5px; 
+  padding: 2px 2px 2px 10px; 
   border: 1px solid #D9D9D9 ; 
   border-radius: 4px; 
   box-sizing: border-box; 
   margin-left: 15px; 
   pointer-events: none;
-}
-
-.direccion-input {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 83em; 
-  height: 28px;
-  padding: 8px 4px;
-  border: 1px solid #F25A38; 
-  border-radius: 4px; 
-  box-sizing: border-box; 
-  margin-top: 6px;
 }
 
 
@@ -113,9 +99,9 @@
 }
 
 .direccion-field {
-  margin-left: -89px; /* Ajusta el margen izquierdo según sea necesario */
+  margin-left: -84px; /* Ajusta el margen izquierdo según sea necesario */
   top: 10px;
-  width: 889px; /* Ancho deseado del campo de entrada */
+  width: 880px; /* Ancho deseado del campo de entrada */
 }
 
 .direccion-label {
@@ -124,7 +110,7 @@
   margin-top: 12px;
   text-align: right; /* Alinea el texto hacia la derecha dentro de la etiqueta */
   font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
   margin-left: -6px;
@@ -132,10 +118,10 @@
 
 .direccion-input{
   font-family: 'Roboto', sans-serif; 
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  width: 83em; /* Ancho automático para adaptarse al contenido */
+  width: 80em; /* Ancho automático para adaptarse al contenido */
   height: 28px;
   padding: 8px 4px 4px 8px;
   border: 1px solid #F25A38; /* Borde rojo */

@@ -34,15 +34,23 @@ export class OrdenCargaCreateFormComponent {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      marca_camion: null,
+      color_camion: null,
+      propietario_camion: null,
+      propietario_camion_doc: null,
+      chofer_camion: null,
+      chofer_camion_doc: null,
       semi_id: [null, Validators.required],
-      semi_details: null,
+      semi_placa: null,
+      marca_semi: null,
+      color_semi: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
       comentarios: null,
     }),
   });
-
+  
   get combinacion(): FormGroup {
     return this.form.get('combinacion') as FormGroup;
   }
@@ -73,6 +81,7 @@ export class OrdenCargaCreateFormComponent {
     if (this.form.valid) {
       const data: OCConfirmationDialogData = {
         oc: getOCData(this.form, this.flete, this.camion, this.semi, this.neto),
+        
       };
       this.dialog
         .open(OcConfirmationDialogComponent, {

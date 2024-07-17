@@ -16,15 +16,64 @@
           (valueChange)="onCamionChange($event)"
         ></app-camion-by-producto-dialog-field>
       </div>
-      <!-- <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-semi-by-camion-producto-dialog-field
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Marca"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
+          [readonly]="true"
           [form]="form"
-          (valueChange)="onSemiChange($event)"
-        ></app-semi-by-camion-producto-dialog-field>
-      </div> -->
+          controlName="marca_camion"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Color"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="color_camion"
+        ></app-input-field>
+      </div>
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Semi-remolque"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="semi_placa"
+        ></app-input-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Marca"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="marca_semi"
+        ></app-input-field>
+      </div>
+
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Color"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="color_semi"
+        ></app-input-field>
+      </div>
+
       <div class="col-xs-12 col-sm-6 col-md-4">
         <app-input-field
           title="Semi-remolque"

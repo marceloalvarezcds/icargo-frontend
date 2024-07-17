@@ -105,11 +105,6 @@ export class FleteByGestorDialogFieldComponent {
       title: 'Cantidad a Transportar',
       value: (element: FleteList) => element.condicion_cantidad,
     },
-    // {
-    //   def: 'vigencia_anticipos',
-    //   title: 'Vigencia de Anticipos',
-    //   value: (element: FleteList) => element.vigencia_anticipos,
-    // },
     {
       def: 'created_at',
       title: 'Fecha creación',
