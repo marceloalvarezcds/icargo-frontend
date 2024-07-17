@@ -5,7 +5,7 @@
   <div mat-dialog-content class="form-container">
     <div class="left-column">
       <div class="nombre-form-field" [class.disabled]="isExistContacto">
-        <label for="nombre" class="custom-label">Nombre</label>
+        <label for="nombre" class="nombre-label">Nombre</label>
         <input
           type="text"
           formControlName="nombre"
@@ -33,9 +33,7 @@
           (blur)="telefonoBlur$.next(true)"
           tabindex="3"
         />
-        <mat-hint></mat-hint>
         <mat-error *ngIf="form.get('telefono')?.hasError('required')">
-          <strong></strong>
         </mat-error>
         <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
           <strong>Inválido</strong>. Formato: +595981 ó 0981
@@ -59,7 +57,7 @@
     
     <div class="right-column">
       <div class="apellido-form-field" [class.disabled]="isExistContacto">
-        <label for="apellido" class="custom-label">Apellido</label>
+        <label for="apellido" class="apellido-label">Apellido</label>
         <input
           matInput
           formControlName="apellido"
