@@ -1,9 +1,9 @@
+<div class="buscador">
 <ng-container *ngIf="form">
   <ng-container *ngIf="pId; else inputTemplate">
     <ng-container *ngIf="list$ | async as list">
-      <app-dialog-field
-        [emptyHint]="emptyHint"
-        [title]="title"
+      <app-dialog-field-oc
+      
         [subtitle]="subtitle"
         [columns]="columns"
         [list]="list"
@@ -12,17 +12,16 @@
         [inputValuePropName]="inputValuePropName"
         [form]="form"
         (valueChange)="valueChange.emit($event)"
-      ></app-dialog-field>
+      ></app-dialog-field-oc>
     </ng-container>
   </ng-container>
   <ng-template #inputTemplate>
-    <app-input-field
-      [hint]="emptyHint"
-      [title]="title"
+    <app-input-field-oc
       [readonly]="true"
       [groupName]="groupName"
       [controlName]="controlName"
       [form]="form"
-    ></app-input-field>
+    ></app-input-field-oc>
   </ng-template>
 </ng-container>
+</div>

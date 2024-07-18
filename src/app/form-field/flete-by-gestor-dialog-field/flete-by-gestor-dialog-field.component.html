@@ -1,10 +1,11 @@
-<app-dialog-field
-  [title]="title"
-  [columns]="columns"
-  [list]="list"
-  [groupName]="groupName"
-  [controlName]="controlName"
-  [inputValuePropName]="inputValuePropName"
-  [form]="form"
-  (valueChange)="valueChange.emit($event)"
-></app-dialog-field>
+<div class="custom-style">
+  <app-dialog-field
+    [columns]="columns"
+    [list]="list"
+    [groupName]="groupName"
+    [controlName]="controlName"
+    [inputValuePropName]="inputValuePropName"
+    [form]="form"
+    (valueChange)="valueChange.emit($event)"
+  ></app-dialog-field>
+</div>

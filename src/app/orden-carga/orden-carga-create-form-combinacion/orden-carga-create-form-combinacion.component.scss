@@ -10,3 +10,48 @@
     visibility: hidden;
   }
 }
+.row.page-form-row {
+  justify-content: flex-start;
+  margin-left: 0;
+}
+
+.section h2 {
+  margin: 0 0 15px 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc;  /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+  width: 82%;
+}
+
+.page-form-row {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: -11px;
+}
+
+.small-input,
+.input-with-label {
+  margin-bottom: 15px; /* Espacio entre cada pequeño input */
+}
+
+/* Estilo adicional para los labels si es necesario */
+.input-with-label label {
+  display: block; /* Para asegurar que cada label ocupe su propia línea */
+  font-weight: bold; /* Opcional: Añade negrita al texto del label */
+}
+
+mat-slide-toggle {
+  margin-left: 10px;
+  margin-top: 18px;
+}
+
+/* Aplica estilos de borde personalizados a mat-form-field */
+::ng-deep .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+}

@@ -334,6 +334,16 @@
               <mat-icon color="primary">delete</mat-icon>
               <span>Eliminar</span>
             </button>
+
+            <button
+            *ngIf= "mostrarBotonEliminar"
+            type="button"
+            mat-menu-item
+          >
+            <mat-icon color="gray">delete</mat-icon>
+            <span>Eliminar</span>
+          </button>
+
             <button
               type="button"
               mat-menu-item

@@ -5,14 +5,32 @@
         <span class="module"   [ngClass]="{
           'edicion-mode': isEdit,
           'ver-mode': isShow && !isEdit,
-          'nuevo-mode': !isShow && !isEdit
+          'nuevo-mode': !isShow && !isEdit,
+          'orden-carga-mode': submodule === 'Orden de Carga'
         }">{{ module }}</span> 
-        <span class="submodule">{{ submodule }}</span> 
-        
+        <span class="submodule"   [ngClass]="{
+          'edicion-mode': isEdit,
+          'ver-mode': isShow && !isEdit,
+          'nuevo-mode': !isShow && !isEdit,
+          'orden-carga-mode': submodule === 'Orden de Carga'
+        }">{{ submodule }}</span> 
         <strong class="view-title" >{{ viewTitle }}</strong>
       </span>
       
       <div class="page-title-buttons">
+        <mat-slide-toggle *ngIf="submodule === 'Orden de Carga'" class="toggle-margin">
+          Estado OC
+         </mat-slide-toggle>
+         <mat-slide-toggle *ngIf="submodule === 'Orden de Carga'" class="toggle-margin">
+          Anticipos
+         </mat-slide-toggle>
+        <button type="button" mat-mini-fab color="primary" class="orden-button" matTooltip="Nuevo botón 1" *ngIf="submodule === 'Orden de Carga'">
+          <mat-icon>description</mat-icon>  ORDEN
+        </button>
+        <button type="button" mat-mini-fab color="accent" class="ver-button" matTooltip="Nuevo botón 2" *ngIf="submodule === 'Orden de Carga'">
+          <mat-icon>visibility</mat-icon> Ver OC
+        </button>
+  
         <button
           type="button"
           mat-mini-fab

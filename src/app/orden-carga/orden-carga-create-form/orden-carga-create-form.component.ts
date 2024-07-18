@@ -43,7 +43,17 @@ export class OrdenCargaCreateFormComponent {
       semi_id: [null, Validators.required],
       semi_placa: null,
       marca_semi: null,
-      color_semi: null
+      color_semi: null,
+      pedido_id: null,
+      numero_lote: null,
+      saldo: null,
+      cliente: null,
+      producto_descripcion: null,
+      origen_nombre: null,
+      destino_nombre:null,
+      tipo_flete: null,
+      a_pagar: null,
+      valor: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],

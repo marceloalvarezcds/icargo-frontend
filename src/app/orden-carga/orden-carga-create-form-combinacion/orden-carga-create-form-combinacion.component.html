@@ -1,89 +1,279 @@
 <div *ngIf="form" [formGroup]="form" class="combinacion-container">
-  <div [formGroupName]="groupName">
+  <div class="section">
+    <h2>Flota</h2>
+    <div [formGroupName]="groupName">
+      <div class="row page-form-row">
+        <div class="search-tracto small-input input-with-label">
+          <app-camion-by-producto-dialog-field
+            title="Chapa"
+            [groupName]="groupName"
+            [productoId]="productoId"
+            [form]="form"
+            (valueChange)="onCamionChange($event)"
+
+          ></app-camion-by-producto-dialog-field>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Marca"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="marca_camion"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Color"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="color_camion"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title='Chapa <strong>Semi</strong>'
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="semi_placa"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Marca"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="marca_semi"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Color"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="color_semi"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <mat-slide-toggle min="1" max="100" step="1" value="50" thumbLabel tickInterval="10">Anticipos</mat-slide-toggle>
+        </div>
+      </div>
+
+      <div class="row page-form-row">
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="<strong>Propietario</strong>"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="propietario_camion"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Doc."
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="propietario_camion_doc"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="<strong>Beneficiario</strong>(Nombre/Razon Social)"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="propietario_camion"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Doc"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="propietario_camion_doc"
+          ></app-input-field-oc>
+        </div>
+      </div>
+    </div>
     <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-flete-by-gestor-dialog-field
-          [groupName]="groupName"
-          [form]="form"
-          (valueChange)="onFleteChange($event)"
-        ></app-flete-by-gestor-dialog-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-camion-by-producto-dialog-field
-          [groupName]="groupName"
-          [productoId]="productoId"
-          [form]="form"
-          (valueChange)="onCamionChange($event)"
-        ></app-camion-by-producto-dialog-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Marca"
+      <div class="small-input input-with-label">
+        <app-input-field-oc
+          title="Chofer"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
           [readonly]="true"
           [form]="form"
-          controlName="marca_camion"
-        ></app-input-field>
+          controlName="chofer_camion"
+        ></app-input-field-oc>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Color"
+      <div class="small-input input-with-label">
+        <app-input-field-oc
+          title="Doc"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
           [readonly]="true"
           [form]="form"
-          controlName="color_camion"
-        ></app-input-field>
+          controlName="chofer_camion_doc"
+        ></app-input-field-oc>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Semi-remolque"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="semi_placa"
-        ></app-input-field>
+      <div class="small-input input-with-label">
+        <mat-slide-toggle min="1" max="100" step="1" value="50" thumbLabel tickInterval="10">Anticipos</mat-slide-toggle>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>PEDIDO</h2>
+      <div class="row page-form-row">
+        <div class="small-input input-with-label">
+          <app-flete-by-gestor-dialog-field
+            [groupName]="groupName"
+            [form]="form"
+            (valueChange)="onFleteChange($event)"
+          ></app-flete-by-gestor-dialog-field>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="N Pedido"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="pedido_id"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="N Lote"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="numero_lote"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Saldo"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="saldo"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Cliente"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="cliente"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Producto"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="producto_descripcion"
+          ></app-input-field-oc>
+        </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Marca"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="marca_semi"
-        ></app-input-field>
+      <div class="row page-form-row">
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="L. Carga"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="origen_nombre"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="L. Descarga"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="destino_nombre"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Tipo Flete"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="tipo_flete"
+          ></app-input-field-oc>
+        </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Color"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="color_semi"
-        ></app-input-field>
-      </div>
-
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Semi-remolque"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="semi_details"
-        ></app-input-field>
+      <div class="row page-form-row">
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Flete a <strong>PAGAR</strong>"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="a_pagar"
+          ></app-input-field-oc>
+        </div>
+        <div class="small-input input-with-label">
+          <app-input-field-oc
+            title="Valor mercaderia"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="valor"
+          ></app-input-field-oc>
+        </div>
       </div>
     </div>
   </div>

@@ -5,6 +5,7 @@ import {
   OnInit,
   Output,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
@@ -17,6 +18,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   selector: 'app-camion-by-producto-dialog-field',
   templateUrl: './camion-by-producto-dialog-field.component.html',
   styleUrls: ['./camion-by-producto-dialog-field.component.scss'],
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class CamionByProductoDialogFieldComponent {
   readonly inputValuePropName = 'info';
@@ -60,9 +62,9 @@ export class CamionByProductoDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'camion_id';
   @Input() groupName = '';
-  @Input() emptyHint =
-    'No existen tractos. Debe crearlos/activarlos o crear una combinación';
-  @Input() title = 'Tracto';
+  // @Input() emptyHint =
+  //   'No existen tractos. Debe crearlos/activarlos o crear una combinación';
+
   @Input() subtitle =
     'Si no encuentra al tracto deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
   @Input() set productoId(id: number | undefined) {

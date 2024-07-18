@@ -24,5 +24,21 @@
   width: 400px; /* Ancho del mat-form-field ajustado según tu diseño */
 }
 .search-container{
-  width: 400px;
+  width: auto;
+  margin-right: 12px;
+  display: flex;
+  
+}
+
+.example-class-1 {
+  border: 1px solid red;
+}
+
+.example-class-2 {
+  border: 1px solid blue;
+}
+
+.default-class {
+  width: 100px;
+
 }

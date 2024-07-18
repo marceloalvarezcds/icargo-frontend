@@ -8,9 +8,6 @@
   padding: 20px; /* Espacio interno alrededor del formulario */
 }
 
-/* styles.css o styles.scss */
-
-/* styles.css o styles.scss */
 .title .module {
   font-family: 'Roboto', sans-serif;
   font-weight: 700;
@@ -28,6 +25,7 @@
   text-align: left;
   color: #3B9EFF; /* Ejemplo de color para el submódulo */
 }
+
 .title .module::after{
   content: " >> ";
   margin-top: -22px; /* Espacio entre los elementos */
@@ -40,10 +38,48 @@
   letter-spacing: 0.06em;
   text-align: left;
 }
+
 .linea-horizontal {
   border-bottom: 0.5px solid rgba(242, 90, 56, 0.5); /* Cambia el grosor y el color según tus necesidades */
   margin-top: -10px;
   margin-bottom: 15px;
+}
+
+.title .submodule.orden-carga-mode {
+  color: #F25A38; /* Color del submódulo en modo "Orden de Carga" */
+}
+
+.title .module.orden-carga-mode {
+  color: #3B9EFF; /* Color del módulo en modo "Orden de Carga" */
+}
+
+.title .module.orden-carga-mode::after {
+  content: " | "; /* Cambia el contenido del ::after según tu preferencia */
+  color: #3B9EFF; /* Color del separador */
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+.linea-horizontal {
+  box-shadow: 0px 4px 4px 0px #00000040;
+  width: Fixed (1,269px)px;
+  height: Hug (40px)px;
+  padding: 8px 0px 0px 0px;
+  gap: 10px;
+  border-radius: 8px 7px 0px 0px;
+  border: 1px 1px 0px 1px;
+  opacity: 0px;
+  background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
+  linear-gradient(0deg, rgba(28, 28, 28, 0.05), rgba(28, 28, 28, 0.05));
+
+}
+
+.linea-horizontal.orden-carga-mode {
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* Agrega sombra cuando está en modo "Orden de Carga" */
 }
 
 .edicion-mode {
@@ -72,6 +108,7 @@
   text-align: left;
   color: #F25A38; /* Ejemplo de color para el módulo */
 }
+
 
 
 .page-title-buttons {
@@ -192,4 +229,81 @@
   margin-left: 2px;
   transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
 }
+
+.ver-button {
+  background: #FFFFFF;
+  color: #3B9EFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
+  padding: 4px 12px 4px 6px;
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 0.5px solid #3B9EFF; /* Borde inicial */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+}
+
+.ver-button mat-icon {
+  font-size: 14px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  width: 12px;
+  height: 12px;
+  gap: 0px;
+  padding-top: 1px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -4px;
+  margin-left: 4px;
+  margin-right: 4px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}
+
+.orden-button {
+  background: white;
+  color: black;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
+  padding: 4px 12px 4px 6px;
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 0.5px solid green; /* Borde inicial */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+}
+
+.orden-button mat-icon {
+  font-size: 15px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  width: 12px;
+  height: 12px;
+  gap: 0px;
+  padding-top: 1px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -5px;
+  margin-left: 4px;
+  margin-right: 4px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}
+
+.toggle-margin {
+  margin-right: 12px; /* Ajusta el valor según el espacio deseado */
+}
+
 

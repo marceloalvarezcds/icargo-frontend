@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InputFieldNoEditComponent } from './input-field-no-edit.component';
+import { DialogFieldOcComponent } from './dialog-field-oc.component';
 
-describe('InputFieldNoEditComponent', () => {
-  let component: InputFieldNoEditComponent;
-  let fixture: ComponentFixture<InputFieldNoEditComponent>;
+describe('DialogFieldOcComponent', () => {
+  let component: DialogFieldOcComponent;
+  let fixture: ComponentFixture<DialogFieldOcComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ InputFieldNoEditComponent ]
+      declarations: [ DialogFieldOcComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(InputFieldNoEditComponent);
+    fixture = TestBed.createComponent(DialogFieldOcComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

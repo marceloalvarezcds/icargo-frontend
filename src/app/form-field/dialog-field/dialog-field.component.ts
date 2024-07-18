@@ -60,7 +60,16 @@ export class DialogFieldComponent<
   @Input() set readonly(val: boolean) {
     val ? this.control.disable() : this.control.enable();
   }
-
+  getClassForControl(controlName: string): string {
+    switch (controlName) {
+      case 'combinacion':
+        return 'example-class-1';
+      case 'exampleControl2':
+        return 'example-class-2';
+      default:
+        return 'default-class';
+    }
+  }
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();

@@ -70,6 +70,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     this.checkedList = values.map((_) => false);
     this.tableDataSource.data = values.slice();
   }
+// En el archivo .ts de tu componente hijo
+  @Input() mostrarBotonEliminar: boolean = true;
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(
     this.tableDataSource

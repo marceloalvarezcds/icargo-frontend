@@ -4,6 +4,7 @@ import { CamionList } from 'src/app/interfaces/camion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { SemiList } from 'src/app/interfaces/semi';
 import { CamionService } from 'src/app/services/camion.service';
+import { FleteService } from 'src/app/services/flete.service';
 import { SemiService } from 'src/app/services/semi.service';
 
 @Component({
@@ -17,8 +18,9 @@ export class OrdenCargaCreateFormCombinacionComponent {
   camionId?: number;
   semiAsociado?: number;
   semi?: SemiList;
-
+  camionesDisponibles: CamionList[] = [];
   @Input() form?: FormGroup;
+  
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<CamionList>();
   @Output() semiChange = new EventEmitter<SemiList>();
@@ -38,9 +40,26 @@ export class OrdenCargaCreateFormCombinacionComponent {
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
     this.fleteChange.emit(flete);
+    this.fleteService.getList().subscribe(
+      (fletes: FleteList[]) => {
+        if (fletes && fletes.length > 0) {
+          const flete = fletes[0]; 
+          this.form?.get(this.groupName)?.get('numero_lote')?.setValue(flete.numero_lote); 
+          this.form?.get(this.groupName)?.get('pedido_id')?.setValue(flete.id); 
+          this.form?.get(this.groupName)?.get('saldo')?.setValue(flete.condicion_cantidad); 
+          this.form?.get(this.groupName)?.get('cliente')?.setValue(flete.remitente_nombre);
+          this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(flete.producto_descripcion); 
+          this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(flete.origen_nombre); 
+          this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(flete.destino_nombre); 
+          this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(flete.tipo_flete); 
+          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.merma_gestor_carga_unidad_descripcion); 
+          this.form?.get(this.groupName)?.get('valor')?.setValue(flete.condicion_cantidad); 
+        }
+      },
+    );
   }
 
-  constructor(private service: SemiService, private camionService: CamionService) {}
+  constructor(private service: SemiService, private camionService: CamionService, private fleteService: FleteService) {}
   
   onSemiChange(semi: SemiList | undefined): void {
     if (semi) {
