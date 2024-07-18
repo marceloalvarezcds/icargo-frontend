@@ -39,7 +39,7 @@
         (editClick)="editContacto($event)"
         (deleteClick)="removeContacto($event)"
         (showClick)="viewContacto($event)"
-        [mostrarBotonEliminar]="true"
+        [mostrarBotonEliminar]="!isShow"
       ></app-table>
     </div>
     <div
