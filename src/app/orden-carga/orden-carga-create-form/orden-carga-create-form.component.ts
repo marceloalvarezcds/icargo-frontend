@@ -96,11 +96,14 @@ export class OrdenCargaCreateFormComponent {
   save(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+    console.log("Save")
     if (this.form.valid) {
+      console.log("Form is valid")
       const data: OCConfirmationDialogData = {
         oc: getOCData(this.form, this.flete, this.camion, this.semi, this.neto),
         
       };
+      console.log("Save flete")
       this.dialog
         .open(OcConfirmationDialogComponent, {
           data,
@@ -125,6 +128,7 @@ export class OrdenCargaCreateFormComponent {
         ...this.info.value,
       })
     );
+    console.log("submit")
     // Convertir propiedades a mayúsculas, excepto los correos electrónicos
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {
