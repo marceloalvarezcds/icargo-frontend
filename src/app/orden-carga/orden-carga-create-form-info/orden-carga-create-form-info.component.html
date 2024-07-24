@@ -1,27 +1,29 @@
 <div *ngIf="formGroup" [formGroup]="formGroup" class="info-container">
   <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Neto de la combinación Tracto - Semi</mat-label>
-        <input matInput [value]="neto" appInputThousandsSeparator disabled/>
-      </mat-form-field>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="section">
+      <h2>CANTIDAD NOMINADA</h2>
+      <div class="page-form-row">
+        <!-- <label for="neto">Neto Combinación</label>
+        <mat-form-field class="neto">
+          <input id="neto" matInput controlName="propietario_camion_doc" appInputThousandsSeparator disabled/>
+        </mat-form-field > -->
+        <label for="nominada" class="label-nominada">Nominada</label>
         <app-number-field
-          title="Cantidad nominada"
+          id="cantidad_nominada"
           controlName="cantidad_nominada"
           [groupName]="groupName"
           [form]="formGroup"
         ></app-number-field>
-      </div>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Comentarios</mat-label>
-        <textarea matInput
-          formControlName="comentarios"
-          cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="1"
-        ></textarea>
-      </mat-form-field>
+        <label for="comentarios" class="label-obs">Observacion</label>
+        <mat-form-field  class="obs">
+          <textarea id="comentarios" matInput
+            formControlName="comentarios"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+          ></textarea>
+        </mat-form-field >
     </div>
+
   </div>
 </div>

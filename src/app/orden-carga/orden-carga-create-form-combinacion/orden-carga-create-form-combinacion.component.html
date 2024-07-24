@@ -1,19 +1,18 @@
 <div *ngIf="form" [formGroup]="form" class="combinacion-container">
   <div class="section">
-    <h2>Flota</h2>
+    <h2>FLOTA</h2>
     <div [formGroupName]="groupName">
       <div class="row page-form-row">
         <div class="search-tracto small-input input-with-label">
+          <label>Chapa <strong>Tracto</strong></label>
           <app-camion-by-producto-dialog-field
-            title="Chapa"
             [groupName]="groupName"
-            [productoId]="productoId"
+            class="buscador"
             [form]="form"
             (valueChange)="onCamionChange($event)"
-
           ></app-camion-by-producto-dialog-field>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-marca-input input-with-label">
           <app-input-field-oc
             title="Marca"
             [groupName]="groupName"
@@ -35,7 +34,7 @@
             controlName="color_camion"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-chapa_semi-input input-with-label">
           <app-input-field-oc
             title='Chapa <strong>Semi</strong>'
             [groupName]="groupName"
@@ -68,15 +67,19 @@
             controlName="color_semi"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
-          <mat-slide-toggle min="1" max="100" step="1" value="50" thumbLabel tickInterval="10">Anticipos</mat-slide-toggle>
-        </div>
+        <mat-slide-toggle 
+        trueTitle="Activo"
+        falseTitle="Inactivo"
+        formControlName="anticipo_propietario"
+        labelPosition="before" 
+        >Anticipos</mat-slide-toggle>
       </div>
 
       <div class="row page-form-row">
         <div class="small-input input-with-label">
           <app-input-field-oc
             title="<strong>Propietario</strong>"
+            [matTooltip]="'Propietario'"
             [groupName]="groupName"
             [camionId]="camionId"
             [productoId]="productoId"
@@ -87,7 +90,7 @@
         </div>
         <div class="small-input input-with-label">
           <app-input-field-oc
-            title="Doc."
+            title="Doc. Nº"
             [groupName]="groupName"
             [camionId]="camionId"
             [productoId]="productoId"
@@ -96,7 +99,7 @@
             controlName="propietario_camion_doc"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-beneficiario-input input-with-label">
           <app-input-field-oc
             title="<strong>Beneficiario</strong>(Nombre/Razon Social)"
             [groupName]="groupName"
@@ -109,7 +112,7 @@
         </div>
         <div class="small-input input-with-label">
           <app-input-field-oc
-            title="Doc"
+            title="Doc. Nº"
             [groupName]="groupName"
             [camionId]="camionId"
             [productoId]="productoId"
@@ -134,7 +137,7 @@
       </div>
       <div class="small-input input-with-label">
         <app-input-field-oc
-          title="Doc"
+          title="Doc. Nº"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
@@ -143,35 +146,30 @@
           controlName="chofer_camion_doc"
         ></app-input-field-oc>
       </div>
-      <div class="small-input input-with-label">
-        <mat-slide-toggle min="1" max="100" step="1" value="50" thumbLabel tickInterval="10">Anticipos</mat-slide-toggle>
-      </div>
+      <mat-slide-toggle 
+      trueTitle="Activo"
+      falseTitle="Inactivo"
+      formControlName="puede_recibir_anticipos"
+      labelPosition="before" 
+      class="slide-toggle-anticipos"
+      > Anticipos</mat-slide-toggle>
     </div>
 
-    <div class="section">
+    <div *ngIf="isFormValid()" class="section">
       <h2>PEDIDO</h2>
       <div class="row page-form-row">
-        <div class="small-input input-with-label">
+        <div class="search-tracto small-input input-with-label">
+          <label>Nº Pedido</label>
           <app-flete-by-gestor-dialog-field
             [groupName]="groupName"
+            class="buscador"
             [form]="form"
             (valueChange)="onFleteChange($event)"
           ></app-flete-by-gestor-dialog-field>
         </div>
         <div class="small-input input-with-label">
           <app-input-field-oc
-            title="N Pedido"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="pedido_id"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-input input-with-label">
-          <app-input-field-oc
-            title="N Lote"
+            title="Nº Lote"
             [groupName]="groupName"
             [camionId]="camionId"
             [productoId]="productoId"
@@ -180,7 +178,7 @@
             controlName="numero_lote"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-saldo-input input-with-label">
           <app-input-field-oc
             title="Saldo"
             [groupName]="groupName"
@@ -191,7 +189,7 @@
             controlName="saldo"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-cliente-input input-with-label">
           <app-input-field-oc
             title="Cliente"
             [groupName]="groupName"
@@ -202,7 +200,7 @@
             controlName="cliente"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-producto-input input-with-label">
           <app-input-field-oc
             title="Producto"
             [groupName]="groupName"
@@ -227,7 +225,7 @@
             controlName="origen_nombre"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-descarga-input input-with-label">
           <app-input-field-oc
             title="L. Descarga"
             [groupName]="groupName"
@@ -238,7 +236,7 @@
             controlName="destino_nombre"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-flete-input input-with-label">
           <app-input-field-oc
             title="Tipo Flete"
             [groupName]="groupName"
@@ -276,5 +274,55 @@
         </div>
       </div>
     </div>
+    <app-orden-carga-create-form-info
+    [form]="form"
+  ></app-orden-carga-create-form-info>
+    <div class="small-neto-input input-with-label">
+      <app-input-field-oc
+        title="Neto Combinación"
+        [groupName]="groupName"
+        [camionId]="camionId"
+        matinput
+        [productoId]="productoId"
+        [readonly]="true"
+        [form]="form"
+        controlName="neto"
+        appInputThousandsSeparator
+      ></app-input-field-oc>
+  </div>
+    <div class="cantidades">
+      <div class="small-cantidad_dest-input input-with-label">
+        <app-input-field-oc
+          title="Cant. Orig.(kg)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="cant_origen"
+        ></app-input-field-oc>
+      </div>
+      <div class="small-cantidad_dest-input input-with-label">
+        <app-input-field-oc
+          title="Cant. Dest.(kg)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="cant_destino"
+        ></app-input-field-oc>
+      </div>
+      <div class="small-diferencia-input input-with-label">
+        <app-input-field-oc
+          title="Diferencia(kg)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="diferencia"
+        ></app-input-field-oc>
+      </div>
   </div>
 </div>

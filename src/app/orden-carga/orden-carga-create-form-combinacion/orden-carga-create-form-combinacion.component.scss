@@ -10,11 +10,20 @@
     visibility: hidden;
   }
 }
+
 .row.page-form-row {
   justify-content: flex-start;
   margin-left: 0;
+  gap: 5px;
+  margin-top: -18px;
 }
-
+.cantidades{
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 11px;
+  gap: 5px;
+  margin-top: -12px;
+}
 .section h2 {
   margin: 0 0 15px 0;
   font-family: 'Roboto', sans-serif;
@@ -23,7 +32,7 @@
   line-height: 16.41px;
   color: #007acc;  /* Celeste más oscuro */
   border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
-  width: 82%;
+  width: 1300px;
 }
 
 .page-form-row {
@@ -40,7 +49,6 @@
 /* Estilo adicional para los labels si es necesario */
 .input-with-label label {
   display: block; /* Para asegurar que cada label ocupe su propia línea */
-  font-weight: bold; /* Opcional: Añade negrita al texto del label */
 }
 
 mat-slide-toggle {
@@ -51,7 +59,105 @@ mat-slide-toggle {
 /* Aplica estilos de borde personalizados a mat-form-field */
 ::ng-deep .mat-form-field-outline {
   border: 1px solid #D9D9D9;
-  border-radius: 4px;
+  border-radius: 6px;
   border: 2px 0px 0px 0px;
   opacity: 0px;
+  height: 32px;
+}
+
+.small-saldo-input{
+  margin-left: 10px; 
+}
+
+.search-tracto {
+  display: flex;
+  padding: 0;
+  margin-top: 7px;
+  width: auto;
+  margin-right: 1px;
+  height: 38px;
+}
+
+.search-tracto label {
+  margin-right: 5px; /* Ajusta este valor según sea necesario */
+  margin-top: 16px; /* Elimina cualquier margen superior */
+  color: black; /* Si necesitas cambiar el color del texto */
+  padding: 0; /* Ajusta el padding según sea necesario */
+  border-radius: 4px; /* Ajusta el radio de borde si es necesario */
+}
+
+
+.slide-toggle-anticipos{
+  margin-left: 45em;
+}
+
+.small-chapa_semi-input{
+  margin-left: 20px;
+}
+
+.small-cliente-input{
+  margin-left: 32px;
+}
+
+.small-producto-input{
+  margin-left: 12px;
+}
+
+.small-flete-input{
+  margin-left: 185px;
+}
+
+.small-descarga-input{
+  margin-left: 20px
+}
+
+.small-beneficiario-input{
+  margin-left: 78px;
+}
+
+.small-neto-input {
+  margin-top: -85px;
+}
+
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+  .section h2 {
+    margin: 0 0 15px 0;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 530;
+    line-height: 16.41px;
+    color: #007acc;  /* Celeste más oscuro */
+    border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+    width: 1120px;
+  }
+  .small-chapa_semi-input{
+    margin-left: 14px;
+  }
+
+  .small-beneficiario-input {
+    margin-left: 110px;
+  }
+    
+  .small-saldo-input{
+    margin-left: 20px; 
+  }
+
+  .small-cliente-input{
+    margin-left: 38px;
+  }
+  
+  .small-producto-input{
+    margin-left: 12px;
+  }
+
+  .small-descarga-input{
+    margin-left: 38px;
+  }
+
+  .small-flete-input{
+    margin-left: 175px;
+  }
+  .slide-toggle-anticipos{
+    margin-left: 42em;
+  }
 }

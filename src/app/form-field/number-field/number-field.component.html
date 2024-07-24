@@ -1,10 +1,11 @@
 <div *ngIf="form" [formGroup]="form">
   <ng-container *ngIf="groupName">
+    <label>{{ title }}</label>
     <mat-form-field
       [formGroupName]="groupName"
       [class.mat-form-field-disabled]="readonly"
+      class="small-input"
     >
-      <mat-label>{{ title }}</mat-label>
       <input
         matInput
         [formControlName]="controlName"
@@ -12,6 +13,7 @@
         [readonly]="readonly"
         tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
+        class="small-input"
       />
       <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
       <mat-error *ngIf="control.hasError('required')">
@@ -35,8 +37,8 @@
     </mat-form-field>
   </ng-container>
   <ng-container *ngIf="!groupName">
-    <mat-form-field [class.mat-form-field-disabled]="readonly">
-      <mat-label>{{ title }}</mat-label>
+    <label>{{ title }}</label>
+    <mat-form-field [class.mat-form-field-disabled]="readonly" class="small-input">
       <input
         matInput
         [formControlName]="controlName"
@@ -44,6 +46,7 @@
         [readonly]="readonly"
         tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
+        class="small-input"
       />
       <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
       <mat-error *ngIf="control.hasError('required')">

@@ -25,7 +25,12 @@
                                     controlName === 'destino_nombre',
         'tipo_flete-input'        : controlName === 'tipo_flete',
         'a_pagar-input'           : controlName === 'a_pagar',
-        'valor-input'             : controlName === 'valor'  }">
+        'valor-input'             : controlName === 'valor',
+        'neto-input'               : controlName === 'neto',
+        'cantidades-input'        : controlName === 'cant_origen' ||
+                                   controlName === 'cant_destino' ||  
+                           
+                                   controlName === 'diferencia'                                  }">
         
         <input
           class="custom-input"
@@ -33,6 +38,8 @@
           [value]="rowValue"
           [disabled]="readonly"
           *ngIf="readonly"
+          [value]="getFormattedValue()"
+          
         />
         <input
           class="custom-input"
@@ -43,6 +50,7 @@
           [appFormatToPastePhone]="formatToPastePhone"
           [appAutofocus]="autofocus"
           [hidden]="readonly"
+          [value]="getFormattedValue()"
         />
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">
@@ -80,6 +88,7 @@
           [hidden]="readonly"
           [appFormatToPasteNumber]="formatToPasteNumber"
           [appFormatToPastePhone]="formatToPastePhone"
+          [value]="getFormattedValue()"
         />
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">

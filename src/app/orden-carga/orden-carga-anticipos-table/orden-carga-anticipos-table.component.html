@@ -1,0 +1,43 @@
+<div class="main-container">
+  <div class="header-container">
+    <h2>ANTICIPOS</h2>
+    <div class="input-button-container">
+      <label>Saldo Efectivo</label>
+      <mat-form-field class="saldo-form-field">
+        <input matInput>
+      </mat-form-field>
+      <label>Saldo Combustible</label>
+      <mat-form-field class="saldo-form-field">
+        <input matInput>
+      </mat-form-field>
+
+      <div class="button-container separate-buttons">
+        <button
+          mat-raised-button
+          class="outline round custom-button small-button"
+          color="primary"
+          type="button"
+          id="download-button"
+     
+        >
+          <mat-icon class="small-icon">add</mat-icon> ANTICIPO
+        </button>
+        <button
+          mat-raised-button
+          class="gestion-button small-button disabled-button"
+          type="button"
+          id="add-button"
+        >
+          GESTION EN LINEA
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <div class="table-container small-table" [hidden]="!(list && list.length)">
+    <app-table
+      [columns]="columns"
+      [data]="list"
+    ></app-table>
+  </div>
+</div>

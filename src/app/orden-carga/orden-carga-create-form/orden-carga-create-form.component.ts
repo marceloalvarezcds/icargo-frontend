@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -53,7 +53,13 @@ export class OrdenCargaCreateFormComponent {
       destino_nombre:null,
       tipo_flete: null,
       a_pagar: null,
-      valor: null
+      valor: null,
+      neto: null,
+      cant_origen: null,
+      cant_destino: null,
+      diferencia: null,
+      anticipo_propietario: null,
+      puede_recibir_anticipos: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -69,6 +75,8 @@ export class OrdenCargaCreateFormComponent {
     return this.form.get('info') as FormGroup;
   }
 
+  @Input() isShow = false;
+  @Input() modoVer = false;
   constructor(
     private fb: FormBuilder,
     private router: Router,

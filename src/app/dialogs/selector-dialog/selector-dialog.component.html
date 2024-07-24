@@ -1,13 +1,13 @@
 <div class="selector-dialog-container">
-  <h1 mat-dialog-title>
-    Selector de {{ title }}
+  <h1 mat-dialog-title class="dialog-title">
+    BUSCADOR DE {{ title }}
     <button mat-button type="button" mat-dialog-close class="close">
       <mat-icon>close</mat-icon>
     </button>
   </h1>
   <h5 *ngIf="subtitle">{{ subtitle }}</h5>
   <div mat-dialog-content>
-    <mat-form-field class="search-item" appearance="standard">
+    <mat-form-field class="search-item">
       <mat-icon matPrefix color="primary">search</mat-icon>
       <input
         matInput

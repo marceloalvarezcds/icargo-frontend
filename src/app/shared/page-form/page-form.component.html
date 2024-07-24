@@ -6,28 +6,37 @@
           'edicion-mode': isEdit,
           'ver-mode': isShow && !isEdit,
           'nuevo-mode': !isShow && !isEdit,
-          'orden-carga-mode': submodule === 'Orden de Carga'
+          'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)'
         }">{{ module }}</span> 
         <span class="submodule"   [ngClass]="{
           'edicion-mode': isEdit,
           'ver-mode': isShow && !isEdit,
           'nuevo-mode': !isShow && !isEdit,
-          'orden-carga-mode': submodule === 'Orden de Carga'
+          'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)'
         }">{{ submodule }}</span> 
         <strong class="view-title" >{{ viewTitle }}</strong>
       </span>
       
       <div class="page-title-buttons">
-        <mat-slide-toggle *ngIf="submodule === 'Orden de Carga'" class="toggle-margin">
-          Estado OC
-         </mat-slide-toggle>
-         <mat-slide-toggle *ngIf="submodule === 'Orden de Carga'" class="toggle-margin">
-          Anticipos
-         </mat-slide-toggle>
-        <button type="button" mat-mini-fab color="primary" class="orden-button" matTooltip="Nuevo botón 1" *ngIf="submodule === 'Orden de Carga'">
+        <mat-slide-toggle 
+        *ngIf="submodule === 'ORDEN DE CARGA (directa)'" 
+        class="toggle-margin mat-slide-toggle-disabled" 
+        labelPosition="before"
+        disabled>
+        Estado OC
+      </mat-slide-toggle>
+      
+      <mat-slide-toggle 
+        *ngIf="submodule === 'ORDEN DE CARGA (directa)'" 
+        class="toggle-margin mat-slide-toggle-disabled" 
+        labelPosition="before"
+        disabled>
+        Anticipos
+      </mat-slide-toggle>
+        <button type="button" mat-mini-fab color="primary" class="orden-button" matTooltip="Orden" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
           <mat-icon>description</mat-icon>  ORDEN
         </button>
-        <button type="button" mat-mini-fab color="accent" class="ver-button" matTooltip="Nuevo botón 2" *ngIf="submodule === 'Orden de Carga'">
+        <button type="button" mat-mini-fab color="accent" class="ver-button" matTooltip="Ver OC" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
           <mat-icon>visibility</mat-icon> Ver OC
         </button>
   
@@ -116,7 +125,7 @@
       </div>
     </div>
     <div class="page-content">
-      <div class="linea-horizontal"></div>
+      <div class="linea-horizontal" [ngClass]="{'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)'}"></div>
 
       <ng-content></ng-content>
       

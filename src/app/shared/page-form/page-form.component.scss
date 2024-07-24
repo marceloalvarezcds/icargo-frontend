@@ -64,7 +64,7 @@
   text-align: left;
 }
 
-.linea-horizontal {
+.linea-horizontal.orden-carga-mode  {
   box-shadow: 0px 4px 4px 0px #00000040;
   width: Fixed (1,269px)px;
   height: Hug (40px)px;
@@ -75,7 +75,7 @@
   opacity: 0px;
   background: linear-gradient(0deg, #FFFFFF, #FFFFFF),
   linear-gradient(0deg, rgba(28, 28, 28, 0.05), rgba(28, 28, 28, 0.05));
-
+  border-bottom:none;
 }
 
 .linea-horizontal.orden-carga-mode {
@@ -108,8 +108,6 @@
   text-align: left;
   color: #F25A38; /* Ejemplo de color para el módulo */
 }
-
-
 
 .page-title-buttons {
   display: flex;
@@ -212,6 +210,22 @@
   background: #1976D2; /* Color de ícono más oscuro al hacer hover */
 }
 
+.mat-slide-toggle-disabled {
+
+  color: #A0A0A0 !important; /* Color de texto gris claro */
+  border-color: #A0A0A0 !important; /* Borde gris claro */
+}
+
+
+
+.mat-slide-toggle-disabled .mat-slide-toggle-content {
+  color: #A0A0A0 !important; /* Color del texto en el contenido del deslizamiento */
+}
+
+.mat-slide-toggle-disabled .mat-slide-toggle-label {
+  opacity: 0.6 !important; /* Opacidad reducida para el texto de la etiqueta */
+}
+
 .list-button mat-icon {
   font-size: 11px; /* Ajusta el tamaño del ícono */
   font-weight: bold;
@@ -231,16 +245,15 @@
 }
 
 .ver-button {
-  background: #FFFFFF;
-  color: #3B9EFF;
+  background: #F0F0F0; /* Fondo gris claro para indicar estado deshabilitado */
+  color: #A0A0A0; /* Color de texto gris claro */
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
   width: auto;
   padding: 4px 12px 4px 6px;
-  gap: 4px;
   border-radius: 5.25px;
-  border: 0.5px solid #3B9EFF; /* Borde inicial */
-  opacity: 0px;
+  border: 0.5px solid #A0A0A0; /* Borde gris claro */
+  opacity: 0.6; /* Opacidad reducida para indicar deshabilitado */
   box-shadow: none; /* Elimina la sombra */
   height: 25px;
   display: flex; /* Asegura que el contenido esté alineado correctamente */
@@ -248,6 +261,7 @@
   gap: 3px; /* Espacio entre el icono y el texto */
   letter-spacing: 0.06em;
   transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+
 }
 
 .ver-button mat-icon {
@@ -267,16 +281,15 @@
 }
 
 .orden-button {
-  background: white;
-  color: black;
+  background: #F0F0F0; /* Fondo gris claro para indicar estado deshabilitado */
+  color: #A0A0A0; /* Color de texto gris claro */
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
   width: auto;
   padding: 4px 12px 4px 6px;
-  gap: 4px;
   border-radius: 5.25px;
-  border: 0.5px solid green; /* Borde inicial */
-  opacity: 0px;
+  border: 0.5px solid #A0A0A0; /* Borde gris claro */
+  opacity: 0.6; /* Opacidad reducida para indicar deshabilitado */
   box-shadow: none; /* Elimina la sombra */
   height: 25px;
   display: flex; /* Asegura que el contenido esté alineado correctamente */

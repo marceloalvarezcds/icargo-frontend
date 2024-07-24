@@ -1,18 +1,19 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
-  OnInit,
   Output,
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
-import { CamionService } from 'src/app/services/camion.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { CombinacionService } from 'src/app/services/combinacion.service';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
+
 
 @Component({
   selector: 'app-camion-by-producto-dialog-field',
@@ -20,67 +21,62 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./camion-by-producto-dialog-field.component.scss'],
   encapsulation: ViewEncapsulation.Emulated
 })
-export class CamionByProductoDialogFieldComponent {
-  readonly inputValuePropName = 'info';
-  pId?: number;
-  list$?: Observable<CamionList[]>;
-
+export class CamionByProductoDialogFieldComponent  implements AfterViewInit {
+  readonly inputValuePropName = 'camion_placa';
+  list$?: Observable<CombinacionList[]>;
+  cId?: number;
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
-      def: 'id',
-      title: 'Nº',
-      value: (element: CamionList) => element.id,
-    },
-    {
-      def: 'placa',
-      title: 'Placa',
-      value: (element: CamionList) => element.placa,
-    },
-    {
-      def: 'propietario_nombre',
-      title: 'Propietario',
-      value: (element: CamionList) => element.propietario_nombre,
+      def: 'camion_nombre',
+      title: 'Tracto',
+      value: (element: CombinacionList) => element.camion_placa,
     },
     {
       def: 'chofer_nombre',
       title: 'Chofer',
-      value: (element: CamionList) => element.chofer_nombre,
+      value: (element: CombinacionList) => element.chofer_nombre,
     },
     {
-      def: 'marca_descripcion',
+      def: 'doc',
+      title: 'Documento',
+      value: (element: CombinacionList) => element.chofer.numero_documento,
+    }, 
+    {
+      def: 'marca',
       title: 'Marca',
-      value: (element: CamionList) => element.marca_descripcion,
-    },
+      value: (element: CombinacionList) => element.marca_descripcion,
+    },    
     {
-      def: 'color_descripcion',
+      def: 'color',
       title: 'Color',
-      value: (element: CamionList) => element.color_descripcion,
+      value: (element: CombinacionList) => element.color_camion,
+    },    
+    {
+      def: 'neto',
+      title: 'Neto',
+      value: (element: CombinacionList) => element.neto,
     },
+
   ];
 
-  @Input() form!: FormGroup;
   @Input() controlName = 'camion_id';
+  @Input() form!: FormGroup;
   @Input() groupName = '';
-  // @Input() emptyHint =
-  //   'No existen tractos. Debe crearlos/activarlos o crear una combinación';
+  @Input() title = 'TRACTOS';
 
-  @Input() subtitle =
-    'Si no encuentra al tracto deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
-  @Input() set productoId(id: number | undefined) {
-    this.pId = id;
+  @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
+
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CombinacionList>;
+
+  constructor(private service: CombinacionService) { }
+
+  ngAfterViewInit(): void {
     this.getList();
   }
 
-  @Output() valueChange = new EventEmitter<CamionList | undefined>();
-
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
-
-  constructor(private service: CamionService) {}
-
   private getList(): void {
-    if (this.pId) {
-      this.list$ = this.service.getListByCamionId(this.pId);
-    }
+    this.list$ = this.service.getList();
   }
+  
 }

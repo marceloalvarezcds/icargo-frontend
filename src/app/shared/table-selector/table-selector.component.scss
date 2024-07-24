@@ -38,3 +38,25 @@
     }
   }
 }
+.title-selector{
+  width: 41px;
+  height: 16px;
+  gap: 0px;
+  opacity: 0px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 16.41px;
+  color: #000000;
+
+}
+
+.selected-row {
+  background-color: rgba(0, 123, 255, 0.1); /* Cambia el color de fondo según tu preferencia */
+}
+
+.table-selector-container {
+  margin-top: -45px; /* Reduce el margen superior */
+  padding-top: 10px; /* Opcional: puedes ajustar el relleno superior */
+  margin-left: -50px;
+}

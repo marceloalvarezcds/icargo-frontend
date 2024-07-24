@@ -22,7 +22,6 @@
         *ngIf="control.value"
         [disabled]="disabled || readonly"
       >
-        <mat-icon>close</mat-icon>
       </button>
       <button
         type="button"
@@ -31,7 +30,7 @@
         (click)="$event.stopPropagation(); openDialog()"
         [disabled]="disabled || readonly"
       >
-        <mat-icon>search</mat-icon>
+        <mat-icon class="small-icon">search</mat-icon>
       </button>
       <mat-error *ngIf="control.hasError('required')">
         El campo es <strong>requerido</strong>

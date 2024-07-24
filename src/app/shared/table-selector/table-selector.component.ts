@@ -57,6 +57,15 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
     );
   }
 
+
+
+  // ... otros métodos y propiedades
+
+  selectRow(row: any): void {
+    this.selectedRow = row;
+    this.selectedChange.emit(row);  // Emitir el evento de cambio si es necesario
+  }
+
   @Output() selectedChange = new EventEmitter<T>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =

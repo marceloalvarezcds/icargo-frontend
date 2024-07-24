@@ -1,5 +1,6 @@
-<div class="custom-style">
-  <app-dialog-field
+
+  <app-dialog-field-oc
+    [title]="title"
     [columns]="columns"
     [list]="list"
     [groupName]="groupName"
@@ -7,5 +8,5 @@
     [inputValuePropName]="inputValuePropName"
     [form]="form"
     (valueChange)="valueChange.emit($event)"
-  ></app-dialog-field>
-</div>
+  ></app-dialog-field-oc>
+

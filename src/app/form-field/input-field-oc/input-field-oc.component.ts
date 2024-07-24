@@ -63,6 +63,14 @@ export class InputFieldOcComponent {
     return obj[this.controlName];
   }
 
+  getFormattedValue(): string {
+    const value = this.control?.value;
+    if (typeof value === 'number' || (typeof value === 'string' && !isNaN(Number(value)))) {
+      return value.toLocaleString();
+    }
+    return value || '';
+  }
+  
   @Input() autocomplete: 'on' | 'off' | 'nope' = 'nope';
   @Input() formatToPasteNumber = false;
   @Input() formatToPastePhone = false;

@@ -1,7 +1,7 @@
 <app-page-form
   class="orden-carga-page"
-  module="Nuevo"
-  submodule="Orden de Carga"
+  module="NUEVA"
+  submodule="ORDEN DE CARGA (directa)"
   [formGroup]="form"
   [modelo]="modelo"
   (backClick)="back($event)"
@@ -11,12 +11,11 @@
     <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
-      (camionChange)="camion = $event"
+
     ></app-orden-carga-create-form-combinacion>
-    <app-orden-carga-create-form-info
-      [form]="form"
-      [flete]="flete"
-      (netoChange)="neto = $event"
-    ></app-orden-carga-create-form-info>
+
+    <app-orden-carga-anticipos-table
+    [form]="form">
+    </app-orden-carga-anticipos-table>
   </div>
 </app-page-form>

@@ -1,337 +1,3 @@
-.small-input {
-    width: 152px;
-    height: 24px;
-    padding: 8px 6px;
-    gap: 2px;
-    font-family: Roboto;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.41px;
-    text-align: right;
-    color: #FBFBFE;
-    
-  }
-.small-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-.chapa-search-input{
-  width: 112px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-  background-color: #202020;
-  
-}
-.chapa-search-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.chapa-input {
-  width: 112px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.chapa-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.propietario-input {
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.propietario-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.propietario_doc-input {
-  width: 85px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.propietario_doc-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.chofer-input {
-  width: 328px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.chofer-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.chofer_doc-input {
-  width: 100px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.chofer_doc-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-///////PEDIDOS
-/// 
-.lote_pedido-input{
-  width: 100px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.lote_pedido-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.saldo-input{
-  width: 200px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.saldo-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.cliente-input{
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.cliente-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.producto-input{
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.producto-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.origen_destino-input{
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.origen_destino-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.tipo_flete-input{
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.tipo_flete-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-
-.a_pagar-input{
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.a_pagar-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-.valor-input{
-  width: 300px;
-  height: 24px;
-  padding: 8px 6px;
-  gap: 2px;
-  font-family: Roboto;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
-  color: #FBFBFE;
-}
-
-.valor-input input {
-  width: 100%;
-  height: 100%;
-  padding: 0;
-  border: none;
-  outline: none;
-  background: transparent;
-}
-
-
-
 .mat-form-field.appearance-outline .mat-form-field-flex,
 .mat-form-field.appearance-fill .mat-form-field-flex {
   display: flex;
@@ -345,29 +11,613 @@
   margin-right: 8px;
 }
 
-.label-general{
-    font-family: 'Roboto';
+.small-input {
+    width: 125px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: Roboto;
     font-size: 14px;
     font-weight: 400;
     line-height: 16.41px;
-    text-align: right;
+    color: #FBFBFE;
+  }
+
+.small-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.chapa-search-input{
+  width: 112px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #FBFBFE;
+  background-color: #202020;
+
+}
+.chapa-search-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.chapa-input {
+  width: 112px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.chapa-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.propietario-input {
+  width: 300px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #FBFBFE;
+}
+
+.propietario-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.propietario_doc-input {
+  width: 85px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.propietario_doc-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.chofer-input {
+  width: 328px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.chofer-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.chofer_doc-input {
+  width: 100px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.chofer_doc-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+///////PEDIDOS
+/// 
+.lote_pedido-input{
+  width: 80px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.lote_pedido-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.saldo-input{
+  width: 200px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.saldo-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cliente-input{
+  width: 310px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.cliente-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.producto-input{
+  width: 195px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+
+  color: #FBFBFE;
+}
+
+.producto-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.origen_destino-input{
+  width: 330px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.origen_destino-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.tipo_flete-input{
+  width: 205px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.tipo_flete-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.a_pagar-input{
+  width: 200px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  
+  color: #FBFBFE;
+}
+
+.a_pagar-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.valor-input{
+  width: 150px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+
+  color: #FBFBFE;
+}
+
+.valor-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.neto-input{
+  width: 250px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+
+  color: #FBFBFE;
+}
+
+.neto-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.cantidades-input{
+  width: 230px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto';
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+
+  color: #FBFBFE;
+}
+
+.cantidades-input input {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+}
+
+.label-general{
+    font-family: 'Roboto' sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
     color: #202020;
     width: 34px;
     height: 16px;
     gap: 0px;
     opacity: 0px;
+    pointer-events: none;
 }
 
-.custom-input {
-    width: 100%;
-    height: 16px;
-    gap: 0px;
-    opacity: 0px;
-    padding: 8px 6px; /* Padding interno */
-    font-family: 'Roboto', sans-serif; /* Tipo de letra */
-    font-size: 14px; /* Tamaño de letra */
-    font-weight: 400;
-    line-height: 16.41px;
-    text-align: left;
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+  .small-input {
+    width: 92px; /* 125px * 0.7125 ≈ 89px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
   }
-  
+  .chapa-search-input,
+  .chapa-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 85px; /* 112px * 0.7125 ≈ 80px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .propietario-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 203px; /* 300px * 0.7125 ≈ 213px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .propietario_doc-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 78px; /* 85px * 0.7125 ≈ 61px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .chofer-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 234px; /* 328px * 0.7125 ≈ 234px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 8px;
+  }
+  .chofer_doc-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 75px; /* 100px * 0.7125 ≈ 71px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+    margin-top: 8px;
+  }
+  .lote_pedido-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 57px; /* 80px * 0.7125 ≈ 57px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .saldo-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 142px; /* 200px * 0.7125 ≈ 142px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .cliente-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 258px; /* 320px * 0.7125 ≈ 228px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .producto-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 139px; /* 195px * 0.7125 ≈ 139px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .origen_destino-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    width: 270px; /* 380px * 0.7125 ≈ 270px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .tipo_flete-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+   
+    width: 142px; /* 200px * 0.7125 ≈ 142px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .a_pagar-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 8px;
+    width: 213px; /* 300px * 0.7125 ≈ 213px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+    margin-bottom: 12px;
+  }
+  .valor-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    width: 213px; /* 300px * 0.7125 ≈ 213px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .cantidades-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    width: 213px; /* 300px * 0.7125 ≈ 213px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+  }
+  .neto-input {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    margin-top: 8px;
+    margin-bottom: 5px;
+    width: 200px; /* 300px * 0.7125 ≈ 213px */
+    height: 20px;
+    padding: 6px;
+    font-size: 12px;
+    line-height: 14px;
+    
+  }
+}
+

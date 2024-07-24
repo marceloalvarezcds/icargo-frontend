@@ -30,17 +30,23 @@ export interface Combinacion {
   
   export interface CombinacionList extends Combinacion {
     propietario_nombre: string;
+    propietario_ruc: string;
     chofer_nombre: string;
     marca_descripcion: string;
     marca_descripcion_semi: string;
     producto_descripcion: string; 
     semi_placa: string;
     color_semi: string;
+    color_camion: string;
     estado_descripcion: string;
     foto_camion: string;
     camion_marca: string;
     camion_placa: string;
+    camion_propietario: string;
     limite_cantidad_oc_activas: number;
     camion_oc_activa: number;
+    chofer_numero_documento: number;
+    anticipo_propietario: boolean;
+    puede_recibir_anticipos: boolean;
   }
   

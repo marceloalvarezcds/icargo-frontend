@@ -12,6 +12,7 @@
 .table-selector-container {
   overflow-y: auto;
   width: 100%;
+
 }
 
 .table-selector {
@@ -37,4 +38,8 @@
       width: 32px;
     }
   }
+}
+/* Estilo para el encabezado de las columnas de la tabla */
+.table-selector th.mat-header-cell {
+  font-weight: bold; /* Poner en negrita */
 }
