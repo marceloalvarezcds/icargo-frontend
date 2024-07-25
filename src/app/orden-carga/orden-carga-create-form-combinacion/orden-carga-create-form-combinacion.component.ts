@@ -8,7 +8,7 @@ import { CamionList } from 'src/app/interfaces/camion';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
-import { SemiList } from 'src/app/interfaces/semi';
+import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { SemiService } from 'src/app/services/semi.service';
@@ -39,7 +39,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   }
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<CombinacionList>();
-  @Output() semiChange = new EventEmitter<SemiList>();
+  @Output() semiChange = new EventEmitter<Semi>();
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup ?? null;
@@ -77,8 +77,8 @@ export class OrdenCargaCreateFormCombinacionComponent {
           this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(flete.origen_nombre); 
           this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(flete.destino_nombre); 
           this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(flete.tipo_flete); 
-          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.merma_gestor_carga_unidad_descripcion); 
-          this.form?.get(this.groupName)?.get('valor')?.setValue(flete.condicion_cantidad); 
+          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.condicion_gestor_carga_tarifa); 
+          this.form?.get(this.groupName)?.get('valor')?.setValue(flete.merma_gestor_carga_valor); 
           this.form?.get(this.groupName)?.get('cant_origen')?.setValue(0);
           this.form?.get(this.groupName)?.get('cant_destino')?.setValue(0);
           this.form?.get(this.groupName)?.get('diferencia')?.setValue(0);
@@ -89,7 +89,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
 
   constructor(private service: SemiService, private camionService: CombinacionService, private fleteService: FleteService, private cdr: ChangeDetectorRef) {}
   
-  onSemiChange(semi: SemiList | undefined): void {
+  onSemiChange(semi: Semi | undefined): void {
     if (semi) {
       this.semiChange.emit(semi);
     }
@@ -99,16 +99,24 @@ export class OrdenCargaCreateFormCombinacionComponent {
   onCamionChange(combinacion?: CombinacionList) {
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion?.marca_descripcion); 
       this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion?.color_camion ?? null); 
+      this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion?.semi_id);
       this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion?.semi_placa);
       this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion?.marca_descripcion_semi ?? null); 
       this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion?.color_semi ?? null); 
       this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion?.propietario_nombre);
       this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion?.propietario_ruc);
+      this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion?.propietario_nombre);
       this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion?.chofer_nombre);
       this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion?.chofer_numero_documento);
       this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion?.neto);
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion?.anticipo_propietario);
       this.form?.get(this.groupName)?.get('anticipo_chofer')?.setValue(combinacion?.puede_recibir_anticipos);
+      if (combinacion){
+        this.camionChange.emit(combinacion)
+        this.service.getById(combinacion.semi_id).subscribe(semi => {
+          this.onSemiChange(semi)
+        })
+      }
     }
 
   @Input() title = 'Chapa Tracto';
@@ -122,5 +130,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
   get controlValue(): boolean {
     return !!this.control.value;
   }
+
   
 }

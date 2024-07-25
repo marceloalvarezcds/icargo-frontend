@@ -161,7 +161,9 @@ export class OrdenCargaEditFormAnticiposComponent {
       flete_id: this.oc!.flete_id,
       item,
     };
-    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, { data });
+    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
+       data,    width: '700px',
+      height: 'auto', });
   }
 
   private emitOcChange(): void {

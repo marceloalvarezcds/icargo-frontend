@@ -10,29 +10,47 @@
   transform: none;
   margin-right: 8px;
 }
+/* Clase general para centrar texto en inputs */
+.custom-input {
+  height: 24px; /* Asegúrate de que esta sea la altura deseada */
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  color: #FBFBFE;
+}
+
+
 
 .small-input {
-    width: 125px;
-    height: 24px;
-    padding: 8px 6px;
-    gap: 2px;
-    font-family: Roboto;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.41px;
-    color: #FBFBFE;
-  }
+  width: 190px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #FBFBFE;
+}
 
 .small-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .small-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .chapa-search-input{
@@ -46,47 +64,55 @@
   line-height: 16.41px;
   color: #FBFBFE;
   background-color: #202020;
-
 }
+
 .chapa-search-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
 }
 
 .chapa-input {
-  width: 112px;
+  width: 152px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .chapa-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .chapa-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .propietario-input {
-  width: 300px;
+  width: 353px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
@@ -100,93 +126,149 @@
 .propietario-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .propietario-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .propietario_doc-input {
-  width: 85px;
+  width: 145px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .propietario_doc-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
 }
 
-.chofer-input {
-  width: 328px;
+::ng-deep .propietario_doc-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
+}
+
+.beneficiario-input {
+  width: 353px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
+  color: #FBFBFE;
+}
+
+.beneficiario-input input {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 1px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .beneficiario-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
+}
+
+.chofer-input {
+  width: 380px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
   color: #FBFBFE;
 }
 
 .chofer-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .chofer-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .chofer_doc-input {
-  width: 100px;
+  width: 145px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .chofer_doc-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .chofer_doc-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 ///////PEDIDOS
 /// 
 .lote_pedido-input{
-  width: 80px;
+  width: 118px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
@@ -194,70 +276,89 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .lote_pedido-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .lote_pedido-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .saldo-input{
-  width: 200px;
+  width: 280px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
+  text-align: end;
 }
 
 .saldo-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .saldo-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .cliente-input{
-  width: 310px;
+  width: 420px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .cliente-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .cliente-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .producto-input{
@@ -265,49 +366,61 @@
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-
   color: #FBFBFE;
 }
 
 .producto-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .producto-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .origen_destino-input{
-  width: 330px;
+  width: 420px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .origen_destino-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .origen_destino-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .tipo_flete-input{
@@ -315,24 +428,30 @@
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
 }
 
 .tipo_flete-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .tipo_flete-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .a_pagar-input{
@@ -340,24 +459,31 @@
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
-  font-family: Roboto;
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-  
   color: #FBFBFE;
+  text-align: end;
 }
 
 .a_pagar-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -6px;
+}
+
+::ng-deep .a_pagar-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .valor-input{
@@ -369,24 +495,31 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-
+  text-align: end;
   color: #FBFBFE;
 }
 
 .valor-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -6px;
+}
+
+::ng-deep .valor-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .neto-input{
-  width: 250px;
+  width: 300px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
@@ -394,24 +527,31 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-
+  text-align: end;
   color: #FBFBFE;
 }
 
 .neto-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
 }
 
-.cantidades-input{
-  width: 230px;
+::ng-deep .neto-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
+}
+
+.nominada-input{
+  width: 350px;
   height: 24px;
   padding: 8px 6px;
   gap: 2px;
@@ -419,20 +559,58 @@
   font-size: 14px;
   font-weight: 400;
   line-height: 16.41px;
-
+  text-align: end;
   color: #FBFBFE;
 }
 
-.cantidades-input input {
+.nominada-input input {
   width: 100%;
   height: 100%;
-  padding: 0;
+  padding-bottom: 1px;
   border: none;
   outline: none;
   background: transparent;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -2px;
+}
+
+::ng-deep .nominada-input .mat-form-field-outline {
+  border: 1px solid #F25A38;
+}
+
+.cantidades-input{
+  width: 280px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  text-align: end;
+  color: #FBFBFE;
+}
+
+.cantidades-input input {
+  width: 100%;
+  height: 100%;
+  padding-bottom: 1px;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 116.41px;
+  margin-top: -8px;
+}
+
+::ng-deep .cantidades-input .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 .label-general{
@@ -446,6 +624,7 @@
     gap: 0px;
     opacity: 0px;
     pointer-events: none;
+    padding-top: 8px;
 }
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {

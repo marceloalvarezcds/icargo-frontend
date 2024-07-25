@@ -23,19 +23,31 @@
 .custom-mat-form-field {
   width: 400px; /* Ancho del mat-form-field ajustado según tu diseño */
 }
+
+label{
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  margin-top: 12px;
+}
+
 .search-container{
   width: auto;
   margin-right: 12px;
   display: flex;
-  
 }
 
 .example-class-1 {
   border: 1px solid red;
 }
 
-.example-class-2 {
-  border: 1px solid blue;
+.punto-venta-class {
+  width: 300px;
+  gap: 0px;
+  border-radius: 4px 0px 0px 0px;
+  border: 1px 0px 0px 0px;
+  opacity: 0px;
+  margin-left: 12px;
 }
 
 .default-class {

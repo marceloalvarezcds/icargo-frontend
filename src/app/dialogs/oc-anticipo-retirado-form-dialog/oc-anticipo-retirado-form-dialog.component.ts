@@ -85,7 +85,7 @@ export class OcAnticipoRetiradoFormDialogComponent
   fleteAnticipoInsumoSubscription?: Subscription;
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? 'Editar' : 'Nuevo';
   }
 
   get cantidadControl(): FormControl {

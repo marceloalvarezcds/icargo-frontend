@@ -1,52 +1,59 @@
 <div *ngIf="formGroup" [formGroup]="formGroup" class="field-content">
   <ng-container *ngIf="groupName">
-    <mat-form-field [formGroupName]="groupName">
-      <mat-label>{{ title }}</mat-label>
-      <input
-        matInput
-        [value]="getTextValue()"
-        [disabled]="readonly"
-        *ngIf="readonly"
-      />
-      <mat-select
-        [formControlName]="controlName"
-        [compareWith]="compareWith"
-        [hidden]="readonly"
-      >
-        <ng-container *ngFor="let o of list">
-          <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
-        </ng-container>
-      </mat-select>
-      <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
-      <mat-error
-        *ngIf="control.hasError('required')"
-        [innerHTML]="errorMessage"
-      ></mat-error>
-    </mat-form-field>
+    <div class="input-select-container">
+       <label>{{ title }}</label>
+      <mat-form-field [formGroupName]="groupName"  appearance="outline" class="small-form-field">
+        <input
+          matInput
+          [value]="getTextValue()"
+          [disabled]="readonly"
+          *ngIf="readonly"
+        />
+        <mat-select
+          [formControlName]="controlName"
+          [compareWith]="compareWith"
+          [hidden]="readonly"
+          [ngClass]="{'small-select': shouldApplySmallSelect(controlName)}"
+        >
+          <ng-container *ngFor="let o of list">
+            <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
+        <mat-error
+          *ngIf="control.hasError('required')"
+          [innerHTML]="errorMessage"
+        ></mat-error>
+      </mat-form-field>
+    </div>
   </ng-container>
   <ng-container *ngIf="!groupName">
-    <mat-form-field>
-      <mat-label>{{ title }}</mat-label>
-      <input
-        matInput
-        [value]="getTextValue()"
-        [disabled]="readonly"
-        *ngIf="readonly"
-      />
-      <mat-select
-        [formControlName]="controlName"
-        [compareWith]="compareWith"
-        [hidden]="readonly"
-      >
-        <ng-container *ngFor="let o of list">
-          <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
-        </ng-container>
-      </mat-select>
-      <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
-      <mat-error
-        *ngIf="control.hasError('required')"
-        [innerHTML]="errorMessage"
-      ></mat-error>
-    </mat-form-field>
+    <div class="input-select-container">
+      <label>{{ title }}</label>
+      <mat-form-field class="small-form-field" >
+        
+        <input
+          matInput
+          [value]="getTextValue()"
+          [disabled]="readonly"
+          *ngIf="readonly"
+        />
+        <mat-select
+          [formControlName]="controlName"
+          [compareWith]="compareWith"
+          [hidden]="readonly"
+          [ngClass]="{'small-select': shouldApplySmallSelect(controlName)}"
+        >
+          <ng-container *ngFor="let o of list">
+            <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
+        <mat-error
+          *ngIf="control.hasError('required')"
+          [innerHTML]="errorMessage"
+        ></mat-error>
+      </mat-form-field>
+    </div>
   </ng-container>
 </div>

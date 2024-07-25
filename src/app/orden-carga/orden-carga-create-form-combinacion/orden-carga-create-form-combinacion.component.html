@@ -10,6 +10,7 @@
             class="buscador"
             [form]="form"
             (valueChange)="onCamionChange($event)"
+            autofocus
           ></app-camion-by-producto-dialog-field>
         </div>
         <div class="small-marca-input input-with-label">
@@ -68,10 +69,11 @@
           ></app-input-field-oc>
         </div>
         <mat-slide-toggle 
-        trueTitle="Activo"
-        falseTitle="Inactivo"
-        formControlName="anticipo_propietario"
-        labelPosition="before" 
+          trueTitle="Activo"
+          falseTitle="Inactivo"
+          formControlName="anticipo_propietario"
+          labelPosition="before"
+          class="mat-slide-toggle-disabled" 
         >Anticipos</mat-slide-toggle>
       </div>
 
@@ -88,7 +90,7 @@
             controlName="propietario_camion"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-doc-input input-with-label">
           <app-input-field-oc
             title="Doc. Nº"
             [groupName]="groupName"
@@ -101,16 +103,16 @@
         </div>
         <div class="small-beneficiario-input input-with-label">
           <app-input-field-oc
-            title="<strong>Beneficiario</strong>(Nombre/Razon Social)"
+            title="<strong>Beneficiario</strong> (Nombre/Razon Social)"
             [groupName]="groupName"
             [camionId]="camionId"
             [productoId]="productoId"
             [readonly]="true"
             [form]="form"
-            controlName="propietario_camion"
+            controlName="beneficiario_camion"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="small-doc-input input-with-label">
           <app-input-field-oc
             title="Doc. Nº"
             [groupName]="groupName"
@@ -135,7 +137,7 @@
           controlName="chofer_camion"
         ></app-input-field-oc>
       </div>
-      <div class="small-input input-with-label">
+      <div class="small-chofer-input input-with-label">
         <app-input-field-oc
           title="Doc. Nº"
           [groupName]="groupName"
@@ -147,11 +149,11 @@
         ></app-input-field-oc>
       </div>
       <mat-slide-toggle 
-      trueTitle="Activo"
-      falseTitle="Inactivo"
-      formControlName="puede_recibir_anticipos"
-      labelPosition="before" 
-      class="slide-toggle-anticipos"
+        trueTitle="Activo"
+        falseTitle="Inactivo"
+        formControlName="puede_recibir_anticipos"
+        labelPosition="before" 
+        class="slide-toggle-anticipos mat-slide-toggle-disabled"
       > Anticipos</mat-slide-toggle>
     </div>
 
@@ -294,7 +296,7 @@
     <div class="cantidades">
       <div class="small-cantidad_dest-input input-with-label">
         <app-input-field-oc
-          title="Cant. Orig.(kg)"
+          title="Cant. Orig. (kg)"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
@@ -305,7 +307,7 @@
       </div>
       <div class="small-cantidad_dest-input input-with-label">
         <app-input-field-oc
-          title="Cant. Dest.(kg)"
+          title="Cant. Dest. (kg)"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
@@ -316,7 +318,7 @@
       </div>
       <div class="small-diferencia-input input-with-label">
         <app-input-field-oc
-          title="Diferencia(kg)"
+          title="Diferencia (kg)"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"

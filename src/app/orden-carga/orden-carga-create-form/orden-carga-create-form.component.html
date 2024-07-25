@@ -11,10 +11,12 @@
     <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
+      (camionChange)="camion = $event"
+      (semiChange)="semi = $event"
+      appAutofocus="true"
     ></app-orden-carga-create-form-combinacion>
-    
-    <app-orden-carga-anticipos-table
-      [form]="form">
+
+    <app-orden-carga-anticipos-table>
     </app-orden-carga-anticipos-table>
   </div>
 </app-page-form>

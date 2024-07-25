@@ -1,3 +1,7 @@
+.main-container {
+ margin-top: 35px;
+}
+
 .main-container h2 {
   margin: 0 0 28px 0;
   font-family: 'Roboto', sans-serif;
@@ -77,6 +81,11 @@
 .saldo-form-field{
   margin-top:25px;
   width: 100px;
+  pointer-events: none;
+}
+::ng-deep .saldo-form-field .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  background: #FBFBFE;
 }
 
 label{

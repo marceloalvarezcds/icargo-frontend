@@ -10,9 +10,10 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { getOCData } from 'src/app/form-data/oc-confirmation-data';
 import { CamionList } from 'src/app/interfaces/camion';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
-import { SemiList } from 'src/app/interfaces/semi';
+import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -26,9 +27,8 @@ export class OrdenCargaCreateFormComponent {
   flete?: FleteList;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
-  camion?: CamionList;
-  semi?: SemiList;
-  neto?: string;
+  camion?: CombinacionList;
+  semi?: Semi;
 
   form = this.fb.group({
     combinacion: this.fb.group({
@@ -40,6 +40,7 @@ export class OrdenCargaCreateFormComponent {
       propietario_camion_doc: null,
       chofer_camion: null,
       chofer_camion_doc: null,
+      beneficiario_camion: null,
       semi_id: [null, Validators.required],
       semi_placa: null,
       marca_semi: null,
@@ -96,11 +97,12 @@ export class OrdenCargaCreateFormComponent {
   save(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    console.log("Save")
+    console.log("Save", this.form)
+  
     if (this.form.valid) {
       console.log("Form is valid")
       const data: OCConfirmationDialogData = {
-        oc: getOCData(this.form, this.flete, this.camion, this.semi, this.neto),
+        oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
         
       };
       console.log("Save flete")

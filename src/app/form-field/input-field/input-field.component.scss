@@ -10,15 +10,21 @@
     visibility: hidden;
   }
 }
-/* Estilos para ajustar el tamaño del input */
-.mat-form-field .mat-input-element {
-  font-size: 14px; /* Tamaño de fuente */
-  padding: 8px; /* Espaciado interno */
-  width: 200px; /* Ancho del input */
-}
+// /* Estilos para ajustar el tamaño del input */
+// .mat-form-field .mat-input-element {
+//   font-size: 14px; /* Tamaño de fuente */
+//   padding: 8px; /* Espaciado interno */
+//   width: 200px; /* Ancho del input */
+// }
 
-.mat-form-field .mat-input-element:focus {
-  outline: none; /* Evita el cambio de tamaño al enfocar */
-  border: 1px solid #F25A38; /* Mantiene el borde original */
-  box-shadow: 0 0 0 2px red; /* Añade un "borde" adicional usando box-shadow */
+.comprobante-anticipo-input {
+  width: 125px;
+  height: 24px;
+  padding: 8px 6px;
+  gap: 2px;
+  font-family: Roboto;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #FBFBFE;
 }

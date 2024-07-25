@@ -23,3 +23,51 @@
 .space-bottom {
   margin-bottom: 1rem;
 }
+
+.inline-container {
+  display: flex;
+  align-items: center; /* Alinea verticalmente los elementos en el centro */
+  gap: 16px; /* Espacio entre los elementos en línea */
+  margin-bottom: 16px; /* Espacio inferior para separación */
+}
+
+.input-like {
+  border: 1px solid #d9d9d9; /* Simula el estilo de un input */
+  padding: 8px; /* Espaciado interno */
+  border-radius: 4px; /* Bordes redondeados */
+  background-color: #fbfbfe; /* Color de fondo */
+}
+
+.inline-container .spaced {
+  margin-right: 16px; /* Espacio entre el monto y la moneda */
+}
+
+.input-like {
+  display: inline-block;
+  padding: 8px 12px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  color: #333;
+  width: 500px; 
+  height: 30px;
+  box-sizing: border-box;
+  margin-left: 12px;
+}
+
+
+.form-field-container {
+  display: flex;
+  align-items: flex-start; /* Alinea el contenido al inicio del contenedor */
+  margin-top: 26px;
+}
+
+.form-field-container label {
+  margin-right: 8px; /* Espacio entre el label y el campo de entrada */
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px; /* Ajusta el tamaño de fuente según sea necesario */
+  font-weight: 400; /* Ajusta el peso de la fuente según sea necesario */
+  margin-top: 16px; /* Ajusta este valor para bajar el label más o menos */
+}

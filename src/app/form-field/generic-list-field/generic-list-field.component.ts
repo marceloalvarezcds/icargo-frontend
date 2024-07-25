@@ -112,4 +112,16 @@ export class GenericListFieldComponent<T extends { id: number }>
       this.valueChange.emit(value);
     }, 0);
   }
+
+  isFieldEmpty(): boolean {
+    const controlValue = this.control.value;
+    return !controlValue || controlValue.length === 0;
+  }
+  
+  shouldApplySmallSelect(controlName: string): boolean {
+    // Define aquí la lógica para aplicar la clase small-select
+    const smallSelectControls = ['tipo_anticipo_id', 'camion_id']; // Agrega los nombres de control necesarios
+    return smallSelectControls.includes(controlName);
+  }
+  
 }

@@ -1,8 +1,11 @@
 <ng-container *ngIf="form">
   <div *ngIf="control" [formGroup]="form" class="field-content">
     <ng-container *ngIf="groupName">
-      <mat-form-field [formGroupName]="groupName" class="red-input">
-        <mat-label>{{ title }}</mat-label>
+      <label>{{ title }}</label>
+      <mat-form-field [formGroupName]="groupName"       
+      [ngClass]="{ 
+        'comprobante-anticipo-input' :controlName === 'numero_comprobante' }">
+        
         <input
           matInput
           [value]="rowValue"
@@ -35,8 +38,11 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="!groupName">
-      <mat-form-field class="red-input">
-        <mat-label>{{ title }}</mat-label>
+      <label>{{ title }}</label>
+      <mat-form-field   
+      [ngClass]="{ 
+        'comprobante-anticipo-input' :controlName === 'numero_comprobante' }">
+       
         <input
           matInput
           [value]="rowValue"
