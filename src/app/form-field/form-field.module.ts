@@ -99,6 +99,7 @@ import { CiudadMapDialogFieldComponent } from './ciudad-map-dialog-field/ciudad-
 import { DialogMapFieldComponent } from './dialog-map-field/dialog-map-field.component';
 import { InputFieldOcComponent } from './input-field-oc/input-field-oc.component';
 import { DialogFieldOcComponent } from './dialog-field-oc/dialog-field-oc.component';
+import { CombinacionDialogFieldComponent } from './combinacion-dialog-field/combinacion-dialog-field.component';
 
 
 const modules = [
@@ -119,6 +120,7 @@ const modules = [
   CiudadDialogFieldComponent,
   CiudadMapDialogFieldComponent,
   CiudadFieldComponent,
+  CombinacionDialogFieldComponent,
   ColorFieldComponent,
   ContraparteByTipoDialogFieldComponent,
   ContraparteFieldComponent,
@@ -196,7 +198,7 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, CombinacionDialogFieldComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

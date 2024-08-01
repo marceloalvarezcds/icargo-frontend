@@ -1,27 +1,17 @@
-import {
-  AfterViewInit,
-  Component,
-  EventEmitter,
-  Input,
-  Output,
-  ViewChild,
-  ViewEncapsulation,
-} from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CombinacionService } from 'src/app/services/combinacion.service';
-import { CombinacionList } from 'src/app/interfaces/combinacion';
-
+import { FormGroup } from '@angular/forms';
 
 @Component({
-  selector: 'app-camion-by-producto-dialog-field',
-  templateUrl: './camion-by-producto-dialog-field.component.html',
-  styleUrls: ['./camion-by-producto-dialog-field.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated
+  selector: 'app-combinacion-dialog-field',
+  templateUrl: './combinacion-dialog-field.component.html',
+  styleUrls: ['./combinacion-dialog-field.component.scss']
 })
-export class CamionByProductoDialogFieldComponent  implements AfterViewInit {
+export class CombinacionDialogFieldComponent   implements AfterViewInit {
   readonly inputValuePropName = 'camion_placa';
   list$?: Observable<CombinacionList[]>;
   cId?: number;
@@ -80,5 +70,4 @@ export class CamionByProductoDialogFieldComponent  implements AfterViewInit {
   private getList(): void {
     this.list$ = this.service.getList();
   }
-  
 }

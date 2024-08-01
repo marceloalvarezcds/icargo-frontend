@@ -24,8 +24,8 @@ export class CamionService {
     return this.http.get<CamionList[]>(`${this.url}/producto/${productoId}`);
   }
 
-  getListByCamionId(camionId: number): Observable<CamionList[]> {
-    return this.http.get<CamionList[]>(`${this.url}/combinacion/${camionId}`);
+  getListByCombinacion(): Observable<CamionList[]> {
+    return this.http.get<CamionList[]>(`${this.url}/combinacion`);
   }
 
   getListByPropietarioId(propietarioId: number): Observable<CamionList[]> {

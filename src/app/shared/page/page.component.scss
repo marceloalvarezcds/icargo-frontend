@@ -62,14 +62,14 @@ $header-heigth: 64px;
   
 .button-container {
   display: flex;
-  gap: 2px; /* Espacio entre los botones */
+  gap: 0px; /* Espacio entre los botones */
   align-items: center; /* Alineación vertical centrada */
 }
 
 .download-button{
   width: auto;
-  padding: 4px 12px 4px 6px;
-  gap: 2px;
+  padding: 15px;
+  gap: 0px;
   border-radius: 5.25px;
   border: 1px solid #1C1C1C29;
   opacity: 0px;
@@ -106,7 +106,7 @@ $header-heigth: 64px;
   font-family: 'Roboto', sans-serif;
   width: auto;
   padding: 4px 12px 4px 6px;
-  gap: 4px;
+  gap: 0px;
   border-radius: 5.25px;
   border: 1px;
   opacity: 0px;
@@ -121,21 +121,103 @@ $header-heigth: 64px;
 }
 
 .add-button mat-icon {
-  font-size: 11px; /* Ajusta el tamaño del ícono */
+  font-size: 10px; /* Ajusta el tamaño del ícono */
   font-weight: bold;
   background-color: white; /* Fondo del ícono */
   border-radius: 90%; /* Borde redondeado para el ícono */
   color: #1976D2; /* Color del ícono */
-  width: 12px;
-  height: 12px;
+  width: 13px;
+  height: 10px;
   gap: 0px;
-  padding-top: 1px;
+  padding: 2px;
   opacity: 0px;
   align-items: center;
   justify-content: center;
   margin-top: -2px;
   margin-left: 1px;
+  margin-right: 2px;
 }
+
+/* Estilos base para los botones de Orden de Carga */
+.orden-carga-button {
+  border-radius: 50%; /* Redondeo completo */
+  padding: 12px; /* Padding personalizado */
+  color: white; /* Color del texto */
+}
+
+.orden-carga-anticipo {
+  background: #008000;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  
+}
+
+.orden-carga-anticipo mat-icon {
+  font-size: 10px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: white; /* Fondo del ícono */
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  color: #008000; /* Color del ícono */
+  width: 13px;
+  height: 10px;
+  gap: 0px;
+  padding: 2px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+  margin-left: 1px;
+  margin-right: 2px;
+}
+
+.orden-carga-recepcion {
+  background: #1C1C1C;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
+.orden-carga-recepcion  mat-icon {
+  font-size: 10px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: white; /* Fondo del ícono */
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  color: #1C1C1C; /* Color del ícono */
+  width: 13px;
+  height: 10px;
+  gap: 0px;
+  padding: 2px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+  margin-left: 1px;
+  margin-right: 2px;
+}
+
+
+.orden-carga-aceptar {
+  background: var(--colors-secondary-500-secondary, #EF3E20);
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
+.orden-carga-finalizar {
+  background: #575756;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
+.orden-carga-conciliar {
+  background: #FF0000;
+  padding: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+}
+
 
 .add-button:hover {
   background-color: #155A9E; /* Color más oscuro al pasar el ratón */
@@ -143,9 +225,9 @@ $header-heigth: 64px;
 }
 
 .filter-button{
-  width: 26px;
-  padding: 0;
-  height: 26px;
+  width: 29px;
+  padding: 5px;
+  height: 29px;
 }
 
 .filter-button mat-icon{
@@ -154,8 +236,8 @@ $header-heigth: 64px;
   border-radius: 90%; /* Borde redondeado para el ícono */
   width: 15px;
   height: 18px;
-  padding: 3px;
-  margin-top: -10px;
+  padding-left: -2px;
+  margin-top: -18px;
 }
 
 .button-cliente {

@@ -5,13 +5,12 @@
       <div class="row page-form-row">
         <div class="search-tracto small-input input-with-label">
           <label>Chapa <strong>Tracto</strong></label>
-          <app-camion-by-producto-dialog-field
+          <app-combinacion-dialog-field
             [groupName]="groupName"
             class="buscador"
             [form]="form"
             (valueChange)="onCamionChange($event)"
-            autofocus
-          ></app-camion-by-producto-dialog-field>
+          ></app-combinacion-dialog-field>
         </div>
         <div class="small-marca-input input-with-label">
           <app-input-field-oc
@@ -166,6 +165,7 @@
             [groupName]="groupName"
             class="buscador"
             [form]="form"
+            
             (valueChange)="onFleteChange($event)"
           ></app-flete-by-gestor-dialog-field>
         </div>

@@ -62,8 +62,8 @@ export class DialogFieldComponent<
   }
   getClassForControl(controlName: string): string {
     switch (controlName) {
-      case 'combinacion':
-        return 'example-class-1';
+      case 'insumo_punto_venta_precio_id':
+        return 'punto-venta-class';
       case 'punto_venta_id':
         return 'punto-venta-class';
       default:

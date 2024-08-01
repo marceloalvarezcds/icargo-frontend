@@ -2,7 +2,11 @@
   <ng-container *ngIf="groupName">
     <div class="input-select-container">
        <label>{{ title }}</label>
-      <mat-form-field [formGroupName]="groupName"  appearance="outline" class="small-form-field">
+      <mat-form-field [formGroupName]="groupName"  appearance="outline" 
+        [ngClass]="{
+            'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
+            'select-moneda': controlName === 'moneda_id',
+            'select-comprobante': controlName === 'tipo_comprobante_id'}">
         <input
           matInput
           [value]="getTextValue()"
@@ -13,7 +17,7 @@
           [formControlName]="controlName"
           [compareWith]="compareWith"
           [hidden]="readonly"
-          [ngClass]="{'small-select': shouldApplySmallSelect(controlName)}"
+       
         >
           <ng-container *ngFor="let o of list">
             <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
@@ -30,7 +34,10 @@
   <ng-container *ngIf="!groupName">
     <div class="input-select-container">
       <label>{{ title }}</label>
-      <mat-form-field class="small-form-field" >
+      <mat-form-field  [ngClass]="{
+        'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
+        'select-moneda': controlName === 'moneda_id',
+        'select-comprobante': controlName === 'tipo_comprobante_id'}" >
         
         <input
           matInput
@@ -42,7 +49,7 @@
           [formControlName]="controlName"
           [compareWith]="compareWith"
           [hidden]="readonly"
-          [ngClass]="{'small-select': shouldApplySmallSelect(controlName)}"
+        
         >
           <ng-container *ngFor="let o of list">
             <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>

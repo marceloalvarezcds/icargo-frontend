@@ -41,9 +41,11 @@ export class PropietarioService {
       `${this.url}/gestor_cuenta/semi/${semiId}`
     );
   }
+  
   getListByTipoPersonaId(tipoPersonaId: number): Observable<Propietario[]> {
     return this.http.get<Propietario[]>(`${this.url}/propietario?tipoPersonaId=${tipoPersonaId}`);
   }
+
   getById(id: number): Observable<Propietario> { 
     return this.http.get<Propietario>(`${this.url}/${id}`);
   }

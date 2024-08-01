@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+
+import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subscription } from 'rxjs';
@@ -15,14 +16,12 @@ import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
-
 @Component({
-  selector: 'app-oc-anticipo-retirado-form-dialog',
-  templateUrl: './oc-anticipo-retirado-form-dialog.component.html',
-  styleUrls: ['./oc-anticipo-retirado-form-dialog.component.scss'],
+  selector: 'app-oc-anticipo-retirado-mockup',
+  templateUrl: './oc-anticipo-retirado-mockup.component.html',
+  styleUrls: ['./oc-anticipo-retirado-mockup.component.scss']
 })
-export class OcAnticipoRetiradoFormDialogComponent
-  implements OnDestroy, OnInit
+export class OcAnticipoRetiradoMockupComponent   implements OnDestroy, OnInit
 {
   fleteAnticipo?: FleteAnticipo;
   insumo?: string;
@@ -33,7 +32,7 @@ export class OcAnticipoRetiradoFormDialogComponent
   saldoAnticipo = 0;
 
   form = this.fb.group({
-    tipo_anticipo_id: ['efectivo', Validators.required],
+    tipo_anticipo_id: [this.data?.tipo_anticipo_id, Validators.required],
     tipo_insumo_id: this.data?.tipo_insumo_id,
     flete_anticipo_id: [this.data?.flete_anticipo_id, Validators.required],
     proveedor_id: [this.data?.proveedor_id, Validators.required],
@@ -119,7 +118,6 @@ export class OcAnticipoRetiradoFormDialogComponent
   get isTipoInsumo(): boolean {
     return this.tipoAnticipo?.descripcion === TipoAnticipoEnum.INSUMOS;
   }
-  
 
   get insumoControl(): FormControl {
     return this.form.get('insumo_id') as FormControl;
@@ -164,17 +162,6 @@ export class OcAnticipoRetiradoFormDialogComponent
     return text;
   }
 
-  @Output() valueChange = new EventEmitter<string>();
-  tiposAnticipo = [
-    { value: 'efectivo', descripcion: 'EFECTIVO' },
-    { value: 'insumo', descripcion: 'INSUMO' }
-  ];
-
-  onSelectionChange(event: any): void {
-    const selectedValue = event.value;
-    this.valueChange.emit(selectedValue);
-  }
-  
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
   }
@@ -227,14 +214,13 @@ export class OcAnticipoRetiradoFormDialogComponent
     private fleteAnticipoService: FleteAnticipoService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
-    public dialogRef: MatDialogRef<OcAnticipoRetiradoFormDialogComponent>,
+    public dialogRef: MatDialogRef<OcAnticipoRetiradoMockupComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
-    this.tipoAnticipoChange(this.form.get('tipo_anticipo_id')?.value);
   }
 
   ngOnDestroy(): void {

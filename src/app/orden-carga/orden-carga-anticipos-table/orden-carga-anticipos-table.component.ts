@@ -111,7 +111,7 @@ export class OrdenCargaAnticiposTableComponent {
   get isAnticiposLiberados(): boolean {
     return !!this.oc?.anticipos_liberados;
   }
-
+  @Input() isFormSaved: boolean = false;
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
@@ -119,6 +119,7 @@ export class OrdenCargaAnticiposTableComponent {
   @Input() list: OrdenCargaAnticipoRetirado[] = [];
 
   @Output() ocChange = new EventEmitter<void>();
+  
 
   constructor(
     private dialog: MatDialog,
@@ -128,6 +129,17 @@ export class OrdenCargaAnticiposTableComponent {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
+      width: '700px',
+      data: { /* puedes pasar datos aquí */ }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El diálogo fue cerrado');
+    });
   }
 
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
@@ -163,11 +175,14 @@ export class OrdenCargaAnticiposTableComponent {
     OrdenCargaAnticipoRetirado
   > {
     const data: OcAnticipoRetiradoDialogData = {
-      orden_carga_id: this.oc!.id,
-      flete_id: this.oc!.flete_id,
+      orden_carga_id: 426,
+      flete_id: 23,
       item,
     };
-    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, { data });
+    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {     
+      width: '700px', 
+      height: 'auto', 
+      data });
   }
 
   private emitOcChange(): void {

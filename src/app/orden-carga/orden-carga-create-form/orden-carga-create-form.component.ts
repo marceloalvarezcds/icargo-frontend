@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -9,7 +9,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getOCData } from 'src/app/form-data/oc-confirmation-data';
-import { CamionList } from 'src/app/interfaces/camion';
+import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
@@ -27,13 +27,14 @@ export class OrdenCargaCreateFormComponent {
   flete?: FleteList;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
-  camion?: CombinacionList;
+  camion?: Camion;
   semi?: Semi;
-
+  isFormSaved: boolean = false;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
       propietario_camion: null,
@@ -97,15 +98,12 @@ export class OrdenCargaCreateFormComponent {
   save(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    console.log("Save", this.form)
   
     if (this.form.valid) {
-      console.log("Form is valid")
       const data: OCConfirmationDialogData = {
         oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
         
       };
-      console.log("Save flete")
       this.dialog
         .open(OcConfirmationDialogComponent, {
           data,
@@ -119,18 +117,24 @@ export class OrdenCargaCreateFormComponent {
         .subscribe(() => {
           this.submit(confirmed);
         });
+        
     }
   }
 
+
   submit(confirmed: boolean): void {
+    if (this.form.valid) {
+      // Lógica para guardar el formulario
+      this.isFormSaved = true;
+    }
     const formData = new FormData();
     const data = JSON.parse(
       JSON.stringify({
         ...this.combinacion.value,
         ...this.info.value,
       })
+     
     );
-    console.log("submit")
     // Convertir propiedades a mayúsculas, excepto los correos electrónicos
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {
@@ -138,14 +142,17 @@ export class OrdenCargaCreateFormComponent {
       }
     });  
     formData.append('data', JSON.stringify(data));
+    console.log('data', data)
     this.ordenCargaService.create(formData).subscribe((item) => {
-      this.snackbar.openSaveAndRedirect(
-        confirmed,
-        this.backUrl,
-        r.ORDEN_CARGA,
-        m.ORDEN_CARGA,
-        item.id
-      );
+      this.snackbar.openSave();
+      // this.snackbar.openSaveAndRedirect(
+      //   confirmed,
+      //   this.backUrl,
+      //   r.ORDEN_CARGA,
+      //   m.ORDEN_CARGA,
+      //   item.id
+      // );
     });
+    this.form.disable();
   }
 }

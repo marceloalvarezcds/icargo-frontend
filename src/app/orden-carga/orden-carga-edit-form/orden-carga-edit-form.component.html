@@ -1,9 +1,8 @@
 <ng-container *ngIf="item">
   <app-page-form
     class="orden-carga-page"
-    module="Orden de Carga"
-    submodule="Orden de Carga"
-    viewTitle="{{ isEdit ? 'Edición' : 'Ver' }}"
+    module="NUEVA"
+    submodule="ORDEN DE CARGA (directa)"
     [class.page-form-show]="isShow"
     [formGroup]="form"
     [hasChange]="hasChange"
@@ -17,26 +16,33 @@
     (submitEvent)="submit(false)"
   >
     <div class="orden-carga-page-content">
-      <app-orden-carga-edit-form-acciones
+      <!-- <app-orden-carga-edit-form-acciones
         [hasChange]="hasChange"
         [isAnticiposLiberados]="isAnticiposLiberados"
         [isShow]="isShow"
         [puedeConciliar]="puedeConciliar"
         [oc]="item"
         (ocChange)="getData()"
-      ></app-orden-carga-edit-form-acciones>
-      <mat-accordion multi>
-        <mat-expansion-panel [expanded]="isCombinacionTouched">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Información principal </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-combinacion
-            [oc]="item"
-            [form]="form"
-            (fleteChange)="onFleteChange($event)"
-          ></app-orden-carga-edit-form-combinacion>
-        </mat-expansion-panel>
-
+      ></app-orden-carga-edit-form-acciones> -->
+      <!-- <mat-accordion multi> -->
+        <!-- <mat-expansion-panel [expanded]="isCombinacionTouched"> -->
+        <app-orden-carga-edit-form-combinacion
+          [oc]="item"
+          [form]="form"
+          (fleteChange)="onFleteChange($event)"
+          class="orden-edit"
+        ></app-orden-carga-edit-form-combinacion>
+        <!-- </mat-expansion-panel> -->
+        <app-orden-carga-anticipos-table-button 
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [isShow]="isShow"
+          [puedeConciliar]="puedeConciliar"
+          [list]="anticipoList"
+          (ocChange)="getData()"
+      ></app-orden-carga-anticipos-table-button >
+   
+<!-- 
         <mat-expansion-panel [expanded]="isInfoTouched">
           <mat-expansion-panel-header>
             <mat-panel-title> Cantidad Nominada </mat-panel-title>
@@ -184,8 +190,8 @@
             [list]="auditorias"
             [ordenCarga]="item"
           ></app-orden-carga-edit-form-auditorias>
-        </mat-expansion-panel>
-      </mat-accordion>
+        </mat-expansion-panel> -->
+      <!-- </mat-accordion> -->
     </div>
   </app-page-form>
 </ng-container>

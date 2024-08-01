@@ -13,10 +13,10 @@
       (fleteChange)="flete = $event"
       (camionChange)="camion = $event"
       (semiChange)="semi = $event"
-      appAutofocus="true"
     ></app-orden-carga-create-form-combinacion>
 
-    <app-orden-carga-anticipos-table>
+    <app-orden-carga-anticipos-table [class.disabled]="!isFormSaved">
+      
     </app-orden-carga-anticipos-table>
   </div>
 </app-page-form>

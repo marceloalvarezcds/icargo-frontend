@@ -1,70 +1,83 @@
-
-
-.small-form-field {
+.select-tipo-anticipo {
   width: 200px; /* Ajusta el ancho según tus necesidades */
   height: 40px; /* Ajusta la altura según tus necesidades */
   margin-left: 10px;
   margin-top: 10px; /* Espacio entre el label y el mat-form-field */
 }
 
-.small-form-field.mat-form-field-appearance-outline .mat-form-field-wrapper {
+
+.select-moneda {
+  width: 190px; /* Ajusta el ancho según tus necesidades */
+  height: 40px; /* Ajusta la altura según tus necesidades */
+  margin-left: 10px;
+  margin-top: 10px; /* Espacio entre el label y el mat-form-field */
+}
+
+.select-comprobante {
+  width: 185px; /* Ajusta el ancho según tus necesidades */
+  height: 40px; /* Ajusta la altura según tus necesidades */
+  margin-left: 10px;
+  margin-top: 10px; /* Espacio entre el label y el mat-form-field */
+}
+
+.select-moneda.mat-form-field-appearance-outline .mat-form-field-wrapper {
   padding: 0; /* Elimina el padding para reducir el tamaño */
   border: 2px solid red; 
 }
 
-.small-form-field .mat-form-field-infix{
+.select-moneda .mat-form-field-infix{
   height: 24px; /* Ajusta la altura del select */
   padding: 0; /* Elimina el padding del select */
   border: 2px solid red;
 }
 
-.small-form-field .mat-select-trigger {
+.select-moneda .mat-select-trigger {
   height: 24px; /* Ajusta la altura del trigger del select */
   line-height: 24px; /* Alinea verticalmente el texto */
 }
 
-.small-form-field .mat-input-element {
+.select-moneda .mat-input-element {
   height: 24px; /* Ajusta la altura del input */
   line-height: 24px; /* Alinea verticalmente el texto */
   padding: 0; /* Elimina el padding del input */
 }
 
-::ng-deep .small-form-field .mat-form-field-outline {
+::ng-deep .select-moneda .mat-form-field-outline {
   border: 1px solid #F25A38 !important; /* Borde rojo */
   border-radius: 4px;
 }
 
 /* Estilos para el campo de entrada al estar enfocado */
-::ng-deep .small-form-field.mat-focused .mat-form-field-outline,
-::ng-deep .small-form-field.mat-focused .mat-form-field-outline-thick {
+::ng-deep .select-moneda.mat-focused .mat-form-field-outline,
+::ng-deep .select-moneda.mat-focused .mat-form-field-outline-thick {
   border-color: red !important; /* Borde rojo al enfocar */
 }
 
 /* Estilos para el campo de entrada al estar en hover */
-::ng-deep .small-form-field:hover .mat-form-field-outline,
-::ng-deep .small-form-field:hover .mat-form-field-outline-thick {
+::ng-deep .select-moneda:hover .mat-form-field-outline,
+::ng-deep .select-moneda:hover .mat-form-field-outline-thick {
   border: 1px solid red; /* Borde rojo */
   color: red; /* Texto rojo al hacer hover */
   border-radius: 6px;
 }
 
 /* Estilos adicionales para asegurarse de que el borde no se torne azul */
-::ng-deep .small-form-field.mat-focused .mat-form-field-ripple {
+::ng-deep .select-moneda.mat-focused .mat-form-field-ripple {
   background-color: transparent !important; /* Eliminar el color azul */
 }
 
 /* Estilos para el borde del input al enfocarse */
-::ng-deep .small-form-field .mat-input-element:focus {
+::ng-deep .select-moneda .mat-input-element:focus {
   border-color: red !important; /* Borde rojo del input al enfocar */
 }
 
 /* Estilos para el borde del input en hover */
-::ng-deep .small-form-field .mat-input-element:hover {
+::ng-deep .select-moneda .mat-input-element:hover {
   border-color: red !important; /* Borde rojo del input al hacer hover */
 }
 
 /* Elimina el color azul del borde al hacer click */
-::ng-deep .small-form-field .mat-form-field-flex {
+::ng-deep .select-moneda .mat-form-field-flex {
   border-color: red !important; /* Asegura el color rojo del borde */
 }
 

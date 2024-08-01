@@ -4,11 +4,12 @@ import { subtract } from 'lodash';
 import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-field.component';
 import { DialogFormFieldControlComponent } from 'src/app/form-field/dialog-form-field-control/dialog-form-field-control.component';
 import { FleteByGestorDialogFieldComponent } from 'src/app/form-field/flete-by-gestor-dialog-field/flete-by-gestor-dialog-field.component';
-import { CamionList } from 'src/app/interfaces/camion';
+import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
+import { CamionService } from 'src/app/services/camion.service';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { SemiService } from 'src/app/services/semi.service';
@@ -28,7 +29,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   camionesDisponibles: CamionList[] = [];
   showPedidoSection: boolean = false;
 
-
+  isEditMode: boolean = true;
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
   get diferenciaOrigenDestino(): number {
@@ -38,7 +39,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
     );
   }
   @Output() fleteChange = new EventEmitter<FleteList>();
-  @Output() camionChange = new EventEmitter<CombinacionList>();
+  @Output() camionChange = new EventEmitter<Camion>();
   @Output() semiChange = new EventEmitter<Semi>();
 
   get info(): FormGroup | undefined{
@@ -87,7 +88,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
     );
   }
 
-  constructor(private service: SemiService, private camionService: CombinacionService, private fleteService: FleteService, private cdr: ChangeDetectorRef) {}
+  constructor(private service: SemiService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef) {}
   
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {
@@ -97,6 +98,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   }
 
   onCamionChange(combinacion?: CombinacionList) {
+      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion?.camion_id); 
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion?.marca_descripcion); 
       this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion?.color_camion ?? null); 
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion?.semi_id);
@@ -112,7 +114,10 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion?.anticipo_propietario);
       this.form?.get(this.groupName)?.get('anticipo_chofer')?.setValue(combinacion?.puede_recibir_anticipos);
       if (combinacion){
-        this.camionChange.emit(combinacion)
+        console.log(combinacion)
+        this.camionService.getById(combinacion.camion_id).subscribe(camion => {
+          this.camionChange.emit(camion)
+        })
         this.service.getById(combinacion.semi_id).subscribe(semi => {
           this.onSemiChange(semi)
         })

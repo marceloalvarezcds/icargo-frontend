@@ -1,26 +1,33 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
-import { saveAs } from 'file-saver';
-import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
+
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
+import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
+import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-field.component';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
-import { TableEvent } from 'src/app/interfaces/table';
-import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
+import { FleteService } from 'src/app/services/flete.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReportsService } from 'src/app/services/reports.service';
+import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
+import { TableEvent } from 'src/app/interfaces/table';
+import * as saveAs from 'file-saver';
+import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
+import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 
 @Component({
-  selector: 'app-orden-carga-edit-form-anticipos',
-  templateUrl: './orden-carga-edit-form-anticipos.component.html',
-  styleUrls: ['./orden-carga-edit-form-anticipos.component.scss'],
+  selector: 'app-orden-carga-anticipos-table-button',
+  templateUrl: './orden-carga-anticipos-table-button.component.html',
+  styleUrls: ['./orden-carga-anticipos-table-button.component.scss']
 })
-export class OrdenCargaEditFormAnticiposComponent {
+export class OrdenCargaAnticiposTableButtonComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     {
@@ -105,7 +112,7 @@ export class OrdenCargaEditFormAnticiposComponent {
   get isAnticiposLiberados(): boolean {
     return !!this.oc?.anticipos_liberados;
   }
-
+  @Input() isFormSaved: boolean = false;
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
@@ -113,6 +120,7 @@ export class OrdenCargaEditFormAnticiposComponent {
   @Input() list: OrdenCargaAnticipoRetirado[] = [];
 
   @Output() ocChange = new EventEmitter<void>();
+  
 
   constructor(
     private dialog: MatDialog,
@@ -122,6 +130,17 @@ export class OrdenCargaEditFormAnticiposComponent {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+  }
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(OcAnticipoRetiradoMockupComponent, {
+      width: '700px',
+      data: { /* puedes pasar datos aquí */ }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El diálogo fue cerrado');
+    });
   }
 
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
@@ -139,7 +158,7 @@ export class OrdenCargaEditFormAnticiposComponent {
       }
     );
   }
-
+  @Input() isDisabled: boolean = false;
   private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
     this.ordenCargaAnticipoRetiradoService
       .pdf(item.id)
@@ -153,7 +172,7 @@ export class OrdenCargaEditFormAnticiposComponent {
   private getDialogRef(
     item?: OrdenCargaAnticipoRetirado
   ): MatDialogRef<
-    OcAnticipoRetiradoFormDialogComponent,
+    OcAnticipoRetiradoMockupComponent,
     OrdenCargaAnticipoRetirado
   > {
     const data: OcAnticipoRetiradoDialogData = {
@@ -161,14 +180,14 @@ export class OrdenCargaEditFormAnticiposComponent {
       flete_id: this.oc!.flete_id,
       item,
     };
-    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
-        width: '800px', // Ajusta el ancho aquí
-      height: '600px',
-       data});
-      
+    return this.dialog.open(OcAnticipoRetiradoMockupComponent, {     
+      width: '700px', 
+      height: 'auto', 
+      data });
   }
 
   private emitOcChange(): void {
     this.ocChange.emit();
   }
+
 }

@@ -29,6 +29,7 @@ export class CombinacionService {
       `${this.url}/propietario/${propietarioId}`
     );
   }
+
   getListByGestorCuentaByCamionId(
     camionId: number
   ): Observable<Combinacion[]> {
@@ -36,6 +37,14 @@ export class CombinacionService {
       `${this.url}/gestor_cuenta/camion/${camionId}`
     );
   }
+
+  getListByCamionId(camionId: number): Observable<Combinacion[]> {
+    return this.http.get<CombinacionList[]>(
+      `${this.url}/camion/${camionId}`
+    );
+  }
+
+
   getListByGestorCuenta(): Observable<Combinacion[]> {
     return this.http.get<Combinacion[]>(`${this.url}/gestor_cuenta`);
   }

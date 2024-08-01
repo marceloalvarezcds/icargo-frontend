@@ -1,0 +1,26 @@
+<ng-container *ngIf="form">
+    <ng-container *ngIf="list$ | async as list; else inputTemplate">
+      <ng-container *ngIf="list.length; else inputTemplate">
+        <app-dialog-field-oc
+          [title]="title"
+          [columns]="columns"
+          [list]="list"
+          [groupName]="groupName"
+          [controlName]="controlName"
+          [inputValuePropName]="inputValuePropName"
+          [form]="form"
+          (valueChange)="valueChange.emit($event)"
+          appInputThousandsSeparator
+        ></app-dialog-field-oc>
+      </ng-container>
+    </ng-container>
+    <ng-template #inputTemplate>
+      <app-input-field-by-placa
+        hidden
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [form]="form"
+        appInputThousandsSeparator
+      ></app-input-field-by-placa>
+    </ng-template>
+  </ng-container>

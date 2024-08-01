@@ -20,8 +20,6 @@
   color: #FBFBFE;
 }
 
-
-
 .small-input {
   width: 190px;
   height: 24px;
@@ -614,8 +612,484 @@
 }
 
 .label-general{
+  font-family: 'Roboto' sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 16.41px;
+  color: #202020;
+  width: 34px;
+  height: 16px;
+  gap: 0px;
+  opacity: 0px;
+  pointer-events: none;
+  padding-top: 8px;
+}
+
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+
+  .small-input {
+    width: 105px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .small-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 11px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .chapa-search-input {
+    width: 112px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+    background-color: #202020;
+  }
+
+  .chapa-search-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .chapa-input {
+    width: 128px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .chapa-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .propietario-input {
+    width: 253px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .propietario-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .propietario_doc-input {
+    width: 95px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .propietario_doc-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .beneficiario-input {
+    width: 253px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .beneficiario-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .chofer-input {
+    width: 280px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .chofer-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .chofer_doc-input {
+    width: 105px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .chofer_doc-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .lote_pedido-input {
+    width: 88px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .lote_pedido-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .saldo-input {
+    width: 170px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+    text-align: end;
+  }
+
+  .saldo-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .cliente-input {
+    width: 260px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+
+  .cliente-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px; /* Ajuste del font-size */
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .producto-input{
+    width: 145px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+  
+  .producto-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+  
+  .origen_destino-input{
+    width: 305px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
     font-family: 'Roboto' sans-serif;
     font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+  
+  .origen_destino-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+  
+  .tipo_flete-input{
+    width: 155px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+  }
+  
+  .tipo_flete-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .a_pagar-input{
+    width: 200px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.41px;
+    color: #FBFBFE;
+    text-align: end;
+  }
+  
+  .a_pagar-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -6px;
+  }
+  .valor-input{
+    width: 150px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto';
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.41px;
+    text-align: end;
+    color: #FBFBFE;
+  }
+  
+  .valor-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -6px;
+  }
+  
+  .neto-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -2px;
+  }
+
+  .cantidades-input{
+    width: 280px;
+    height: 24px;
+    padding: 8px 6px;
+    gap: 2px;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16.41px;
+    text-align: end;
+    color: #FBFBFE;
+  }
+  
+  .cantidades-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto' sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 116.41px;
+    margin-top: -8px;
+  }
+  
+  .label-general{
+    font-family: 'Roboto' sans-serif;
+    font-size: 11px;
     font-weight: 400;
     line-height: 16.41px;
     color: #202020;
@@ -625,178 +1099,174 @@
     opacity: 0px;
     pointer-events: none;
     padding-top: 8px;
+  }  
 }
 
-@media screen and (max-width: 1366px) and (max-height: 768px) {
+@media screen and (min-width: 3840px) and (min-height: 2160px) {
+
   .small-input {
-    width: 92px; /* 125px * 0.7125 ≈ 89px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .chapa-search-input,
-  .chapa-input {
+    width: 120px;
+    height: 28px;
+    padding: 10px 8px;
+    gap: 2px;
     font-family: 'Roboto', sans-serif;
     font-size: 14px;
     font-weight: 400;
-    width: 85px; /* 112px * 0.7125 ≈ 80px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
+    line-height: 18px;
+    color: #FBFBFE;
   }
-  .propietario-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 203px; /* 300px * 0.7125 ≈ 213px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .propietario_doc-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 78px; /* 85px * 0.7125 ≈ 61px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .chofer-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 234px; /* 328px * 0.7125 ≈ 234px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-    margin-top: 8px;
-  }
-  .chofer_doc-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 75px; /* 100px * 0.7125 ≈ 71px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-    margin-top: 8px;
-  }
-  .lote_pedido-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 57px; /* 80px * 0.7125 ≈ 57px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .saldo-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 142px; /* 200px * 0.7125 ≈ 142px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .cliente-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 258px; /* 320px * 0.7125 ≈ 228px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .producto-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 139px; /* 195px * 0.7125 ≈ 139px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .origen_destino-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    width: 270px; /* 380px * 0.7125 ≈ 270px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .tipo_flete-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-   
-    width: 142px; /* 200px * 0.7125 ≈ 142px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .a_pagar-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 8px;
-    width: 213px; /* 300px * 0.7125 ≈ 213px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-    margin-bottom: 12px;
-  }
-  .valor-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 8px;
-    margin-bottom: 5px;
-    width: 213px; /* 300px * 0.7125 ≈ 213px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .cantidades-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 8px;
-    margin-bottom: 5px;
-    width: 213px; /* 300px * 0.7125 ≈ 213px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-  }
-  .neto-input {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    margin-top: 8px;
-    margin-bottom: 5px;
-    width: 200px; /* 300px * 0.7125 ≈ 213px */
-    height: 20px;
-    padding: 6px;
-    font-size: 12px;
-    line-height: 14px;
-    
-  }
-}
 
+  .small-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-top: -2px;
+  }
+
+  .chapa-search-input {
+    width: 130px;
+    height: 28px;
+    padding: 10px 8px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #FBFBFE;
+    background-color: #202020;
+  }
+
+  .chapa-search-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-top: -2px;
+  }
+
+  .chapa-input {
+    width: 140px;
+    height: 28px;
+    padding: 10px 8px;
+    gap: 2px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    color: #FBFBFE;
+  }
+
+  .chapa-input input {
+    width: 100%;
+    height: 100%;
+    padding-bottom: 1px;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18px;
+    margin-top: -2px;
+  }
+
+  /* Agrega estilos similares para otros inputs aquí */
+
+}
+// @media screen and (min-width: 1920px) and (min-height: 1080px) {
+
+//   .small-input {
+//     width: 500px;
+//     height: 24px;
+//     padding: 8px 6px;
+//     gap: 2px;
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 12px;
+//     font-weight: 400;
+//     line-height: 16px;
+//     color: #FBFBFE;
+//   }
+
+//   .small-input input {
+//     width: 100%;
+//     height: 100%;
+//     padding-bottom: 1px;
+//     border: none;
+//     outline: none;
+//     background: transparent;
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 11px;
+//     font-weight: 400;
+//     line-height: 16px;
+//     margin-top: -2px;
+//   }
+
+//   .chapa-search-input {
+//     width: 110px;
+//     height: 24px;
+//     padding: 8px 6px;
+//     gap: 2px;
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 12px;
+//     font-weight: 400;
+//     line-height: 16px;
+//     color: #FBFBFE;
+//     background-color: #202020;
+//   }
+
+//   .chapa-search-input input {
+//     width: 100%;
+//     height: 100%;
+//     padding-bottom: 1px;
+//     border: none;
+//     outline: none;
+//     background: transparent;
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 12px;
+//     font-weight: 400;
+//     line-height: 16px;
+//     margin-top: -2px;
+//   }
+
+//   .chapa-input {
+//     width: 120px;
+//     height: 24px;
+//     padding: 8px 6px;
+//     gap: 2px;
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 12px;
+//     font-weight: 400;
+//     line-height: 16px;
+//     color: #FBFBFE;
+//   }
+
+//   .chapa-input input {
+//     width: 100%;
+//     height: 100%;
+//     padding-bottom: 1px;
+//     border: none;
+//     outline: none;
+//     background: transparent;
+//     font-family: 'Roboto', sans-serif;
+//     font-size: 12px;
+//     font-weight: 400;
+//     line-height: 16px;
+//     margin-top: -2px;
+//   }
+
+//   /* Agrega estilos similares para otros inputs aquí */
+
+// }

@@ -29,6 +29,7 @@ import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
 import { OrdenCargaEditFormAuditoriasComponent } from './orden-carga-edit-form-auditorias/orden-carga-edit-form-auditorias.component';
 import { OrdenCargaEditFormMovimientosComponent } from './orden-carga-edit-form-movimientos/orden-carga-edit-form-movimientos.component';
 import { OrdenCargaAnticiposTableComponent } from './orden-carga-anticipos-table/orden-carga-anticipos-table.component';
+import { OrdenCargaAnticiposTableButtonComponent } from './orden-carga-anticipos-table-button/orden-carga-anticipos-table-button.component';
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { OrdenCargaAnticiposTableComponent } from './orden-carga-anticipos-table
     OrdenCargaEditFormAuditoriasComponent,
     OrdenCargaEditFormMovimientosComponent,
     OrdenCargaAnticiposTableComponent,
+    OrdenCargaAnticiposTableButtonComponent,
   ],
   imports: [
     CommonModule,

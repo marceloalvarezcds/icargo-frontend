@@ -45,19 +45,39 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      combinacion_id: [null, Validators.required],
+      marca_camion: null,
+      color_camion: null,
+      propietario_camion: null,
+      propietario_camion_doc: null,
+      chofer_camion: null,
+      chofer_camion_doc: null,
+      beneficiario_camion: null,
       semi_id: [null, Validators.required],
+      semi_placa: null,
+      marca_semi: null,
+      color_semi: null,
+      pedido_id: null,
+      numero_lote: null,
+      saldo: null,
+      cliente: null,
+      producto_descripcion: null,
+      origen_nombre: null,
+      destino_nombre:null,
+      tipo_flete: null,
+      a_pagar: null,
+      valor: null,
+      neto: null,
+      cant_origen: null,
+      cant_destino: null,
+      diferencia: null,
+      anticipo_propietario: null,
+      puede_recibir_anticipos: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
       comentarios: null,
     }),
-    tramo: this.fb.group({
-      flete_origen_id: null,
-      flete_destino_id: null,
-      origen_id: null,
-      destino_id: null,
-    }),
-    porcentaje_anticipos: this.fb.array([]),
   });
 
   initialFormValue = this.form.value;
@@ -200,6 +220,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
+    this.form.statusChanges.subscribe(status => {
+      const anticipoButton = document.getElementById('add-button') as HTMLButtonElement;
+      anticipoButton.disabled = status !== 'VALID';
+    });
   }
 
   ngOnDestroy(): void {
@@ -227,6 +251,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.chRef.detectChanges();
     }
   }
+
+  
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
@@ -280,7 +306,15 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         combinacion: {
           flete_id: data.flete_id,
           camion_id: data.camion_id,
+          marca_camion: data.camion_marca,
+          color_camion: data.camion_color,
           semi_id: data.semi_id,
+          semi_placa: data.semi_placa,
+          marca_semi: data.semi_marca,
+          color_semi: data.semi_color,
+          propietario_camion: data.camion_propietario_nombre,
+          chofer_camion: data.camion_chofer_nombre,
+          chofer_camion_doc: data.camion_chofer_numero_documento
         },
         info: {
           cantidad_nominada: data.cantidad_nominada,
@@ -295,6 +329,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       });
       this.combinacion.get('flete_id')!.disable();
       this.combinacion.get('camion_id')!.disable();
+      this.form.disable();
       if (!this.puedeModificar) {
         this.form.disable();
         this.formDisabledTime = new Date();
