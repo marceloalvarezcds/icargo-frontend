@@ -98,7 +98,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   }
 
   onCamionChange(combinacion?: CombinacionList) {
-      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion?.camion_id); 
+   
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion?.marca_descripcion); 
       this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion?.color_camion ?? null); 
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion?.semi_id);

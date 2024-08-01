@@ -34,7 +34,7 @@ export class OrdenCargaCreateFormComponent {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
-      combinacion_id: [null, Validators.required],
+      // combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
       propietario_camion: null,
@@ -124,7 +124,6 @@ export class OrdenCargaCreateFormComponent {
 
   submit(confirmed: boolean): void {
     if (this.form.valid) {
-      // Lógica para guardar el formulario
       this.isFormSaved = true;
     }
     const formData = new FormData();

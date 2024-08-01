@@ -50,7 +50,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
 
   ];
 
-  @Input() controlName = 'combinacion_id';
+  @Input() controlName = 'camion_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'TRACTOS';
