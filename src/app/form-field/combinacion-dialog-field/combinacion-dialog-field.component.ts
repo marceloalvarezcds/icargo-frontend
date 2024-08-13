@@ -15,6 +15,9 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   readonly inputValuePropName = 'camion_placa';
   list$?: Observable<CombinacionList[]>;
   cId?: number;
+  id?: number;
+  propietario?: CombinacionList;
+  list: CombinacionList[] = [];
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -50,12 +53,15 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
 
   ];
 
-  @Input() controlName = 'camion_id';
+  @Input() controlName = 'combinacion_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'TRACTOS';
 
-
+  @Input() set combinacionId(id: number | undefined) {
+    this.id = id;
+    this.getList();
+  }
 
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 

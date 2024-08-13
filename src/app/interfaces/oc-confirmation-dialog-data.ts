@@ -1,3 +1,5 @@
+import { OrdenCarga } from "./orden-carga";
+
 export interface OCConfirmationInfo {
   flete_id: number;
   remitente: string;
@@ -16,6 +18,10 @@ export interface OCConfirmationInfo {
 
 export interface OCConfirmationDialogData {
   oc: OCConfirmationInfo | null;
+}
+
+export interface OrdenCargaAnticipoDialogData {
+  oc: OrdenCarga | null;
 }
 
 export const mockOCConfirmationInfo: OCConfirmationInfo = {

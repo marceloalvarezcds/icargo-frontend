@@ -9,6 +9,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { AuditDatabase } from 'src/app/interfaces/audit-database';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
@@ -19,6 +20,7 @@ import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
+import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -30,17 +32,20 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  isButtonActive: boolean = true;
   id!: number;
   isEdit = false;
   isCombinacionTouched = true;
   isInfoTouched = false;
   isTramoTouched = false;
+  isActive = false;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
   item?: OrdenCarga;
   flete?: FleteList;
+  combinacionList?: CombinacionList;
   formDisabledTime = new Date();
-
+  combinacionId?: number;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -53,6 +58,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       chofer_camion: null,
       chofer_camion_doc: null,
       beneficiario_camion: null,
+      beneficiario_camion_doc: null,
       semi_id: [null, Validators.required],
       semi_placa: null,
       marca_semi: null,
@@ -61,7 +67,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       numero_lote: null,
       saldo: null,
       cliente: null,
-      producto_descripcion: null,
+      producto_descripcion:null,
       origen_nombre: null,
       destino_nombre:null,
       tipo_flete: null,
@@ -72,11 +78,16 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       cant_destino: null,
       diferencia: null,
       anticipo_propietario: null,
-      puede_recibir_anticipos: null
+      anticipo_chofer: null,
+      puede_recibir_anticipos: null,
+      estado: null,
+      porcentaje_anticipos: null,
+      anticipos: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
       comentarios: null,
+      producto_descripcion: null,
     }),
   });
 
@@ -215,7 +226,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
-    private chRef: ChangeDetectorRef
+    private chRef: ChangeDetectorRef,
+    private dialog: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -223,7 +235,9 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     this.form.statusChanges.subscribe(status => {
       const anticipoButton = document.getElementById('add-button') as HTMLButtonElement;
       anticipoButton.disabled = status !== 'VALID';
+      
     });
+    console.log('Anticipos Liberados:', this.isAnticiposLiberados);
   }
 
   ngOnDestroy(): void {
@@ -244,6 +258,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.router.navigate([this.backUrl]);
     }
   }
+  
 
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
@@ -252,7 +267,13 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  
+  onCombinacionChange(combinacionList: CombinacionList | undefined): void {
+    if (combinacionList) {
+      this.combinacionList = combinacionList;
+      this.chRef.detectChanges();
+    }
+  }
+
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
@@ -293,6 +314,34 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea liberar anticipos?',
+      this.ordenCargaService.modificarAnticipos(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro de bloquear Anticipos?',
+      this.ordenCargaService.modificarAnticipos(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  get isToggleAnticiposLiberados(): boolean {
+    return this.item ? this.item.anticipos_liberados : false;
+  }
+
+  get toggleIcon(): string {
+    return this.anticipoList ? 'toggle_on' : 'toggle_off';
+  }
+
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
     if (backUrl) {
@@ -300,12 +349,16 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
+   
     this.ordenCargaService.getById(this.id).subscribe((data) => {
       this.item = data;
+    
+      this.isActive = data.estado === EstadoEnum.NUEVO;
       this.form.patchValue({
         combinacion: {
           flete_id: data.flete_id,
           camion_id: data.camion_id,
+          combinacion_id: data.combinacion_id,
           marca_camion: data.camion_marca,
           color_camion: data.camion_color,
           semi_id: data.semi_id,
@@ -313,8 +366,27 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
           marca_semi: data.semi_marca,
           color_semi: data.semi_color,
           propietario_camion: data.camion_propietario_nombre,
+          propietario_camion_doc: data.camion_propietario_documento,
           chofer_camion: data.camion_chofer_nombre,
-          chofer_camion_doc: data.camion_chofer_numero_documento
+          chofer_camion_doc: data.combinacion_chofer_doc,
+          beneficiario_camion: data.camion_beneficiario_nombre,
+          beneficiario_camion_doc: data.camion_beneficiario_documento,
+          numero: data.flete_numero_lote,
+          saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
+          cliente: data.flete_remitente_nombre,
+          tipo_flete: data.flete_tipo,
+          producto_descripcion: data.flete_producto_descripcion,
+          origen_nombre: data.flete_origen_nombre,
+          destino_nombre: data.flete_destino_nombre,
+          a_pagar: data.condicion_gestor_cuenta_tarifa,
+          neto: data.neto,
+          valor: data.flete_monto_efectivo,
+          cant_origen: 0,
+          cant_destino: 0,
+          diferencia: 0,
+          anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+          estado: data.estado,
+          anticipos: data.anticipos_liberados
         },
         info: {
           cantidad_nominada: data.cantidad_nominada,
@@ -323,12 +395,11 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         tramo: {
           flete_origen_id: data.flete_origen_id,
           flete_destino_id: data.flete_destino_id,
-          origen_id: data.origen_id,
-          destino_id: data.destino_id,
+          origen_id: data.flete_origen_nombre,
+          destino_id: data.flete_destino_nombre,
         },
+        
       });
-      this.combinacion.get('flete_id')!.disable();
-      this.combinacion.get('camion_id')!.disable();
       this.form.disable();
       if (!this.puedeModificar) {
         this.form.disable();

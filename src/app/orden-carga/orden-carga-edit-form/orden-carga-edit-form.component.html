@@ -6,6 +6,7 @@
     [class.page-form-show]="isShow"
     [formGroup]="form"
     [hasChange]="hasChange"
+    [oc]="item"
     [hideEditButton]="item.is_conciliado"
     [isEdit]="isEdit"
     [isShow]="isShow"
@@ -14,33 +15,53 @@
     (backClick)="back($event)"
     (editClick)="redirectToEdit()"
     (submitEvent)="submit(false)"
+    (activeClick)="active()"
+    (inactiveClick)="inactive()"
+    module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+    [estado]="estado"
+    [isAnticipoActive]="isToggleAnticiposLiberados"
   >
     <div class="orden-carga-page-content">
-      <!-- <app-orden-carga-edit-form-acciones
+       <!-- <app-orden-carga-edit-form-acciones
         [hasChange]="hasChange"
         [isAnticiposLiberados]="isAnticiposLiberados"
         [isShow]="isShow"
         [puedeConciliar]="puedeConciliar"
         [oc]="item"
         (ocChange)="getData()"
-      ></app-orden-carga-edit-form-acciones> -->
+      ></app-orden-carga-edit-form-acciones>  -->
+        <!-- <app-orden-carga-reports
+          [isShow]="isShow"
+          [hasChange]="hasChange"
+          [oc]="item"
+          (ocChange)="getData()"
+          [puedeConciliar]="puedeConciliar"
+          [isAnticiposLiberados]="isAnticiposLiberados"
+    ></app-orden-carga-reports> -->
       <!-- <mat-accordion multi> -->
         <!-- <mat-expansion-panel [expanded]="isCombinacionTouched"> -->
+          
         <app-orden-carga-edit-form-combinacion
           [oc]="item"
           [form]="form"
           (fleteChange)="onFleteChange($event)"
+          (combinacionChange)="onCombinacionChange($event)"
           class="orden-edit"
+          (ocChange)="getData()"
+          [ngClass]="{'disabled-mode': isShow}"
         ></app-orden-carga-edit-form-combinacion>
+
         <!-- </mat-expansion-panel> -->
-        <app-orden-carga-anticipos-table-button 
+        <app-orden-carga-anticipos-table 
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
           [puedeConciliar]="puedeConciliar"
           [list]="anticipoList"
           (ocChange)="getData()"
-      ></app-orden-carga-anticipos-table-button >
+          [ngClass]="{'disabled-mode': isShow}"
+      ></app-orden-carga-anticipos-table >
+
    
 <!-- 
         <mat-expansion-panel [expanded]="isInfoTouched">

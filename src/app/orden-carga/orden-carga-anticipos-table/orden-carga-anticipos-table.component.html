@@ -4,11 +4,11 @@
     <div class="input-button-container">
       <label>Saldo Efectivo</label>
       <mat-form-field class="saldo-form-field">
-        <input matInput>
+        <input matInput  [(ngModel)]="monedaEquiv2" style="text-align: end;">
       </mat-form-field>
       <label>Saldo Combustible</label>
       <mat-form-field class="saldo-form-field">
-        <input matInput>
+        <input matInput [(ngModel)]="monedaEquiv2" style="text-align: end;">
       </mat-form-field>
 
       <div class="button-container separate-buttons">
@@ -18,8 +18,8 @@
           color="primary"
           type="button"
           id="add-button"
-          (click)="openDialog()" 
-        
+          (click)="create()" 
+          [ngClass]="{'button-disabled': isShow}"
         >
           <mat-icon class="small-icon">add</mat-icon> ANTICIPO
         </button>
@@ -27,7 +27,10 @@
           mat-raised-button
           class="gestion-button small-button disabled-button"
           type="button"
+          color="primary"
           id="add-button"
+          (click)="openDialog()" 
+          [ngClass]="{'button-disabled': isShow}"
         >
           GESTION EN LINEA
         </button>

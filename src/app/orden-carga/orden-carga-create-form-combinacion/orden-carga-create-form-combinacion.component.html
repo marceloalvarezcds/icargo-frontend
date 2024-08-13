@@ -7,7 +7,6 @@
           <label>Chapa <strong>Tracto</strong></label>
           <app-combinacion-dialog-field
             [groupName]="groupName"
-            class="buscador"
             [form]="form"
             (valueChange)="onCamionChange($event)"
           ></app-combinacion-dialog-field>
@@ -34,6 +33,7 @@
             controlName="color_camion"
           ></app-input-field-oc>
         </div>
+     
         <div class="small-chapa_semi-input input-with-label">
           <app-input-field-oc
             title='Chapa <strong>Semi</strong>'
@@ -45,6 +45,7 @@
             controlName="semi_placa"
           ></app-input-field-oc>
         </div>
+
         <div class="small-input input-with-label">
           <app-input-field-oc
             title="Marca"
@@ -119,7 +120,7 @@
             [productoId]="productoId"
             [readonly]="true"
             [form]="form"
-            controlName="propietario_camion_doc"
+            controlName="beneficiario_camion_doc"
           ></app-input-field-oc>
         </div>
       </div>
@@ -147,9 +148,8 @@
           controlName="chofer_camion_doc"
         ></app-input-field-oc>
       </div>
+
       <mat-slide-toggle 
-        trueTitle="Activo"
-        falseTitle="Inactivo"
         formControlName="puede_recibir_anticipos"
         labelPosition="before" 
         class="slide-toggle-anticipos mat-slide-toggle-disabled"
@@ -165,7 +165,6 @@
             [groupName]="groupName"
             class="buscador"
             [form]="form"
-            
             (valueChange)="onFleteChange($event)"
           ></app-flete-by-gestor-dialog-field>
         </div>
@@ -313,6 +312,7 @@
           [productoId]="productoId"
           [readonly]="true"
           [form]="form"
+          
           controlName="cant_destino"
         ></app-input-field-oc>
       </div>
@@ -327,5 +327,6 @@
           controlName="diferencia"
         ></app-input-field-oc>
       </div>
+  
   </div>
 </div>

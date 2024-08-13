@@ -1,8 +1,7 @@
 <app-page-form
   class="combinacion-page"
-  module="Flota"
-  submodule="Combinacion"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  module="NUEVA"
+  submodule="COMBINACION DE FLOTA"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -25,7 +24,7 @@
       </mat-expansion-panel-header>
       <app-combinacion-form-info
         [form]="form"
-        [estado]="estado"
+        
         [isEdit]="isEdit"
         [isShow]="isShow"
         [combinacion]="item"

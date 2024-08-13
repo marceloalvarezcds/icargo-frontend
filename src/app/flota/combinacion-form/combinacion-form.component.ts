@@ -125,6 +125,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
   }
+  
   get chofer(): FormGroup {
     return this.form.get('chofer') as FormGroup;
   }

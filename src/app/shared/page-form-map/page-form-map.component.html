@@ -13,18 +13,22 @@
       </div>
       <!-- Contenedor de localidad y país -->
       <div class="field-container">
-        <div class="localidad-container">
-            <label for="localidad" class="localidad-label">Localidad</label>
-            <input id="localidad" class="localidad-input" matInput formControlName="localidad_nombre" class="localidad-input" readonly [ngClass]="{'view-mode': isShow}"/>
-        </div>
-        
+          <label for="">Localidad</label>
+          <mat-form-field appearance="outline" class="localidad">
+            <input matInput formControlName="localidad_nombre" readonly [ngClass]="{'view-mode': isShow}" />
+          </mat-form-field>
+      
         <div class="pais-container">
-            <label for="pais" class="pais-label">País</label>
-            <input matInput formControlName="pais_nombre" id="pais" class="pais-input" readonly  [ngClass]="{'view-mode': isShow}"/>
+          <label for="">Pais</label>
+          <mat-form-field appearance="outline" class="pais">
+           
+            <input matInput formControlName="pais_nombre" readonly [ngClass]="{'view-mode': isShow}" />
+          </mat-form-field>
         </div>
-    </div>
+      </div>
+      
       <!-- Contenedor de la dirección -->
-      <div class="col-xs-12 direccion-container">
+      <div class=" direccion-container">
         <label for="direccion" class="direccion-label">Dirección</label>
         <div class="custom-mat-form-field direccion-field">
           <input matInput formControlName="direccion" id="direccion" class="direccion-input" [ngClass]="{'view-mode': isShow}" />

@@ -34,6 +34,9 @@ import { TipoCuentaFormDialogComponent } from './tipo-cuenta-form-dialog/tipo-cu
 import { TipoMovimientoFormDialogComponent } from './tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { UserFormDialogComponent } from './user-form-dialog/user-form-dialog.component';
 import { OcAnticipoRetiradoMockupComponent } from './oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
+import { OcGestionLineaComponent } from './oc-gestion-linea/oc-gestion-linea.component';
+import { OrdenCargaGestionAnticiposComponent } from './orden-carga-gestion-anticipos/orden-carga-gestion-anticipos.component';
+import { OrdenCargaFleteComponent } from './orden-carga-flete/orden-carga-flete.component';
 
 
 const modules = [
@@ -65,6 +68,9 @@ const modules = [
   TipoMovimientoFormDialogComponent,
   UserFormDialogComponent,
   OcAnticipoRetiradoMockupComponent,
+  OcGestionLineaComponent,
+  OrdenCargaGestionAnticiposComponent,
+  OrdenCargaFleteComponent
 ];
 
 @NgModule({

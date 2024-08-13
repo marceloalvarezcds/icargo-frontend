@@ -25,21 +25,15 @@
   background: white;
 }
 
+::ng-deep .search-tracto .mat-form-field-outline:hover {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}
+
 ::ng-deep .orden-edit .mat-form-field-outline {
   border: 1px solid #d9d9d9 !important;
 }
 
-::ng-deep .search-tracto .mat-form-field-outline.mat-focused {
-  border-color: blue; /* Cambia esto al color de borde deseado cuando el campo está enfocado */
-  background: lightblue; /* Cambia esto al color de fondo deseado cuando el campo está enfocado */
-}
-
-/* Estilos específicos para el estado de hover */
-::ng-deep .search-tracto .mat-form-field-outline:hover {
-  border-color: green; /* Cambia esto al color de borde deseado cuando se pasa el cursor por encima */
-  background: lightgreen; /* Cambia esto al color de fondo deseado cuando se pasa el cursor por encima */
-  color: #F25A38;
-}
 
 
 ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
@@ -49,7 +43,9 @@
     transform: translateY(-1.1em) scale(.75);
     width: 133.33333%;
 }
-
+.oc-mat-form-field:hover {
+  border-color: #F25A38; /* Cambia el color del borde en hover */
+}
 .input-container {
   display: flex;
   align-items: center;
@@ -78,4 +74,16 @@
   .oc-mat-form-field {
     width: 150px; 
   }
+}
+::ng-deep .search-tracto .mat-form-field-outline:hover {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}
+
+::ng-deep .orden-edit .mat-form-field-outline {
+  border: 1px solid #d9d9d9 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-outline:hover .mat-form-field-outline {
+  border-color: #F25A38 !important; /* Cambia el color del borde en hover */
 }

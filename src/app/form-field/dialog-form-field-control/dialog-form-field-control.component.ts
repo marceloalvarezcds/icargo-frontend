@@ -81,7 +81,8 @@ export class DialogFormFieldControlComponent<
   ngControl: NgControl | null = null;
   idSubscription = this.idControl.valueChanges
     .pipe(filter(() => this.list.length > 0))
-    .subscribe(() => {
+    .subscribe((value) => {
+      this.selectedValue = this.list.find(x => x.id === value) 
       this.loadDescripcionAndEmitValue();
     });
 

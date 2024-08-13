@@ -87,7 +87,7 @@ export class DialogFieldComponent<
   openDialog(): void {
     this.dialogFieldControl?.openDialog();
   }
-  isOpen = false; // Controla la visibilidad del diálogo o interfaz de búsqueda
+  isOpen = false; 
 
   close() {
     this.isOpen = false;

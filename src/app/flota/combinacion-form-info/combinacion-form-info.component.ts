@@ -19,7 +19,6 @@ import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   [x: string]: any;
   groupName = 'info';
- 
   semi?: SemiList;
   fotoFile: File | null = null;
   isFisicaSelected = false;

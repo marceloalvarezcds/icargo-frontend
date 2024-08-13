@@ -75,7 +75,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(
     this.tableDataSource
-  );
+  ); 
+  @Input() isGestion: boolean = false;
+
   @Input() formArray = new FormArray([]);
   @Input() gestorCuentaId?: number;
   @Input() disableSort = false;
@@ -140,6 +142,17 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     }
   }
 
+  isTitleSaldosColumn(columnDef: string): boolean {
+    const gestionColumns = ['concepto_gestion', 'anticipo_gestion', 
+                  'complemento_gestion', 'disponible_gestion', 'retirado_gestion', 'saldo_gestion',
+                'usuario_gestion', 'fecha_gestion', 'modi_gestion', 'fecha_mod_gestion'];
+    return this.isGestion && gestionColumns.includes(columnDef);
+  }
+
+  isFirstThreeColumns(columnDef: string): boolean {
+    const firstThreeColumns = ['id_gestion',  '%'];
+    return firstThreeColumns.includes(columnDef);
+  }
   
 
   isStickyColumn(column: any): boolean {

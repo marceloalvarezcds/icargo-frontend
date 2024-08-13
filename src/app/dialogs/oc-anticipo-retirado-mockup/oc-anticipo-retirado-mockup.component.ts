@@ -1,5 +1,5 @@
 
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subscription } from 'rxjs';
@@ -21,8 +21,10 @@ import { NumberValidator } from 'src/app/validators/number-validator';
   templateUrl: './oc-anticipo-retirado-mockup.component.html',
   styleUrls: ['./oc-anticipo-retirado-mockup.component.scss']
 })
-export class OcAnticipoRetiradoMockupComponent   implements OnDestroy, OnInit
+export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
 {
+  @Output() montoRetiradoChange = new EventEmitter<number>();
+
   fleteAnticipo?: FleteAnticipo;
   insumo?: string;
   moneda?: string;
@@ -241,6 +243,7 @@ export class OcAnticipoRetiradoMockupComponent   implements OnDestroy, OnInit
           orden_carga_id: this.ordenCargaId,
         })
       );
+      
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.data?.id) {
@@ -252,6 +255,8 @@ export class OcAnticipoRetiradoMockupComponent   implements OnDestroy, OnInit
           .create(formData)
           .subscribe(this.close.bind(this));
       }
+      this.montoRetiradoChange.emit(data.cantidad_retirada); 
+      this.montoRetiradoChange.emit(data.montoRetirado);
     }
   }
 

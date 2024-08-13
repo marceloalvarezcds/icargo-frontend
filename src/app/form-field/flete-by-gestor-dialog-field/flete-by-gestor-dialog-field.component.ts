@@ -76,6 +76,7 @@ export class FleteByGestorDialogFieldComponent {
   @Input() groupName = '';
   @Input() title = 'PEDIDOS';
 
+  
   @Output() valueChange = new EventEmitter<FleteList>();
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;

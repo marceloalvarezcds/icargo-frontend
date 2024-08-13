@@ -18,32 +18,59 @@
       </span>
       
       <div class="page-title-buttons">
-        <mat-slide-toggle 
-        *ngIf="submodule === 'ORDEN DE CARGA (directa)'" 
-        class="toggle-margin mat-slide-toggle-disabled" 
-        labelPosition="before"
-        disabled>
-        Estado OC
-      </mat-slide-toggle>
-      
-      <mat-slide-toggle 
-        *ngIf="submodule === 'ORDEN DE CARGA (directa)'" 
-        class="toggle-margin mat-slide-toggle-disabled" 
-        labelPosition="before"
-        disabled>
-        Anticipos
-      </mat-slide-toggle>
-        <button type="button" mat-mini-fab color="primary" class="orden-button" matTooltip="Orden" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+        <div class="estado-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+          <label for="estado-input" class="estado-label">ESTADO OC</label>
+          <input
+            id="estado-input"
+            type="text"
+            [value]="estado"                
+            [ngClass]="{'button-disabled': isFormSubmitting}"
+            [readonly]="isFormSubmitting"    
+            class="estado-input"           
+          />
+        </div>
+        <div class="anticipo-toggle-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+          <label class="anticipo-label">Anticipos</label>
+          <button
+            *ngIf="submodule === 'ORDEN DE CARGA (directa)'   && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
+            type="button"
+            mat-mini-fab
+            [ngClass]="{
+              'anticipo-toggle-button-active': isAnticipoActive,
+              'anticipo-toggle-button-inactive': !isAnticipoActive,
+              'button-disabled': isFormSubmitting || isShow
+            }"
+            color="warn"
+            class="anticipo-toggle-button"
+            [disabled]="isFormSubmitting"
+            (click)="activeClick.emit($event)">
+            <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
+          </button>
+        </div>
+        
+        <button 
+          type="button" 
+          mat-mini-fab color="primary" 
+          class="orden-button" 
+          matTooltip="Orden" 
+          [class.disabled]="!isFormSaved"
+          *ngIf="submodule === 'ORDEN DE CARGA (directa)'"
+          [disabled]="isFormSubmitting"
+          (click)="previewPDF()"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
           <mat-icon>description</mat-icon>  ORDEN
         </button>
-        <button type="button" mat-mini-fab color="accent" class="ver-button" matTooltip="Ver OC" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+
+        <button 
+          type="button" mat-mini-fab color="accent" 
+          class="ver-button"  
+          *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
           <mat-icon>visibility</mat-icon> Ver OC
         </button>
   
         <button
           type="button"
           mat-mini-fab
-          
           matTooltip="Volver al listado"
           [disabled]="loading"
           (click)="back()"

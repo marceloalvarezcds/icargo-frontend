@@ -1,0 +1,264 @@
+.section h2 {
+  margin: 0 0 15px 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc;  /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+  width: 1200px;
+  }
+
+.span-concepto{
+  font-size: 12px;
+  font-weight: 700;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+}
+
+.conceptos p {
+  font-size: 12px;
+  font-family: 'Roboto', sans-serif;
+}
+
+.gestion-container .info-porcentaje {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 6px; 
+}
+
+.gestion-container .form-group {
+  display: flex;
+  align-items: center;
+  gap: 2px; /* Espacio entre la etiqueta y el mat-form-field */
+}
+
+.gestion-container .form-group label {
+  font-size: 12px;
+  margin-right: 2px;
+  margin-top: -25px;
+  white-space: nowrap; /* Evita que el texto de la etiqueta se divida en varias líneas */
+  font-family: 'Roboto', sans-serif;
+}
+
+.form-group {
+  margin-bottom: 20px; /* Ajusta el espacio debajo de cada form-group */
+  display: flex;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+/* Contenedor de la tabla para ajustar la posición */
+.table-container {
+  margin-top: -30px; /* Ajusta este valor según necesites para mover la tabla hacia arriba */
+  margin-bottom: 20px;
+}
+.table-container app-table {
+  width: 100%; /* Asegura que la tabla ocupe el 100% del ancho del contenedor */
+}
+
+/* Ajustar el padding y el espaciado de las celdas dentro de la tabla */
+.table-container mat-header-cell,
+.table-container mat-cell {
+  padding: 4px 8px; /* Ajusta el padding interno de las celdas */
+  font-size: 12px; /* Ajusta el tamaño de la fuente de las celdas */
+}
+
+/* Ajustar la altura de las filas */
+.table-container mat-header-row,
+.table-container mat-row {
+  height: 40px; /* Ajusta la altura de las filas según sea necesario */
+}
+/* Estilo del título de la tabla */
+.table-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px; /* Tamaño del texto del título */
+  font-weight: 700;
+  color: black; /* Color del texto del título */
+  margin-bottom: 10px; /* Espacio debajo del título */
+
+}
+
+::ng-deep .porcentajes .mat-form-field-outline,
+::ng-deep .combustible .mat-form-field-outline {
+  color: #F25A38;
+  border-radius: 4px;
+  height: 25px;
+  pointer-events: none;
+}
+
+::ng-deep .porcentajes.mat-form-field-disabled .mat-form-field-outline,
+::ng-deep .combustible.mat-form-field-disabled .mat-form-field-outline  {
+  color: #F25A38 !important; /* Mantiene el color del borde */
+}
+
+::ng-deep .porcentajes.mat-form-field-disabled .mat-form-field-outline-thick {
+  color: #F25A38 !important; /* Mantiene el color del borde */
+}
+
+.porcentajes input:disabled {
+  color: rgba(0, 0, 0, 0.6);
+  opacity: 15; /* Mantiene el color visible en un input deshabilitado */
+}
+
+
+input{
+  margin-top: -25px;
+  font-family: 'Roboto' sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 16.41px;
+  text-align: right;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  color: #F25A38;
+}
+
+.combustible{
+  width: 40px;
+}
+
+.porcentajes{
+  width: 53px;
+  margin-right: 20px;
+}
+
+
+.anticipo-item {
+  display: flex;
+  align-items: center;
+  gap: 4px; /* Espacio entre el label y el input */
+}
+
+
+.gestion-container .info-porcentaje p {
+  margin-right: 30px; /* Ajusta el valor según el espacio que desees */
+  margin-bottom: 0;
+  white-space: nowrap; /* Asegura que el texto se mantenga en una línea */
+  text-align: left;
+}
+
+.row.page-form-row {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px; 
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+span{
+  margin-right: 5px;
+  font-weight: bold;
+}
+
+.column:first-child {
+  max-width: 800px; /* Ajusta el ancho máximo de la primera columna */
+  min-width: 450px; /* Ajusta el ancho mínimo de la primera columna */
+}
+
+.column:last-child {
+  max-width: 300px; /* Ajusta el ancho máximo de la última columna */
+  min-width: 300px; /* Ajusta el ancho mínimo de la última columna */
+  margin-left: -50px;
+}
+
+.column:nth-child(2) {
+  max-width: 600px; /* Ajusta el ancho máximo de la columna del medio */
+  min-width: 400px; /* Ajusta el ancho mínimo de la columna del medio */
+}
+
+.column:first-of-type {
+  margin-left: -15px; /* Alinea la primera columna sin margen izquierdo */
+}
+
+
+.column:nth-child(2) {
+  margin-left: 30px; /* Aumenta la separación entre la primera y segunda columna */
+}
+
+
+.column p {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 530;
+  line-height: 16.41px;
+  margin: 0; 
+}
+
+p {
+  word-wrap: break-word; /* Permite que las palabras largas se dividan */
+  word-break: break-all; /* Fuerza la división de palabras largas en cualquier punto */
+  white-space: normal; /* Permite que el texto se ajuste a múltiples líneas */
+}
+
+.row.page-form-row p:nth-child(1),
+.row.page-form-row p:nth-child(2) {
+  display: inline-block;
+  margin-right: 10px; /* Ajusta el espacio entre los dos últimos <p> */
+}
+
+.row.page-form-row p:nth-child(2) {
+  margin-right: 0; /* El último <p> no necesita margen a la derecha */
+}
+
+.inline-p p {
+  margin: 0;
+  display: inline-block;
+}
+
+.buttons-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.close-button {
+  background: #FFFFFF;
+  color: #3B9EFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: auto;
+  padding: 8px 16px; /* Aumenta el padding horizontal para hacer el botón más largo */
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px solid transparent; /* Borde inicial transparente */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 32px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  margin-left: auto; /* Mueve el botón hacia la derecha */
+  margin-top: -15px; /* Ajusta el margen hacia arriba según sea necesario */
+  border-color: rgb(211, 200, 200);
+  margin-top: -15px;
+}
+
+.close-button:hover {
+  background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
+  color: #1e88e5; /* Color de texto más oscuro al hacer hover */
+  border-color: black; /* Color de borde más oscuro al hacer hover */
+}
+
+.close-button mat-icon {
+  font-size: 10.5px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: red; /* Fondo del ícono */
+  border-radius: 50%; /* Borde redondeado para el ícono */
+  color: white; /* Color del ícono */
+  width: auto;
+  height: 9px;
+  gap: 0px;
+  padding: 3px 3px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1;
+  margin-left: 2px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}

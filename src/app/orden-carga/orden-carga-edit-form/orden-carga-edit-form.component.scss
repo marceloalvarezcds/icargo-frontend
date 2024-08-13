@@ -1,3 +1,13 @@
 .orden-carga-page-content {
   padding-top: 1rem;
 }
+.disabled-mode {
+  pointer-events: none; /* Desactiva todos los eventos del ratón */
+}
+
+.disabled-mode input,
+.disabled-mode select,
+.disabled-mode button,
+.disabled-mode mat-form-field {
+  cursor: not-allowed; /* Cambia el cursor para indicar que está deshabilitado */
+}

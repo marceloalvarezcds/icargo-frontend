@@ -71,7 +71,11 @@
             [ngStyle]="getButtonStyles(submodule)"
           >
             <mat-icon >add</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
-            {{ submodule === 'CLIENTES' ? 'CLIENTE' : submodule === 'Orden de Carga' ? 'NUEVA OC' : 'Elemento' }}
+            {{ 
+              submodule === 'CLIENTES' ? 'CLIENTE' : 
+              submodule === 'CENTROS OPERATIVOS' ? 'CENTRO OPERATIVO' :
+              submodule === 'Orden de Carga' ? 'NUEVA OC' : 'Elemento'
+              }}
           </button>
               <!-- Botón específico para Orden de Carga -->
           <button 

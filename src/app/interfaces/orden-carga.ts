@@ -48,9 +48,11 @@ import { mockSemiList } from './semi';
 export interface OrdenCargaForm {
   camion_id: number;
   semi_id: number;
+  combinacion_id: number;
   flete_id: number;
   cantidad_nominada: number;
   comentarios?: string | null;
+  estado: EstadoEnum;
 }
 
 export interface OrdenCarga extends OrdenCargaForm {
@@ -70,6 +72,11 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
+  neto:number;
+  camion_beneficiario_nombre: string;
+  camion_beneficiario_documento: string;
+  camion_propietario_documento: string;
+  combinacion_chofer_doc: string;
   // Datos de semi
   semi_placa: string;
   semi_marca: string | null;
@@ -93,6 +100,9 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_tarifa: number;
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
+  condicion_gestor_cuenta_tarifa: number;
+  flete_saldo: number;
+
   // Historial de Estados
   is_aceptado: boolean;
   is_cancelado: boolean;
@@ -162,6 +172,8 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_tipo: TipoFleteEnum;
   gestor_carga_nombre: string;
   condicion_propietario_tarifa: number;
+  resultado_gestor_carga_saldo_total: number;
+
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -211,6 +223,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   id: 1,
   // Datos de camion
   camion_id: camion0.id,
+  combinacion_id: camion0.id,
   camion_marca: '',
   camion_color: '',
   camion_chofer_nombre: camion0.chofer_nombre,
@@ -223,6 +236,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_placa: camion0.placa,
   camion_propietario_nombre: camion0.propietario_nombre,
   camion_propietario_puede_recibir_anticipos: true,
+  camion_propietario_documento: 'string',
+  combinacion_chofer_doc: 'string',
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,
@@ -247,7 +262,12 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_remitente_numero_documento: flete0.remitente_numero_documento,
   flete_tarifa: flete0_tarifa,
   flete_tipo: flete0.tipo_flete,
+  flete_saldo: 0,
   gestor_carga_id: flete0.gestor_carga_id,
+  condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
+  neto:1000,
+  camion_beneficiario_nombre: 'string',
+  camion_beneficiario_documento: 'string',
   // cantidad y comentario
   cantidad_nominada: 10000,
   comentarios: '',
@@ -304,6 +324,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 1,
     // Datos de camion
     camion_id: camion0.id,
+    combinacion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
     camion_placa: camion0.placa,
@@ -324,6 +345,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_tipo: flete0.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 90,
+    resultado_gestor_carga_saldo_total:100,
+
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -357,6 +380,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 2,
     // Datos de camion
     camion_id: camion1.id,
+    combinacion_id: camion0.id,
     camion_chofer_nombre: camion1.chofer_nombre,
     camion_chofer_numero_documento: camion1.chofer_numero_documento,
     camion_placa: camion1.placa,
@@ -377,6 +401,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_tipo: flete1.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 90,
+    resultado_gestor_carga_saldo_total:100,
+
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -410,6 +436,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 3,
     // Datos de camion
     camion_id: camion0.id,
+    combinacion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
     camion_placa: camion0.placa,
@@ -430,6 +457,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_tipo: flete2.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 100,
+    resultado_gestor_carga_saldo_total:100,
+
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',

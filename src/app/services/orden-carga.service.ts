@@ -65,4 +65,13 @@ export class OrdenCargaService {
   resumenPdf(id: number): Observable<string> {
     return this.http.get<string>(`${this.url}/${id}/pdf/resumen`);
   }
+
+  active(id: number): Observable<OrdenCarga> {
+    return this.http.get<OrdenCarga>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<OrdenCarga> {
+    return this.http.get<OrdenCarga>(`${this.url}/${id}/inactive`);
+  }
+  
 }

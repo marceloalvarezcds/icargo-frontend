@@ -1,8 +1,7 @@
 <app-page-form
   class="centro-operativo-page"
-  module="Entidades"
-  submodule="Centros Operativos"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  module="NUEVO"
+  submodule="CENTRO OPERATIVO"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -12,122 +11,89 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-  <mat-accordion multi>
-    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Información principal </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="row page-form-row">
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Nombre</mat-label>
+<div class="page-container" >
+    <div class="section info-section">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+      <div class="row page-form-row" formGroupName="info">
+        <label><span class="required-field">*</span> Centro Operativo</label>
+        <mat-form-field class="nombre" [ngClass]="{'view-mode': isShow}" >
           <input matInput formControlName="nombre" appAutofocus />
           <mat-error *ngIf="info.controls['nombre'].hasError('required')">
             El nombre es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Nombre de Fantasía</mat-label>
-          <input matInput formControlName="nombre_corto" />
+        <label><span class="required-field">*</span> Nombre de Fantasía</label>
+        <mat-form-field class="nombre-corto" [ngClass]="{'view-mode': isShow}">
+          <input matInput formControlName="nombre_corto"  />
           <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
             El nombre corto es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Clasificación</mat-label>
+        <label><span class="required-field">*</span> Clasificación</label>
+        <mat-form-field class="clasificacion_id">
           <mat-select formControlName="clasificacion_id">
-            <ng-container
-              *ngFor="let o of centroOperativoClasificacionList$ | async"
-            >
+            <ng-container *ngFor="let o of centroOperativoClasificacionList$ | async">
               <mat-option [value]="o.id">{{ o.nombre }}</mat-option>
             </ng-container>
           </mat-select>
-          <mat-error
-            *ngIf="info.controls['clasificacion_id'].hasError('required')"
-          >
+          <mat-error *ngIf="info.controls['clasificacion_id'].hasError('required')">
             La clasificación es <strong>requerida</strong>
           </mat-error>
         </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="telefono" appFormatToPastePhone />
-          <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
-          <mat-error *ngIf="info.controls['telefono'].hasError('required')">
-            El teléfono es <strong>requerido</strong>
-          </mat-error>
-          <mat-error *ngIf="info.controls['telefono'].hasError('pattern')">
-            <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Correo electrónico</mat-label>
-          <input matInput formControlName="email" />
-          <mat-error *ngIf="form.get('email')?.hasError('email')">
-            El correo es <strong>inválido</strong>
-          </mat-error>
-        </mat-form-field>
-        <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-          <mat-label>Página web</mat-label>
-          <input matInput formControlName="pagina_web" />
-        </mat-form-field>
-        <mat-form-field
-          class="col-xs-12 col-sm-6 col-md-4 col-lg-3"
-          [hidden]="
-            !(user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_ALIAS))
-          "
-        >
-          <mat-label>Alias</mat-label>
-          <input matInput formControlName="alias" />
-          <mat-error *ngIf="info.controls['alias'].hasError('required')">
-            El alias es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
+
+        <mat-slide-toggle
+          class="estado"
+          labelPosition="before">
+          Estado
+        </mat-slide-toggle>
       </div>
 
       <div class="row page-form-row">
-        <div class="col-xs-12 col-sm-6">
-          <app-file-field
-            className=""
-            title="Foto"
-            groupName="info"
-            controlName="logo"
-            [field]="logo"
-            [form]="form"
-            [isEdit]="isEdit"
-            (fileChange)="fileChange($event)"
-          ></app-file-field>
-        </div>
+        <label>Web</label>
+        <mat-form-field class="web" [ngClass]="{'view-mode': isShow}" >
+          <input matInput formControlName="pagina_web" [readonly]="isShow"/>
+        </mat-form-field>
+        <label for="" class="comentario-label">Comentario</label>
+        <mat-form-field class="comentario">
+          <input matInput formControlName="pagina_web" />
+        </mat-form-field>
       </div>
-    </mat-expansion-panel>
+        <div class="custom-file-field-wrapper">
+          <div class="custom-file-field">
+            <app-file-field
+              className=""
+              groupName="info"
+              controlName="logo"
+              [field]="logo"
+              [form]="form"
+              [isEdit]="isEdit"
+              (fileChange)="fileChange($event)"
+              [readonly]="isShow"
+            ></app-file-field>
+          </div>
+          <label for="" class="label-logo">Logotipo</label>
+        </div>
+    </div>
 
-    <mat-expansion-panel
-      *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)"
-      [expanded]="isContactoTouched"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Libreta de Contactos </mat-panel-title>
-      </mat-expansion-panel-header>
+   <div class="section geolocation-section">
+      <h2>GEOLOCALIZACIÓN</h2>
+      <div formGroupName="geo">
+        <app-page-form-geo
+          [ciudadSelected]="ciudadSelected"
+          [form]="form"
+          [isShow]="isShow"
+          [isPanelOpen]="true"
+        ></app-page-form-geo>
+      </div>
+    </div> 
+
+    <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+      <h2 class="contactos-heading">CONTACTOS</h2>
       <app-page-form-contactos
         [form]="form"
         [isShow]="isShow"
         [contactoList]="contactoList"
       ></app-page-form-contactos>
-    </mat-expansion-panel>
-
-    <mat-expansion-panel
-      formGroupName="geo"
-      [expanded]="isGeoTouched"
-      (opened)="isPanelOpen = true"
-      (closed)="isPanelOpen = false"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Geolocalización </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-page-form-geo
-        [ciudadSelected]="ciudadSelected"
-        [form]="form"
-        [isShow]="isShow"
-        [isPanelOpen]="isPanelOpen"
-      ></app-page-form-geo>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </div>  
+</div>
 </app-page-form>

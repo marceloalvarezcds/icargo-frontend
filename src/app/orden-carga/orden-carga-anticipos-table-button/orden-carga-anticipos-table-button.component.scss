@@ -34,8 +34,6 @@
      background-color: #007acc;
      padding-left: 10px;
      padding-right: 10px;
-     opacity: 0.5;
-     pointer-events: none;
    }
    
    .gestion-button {
@@ -61,7 +59,7 @@
      font-weight: bold;
      background-color: white; /* Fondo del ícono */
      border-radius: 50%; /* Borde redondeado para el ícono */
-     color: darkgrey;; /* Color del ícono */
+     color: #007acc;; /* Color del ícono */
      width: 12px;
      height: 12px;
      gap: 0px;

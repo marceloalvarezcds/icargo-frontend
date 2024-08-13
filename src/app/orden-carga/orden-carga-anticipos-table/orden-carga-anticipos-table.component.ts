@@ -19,13 +19,20 @@ import { TableEvent } from 'src/app/interfaces/table';
 import * as saveAs from 'file-saver';
 import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
+import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
+import { OrdenCargaEditFormAnticiposResumenComponent } from '../orden-carga-edit-form-anticipos-resumen/orden-carga-edit-form-anticipos-resumen.component';
+import { OrdenCargaCreateFormComponent } from '../orden-carga-create-form/orden-carga-create-form.component';
+import { OrdenCargaGestionAnticiposComponent } from 'src/app/dialogs/orden-carga-gestion-anticipos/orden-carga-gestion-anticipos.component';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
   templateUrl: './orden-carga-anticipos-table.component.html',
   styleUrls: ['./orden-carga-anticipos-table.component.scss']
 })
-export class OrdenCargaAnticiposTableComponent {
+export class OrdenCargaAnticiposTableComponent implements OnInit {
+  monedaEquiv1: number | null = null;
+  monedaEquiv2: number = 0;
 
   a = PermisoAccionEnum;
   columns: Column[] = [
@@ -106,6 +113,13 @@ export class OrdenCargaAnticiposTableComponent {
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
+  ngOnInit(): void {
+    if (this.list.length > 0) {
+      this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
+    }
+  }
+  
+
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
 
   get isAnticiposLiberados(): boolean {
@@ -118,28 +132,27 @@ export class OrdenCargaAnticiposTableComponent {
   @Input() puedeConciliar = false;
   @Input() list: OrdenCargaAnticipoRetirado[] = [];
 
+  @Input() item?: any;
+  @Input() fleteId?: number;
+  @Input() ordenCargaId: number | null = null;
+
   @Output() ocChange = new EventEmitter<void>();
   
-
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private reportsService: ReportsService
   ) {}
 
-  create(): void {
-    create(this.getDialogRef(), this.emitOcChange.bind(this));
+  openDialog(): void {
+    this.dialog.open(OcGestionLineaComponent, {
+      width: '1250px',  
+      data: { oc: this.oc } 
+    });
   }
 
-  openDialog(): void {
-    const dialogRef = this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
-      width: '700px',
-      data: { /* puedes pasar datos aquí */ }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('El diálogo fue cerrado');
-    });
+  create(): void {
+    create(this.getDialogRef(), this.emitOcChange.bind(this));
   }
 
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
@@ -158,6 +171,7 @@ export class OrdenCargaAnticiposTableComponent {
     );
   }
 
+  @Input() isDisabled: boolean = false;
   private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
     this.ordenCargaAnticipoRetiradoService
       .pdf(item.id)
@@ -171,15 +185,15 @@ export class OrdenCargaAnticiposTableComponent {
   private getDialogRef(
     item?: OrdenCargaAnticipoRetirado
   ): MatDialogRef<
-    OcAnticipoRetiradoFormDialogComponent,
+    OcAnticipoRetiradoMockupComponent,
     OrdenCargaAnticipoRetirado
   > {
     const data: OcAnticipoRetiradoDialogData = {
-      orden_carga_id: 426,
-      flete_id: 23,
+      orden_carga_id: this.oc!.id,
+      flete_id: this.oc!.flete_id,
       item,
     };
-    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {     
+    return this.dialog.open(OcAnticipoRetiradoMockupComponent, {     
       width: '700px', 
       height: 'auto', 
       data });

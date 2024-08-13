@@ -38,11 +38,19 @@
   padding: 2px 6px; /* Relleno reducido para los botones */
   min-width: 60px; /* Ancho mínimo para los botones */
   color: white;
-  background-color: darkgrey;
+  
   padding-left: 10px;
   padding-right: 10px;
-  opacity: 0.5;
 }
+
+.button-disabled {
+  background-color: darkgrey;
+}
+
+.button-disabled  .mat-icon.small-icon {
+  color: darkgrey;
+}
+
 
 .small-button {
   margin-top: 5px;

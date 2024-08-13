@@ -92,7 +92,8 @@
                                 column.def === 'saldo_inst_banco',
             'align-right-liq':  column.def === 'movimientos_saldo' ||                   
                                 column.def === 'instrumentos_saldo' ||
-                                column.def === 'saldo_residual'
+                                column.def === 'saldo_residual',
+                                'title-saldos': isTitleSaldosColumn(column.def), 'small-column': isFirstThreeColumns(column.def)
                                                                                                                 
         }"
       >

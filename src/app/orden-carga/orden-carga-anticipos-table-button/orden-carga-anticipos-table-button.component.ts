@@ -29,6 +29,10 @@ import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-r
 })
 export class OrdenCargaAnticiposTableButtonComponent {
   a = PermisoAccionEnum;
+  @Output() formData = new EventEmitter<OrdenCargaAnticipoRetirado>();
+  ocr?: OrdenCargaAnticipoRetirado;
+  montoRetirado: number = 0;
+  
   columns: Column[] = [
     {
       def: 'pdf',
@@ -112,6 +116,7 @@ export class OrdenCargaAnticiposTableButtonComponent {
   get isAnticiposLiberados(): boolean {
     return !!this.oc?.anticipos_liberados;
   }
+
   @Input() isFormSaved: boolean = false;
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
@@ -121,6 +126,9 @@ export class OrdenCargaAnticiposTableButtonComponent {
 
   @Output() ocChange = new EventEmitter<void>();
   
+  onMontoRetiradoChange(monto: number) {
+    this.montoRetirado = monto;
+  }
 
   constructor(
     private dialog: MatDialog,
@@ -130,17 +138,6 @@ export class OrdenCargaAnticiposTableButtonComponent {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
-  }
-
-  openDialog(): void {
-    const dialogRef = this.dialog.open(OcAnticipoRetiradoMockupComponent, {
-      width: '700px',
-      data: { /* puedes pasar datos aquí */ }
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('El diálogo fue cerrado');
-    });
   }
 
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
@@ -158,6 +155,7 @@ export class OrdenCargaAnticiposTableButtonComponent {
       }
     );
   }
+
   @Input() isDisabled: boolean = false;
   private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
     this.ordenCargaAnticipoRetiradoService
