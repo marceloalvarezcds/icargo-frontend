@@ -19,7 +19,7 @@
           type="button"
           id="add-button"
           (click)="create()" 
-          [ngClass]="{'button-disabled': isShow}"
+          [disabled]="isShow"
         >
           <mat-icon class="small-icon">add</mat-icon> ANTICIPO
         </button>
@@ -30,7 +30,7 @@
           color="primary"
           id="add-button"
           (click)="openDialog()" 
-          [ngClass]="{'button-disabled': isShow}"
+          [disabled]="isShow"
         >
           GESTION EN LINEA
         </button>

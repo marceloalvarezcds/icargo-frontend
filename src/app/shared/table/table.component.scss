@@ -138,6 +138,12 @@ tr.mat-header-row {
 }
 
 ///////////////////////Alinear etiquetas//////////////////////////////////////////////
+
+.align-right-oc {
+  text-align: right;
+  width: 50px !important;
+}
+
 .align-right-title {
   text-align: right;
   width: 50px !important;
@@ -168,18 +174,18 @@ tr.mat-header-row {
 .title-saldos {
   margin-left: -13px;
   line-height: 1.2;
-  font-size: 10px;
+  font-size: 19px;
   margin-right: -2px;
 }
 
 .small-column {
-  width: 10px !important; /* Ajusta el tamaño según tus necesidades */
+  width: 19px !important; /* Ajusta el tamaño según tus necesidades */
   padding: 0 !important;
   box-sizing: border-box;
   font-size: 10px;
   margin-right: -2px;
   line-height: 1.2;
-  font-size: 10px;
+  font-size: 19px;
 }
 
 /////////////////////Alinear Numeros/////////////////////////////////////////////////
@@ -192,6 +198,17 @@ td.mat-column-cantidad_flete:not(:first-child) {
     text-align: right; /* Alinea el contenido a la derecha */
     padding-right: 25px; /* Opcional: añade padding derecho para separación */
 }
+td.mat-column-cantidad_nominada_oc:not(:first-child) {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+}
+td.mat-column-id_anticipo_saldo:not(:first-child) {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+}
+
 
 //Orden de carga
 td.mat-column-cantidad_nominada_oc:not(:first-child) {

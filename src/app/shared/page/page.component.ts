@@ -33,6 +33,7 @@ export class PageComponent {
   @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() backClick = new EventEmitter<boolean>();
   @Output() createClick = new EventEmitter<MouseEvent>();
+  @Output() createAnticipoClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
 

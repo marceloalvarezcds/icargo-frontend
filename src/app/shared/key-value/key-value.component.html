@@ -1,4 +1,4 @@
 <div *ngIf="value" class="key-value">
   <strong>{{ key }}: </strong>
-  <span [class.inline]="inline">{{ value }}</span>
+  <span [class.inline]="inline">{{ getFormattedValue() }}</span>
 </div>

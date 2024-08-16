@@ -34,6 +34,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   isButtonActive: boolean = true;
   id!: number;
+  isCreate = false;
   isEdit = false;
   isCombinacionTouched = true;
   isInfoTouched = false;

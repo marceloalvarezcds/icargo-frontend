@@ -24,14 +24,14 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-orden-carga-create-form',
-  templateUrl: './orden-carga-create-form.component.html',
-  styleUrls: ['./orden-carga-create-form.component.scss'],
+  selector: 'app-orden-carga-nuevo-anticipo-form',
+  templateUrl: './orden-carga-nuevo-anticipo-form.component.html',
+  styleUrls: ['./orden-carga-nuevo-anticipo-form.component.scss']
 })
-export class OrdenCargaCreateFormComponent implements OnInit {
+export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
+
   flete?: FleteList;
   isFormSubmitting = true;
-  isCreate=true;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
   id?: number;
@@ -280,4 +280,5 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.item = data;
     });
   }
+
 }

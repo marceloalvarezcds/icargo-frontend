@@ -13,7 +13,7 @@ export class InputFieldOcComponent {
   cId?: number;
   pId?: number;
   list$?: Observable<SemiList[]>;
-
+  @Input() shouldFormat: boolean = true;
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -65,12 +65,19 @@ export class InputFieldOcComponent {
 
   getFormattedValue(): string {
     const value = this.control?.value;
-    if (typeof value === 'number' || (typeof value === 'string' && !isNaN(Number(value)))) {
-      return value.toLocaleString();
+
+    // Solo formatea si shouldFormat es true
+    if (this.shouldFormat && (typeof value === 'number' || (typeof value === 'string' && !isNaN(Number(value))))) {
+      return this.formatNumberWithDots(Number(value));
     }
+
+    // Retorna el valor tal cual si no debe ser formateado
     return value || '';
   }
-  
+
+  private formatNumberWithDots(value: number): string {
+    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
   @Input() autocomplete: 'on' | 'off' | 'nope' = 'nope';
   @Input() formatToPasteNumber = false;
   @Input() formatToPastePhone = false;

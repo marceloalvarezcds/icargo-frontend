@@ -42,19 +42,25 @@
 }
 
 .form-group {
-  margin-bottom: 20px; /* Ajusta el espacio debajo de cada form-group */
+  margin-bottom: 20px; 
   display: flex;
   margin-left: 20px;
   margin-right: 20px;
 }
 
-/* Contenedor de la tabla para ajustar la posición */
-.table-container {
-  margin-top: -30px; /* Ajusta este valor según necesites para mover la tabla hacia arriba */
+.table-title {
+  margin-top: -30px; 
   margin-bottom: 20px;
+  
 }
-.table-container app-table {
-  width: 100%; /* Asegura que la tabla ocupe el 100% del ancho del contenedor */
+
+.table-container {
+  margin-top: 13px; 
+  margin-bottom: 20px;
+  margin-left: -17px;
+}
+.table-container{
+  width: 100%; 
 }
 
 /* Ajustar el padding y el espaciado de las celdas dentro de la tabla */

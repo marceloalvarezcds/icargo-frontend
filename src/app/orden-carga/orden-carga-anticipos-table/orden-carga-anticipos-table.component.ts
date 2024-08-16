@@ -129,6 +129,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() isCreate = false;
   @Input() puedeConciliar = false;
   @Input() list: OrdenCargaAnticipoRetirado[] = [];
 
@@ -146,7 +147,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {
-      width: '1250px',  
+      width: '1300px',  
       data: { oc: this.oc } 
     });
   }

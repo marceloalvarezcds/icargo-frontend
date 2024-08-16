@@ -26,10 +26,9 @@ export class OrdenCargaGestionAnticiposComponent {
   ) {}
   columns: Column[] = [
     {
-      def: 'id',
+      def: 'id_anticipo_saldo',
       title: 'Nº',
       value: (element: OrdenCargaAnticipoSaldo) => element.id,
-      sticky: true,
     },
     {
       def: 'concepto',
@@ -95,6 +94,13 @@ export class OrdenCargaGestionAnticiposComponent {
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
+
+  columnWidths = {
+    Nº: '15px',  // Especifica el ancho de la columna en píxeles
+    columnName2: '100px',
+    // etc.
+  };
+  
 
   @Input() list: OrdenCargaAnticipoSaldo[] = [];
 }

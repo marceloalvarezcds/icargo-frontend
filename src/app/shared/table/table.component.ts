@@ -76,8 +76,10 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() filterPredicate = this.defaultFilterPredicate.bind(
     this.tableDataSource
   ); 
-  @Input() isGestion: boolean = false;
 
+  @Input() tableStyles: any = {};
+  @Input() isGestion: boolean = false;
+  @Input() columnWidths: { [key: string]: string; } | undefined;
   @Input() formArray = new FormArray([]);
   @Input() gestorCuentaId?: number;
   @Input() disableSort = false;

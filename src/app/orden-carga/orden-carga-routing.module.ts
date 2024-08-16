@@ -8,6 +8,7 @@ import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { OrdenCargaCreateFormComponent } from './orden-carga-create-form/orden-carga-create-form.component';
 import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga-edit-form.component';
 import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.component';
+import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-anticipo-form/orden-carga-nuevo-anticipo-form.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,11 @@ const routes: Routes = [
       {
         path: `${a.EDITAR}/:id`,
         component: OrdenCargaEditFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:anticipo`,
+        component: OrdenCargaNuevoAnticipoFormComponent,
         canActivate: [PermisoGuard],
       },
       {

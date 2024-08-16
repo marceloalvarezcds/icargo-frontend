@@ -1,7 +1,7 @@
 <app-page-form
   class="orden-carga-page"
-  module="NUEVA"
-  submodule="ORDEN DE CARGA (directa)"
+  module="NUEVO"
+  submodule="ANTICIPO (directo)"
   [formGroup]="form"
   [modelo]="modelo"
   [oc]="item"
@@ -19,13 +19,13 @@
 >
 
   <div class="orden-carga-page-content">
-    <app-orden-carga-create-form-combinacion
+    <app-orden-carga-acciones-form-combinacion-oc
       [form]="form"
       (fleteChange)="flete = $event"
       (camionChange)="camion = $event"
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
-    ></app-orden-carga-create-form-combinacion>
+    ></app-orden-carga-acciones-form-combinacion-oc>
    
     <app-orden-carga-anticipos-table 
       [class.disabled]="!isFormSaved"
@@ -33,8 +33,7 @@
       [fleteId]="fleteId"
       [list]="anticipoList"
       (ocChange)="getData()"
-      [isShow]="false"
-    
+      [isShow]="isShow"
     >
     </app-orden-carga-anticipos-table>
   </div>

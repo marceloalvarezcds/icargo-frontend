@@ -6,19 +6,22 @@
           'edicion-mode': isEdit,
           'ver-mode': isShow && !isEdit,
           'nuevo-mode': !isShow && !isEdit,
-          'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)'
+          'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa) ' ||
+          'ANTICIPO (directo)'
         }">{{ module }}</span> 
         <span class="submodule"   [ngClass]="{
           'edicion-mode': isEdit,
           'ver-mode': isShow && !isEdit,
           'nuevo-mode': !isShow && !isEdit,
-          'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)'
+          'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa) ' ||
+          'ANTICIPO (directo)'
         }">{{ submodule }}</span> 
         <strong class="view-title" >{{ viewTitle }}</strong>
       </span>
       
       <div class="page-title-buttons">
-        <div class="estado-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+        <div class="estado-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
+          'ANTICIPO (directo)'">
           <label for="estado-input" class="estado-label">ESTADO OC</label>
           <input
             id="estado-input"
@@ -29,10 +32,12 @@
             class="estado-input"           
           />
         </div>
-        <div class="anticipo-toggle-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+        <div class="anticipo-toggle-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
+          'ANTICIPO (directo) '">
           <label class="anticipo-label">Anticipos</label>
           <button
-            *ngIf="submodule === 'ORDEN DE CARGA (directa)'   && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
+            *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
+          'ANTICIPO (directo)'  && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
             type="button"
             mat-mini-fab
             [ngClass]="{
@@ -54,7 +59,8 @@
           class="orden-button" 
           matTooltip="Orden" 
           [class.disabled]="!isFormSaved"
-          *ngIf="submodule === 'ORDEN DE CARGA (directa)'"
+          *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
+          'ANTICIPO (directo)'"
           [disabled]="isFormSubmitting"
           (click)="previewPDF()"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
@@ -64,7 +70,8 @@
         <button 
           type="button" mat-mini-fab color="accent" 
           class="ver-button"  
-          *ngIf="submodule === 'ORDEN DE CARGA (directa)'">
+          *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
+          'ANTICIPO (directo)'">
           <mat-icon>visibility</mat-icon> Ver OC
         </button>
   
@@ -152,7 +159,8 @@
       </div>
     </div>
     <div class="page-content">
-      <div class="linea-horizontal" [ngClass]="{'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)'}"></div>
+      <div class="linea-horizontal" [ngClass]="{'orden-carga-mode': submodule === 'ORDEN DE CARGA (directa)' ||
+          'ANTICIPO (directo)'}"></div>
 
       <ng-content></ng-content>
       

@@ -31,6 +31,9 @@ import { OrdenCargaEditFormMovimientosComponent } from './orden-carga-edit-form-
 import { OrdenCargaAnticiposTableComponent } from './orden-carga-anticipos-table/orden-carga-anticipos-table.component';
 import { OrdenCargaAnticiposTableButtonComponent } from './orden-carga-anticipos-table-button/orden-carga-anticipos-table-button.component';
 import { OrdenCargaReportsComponent } from './orden-carga-reports/orden-carga-reports.component';
+import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-anticipo-form/orden-carga-nuevo-anticipo-form.component';
+import { OrdenCargaAccionesFormCombinacionOcComponent } from './orden-carga-acciones-form-combinacion-oc/orden-carga-acciones-form-combinacion-oc.component';
+
 
 
 @NgModule({
@@ -58,7 +61,9 @@ import { OrdenCargaReportsComponent } from './orden-carga-reports/orden-carga-re
     OrdenCargaEditFormMovimientosComponent,
     OrdenCargaAnticiposTableComponent,
     OrdenCargaAnticiposTableButtonComponent,
-    OrdenCargaReportsComponent
+    OrdenCargaReportsComponent,
+    OrdenCargaNuevoAnticipoFormComponent,
+    OrdenCargaAccionesFormCombinacionOcComponent,
   ],
   imports: [
     CommonModule,

@@ -1,10 +1,11 @@
-<div #tableContainer style="overflow-x: auto;">
+<div #tableContainer style="overflow-x: auto;" [ngStyle]="tableStyles" >
   <table mat-table [dataSource]="tableDataSource" matSort  >
     <ng-container
       *ngFor="let column of filteredColumns; let last = last"
       [matColumnDef]="column.def"
       [sticky]="column.sticky"
       [stickyEnd]="column.stickyEnd"
+      
     >
       <ng-container *ngIf="column.def !== 'actions'">
         <th
@@ -93,7 +94,7 @@
             'align-right-liq':  column.def === 'movimientos_saldo' ||                   
                                 column.def === 'instrumentos_saldo' ||
                                 column.def === 'saldo_residual',
-                                'title-saldos': isTitleSaldosColumn(column.def), 'small-column': isFirstThreeColumns(column.def)
+            'align-right-oc':  column.def === 'id_anticipo_saldo'
                                                                                                                 
         }"
       >

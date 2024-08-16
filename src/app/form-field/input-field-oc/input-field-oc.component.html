@@ -40,6 +40,8 @@
           [disabled]="readonly"
           *ngIf="readonly"
           [value]="getFormattedValue()"
+          [ngClass]="{ 'no-format': !shouldFormat }"
+
           
         />
         <input
@@ -52,6 +54,8 @@
           [appAutofocus]="autofocus"
           [hidden]="readonly"
           [value]="getFormattedValue()"
+          [ngClass]="{ 'no-format': !shouldFormat }"
+
         />
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">
@@ -90,6 +94,8 @@
           [appFormatToPasteNumber]="formatToPasteNumber"
           [appFormatToPastePhone]="formatToPastePhone"
           [value]="getFormattedValue()"
+          [ngClass]="{ 'no-format': !shouldFormat }"
+
         />
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error *ngIf="control.hasError('maxlength')">

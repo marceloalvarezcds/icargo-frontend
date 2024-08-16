@@ -22,16 +22,17 @@
       </div>
       
     </div>
+    <div class="table-title">Tabla de Saldos</div>
     <div class="table-container">
-      <div class="table-title">Tabla de Saldos</div>
-      <app-orden-carga-gestion-anticipos [list]="oc?.saldos || []">
+      
+      <app-orden-carga-gestion-anticipos [list]="oc?.saldos || [] ">
      
       </app-orden-carga-gestion-anticipos>
     </div>
   <app-orden-carga-flete 
     *ngIf="oc"
-    [oc]="oc">
-
+    [oc]="oc"
+    >
   </app-orden-carga-flete>
     <div class="row page-form-row">
       <div class="column">

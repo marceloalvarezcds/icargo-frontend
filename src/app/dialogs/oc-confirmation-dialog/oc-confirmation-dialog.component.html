@@ -9,7 +9,7 @@
     <div class="row page-form-row" *ngIf="oc">
       <div class="col-xs-12 col-sm-6">
         <h3>Información Básica</h3>
-        <app-key-value key="Nº de Pedido" [value]="oc.flete_id"></app-key-value>
+        <app-key-value key="Nº de Pedido" [value]="oc.flete_id" [shouldFormat]="false"></app-key-value>
         <app-key-value key="Remitente" [value]="oc.remitente"></app-key-value>
         <app-key-value key="Producto" [value]="oc.producto"></app-key-value>
         <app-key-value
@@ -40,8 +40,8 @@
       </div>
       <div class="col-xs-12 col-sm-6">
         <h3>Camión y Semi</h3>
-        <app-key-value key="Camión" [value]="oc.camion"></app-key-value>
-        <app-key-value key="Semi" [value]="oc.semi"></app-key-value>
+        <app-key-value key="Camión" [value]="oc.camion" [shouldFormat]="false"></app-key-value>
+        <app-key-value key="Semi" [value]="oc.semi" [shouldFormat]="false"></app-key-value>
         <app-key-value
           key="Capacidad"
           [value]="oc.camion_semi_neto"

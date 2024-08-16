@@ -30,14 +30,11 @@ export class OcGestionLineaComponent  {
     @Inject(MAT_DIALOG_DATA) public data: OrdenCargaAnticipoDialogData
   ) {}
 
-
-
   get oc(): OrdenCarga | null {
     console.log(this.data.oc);
     return this.data.oc;
   }
 
-// Suponiendo que 'oc' es tu objeto y 'porcentaje_anticipos' es un array de objetos
 getTotalAnticipo(): number {
   if (!this.oc?.porcentaje_anticipos) {
     return 0;
@@ -45,11 +42,10 @@ getTotalAnticipo(): number {
   return this.oc.porcentaje_anticipos.reduce((total, anticipo) => total + anticipo.porcentaje, 0);
 }
 
-
   columns: Column[] = [
-    // Define aquí las columnas de la tabla, combinando las lógicas de ambos componentes si es necesario
+
     {
-      def: 'id_gestion',
+      def: 'id_anticipo_saldo',
       title: 'ID',
       value: (element: OrdenCargaAnticipoSaldo) => element.id,
     },
