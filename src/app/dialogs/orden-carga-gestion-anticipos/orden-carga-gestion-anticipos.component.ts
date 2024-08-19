@@ -26,8 +26,8 @@ export class OrdenCargaGestionAnticiposComponent {
   ) {}
   columns: Column[] = [
     {
-      def: 'id_anticipo_saldo',
-      title: 'Nº',
+      def: 'id_anticipo',
+      title: 'ID',
       value: (element: OrdenCargaAnticipoSaldo) => element.id,
     },
     {
@@ -43,63 +43,66 @@ export class OrdenCargaGestionAnticiposComponent {
     },
     {
       def: 'total_anticipo',
-      title: 'Anticipo liberado (PYG)',
+      title: 'Anticipo Liberado (ML)',
       value: (element: OrdenCargaAnticipoSaldo) => element.total_anticipo,
       type: 'number',
     },
     {
       def: 'total_complemento',
-      title: 'Total complemento (PYG)',
+      title: 'Total complemento (ML)',
       value: (element: OrdenCargaAnticipoSaldo) => element.total_complemento,
       type: 'number',
     },
     {
       def: 'total_disponible',
-      title: 'Total disponible (PYG)',
+      title: 'Total Disponible (ML)',
       value: (element: OrdenCargaAnticipoSaldo) => element.total_disponible,
       type: 'number',
     },
     {
       def: 'total_retirado',
-      title: 'Total retirado (PYG)',
+      title: 'Total retirado (ML)',
       value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
       type: 'number',
     },
     {
       def: 'saldo',
-      title: 'Saldo en Línea (PYG)',
+      title: 'Saldo en Línea (ML)',
       value: (element: OrdenCargaAnticipoSaldo) => element.saldo,
       type: 'number',
     },
     {
-      def: 'created_by',
+      def: 'created_by_anticipo',
       title: 'Usuario creación',
       value: (element: OrdenCargaAnticipoSaldo) => element.created_by,
     },
     {
-      def: 'created_at',
+      def: 'created_at_anticipo',
       title: 'Fecha creación',
-      value: (element: OrdenCargaAnticipoSaldo) => element.created_at,
+      value: (element: OrdenCargaAnticipoSaldo) => this.formatDate(element.created_at),
     },
     {
-      def: 'modified_by',
+      def: 'modified_by_anticipo',
       title: 'Usuario modificación',
       value: (element: OrdenCargaAnticipoSaldo) => element.modified_by,
     },
     {
-      def: 'modified_at',
+      def: 'modified_at_anticipo',
       title: 'Fecha modificación',
-      value: (element: OrdenCargaAnticipoSaldo) => element.modified_at,
-      type: 'date',
+      value: (element: OrdenCargaAnticipoSaldo) => this.formatDate(element.modified_at),
+   
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
-  columnWidths = {
-    Nº: '15px',  // Especifica el ancho de la columna en píxeles
-    columnName2: '100px',
-    // etc.
-  };
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
   
 
   @Input() list: OrdenCargaAnticipoSaldo[] = [];

@@ -94,8 +94,19 @@
             'align-right-liq':  column.def === 'movimientos_saldo' ||                   
                                 column.def === 'instrumentos_saldo' ||
                                 column.def === 'saldo_residual',
-            'align-right-oc':  column.def === 'id_anticipo_saldo'
-                                                                                                                
+            'align-right-oc':  
+                                column.def === 'total_anticipo' ||
+                                column.def === 'total_complemento' ||
+                                column.def === 'total_disponible' ||
+                                column.def === 'total_retirado' ||
+                                column.def === 'saldo' ||
+                   
+                                column.def === 'created_by_anticipo' ||
+                                column.def === 'created_at_anticipo' ||
+                                column.def === 'modified_by_anticipo' ||
+                                column.def === 'modified_at_anticipo',
+              'align-right-porcentaje':  
+                                column.def === 'porcentaje'
         }"
       >
           {{ column.title }}

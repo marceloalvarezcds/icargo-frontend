@@ -137,16 +137,64 @@ tr.mat-header-row {
   font-size: 12px;
 }
 
+
+
+.align-right-oc{
+ 
+  margin-left: -14px;
+}
+.align-right-porcentaje{
+  margin-left: -10px;
+}
+
+td.mat-column-id_anticipo {
+  text-align: left; 
+  padding-left: 0;  /* Elimina el padding izquierdo */
+  padding-right: 0; /* Elimina el padding derecho */
+  margin-left: -60px; /* Mueve la celda hacia la izquierda */
+}
+
+td.mat-column-porcentaje:not(:first-child) {
+  text-align: left; 
+  padding-left: 0;  /* Elimina el padding izquierdo */
+  padding-right: 0; /* Elimina el padding derecho */
+  margin-left: -60px; /* Mueve la celda hacia la izquierda */
+
+}
+
+
+
+td.mat-column-total_anticipo:not(:first-child),
+td.mat-column-total_complemento:not(:first-child),
+td.mat-column-total_disponible:not(:first-child),
+td.mat-column-total_retirado:not(:first-child),
+td.mat-column-saldo:not(:first-child){
+  width: 50px;
+  text-align: right; 
+  padding-left: -100;  /* Elimina padding izquierdo */
+  padding-right: 30px; /* Elimina padding derecho */
+  margin-left: -40px; /* Mueve la celda hacia la izquierda */
+ 
+}
+
+td.mat-column-created_by_anticipo:not(:first-child),
+td.mat-column-created_at_anticipo:not(:first-child),
+td.mat-column-modified_by_anticipo:not(:first-child),
+td.mat-column-modified_at_anticipo:not(:first-child) {
+  width: 50px;
+  text-align: left; 
+  padding-left: 0;  /* Elimina padding izquierdo */
+  padding-right: 0; /* Elimina padding derecho */
+  margin-left: -40px; /* Mueve la celda hacia la izquierda */
+
+}
+
 ///////////////////////Alinear etiquetas//////////////////////////////////////////////
 
-.align-right-oc {
-  text-align: right;
-  width: 50px !important;
-}
 
 .align-right-title {
   text-align: right;
-  width: 50px !important;
+  width: 80px !important;
 }
 
 //Alinear etiquetas. Estado Cuenta

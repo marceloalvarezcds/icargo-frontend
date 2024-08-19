@@ -9,20 +9,20 @@
       </div>
       <div class="form-group" *ngIf="oc?.porcentaje_anticipos?.length">
         <div *ngFor="let anticipo of oc?.porcentaje_anticipos" class="anticipo-item">
-          <label>% {{ anticipo.concepto }}</label>
+          <label class="anticipos-porcentaje">% {{ anticipo.concepto }}</label>
           <mat-form-field class="porcentajes">
             <input id="porcentajeInput" matInput [value]="anticipo.porcentaje + '%'" disabled="true" />
           </mat-form-field>
           
         </div>
-        <label>% TOTAL Anticipos</label>
+        <label class="total-anticipos">% TOTAL Anticipos</label>
         <mat-form-field class="porcentajes">
           <input id="totalAnticipoInput" matInput [value]="getTotalAnticipo() + '%'" disabled="true" />
         </mat-form-field>
       </div>
       
     </div>
-    <div class="table-title">Tabla de Saldos</div>
+    <div class="table-title">TABLA DE SALDOS</div>
     <div class="table-container">
       
       <app-orden-carga-gestion-anticipos [list]="oc?.saldos || [] ">

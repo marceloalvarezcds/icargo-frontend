@@ -6,19 +6,19 @@
   line-height: 16.41px;
   color: #007acc;  /* Celeste más oscuro */
   border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
-  width: 1200px;
+  width: 95%;
   }
 
 .span-concepto{
   font-size: 12px;
   font-weight: 700;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Poppins';
   font-weight: bold;
 }
 
 .conceptos p {
   font-size: 12px;
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Inter', sans-serif;
 }
 
 .gestion-container .info-porcentaje {
@@ -51,7 +51,12 @@
 .table-title {
   margin-top: -30px; 
   margin-bottom: 20px;
-  
+  font-family: 'Poppins';
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 15px;
+  letter-spacing: 0.04em;
+  text-align: left;
 }
 
 .table-container {
@@ -59,6 +64,7 @@
   margin-bottom: 20px;
   margin-left: -17px;
 }
+
 .table-container{
   width: 100%; 
 }
@@ -181,11 +187,9 @@ span{
   margin-left: -15px; /* Alinea la primera columna sin margen izquierdo */
 }
 
-
 .column:nth-child(2) {
   margin-left: 30px; /* Aumenta la separación entre la primera y segunda columna */
 }
-
 
 .column p {
   font-family: 'Roboto', sans-serif;
@@ -267,4 +271,85 @@ p {
   margin-top: -1;
   margin-left: 2px;
   transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}
+
+@media screen and (min-width: 1366px) and (min-height: 768px) {
+  .column p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+   
+  }
+
+  .span-concepto{
+    font-family: 'Poppins';
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 12.1px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #000001B2;
+
+  }
+
+  .conceptos p {
+    font-family: 'Inter';
+    font-size: 10px;
+    font-weight: 400;
+    line-height: 12.1px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #000001B2;
+    }
+
+  .anticipos-porcentaje{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    text-align: right;
+    color: #202020;
+
+  }
+
+  .total-anticipos{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16.41px;
+    text-align: right;
+  }
+
+  input{
+    margin-top: -20px;
+    font-family: 'Roboto' sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 16.41px;
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 5px;
+    color: #010406E5;
+  }
+
+  .table-title {
+    margin-top: -20px; 
+    margin-bottom: 20px;
+    font-family: 'Poppins';
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 15px;
+    letter-spacing: 0.04em;
+    text-align: left;
+    color: #1C1C1CCC;
+
+  }
+
+  .table-container {
+    margin-top: -20px; 
+    margin-bottom: 5px;
+    margin-left: -17px;
+  }
+
 }

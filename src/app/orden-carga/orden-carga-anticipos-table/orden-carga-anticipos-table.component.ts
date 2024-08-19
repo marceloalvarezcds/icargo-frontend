@@ -147,7 +147,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
 
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {
-      width: '1300px',  
+      width: '1600px',  
       data: { oc: this.oc } 
     });
   }
