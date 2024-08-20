@@ -9,7 +9,7 @@ import { FleteByGestorDialogFieldComponent } from 'src/app/form-field/flete-by-g
 import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CamionService } from 'src/app/services/camion.service';
 import { CombinacionService } from 'src/app/services/combinacion.service';
@@ -25,9 +25,11 @@ import { SemiService } from 'src/app/services/semi.service';
 })
 export class OrdenCargaCreateFormCombinacionComponent {
   flete?: FleteList;
+  combinacion?: CombinacionList;
   groupName = 'combinacion';
   gouprNameInfo = 'info'
   camionId?: number;
+  combinacionId?: number;
   semiAsociado?: number;
   semi?: SemiList;
 
@@ -36,6 +38,9 @@ export class OrdenCargaCreateFormCombinacionComponent {
   pdfSrc: string | undefined;
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
+  @Input() showSearchPedido: boolean | undefined;
+  @Input() showSearchOC: boolean | undefined;
+
 
   get diferenciaOrigenDestino(): number {
     return subtract(
@@ -49,6 +54,8 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Output() semiChange = new EventEmitter<Semi>();
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
 
+  @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
+
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup ?? null;
   }
@@ -61,6 +68,8 @@ export class OrdenCargaCreateFormCombinacionComponent {
     return this.flete ? this.flete.producto_id : undefined;
   }
 
+ 
+
   get isActive() {
     return this.info?.controls['anticipo_propietario'].value;
   }
@@ -68,6 +77,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   get estadoChofer(): FormControl {
     return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl 
   }
+
 
   isFormValid(): boolean {
     return  this.form?.get(this.groupName)?.get('semi_placa')?.value 
@@ -133,8 +143,12 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion?.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion?.puede_recibir_anticipos);
       if (combinacion){
+        this.combinacionId = combinacion.id;
+        console.log("combinacionID", this.combinacionId)
+        this.combinacionChange.emit(combinacion);
         this.camionService.getById(combinacion.camion_id).subscribe(camion => {
           this.camionChange.emit(camion)
+         
         })
         this.service.getById(combinacion.semi_id).subscribe(semi => {
           this.onSemiChange(semi)
@@ -157,6 +171,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Input() trueTitle = 'Si';
   @Input() falseTitle = 'No';
   @Input() readonly = false;
+  
   @Output() valueChange = new EventEmitter<boolean>();
 
   get controlValue(): boolean {

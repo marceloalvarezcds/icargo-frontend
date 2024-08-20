@@ -11,13 +11,13 @@
         <div *ngFor="let anticipo of oc?.porcentaje_anticipos" class="anticipo-item">
           <label class="anticipos-porcentaje">% {{ anticipo.concepto }}</label>
           <mat-form-field class="porcentajes">
-            <input id="porcentajeInput" matInput [value]="anticipo.porcentaje + '%'" disabled="true" />
+            <input id="porcentajeInput" matInput [value]="anticipo.porcentaje" disabled="true" />
           </mat-form-field>
           
         </div>
         <label class="total-anticipos">% TOTAL Anticipos</label>
-        <mat-form-field class="porcentajes">
-          <input id="totalAnticipoInput" matInput [value]="getTotalAnticipo() + '%'" disabled="true" />
+        <mat-form-field class="total">
+          <input id="totalAnticipoInput" matInput [value]="getTotalAnticipo()" disabled="true" />
         </mat-form-field>
       </div>
       
@@ -34,6 +34,7 @@
     [oc]="oc"
     >
   </app-orden-carga-flete>
+
     <div class="row page-form-row">
       <div class="column">
         <p>
@@ -52,13 +53,6 @@
           Limite Crédito OC + (% Max Liberado x Flete Proyectado):
           <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>
         </p>
-        <div class="inline-p">
-          <p>
-            Monto Efectivo OC + Complem.:
-            <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>
-          </p>
-          <p>Monto Efectivo OC:  <span class="span-like">{{ oc?.flete_monto_efectivo | number: '1.0-0' }}</span></p>
-        </div>
       </div>
       <div class="column">
         <p>
@@ -97,6 +91,22 @@
         </p>
       </div>
     </div>
+    <hr class="full-width-line-top" />
+    <div class="row page-form-row">
+      <div class="column">
+        <div class="flex-container">
+          <p>
+            Monto Efectivo OC:
+            <span class="span-like">{{ oc?.flete_monto_efectivo | number: '1.0-0' }}</span>
+          </p>
+          <p>
+            Monto Efectivo OC + Complem.:
+            <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>
+          </p>
+        </div>
+      </div>
+    </div>
+    <hr class="full-width-line-bottom" />
     <div mat-dialog-actions  class="buttons-actions">
       <button 
         mat-raised-button 

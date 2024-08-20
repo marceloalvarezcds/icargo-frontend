@@ -73,6 +73,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
   neto:number;
+  combinacion_id: number;
   camion_beneficiario_nombre: string;
   camion_beneficiario_documento: string;
   camion_propietario_documento: string;

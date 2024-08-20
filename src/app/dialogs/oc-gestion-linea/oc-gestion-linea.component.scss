@@ -12,13 +12,13 @@
 .span-concepto{
   font-size: 12px;
   font-weight: 700;
-  font-family: 'Poppins';
+  font-family: 'Roboto', sans-serif;
   font-weight: bold;
 }
 
 .conceptos p {
   font-size: 12px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
 }
 
 .gestion-container .info-porcentaje {
@@ -51,7 +51,7 @@
 .table-title {
   margin-top: -30px; 
   margin-bottom: 20px;
-  font-family: 'Poppins';
+  font-family: 'Roboto', sans-serif;
   font-size: 10px;
   font-weight: 700;
   line-height: 15px;
@@ -113,6 +113,18 @@
   opacity: 15; /* Mantiene el color visible en un input deshabilitado */
 }
 
+::ng-deep .total .mat-form-field-outline,
+::ng-deep .combustible .mat-form-field-outline {
+
+  border-radius: 4px;
+  height: 25px;
+  pointer-events: none;
+}
+
+.total input:disabled {
+  color: rgba(0, 0, 0, 0.6);
+  opacity: 15; /* Mantiene el color visible en un input deshabilitado */
+}
 
 input{
   margin-top: -25px;
@@ -130,18 +142,21 @@ input{
   width: 40px;
 }
 
-.porcentajes{
+.total{
   width: 53px;
   margin-right: 20px;
 }
 
+.porcentajes{
+  width: 53px;
+  margin-right: 20px;
+}
 
 .anticipo-item {
   display: flex;
   align-items: center;
   gap: 4px; /* Espacio entre el label y el input */
 }
-
 
 .gestion-container .info-porcentaje p {
   margin-right: 30px; /* Ajusta el valor según el espacio que desees */
@@ -226,13 +241,45 @@ p {
   width: 100%;
 }
 
+.full-width-line-top {
+  width: 80%; 
+  border: 0;
+  margin: 0; 
+  box-sizing: border-box; 
+  margin-bottom: 2px;
+  border: 1px solid #1C1C1C26
+}
+
+.full-width-line-bottom {
+  width: 100%; 
+  border: 0;
+  margin: 0; 
+  box-sizing: border-box; 
+  margin-top: -10px;
+  border: 1px solid #1C1C1C26
+}
+
+.flex-container {
+  display: flex; 
+  align-items: center; 
+  flex-wrap: nowrap;
+  margin-top: 2px;
+}
+
+.flex-container p {
+  margin: 0; 
+  display: flex; 
+  align-items: center; 
+  white-space: nowrap; 
+}
+
 .close-button {
   background: #FFFFFF;
   color: #3B9EFF;
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   width: auto;
-  padding: 8px 16px; /* Aumenta el padding horizontal para hacer el botón más largo */
+  padding: 8px 16px; 
   gap: 4px;
   border-radius: 5.25px;
   border: 1px solid transparent; /* Borde inicial transparente */
@@ -283,7 +330,7 @@ p {
   }
 
   .span-concepto{
-    font-family: 'Poppins';
+    font-family: 'Roboto' sans-serif;
     font-size: 12px;
     font-weight: 500;
     line-height: 12.1px;
@@ -294,7 +341,7 @@ p {
   }
 
   .conceptos p {
-    font-family: 'Inter';
+    font-family: 'Roboto' sans-serif;
     font-size: 10px;
     font-weight: 400;
     line-height: 12.1px;
@@ -336,7 +383,7 @@ p {
   .table-title {
     margin-top: -20px; 
     margin-bottom: 20px;
-    font-family: 'Poppins';
+    font-family: 'Roboto' sans-serif;
     font-size: 12px;
     font-weight: 700;
     line-height: 15px;

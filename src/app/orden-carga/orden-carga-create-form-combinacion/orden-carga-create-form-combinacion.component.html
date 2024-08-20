@@ -9,6 +9,7 @@
             [groupName]="groupName"
             [form]="form"
             (valueChange)="onCamionChange($event)"
+            [style]="'width: 170px;'"
           ></app-combinacion-dialog-field>
         </div>
         <div class="small-marca-input input-with-label">
@@ -170,7 +171,18 @@
             class="buscador"
             [form]="form"
             (valueChange)="onFleteChange($event)"
+            [style]="'width: 160px'"
           ></app-flete-by-gestor-dialog-field>
+        </div>
+        <div class="search-tracto small-input input-with-label" *ngIf="showSearchOC">
+          <label>Nº OC</label>
+          <app-oc-by-combinacion-dialog-field
+            [groupName]="groupName"
+            class="buscador"
+            [form]="form"
+            [style]="'width: 90px'"
+            [combinacionId]="combinacionId"
+          ></app-oc-by-combinacion-dialog-field>
         </div>
         <div class="small-input input-with-label">
           <app-input-field-oc

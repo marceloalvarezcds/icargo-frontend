@@ -73,5 +73,9 @@ export class OrdenCargaService {
   inactive(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/inactive`);
   }
-  
+
+  getListOCByCombinacionId(combinacionId: number): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/${combinacionId}`);
+  }
+ 
 }

@@ -73,7 +73,7 @@ clearSelectedValue(): void {
   this.dialogFieldControl?.clearSelectedValue();
   this.clearClick.emit();
 }
-
+isTracto: boolean = true;
 openDialog(): void {
   this.dialogFieldControl?.openDialog();
 }

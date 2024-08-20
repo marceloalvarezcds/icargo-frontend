@@ -19,13 +19,14 @@
 >
 
   <div class="orden-carga-page-content">
-    <app-orden-carga-acciones-form-combinacion-oc
+    <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
       (camionChange)="camion = $event"
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
-    ></app-orden-carga-acciones-form-combinacion-oc>
+      [showSearchOC]="true"
+    ></app-orden-carga-create-form-combinacion>
    
     <app-orden-carga-anticipos-table 
       [class.disabled]="!isFormSaved"
@@ -33,7 +34,8 @@
       [fleteId]="fleteId"
       [list]="anticipoList"
       (ocChange)="getData()"
-      [isShow]="isShow"
+      [isShow]="false"
+    
     >
     </app-orden-carga-anticipos-table>
   </div>

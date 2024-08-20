@@ -89,7 +89,7 @@ td.mat-cell {
 
 th.mat-header-cell {
   font-family: 'Roboto', sans-serif;
-  font-size: 12px; /* Tamaño de fuente */
+  font-size: 12px; 
   font-weight: 500;
   color: black;
 }
@@ -137,10 +137,9 @@ tr.mat-header-row {
   font-size: 12px;
 }
 
-
-
 .align-right-oc{
- 
+  padding-top: 8px; /* Padding superior */
+  padding-bottom: 8px; /* Padding inferior */
   margin-left: -14px;
 }
 .align-right-porcentaje{
@@ -149,20 +148,18 @@ tr.mat-header-row {
 
 td.mat-column-id_anticipo {
   text-align: left; 
-  padding-left: 0;  /* Elimina el padding izquierdo */
+  padding-left: 0;  
   padding-right: 0; /* Elimina el padding derecho */
   margin-left: -60px; /* Mueve la celda hacia la izquierda */
 }
 
 td.mat-column-porcentaje:not(:first-child) {
   text-align: left; 
-  padding-left: 0;  /* Elimina el padding izquierdo */
+  padding-left: 0;  
   padding-right: 0; /* Elimina el padding derecho */
   margin-left: -60px; /* Mueve la celda hacia la izquierda */
 
 }
-
-
 
 td.mat-column-total_anticipo:not(:first-child),
 td.mat-column-total_complemento:not(:first-child),
@@ -219,15 +216,9 @@ td.mat-column-modified_at_anticipo:not(:first-child) {
   width: 138px !important;
 }
 
-.title-saldos {
-  margin-left: -13px;
-  line-height: 1.2;
-  font-size: 19px;
-  margin-right: -2px;
-}
 
 .small-column {
-  width: 19px !important; /* Ajusta el tamaño según tus necesidades */
+  width: 19px !important; 
   padding: 0 !important;
   box-sizing: border-box;
   font-size: 10px;
