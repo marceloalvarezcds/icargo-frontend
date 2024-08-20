@@ -18,7 +18,7 @@
         <div class="space-bottom proveedor">
           <strong class="proveedor-label">Proveedor: </strong><span class="input-like">{{ proveedor }}</span>
         </div>
-          <!-- <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
+          <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
         <div><strong>Insumo: </strong>{{ insumo }}</div>
         <div class="inline-container">
           <strong>Monto: </strong><span class="spaced">{{ monto }}</span>
@@ -26,7 +26,7 @@
         </div>
         <div class="space-bottom">
           <strong>Precio Unitario: </strong>{{ precioUnitarioControl.value | numberFormat }}
-        </div> -->
+        </div> 
       </ng-container>
       <ng-container *ngIf="!isTipoInsumo">
         <app-punto-venta-map-dialog-field
@@ -48,14 +48,14 @@
           <app-moneda-field [form]="form"></app-moneda-field>
         </div>
       </ng-container>
-      <!-- <mat-radio-group
+       <mat-radio-group
         aria-label="Seleccione una opción"
         formControlName="es_con_litro"
         [hidden]="!isTipoInsumo"
       >
         <mat-radio-button [value]="true">Litros</mat-radio-button>
         <mat-radio-button [value]="false">Monto</mat-radio-button>
-      </mat-radio-group> -->
+      </mat-radio-group> 
       <div [hidden]="!esConLitro">
         <app-number-field
           title="Cantidad retirada"
