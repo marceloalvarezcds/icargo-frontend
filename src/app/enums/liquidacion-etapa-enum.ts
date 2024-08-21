@@ -3,4 +3,5 @@ export enum LiquidacionEtapaEnum {
   EN_PROCESO = 'En Proceso',
   CONFIRMADO = 'Confirmado',
   FINALIZADO = 'Finalizado',
+  SALDO = 'Saldo',
 }

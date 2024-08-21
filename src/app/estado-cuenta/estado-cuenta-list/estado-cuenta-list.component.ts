@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
@@ -38,17 +39,36 @@ export class EstadoCuentaListComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'tipo_contraparte_descripcion',
-      title: 'Tipo de Contraparte',
+      title: 'Contraparte',
       value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion,
     },
     {
       def: 'contraparte',
-      title: 'Contraparte',
+      title: 'Cuenta Correntista',
       value: (element: EstadoCuenta) => element.contraparte,
+    },
+    // ver si se permiten botones en columnas con acciones
+    {
+      def: 'ctacte',
+      title: '',
+      value: () => 'Ver',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
+      /*link: (element: EstadoCuenta) => (
+         {
+            url: [
+              `/estado-cuenta/${m.ESTADO_CUENTA}/contraparte/${a.LISTAR}`,
+            ],
+            queryParams: getQueryParams(
+              element,
+              LiquidacionEtapaEnum.PENDIENTE
+            ),
+          }    
+      ) */
     },
     {
       def: 'contraparte_numero_documento',
-      title: 'Nº de Doc. Contraparte',
+      title: 'Nº de Documento',
       value: (element: EstadoCuenta) => element.contraparte_numero_documento,
     },
     {
@@ -70,31 +90,13 @@ export class EstadoCuentaListComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'en_proceso',
-      title: LiquidacionEtapaEnum.EN_PROCESO,
-      value: (element: EstadoCuenta) => element.en_proceso,
+      def: 'confirmado',
+      title: LiquidacionEtapaEnum.CONFIRMADO,
+      value: (element: EstadoCuenta) => element.confirmado,
       link: (element: EstadoCuenta) => ({
         url: [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
         queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
       }),
-      type: 'number',
-    },
-    {
-      def: 'confirmado',
-      title: LiquidacionEtapaEnum.CONFIRMADO,
-      value: (element: EstadoCuenta) => element.confirmado,
-      link: (element: EstadoCuenta) =>
-        element.cantidad_confirmado > 0
-          ? {
-              url: [
-                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`,
-              ],
-              queryParams: getQueryParams(
-                element,
-                LiquidacionEtapaEnum.CONFIRMADO
-              ),
-            }
-          : undefined,
       type: 'number',
     },
     {
@@ -113,6 +115,12 @@ export class EstadoCuentaListComponent implements OnInit {
               ),
             }
           : undefined,
+      type: 'number',
+    },
+    {
+      def: 'saldo',
+      title: LiquidacionEtapaEnum.SALDO,
+      value: (element: EstadoCuenta) => element.saldo,
       type: 'number',
     },
   ];
@@ -148,7 +156,8 @@ export class EstadoCuentaListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: MatDialog,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -239,4 +248,18 @@ export class EstadoCuentaListComponent implements OnInit {
     this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
     this.contraparteFiltered = this.contraparteFilterList.slice();
   }
+
+  private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
+    
+    let queryparam = getQueryParams(mov,LiquidacionEtapaEnum.FINALIZADO);
+
+    const url = this.router.serializeUrl(
+      this.router.createUrlTree([
+        `/estado-cuenta/estado-cuenta-contraparte/${a.LISTAR}`,
+        queryparam,
+      ])
+    );
+    window.open(url, '_blank');
+  }
+
 }
