@@ -163,6 +163,11 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     let text = `<span class="hint-alert-label">Saldo</span> <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
     return text;
   }
+  @Output() valueChange = new EventEmitter<string>();
+  tiposAnticipo = [
+    { value: 'efectivo', descripcion: 'EFECTIVO' },
+    { value: 'insumo', descripcion: 'INSUMO' }
+  ];
 
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;

@@ -54,7 +54,6 @@
   }
   
   
-  
   .divider {
     width: 645px;
     height: 0px;
@@ -82,18 +81,18 @@
   }
   
   .inline-container .spaced {
-    margin-right: 2px; /* Espacio entre el monto y la moneda */
+    margin-right: -15px; /* Espacio entre el monto y la moneda */
   }
   
   .inline-container > * {
-    margin-right: 6px; /* Ajusta este valor según el espacio que desees */
+    margin-right: 2px; /* Ajusta este valor según el espacio que desees */
   }
   
   .inline-container > *:last-child {
     margin-right: 0; /* Elimina el margen derecho del último elemento */
   }
   .space-bottom .proveedor{
-    margin-top: -100px;
+    margin-top: -80px;
   }
   
   .proveedor-label{
@@ -131,6 +130,14 @@
     font-size: 14px; 
     font-weight: 400; 
     margin-top: 20px; 
+  }
+  .monto-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .monto-field {
+    margin-right: 8px; /* Ajusta el espacio entre el campo de monto y el campo de moneda */
   }
   
   .observacion-field {
