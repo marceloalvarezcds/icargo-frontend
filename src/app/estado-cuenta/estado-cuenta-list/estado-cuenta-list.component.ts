@@ -47,24 +47,19 @@ export class EstadoCuentaListComponent implements OnInit {
       title: 'Cuenta Correntista',
       value: (element: EstadoCuenta) => element.contraparte,
     },
-    // ver si se permiten botones en columnas con acciones
     {
-      def: 'ctacte',
-      title: '',
-      value: () => 'Ver',
+      def: 'ctacte1',
+      title: 'uno',
+      value: () => 'Ver1',
       type: 'button',
-      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
-      /*link: (element: EstadoCuenta) => (
-         {
-            url: [
-              `/estado-cuenta/${m.ESTADO_CUENTA}/contraparte/${a.LISTAR}`,
-            ],
-            queryParams: getQueryParams(
-              element,
-              LiquidacionEtapaEnum.PENDIENTE
-            ),
-          }    
-      ) */
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element)
+    },
+    {
+      def: 'ctacte2',
+      title: 'dos',
+      value: () => 'Ver2',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element)
     },
     {
       def: 'contraparte_numero_documento',
@@ -225,11 +220,18 @@ export class EstadoCuentaListComponent implements OnInit {
 
   private getList(): void {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
+
+      list.forEach( (mov:EstadoCuenta) => {
+        mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado
+      })
+
       this.list = list;
+
       this.tipoContraparteFilterList = getFilterList(
         list,
         (x) => x.tipo_contraparte_descripcion
       );
+
       this.contraparteFilterList = getFilterList(list, (x) => x.contraparte);
       this.resetFilterList();
     });
@@ -250,7 +252,7 @@ export class EstadoCuentaListComponent implements OnInit {
   }
 
   private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
-    
+
     let queryparam = getQueryParams(mov,LiquidacionEtapaEnum.FINALIZADO);
 
     const url = this.router.serializeUrl(

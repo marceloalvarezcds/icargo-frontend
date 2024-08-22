@@ -5,6 +5,7 @@ export interface EstadoCuenta extends ContraparteInfoMovimiento {
   en_proceso: number;
   confirmado: number;
   finalizado: number;
+  saldo: number;
   cantidad_pendiente: number;
   cantidad_en_proceso: number;
   cantidad_confirmado: number;
@@ -23,6 +24,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     en_proceso: 0,
     confirmado: 0,
     finalizado: 0,
+    saldo: -2350000,
     cantidad_pendiente: 1,
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
@@ -39,6 +41,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     en_proceso: 0,
     confirmado: 0,
     finalizado: 0,
+    saldo: 387900,
     cantidad_pendiente: 1,
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
@@ -55,6 +58,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     en_proceso: 0,
     confirmado: 0,
     finalizado: 0,
+    saldo: 1000,
     cantidad_pendiente: 1,
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
@@ -71,6 +75,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     en_proceso: 0,
     confirmado: 0,
     finalizado: 0,
+    saldo: 1462400,
     cantidad_pendiente: 1,
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
