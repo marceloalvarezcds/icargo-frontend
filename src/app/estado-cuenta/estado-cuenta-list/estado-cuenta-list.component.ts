@@ -49,22 +49,25 @@ export class EstadoCuentaListComponent implements OnInit {
     },
     {
       def: 'ctacte1',
-      title: 'uno',
-      value: () => 'Ver1',
+      title: ' ',
+      value: () => 'Crear Liquidacion',
       type: 'button',
-      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element)
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
+      buttonIconName: (element: EstadoCuenta) => 'account_circle',
     },
     {
       def: 'ctacte2',
-      title: 'dos',
-      value: () => 'Ver2',
+      title: ' ',
+      value: () => 'Ver Movimientos Pendientes',
       type: 'button',
-      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element)
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
+      buttonIconName: (element: EstadoCuenta) => 'business_center'
     },
     {
       def: 'contraparte_numero_documento',
       title: 'Nº de Documento',
       value: (element: EstadoCuenta) => element.contraparte_numero_documento,
+      footerDef: () => 'Total',
     },
     {
       def: 'pendiente',
@@ -83,6 +86,7 @@ export class EstadoCuentaListComponent implements OnInit {
             }
           : undefined,
       type: 'number',
+      footerDef: () => this.totalPendiente,
     },
     {
       def: 'confirmado',
@@ -93,6 +97,7 @@ export class EstadoCuentaListComponent implements OnInit {
         queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
       }),
       type: 'number',
+      footerDef: () => this.totalConfirmado,
     },
     {
       def: 'finalizado',
@@ -111,12 +116,14 @@ export class EstadoCuentaListComponent implements OnInit {
             }
           : undefined,
       type: 'number',
+      footerDef: () => this.totalFinalizado,
     },
     {
       def: 'saldo',
       title: LiquidacionEtapaEnum.SALDO,
       value: (element: EstadoCuenta) => element.saldo,
       type: 'number',
+      footerDef: () => (this.totalPendiente+this.totalConfirmado+this.totalFinalizado),
     },
   ];
 
@@ -126,6 +133,10 @@ export class EstadoCuentaListComponent implements OnInit {
   tipoContraparteFiltered: string[] = [];
   contraparteFilterList: string[] = [];
   contraparteFiltered: string[] = [];
+
+  pendiente: number = 0;
+  confirmado: number = 0;
+  finalizado: number = 0;
 
   get isFilteredByTipoContraparte(): boolean {
     return (
@@ -138,6 +149,18 @@ export class EstadoCuentaListComponent implements OnInit {
     return (
       this.contraparteFiltered.length !== this.contraparteFilterList.length
     );
+  }
+
+  get totalPendiente(): number {
+    return this.pendiente;
+  }
+
+  get totalConfirmado(): number {
+    return this.confirmado;
+  }
+
+  get totalFinalizado(): number {
+    return this.finalizado;
   }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
@@ -182,6 +205,17 @@ export class EstadoCuentaListComponent implements OnInit {
     return filterByTipoContraparte && filterByContraparte;
   }
 
+  calcularTotales(): void{
+
+    this.list.forEach( (mov:EstadoCuenta) => {
+      mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+      this.pendiente = this.pendiente + mov.pendiente;
+      this.confirmado = this.confirmado + mov.confirmado;
+      this.finalizado = this.finalizado + mov.finalizado;
+    })
+
+  }
+
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
@@ -222,7 +256,10 @@ export class EstadoCuentaListComponent implements OnInit {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
 
       list.forEach( (mov:EstadoCuenta) => {
-        mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado
+        mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+        this.pendiente = this.pendiente + mov.pendiente;
+        this.confirmado = this.confirmado + mov.confirmado;
+        this.finalizado = this.finalizado + mov.finalizado;
       })
 
       this.list = list;

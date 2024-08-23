@@ -1,6 +1,7 @@
 <app-page
   class="estado-cuenta-page"
-  module="Todas las Cuentas Corrientes"
+  submodule="Vista General"
+  viewTitle="Todas las Cuentas Corrientes"
   [modelo]="m.MOVIMIENTO"
   (applyClick)="applyFilter()"
   (createClick)="create()"
@@ -54,5 +55,6 @@
     [hideDelete]="true"
     [hideEdit]="true"
     [hideShow]="true"
+    [shouldBeShowFooter]="true"
   ></app-table-paginator>
 </app-page>
