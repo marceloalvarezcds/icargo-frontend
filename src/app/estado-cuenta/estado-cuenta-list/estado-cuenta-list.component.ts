@@ -290,14 +290,19 @@ export class EstadoCuentaListComponent implements OnInit {
 
   private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
 
-    let queryparam = getQueryParams(mov,LiquidacionEtapaEnum.FINALIZADO);
+    let queryparam = getQueryParams(mov, LiquidacionEtapaEnum.FINALIZADO);
 
     const url = this.router.serializeUrl(
       this.router.createUrlTree([
-        `/estado-cuenta/estado-cuenta-contraparte/${a.LISTAR}`,
+        `/estado-cuenta/estado-cuenta/list-detalle/${m.LIQUIDACION}/${a.LISTAR}`,
         queryparam,
       ])
     );
+
+    url: [
+      `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+    ],
+
     window.open(url, '_blank');
   }
 

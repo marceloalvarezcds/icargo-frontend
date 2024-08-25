@@ -28,6 +28,11 @@ const routes: Routes = [
         canActivate: [PermisoGuard],
       },
       {
+        path: 'list-detalle',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
         path: m.LIQUIDACION,
         children: [
           {

@@ -25,6 +25,7 @@ import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.co
 import { LiquidacionMovimientosComponent } from './liquidacion-movimientos/liquidacion-movimientos.component';
 import { OperacionComponent } from './operacion/operacion.component';
 import { SaldoComponent } from './saldo/saldo.component';
+import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/estado-cuenta-list-detalle.component';
 
 @NgModule({
   declarations: [
@@ -45,6 +46,7 @@ import { SaldoComponent } from './saldo/saldo.component';
     LiquidacionFormMovimientosComponent,
     OperacionComponent,
     SaldoComponent,
+    EstadoCuentaListDetalleComponent,
   ],
   imports: [
     CommonModule,
