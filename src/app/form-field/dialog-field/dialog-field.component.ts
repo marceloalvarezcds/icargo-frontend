@@ -5,7 +5,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
@@ -42,6 +42,7 @@ export class DialogFieldComponent<
   }
 
   @Input() form?: FormGroup;
+  @Input() formControl?: AbstractControl | null;
   @Input() columns: Column[] = [];
   @Input() controlName!: string;
   @Input() groupName?: string;
@@ -60,16 +61,7 @@ export class DialogFieldComponent<
   @Input() set readonly(val: boolean) {
     val ? this.control.disable() : this.control.enable();
   }
-  getClassForControl(controlName: string): string {
-    switch (controlName) {
-      case 'insumo_punto_venta_precio_id':
-        return 'punto-venta-class';
-      case 'punto_venta_id':
-        return 'punto-venta-class';
-      default:
-        return 'default-class';
-    }
-  }
+
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
@@ -91,5 +83,15 @@ export class DialogFieldComponent<
 
   close() {
     this.isOpen = false;
+  }
+  getClassForControl(controlName: string): string {
+    switch (controlName) {
+      case 'insumo_punto_venta_precio_id':
+        return 'punto-venta-class';
+      case 'punto_venta_id':
+        return 'punto-venta-class';
+      default:
+        return 'default-class';
+    }
   }
 }

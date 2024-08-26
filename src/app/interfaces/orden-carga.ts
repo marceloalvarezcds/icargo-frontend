@@ -161,6 +161,7 @@ export interface OrdenCargaList extends OrdenCargaForm {
   camion_propietario_nombre: string;
   // Datos de semi
   semi_placa: string;
+  combinacion_id: number;
   // Datos de fletes
   flete_destino_nombre: string;
   flete_gestor_carga_id: number;
@@ -171,9 +172,12 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_remitente_nombre: string;
   flete_remitente_numero_documento: string;
   flete_tipo: TipoFleteEnum;
+  flete_saldo: number;
+  resultado_flete_gestor_carga_merma_valor:number;
   gestor_carga_nombre: string;
   condicion_propietario_tarifa: number;
   resultado_gestor_carga_saldo_total: number;
+  condicion_gestor_cuenta_tarifa: number;
 
   // Campos para la edición
   estado: EstadoEnum;
@@ -340,6 +344,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
     flete_numero_lote: flete0.numero_lote,
     flete_origen_nombre: flete0.origen_nombre,
+    flete_saldo: 2000,
+    resultado_flete_gestor_carga_merma_valor: 20,
+    condicion_gestor_cuenta_tarifa: 100,
     flete_producto_descripcion: flete0.producto_descripcion,
     flete_remitente_nombre: flete0.remitente_nombre,
     flete_remitente_numero_documento: flete0.remitente_numero_documento,
@@ -403,6 +410,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 90,
     resultado_gestor_carga_saldo_total:100,
+    flete_saldo: 2000,
+    resultado_flete_gestor_carga_merma_valor: 20,
+    condicion_gestor_cuenta_tarifa: 100,
 
     // cantidad y comentario
     cantidad_nominada: 10000,
@@ -459,6 +469,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 100,
     resultado_gestor_carga_saldo_total:100,
+    flete_saldo: 2000,
+    resultado_flete_gestor_carga_merma_valor: 20,
+    condicion_gestor_cuenta_tarifa: 100,
 
     // cantidad y comentario
     cantidad_nominada: 10000,

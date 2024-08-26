@@ -27,20 +27,30 @@ export class OrdenCargaCreateFormCombinacionComponent {
   flete?: FleteList;
   combinacion?: CombinacionList;
   groupName = 'combinacion';
-  gouprNameInfo = 'info'
+  groupNameInfo = 'info'
   camionId?: number;
   combinacionId?: number;
   semiAsociado?: number;
   semi?: SemiList;
-
   showPedidoSection: boolean = false;
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
+  
+  @Input() submodule: string | undefined;
+  @Input() activeSection: boolean = true ;
+
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
   @Input() showSearchPedido: boolean | undefined;
-  @Input() showSearchOC: boolean | undefined;
+  @Input() showSearchOC: boolean = false;
+  @Input() disabled: boolean = false;
 
+
+  @Output() fleteChange = new EventEmitter<FleteList>();
+  @Output() camionChange = new EventEmitter<Camion>();
+  @Output() semiChange = new EventEmitter<Semi>();
+  @Output() combinacionChange = new EventEmitter<CombinacionList>();
+  @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
 
   get diferenciaOrigenDestino(): number {
     return subtract(
@@ -48,13 +58,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.oc?.cantidad_destino ?? 0
     );
   }
-
-  @Output() fleteChange = new EventEmitter<FleteList>();
-  @Output() camionChange = new EventEmitter<Camion>();
-  @Output() semiChange = new EventEmitter<Semi>();
-  @Output() combinacionChange = new EventEmitter<CombinacionList>();
-
-  @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup ?? null;
@@ -68,8 +71,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
     return this.flete ? this.flete.producto_id : undefined;
   }
 
- 
-
   get isActive() {
     return this.info?.controls['anticipo_propietario'].value;
   }
@@ -77,7 +78,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
   get estadoChofer(): FormControl {
     return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl 
   }
-
 
   isFormValid(): boolean {
     return  this.form?.get(this.groupName)?.get('semi_placa')?.value 
@@ -92,7 +92,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
       });
     });
   }
-  
 
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
@@ -156,6 +155,26 @@ export class OrdenCargaCreateFormCombinacionComponent {
       }
     }
 
+  onOrdenCargaChange(oc?: OrdenCargaList){
+    if (oc){
+      this.ordenCargaChange.emit(oc);
+      this.form?.get(this.groupName)?.get('flete_id')?.setValue(oc.flete_id); 
+      this.form?.get(this.groupName)?.get('numero_lote')?.setValue(oc.flete_numero_lote); 
+      this.form?.get(this.groupName)?.get('saldo')?.setValue(oc.flete_saldo); //
+      this.form?.get(this.groupName)?.get('cliente')?.setValue(oc.flete_remitente_nombre);
+      this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(oc.flete_producto_descripcion);
+      this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(oc?.flete_origen_nombre);
+      this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(oc?.flete_destino_nombre); 
+      this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(oc.flete_tipo); 
+      this.form?.get(this.groupName)?.get('a_pagar')?.setValue(oc.condicion_gestor_cuenta_tarifa); 
+      this.form?.get(this.groupName)?.get('valor')?.setValue(oc.resultado_flete_gestor_carga_merma_valor); 
+      this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
+      this.form?.get(this.groupNameInfo)?.get('comentarios')?.setValue(oc.comentarios);
+      this.form?.get(this.groupName)?.get('cant_origen')?.setValue(0);
+      this.form?.get(this.groupName)?.get('cant_destino')?.setValue(0);
+      this.form?.get(this.groupName)?.get('diferencia')?.setValue(0);
+    }
+  }
 
   downloadPDF(): void {
     this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
@@ -171,12 +190,9 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Input() trueTitle = 'Si';
   @Input() falseTitle = 'No';
   @Input() readonly = false;
-  
   @Output() valueChange = new EventEmitter<boolean>();
 
   get controlValue(): boolean {
     return !!this.control.value;
   }
-
-  
 }

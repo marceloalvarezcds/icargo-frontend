@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { SemiList } from 'src/app/interfaces/semi';
@@ -71,6 +71,7 @@ export class InputFieldComponent {
   @Input() controlName = '';
   @Input() hint = '';
   @Input() form?: FormGroup;
+  @Input() formControl?: AbstractControl | null;
   @Input() groupName?: string;
   @Input() readonly = false;
   @Input() title = '';

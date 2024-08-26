@@ -29,6 +29,7 @@ export class PageFormComponent implements OnDestroy {
   a = PermisoAccionEnum;
   pdfSrc: string | undefined;
   @Input() oc?: OrdenCarga;
+  @Input() isDataLoaded: boolean = false;
   @Input() isFormSaved: boolean | undefined;  
   @Input() isAnticipoActive: boolean = false;
   @Input() formGroup!: FormGroup;

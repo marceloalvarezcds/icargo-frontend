@@ -153,7 +153,6 @@
           [shouldFormat]="false"
         ></app-input-field-oc>
       </div>
-
       <mat-slide-toggle 
         formControlName="puede_recibir_anticipos"
         labelPosition="before" 
@@ -164,7 +163,7 @@
     <div class="section">
       <h2>PEDIDO</h2>
       <div class="row page-form-row">
-        <div class="search-tracto small-input input-with-label">
+        <div class="search-tracto small-input input-with-label" *ngIf="showSearchPedido">
           <label>Nº Pedido</label>
           <app-flete-by-gestor-dialog-field
             [groupName]="groupName"
@@ -180,9 +179,21 @@
             [groupName]="groupName"
             class="buscador"
             [form]="form"
-            [style]="'width: 90px'"
+            [style]="'width: 100px'"
             [combinacionId]="combinacionId"
+            (valueChange)="onOrdenCargaChange($event)"
           ></app-oc-by-combinacion-dialog-field>
+        </div>
+        <div class="small-input input-with-label"  *ngIf="showSearchOC">
+          <app-input-field-oc
+            title="Nº Pedido"
+            [groupName]="groupName"
+            [camionId]="camionId"
+            [productoId]="productoId"
+            [readonly]="true"
+            [form]="form"
+            controlName="flete_id"
+          ></app-input-field-oc>
         </div>
         <div class="small-input input-with-label">
           <app-input-field-oc
@@ -287,15 +298,17 @@
             [readonly]="true"
             [form]="form"
             controlName="valor"
-            
           ></app-input-field-oc>
         </div>
       </div>
     </div>
       <app-orden-carga-create-form-info
         [form]="form"
-        [flete]="flete">
+        [flete]="flete"
+        [disableForm]="showSearchOC"
+        >
       </app-orden-carga-create-form-info>
+
     <div class="small-neto-input input-with-label">
       <app-input-field-oc
         title="Neto Combinación"
@@ -329,7 +342,6 @@
           [productoId]="productoId"
           [readonly]="true"
           [form]="form"
-          
           controlName="cant_destino"
         ></app-input-field-oc>
       </div>

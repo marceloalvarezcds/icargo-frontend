@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { OcConfirmationDialogComponent } from 'src/app/dialogs/oc-confirmation-dialog/oc-confirmation-dialog.component';
@@ -42,10 +42,12 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
   isActive = false;
+  isShow: boolean = true;
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
   isEdit = false;
-  
+  isDataLoaded: boolean = true;
+  submodule: string = 'ANTICIPO (directo)';
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -81,12 +83,12 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
       puede_recibir_anticipos: [false],
       anticipo_propietario: null,
       anticipos: null,
+      id_orden_carga: [null, Validators.required],
     }),
     info: this.fb.group({
-      cantidad_nominada: [null, Validators.required],
+      cantidad_nominada: null,
       comentarios: null,
     }),
-    
   });
 
   initialFormValue = this.form.value;
@@ -104,6 +106,11 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
 
   get estado(): EstadoEnum {
     return this.item!.estado;
+  }
+
+  get idOC(): number {
+    const ocValue = this.form.get('combinacion.id_orden_carga')?.value;
+    return ocValue;
   }
 
   get combinacion(): FormGroup {
@@ -130,11 +137,6 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
     return this.estado === EstadoEnum.FINALIZADO;
   }
 
-  get isShow(): boolean {
-    return !this.isEdit;
-  }
-
-  isViewMode: boolean = true;
   
   get isAnticiposLiberados(): boolean {
     return this.item!?.anticipos_liberados;
@@ -161,6 +163,8 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
     private snackbar: SnackbarService,
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
+    private route: ActivatedRoute,
+    
   ) {}
 
   setInitialToggleState(): void {
@@ -208,77 +212,107 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit {
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
   }
+
+  private dialogOpened = false;
   
-  save(confirmed: boolean): void {
+  save(showDialog: boolean = true): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
     if (this.form.valid) {
       const data: OCConfirmationDialogData = {
         oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
-        
       };
-      this.dialog
-        .open(OcConfirmationDialogComponent, {
-          data,
-          panelClass: 'selector-dialog',
-          position: {
-            top: '1rem',
-          },
-        })
-        .afterClosed()
-        .pipe(filter((confirmed: any) => !!confirmed))
-        .subscribe(() => {
-          this.submit(confirmed);
-        });
+
+      if (showDialog) {
+        if (!this.dialogOpened) {
+          this.dialogOpened = true;
+          this.dialog
+            .open(OcConfirmationDialogComponent, {
+              data,
+              panelClass: 'selector-dialog',
+              position: {
+                top: '1rem',
+              },
+            })
+            .afterClosed()
+            .pipe(filter((confirmed: any) => !!confirmed))
+            .subscribe((confirmed) => {
+              this.submit(confirmed); 
+              this.dialogOpened = false; 
+            });
+        }
+      } else {
+        this.submit(true); 
+      }
     }
   }
 
+  getData(): void {
+    this.ordenCargaService.getById(this.idOC).subscribe((data) => {
+      this.item = data;
+      this.isActive = data.estado === EstadoEnum.NUEVO;
+      this.form.patchValue({
+        combinacion: {
+          flete_id: data.flete_id,
+          camion_id: data.camion_id,
+          combinacion_id: data.combinacion_id,
+          marca_camion: data.camion_marca,
+          color_camion: data.camion_color,
+          semi_id: data.semi_id,
+          semi_placa: data.semi_placa,
+          marca_semi: data.semi_marca,
+          color_semi: data.semi_color,
+          propietario_camion: data.camion_propietario_nombre,
+          propietario_camion_doc: data.camion_propietario_documento,
+          chofer_camion: data.camion_chofer_nombre,
+          chofer_camion_doc: data.combinacion_chofer_doc,
+          beneficiario_camion: data.camion_beneficiario_nombre,
+          beneficiario_camion_doc: data.camion_beneficiario_documento,
+          numero: data.flete_numero_lote,
+          saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
+          cliente: data.flete_remitente_nombre,
+          tipo_flete: data.flete_tipo,
+          producto_descripcion: data.flete_producto_descripcion,
+          origen_nombre: data.flete_origen_nombre,
+          destino_nombre: data.flete_destino_nombre,
+          a_pagar: data.condicion_gestor_cuenta_tarifa,
+          neto: data.neto,
+          valor: data.flete_monto_efectivo,
+          cant_origen: 0,
+          cant_destino: 0,
+          diferencia: 0,
+          anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+          estado: data.estado,
+          anticipos: data.anticipos_liberados
+        },
+        info: {
+          cantidad_nominada: data.cantidad_nominada,
+          comentarios: data.comentarios,
+        },
+        tramo: {
+          flete_origen_id: data.flete_origen_id,
+          flete_destino_id: data.flete_destino_id,
+          origen_id: data.flete_origen_nombre,
+          destino_id: data.flete_destino_nombre,
+        },
+        
+      });
+      this.form.disable();
+      setTimeout(() => {
+        this.hasChange = false;
+        this.initialFormValue = this.form.value;
+      }, 500);
+    });
+    
+  }
 
   submit(confirmed: boolean): void {
-    if (this.form.valid) {
-      this.isFormSaved = true; 
-      this.isFormSubmitting = false
-      this.dataFromParent = this.form.get('combinacion.estado')?.value; 
-    }
-    const formData = new FormData();
-    const data = JSON.parse(
-      JSON.stringify({
-        ...this.combinacion.value,
-        ...this.info.value,
-      })
-     
-    );
-    // Convertir propiedades a mayúsculas, excepto los correos electrónicos
-    Object.keys(data).forEach(key => {
-      if (typeof data[key] === 'string' && key !== 'email') {
-        data[key] = data[key].toUpperCase();
-      }
-    });  
-    formData.append('data', JSON.stringify(data));
-    this.ordenCargaService.create(formData).subscribe((item) => {
-    this.snackbar.openSave();
-      this.ordenCargaId = item.id; 
-      this.fleteId = item.flete_id;
-      this.item = item;
-      this.dataFromParent = item.estado;
-      r.ORDEN_CARGA;
-      m.ORDEN_CARGA;
-      // this.snackbar.openSaveAndRedirect(
-      //   confirmed,
-      //  this.backUrl,
-      //   r.ORDEN_CARGA,
-       //  m.ORDEN_CARGA,
-       //  item.id
-       //);
-    });
-    this.form.disable();
-  }
-  getData(): void {
-    if (!this.item) return
-    this.ordenCargaService.getById(
-      this.item.id).subscribe((data) => {
-      this.item = data;
-    });
+    this.isFormSaved = true; 
+    this.isFormSubmitting = false
+    this.isShow = false
+    this.dataFromParent = this.form.get('combinacion.estado')?.value; 
+    this.getData();
   }
 
 }

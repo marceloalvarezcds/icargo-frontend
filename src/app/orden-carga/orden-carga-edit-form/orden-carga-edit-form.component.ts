@@ -238,7 +238,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       anticipoButton.disabled = status !== 'VALID';
       
     });
-    console.log('Anticipos Liberados:', this.isAnticiposLiberados);
   }
 
   ngOnDestroy(): void {

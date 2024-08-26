@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -76,6 +77,10 @@ export class OrdenCargaService {
 
   getListOCByCombinacionId(combinacionId: number): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/${combinacionId}`);
+  }
+
+  getListByCombinacionId(combinacionId: number): Observable<OrdenCargaList> {
+    return this.http.get<OrdenCargaList>(`${this.url}/combinaciones/${combinacionId}`);
   }
  
 }

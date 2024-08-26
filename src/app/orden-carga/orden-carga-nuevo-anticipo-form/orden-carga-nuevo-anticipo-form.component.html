@@ -12,10 +12,11 @@
   [isFormSaved]="isFormSaved"
   [class.page-form-show]="isShow"
   [isFormSubmitting]="isFormSubmitting"
-  [estado]="dataFromParent"
+  [estado]="estadoOc"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
+  [isDataLoaded]="isToggleAnticiposLiberados"
 >
 
   <div class="orden-carga-page-content">
@@ -26,16 +27,14 @@
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
       [showSearchOC]="true"
+      (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
-   
     <app-orden-carga-anticipos-table 
       [class.disabled]="!isFormSaved"
       [oc]="item"
       [fleteId]="fleteId"
       [list]="anticipoList"
       (ocChange)="getData()"
-      [isShow]="false"
-    
     >
     </app-orden-carga-anticipos-table>
   </div>

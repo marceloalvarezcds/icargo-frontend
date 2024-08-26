@@ -10,6 +10,21 @@
     visibility: hidden;
   }
 }
+
+.disabled-container {
+  pointer-events: none;        
+}
+
+.disabled-container input,
+.disabled-container textarea,
+.disabled-container select {
+  cursor: not-allowed;
+}
+.disabled-container .mat-form-field-outline {
+  border: 1px solid black !important;
+  background: white;
+}
+
 .section h2 {
   margin: 0 0 15px 0;
   font-family: 'Roboto', sans-serif;

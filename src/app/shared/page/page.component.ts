@@ -36,12 +36,18 @@ export class PageComponent {
   @Output() createAnticipoClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
+  @Output() createRecepcionClick = new EventEmitter<MouseEvent>();
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 
   @HostListener('window:resize')
   onResize(): void {
     this.configSidebarMode();
+  }
+  activeSection: boolean = false;
+  onRecepcionClick(event: MouseEvent): void {
+    this.activeSection;
+    this.createAnticipoClick.emit(event); // Emitir evento para "Recepcion"
   }
 
   constructor(private responsiveService: ResponsiveService) {}

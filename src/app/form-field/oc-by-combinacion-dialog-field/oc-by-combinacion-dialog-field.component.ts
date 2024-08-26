@@ -2,6 +2,7 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnInit,
   Output,
   ViewChild,
 } from '@angular/core';
@@ -10,7 +11,6 @@ import { Observable } from 'rxjs';
 import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-field.component';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
-import { FleteService } from 'src/app/services/flete.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 
 @Component({
@@ -18,7 +18,7 @@ import { OrdenCargaService } from 'src/app/services/orden-carga.service';
   templateUrl: './oc-by-combinacion-dialog-field.component.html',
   styleUrls: ['./oc-by-combinacion-dialog-field.component.scss']
 })
-export class OcByCombinacionDialogFieldComponent  {
+export class OcByCombinacionDialogFieldComponent{
   readonly inputValuePropName = 'id';
   cId?: number;
   list$?: Observable<OrdenCargaList[]>;
@@ -38,7 +38,7 @@ export class OcByCombinacionDialogFieldComponent  {
     {
       def: 'remitente_nombre',
       title: 'Cliente',
-
+      value: (element: OrdenCargaList) => element.flete_remitente_nombre,
     },
     {
       def: 'origen_nombre',
@@ -53,12 +53,12 @@ export class OcByCombinacionDialogFieldComponent  {
     {
       def: 'producto',
       title: 'Producto',
-
+      value: (element: OrdenCargaList) => element.flete_producto_descripcion,
     },
     {
       def: 'precio',
       title: 'Precio',
-
+      value: (element: OrdenCargaList) => element.condicion_gestor_cuenta_tarifa,
     },
 
 
@@ -73,19 +73,17 @@ export class OcByCombinacionDialogFieldComponent  {
   }
 
   @Input() form!: FormGroup;
-  @Input() controlName = 'id';
+  @Input() controlName = 'id_orden_carga';
   @Input() groupName = '';
-  @Input() title = 'OC  ';
-  @Input() emptyHint =
-  'No existen camiones. Debe crearlos/activarlos, asignarles un chofer, activar el chofer asignado o crear una combinación';
-@Input() subtitle =
+  @Input() title = 'ORDENES DE CARGA';
+  @Input() emptyHint = 'Seleccione Chapa';
+  @Input() subtitle =
   'Si no encuentra al camión deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
   
   @Input() set combinacionId(id: number | undefined) {
     this.cId = id;
     this.getList();
   }
-
   
   @Output() valueChange = new EventEmitter<OrdenCargaList | undefined>();
 

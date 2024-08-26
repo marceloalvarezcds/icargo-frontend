@@ -25,6 +25,7 @@
       (camionChange)="camion = $event"
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
+      (ordenCargaChange)="ordenCarga = $event"
       [showSearchPedido]="true"
     ></app-orden-carga-create-form-combinacion>
    
@@ -34,9 +35,7 @@
       [fleteId]="fleteId"
       [list]="anticipoList"
       (ocChange)="getData()"
-      [isShow]="false"
-    
-    >
+      [isShow]="false">
     </app-orden-carga-anticipos-table>
   </div>
 

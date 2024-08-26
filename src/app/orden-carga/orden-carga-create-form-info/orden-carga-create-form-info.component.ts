@@ -26,6 +26,8 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   subscription?: Subscription;
   neto?: string | number;
   fl?: FleteList;
+  @Input() disableForm: boolean = false;
+  @Input() disabled: boolean | undefined;
 
   @Input() set form(f: FormGroup | undefined) {
     this.formGroup = f;

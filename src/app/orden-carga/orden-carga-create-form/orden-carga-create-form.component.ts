@@ -15,7 +15,7 @@ import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -30,6 +30,7 @@ import { UserService } from 'src/app/services/user.service';
 })
 export class OrdenCargaCreateFormComponent implements OnInit {
   flete?: FleteList;
+  ordenCarga?: OrdenCargaList;
   isFormSubmitting = true;
   isCreate=true;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
@@ -81,6 +82,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       puede_recibir_anticipos: [false],
       anticipo_propietario: null,
       anticipos: null,
+      id_orden_carga: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],

@@ -48,16 +48,15 @@
             <!-- Botón específico para Orden de Carga -->
           <button 
             mat-mini-fab color="primary" 
-          
             class="add-button orden-carga-anticipo"
             *ngIf="submodule === 'Orden de Carga'"
-            (click)="createAnticipoClick.emit($event)">
+            (click)="onRecepcionClick($event)">
             <mat-icon>add</mat-icon> ANTICIPO
           </button>
             <!-- Botón específico para Orden de Carga -->
             <button 
               mat-mini-fab color="primary" 
-      
+              (click)="onRecepcionClick($event)"
               class="add-button orden-carga-recepcion"
               *ngIf="submodule === 'Orden de Carga'">
               <mat-icon>add</mat-icon> RECEPCION

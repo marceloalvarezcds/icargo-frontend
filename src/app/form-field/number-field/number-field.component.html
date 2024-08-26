@@ -6,7 +6,8 @@
       [ngClass]="{
         'nominada-input':       controlName === 'cantidad_nominada',
         'anticipo-monto-input': controlName === 'monto_retirado' ||
-                                controlName === 'cantidad_retirada' 
+                                controlName === 'cantidad_retirada',
+                                'view-mode': viewMode                         
       }"
     >
       <input
@@ -15,7 +16,8 @@
         [appAutofocus]="autofocus"
         [readonly]="readonly"
         [ngClass]="{
-          'nominada-input': controlName === 'nominada'
+          'nominada-input': controlName === 'nominada',
+          'view-mode': viewMode   
         }"
         tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
@@ -47,7 +49,8 @@
       [ngClass]="{
       'nominada-input':     controlName === 'cantidad_nominada',
       'anticipo-monto-input': controlName === 'monto_retirado'  ||
-                              controlName === 'cantidad_retirada' 
+                              controlName === 'cantidad_retirada',
+                              'view-mode': viewMode   
       }"
     >
       <input
@@ -56,7 +59,8 @@
         [appAutofocus]="autofocus"
         [readonly]="readonly"
         [ngClass]="{
-          'nominada-input': controlName === 'cantidad_nominada'
+          'nominada-input': controlName === 'cantidad_nominada',
+          'view-mode': viewMode   
         }"
         tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator

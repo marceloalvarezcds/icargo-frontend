@@ -1,32 +1,28 @@
-<div *ngIf="formGroup" [formGroup]="formGroup" class="info-container">
+<div *ngIf="formGroup" [formGroup]="formGroup" class="info-container" [ngClass]="{ 'disabled-container': disableForm }">
   <div [formGroupName]="groupName">
     <div class="section">
-      
       <h2>CANTIDAD NOMINADA</h2>
       <div class="page-form-row">
-        <!-- <label for="neto">Neto Combinación</label>
-        <mat-form-field class="neto">
-          <input id="neto" matInput controlName="propietario_camion_doc" appInputThousandsSeparator disabled/>
-        </mat-form-field >  -->
         <label for="nominada" class="label-nominada">Nominada</label>
         <app-number-field
           id="cantidad_nominada"
           controlName="cantidad_nominada"
           [groupName]="groupName"
           [form]="formGroup"
+          [viewMode]="disableForm"
           appAutofocus="true"
-          
         ></app-number-field>
         <label for="comentarios" class="label-obs">Observacion</label>
-        <mat-form-field  class="obs">
+        <mat-form-field class="obs">
           <textarea id="comentarios" matInput
             formControlName="comentarios"
             cdkTextareaAutosize
             #autosize="cdkTextareaAutosize"
             cdkAutosizeMinRows="1"
+            [disabled]="disableForm"  
           ></textarea>
-        </mat-form-field >
+        </mat-form-field>
+      </div>
     </div>
-
   </div>
 </div>
