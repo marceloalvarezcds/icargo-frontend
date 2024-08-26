@@ -27,7 +27,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MaterialModule } from './material/material.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SharedModule } from './shared/shared.module';
-import { EstadoCuentaListDetalleComponent } from './estado-duenta/estado-cuenta-list-detalle/estado-cuenta-list-detalle.component';
+
 
 registerLocaleData(es);
 
@@ -58,8 +58,7 @@ if (environment.sentryUrl) {
     AppComponent,
     LayoutComponent,
     HomeComponent,
-    PageNotFoundComponent,
-    EstadoCuentaListDetalleComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

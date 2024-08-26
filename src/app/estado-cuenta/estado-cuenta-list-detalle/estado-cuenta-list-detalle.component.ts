@@ -304,11 +304,15 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     getMovList(): void {
       const etapa = this.etapa! as LiquidacionEtapaEnum;
+
+      console.log("this.estadoCuenta");
+      console.log(!this.estadoCuenta);
+      console.log(this.estadoCuenta);
+
       this.movimientoService
-        .getListByEstadoCuenta(
+        .getListByEstadoCuentaDetalle(
           this.estadoCuenta!,
-          this.estadoCuenta!.contraparte_id,
-          etapa
+          this.estadoCuenta!.contraparte_id
         )
         .subscribe((data) => {
           this.list = data;

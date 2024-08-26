@@ -30,6 +30,16 @@ export class MovimientoService {
     );
   }
 
+  getListByEstadoCuentaDetalle(
+    estadoCuenta: ContraparteInfo,
+    contraparte_id: number,
+    etapa?: LiquidacionEtapaEnum
+  ): Observable<Movimiento[]> {
+    return this.http.get<Movimiento[]>(
+      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa)}`
+    );
+  }
+
   getListByLiquidacion(
     liquidacion: Liquidacion,
     etapa: LiquidacionEtapaEnum

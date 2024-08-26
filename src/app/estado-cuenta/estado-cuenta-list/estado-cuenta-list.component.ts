@@ -11,7 +11,7 @@ import {
   PermisoModeloEnum as m,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
-import { Column } from 'src/app/interfaces/column';
+import { Column, ColumnLink } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -292,18 +292,25 @@ export class EstadoCuentaListComponent implements OnInit {
 
     let queryparam = getQueryParams(mov, LiquidacionEtapaEnum.FINALIZADO);
 
-    const url = this.router.serializeUrl(
-      this.router.createUrlTree([
-        `/estado-cuenta/estado-cuenta/list-detalle/${m.LIQUIDACION}/${a.LISTAR}`,
-        queryparam,
-      ])
+    console.log("queryparam");
+    console.log(queryparam);
+
+    this.router.navigate(
+      [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
+      {
+        queryParams:getQueryParams(mov)
+      }
     );
+      /*const url = this.router.serializeUrl(
+        this.router.createUrlTree(
+          [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
+          queryparam,
+        ])
+      );
 
-    url: [
-      `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
-    ],
+    console.log(url);
 
-    window.open(url, '_blank');
+    window.open(url, '_blank');*/
   }
 
 }
