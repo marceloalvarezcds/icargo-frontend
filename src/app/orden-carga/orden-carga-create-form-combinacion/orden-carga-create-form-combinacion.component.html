@@ -161,7 +161,8 @@
     </div>
 
     <div class="section">
-      <h2>PEDIDO</h2>
+      <h2 *ngIf="showSearchPedido">PEDIDO</h2>
+      <h2 *ngIf="showSearchOC">FLETE</h2>
       <div class="row page-form-row">
         <div class="search-tracto small-input input-with-label" *ngIf="showSearchPedido">
           <label>Nº Pedido</label>

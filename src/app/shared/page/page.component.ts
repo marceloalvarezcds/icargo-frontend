@@ -34,9 +34,11 @@ export class PageComponent {
   @Output() backClick = new EventEmitter<boolean>();
   @Output() createClick = new EventEmitter<MouseEvent>();
   @Output() createAnticipoClick = new EventEmitter<MouseEvent>();
+  @Output() createRecepcionClick = new EventEmitter<MouseEvent>();
+  @Output() aceptarClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
-  @Output() createRecepcionClick = new EventEmitter<MouseEvent>();
+
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 

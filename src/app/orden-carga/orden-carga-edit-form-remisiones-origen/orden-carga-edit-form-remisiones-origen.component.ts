@@ -96,72 +96,61 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   }
 
   private setList(list: OrdenCargaRemisionOrigen[]): void {
-    this.lista = list.slice();
+    this.lista = list ? list.slice() : [];
     this.configColumns();
-  }
+}
+
 
   private configColumns(): void {
     this.columns = [
       {
-        def: 'id',
-        title: 'Nº',
-        value: (element: OrdenCargaRemisionOrigen) => element.id,
-        sticky: true,
+        def: 'lugar',
+        title: 'Lugar de Carga',
+        value: (element: OrdenCargaRemisionOrigen) => element.lugar_carga,
+      
       },
       {
         def: 'numero_documento',
-        title: 'Nº de Documento',
+        title: 'Nº Remito',
         footerDef: () => 'Total',
         value: (element: OrdenCargaRemisionOrigen) => element.numero_documento,
       },
       {
         def: 'fecha',
-        title: 'Fecha de Carga',
-        value: (element: OrdenCargaRemisionOrigen) => element.fecha,
-        type: 'date',
+        title: 'Fecha',
+        value: (element: OrdenCargaRemisionOrigen) => this.formatDate(element.fecha),
       },
+  
       {
         def: 'cantidad',
-        title: 'Cantidad origen',
+        title: 'Cant.',
         footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
         type: 'number',
       },
       {
         def: 'unidad_descripcion',
-        title: 'Unidad origen',
+        title: 'Un.',
         value: (element: OrdenCargaRemisionOrigen) =>
           element.unidad_descripcion,
       },
-      {
-        def: 'cantidad_equiv',
-        title: 'Cantidad Equiv. (kg)',
-        footerDef: () => this.totalCantidad,
-        value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
-        type: 'number',
-      },
-      {
-        def: 'created_by',
-        title: 'Usuario creación',
-        value: (element: OrdenCargaRemisionOrigen) => element.created_by,
-      },
-      {
-        def: 'created_at',
-        title: 'Fecha creación',
-        value: (element: OrdenCargaRemisionOrigen) => element.created_at,
-      },
-      {
-        def: 'modified_by',
-        title: 'Usuario modificación',
-        value: (element: OrdenCargaRemisionOrigen) => element.modified_by,
-      },
-      {
-        def: 'modified_at',
-        title: 'Fecha modificación',
-        value: (element: OrdenCargaRemisionOrigen) => element.modified_at,
-        type: 'date',
-      },
+      // {
+      //   def: 'cantidad_equiv',
+      //   title: 'Cantidad Equiv. (kg)',
+      //   footerDef: () => this.totalCantidad,
+      //   value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
+      //   type: 'number',
+      // },
+
       { def: 'actions', title: 'Acciones', stickyEnd: true },
     ];
+  }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
   }
 }

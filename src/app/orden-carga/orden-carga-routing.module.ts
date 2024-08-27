@@ -9,6 +9,7 @@ import { OrdenCargaCreateFormComponent } from './orden-carga-create-form/orden-c
 import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga-edit-form.component';
 import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.component';
 import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-anticipo-form/orden-carga-nuevo-anticipo-form.component';
+import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden-carga-form-aceptar.component';
 
 const routes: Routes = [
   {
@@ -35,13 +36,18 @@ const routes: Routes = [
         canActivate: [PermisoGuard],
       },
       {
-        path: `${a.CREAR}/:anticipo`,
-        component: OrdenCargaNuevoAnticipoFormComponent,
+        path: `${a.CREAR}/:aceptar/:oc`,
+        component: OrdenCargaFormAceptarComponent,
         canActivate: [PermisoGuard],
       },
       {
         path: `${a.VER}/:id`,
         component: OrdenCargaEditFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:anticipo`,
+        component: OrdenCargaNuevoAnticipoFormComponent,
         canActivate: [PermisoGuard],
       },
     ],

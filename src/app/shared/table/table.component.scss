@@ -112,6 +112,12 @@ tr.mat-header-row {
   background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
 }
 
+.table-remisiones{
+  padding-top: 8px; /* Padding superior */
+  padding-bottom: 8px; /* Padding inferior */
+  margin-left: -14px;
+
+}
 
 .mat-cell, .mat-header-cell, .mat-footer-cell {
   font-size: 12px;

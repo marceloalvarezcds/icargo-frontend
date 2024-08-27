@@ -19,6 +19,7 @@ export interface OrdenCargaRemisionDestino
   unidad_descripcion: string;
   destino_nombre?: string | null;
   gestor_carga_moneda_nombre: string;
+  lugar_descarga: string;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -47,6 +48,7 @@ export const mockOrdenCargaRemisionDestinoList: OrdenCargaRemisionDestino[] = [
     destino_id: null,
     foto_documento: 'foto',
     orden_carga_id: 1,
+    lugar_descarga: 'cargil',
     gestor_carga_moneda_nombre: gestor0.moneda_nombre,
     // Auditoría
     created_by: 'system',
@@ -65,6 +67,7 @@ export const mockOrdenCargaRemisionDestinoList: OrdenCargaRemisionDestino[] = [
     numero_documento_origen: null,
     foto_documento: null,
     orden_carga_id: 1,
+    lugar_descarga: 'cargil',
     gestor_carga_moneda_nombre: gestor1.moneda_nombre,
     // Auditoría
     created_by: 'system',
@@ -82,6 +85,7 @@ export const mockOrdenCargaRemisionDestinoList: OrdenCargaRemisionDestino[] = [
     unidad_descripcion: unidad2.descripcion,
     numero_documento_origen: null,
     foto_documento: null,
+    lugar_descarga: 'cargil',
     orden_carga_id: 2,
     gestor_carga_moneda_nombre: gestor2.moneda_nombre,
     // Auditoría

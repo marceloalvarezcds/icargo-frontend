@@ -1,43 +1,29 @@
-<div *ngIf="gestorCargaId">
+
   <div class="row page-form-row">
-    <h4 class="col-xs-12" [hidden]="!(lista && lista.length)">Origen</h4>
-    <div class="col-xs-12 table-container" [hidden]="!(lista && lista.length)">
-      <app-table
-        [modelo]="modelo"
-        [gestorCuentaId]="gestorCargaId"
-        [shouldBeShowFooter]="true"
-        [hideShow]="true"
-        [isShow]="
-          isShow ||
-          (!isAceptado && !puedeConciliar) ||
-          !(
-            (modelo | puede: a.EDITAR:gestorCargaId) ||
-            (modelo | puede: a.ELIMINAR:gestorCargaId)
-          )
-        "
-        [columns]="columns"
-        [data]="lista"
-        (editClick)="edit($event)"
-        (deleteClick)="remove($event)"
-      ></app-table>
-    </div>
-    <div
-      class="col-xs-12"
-      [hidden]="
-        (!isAceptado && !puedeConciliar) ||
-        !(modelo | puede: a.CREAR:gestorCargaId)
-      "
-    >
+    <h4 class="col-xs-12" >Origen</h4>
+    <div class="col-xs-12 table-container" >
       <button
-        mat-raised-button
-        class="outline round"
-        color="primary"
-        type="button"
-        (click)="create()"
-        id="create-button"
-      >
-        Nueva Remisión Origen
-      </button>
+      mat-raised-button
+      class="add-button"
+      color="primary"
+      type="button"
+      (click)="create()"
+      id="create-button"
+    ><mat-icon>add</mat-icon> 
+      CARGA
+    </button>
+      <div class="col-xs-12 table-container origen-table-container">
+        <app-table
+          [modelo]="modelo"
+          [gestorCuentaId]="gestorCargaId"
+          [shouldBeShowFooter]="true"
+          [hideShow]="true"
+          [columns]="columns"
+          [data]="lista"
+          (editClick)="edit($event)"
+          (deleteClick)="remove($event)"
+        ></app-table>
+      </div>
     </div>
   </div>
-</div>
+

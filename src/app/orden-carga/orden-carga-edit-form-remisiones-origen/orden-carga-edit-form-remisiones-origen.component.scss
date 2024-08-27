@@ -1,0 +1,40 @@
+.add-button{
+    font-family: 'Roboto', sans-serif;
+    width: auto;
+    padding: 4px 12px 4px 6px;
+    gap: 0px;
+    border-radius: 5.25px;
+    border: 1px;
+    opacity: 0px;
+    box-shadow: none; /* Elimina la sombra */
+    opacity: 0px;
+    height: 30px;
+    display: flex; /* Asegura que el contenido esté alineado correctamente */
+    align-items: center; /* Alinea verticalmente el contenido */
+    gap: 3px; /* Espacio entre el icono y el texto */
+    letter-spacing: 0.06em;
+    transition: background-color 0.3s;
+  }
+  
+  .add-button mat-icon {
+    font-size: 10px; /* Ajusta el tamaño del ícono */
+    font-weight: bold;
+    background-color: white; /* Fondo del ícono */
+    border-radius: 90%; /* Borde redondeado para el ícono */
+    color: #1976D2; /* Color del ícono */
+    width: 13px;
+    height: 10px;
+    gap: 0px;
+    padding: 2px;
+    opacity: 0px;
+    align-items: center;
+    justify-content: center;
+    margin-top: -2px;
+    margin-left: 1px;
+    margin-right: 2px;
+  }
+
+  .origen-table-container {
+    width: 50%; 
+  }
+  

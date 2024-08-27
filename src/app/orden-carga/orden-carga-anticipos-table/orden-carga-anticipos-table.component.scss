@@ -91,6 +91,13 @@
   pointer-events: none;
 }
 
+.saldo-form-field input {
+  text-align: right;
+  justify-content: flex-end;
+}
+
+
+
 ::ng-deep .saldo-form-field .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -112,7 +119,7 @@ label{
 }
 
 .small-table{
-  width: 1309px;
+  width: 89%;
 }
 @media screen and (max-width: 1366px) and (max-height: 768px) {
   .main-container h2 {

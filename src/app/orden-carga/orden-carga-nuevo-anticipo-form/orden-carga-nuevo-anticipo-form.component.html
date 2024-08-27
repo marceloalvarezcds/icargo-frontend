@@ -6,7 +6,6 @@
   [modelo]="modelo"
   [oc]="item"
   (backClick)="back($event)"
-  (submitEvent)="save(false)"
   (activeClick)="active()"
   (inactiveClick)="inactive()"
   [isFormSaved]="isFormSaved"
@@ -17,25 +16,27 @@
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
   [isDataLoaded]="isToggleAnticiposLiberados"
+  [hideSaveButton]="true"
 >
 
-  <div class="orden-carga-page-content">
-    <app-orden-carga-create-form-combinacion
-      [form]="form"
-      (fleteChange)="flete = $event"
-      (camionChange)="camion = $event"
-      (semiChange)="semi = $event"
-      (combinacionChange)="combinacionList = $event"
-      [showSearchOC]="true"
-      (ocChange)="getData()"
-    ></app-orden-carga-create-form-combinacion>
-    <app-orden-carga-anticipos-table 
-      [class.disabled]="!isFormSaved"
-      [oc]="item"
-      [fleteId]="fleteId"
-      [list]="anticipoList"
-      (ocChange)="getData()"
-    >
-    </app-orden-carga-anticipos-table>
-  </div>
+<div class="orden-carga-page-content">
+  <app-orden-carga-create-form-combinacion
+    [form]="form"
+    (fleteChange)="flete = $event"
+    (camionChange)="camion = $event"
+    (semiChange)="semi = $event"
+    (combinacionChange)="combinacionList = $event"
+    [showSearchOC]="true"
+    (ocChange)="getData()"
+  ></app-orden-carga-create-form-combinacion>
+  
+  <app-orden-carga-anticipos-table 
+    [class.disabled]="!isFormSaved"
+    [oc]="item"
+    [fleteId]="fleteId"
+    [list]="anticipoList"
+    (ocChange)="getData()"
+  >
+  </app-orden-carga-anticipos-table>
+</div>
 

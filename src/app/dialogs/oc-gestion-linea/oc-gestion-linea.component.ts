@@ -31,7 +31,6 @@ export class OcGestionLineaComponent  {
   ) {}
 
   get oc(): OrdenCarga | null {
-    console.log(this.data.oc);
     return this.data.oc;
   }
 

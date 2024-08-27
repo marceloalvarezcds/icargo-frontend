@@ -1,0 +1,29 @@
+.disabled {
+  pointer-events: none; 
+  opacity: 0.5; 
+}
+
+.remisiones-line h2 {
+  margin: 0 0 15px 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc;  /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+  width: 1600px;
+}
+
+.remisiones-container {
+  display: flex;
+  justify-content: space-between; /* Opcional: Espacio entre los dos componentes */
+}
+
+.remisiones-container > * {
+  flex: 1; /* Hace que ambos componentes ocupen el mismo ancho */
+  margin-right: 10px; /* Espaciado entre los componentes, opcional */
+}
+
+.remisiones-container > *:last-child {
+  margin-right: 0; /* Remueve el margen derecho del último elemento */
+}

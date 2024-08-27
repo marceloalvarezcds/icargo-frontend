@@ -13,6 +13,7 @@ export interface OrdenCargaRemisionOrigen extends OrdenCargaRemisionOrigenForm {
   id: number;
   unidad_abreviatura: string;
   unidad_descripcion: string;
+  lugar_carga: string;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -33,6 +34,7 @@ export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
     unidad_id: unidad0.id,
     unidad_abreviatura: unidad0.abreviatura,
     unidad_descripcion: unidad0.descripcion,
+    lugar_carga:'costa',
     foto_documento: 'foto',
     orden_carga_id: 1,
     // Auditoría
@@ -49,6 +51,7 @@ export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
     unidad_id: unidad1.id,
     unidad_abreviatura: unidad1.abreviatura,
     unidad_descripcion: unidad1.descripcion,
+    lugar_carga:'costa',
     foto_documento: null,
     orden_carga_id: 1,
     // Auditoría
@@ -64,6 +67,7 @@ export const mockOrdenCargaRemisionOrigenList: OrdenCargaRemisionOrigen[] = [
     fecha: '2021-11-30T20:38:09.553757',
     unidad_id: unidad2.id,
     unidad_abreviatura: unidad2.abreviatura,
+    lugar_carga:'costa',
     unidad_descripcion: unidad2.descripcion,
     foto_documento: null,
     orden_carga_id: 2,

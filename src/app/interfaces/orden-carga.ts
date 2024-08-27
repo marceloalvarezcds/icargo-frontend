@@ -82,6 +82,10 @@ export interface OrdenCarga extends OrdenCargaForm {
   semi_placa: string;
   semi_marca: string | null;
   semi_color: string | null;
+  monto_anticipo_retirado: number | null;
+  resultado_propietario_total_anticipos_retirados: number | null;
+  resultado_propietario_total_anticipos_retirados_efectivo: number | null;
+  resultado_propietario_total_anticipos_retirados_combustible: number | null;
   // Datos de fletes
   flete_anticipo_maximo: number;
   flete_destino_id: number;
@@ -248,6 +252,10 @@ export const mockOrdenCarga1: OrdenCarga = {
   semi_placa: semi0.placa,
   semi_marca: semi0.placa,
   semi_color: semi0.placa,
+  monto_anticipo_retirado: 9000,
+  resultado_propietario_total_anticipos_retirados:9000,
+  resultado_propietario_total_anticipos_retirados_efectivo: 9000,
+  resultado_propietario_total_anticipos_retirados_combustible:10000,
   // Datos de fletes
   flete_id: flete0.id,
   flete_anticipo_maximo: flete0_anticipo_maximo,

@@ -96,78 +96,73 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
   }
 
   private setList(list: OrdenCargaRemisionDestino[]): void {
-    this.lista = list.slice();
+    this.lista = list ? list.slice() : [];
     this.configColumns();
   }
 
   private configColumns(): void {
     this.columns = [
       {
-        def: 'id',
-        title: 'Nº',
-        value: (element: OrdenCargaRemisionDestino) => element.id,
-        sticky: true,
+        def: 'descarga',
+        title: 'Lugar de Descarga',
+        value: (element: OrdenCargaRemisionDestino) =>
+          element.lugar_descarga,
       },
       {
+        def: 'id',
+        title: 'Nº Descarga',
+        value: (element: OrdenCargaRemisionDestino) => element.id,
+      },
+  
+      {
         def: 'numero_documento',
-        title: 'Nº de Documento',
+        title: 'Nº Remito',
         footerDef: () => 'Total',
         value: (element: OrdenCargaRemisionDestino) => element.numero_documento,
       },
-      {
-        def: 'numero_documento_origen',
-        title: 'Nº de Documento origen',
-        value: (element: OrdenCargaRemisionDestino) =>
-          element.numero_documento_origen,
-      },
+      // {
+      //   def: 'numero_documento_origen',
+      //   title: 'Nº de Documento origen',
+      //   value: (element: OrdenCargaRemisionDestino) =>
+      //     element.numero_documento_origen,
+      // },
+  
       {
         def: 'fecha',
-        title: 'Fecha de Descarga',
-        value: (element: OrdenCargaRemisionDestino) => element.fecha,
-        type: 'date',
+        title: 'Fecha',
+        value: (element: OrdenCargaRemisionDestino) => this.formatDate(element.fecha),
       },
       {
         def: 'cantidad',
-        title: 'Cantidad destino',
+        title: 'Cant.',
         footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionDestino) => element.cantidad,
         type: 'number',
       },
       {
         def: 'unidad_descripcion',
-        title: 'Unidad destino',
+        title: 'Un.',
         value: (element: OrdenCargaRemisionDestino) =>
           element.unidad_descripcion,
       },
-      {
-        def: 'cantidad_equiv',
-        title: 'Cantidad Equiv. (kg)',
-        footerDef: () => this.totalCantidad,
-        value: (element: OrdenCargaRemisionDestino) => element.cantidad,
-        type: 'number',
-      },
-      {
-        def: 'created_by',
-        title: 'Usuario creación',
-        value: (element: OrdenCargaRemisionDestino) => element.created_by,
-      },
-      {
-        def: 'created_at',
-        title: 'Fecha creación',
-        value: (element: OrdenCargaRemisionDestino) => element.created_at,
-      },
-      {
-        def: 'modified_by',
-        title: 'Usuario modificación',
-        value: (element: OrdenCargaRemisionDestino) => element.modified_by,
-      },
-      {
-        def: 'modified_at',
-        title: 'Fecha modificación',
-        value: (element: OrdenCargaRemisionDestino) => element.modified_at,
-        type: 'date',
-      },
+      // {
+      //   def: 'cantidad_equiv',
+      //   title: 'Cantidad Equiv. (kg)',
+      //   footerDef: () => this.totalCantidad,
+      //   value: (element: OrdenCargaRemisionDestino) => element.cantidad,
+      //   type: 'number',
+      // },
+
       { def: 'actions', title: 'Acciones', stickyEnd: true },
     ];
   }
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 }

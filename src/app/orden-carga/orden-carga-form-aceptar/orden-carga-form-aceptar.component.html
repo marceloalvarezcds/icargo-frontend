@@ -1,0 +1,63 @@
+<app-page-form
+  class="orden-carga-page"
+  module="NUEVO"
+  submodule="ACEPTAR"
+  [formGroup]="form"
+  [modelo]="modelo"
+  [oc]="item"
+  (backClick)="back($event)"
+  (submitEvent)="save(false)"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
+  [isFormSaved]="isFormSaved"
+  [class.page-form-show]="isShow"
+  [isFormSubmitting]="isFormSubmitting"
+  [estado]="estadoOc"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
+  [isAnticipoActive]="isToggleAnticiposLiberados"
+  [isDataLoaded]="isToggleAnticiposLiberados"
+  [hideSaveButton]="true"
+>
+
+  <div class="orden-carga-page-content">
+    <app-orden-carga-create-form-combinacion
+      [form]="form"
+      (fleteChange)="flete = $event"
+      (camionChange)="camion = $event"
+      (semiChange)="semi = $event"
+      (combinacionChange)="combinacionList = $event"
+      [showSearchOC]="true"
+      (ocChange)="getData()"
+    ></app-orden-carga-create-form-combinacion>
+    <app-orden-carga-anticipos-table 
+      [class.disabled]="!isFormSaved"
+      [oc]="item"
+      [fleteId]="fleteId"
+      [list]="anticipoList"
+      (ocChange)="getData()"
+    >
+    </app-orden-carga-anticipos-table>
+    <div class="remisiones-line"><h2>Remisiones</h2></div>
+    <div class="remisiones-container">
+      <app-orden-carga-edit-form-remisiones-origen
+        [class.disabled]="!isFormSaved"
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [isShow]="isShow"
+        [puedeConciliar]="puedeConciliar"
+        [list]="remisionOrigenList"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-remisiones-origen>
+  
+      <app-orden-carga-edit-form-remisiones-destino
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [isShow]="isShow"
+        [puedeConciliar]="puedeConciliar"
+        [list]="remisionDestinoList"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-remisiones-destino>
+    </div>
+  </div>
+

@@ -2,14 +2,38 @@
   <div class="header-container">
     <h2>ANTICIPOS</h2>
     <div class="input-button-container">
-      <label>Saldo Efectivo</label>
-      <mat-form-field class="saldo-form-field">
-        <input matInput  [(ngModel)]="monedaEquiv2" style="text-align: end;">
-      </mat-form-field>
-      <label>Saldo Combustible</label>
-      <mat-form-field class="saldo-form-field">
-        <input matInput [(ngModel)]="monedaEquiv2" style="text-align: end;">
-      </mat-form-field>
+
+      <!-- Renderiza anticipos si existen -->
+      <div *ngFor="let anticipo of filteredAnticipos" class="anticipo-item">
+        <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
+        <mat-form-field class="saldo-form-field">
+          <input
+            matInput
+            [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
+            disabled
+          />
+        </mat-form-field>
+      </div>
+
+      <!-- Renderiza un anticipo por defecto si filteredAnticipos está vacío -->
+      <div *ngIf="!filteredAnticipos || filteredAnticipos.length === 0" class="anticipo-item">
+        <label class="anticipos-saldo">Saldo Efectivo</label>
+        <mat-form-field class="saldo-form-field">
+          <input
+            matInput
+            [value]="0"
+            disabled
+          />
+        </mat-form-field>
+        <label class="anticipos-saldo">Saldo Combustible</label>
+        <mat-form-field class="saldo-form-field">
+          <input
+            matInput
+            [value]="0"
+            disabled
+          />
+        </mat-form-field>
+      </div>
 
       <div class="button-container separate-buttons">
         <button
@@ -18,7 +42,7 @@
           color="primary"
           type="button"
           id="add-button"
-          (click)="create()" 
+          (click)="create()"
           [disabled]="isShow"
         >
           <mat-icon class="small-icon">add</mat-icon> ANTICIPO
@@ -29,7 +53,7 @@
           type="button"
           color="primary"
           id="add-button"
-          (click)="openDialog()" 
+          (click)="openDialog()"
           [disabled]="isShow"
         >
           GESTION EN LINEA

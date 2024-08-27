@@ -195,6 +195,11 @@ export class OrdenCargaListComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  redirectToAceptar(): void {
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/aceptar/oc`;
+    window.open(url, '_blank');
+  }
+
 
   redirectToEdit(event: TableEvent<OrdenCargaList>): void {
     const url = `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}/${event.row.id}`;

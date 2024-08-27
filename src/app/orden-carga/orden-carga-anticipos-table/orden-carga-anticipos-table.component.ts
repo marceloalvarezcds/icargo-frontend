@@ -33,22 +33,25 @@ import { OrdenCargaGestionAnticiposComponent } from 'src/app/dialogs/orden-carga
 export class OrdenCargaAnticiposTableComponent implements OnInit {
   monedaEquiv1: number | null = null;
   monedaEquiv2: number = 0;
+  anticiposEfectivo: any[] = [];
+  anticiposCombustible: any[] = [];
 
   a = PermisoAccionEnum;
   columns: Column[] = [
+
+    {
+      def: 'id',
+      title: 'ID',
+      value: (element: OrdenCargaAnticipoRetirado) => element.id,
+    },
     {
       def: 'pdf',
-      title: '',
+      title: 'PDF',
       type: 'button',
       value: () => 'PDF',
       buttonCallback: (element: OrdenCargaAnticipoRetirado) =>
         this.downloadPDF(element),
       sticky: true,
-    },
-    {
-      def: 'id',
-      title: 'Nº',
-      value: (element: OrdenCargaAnticipoRetirado) => element.id,
     },
     {
       def: 'concepto',
@@ -97,7 +100,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: OrdenCargaAnticipoRetirado) => element.created_at,
+      value: (element: OrdenCargaAnticipoRetirado) => this.formatDate(element.created_at),
     },
     {
       def: 'modified_by',
@@ -107,26 +110,34 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: OrdenCargaAnticipoRetirado) => element.modified_at,
-      type: 'date',
+      value: (element: OrdenCargaAnticipoRetirado) => this.formatDate(element.modified_at),
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   ngOnInit(): void {
     if (this.list.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
+      this.anticiposEfectivo = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
+        this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
   }
   
 
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
 
-  get isAnticiposLiberados(): boolean {
-    return !!this.oc?.anticipos_liberados;
-  }
+
   @Input() isFormSaved: boolean = false;
   @Input() oc?: OrdenCarga;
+  @Input() ocRetirado?: OrdenCargaAnticipoRetirado;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
   @Input() isCreate = false;
@@ -144,6 +155,57 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private reportsService: ReportsService
   ) {}
+
+  get isAnticiposLiberados(): boolean {
+    return !!this.oc?.anticipos_liberados;
+  }
+
+  get montoRetirado(): boolean {
+    return !!this.ocRetirado?.monto_retirado;
+  }
+
+  get filteredAnticipos(): any[] {
+    // Filtrar anticipos para incluir solo 'combustible' y 'efectivo'
+    const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
+      ['combustible', 'efectivo'].includes(anticipo.concepto.toLowerCase())
+    ) || [];
+
+    // Ordenar anticipos: primero 'efectivo', luego 'combustible'
+    return anticiposFiltrados.sort((a, b) => {
+      if (a.concepto.toLowerCase() === 'efectivo' && b.concepto.toLowerCase() === 'combustible') {
+        return -1; // 'Efectivo' va primero
+      } else if (a.concepto.toLowerCase() === 'combustible' && b.concepto.toLowerCase() === 'efectivo') {
+        return 1; // 'Combustible' va después
+      }
+      return 0; // Mantener el orden original si no es 'Efectivo' ni 'Combustible'
+    });
+  }
+
+
+  getSaldoAnticipo(anticipo: any): number {
+    const tarifaEfectivo = this.oc?.flete_tarifa ?? 0;
+    const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
+
+    const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
+    const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
+
+    console.log('Monto Anticipo Total:', montoAnticipo); // Depuración
+
+    if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
+        const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+        console.log('Monto Anticipo Efectivo:', montoAnticipo); // Depuración
+        return montoAnticipo - montoRetiradoEfectivo; // Restar anticipos de efectivo
+    } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+        const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+        console.log('Monto Anticipo Combustible:', montoAnticipo); // Depuración
+        return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
+    } else {
+        console.log('Concepto no reconocido'); // Depuración
+        return 0;
+    }
+}
+
+
 
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {
