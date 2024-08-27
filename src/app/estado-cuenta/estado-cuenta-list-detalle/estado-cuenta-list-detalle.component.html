@@ -3,61 +3,68 @@
   submodule="Vista General"
   viewTitle="Todas las Cuentas Corrientes"
   [modelo]="m.MOVIMIENTO"
+  [hideBack]="false"
+  [hideCreate]="true"
   (applyClick)="applyFilter()"
-  (createClick)="create()"
   (downloadClick)="downloadFile()"
   (resetClick)="resetFilter()"
 >
-  <div filterMenu>
-    <mat-accordion [multi]="true">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Contraparte</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <!--app-checkbox-filter
-            #contraparteCheckboxFilter
-            [value]="contraparteFiltered"
-            [list]="contraparteFilterList"
-          ></app-checkbox-filter-->
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Tipo de Contraparte</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <!--app-checkbox-filter
-            #tipoContraparteCheckboxFilter
-            [value]="tipoContraparteFiltered"
-            [list]="tipoContraparteFilterList"
-          ></app-checkbox-filter-->
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
+
+  <div class="orden-carga-page-content">
+
+    <div class="acciones-container" >
+      <div class="acciones-buttons">
+        <ng-container>
+
+          <button
+            type="button"
+            mat-raised-button
+            color="accent"
+            (click)="create()"
+          >
+            Crear Movimiento
+          </button>
+
+          <button
+            type="button"
+            mat-raised-button
+            color="warn"
+            (click)="createLiquidacion()"
+          >
+            Crear Liquidacion
+          </button>
+
+        </ng-container>
+      </div>
+    </div>
+
   </div>
 
-  <!--mat-chip-list filterValues>
-    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
-    <ng-container *ngIf="isFilteredByProducto">
-      <mat-chip *ngFor="let item of contraparteFiltered">{{ item }}</mat-chip>
-    </ng-container>
-    <ng-container *ngIf="isFilteredByTipoContraparte">
-      <mat-chip *ngFor="let item of tipoContraparteFiltered">{{
-        item
-      }}</mat-chip>
-    </ng-container>
-  </mat-chip-list-->
+  <div class="liquidacion-page-content">
 
-  <app-table-paginator
-    [columns]="columns"
-    [data]="list"
-    [filterPredicate]="filterPredicate"
-    [modelo]="m.MOVIMIENTO"
-    [hideDelete]="true"
-    [hideEdit]="true"
-    [hideShow]="true"
-    [shouldBeShowFooter]="true"
-  ></app-table-paginator>
+    <app-estado-cuenta-detalle
+      [etapa]="etapa"
+      [estadoCuenta]="estadoCuenta"
+      [showVistaConsolidada]="false"
+    ></app-estado-cuenta-detalle>
+
+    <app-saldo
+        [credito]="credito"
+        [debito]="debito"
+        title="Saldo | Total de la Selección"
+      ></app-saldo>
+
+    <app-table-paginator
+      [columns]="columns"
+      [data]="list"
+      [filterPredicate]="filterPredicate"
+      [modelo]="m.MOVIMIENTO"
+      [hideDelete]="true"
+      [hideEdit]="true"
+      [hideShow]="true"
+      [shouldBeShowFooter]="false"
+    ></app-table-paginator>
+
+  </div>
 
 </app-page>

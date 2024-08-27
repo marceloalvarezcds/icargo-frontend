@@ -45,19 +45,18 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       def: 'id',
       title: 'Nº de Movimiento',
       value: (element: Movimiento) => element.id,
-      type: 'checkbox',
       sticky: true,
     },
     {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
-      type: 'number',
+      def: 'created_at',
+      title: 'Fecha y hora',
+      value: (element: Movimiento) => element.created_at,
+      type: 'date',
     },
     {
-      def: 'concepto',
-      title: 'Concepto',
-      value: (element: Movimiento) => element.concepto,
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => element.camion_placa,
     },
     {
       def: 'cuenta_codigo_descripcion',
@@ -65,15 +64,14 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
     },
     {
-      def: 'punto_venta',
-      title: 'Punto de Venta',
-      value: (element: Movimiento) =>
-        element.anticipo?.punto_venta_nombre ?? '',
+      def: 'concepto',
+      title: 'Concepto',
+      value: (element: Movimiento) => element.concepto,
     },
     {
-      def: 'detalle',
-      title: 'Detalle',
-      value: (element: Movimiento) => element.detalle,
+      def: 'tipo',
+      title: 'Tipo Operacion',
+      value: (element: Movimiento) => 'ver HOY!',
     },
     {
       def: 'tipo_documento_relacionado_descripcion',
@@ -87,21 +85,15 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: Movimiento) => element.numero_documento_relacionado,
     },
     {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Movimiento) => element.moneda_nombre,
+      def: 'detalle',
+      title: 'Info',
+      value: (element: Movimiento) => element.detalle,
     },
     {
-      def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
-      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      def: 'monto',
+      title: 'Monto',
+      value: (element: Movimiento) => element.monto,
       type: 'number',
-    },
-    {
-      def: 'fecha_cambio_moneda',
-      title: 'Fecha de cambio',
-      value: (element: Movimiento) => element.fecha_cambio_moneda,
-      type: 'date',
     },
     {
       def: 'monto_ml',
@@ -110,54 +102,22 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
+      def: 'pendiente',
+      title: LiquidacionEtapaEnum.PENDIENTE,
+      value: (element: EstadoCuenta) => '0',
+      type: 'number',
     },
     {
-      def: 'created_by',
-      title: 'Usuario',
-      value: (element: Movimiento) => element.created_by,
+      def: 'confirmado',
+      title: LiquidacionEtapaEnum.CONFIRMADO,
+      value: (element: EstadoCuenta) => '0',
+      type: 'number',
     },
     {
-      def: 'oc',
-      title: '',
-      type: 'button',
-      value: (mov: Movimiento) => (mov.es_editable ? '' : 'Ver OC'),
-      buttonCallback: (mov: Movimiento) =>  () => {}
-        /*mov.es_editable
-          ? () => {}
-          : redirectToShowOCByMovimiento(this.router, mov)*/,
-      buttonIconName: (mov: Movimiento) =>
-        mov.es_editable ? '' : 'visibility',
-      stickyEnd: true,
-    },
-    {
-      def: 'editar',
-      title: '',
-      type: 'button',
-      value: (mov: Movimiento) =>
-        mov.es_editable || mov.can_edit_oc ? 'Editar' : '',
-      buttonCallback: (mov: Movimiento) =>  () => {}
-        /*mov.es_editable
-          ? this.edit(mov)
-          : mov.can_edit_oc
-          ? this.editOC(mov)
-          : () => {}*/,
-      buttonIconName: (mov: Movimiento) =>
-        mov.es_editable || mov.can_edit_oc ? 'edit' : '',
-      stickyEnd: true,
-    },
-    {
-      def: 'eliminar',
-      title: '',
-      type: 'button',
-      value: () => 'Eliminar',
-      isDisable: (mov: Movimiento) => !mov.es_editable,
-      buttonCallback: (mov: Movimiento) =>  () => {} ,// this.delete(mov),
-      buttonIconName: () => 'delete',
-      stickyEnd: true,
+      def: 'finalizado',
+      title: LiquidacionEtapaEnum.FINALIZADO,
+      value: (element: EstadoCuenta) => '0',
+      type: 'number',
     },
   ]
 
@@ -170,6 +130,14 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
+
+  get credito(): number {
+    return this.list.reduce((acc, cur) => acc + cur.credito, 0);
+  }
+
+  get debito(): number {
+    return this.list.reduce((acc, cur) => acc + cur.debito, 0);
+  }
 
   get totalPendiente(): number {
     return this.pendiente;
@@ -268,6 +236,28 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     create(): void {
+      const data: MovimientoFormDialogData = {
+        estado: MovimientoEstadoEnum.PENDIENTE,
+        es_contraparte_editable: true,
+      };
+      createMovimiento(data, this.dialog, this.snackbar, () => {
+        this.getMovList();
+      });
+    }
+
+    createLiquidacion():void {
+
+      let queryparam = getQueryParams(this.estadoCuenta!, LiquidacionEtapaEnum.FINALIZADO);
+
+      console.log("queryparam");
+      console.log(queryparam);
+
+      this.router.navigate(
+        [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`],
+        {
+          queryParams:getQueryParams(this.estadoCuenta!, LiquidacionEtapaEnum.PENDIENTE)
+        }
+      );
 
     }
 
