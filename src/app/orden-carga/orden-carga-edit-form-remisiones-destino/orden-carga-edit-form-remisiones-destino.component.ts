@@ -88,7 +88,10 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
-    return this.dialog.open(OcRemisionDestinoFormDialogComponent, { data });
+    return this.dialog.open(OcRemisionDestinoFormDialogComponent, {     
+      width: 'auto', 
+      height: 'auto', 
+      data });
   }
 
   private emitOcChange(): void {
@@ -144,6 +147,12 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
         title: 'Un.',
         value: (element: OrdenCargaRemisionDestino) =>
           element.unidad_descripcion,
+      },
+      {
+        def: 'imagen',
+        title: 'Imagen',
+        value: (element: OrdenCargaRemisionDestino) =>
+          element.foto_documento,
       },
       // {
       //   def: 'cantidad_equiv',

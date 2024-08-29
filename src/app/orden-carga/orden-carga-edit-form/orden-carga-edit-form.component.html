@@ -2,7 +2,7 @@
   <app-page-form
     class="orden-carga-page"
     module="NUEVA"
-    submodule="ORDEN DE CARGA (directa)"
+    submodule="ORDEN DE CARGA"
     [class.page-form-show]="isShow"
     [formGroup]="form"
     [hasChange]="hasChange"
@@ -17,9 +17,11 @@
     (submitEvent)="submit(false)"
     (activeClick)="active()"
     (inactiveClick)="inactive()"
+    (aceptarClick)="aceptar()"
     module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
     [estado]="estado"
     [isAnticipoActive]="isToggleAnticiposLiberados"
+    [isNuevo]="isNuevo"
   >
     <div class="orden-carga-page-content">
        <!-- <app-orden-carga-edit-form-acciones
@@ -48,21 +50,44 @@
           (combinacionChange)="onCombinacionChange($event)"
           class="orden-edit"
           (ocChange)="getData()"
-          
         ></app-orden-carga-edit-form-combinacion>
-
-        <!-- </mat-expansion-panel> -->
         <app-orden-carga-anticipos-table 
+          [class.disabled]="!isAceptado || isShow"
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
           [puedeConciliar]="puedeConciliar"
           [list]="anticipoList"
           (ocChange)="getData()"
-          
       ></app-orden-carga-anticipos-table >
 
-
+      <div *ngIf="isNuevo">
+      <div class="remisiones-line"><h2>REMISIONES</h2></div>
+      <div class="remisiones-container">
+        <div class="remisiones-item">
+          <app-orden-carga-edit-form-remisiones-origen
+            [class.disabled]="!isAceptado"
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionOrigenList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-origen>
+        </div>
+        <div class="remisiones-item">
+          <app-orden-carga-edit-form-remisiones-destino
+            [class.disabled]="!isAceptado"
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionDestinoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-destino>
+        </div>
+      </div>
+    </div>
 <!-- 
         <mat-expansion-panel [expanded]="isInfoTouched">
           <mat-expansion-panel-header>

@@ -5,6 +5,8 @@
       <mat-form-field [formGroupName]="groupName"  appearance="outline" 
         [ngClass]="{
             'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
+            'select-remisiones-unidad': controlName === 'unidad_id',
+            'select-remisiones-doc-origen': controlName === 'numero_documento_origen',
             'select-moneda': controlName === 'moneda_id',
             'select-comprobante': controlName === 'tipo_comprobante_id'}">
         <input
@@ -36,6 +38,8 @@
       <label>{{ title }}</label>
       <mat-form-field  [ngClass]="{
         'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
+        'select-remisiones-unidad': controlName === 'unidad_id',
+        'select-remisiones-doc-origen': controlName === 'numero_documento_origen',
         'select-moneda': controlName === 'moneda_id',
         'select-comprobante': controlName === 'tipo_comprobante_id'}" >
         

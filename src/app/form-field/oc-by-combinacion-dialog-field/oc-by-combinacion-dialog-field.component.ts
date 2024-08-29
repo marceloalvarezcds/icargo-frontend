@@ -77,6 +77,7 @@ export class OcByCombinacionDialogFieldComponent{
   @Input() groupName = '';
   @Input() title = 'ORDENES DE CARGA';
   @Input() emptyHint = 'Seleccione Chapa';
+  @Input() emptyIdHint = 'Cree una OC';
   @Input() subtitle =
   'Si no encuentra al camión deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
   

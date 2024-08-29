@@ -1,5 +1,196 @@
-.mat-dialog-content::ng-deep {
-  .hint-alert {
-    color: #ee6904;
-  }
+.main-container {
+  width: 100%;
+  width: 680px; /* Ajusta según sea necesario */
+  margin-left: -10px;
+  margin-right: -100px;
+}
+
+
+.tipo-remito-text {
+  color: #F25A38;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+}
+
+.arrow {
+  margin: 0 5px; /* Ajusta el espacio alrededor del ">>" */
+  font-weight: bold; /* Si deseas que sea más destacado */
+  color: #F25A38; /* Cambia el color si es necesario */
+}
+
+/* Estilos de texto */
+.action-text {
+  color: #F25A38;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+}
+
+h2 {
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc;
+  border-bottom: 1px solid #007acc;
+  width: 90%;
+}
+
+form {
+  max-width: 100%; 
+  margin: 0 auto; 
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+/* Ajusta las filas del formulario */
+.form-row {
+  display: flex;
+  flex-wrap: wrap; /* Permite que los elementos se envuelvan si no caben en una línea */
+  gap: 6px; /* Espacio entre los elementos en la fila */
+  margin-bottom: 16px; /* Espacio debajo de cada fila */
+}
+
+/* Ajusta las form-groups */
+.form-group {
+  flex: 1; /* Hace que los elementos dentro de form-group ocupen el mismo espacio */
+  min-width: 0; /* Previene que los elementos se desborden */
+}
+
+/* Ajusta el ancho completo del campo de imagen */
+.form-group.full-width {
+  flex: 1 0 100%; /* Ocupa el 100% del ancho disponible */
+}
+
+.cantidad-field{
+  margin-left: -90px;
+}
+
+.remito-field {
+  margin-top: -8px; /* Ajusta este valor según sea necesario */
+}
+
+.unidad-field {
+  margin-top: 2px; /* Ajusta este valor según sea necesario */
+}
+
+.fecha-field {
+  margin-top: 10px; /* Ajusta este valor según sea necesario */
+  margin-left: -77px;
+}
+
+
+/* Ajusta el tamaño de los campos si es necesario */
+.mat-form-field {
+  width: 100%; /* Asegura que los campos ocupen todo el espacio disponible dentro de su contenedor */
+}
+
+
+.save-button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: auto;
+  padding: 16px 16px;
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  opacity: 0px;
+  height: 32px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s;
+  margin-top: -15px;
+}
+
+.save-button mat-icon {
+  font-size: 15px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  width: 10px;
+  height: 12px;
+  padding: 3px;
+  margin-top: -5px;
+  margin-right: 2px;
+}
+
+.save-button:hover {
+  background-color: #155A9E; /* Color más oscuro al pasar el ratón */
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
+}
+
+.close-button {
+  background: #FFFFFF;
+  color: #3B9EFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: auto;
+  padding: 8px 16px; /* Aumenta el padding horizontal para hacer el botón más largo */
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px solid transparent; /* Borde inicial transparente */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 32px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  margin-left: auto; /* Mueve el botón hacia la derecha */
+  margin-top: -15px; /* Ajusta el margen hacia arriba según sea necesario */
+  border-color: rgb(211, 200, 200);
+  margin-top: -15px;
+}
+
+.close-button:hover {
+  background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
+  color: #1e88e5; /* Color de texto más oscuro al hacer hover */
+  border-color: black; /* Color de borde más oscuro al hacer hover */
+}
+
+.close-button mat-icon {
+  font-size: 10.5px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: red; /* Fondo del ícono */
+  border-radius: 50%; /* Borde redondeado para el ícono */
+  color: white; /* Color del ícono */
+  width: auto;
+  height: 9px;
+  gap: 0px;
+  padding: 3px 3px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1;
+  margin-left: 2px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}
+
+/* General styles for reducing vertical space */
+.mat-dialog-content {
+  margin-top: -20px;
+  padding-top: 10px;  /* Padding en la parte superior */
+  padding-right: -20px; /* Padding en la parte derecha */
+  padding-bottom: 24px; /* Padding en la parte inferior */
+  padding-left: 24px;  /* Padding en la parte izquierda */
+}
+
+.button-line {
+  width: 100%; /* Asegura que la línea ocupe todo el ancho del contenedor */
+  height: 1px; /* Espesor de la línea */
+  background-color: #d9d9d9; /* Color de la línea; ajusta según sea necesario */
+  margin-bottom: 8px; /* Espacio entre la línea y los botones */
+}
+
+.mat-dialog-actions{
+  margin-right: 50px;
+  padding: 8px -16px 8px 24px;
 }

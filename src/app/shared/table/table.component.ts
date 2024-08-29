@@ -183,6 +183,12 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     switch (state) {
       case 'Activo':
         return '#008000'; // Verde
+      case 'Aceptado':
+        return '#008000'; // Verde
+      case 'Conciliado':
+        return '#9747FF'; 
+      case 'Finalizado':
+        return '#89969F'; 
       case 'Inactivo':
         return '#FF0000'; // Rojo
       case 'Pendiente':

@@ -41,7 +41,8 @@
       <label>{{ title }}</label>
       <mat-form-field   
       [ngClass]="{ 
-        'comprobante-anticipo-input' :controlName === 'numero_comprobante' }">
+        'comprobante-anticipo-input' :controlName === 'numero_comprobante' ||
+                                      controlName === 'numero_documento'  }">
        
         <input
           matInput

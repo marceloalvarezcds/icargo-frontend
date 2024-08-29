@@ -101,6 +101,7 @@ import { InputFieldOcComponent } from './input-field-oc/input-field-oc.component
 import { DialogFieldOcComponent } from './dialog-field-oc/dialog-field-oc.component';
 import { CombinacionDialogFieldComponent } from './combinacion-dialog-field/combinacion-dialog-field.component';
 import { OcByCombinacionDialogFieldComponent } from './oc-by-combinacion-dialog-field/oc-by-combinacion-dialog-field.component';
+import { FileFieldImageComponent } from './file-field-image/file-field-image.component';
 
 
 const modules = [
@@ -196,11 +197,12 @@ const modules = [
   TipoPersonaByBeneficiarioDialogFieldComponent,
   TipoSemiFieldComponent,
   UnidadFieldComponent,
-  OcByCombinacionDialogFieldComponent
+  OcByCombinacionDialogFieldComponent,
+  FileFieldImageComponent,
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, CombinacionDialogFieldComponent, OcByCombinacionDialogFieldComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, CombinacionDialogFieldComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

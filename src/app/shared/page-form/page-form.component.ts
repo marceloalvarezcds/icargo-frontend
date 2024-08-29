@@ -16,9 +16,11 @@ import {
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { DialogService } from 'src/app/services/dialog.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-page-form',
@@ -28,11 +30,15 @@ import { ReportsService } from 'src/app/services/reports.service';
 export class PageFormComponent implements OnDestroy {
   a = PermisoAccionEnum;
   pdfSrc: string | undefined;
+  E = EstadoEnum;
+  @Input() isAnticiposLiberados = false;
+  @Input() puedeConciliar = false;
   @Input() oc?: OrdenCarga;
   @Input() isDataLoaded: boolean = false;
   @Input() isFormSaved: boolean | undefined;  
   @Input() isAnticipoActive: boolean = false;
   @Input() formGroup!: FormGroup;
+  @Input() isNuevo: Boolean = false
   @Input() isEdit = false;
   @Input() isShow = false;
   @Input() hasChange = false;
@@ -52,12 +58,14 @@ export class PageFormComponent implements OnDestroy {
   @Input() form?: FormGroup;
   @Input() estado: any;
   @Input() controlName = '';
-  userInput: string = ''; 
+
   @Output() backClick = new EventEmitter<boolean>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() editClick = new EventEmitter();
   @Output() activeClick = new EventEmitter();
   @Output() anticipoClick = new EventEmitter();
+  @Output() aceptarClick = new EventEmitter();
+  @Output() cancelarClick = new EventEmitter();
   @Output() inactiveClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
   @Output() formStateChanged = new EventEmitter<FormGroup>();
@@ -67,7 +75,9 @@ export class PageFormComponent implements OnDestroy {
     private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
     private dialog: MatDialog,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private snackbar: SnackbarService,
+    private dialogAceptar: DialogService
   ) {}
 
   loading = false;

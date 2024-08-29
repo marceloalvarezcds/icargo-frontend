@@ -1,7 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
-import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-field.component';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
@@ -185,26 +182,19 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   getSaldoAnticipo(anticipo: any): number {
     const tarifaEfectivo = this.oc?.flete_tarifa ?? 0;
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
-
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
 
-    console.log('Monto Anticipo Total:', montoAnticipo); // Depuración
-
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
         const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-        console.log('Monto Anticipo Efectivo:', montoAnticipo); // Depuración
         return montoAnticipo - montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
         const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
-        console.log('Monto Anticipo Combustible:', montoAnticipo); // Depuración
         return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
     } else {
-        console.log('Concepto no reconocido'); // Depuración
         return 0;
     }
 }
-
 
 
   openDialog(): void {

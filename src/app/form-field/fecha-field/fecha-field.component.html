@@ -1,7 +1,11 @@
 <div *ngIf="form" [formGroup]="form">
   <ng-container *ngIf="groupName">
-    <mat-form-field [formGroupName]="groupName">
-      <mat-label>{{ title }}</mat-label>
+    <label>{{ title }}</label>
+    
+    <mat-form-field [formGroupName]="groupName"      
+    [ngClass]="{
+      'fecha-remision' :controlName === 'fecha'}">
+     
       <input
         matInput
         [formControlName]="controlName"
@@ -21,8 +25,10 @@
     </mat-form-field>
   </ng-container>
   <ng-container *ngIf="!groupName">
-    <mat-form-field>
-      <mat-label>{{ title }}</mat-label>
+    <label>{{ title }}</label>
+    <mat-form-field    
+      [ngClass]="{
+        'fecha-remision' :controlName === 'fecha'}">
       <input
         matInput
         [formControlName]="controlName"

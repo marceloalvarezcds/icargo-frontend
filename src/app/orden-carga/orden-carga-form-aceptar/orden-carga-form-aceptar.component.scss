@@ -2,9 +2,8 @@
   pointer-events: none; 
   opacity: 0.5; 
 }
-
 .remisiones-line h2 {
-  margin: 0 0 15px 0;
+  margin: 20px 0 30px 0; /* Incrementa el margen inferior para bajar más la línea */
   font-family: 'Roboto', sans-serif;
   font-size: 13px;
   font-weight: 530;
@@ -16,14 +15,20 @@
 
 .remisiones-container {
   display: flex;
-  justify-content: space-between; /* Opcional: Espacio entre los dos componentes */
+  justify-content: space-between;
+  align-items: stretch;
 }
 
-.remisiones-container > * {
-  flex: 1; /* Hace que ambos componentes ocupen el mismo ancho */
-  margin-right: 10px; /* Espaciado entre los componentes, opcional */
+.remisiones-item {
+  flex: 1;
+  max-width: 49%; /* Ajuste de ancho para reducir el espacio entre los contenedores */
+  margin-right: -50%; /* Reducción del margen derecho */
 }
 
-.remisiones-container > *:last-child {
-  margin-right: 0; /* Remueve el margen derecho del último elemento */
+.remisiones-item:last-child {
+  margin-right: 65px;
+}
+
+.remisiones-item:first-child {
+  margin-left: -15px; /* Sin margen derecho para el último elemento */
 }

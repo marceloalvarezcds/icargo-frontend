@@ -82,13 +82,14 @@
             mat-mini-fab color="primary" 
             class="add-button orden-carga-aceptar"
             (click)="aceptarClick.emit($event)"
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             *ngIf="submodule === 'Orden de Carga'">
               ACEPTAR
           </button>
           <!-- Botón específico para Orden de Carga -->
           <button 
             mat-mini-fab color="primary" 
-    
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             class="add-button orden-carga-finalizar"
             *ngIf="submodule === 'Orden de Carga'">
               FINALIZAR
@@ -96,7 +97,7 @@
             <!-- Botón específico para Orden de Carga -->
         <button 
             mat-mini-fab color="primary" 
-    
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             class="add-button orden-carga-conciliar"
             *ngIf="submodule === 'Orden de Carga'">
               CONCILIAR

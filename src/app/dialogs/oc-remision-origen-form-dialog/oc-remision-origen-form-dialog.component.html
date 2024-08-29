@@ -1,39 +1,67 @@
-<form [formGroup]="form">
-  <h1 mat-dialog-title>
-    {{ actionText }} Remision de Origen
-    <button mat-button type="button" mat-dialog-close class="close">
-      <mat-icon>close</mat-icon>
-    </button>
-  </h1>
+<form [formGroup]="form" class="main-container">
+  <span mat-dialog-title>
+    <span [ngClass]="{ 'action-text': true }">
+      {{ actionText }} 
+      <span class="arrow"> >> </span>
+      <span class="tipo-remito-text">ORIGEN</span>
+    </span>
+  </span>
+  <h2>REMITO</h2>
   <div mat-dialog-content>
-    <app-input-field
-      title="Nº de Documento"
-      controlName="numero_documento"
-      [form]="form"
-    ></app-input-field>
-    <app-number-field
-      title="Cantidad"
-      controlName="cantidad"
-      [hint]="cantidadHint"
-      [form]="form"
-    ></app-number-field>
-    <app-unidad-field [form]="form"></app-unidad-field>
-    <app-fecha-field
-      title="Fecha de Carga"
-      controlName="fecha"
-      [form]="form"
-    ></app-fecha-field>
-    <app-file-field
-      className=""
-      controlName="foto_documento"
-      title="Foto del documento"
-      [field]="fotoDocumento"
-      [form]="form"
-      (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
-    ></app-file-field>
+    <div class="form-row">
+      <div class="form-group remito-field">
+        <app-input-field
+          title="Nº Remito"
+          controlName="numero_documento"
+          [form]="form"
+        ></app-input-field>
+      </div>
+      <div class="form-group cantidad-field">
+        <app-number-field
+          title="Cantidad (kg)"
+          controlName="cantidad"
+          [hint]="cantidadHint"
+          [form]="form"
+        ></app-number-field>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group unidad-field">
+        <app-unidad-field [form]="form"></app-unidad-field>
+      </div>
+      <div class="form-group fecha-field">
+        <app-fecha-field
+          title="Fecha de Carga"
+          controlName="fecha"
+          [form]="form"
+        ></app-fecha-field>
+      </div>
+    </div>
+    
+    <div class="form-row">
+      <div class="form-group full-width">
+        <app-file-field-image
+          className=""
+          controlName="foto_documento"
+          title="Imagen Documento"
+          [field]="fotoDocumento"
+          [form]="form"
+          (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
+        ></app-file-field-image>
+      </div>
+    </div>
   </div>
+  <div class="button-line"></div>
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button 
+    mat-raised-button 
+    type="button" 
+    class="close-button" 
+    mat-dialog-close>
+    <mat-icon>close</mat-icon>
+    Cerrar
+    </button>
     <button
       mat-raised-button
       type="button"
@@ -41,8 +69,9 @@
       cdkFocusInitial
       color="primary"
       id="submit-button"
+      class="save-button"
     >
-      Aceptar
+      <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>
 </form>

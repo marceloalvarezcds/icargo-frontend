@@ -254,3 +254,8 @@ $header-heigth: 64px;
   padding: 6px;
   min-width: 80px;
 }
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none; /* Esto también desactiva la capacidad de hacer clic en el botón */
+}

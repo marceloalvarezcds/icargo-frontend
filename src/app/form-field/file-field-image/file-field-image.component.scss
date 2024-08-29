@@ -1,0 +1,11 @@
+.file-form-field{
+    width: 100px;
+    height: 24px;
+    margin-left: 5px;
+}
+
+::ng-deep .file-form-field .mat-form-field-outline {
+    border: 1px solid #F25A38 !important;
+    background: white;
+  }
+  

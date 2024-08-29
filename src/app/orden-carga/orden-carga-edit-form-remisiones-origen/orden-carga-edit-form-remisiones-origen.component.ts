@@ -14,6 +14,8 @@ import { OcRemisionOrigenFormDialogComponent } from 'src/app/dialogs/oc-remision
 import { OcRemisionOrigenDialogData } from 'src/app/interfaces/oc-remision-origen-dialog-data';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { subtract } from 'src/app/utils/math';
+import * as saveAs from 'file-saver';
+import { ReportsService } from 'src/app/services/reports.service';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-origen',
@@ -54,7 +56,8 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
 
   constructor(
     private dialog: MatDialog,
-    private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService
+    private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
+    private reportsService: ReportsService
   ) {}
 
   create(): void {
@@ -88,7 +91,10 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
-    return this.dialog.open(OcRemisionOrigenFormDialogComponent, { data });
+    return this.dialog.open(OcRemisionOrigenFormDialogComponent, {     
+      width: 'auto', 
+      height: 'auto', 
+      data });
   }
 
   private emitOcChange(): void {
@@ -134,6 +140,12 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
         value: (element: OrdenCargaRemisionOrigen) =>
           element.unidad_descripcion,
       },
+      {
+        def: 'Imagen',
+        title: 'Imagen.',
+        value: (element: OrdenCargaRemisionOrigen) =>
+          element.foto_documento,
+      },
       // {
       //   def: 'cantidad_equiv',
       //   title: 'Cantidad Equiv. (kg)',
@@ -153,4 +165,5 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
   }
+
 }

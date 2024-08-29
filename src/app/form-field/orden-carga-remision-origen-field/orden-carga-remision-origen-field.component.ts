@@ -18,7 +18,7 @@ export class OrdenCargaRemisionOrigenFieldComponent {
   @Input() form?: FormGroup;
   @Input() controlName = 'orden_carga_remision_origen_id';
   @Input() groupName?: string;
-  @Input() title = 'Nº de documento del Origen';
+  @Input() title = 'Nº Doc. Origen';
   @Input() set ordenCargaId(id: number) {
     this.ocId = id;
     this.getList();

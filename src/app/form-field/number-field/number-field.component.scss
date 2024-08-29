@@ -15,6 +15,19 @@
   margin-right: 14px;
 }
 
+.cantidad-remision-input{
+  width: 170px; 
+  height: 20px;
+  border-radius: 4px;
+  margin-left: 10px;
+  text-align: end;
+  margin-right: 14px;
+}
+
+.cantidad-remision-input input{
+ font-weight: 700;
+}
+
   ::ng-deep .nominada-input .mat-form-field-wrapper .mat-form-field-hint-wrapper .mat-hint {
     font-size: 16px;
   }
@@ -24,6 +37,11 @@
   }
 
   ::ng-deep .anticipo-monto-input .mat-form-field-outline {
+    border: 1px solid #F25A38 !important;
+    background: white;
+  }
+
+  ::ng-deep .cantidad-remision-input .mat-form-field-outline {
     border: 1px solid #F25A38 !important;
     background: white;
   }

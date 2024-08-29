@@ -1,0 +1,19 @@
+.fecha-remision{
+  width: 150px; 
+  height: 20px;
+  border-radius: 4px;
+  margin-left: 10px;
+  text-align: end;
+  margin-right: 14px;
+}
+
+input{
+  font-weight: 700;
+  font-family: 'Roboto' sans-serif;
+  text-align: end;
+}
+
+::ng-deep .fecha-remision .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}

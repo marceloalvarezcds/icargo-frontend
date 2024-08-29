@@ -1,8 +1,8 @@
-import { Component, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
-import { filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { OcConfirmationDialogComponent } from 'src/app/dialogs/oc-confirmation-dialog/oc-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -30,9 +30,13 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './orden-carga-form-aceptar.component.html',
   styleUrls: ['./orden-carga-form-aceptar.component.scss']
 })
-export class OrdenCargaFormAceptarComponent implements OnInit {
+export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
   flete?: FleteList;
   isFormSubmitting = true;
+  previousid: number | null = null;
+  isLoadingData: boolean = false;
+  private valueChangesSubscription: any;
+  previousId: number | null = null;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
   id?: number;
@@ -40,6 +44,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit {
   semi?: Semi;
   combinacionList?: Combinacion
   isFormSaved: boolean = false;
+  puedeCrearRemision: boolean = false
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
   isActive = false;
@@ -141,6 +146,14 @@ export class OrdenCargaFormAceptarComponent implements OnInit {
     return this.item?.gestor_carga_id;
   }
 
+  get isAceptado(): boolean {
+    return this.item?.estado === EstadoEnum.ACEPTADO;
+  }
+
+  get isNuevo(): boolean {
+    return this.item?.estado === EstadoEnum.NUEVO;
+  }
+
   get isFinalizado(): boolean {
     return this.estado === EstadoEnum.FINALIZADO;
   }
@@ -161,6 +174,30 @@ export class OrdenCargaFormAceptarComponent implements OnInit {
 
   ngOnInit(): void {
     this.setInitialToggleState();
+    this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
+    .pipe(
+      debounceTime(300), 
+      distinctUntilChanged()
+    )
+    .subscribe(id => {
+      this.handleIdChange(id);
+    });
+  }
+
+  handleIdChange(id: number | null): void {
+    if (id && id !== this.previousId) {
+      this.previousId = id;
+      if (!this.isLoadingData) { // Solo llamar a getData si no se está cargando
+        this.getData();
+      }
+    }
+  }
+
+  ngOnDestroy(): void {
+    // Cancelar la suscripción para evitar posibles fugas de memoria
+    if (this.valueChangesSubscription) {
+      this.valueChangesSubscription.unsubscribe();
+    }
   }
 
   constructor(
@@ -216,6 +253,45 @@ export class OrdenCargaFormAceptarComponent implements OnInit {
     }
   }
 
+  aceptar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+      this.dialog.confirmation(
+        '¿Está seguro que desea aceptar la Orden de Carga?',
+        () => {
+          this.ordenCargaService.aceptar(this.idOC as number).subscribe(
+            () => {
+              this.snackbar.open('Estado cambiado satisfactoriamente');
+              this.puedeCrearRemision = true; 
+            },
+            (error) => {
+              console.error('Error al aceptar la orden de carga:', error);
+    
+            }
+          );
+        }
+      );
+    } else {
+      console.error('No se puede aceptar la orden de carga sin un ID válido');
+  
+    }
+  }
+  
+  
+  cancelar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+      this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+          this.getData();
+        }
+      );
+    } else {
+      console.error('No se puede cancelar anticipos sin un ID válido');
+    }
+  }
+  
+
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
   }
@@ -256,63 +332,72 @@ export class OrdenCargaFormAceptarComponent implements OnInit {
   }
 
   getData(): void {
-    this.ordenCargaService.getById(this.idOC).subscribe((data) => {
-      this.item = data;
-      this.isActive = data.estado === EstadoEnum.NUEVO;
-      this.form.patchValue({
-        combinacion: {
-          flete_id: data.flete_id,
-          camion_id: data.camion_id,
-          combinacion_id: data.combinacion_id,
-          marca_camion: data.camion_marca,
-          color_camion: data.camion_color,
-          semi_id: data.semi_id,
-          semi_placa: data.semi_placa,
-          marca_semi: data.semi_marca,
-          color_semi: data.semi_color,
-          propietario_camion: data.camion_propietario_nombre,
-          propietario_camion_doc: data.camion_propietario_documento,
-          chofer_camion: data.camion_chofer_nombre,
-          chofer_camion_doc: data.combinacion_chofer_doc,
-          beneficiario_camion: data.camion_beneficiario_nombre,
-          beneficiario_camion_doc: data.camion_beneficiario_documento,
-          numero: data.flete_numero_lote,
-          saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
-          cliente: data.flete_remitente_nombre,
-          tipo_flete: data.flete_tipo,
-          producto_descripcion: data.flete_producto_descripcion,
-          origen_nombre: data.flete_origen_nombre,
-          destino_nombre: data.flete_destino_nombre,
-          a_pagar: data.condicion_gestor_cuenta_tarifa,
-          neto: data.neto,
-          valor: data.flete_monto_efectivo,
-          cant_origen: 0,
-          cant_destino: 0,
-          diferencia: 0,
-          anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
-          estado: data.estado,
-          anticipos: data.anticipos_liberados
-        },
-        info: {
-          cantidad_nominada: data.cantidad_nominada,
-          comentarios: data.comentarios,
-        },
-        tramo: {
-          flete_origen_id: data.flete_origen_id,
-          flete_destino_id: data.flete_destino_id,
-          origen_id: data.flete_origen_nombre,
-          destino_id: data.flete_destino_nombre,
-        },
-        
+    const ocValue = this.idOC; 
+    if (ocValue) { 
+      this.isLoadingData = true; 
+      this.valueChangesSubscription.unsubscribe();
+
+      this.ordenCargaService.getById(ocValue).subscribe((data) => {
+        this.item = data;
+        this.isActive = data.estado === EstadoEnum.NUEVO;
+
+        this.form.patchValue({
+          combinacion: {
+            flete_id: data.flete_id,
+            camion_id: data.camion_id,
+            combinacion_id: data.combinacion_id,
+            marca_camion: data.camion_marca,
+            color_camion: data.camion_color,
+            semi_id: data.semi_id,
+            semi_placa: data.semi_placa,
+            marca_semi: data.semi_marca,
+            color_semi: data.semi_color,
+            propietario_camion: data.camion_propietario_nombre,
+            propietario_camion_doc: data.camion_propietario_documento,
+            chofer_camion: data.camion_chofer_nombre,
+            chofer_camion_doc: data.combinacion_chofer_doc,
+            beneficiario_camion: data.camion_beneficiario_nombre,
+            beneficiario_camion_doc: data.camion_beneficiario_documento,
+            numero: data.flete_numero_lote,
+            saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
+            cliente: data.flete_remitente_nombre,
+            tipo_flete: data.flete_tipo,
+            producto_descripcion: data.flete_producto_descripcion,
+            origen_nombre: data.flete_origen_nombre,
+            destino_nombre: data.flete_destino_nombre,
+            a_pagar: data.condicion_gestor_cuenta_tarifa,
+            neto: data.neto,
+            valor: data.flete_monto_efectivo,
+            cant_origen: 0,
+            cant_destino: 0,
+            diferencia: 0,
+            anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+            estado: data.estado,
+            anticipos: data.anticipos_liberados
+          },
+          info: {
+            cantidad_nominada: data.cantidad_nominada,
+            comentarios: data.comentarios,
+          },
+          tramo: {
+            flete_origen_id: data.flete_origen_id,
+            flete_destino_id: data.flete_destino_id,
+            origen_id: data.flete_origen_nombre,
+            destino_id: data.flete_destino_nombre,
+          },
+        });
+        this.isLoadingData = false; 
+        this.ngOnInit();
+        this.isFormSaved = true; 
+        this.isFormSubmitting = false
+        this.isShow = false
       });
-      this.form.disable();
-      setTimeout(() => {
-        this.hasChange = false;
-        this.initialFormValue = this.form.value;
-      }, 500);
-    });
-    
+    } else {
+      console.warn('No se ha encontrado un ID de Orden de Carga válido');
+      this.isLoadingData = false; 
+    }
   }
+  
 
   submit(confirmed: boolean): void {
     this.isFormSaved = true; 

@@ -1,7 +1,7 @@
 <app-page-form
   class="orden-carga-page"
-  module="NUEVO"
-  submodule="ACEPTAR"
+  module="ACEPTAR"
+  submodule="OC"
   [formGroup]="form"
   [modelo]="modelo"
   [oc]="item"
@@ -9,10 +9,11 @@
   (submitEvent)="save(false)"
   (activeClick)="active()"
   (inactiveClick)="inactive()"
+  (aceptarClick)="aceptar()"
+  (cancelarClick)="cancelar()"
   [isFormSaved]="isFormSaved"
   [class.page-form-show]="isShow"
   [isFormSubmitting]="isFormSubmitting"
-  [estado]="estadoOc"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
@@ -38,26 +39,31 @@
       (ocChange)="getData()"
     >
     </app-orden-carga-anticipos-table>
-    <div class="remisiones-line"><h2>Remisiones</h2></div>
+    <div class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
-      <app-orden-carga-edit-form-remisiones-origen
-        [class.disabled]="!isFormSaved"
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [isShow]="isShow"
-        [puedeConciliar]="puedeConciliar"
-        [list]="remisionOrigenList"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-remisiones-origen>
-  
-      <app-orden-carga-edit-form-remisiones-destino
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [isShow]="isShow"
-        [puedeConciliar]="puedeConciliar"
-        [list]="remisionDestinoList"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-remisiones-destino>
+      <div class="remisiones-item">
+        <app-orden-carga-edit-form-remisiones-origen
+          [class.disabled]="!isAceptado"
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [isShow]="isShow"
+          [puedeConciliar]="puedeConciliar"
+          [list]="remisionOrigenList"
+          (ocChange)="getData()"
+        ></app-orden-carga-edit-form-remisiones-origen>
+      </div>
+    
+      <div class="remisiones-item">
+        <app-orden-carga-edit-form-remisiones-destino
+          [class.disabled]="!isAceptado"
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [isShow]="isShow"
+          [puedeConciliar]="puedeConciliar"
+          [list]="remisionDestinoList"
+          (ocChange)="getData()"
+        ></app-orden-carga-edit-form-remisiones-destino>
+      </div>
     </div>
   </div>
 

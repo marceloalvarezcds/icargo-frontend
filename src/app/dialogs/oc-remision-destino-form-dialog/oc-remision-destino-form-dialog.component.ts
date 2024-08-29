@@ -25,7 +25,7 @@ export class OcRemisionDestinoFormDialogComponent {
   });
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? 'EDITAR' : 'NUEVO';
   }
 
   get data(): OrdenCargaRemisionDestino | undefined {

@@ -75,6 +75,7 @@ export class InputFieldComponent {
   @Input() groupName?: string;
   @Input() readonly = false;
   @Input() title = '';
+  @Input() subtitle = '';
   @Input() disabled: boolean = false;
   @Input() set camionId(id: number | undefined) {
     this.cId = id;

@@ -154,6 +154,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   previousid: number | null = null;
   isLoadingData: boolean = false;
   private valueChangesSubscription: any;
+
   ngOnInit(): void {
     this.setInitialToggleState();
 
@@ -167,6 +168,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       this.handleIdChange(id);
     });
   }
+  
   previousId: number | null = null;
   handleIdChange(id: number | null): void {
     if (id && id !== this.previousId) {
@@ -183,11 +185,6 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     if (this.valueChangesSubscription) {
       this.valueChangesSubscription.unsubscribe();
     }
-  }
-
-
-   private updateFormId(id: number): void {
-    this.form.get('combinacion.id_orden_carga')?.setValue(id);
   }
 
   constructor(

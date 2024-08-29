@@ -143,7 +143,6 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion?.puede_recibir_anticipos);
       if (combinacion){
         this.combinacionId = combinacion.id;
-        console.log("combinacionID", this.combinacionId)
         this.combinacionChange.emit(combinacion);
         this.camionService.getById(combinacion.camion_id).subscribe(camion => {
           this.camionChange.emit(camion)

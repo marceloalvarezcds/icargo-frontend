@@ -104,6 +104,11 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return !this.isEdit;
   }
 
+  get isNuevo(): boolean {
+    return this.estado === EstadoEnum.NUEVO;
+  }  
+  
+
   get estado(): EstadoEnum {
     return this.item!.estado;
   }
@@ -112,8 +117,17 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.item?.gestor_carga_id;
   }
 
+  get idOC(): number {
+    const ocValue = this.form.get('combinacion.id_orden_carga')?.value;
+    return ocValue;
+  }
+
   get isAnticiposLiberados(): boolean {
     return this.item!.anticipos_liberados;
+  }
+
+  get isAceptado(): boolean {
+    return this.estado === EstadoEnum.ACEPTADO;
   }
 
   get isFinalizado(): boolean {
@@ -271,6 +285,44 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     if (combinacionList) {
       this.combinacionList = combinacionList;
       this.chRef.detectChanges();
+    }
+  }
+
+  
+  aceptar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+      this.dialog.confirmation(
+        '¿Está seguro que desea aceptar la Orden de Carga?',
+        () => {
+          this.ordenCargaService.aceptar(this.idOC as number).subscribe(
+            () => {
+              this.snackbar.open('Estado cambiado satisfactoriamente');
+            },
+            (error) => {
+              console.error('Error al aceptar la orden de carga:', error);
+    
+            }
+          );
+        }
+      );
+    } else {
+      console.error('No se puede aceptar la orden de carga sin un ID válido');
+  
+    }
+  }
+  
+  
+  cancelar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+      this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+          this.getData();
+        }
+      );
+    } else {
+      console.error('No se puede cancelar anticipos sin un ID válido');
     }
   }
 

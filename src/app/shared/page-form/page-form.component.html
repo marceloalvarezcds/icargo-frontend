@@ -20,8 +20,10 @@
       </span>
       
       <div class="page-title-buttons">
-        <div class="estado-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
-          'ANTICIPO (directo)'">
+        <div class="estado-container" 
+        *ngIf="submodule !== 'ACEPTAR' 
+        && (submodule === 'ORDEN DE CARGA (directa)' || submodule === 'ANTICIPO (directo)' || submodule === 'ORDEN DE CARGA')
+        && !isNuevo">
           <label for="estado-input" class="estado-label">ESTADO OC</label>
           <input
             id="estado-input"
@@ -32,12 +34,16 @@
             class="estado-input"           
           />
         </div>
-        <div class="anticipo-toggle-container" *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
-          'ANTICIPO (directo) '">
+        
+        <div class="anticipo-toggle-container" 
+          *ngIf="submodule !== 'ACEPTAR' && (submodule === 'ORDEN DE CARGA (directa)'
+          || submodule === 'ANTICIPO (directo)' || submodule === 'ORDEN DE CARGA')  && !isNuevo">
           <label class="anticipo-label">Anticipos</label>
           <button
-            *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
-          'ANTICIPO (directo)'  && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
+            *ngIf="(submodule === 'ORDEN DE CARGA (directa)' 
+            || submodule === 'ANTICIPO (directo)' || submodule === 'ORDEN DE CARGA') 
+            && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) ||
+            !isNuevo"
             type="button"
             mat-mini-fab
             [ngClass]="{
@@ -55,22 +61,51 @@
         
         <button 
           type="button" 
-          mat-mini-fab color="primary" 
+          mat-mini-fab 
+          color="primary" 
           class="orden-button" 
           matTooltip="Orden" 
           [class.disabled]="!isFormSaved"
-          *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
-          'ANTICIPO (directo)'"
+          *ngIf="submodule !== 'ACEPTAR' 
+          && (submodule === 'ORDEN DE CARGA (directa)' 
+          || submodule === 'ANTICIPO (directo)')
+           && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && !isNuevo"
           [disabled]="isFormSubmitting"
           (click)="previewPDF()"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
-          <mat-icon>description</mat-icon>  ORDEN
+        <mat-icon>description</mat-icon>  ORDEN
+      </button>
+
+        <button
+        *ngIf="submodule === 'OC' || isNuevo"
+          type="button"
+          mat-raised-button
+          color="primary"
+          [class.disabled]="(E.ACEPTADO)"
+          (click)="aceptarClick.emit($event)"
+          class="add-button orden-carga-aceptar"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+        >
+          ACEPTAR
         </button>
+        <button
+        *ngIf="submodule === 'OC' || isNuevo"
+          type="button"
+          mat-raised-button
+          [class.disabled]="(E.CANCELADO)"
+          color="warn"
+          (click)="cancelarClick.emit($event)"
+          class="add-button orden-carga-cancelar"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+        >
+          CANCELAR
+        </button>
+      
 
         <button 
           type="button" mat-mini-fab color="accent" 
           class="ver-button"  
-          *ngIf="submodule === 'ORDEN DE CARGA (directa)'  ||
+          *ngIf="submodule === ('ORDEN DE CARGA (directa)')  ||
           'ANTICIPO (directo)'">
           <mat-icon>visibility</mat-icon> Ver OC
         </button>
@@ -150,7 +185,7 @@
           color="primary"
           matTooltip="Guardar"
           [disabled]="loading || isDataLoaded"
-          *ngIf="!isShow && !hideSaveButton"
+          *ngIf="(!isShow && !hideSaveButton) && submodule !== 'ORDEN DE CARGA'"
           class="save-button"
         >
           <mat-icon>save</mat-icon> 

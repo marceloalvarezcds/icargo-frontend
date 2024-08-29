@@ -1,0 +1,109 @@
+<ng-container *ngIf="form" >
+    <ng-container *ngIf="groupName">
+      <div *ngIf="form" [formGroup]="form">
+        <div class="{{ className }}" [formGroupName]="groupName">
+          <div *ngIf="isShow && field">
+            <strong>{{ title }}</strong>
+          </div>
+          <div class="file-field-container">
+            <img
+              *ngIf="fieldFile && !field"
+              [src]="fieldFile | imageFileBase64 | async"
+              alt=""
+              class="file-field"
+            />
+            <img *ngIf="field" [src]="field" alt="" class="file-field" />
+          </div>
+          <input
+            id="file-input"
+            #fileInput
+            type="file"
+            [disabled]="disabled"
+            accept="images/*"
+            (change)="fieldChange($event)"
+            style="display: none"
+            class="custom-input"
+          />
+          <label>{{ title }}</label>
+          <div class="file-form-field" *ngIf="!isShow">
+            
+            <input
+              matInput
+              readonly
+              [formControlName]="controlName"
+              [disabled]="disabled"
+              (click)="!disabled && fileInput.click()"
+              class="custom-input"
+            />
+            <button
+              type="button"
+              color="primary"
+              matSuffix
+              mat-icon-button
+              [disabled]="disabled"
+              (click)="!disabled && fileInput.click()"
+              class="custom-button"
+            >
+             
+            </button>
+            <mat-error *ngIf="fieldControl.hasError('required')">
+              El archivo es <strong>requerido</strong>
+            </mat-error>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-container *ngIf="!groupName">
+      <div class="{{ className }}" [formGroup]="form">
+        <div *ngIf="isShow && field">
+          <strong>{{ title }}</strong>
+        </div>
+        <div class="file-field-container">
+          <img
+            *ngIf="fieldFile"
+            [src]="fieldFile | imageFileBase64 | async"
+            alt=""
+            class="file-field"
+          />
+          <img *ngIf="field" [src]="field" alt="" class="file-field" />
+        </div>
+        <input
+          id="file-input"
+          #fileInput
+          type="file"
+          accept="images/*"
+          [disabled]="disabled"
+          (change)="fieldChange($event)"
+          style="display: none"
+          class="custom-input"
+        />
+        <label>{{ title }}</label>
+        <mat-form-field class="file-form-field" *ngIf="!isShow">
+          
+          <input
+            matInput
+            readonly
+            [formControlName]="controlName"
+            [disabled]="disabled"
+            (click)="!disabled && fileInput.click()"
+            class="custom-input"
+          />
+          <button
+            type="button"
+            color="primary"
+            matSuffix
+            mat-icon-button
+            [disabled]="disabled"
+            (click)="!disabled && fileInput.click()"
+            class="custom-button"
+          >
+      
+          </button>
+          <mat-error *ngIf="fieldControl.hasError('required')">
+            El archivo es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </ng-container>
+  </ng-container>
+  

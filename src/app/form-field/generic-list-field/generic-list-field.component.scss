@@ -1,16 +1,41 @@
 .select-tipo-anticipo {
-  width: 200px; /* Ajusta el ancho según tus necesidades */
-  height: 40px; /* Ajusta la altura según tus necesidades */
+  width: 200px; 
+  height: 40px; 
   margin-left: 10px;
-  margin-top: 10px; /* Espacio entre el label y el mat-form-field */
+  margin-top: 10px; 
+  font-weight: bold;
+  font-family: 'Roboto' sans-serif;
+}
+
+.select-remisiones-unidad{
+  width: 190px; 
+  height: 40px; 
+  margin-left: 5px;
+  margin-top: 10px; 
+  font-weight: bold;
+  font-family: 'Roboto' sans-serif;
+}
+
+.select-remisiones-doc-origen{
+  width: 158px; 
+  height: 40px; 
+  margin-left: 10px;
+  margin-top: 10px; 
+  font-weight: bold;
+  font-family: 'Roboto' sans-serif;
+}
+
+mat-select {
+  font-weight: bold;
+  font-family: 'Roboto' sans-serif;
 }
 
 
 .select-moneda {
-  width: 190px; /* Ajusta el ancho según tus necesidades */
-  height: 40px; /* Ajusta la altura según tus necesidades */
+  width: 190px; 
+  height: 40px; 
   margin-left: 10px;
-  margin-top: 10px; /* Espacio entre el label y el mat-form-field */
+  margin-top: 10px; 
 }
 
 .select-comprobante {
@@ -79,5 +104,21 @@
 /* Elimina el color azul del borde al hacer click */
 ::ng-deep .select-moneda .mat-form-field-flex {
   border-color: red !important; /* Asegura el color rojo del borde */
+}
+
+
+::ng-deep .select-tipo-anticipo .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}
+
+::ng-deep .select-remisiones-unidad .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}
+
+::ng-deep .select-remisiones-doc-origen .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white;
 }
 
