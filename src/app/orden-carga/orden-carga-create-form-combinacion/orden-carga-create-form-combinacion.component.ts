@@ -106,7 +106,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
           this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(flete.origen_nombre); 
           this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(flete.destino_nombre); 
           this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(flete.tipo_flete); 
-          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.condicion_gestor_carga_tarifa); 
+          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.condicion_propietario_tarifa); 
           this.form?.get(this.groupName)?.get('valor')?.setValue(flete.merma_gestor_carga_valor); 
           this.form?.get(this.groupName)?.get('cant_origen')?.setValue(0);
           this.form?.get(this.groupName)?.get('cant_destino')?.setValue(0);
