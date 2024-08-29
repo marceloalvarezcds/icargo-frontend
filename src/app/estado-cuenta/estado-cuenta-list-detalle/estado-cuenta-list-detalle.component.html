@@ -1,7 +1,7 @@
 <app-page
   class="estado-cuenta-page"
-  submodule="Vista General"
-  viewTitle="Todas las Cuentas Corrientes"
+  submodule="Movimientos"
+  viewTitle="(Cuentas Corrientes)"
   [modelo]="m.MOVIMIENTO"
   [hideBack]="false"
   [hideCreate]="true"
@@ -13,7 +13,7 @@
   <div class="orden-carga-page-content">
 
     <div class="acciones-container" >
-      <div class="acciones-buttons">
+      <div class="button-container">
         <ng-container>
 
           <button
@@ -46,12 +46,14 @@
       [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
       [showVistaConsolidada]="false"
+      [showEstado]="false"
     ></app-estado-cuenta-detalle>
 
     <app-saldo
         [credito]="credito"
         [debito]="debito"
         title="Saldo | Total de la Selección"
+        [hideOperacion]="true"
       ></app-saldo>
 
     <app-table-paginator

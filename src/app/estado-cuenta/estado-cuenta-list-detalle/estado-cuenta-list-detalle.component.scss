@@ -11,3 +11,9 @@
   margin-right: 24px;
   margin-bottom: 1rem;
 }
+
+.button-container {
+  display: flex;
+  gap: 10px; /* Espacio entre los botones */
+  justify-content: flex-end;
+}

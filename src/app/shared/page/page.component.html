@@ -46,18 +46,18 @@
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
             <!-- Botón específico para Orden de Carga -->
-          <button 
-            mat-mini-fab color="primary" 
-          
+          <button
+            mat-mini-fab color="primary"
+
             class="add-button orden-carga-anticipo"
             *ngIf="submodule === 'Orden de Carga'"
             (click)="createAnticipoClick.emit($event)">
             <mat-icon>add</mat-icon> ANTICIPO
           </button>
             <!-- Botón específico para Orden de Carga -->
-            <button 
-              mat-mini-fab color="primary" 
-      
+            <button
+              mat-mini-fab color="primary"
+
               class="add-button orden-carga-recepcion"
               *ngIf="submodule === 'Orden de Carga'">
               <mat-icon>add</mat-icon> RECEPCION
@@ -72,32 +72,33 @@
             [ngStyle]="getButtonStyles(submodule)"
           >
             <mat-icon >add</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
-            {{ 
-              submodule === 'CLIENTES' ? 'CLIENTE' : 
+            {{
+              submodule === 'CLIENTES' ? 'CLIENTE' :
               submodule === 'CENTROS OPERATIVOS' ? 'CENTRO OPERATIVO' :
-              submodule === 'Orden de Carga' ? 'NUEVA OC' : 'Elemento'
+              submodule === 'Orden de Carga' ? 'NUEVA OC' :
+              submodule === 'Cuentas Corrientes' ? 'MOVIMIENTO' : 'Elemento'
               }}
           </button>
               <!-- Botón específico para Orden de Carga -->
-          <button 
-            mat-mini-fab color="primary" 
-    
+          <button
+            mat-mini-fab color="primary"
+
             class="add-button orden-carga-aceptar"
             *ngIf="submodule === 'Orden de Carga'">
               ACEPTAR
           </button>
           <!-- Botón específico para Orden de Carga -->
-          <button 
-            mat-mini-fab color="primary" 
-    
+          <button
+            mat-mini-fab color="primary"
+
             class="add-button orden-carga-finalizar"
             *ngIf="submodule === 'Orden de Carga'">
               FINALIZAR
         </button>
             <!-- Botón específico para Orden de Carga -->
-        <button 
-            mat-mini-fab color="primary" 
-    
+        <button
+            mat-mini-fab color="primary"
+
             class="add-button orden-carga-conciliar"
             *ngIf="submodule === 'Orden de Carga'">
               CONCILIAR
@@ -112,7 +113,7 @@
           >
             <mat-icon>filter_alt</mat-icon>
           </button>
-    
+
         </div>
       </div>
       <div class="filter-values">
