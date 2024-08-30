@@ -77,7 +77,7 @@
       </button>
 
         <button
-        *ngIf="submodule === 'OC' || isNuevo"
+        *ngIf="module === 'ACEPTAR' || isNuevo"
           type="button"
           mat-raised-button
           color="primary"
@@ -89,7 +89,7 @@
           ACEPTAR
         </button>
         <button
-        *ngIf="submodule === 'OC' || isNuevo"
+        *ngIf="module === 'ACEPTAR' || isNuevo"
           type="button"
           mat-raised-button
           [class.disabled]="(E.CANCELADO)"
@@ -101,6 +101,17 @@
           CANCELAR
         </button>
       
+        <button
+        *ngIf="module === 'FINALIZAR' || isAceptado"
+          type="button"
+          mat-raised-button
+          [class.disabled]="(E.FINALIZADO)"
+          (click)="finalizarClick.emit($event)"
+          class="add-button orden-carga-finalizar"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+        >
+          FINALIZAR
+        </button>
 
         <button 
           type="button" mat-mini-fab color="accent" 

@@ -206,6 +206,12 @@ export class OrdenCargaListComponent implements OnInit {
     window.open(url, '_blank');
   }
 
+  redirectToFinalizar(): void {
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/finalizar`;
+    window.open(url, '_blank');
+  }
+
+
   redirectToShow(event: TableEvent<OrdenCargaList>): void {
     const url = `/orden-carga/${m.ORDEN_CARGA}/${a.VER}/${event.row.id}`;
     window.open(url, '_blank');

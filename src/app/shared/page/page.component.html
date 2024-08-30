@@ -34,7 +34,7 @@
           </span>
           <span *ngIf="viewTitle"> > <strong>{{ viewTitle }}</strong> </span>
         </span>
-        <div class="page-title-buttons button-container"> <!-- Añade la clase button-container aquí -->
+        <div class="page-title-buttons button-container"> 
           <button
             mat-mini-fab
             color="primary"
@@ -90,6 +90,7 @@
           <button 
             mat-mini-fab color="primary" 
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
+            (click)="finalizarClick.emit($event)"
             class="add-button orden-carga-finalizar"
             *ngIf="submodule === 'Orden de Carga'">
               FINALIZAR

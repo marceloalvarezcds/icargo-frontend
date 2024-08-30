@@ -290,40 +290,28 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   
   aceptar(): void {
-    if (this.idOC !== null && this.idOC !== undefined) {
-      this.dialog.confirmation(
-        '¿Está seguro que desea aceptar la Orden de Carga?',
-        () => {
-          this.ordenCargaService.aceptar(this.idOC as number).subscribe(
-            () => {
-              this.snackbar.open('Estado cambiado satisfactoriamente');
-            },
-            (error) => {
-              console.error('Error al aceptar la orden de carga:', error);
-    
-            }
-          );
-        }
-      );
-    } else {
-      console.error('No se puede aceptar la orden de carga sin un ID válido');
-  
-    }
+    this.dialog.confirmation(
+      '¿Está seguro que desea aceptar la Orden de Carga?',
+      () => {
+        this.ordenCargaService.aceptar(this.item!.id).subscribe(() => {
+          this.snackbar.open('Estado cambiado satisfactoriamente');
+       
+        });
+      }
+    );
   }
-  
+
   
   cancelar(): void {
-    if (this.idOC !== null && this.idOC !== undefined) {
-      this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
-        this.ordenCargaService.cancelar(this.idOC),
-        () => {
-          this.getData();
-        }
-      );
-    } else {
-      console.error('No se puede cancelar anticipos sin un ID válido');
-    }
+    this.dialog.confirmation(
+      '¿Está seguro que desea cancelar la Orden de Carga?',
+      () => {
+        this.ordenCargaService.cancelar(this.item!.id).subscribe(() => {
+          this.snackbar.open('Estado cancelar satisfactoriamente');
+       
+        });
+      }
+    );
   }
 
 

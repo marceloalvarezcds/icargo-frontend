@@ -39,6 +39,7 @@ export class PageFormComponent implements OnDestroy {
   @Input() isAnticipoActive: boolean = false;
   @Input() formGroup!: FormGroup;
   @Input() isNuevo: Boolean = false
+  @Input() isAceptado: Boolean = false
   @Input() isEdit = false;
   @Input() isShow = false;
   @Input() hasChange = false;
@@ -66,6 +67,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() anticipoClick = new EventEmitter();
   @Output() aceptarClick = new EventEmitter();
   @Output() cancelarClick = new EventEmitter();
+  @Output() finalizarClick = new EventEmitter();
   @Output() inactiveClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
   @Output() formStateChanged = new EventEmitter<FormGroup>();

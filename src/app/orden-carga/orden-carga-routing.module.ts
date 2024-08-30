@@ -10,6 +10,7 @@ import { OrdenCargaEditFormComponent } from './orden-carga-edit-form/orden-carga
 import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.component';
 import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-anticipo-form/orden-carga-nuevo-anticipo-form.component';
 import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden-carga-form-aceptar.component';
+import { OrdenCargaFinalizarFormComponent } from './orden-carga-finalizar-form/orden-carga-finalizar-form.component';
 
 const routes: Routes = [
   {
@@ -40,9 +41,15 @@ const routes: Routes = [
         component: OrdenCargaFormAceptarComponent,
         canActivate: [PermisoGuard],
       },
+
       {
         path: `${a.VER}/:id`,
         component: OrdenCargaEditFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:finalizar`,
+        component: OrdenCargaFinalizarFormComponent,
         canActivate: [PermisoGuard],
       },
       {

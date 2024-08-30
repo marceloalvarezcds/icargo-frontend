@@ -35,6 +35,7 @@ import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-antici
 import { OrdenCargaAccionesFormCombinacionOcComponent } from './orden-carga-acciones-form-combinacion-oc/orden-carga-acciones-form-combinacion-oc.component';
 import { OrdenCargaCreateFormRecepcionComponent } from './orden-carga-create-form-recepcion/orden-carga-create-form-recepcion.component';
 import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden-carga-form-aceptar.component';
+import { OrdenCargaFinalizarFormComponent } from './orden-carga-finalizar-form/orden-carga-finalizar-form.component';
 
 
 
@@ -68,6 +69,7 @@ import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden
     OrdenCargaAccionesFormCombinacionOcComponent,
     OrdenCargaCreateFormRecepcionComponent,
     OrdenCargaFormAceptarComponent,
+    OrdenCargaFinalizarFormComponent,
   ],
   imports: [
     CommonModule,
