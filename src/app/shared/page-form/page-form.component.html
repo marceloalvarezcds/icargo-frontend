@@ -20,6 +20,7 @@
       </span>
       
       <div class="page-title-buttons">
+
         <div class="estado-container" 
         *ngIf="submodule !== 'ACEPTAR' 
         && (submodule === 'ORDEN DE CARGA (directa)' || submodule === 'ANTICIPO (directo)' || submodule === 'ORDEN DE CARGA')
@@ -81,7 +82,7 @@
           type="button"
           mat-raised-button
           color="primary"
-          [class.disabled]="(E.ACEPTADO)"
+          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
           (click)="aceptarClick.emit($event)"
           class="add-button orden-carga-aceptar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
@@ -92,7 +93,7 @@
         *ngIf="module === 'ACEPTAR' || isNuevo"
           type="button"
           mat-raised-button
-          [class.disabled]="(E.CANCELADO)"
+          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
           color="warn"
           (click)="cancelarClick.emit($event)"
           class="add-button orden-carga-cancelar"
@@ -102,7 +103,7 @@
         </button>
       
         <button
-        *ngIf="module === 'FINALIZAR' || isAceptado"
+        *ngIf="module === 'FINALIZAR'"
           type="button"
           mat-raised-button
           [class.disabled]="(E.FINALIZADO)"

@@ -112,6 +112,24 @@ export class PageFormComponent implements OnDestroy {
     }
   }
 
+  backEditOC(): void {
+    if (this.isShow || !this.hasChange || this.submodule === 'ORDEN DE CARGA (directa)') {
+      this.backClick.emit(false);
+    } else {
+      this.dialog
+        .open(ConfirmationDialogComponent, {
+          data: {
+            message: '¿Desea guardar los cambios realizados?',
+          },
+        })
+        .afterClosed()
+        .pipe(filter((confirmed: boolean) => confirmed !== null))
+        .subscribe((confirmed) => {
+          this.backClick.emit(confirmed);
+        });
+    }
+  }
+
   previewPDF(): void {
     console.log('Generated PDF URL:', this.oc);
     if (!this.oc){

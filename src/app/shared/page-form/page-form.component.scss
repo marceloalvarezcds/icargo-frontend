@@ -482,3 +482,8 @@
 .estado-label{
   width: 100px;
 }
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none; /* Esto también desactiva la capacidad de hacer clic en el botón */
+}
