@@ -27,6 +27,7 @@ import { TableSelectorWithFetchPaginatorComponent } from './table-selector-with-
 import { TableSelectorComponent } from './table-selector/table-selector.component';
 import { TableComponent } from './table/table.component';
 import { PageFormMapComponent } from './page-form-map/page-form-map.component';
+import { TableOcComponent } from './table-oc/table-oc.component';
 
 const modules = [
   HeaderComponent,
@@ -50,6 +51,7 @@ const modules = [
   PageFormContactosComponent,
   PageFormEntitiesInfoComponent,
   PageFormMapComponent,
+  TableOcComponent,
 ];
 
 @NgModule({

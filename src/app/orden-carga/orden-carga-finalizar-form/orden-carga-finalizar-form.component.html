@@ -40,7 +40,7 @@
       (ocChange)="getData()"
     >
     </app-orden-carga-anticipos-table>
-    <div class="remisiones-line"><h2>REMISIONES</h2></div>
+    <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
       <div class="remisiones-item">
         <app-orden-carga-edit-form-remisiones-origen
@@ -66,6 +66,12 @@
         ></app-orden-carga-edit-form-remisiones-destino>
       </div>
     </div>
+
+    <app-orden-carga-edit-form-remisiones-resultado
+    [oc]="item"
+    [gestorCargaId]="gestorCargaId"
+    [list]="remisionResultadoList"
+  ></app-orden-carga-edit-form-remisiones-resultado>
   </div>
 
 

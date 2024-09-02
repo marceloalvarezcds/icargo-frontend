@@ -18,4 +18,6 @@ export interface Column {
   sticky?: boolean;
   stickyEnd?: boolean;
   type?: string;
+  isGroupHeader?: boolean; // Añadir esta propiedad
+  colspan?: number;
 }

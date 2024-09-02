@@ -1,0 +1,34 @@
+.disabled {
+    pointer-events: none; 
+    opacity: 0.5; 
+  }
+  .remisiones-line h2 {
+    margin: 20px 0 30px 0; /* Incrementa el margen inferior para bajar más la línea */
+    font-family: 'Roboto', sans-serif;
+    font-size: 13px;
+    font-weight: 530;
+    line-height: 16.41px;
+    color: #007acc;  /* Celeste más oscuro */
+    border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+    width: 90%;
+  }
+  
+  .remisiones-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+  }
+  
+  .remisiones-item {
+    flex: 1;
+    max-width: 49%; /* Ajuste de ancho para reducir el espacio entre los contenedores */
+    margin-right: -50%; /* Reducción del margen derecho */
+  }
+  
+  .remisiones-item:last-child {
+    margin-right: 65px;
+  }
+  
+  .remisiones-item:first-child {
+    margin-left: -15px; /* Sin margen derecho para el último elemento */
+  }

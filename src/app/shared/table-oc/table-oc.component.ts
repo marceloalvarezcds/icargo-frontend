@@ -1,0 +1,213 @@
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { FormArray } from '@angular/forms';
+import { MatCheckboxChange } from '@angular/material/checkbox';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTableDataSource } from '@angular/material/table';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import {
+  PermisoAccionEnum,
+  PermisoModeloEnum,
+} from 'src/app/enums/permiso-enum';
+import { Column } from 'src/app/interfaces/column';
+import { SearchOptions } from 'src/app/interfaces/filter';
+import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
+import { SearchService } from 'src/app/services/search.service';
+import { delay } from 'src/app/utils/observable';
+
+@Component({
+  selector: 'app-table-oc',
+  templateUrl: './table-oc.component.html',
+  styleUrls: ['./table-oc.component.scss']
+})
+export class TableOcComponent<T> implements OnInit, OnDestroy {
+  e = EstadoEnum;
+  a = PermisoAccionEnum;
+  allChecked: boolean = false;
+  checkedList: boolean[] = [];
+  generalTitle: string = 'title' ;
+  allColumns: Column[] = [];
+  columnStickyList: Column[] = [];
+  columnStickyEndList: Column[] = [];
+  columnsToShowList: string[] = [];
+  columnsToShowFilteredList: string[] = [];
+  displayedColumns: string[] = [];
+  tableDataSource = new MatTableDataSource<T>();
+  defaultFilterPredicate = this.tableDataSource.filterPredicate.bind(
+    this.tableDataSource
+  );
+  filteredColumns: Column[] = [];
+  searchSubscription = this.searchService
+    .getSearchOptions()
+    .pipe(delay(500))
+    .subscribe((search) => this.filterData(search));
+
+  @Input() set dataSource(source: MatTableDataSource<T>) {
+    this.tableDataSource = source;
+    this.tableDataSource.sort = this.sort;
+  }
+
+  @Input() set columns(list: Column[]) {
+    this.allColumns = list.slice();
+    this.displayedColumns = list.map((c) => c.def);
+    this.columnStickyList = list.filter((c) => c.sticky);
+    this.columnStickyEndList = list.filter((c) => c.stickyEnd);
+    this.columnsToShowList = list
+      .filter((c) => !(c.sticky || c.stickyEnd))
+      .map((c) => c.title);
+    this.columnsToShowFilteredList = this.columnsToShowList.slice();
+    this.filterColumns();
+  }
+
+  @Input() set data(values: T[]) {
+    this.checkedList = values.map((_) => false);
+    this.tableDataSource.data = values.slice();
+  }
+// En el archivo .ts de tu componente hijo
+  @Input() mostrarBotonEliminar: boolean = true;
+
+  @Input() filterPredicate = this.defaultFilterPredicate.bind(
+    this.tableDataSource
+  ); 
+
+  @Input() tableStyles: any = {};
+  @Input() isGestion: boolean = false;
+  @Input() columnWidths: { [key: string]: string; } | undefined;
+  @Input() formArray = new FormArray([]);
+  @Input() gestorCuentaId?: number;
+  @Input() disableSort = false;
+  @Input() hideDelete = false;
+  @Input() hideEdit = false;
+  @Input() hideShow = false;
+  @Input() isShow = false;
+  @Input() addShowButton = false;
+  @Input() shouldBeShowFooter = false;
+  @Input() shouldShowActiveButton = false;
+  @Input() shouldShowInactiveButton = false;
+  @Input() noCheckGestorCuentaId = false;
+  @Input() modelo?: PermisoModeloEnum;
+
+  @Output() activeClick = new EventEmitter<TableEvent<T>>();
+  @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
+  @Output() editClick = new EventEmitter<TableEvent<T>>();
+  @Output() deleteClick = new EventEmitter<TableEvent<T>>();
+  @Output() showClick = new EventEmitter<TableEvent<T>>();
+  @Output() allCheckedChange = new EventEmitter<boolean>();
+  @Output() checkboxChange = new EventEmitter<CheckboxEvent<T>>();
+
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
+    null;
+  @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
+
+  constructor(private searchService: SearchService) {}
+
+  ngOnInit(): void {
+    this.tableDataSource.sort = this.sort;
+  }
+
+  ngOnDestroy(): void {
+    this.searchSubscription.unsubscribe();
+  }
+
+  filterColumns() {
+    this.filteredColumns = this.columnStickyList.concat(
+      this.allColumns
+        .filter((col) =>
+          this.columnsToShowFilteredList.find((c) => c === col.title)
+        )
+        .concat(this.columnStickyEndList)
+    );
+    this.displayedColumns = this.filteredColumns.map((c) => c.def);
+  }
+
+  getColumnSpan(title: string): number {
+    switch (title) {
+      case 'title1':
+        return 3; // Number of columns that Título General 1 spans
+      case 'title2':
+        return 2; // Number of columns that Título General 2 spans
+      default:
+        return 0;
+    }
+  }
+  
+  filterData(searchOptions: SearchOptions): void {
+    if (searchOptions.isFilteredByGlobalSearch) {
+      this.tableDataSource.filterPredicate = this.defaultFilterPredicate;
+    } else {
+      this.tableDataSource.filterPredicate = this.filterPredicate;
+    }
+    this.tableDataSource.filter = searchOptions.textToSearch
+      .trim()
+      .toLowerCase();
+    if (
+      searchOptions.textToSearch.trim().length &&
+      this.tableDataSource.paginator
+    ) {
+      this.tableDataSource.paginator!.firstPage();
+    }
+  }
+
+  isTitleSaldosColumn(columnDef: string): boolean {
+    const gestionColumns = ['concepto_gestion', 'anticipo_gestion', 
+                  'complemento_gestion', 'disponible_gestion', 'retirado_gestion', 'saldo_gestion',
+                'usuario_gestion', 'fecha_gestion', 'modi_gestion', 'fecha_mod_gestion'];
+    return this.isGestion && gestionColumns.includes(columnDef);
+  }
+
+  isFirstThreeColumns(columnDef: string): boolean {
+    const firstThreeColumns = ['id_gestion',  '%'];
+    return firstThreeColumns.includes(columnDef);
+  }
+  
+
+  isStickyColumn(column: any): boolean {
+    return column.sticky;
+  }
+
+  onCheckboxChange(event: MatCheckboxChange, row: any, index: number): void {
+    this.checkboxChange.emit({ event, value: { row, index } });
+  }
+
+  setAll(checked: boolean) {
+    this.allChecked = checked;
+    this.allCheckedChange.emit(checked);
+    this.checkedList = this.checkedList.map((_) => checked);
+  }
+
+  someChecked(): boolean {
+    return this.checkedList.filter((t) => t).length > 0 && !this.allChecked;
+  }
+
+  updateAllChecked() {
+    this.allChecked = this.checkedList.every((t) => t);
+  }
+  
+  getColorForState(state: string): string {
+    switch (state) {
+      case 'Activo':
+        return '#008000'; // Verde
+      case 'Aceptado':
+        return '#008000'; // Verde
+      case 'Conciliado':
+        return '#9747FF'; 
+      case 'Finalizado':
+        return '#89969F'; 
+      case 'Inactivo':
+        return '#FF0000'; // Rojo
+      case 'Pendiente':
+        return '#FFA500'; // Naranja
+      default:
+        return '#000000'; // Color por defecto o para otros estados
+    }
+  }
+
+}

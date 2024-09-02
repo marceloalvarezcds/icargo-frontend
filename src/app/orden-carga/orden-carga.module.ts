@@ -70,6 +70,7 @@ import { OrdenCargaFinalizarFormComponent } from './orden-carga-finalizar-form/o
     OrdenCargaCreateFormRecepcionComponent,
     OrdenCargaFormAceptarComponent,
     OrdenCargaFinalizarFormComponent,
+ 
   ],
   imports: [
     CommonModule,

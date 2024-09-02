@@ -1,0 +1,29 @@
+.custom-cell {
+    padding: 10px;
+    border: 1px solid #ddd; /* Borde del contenedor principal */
+    border-radius: 4px; /* Bordes redondeados opcionales */
+    background-color: #f9f9f9; /* Color de fondo del contenedor principal */
+  }
+  
+  .custom-container {
+    display: flex;
+    align-items: center; /* Alinea verticalmente los elementos dentro del contenedor */
+  }
+  
+  .custom-label-container,
+  .custom-input-container {
+    border: 1px solid #ccc; /* Color del borde del contenedor adicional */
+    border-radius: 4px; /* Bordes redondeados opcionales */
+    padding: 5px; /* Espaciado interno para separar el borde del contenido */
+  }
+  
+  .custom-label-container {
+    width: 30%; /* Ancho del contenedor de la etiqueta */
+    margin-right: 10px; /* Espacio entre la etiqueta y el input */
+  }
+  
+  .custom-label {
+    display: block; /* Asegura que la etiqueta ocupe el ancho completo del contenedor */
+    margin: 0; /* Elimina el margen por defecto */
+    font-weight: bold; /* Hacer la etiqueta más destacada */
+  }

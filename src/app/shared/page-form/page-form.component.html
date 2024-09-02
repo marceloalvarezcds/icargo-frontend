@@ -20,7 +20,6 @@
       </span>
       
       <div class="page-title-buttons">
-
         <div class="estado-container" 
         *ngIf="submodule !== 'ACEPTAR' 
         && (submodule === 'ORDEN DE CARGA (directa)' || submodule === 'ANTICIPO (directo)' || submodule === 'ORDEN DE CARGA')
@@ -106,7 +105,7 @@
         *ngIf="module === 'FINALIZAR'"
           type="button"
           mat-raised-button
-          [class.disabled]="(E.FINALIZADO)"
+        
           (click)="finalizarClick.emit($event)"
           class="add-button orden-carga-finalizar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
@@ -117,6 +116,7 @@
         <button 
           type="button" mat-mini-fab color="accent" 
           class="ver-button"  
+          [disabled]="true"
           *ngIf="submodule === ('ORDEN DE CARGA (directa)')  ||
           'ANTICIPO (directo)'">
           <mat-icon>visibility</mat-icon> Ver OC

@@ -1,0 +1,21 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  th[colspan="2"] {
+    background-color: #f4f4f4;
+  }
+  
+  .sticky-column {
+    position: sticky;
+    background: #fff;
+    z-index: 1;
+  }
+  

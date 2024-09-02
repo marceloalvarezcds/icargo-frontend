@@ -1,9 +1,13 @@
 import { Component, Input } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
+import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
 
 @Component({
@@ -98,9 +102,21 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     },
   ];
 
+  form: FormGroup;
+
+  constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      responsable: [''],
+      tarifa_flete: [''],
+      total_flete: ['']
+    });
+  }
+
+
   lista: OrdenCargaRemisionResultado[] = [];
   modelo = m.ORDEN_CARGA_REMISION_RESULTADO;
 
+  @Input() oc?: OrdenCarga
   @Input() title = 'Resultados';
   @Input() gestorCargaId?: number;
   @Input() set list(l: OrdenCargaRemisionResultado[]) {

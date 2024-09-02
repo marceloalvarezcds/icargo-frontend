@@ -246,13 +246,16 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
+    if (!this.hasChangeSubscription) {
+      this.hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
+        setTimeout(() => {
+          this.hasChange = !isEqual(this.initialFormValue, value);
+        });
+      });
+    }
     this.getData();
-    this.form.statusChanges.subscribe(status => {
-      const anticipoButton = document.getElementById('add-button') as HTMLButtonElement;
-      anticipoButton.disabled = status !== 'VALID';
-      
-    });
   }
+  
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();

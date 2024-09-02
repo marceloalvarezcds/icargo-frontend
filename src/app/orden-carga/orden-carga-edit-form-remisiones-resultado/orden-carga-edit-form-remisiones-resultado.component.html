@@ -1,13 +1,21 @@
-<div class="row page-form-row" *ngIf="gestorCargaId">
-  <h4 class="col-xs-12">{{ title }}</h4>
-  <div class="col-xs-12 table-container" [hidden]="!(lista && lista.length)">
-    <app-table
+<div class="row page-form-row">
+  <!-- Fila para las etiquetas y los inputs -->
+  <div class="row">
+    <div class="col-xs-4">
+        <label for="input1" class="custom-label">Etiqueta 1:</label>
+        <input id="input1" type="text" class="form-control custom-input" [value]="oc?.cantidad_origen">
+    </div>
+    
+  
+  <!-- Fila para la tabla -->
+  <div class="col-xs-12 table-container">
+    <app-table-oc
       [modelo]="modelo"
       [gestorCuentaId]="gestorCargaId"
       [hideShow]="true"
       [isShow]="true"
       [columns]="columns"
       [data]="lista"
-    ></app-table>
+    ></app-table-oc>
   </div>
 </div>

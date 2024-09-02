@@ -152,8 +152,33 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     );
   }
 
+  get puedeCambiarEstado(): boolean {
+    const permiso = this.userService.checkPermisoAndGestorCargaId(
+      a.CAMBIAR_ESTADO,
+      this.modelo,
+      this.gestorCargaId
+    );
+  
+    console.log('Permiso para cambiar estado:', permiso); // Debugging
+    return permiso;
+  }
+  
+
+  
+
   ngOnInit(): void {
     this.setInitialToggleState();
+    const gestorCargaId = this.gestorCargaId;
+    if (gestorCargaId !== undefined) {
+      this.dataFromParent = this.userService.checkPermisoAndGestorCargaId(
+        a.CAMBIAR_ESTADO,
+        this.modelo,
+        gestorCargaId
+      ) ? 'Aceptado' : 'Nuevo';
+    } else {
+      this.dataFromParent = 'Nuevo';
+    }
+  
   }
 
   constructor(

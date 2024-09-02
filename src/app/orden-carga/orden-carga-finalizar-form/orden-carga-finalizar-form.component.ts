@@ -19,6 +19,7 @@ import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
+import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
 import { Semi } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
@@ -133,6 +134,11 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   get remisionDestinoList(): OrdenCargaRemisionDestino[] {
     return this.item!?.remisiones_destino.slice();
   }
+
+  get remisionResultadoList(): OrdenCargaRemisionResultado[] {
+    return this.item!?.remisiones_resultado.slice();
+  }
+
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
     return this.item!?.anticipos.slice();

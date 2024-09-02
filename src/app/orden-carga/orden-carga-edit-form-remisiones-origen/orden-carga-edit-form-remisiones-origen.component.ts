@@ -100,7 +100,6 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   private emitOcChange(): void {
     this.ocChange.emit();
   }
-
   private setList(list: OrdenCargaRemisionOrigen[]): void {
     this.lista = list ? list.slice() : [];
     this.configColumns();
