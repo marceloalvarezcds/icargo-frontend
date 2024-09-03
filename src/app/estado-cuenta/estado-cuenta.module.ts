@@ -60,5 +60,10 @@ import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/e
     SharedModule,
     RouterModule,
   ],
+  exports: [
+    EstadoCuentaDetalleComponent,
+    SaldoComponent,
+    LiquidacionFormMovimientosComponent,
+  ]
 })
 export class EstadoCuentaModule {}

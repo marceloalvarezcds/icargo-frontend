@@ -3,6 +3,7 @@
   submodule="Movimientos"
   viewTitle="(Cuentas Corrientes)"
   [modelo]="m.MOVIMIENTO"
+  (backClick)="back($event)"
   [hideBack]="false"
   [hideCreate]="true"
   (applyClick)="applyFilter()"

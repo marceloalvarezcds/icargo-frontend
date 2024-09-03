@@ -35,6 +35,21 @@
           <span *ngIf="viewTitle"> > <strong>{{ viewTitle }}</strong> </span>
         </span>
         <div class="page-title-buttons button-container"> <!-- Añade la clase button-container aquí -->
+
+          <ng-container *ngIf="!hideBack">
+            <button
+              type="button"
+              mat-mini-fab
+              matTooltip="Volver al listado"
+              (click)="back()"
+              id="back-button"
+              class="list-button"
+            >
+              <mat-icon>arrow_back</mat-icon>
+              Volver
+            </button>
+          </ng-container>
+
           <button
             mat-mini-fab
             color="primary"

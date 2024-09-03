@@ -66,7 +66,7 @@ export class PageComponent {
       'line-height': '18.75px',
       'letter-spacing': '0.06em',
     };
-  
+
     switch (submodule) {
       case 'CLIENTES':
       case 'CENTROS OPERATIVOS':
@@ -76,6 +76,9 @@ export class PageComponent {
         return { 'padding': '6px', 'min-width': '80px' };
     }
   }
-  
-  
+
+  back(): void {
+    this.backClick.emit(false);
+  }
+
 }

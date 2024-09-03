@@ -38,6 +38,14 @@ export class EstadoCuentaListComponent implements OnInit {
   m = PermisoModeloEnum;
   columns: Column[] = [
     {
+      def: 'ctacte1',
+      title: ' ',
+      value: () => 'Ver detalle Contraparte',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
+      buttonIconName: (element: EstadoCuenta) => 'account_circle',
+    },
+    {
       def: 'tipo_contraparte_descripcion',
       title: 'Contraparte',
       value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion,
@@ -48,26 +56,10 @@ export class EstadoCuentaListComponent implements OnInit {
       value: (element: EstadoCuenta) => element.contraparte,
     },
     {
-      def: 'ctacte1',
-      title: ' ',
-      value: () => 'Crear Liquidacion',
-      type: 'button',
-      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
-      buttonIconName: (element: EstadoCuenta) => 'account_circle',
-    },
-    {
-      def: 'ctacte2',
-      title: ' ',
-      value: () => 'Ver Movimientos Pendientes',
-      type: 'button',
-      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
-      buttonIconName: (element: EstadoCuenta) => 'business_center'
-    },
-    {
       def: 'contraparte_numero_documento',
       title: 'Nº de Documento',
       value: (element: EstadoCuenta) => element.contraparte_numero_documento,
-      footerDef: () => 'Total',
+      footerDef: () => 'TOTAL SALDO GENERAL',
     },
     {
       def: 'pendiente',
@@ -101,7 +93,7 @@ export class EstadoCuentaListComponent implements OnInit {
     },
     {
       def: 'finalizado',
-      title: LiquidacionEtapaEnum.FINALIZADO,
+      title: LiquidacionEtapaEnum.PAGOS,
       value: (element: EstadoCuenta) => element.finalizado,
       link: (element: EstadoCuenta) =>
         element.cantidad_finalizado > 0
@@ -219,12 +211,11 @@ export class EstadoCuentaListComponent implements OnInit {
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
-    this.tipoContraparteFiltered =
-      this.tipoContraparteCheckboxFilter.getFilteredList();
+    this.tipoContraparteFiltered = this.tipoContraparteCheckboxFilter.getFilteredList();
     this.contraparteFiltered = this.contraparteCheckboxFilter.getFilteredList();
+
     if (this.isFilteredByTipoContraparte) {
-      filter.tipo_contraparte_descripcion =
-        this.tipoContraparteFiltered.join('|');
+      filter.tipo_contraparte_descripcion = this.tipoContraparteFiltered.join('|');
       this.isFiltered = true;
     }
     if (this.isFilteredByProducto) {
@@ -270,7 +261,9 @@ export class EstadoCuentaListComponent implements OnInit {
       );
 
       this.contraparteFilterList = getFilterList(list, (x) => x.contraparte);
+
       this.resetFilterList();
+
     });
   }
 
@@ -290,27 +283,10 @@ export class EstadoCuentaListComponent implements OnInit {
 
   private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
 
-    let queryparam = getQueryParams(mov, LiquidacionEtapaEnum.FINALIZADO);
-
-    console.log("queryparam");
-    console.log(queryparam);
-
     this.router.navigate(
       [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
-      {
-        queryParams:getQueryParams(mov)
-      }
+      { queryParams:getQueryParams(mov) }
     );
-      /*const url = this.router.serializeUrl(
-        this.router.createUrlTree(
-          [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
-          queryparam,
-        ])
-      );
-
-    console.log(url);
-
-    window.open(url, '_blank');*/
   }
 
 }

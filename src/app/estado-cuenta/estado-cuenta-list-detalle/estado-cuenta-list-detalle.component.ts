@@ -22,9 +22,9 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
-import { getQueryParams } from 'src/app/utils/contraparte-info';
-import { getFilterList } from 'src/app/utils/filter';
 import { createMovimiento } from 'src/app/utils/movimiento-utils';
+import { ContraparteInfoMovimiento } from 'src/app/interfaces/contraparte-info';
+import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 
 type Filter = {
   tipo_contraparte_descripcion?: string;
@@ -70,19 +70,13 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },
     {
       def: 'tipo',
-      title: 'Tipo Operacion',
-      value: (element: Movimiento) => 'ver HOY!',
+      title: 'Detalle',
+      value: (element: Movimiento) => ((element.concepto === 'Anticipo') ? element.anticipo?.concepto : element.concepto),
     },
     {
       def: 'tipo_documento_relacionado_descripcion',
-      title: 'Tipo de Doc Relacionado',
-      value: (element: Movimiento) =>
-        element.tipo_documento_relacionado_descripcion,
-    },
-    {
-      def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
+      title: 'Documento Relacionado',
+      value: (element: Movimiento) => element.tipo_documento_relacionado_descripcion + " - " + element.numero_documento_relacionado,
     },
     {
       def: 'detalle',
@@ -90,33 +84,38 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: Movimiento) => element.detalle,
     },
     {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
-      type: 'number',
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Movimiento) => element.estado,
     },
-    {
+    /*{
       def: 'monto_ml',
       title: 'Monto (ML)',
       value: (element: Movimiento) => element.monto_ml,
       type: 'number',
+    },*/
+    {
+      def: 'liquidacion',
+      title: 'Liquidacion',
+      value: (element: Movimiento) => element.liquidacion_id ?? 0,
+      type: 'number'
     },
     {
       def: 'pendiente',
       title: LiquidacionEtapaEnum.PENDIENTE,
-      value: (element: EstadoCuenta) => '0',
+      value: (element: Movimiento) => element.pendiente,
       type: 'number',
     },
     {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
-      value: (element: EstadoCuenta) => '0',
+      value: (element: Movimiento) => element.confirmado,
       type: 'number',
     },
     {
       def: 'finalizado',
       title: LiquidacionEtapaEnum.FINALIZADO,
-      value: (element: EstadoCuenta) => '0',
+      value: (element: Movimiento) => element.finalizado,
       type: 'number',
     },
   ]
@@ -174,11 +173,12 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     downloadFile(): void {
-      this.estadoCuentaService.generateReports().subscribe((filename) => {
+      /* TODO: crear servicio en backend que retorne XLS
+      his.estadoCuentaService.generateReports().subscribe((filename) => {
         this.reportsService.downloadFile(filename).subscribe((file) => {
           saveAs(file, filename);
         });
-      });
+      });*/
     }
 
     filterPredicate(obj: Movimiento, filterJson: string): boolean {
@@ -196,15 +196,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       return filterByTipoContraparte && filterByContraparte;
     }
 
-    calcularTotales(): void{
-
-      this.list.forEach( (mov:Movimiento) => {
-        /*mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
-        this.pendiente = this.pendiente + mov.pendiente;
-        this.confirmado = this.confirmado + mov.confirmado;
-        this.finalizado = this.finalizado + mov.finalizado;*/
-      })
-
+    back(save: boolean): void {
+      this.router.navigate([this.backUrl]);
     }
 
     applyFilter(): void {
@@ -247,18 +240,33 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     createLiquidacion():void {
 
-      let queryparam = getQueryParams(this.estadoCuenta!, LiquidacionEtapaEnum.FINALIZADO);
+      const {
+        backUrl,
+        etapa,
+        contraparte_id,
+        contraparte,
+        contraparte_numero_documento,
+        tipo_contraparte_id,
+      } = this.route.snapshot.queryParams;
 
-      console.log("queryparam");
-      console.log(queryparam);
+      const data: ContraparteInfoMovimiento = {
+        contraparte: contraparte,
+        contraparte_id: contraparte_id,
+        contraparte_numero_documento: contraparte_numero_documento,
+        tipo_contraparte_id: tipo_contraparte_id,
+        tipo_contraparte_descripcion: ''
+      };
 
-      this.router.navigate(
-        [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`],
-        {
-          queryParams:getQueryParams(this.estadoCuenta!, LiquidacionEtapaEnum.PENDIENTE)
-        }
-      );
-
+      this.dialog
+        .open(LiquidacionFormDialogComponent, {
+          data,
+          panelClass: 'full-dialog',
+        })
+        .afterClosed()
+        .pipe(filter((confirmed) => !!confirmed))
+        .subscribe(() => {
+          this.getMovList();
+        });
     }
 
     private getList(): void {
@@ -286,7 +294,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           .pipe(filter((e) => !!e))
           .subscribe((estadoCuenta) => {
             this.estadoCuenta = estadoCuenta!;
-            console.log('respuesta: ', estadoCuenta);
             this.getMovList();
       });
 
@@ -294,10 +301,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     getMovList(): void {
       const etapa = this.etapa! as LiquidacionEtapaEnum;
-
-      console.log("this.estadoCuenta");
-      console.log(!this.estadoCuenta);
-      console.log(this.estadoCuenta);
 
       this.movimientoService
         .getListByEstadoCuentaDetalle(
@@ -326,9 +329,5 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       //this.contraparteFiltered = this.contraparteFilterList.slice();
     }
 
-    private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
-
-
-    }
 
 }

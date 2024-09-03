@@ -125,6 +125,10 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   created_at: string;
   modified_by: string;
   modified_at: string;
+  // Datos de estado de cuenta del MOV
+  pendiente: number | null;
+  confirmado: number | null;
+  finalizado: number | null;
 }
 
 export const mockMovimientoList: Movimiento[] = [
@@ -230,6 +234,9 @@ export const mockMovimientoList: Movimiento[] = [
     created_at: '2022-03-16T12:32:14.859823',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.859823',
+    pendiente: 0,
+    confirmado: 0,
+    finalizado: 0
   },
   {
     gestor_carga_id: 1,
@@ -334,6 +341,9 @@ export const mockMovimientoList: Movimiento[] = [
     created_at: '2022-03-16T12:34:29.516739',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:34:29.516739',
+    pendiente: 0,
+    confirmado: 0,
+    finalizado: 0
   },
   {
     gestor_carga_id: 1,
@@ -437,6 +447,9 @@ export const mockMovimientoList: Movimiento[] = [
     created_at: '2022-03-16T12:32:14.663215',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.663215',
+    pendiente: 0,
+    confirmado: 0,
+    finalizado: 0
   },
   {
     gestor_carga_id: 1,
@@ -540,6 +553,9 @@ export const mockMovimientoList: Movimiento[] = [
     created_at: '2022-03-16T12:32:14.608139',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:32:14.608139',
+    pendiente: 0,
+    confirmado: 0,
+    finalizado: 0
   },
   {
     gestor_carga_id: 1,
@@ -644,6 +660,9 @@ export const mockMovimientoList: Movimiento[] = [
     created_at: '2022-03-16T12:34:16.869250',
     modified_by: 'admin-transred',
     modified_at: '2022-03-16T12:34:16.869250',
+    pendiente: 0,
+    confirmado: 0,
+    finalizado: 0
   },
 ];
 
