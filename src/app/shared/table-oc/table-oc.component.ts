@@ -19,6 +19,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
 import { delay } from 'src/app/utils/observable';
@@ -55,6 +56,9 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
     this.tableDataSource.sort = this.sort;
   }
 
+  @Input() gestorCargaId?: number;
+ 
+  displayedColumnsWithHeader: string[] = ['title1', 'title2', ...this.displayedColumns];
   @Input() set columns(list: Column[]) {
     this.allColumns = list.slice();
     this.displayedColumns = list.map((c) => c.def);
@@ -77,6 +81,8 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
   @Input() filterPredicate = this.defaultFilterPredicate.bind(
     this.tableDataSource
   ); 
+
+  @Input() oc?: OrdenCarga;
 
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;

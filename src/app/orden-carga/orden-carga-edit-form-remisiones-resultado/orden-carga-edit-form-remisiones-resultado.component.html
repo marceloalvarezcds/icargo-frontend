@@ -1,14 +1,25 @@
 <div class="row page-form-row">
-  <!-- Fila para las etiquetas y los inputs -->
   <div class="row">
-    <div class="col-xs-4">
-        <label for="input1" class="custom-label">Etiqueta 1:</label>
-        <input id="input1" type="text" class="form-control custom-input" [value]="oc?.cantidad_origen">
+    <div class="item-container">
+        <span class="label">P. Orig. (kg)</span>
+        <span class="peso-value"><span class="peso-tarifa-value">{{ (oc?.cantidad_origen ?? 0)  | number: '1.0-0' }}</span></span>
     </div>
-    
-  
-  <!-- Fila para la tabla -->
-  <div class="col-xs-12 table-container">
+    <div class="item-container">
+        <span class="label">P. Dest. (kg)</span>
+        <span class="peso-value"><span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span></span>
+    </div>
+    <div class="item-container">
+        <span class="label">Dif. (kg)</span>
+        <span class="peso-value">
+          <span class="peso-tarifa-value">
+            {{ ((oc?.cantidad_origen ?? 0) - (oc?.cantidad_destino ?? 0)) | number: '1.0-0' }}
+        </span>
+        </span>
+    </div>
+  </div>
+
+
+  <div class="table-container">
     <app-table-oc
       [modelo]="modelo"
       [gestorCuentaId]="gestorCargaId"
@@ -16,6 +27,8 @@
       [isShow]="true"
       [columns]="columns"
       [data]="lista"
-    ></app-table-oc>
+    >
+  </app-table-oc>
+  
   </div>
 </div>

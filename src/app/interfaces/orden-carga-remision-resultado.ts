@@ -12,6 +12,9 @@ export interface OrdenCargaRemisionResultado {
   total_descuento: number | null;
   total_anticipo: number | null;
   saldo: number;
+  total_efectivo: number;
+  total_combustible: number;
+  saldo_bruto: number;
 }
 
 export const mockOrdenCargaRemisionResultadoList: OrdenCargaRemisionResultado[] =

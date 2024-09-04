@@ -1,6 +1,21 @@
 <div #tableContainer style="overflow-x: auto;" [ngStyle]="tableStyles" >
+  <table>
+   
+    <thead>
+      <tr>
+        <th class="width-title-resultados">Resultados</th>
+        <th class="width-title-flete">Flete</th>
+        <th class="width-title-merma">Merma</th>
+        <th class="width-title-desc">Compl./Desc.</th>
+        <th class="width-title-saldo-bruto">Saldo</th>
+        <th class="width-title-anticipos">Anticipos</th>
+        <th class="width-title-saldo-neto">Saldo</th>
+      </tr>
+    </thead>
+
+  </table>
+  
   <table mat-table [dataSource]="tableDataSource" matSort  >
-    
     <ng-container
       *ngFor="let column of filteredColumns; let last = last"
       [matColumnDef]="column.def"
@@ -8,8 +23,8 @@
       [stickyEnd]="column.stickyEnd"
       
     >
-
       <ng-container *ngIf="column.def !== 'actions'">
+        
         <th
           mat-header-cell
           *matHeaderCellDef
@@ -29,7 +44,22 @@
             {{ column.title }} 
           </mat-checkbox>
         </ng-container>
-        <span *ngIf="column.type !== 'checkbox'">
+        <span *ngIf="column.type !== 'checkbox'"
+        [ngClass]="{
+          'oc-title': column.def === 'responsable',
+          'width-column-1' :column.def === 'tarifa',
+          'oc-titles-fonts': column.def === 'tarifa' ||
+                             column.def === 'total_flete' ||
+                             column.def === 'total_kg' ||
+                             column.def === 'merma_valor' ||
+                             column.def === 'tolerancia' ||
+                             column.def === 'tolerancia_kg' ||
+                             column.def === 'bruto' ||
+                             column.def === 'efectivo' || 
+                             column.def === 'combustible' || 
+                             column.def === 'saldo',
+            'oc-width-columns': column.def === 'responsable'}"
+      >
           {{ column.title }}
         </span>
       </th>

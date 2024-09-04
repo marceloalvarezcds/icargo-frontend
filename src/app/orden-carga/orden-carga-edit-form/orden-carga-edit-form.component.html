@@ -89,6 +89,14 @@
         </div>
       </div>
     </div>
+    <div class="remisiones-line" [class.disabled]="!isAceptado || isShow"><h2>TABLA DE RESULTADOS</h2></div>
+      <app-orden-carga-edit-form-remisiones-resultado
+        [class.disabled]="!isAceptado || isShow"
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [list]="remisionResultadoList"
+        
+    ></app-orden-carga-edit-form-remisiones-resultado>
 <!-- 
         <mat-expansion-panel [expanded]="isInfoTouched">
           <mat-expansion-panel-header>

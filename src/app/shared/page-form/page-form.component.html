@@ -69,7 +69,7 @@
           *ngIf="submodule !== 'ACEPTAR' 
           && (submodule === 'ORDEN DE CARGA (directa)' 
           || submodule === 'ANTICIPO (directo)')
-           && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && !isNuevo"
+           && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
           [disabled]="isFormSubmitting"
           (click)="previewPDF()"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
@@ -92,7 +92,7 @@
         *ngIf="module === 'ACEPTAR' || isNuevo"
           type="button"
           mat-raised-button
-          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
+          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) && !isNuevo"
           color="warn"
           (click)="cancelarClick.emit($event)"
           class="add-button orden-carga-cancelar"
@@ -105,7 +105,7 @@
         *ngIf="module === 'FINALIZAR'"
           type="button"
           mat-raised-button
-        
+          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || (oc?.estado === E.NUEVO) "
           (click)="finalizarClick.emit($event)"
           class="add-button orden-carga-finalizar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"

@@ -300,13 +300,11 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-      // Supongamos que this.ordenCarga tiene una propiedad `estado`
       if (this.item?.estado === 'Finalizado') {
-        // Mostrar una alerta si el estado ya es "Finalizado"
+      
         alert('La Orden de Carga ya está finalizada.');
-        return; // Salir de la función para evitar continuar con la finalización
+        return; 
       }
-  
       this.dialog.changeStatusConfirm(
         '¿Está seguro que desea finalizar la Orden de Carga?',
         this.ordenCargaService.finalizar(this.idOC),

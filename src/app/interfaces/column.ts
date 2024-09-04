@@ -8,6 +8,10 @@ export interface ColumnLink {
 export interface Column {
   def: string;
   title: string;
+  mainTitle?: string,
+  subTitle1?: string,
+  customTitle?: string,
+  group?: string,
   value?: (row: any) => any;
   footerDef?: () => any;
   buttonCallback?: (row: any) => void;

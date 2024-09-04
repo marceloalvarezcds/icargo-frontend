@@ -66,11 +66,12 @@
         ></app-orden-carga-edit-form-remisiones-destino>
       </div>
     </div>
-
+    <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
     <app-orden-carga-edit-form-remisiones-resultado
-    [oc]="item"
-    [gestorCargaId]="gestorCargaId"
-    [list]="remisionResultadoList"
+      [class.disabled]="!isAceptado"
+      [oc]="item"
+      [gestorCargaId]="gestorCargaId"
+      [list]="remisionResultadoList"
   ></app-orden-carga-edit-form-remisiones-resultado>
   </div>
 

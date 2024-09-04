@@ -21,81 +21,74 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'responsable',
       title: '',
+      mainTitle: 'Resultado',
       value: (element: OrdenCargaRemisionResultado) => element.responsable,
       sticky: true,
     },
     {
       def: 'tarifa_flete',
-      title: 'Tarifa de Pedido',
+      title: 'Tarifa',
       value: (element: OrdenCargaRemisionResultado) => element.tarifa_flete,
       type: 'number',
     },
+  
     {
-      def: 'total_flete',
-      title: 'Total Pedido',
+      def: 'total_flete_mon',
+      title: 'Total (Mon)',
+      mainTitle: '',
       value: (element: OrdenCargaRemisionResultado) => element.total_flete,
       type: 'number',
     },
     {
-      def: 'merma_valor',
-      title: 'Valor mercadería',
-      value: (element: OrdenCargaRemisionResultado) => element.merma_valor,
-      type: 'number',
-    },
-    {
-      def: 'tolerancia',
-      title: 'Tolerancia',
-      value: (element: OrdenCargaRemisionResultado) => element.tolerancia,
-      type: 'number',
-    },
-    {
-      def: 'tolerancia_kg',
-      title: 'Tolerancia (kg)',
+      def: 'total_kg',
+      title: 'Tol. (kg)',
+      mainTitle: '',
       value: (element: OrdenCargaRemisionResultado) => element.tolerancia_kg,
       type: 'number',
     },
     {
-      def: 'merma',
+      def: 'merma_valor',
       title: 'Merma (kg)',
       value: (element: OrdenCargaRemisionResultado) => element.merma,
       type: 'number',
     },
     {
-      def: 'merma_valor_total',
-      title: 'Valor merma',
+      def: 'tolerancia',
+      title: 'Tarifa',
+      value: (element: OrdenCargaRemisionResultado) => element.merma_valor,
+      type: 'number',
+    },
+    {
+      def: 'tolerancia_kg',
+      title: 'Total (Mon)',
+      value: (element: OrdenCargaRemisionResultado) => element.merma_valor_total_moneda_local,
+      type: 'number',
+    },
+    {
+      def: 'bruto',
+      title: 'Bruto',
+      value: (element: OrdenCargaRemisionResultado) => element.saldo_bruto,
+      type: 'number',
+    },
+    {
+      def: 'efectivo',
+      title: 'Efectivo',
       value: (element: OrdenCargaRemisionResultado) =>
-        element.merma_valor_total,
+        element.total_efectivo,
       type: 'number',
     },
+
     {
-      def: 'merma_valor_total_moneda_local',
-      title: 'Valor merma equiv. (Moneda Local)',
+      def: 'combustible',
+      title: 'Comb.',
       value: (element: OrdenCargaRemisionResultado) =>
-        element.merma_valor_total_moneda_local,
+        element.total_combustible,
       type: 'number',
     },
-    {
-      def: 'total_complemento',
-      title: 'Total complemento',
-      value: (element: OrdenCargaRemisionResultado) =>
-        element.total_complemento,
-      type: 'number',
-    },
-    {
-      def: 'total_descuento',
-      title: 'Total descuento',
-      value: (element: OrdenCargaRemisionResultado) => element.total_descuento,
-      type: 'number',
-    },
-    {
-      def: 'total_anticipo',
-      title: 'Total anticipo',
-      value: (element: OrdenCargaRemisionResultado) => element.total_anticipo,
-      type: 'number',
-    },
+
     {
       def: 'saldo',
-      title: 'Saldo',
+      title: 'Neto',
       value: (element: OrdenCargaRemisionResultado) => element.saldo,
       type: 'number',
       stickyEnd: true,
@@ -111,7 +104,6 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       total_flete: ['']
     });
   }
-
 
   lista: OrdenCargaRemisionResultado[] = [];
   modelo = m.ORDEN_CARGA_REMISION_RESULTADO;

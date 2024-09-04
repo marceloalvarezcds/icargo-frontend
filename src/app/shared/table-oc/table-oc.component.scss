@@ -9,13 +9,173 @@ table {
     text-align: left;
   }
   
-  th[colspan="2"] {
-    background-color: #f4f4f4;
-  }
-  
-  .sticky-column {
-    position: sticky;
-    background: #fff;
-    z-index: 1;
-  }
-  
+
+.width-title-resultados {
+  width: 9%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  box-sizing: border-box; 
+}
+
+th.mat-header-cell.mat-column-responsable {
+  width: 9%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+}
+
+td.mat-column-responsable {
+  width: 9%;
+}
+
+.width-title-flete {
+  width: 20%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  box-sizing: border-box; 
+}
+
+th.mat-header-cell.mat-column-tarifa_flete {
+  width: 10%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+}
+
+th.mat-header-cell.mat-column-total_flete_mon{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 10%;
+}
+
+td.mat-column-tarifa_flete  {
+  width: 10%;
+}
+
+td.mat-column-total_flete_mon  {
+  width: 10%;
+}
+
+.width-title-merma {
+  width: 30%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  box-sizing: border-box; 
+}
+
+th.mat-header-cell.mat-column-total_kg {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 10%;
+}
+
+th.mat-header-cell.mat-column-merma_valor {
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 10%;
+}
+
+th.mat-header-cell.mat-column-tolerancia{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 10%;
+}
+
+td.mat-column-total_kg {
+  width: 10%;
+}
+
+td.mat-column-merma_valor  {
+  width: 10%;
+}
+
+td.mat-column-tolerancia {
+  width: 10%;
+}
+
+.width-title-desc {
+  width: 9%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  box-sizing: border-box; 
+}
+
+th.mat-header-cell.mat-column-tolerancia_kg{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 9%;
+}
+
+td.mat-column-tolerancia_kg {
+  width: 9%;
+}
+
+.width-title-saldo-bruto {
+  width: 9%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  box-sizing: border-box; 
+}
+
+th.mat-header-cell.mat-column-bruto{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 9%;
+}
+
+td.mat-column-bruto{
+  width: 9%;
+}
+
+.width-title-anticipos {
+  width: 16%;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: left;
+  box-sizing: border-box; 
+}
+
+th.mat-header-cell.mat-column-efectivo{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 8%;
+}
+
+td.mat-column-efectivo{
+  width: 8%;
+}
+
+th.mat-header-cell.mat-column-combustible{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+  width: 8%;
+}
+
+td.mat-column-combustible{
+  width: 8%;
+}
+
+//ya no es necesario width del neto
+th.mat-header-cell.mat-column-saldo{
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color: black;
+}
