@@ -43,7 +43,7 @@
           type="button"
           id="add-button"
           (click)="create()"
-          [disabled]="isShow"
+          [disabled]="isShow || oc?.estado === 'Nuevo'"
         >
           <mat-icon class="small-icon">add</mat-icon> ANTICIPO
         </button>
@@ -54,7 +54,7 @@
           color="primary"
           id="add-button"
           (click)="openDialog()"
-          [disabled]="isShow"
+        
         >
           GESTION EN LINEA
         </button>

@@ -8,6 +8,7 @@
       type="button"
       (click)="create()"
       id="create-button"
+      [disabled]="oc?.estado === 'Nuevo'"
     >
       <mat-icon>add</mat-icon>
       CARGA

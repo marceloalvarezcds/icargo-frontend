@@ -1,7 +1,7 @@
 <app-page-form
   class="orden-carga-page"
-  module="FINALIZAR"
-  submodule="OC"
+  module="NUEVA"
+  submodule="RECEPCION directa"
   [formGroup]="form"
   [modelo]="modelo"
   [oc]="item"
@@ -40,11 +40,11 @@
       (ocChange)="getData()"
     >
     </app-orden-carga-anticipos-table>
-    <div  class="remisiones-line"><h2>REMISIONES</h2></div>
+    <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
       <div class="remisiones-item">
         <app-orden-carga-edit-form-remisiones-origen
-         
+          [class.disabled]="!isAceptado"
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
@@ -56,7 +56,7 @@
     
       <div class="remisiones-item">
         <app-orden-carga-edit-form-remisiones-destino
-          
+          [class.disabled]="!isAceptado"
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
@@ -66,8 +66,9 @@
         ></app-orden-carga-edit-form-remisiones-destino>
       </div>
     </div>
-    <div class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
+    <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
     <app-orden-carga-edit-form-remisiones-resultado
+      [class.disabled]="!isAceptado"
       [oc]="item"
       [gestorCargaId]="gestorCargaId"
       [list]="remisionResultadoList"
