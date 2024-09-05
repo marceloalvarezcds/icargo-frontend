@@ -11,4 +11,5 @@ export class EstadoCuentaDetalleComponent {
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
   @Input() showVistaConsolidada = true;
+  @Input() showEstado = true;
 }

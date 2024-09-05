@@ -48,6 +48,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() modelo?: PermisoModeloEnum;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
+  @Input() shouldBeShowFooter = false;
 
   @Output() activeClick = new EventEmitter<TableEvent<any>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<any>>();
@@ -60,7 +61,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;
 
-    
+
   constructor(private tableService: TableService) {}
 
   ngOnInit(): void {
