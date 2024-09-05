@@ -1,0 +1,107 @@
+<app-page
+  class="estado-cuenta-page"
+  module="MOVIMIENTOS (CUENTAS CORRIENTES)"
+  [modelo]="m.MOVIMIENTO"
+  (backClick)="back($event)"
+  [hideBack]="false"
+  [hideCreate]="true"
+  (applyClick)="applyFilter()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+  [dbuttons]="buttons">
+
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Chapa</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #chapaCheckboxFilter
+            [value]="chapaFiltered"
+            [list]="chapaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Cuenta</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #cuentaCheckboxFilter
+            [value]="cuentaFiltered"
+            [list]="cuentaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Concepto</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #conceptoCheckboxFilter
+            [value]="conceptoFiltered"
+            [list]="conceptoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Detalle</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #detalleCheckboxFilter
+            [value]="detalleFiltered"
+            [list]="detalleFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #estadoCheckboxFilter
+            [value]="estadoFiltered"
+            [list]="estadoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <div class="page-container">
+
+    <app-estado-cuenta-detalle
+      [etapa]="etapa"
+      [estadoCuenta]="estadoCuenta"
+      [showVistaConsolidada]="false"
+      [showEstado]=false>
+    </app-estado-cuenta-detalle>
+
+    <app-saldo
+        [credito]="credito"
+        [debito]="debito"
+        title="Saldo | Total de la Selección"
+        [hideOperacion]="true">
+    </app-saldo>
+
+    <app-table-paginator
+      [columns]="columns"
+      [data]="list"
+      [filterPredicate]="filterPredicate"
+      [modelo]="m.MOVIMIENTO"
+      [hideDelete]="true"
+      [hideEdit]="true"
+      [hideShow]="true"
+      [shouldBeShowFooter]="false">
+    </app-table-paginator>
+
+  </div>
+
+</app-page>

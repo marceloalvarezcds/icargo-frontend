@@ -59,7 +59,7 @@ $header-heigth: 64px;
   margin-left: 8px;
   margin-bottom: -12px;
   }
-  
+
 .button-container {
   display: flex;
   gap: 0px; /* Espacio entre los botones */
@@ -84,7 +84,7 @@ $header-heigth: 64px;
   letter-spacing: 0.06em;
   background: #FFFFFF59;
   color: black;
-  transition: border-color 0.3s; 
+  transition: border-color 0.3s;
 }
 
 .download-button mat-icon {
@@ -150,7 +150,7 @@ $header-heigth: 64px;
   padding: 15px;
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
-  
+
 }
 
 .orden-carga-anticipo mat-icon {
@@ -258,4 +258,62 @@ $header-heigth: 64px;
 .disabled {
   opacity: 0.5;
   pointer-events: none; /* Esto también desactiva la capacidad de hacer clic en el botón */
+}
+
+.list-button {
+  width: auto;
+  padding: 15px;
+  gap: 0px;
+  border-radius: 5.25px;
+  border: 1px solid #1C1C1C29;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  background: #FFFFFF59;
+  color: #3B9EFF;
+  transition: border-color 0.3s;
+}
+
+.buttons{
+  width: auto;
+  padding: 15px;
+  gap: 0px;
+  border-radius: 5.25px;
+  border: 1px solid #1C1C1C29;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 25px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  transition: border-color 0.3s;
+}
+
+.icon-add-style {
+  font-size: 10px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: white; /* Fondo del ícono */
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  color: #1976D2; /* Color del ícono */
+  width: 13px;
+  height: 10px;
+  gap: 0px;
+  padding: 2px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+  margin-left: 1px;
+  margin-right: 2px;
 }

@@ -34,7 +34,20 @@
           </span>
           <span *ngIf="viewTitle"> > <strong>{{ viewTitle }}</strong> </span>
         </span>
-        <div class="page-title-buttons button-container"> 
+        <div class="page-title-buttons button-container">
+          <ng-container *ngIf="!hideBack">
+            <button
+              type="button"
+              mat-mini-fab
+              matTooltip="Volver al listado"
+              (click)="back()"
+              id="back-button"
+              class="list-button"
+            >
+              <mat-icon>arrow_back</mat-icon>
+              Volver
+            </button>
+          </ng-container>
           <button
             mat-mini-fab
             color="primary"
@@ -45,9 +58,33 @@
           >
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
+            <!-- Botones dinamicos -->
+
+            <ng-container
+                *ngFor="let btn of dbuttons">
+
+                <button
+                    mat-mini-fab
+                    [color]="btn.color ?? '' "
+                    [matTooltip]="btn.tooltip ?? '' "
+                    [class]="btn.clases ?? '' "
+                    [style]="btn.styles ?? '' "
+                    (click)="btn.buttonCallback($event)">
+
+                  <mat-icon *ngIf="btn.icon"
+                      [class]="btn.iconClass ?? '' ">
+                      {{btn.icon}}
+                  </mat-icon>
+                  {{btn.label}}
+                </button>
+
+            </ng-container>
+
+            <!-- Botones dinamicos -->
+
             <!-- Botón específico para Orden de Carga -->
-          <button 
-            mat-mini-fab color="primary" 
+          <button
+            mat-mini-fab color="primary"
             class="add-button orden-carga-anticipo"
             *ngIf="submodule === 'Orden de Carga'"
             (click)="createAnticipoClick.emit($event)">
@@ -71,15 +108,16 @@
             [ngStyle]="getButtonStyles(submodule)"
           >
             <mat-icon >add</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
-            {{ 
-              submodule === 'CLIENTES' ? 'CLIENTE' : 
+            {{
+              submodule === 'CLIENTES' ? 'CLIENTE' :
               submodule === 'CENTROS OPERATIVOS' ? 'CENTRO OPERATIVO' :
-              submodule === 'Orden de Carga' ? 'NUEVA OC' : 'Elemento'
+              submodule === 'Orden de Carga' ? 'NUEVA OC' :
+              submodule === 'Cuentas Corrientes' ? 'MOVIMIENTO' : 'Elemento'
               }}
           </button>
               <!-- Botón específico para Orden de Carga -->
-          <button 
-            mat-mini-fab color="primary" 
+          <button
+            mat-mini-fab color="primary"
             class="add-button orden-carga-aceptar"
             (click)="aceptarClick.emit($event)"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
@@ -87,8 +125,8 @@
               ACEPTAR
           </button>
           <!-- Botón específico para Orden de Carga -->
-          <button 
-            mat-mini-fab color="primary" 
+          <button
+            mat-mini-fab color="primary"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             (click)="finalizarClick.emit($event)"
             class="add-button orden-carga-finalizar"
@@ -96,8 +134,8 @@
               FINALIZAR
         </button>
             <!-- Botón específico para Orden de Carga -->
-        <button 
-            mat-mini-fab color="primary" 
+        <button
+            mat-mini-fab color="primary"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             class="add-button orden-carga-conciliar"
             *ngIf="submodule === 'Orden de Carga'">
@@ -113,7 +151,7 @@
           >
             <mat-icon>filter_alt</mat-icon>
           </button>
-    
+
         </div>
       </div>
       <div class="filter-values">

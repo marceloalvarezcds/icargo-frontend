@@ -12,6 +12,7 @@ import { LiquidacionEditFormComponent } from './liquidacion-edit-form/liquidacio
 import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquidacion-finalizada.component';
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
+import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/estado-cuenta-list-detalle.component';
 
 const routes: Routes = [
   {
@@ -20,6 +21,11 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: `list-detalle/${a.LISTAR}`,
+        component: EstadoCuentaListDetalleComponent,
         pathMatch: 'full',
       },
       {

@@ -11,6 +11,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
+import { ButtonList } from 'src/app/interfaces/buttonList';
 import { ResponsiveService } from 'src/app/services/responsive.service';
 
 @Component({
@@ -29,6 +30,7 @@ export class PageComponent {
   @Input() submodule = '';
   @Input() viewTitle = '';
   @Input() modelo?: PermisoModeloEnum;
+  @Input() dbuttons?: ButtonList[] = []
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() backClick = new EventEmitter<boolean>();
@@ -75,16 +77,20 @@ export class PageComponent {
       'line-height': '18.75px',
       'letter-spacing': '0.06em',
     };
-  
+
     switch (submodule) {
       case 'CLIENTES':
       case 'CENTROS OPERATIVOS':
       case 'Orden de Carga':
+      case 'Cuentas Corrientes':
         return baseStyles;
       default:
         return { 'padding': '6px', 'min-width': '80px' };
     }
   }
-  
-  
+
+  back(): void {
+    this.backClick.emit(false);
+  }
+
 }

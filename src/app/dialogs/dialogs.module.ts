@@ -37,6 +37,8 @@ import { OcAnticipoRetiradoMockupComponent } from './oc-anticipo-retirado-mockup
 import { OcGestionLineaComponent } from './oc-gestion-linea/oc-gestion-linea.component';
 import { OrdenCargaGestionAnticiposComponent } from './orden-carga-gestion-anticipos/orden-carga-gestion-anticipos.component';
 import { OrdenCargaFleteComponent } from './orden-carga-flete/orden-carga-flete.component';
+import { LiquidacionFormDialogComponent } from './liquidacion-form-dialog/liquidacion-form-dialog.component';
+import { EstadoCuentaModule } from '../estado-cuenta/estado-cuenta.module';
 
 
 const modules = [
@@ -70,7 +72,8 @@ const modules = [
   OcAnticipoRetiradoMockupComponent,
   OcGestionLineaComponent,
   OrdenCargaGestionAnticiposComponent,
-  OrdenCargaFleteComponent
+  OrdenCargaFleteComponent,
+  LiquidacionFormDialogComponent
 ];
 
 @NgModule({
@@ -85,6 +88,7 @@ const modules = [
     PipesModule,
     ReactiveFormsModule,
     SharedModule,
+    EstadoCuentaModule
   ],
 })
 export class DialogsModule {}
