@@ -34,15 +34,15 @@ export class LiquidacionFormMovimientosComponent {
       sticky: true,
     },
     {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
-      type: 'number',
+      def: 'created_at',
+      title: 'Fecha y hora',
+      value: (element: Movimiento) => element.created_at,
+      type: 'date',
     },
     {
-      def: 'concepto',
-      title: 'Concepto',
-      value: (element: Movimiento) => element.concepto,
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => element.camion_placa,
     },
     {
       def: 'cuenta_codigo_descripcion',
@@ -50,10 +50,19 @@ export class LiquidacionFormMovimientosComponent {
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
     },
     {
-      def: 'punto_venta',
-      title: 'Punto de Venta',
-      value: (element: Movimiento) =>
-        element.anticipo?.punto_venta_nombre ?? '',
+      def: 'concepto',
+      title: 'Concepto',
+      value: (element: Movimiento) => element.concepto,
+    },
+    {
+      def: 'tipo',
+      title: 'Detalle',
+      value: (element: Movimiento) => ((element.concepto === 'Anticipo') ? element.anticipo?.concepto : element.concepto),
+    },
+    {
+      def: 'tipo_documento_relacionado_descripcion',
+      title: 'Documento Relacionado',
+      value: (element: Movimiento) => element.tipo_documento_relacionado_descripcion + " - " + element.numero_documento_relacionado,
     },
     {
       def: 'detalle',
@@ -61,20 +70,32 @@ export class LiquidacionFormMovimientosComponent {
       value: (element: Movimiento) => element.detalle,
     },
     {
-      def: 'tipo_documento_relacionado_descripcion',
-      title: 'Tipo de Doc Relacionado',
-      value: (element: Movimiento) =>
-        element.tipo_documento_relacionado_descripcion,
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Movimiento) => element.estado,
     },
     {
-      def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
+      def: 'monto',
+      title: 'Monto',
+      value: (element: Movimiento) => element.monto,
+      type: 'number',
     },
     {
       def: 'moneda_nombre',
       title: 'Moneda',
       value: (element: Movimiento) => element.moneda_nombre,
+    },
+    {
+      def: 'monto_ml',
+      title: 'Monto (ML)',
+      value: (element: Movimiento) => element.monto_ml,
+      type: 'number',
+    },
+    /*{
+      def: 'punto_venta',
+      title: 'Punto de Venta',
+      value: (element: Movimiento) =>
+        element.anticipo?.punto_venta_nombre ?? '',
     },
     {
       def: 'tipo_cambio_moneda',
@@ -89,22 +110,11 @@ export class LiquidacionFormMovimientosComponent {
       type: 'date',
     },
     {
-      def: 'monto_ml',
-      title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
-      type: 'number',
-    },
-    {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
-    },
-    {
       def: 'created_by',
       title: 'Usuario',
       value: (element: Movimiento) => element.created_by,
     },
+    */
     {
       def: 'oc',
       title: '',

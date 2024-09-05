@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
+import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
@@ -10,7 +11,7 @@ import {
   PermisoModeloEnum as m,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
-import { Column } from 'src/app/interfaces/column';
+import { Column, ColumnLink } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -37,19 +38,28 @@ export class EstadoCuentaListComponent implements OnInit {
   m = PermisoModeloEnum;
   columns: Column[] = [
     {
+      def: 'ctacte1',
+      title: ' ',
+      value: () => 'Ver detalle Contraparte',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
+      buttonIconName: (element: EstadoCuenta) => 'account_circle',
+    },
+    {
       def: 'tipo_contraparte_descripcion',
-      title: 'Tipo de Contraparte',
+      title: 'Contraparte',
       value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion,
     },
     {
       def: 'contraparte',
-      title: 'Contraparte',
+      title: 'Cuenta Correntista',
       value: (element: EstadoCuenta) => element.contraparte,
     },
     {
       def: 'contraparte_numero_documento',
-      title: 'Nº de Doc. Contraparte',
+      title: 'Nº de Documento',
       value: (element: EstadoCuenta) => element.contraparte_numero_documento,
+      footerDef: () => 'TOTAL SALDO GENERAL',
     },
     {
       def: 'pendiente',
@@ -68,38 +78,22 @@ export class EstadoCuentaListComponent implements OnInit {
             }
           : undefined,
       type: 'number',
-    },
-    {
-      def: 'en_proceso',
-      title: LiquidacionEtapaEnum.EN_PROCESO,
-      value: (element: EstadoCuenta) => element.en_proceso,
-      link: (element: EstadoCuenta) => ({
-        url: [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
-        queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
-      }),
-      type: 'number',
+      footerDef: () => this.totalPendiente,
     },
     {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
       value: (element: EstadoCuenta) => element.confirmado,
-      link: (element: EstadoCuenta) =>
-        element.cantidad_confirmado > 0
-          ? {
-              url: [
-                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`,
-              ],
-              queryParams: getQueryParams(
-                element,
-                LiquidacionEtapaEnum.CONFIRMADO
-              ),
-            }
-          : undefined,
+      link: (element: EstadoCuenta) => ({
+        url: [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
+        queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
+      }),
       type: 'number',
+      footerDef: () => this.totalConfirmado,
     },
     {
       def: 'finalizado',
-      title: LiquidacionEtapaEnum.FINALIZADO,
+      title: LiquidacionEtapaEnum.PAGOS,
       value: (element: EstadoCuenta) => element.finalizado,
       link: (element: EstadoCuenta) =>
         element.cantidad_finalizado > 0
@@ -114,6 +108,14 @@ export class EstadoCuentaListComponent implements OnInit {
             }
           : undefined,
       type: 'number',
+      footerDef: () => this.totalFinalizado,
+    },
+    {
+      def: 'saldo',
+      title: LiquidacionEtapaEnum.SALDO,
+      value: (element: EstadoCuenta) => element.saldo,
+      type: 'number',
+      footerDef: () => (this.totalPendiente+this.totalConfirmado+this.totalFinalizado),
     },
   ];
 
@@ -123,6 +125,10 @@ export class EstadoCuentaListComponent implements OnInit {
   tipoContraparteFiltered: string[] = [];
   contraparteFilterList: string[] = [];
   contraparteFiltered: string[] = [];
+
+  pendiente: number = 0;
+  confirmado: number = 0;
+  finalizado: number = 0;
 
   get isFilteredByTipoContraparte(): boolean {
     return (
@@ -137,6 +143,18 @@ export class EstadoCuentaListComponent implements OnInit {
     );
   }
 
+  get totalPendiente(): number {
+    return this.pendiente;
+  }
+
+  get totalConfirmado(): number {
+    return this.confirmado;
+  }
+
+  get totalFinalizado(): number {
+    return this.finalizado;
+  }
+
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('tipoContraparteCheckboxFilter')
   tipoContraparteCheckboxFilter!: CheckboxFilterComponent;
@@ -148,7 +166,8 @@ export class EstadoCuentaListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: MatDialog,
-    private snackbar: SnackbarService
+    private snackbar: SnackbarService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -178,15 +197,25 @@ export class EstadoCuentaListComponent implements OnInit {
     return filterByTipoContraparte && filterByContraparte;
   }
 
+  calcularTotales(): void{
+
+    this.list.forEach( (mov:EstadoCuenta) => {
+      mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+      this.pendiente = this.pendiente + mov.pendiente;
+      this.confirmado = this.confirmado + mov.confirmado;
+      this.finalizado = this.finalizado + mov.finalizado;
+    })
+
+  }
+
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
-    this.tipoContraparteFiltered =
-      this.tipoContraparteCheckboxFilter.getFilteredList();
+    this.tipoContraparteFiltered = this.tipoContraparteCheckboxFilter.getFilteredList();
     this.contraparteFiltered = this.contraparteCheckboxFilter.getFilteredList();
+
     if (this.isFilteredByTipoContraparte) {
-      filter.tipo_contraparte_descripcion =
-        this.tipoContraparteFiltered.join('|');
+      filter.tipo_contraparte_descripcion = this.tipoContraparteFiltered.join('|');
       this.isFiltered = true;
     }
     if (this.isFilteredByProducto) {
@@ -216,13 +245,25 @@ export class EstadoCuentaListComponent implements OnInit {
 
   private getList(): void {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
+
+      list.forEach( (mov:EstadoCuenta) => {
+        mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+        this.pendiente = this.pendiente + mov.pendiente;
+        this.confirmado = this.confirmado + mov.confirmado;
+        this.finalizado = this.finalizado + mov.finalizado;
+      })
+
       this.list = list;
+
       this.tipoContraparteFilterList = getFilterList(
         list,
         (x) => x.tipo_contraparte_descripcion
       );
+
       this.contraparteFilterList = getFilterList(list, (x) => x.contraparte);
+
       this.resetFilterList();
+
     });
   }
 
@@ -239,4 +280,13 @@ export class EstadoCuentaListComponent implements OnInit {
     this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
     this.contraparteFiltered = this.contraparteFilterList.slice();
   }
+
+  private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
+
+    this.router.navigate(
+      [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
+      { queryParams:getQueryParams(mov) }
+    );
+  }
+
 }
