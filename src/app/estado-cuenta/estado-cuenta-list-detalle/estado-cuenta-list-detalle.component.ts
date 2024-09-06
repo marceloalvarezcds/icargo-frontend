@@ -48,7 +48,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº de Movimiento',
+      title: 'N°',
       value: (element: Movimiento) => element.id,
       sticky: true,
     },

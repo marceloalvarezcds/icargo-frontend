@@ -64,6 +64,7 @@ import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/e
     EstadoCuentaDetalleComponent,
     SaldoComponent,
     LiquidacionFormMovimientosComponent,
+    LiquidacionEditFormComponent
   ]
 })
 export class EstadoCuentaModule {}

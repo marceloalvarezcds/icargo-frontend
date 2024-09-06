@@ -1,4 +1,21 @@
-<form [formGroup]="form">
+
+
+
+
+
+<ng-container *ngIf="isEdit">
+
+  <app-liquidacion-edit-form
+    [id]="liquidacionId"
+    [isEdit]="!!liquidacionId">
+  </app-liquidacion-edit-form>
+
+</ng-container>
+
+<ng-container *ngIf="!isEdit">
+
+  <div>
+
     <h1 mat-dialog-title>
       Movimientos Pendientes a Liquidar
       <button mat-button type="button" mat-dialog-close class="close">
@@ -34,6 +51,7 @@
       </div>
 
     </div>
+
     <div mat-dialog-actions>
       <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
       <button
@@ -47,4 +65,7 @@
         Aceptar
       </button>
     </div>
-  </form>
+
+  </div>
+
+</ng-container>

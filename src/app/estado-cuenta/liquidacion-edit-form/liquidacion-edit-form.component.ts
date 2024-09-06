@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -27,9 +27,9 @@ export class LiquidacionEditFormComponent implements OnInit {
   form = new FormGroup({});
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
-  id?: number;
+  @Input() id?: number;
   item?: Liquidacion;
-  isEdit = false;
+  @Input() isEdit = false;
   movimientos: Movimiento[] = [];
   contraparte_id = 0;
   actual_contraparte = '';
@@ -129,12 +129,12 @@ export class LiquidacionEditFormComponent implements OnInit {
       actual_contraparte,
       actual_contraparte_numero_documento,
     } = this.route.snapshot.queryParams;
-    this.id = +this.route.snapshot.params.id;
+    if (!this.id) this.id = +this.route.snapshot.params.id;
     this.contraparte_id = contraparte_id;
     this.actual_contraparte = actual_contraparte;
     this.actual_contraparte_numero_documento =
       actual_contraparte_numero_documento;
-    this.isEdit = /edit/.test(this.router.url);
+    if (!!this.id) this.isEdit = /edit/.test(this.router.url);
     if (backUrl) {
       this.backUrl = backUrl;
     }
@@ -142,8 +142,13 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   loadLiquidacion(): void {
+    console.log("this.id: ", this.id);
+    console.log("this.isEdit: ", this.isEdit);
     this.liquidacionService.getById(this.id!).subscribe((item) => {
+      console.log("item: ", item);
       this.item = item;
+      this.actual_contraparte = this.item.contraparte;
+      this.actual_contraparte_numero_documento = this.item.contraparte_numero_documento;
       this.getList(item);
     });
   }

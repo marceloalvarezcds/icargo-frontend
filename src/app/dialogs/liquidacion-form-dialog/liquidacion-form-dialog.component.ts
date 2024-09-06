@@ -26,11 +26,12 @@ import { subtract } from 'src/app/utils/math';
 })
 export class LiquidacionFormDialogComponent {
 
-  form = this.fb.group({  })
   modelo = m.LIQUIDACION;
   etapa = LiquidacionEtapaEnum.PENDIENTE;
+  liquidacionId: number | undefined = undefined;
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
+  isEdit = false;
   movimientosSelected: Movimiento[] = [];
 
   get credito(): number {
@@ -57,6 +58,7 @@ export class LiquidacionFormDialogComponent {
   ) {
 
     this.getData();
+
   }
 
   confirm(): void {
@@ -86,10 +88,12 @@ export class LiquidacionFormDialogComponent {
     if (this.movimientosSelected.length) {
       this.liquidacionService
         .create(createLiquidacionData(this.movimientosSelected))
-        .subscribe(() => {
+        .subscribe((response) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
-          //this.close.bind(this)
-          this.close();
+          console.log("response: ", response);
+          this.liquidacionId = response.id ;
+          this.isEdit = true;
+          console.log("this.liquidacionId: ", this.liquidacionId);
         });
     } else {
       this.snackbar.open('Debe elegir al menos 1 movimiento');
@@ -113,6 +117,8 @@ export class LiquidacionFormDialogComponent {
     if (backUrl) {
       this.backUrl = backUrl;
     }*/
+
+    //this.isEdit = this.data ? true : false;
 
     this.estadoCuentaService
       .getByContraparte(
