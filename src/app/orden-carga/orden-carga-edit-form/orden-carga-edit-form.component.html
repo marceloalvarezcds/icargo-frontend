@@ -53,7 +53,7 @@
           (ocChange)="getData()"
         ></app-orden-carga-edit-form-combinacion>
         <app-orden-carga-anticipos-table 
-          [class.disabled]="!isAceptado || isShow"
+         
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
@@ -67,7 +67,7 @@
       <div class="remisiones-container">
         <div class="remisiones-item">
           <app-orden-carga-edit-form-remisiones-origen
-            [class.disabled]="!isAceptado"
+         
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
             [isShow]="isShow"
@@ -78,7 +78,7 @@
         </div>
         <div class="remisiones-item">
           <app-orden-carga-edit-form-remisiones-destino
-            [class.disabled]="!isAceptado"
+           
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
             [isShow]="isShow"
@@ -89,9 +89,9 @@
         </div>
       </div>
     </div>
-    <div class="remisiones-line" [class.disabled]="!isAceptado || isShow"><h2>TABLA DE RESULTADOS</h2></div>
+    <div class="remisiones-line" [class.disabled]="isShow"><h2>TABLA DE RESULTADOS</h2></div>
       <app-orden-carga-edit-form-remisiones-resultado
-        [class.disabled]="!isAceptado || isShow"
+        [class.disabled]="isShow"
         [oc]="item"
         [gestorCargaId]="gestorCargaId"
         [list]="remisionResultadoList"

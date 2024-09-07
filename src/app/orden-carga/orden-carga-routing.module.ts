@@ -11,6 +11,8 @@ import { OrdenCargaListComponent } from './orden-carga-list/orden-carga-list.com
 import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-anticipo-form/orden-carga-nuevo-anticipo-form.component';
 import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden-carga-form-aceptar.component';
 import { OrdenCargaFinalizarFormComponent } from './orden-carga-finalizar-form/orden-carga-finalizar-form.component';
+import { OrdenCargaRecepcionFormComponent } from './orden-carga-recepcion-form/orden-carga-recepcion-form.component';
+import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/orden-carga-conciliar-form.component';
 
 const routes: Routes = [
   {
@@ -21,9 +23,22 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
+ 
+    
       {
         path: a.LISTAR,
         component: OrdenCargaListComponent,
+        canActivate: [PermisoGuard],
+      },
+   
+      {
+        path: `${a.CREAR}/:nuevo/:anticipo`,
+        component: OrdenCargaNuevoAnticipoFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:recepcion`,
+        component: OrdenCargaRecepcionFormComponent,
         canActivate: [PermisoGuard],
       },
       {
@@ -32,31 +47,35 @@ const routes: Routes = [
         canActivate: [PermisoGuard],
       },
       {
+        path: `${a.CREAR}/:aceptar/:oc/:nuevas`,
+        component: OrdenCargaFormAceptarComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:nuevo/:finalizar/:ocs/:aceptadas`,
+        component: OrdenCargaFinalizarFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:nuevo/:conciliar/:ocs/:concilacion/:final`,
+        component: OrdenCargaConciliarFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
         path: `${a.EDITAR}/:id`,
         component: OrdenCargaEditFormComponent,
         canActivate: [PermisoGuard],
       },
-      {
-        path: `${a.CREAR}/:aceptar/:oc`,
-        component: OrdenCargaFormAceptarComponent,
-        canActivate: [PermisoGuard],
-      },
+     
 
       {
         path: `${a.VER}/:id`,
         component: OrdenCargaEditFormComponent,
         canActivate: [PermisoGuard],
       },
-      {
-        path: `${a.CREAR}/:finalizar`,
-        component: OrdenCargaFinalizarFormComponent,
-        canActivate: [PermisoGuard],
-      },
-      {
-        path: `${a.CREAR}/:anticipo`,
-        component: OrdenCargaNuevoAnticipoFormComponent,
-        canActivate: [PermisoGuard],
-      },
+     
+    
+  
     ],
   },
 ];

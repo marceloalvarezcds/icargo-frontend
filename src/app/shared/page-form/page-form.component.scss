@@ -235,6 +235,22 @@
   color: #FFFFFF;
 }
 
+.orden-carga-conciliar {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
+  padding: 4px 16px;
+  border-radius: 5.25px;
+  box-shadow: none; 
+  height: 25px;
+  display: flex; 
+  align-items: center; 
+  gap: 3px; 
+  letter-spacing: 0.06em;
+  background: #9747ff;
+  color: #FFFFFF;
+}
+
 .list-button {
   background: #FFFFFF;
   color: #3B9EFF;
@@ -378,9 +394,9 @@
   text-align: center;  
   border: 1px solid #d9d9d9;
   padding: 8px;
-  border-radius: 12px; /* Mayor radio para hacer el input más redondeado */
+  border-radius: 12px; 
   font-size: 14px;
-  width: 89px; /* Ajusta según tus necesidades */
+  width: 89px; 
   height: 5px;
   background-color: #fff; /* Color de fondo del input */
   transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
@@ -389,7 +405,7 @@
 }
 
 .estado-input:disabled {
-  background-color: #f5f5f5; /* Color de fondo para input deshabilitado */
+  background-color: #f5f5f5; 
 }
 
 .anticipo-toggle-container {
@@ -424,9 +440,7 @@
   font-size: 35px; 
   background-color: transparent;
   margin-top: -10px;
-  
 }
-
 
 .ver-button mat-icon {
   font-size: 14px; 

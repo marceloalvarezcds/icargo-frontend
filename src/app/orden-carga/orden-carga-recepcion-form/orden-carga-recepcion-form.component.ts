@@ -27,11 +27,11 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
-  selector: 'app-orden-carga-finalizar-form',
-  templateUrl: './orden-carga-finalizar-form.component.html',
-  styleUrls: ['./orden-carga-finalizar-form.component.scss']
+  selector: 'app-orden-carga-recepcion-form',
+  templateUrl: './orden-carga-recepcion-form.component.html',
+  styleUrls: ['./orden-carga-recepcion-form.component.scss']
 })
-export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
+export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   flete?: FleteList;
   isFormSubmitting = true;
   previousid: number | null = null;

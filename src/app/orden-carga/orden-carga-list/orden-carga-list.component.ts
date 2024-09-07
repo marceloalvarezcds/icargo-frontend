@@ -191,14 +191,28 @@ export class OrdenCargaListComponent implements OnInit {
   }
 
   redirectToCreateAnticipo(): void {
-    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/anticipo`;
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/nuevo/anticipo`;
     window.open(url, '_blank');
   }
 
-  redirectToAceptar(): void {
-    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/aceptar/oc`;
+
+  redirectToCreateRecepcion(): void {
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/recepcion`;
     window.open(url, '_blank');
   }
+
+
+  redirectToAceptar(): void {
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/aceptar/oc/nuevas`;
+    window.open(url, '_blank');
+  }
+
+
+  redirectToFinalizar(): void {
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/nuevo/finalizar/ocs/aceptadas`;
+    window.open(url, '_blank');
+  }
+
 
 
   redirectToEdit(event: TableEvent<OrdenCargaList>): void {
@@ -206,11 +220,7 @@ export class OrdenCargaListComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-  redirectToFinalizar(): void {
-    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/finalizar`;
-    window.open(url, '_blank');
-  }
-
+ 
 
   redirectToShow(event: TableEvent<OrdenCargaList>): void {
     const url = `/orden-carga/${m.ORDEN_CARGA}/${a.VER}/${event.row.id}`;

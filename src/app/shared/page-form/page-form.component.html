@@ -113,6 +113,16 @@
           FINALIZAR
         </button>
 
+        <button
+        *ngIf="oc?.estado === E.FINALIZADO"
+          type="button"
+          mat-raised-button
+          class="add-button orden-carga-conciliar"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+        >
+          CONCILIAR
+        </button>
+
         <button 
           type="button" mat-mini-fab color="accent" 
           class="ver-button"  
