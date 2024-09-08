@@ -9,7 +9,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
-import { ContraparteInfoMovimiento } from 'src/app/interfaces/contraparte-info';
+import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
@@ -30,9 +30,11 @@ export class LiquidacionFormDialogComponent {
   etapa = LiquidacionEtapaEnum.PENDIENTE;
   liquidacionId: number | undefined = undefined;
   estadoCuenta?: EstadoCuenta;
-  list: Movimiento[] = [];
-  isEdit = false;
+  list: Movimiento[] = [];  
   movimientosSelected: Movimiento[] = [];
+
+  isNew = false;
+  isEdit = false;
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -46,6 +48,10 @@ export class LiquidacionFormDialogComponent {
     return subtract(this.credito, this.debito);
   }
 
+  get contraparteInfo(){
+    return this.data;
+  }
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<LiquidacionFormDialogComponent>,
@@ -54,11 +60,20 @@ export class LiquidacionFormDialogComponent {
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: ContraparteInfoMovimiento
+    @Inject(MAT_DIALOG_DATA) private data: ContraparteInfoMovimientoLiq
   ) {
 
-    this.getData();
+    if(this.data.isNew) {
+      this.isNew = true;
+      this.data.etapa = LiquidacionEtapaEnum.PENDIENTE;
+    }
 
+    this.getData();
+  }
+
+  createdLiquidacion(liquidacion:any): void {
+    this.liquidacionId = liquidacion.id;
+    this.isNew = false;
   }
 
   confirm(): void {

@@ -24,4 +24,5 @@ export interface Column {
   type?: string;
   isGroupHeader?: boolean; // Añadir esta propiedad
   colspan?: number;
+  dinamicStyles?: (row: any) => any;
 }

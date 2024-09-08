@@ -1,9 +1,43 @@
 
+<div>
 
+  <h1 mat-dialog-title>
+    Movimientos Pendientes a Liquidar
+    <button mat-button type="button" mat-dialog-close class="close">
+      <mat-icon>close</mat-icon>
+    </button>
+  </h1>
+  <div mat-dialog-content>
 
+    <ng-container *ngIf="isNew; then new; else edit"> 
+    </ng-container>
 
+    <ng-template #new>
 
-<ng-container *ngIf="isEdit">
+      <app-liquidacion-form
+        [data]="contraparteInfo"
+        (onCreated)="createdLiquidacion($event)">
+      </app-liquidacion-form>
+
+    </ng-template>
+
+    <ng-template #edit>
+
+      <app-liquidacion-edit-form
+        [id]="liquidacionId"
+        [isEdit]="!isNew"
+        [isDialog]="!isNew">
+      </app-liquidacion-edit-form>
+
+    </ng-template>
+
+    <div mat-dialog-actions>
+      <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    </div>
+
+</div>
+
+<ng-container *ngIf="false">
 
   <app-liquidacion-edit-form
     [id]="liquidacionId"
@@ -12,7 +46,7 @@
 
 </ng-container>
 
-<ng-container *ngIf="!isEdit">
+<ng-container *ngIf="false">
 
   <div>
 

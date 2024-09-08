@@ -19,9 +19,24 @@ export class SaldoComponent {
 
   @Output() saldoChange = new EventEmitter<number>();
 
+  @Input() monto = 0;
+
+  @Input() showMonto = false;
+
+  @Output() montoChange: EventEmitter<number> = new EventEmitter<number>();
+
   get saldo(): number {
-    const saldo = subtract(this.credito, this.debito);
+    let saldo = 0;
+    
+    if (this.monto>0) saldo = subtract(this.monto,subtract(this.credito, this.debito));
+    else saldo = subtract(this.credito, this.debito);
+
     this.saldoChange.emit(saldo);
     return saldo;
   }
+
+  montoChangeEvt(event:any) :any{
+    this.montoChange.emit(this.monto);
+  }
+
 }
