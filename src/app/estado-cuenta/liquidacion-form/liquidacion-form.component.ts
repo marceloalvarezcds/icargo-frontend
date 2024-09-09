@@ -3,6 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -15,6 +16,7 @@ import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { DialogService } from 'src/app/services/dialog.service';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
@@ -38,7 +40,7 @@ export class LiquidacionFormComponent implements OnInit {
   movimientosSelected: Movimiento[] = [];
   @Input() data? : ContraparteInfoMovimientoLiq;
   monto:number = 0;
-  @Output() onCreated: EventEmitter<any> = new EventEmitter<any>();
+  @Output() createdLiquidacion: EventEmitter<any> = new EventEmitter<any>();
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -60,7 +62,8 @@ export class LiquidacionFormComponent implements OnInit {
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private dialogService: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -80,8 +83,24 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   confirm(): void {
+
+    if (this.movimientosSelected.length <= 0) {
+
+      this.dialogService.confirmation(
+        `Está seguro que desea Crear Liquidacións sin Movimientos`,
+        () => {
+          this.prepareSend();
+        }
+      );
+      return;
+    }
+
+    this.prepareSend();
+  }
+
+  prepareSend(): void {
     console.log("monto pago: ", this.monto);
-    if (this.movimientosSelected.length) {
+    //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.movimientosSelected.slice(),
@@ -98,9 +117,9 @@ export class LiquidacionFormComponent implements OnInit {
         .subscribe(() => {
           this.submit(false);
         });
-    } else {
-      this.snackbar.open('Debe elegir al menos 1 movimiento');
-    }
+    //} else {
+    //  this.snackbar.open('Debe elegir al menos 1 movimiento');
+    //}
   }
 
   downloadFile(): void {
@@ -127,10 +146,10 @@ export class LiquidacionFormComponent implements OnInit {
             this.router.navigate([this.backUrl]);
           } else {
             if (!!this.data){
-              this.onCreated.emit(resp);
+              this.createdLiquidacion.emit(resp);
             } else {
               this.getData();
-            }            
+            }
           }
           this.movimientosSelected.splice(0, this.movimientosSelected.length);
         });

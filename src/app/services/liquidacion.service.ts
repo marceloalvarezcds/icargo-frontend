@@ -90,4 +90,11 @@ export class LiquidacionService {
   pdf(id: number, etapa: LiquidacionEtapaEnum): Observable<string> {
     return this.http.get<string>(`${this.url}/${id}/pdf/etapa/${etapa}`);
   }
+
+  someter(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/someter`,
+      formData
+    );
+  }
 }

@@ -44,6 +44,7 @@ export class LiquidacionEditFormAccionesComponent {
   @Input() liquidacion!: Liquidacion;
 
   @Output() liquidacionChange = new EventEmitter();
+  @Output() liquidacionSometerChange = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -118,6 +119,26 @@ export class LiquidacionEditFormAccionesComponent {
           .subscribe(() => {
             this.snackbar.changeStatus();
             this.liquidacionChange.emit();
+          });
+      },
+      (val?: string | boolean) => val !== false
+    );
+  }
+
+  someter(): void {
+    const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
+    this.dialogService.configDialogRef(
+      this.dialog.open(ComentarioConfirmDialogComponent, {
+        data: {
+          message,
+        },
+      }),
+      (comentario: string) => {
+        this.liquidacionService
+          .someter(this.id, changeLiquidacionStatusData(comentario))
+          .subscribe((rest) => {
+            this.snackbar.changeStatus();
+            this.liquidacionSometerChange.emit(rest);
           });
       },
       (val?: string | boolean) => val !== false

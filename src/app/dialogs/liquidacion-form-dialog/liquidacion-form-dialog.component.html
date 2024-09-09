@@ -9,14 +9,14 @@
   </h1>
   <div mat-dialog-content>
 
-    <ng-container *ngIf="isNew; then new; else edit"> 
+    <ng-container *ngIf="isNew; then new; else edit">
     </ng-container>
 
     <ng-template #new>
 
       <app-liquidacion-form
         [data]="contraparteInfo"
-        (onCreated)="createdLiquidacion($event)">
+        (createdLiquidacion)="createdLiquidacion($event)">
       </app-liquidacion-form>
 
     </ng-template>
@@ -26,7 +26,8 @@
       <app-liquidacion-edit-form
         [id]="liquidacionId"
         [isEdit]="!isNew"
-        [isDialog]="!isNew">
+        [isDialog]="!isNew"
+        (liquidacionChange)="cerrarLiquidacion($event)">
       </app-liquidacion-edit-form>
 
     </ng-template>

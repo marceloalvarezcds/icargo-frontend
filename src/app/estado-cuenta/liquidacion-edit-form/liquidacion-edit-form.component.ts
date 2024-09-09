@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -37,6 +37,8 @@ export class LiquidacionEditFormComponent implements OnInit {
   saldo = 0;
   @Input()
   isDialog = false;
+  @Output() liquidacionChange = new EventEmitter();
+
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
@@ -126,7 +128,7 @@ export class LiquidacionEditFormComponent implements OnInit {
         }
       );
     }
-    
+
   }
 
   private getData(): void {
@@ -136,7 +138,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       actual_contraparte,
       actual_contraparte_numero_documento,
     } = this.route.snapshot.queryParams;
-    
+
     if (!this.isDialog){
       this.id = +this.route.snapshot.params.id;
       this.contraparte_id = contraparte_id;
@@ -153,8 +155,6 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   loadLiquidacion(): void {
-    console.log("this.id: ", this.id);
-    console.log("this.isEdit: ", this.isEdit);
     this.liquidacionService.getById(this.id!).subscribe((item) => {
       console.log("item: ", item);
       this.item = item;
@@ -171,4 +171,10 @@ export class LiquidacionEditFormComponent implements OnInit {
         this.movimientos = data;
       });
   }
+
+  someterLiquidacionFinish(liquidacion:any) {
+    this.item = liquidacion;
+    this.liquidacionChange.emit(liquidacion);
+  }
+
 }

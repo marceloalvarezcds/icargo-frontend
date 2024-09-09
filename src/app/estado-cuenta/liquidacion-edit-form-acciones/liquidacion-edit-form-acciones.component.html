@@ -5,8 +5,22 @@
         type="button"
         mat-raised-button
         color="primary"
+        *ngIf="(
+          liquidacion.estado === E.EN_REVISION ||
+          liquidacion.estado === E.RECHAZADO
+          ) &&
+          (m.LIQUIDACION | puede: a.CREAR)
+        "
+        (click)="someter()"
+      >
+        Someter
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
         *ngIf="
-          liquidacion.estado === E.EN_REVISION &&
+          liquidacion.estado === E.PENDIENTE &&
           (m.LIQUIDACION | puede: a.ACEPTAR)
         "
         (click)="aceptar()"
@@ -18,7 +32,7 @@
         mat-raised-button
         color="accent"
         *ngIf="
-          liquidacion.estado === E.EN_REVISION &&
+          liquidacion.estado === E.PENDIENTE &&
           (m.LIQUIDACION | puede: a.RECHAZAR)
         "
         (click)="rechazar()"

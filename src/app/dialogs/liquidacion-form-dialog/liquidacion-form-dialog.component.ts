@@ -3,6 +3,7 @@ import { FormBuilder  } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
@@ -30,7 +31,7 @@ export class LiquidacionFormDialogComponent {
   etapa = LiquidacionEtapaEnum.PENDIENTE;
   liquidacionId: number | undefined = undefined;
   estadoCuenta?: EstadoCuenta;
-  list: Movimiento[] = [];  
+  list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
 
   isNew = false;
@@ -113,6 +114,14 @@ export class LiquidacionFormDialogComponent {
     } else {
       this.snackbar.open('Debe elegir al menos 1 movimiento');
     }
+  }
+
+  cerrarLiquidacion(liquidacion:any): void {
+
+    if (liquidacion.estado === LiquidacionEstadoEnum.PENDIENTE){
+      this.close();
+    }
+
   }
 
   private close(): void {
