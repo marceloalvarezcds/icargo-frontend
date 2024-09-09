@@ -197,4 +197,40 @@ export class TableComponent<T> implements OnInit, OnDestroy {
         return '#000000'; // Color por defecto o para otros estados
     }
   }
+
+  getColorForStateNew(column:any, row: any): string {
+    if (column.def === 'estado'){
+      const state = row[column.def];
+      switch (state) {
+        case 'Activo':
+          return '#008000'; // Verde
+        case 'Aceptado':
+          return '#008000'; // Verde
+        case 'Conciliado':
+          return '#9747FF'; 
+        case 'Finalizado':
+          return '#89969F'; 
+        case 'Inactivo':
+          return '#FF0000'; // Rojo
+        case 'Pendiente':
+          return '#FFA500'; // Naranja
+        default:
+          return '#000000'; // Color por defecto o para otros estados
+      }
+    } else {
+      if (column.dinamicStyles) {
+        let stylos = column.dinamicStyles(row);      
+        return stylos.color ?? 'inherit';
+      }
+      return '';  
+    }
+    
+  }
+
+  getStilos(column:any, row:any) {
+    if (column.dinamicStyles) {
+      return column.dinamicStyles(row);
+    }
+    return '';
+  }
 }

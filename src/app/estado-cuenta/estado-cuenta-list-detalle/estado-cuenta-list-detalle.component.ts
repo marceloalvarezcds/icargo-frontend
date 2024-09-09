@@ -23,7 +23,7 @@ import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { createMovimiento } from 'src/app/utils/movimiento-utils';
-import { ContraparteInfoMovimiento } from 'src/app/interfaces/contraparte-info';
+import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
@@ -47,48 +47,56 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   columns: Column[] = [
     {
-      def: 'id',
-      title: 'Nº de Movimiento',
-      value: (element: Movimiento) => element.id,
-      sticky: true,
+      def: 'created_at',
+      title: 'Fecha',
+      value: (element: Movimiento) => element.created_at,
+      type: 'only-date',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
-    },
+      def: 'id',
+      title: 'ID Mov',
+      value: (element: Movimiento) => element.id,
+      sticky: false,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },    
     {
       def: 'camion_placa',
       title: 'Chapa',
       value: (element: Movimiento) => element.camion_placa,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
-      value: (element: Movimiento) => element.cuenta_codigo_descripcion,
+      value: (element: Movimiento) => element.cuenta.descripcion,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'concepto',
       title: 'Concepto',
-      value: (element: Movimiento) => element.concepto,
+      value: (element: Movimiento) => element.tipo_movimiento_descripcion,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'tipo',
       title: 'Detalle',
-      value: (element: Movimiento) => ((element.concepto === 'Anticipo') ? element.anticipo?.concepto : element.concepto),
+      value: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion),
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'tipo_documento_relacionado_descripcion',
-      title: 'Documento Relacionado',
-      value: (element: Movimiento) => element.tipo_documento_relacionado_descripcion + " - " + element.numero_documento_relacionado,
+      def: 'numero_documento_relacionado',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.numero_documento_relacionado,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'detalle',
       title: 'Info',
       value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
-    {
+    /*{
       def: 'estado',
       title: 'Estado',
       value: (element: Movimiento) => element.estado,
@@ -103,25 +111,29 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       def: 'liquidacion',
       title: 'Liquidacion',
       value: (element: Movimiento) => element.liquidacion_id ?? 0,
-      type: 'number'
+      type: 'number',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'pendiente',
       title: LiquidacionEtapaEnum.PENDIENTE,
       value: (element: Movimiento) => element.pendiente,
       type: 'number',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
       value: (element: Movimiento) => element.confirmado,
       type: 'number',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'finalizado',
       title: LiquidacionEtapaEnum.FINALIZADO,
       value: (element: Movimiento) => element.finalizado,
       type: 'number',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
   ]
 
@@ -249,7 +261,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     downloadFile(): void {
-      // TODO: crear servicio en backend que retorne XLS
       const {
         backUrl,
         etapa,
@@ -276,11 +287,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           .some((x) => obj.cuenta_codigo_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
 
       const filterByConcepto = filter.concepto?.split('|')
-          .some((x) => obj.concepto.toLowerCase().indexOf(x) >= 0) ?? true;
+          .some((x) => obj.tipo_movimiento_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
 
       const filterByDetalle = filter.tipo?.split('|')
-          //.some((x) => ( (obj.detalle) ? obj.detalle.toLowerCase().indexOf(x) >= 0 : 0) ) ?? true;
-          .some((x) => ((obj.concepto === 'Anticipo') ? obj.anticipo!.concepto : obj.concepto).toLowerCase().indexOf(x) >= 0) ?? true;
+          .some((x) => ((obj.tipo_movimiento_descripcion === 'Anticipo') ? obj.anticipo!.concepto : obj.tipo_movimiento_descripcion).toLowerCase().indexOf(x) >= 0) ?? true;
 
       const filterByEstado = filter.estado?.split('|')
           .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
@@ -356,12 +366,14 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         tipo_contraparte_id,
       } = this.route.snapshot.queryParams;
 
-      const data: ContraparteInfoMovimiento = {
+      const data: ContraparteInfoMovimientoLiq = {
         contraparte: contraparte,
         contraparte_id: contraparte_id,
         contraparte_numero_documento: contraparte_numero_documento,
         tipo_contraparte_id: tipo_contraparte_id,
-        tipo_contraparte_descripcion: ''
+        tipo_contraparte_descripcion: '',
+        isNew: true,
+        etapa: LiquidacionEtapaEnum.PENDIENTE,
       };
 
       this.dialog
@@ -430,10 +442,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.cuentaFilterList = getFilterList(this.list, (x) => x.cuenta_codigo_descripcion);
 
-      this.conceptoFilterList = getFilterList(this.list, (x) => x.concepto);
+      this.conceptoFilterList = getFilterList(this.list, (x) => x.tipo_movimiento_descripcion);
 
       this.detalleFilterList = getFilterList(this.list, (x) =>
-        ((x.concepto === 'Anticipo') ? x.anticipo?.concepto : x.concepto),
+        ((x.tipo_movimiento_descripcion === 'Anticipo') ? x.anticipo?.concepto : x.tipo_movimiento_descripcion),
       );
 
       this.estadoFilterList = getFilterList(this.list, (x) => x.estado);

@@ -9,7 +9,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
-import { ContraparteInfoMovimiento } from 'src/app/interfaces/contraparte-info';
+import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
@@ -26,12 +26,15 @@ import { subtract } from 'src/app/utils/math';
 })
 export class LiquidacionFormDialogComponent {
 
-  form = this.fb.group({  })
   modelo = m.LIQUIDACION;
   etapa = LiquidacionEtapaEnum.PENDIENTE;
+  liquidacionId: number | undefined = undefined;
   estadoCuenta?: EstadoCuenta;
-  list: Movimiento[] = [];
+  list: Movimiento[] = [];  
   movimientosSelected: Movimiento[] = [];
+
+  isNew = false;
+  isEdit = false;
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -45,6 +48,10 @@ export class LiquidacionFormDialogComponent {
     return subtract(this.credito, this.debito);
   }
 
+  get contraparteInfo(){
+    return this.data;
+  }
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<LiquidacionFormDialogComponent>,
@@ -53,10 +60,20 @@ export class LiquidacionFormDialogComponent {
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: ContraparteInfoMovimiento
+    @Inject(MAT_DIALOG_DATA) private data: ContraparteInfoMovimientoLiq
   ) {
 
+    if(this.data.isNew) {
+      this.isNew = true;
+      this.data.etapa = LiquidacionEtapaEnum.PENDIENTE;
+    }
+
     this.getData();
+  }
+
+  createdLiquidacion(liquidacion:any): void {
+    this.liquidacionId = liquidacion.id;
+    this.isNew = false;
   }
 
   confirm(): void {
@@ -86,10 +103,12 @@ export class LiquidacionFormDialogComponent {
     if (this.movimientosSelected.length) {
       this.liquidacionService
         .create(createLiquidacionData(this.movimientosSelected))
-        .subscribe(() => {
+        .subscribe((response) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
-          //this.close.bind(this)
-          this.close();
+          console.log("response: ", response);
+          this.liquidacionId = response.id ;
+          this.isEdit = true;
+          console.log("this.liquidacionId: ", this.liquidacionId);
         });
     } else {
       this.snackbar.open('Debe elegir al menos 1 movimiento');
@@ -113,6 +132,8 @@ export class LiquidacionFormDialogComponent {
     if (backUrl) {
       this.backUrl = backUrl;
     }*/
+
+    //this.isEdit = this.data ? true : false;
 
     this.estadoCuentaService
       .getByContraparte(

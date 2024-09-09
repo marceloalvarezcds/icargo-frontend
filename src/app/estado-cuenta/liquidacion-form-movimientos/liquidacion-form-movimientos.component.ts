@@ -28,7 +28,7 @@ export class LiquidacionFormMovimientosComponent {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº de Movimiento',
+      title: 'Nº',
       value: (element: Movimiento) => element.id,
       type: 'checkbox',
       sticky: true,

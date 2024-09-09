@@ -26,6 +26,12 @@ export interface ContraparteInfoMovimiento extends Contraparte {
   tipo_contraparte_descripcion: string;
 }
 
+export interface ContraparteInfoMovimientoLiq extends Contraparte {
+  tipo_contraparte_descripcion: string;
+  etapa: string;
+  isNew: boolean;
+}
+
 export const mockContraparteInfoList: ContraparteInfoMovimiento[] = [
   {
     contraparte_id: 1,

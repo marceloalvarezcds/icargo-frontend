@@ -1,46 +1,8 @@
 .page-container {
-  margin-top: 2rem;
-}
-
-.some-page-wrapper {
-  margin: 15px;
-  //background-color: red;
-}
-
-.mirow {
-  flex:auto;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 100%;
-}
-
-.micolumn {
-  display: auto;
-  flex-direction: column;
-  flex-basis: 100%;
-  flex: 1;
-}
-
-.blue-column {
-  //background-color: blue;
-  height: 100px;
-}
-
-.green-column {
-  //background-color: green;
-  height: 100px;
-}
-
-
-.orden-carga-page-content {
   padding-top: 1rem;
 }
 
-.liquidacion-page-content {
-  padding-top: 1rem;
-}
-
-.liquidacion-page-content::ng-deep {
+.page-container::ng-deep {
   .mat-input-element:disabled,
   .mat-select-disabled .mat-select-value {
     color: rgba(0, 0, 0, 0.87);
@@ -51,36 +13,4 @@
   .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
     visibility: hidden;
   }
-}
-
-.acciones-container {
-  padding-left: 24px;
-  padding-right: 24px;
-}
-
-.acciones-buttons {
-  margin-right: -24px;
-}
-
-.acciones-buttons button {
-  margin-right: 24px;
-  margin-bottom: 1rem;
-}
-
-.button-container {
-  display: flex;
-  gap: 10px; /* Espacio entre los botones */
-  justify-content: flex-end;
-}
-
-::ng-deep app-page {
-  .title {
-    font-family: 'Roboto', sans-serif;
-    font-weight: 700;
-    line-height: 14.06px;
-    letter-spacing: 0.06em;
-    text-align: left;
-    color: #3B9EFF; /* Ejemplo de color para el submódulo */
-  }
-
 }

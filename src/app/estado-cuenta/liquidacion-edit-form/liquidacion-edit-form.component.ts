@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -27,14 +27,16 @@ export class LiquidacionEditFormComponent implements OnInit {
   form = new FormGroup({});
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
-  id?: number;
+  @Input() id?: number;
   item?: Liquidacion;
-  isEdit = false;
+  @Input() isEdit = false;
   movimientos: Movimiento[] = [];
   contraparte_id = 0;
   actual_contraparte = '';
   actual_contraparte_numero_documento = '';
   saldo = 0;
+  @Input()
+  isDialog = false;
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
@@ -75,21 +77,23 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   back(): void {
-    const contraparte_id = this.contraparte_id;
-    const contraparte = this.actual_contraparte;
-    const contraparte_numero_documento =
-      this.actual_contraparte_numero_documento;
-    this.router.navigate([this.backUrl], {
-      queryParams: getQueryParams(
-        {
-          ...this.item!,
-          contraparte_id,
-          contraparte,
-          contraparte_numero_documento,
-        },
-        this.item!.etapa
-      ),
-    });
+    if (!this.isDialog){
+      const contraparte_id = this.contraparte_id;
+      const contraparte = this.actual_contraparte;
+      const contraparte_numero_documento =
+        this.actual_contraparte_numero_documento;
+      this.router.navigate([this.backUrl], {
+        queryParams: getQueryParams(
+          {
+            ...this.item!,
+            contraparte_id,
+            contraparte,
+            contraparte_numero_documento,
+          },
+          this.item!.etapa
+        ),
+      });
+    }
   }
 
   changeMovimientoList(): void {
@@ -107,19 +111,22 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   redirectToEdit(): void {
-    const id = this.id!;
-    this.router.navigate(
-      [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/${id}`],
-      {
-        queryParams: {
-          backUrl: `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.VER}/${id}`,
-          contraparte_id: this.contraparte_id,
-          actual_contraparte: this.actual_contraparte,
-          actual_contraparte_numero_documento:
-            this.actual_contraparte_numero_documento,
-        },
-      }
-    );
+    if (!this.isDialog){
+      const id = this.id!;
+      this.router.navigate(
+        [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/${id}`],
+        {
+          queryParams: {
+            backUrl: `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.VER}/${id}`,
+            contraparte_id: this.contraparte_id,
+            actual_contraparte: this.actual_contraparte,
+            actual_contraparte_numero_documento:
+              this.actual_contraparte_numero_documento,
+          },
+        }
+      );
+    }
+    
   }
 
   private getData(): void {
@@ -129,21 +136,30 @@ export class LiquidacionEditFormComponent implements OnInit {
       actual_contraparte,
       actual_contraparte_numero_documento,
     } = this.route.snapshot.queryParams;
-    this.id = +this.route.snapshot.params.id;
-    this.contraparte_id = contraparte_id;
-    this.actual_contraparte = actual_contraparte;
-    this.actual_contraparte_numero_documento =
-      actual_contraparte_numero_documento;
-    this.isEdit = /edit/.test(this.router.url);
+    
+    if (!this.isDialog){
+      this.id = +this.route.snapshot.params.id;
+      this.contraparte_id = contraparte_id;
+      this.actual_contraparte = actual_contraparte;
+      this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
+      this.isEdit = /edit/.test(this.router.url);
+    }
+
     if (backUrl) {
       this.backUrl = backUrl;
     }
+
     this.loadLiquidacion();
   }
 
   loadLiquidacion(): void {
+    console.log("this.id: ", this.id);
+    console.log("this.isEdit: ", this.isEdit);
     this.liquidacionService.getById(this.id!).subscribe((item) => {
+      console.log("item: ", item);
       this.item = item;
+      this.actual_contraparte = this.item.contraparte;
+      this.actual_contraparte_numero_documento = this.item.contraparte_numero_documento;
       this.getList(item);
     });
   }

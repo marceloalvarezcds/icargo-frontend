@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,6 +11,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
+import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
@@ -35,6 +36,9 @@ export class LiquidacionFormComponent implements OnInit {
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
+  @Input() data? : ContraparteInfoMovimientoLiq;
+  monto:number = 0;
+  @Output() onCreated: EventEmitter<any> = new EventEmitter<any>();
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -71,7 +75,12 @@ export class LiquidacionFormComponent implements OnInit {
     }
   }
 
+  montoChange(monto : number): void {
+    this.monto = monto;
+  }
+
   confirm(): void {
+    console.log("monto pago: ", this.monto);
     if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
@@ -112,12 +121,16 @@ export class LiquidacionFormComponent implements OnInit {
     if (this.movimientosSelected.length) {
       this.liquidacionService
         .create(createLiquidacionData(this.movimientosSelected))
-        .subscribe(() => {
+        .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
           if (confirmed) {
             this.router.navigate([this.backUrl]);
           } else {
-            this.getData();
+            if (!!this.data){
+              this.onCreated.emit(resp);
+            } else {
+              this.getData();
+            }            
           }
           this.movimientosSelected.splice(0, this.movimientosSelected.length);
         });
@@ -127,7 +140,7 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   private getData(): void {
-    const {
+    let {
       backUrl,
       etapa,
       contraparte_id,
@@ -139,6 +152,15 @@ export class LiquidacionFormComponent implements OnInit {
       this.backUrl = backUrl;
     }
     this.etapa = etapa;
+
+    if (!!this.data){
+      this.etapa = this.data.etapa as LiquidacionEtapaEnum;
+      contraparte_id = this.data.contraparte_id;
+      contraparte = this.data.contraparte;
+      contraparte_numero_documento = this.data.contraparte_numero_documento;
+      tipo_contraparte_id = this.data.tipo_contraparte_id;
+    }
+
     this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,

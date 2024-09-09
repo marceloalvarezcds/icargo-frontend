@@ -118,7 +118,8 @@
           *matCellDef="let row; let index = index"   [ngClass]="{'sticky-column': isStickyColumn(column)}"
           [class.mat-cell-checkbox]="column.type === 'checkbox'"
           [class.row-error]="formArray.at(index)?.get(column.def)?.errors"
-          [style.color]="column.def === 'estado' ? getColorForState(row[column.def]) : 'inherit'"
+          [style.color]="getColorForStateNew(column, row)"
+          [style]="getStilos(column, row)"
         >
           <ng-container
             *ngIf="
@@ -159,6 +160,11 @@
               <ng-container *ngSwitchCase="'date'">
                 <span>{{
                   column.value(row) | momentFormat: "DD-MM-YYYY HH:mm:ss"
+                }}</span>
+              </ng-container>
+              <ng-container *ngSwitchCase="'only-date'">
+                <span>{{
+                  column.value(row) | momentFormat: "DD-MM-YYYY"
                 }}</span>
               </ng-container>
               <ng-container *ngSwitchCase="'html'">
