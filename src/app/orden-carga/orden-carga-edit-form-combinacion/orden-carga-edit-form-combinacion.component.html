@@ -2,5 +2,5 @@
   [form]="form"
   (fleteChange)="fleteChange.emit($event)"
   (combinacionChange)="combinacionChange.emit($event)"
-  [showSearchPedido]="true"
+  [showSearchPedido]="oc?.estado === 'Nuevo'"
 ></app-orden-carga-create-form-combinacion>

@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import * as saveAs from 'file-saver';
 import { isEqual } from 'lodash';
 import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { OcConfirmationDialogComponent } from 'src/app/dialogs/oc-confirmation-dialog/oc-confirmation-dialog.component';
@@ -23,8 +24,11 @@ import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remi
 import { Semi } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
+import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-orden-carga-finalizar-form',
@@ -36,6 +40,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   isFormSubmitting = true;
   previousid: number | null = null;
   isLoadingData: boolean = false;
+  isLoading = false; 
   private valueChangesSubscription: any;
   previousId: number | null = null;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
@@ -193,14 +198,13 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   handleIdChange(id: number | null): void {
     if (id && id !== this.previousId) {
       this.previousId = id;
-      if (!this.isLoadingData) { // Solo llamar a getData si no se está cargando
+      if (!this.isLoadingData) { 
         this.getData();
       }
     }
   }
 
   ngOnDestroy(): void {
-    // Cancelar la suscripción para evitar posibles fugas de memoria
     if (this.valueChangesSubscription) {
       this.valueChangesSubscription.unsubscribe();
     }
@@ -214,6 +218,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
     private route: ActivatedRoute,
+    private reportsService: ReportsService,
+    private snackBar: MatSnackBar,
     
   ) {}
 
@@ -297,26 +303,48 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
       if (this.item?.estado === 'Finalizado') {
-      
         alert('La Orden de Carga ya está finalizada.');
-        return; 
+        return;
       }
       this.dialog.changeStatusConfirm(
         '¿Está seguro que desea finalizar la Orden de Carga?',
         this.ordenCargaService.finalizar(this.idOC),
         () => {
           this.getData();
+          this.snackBar.open('Generando PDF...', 'Cerrar', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center'
+          });
+          this.downloadResumenPDF();
         }
       );
     } else {
       console.error('No se puede finalizar anticipos sin un ID válido');
     }
   }
+
   
+  downloadResumenPDF(): void {
+    this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewDialogComponent, {
+          width: '80%',
+          height: '80%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob, 
+            filename: filename 
+          }
+        });
+      });
+    });
+  }
   
 
   get isToggleAnticiposLiberados(): boolean {

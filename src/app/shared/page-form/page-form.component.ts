@@ -131,14 +131,12 @@ export class PageFormComponent implements OnDestroy {
   }
 
   previewPDF(): void {
-    console.log('Generated PDF URL:', this.oc);
     if (!this.oc){
       return
     }
     this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
         const url = URL.createObjectURL(file);
-        console.log('Generated PDF URL:', url);
         window.open(url); 
         this.pdfSrc = url;
       });

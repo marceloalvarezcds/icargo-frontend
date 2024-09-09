@@ -17,7 +17,7 @@ export class NumberFieldComponent {
   get control(): FormControl {
     return this.group.get(this.controlName) as FormControl;
   }
-  @Input() viewMode: boolean = false;
+  @Input() viewMode: boolean | undefined;
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() form?: FormGroup;

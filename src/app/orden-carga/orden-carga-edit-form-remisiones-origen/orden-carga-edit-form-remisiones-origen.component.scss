@@ -58,10 +58,14 @@
   }
   
   .add-button {
-    margin-right: 0; /* Asegura que el botón esté alineado a la derecha */
+    margin-right: 0; 
   }
   
   .origen-table-container {
     margin-top: -10px; /* Ajusta según sea necesario para pegar el h4 a la tabla */
   }
   
+  .mat-icon.small-icon.disabled {
+    color: #9e9e9e; 
+    opacity: 0.5; 
+  }

@@ -117,6 +117,7 @@
         *ngIf="oc?.estado === E.FINALIZADO"
           type="button"
           mat-raised-button
+          (click)="finalizarClick.emit($event)"
           class="add-button orden-carga-conciliar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
         >

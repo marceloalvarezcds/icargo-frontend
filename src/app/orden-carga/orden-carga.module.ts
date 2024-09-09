@@ -38,6 +38,8 @@ import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden
 import { OrdenCargaFinalizarFormComponent } from './orden-carga-finalizar-form/orden-carga-finalizar-form.component';
 import { OrdenCargaRecepcionFormComponent } from './orden-carga-recepcion-form/orden-carga-recepcion-form.component';
 import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/orden-carga-conciliar-form.component';
+import { PdfPreviewDialogComponent } from './pdf-preview-dialog/pdf-preview-dialog.component';
+import { SafeUrlPipe } from './safe-url.pipe';
 
 
 
@@ -74,6 +76,8 @@ import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/o
     OrdenCargaFinalizarFormComponent,
     OrdenCargaRecepcionFormComponent,
     OrdenCargaConciliarFormComponent,
+    PdfPreviewDialogComponent,
+    SafeUrlPipe,
  
   ],
   imports: [
@@ -87,5 +91,6 @@ import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/o
     PipesModule,
     SharedModule,
   ],
+  entryComponents: [PdfPreviewDialogComponent] 
 })
 export class OrdenCargaModule {}

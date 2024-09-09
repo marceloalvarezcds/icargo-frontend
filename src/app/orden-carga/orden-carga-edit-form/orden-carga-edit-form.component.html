@@ -44,14 +44,14 @@
       <!-- <mat-accordion multi> -->
         <!-- <mat-expansion-panel [expanded]="isCombinacionTouched"> -->
           
-        <app-orden-carga-edit-form-combinacion
+          <app-orden-carga-create-form-combinacion
           [oc]="item"
           [form]="form"
           (fleteChange)="onFleteChange($event)"
           (combinacionChange)="onCombinacionChange($event)"
           class="orden-edit"
           (ocChange)="getData()"
-        ></app-orden-carga-edit-form-combinacion>
+        ></app-orden-carga-create-form-combinacion>
         <app-orden-carga-anticipos-table 
          
           [oc]="item"

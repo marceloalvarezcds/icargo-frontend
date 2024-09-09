@@ -32,19 +32,18 @@
       [showSearchOC]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
+
     <app-orden-carga-anticipos-table 
-      [class.disabled]="!isFormSaved"
       [oc]="item"
       [fleteId]="fleteId"
       [list]="anticipoList"
-      (ocChange)="getData()"
-    >
+      (ocChange)="getData()">
     </app-orden-carga-anticipos-table>
+
     <div  class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
       <div class="remisiones-item">
         <app-orden-carga-edit-form-remisiones-origen
-         
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
@@ -66,12 +65,18 @@
         ></app-orden-carga-edit-form-remisiones-destino>
       </div>
     </div>
-    <div class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
-    <app-orden-carga-edit-form-remisiones-resultado
-      [oc]="item"
-      [gestorCargaId]="gestorCargaId"
-      [list]="remisionResultadoList"
-  ></app-orden-carga-edit-form-remisiones-resultado>
+    <div class="resultados-container">
+      <div class="resultados-line">
+        <h2>TABLA DE RESULTADOS</h2>
+      </div>
+      
+      <app-orden-carga-edit-form-remisiones-resultado
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [list]="remisionResultadoList"
+      ></app-orden-carga-edit-form-remisiones-resultado>
+    </div>
+    
   </div>
 
 
