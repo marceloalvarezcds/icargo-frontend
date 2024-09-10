@@ -72,6 +72,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   }
 // En el archivo .ts de tu componente hijo
   @Input() mostrarBotonEliminar: boolean = true;
+  @Input() isVisible: boolean = false;
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(
     this.tableDataSource

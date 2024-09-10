@@ -5,11 +5,8 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './orden-carga-create-form-recepcion.component.html',
   styleUrls: ['./orden-carga-create-form-recepcion.component.scss']
 })
-export class OrdenCargaCreateFormRecepcionComponent implements OnInit {
+export class OrdenCargaCreateFormRecepcionComponent {
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+ 
 
 }

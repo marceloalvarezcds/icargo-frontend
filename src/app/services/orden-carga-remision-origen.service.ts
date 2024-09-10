@@ -28,4 +28,9 @@ export class OrdenCargaRemisionOrigenService {
   delete(id: number): Observable<OrdenCargaRemisionOrigen> {
     return this.http.delete<OrdenCargaRemisionOrigen>(`${this.url}/${id}`);
   }
+
+  private apiUrl = 'http://localhost:9103/api'; 
+  getImage(filename: string): Observable<Blob> {
+    return this.http.get(`${this.apiUrl}/${filename}`, { responseType: 'blob' });
+  }
 }

@@ -14,6 +14,7 @@ import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-dest
 import { OcRemisionDestinoFormDialogComponent } from 'src/app/dialogs/oc-remision-destino-form-dialog/oc-remision-destino-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { subtract } from 'src/app/utils/math';
+import { ImageDialogComponent } from 'src/app/dialogs/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-destino',
@@ -149,10 +150,23 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
           element.unidad_descripcion,
       },
       {
-        def: 'imagen',
+        def: 'pdf',
         title: 'Imagen',
-        value: (element: OrdenCargaRemisionDestino) =>
-          element.foto_documento,
+        type: 'button',
+        value: () => 'PDF',
+        buttonCallback: (element: OrdenCargaRemisionDestino) => {
+          if (element.foto_documento) {
+            this.dialog.open(ImageDialogComponent, {
+              data: { imageUrl: element.foto_documento },
+              width: 'auto',  
+              height: 'auto',  
+           
+            });
+            
+          } else {
+            console.error('No se proporcionó un nombre de archivo válido.');
+          }
+        }
       },
       // {
       //   def: 'cantidad_equiv',
@@ -172,6 +186,10 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
+  }
+
+  shouldShowButton(row: any): boolean {
+    return !!row.foto_documento;
   }
 
 }

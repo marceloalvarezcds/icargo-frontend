@@ -39,6 +39,7 @@ import { OrdenCargaGestionAnticiposComponent } from './orden-carga-gestion-antic
 import { OrdenCargaFleteComponent } from './orden-carga-flete/orden-carga-flete.component';
 import { LiquidacionFormDialogComponent } from './liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { EstadoCuentaModule } from '../estado-cuenta/estado-cuenta.module';
+import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 
 
 const modules = [
@@ -73,7 +74,8 @@ const modules = [
   OcGestionLineaComponent,
   OrdenCargaGestionAnticiposComponent,
   OrdenCargaFleteComponent,
-  LiquidacionFormDialogComponent
+  LiquidacionFormDialogComponent,
+  ImageDialogComponent,
 ];
 
 @NgModule({
