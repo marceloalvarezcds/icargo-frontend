@@ -83,7 +83,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       puede_recibir_anticipos: null,
       estado: null,
       porcentaje_anticipos: null,
-      anticipos: null
+      anticipos: null,
+      id_orden_carga: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -254,6 +255,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       });
     }
     this.getData();
+    
   }
   
 
@@ -429,7 +431,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
           diferencia: 0,
           anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
           estado: data.estado,
-          anticipos: data.anticipos_liberados
+          anticipos: data.anticipos_liberados,
+          id_orden_carga: data.id
         },
         info: {
           cantidad_nominada: data.cantidad_nominada,

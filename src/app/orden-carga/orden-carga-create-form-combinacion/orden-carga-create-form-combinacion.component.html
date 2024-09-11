@@ -165,7 +165,7 @@
       <h2 *ngIf="oc?.estado !== 'Nuevo'">FLETE</h2>
 
       <div class="row page-form-row">
-        <div class="search-tracto small-input input-with-label" *ngIf="showSearchPedido">
+        <div class="search-tracto small-input input-with-label" *ngIf="oc?.estado === 'Nuevo'">
           <label>Nº Pedido</label>
           <app-flete-by-gestor-dialog-field
             [groupName]="groupName"
@@ -175,7 +175,7 @@
             [style]="'width: 160px'"
           ></app-flete-by-gestor-dialog-field>
         </div>
-        <div class="search-tracto small-input input-with-label" *ngIf="showSearchOC">
+        <div class="search-tracto small-input input-with-label" *ngIf="oc?.estado !== 'Nuevo'">
           <label>Nº OC</label>
           <app-oc-by-combinacion-dialog-field
             [groupName]="groupName"
@@ -186,7 +186,7 @@
             (valueChange)="onOrdenCargaChange($event)"
           ></app-oc-by-combinacion-dialog-field>
         </div>
-        <div class="small-input input-with-label"  *ngIf="showSearchOC">
+        <div class="small-input input-with-label"  *ngIf="oc?.estado !== 'Nuevo'">
           <app-input-field-oc
             title="Nº Pedido"
             [groupName]="groupName"
