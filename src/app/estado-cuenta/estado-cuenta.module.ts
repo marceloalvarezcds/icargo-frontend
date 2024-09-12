@@ -26,6 +26,9 @@ import { LiquidacionMovimientosComponent } from './liquidacion-movimientos/liqui
 import { OperacionComponent } from './operacion/operacion.component';
 import { SaldoComponent } from './saldo/saldo.component';
 import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/estado-cuenta-list-detalle.component';
+import { LiquidacionesListComponent } from './liquidaciones-list/liquidaciones-list.component';
+import { LiquidacionFormFieldsComponent } from './liquidacion-form-fields/liquidacion-form-fields.component';
+import { LiquidacionEditFieldsComponent } from './liquidacion-edit-fields/liquidacion-edit-fields.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +49,10 @@ import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/e
     LiquidacionFormMovimientosComponent,
     OperacionComponent,
     SaldoComponent,
-    EstadoCuentaListDetalleComponent
+    EstadoCuentaListDetalleComponent,
+    LiquidacionesListComponent,
+    LiquidacionFormFieldsComponent,
+    LiquidacionEditFieldsComponent
   ],
   imports: [
     CommonModule,
@@ -64,8 +70,8 @@ import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/e
     EstadoCuentaDetalleComponent,
     SaldoComponent,
     LiquidacionFormMovimientosComponent,
-    LiquidacionEditFormComponent,
-    LiquidacionFormComponent
+    LiquidacionFormFieldsComponent,
+    LiquidacionEditFieldsComponent
   ]
 })
 export class EstadoCuentaModule {}

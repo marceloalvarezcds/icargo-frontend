@@ -1,7 +1,7 @@
 .liquidacion-page-content {
     padding-top: 1rem;
   }
-  
+
   .liquidacion-page-content::ng-deep {
     .mat-input-element:disabled,
     .mat-select-disabled .mat-select-value {
@@ -14,4 +14,9 @@
       visibility: hidden;
     }
   }
-  
+
+  ::ng-deep {
+    .mat-dialog-container {
+      padding-inline: 24px;
+    }
+  }

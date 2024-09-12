@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ViewChild } from '@angular/core';
 import { FormBuilder  } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { filter } from 'rxjs/operators';
@@ -9,11 +9,14 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { LiquidacionFormFieldsComponent } from 'src/app/estado-cuenta/liquidacion-form-fields/liquidacion-form-fields.component';
 import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { DialogService } from 'src/app/services/dialog.service';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
@@ -33,21 +36,11 @@ export class LiquidacionFormDialogComponent {
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
-
+  liquidacion?:Liquidacion;
   isNew = false;
-  isEdit = false;
 
-  get credito(): number {
-    return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
-  }
-
-  get debito(): number {
-    return this.movimientosSelected.reduce((acc, cur) => acc + cur.debito, 0);
-  }
-
-  get saldo(): number {
-    return subtract(this.credito, this.debito);
-  }
+  @ViewChild('child')
+  child!: LiquidacionFormFieldsComponent;
 
   get contraparteInfo(){
     return this.data;
@@ -60,6 +53,7 @@ export class LiquidacionFormDialogComponent {
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
+    private dialogService: DialogService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: ContraparteInfoMovimientoLiq
   ) {
@@ -72,18 +66,27 @@ export class LiquidacionFormDialogComponent {
     this.getData();
   }
 
-  createdLiquidacion(liquidacion:any): void {
-    this.liquidacionId = liquidacion.id;
-    this.isNew = false;
+  confirm(): void {
+    if (this.child.movimientosSelected.length <= 0) {
+      this.dialogService.confirmation(
+        `Está seguro que desea Crear Liquidacións sin Movimientos`,
+        () => {
+          this.prepareSend();
+        }
+      );
+      return;
+    }
+
+    this.prepareSend();
   }
 
-  confirm(): void {
-    if (this.movimientosSelected.length) {
+  prepareSend(): void {
+    //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
-        list: this.movimientosSelected.slice(),
-        credito: this.credito,
-        debito: this.debito,
+        list: this.child.movimientosSelected.slice(),
+        credito: this.child.credito,
+        debito: this.child.debito,
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {
@@ -95,25 +98,21 @@ export class LiquidacionFormDialogComponent {
         .subscribe(() => {
           this.submit(false);
         });
-    } else {
-      this.snackbar.open('Debe elegir al menos 1 movimiento');
-    }
+    //} else {
+    //  this.snackbar.open('Debe elegir al menos 1 movimiento');
+    //}
   }
 
   private submit(confirmed: boolean): void {
-    if (this.movimientosSelected.length) {
-      this.liquidacionService
-        .create(createLiquidacionData(this.movimientosSelected))
-        .subscribe((response) => {
-          this.snackbar.open('Datos guardados satisfactoriamente');
-          console.log("response: ", response);
-          this.liquidacionId = response.id ;
-          this.isEdit = true;
-          console.log("this.liquidacionId: ", this.liquidacionId);
-        });
-    } else {
-      this.snackbar.open('Debe elegir al menos 1 movimiento');
-    }
+    this.child.sendLiquidacion(confirmed)
+  }
+
+  onCreateLiquidacion(liquidacion:any): void {
+    this.liquidacionId = liquidacion.id;
+    this.etapa = liquidacion.etapa;
+    this.liquidacion = liquidacion;
+    this.getMovimientos(liquidacion);
+    this.isNew = false;
   }
 
   cerrarLiquidacion(liquidacion:any): void {
@@ -169,6 +168,22 @@ export class LiquidacionFormDialogComponent {
       .subscribe((data) => {
         this.list = data;
         this.movimientosSelected = [];
+      });
+  }
+
+  loadLiquidacion(): void {
+    this.liquidacionService.getById(this.liquidacionId!).subscribe((item) => {
+      console.log("item: ", item);
+      this.liquidacion = item;
+      this.getMovimientos(item);
+    });
+  }
+
+  getMovimientos(liq: Liquidacion): void {
+    this.movimientoService
+      .getListByLiquidacion(liq, this.etapa)
+      .subscribe((data) => {
+        this.list = data;
       });
   }
 

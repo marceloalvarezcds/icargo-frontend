@@ -8,6 +8,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Instrumento } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
@@ -38,7 +39,23 @@ export class LiquidacionEditFormComponent implements OnInit {
   @Input()
   isDialog = false;
   @Output() liquidacionChange = new EventEmitter();
-
+  estadoCuenta: EstadoCuenta = {
+        contraparte_id: 0,
+        contraparte: '',
+        contraparte_numero_documento: '',
+        tipo_contraparte_id: 3,
+        tipo_contraparte_descripcion: '',
+        pendiente: 0,
+        en_proceso: 0,
+        confirmado: 0,
+        finalizado: 0,
+        saldo: 0,
+        cantidad_pendiente: 0,
+        cantidad_en_proceso: 0,
+        cantidad_confirmado: 0,
+        cantidad_finalizado: 0,
+        q:''
+      }
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
@@ -160,11 +177,14 @@ export class LiquidacionEditFormComponent implements OnInit {
       this.item = item;
       this.actual_contraparte = this.item.contraparte;
       this.actual_contraparte_numero_documento = this.item.contraparte_numero_documento;
+      this.estadoCuenta.contraparte = this.item.contraparte;
+      this.estadoCuenta.contraparte_numero_documento = this.item.contraparte_numero_documento;
+      this.estadoCuenta.tipo_contraparte_descripcion = this.item.tipo_contraparte.descripcion
       this.getList(item);
     });
   }
 
-  private getList(liq: Liquidacion): void {
+  getList(liq: Liquidacion): void {
     this.movimientoService
       .getListByLiquidacion(liq, this.etapa)
       .subscribe((data) => {

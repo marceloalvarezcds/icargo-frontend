@@ -16,7 +16,19 @@
   (editClick)="redirectToEdit()"
   (downloadClick)="downloadFile()"
 >
-  <div class="liquidacion-page-content" *ngIf="item">
+
+<app-liquidacion-edit-fields
+      #child
+      [item]="item"
+      [etapa]="item?.etapa"
+      [estadoCuenta]="estadoCuenta"
+      [movimientos]="movimientos"
+      (actualizarLiquidacion)="loadLiquidacion()"
+      (actualizarMovimientos)="getList(item!)"
+    >
+  </app-liquidacion-edit-fields>
+
+  <div class="liquidacion-page-content" *ngIf="item && false">
     <app-liquidacion-edit-form-acciones
       [isShow]="isShow"
       [liquidacion]="item"
@@ -106,4 +118,5 @@
       ></app-liquidacion-edit-form-movimientos>
     </ng-template>
   </div>
+
 </app-page-form>

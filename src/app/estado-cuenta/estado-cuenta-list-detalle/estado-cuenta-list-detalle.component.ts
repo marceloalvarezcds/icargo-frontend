@@ -59,7 +59,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: Movimiento) => element.id,
       sticky: false,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },    
+    },
     {
       def: 'camion_placa',
       title: 'Chapa',
@@ -351,7 +351,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         es_contraparte_editable: true,
       };
       createMovimiento(data, this.dialog, this.snackbar, () => {
-        this.getMovList();
+        this.getList();
       });
     }
 
@@ -379,12 +379,12 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       this.dialog
         .open(LiquidacionFormDialogComponent, {
           data,
-          panelClass: 'full-dialog',
+          panelClass: 'half-dialog',
         })
         .afterClosed()
         .pipe(filter((confirmed) => !!confirmed))
         .subscribe(() => {
-          this.getMovList();
+          this.getList();
         });
     }
 

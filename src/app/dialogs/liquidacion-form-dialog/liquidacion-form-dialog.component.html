@@ -1,12 +1,13 @@
 
-<div>
 
-  <h1 mat-dialog-title>
+
+  <h1 mat-dialog-title style="padding: 10px;">
     Movimientos Pendientes a Liquidar
     <button mat-button type="button" mat-dialog-close class="close">
       <mat-icon>close</mat-icon>
     </button>
   </h1>
+
   <div mat-dialog-content>
 
     <ng-container *ngIf="isNew; then new; else edit">
@@ -14,93 +15,40 @@
 
     <ng-template #new>
 
-      <app-liquidacion-form
-        [data]="contraparteInfo"
-        (createdLiquidacion)="createdLiquidacion($event)">
-      </app-liquidacion-form>
+      <app-liquidacion-form-fields
+          #child
+          [etapa]="etapa"
+          [estadoCuenta]="estadoCuenta"
+          [list]="list"
+          (createdLiquidacionEvt)="onCreateLiquidacion($event)"
+        >
+      </app-liquidacion-form-fields>
 
     </ng-template>
 
     <ng-template #edit>
 
-      <app-liquidacion-edit-form
-        [id]="liquidacionId"
-        [isEdit]="!isNew"
-        [isDialog]="!isNew"
-        (liquidacionChange)="cerrarLiquidacion($event)">
-      </app-liquidacion-edit-form>
+      <app-liquidacion-edit-fields
+          #child
+          [isEdit]="!isNew"
+          [item]="liquidacion"
+          [etapa]="etapa"
+          [estadoCuenta]="estadoCuenta"
+          [movimientos]="list"
+          (actualizarLiquidacion)="loadLiquidacion()"
+          (actualizarMovimientos)="getMovimientos(liquidacion!)"
+        >
+      </app-liquidacion-edit-fields>
 
     </ng-template>
 
-    <div mat-dialog-actions>
+    <div mat-dialog-actions style="padding-top: 0px;">
       <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
-    </div>
-
-</div>
-
-<ng-container *ngIf="false">
-
-  <app-liquidacion-edit-form
-    [id]="liquidacionId"
-    [isEdit]="!!liquidacionId">
-  </app-liquidacion-edit-form>
-
-</ng-container>
-
-<ng-container *ngIf="false">
-
-  <div>
-
-    <h1 mat-dialog-title>
-      Movimientos Pendientes a Liquidar
-      <button mat-button type="button" mat-dialog-close class="close">
-        <mat-icon>close</mat-icon>
-      </button>
-    </h1>
-    <div mat-dialog-content>
-
-      <div class="liquidacion-page-content">
-
-        <app-estado-cuenta-detalle
-          [etapa]="etapa"
-          [estadoCuenta]="estadoCuenta"
-          [showVistaConsolidada]="false"
-          [showEstado]="false"
-        ></app-estado-cuenta-detalle>
-
-        <app-saldo
-          [credito]="credito"
-          [debito]="debito"
-          title="Saldo | Total de la Selección"
-        ></app-saldo>
-
-        <div class="row page-form-row">
-          <div class="col-xs-12">
-            <app-liquidacion-form-movimientos
-              [list]="list"
-              (movimientosInDBChange)="getList()"
-              (selectedMovimientosChange)="movimientosSelected = $event"
-            ></app-liquidacion-form-movimientos>
-          </div>
-        </div>
-      </div>
-
-    </div>
-
-    <div mat-dialog-actions>
-      <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
-      <button
-        mat-raised-button
-        type="button"
-        (click)="confirm()"
-        cdkFocusInitial
-        color="primary"
-        id="submit-button"
-      >
-        Aceptar
+      <button *ngIf="isNew" mat-raised-button type="button"
+          id="submit-button" cdkFocusInitial
+          (click)="confirm()" color="primary">
+        Guardar Liquidación
       </button>
     </div>
 
-  </div>
 
-</ng-container>
