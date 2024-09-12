@@ -1,3 +1,4 @@
+
 .page-container {
   padding-top: 1rem;
 }
@@ -13,4 +14,14 @@
   .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
     visibility: hidden;
   }
+}
+
+::ng-deep {
+  
+  .page-title .title {
+    font-size: 18px;
+    font-weight: 500;
+    color: #3B9EFF; /* Ejemplo de color para el submódulo */
+  }
+  
 }

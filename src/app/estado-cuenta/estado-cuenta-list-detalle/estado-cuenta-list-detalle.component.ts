@@ -358,8 +358,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     createLiquidacion():void {
 
       const {
-        backUrl,
-        etapa,
         contraparte_id,
         contraparte,
         contraparte_numero_documento,
@@ -382,7 +380,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           panelClass: 'half-dialog',
         })
         .afterClosed()
-        .pipe(filter((confirmed) => !!confirmed))
+        //.pipe(filter((confirmed) => !!confirmed))
         .subscribe(() => {
           this.getList();
         });
@@ -390,6 +388,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     private getList(): void {
 
+      console.log('test');
       const {
         backUrl,
         etapa,

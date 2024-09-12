@@ -1,6 +1,14 @@
 .liquidacion-page-content {
-    padding-top: 1rem;
-  }
+  padding-top: 1rem;
+}
+
+.titulo {
+  color: #F25A38; /* Ejemplo de color para el módulo */
+}
+
+.titulo-azul {
+  color: #3B9EFF; /* Ejemplo de color para el submódulo */
+}
 
   .liquidacion-page-content::ng-deep {
     .mat-input-element:disabled,
