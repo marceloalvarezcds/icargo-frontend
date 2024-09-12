@@ -1,11 +1,34 @@
-.file-form-field{
-    width: 100px;
-    height: 24px;
-    margin-left: 5px;
+.file-field-container {
+  display: flex;
+  align-items: center;
+  gap: 10px; 
+  margin-bottom: 10px;
 }
 
-::ng-deep .file-form-field .mat-form-field-outline {
-    border: 1px solid #F25A38 !important;
-    background: white;
-  }
-  
+.file-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.custom-input-button {
+  width: 110px;
+  height: 32px;
+  border: 1px solid #d9d9d9;
+  border-radius: 4px;
+  background-color: white;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+label {
+  margin-right: 7px; 
+  margin-top: 7px;
+}
+
+mat-error {
+  margin-top: 8px;
+}

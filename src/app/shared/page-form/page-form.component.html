@@ -102,7 +102,7 @@
         </button>
       
         <button
-        *ngIf="module === 'FINALIZAR'"
+        *ngIf="module === ('FINALIZAR') || submodule === 'RECEPCION directa'"
           type="button"
           mat-raised-button
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || (oc?.estado === E.NUEVO) "

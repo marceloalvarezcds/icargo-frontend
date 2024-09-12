@@ -27,8 +27,10 @@
       (combinacionChange)="combinacionList = $event"
       (ordenCargaChange)="ordenCarga = $event"
       [showSearchPedido]="true"
+      [showSearchOC]="false"
     ></app-orden-carga-create-form-combinacion>
    
+    <div class="anticipo-table">
     <app-orden-carga-anticipos-table 
       [class.disabled]="!isFormSaved"
       [oc]="item"
@@ -38,4 +40,27 @@
       [isShow]="false">
     </app-orden-carga-anticipos-table>
   </div>
+    <!-- <div class="complementos_descuentos-container">
+      <div class="complementos_descuentos-item">
+        <app-orden-carga-edit-form-complementos
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [isShow]="isShow"
+          [puedeConciliar]="puedeConciliar"
+          [list]="complementoList"
+          (ocChange)="getData()"
+      ></app-orden-carga-edit-form-complementos>
+    </div>
+    <div class="complementos_descuentos-item">
+      <app-orden-carga-edit-form-descuentos
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [isShow]="isShow"
+        [puedeConciliar]="puedeConciliar"
+        [list]="descuentoList"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-descuentos>
+    </div>
+  </div> -->
+</div>
 

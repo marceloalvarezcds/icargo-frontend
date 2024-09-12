@@ -90,8 +90,8 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       item,
     };
     return this.dialog.open(OcRemisionDestinoFormDialogComponent, {     
-      width: '28vw',  // Ajusta según el contenido y diseño
-      height: '26vh', // Ajusta según el contenido y diseño
+      width: '650px',  // Ajusta según el contenido y diseño
+      height: '400px', // Ajusta según el contenido y diseño
       data });
   }
 
