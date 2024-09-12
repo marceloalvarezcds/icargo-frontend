@@ -12,4 +12,5 @@ export class EstadoCuentaDetalleComponent {
   @Input() estadoCuenta?: EstadoCuenta;
   @Input() showVistaConsolidada = true;
   @Input() showEstado = true;
+  @Input() showSaldo = false;
 }

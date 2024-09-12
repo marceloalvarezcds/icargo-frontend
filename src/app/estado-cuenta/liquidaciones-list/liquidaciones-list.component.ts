@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
@@ -11,8 +13,9 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
+import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
-import { CheckboxEvent } from 'src/app/interfaces/table';
+import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -95,6 +98,7 @@ export class LiquidacionesListComponent implements OnInit {
       type: 'number',
       value: (element: Liquidacion) => element.saldo_residual ,
     },
+    { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
 
   buttons : ButtonList[] = [
@@ -249,6 +253,56 @@ export class LiquidacionesListComponent implements OnInit {
     }
 
     console.log("this.liquidacionSelected: ", this.liquidacionSelected);
+  }
+
+  redirectToEdit(event: TableEvent<Liquidacion>): void {
+    const contraparteId = event.row.chofer_id ??
+        event.row.propietario_id ??
+        event.row.proveedor_id ??
+        event.row.remitente_id;
+
+    const data = {
+      contraparte: event.row.contraparte,
+      contraparte_id: contraparteId,
+      contraparte_numero_documento: event.row.contraparte_numero_documento,
+      tipo_contraparte_id: event.row.tipo_contraparte_id,
+      tipo_contraparte_descripcion: event.row.tipo_contraparte.descripcion,
+      isEdit: true,
+      liquidacionId: event.row.id,
+      etapa: event.row.etapa,
+    };
+
+    console.log("contraparte id: ", contraparteId);
+    console.log("data: ", data);
+
+    this.dialog
+      .open(LiquidacionFormDialogComponent, {
+        data,
+        panelClass: 'half-dialog',
+      })
+      .afterClosed()
+      //.pipe(filter((confirmed) => !!confirmed))
+      .subscribe(() => {
+        this.getList();
+      });
+
+  }
+
+  redirectToShow(event: TableEvent<Liquidacion>): void {
+    /*this.router.navigate(
+      [
+        `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
+        event.row.id,
+      ],
+      {
+        queryParams: {
+          contraparte_id: this.estadoCuenta!.contraparte_id,
+          actual_contraparte: this.estadoCuenta!.contraparte,
+          actual_contraparte_numero_documento:
+            this.estadoCuenta!.contraparte_numero_documento,
+        },
+      }
+    );*/
   }
 
   resetFilter(): void {

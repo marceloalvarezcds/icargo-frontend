@@ -71,9 +71,8 @@
     [filterPredicate]="filterPredicate"
     [modelo]="m.LIQUIDACION"
     [hideDelete]="true"
-    [hideEdit]="true"
-    [hideShow]="true"
-    [shouldBeShowFooter]="true"
     (checkboxChange)="onCheckboxChange($event)"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
   ></app-table-paginator>
 </app-page>

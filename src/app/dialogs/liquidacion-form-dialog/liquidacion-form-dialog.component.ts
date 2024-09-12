@@ -38,6 +38,7 @@ export class LiquidacionFormDialogComponent {
   movimientosSelected: Movimiento[] = [];
   liquidacion?:Liquidacion;
   isNew = false;
+  isEdit = false;
 
   @ViewChild('child')
   child!: LiquidacionFormFieldsComponent;
@@ -55,15 +56,23 @@ export class LiquidacionFormDialogComponent {
     private movimientoService: MovimientoService,
     private dialogService: DialogService,
     private dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) private data: ContraparteInfoMovimientoLiq
+    @Inject(MAT_DIALOG_DATA) private data: any
   ) {
 
     if(this.data.isNew) {
       this.isNew = true;
       this.data.etapa = LiquidacionEtapaEnum.PENDIENTE;
+      this.getData();
     }
 
-    this.getData();
+    if(this.data.isEdit) {
+      this.getEstadoCuenta();
+      this.liquidacionId = this.data.liquidacionId;
+      this.isEdit = this.data.isEdit;
+      this.etapa = this.data.etapa;
+      this.loadLiquidacion();
+    }
+
   }
 
   confirm(): void {
@@ -125,6 +134,20 @@ export class LiquidacionFormDialogComponent {
 
   private close(): void {
     this.dialogRef.close(true);
+  }
+
+  private getEstadoCuenta(): void {
+    this.estadoCuentaService
+      .getByContraparte(
+        this.data.tipo_contraparte_id,
+        this.data.contraparte_id,
+        this.data.contraparte,
+        this.data.contraparte_numero_documento
+      )
+      .pipe(filter((e) => !!e))
+      .subscribe((estadoCuenta) => {
+        this.estadoCuenta = estadoCuenta!;
+    });
   }
 
   private getData(): void {

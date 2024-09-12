@@ -2,10 +2,10 @@
 
 
   <h1 mat-dialog-title style="padding: 10px;">
-    
 
-    <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span> 
-    
+
+    <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
+
     <button mat-button type="button" mat-dialog-close class="close">
       <mat-icon>close</mat-icon>
     </button>
@@ -45,11 +45,12 @@
 
     </ng-template>
 
-    <div mat-dialog-actions style="padding-top: 0px;">
+    <div class="col-xs-12 button-container has-movimiento" [class.edit-buttons]="isEdit">
       <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
       <button *ngIf="isNew" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
-          (click)="confirm()" color="primary">
+          (click)="confirm()" color="primary"
+          class="create-button">
         Guardar Liquidación
       </button>
     </div>

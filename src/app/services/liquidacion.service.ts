@@ -97,4 +97,9 @@ export class LiquidacionService {
       formData
     );
   }
+
+  getListAll(): Observable<Liquidacion[]> {
+    return this.http.get<Liquidacion[]>(`${this.url}/`);
+  }
+
 }

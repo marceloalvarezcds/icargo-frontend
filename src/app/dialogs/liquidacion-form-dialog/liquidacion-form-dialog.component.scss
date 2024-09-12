@@ -28,3 +28,46 @@
       padding-inline: 24px;
     }
   }
+
+.movimientos-container::ng-deep {
+  .mat-column-delete {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .mat-column-oc {
+    right: 61px !important;
+  }
+  .mat-column-editar {
+    width: 61px !important;
+    min-width: 61px !important;
+    box-sizing: border-box;
+  }
+}
+
+.button-container {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  overflow: visible;
+  margin-bottom: 0;
+}
+
+.has-movimiento .mat-raised-button {
+  top: -58px;
+  margin-inline: 15px;
+}
+
+.button-container .create-button {
+  top: -58px;
+}
+
+.edit-buttons .mat-raised-button {
+  top: -35px;
+  margin-inline: 15px;
+}
+
+.edit-buttons .create-button {
+  top: -35px;
+}
+
