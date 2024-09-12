@@ -1,0 +1,291 @@
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatAccordion } from '@angular/material/expansion';
+import { Router } from '@angular/router';
+import { saveAs } from 'file-saver';
+import {
+  PermisoAccionEnum as a,
+  PermisoAccionEnum,
+  PermisoModeloEnum as m,
+  PermisoModeloEnum,
+} from 'src/app/enums/permiso-enum';
+import { ButtonList } from 'src/app/interfaces/buttonList';
+import { Column } from 'src/app/interfaces/column';
+import { Liquidacion } from 'src/app/interfaces/liquidacion';
+import { CheckboxEvent } from 'src/app/interfaces/table';
+import { LiquidacionService } from 'src/app/services/liquidacion.service';
+import { ReportsService } from 'src/app/services/reports.service';
+import { SearchService } from 'src/app/services/search.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
+import { getFilterList } from 'src/app/utils/filter';
+
+type Filter = {
+  tipo_contraparte_descripcion?: string;
+  contraparte?: string;
+  estado?: string;
+};
+
+@Component({
+  selector: 'app-liquidaciones-list',
+  templateUrl: './liquidaciones-list.component.html',
+  styleUrls: ['./liquidaciones-list.component.scss']
+})
+export class LiquidacionesListComponent implements OnInit {
+  a = PermisoAccionEnum;
+  m = PermisoModeloEnum;
+  columns: Column[] = [
+    {
+      def: 'id',
+      title: 'ID Liq',
+      type: 'checkbox',
+      value: (element: Liquidacion) => element.id,
+    },
+    {
+      def: 'contraparte',
+      title: 'Cuenta Correntista',
+      value: (element: Liquidacion) => element.contraparte,
+    },
+    {
+      def: 'tipo_contraparte_descripcion',
+      title: 'Tipo Contraparte',
+      value: (element: Liquidacion) => element.tipo_contraparte_descripcion,
+    },
+    {
+      def: 'contraparte_numero_documento',
+      title: 'Documento',
+      value: (element: Liquidacion) => element.contraparte_numero_documento,
+    },
+    {
+      def: 'fecha_pago_cobro',
+      title: 'Fecha Aprobacion',
+      type: 'only-date',
+      value: (element: Liquidacion) => element.fecha_pago_cobro,
+    },
+    {
+      def: 'user',
+      title: 'Aprobado',
+      value: (element: Liquidacion) => '<<falta user aprob bd>>',
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Liquidacion) => `${element.estado.toUpperCase()}`,
+    },
+    {
+      def: 'pago_cobro',
+      title: 'Cobro/Pago',
+      value: (element: Liquidacion) => (element.es_cobro ? 'COBRO' : 'PAGO') ,
+    },
+    {
+      def: 'movimientos_saldo',
+      title: 'Tot. Movimiento',
+      type: 'number',
+      value: (element: Liquidacion) => element.movimientos_saldo,
+    },
+    {
+      def: 'instrumentos_saldo',
+      title: 'Tot. Instrumento',
+      type: 'number',
+      value: (element: Liquidacion) => element.instrumentos_saldo ,
+    },
+    {
+      def: 'saldo_residual',
+      title: 'Saldo C.C.',
+      type: 'number',
+      value: (element: Liquidacion) => element.saldo_residual ,
+    },
+  ]
+
+  buttons : ButtonList[] = [
+    {
+      color: 'warn',
+      tooltip: 'Autorizar',
+      clases: 'buttons',
+      styles: '',
+      icon: 'add',
+      label: 'AUTORIZAR',
+      iconClass: 'icon-add-style',
+      buttonCallback: ($event:any) => {
+        console.log('alerta desde button: ', $event);
+      }
+    },
+    {
+      color: 'primary',
+      tooltip: 'Rechazar',
+      clases: 'buttons',
+      styles: '',
+      icon: 'add',
+      label: 'RECHAZAR',
+      iconClass: 'icon-add-style',
+      buttonCallback: ($event:any) => {
+        console.log('alerta desde button: ', $event);
+
+      }
+    },
+    {
+      color: 'primary',
+      tooltip: 'Cancelar',
+      clases: 'buttons',
+      styles: '',
+      icon: 'add',
+      label: 'CANCELAR',
+      iconClass: 'icon-add-style',
+      buttonCallback: ($event:any) => {
+        console.log('alerta desde button: ', $event);
+      }
+    }
+  ]
+
+  isFiltered = false;
+  list: Liquidacion[] = [];
+  liquidacionSelected: Liquidacion[] = [];
+  tipoContraparteFilterList: string[] = [];
+  tipoContraparteFiltered: string[] = [];
+  contraparteFilterList: string[] = [];
+  contraparteFiltered: string[] = [];
+  estadoFilterList: string[] = [];
+  estadoFiltered: string[] = [];
+
+  get isFilteredByTipoContraparte(): boolean {
+    return (
+      this.tipoContraparteFiltered.length !==
+      this.tipoContraparteFilterList.length
+    );
+  }
+
+  get isFilteredByProducto(): boolean {
+    return (
+      this.contraparteFiltered.length !== this.contraparteFilterList.length
+    );
+  }
+
+  get isFilteredByEstado(): boolean {
+    return (
+      this.estadoFiltered.length !== this.estadoFilterList.length
+    );
+  }
+
+  @ViewChild(MatAccordion) accordion!: MatAccordion;
+  @ViewChild('tipoContraparteCheckboxFilter')
+  tipoContraparteCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('contraparteCheckboxFilter')
+  contraparteCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('estadoCheckboxFilter')
+  estadoCheckboxFilter!: CheckboxFilterComponent;
+
+  constructor(
+    private liquidacionService: LiquidacionService,
+    private reportsService: ReportsService,
+    private searchService: SearchService,
+    private dialog: MatDialog,
+    private snackbar: SnackbarService,
+    private router: Router,
+  ) { }
+
+  ngOnInit(): void {
+    this.getList();
+  }
+
+  downloadFile(): void {
+    /*this.estadoCuentaService.generateReports().subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        saveAs(file, filename);
+      });
+    });*/
+  }
+
+  filterPredicate(obj: Liquidacion, filterJson: string): boolean {
+    const filter: Filter = JSON.parse(filterJson);
+    const filterByTipoContraparte =
+      filter.tipo_contraparte_descripcion
+        ?.split('|')
+        .some(
+          (x) => obj.tipo_contraparte_descripcion.toLowerCase().indexOf(x) >= 0
+        ) ?? true;
+    const filterByContraparte =
+      filter.contraparte
+        ?.split('|')
+        .some((x) => obj.contraparte.toLowerCase().indexOf(x) >= 0) ?? true;
+
+    const filterByEstado =
+        filter.estado
+          ?.split('|')
+          .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
+    return filterByTipoContraparte && filterByContraparte && filterByEstado;
+  }
+
+  applyFilter(): void {
+    let filter: Filter = {};
+    this.isFiltered = false;
+    this.tipoContraparteFiltered = this.tipoContraparteCheckboxFilter.getFilteredList();
+    this.contraparteFiltered = this.contraparteCheckboxFilter.getFilteredList();
+    this.estadoFiltered = this.estadoCheckboxFilter.getFilteredList();
+
+    if (this.isFilteredByTipoContraparte) {
+      filter.tipo_contraparte_descripcion = this.tipoContraparteFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByProducto) {
+      filter.contraparte = this.contraparteFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByEstado) {
+      filter.estado = this.estadoFiltered.join('|');
+      this.isFiltered = true;
+    }
+    this.filter(
+      this.isFiltered ? JSON.stringify(filter) : '',
+      !this.isFiltered
+    );
+  }
+
+  onCheckboxChange(event: CheckboxEvent<Liquidacion>): void {
+    const item = event.value.row;
+    if (event.event.checked) {
+      this.liquidacionSelected.push(item);
+    } else {
+      this.liquidacionSelected = this.liquidacionSelected.filter((m) => m.id !== item.id);
+    }
+
+    console.log("this.liquidacionSelected: ", this.liquidacionSelected);
+  }
+
+  resetFilter(): void {
+    this.resetFilterList();
+    this.filter('');
+  }
+
+  private getList(): void {
+    this.liquidacionService.getListAll().subscribe((list) => {
+
+      this.list = list;
+
+      this.tipoContraparteFilterList = getFilterList(
+        list, (x) => x.tipo_contraparte_descripcion);
+
+      this.contraparteFilterList = getFilterList(list, (x) => x.contraparte);
+
+      this.estadoFilterList = getFilterList(list, (x) => x.estado);
+
+      this.resetFilterList();
+
+    });
+  }
+
+  private filter(
+    filter: string,
+    isFilteredByGlobalSearch: boolean = true
+  ): void {
+    this.searchService.search(filter, isFilteredByGlobalSearch);
+    this.accordion.closeAll();
+  }
+
+  private resetFilterList(): void {
+    this.isFiltered = false;
+    this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
+    this.contraparteFiltered = this.contraparteFilterList.slice();
+    this.estadoFiltered = this.estadoFilterList.slice();
+  }
+
+}

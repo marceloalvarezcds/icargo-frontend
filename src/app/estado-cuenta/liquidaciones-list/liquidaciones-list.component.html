@@ -1,0 +1,79 @@
+<app-page
+  class="liquidacion-page"
+  submodule="Liquidaciones"
+  [modelo]="m.LIQUIDACION"
+  (applyClick)="applyFilter()"
+  [hideBack]="true"
+  [hideCreate]="true"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+  [dbuttons]="buttons"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Contraparte</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #contraparteCheckboxFilter
+            [value]="contraparteFiltered"
+            [list]="contraparteFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Tipo de Contraparte</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #tipoContraparteCheckboxFilter
+            [value]="tipoContraparteFiltered"
+            [list]="tipoContraparteFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #estadoCheckboxFilter
+            [value]="estadoFiltered"
+            [list]="estadoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByProducto">
+      <mat-chip *ngFor="let item of contraparteFiltered">{{ item }}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByTipoContraparte">
+      <mat-chip *ngFor="let item of tipoContraparteFiltered">{{
+        item
+      }}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{
+        item
+      }}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="m.LIQUIDACION"
+    [hideDelete]="true"
+    [hideEdit]="true"
+    [hideShow]="true"
+    [shouldBeShowFooter]="true"
+    (checkboxChange)="onCheckboxChange($event)"
+  ></app-table-paginator>
+</app-page>
