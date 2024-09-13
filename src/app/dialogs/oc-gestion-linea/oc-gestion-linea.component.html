@@ -43,7 +43,7 @@
         </p>
         <p>
           Limite Crédito Cam.:
-          <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>
+          <span class="span-like">{{ oc?.camion_limite_monto_anticipos ?? 0 | number: '1.0-0' }}</span>
         </p>
         <p>
           Limite Crédito OC + Complem:
@@ -61,7 +61,7 @@
         </p>
         <p>
           Anticipos Retirados Cam.:
-          <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>
+          <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>
         </p>
         <p>
           Monto Anticipo Retirados OC:

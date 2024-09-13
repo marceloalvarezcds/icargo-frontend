@@ -1,50 +1,76 @@
 .add-button{
-    font-family: 'Roboto', sans-serif;
-    width: auto;
-    font-size: 12px;
-    padding: 4px 14px;
-    gap: 0px;
-    border-radius: 5.25px;
-    border: 1px;
-    opacity: 0px;
-    box-shadow: none; /* Elimina la sombra */
-    opacity: 0px;
-    height: 30px;
-    display: flex; /* Asegura que el contenido esté alineado correctamente */
-    align-items: center; /* Alinea verticalmente el contenido */
-    gap: 3px; /* Espacio entre el icono y el texto */
-    letter-spacing: 0.06em;
-    transition: background-color 0.3s;
-    margin-bottom: 5px;
-  }
-  
-  .add-button mat-icon {
-    font-size: 10px; /* Ajusta el tamaño del ícono */
-    font-weight: bold;
-    background-color: white; /* Fondo del ícono */
-    border-radius: 90%; /* Borde redondeado para el ícono */
-    color: #1976D2; /* Color del ícono */
-    width: 13px;
-    height: 10px;
-    gap: 0px;
-    padding: 2px;
-    opacity: 0px;
-    align-items: center;
-    justify-content: center;
-    margin-top: -2px;
-    margin-left: 1px;
-    margin-right: 2px;
-  }
+  font-family: 'Roboto', sans-serif;
+  width: auto;
+  font-size: 12px;
+  padding: 4px 14px;
+  gap: 0px;
+  border-radius: 5.25px;
+  border: 1px;
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  opacity: 0px;
+  height: 30px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  gap: 3px; /* Espacio entre el icono y el texto */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s;
+  margin-bottom: 5px;
+}
 
-  .header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 0; 
-  }
+.add-button mat-icon {
+  font-size: 10px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: white; /* Fondo del ícono */
+  border-radius: 90%; /* Borde redondeado para el ícono */
+  color: #1976D2; /* Color del ícono */
+  width: 13px;
+  height: 10px;
+  gap: 0px;
+  padding: 2px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+  margin-left: 1px;
+  margin-right: 2px;
+}
 
-  .add-button {
-    /* Opcional: agrega estilo personalizado al botón */
-    margin-left: auto;
-  }
-  
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px; 
+}
+
+h4{
+  margin-bottom: -15px;
+}
+
+.header-row h4 {                        
+  font-family: 'Roboto', sans-serif;
+  width: 102px;
+  height: 14px;
+  gap: 0px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.04em;
+  text-align: left;
+  color: #3B9EFF;
+}
+
+.add-button {
+  margin-top: 0; /* Alinea el botón más cerca del h4 */
+  margin-bottom: 0; /* Elimina cualquier margen inferior en el botón */
+}
+
+.table-container {
+  margin-top: 0; 
+  padding-top: 0; 
+}
+
+.mat-icon.small-icon.disabled {
+  color: #9e9e9e; 
+  opacity: 0.5; 
+}

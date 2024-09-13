@@ -213,14 +213,16 @@ export class OrdenCargaListComponent implements OnInit {
     window.open(url, '_blank');
   }
 
-
+  redirectToConciliar(): void {
+    const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}/nuevo/conciliar/ocs/conciliacion/final`;
+    window.open(url, '_blank');
+  }
 
   redirectToEdit(event: TableEvent<OrdenCargaList>): void {
     const url = `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}/${event.row.id}`;
     window.open(url, '_blank');
   }
 
- 
 
   redirectToShow(event: TableEvent<OrdenCargaList>): void {
     const url = `/orden-carga/${m.ORDEN_CARGA}/${a.VER}/${event.row.id}`;

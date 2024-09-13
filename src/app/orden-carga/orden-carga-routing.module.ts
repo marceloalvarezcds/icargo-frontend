@@ -23,14 +23,11 @@ const routes: Routes = [
         redirectTo: a.LISTAR,
         pathMatch: 'full',
       },
- 
-    
       {
         path: a.LISTAR,
         component: OrdenCargaListComponent,
         canActivate: [PermisoGuard],
       },
-   
       {
         path: `${a.CREAR}/:nuevo/:anticipo`,
         component: OrdenCargaNuevoAnticipoFormComponent,

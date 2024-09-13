@@ -40,6 +40,7 @@ import { OrdenCargaFleteComponent } from './orden-carga-flete/orden-carga-flete.
 import { LiquidacionFormDialogComponent } from './liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { EstadoCuentaModule } from '../estado-cuenta/estado-cuenta.module';
 import { ImageDialogComponent } from './image-dialog/image-dialog.component';
+import { OrdenCargaEstadoHistorialDialogComponent } from './orden-carga-estado-historial-dialog/orden-carga-estado-historial-dialog.component';
 
 
 const modules = [
@@ -76,6 +77,7 @@ const modules = [
   OrdenCargaFleteComponent,
   LiquidacionFormDialogComponent,
   ImageDialogComponent,
+  OrdenCargaEstadoHistorialDialogComponent,
 ];
 
 @NgModule({

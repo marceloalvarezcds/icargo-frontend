@@ -13,6 +13,7 @@
             disabled
           />
         </mat-form-field>
+        
       </div>
 
       <!-- Renderiza un anticipo por defecto si filteredAnticipos está vacío -->
@@ -43,10 +44,13 @@
           type="button"
           id="add-button"
           (click)="create()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id"
+          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Finalizado' ||
+          !isAnticiposLiberados ||
+          !(modelo | puede: a.CREAR:gestorCargaId)"
         >
           <mat-icon class="small-icon" 
-           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id }">add</mat-icon> ANTICIPO
+           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Finalizado' || 
+           !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId)}">add</mat-icon> ANTICIPO
         </button>
         <button
           mat-raised-button

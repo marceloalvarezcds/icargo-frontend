@@ -1,0 +1,19 @@
+<h1 mat-dialog-title class="historial-title">Historial de Estado</h1>
+<hr class="historial-hr">
+<div mat-dialog-content>
+  <div class="row page-form-row" *ngIf="gestorCargaId">
+    <div class="col-xs-12 table-container" [hidden]="!(lista && lista.length)">
+      <app-table
+        [modelo]="modelo"
+        [gestorCuentaId]="gestorCargaId"
+        [hideShow]="true"
+        [isShow]="true"
+        [columns]="columns"
+        [data]="lista"
+      ></app-table>
+    </div>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="close()">Cerrar</button>
+</div>

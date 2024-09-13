@@ -177,10 +177,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
+    const monto = this.oc?.flete_monto_efectivo_complemento  ?? 0;
 
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
         const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-        return montoAnticipo - montoRetiradoEfectivo; // Restar anticipos de efectivo
+        return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
         const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
         return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
@@ -188,6 +189,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
         return 0;
     }
 }
+
 
 
   openDialog(): void {

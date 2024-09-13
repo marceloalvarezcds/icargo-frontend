@@ -39,6 +39,7 @@ export class PageComponent {
   @Output() createRecepcionClick = new EventEmitter<MouseEvent>();
   @Output() aceptarClick = new EventEmitter<MouseEvent>();
   @Output() finalizarClick = new EventEmitter<MouseEvent>();
+  @Output() conciliarClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
 
