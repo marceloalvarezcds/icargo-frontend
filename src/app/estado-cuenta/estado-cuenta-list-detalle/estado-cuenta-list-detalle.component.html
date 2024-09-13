@@ -84,12 +84,29 @@
       [showEstado]=false>
     </app-estado-cuenta-detalle>
 
-    <app-saldo
-        [credito]="credito"
-        [debito]="debito"
-        title="Saldo | Total de la Selección"
-        [hideOperacion]="true">
-    </app-saldo>
+    <div class="row page-form-row">
+      
+      <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+        <mat-label>Deberes/Haberes</mat-label>
+        <input matInput [value]="deberes" appInputThousandsSeparator disabled />
+      </mat-form-field>
+      
+      <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+        <mat-label>
+          Pagos/Cobros
+        </mat-label>
+        <input matInput [value]="pagos" appInputThousandsSeparator disabled />
+      </mat-form-field>
+      
+      <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+        <mat-label>
+          Saldo C.C.
+        </mat-label>
+        <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+      </mat-form-field>
+      
+    </div>
+    
 
     <app-table-paginator
       [columns]="columns"

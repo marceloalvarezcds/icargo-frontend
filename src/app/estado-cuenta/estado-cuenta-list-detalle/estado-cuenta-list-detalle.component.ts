@@ -27,6 +27,7 @@ import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app
 import { getFilterList } from 'src/app/utils/filter';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
+import { subtract } from 'src/app/utils/math';
 
 type Filter = {
   camion_placa?: string;
@@ -212,12 +213,19 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     return (this.estadoFilterList.length !== this.estadoFiltered.length);
   }
 
-  get credito(): number {
-    return this.list.reduce((acc, cur) => acc + cur.credito, 0);
+  get deberes(): number {
+    let debito = this.list.reduce((acc, cur) => acc + (cur.pendiente ?? 0), 0);
+    let credito = this.list.reduce((acc, cur) => acc + (cur.confirmado ?? 0), 0);
+    return (credito + debito);
   }
 
-  get debito(): number {
-    return this.list.reduce((acc, cur) => acc + cur.debito, 0);
+  get pagos(): number {
+    return this.list.reduce((acc, cur) => acc + (cur.finalizado ?? 0), 0);
+  }
+
+  get saldo(): number {
+    let saldo = subtract(Math.abs(this.deberes), Math.abs(this.pagos));
+    return saldo;
   }
 
   get totalPendiente(): number {
