@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -16,7 +16,8 @@ import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
-
+import { subtract } from 'src/app/utils/math';
+import { SaldoComponent } from '../saldo/saldo.component';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
@@ -36,7 +37,18 @@ export class LiquidacionEditFieldsComponent {
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
 
+  @ViewChild('saldoView')
+  childSaldoView!:SaldoComponent;
+
   saldo = 0;
+
+  get monto(): number {
+    return subtract((this.item?.credito ?? 0), (this.item?.debito ?? 0));
+  }
+
+  get montoSaldo(): number {
+    return (this.childSaldoView?.monto ?? 0);
+  }
 
   get isShow(): boolean {
     return !this.isEdit;

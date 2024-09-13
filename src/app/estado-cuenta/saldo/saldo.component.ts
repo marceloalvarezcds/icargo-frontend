@@ -23,20 +23,30 @@ export class SaldoComponent {
 
   @Input() showMonto = false;
 
-  @Output() montoChange: EventEmitter<number> = new EventEmitter<number>();
-
   get saldo(): number {
-    let saldo = 0;
-    
-    if (this.monto>0) saldo = subtract(this.monto,subtract(this.credito, this.debito));
-    else saldo = subtract(this.credito, this.debito);
+    let calcSaldo = 0;
+    let sentido = '';
 
-    this.saldoChange.emit(saldo);
-    return saldo;
-  }
+    calcSaldo = subtract(this.credito, this.debito);
 
-  montoChangeEvt(event:any) :any{
-    this.montoChange.emit(this.monto);
+    if (calcSaldo < 0){
+      // es cobro
+      sentido = 'C';
+    } else if (calcSaldo > 0) {
+      // es pago
+      sentido = 'P';
+    }
+
+    if (this.monto > Math.abs(calcSaldo)){
+      calcSaldo = subtract(this.monto, Math.abs(calcSaldo));
+    }
+
+    if (this.monto < Math.abs(calcSaldo)){
+      calcSaldo = subtract(Math.abs(calcSaldo), this.monto);
+    }
+
+    return (sentido==='P') ? Math.abs(calcSaldo) : Math.abs(calcSaldo)*-1;
+
   }
 
 }

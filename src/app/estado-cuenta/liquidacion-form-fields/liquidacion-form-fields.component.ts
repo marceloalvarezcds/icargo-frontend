@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -11,7 +11,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
+import { createLiquidacionData, createLiquidacionDataMonto } from 'src/app/form-data/liquidacion-movimiento';
 import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
@@ -24,6 +24,7 @@ import { MovimientoService } from 'src/app/services/movimiento.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { subtract } from 'src/app/utils/math';
+import { SaldoComponent } from '../saldo/saldo.component';
 
 @Component({
   selector: 'app-liquidacion-form-fields',
@@ -40,10 +41,14 @@ export class LiquidacionFormFieldsComponent {
 
   @Input()
   list: Movimiento[] = [];
-  movimientosSelected: Movimiento[] = [];
-  monto:number = 0;
 
-  @Output() createdLiquidacionEvt: EventEmitter<Liquidacion> = new EventEmitter<Liquidacion>();
+  @ViewChild('saldoView')
+  childSaldoView!:SaldoComponent;
+
+  @Output()
+  createdLiquidacionEvt: EventEmitter<Liquidacion> = new EventEmitter<Liquidacion>();
+
+  movimientosSelected: Movimiento[] = [];
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -51,6 +56,10 @@ export class LiquidacionFormFieldsComponent {
 
   get debito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.debito, 0);
+  }
+
+  get monto(): number {
+    return subtract(this.credito, this.debito);
   }
 
   constructor(
@@ -61,9 +70,12 @@ export class LiquidacionFormFieldsComponent {
 
   sendLiquidacion(confirmed: boolean): void {
 
+    console.log("monto: ", this.monto);
+    console.log("monto: ", this.childSaldoView.monto);
+
     //if (this.movimientosSelected.length) {
       this.liquidacionService
-        .create(createLiquidacionData(this.movimientosSelected))
+        .create(createLiquidacionDataMonto(this.movimientosSelected, this.childSaldoView.monto))
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 

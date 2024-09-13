@@ -110,7 +110,6 @@ export class LiquidacionEditFormComponent implements OnInit {
           this.item!.etapa
         ),
       });
-    
   }
 
   changeMovimientoList(): void {
@@ -141,8 +140,6 @@ export class LiquidacionEditFormComponent implements OnInit {
           },
         }
       );
-    
-
   }
 
   private getData(): void {
@@ -158,7 +155,7 @@ export class LiquidacionEditFormComponent implements OnInit {
     this.actual_contraparte = actual_contraparte;
     this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
     this.isEdit = /edit/.test(this.router.url);
-    
+
     if (backUrl) {
       this.backUrl = backUrl;
     }

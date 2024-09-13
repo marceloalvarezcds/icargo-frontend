@@ -9,7 +9,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { changeLiquidacionStatusData } from 'src/app/form-data/liquidacion';
+import { changeLiquidacionDataMonto, changeLiquidacionStatusData } from 'src/app/form-data/liquidacion';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
@@ -42,6 +42,7 @@ export class LiquidacionEditFormAccionesComponent {
 
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
+  @Input() monto : number | undefined = 0;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionSometerChange = new EventEmitter();
@@ -134,8 +135,10 @@ export class LiquidacionEditFormAccionesComponent {
         },
       }),
       (comentario: string) => {
+        let form = { 'monto': this.monto, comentario }
+        console.log(form);
         this.liquidacionService
-          .someter(this.id, changeLiquidacionStatusData(comentario))
+          .someter(this.id, changeLiquidacionDataMonto(form))
           .subscribe((rest) => {
             this.snackbar.changeStatus();
             this.liquidacionSometerChange.emit(rest);

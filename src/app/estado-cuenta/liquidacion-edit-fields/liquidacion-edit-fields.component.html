@@ -4,6 +4,7 @@
     [isShow]="isShow"
     [liquidacion]="item"
     (liquidacionChange)="actualizarLiquidacion.emit()"
+    [monto]="montoSaldo"
   ></app-liquidacion-edit-form-acciones>
 
   <app-estado-cuenta-detalle
@@ -14,9 +15,12 @@
   ></app-estado-cuenta-detalle>
 
   <app-saldo
+    #saldoView
     [credito]="item.credito"
     [debito]="item.debito"
     [esFinalizado]="esFinalizado"
+    [showMonto]="true"
+    [monto]="monto"
     (saldoChange)="saldo = $event"
   ></app-saldo>
 

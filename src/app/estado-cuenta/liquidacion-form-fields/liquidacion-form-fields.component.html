@@ -6,11 +6,12 @@
     [showEstado]=false
   ></app-estado-cuenta-detalle>
   <app-saldo
+    #saldoView
     [credito]="credito"
     [debito]="debito"
     title="Saldo | Total de la Selección"
     [showMonto]="true"
-    [(monto)]="monto"
+    [monto]="monto"
   ></app-saldo>
   <div class="row page-form-row" style="margin-bottom: 0px;">
     <div class="col-xs-12">
