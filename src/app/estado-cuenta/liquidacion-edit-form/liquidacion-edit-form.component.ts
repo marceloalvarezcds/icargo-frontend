@@ -36,9 +36,8 @@ export class LiquidacionEditFormComponent implements OnInit {
   actual_contraparte = '';
   actual_contraparte_numero_documento = '';
   saldo = 0;
-  @Input()
-  isDialog = false;
   @Output() liquidacionChange = new EventEmitter();
+
   estadoCuenta: EstadoCuenta = {
         contraparte_id: 0,
         contraparte: '',
@@ -96,7 +95,6 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   back(): void {
-    if (!this.isDialog){
       const contraparte_id = this.contraparte_id;
       const contraparte = this.actual_contraparte;
       const contraparte_numero_documento =
@@ -112,7 +110,7 @@ export class LiquidacionEditFormComponent implements OnInit {
           this.item!.etapa
         ),
       });
-    }
+    
   }
 
   changeMovimientoList(): void {
@@ -130,7 +128,6 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   redirectToEdit(): void {
-    if (!this.isDialog){
       const id = this.id!;
       this.router.navigate(
         [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/${id}`],
@@ -144,7 +141,7 @@ export class LiquidacionEditFormComponent implements OnInit {
           },
         }
       );
-    }
+    
 
   }
 
@@ -156,14 +153,12 @@ export class LiquidacionEditFormComponent implements OnInit {
       actual_contraparte_numero_documento,
     } = this.route.snapshot.queryParams;
 
-    if (!this.isDialog){
-      this.id = +this.route.snapshot.params.id;
-      this.contraparte_id = contraparte_id;
-      this.actual_contraparte = actual_contraparte;
-      this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
-      this.isEdit = /edit/.test(this.router.url);
-    }
-
+    this.id = +this.route.snapshot.params.id;
+    this.contraparte_id = contraparte_id;
+    this.actual_contraparte = actual_contraparte;
+    this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
+    this.isEdit = /edit/.test(this.router.url);
+    
     if (backUrl) {
       this.backUrl = backUrl;
     }

@@ -274,6 +274,7 @@ export class LiquidacionesListComponent implements OnInit {
 
     console.log("contraparte id: ", contraparteId);
     console.log("data: ", data);
+    console.log("data: ", event.row);
 
     this.dialog
       .open(LiquidacionFormDialogComponent, {
