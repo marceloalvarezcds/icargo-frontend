@@ -4,6 +4,7 @@
     [isShow]="isShow"
     [liquidacion]="item"
     (liquidacionChange)="actualizarLiquidacion.emit()"
+    (liquidacionFlujoChange)="actualizarEstado.emit($event)"
     [monto]="montoSaldo"
   ></app-liquidacion-edit-form-acciones>
 
@@ -16,8 +17,8 @@
 
   <app-saldo
     #saldoView
-    [credito]="item.credito"
-    [debito]="item.debito"
+    [credito]="credito"
+    [debito]="debito"
     [esFinalizado]="esFinalizado"
     [showMonto]="true"
     [monto]="monto"
@@ -71,13 +72,14 @@
       [list]="movimientos"
       [liquidacion]="item"
       [saldo]="saldo"
+      [tipoLiquidacion]="tipoLiquidacion"
       [isShow]="
         isShow ||
         item.estado === E.ACEPTADO ||
         item.estado === E.CANCELADO ||
         item.estado === E.CONFIRMADO
       "
-      (selectedMovimientosChange)="actualizarMovimientos.emit()"
+      (selectedMovimientosChange)="actualizarMovimientosEvento($event)"
     ></app-liquidacion-edit-form-movimientos>
   </ng-template>
 

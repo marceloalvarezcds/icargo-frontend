@@ -72,10 +72,12 @@ export class LiquidacionFormFieldsComponent {
 
     console.log("monto: ", this.monto);
     console.log("monto: ", this.childSaldoView.monto);
+    console.log("monto: ", this.childSaldoView.monto);
+    let es_pago_cobro = (this.childSaldoView.saldo > 0 ? 'P' : 'C');
 
     //if (this.movimientosSelected.length) {
       this.liquidacionService
-        .create(createLiquidacionDataMonto(this.movimientosSelected, this.childSaldoView.monto))
+        .create(createLiquidacionDataMonto(this.movimientosSelected, this.childSaldoView.monto, es_pago_cobro))
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 

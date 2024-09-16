@@ -105,12 +105,17 @@ export class LiquidacionFormComponent implements OnInit {
 
   prepareSend(): void {
     console.log("monto pago: ", this.monto);
+    console.log("monto: ", this.monto);
+    console.log("monto: ", this.child.childSaldoView.monto);
+
     //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
+        monto: this.child.childSaldoView.monto,
+        saldo: this.child.childSaldoView.saldo
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {

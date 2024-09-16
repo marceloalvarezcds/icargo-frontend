@@ -96,6 +96,8 @@ export class LiquidacionFormDialogComponent {
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
+        monto: this.child.childSaldoView.monto,
+        saldo: this.child.childSaldoView.saldo,
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {
@@ -124,12 +126,8 @@ export class LiquidacionFormDialogComponent {
     this.isNew = false;
   }
 
-  cerrarLiquidacion(liquidacion:any): void {
-
-    if (liquidacion.estado === LiquidacionEstadoEnum.PENDIENTE){
-      this.close();
-    }
-
+  cerrarLiquidacion(): void {
+    this.close();
   }
 
   private close(): void {

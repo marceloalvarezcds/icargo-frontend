@@ -102,8 +102,12 @@ export class LiquidacionConfirmDialogComponent {
     return this.data.debito;
   }
 
+  get monto(): number {
+    return this.data.monto;
+  }
+
   get saldo(): number {
-    return subtract(this.credito, this.debito);
+    return this.data.saldo;
   }
 
   constructor(

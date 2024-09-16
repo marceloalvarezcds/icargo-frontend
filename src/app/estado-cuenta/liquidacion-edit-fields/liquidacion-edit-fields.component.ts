@@ -36,18 +36,29 @@ export class LiquidacionEditFieldsComponent {
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
-
+  @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
+  
   @ViewChild('saldoView')
   childSaldoView!:SaldoComponent;
 
   saldo = 0;
+  liquidacionTipoEfectivo = false;
+  liquidacionTipoInsumo = false;
 
   get monto(): number {
-    return subtract((this.item?.credito ?? 0), (this.item?.debito ?? 0));
+    return this.item?.pago_cobro ?? subtract((this.item?.credito ?? 0), (this.item?.debito ?? 0));
   }
 
   get montoSaldo(): number {
     return (this.childSaldoView?.monto ?? 0);
+  }
+
+  get credito(): number {
+    return this.movimientos.reduce((acc, cur) => acc + cur.credito, 0);
+  }
+
+  get debito(): number {
+    return this.movimientos.reduce((acc, cur) => acc + cur.debito, 0);
   }
 
   get isShow(): boolean {
@@ -66,10 +77,48 @@ export class LiquidacionEditFieldsComponent {
     return this.item?.instrumentos ?? [];
   }
 
+  get tipoLiquidacion(): string {
+    if (this.liquidacionTipoInsumo) return "INSUMOS"
+    if (this.liquidacionTipoEfectivo) return "EFECTIVO"
+
+    return "";
+  }
+
   constructor(
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
-  ) { }
+  ) { 
+    this.obtenetTipoLiquidacion();
+  }
+
+  obtenetTipoLiquidacion():void{
+    this.liquidacionTipoInsumo=false;
+    this.liquidacionTipoEfectivo=false;
+
+    let anticipoTipoInsumo = this.movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+      && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
+
+    let anticipoTipoEfectivo = this.movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+        && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
+
+    if (anticipoTipoInsumo) {
+    this.liquidacionTipoInsumo=true;
+    this.liquidacionTipoEfectivo=false;
+    }
+
+    if (anticipoTipoEfectivo) {
+    this.liquidacionTipoInsumo=false;
+    this.liquidacionTipoEfectivo=true;
+    }
+
+  }
+
+  actualizarMovimientosEvento(movimientos:any){
+    console.log("nuevos movs: ", movimientos);
+    this.movimientos = movimientos;
+    this.obtenetTipoLiquidacion();
+    this.actualizarMovimientos.emit(movimientos);
+  }
 
 
 }

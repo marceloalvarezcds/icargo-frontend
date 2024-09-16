@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { subtract } from 'src/app/utils/math';
+import { OperacionComponent } from '../operacion/operacion.component';
 
 @Component({
   selector: 'app-saldo',

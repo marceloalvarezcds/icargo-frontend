@@ -153,6 +153,7 @@ export class LiquidacionEditFormMovimientosComponent {
     return this.liquidacion?.gestor_carga_id;
   }
 
+  @Input() tipoLiquidacion?:string;
   @Input() liquidacion?: Liquidacion;
   @Input() list: Movimiento[] = [];
   @Input() saldo = 0;
@@ -233,12 +234,48 @@ export class LiquidacionEditFormMovimientosComponent {
           .afterClosed()
           .pipe(filter((list) => !!list && !!list.length))
           .subscribe((list: Movimiento[]) => {
+
+            // control para movimientos de distinto tipo
+            console.log("movs: ", list);            
+            if (this.tipoLiquidacion === 'EFECTIVO') {
+              let mov = list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+                  && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
+              if (mov) {
+                this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
+                return;
+              }    
+            } else if (this.tipoLiquidacion === 'INSUMOS') {
+              let mov = list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+                  && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
+              if (mov) {
+                this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
+                return;
+              }
+            } else {
+
+              let movInsu = list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+                  && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
+
+              let movAnti = list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+                  && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
+
+              if (movInsu && movAnti) {
+                this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
+                return;
+              }
+
+            }
+
+            console.log("llego aqui");
+
+            
             this.liquidacionService
               .addMovimientos(this.liquidacion!.id, createLiquidacionData(list))
               .subscribe(() => {
                 this.snackbar.open('Movimientos agregados');
                 this.selectedMovimientosChange.emit(list.concat(this.list));
               });
+              
           });
       });
   }
@@ -256,6 +293,7 @@ export class LiquidacionEditFormMovimientosComponent {
         this.selectedMovimientosChange.emit(
           this.list.filter((x) => x.id !== movimiento.id)
         );
+        
       }
     );
   }

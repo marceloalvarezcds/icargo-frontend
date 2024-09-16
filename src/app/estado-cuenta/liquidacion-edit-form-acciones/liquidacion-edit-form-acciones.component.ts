@@ -45,7 +45,7 @@ export class LiquidacionEditFormAccionesComponent {
   @Input() monto : number | undefined = 0;
 
   @Output() liquidacionChange = new EventEmitter();
-  @Output() liquidacionSometerChange = new EventEmitter();
+  @Output() liquidacionFlujoChange = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -70,7 +70,8 @@ export class LiquidacionEditFormAccionesComponent {
       message,
       this.liquidacionService.aceptar(this.id),
       () => {
-        this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
+        //this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
+        this.liquidacionFlujoChange.emit();
       }
     );
   }
@@ -141,7 +142,7 @@ export class LiquidacionEditFormAccionesComponent {
           .someter(this.id, changeLiquidacionDataMonto(form))
           .subscribe((rest) => {
             this.snackbar.changeStatus();
-            this.liquidacionSometerChange.emit(rest);
+            this.liquidacionFlujoChange.emit(rest);
           });
       },
       (val?: string | boolean) => val !== false

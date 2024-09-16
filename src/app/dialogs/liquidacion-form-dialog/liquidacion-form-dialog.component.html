@@ -39,6 +39,7 @@
           [estadoCuenta]="estadoCuenta"
           [movimientos]="list"
           (actualizarLiquidacion)="loadLiquidacion()"
+          (actualizarEstado)="cerrarLiquidacion()"
           (actualizarMovimientos)="getMovimientos(liquidacion!)"
         >
       </app-liquidacion-edit-fields>
