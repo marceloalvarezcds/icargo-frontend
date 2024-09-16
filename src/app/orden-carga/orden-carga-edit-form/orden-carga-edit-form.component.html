@@ -18,6 +18,8 @@
     (activeClick)="active()"
     (inactiveClick)="inactive()"
     (aceptarClick)="aceptar()"
+    (finalizarClick)="finalizar()"
+    (cancelarClick)="cancelar()"
     module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
     [estado]="estado"
     [isAnticipoActive]="isToggleAnticiposLiberados"

@@ -306,7 +306,18 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  
+  finalizar(): void {
+    this.dialog.confirmation(
+      '¿Está seguro que desea finalizar la Orden de Carga?',
+      () => {
+        this.ordenCargaService.finalizar(this.item!.id).subscribe(() => {
+          this.snackbar.open('Estado cambiado satisfactoriamente');
+       
+        });
+      }
+    );
+  }
+
   cancelar(): void {
     this.dialog.confirmation(
       '¿Está seguro que desea cancelar la Orden de Carga?',
