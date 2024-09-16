@@ -7,7 +7,6 @@ import {
 } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -16,6 +15,7 @@ import {
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { PdfPreviewDialogComponent } from 'src/app/orden-carga/pdf-preview-dialog/pdf-preview-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LoadingService } from 'src/app/services/loading.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
@@ -140,6 +140,24 @@ export class PageFormComponent implements OnDestroy {
         const url = URL.createObjectURL(file);
         window.open(url); 
         this.pdfSrc = url;
+      });
+    });
+  }
+
+  downloadResumenPDF(): void {
+    this.ordenCargaService.resumenPdf(this.oc!.id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewDialogComponent, {
+          width: '80%',
+          height: '80%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob, 
+            filename: filename 
+          }
+        });
       });
     });
   }

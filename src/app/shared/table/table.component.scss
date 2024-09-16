@@ -61,6 +61,10 @@
   border-right: none; /* Elimina la línea vertical a la derecha */
 }
 
+.header-height{
+  height: 30px; /* Aumenta la altura a tu preferencia */
+  line-height: 30px; /* Ajusta la altura del contenido para centrar el texto */
+}
 
 /* Estilos para la tabla */
 .mat-table {
@@ -79,7 +83,7 @@
 }
 
 td.mat-cell {
-  font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 12px;
   font-weight: 500;
   color: black;

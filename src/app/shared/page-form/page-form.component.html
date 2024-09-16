@@ -68,10 +68,10 @@
           class="orden-button" 
           matTooltip="Orden" 
           [class.disabled]="!isFormSaved"
-          *ngIf="submodule === 'CONCILIAR' && 
+          *ngIf="module === 'CONCILIAR' && 
           (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
           [disabled]="isFormSubmitting"
-          (click)="previewPDF()"
+          (click)="downloadResumenPDF()"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
           <mat-icon>description</mat-icon>  RESUMEN
         </button>
@@ -106,7 +106,7 @@
         </button>
 
         <button
-          *ngIf="module === 'ACEPTAR' || isNuevo || oc?.estado !== E.CANCELADO "
+          *ngIf="module === 'ACEPTAR' || isNuevo || oc?.estado === E.ACEPTADO"
           type="button"
           mat-raised-button
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) && !isNuevo"

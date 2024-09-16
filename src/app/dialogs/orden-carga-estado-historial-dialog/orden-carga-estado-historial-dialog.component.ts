@@ -11,12 +11,13 @@ import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado
 @Component({
   selector: 'app-orden-carga-estado-historial-dialog',
   templateUrl: './orden-carga-estado-historial-dialog.component.html',
+  styleUrls: ['./orden-carga-estado-historial-dialog.component.scss'],
 })
 export class OrdenCargaEstadoHistorialDialogComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
     {
-      def: 'estado',
+      def: 'estado_historial',
       title: 'Estado',
       value: (element: OrdenCargaEstadoHistorial) => element.estado,
     },

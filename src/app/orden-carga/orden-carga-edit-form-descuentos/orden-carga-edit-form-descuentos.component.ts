@@ -126,7 +126,9 @@ export class OrdenCargaEditFormDescuentosComponent {
       orden_carga_id: this.oc!.id,
       item,
     };
-    return this.dialog.open(OcDescuentoFormDialogComponent, { data });
+    return this.dialog.open(OcDescuentoFormDialogComponent, {  
+      width: '500px',
+      height: 'auto', data });
   }
 
   private emitOcChange(): void {

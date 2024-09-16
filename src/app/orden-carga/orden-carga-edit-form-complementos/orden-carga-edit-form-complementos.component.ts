@@ -127,7 +127,10 @@ export class OrdenCargaEditFormComplementosComponent {
       orden_carga_id: this.oc!.id,
       item,
     };
-    return this.dialog.open(OcComplementoFormDialogComponent, { data });
+    return this.dialog.open(OcComplementoFormDialogComponent, { 
+      width: '500px',
+      height: 'auto',
+      data });
   }
 
   private emitOcChange(): void {

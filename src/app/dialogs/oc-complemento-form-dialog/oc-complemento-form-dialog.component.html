@@ -1,58 +1,86 @@
 <form [formGroup]="form">
   <h1 mat-dialog-title>
-    {{ actionText }} Complemento
-    <button mat-button type="button" mat-dialog-close class="close">
-      <mat-icon>close</mat-icon>
-    </button>
+    <span class="action-text">{{ actionText }}</span> 
+    <span class="complement-text"> COMPLEMENTO</span>
   </h1>
+  <div class="horizontal-line"></div>
+
   <div mat-dialog-content>
-    <app-tipo-concepto-complemento-field
-      controlName="concepto"
-      [form]="form"
-      [value]="valueConcepto"
-    ></app-tipo-concepto-complemento-field>
-    <app-input-field
-      title="Detalle"
-      controlName="detalle"
-      [form]="form"
-    ></app-input-field>
-    <div class="toggle">
-      <mat-slide-toggle formControlName="anticipado">
+    <div class="form-element">
+      <app-tipo-concepto-complemento-field
+        controlName="concepto"
+        [form]="form"
+        [value]="valueConcepto"
+      ></app-tipo-concepto-complemento-field>
+    </div>
+
+    <div class="form-element">
+      <app-input-field
+        title="Detalle"
+        controlName="detalle"
+        [form]="form"
+      ></app-input-field>
+    </div>
+
+    <div class="toggle anticipo form-element">
+      <label for="toggle-anticipado">Concepto pago en forma</label>
+      <mat-slide-toggle id="toggle-anticipado" formControlName="anticipado">
         {{ anticipado ? "Anticipado" : "No anticipado" }}
       </mat-slide-toggle>
     </div>
-    <app-number-field
-      title="Monto a Pagar al Propietario"
-      controlName="propietario_monto"
-      [form]="form"
-    ></app-number-field>
-    <app-moneda-field
-      title="Moneda del Propietario"
-      controlName="propietario_moneda"
-      [value]="valueMoneda"
-      [form]="form"
-    ></app-moneda-field>
-    <div class="toggle">
-      <mat-slide-toggle formControlName="habilitar_cobro_remitente">
-        {{ cobroARemitente ? "Cobrar al Remitente" : "No cobrar al Remitente" }}
-      </mat-slide-toggle>
-    </div>
-    <div [hidden]="!cobroARemitente">
+
+    <div class="form-element">
       <app-number-field
-        title="Monto a Cobrar al Remitente"
-        controlName="remitente_monto"
+        title="Monto a Pagar al Propietario"
+        controlName="propietario_monto"
         [form]="form"
       ></app-number-field>
+    </div>
+
+    <div class="form-element">
       <app-moneda-field
-        title="Moneda del Remitente"
-        controlName="remitente_moneda"
+        title="Moneda del Propietario"
+        controlName="propietario_moneda"
         [value]="valueMoneda"
         [form]="form"
       ></app-moneda-field>
     </div>
+
+    <hr class="horizontal-line-cobrar">
+
+    <div class="toggle cobrar form-element">
+      <label for="toggle-anticipado">Cobrar al Cliente</label>
+      <mat-slide-toggle formControlName="habilitar_cobro_remitente">
+        {{ cobroARemitente ? "SI" : "NO" }}
+      </mat-slide-toggle>
+    </div>
+    <hr [hidden]="cobroARemitente"  class="horizontal-line-final">
+    <div [hidden]="!cobroARemitente" class="form-element">
+      <app-number-field
+        title="Monto a Cobrar al Cliente"
+        controlName="remitente_monto"
+        [form]="form"
+      ></app-number-field>
+
+      <app-moneda-field
+        title="Moneda del Cliente"
+        controlName="remitente_moneda"
+        [value]="valueMoneda"
+        [form]="form"
+      ></app-moneda-field>
+      <hr class="horizontal-line-final">
+    </div>
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+
+  <div mat-dialog-actions class="buttons-actions">
+    <button 
+      mat-raised-button 
+      type="button" 
+      class="close-button" 
+      mat-dialog-close>
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
     <button
       mat-raised-button
       type="button"
@@ -60,8 +88,9 @@
       cdkFocusInitial
       color="primary"
       id="submit-button"
+      class="save-button"
     >
-      Aceptar
+      <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>
 </form>

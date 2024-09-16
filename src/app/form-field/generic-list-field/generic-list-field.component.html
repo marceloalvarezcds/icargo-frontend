@@ -8,7 +8,11 @@
             'select-remisiones-unidad': controlName === 'unidad_id',
             'select-remisiones-doc-origen': controlName === 'numero_documento_origen',
             'select-moneda': controlName === 'moneda_id',
-            'select-comprobante': controlName === 'tipo_comprobante_id'}">
+            'select-comprobante': controlName === 'tipo_comprobante_id',
+            'select-concepto': controlName === 'concepto' || controlName === 'concepto_id',
+            'select-moneda_propietario': controlName === 'propietario_moneda' , 
+            'select-moneda_cliente': controlName === 'remitente_moneda' || controlName === 'proveedor_moneda_id' || controlName === 'propietario_moneda_id',
+            'select-propietario': controlName === 'proveedor_id'}">
         <input
           matInput
           [value]="getTextValue()"
@@ -41,7 +45,11 @@
         'select-remisiones-unidad': controlName === 'unidad_id',
         'select-remisiones-doc-origen': controlName === 'numero_documento_origen',
         'select-moneda': controlName === 'moneda_id',
-        'select-comprobante': controlName === 'tipo_comprobante_id'}" >
+        'select-concepto': controlName === 'concepto' || controlName === 'concepto_id',
+        'select-comprobante': controlName === 'tipo_comprobante_id',
+        'select-moneda_propietario': controlName === 'propietario_moneda', 
+        'select-moneda_cliente': controlName === 'remitente_moneda' || controlName === 'proveedor_moneda_id' || controlName === 'propietario_moneda_id',
+        'select-propietario': controlName === 'proveedor_id'}" >
         
         <input
           matInput

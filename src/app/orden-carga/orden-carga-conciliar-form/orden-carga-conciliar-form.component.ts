@@ -63,6 +63,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   dataFromParent: string = 'Finalizado';
   isEdit = false;
   isDataLoaded: boolean = true;
+  private dialogOpened = false;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -407,7 +408,6 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     return this.item ? this.item.anticipos_liberados : false;
   }
 
-  private dialogOpened = false;
   
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();

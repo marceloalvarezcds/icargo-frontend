@@ -30,7 +30,6 @@ mat-select {
   font-family: 'Roboto' sans-serif;
 }
 
-
 .select-moneda {
   width: 190px; 
   height: 40px; 
@@ -39,71 +38,145 @@ mat-select {
 }
 
 .select-comprobante {
-  width: 185px; /* Ajusta el ancho según tus necesidades */
-  height: 40px; /* Ajusta la altura según tus necesidades */
+  width: 185px; 
+  height: 40px; 
   margin-left: 10px;
-  margin-top: 10px; /* Espacio entre el label y el mat-form-field */
+  margin-top: 10px; 
 }
 
-.select-moneda.mat-form-field-appearance-outline .mat-form-field-wrapper {
-  padding: 0; /* Elimina el padding para reducir el tamaño */
+.select-concepto{
+  width: 130px; 
+  height: 40px; 
+  margin-left: 10px;
+  margin-top: 10px; 
+}
+
+.select-moneda_propietario{
+  width: 205px; 
+  height: 40px; 
+  margin-left: 10px;
+  margin-top: 10px; 
+}
+
+.select-moneda_cliente{
+  width: 209px; 
+  height: 40px; 
+  margin-left: 10px;
+  margin-top: 10px; 
+}
+
+.select-propietario{
+  width: 285px; 
+  height: 40px; 
+  margin-left: 10px;
+  margin-top: 10px; 
+}
+
+.select-moneda.mat-form-field-appearance-outline .mat-form-field-wrapper,
+.select-concepto.mat-form-field-appearance-outline .mat-form-field-wrapper,
+.select-moneda_propietario.mat-form-field-appearance-outline .mat-form-field-wrapper 
+.select-moneda_cliente.mat-form-field-appearance-outline .mat-form-field-wrapper,
+.select-propietario.mat-form-field-appearance-outline .mat-form-field-wrapper 
+.select-propietario.mat-form-field-appearance-outline .mat-form-field-wrapper    {
+  padding: 0;
   border: 2px solid red; 
 }
 
-.select-moneda .mat-form-field-infix{
-  height: 24px; /* Ajusta la altura del select */
-  padding: 0; /* Elimina el padding del select */
+.select-moneda .mat-form-field-infix,
+.select-concepto .mat-form-field-infix, 
+.select-moneda_propietario .mat-form-field-infix, 
+.select-moneda_cliente .mat-form-field-infix, 
+.select-propietario .mat-form-field-infix, 
+.select-propietario .mat-form-field-infix{
+  height: 24px; 
+  padding: 0; 
   border: 2px solid red;
 }
 
 .select-moneda .mat-select-trigger {
-  height: 24px; /* Ajusta la altura del trigger del select */
-  line-height: 24px; /* Alinea verticalmente el texto */
+  height: 24px; 
+  line-height: 24px; 
 }
 
 .select-moneda .mat-input-element {
-  height: 24px; /* Ajusta la altura del input */
-  line-height: 24px; /* Alinea verticalmente el texto */
-  padding: 0; /* Elimina el padding del input */
+  height: 24px; 
+  line-height: 24px; 
+  padding: 0; 
 }
 
-::ng-deep .select-moneda .mat-form-field-outline {
+
+::ng-deep .select-moneda .mat-form-field-outline,
+::ng-deep .select-concepto .mat-form-field-outline,
+::ng-deep .select-moneda_propietario .mat-form-field-outline,
+::ng-deep .select-moneda_cliente .mat-form-field-outline,
+::ng-deep .select-propietario .mat-form-field-outline,
+::ng-deep .select-propietario .mat-form-field-outline   {
   border: 1px solid #F25A38 !important; /* Borde rojo */
   border-radius: 4px;
 }
 
 /* Estilos para el campo de entrada al estar enfocado */
 ::ng-deep .select-moneda.mat-focused .mat-form-field-outline,
-::ng-deep .select-moneda.mat-focused .mat-form-field-outline-thick {
+::ng-deep .select-moneda.mat-focused .mat-form-field-outline-thick,
+::ng-deep .select-concepto.mat-focused .mat-form-field-outline,
+::ng-deep .select-concepto.mat-focused .mat-form-field-outline-thick,
+::ng-deep .select-propietario.mat-focused .mat-form-field-outline,
+::ng-deep .select-propietario.mat-focused .mat-form-field-outline-thick   {
   border-color: red !important; /* Borde rojo al enfocar */
 }
 
 /* Estilos para el campo de entrada al estar en hover */
 ::ng-deep .select-moneda:hover .mat-form-field-outline,
-::ng-deep .select-moneda:hover .mat-form-field-outline-thick {
+::ng-deep .select-moneda:hover .mat-form-field-outline-thick,
+::ng-deep .select-concepto:hover .mat-form-field-outline,
+::ng-deep .select-concepto:hover .mat-form-field-outline-thick,
+::ng-deep .select-moneda_propietario .mat-form-field-outline,
+::ng-deep .select-moneda_propietario:hover .mat-form-field-outline-thick,
+::ng-deep .select-moneda_cliente .mat-form-field-outline,
+::ng-deep .select-moneda_cliente:hover .mat-form-field-outline-thick,
+::ng-deep .select-propietario .mat-form-field-outline,
+::ng-deep .select-propietario:hover .mat-form-field-outline-thick    {
   border: 1px solid red; /* Borde rojo */
   color: red; /* Texto rojo al hacer hover */
   border-radius: 6px;
 }
 
 /* Estilos adicionales para asegurarse de que el borde no se torne azul */
-::ng-deep .select-moneda.mat-focused .mat-form-field-ripple {
-  background-color: transparent !important; /* Eliminar el color azul */
+::ng-deep .select-moneda.mat-focused .mat-form-field-ripple,
+::ng-deep .select-concepto.mat-focused .mat-form-field-ripple,
+::ng-deep .select-moneda_propietario.mat-focused .mat-form-field-ripple,
+::ng-deep .select-moneda_cliente.mat-focused .mat-form-field-ripple,
+::ng-deep .select-propietario.mat-focused .mat-form-field-ripple,
+::ng-deep .select-propietario.mat-focused .mat-form-field-ripple  {
+  background-color: transparent !important; 
 }
 
 /* Estilos para el borde del input al enfocarse */
-::ng-deep .select-moneda .mat-input-element:focus {
-  border-color: red !important; /* Borde rojo del input al enfocar */
+::ng-deep .select-moneda .mat-input-element:focus,
+::ng-deep .select-concepto .mat-input-element:focus,
+::ng-deep .select-moneda_propietario .mat-input-element:focus,
+::ng-deep .select-moneda_cliente .mat-input-element:focus,
+::ng-deep .select-propietario .mat-input-element:focus,
+::ng-deep .select-propietario .mat-input-element:focus  {
+  border-color: red !important; 
 }
 
 /* Estilos para el borde del input en hover */
-::ng-deep .select-moneda .mat-input-element:hover {
-  border-color: red !important; /* Borde rojo del input al hacer hover */
+::ng-deep .select-moneda .mat-input-element:hover,
+::ng-deep .select-concepto .mat-input-element:hover,
+::ng-deep .select-moneda_propietario .mat-input-element:hover,
+::ng-deep .select-moneda_cliente .mat-input-element:hover,
+::ng-deep .select-propietario .mat-input-element:hover,
+::ng-deep .select-propietario .mat-input-element:hover     {
+  border-color: red !important; 
 }
 
 /* Elimina el color azul del borde al hacer click */
-::ng-deep .select-moneda .mat-form-field-flex {
-  border-color: red !important; /* Asegura el color rojo del borde */
+::ng-deep .select-moneda .mat-form-field-flex,
+::ng-deep .select-concepto .mat-form-field-flex,
+::ng-deep .select-moneda_propietario .mat-form-field-flex,
+::ng-deep .select-moneda_cliente .mat-form-field-flex   {
+  border-color: red !important; 
 }
 
 

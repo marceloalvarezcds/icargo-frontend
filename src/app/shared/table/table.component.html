@@ -14,9 +14,11 @@
           mat-sort-header
           [disabled]="disableSort"
           [class.mat-header-cell-checkbox]="column.type === 'checkbox'"
-          [ngClass]="{'sticky-column': isStickyColumn(column)}"
-          
-      >
+          [ngClass]="{
+            'sticky-column': isStickyColumn(column),
+            'header-height': column.def !== 'actions' && column.def === 'estado_historial'
+
+          }">
         <ng-container *ngIf="column.type === 'checkbox'">
           <mat-checkbox
             [checked]="allChecked"
