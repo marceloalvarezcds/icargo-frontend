@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
@@ -16,7 +16,9 @@ export class LiquidacionService {
   constructor(private http: HttpClient) {}
 
   create(formData: FormData): Observable<Liquidacion> {
-    return this.http.post<Liquidacion>(`${this.url}/`, formData);
+    console.log("formData: ", formData);
+    return of();
+    //return this.http.post<Liquidacion>(`${this.url}/`, formData);
   }
 
   delete(id: number): Observable<Liquidacion> {
@@ -92,14 +94,19 @@ export class LiquidacionService {
   }
 
   someter(id: number, formData: FormData): Observable<Liquidacion> {
-    return this.http.patch<Liquidacion>(
+    return of();
+    /*return this.http.patch<Liquidacion>(
       `${this.url}/${id}/someter`,
       formData
-    );
+    );*/
   }
 
   getListAll(): Observable<Liquidacion[]> {
     return this.http.get<Liquidacion[]>(`${this.url}/`);
+  }
+
+  edit(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.put<Liquidacion>(`${this.url}/${id}`, formData);
   }
 
 }
