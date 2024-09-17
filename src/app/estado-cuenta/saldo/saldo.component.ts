@@ -8,9 +8,20 @@ import { OperacionComponent } from '../operacion/operacion.component';
   styleUrls: ['./saldo.component.scss'],
 })
 export class SaldoComponent {
+  
+  @Input() showIngresoEgreso = true;
+
+  @Input() showResumen = false;
+
+  @Input() showInstrumentos = false;
+
   @Input() credito = 0;
 
   @Input() debito = 0;
+
+  @Input() valorInstrumentos = 0;
+
+  @Input() residuo = 0;
 
   @Input() esFinalizado = false;
 

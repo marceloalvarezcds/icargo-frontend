@@ -12,11 +12,16 @@
     [etapa]="etapa"
     [estadoCuenta]="estadoCuenta"
     [showVistaConsolidada]="false"
-    [showEstado]=false
+    [showEstado]="true"
+    [showLiquidacion]="true"
+    [liquidacionId]="item.id"
   ></app-estado-cuenta-detalle>
 
   <app-saldo
     #saldoView
+    [showIngresoEgreso]="false"
+    [showResumen]="true"
+    [showInstrumentos]="esFinalizado"
     [credito]="credito"
     [debito]="debito"
     [esFinalizado]="esFinalizado"
@@ -48,9 +53,13 @@
           [list]="instrumentos"
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
+          [instrumentoList]="instrumentoInMemoryList"
           [liquidacion]="item"
           [saldo]="saldo"
+          [valorInstrumentos]="valorInstrumentos"
           [isShow]="isShow"
+          (listChange)="instrumentoInMemoryList = $event"
+          
           (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-confirmada-form-instrumentos>
       </mat-expansion-panel>

@@ -16,9 +16,7 @@ export class LiquidacionService {
   constructor(private http: HttpClient) {}
 
   create(formData: FormData): Observable<Liquidacion> {
-    console.log("formData: ", formData);
-    return of();
-    //return this.http.post<Liquidacion>(`${this.url}/`, formData);
+    return this.http.post<Liquidacion>(`${this.url}/`, formData);
   }
 
   delete(id: number): Observable<Liquidacion> {
@@ -94,11 +92,10 @@ export class LiquidacionService {
   }
 
   someter(id: number, formData: FormData): Observable<Liquidacion> {
-    return of();
-    /*return this.http.patch<Liquidacion>(
+    return this.http.patch<Liquidacion>(
       `${this.url}/${id}/someter`,
       formData
-    );*/
+    );
   }
 
   getListAll(): Observable<Liquidacion[]> {

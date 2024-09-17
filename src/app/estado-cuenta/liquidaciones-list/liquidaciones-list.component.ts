@@ -4,6 +4,7 @@ import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum as a,
@@ -261,6 +262,8 @@ export class LiquidacionesListComponent implements OnInit {
         event.row.proveedor_id ??
         event.row.remitente_id;
 
+    const liquidacion = event.row;
+    
     const data = {
       contraparte: event.row.contraparte,
       contraparte_id: contraparteId,

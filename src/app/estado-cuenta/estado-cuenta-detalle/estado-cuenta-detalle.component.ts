@@ -13,4 +13,8 @@ export class EstadoCuentaDetalleComponent {
   @Input() showVistaConsolidada = true;
   @Input() showEstado = true;
   @Input() showSaldo = false;
+  @Input() showLiquidacion = false;
+  @Input() liquidacionId = 0;
+  
 }
+

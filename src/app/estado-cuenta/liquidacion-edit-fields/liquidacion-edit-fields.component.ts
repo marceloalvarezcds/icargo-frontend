@@ -9,7 +9,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
-import { Instrumento } from 'src/app/interfaces/instrumento';
+import { Instrumento, InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
@@ -43,6 +43,7 @@ export class LiquidacionEditFieldsComponent {
   @ViewChild('saldoView')
   childSaldoView!:SaldoComponent;
 
+  instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
   saldo = 0;
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
@@ -68,7 +69,9 @@ export class LiquidacionEditFieldsComponent {
   }
 
   get esFinalizado(): boolean {
-    return this.item?.etapa === LiquidacionEtapaEnum.FINALIZADO;
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO || 
+      this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  || 
+      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
 
   get comentario(): string {
@@ -77,6 +80,14 @@ export class LiquidacionEditFieldsComponent {
 
   get instrumentos(): Instrumento[] {
     return this.item?.instrumentos ?? [];
+  }
+
+  get residuo(): number {
+    return this.item?.saldo_residual ?? 0;
+  }
+
+  get valorInstrumentos(): number {
+    return this.item?.instrumentos_saldo ?? 0;
   }
 
   get tipoLiquidacion(): string {
@@ -132,7 +143,7 @@ export class LiquidacionEditFieldsComponent {
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 
-          //this.createdLiquidacionEvt.emit(resp);
+          this.actualizarLiquidacion.emit(resp);
 
           /*if (confirmed) {
             this.router.navigate([backUrl]);
@@ -142,7 +153,7 @@ export class LiquidacionEditFieldsComponent {
             } else {
               this.getData();
             }
-          }*/
+          }*/ 
 
           this.movimientos.splice(0, this.movimientos.length);
         });

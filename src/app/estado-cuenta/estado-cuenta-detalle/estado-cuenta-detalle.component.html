@@ -1,4 +1,8 @@
 <div class="row page-form-row">
+  <mat-form-field *ngIf="showLiquidacion" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>N° Liquidacion</mat-label>
+    <input matInput [value]="liquidacionId" disabled />
+  </mat-form-field>
   <mat-form-field *ngIf="showEstado" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <mat-label>Estado</mat-label>
     <input matInput [value]="etapa" disabled />
