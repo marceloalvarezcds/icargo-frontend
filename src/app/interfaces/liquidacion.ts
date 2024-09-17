@@ -47,6 +47,7 @@ export interface Liquidacion extends ContraparteInfo {
   modified_by: string;
   modified_at: string;
   pago_cobro: number;
+  monto?: number ;
 }
 
 export const mockLiquidacionList: Liquidacion[] = [

@@ -32,7 +32,7 @@
     <ng-template #edit>
 
       <app-liquidacion-edit-fields
-          #child
+          #childEdit
           [isEdit]="!isNew"
           [item]="liquidacion"
           [etapa]="etapa"
@@ -51,6 +51,12 @@
       <button *ngIf="isNew" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
           (click)="confirm()" color="primary"
+          class="create-button">
+        Guardar Liquidación
+      </button>
+      <button *ngIf="!isNew" mat-raised-button type="button"
+          id="submit-button" cdkFocusInitial
+          (click)="actualizar()" color="primary"
           class="create-button">
         Guardar Liquidación
       </button>

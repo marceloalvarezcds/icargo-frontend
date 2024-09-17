@@ -18,6 +18,8 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { subtract } from 'src/app/utils/math';
 import { SaldoComponent } from '../saldo/saldo.component';
+import { createLiquidacionDataMonto, editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
@@ -37,7 +39,7 @@ export class LiquidacionEditFieldsComponent {
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
-  
+
   @ViewChild('saldoView')
   childSaldoView!:SaldoComponent;
 
@@ -87,7 +89,8 @@ export class LiquidacionEditFieldsComponent {
   constructor(
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
-  ) { 
+    private snackbar: SnackbarService,
+  ) {
     this.obtenetTipoLiquidacion();
   }
 
@@ -95,10 +98,10 @@ export class LiquidacionEditFieldsComponent {
     this.liquidacionTipoInsumo=false;
     this.liquidacionTipoEfectivo=false;
 
-    let anticipoTipoInsumo = this.movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+    let anticipoTipoInsumo = this.movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
       && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
 
-    let anticipoTipoEfectivo = this.movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo' 
+    let anticipoTipoEfectivo = this.movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
         && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
 
     if (anticipoTipoInsumo) {
@@ -118,6 +121,32 @@ export class LiquidacionEditFieldsComponent {
     this.movimientos = movimientos;
     this.obtenetTipoLiquidacion();
     this.actualizarMovimientos.emit(movimientos);
+  }
+
+  modificarLiquidacion():void {
+
+    this.item!.monto = this.childSaldoView.monto;
+
+    this.liquidacionService
+        .edit(this.item!.id, editLiquidacionData(this.item!))
+        .subscribe((resp) => {
+          this.snackbar.open('Datos guardados satisfactoriamente');
+
+          //this.createdLiquidacionEvt.emit(resp);
+
+          /*if (confirmed) {
+            this.router.navigate([backUrl]);
+          } else {
+            if (isDialog){
+              this.createdLiquidacion.emit(resp);
+            } else {
+              this.getData();
+            }
+          }*/
+
+          this.movimientos.splice(0, this.movimientos.length);
+        });
+
   }
 
 

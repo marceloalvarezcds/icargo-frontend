@@ -9,6 +9,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { LiquidacionEditFieldsComponent } from 'src/app/estado-cuenta/liquidacion-edit-fields/liquidacion-edit-fields.component';
 import { LiquidacionFormFieldsComponent } from 'src/app/estado-cuenta/liquidacion-form-fields/liquidacion-form-fields.component';
 import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
@@ -42,6 +43,9 @@ export class LiquidacionFormDialogComponent {
 
   @ViewChild('child')
   child!: LiquidacionFormFieldsComponent;
+
+  @ViewChild('childEdit')
+  childEdit!: LiquidacionEditFieldsComponent;
 
   get contraparteInfo(){
     return this.data;
@@ -89,6 +93,27 @@ export class LiquidacionFormDialogComponent {
     this.prepareSend();
   }
 
+  actualizar(): void {
+    const data: LiquidacionConfirmDialogData = {
+      contraparteInfo: this.estadoCuenta!,
+      list: this.childEdit.movimientos,
+      credito: this.childEdit.credito,
+      debito: this.childEdit.debito,
+      monto: this.childEdit.childSaldoView.monto,
+      saldo: this.childEdit.childSaldoView.saldo,
+    };
+    this.dialog
+      .open(LiquidacionConfirmDialogComponent, {
+        data,
+        panelClass: 'full-dialog',
+      })
+      .afterClosed()
+      .pipe(filter((confirmed) => !!confirmed))
+      .subscribe(() => {
+        this.submitEdit();
+      });
+  }
+
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
@@ -116,6 +141,10 @@ export class LiquidacionFormDialogComponent {
 
   private submit(confirmed: boolean): void {
     this.child.sendLiquidacion(confirmed)
+  }
+
+  private submitEdit():void {
+    this.childEdit.modificarLiquidacion()
   }
 
   onCreateLiquidacion(liquidacion:any): void {
