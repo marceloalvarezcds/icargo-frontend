@@ -1,0 +1,98 @@
+<div class="liquidacion-page-content" *ngIf="item">
+
+  <app-liquidacion-edit-form-acciones
+    [isShow]="isShow"
+    [liquidacion]="item"
+    (liquidacionChange)="actualizarLiquidacion.emit()"
+    (liquidacionFlujoChange)="actualizarEstado.emit($event)"
+    [monto]="montoSaldo"
+  ></app-liquidacion-edit-form-acciones>
+
+  <app-estado-cuenta-detalle
+    [etapa]="etapa"
+    [estadoLiqui]="item.estado"
+    [estadoCuenta]="estadoCuenta"
+    [showVistaConsolidada]="false"
+    [showEstado]="false"
+    [showEstadoLiqui]="true"
+    [showLiquidacion]="true"
+    [liquidacionId]="item.id"
+  ></app-estado-cuenta-detalle>
+
+  <app-saldo
+    #saldoView
+    [showIngresoEgreso]="false"
+    [showResumen]="true"
+    [showInstrumentos]="esFinalizado"
+    [credito]="credito"
+    [debito]="debito"
+    [esFinalizado]="esFinalizado"
+    [showMonto]="true"
+    [monto]="monto"
+    (saldoChange)="saldo = $event"
+  ></app-saldo>
+
+  <app-liquidacion-comentario
+    [comentario]="comentario"
+  ></app-liquidacion-comentario>
+
+  <ng-container *ngIf="esFinalizado; else pendienteTemp">
+    <mat-accordion multi>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Movimientos </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-liquidacion-movimientos
+          [list]="movimientos"
+          (selectedMovimientosChange)="actualizarLiquidacion.emit()"
+        ></app-liquidacion-movimientos>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Instrumentos </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-liquidacion-instrumentos
+          [list]="instrumentos"
+        ></app-liquidacion-instrumentos>
+        <app-liquidacion-confirmada-form-instrumentos
+          [instrumentoList]="instrumentoInMemoryList"
+          [liquidacion]="item"
+          [saldo]="saldo"
+          [valorInstrumentos]="valorInstrumentos"
+          [isShow]="isShow"
+          (listChange)="instrumentoInMemoryList = $event"
+
+          (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
+        ></app-liquidacion-confirmada-form-instrumentos>
+      </mat-expansion-panel>
+      <mat-expansion-panel [expanded]="false">
+        <mat-expansion-panel-header>
+          <mat-panel-title> Facturas </mat-panel-title>
+        </mat-expansion-panel-header>
+        <app-liquidacion-confirmada-form-facturas
+          [liquidacion]="item"
+          [isShow]="isShow"
+          (facturasChange)="actualizarLiquidacion.emit()"
+        ></app-liquidacion-confirmada-form-facturas>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </ng-container>
+
+  <ng-template #pendienteTemp>
+    <app-liquidacion-edit-form-movimientos
+      [list]="movimientos"
+      [liquidacion]="item"
+      [tipoContrapartePDV]="tipoContrapartePDV"
+      [saldo]="saldo"
+      [tipoLiquidacion]="tipoLiquidacion"
+      [isShow]="
+        isShow ||
+        item.estado === E.ACEPTADO ||
+        item.estado === E.CANCELADO ||
+        item.estado === E.CONFIRMADO
+      "
+      (selectedMovimientosChange)="actualizarMovimientosEvento($event)"
+    ></app-liquidacion-edit-form-movimientos>
+  </ng-template>
+
+</div>

@@ -44,22 +44,26 @@ export class EstadoCuentaListComponent implements OnInit {
       type: 'button',
       buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
       buttonIconName: (element: EstadoCuenta) => 'account_circle',
+      sticky: true
     },
     {
       def: 'tipo_contraparte_descripcion',
       title: 'Contraparte',
       value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion,
+      sticky: true
     },
     {
       def: 'contraparte',
       title: 'Cuenta Correntista',
-      value: (element: EstadoCuenta) => element.contraparte,
+      value: (element: EstadoCuenta) => element.contraparte_pdv ?? element.contraparte,
+      sticky: true
     },
     {
       def: 'contraparte_numero_documento',
-      title: 'Nº de Documento',
-      value: (element: EstadoCuenta) => element.contraparte_numero_documento,
+      title: 'Nº de Doc.',
+      value: (element: EstadoCuenta) => element.contraparte_numero_documento_pdv ?? element.contraparte_numero_documento,
       footerDef: () => 'TOTAL SALDO GENERAL',
+      sticky: true
     },
     {
       def: 'pendiente',
@@ -111,9 +115,9 @@ export class EstadoCuentaListComponent implements OnInit {
       footerDef: () => this.totalFinalizado,
     },
     {
-      def: 'saldo',
+      def: 'liquidacion_saldo',
       title: LiquidacionEtapaEnum.SALDO,
-      value: (element: EstadoCuenta) => element.saldo,
+      value: (element: EstadoCuenta) => element.liquidacion_saldo,
       type: 'number',
       footerDef: () => (this.totalPendiente+this.totalConfirmado+this.totalFinalizado),
     },
@@ -200,7 +204,7 @@ export class EstadoCuentaListComponent implements OnInit {
   calcularTotales(): void{
 
     this.list.forEach( (mov:EstadoCuenta) => {
-      mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+      mov.liquidacion_saldo = mov.pendiente + mov.confirmado + mov.finalizado;
       this.pendiente = this.pendiente + mov.pendiente;
       this.confirmado = this.confirmado + mov.confirmado;
       this.finalizado = this.finalizado + mov.finalizado;
@@ -247,7 +251,7 @@ export class EstadoCuentaListComponent implements OnInit {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
 
       list.forEach( (mov:EstadoCuenta) => {
-        mov.saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+        mov.liquidacion_saldo = mov.pendiente + mov.confirmado + mov.finalizado;
         this.pendiente = this.pendiente + mov.pendiente;
         this.confirmado = this.confirmado + mov.confirmado;
         this.finalizado = this.finalizado + mov.finalizado;

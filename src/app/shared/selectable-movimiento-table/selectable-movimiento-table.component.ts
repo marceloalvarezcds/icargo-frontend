@@ -112,4 +112,9 @@ export class SelectableMovimientoTableComponent {
   component?: SelectableItemTableComponent<Movimiento>;
 
   constructor(private router: Router) {}
+
+  movimientoSelect($event:any):void {
+    // TODO: iterar y ver para filtrar los movimientos
+    this.selectedMovimientosChange.emit($event)
+  }
 }

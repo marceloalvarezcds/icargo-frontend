@@ -75,17 +75,18 @@ export class LiquidacionConfirmadaFormComponent implements OnInit {
     const contraparte = this.actual_contraparte;
     const contraparte_numero_documento =
       this.actual_contraparte_numero_documento;
-    this.router.navigate([this.backUrl], {
+    /*this.router.navigate([this.backUrl], {
       queryParams: getQueryParams(
         {
           ...this.item!,
           contraparte_id,
           contraparte,
           contraparte_numero_documento,
+          null,
         },
         this.item!.etapa
       ),
-    });
+    });*/
   }
 
   redirectToEdit(): void {

@@ -1,10 +1,18 @@
 <div class="row page-form-row">
+  <mat-form-field *ngIf="showLiquidacion" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>N° Liquidacion</mat-label>
+    <input matInput [value]="liquidacionId" disabled />
+  </mat-form-field>
+  <mat-form-field *ngIf="showEstadoLiqui" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Estado</mat-label>
+    <input matInput [value]="estadoLiqui" disabled />
+  </mat-form-field>
   <mat-form-field *ngIf="showEstado" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
     <mat-label>Estado</mat-label>
     <input matInput [value]="etapa" disabled />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <mat-label>Tipo Contraparte</mat-label>
+    <mat-label>Contraparte</mat-label>
     <input
       matInput
       [value]="estadoCuenta?.tipo_contraparte_descripcion"
@@ -12,14 +20,14 @@
     />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <mat-label>Contraparte</mat-label>
-    <input matInput [value]="estadoCuenta?.contraparte" disabled />
+    <mat-label>Nombre</mat-label>
+    <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
   </mat-form-field>
   <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
-    <mat-label>Doc. Fiscal Nº</mat-label>
+    <mat-label>Documento</mat-label>
     <input
       matInput
-      [value]="estadoCuenta?.contraparte_numero_documento"
+      [value]="estadoCuenta?.contraparte_numero_documento_pdv ?? estadoCuenta?.contraparte_numero_documento"
       disabled
     />
   </mat-form-field>
@@ -61,4 +69,13 @@
       />
     </mat-form-field>
   </ng-container>
+  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showSaldo">
+    <mat-label>Saldo C.C.</mat-label>
+    <input
+      matInput
+      [value]="estadoCuenta?.liquidacion_saldo"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
 </div>

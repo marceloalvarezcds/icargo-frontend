@@ -91,6 +91,7 @@ export enum PermisoModuloEnum {
   OC = 'Orden de Carga',
   CAJA_BANCO = 'Caja & Banco',
   ESTADO_CUENTA = 'Estado de Cuenta',
+  LIQUIDACION = 'Liquidacion',
   LISTADOS = 'Listados',
   USUARIOS = 'Usuarios',
   PARAMETROS = 'Parametros de Sistema',

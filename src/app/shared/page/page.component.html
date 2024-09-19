@@ -91,8 +91,8 @@
             <mat-icon>add</mat-icon> ANTICIPO
           </button>
             <!-- Botón específico para Orden de Carga -->
-            <button 
-              mat-mini-fab color="primary" 
+            <button
+              mat-mini-fab color="primary"
               (click)="createRecepcionClick.emit($event)"
               class="add-button orden-carga-recepcion"
               *ngIf="submodule === 'Orden de Carga'">
@@ -112,7 +112,7 @@
               submodule === 'CLIENTES' ? 'CLIENTE' :
               submodule === 'CENTROS OPERATIVOS' ? 'CENTRO OPERATIVO' :
               submodule === 'Orden de Carga' ? 'NUEVA OC' :
-              submodule === 'Cuentas Corrientes' ? 'MOVIMIENTO' : 'Elemento'
+              submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
               }}
           </button>
               <!-- Botón específico para Orden de Carga -->

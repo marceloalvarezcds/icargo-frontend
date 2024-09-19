@@ -1,9 +1,8 @@
-
-.page-container {
+.liquidacion-page-content {
   padding-top: 1rem;
 }
 
-.page-container::ng-deep {
+.liquidacion-page-content::ng-deep {
   .mat-input-element:disabled,
   .mat-select-disabled .mat-select-value {
     color: rgba(0, 0, 0, 0.87);
@@ -14,14 +13,4 @@
   .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
     visibility: hidden;
   }
-}
-
-::ng-deep {
-  
-  .page-title .title {
-    font-size: 18px;
-    font-weight: 500;
-    color: #3B9EFF; /* Ejemplo de color para el submódulo */
-  }
-  
 }

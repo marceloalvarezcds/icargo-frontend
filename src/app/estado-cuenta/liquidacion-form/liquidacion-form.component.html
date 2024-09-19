@@ -10,7 +10,17 @@
   (submitEvent)="confirm()"
   (downloadClick)="downloadFile()"
 >
-  <div class="liquidacion-page-content">
+
+  <app-liquidacion-form-fields
+      #child
+      [etapa]="etapa"
+      [estadoCuenta]="estadoCuenta"
+      [list]="list"
+      (createdLiquidacionEvt)="onCreateLiquidacion($event)"
+    >
+  </app-liquidacion-form-fields>
+
+  <div class="liquidacion-page-content" *ngIf="false">
     <app-estado-cuenta-detalle
       [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
@@ -21,9 +31,6 @@
       [credito]="credito"
       [debito]="debito"
       title="Saldo | Total de la Selección"
-      [showMonto]="true"
-      [(monto)]="monto"
-      (montoChange)="montoChange"
     ></app-saldo>
     <div class="row page-form-row">
       <div class="col-xs-12">

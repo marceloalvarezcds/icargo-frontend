@@ -13,6 +13,7 @@ import { LiquidacionFinalizadaComponent } from './liquidacion-finalizada/liquida
 import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.component';
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
 import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/estado-cuenta-list-detalle.component';
+import { LiquidacionesListComponent } from './liquidaciones-list/liquidaciones-list.component';
 
 const routes: Routes = [
   {
@@ -24,14 +25,15 @@ const routes: Routes = [
         pathMatch: 'full',
       },
       {
-        path: `list-detalle/${a.LISTAR}`,
-        component: EstadoCuentaListDetalleComponent,
-        pathMatch: 'full',
-      },
-      {
         path: a.LISTAR,
         component: EstadoCuentaListComponent,
         canActivate: [PermisoGuard],
+      },
+      {
+        path: `list-detalle/${a.LISTAR}`,
+        component: EstadoCuentaListDetalleComponent,
+        // TODO: pendiente ver path y permiso
+        //canActivate: [PermisoGuard],
       },
       {
         path: m.LIQUIDACION,
@@ -100,6 +102,21 @@ const routes: Routes = [
       },
     ],
   },
+  {
+    path: m.LIQUIDACION,
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: a.LISTAR,
+        component: LiquidacionesListComponent,
+        canActivate: [PermisoGuard],
+      },
+    ]
+  }
 ];
 
 @NgModule({

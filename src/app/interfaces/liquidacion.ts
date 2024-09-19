@@ -16,6 +16,7 @@ export interface Liquidacion extends ContraparteInfo {
   propietario_id: number | null;
   proveedor_id: number | null;
   remitente_id: number | null;
+  punto_venta_id?: number ;
   // campos
   moneda_id: number;
   fecha_pago_cobro: string | null;
@@ -46,6 +47,10 @@ export interface Liquidacion extends ContraparteInfo {
   created_at: string;
   modified_by: string;
   modified_at: string;
+  pago_cobro: number;
+  monto?: number ;
+  user_aprueba?: string;
+  aprobado_at?: string;
 }
 
 export const mockLiquidacionList: Liquidacion[] = [
@@ -64,6 +69,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     propietario_id: null,
     proveedor_id: null,
     remitente_id: 1,
+    punto_venta_id:0,
     id: 11,
     estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
@@ -95,6 +101,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     facturas: [],
     movimientos: [],
     instrumentos: [],
+    pago_cobro:0,
   },
   {
     gestor_carga_id: 1,
@@ -111,6 +118,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     propietario_id: 6,
     proveedor_id: null,
     remitente_id: null,
+    punto_venta_id:0,
     id: 2,
     estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
@@ -142,6 +150,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     facturas: [],
     movimientos: [],
     instrumentos: [],
+    pago_cobro:0,
   },
   {
     gestor_carga_id: 1,
@@ -158,6 +167,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     propietario_id: null,
     proveedor_id: 2,
     remitente_id: null,
+    punto_venta_id:0,
     id: 3,
     estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
@@ -189,6 +199,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     facturas: [],
     movimientos: [],
     instrumentos: [],
+    pago_cobro:0,
   },
   {
     gestor_carga_id: 1,
@@ -205,6 +216,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     propietario_id: 3,
     proveedor_id: null,
     remitente_id: null,
+    punto_venta_id:0,
     id: 4,
     estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
@@ -236,6 +248,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     facturas: [],
     movimientos: [],
     instrumentos: [],
+    pago_cobro:0,
   },
   {
     gestor_carga_id: 1,
@@ -252,6 +265,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     propietario_id: null,
     proveedor_id: 12,
     remitente_id: null,
+    punto_venta_id:0,
     id: 5,
     estado: LiquidacionEstadoEnum.PENDIENTE,
     etapa: LiquidacionEtapaEnum.PENDIENTE,
@@ -283,6 +297,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     facturas: [],
     movimientos: [],
     instrumentos: [],
+    pago_cobro:0,
   },
 ];
 

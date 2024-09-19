@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
-import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
+import { ContraparteGralInfo, ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { subtract } from 'src/app/utils/math';
@@ -86,7 +86,7 @@ export class LiquidacionConfirmDialogComponent {
     },
   ];
 
-  get contraparteInfo(): ContraparteInfo {
+  get contraparteInfo(): ContraparteGralInfo {
     return this.data.contraparteInfo;
   }
 
@@ -102,8 +102,12 @@ export class LiquidacionConfirmDialogComponent {
     return this.data.debito;
   }
 
+  get monto(): number {
+    return this.data.monto;
+  }
+
   get saldo(): number {
-    return subtract(this.credito, this.debito);
+    return this.data.saldo;
   }
 
   constructor(

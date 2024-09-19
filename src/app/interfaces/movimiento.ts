@@ -40,6 +40,8 @@ export interface MovimientoBaseModel {
   propietario_id: number | null;
   proveedor_id: number | null;
   remitente_id: number | null;
+  punto_venta_id?: number;
+  es_punto_venta?: boolean;
 }
 
 export interface MovimientoForm extends MovimientoBaseModel {
@@ -129,6 +131,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   pendiente: number | null;
   confirmado: number | null;
   finalizado: number | null;
+  detalleMovimiento?: string | null;
 }
 
 export const mockMovimientoList: Movimiento[] = [

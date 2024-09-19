@@ -23,6 +23,7 @@ import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { MovimientosSelectedDialogData } from 'src/app/interfaces/movimientos-selected-dialog';
+import { CheckboxEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
@@ -153,6 +154,10 @@ export class LiquidacionEditFormMovimientosComponent {
     return this.liquidacion?.gestor_carga_id;
   }
 
+  selectedItems: Movimiento[] = [];
+
+  @Input() tipoContrapartePDV:boolean=false;
+  @Input() tipoLiquidacion?:string;
   @Input() liquidacion?: Liquidacion;
   @Input() list: Movimiento[] = [];
   @Input() saldo = 0;
@@ -183,6 +188,8 @@ export class LiquidacionEditFormMovimientosComponent {
             def: 'id',
             title: 'Nº de Movimiento',
             value: (element: Movimiento) => element.id,
+            type: 'checkbox',
+            sticky: true,
           },
         ]
       );
@@ -201,6 +208,39 @@ export class LiquidacionEditFormMovimientosComponent {
     private movimientoService: MovimientoService
   ) {}
 
+  controlTipoMovimiento(movimientos: Movimiento[]): boolean {
+
+    if (this.tipoContrapartePDV){
+
+      let nuevoMovInsu = movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
+        && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
+
+      let nuevoMovAnti = movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
+          && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
+
+      if (nuevoMovInsu && nuevoMovAnti) {
+        return true;
+      }
+
+      let movInsu = this.list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
+        && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
+
+      let movAnti = this.list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
+          && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
+
+      if (movInsu && nuevoMovAnti) {
+        return true;
+      }
+
+      if (movAnti && nuevoMovInsu) {
+        return true;
+      }
+
+    }
+
+    return false;
+  }
+
   addMovimientos(): void {
     let contraparteId = getContraparteId(this.liquidacion!);
     if (!contraparteId) {
@@ -213,17 +253,19 @@ export class LiquidacionEditFormMovimientosComponent {
     if (!contraparteId) {
       console.error('La contraparteId es nula');
     }
+
     this.movimientoService
       .getListByEstadoCuenta(
         this.liquidacion!,
         contraparteId,
-        LiquidacionEtapaEnum.PENDIENTE
+        LiquidacionEtapaEnum.PENDIENTE,
+        this.liquidacion!.punto_venta_id
       )
       .subscribe((list) => {
         const data: MovimientosSelectedDialogData = {
           contraparteInfo: this.liquidacion!,
           list,
-          saldo: this.saldo,
+          saldo: this.saldo
         };
         this.dialog
           .open(MovimientosSelectedDialogComponent, {
@@ -233,12 +275,21 @@ export class LiquidacionEditFormMovimientosComponent {
           .afterClosed()
           .pipe(filter((list) => !!list && !!list.length))
           .subscribe((list: Movimiento[]) => {
+
+            if (this.tipoContrapartePDV) {
+              if (this.controlTipoMovimiento(list)) {
+                this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
+                return;
+              }
+            }
+
             this.liquidacionService
               .addMovimientos(this.liquidacion!.id, createLiquidacionData(list))
               .subscribe(() => {
                 this.snackbar.open('Movimientos agregados');
                 this.selectedMovimientosChange.emit(list.concat(this.list));
               });
+
           });
       });
   }
@@ -255,6 +306,42 @@ export class LiquidacionEditFormMovimientosComponent {
       () => {
         this.selectedMovimientosChange.emit(
           this.list.filter((x) => x.id !== movimiento.id)
+        );
+
+      }
+    );
+  }
+
+  onAllCheckedChange(checked: boolean): void {
+    if (checked) {
+      this.selectedItems = this.list.slice();
+    } else {
+      this.selectedItems = [];
+    }
+  }
+
+  onCheckboxChange(event: CheckboxEvent<Movimiento>): void {
+    const item = event.value.row;
+    if (event.event.checked) {
+      this.selectedItems.push(item);
+    } else {
+      this.selectedItems = this.selectedItems.filter((m) => m.id !== item.id);
+    }
+  }
+
+  removeMovimientos(): void {
+    const movimientos = this.selectedItems.map((mov) => mov.id).join(', ');
+    const message = `¿Está seguro que desea remover los movimients  Nº ${movimientos} de la lista?`;
+    this.dialogService.confirmationWithSnackbar(
+      message,
+      this.liquidacionService.removeMovimientos(
+        this.liquidacion!.id,
+        createLiquidacionData(this.selectedItems)
+      ),
+      'Movimientos removido',
+      () => {
+        this.selectedMovimientosChange.emit(
+          this.list.filter((x) => this.selectedItems.find( (y) => x.id === y.id ))
         );
       }
     );

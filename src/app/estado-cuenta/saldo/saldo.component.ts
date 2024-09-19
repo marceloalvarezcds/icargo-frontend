@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { subtract } from 'src/app/utils/math';
+import { OperacionComponent } from '../operacion/operacion.component';
 
 @Component({
   selector: 'app-saldo',
@@ -7,9 +8,20 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./saldo.component.scss'],
 })
 export class SaldoComponent {
+  
+  @Input() showIngresoEgreso = true;
+
+  @Input() showResumen = false;
+
+  @Input() showInstrumentos = false;
+
   @Input() credito = 0;
 
   @Input() debito = 0;
+
+  @Input() valorInstrumentos = 0;
+
+  @Input() residuo = 0;
 
   @Input() esFinalizado = false;
 
@@ -23,20 +35,30 @@ export class SaldoComponent {
 
   @Input() showMonto = false;
 
-  @Output() montoChange: EventEmitter<number> = new EventEmitter<number>();
-
   get saldo(): number {
-    let saldo = 0;
-    
-    if (this.monto>0) saldo = subtract(this.monto,subtract(this.credito, this.debito));
-    else saldo = subtract(this.credito, this.debito);
+    let calcSaldo = 0;
+    let sentido = '';
 
-    this.saldoChange.emit(saldo);
-    return saldo;
-  }
+    calcSaldo = subtract(this.credito, this.debito);
 
-  montoChangeEvt(event:any) :any{
-    this.montoChange.emit(this.monto);
+    if (calcSaldo < 0){
+      // es cobro
+      sentido = 'C';
+    } else if (calcSaldo > 0) {
+      // es pago
+      sentido = 'P';
+    }
+
+    if (this.monto > Math.abs(calcSaldo)){
+      calcSaldo = subtract(this.monto, Math.abs(calcSaldo));
+    }
+
+    if (this.monto < Math.abs(calcSaldo)){
+      calcSaldo = subtract(Math.abs(calcSaldo), this.monto);
+    }
+
+    return (sentido==='P') ? Math.abs(calcSaldo) : Math.abs(calcSaldo)*-1;
+
   }
 
 }

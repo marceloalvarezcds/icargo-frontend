@@ -1,24 +1,41 @@
 <div class="row page-form-row">
-  <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-    <mat-label>Debe</mat-label>
+  <mat-form-field *ngIf="showResumen" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+    <mat-label>Tot. Movimientos</mat-label>
+    <input matInput [value]="(credito-debito)" appInputThousandsSeparator disabled />
+  </mat-form-field>
+  <mat-form-field *ngIf="showIngresoEgreso" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+    <mat-label>Ingresos</mat-label>
     <input matInput [value]="credito" appInputThousandsSeparator disabled />
   </mat-form-field>
-  <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-    <mat-label>Haber</mat-label>
+  <mat-form-field *ngIf="showIngresoEgreso" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+    <mat-label>Egresos</mat-label>
     <input matInput [value]="debito" appInputThousandsSeparator disabled />
   </mat-form-field>
   <mat-form-field *ngIf="showMonto" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
     <mat-label>
-      Pago/Cobro 
+      Pago/Cobro
     </mat-label>
-    <input matInput [(ngModel)]="monto" appInputThousandsSeparator  (ngModelChange)="montoChangeEvt($event)" />
+    <input matInput [(ngModel)]="monto" appInputThousandsSeparator />
   </mat-form-field>
   <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
     <mat-label>
-      Saldo {{ esFinalizado ? "" : "| Total de la Selección" }}
+      Saldo C.C. {{ esFinalizado ? "" : "| Total de la Selección" }}
     </mat-label>
     <input matInput [value]="saldo" appInputThousandsSeparator disabled />
-  </mat-form-field>  
+  </mat-form-field>
+  <mat-form-field *ngIf="showInstrumentos" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Valor de los instrumentos</mat-label>
+    <input
+      matInput
+      [value]="valorInstrumentos"
+      appInputThousandsSeparator
+      disabled
+    />
+  </mat-form-field>
+  <mat-form-field *ngIf="showInstrumentos" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-label>Residuo</mat-label>
+    <input matInput [value]="residuo" appInputThousandsSeparator disabled />
+  </mat-form-field>
   <app-operacion
     *ngIf="!hideOperacion"
     class="col-xs-6 col-sm-4 col-md-3 col-lg-2"

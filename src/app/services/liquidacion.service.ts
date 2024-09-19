@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
@@ -61,6 +61,13 @@ export class LiquidacionService {
     );
   }
 
+  removeMovimientos(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/remove_movimientos`,
+      formData
+    );
+  }
+
   aceptar(id: number): Observable<Liquidacion> {
     return this.http.get<Liquidacion>(`${this.url}/${id}/aceptar`);
   }
@@ -90,4 +97,20 @@ export class LiquidacionService {
   pdf(id: number, etapa: LiquidacionEtapaEnum): Observable<string> {
     return this.http.get<string>(`${this.url}/${id}/pdf/etapa/${etapa}`);
   }
+
+  someter(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/someter`,
+      formData
+    );
+  }
+
+  getListAll(): Observable<Liquidacion[]> {
+    return this.http.get<Liquidacion[]>(`${this.url}/`);
+  }
+
+  edit(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.put<Liquidacion>(`${this.url}/${id}`, formData);
+  }
+
 }

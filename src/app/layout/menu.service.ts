@@ -103,7 +103,7 @@ export class MenuService {
             path: `/entities/${m.CENTRO_OPERATIVO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO),
           },
- 
+
           {
             name: t[m.PROVEEDOR],
             iconName: 'event_available',
@@ -203,6 +203,13 @@ export class MenuService {
         iconOutline: true,
         path: `/estado-cuenta/${m.ESTADO_CUENTA}`,
         active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
+      },
+      {
+        name: u.LIQUIDACION,
+        iconName: 'attach_money',
+        iconOutline: true,
+        path: `/estado-cuenta/${m.LIQUIDACION}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.LIQUIDACION),
       },
       {
         name: u.LISTADOS,

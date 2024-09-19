@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum,
@@ -31,6 +32,7 @@ import { delay } from 'src/app/utils/observable';
 export class TableComponent<T> implements OnInit, OnDestroy {
   e = EstadoEnum;
   a = PermisoAccionEnum;
+  le = LiquidacionEtapaEnum;
   allChecked: boolean = false;
   checkedList: boolean[] = [];
   allColumns: Column[] = [];
@@ -76,7 +78,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
 
   @Input() filterPredicate = this.defaultFilterPredicate.bind(
     this.tableDataSource
-  ); 
+  );
 
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
@@ -146,7 +148,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   }
 
   isTitleSaldosColumn(columnDef: string): boolean {
-    const gestionColumns = ['concepto_gestion', 'anticipo_gestion', 
+    const gestionColumns = ['concepto_gestion', 'anticipo_gestion',
                   'complemento_gestion', 'disponible_gestion', 'retirado_gestion', 'saldo_gestion',
                 'usuario_gestion', 'fecha_gestion', 'modi_gestion', 'fecha_mod_gestion'];
     return this.isGestion && gestionColumns.includes(columnDef);
@@ -156,7 +158,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     const firstThreeColumns = ['id_gestion',  '%'];
     return firstThreeColumns.includes(columnDef);
   }
-  
+
 
   isStickyColumn(column: any): boolean {
     return column.sticky;
@@ -179,7 +181,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   updateAllChecked() {
     this.allChecked = this.checkedList.every((t) => t);
   }
-  
+
   getColorForState(state: string): string {
     switch (state) {
       case 'Activo':
@@ -187,9 +189,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
       case 'Aceptado':
         return '#008000'; // Verde
       case 'Conciliado':
-        return '#9747FF'; 
+        return '#9747FF';
       case 'Finalizado':
-        return '#89969F'; 
+        return '#89969F';
       case 'Inactivo':
         return '#FF0000'; // Rojo
       case 'Pendiente':
@@ -208,24 +210,35 @@ export class TableComponent<T> implements OnInit, OnDestroy {
         case 'Aceptado':
           return '#008000'; // Verde
         case 'Conciliado':
-          return '#9747FF'; 
+          return '#9747FF';
         case 'Finalizado':
-          return '#89969F'; 
+          return '#89969F';
         case 'Inactivo':
           return '#FF0000'; // Rojo
         case 'Pendiente':
           return '#FFA500'; // Naranja
+
+        case 'Saldo abierto':
+          return '#9747FF';
+        case 'Saldo cerrado':
+          return '#89969F';
+        case 'En Revisión':
+          return '#008000'; // Verde
+        case 'Pendiente':
+          return '#FFA500'; // Naranja
+        case 'Rechazado':
+          return '#FF0000'; // Rojo
         default:
           return '#000000'; // Color por defecto o para otros estados
       }
     } else {
       if (column.dinamicStyles) {
-        let stylos = column.dinamicStyles(row);      
+        let stylos = column.dinamicStyles(row);
         return stylos.color ?? 'inherit';
       }
-      return '';  
+      return '';
     }
-    
+
   }
 
   getStilos(column:any, row:any) {

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -8,6 +8,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Instrumento } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
@@ -35,8 +36,25 @@ export class LiquidacionEditFormComponent implements OnInit {
   actual_contraparte = '';
   actual_contraparte_numero_documento = '';
   saldo = 0;
-  @Input()
-  isDialog = false;
+  @Output() liquidacionChange = new EventEmitter();
+
+  estadoCuenta: EstadoCuenta = {
+        contraparte_id: 0,
+        contraparte: '',
+        contraparte_numero_documento: '',
+        tipo_contraparte_id: 3,
+        tipo_contraparte_descripcion: '',
+        pendiente: 0,
+        en_proceso: 0,
+        confirmado: 0,
+        finalizado: 0,
+        liquidacion_saldo: 0,
+        cantidad_pendiente: 0,
+        cantidad_en_proceso: 0,
+        cantidad_confirmado: 0,
+        cantidad_finalizado: 0,
+        q:''
+      }
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
@@ -77,12 +95,11 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   back(): void {
-    if (!this.isDialog){
       const contraparte_id = this.contraparte_id;
       const contraparte = this.actual_contraparte;
       const contraparte_numero_documento =
         this.actual_contraparte_numero_documento;
-      this.router.navigate([this.backUrl], {
+      /*this.router.navigate([this.backUrl], {
         queryParams: getQueryParams(
           {
             ...this.item!,
@@ -92,8 +109,7 @@ export class LiquidacionEditFormComponent implements OnInit {
           },
           this.item!.etapa
         ),
-      });
-    }
+      });*/
   }
 
   changeMovimientoList(): void {
@@ -111,7 +127,6 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   redirectToEdit(): void {
-    if (!this.isDialog){
       const id = this.id!;
       this.router.navigate(
         [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.EDITAR}/${id}`],
@@ -125,8 +140,6 @@ export class LiquidacionEditFormComponent implements OnInit {
           },
         }
       );
-    }
-    
   }
 
   private getData(): void {
@@ -136,14 +149,12 @@ export class LiquidacionEditFormComponent implements OnInit {
       actual_contraparte,
       actual_contraparte_numero_documento,
     } = this.route.snapshot.queryParams;
-    
-    if (!this.isDialog){
-      this.id = +this.route.snapshot.params.id;
-      this.contraparte_id = contraparte_id;
-      this.actual_contraparte = actual_contraparte;
-      this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
-      this.isEdit = /edit/.test(this.router.url);
-    }
+
+    this.id = +this.route.snapshot.params.id;
+    this.contraparte_id = contraparte_id;
+    this.actual_contraparte = actual_contraparte;
+    this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
+    this.isEdit = /edit/.test(this.router.url);
 
     if (backUrl) {
       this.backUrl = backUrl;
@@ -153,22 +164,29 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   loadLiquidacion(): void {
-    console.log("this.id: ", this.id);
-    console.log("this.isEdit: ", this.isEdit);
     this.liquidacionService.getById(this.id!).subscribe((item) => {
       console.log("item: ", item);
       this.item = item;
       this.actual_contraparte = this.item.contraparte;
       this.actual_contraparte_numero_documento = this.item.contraparte_numero_documento;
+      this.estadoCuenta.contraparte = this.item.contraparte;
+      this.estadoCuenta.contraparte_numero_documento = this.item.contraparte_numero_documento;
+      this.estadoCuenta.tipo_contraparte_descripcion = this.item.tipo_contraparte.descripcion
       this.getList(item);
     });
   }
 
-  private getList(liq: Liquidacion): void {
+  getList(liq: Liquidacion): void {
     this.movimientoService
       .getListByLiquidacion(liq, this.etapa)
       .subscribe((data) => {
         this.movimientos = data;
       });
   }
+
+  someterLiquidacionFinish(liquidacion:any) {
+    this.item = liquidacion;
+    this.liquidacionChange.emit(liquidacion);
+  }
+
 }

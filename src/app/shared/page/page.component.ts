@@ -83,8 +83,9 @@ export class PageComponent {
       case 'CLIENTES':
       case 'CENTROS OPERATIVOS':
       case 'Orden de Carga':
-      case 'Cuentas Corrientes':
         return baseStyles;
+      case 'Todas las CUENTAS CORRIENTES':
+        return {...baseStyles, border:'1px solid #1C1C1C29'};
       default:
         return { 'padding': '6px', 'min-width': '80px' };
     }

@@ -27,6 +27,7 @@ import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app
 import { getFilterList } from 'src/app/utils/filter';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
+import { subtract } from 'src/app/utils/math';
 
 type Filter = {
   camion_placa?: string;
@@ -59,7 +60,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: Movimiento) => element.id,
       sticky: false,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },    
+    },
     {
       def: 'camion_placa',
       title: 'Chapa',
@@ -79,9 +80,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'tipo',
+      def: 'detalleMovimiento',
       title: 'Detalle',
-      value: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion),
+      value: (element: Movimiento) => element.detalleMovimiento,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -130,7 +131,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },
     {
       def: 'finalizado',
-      title: LiquidacionEtapaEnum.FINALIZADO,
+      title: 'Pago/Cobro',
       value: (element: Movimiento) => element.finalizado,
       type: 'number',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
@@ -212,12 +213,19 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     return (this.estadoFilterList.length !== this.estadoFiltered.length);
   }
 
-  get credito(): number {
-    return this.list.reduce((acc, cur) => acc + cur.credito, 0);
+  get deberes(): number {
+    let debito = this.list.reduce((acc, cur) => acc + (cur.pendiente ?? 0), 0);
+    let credito = this.list.reduce((acc, cur) => acc + (cur.confirmado ?? 0), 0);
+    return (credito + debito);
   }
 
-  get debito(): number {
-    return this.list.reduce((acc, cur) => acc + cur.debito, 0);
+  get pagos(): number {
+    return this.list.reduce((acc, cur) => acc + (cur.finalizado ?? 0), 0);
+  }
+
+  get saldo(): number {
+    let saldo = subtract(Math.abs(this.deberes), Math.abs(this.pagos));
+    return saldo;
   }
 
   get totalPendiente(): number {
@@ -351,19 +359,18 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         es_contraparte_editable: true,
       };
       createMovimiento(data, this.dialog, this.snackbar, () => {
-        this.getMovList();
+        this.getList();
       });
     }
 
     createLiquidacion():void {
 
       const {
-        backUrl,
-        etapa,
         contraparte_id,
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
+        punto_venta_id
       } = this.route.snapshot.queryParams;
 
       const data: ContraparteInfoMovimientoLiq = {
@@ -374,22 +381,24 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         tipo_contraparte_descripcion: '',
         isNew: true,
         etapa: LiquidacionEtapaEnum.PENDIENTE,
+        punto_venta_id: punto_venta_id
       };
 
       this.dialog
         .open(LiquidacionFormDialogComponent, {
           data,
-          panelClass: 'full-dialog',
+          panelClass: 'half-dialog',
         })
         .afterClosed()
-        .pipe(filter((confirmed) => !!confirmed))
+        //.pipe(filter((confirmed) => !!confirmed))
         .subscribe(() => {
-          this.getMovList();
+          this.getList();
         });
     }
 
     private getList(): void {
 
+      console.log('test');
       const {
         backUrl,
         etapa,
@@ -397,6 +406,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
+        punto_venta_id
       } = this.route.snapshot.queryParams;
       if (backUrl) {
         this.backUrl = backUrl;
@@ -408,7 +418,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             tipo_contraparte_id,
             contraparte_id,
             contraparte,
-            contraparte_numero_documento
+            contraparte_numero_documento,
+            punto_venta_id
           )
           .pipe(filter((e) => !!e))
           .subscribe((estadoCuenta) => {
@@ -423,10 +434,17 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.movimientoService
         .getListByEstadoCuentaDetalle(
-          this.estadoCuenta!,
-          this.estadoCuenta!.contraparte_id
+              this.estadoCuenta!,
+              this.estadoCuenta!.contraparte_id,
+              undefined,
+              this.estadoCuenta!.punto_venta_id
         )
         .subscribe((data) => {
+
+          data.forEach(element =>{
+            element.detalleMovimiento = ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion)
+          })
+
           this.list = data;
           this.movimientosSelected = [];
 
