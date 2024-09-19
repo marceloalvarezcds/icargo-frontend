@@ -1,59 +1,68 @@
-<app-page
-  class="estado-cuenta-page"
-  submodule="Cuentas Corrientes"
-  [modelo]="m.MOVIMIENTO"
-  (applyClick)="applyFilter()"
-  (createClick)="create()"
-  (downloadClick)="downloadFile()"
-  (resetClick)="resetFilter()"
->
-  <div filterMenu>
-    <mat-accordion [multi]="true">
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Contraparte</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <app-checkbox-filter
-            #contraparteCheckboxFilter
-            [value]="contraparteFiltered"
-            [list]="contraparteFilterList"
-          ></app-checkbox-filter>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>Tipo de Contraparte</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <app-checkbox-filter
-            #tipoContraparteCheckboxFilter
-            [value]="tipoContraparteFiltered"
-            [list]="tipoContraparteFilterList"
-          ></app-checkbox-filter>
-        </div>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div>
-  <mat-chip-list filterValues>
-    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
-    <ng-container *ngIf="isFilteredByProducto">
-      <mat-chip *ngFor="let item of contraparteFiltered">{{ item }}</mat-chip>
-    </ng-container>
-    <ng-container *ngIf="isFilteredByTipoContraparte">
-      <mat-chip *ngFor="let item of tipoContraparteFiltered">{{
-        item
-      }}</mat-chip>
-    </ng-container>
-  </mat-chip-list>
-  <app-table-paginator
-    [columns]="columns"
-    [data]="list"
-    [filterPredicate]="filterPredicate"
+<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+
+  <app-page
+    class="estado-cuenta-page"
+    submodule="Todas las CUENTAS CORRIENTES"
     [modelo]="m.MOVIMIENTO"
-    [hideDelete]="true"
-    [hideEdit]="true"
-    [hideShow]="true"
-    [shouldBeShowFooter]="true"
-  ></app-table-paginator>
-</app-page>
+    (applyClick)="applyFilter()"
+    (createClick)="create()"
+    (downloadClick)="downloadFile()"
+    (resetClick)="resetFilter()"
+  >
+    <div filterMenu>
+      <mat-accordion [multi]="true">
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Contraparte</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-checkbox-filter
+              #contraparteCheckboxFilter
+              [value]="contraparteFiltered"
+              [list]="contraparteFilterList"
+            ></app-checkbox-filter>
+          </div>
+        </mat-expansion-panel>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>Tipo de Contraparte</mat-panel-title>
+          </mat-expansion-panel-header>
+          <div>
+            <app-checkbox-filter
+              #tipoContraparteCheckboxFilter
+              [value]="tipoContraparteFiltered"
+              [list]="tipoContraparteFilterList"
+            ></app-checkbox-filter>
+          </div>
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    <mat-chip-list filterValues>
+      <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+      <ng-container *ngIf="isFilteredByProducto">
+        <mat-chip *ngFor="let item of contraparteFiltered">{{ item }}</mat-chip>
+      </ng-container>
+      <ng-container *ngIf="isFilteredByTipoContraparte">
+        <mat-chip *ngFor="let item of tipoContraparteFiltered">{{
+          item
+        }}</mat-chip>
+      </ng-container>
+    </mat-chip-list>
+
+    
+      
+
+        <app-table-paginator
+          [columns]="columns"
+          [data]="list"
+          [filterPredicate]="filterPredicate"
+          [modelo]="m.MOVIMIENTO"
+          [hideDelete]="true"
+          [hideEdit]="true"
+          [hideShow]="true"
+          [shouldBeShowFooter]="true"
+      ></app-table-paginator>
+
+  </app-page>
+
+</div>
