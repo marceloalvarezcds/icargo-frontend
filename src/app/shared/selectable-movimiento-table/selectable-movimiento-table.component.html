@@ -1,5 +1,5 @@
 <app-selectable-item-table
   [list]="list"
   [columns]="columns"
-  (selectedItemsChange)="movimientoSelect($event)"
+  (selectedItemsChange)="selectedMovimientosChange.emit($event)"
 ></app-selectable-item-table>

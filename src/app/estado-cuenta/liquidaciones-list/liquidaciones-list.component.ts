@@ -61,15 +61,15 @@ export class LiquidacionesListComponent implements OnInit {
       value: (element: Liquidacion) => element.contraparte_numero_documento,
     },
     {
-      def: 'fecha_pago_cobro',
+      def: 'aprobado_at',
       title: 'Fecha Aprobacion',
       type: 'only-date',
-      value: (element: Liquidacion) => element.fecha_pago_cobro,
+      value: (element: Liquidacion) => element.aprobado_at,
     },
     {
-      def: 'user',
+      def: 'user_aprueba',
       title: 'Aprobado',
-      value: (element: Liquidacion) => '<<falta user aprob bd>>',
+      value: (element: Liquidacion) => element.user_aprueba,
     },
     {
       def: 'estado',
@@ -91,7 +91,7 @@ export class LiquidacionesListComponent implements OnInit {
       def: 'instrumentos_saldo',
       title: 'Tot. Instrumento',
       type: 'number',
-      value: (element: Liquidacion) => element.instrumentos_saldo ,
+      value: (element: Liquidacion) => element.pago_cobro ,
     },
     {
       def: 'saldo_residual',
@@ -169,6 +169,12 @@ export class LiquidacionesListComponent implements OnInit {
     return (
       this.estadoFiltered.length !== this.estadoFilterList.length
     );
+  }
+
+  esFinalizado(liquidacion:Liquidacion): boolean {
+    return ( liquidacion.etapa === LiquidacionEtapaEnum.FINALIZADO
+          || liquidacion.estado === LiquidacionEstadoEnum.SALDO_ABIERTO
+          || liquidacion.estado === LiquidacionEstadoEnum.SALDO_CERRADO);
   }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
@@ -257,22 +263,23 @@ export class LiquidacionesListComponent implements OnInit {
   }
 
   redirectToEdit(event: TableEvent<Liquidacion>): void {
+
+    const liquidacion = event.row;
     const contraparteId = event.row.chofer_id ??
         event.row.propietario_id ??
         event.row.proveedor_id ??
         event.row.remitente_id;
 
-    const liquidacion = event.row;
-    
     const data = {
-      contraparte: event.row.contraparte,
+      contraparte: liquidacion.contraparte,
       contraparte_id: contraparteId,
-      contraparte_numero_documento: event.row.contraparte_numero_documento,
-      tipo_contraparte_id: event.row.tipo_contraparte_id,
-      tipo_contraparte_descripcion: event.row.tipo_contraparte.descripcion,
-      isEdit: true,
-      liquidacionId: event.row.id,
-      etapa: event.row.etapa,
+      contraparte_numero_documento: liquidacion.contraparte_numero_documento,
+      tipo_contraparte_id: liquidacion.tipo_contraparte_id,
+      tipo_contraparte_descripcion: liquidacion.tipo_contraparte.descripcion,
+      isEdit: !this.esFinalizado(liquidacion),
+      liquidacionId: liquidacion.id,
+      etapa: liquidacion.etapa,
+      punto_venta_id: liquidacion.punto_venta_id
     };
 
     console.log("contraparte id: ", contraparteId);
@@ -293,20 +300,38 @@ export class LiquidacionesListComponent implements OnInit {
   }
 
   redirectToShow(event: TableEvent<Liquidacion>): void {
-    /*this.router.navigate(
-      [
-        `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}`,
-        event.row.id,
-      ],
-      {
-        queryParams: {
-          contraparte_id: this.estadoCuenta!.contraparte_id,
-          actual_contraparte: this.estadoCuenta!.contraparte,
-          actual_contraparte_numero_documento:
-            this.estadoCuenta!.contraparte_numero_documento,
-        },
-      }
-    );*/
+    const contraparteId = event.row.chofer_id ??
+        event.row.propietario_id ??
+        event.row.proveedor_id ??
+        event.row.remitente_id;
+
+    const liquidacion = event.row;
+
+    const data = {
+      contraparte: event.row.contraparte,
+      contraparte_id: contraparteId,
+      contraparte_numero_documento: event.row.contraparte_numero_documento,
+      tipo_contraparte_id: event.row.tipo_contraparte_id,
+      tipo_contraparte_descripcion: event.row.tipo_contraparte.descripcion,
+      isEdit: false,
+      liquidacionId: event.row.id,
+      etapa: event.row.etapa,
+    };
+
+    console.log("contraparte id: ", contraparteId);
+    console.log("data: ", data);
+    console.log("data: ", event.row);
+
+    this.dialog
+      .open(LiquidacionFormDialogComponent, {
+        data,
+        panelClass: 'half-dialog',
+      })
+      .afterClosed()
+      //.pipe(filter((confirmed) => !!confirmed))
+      .subscribe(() => {
+        this.getList();
+      });
   }
 
   resetFilter(): void {

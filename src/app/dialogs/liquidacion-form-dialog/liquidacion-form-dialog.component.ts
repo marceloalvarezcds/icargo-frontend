@@ -64,17 +64,19 @@ export class LiquidacionFormDialogComponent {
   ) {
 
     if(this.data.isNew) {
+
       this.isNew = true;
       this.data.etapa = LiquidacionEtapaEnum.PENDIENTE;
       this.getData();
-    }
 
-    if(this.data.isEdit) {
+    } else {
+
       this.getEstadoCuenta();
       this.liquidacionId = this.data.liquidacionId;
       this.isEdit = this.data.isEdit;
       this.etapa = this.data.etapa;
       this.loadLiquidacion();
+
     }
 
   }
@@ -153,6 +155,7 @@ export class LiquidacionFormDialogComponent {
     this.liquidacion = liquidacion;
     this.getMovimientos(liquidacion);
     this.isNew = false;
+    this.isEdit = true;
   }
 
   cerrarLiquidacion(): void {
@@ -169,7 +172,8 @@ export class LiquidacionFormDialogComponent {
         this.data.tipo_contraparte_id,
         this.data.contraparte_id,
         this.data.contraparte,
-        this.data.contraparte_numero_documento
+        this.data.contraparte_numero_documento,
+        this.data.punto_venta_id
       )
       .pipe(filter((e) => !!e))
       .subscribe((estadoCuenta) => {
@@ -198,7 +202,8 @@ export class LiquidacionFormDialogComponent {
         this.data.tipo_contraparte_id,
         this.data.contraparte_id,
         this.data.contraparte,
-        this.data.contraparte_numero_documento
+        this.data.contraparte_numero_documento,
+        this.data.punto_venta_id
       )
       .pipe(filter((e) => !!e))
       .subscribe((estadoCuenta) => {
@@ -213,7 +218,8 @@ export class LiquidacionFormDialogComponent {
       .getListByEstadoCuenta(
         this.estadoCuenta!,
         this.estadoCuenta!.contraparte_id,
-        this.etapa
+        this.etapa,
+        this.estadoCuenta!.punto_venta_id
       )
       .subscribe((data) => {
         this.list = data;

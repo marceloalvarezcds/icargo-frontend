@@ -48,7 +48,7 @@ export class LiquidacionEditFormComponent implements OnInit {
         en_proceso: 0,
         confirmado: 0,
         finalizado: 0,
-        saldo: 0,
+        liquidacion_saldo: 0,
         cantidad_pendiente: 0,
         cantidad_en_proceso: 0,
         cantidad_confirmado: 0,
@@ -99,7 +99,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       const contraparte = this.actual_contraparte;
       const contraparte_numero_documento =
         this.actual_contraparte_numero_documento;
-      this.router.navigate([this.backUrl], {
+      /*this.router.navigate([this.backUrl], {
         queryParams: getQueryParams(
           {
             ...this.item!,
@@ -109,7 +109,7 @@ export class LiquidacionEditFormComponent implements OnInit {
           },
           this.item!.etapa
         ),
-      });
+      });*/
   }
 
   changeMovimientoList(): void {

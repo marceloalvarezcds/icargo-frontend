@@ -18,7 +18,7 @@
       <app-liquidacion-form-movimientos
         [list]="list"
         (movimientosInDBChange)="getList()"
-        (selectedMovimientosChange)="movimientosSelected = $event"
+        (selectedMovimientosChange)="cargarMovimientos($event)"
       ></app-liquidacion-form-movimientos>
     </div>
   </div>

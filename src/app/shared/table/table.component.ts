@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum,
@@ -31,6 +32,7 @@ import { delay } from 'src/app/utils/observable';
 export class TableComponent<T> implements OnInit, OnDestroy {
   e = EstadoEnum;
   a = PermisoAccionEnum;
+  le = LiquidacionEtapaEnum;
   allChecked: boolean = false;
   checkedList: boolean[] = [];
   allColumns: Column[] = [];

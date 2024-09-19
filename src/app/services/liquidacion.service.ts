@@ -61,6 +61,13 @@ export class LiquidacionService {
     );
   }
 
+  removeMovimientos(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(
+      `${this.url}/${id}/remove_movimientos`,
+      formData
+    );
+  }
+
   aceptar(id: number): Observable<Liquidacion> {
     return this.http.get<Liquidacion>(`${this.url}/${id}/aceptar`);
   }

@@ -1,6 +1,6 @@
-import { ContraparteInfoMovimiento } from './contraparte-info';
+import { ContraparteGralInfo, ContraparteInfoMovimiento } from './contraparte-info';
 
-export interface EstadoCuenta extends ContraparteInfoMovimiento {
+export interface EstadoCuenta extends ContraparteGralInfo {
   pendiente: number;
   en_proceso: number;
   confirmado: number;

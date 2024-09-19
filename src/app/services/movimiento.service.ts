@@ -23,20 +23,22 @@ export class MovimientoService {
   getListByEstadoCuenta(
     estadoCuenta: ContraparteInfo,
     contraparte_id: number,
-    etapa: LiquidacionEtapaEnum
+    etapa: LiquidacionEtapaEnum,
+    punto_venta_id?: number,
   ): Observable<Movimiento[]> {
     return this.http.get<Movimiento[]>(
-      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa)}`
+      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
     );
   }
 
   getListByEstadoCuentaDetalle(
     estadoCuenta: ContraparteInfo,
     contraparte_id: number,
-    etapa?: LiquidacionEtapaEnum
+    etapa?: LiquidacionEtapaEnum,
+    punto_venta_id?: number,
   ): Observable<Movimiento[]> {
     return this.http.get<Movimiento[]>(
-      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa)}`
+      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
     );
   }
 

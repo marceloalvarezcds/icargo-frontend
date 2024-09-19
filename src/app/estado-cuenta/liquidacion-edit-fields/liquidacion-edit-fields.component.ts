@@ -69,8 +69,8 @@ export class LiquidacionEditFieldsComponent {
   }
 
   get esFinalizado(): boolean {
-    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO || 
-      this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  || 
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
+      this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
       this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
 
@@ -95,6 +95,10 @@ export class LiquidacionEditFieldsComponent {
     if (this.liquidacionTipoEfectivo) return "EFECTIVO"
 
     return "";
+  }
+
+  get tipoContrapartePDV():boolean{
+    return (this.estadoCuenta ? this.estadoCuenta.tipo_contraparte_descripcion.includes("PDV") : false);
   }
 
   constructor(
@@ -128,8 +132,7 @@ export class LiquidacionEditFieldsComponent {
   }
 
   actualizarMovimientosEvento(movimientos:any){
-    console.log("nuevos movs: ", movimientos);
-    this.movimientos = movimientos;
+    //this.movimientos = movimientos;
     this.obtenetTipoLiquidacion();
     this.actualizarMovimientos.emit(movimientos);
   }
@@ -153,7 +156,7 @@ export class LiquidacionEditFieldsComponent {
             } else {
               this.getData();
             }
-          }*/ 
+          }*/
 
           this.movimientos.splice(0, this.movimientos.length);
         });

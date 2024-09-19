@@ -30,6 +30,14 @@ export interface ContraparteInfoMovimientoLiq extends Contraparte {
   tipo_contraparte_descripcion: string;
   etapa: string;
   isNew: boolean;
+  punto_venta_id?: number;
+}
+
+export interface ContraparteGralInfo extends Contraparte {
+  tipo_contraparte_descripcion: string;
+  punto_venta_id?: number;
+  contraparte_pdv?: string;
+  contraparte_numero_documento_pdv?: string;
 }
 
 export const mockContraparteInfoList: ContraparteInfoMovimiento[] = [

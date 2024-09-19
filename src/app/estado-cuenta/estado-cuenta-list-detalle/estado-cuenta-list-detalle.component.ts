@@ -131,7 +131,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },
     {
       def: 'finalizado',
-      title: LiquidacionEtapaEnum.FINALIZADO,
+      title: 'Pago/Cobro',
       value: (element: Movimiento) => element.finalizado,
       type: 'number',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),

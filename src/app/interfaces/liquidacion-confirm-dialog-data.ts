@@ -1,8 +1,8 @@
-import { ContraparteInfo, mockContraparteInfoList } from './contraparte-info';
+import { ContraparteGralInfo, ContraparteInfo, mockContraparteInfoList } from './contraparte-info';
 import { mockMovimientoList, Movimiento } from './movimiento';
 
 export interface LiquidacionConfirmDialogData {
-  contraparteInfo: ContraparteInfo;
+  contraparteInfo: ContraparteGralInfo;
   list: Movimiento[];
   credito: number;
   debito: number;

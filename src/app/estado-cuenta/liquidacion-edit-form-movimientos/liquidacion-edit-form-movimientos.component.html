@@ -7,6 +7,8 @@
         [hideDelete]="true"
         [hideEdit]="true"
         [hideShow]="true"
+        (allCheckedChange)="onAllCheckedChange($event)"
+        (checkboxChange)="onCheckboxChange($event)"
       ></app-table-paginator>
     </div>
     <ng-container
@@ -17,7 +19,7 @@
       "
     >
       <div
-        class="col-xs-12 button-container"
+        class="col-xs-5 button-container"
         [class.has-movimiento]="list && list.length"
       >
         <button
@@ -28,7 +30,17 @@
           id="add-button"
           [hidden]="!(list && list.length)"
         >
-          Agregar Movimientos
+          Agregar
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          type="button"
+          (click)="removeMovimientos()"
+          id="del-button"
+          [hidden]="!(list && list.length)"
+        >
+          Excluir
         </button>
         <button
           mat-raised-button
@@ -38,7 +50,7 @@
           (click)="createMovimiento()"
           id="create-button"
         >
-          Crear Movimiento
+          Crear
         </button>
       </div>
     </ng-container>

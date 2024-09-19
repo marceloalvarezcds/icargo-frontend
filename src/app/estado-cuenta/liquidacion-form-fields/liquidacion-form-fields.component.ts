@@ -62,18 +62,44 @@ export class LiquidacionFormFieldsComponent {
     return subtract(this.credito, this.debito);
   }
 
+  get tipoContrapartePDV():boolean{
+    return (this.estadoCuenta ? this.estadoCuenta.tipo_contraparte_descripcion.includes("PDV") : false);
+  }
+
   constructor(
     private movimientoService: MovimientoService,
     private liquidacionService: LiquidacionService,
     private snackbar: SnackbarService,
   ) { }
 
+  controlTipoMovimiento():boolean{
+
+    if (this.tipoContrapartePDV){
+
+      let movInsu = this.movimientosSelected.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
+        && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
+
+      let movAnti = this.movimientosSelected.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
+          && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
+
+      if (movInsu && movAnti) {
+        this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
+        return true;
+      }
+
+    }
+
+    return false;
+  }
+
   sendLiquidacion(confirmed: boolean): void {
 
-    console.log("monto: ", this.monto);
-    console.log("monto: ", this.childSaldoView.monto);
-    console.log("monto: ", this.childSaldoView.monto);
     let es_pago_cobro = (this.childSaldoView.saldo > 0 ? 'P' : 'C');
+
+    if (this.controlTipoMovimiento()){
+      this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
+      return;
+    }
 
     //if (this.movimientosSelected.length) {
       this.liquidacionService
@@ -113,6 +139,12 @@ export class LiquidacionFormFieldsComponent {
         this.list = data;
         this.movimientosSelected = [];
       });
+  }
+
+  cargarMovimientos(movimientos: Movimiento[]):void {
+    // TODO: ver para evitar el check de tipos distintos
+    this.controlTipoMovimiento();
+    this.movimientosSelected = movimientos;
   }
 
 

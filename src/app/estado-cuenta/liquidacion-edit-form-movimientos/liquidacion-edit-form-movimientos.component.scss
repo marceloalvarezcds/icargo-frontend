@@ -1,23 +1,11 @@
 .button-container {
-  margin-bottom: 1rem;
+  display: grid;
+  grid-auto-flow: column;
+  grid-column-gap: 10px;
   position: relative;
   overflow: visible;
   margin-bottom: 0;
-}
-
-.has-movimiento .mat-raised-button {
-  position: absolute;
-  top: -58px;
-}
-
-.button-container .create-button {
-  left: 0;
-  top: -20px;
-}
-
-.has-movimiento .create-button {
-  left: 200px;
-  top: -58px;
+  top: -50px;
 }
 
 .movimientos-container::ng-deep {

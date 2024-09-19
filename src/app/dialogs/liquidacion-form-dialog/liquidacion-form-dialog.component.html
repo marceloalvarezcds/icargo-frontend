@@ -3,8 +3,13 @@
 
   <h1 mat-dialog-title style="padding: 10px;">
 
+    <ng-container *ngIf="isNew">
+      <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
+    </ng-container>
 
-    <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
+    <ng-container *ngIf="!isNew">
+      <span class="titulo-azul">{{liquidacion?.estado}}</span><span class="titulo"> Movimientos  Liquidados</span>
+    </ng-container>
 
     <button mat-button type="button" mat-dialog-close class="close">
       <mat-icon>close</mat-icon>
@@ -33,7 +38,7 @@
 
       <app-liquidacion-edit-fields
           #childEdit
-          [isEdit]="!isNew"
+          [isEdit]="isEdit"
           [item]="liquidacion"
           [etapa]="etapa"
           [estadoCuenta]="estadoCuenta"
@@ -46,18 +51,16 @@
 
     </ng-template>
 
-    <div class="col-xs-12 button-container has-movimiento" [class.edit-buttons]="isEdit">
-      <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <div class="col-xs-8 button-container" >
+      <button mat-raised-button type="button" mat-dialog-close>Cerrar</button>
       <button *ngIf="isNew" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
-          (click)="confirm()" color="primary"
-          class="create-button">
+          (click)="confirm()" color="primary" >
         Guardar Liquidación
       </button>
-      <button *ngIf="!isNew" mat-raised-button type="button"
+      <button *ngIf="isEdit" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
-          (click)="actualizar()" color="primary"
-          class="create-button">
+          (click)="actualizar()" color="primary" >
         Guardar Liquidación
       </button>
     </div>

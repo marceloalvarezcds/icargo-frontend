@@ -19,7 +19,7 @@
         <div class="row">
           <strong class="col-xs-6">Contraparte:</strong>
           <span class="col-xs-6">
-            {{ contraparteInfo.contraparte }}
+            {{ contraparteInfo.contraparte_pdv ?? contraparteInfo.contraparte }}
           </span>
         </div>
       </div>
@@ -27,7 +27,7 @@
         <div class="row">
           <strong class="col-xs-6">Doc. Fiscal Nº:</strong>
           <span class="col-xs-6">
-            {{ contraparteInfo.contraparte_numero_documento }}
+            {{ contraparteInfo.contraparte_numero_documento_pdv ?? contraparteInfo.contraparte_numero_documento }}
           </span>
         </div>
       </div>
