@@ -110,7 +110,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },*/
     {
       def: 'liquidacion',
-      title: 'Liquidacion',
+      title: 'N° Liq.',
       value: (element: Movimiento) => element.liquidacion_id ?? 0,
       type: 'number',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
@@ -135,6 +135,12 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: Movimiento) => element.finalizado,
       type: 'number',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'movimiento_saldo',
+      title: LiquidacionEtapaEnum.SALDO,
+      value: (element: Movimiento) => element.movimiento_saldo,
+      type: 'number',
     },
   ]
 
@@ -443,6 +449,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
           data.forEach(element =>{
             element.detalleMovimiento = ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion)
+            element.movimiento_saldo = (element.pendiente + element.confirmado + element.finalizado);
           })
 
           this.list = data;
