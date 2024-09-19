@@ -80,9 +80,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'tipo',
+      def: 'detalleMovimiento',
       title: 'Detalle',
-      value: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion),
+      value: (element: Movimiento) => element.detalleMovimiento,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -370,6 +370,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
+        punto_venta_id
       } = this.route.snapshot.queryParams;
 
       const data: ContraparteInfoMovimientoLiq = {
@@ -380,6 +381,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         tipo_contraparte_descripcion: '',
         isNew: true,
         etapa: LiquidacionEtapaEnum.PENDIENTE,
+        punto_venta_id: punto_venta_id
       };
 
       this.dialog
@@ -404,6 +406,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
+        punto_venta_id
       } = this.route.snapshot.queryParams;
       if (backUrl) {
         this.backUrl = backUrl;
@@ -415,7 +418,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             tipo_contraparte_id,
             contraparte_id,
             contraparte,
-            contraparte_numero_documento
+            contraparte_numero_documento,
+            punto_venta_id
           )
           .pipe(filter((e) => !!e))
           .subscribe((estadoCuenta) => {
@@ -430,10 +434,17 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.movimientoService
         .getListByEstadoCuentaDetalle(
-          this.estadoCuenta!,
-          this.estadoCuenta!.contraparte_id
+              this.estadoCuenta!,
+              this.estadoCuenta!.contraparte_id,
+              undefined,
+              this.estadoCuenta!.punto_venta_id
         )
         .subscribe((data) => {
+
+          data.forEach(element =>{
+            element.detalleMovimiento = ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion)
+          })
+
           this.list = data;
           this.movimientosSelected = [];
 

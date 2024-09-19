@@ -53,12 +53,12 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'contraparte',
       title: 'Cuenta Correntista',
-      value: (element: EstadoCuenta) => element.contraparte,
+      value: (element: EstadoCuenta) => element.contraparte_pdv ?? element.contraparte,
     },
     {
       def: 'contraparte_numero_documento',
       title: 'Nº de Documento',
-      value: (element: EstadoCuenta) => element.contraparte_numero_documento,
+      value: (element: EstadoCuenta) => element.contraparte_numero_documento_pdv ?? element.contraparte_numero_documento,
       footerDef: () => 'TOTAL SALDO GENERAL',
     },
     {
