@@ -57,7 +57,7 @@ export class OcComplementoFormDialogComponent {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? 'Editar' : 'NUEVO';
   }
 
   get anticipadoControl(): FormControl {

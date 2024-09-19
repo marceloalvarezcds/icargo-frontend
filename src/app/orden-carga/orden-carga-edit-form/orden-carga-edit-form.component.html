@@ -18,6 +18,8 @@
     (activeClick)="active()"
     (inactiveClick)="inactive()"
     (aceptarClick)="aceptar()"
+    (finalizarClick)="finalizar()"
+    (cancelarClick)="cancelar()"
     module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
     [estado]="estado"
     [isAnticipoActive]="isToggleAnticiposLiberados"
@@ -25,35 +27,15 @@
     [isAceptado]="isAceptado"
   >
     <div class="orden-carga-page-content">
-       <!-- <app-orden-carga-edit-form-acciones
-        [hasChange]="hasChange"
-        [isAnticiposLiberados]="isAnticiposLiberados"
-        [isShow]="isShow"
-        [puedeConciliar]="puedeConciliar"
-        [oc]="item"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-acciones>  -->
-        <!-- <app-orden-carga-reports
-          [isShow]="isShow"
-          [hasChange]="hasChange"
-          [oc]="item"
-          (ocChange)="getData()"
-          [puedeConciliar]="puedeConciliar"
-          [isAnticiposLiberados]="isAnticiposLiberados"
-    ></app-orden-carga-reports> -->
-      <!-- <mat-accordion multi> -->
-        <!-- <mat-expansion-panel [expanded]="isCombinacionTouched"> -->
-          
-          <app-orden-carga-create-form-combinacion
+        <app-orden-carga-create-form-combinacion
           [oc]="item"
           [form]="form"
           (fleteChange)="onFleteChange($event)"
           (combinacionChange)="onCombinacionChange($event)"
           class="orden-edit"
           (ocChange)="getData()"
-        ></app-orden-carga-create-form-combinacion>
+      ></app-orden-carga-create-form-combinacion>
         <app-orden-carga-anticipos-table 
-         
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
@@ -61,81 +43,10 @@
           [list]="anticipoList"
           (ocChange)="getData()"
       ></app-orden-carga-anticipos-table >
-
-      <div *ngIf="isNuevo">
-      <div class="remisiones-line"><h2>REMISIONES</h2></div>
-      <div class="remisiones-container">
-        <div class="remisiones-item">
-          <app-orden-carga-edit-form-remisiones-origen
-         
-            [oc]="item"
-            [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [puedeConciliar]="puedeConciliar"
-            [list]="remisionOrigenList"
-            (ocChange)="getData()"
-          ></app-orden-carga-edit-form-remisiones-origen>
-        </div>
-        <div class="remisiones-item">
-          <app-orden-carga-edit-form-remisiones-destino
-           
-            [oc]="item"
-            [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [puedeConciliar]="puedeConciliar"
-            [list]="remisionDestinoList"
-            (ocChange)="getData()"
-          ></app-orden-carga-edit-form-remisiones-destino>
-        </div>
-      </div>
-    </div>
-    <div class="remisiones-line" [class.disabled]="isShow"><h2>TABLA DE RESULTADOS</h2></div>
-      <app-orden-carga-edit-form-remisiones-resultado
-        [class.disabled]="isShow"
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [list]="remisionResultadoList"
-        
-    ></app-orden-carga-edit-form-remisiones-resultado>
-<!-- 
-        <mat-expansion-panel [expanded]="isInfoTouched">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Cantidad Nominada </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-info
-            [oc]="item"
-            [flete]="flete"
-            [form]="form"
-          ></app-orden-carga-edit-form-info>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel [expanded]="isTramoTouched">
-          <mat-expansion-panel-header>
-            <mat-panel-title> Tramo </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-tramo
-            [puedeModificar]="puedeModificar"
-            [puedeConciliar]="puedeConciliar"
-            [form]="form"
-            [oc]="item"
-          ></app-orden-carga-edit-form-tramo>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Remisiones </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div>
-            <app-orden-carga-edit-form-remisiones-resultado
-              [gestorCargaId]="gestorCargaId"
-              [list]="remisionResultadoList"
-            ></app-orden-carga-edit-form-remisiones-resultado>
-            <app-orden-carga-edit-form-remisiones-resultado
-              *ngIf="item.modify_by_movimiento"
-              title="Resultados del Pedido"
-              [gestorCargaId]="gestorCargaId"
-              [list]="remisionResultadoFleteList"
-            ></app-orden-carga-edit-form-remisiones-resultado>
+        <div *ngIf="!isNuevo">
+          <div class="remisiones-line"><h2>REMISIONES</h2></div>
+        <div class="remisiones-container">
+          <div class="remisiones-item">
             <app-orden-carga-edit-form-remisiones-origen
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
@@ -144,6 +55,8 @@
               [list]="remisionOrigenList"
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-remisiones-origen>
+          </div>
+          <div class="remisiones-item">
             <app-orden-carga-edit-form-remisiones-destino
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
@@ -153,13 +66,11 @@
               (ocChange)="getData()"
             ></app-orden-carga-edit-form-remisiones-destino>
           </div>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Complementos y Descuentos </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div>
+        </div>
+      </div>
+      <div *ngIf="item.estado === 'Conciliado'">
+        <div class="complementos_descuentos-container">
+          <div class="complementos_descuentos-item">
             <app-orden-carga-edit-form-complementos
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
@@ -167,86 +78,28 @@
               [puedeConciliar]="puedeConciliar"
               [list]="complementoList"
               (ocChange)="getData()"
+          
             ></app-orden-carga-edit-form-complementos>
-            <app-orden-carga-edit-form-descuentos
-              [oc]="item"
-              [gestorCargaId]="gestorCargaId"
-              [isShow]="isShow"
-              [puedeConciliar]="puedeConciliar"
-              [list]="descuentoList"
-              (ocChange)="getData()"
-            ></app-orden-carga-edit-form-descuentos>
           </div>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Anticipos </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div>
-            <app-orden-carga-edit-form-anticipos-resumen
-              [oc]="item"
-            ></app-orden-carga-edit-form-anticipos-resumen>
-            <app-orden-carga-edit-form-anticipos-flete
-              [oc]="item"
-              [anicipoMaximo]="item.flete_anticipo_maximo"
-              [puedeModificar]="!item.is_conciliado"
-              [formDisabledTime]="formDisabledTime"
-              [form]="form"
-              [list]="item.porcentaje_anticipos"
-            ></app-orden-carga-edit-form-anticipos-flete>
-            <app-orden-carga-edit-form-anticipos-saldos
-              [list]="item.saldos"
-            ></app-orden-carga-edit-form-anticipos-saldos>
-            <app-orden-carga-edit-form-anticipos
-              [oc]="item"
-              [gestorCargaId]="gestorCargaId"
-              [isShow]="isShow"
-              [puedeConciliar]="puedeConciliar"
-              [list]="anticipoList"
-              (ocChange)="getData()"
-            ></app-orden-carga-edit-form-anticipos>
-          </div>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Historial de Estados </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-estado-historial
+        <div class="complementos_descuentos-item">
+          <app-orden-carga-edit-form-descuentos
+            [oc]="item"
             [gestorCargaId]="gestorCargaId"
-            [list]="historialList"
-          ></app-orden-carga-edit-form-estado-historial>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Movimientos </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-orden-carga-edit-form-movimientos
-            [gestorCargaId]="gestorCargaId"
-            [list]="movimientoList"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="descuentoList"
             (ocChange)="getData()"
-          ></app-orden-carga-edit-form-movimientos>
-        </mat-expansion-panel>
-
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title> Auditoría </mat-panel-title>
-          </mat-expansion-panel-header>
-          <app-page-form-audit
-            [created_by]="created_by"
-            [created_at]="created_at"
-            [modified_by]="modified_by"
-            [modified_at]="modified_at"
-          ></app-page-form-audit>
-          <app-orden-carga-edit-form-auditorias
-            [gestorCargaId]="gestorCargaId"
-            [list]="auditorias"
-            [ordenCarga]="item"
-          ></app-orden-carga-edit-form-auditorias>
-        </mat-expansion-panel> -->
-      <!-- </mat-accordion> -->
+          ></app-orden-carga-edit-form-descuentos>
+        </div>
+      </div> 
+    </div>
+    <div class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
+      <div></div>
+        <app-orden-carga-edit-form-remisiones-resultado
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [list]="remisionResultadoList"
+      ></app-orden-carga-edit-form-remisiones-resultado>
     </div>
   </app-page-form>
 </ng-container>

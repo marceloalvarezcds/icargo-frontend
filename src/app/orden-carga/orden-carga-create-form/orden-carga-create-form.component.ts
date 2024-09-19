@@ -17,6 +17,8 @@ import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
+import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
@@ -119,6 +121,15 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
     return this.item!?.anticipos.slice();
   }
+
+  get complementoList(): OrdenCargaComplemento[] {
+    return this.item!?.complementos.slice();
+  }
+
+  get descuentoList(): OrdenCargaDescuento[] {
+    return this.item!?.descuentos.slice();
+  }
+
 
   get porcentajeAnticipos(): FormArray {
     return this.form.get('porcentaje_anticipos') as FormArray;

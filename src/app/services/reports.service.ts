@@ -17,4 +17,10 @@ export class ReportsService {
       responseType: 'blob'
     });
   }
+
+  downloadImage(imageUrl: string): Observable<Blob> {
+    return this.http.get(`${this.url}/${imageUrl}`, {
+      responseType: 'blob'
+    });
+  }
 }

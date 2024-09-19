@@ -83,7 +83,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       puede_recibir_anticipos: null,
       estado: null,
       porcentaje_anticipos: null,
-      anticipos: null
+      anticipos: null,
+      id_orden_carga: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -254,6 +255,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       });
     }
     this.getData();
+    
   }
   
 
@@ -304,7 +306,18 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     );
   }
 
-  
+  finalizar(): void {
+    this.dialog.confirmation(
+      '¿Está seguro que desea finalizar la Orden de Carga?',
+      () => {
+        this.ordenCargaService.finalizar(this.item!.id).subscribe(() => {
+          this.snackbar.open('Estado cambiado satisfactoriamente');
+       
+        });
+      }
+    );
+  }
+
   cancelar(): void {
     this.dialog.confirmation(
       '¿Está seguro que desea cancelar la Orden de Carga?',
@@ -429,7 +442,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
           diferencia: 0,
           anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
           estado: data.estado,
-          anticipos: data.anticipos_liberados
+          anticipos: data.anticipos_liberados,
+          id_orden_carga: data.id
         },
         info: {
           cantidad_nominada: data.cantidad_nominada,

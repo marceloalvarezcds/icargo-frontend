@@ -161,11 +161,11 @@
     </div>
 
     <div class="section">
-      <h2 *ngIf="oc?.estado === 'Nuevo'" >PEDIDO</h2>
-      <h2 *ngIf="oc?.estado !== 'Nuevo'">FLETE</h2>
+      <h2 *ngIf="oc?.estado === 'Nuevo' || showSearchPedido" >PEDIDO</h2>
+      <h2 *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido">FLETE</h2>
 
       <div class="row page-form-row">
-        <div class="search-tracto small-input input-with-label" *ngIf="showSearchPedido">
+        <div class="search-tracto small-input input-with-label" *ngIf="oc?.estado === 'Nuevo' || showSearchPedido">
           <label>Nº Pedido</label>
           <app-flete-by-gestor-dialog-field
             [groupName]="groupName"
@@ -175,7 +175,9 @@
             [style]="'width: 160px'"
           ></app-flete-by-gestor-dialog-field>
         </div>
-        <div class="search-tracto small-input input-with-label" *ngIf="showSearchOC">
+        <div class="search-tracto small-input input-with-label"
+         *ngIf="oc?.estado === 'Aceptado' || oc?.estado === 'Finalizado' ||
+         oc?.estado === 'Conciliado' || oc?.estado === 'Cancelado' || showSearchOC">
           <label>Nº OC</label>
           <app-oc-by-combinacion-dialog-field
             [groupName]="groupName"
@@ -186,7 +188,9 @@
             (valueChange)="onOrdenCargaChange($event)"
           ></app-oc-by-combinacion-dialog-field>
         </div>
-        <div class="small-input input-with-label"  *ngIf="showSearchOC">
+        <div class="small-input input-with-label"  
+        *ngIf="oc?.estado === 'Aceptado' || oc?.estado === 'Finalizado' ||
+         oc?.estado === 'Conciliado' || oc?.estado === 'Cancelado' || showSearchOC">
           <app-input-field-oc
             title="Nº Pedido"
             [groupName]="groupName"

@@ -1,0 +1,78 @@
+.historial-title {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 14.06px;
+  letter-spacing: 0.06em;
+  text-align: left;
+  width: 148px;
+  height: 14px;
+  gap: 0px;
+  opacity: 0px;
+  color: #3B9EFF;
+}
+
+.historial-hr {
+  margin-bottom: 15px; /* Espaciado debajo de la línea */
+  margin-top: -15px;
+  border: 1px solid #84bbf1
+}
+
+
+.table-container {
+  margin-left: -15px; /* Ajusta este valor para mover la tabla más a la izquierda */
+}
+
+.buttons-actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+
+.close-button {
+  background: #FFFFFF;
+  color: #3B9EFF;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  width: auto;
+  padding: 8px 16px; /* Aumenta el padding horizontal para hacer el botón más largo */
+  gap: 4px;
+  border-radius: 5.25px;
+  border: 1px solid transparent; /* Borde inicial transparente */
+  opacity: 0px;
+  box-shadow: none; /* Elimina la sombra */
+  height: 32px;
+  display: flex; /* Asegura que el contenido esté alineado correctamente */
+  align-items: center; /* Alinea verticalmente el contenido */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  margin-left: auto; /* Mueve el botón hacia la derecha */
+  margin-top: -15px; /* Ajusta el margen hacia arriba según sea necesario */
+  border-color: rgb(211, 200, 200);
+  margin-top: -15px;
+}
+
+.close-button:hover {
+  background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
+  color: #1e88e5; /* Color de texto más oscuro al hacer hover */
+  border-color: black; /* Color de borde más oscuro al hacer hover */
+}
+
+.close-button mat-icon {
+  font-size: 10.5px; /* Ajusta el tamaño del ícono */
+  font-weight: bold;
+  background-color: red; /* Fondo del ícono */
+  border-radius: 50%; /* Borde redondeado para el ícono */
+  color: white; /* Color del ícono */
+  width: auto;
+  height: 9px;
+  gap: 0px;
+  padding: 3px 3px;
+  opacity: 0px;
+  align-items: center;
+  justify-content: center;
+  margin-top: -1;
+  margin-left: 2px;
+  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+}

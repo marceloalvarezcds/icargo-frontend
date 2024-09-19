@@ -6,23 +6,12 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: './file-field-image.component.html',
   styleUrls: ['./file-field-image.component.scss']
 })
-export class FileFieldImageComponent{
+export class FileFieldImageComponent {
   fieldFile: File | null = null;
+  fileURL: string = ''; // Agregado para almacenar la URL del archivo
 
-  get group(): FormGroup {
-    if (this.groupName) {
-      return this.form!.get(this.groupName) as FormGroup;
-    }
-    return this.form!;
-  }
-
-  get fieldControl(): FormControl {
-    return this.group.get(this.controlName) as FormControl;
-  }
-
-
-  @Input() autofocus = false; 
-  @Input() disabled = false; 
+  @Input() autofocus = false;
+  @Input() disabled = false;
   @Input() className = '';
   @Input() controlName = '';
   @Input() form?: FormGroup;
@@ -38,32 +27,36 @@ export class FileFieldImageComponent{
     }
   }
 
-
-  imageLoaded: boolean = false;
-
-  onFileChange(event: Event) {
-    const fileInput = event.target as HTMLInputElement;
-    const file = fileInput.files?.[0];
-    if (file) {
-      // Handle file upload or processing logic here
-      // For simplicity, let's assume the image is loaded after a short delay
-      setTimeout(() => {
-        this.imageLoaded = true; // Set imageLoaded to true once image is processed
-      }, 1000); // Adjust this delay based on your actual processing time
+  get group(): FormGroup {
+    if (this.groupName) {
+      return this.form!.get(this.groupName) as FormGroup;
     }
+    return this.form!;
   }
+
+  get fieldControl(): FormControl {
+    return this.group.get(this.controlName) as FormControl;
+  }
+
   @Output() fileChange = new EventEmitter<File | null>();
 
-  fieldChange(fieldEvent: Event): void {
-    const inputElement = fieldEvent.target as HTMLInputElement;
+  fieldChange(event: Event): void {
+    const inputElement = event.target as HTMLInputElement;
     const file = inputElement.files?.item(0);
     if (file) {
       this.fieldFile = file;
-      this.fieldControl.setValue(file.name);
-      this.fileChange.emit(file);
-      // Optional: Set imageLoaded to true if you want to track image loaded state separately
-      // this.imageLoaded = true;
+
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        this.fileURL = e.target.result; // Actualiza fileURL con la URL del archivo
+        this.fieldControl.setValue(this.fileURL); // Muestra la URL en el input
+      };
+      reader.readAsDataURL(file);
+
+      this.fileChange.emit(file); // Emite el archivo a través del EventEmitter
+    } else {
+      this.fileURL = ''; // Limpia la URL si no hay archivo
+      this.fieldControl.setValue(''); // Limpia el valor del input si no hay archivo
     }
   }
-
 }

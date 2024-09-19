@@ -4,7 +4,8 @@
       <label>{{ title }}</label>
       <mat-form-field [formGroupName]="groupName"       
       [ngClass]="{ 
-        'comprobante-anticipo-input' :controlName === 'numero_comprobante' }">
+        'comprobante-anticipo-input' :controlName === 'numero_comprobante', 
+        'complemento-detalle-input' :controlName  === 'detalle' }">
         
         <input
           matInput
@@ -42,7 +43,8 @@
       <mat-form-field   
       [ngClass]="{ 
         'comprobante-anticipo-input' :controlName === 'numero_comprobante' ||
-                                      controlName === 'numero_documento'  }">
+                                      controlName === 'numero_documento',
+        'complemento-detalle-input' :controlName  === 'detalle'  }">
        
         <input
           matInput

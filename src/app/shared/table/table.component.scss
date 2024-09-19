@@ -61,6 +61,10 @@
   border-right: none; /* Elimina la línea vertical a la derecha */
 }
 
+.header-height{
+  height: 30px; /* Aumenta la altura a tu preferencia */
+  line-height: 30px; /* Ajusta la altura del contenido para centrar el texto */
+}
 
 /* Estilos para la tabla */
 .mat-table {
@@ -79,7 +83,7 @@
 }
 
 td.mat-cell {
-  font-family: Roboto, sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 12px;
   font-weight: 500;
   color: black;
@@ -390,3 +394,34 @@ td.mat-column-saldo_residual:not(:first-child) {
   text-align: right; /* Alinea el contenido a la derecha */
   padding-right: 10px;
 } 
+
+
+.pdf-button {
+  background-image: url('pdf.png');
+  background-size: contain; /* Asegura que la imagen no se deforme */
+  background-repeat: no-repeat;
+  background-position: center;
+  color: transparent; /* Oculta el texto */
+  border: none;
+  padding: 0; /* Elimina el padding para reducir el espacio */
+  font-size: 0; /* Elimina el espacio de texto */
+  height: 39px; /* Ajusta la altura */
+  width: 32px; /* Fija un ancho más pequeño */
+  display: inline-block; /* Asegura que el botón respete el ancho */
+  border-radius: 4px;
+}
+
+td.mat-column-pdf{
+  width: 10px;
+  text-align: center; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+} 
+
+.mat-raised-button {
+  min-width: 24px !important; /* Asegura que el ancho mínimo sea pequeño */
+  height: 34px !important; /* Fuerza una altura pequeña */
+  line-height: 24px; /* Ajusta la alineación del contenido */
+  margin-top: 4px;
+  margin-bottom: 4px;
+  margin-right: 10px;
+}

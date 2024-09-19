@@ -14,9 +14,11 @@
           mat-sort-header
           [disabled]="disableSort"
           [class.mat-header-cell-checkbox]="column.type === 'checkbox'"
-          [ngClass]="{'sticky-column': isStickyColumn(column)}"
-          
-      >
+          [ngClass]="{
+            'sticky-column': isStickyColumn(column),
+            'header-height': column.def !== 'actions' && column.def === 'estado_historial'
+
+          }">
         <ng-container *ngIf="column.type === 'checkbox'">
           <mat-checkbox
             [checked]="allChecked"
@@ -175,13 +177,14 @@
                   <ng-container *ngIf="column.buttonIconName; else buttonText">
                     <ng-container *ngIf="column.buttonIconName(row) as iconName">
                       <button
+                      
                         type="button"
                         mat-icon-button
                         class="row-button"
-                        color="primary"
                         [matTooltip]="column.value(row)"
                         [disabled]="column.isDisable && column.isDisable(row)"
                         (click)="column.buttonCallback(row)"
+                        [ngClass]="{ 'pdf-button': column.def === 'pdf' }"
                       >
                         <mat-icon>{{ iconName }}</mat-icon>
                       </button>
@@ -189,17 +192,19 @@
                   </ng-container>
                   <ng-template #buttonText>
                     <button
+                    
                       type="button"
                       mat-raised-button
                       class="row-button"
-                      color="primary"
                       [innerHTML]="column.value(row)"
                       [disabled]="column.isDisable && column.isDisable(row)"
                       (click)="column.buttonCallback(row)"
+                      [ngClass]="{ 'pdf-button': column.def === 'pdf' }"
                     ></button>
                   </ng-template>
                 </ng-container>
               </ng-container>
+              
               <ng-container *ngSwitchDefault>
                 <ng-container *ngIf="column.link">
                   <ng-container

@@ -1,42 +1,30 @@
-<div *ngIf="gestorCargaId && oc">
-  <div class="row page-form-row">
-    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
-      <app-table
-        [columns]="columns"
-        [modelo]="modelo"
-        [gestorCuentaId]="gestorCargaId"
-        [data]="list"
-        [hideShow]="true"
-        [isShow]="
-          isShow ||
-          (oc.is_finalizado && !puedeConciliar) ||
-          !(
-            (modelo | puede: a.EDITAR:gestorCargaId) ||
-            (modelo | puede: a.ELIMINAR:gestorCargaId)
-          )
-        "
-        (editClick)="edit($event)"
-        (deleteClick)="remove($event)"
-      ></app-table>
-    </div>
-    <div
-      class="col-xs-12"
-      [hidden]="
-        isShow ||
-        (oc.is_finalizado && !puedeConciliar) ||
-        !(modelo | puede: a.CREAR:gestorCargaId)
-      "
-    >
-      <button
-        mat-raised-button
-        class="outline round"
-        color="primary"
-        type="button"
-        (click)="create()"
-        id="create-button"
-      >
-        Nuevo Descuento
-      </button>
-    </div>
+<div class="row page-form-row">
+  <div class="col-xs-12 header-row">
+    <h4>DESCUENTOS</h4>
+    <button
+      mat-raised-button
+      class="add-button"
+      color="primary"
+      type="button"
+      (click)="create()"
+      id="create-button"
+      [disabled]="isShow || !oc?.flete_id  || oc?.estado !== 'Aceptado' || !(modelo | puede: a.CREAR:gestorCargaId) "
+    ><mat-icon 
+      class="small-icon"
+      [ngClass]="{ 'disabled': isShow || !oc?.flete_id  || oc?.estado !== 'Aceptado' || !(modelo | puede: a.CREAR:gestorCargaId)}">
+      add</mat-icon> 
+      DESCUENTO
+    </button>
+  </div>
+  <div class="col-xs-12 table-container">
+    <app-table
+      [columns]="columns"
+      [modelo]="modelo"
+      [gestorCuentaId]="gestorCargaId"
+      [data]="list"
+      [hideShow]="true"
+      (editClick)="edit($event)"
+      (deleteClick)="remove($event)"
+    ></app-table>
   </div>
 </div>

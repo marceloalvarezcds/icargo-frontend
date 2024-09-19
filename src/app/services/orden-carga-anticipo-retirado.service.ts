@@ -31,3 +31,4 @@ export class OrdenCargaAnticipoRetiradoService {
     return this.http.get<string>(`${this.url}/${id}/pdf`);
   }
 }
+

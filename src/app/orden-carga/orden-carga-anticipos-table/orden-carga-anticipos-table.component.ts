@@ -4,23 +4,17 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
-import { FleteService } from 'src/app/services/flete.service';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReportsService } from 'src/app/services/reports.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 import { TableEvent } from 'src/app/interfaces/table';
 import * as saveAs from 'file-saver';
-import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
-import { OrdenCargaEditFormAnticiposResumenComponent } from '../orden-carga-edit-form-anticipos-resumen/orden-carga-edit-form-anticipos-resumen.component';
-import { OrdenCargaCreateFormComponent } from '../orden-carga-create-form/orden-carga-create-form.component';
-import { OrdenCargaGestionAnticiposComponent } from 'src/app/dialogs/orden-carga-gestion-anticipos/orden-carga-gestion-anticipos.component';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -48,7 +42,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
       value: () => 'PDF',
       buttonCallback: (element: OrdenCargaAnticipoRetirado) =>
         this.downloadPDF(element),
-      sticky: true,
     },
     {
       def: 'concepto',
@@ -150,7 +143,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
   ) {}
 
   get isAnticiposLiberados(): boolean {
@@ -184,10 +177,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
+    const monto = this.oc?.flete_monto_efectivo_complemento  ?? 0;
 
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
         const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-        return montoAnticipo - montoRetiradoEfectivo; // Restar anticipos de efectivo
+        return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
         const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
         return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
@@ -195,6 +189,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
         return 0;
     }
 }
+
 
 
   openDialog(): void {
@@ -224,7 +219,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     );
   }
 
-  @Input() isDisabled: boolean = false;
   private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
     this.ordenCargaAnticipoRetiradoService
       .pdf(item.id)
@@ -255,5 +249,5 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   private emitOcChange(): void {
     this.ocChange.emit();
   }
-
+  @Input() isDisabled: boolean = false;
 }

@@ -16,6 +16,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { subtract } from 'src/app/utils/math';
 import * as saveAs from 'file-saver';
 import { ReportsService } from 'src/app/services/reports.service';
+import { ImageDialogComponent } from 'src/app/dialogs/image-dialog/image-dialog.component';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-origen',
@@ -57,7 +58,8 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   constructor(
     private dialog: MatDialog,
     private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    
   ) {}
 
   create(): void {
@@ -92,8 +94,8 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       item,
     };
     return this.dialog.open(OcRemisionOrigenFormDialogComponent, {     
-      width: 'auto', 
-      height: 'auto', 
+      width: '650px',  // Ajusta según el contenido y diseño
+      height: '400px', // Ajusta según el contenido y diseño
       data });
   }
 
@@ -139,12 +141,27 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
         value: (element: OrdenCargaRemisionOrigen) =>
           element.unidad_descripcion,
       },
+
       {
-        def: 'Imagen',
-        title: 'Imagen.',
-        value: (element: OrdenCargaRemisionOrigen) =>
-          element.foto_documento,
+        def: 'pdf',
+        title: 'Imagen',
+        type: 'button',
+        value: () => 'PDF',
+        buttonCallback: (element: OrdenCargaRemisionOrigen) => {
+          if (element.foto_documento) {
+            this.dialog.open(ImageDialogComponent, {
+              data: { imageUrl: element.foto_documento },
+              width: 'auto',  
+              height: 'auto',  
+           
+            });
+            
+          } else {
+            console.error('No se proporcionó un nombre de archivo válido.');
+          }
+        }
       },
+      
       // {
       //   def: 'cantidad_equiv',
       //   title: 'Cantidad Equiv. (kg)',
@@ -164,5 +181,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
   }
+
+
 
 }

@@ -136,7 +136,8 @@
             <!-- Botón específico para Orden de Carga -->
         <button
             mat-mini-fab color="primary"
-            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
+            (click)="conciliarClick.emit($event)"
             class="add-button orden-carga-conciliar"
             *ngIf="submodule === 'Orden de Carga'">
               CONCILIAR

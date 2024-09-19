@@ -25,4 +25,5 @@ export class PdfPreviewDialogComponent {
       saveAs(this.fileBlob, this.filename);
     }
   }
+  actionText: string = 'GUARDAR RESÚMEN | FINALIZADO'; 
 }

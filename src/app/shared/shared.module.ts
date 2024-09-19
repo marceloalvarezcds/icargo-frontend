@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { GoogleMapsModule } from '@angular/google-maps';
 import { RouterModule } from '@angular/router';
-import { FormFieldModule } from 'src/app/form-field/form-field.module';
+
 import { MaterialModule } from 'src/app/material/material.module';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { CheckboxFilterComponent } from './checkbox-filter/checkbox-filter.component';
@@ -28,6 +28,7 @@ import { TableSelectorComponent } from './table-selector/table-selector.componen
 import { TableComponent } from './table/table.component';
 import { PageFormMapComponent } from './page-form-map/page-form-map.component';
 import { TableOcComponent } from './table-oc/table-oc.component';
+import { FormFieldModule } from '../form-field/form-field.module';
 
 const modules = [
   HeaderComponent,

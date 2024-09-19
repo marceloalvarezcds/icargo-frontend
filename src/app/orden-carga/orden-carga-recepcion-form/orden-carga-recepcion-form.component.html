@@ -32,14 +32,7 @@
       [showSearchOC]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
-    <app-orden-carga-anticipos-table 
-      [class.disabled]="!isFormSaved"
-      [oc]="item"
-      [fleteId]="fleteId"
-      [list]="anticipoList"
-      (ocChange)="getData()"
-    >
-    </app-orden-carga-anticipos-table>
+
     <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
       <div class="remisiones-item">
@@ -73,6 +66,6 @@
       [gestorCargaId]="gestorCargaId"
       [list]="remisionResultadoList"
   ></app-orden-carga-edit-form-remisiones-resultado>
-  </div>
+</div>
 
 

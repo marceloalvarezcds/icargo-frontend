@@ -64,7 +64,7 @@ export class OcDescuentoFormDialogComponent {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? 'Editar' : 'NUEVO';
   }
 
   get anticipadoControl(): FormControl {

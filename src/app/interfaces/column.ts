@@ -12,6 +12,7 @@ export interface Column {
   subTitle1?: string,
   customTitle?: string,
   group?: string,
+  isVisible?: (row: any) => any;
   value?: (row: any) => any;
   footerDef?: () => any;
   buttonCallback?: (row: any) => void;
