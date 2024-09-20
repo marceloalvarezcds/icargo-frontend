@@ -128,10 +128,11 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   modified_by: string;
   modified_at: string;
   // Datos de estado de cuenta del MOV
-  pendiente: number | null;
-  confirmado: number | null;
-  finalizado: number | null;
-  detalleMovimiento?: string | null;
+  pendiente: number ;
+  confirmado: number ;
+  finalizado: number ;
+  detalleMovimiento?: string ;
+  movimiento_saldo?: number ;
 }
 
 export const mockMovimientoList: Movimiento[] = [
