@@ -47,6 +47,7 @@
           (selectedMovimientosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-movimientos>
       </mat-expansion-panel>
+
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title> Instrumentos </mat-panel-title>
@@ -55,16 +56,13 @@
           [list]="instrumentos"
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
-          [instrumentoList]="instrumentoInMemoryList"
           [liquidacion]="item"
-          [saldo]="saldo"
-          [valorInstrumentos]="valorInstrumentos"
+          [saldo]="item.saldo"
           [isShow]="isShow"
-          (listChange)="instrumentoInMemoryList = $event"
-
           (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-confirmada-form-instrumentos>
       </mat-expansion-panel>
+
       <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title> Facturas </mat-panel-title>
@@ -75,6 +73,7 @@
           (facturasChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-confirmada-form-facturas>
       </mat-expansion-panel>
+
     </mat-accordion>
   </ng-container>
 

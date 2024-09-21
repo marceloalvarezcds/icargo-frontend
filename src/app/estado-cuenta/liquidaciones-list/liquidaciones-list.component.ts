@@ -276,7 +276,7 @@ export class LiquidacionesListComponent implements OnInit {
       contraparte_numero_documento: liquidacion.contraparte_numero_documento,
       tipo_contraparte_id: liquidacion.tipo_contraparte_id,
       tipo_contraparte_descripcion: liquidacion.tipo_contraparte.descripcion,
-      isEdit: !this.esFinalizado(liquidacion),
+      isEdit: true,
       liquidacionId: liquidacion.id,
       etapa: liquidacion.etapa,
       punto_venta_id: liquidacion.punto_venta_id
