@@ -18,8 +18,9 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { subtract } from 'src/app/utils/math';
 import { SaldoComponent } from '../saldo/saldo.component';
-import { createLiquidacionDataMonto, editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
+import { editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confirmada-form-facturas/liquidacion-confirmada-form-facturas.component';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
@@ -42,6 +43,9 @@ export class LiquidacionEditFieldsComponent {
 
   @ViewChild('saldoView')
   childSaldoView!:SaldoComponent;
+
+  @ViewChild('facturaList')
+  liquidacionFacturasComponent?: LiquidacionConfirmadaFormFacturasComponent;
 
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
   saldo = 0;
@@ -107,6 +111,10 @@ export class LiquidacionEditFieldsComponent {
     private snackbar: SnackbarService,
   ) {
     this.obtenetTipoLiquidacion();
+  }
+
+  actualizarFactura():void{
+    this.liquidacionFacturasComponent?.loadList();
   }
 
   obtenetTipoLiquidacion():void{

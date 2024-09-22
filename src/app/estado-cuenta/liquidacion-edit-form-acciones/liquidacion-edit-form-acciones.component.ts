@@ -1,8 +1,9 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { ComentarioConfirmDialogComponent } from 'src/app/dialogs/comentario-confirm-dialog/comentario-confirm-dialog.component';
+import { FacturaFormDialogComponent } from 'src/app/dialogs/factura-form-dialog/factura-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -10,11 +11,14 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { changeLiquidacionDataMonto, changeLiquidacionStatusData } from 'src/app/form-data/liquidacion';
+import { Factura } from 'src/app/interfaces/factura';
+import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
   selector: 'app-liquidacion-edit-form-acciones',
@@ -46,6 +50,7 @@ export class LiquidacionEditFormAccionesComponent {
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
+  @Output() liquidacionFacturaChange = new EventEmitter();
 
   constructor(
     private router: Router,
@@ -148,4 +153,25 @@ export class LiquidacionEditFormAccionesComponent {
       (val?: string | boolean) => val !== false
     );
   }
+
+  private emitChange(): void {
+    this.snackbar.open('Factura agregada');
+    this.liquidacionFacturaChange.emit();
+  }
+
+  datosFiscalesForm(): void{    
+    create(this.getDialogRef(), this.emitChange.bind(this))    
+  }
+
+  private getDialogRef(
+    item?: Factura
+  ): MatDialogRef<FacturaFormDialogComponent, Factura> {
+    const data: FacturaFormDialogData = {
+      liquidacion_id: this.liquidacion.id,
+      valor_operacion: this.monto!,
+      item,
+    };
+    return this.dialog.open(FacturaFormDialogComponent, { data });
+  }
+
 }

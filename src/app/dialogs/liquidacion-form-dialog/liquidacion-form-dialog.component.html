@@ -51,17 +51,19 @@
 
     </ng-template>
 
-    <div class="col-xs-8 button-container" >
+    <div class="col-xs-8 button-container"
+        [class.has-movimiento]="list && list.length"
+         >
       <button mat-raised-button type="button" mat-dialog-close>Cerrar</button>
       <button *ngIf="isNew" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
           (click)="confirm()" color="primary" >
         Guardar Liquidación
       </button>
-      <button *ngIf="!esFinalizado" mat-raised-button type="button"
+      <button *ngIf="!esFinalizado && !isNew && isEdit" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
           (click)="actualizar()" color="primary" >
-        Guardar Liquidación
+        Guardar
       </button>
     </div>
 

@@ -11,7 +11,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { createLiquidacionData, createLiquidacionDataMonto } from 'src/app/form-data/liquidacion-movimiento';
+import { createLiquidacionData, createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
@@ -32,6 +32,8 @@ import { SaldoComponent } from '../saldo/saldo.component';
   styleUrls: ['./liquidacion-form-fields.component.scss']
 })
 export class LiquidacionFormFieldsComponent {
+
+  private readonly monedaIdGs = 1;
 
   @Input()
   etapa?: LiquidacionEtapaEnum;
@@ -101,9 +103,16 @@ export class LiquidacionFormFieldsComponent {
       return;
     }
 
+    // TODO: seleccionar la moneda en el form, por ahora sino tiene movimientos sera en gs
+    if (this.movimientosSelected.length === 0) {
+      this.estadoCuenta!.moneda_id = this.monedaIdGs;
+    } else {
+      this.estadoCuenta!.moneda_id = this.movimientosSelected[0].moneda_id;
+    }
+
     //if (this.movimientosSelected.length) {
       this.liquidacionService
-        .create(createLiquidacionDataMonto(this.movimientosSelected, this.childSaldoView.monto, es_pago_cobro))
+        .create(createLiquidacionDataFields(this.movimientosSelected, this.estadoCuenta!, this.childSaldoView.monto, es_pago_cobro))
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 

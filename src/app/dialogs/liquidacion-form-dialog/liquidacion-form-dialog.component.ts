@@ -234,7 +234,6 @@ export class LiquidacionFormDialogComponent {
 
   loadLiquidacion(): void {
     this.liquidacionService.getById(this.liquidacionId!).subscribe((item) => {
-      console.log("item: ", item);
       this.liquidacion = item;
       this.getMovimientos(item);
     });

@@ -34,8 +34,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     ],
     numero_referencia: this.data?.numero_referencia,
     comentario: this.data?.comentario,
+    numero_documento: this.data?.numero_documento,
+    moneda_id: [this.data?.moneda_id, [Validators.required] ],
     // Datos mostrados solo para Banco
-    tipo_instrumento_id: this.data?.tipo_instrumento_id,
+    tipo_instrumento_id: [{value: this.data?.tipo_instrumento_id, disabled: true}],
     // Solo para cheque
     cheque_es_diferido: this.data?.cheque_es_diferido ?? false,
     cheque_fecha_vencimiento: this.data?.cheque_fecha_vencimiento,
@@ -63,7 +65,9 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
         );
         this.form.controls['banco_id'].setValidators(Validators.required);
         this.form.controls['caja_id'].removeValidators(Validators.required);
+        this.form.controls['tipo_instrumento_id'].enable();
       } else {
+        this.form.controls['tipo_instrumento_id'].disable();
         this.form.controls['numero_referencia'].removeValidators(
           Validators.required
         );
