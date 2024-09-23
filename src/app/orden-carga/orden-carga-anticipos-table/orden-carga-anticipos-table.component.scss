@@ -1,5 +1,5 @@
 .main-container {
- margin-top: 35px;
+ margin-top: 1px;
 }
 
 .main-container h2 {
@@ -23,6 +23,14 @@
 .button-container {
   display: flex;
   gap: 20px; /* Espacio más pequeño entre los botones */
+}
+
+::ng-deep .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+  height: 29px;
 }
 
 .custom-button {
@@ -58,8 +66,8 @@
 
 .small-button {
   margin-top: 5px;
-  height: 28px; /* Altura más pequeña para los botones */
-  line-height: 24px; /* Alineación vertical del texto */
+  height: 30px; /* Altura más pequeña para los botones */
+  line-height: 29px; /* Alineación vertical del texto */
   font-size: 12px;
 }
 
@@ -98,13 +106,23 @@
 .saldo-form-field input {
   text-align: right;
   justify-content: flex-end;
+  position: relative;
+  top: -2.8px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: auto;
+  margin-left: -4px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
 }
-
-
 
 ::ng-deep .saldo-form-field .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
+  height: 29px;
 }
 
 label{
@@ -115,7 +133,7 @@ label{
 .input-button-container label,
 .input-button-container mat-form-field,
 .input-button-container .button-container {
-  margin-left: 15px; /* Ajusta este valor según sea necesario */
+  margin-left: 15px; 
 }
 
 .table-container{

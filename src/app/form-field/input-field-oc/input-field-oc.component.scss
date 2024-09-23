@@ -10,44 +10,67 @@
   transform: none;
   margin-right: 8px;
 }
-/* Clase general para centrar texto en inputs */
-.custom-input {
-  height: 24px; /* Asegúrate de que esta sea la altura deseada */
-  box-sizing: border-box;
-  font-family: 'Roboto', sans-serif;
+
+
+
+.label-general{
+  font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
-  color: #FBFBFE;
+  color: #202020;
+  width: 34px;
+  height: 16px;
+  gap: 0px;
+  opacity: 0px;
+  pointer-events: none;
+  position: relative;
+  top: -2px;
 }
+
+/* Aplica estilos de borde personalizados a mat-form-field */
+::ng-deep .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+  height: 29px;
+}
+/* Clase general para centrar texto en inputs */
+.custom-input {
+  position: relative;
+  top: -2.8px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: auto;
+  margin-left: -4px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
+}
+
 
 .small-input {
   width: 190px;
-  height: 24px;
+  height: 20px;
   padding: 8px 6px;
   gap: 2px;
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 16.41px;
   color: #FBFBFE;
 }
 
-.small-estado-input .label-general{
-  margin-left: 100px;
+
+.mat-hint, .mat-error {
+  font-size: 12px;
+  margin-top: 2px;
 }
 
-.small-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
+
+.small-estado-input .label-general{
+  margin-left: 100px;
 }
 
 ::ng-deep .small-input .mat-form-field-outline {
@@ -68,19 +91,6 @@
   background-color: #202020;
 }
 
-.chapa-search-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 .chapa-input {
   width: 152px;
@@ -94,19 +104,6 @@
   color: #FBFBFE;
 }
 
-.chapa-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 ::ng-deep .chapa-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -123,20 +120,6 @@
   font-weight: 400;
   line-height: 16.41px;
   color: #FBFBFE;
-}
-
-.propietario-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
 }
 
 ::ng-deep .propietario-input .mat-form-field-outline {
@@ -156,20 +139,6 @@
   color: #FBFBFE;
 }
 
-.propietario_doc-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
-
 ::ng-deep .propietario_doc-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -187,19 +156,6 @@
   color: #FBFBFE;
 }
 
-.beneficiario-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 ::ng-deep .beneficiario-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -216,20 +172,6 @@
   font-weight: 400;
   line-height: 16.41px;
   color: #FBFBFE;
-}
-
-.chofer-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
 }
 
 ::ng-deep .chofer-input .mat-form-field-outline {
@@ -249,19 +191,6 @@
   color: #FBFBFE;
 }
 
-.chofer_doc-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 ::ng-deep .chofer_doc-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -281,19 +210,6 @@
   color: #FBFBFE;
 }
 
-.lote_pedido-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 ::ng-deep .lote_pedido-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -313,20 +229,6 @@
   text-align: end;
 }
 
-.saldo-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
-
 ::ng-deep .saldo-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -342,20 +244,6 @@
   font-weight: 400;
   line-height: 16.41px;
   color: #FBFBFE;
-}
-
-.cliente-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
 }
 
 ::ng-deep .cliente-input .mat-form-field-outline {
@@ -375,20 +263,6 @@
   color: #FBFBFE;
 }
 
-.producto-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
-
 ::ng-deep .producto-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -404,20 +278,6 @@
   font-weight: 400;
   line-height: 16.41px;
   color: #FBFBFE;
-}
-
-.origen_destino-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
 }
 
 ::ng-deep .origen_destino-input .mat-form-field-outline {
@@ -437,19 +297,6 @@
   color: #FBFBFE;
 }
 
-.tipo_flete-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 ::ng-deep .tipo_flete-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -469,19 +316,6 @@
   text-align: end;
 }
 
-.a_pagar-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -6px;
-}
 
 ::ng-deep .a_pagar-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -499,20 +333,6 @@
   line-height: 16.41px;
   text-align: end;
   color: #FBFBFE;
-}
-
-.valor-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -6px;
 }
 
 ::ng-deep .valor-input .mat-form-field-outline {
@@ -533,20 +353,6 @@
   color: #FBFBFE;
 }
 
-.neto-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
-
 ::ng-deep .neto-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -565,19 +371,6 @@
   color: #FBFBFE;
 }
 
-.nominada-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -2px;
-}
 
 ::ng-deep .nominada-input .mat-form-field-outline {
   border: 1px solid #F25A38;
@@ -596,40 +389,37 @@
   color: #FBFBFE;
 }
 
-.cantidades-input input {
-  width: 100%;
-  height: 100%;
-  padding-bottom: 1px;
-  border: none;
-  outline: none;
-  background: transparent;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 116.41px;
-  margin-top: -8px;
-}
-
 ::ng-deep .cantidades-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
 }
 
-.label-general{
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  color: #202020;
-  width: 34px;
-  height: 16px;
-  gap: 0px;
-  opacity: 0px;
-  pointer-events: none;
-  padding-top: 8px;
-}
+
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
+
+  /* Aplica estilos de borde personalizados a mat-form-field */
+  ::ng-deep .mat-form-field-outline {
+    border: 1px solid #D9D9D9;
+    border-radius: 6px;
+    border: 2px 0px 0px 0px;
+    opacity: 0px;
+    height: 26px;
+  }
+  /* Clase general para centrar texto en inputs */
+  .custom-input {
+    position: relative;
+    top: -4.3px; 
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin-top: -5px;
+    width: auto;
+    margin-left: -4px;
+    border: none;
+    border-color: none;
+    background: none;
+    outline: none;
+  }
 
   .small-input {
     width: 105px;
@@ -643,19 +433,6 @@
     color: #FBFBFE;
   }
 
-  .small-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 11px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
 
   .chapa-search-input {
     width: 112px;
@@ -670,19 +447,6 @@
     background-color: #202020;
   }
 
-  .chapa-search-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
 
   .chapa-input {
     width: 128px;
@@ -696,19 +460,6 @@
     color: #FBFBFE;
   }
 
-  .chapa-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
 
   .propietario-input {
     width: 253px;
@@ -720,20 +471,6 @@
     font-weight: 400;
     line-height: 16.41px;
     color: #FBFBFE;
-  }
-
-  .propietario-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
   }
 
   .propietario_doc-input {
@@ -748,20 +485,6 @@
     color: #FBFBFE;
   }
 
-  .propietario_doc-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
-
   .beneficiario-input {
     width: 253px;
     height: 24px;
@@ -772,20 +495,6 @@
     font-weight: 400;
     line-height: 16.41px;
     color: #FBFBFE;
-  }
-
-  .beneficiario-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
   }
 
   .chofer-input {
@@ -800,20 +509,6 @@
     color: #FBFBFE;
   }
 
-  .chofer-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
-
   .chofer_doc-input {
     width: 105px;
     height: 24px;
@@ -826,20 +521,6 @@
     color: #FBFBFE;
   }
 
-  .chofer_doc-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
-
   .lote_pedido-input {
     width: 78px;
     height: 24px;
@@ -850,20 +531,6 @@
     font-weight: 400;
     line-height: 16.41px;
     color: #FBFBFE;
-  }
-
-  .lote_pedido-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
   }
 
   .saldo-input {
@@ -879,20 +546,6 @@
     text-align: end;
   }
 
-  .saldo-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
-
   .cliente-input {
     width: 260px;
     height: 24px;
@@ -903,20 +556,6 @@
     font-weight: 400;
     line-height: 16.41px;
     color: #FBFBFE;
-  }
-
-  .cliente-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 12px; /* Ajuste del font-size */
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
   }
 
   .producto-input{
@@ -931,19 +570,7 @@
     color: #FBFBFE;
   }
   
-  .producto-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
+
   
   .origen_destino-input{
     width: 305px;
@@ -957,19 +584,7 @@
     color: #FBFBFE;
   }
   
-  .origen_destino-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
+
   
   .tipo_flete-input{
     width: 155px;
@@ -983,19 +598,7 @@
     color: #FBFBFE;
   }
   
-  .tipo_flete-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
+ 
 
   .a_pagar-input{
     width: 200px;
@@ -1009,20 +612,7 @@
     color: #FBFBFE;
     text-align: end;
   }
-  
-  .a_pagar-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -6px;
-  }
+
   .valor-input{
     width: 150px;
     height: 24px;
@@ -1036,33 +626,6 @@
     color: #FBFBFE;
   }
   
-  .valor-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -6px;
-  }
-  
-  .neto-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -2px;
-  }
 
   .cantidades-input{
     width: 280px;
@@ -1077,33 +640,20 @@
     color: #FBFBFE;
   }
   
-  .cantidades-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto' sans-serif;
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 116.41px;
-    margin-top: -8px;
-  }
-  
+
   .label-general{
     font-family: 'Roboto' sans-serif;
     font-size: 11px;
     font-weight: 400;
-    line-height: 16.41px;
     color: #202020;
     width: 34px;
     height: 16px;
     gap: 0px;
     opacity: 0px;
     pointer-events: none;
-    padding-top: 8px;
-  }  
+    position: relative;
+    top: -3px;
+  }
 }
 
 @media screen and (min-width: 3840px) and (min-height: 2160px) {
@@ -1120,20 +670,6 @@
     color: #FBFBFE;
   }
 
-  .small-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 13px;
-    font-weight: 400;
-    line-height: 18px;
-    margin-top: -2px;
-  }
-
   .chapa-search-input {
     width: 130px;
     height: 28px;
@@ -1145,20 +681,6 @@
     line-height: 18px;
     color: #FBFBFE;
     background-color: #202020;
-  }
-
-  .chapa-search-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 18px;
-    margin-top: -2px;
   }
 
   .chapa-input {
@@ -1173,19 +695,6 @@
     color: #FBFBFE;
   }
 
-  .chapa-input input {
-    width: 100%;
-    height: 100%;
-    padding-bottom: 1px;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 18px;
-    margin-top: -2px;
-  }
 
   /* Agrega estilos similares para otros inputs aquí */
 

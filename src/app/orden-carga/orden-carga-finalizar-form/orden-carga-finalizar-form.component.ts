@@ -29,6 +29,9 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
+import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
+import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 
 @Component({
   selector: 'app-orden-carga-finalizar-form',
@@ -57,8 +60,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   isShow: boolean = true;
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
+  private dialogOpened = false;
   isEdit = false;
   isDataLoaded: boolean = true;
+  originalComentario: string | null = null;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -153,6 +158,14 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     return this.form.get('porcentaje_anticipos') as FormArray;
   }
 
+  get complementoList(): OrdenCargaComplemento[] {
+    return this.item!?.complementos.slice();
+  }
+
+  get descuentoList(): OrdenCargaDescuento[] {
+    return this.item!?.descuentos.slice();
+  }
+
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
   }
@@ -231,11 +244,51 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
   back(confirmed: boolean): void {
     if (confirmed) {
+      // Guardar toda la información si se confirma la acción
       this.save(confirmed);
     } else {
-      this.router.navigate([this.backUrl]);
+      // Obtener el valor actual del comentario y convertirlo a mayúsculas
+      let comentario = this.form.get('info.comentarios')?.value;
+      if (comentario) {
+        comentario = comentario.toUpperCase();
+      }
+  
+      // Comparar el valor actual del comentario con el valor original
+      if (comentario !== this.originalComentario) {
+        // Solicitar confirmación antes de aplicar los cambios
+        const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
+  
+        if (confirmation) {
+          // Guardar el comentario en mayúsculas antes de navegar
+          this.ordenCargaService.updateComentarios(this.idOC, comentario).subscribe(
+            () => {
+              // Actualizar los datos después de guardar el comentario
+              this.getData();
+  
+              // Navegar después de actualizar los datos
+              this.router.navigate([this.backUrl]);
+            },
+            (error) => {
+              // Mostrar mensaje de error si algo sale mal
+              this.snackBar.open('Error al guardar el comentario', 'Cerrar', {
+                duration: 3000, // Duración del mensaje
+                verticalPosition: 'top',
+                horizontalPosition: 'center',
+              });
+            }
+          );
+        } else {
+          // Si el usuario cancela, simplemente navega a la URL de retorno
+          this.router.navigate([this.backUrl]);
+        }
+      } else {
+        // Navegar directamente si no hay cambios en el comentario
+        this.router.navigate([this.backUrl]);
+      }
     }
   }
+  
+  
 
   active(): void {
     if (this.ordenCargaId !== null) {
@@ -288,7 +341,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     }
   }
   
-  
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
       this.dialog.changeStatusConfirm(
@@ -303,30 +355,105 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     }
   }
 
+
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
       if (this.item?.estado === 'Finalizado') {
         alert('La Orden de Carga ya está finalizada.');
         return;
       }
-      this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea finalizar la Orden de Carga?',
-        this.ordenCargaService.finalizar(this.idOC),
-        () => {
-          this.getData();
-          this.snackBar.open('Generando PDF...', 'Cerrar', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center'
-          });
-          this.downloadResumenPDF();
-        }
-      );
+      
+      const comentario = this.form.get('info.comentarios')?.value;
+      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+  
+      if (comentarioUpper) {
+        this.ordenCargaService.updateComentarios(this.idOC, comentarioUpper).subscribe(() => {
+          // Luego, proceder con la finalización
+          this.dialog.changeStatusConfirm(
+            '¿Está seguro que desea finalizar la Orden de Carga?',             
+            this.ordenCargaService.finalizar(this.idOC),
+            () => {
+              this.getData();
+              this.form.get('info.comentarios')?.disable();
+              this.snackBar.open('Generando PDF...', 'Cerrar', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
+              });
+              this.downloadResumenPDF();
+            }
+          );
+        });
+      } else {
+        // Si no hay comentario, directamente proceder con la finalización
+        this.dialog.changeStatusConfirm(
+          '¿Está seguro que desea finalizar la Orden de Carga?',
+          this.ordenCargaService.finalizar(this.idOC),
+          () => {
+            this.getData();
+            this.form.get('info.comentarios')?.disable();
+            this.snackBar.open('Generando PDF...', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+            });
+            this.downloadResumenPDF();
+          }
+        );
+      }
     } else {
       console.error('No se puede finalizar anticipos sin un ID válido');
     }
   }
 
+  conciliar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+      if (this.item?.estado === 'Conciliado') {
+        alert('La Orden de Carga ya está conciliada.');
+        return;
+      }
+
+      const comentario = this.form.get('info.comentarios')?.value;
+      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+
+      if (comentarioUpper) {
+        this.ordenCargaService.updateComentarios(this.idOC, comentarioUpper).subscribe(() => {
+          this.dialog.changeStatusConfirm(
+            '¿Está seguro que desea conciliar la Orden de Carga?',
+            this.ordenCargaService.conciliar(this.idOC),
+            () => {
+              this.getData();
+              this.form.get('info.comentarios')?.disable();
+              this.snackBar.open('Generando PDF...', 'Cerrar', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
+              });
+              this.downloadResumenPDFConciliado();
+            }
+          );
+        });
+      } else {
+        this.dialog.changeStatusConfirm(
+          '¿Está seguro que desea conciliar la Orden de Carga?',
+          this.ordenCargaService.conciliar(this.idOC),
+          () => {
+            this.getData();
+            this.form.get('info.comentarios')?.disable();
+            this.snackBar.open('Generando PDF...', 'Cerrar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center'
+            });
+            this.downloadResumenPDFConciliado();
+          }
+        );
+      }
+    } else {
+      console.error('No se puede conciliar la Orden de Carga sin un ID válido');
+    }
+  }
+  
   
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
@@ -345,14 +472,31 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       });
     });
   }
-  
 
+
+  downloadResumenPDFConciliado(): void {
+    this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewConciliarDialogComponent, {
+          width: '80%',
+          height: '80%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob, 
+            filename: filename 
+          }
+        });
+      });
+    });
+  }
+  
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
   }
 
-  private dialogOpened = false;
-  
+
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
@@ -385,6 +529,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       }
     }
   }
+
 
   getData(): void {
     const ocValue = this.idOC; 
@@ -423,9 +568,9 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             a_pagar: data.condicion_gestor_cuenta_tarifa,
             neto: data.neto,
             valor: data.flete_monto_efectivo,
-            cant_origen: 0,
-            cant_destino: 0,
-            diferencia: 0,
+            cant_origen: data.cantidad_origen,
+            cant_destino: data.cantidad_destino,
+            diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
             anticipos: data.anticipos_liberados
@@ -442,10 +587,11 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
           },
         });
         this.isLoadingData = false; 
+        this.originalComentario = data.comentarios ?? null;
         this.ngOnInit();
         this.isFormSaved = true; 
         this.isFormSubmitting = false
-        this.isShow = false
+        this.isShow = false      
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');

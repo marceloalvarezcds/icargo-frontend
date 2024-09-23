@@ -1,0 +1,27 @@
+<ng-container *ngIf="form">
+  <ng-container *ngIf="ocEstadoAceptado; else inputTemplate">
+    <ng-container *ngIf="list$ | async as list">
+      <app-dialog-field-oc
+        [emptyHint]="emptyIdHint"
+        [title]="title"
+        [columns]="columns"
+        [list]="list"
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [inputValuePropName]="inputValuePropName"
+        [form]="form"
+        (valueChange)="valueChange.emit($event)"
+      ></app-dialog-field-oc>
+    </ng-container>
+  </ng-container>
+  <ng-template #inputTemplate>
+    <app-input-field
+      [subtitle]="subtitle"
+      [hint]="(list$ | async)?.length === 0 && !ocEstadoAceptado ? 'Sin estado Aceptado' : emptyHint"
+      [readonly]="true"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [form]="form"
+    ></app-input-field>
+  </ng-template>
+</ng-container>

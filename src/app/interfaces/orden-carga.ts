@@ -145,6 +145,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   remisiones_resultado_flete: OrdenCargaRemisionResultado[];
   cantidad_destino: number;
   cantidad_origen: number;
+  diferencia_origen_destino: number;
   total_anticipo: number;
   total_anticipo_complemento: number;
   total_anticipo_retirado: number;
@@ -197,6 +198,7 @@ export interface OrdenCargaList extends OrdenCargaForm {
   // FIN Tramo de OC
   cantidad_destino: number;
   cantidad_origen: number;
+  diferencia_origen_destino: number;
   remisiones: string;
   nro_tickets: string;
   // Auditoría
@@ -321,6 +323,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   remisiones_resultado_flete: mockOrdenCargaRemisionResultadoList,
   cantidad_destino: 10000,
   cantidad_origen: 10000,
+  diferencia_origen_destino: 0,
   total_anticipo: 10000,
   total_anticipo_complemento: 10000,
   total_anticipo_retirado: 10000,
@@ -380,6 +383,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     // FIN Tramo de OC
     cantidad_destino: 10000,
     cantidad_origen: 10000,
+    diferencia_origen_destino: 0,
     remisiones: mockOrdenCargaRemisionOrigenList
       .map((x) => x.numero_documento)
       .join(', '),
@@ -439,6 +443,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     // FIN Tramo de OC
     cantidad_destino: 10000,
     cantidad_origen: 10000,
+    diferencia_origen_destino:0,
     remisiones: mockOrdenCargaRemisionOrigenList
       .map((x) => x.numero_documento)
       .join(', '),
@@ -498,6 +503,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     // FIN Tramo de OC
     cantidad_destino: 10000,
     cantidad_origen: 10000,
+    diferencia_origen_destino: 0,
     remisiones: mockOrdenCargaRemisionOrigenList
       .map((x) => x.numero_documento)
       .join(', '),

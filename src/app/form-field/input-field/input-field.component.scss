@@ -73,9 +73,10 @@ mat-hint {
   font-size: 10px; /* Tamaño de fuente del hint */
   font-style: italic; /* Estilo de fuente del hint */
   white-space: nowrap;
-  bottom: 10px; /* Ajusta el hint en la parte inferior del mat-form-field */
+  bottom: 24px; /* Ajusta el hint en la parte inferior del mat-form-field */
   left: 0; /* Ajusta el hint en la parte izquierda del mat-form-field */
   right: 30px; /* Ajusta el hint en la parte derecha del mat-form-field */
-  padding-bottom: 12px; /* Elimina el padding por defecto */
   display: block; /* Asegura que el hint se muestre como bloque */
+  margin-top: 15px;
+  margin-left: -10px;
 }

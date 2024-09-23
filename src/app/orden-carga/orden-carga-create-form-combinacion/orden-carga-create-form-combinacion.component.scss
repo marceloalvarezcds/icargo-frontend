@@ -14,7 +14,7 @@
 .page-form-row {
   display: flex;
   flex-wrap: nowrap;
-  margin-bottom: 5px;
+  margin-bottom: -2px;
 }
 
 .row.page-form-row {
@@ -28,9 +28,11 @@
   flex-wrap: nowrap;
   margin-bottom: 11px;
   gap: 5px;
-  margin-top: -5px;
+  margin-top: -15px;
   margin-left: -2px;
 }
+
+
 
 .section h2 {
   margin: 0 0 15px 0;
@@ -42,7 +44,6 @@
   border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
   width: 1600px;
 }
-
 
 .small-estado-input{
   width: 100px;
@@ -83,16 +84,6 @@ mat-slide-toggle {
   opacity: 0.6 !important; /* Opacidad reducida para el texto de la etiqueta */
 }
 
-/* Aplica estilos de borde personalizados a mat-form-field */
-::ng-deep .mat-form-field-outline {
-  border: 1px solid #D9D9D9;
-  border-radius: 6px;
-  border: 2px 0px 0px 0px;
-  opacity: 0px;
-  height: 32px;
-}
-
-
 
 .small-saldo-input{
   margin-left: 10px; 
@@ -110,11 +101,11 @@ mat-slide-toggle {
 .search-tracto label {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
-  margin-right: 5px; /* Ajusta este valor según sea necesario */
-  margin-top: 16px; /* Elimina cualquier margen superior */
-  color: black; /* Si necesitas cambiar el color del texto */
-  padding: 0; /* Ajusta el padding según sea necesario */
-  border-radius: 4px; /* Ajusta el radio de borde si es necesario */
+  margin-right: 5px; 
+  margin-top: 13px; 
+  color: black; 
+  padding: 0; 
+  border-radius: 4px; 
 }
 
 .slide-toggle-anticipos{

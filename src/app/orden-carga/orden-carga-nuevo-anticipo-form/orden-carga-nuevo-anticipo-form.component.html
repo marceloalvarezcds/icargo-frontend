@@ -12,6 +12,7 @@
   [class.page-form-show]="isShow"
   [isFormSubmitting]="isFormSubmitting"
   [estado]="estadoOc"
+  (cancelarClick)="cancelar()"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
@@ -26,17 +27,44 @@
     (camionChange)="camion = $event"
     (semiChange)="semi = $event"
     (combinacionChange)="combinacionList = $event"
-    [showSearchOC]="true"
+    [showSearchOC]="false"
+    [showSearchOCAceptadas]="true"
+    [showSearchOCPedidos]="true"
     (ocChange)="getData()"
   ></app-orden-carga-create-form-combinacion>
-  
-  <app-orden-carga-anticipos-table 
-    [class.disabled]="!isFormSaved"
-    [oc]="item"
-    [fleteId]="fleteId"
-    [list]="anticipoList"
-    (ocChange)="getData()"
-  >
-  </app-orden-carga-anticipos-table>
+
+  <div class="anticipo-table">
+    <app-orden-carga-anticipos-table 
+      [oc]="item"
+      [fleteId]="fleteId"
+      [list]="anticipoList"
+      (ocChange)="getData()"
+    >
+    </app-orden-carga-anticipos-table>
+  </div>
+
+  <div class="complementos_descuentos-container">
+    <div class="complementos_descuentos-item">
+      <app-orden-carga-edit-form-complementos
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [isShow]="isShow"
+        [puedeConciliar]="puedeConciliar"
+        [list]="complementoList"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-complementos>
+    </div>
+    
+    <div class="complementos_descuentos-item">
+      <app-orden-carga-edit-form-descuentos
+        [oc]="item"
+        [gestorCargaId]="gestorCargaId"
+        [isShow]="isShow"
+        [puedeConciliar]="puedeConciliar"
+        [list]="descuentoList"
+        (ocChange)="getData()"
+      ></app-orden-carga-edit-form-descuentos>
+    </div>
+  </div>  
 </div>
 

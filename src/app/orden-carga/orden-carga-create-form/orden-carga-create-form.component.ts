@@ -1,8 +1,10 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { filter } from 'rxjs/operators';
+import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
 import { OcConfirmationDialogComponent } from 'src/app/dialogs/oc-confirmation-dialog/oc-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -169,12 +171,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.modelo,
       this.gestorCargaId
     );
-  
-    console.log('Permiso para cambiar estado:', permiso); // Debugging
     return permiso;
   }
-  
-
   
 
   ngOnInit(): void {
@@ -199,6 +197,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     private snackbar: SnackbarService,
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
+    private matDialog: MatDialog ,
   ) {}
 
   setInitialToggleState(): void {
@@ -270,6 +269,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
         });
     }
   }
+
+
 
 
   submit(confirmed: boolean): void {

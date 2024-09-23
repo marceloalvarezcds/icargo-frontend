@@ -4,7 +4,7 @@
   }
   
   .remisiones-line h2 {
-    margin: 20px 0 30px 0; /* Incrementa el margen inferior para bajar más la línea */
+    margin: 20px 0 15px 0; /* Incrementa el margen inferior para bajar más la línea */
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 530;
@@ -35,7 +35,6 @@
   }
 
   .resultados-line h2 {
-
     font-family: 'Roboto', sans-serif;
     font-size: 13px;
     font-weight: 530;
@@ -50,5 +49,30 @@
   .resultados-container {
     margin-top: -30px; /* Sube más el contenedor */
     padding-bottom: 20px; 
+  }
+
+  .complementos_descuentos-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    margin-bottom: 50px;
+  }
+  
+  .complementos_descuentos-item {
+    flex: 1;
+    max-width: 49%; /* Ajuste de ancho para reducir el espacio entre los contenedores */
+    margin-right: -50%; /* Reducción del margen derecho */
+  }
+  
+  .complementos_descuentos-item:last-child {
+    margin-right: 65px;
+  }
+  
+  .complementos_descuentos-item:first-child {
+    margin-left: -15px; /* Sin margen derecho para el último elemento */
+  }
+  
+  .anticipo-table {
+    margin-bottom: 50px; /* Aumenta el valor según el espaciado que necesites */
   }
   

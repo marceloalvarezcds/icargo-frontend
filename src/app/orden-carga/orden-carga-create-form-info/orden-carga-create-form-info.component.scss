@@ -41,6 +41,7 @@
   flex-wrap: nowrap;
   margin-left: 450px;
   margin-bottom: 12px;
+  margin-top: -10px;
 }
 
 mat-form-field{
@@ -50,11 +51,11 @@ mat-form-field{
 
 .label-nominada{
   margin-right: -10px;
-  margin-top: 14px;
+  margin-top: 11px;
 }
 .label-obs{
   margin-right: -10px;
-  margin-top: 14px;
+  margin-top: 11px;
   margin-left: 18px;
 }
 
@@ -65,6 +66,17 @@ mat-form-field{
 
 .obs{
   width: 41.5em;
+}
+
+textarea{
+  position: relative;
+  top: -3px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -15px;
+  margin-left: 0px;
+ 
+  outline: none;
 }
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
@@ -107,6 +119,17 @@ mat-form-field{
     color: #007acc;  /* Celeste más oscuro */
     border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
     width: 1180px;
+  }
+
+  textarea{
+    position: relative;
+    top: -3px; 
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin-top: 5px;
+    margin-left: -10px;
+   
+    outline: none;
   }
 
 }

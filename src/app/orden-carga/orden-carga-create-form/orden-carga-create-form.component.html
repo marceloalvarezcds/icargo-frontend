@@ -28,19 +28,20 @@
       (ordenCargaChange)="ordenCarga = $event"
       [showSearchPedido]="true"
       [showSearchOC]="false"
+      
     ></app-orden-carga-create-form-combinacion>
    
     <div class="anticipo-table">
-    <app-orden-carga-anticipos-table 
-      [class.disabled]="!isFormSaved"
-      [oc]="item"
-      [fleteId]="fleteId"
-      [list]="anticipoList"
-      (ocChange)="getData()"
-      [isShow]="false">
-    </app-orden-carga-anticipos-table>
-  </div>
-    <!-- <div class="complementos_descuentos-container">
+      <app-orden-carga-anticipos-table 
+        [oc]="item"
+        [fleteId]="fleteId"
+        [list]="anticipoList"
+        (ocChange)="getData()"
+        [isShow]="false">
+      </app-orden-carga-anticipos-table>
+    </div>
+
+    <div class="complementos_descuentos-container">
       <div class="complementos_descuentos-item">
         <app-orden-carga-edit-form-complementos
           [oc]="item"
@@ -61,6 +62,6 @@
         (ocChange)="getData()"
       ></app-orden-carga-edit-form-descuentos>
     </div>
-  </div>  -->
+  </div>  
 </div>
 

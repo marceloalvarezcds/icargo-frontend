@@ -2,9 +2,8 @@
   <table mat-table [dataSource]="dataSource" matSort class="table-selector">
     <ng-container *ngFor="let column of filteredColumns" [matColumnDef]="column.def" [sticky]="column.sticky" [stickyEnd]="column.stickyEnd">
       <ng-container *ngIf="column.def === 'selector'">
-        <th mat-header-cell *matHeaderCellDef>
+        <th mat-header-cell *matHeaderCellDef [ngClass]="{'highlight-first-th': true}">
           <button type="button" mat-icon-button [matMenuTriggerFor]="filterColumn" #filterColumnTrigger>
-        
           </button>
           <mat-menu #filterColumn>
             <div mat-menu-item disableRipple>

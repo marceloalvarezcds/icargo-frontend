@@ -1,18 +1,14 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
-import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-field.component';
-import { DialogFormFieldControlComponent } from 'src/app/form-field/dialog-form-field-control/dialog-form-field-control.component';
-import { FleteByGestorDialogFieldComponent } from 'src/app/form-field/flete-by-gestor-dialog-field/flete-by-gestor-dialog-field.component';
-import { Camion, CamionList } from 'src/app/interfaces/camion';
-import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
+import { Camion } from 'src/app/interfaces/camion';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CamionService } from 'src/app/services/camion.service';
-import { CombinacionService } from 'src/app/services/combinacion.service';
+
 import { FleteService } from 'src/app/services/flete.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -43,6 +39,10 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Input() form?: FormGroup;
   @Input() showSearchPedido: boolean | undefined;
   @Input() showSearchOC: boolean = false;
+  @Input() showSearchOCAceptadas: boolean = false;
+  @Input() showSearchOCNuevos: boolean = false;
+  @Input() showSearchOCfinalizadas: boolean = false;
+  @Input() showSearchOCPedidos: boolean = false;
   @Input() disabled: boolean = false;
 
 
@@ -169,9 +169,9 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.form?.get(this.groupName)?.get('valor')?.setValue(oc.resultado_flete_gestor_carga_merma_valor); 
       this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
       this.form?.get(this.groupNameInfo)?.get('comentarios')?.setValue(oc.comentarios);
-      this.form?.get(this.groupName)?.get('cant_origen')?.setValue(0);
-      this.form?.get(this.groupName)?.get('cant_destino')?.setValue(0);
-      this.form?.get(this.groupName)?.get('diferencia')?.setValue(0);
+      this.form?.get(this.groupName)?.get('cant_origen')?.setValue(oc.cantidad_origen);
+      this.form?.get(this.groupName)?.get('cant_destino')?.setValue(oc.cantidad_destino);
+      this.form?.get(this.groupName)?.get('diferencia')?.setValue(oc.diferencia_origen_destino);
     }
   }
 
@@ -182,6 +182,8 @@ export class OrdenCargaCreateFormCombinacionComponent {
       });
     });
   }
+  
+  
 
   @Input() title = 'Chapa Tracto';
   @Input() control!: FormControl;

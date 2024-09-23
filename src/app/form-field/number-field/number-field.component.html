@@ -4,7 +4,7 @@
     <mat-form-field
       [formGroupName]="groupName"
       [ngClass]="{
-        'nominada-input'          :controlName === 'cantidad_nominada',
+        'nominada-field'          :controlName === 'cantidad_nominada',
                                 
         'anticipo-monto-input'    : controlName === 'monto_retirado' ||
                                     controlName === 'cantidad_retirada',
@@ -22,6 +22,7 @@
         [readonly]="readonly"
         [ngClass]="{
           'nominada-input': controlName === 'nominada',
+          'cantidad_nominada-input': controlName === 'cantidad_nominada',
           'view-mode': viewMode   
         }"
         tabindex="{{ readonly ? -1 : 0 }}"
@@ -52,7 +53,7 @@
     <label>{{ title }}</label>
     <mat-form-field
       [ngClass]="{
-      'nominada-input'          : controlName === 'cantidad_nominada',
+      'nominada-field'          : controlName === 'cantidad_nominada',
       'anticipo-monto-input'    : controlName === 'monto_retirado'  ||
                                   controlName === 'cantidad_retirada',
       'cantidad-remision-input' : controlName === 'cantidad' ||
@@ -69,6 +70,7 @@
         [readonly]="readonly"
         [ngClass]="{
           'nominada-input': controlName === 'cantidad_nominada',
+          'cantidad_nominada-input': controlName === 'cantidad_nominada',
           'view-mode': viewMode   
         }"
         tabindex="{{ readonly ? -1 : 0 }}"

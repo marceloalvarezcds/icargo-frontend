@@ -12,6 +12,7 @@
   (aceptarClick)="aceptar()"
   (cancelarClick)="cancelar()"
   (finalizarClick)="finalizar()"
+  (conciliarClick)="conciliar()"
   [isFormSaved]="isFormSaved"
   [class.page-form-show]="isShow"
   [isFormSubmitting]="isFormSubmitting"
@@ -20,6 +21,7 @@
   [isAnticipoActive]="isToggleAnticiposLiberados"
   [isDataLoaded]="isToggleAnticiposLiberados"
   [hideSaveButton]="true"
+  [estado]="estadoOc"
 >
 
   <div class="orden-carga-page-content">
@@ -29,17 +31,20 @@
       (camionChange)="camion = $event"
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
-      [showSearchOC]="true"
+      [showSearchOC]="false"
+      [showSearchOCAceptadas]="true"
+      [showSearchOCPedidos]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
 
-    <app-orden-carga-anticipos-table 
-      [oc]="item"
-      [fleteId]="fleteId"
-      [list]="anticipoList"
-      (ocChange)="getData()">
-    </app-orden-carga-anticipos-table>
-
+    <div class="anticipo-table">
+      <app-orden-carga-anticipos-table 
+        [oc]="item"
+        [fleteId]="fleteId"
+        [list]="anticipoList"
+        (ocChange)="getData()">
+      </app-orden-carga-anticipos-table>
+    </div>
     <div  class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
       <div class="remisiones-item">
@@ -64,6 +69,31 @@
         ></app-orden-carga-edit-form-remisiones-destino>
       </div>
     </div>
+
+    <div class="complementos_descuentos-container">
+      <div class="complementos_descuentos-item">
+        <app-orden-carga-edit-form-complementos
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [isShow]="isShow"
+          [puedeConciliar]="puedeConciliar"
+          [list]="complementoList"
+          (ocChange)="getData()"
+        ></app-orden-carga-edit-form-complementos>
+      </div>
+      
+      <div class="complementos_descuentos-item">
+        <app-orden-carga-edit-form-descuentos
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [isShow]="isShow"
+          [puedeConciliar]="puedeConciliar"
+          [list]="descuentoList"
+          (ocChange)="getData()"
+        ></app-orden-carga-edit-form-descuentos>
+      </div>
+    </div>  
+
     <div class="resultados-container">
       <div class="resultados-line">
         <h2>TABLA DE RESULTADOS</h2>

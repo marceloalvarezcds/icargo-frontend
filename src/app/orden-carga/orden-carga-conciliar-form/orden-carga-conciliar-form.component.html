@@ -21,7 +21,7 @@
   [isAnticipoActive]="isToggleAnticiposLiberados"
   [isDataLoaded]="isToggleAnticiposLiberados"
   [hideSaveButton]="true"
-  [estado]="dataFromParent"
+  [estado]="estadoOc"
 >
 
   <div class="orden-carga-page-content">
@@ -31,7 +31,7 @@
       (camionChange)="camion = $event"
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
-      [showSearchOC]="true"
+      [showSearchOCfinalizadas]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
 
