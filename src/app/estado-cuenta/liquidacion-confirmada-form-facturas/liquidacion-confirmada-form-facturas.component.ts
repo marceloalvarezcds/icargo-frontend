@@ -154,7 +154,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     this.loadList();
   }
 
-  private loadList(): void {
+  public loadList(): void {
     this.facturaService
       .getListByLiquidacionId(this.liquidacion.id)
       .subscribe((list) => {

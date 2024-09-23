@@ -28,7 +28,6 @@
           type="button"
           (click)="addMovimientos()"
           id="add-button"
-          [hidden]="!(list && list.length)"
         >
           Agregar
         </button>
@@ -38,7 +37,7 @@
           type="button"
           (click)="removeMovimientos()"
           id="del-button"
-          [hidden]="!(list && list.length)"
+          [disabled]="!(list && list.length)"
         >
           Excluir
         </button>

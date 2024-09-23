@@ -51,6 +51,11 @@ export class LiquidacionFormDialogComponent {
     return this.data;
   }
 
+  get esFinalizado():boolean {
+    return (this.liquidacion?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
+            this.liquidacion?.estado === LiquidacionEstadoEnum.SALDO_CERRADO);
+  }
+
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<LiquidacionFormDialogComponent>,
@@ -229,7 +234,6 @@ export class LiquidacionFormDialogComponent {
 
   loadLiquidacion(): void {
     this.liquidacionService.getById(this.liquidacionId!).subscribe((item) => {
-      console.log("item: ", item);
       this.liquidacion = item;
       this.getMovimientos(item);
     });

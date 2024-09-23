@@ -11,6 +11,20 @@
           ) &&
           (m.LIQUIDACION | puede: a.CREAR)
         "
+        (click)="datosFiscalesForm()"
+      >
+        Datos Fiscales
+      </button>
+      <button
+        type="button"
+        mat-raised-button
+        color="primary"
+        *ngIf="(
+          liquidacion.estado === E.EN_REVISION ||
+          liquidacion.estado === E.RECHAZADO
+          ) &&
+          (m.LIQUIDACION | puede: a.CREAR)
+        "
         (click)="someter()"
       >
         Someter

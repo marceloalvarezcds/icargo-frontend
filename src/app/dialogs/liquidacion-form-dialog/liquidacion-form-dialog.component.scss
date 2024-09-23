@@ -50,8 +50,17 @@
   grid-auto-flow: column;
   grid-column-gap: 10px;
   justify-content: start;
+}
+
+.has-movimiento {
   position: relative;
   overflow: visible;
-  top: -50px;
+  padding: 1rem 0px;
+  margin-bottom: 0;
+}
+
+.finalizado {
+  top: 0px;
+  padding: 1rem 0px;
 }
 

@@ -1,4 +1,5 @@
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { ContraparteGralInfo } from '../interfaces/contraparte-info';
 import { Liquidacion } from '../interfaces/liquidacion';
 
 export const createLiquidacionData = (movimientos: Movimiento[]): FormData => {
@@ -13,9 +14,9 @@ export const removeMovimientoData = (movimiento: Movimiento): FormData => {
   return formData;
 };
 
-export const createLiquidacionDataMonto = (movimientos: Movimiento[], monto:number, es_pago_cobro:string): FormData => {
+export const createLiquidacionDataFields = (movimientos: Movimiento[], cabecera:ContraparteGralInfo,  monto:number, es_pago_cobro:string): FormData => {
   const formData = new FormData();
-  formData.append('data', JSON.stringify({ movimientos: movimientos, monto:monto, es_pago_cobro: es_pago_cobro}));
+  formData.append('data', JSON.stringify({ movimientos: movimientos, cabecera:cabecera, monto:monto, es_pago_cobro: es_pago_cobro}));
   return formData;
 };
 
