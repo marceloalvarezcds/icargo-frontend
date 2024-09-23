@@ -1,9 +1,9 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
-import { map } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
@@ -75,12 +75,40 @@ export class OrdenCargaService {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/inactive`);
   }
 
+  updateComentarios(id: number, comentarios: string): Observable<any> {
+    return this.http.put(`${this.url}/${id}/comentarios`, { comentarios });
+  }
+  
   getListOCByCombinacionId(combinacionId: number): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/${combinacionId}`);
   }
 
-  getListByCombinacionId(combinacionId: number): Observable<OrdenCargaList> {
-    return this.http.get<OrdenCargaList>(`${this.url}/combinaciones/${combinacionId}`);
+  getListOCByCombinacionIdAnOCAceptadas(combinacionId: number): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/finalizar/aceptado/${combinacionId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getListOCByCombinacionIdAnOCFinalizadas(combinacionId: number): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/finalizar/${combinacionId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  getListOCByCombinacionIdAnOCNuevos(combinacionId: number): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/crear/nuevo/aceptar/${combinacionId}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
+  private handleError(error: HttpErrorResponse) {
+    // Maneja el error de acuerdo a tu necesidad
+    console.error('Error en la petición:', error);
+    if (error.status === 404) {
+      // Retorna un observable vacío o un error controlado si es 404
+      return throwError(() => new Error('No se encontraron órdenes de carga aceptadas para esta combinación'));
+    }
+    return throwError(() => new Error('Error en el servidor'));
   }
  
 }

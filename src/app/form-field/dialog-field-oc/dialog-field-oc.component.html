@@ -1,61 +1,48 @@
-
-<div *ngIf="form" class="search-container">
-    <ng-container *ngIf="fetchFunction || list.length; else inputTemplate">
-      <mat-form-field >
-        <app-dialog-form-field-control
-          [descripcionPropName]="inputValuePropName"
-          [columns]="columns"
-          [list]="list"
-          [title]="title"
-          [subtitle]="subtitle"
-          [formControl]="control"
-          [dialogRefFunction]="dialogRefFunction"
-          [fetchFunction]="fetchFunction"
-          (emptyListChange)="emptyListChange.emit()"
-          (valueChange)="$event && valueChange.emit($event)"
-        ></app-dialog-form-field-control>
-        <!-- <button
-          type="button"
-          matSuffix
-          mat-icon-button
-          (click)="$event.stopPropagation(); clearSelectedValue()"
-          *ngIf="control.value"
-          [disabled]="disabled || readonly"
-        >
-          <mat-icon class="small-icon">close</mat-icon>
-        </button> -->
-        <button
-          type="button"
-          matSuffix
-          mat-icon-button
-          (click)="$event.stopPropagation(); openDialog()"
-          [disabled]="disabled || readonly"
-        >
-          <mat-icon class="small-icon">search</mat-icon>
-        </button>
-        <mat-error *ngIf="control.hasError('required')">
-          El campo es <strong>requerido</strong>
-        </mat-error>
-      </mat-form-field>
-    </ng-container>
-    <ng-template #inputTemplate>
-      <app-input-field-by-placa
-        hidden
+<div *ngIf="form" class="search-container input-container">
+  <ng-container *ngIf="fetchFunction || list.length; else inputTemplate">
+    <mat-form-field class="mat-form-field-level">
+      <app-dialog-form-field-control
+        [descripcionPropName]="inputValuePropName"
+        [columns]="columns"
+        [list]="list"
         [title]="title"
-        [readonly]="true"
-        [groupName]="groupName"
-        [controlName]="controlName"
-        [form]="form"
-      ></app-input-field-by-placa>
+        [subtitle]="subtitle"
+        [formControl]="control"
+        [dialogRefFunction]="dialogRefFunction"
+        [fetchFunction]="fetchFunction"
+        (emptyListChange)="emptyListChange.emit()"
+        (valueChange)="$event && valueChange.emit($event)"
+      ></app-dialog-form-field-control>
+      <button
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="$event.stopPropagation(); openDialog()"
+        [disabled]="disabled || readonly"
+      >
+        <mat-icon class="small-icon">search</mat-icon>
+      </button>
+      <mat-error *ngIf="control.hasError('required')" class="error-message">
+        El campo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+  </ng-container>
+  
+  <ng-template #inputTemplate>
+    <app-input-field-by-placa
+      hidden
+      [title]="title"
+      [readonly]="true"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [form]="form"
+    ></app-input-field-by-placa>
  
-      <mat-form-field class="empty-form-field">
-        
-        <input matInput disabled />
-        <mat-hint *ngIf="!list.length">
-          {{ emptyHint }}
-        </mat-hint>
-      </mat-form-field>
-    </ng-template>
-  </div>
-  
-  
+    <mat-form-field class="empty-form-field mat-form-field-level">
+      <input matInput disabled />
+      <mat-hint *ngIf="!list.length">
+        {{ emptyHint }}
+      </mat-hint>
+    </mat-form-field>
+  </ng-template>
+</div>

@@ -17,6 +17,8 @@ import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
+import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
@@ -53,6 +55,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
   dataFromParent: string = 'Nuevo';
   isEdit = false;
   isDataLoaded: boolean = true;
+  originalComentario: string | null = null;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -138,6 +141,14 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
     return this.item!?.anticipos.slice();
   }
 
+  get complementoList(): OrdenCargaComplemento[] {
+    return this.item!?.complementos.slice();
+  }
+
+  get descuentoList(): OrdenCargaDescuento[] {
+    return this.item!?.descuentos.slice();
+  }
+
   get porcentajeAnticipos(): FormArray {
     return this.form.get('porcentaje_anticipos') as FormArray;
   }
@@ -219,11 +230,42 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
 
   back(confirmed: boolean): void {
     if (confirmed) {
+      // Guardar toda la información si se confirma la acción
       this.save(confirmed);
     } else {
-      this.router.navigate([this.backUrl]);
+      // Obtener el valor actual del comentario y convertirlo a mayúsculas
+      let comentario = this.form.get('info.comentarios')?.value;
+      if (comentario) {
+        comentario = comentario.toUpperCase();
+      }
+  
+      // Comparar el valor actual del comentario con el valor original
+      if (comentario !== this.originalComentario) {
+        // Solicitar confirmación antes de aplicar los cambios
+        const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
+  
+        if (confirmation) {
+          // Guardar el comentario en mayúsculas antes de navegar
+          this.ordenCargaService.updateComentarios(this.idOC, comentario).subscribe(
+            () => {
+              // Actualizar los datos después de guardar el comentario
+              this.getData();
+  
+              // Navegar después de actualizar los datos
+              this.router.navigate([this.backUrl]);
+            },
+          );
+        } else {
+          // Si el usuario cancela, simplemente navega a la URL de retorno
+          this.router.navigate([this.backUrl]);
+        }
+      } else {
+        // Navegar directamente si no hay cambios en el comentario
+        this.router.navigate([this.backUrl]);
+      }
     }
   }
+  
 
   active(): void {
     if (this.ordenCargaId !== null) {
@@ -255,43 +297,81 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
 
   aceptar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-      this.dialog.confirmation(
-        '¿Está seguro que desea aceptar la Orden de Carga?',
-        () => {
-          this.ordenCargaService.aceptar(this.idOC as number).subscribe(
+      const comentario = this.form.get('info.comentarios')?.value;
+      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+  
+      if (comentarioUpper) {
+        this.ordenCargaService.updateComentarios(this.idOC, comentarioUpper).subscribe(() => {
+          this.dialog.confirmation(
+            '¿Está seguro que desea aceptar la Orden de Carga?',
             () => {
-              this.snackbar.open('Estado cambiado satisfactoriamente');
-              this.puedeCrearRemision = true; 
-            },
-            (error) => {
-              console.error('Error al aceptar la orden de carga:', error);
-    
+              this.ordenCargaService.aceptar(this.idOC as number).subscribe(
+                () => {
+                  this.snackbar.open('Estado cambiado satisfactoriamente');
+                  this.puedeCrearRemision = true; 
+                  this.form.get('info.comentarios')?.disable();
+                },
+                (error) => {
+                  console.error('Error al aceptar la orden de carga:', error);
+                }
+              );
             }
           );
-        }
-      );
+        });
+      } else {
+        this.dialog.confirmation(
+          '¿Está seguro que desea aceptar la Orden de Carga?',
+          () => {
+            this.ordenCargaService.aceptar(this.idOC as number).subscribe(
+              () => {
+                this.snackbar.open('Estado cambiado satisfactoriamente');
+                this.puedeCrearRemision = true; 
+                this.form.get('info.comentarios')?.disable();
+              },
+              (error) => {
+                console.error('Error al aceptar la orden de carga:', error);
+              }
+            );
+          }
+        );
+      }
     } else {
       console.error('No se puede aceptar la orden de carga sin un ID válido');
-  
     }
   }
   
   
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-      this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
-        this.ordenCargaService.cancelar(this.idOC),
-        () => {
-          this.getData();
-        }
-      );
+      const comentario = this.form.get('info.comentarios')?.value;
+      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+  
+      if (comentarioUpper) {
+        this.ordenCargaService.updateComentarios(this.idOC, comentarioUpper).subscribe(() => {
+          this.dialog.changeStatusConfirm(
+            '¿Está seguro que desea cancelar la Orden de Carga?',
+            this.ordenCargaService.cancelar(this.idOC),
+            () => {
+              this.form.get('info.comentarios')?.disable();
+              this.getData();
+            }
+          );
+        });
+      } else {
+        this.dialog.changeStatusConfirm(
+          '¿Está seguro que desea cancelar la Orden de Carga?',
+          this.ordenCargaService.cancelar(this.idOC),
+          () => {
+            this.form.get('info.comentarios')?.disable();
+            this.getData();
+          }
+        );
+      }
     } else {
-      console.error('No se puede cancelar anticipos sin un ID válido');
+      console.error('No se puede cancelar la Orden de Carga sin un ID válido');
     }
   }
   
-
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
   }
@@ -368,9 +448,9 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
             a_pagar: data.condicion_gestor_cuenta_tarifa,
             neto: data.neto,
             valor: data.flete_monto_efectivo,
-            cant_origen: 0,
-            cant_destino: 0,
-            diferencia: 0,
+            cant_origen: data.cantidad_origen,
+            cant_destino: data.cantidad_destino,
+            diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
             anticipos: data.anticipos_liberados
@@ -387,6 +467,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
           },
         });
         this.isLoadingData = false; 
+        this.originalComentario = data.comentarios ?? null;
         this.ngOnInit();
         this.isFormSaved = true; 
         this.isFormSubmitting = false

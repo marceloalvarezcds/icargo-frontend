@@ -20,6 +20,7 @@
     (aceptarClick)="aceptar()"
     (finalizarClick)="finalizar()"
     (cancelarClick)="cancelar()"
+    (conciliarClick)="conciliar()"
     module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
     [estado]="estado"
     [isAnticipoActive]="isToggleAnticiposLiberados"
@@ -35,14 +36,18 @@
           class="orden-edit"
           (ocChange)="getData()"
       ></app-orden-carga-create-form-combinacion>
-        <app-orden-carga-anticipos-table 
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="anticipoList"
-          (ocChange)="getData()"
-      ></app-orden-carga-anticipos-table >
+
+      <div class="anticipo-table">
+          <app-orden-carga-anticipos-table 
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="anticipoList"
+            (ocChange)="getData()"
+        ></app-orden-carga-anticipos-table>
+     </div>
+
         <div *ngIf="!isNuevo">
           <div class="remisiones-line"><h2>REMISIONES</h2></div>
         <div class="remisiones-container">
@@ -68,38 +73,39 @@
           </div>
         </div>
       </div>
-      <div *ngIf="item.estado === 'Conciliado'">
+
+      <div>
         <div class="complementos_descuentos-container">
+            <div class="complementos_descuentos-item">
+              <app-orden-carga-edit-form-complementos
+                [oc]="item"
+                [gestorCargaId]="gestorCargaId"
+                [isShow]="isShow"
+                [puedeConciliar]="puedeConciliar"
+                [list]="complementoList"
+                (ocChange)="getData()"
+              ></app-orden-carga-edit-form-complementos>
+            </div>
           <div class="complementos_descuentos-item">
-            <app-orden-carga-edit-form-complementos
+            <app-orden-carga-edit-form-descuentos
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
               [puedeConciliar]="puedeConciliar"
-              [list]="complementoList"
+              [list]="descuentoList"
               (ocChange)="getData()"
-          
-            ></app-orden-carga-edit-form-complementos>
+            ></app-orden-carga-edit-form-descuentos>
           </div>
-        <div class="complementos_descuentos-item">
-          <app-orden-carga-edit-form-descuentos
+        </div> 
+      </div>
+      <div class="resultados-container">
+        <div class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
+          <app-orden-carga-edit-form-remisiones-resultado
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [puedeConciliar]="puedeConciliar"
-            [list]="descuentoList"
-            (ocChange)="getData()"
-          ></app-orden-carga-edit-form-descuentos>
+            [list]="remisionResultadoList"
+        ></app-orden-carga-edit-form-remisiones-resultado>
         </div>
-      </div> 
-    </div>
-    <div class="remisiones-line"><h2>TABLA DE RESULTADOS</h2></div>
-      <div></div>
-        <app-orden-carga-edit-form-remisiones-resultado
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [list]="remisionResultadoList"
-      ></app-orden-carga-edit-form-remisiones-resultado>
     </div>
   </app-page-form>
 </ng-container>

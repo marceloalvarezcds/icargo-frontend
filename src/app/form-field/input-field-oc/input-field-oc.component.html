@@ -31,7 +31,7 @@
         'neto-input'              : controlName === 'neto',
         'cantidades-input'        : controlName === 'cant_origen' ||
                                    controlName === 'cant_destino' ||  
-                                   controlName === 'diferencia'                                  }">
+                                   controlName === 'diferencia'}">
         
         <input
           class="custom-input"
@@ -75,7 +75,36 @@
     </ng-container>
     <ng-container *ngIf="!groupName">
       <label class="label-general">{{ title }}</label>
-      <mat-form-field [ngClass]="{ 'small-input': controlName === 'marca_camion' || controlName === 'color_camion', 'large-input': controlName === 'otro_control' }">
+      <mat-form-field    
+       [ngClass]="{ 
+        'small-input'             : controlName === 'marca_camion' ||
+                                    controlName === 'color_camion' ||
+                                    controlName === 'marca_camion' ||
+                                    controlName === 'marca_semi'   ||
+                                    controlName === 'color_semi',
+        'chapa-input'             : controlName === 'semi_placa',
+        'propietario-input'       : controlName === 'propietario_camion',
+        'beneficiario-input'       : controlName === 'beneficiario_camion',
+        'propietario_doc-input'   : controlName === 'propietario_camion_doc'||
+                                    controlName === 'beneficiario_camion_doc',
+        'chofer-input'            : controlName === 'chofer_camion',
+        'chofer_doc-input'        : controlName === 'chofer_camion_doc',
+        'chapa-search-input'      : title === 'Chapa', 
+        
+        'lote_pedido-input'       : controlName === 'flete_id' ||
+                                    controlName === 'numero_lote',
+        'saldo-input'             : controlName === 'saldo',
+        'cliente-input'           : controlName === 'cliente',
+        'producto-input'          : controlName === 'producto_descripcion',
+        'origen_destino-input'    : controlName === 'origen_nombre' || 
+                                    controlName === 'destino_nombre',
+        'tipo_flete-input'        : controlName === 'tipo_flete',
+        'a_pagar-input'           : controlName === 'a_pagar',
+        'valor-input'             : controlName === 'valor',
+        'neto-input'              : controlName === 'neto',
+        'cantidades-input'        : controlName === 'cant_origen' ||
+                                   controlName === 'cant_destino' ||  
+                                   controlName === 'diferencia'}">
         
         <input
           class="custom-input"

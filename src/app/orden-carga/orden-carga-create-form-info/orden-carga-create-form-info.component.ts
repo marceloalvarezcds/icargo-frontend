@@ -6,11 +6,12 @@ import {
   Output,
 } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
 import { FleteList } from 'src/app/interfaces/flete';
-import { OrdenCargaForm } from 'src/app/interfaces/orden-carga';
-import { CamionSemiNetoService } from 'src/app/services/camion-semi-neto.service';
+import { OrdenCarga, OrdenCargaForm } from 'src/app/interfaces/orden-carga';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 import { NumberValidator } from 'src/app/validators/number-validator';
@@ -28,6 +29,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   fl?: FleteList;
   @Input() disableForm: boolean = false;
   @Input() disabled: boolean | undefined;
+  @Input() oc?: OrdenCarga;
 
   @Input() set form(f: FormGroup | undefined) {
     this.formGroup = f;
@@ -86,10 +88,21 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.combinacion.get('semi_id') as FormControl;
   }
 
-  constructor(private camionSemiNetoService: CombinacionService) {}
+  constructor(private camionSemiNetoService: CombinacionService, private matDialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
+  }
+
+  openCommentDialog(): void {
+    const comentarios = this.group?.get('comentarios')?.value || 'No hay comentarios';
+    this.matDialog.open(CommentDialogComponent, {
+      width: '900px',
+      height: '900px',
+      data: {
+        comentarios: comentarios
+      },
+    });
   }
 
   private getListByCamionIdAndSemiId(

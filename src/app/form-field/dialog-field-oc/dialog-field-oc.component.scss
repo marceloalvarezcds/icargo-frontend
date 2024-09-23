@@ -8,16 +8,23 @@
   color: #A1A1A1;
 }
 
-.oc-mat-form-field{
-  width: 192px;
-  gap: 0px;
-  border-radius: 4px 0px 0px 0px;
-  border: 1px 0px 0px 0px;
-  opacity: 0px;
-}
-
 .empty-form-field {
   margin-bottom: 1rem;
+}
+
+::ng-deep .search-tracto .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white !important;
+  height: 29px !important; 
+}
+
+::ng-deep .search-tracto .mat-form-field-wrapper {
+  padding-bottom: 0 !important;
+  height: 29px !important; 
+}
+
+::ng-deep .search-tracto .mat-form-field-flex {
+  height: 29px !important; 
 }
 
 ::ng-deep .search-tracto .mat-form-field-outline {
@@ -34,18 +41,10 @@
   border: 1px solid #d9d9d9 !important;
 }
 
-
-
-::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
-::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
-
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.1em) scale(.75);
-    width: 133.33333%;
+.error-message{
+  margin-top: 15px;
 }
-.oc-mat-form-field:hover {
-  border-color: #F25A38; /* Cambia el color del borde en hover */
-}
+
 .input-container {
   display: flex;
   align-items: center;
@@ -55,20 +54,24 @@
   margin-right: 10px; 
 }
 
-
 .search-container{
   width: auto;
   margin-right: 12px;
   display: flex;
 }
 
-.example-class-1 {
-  border: 1px solid red;
+::ng-deep .mat-form-field.mat-focused .mat-form-field-ripple {
+  background-color: red; /* Cambia el color de la línea cuando está enfocado */
 }
 
-.example-class-2 {
-  border: 1px solid blue;
+::ng-deep .mat-form-field.mat-form-field-underline {
+  background-color: red; /* Cambia el color del borde cuando no está enfocado */
 }
+
+::ng-deep .mat-form-field.mat-form-field-appearance-outline.mat-form-field-can-float.mat-focused .mat-form-field-outline-thick {
+  stroke: red; /* Cambia el borde del contorno */
+}
+
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
   .oc-mat-form-field {
@@ -85,5 +88,5 @@
 }
 
 ::ng-deep .mat-form-field-appearance-outline.mat-form-field-outline:hover .mat-form-field-outline {
-  border-color: #F25A38 !important; /* Cambia el color del borde en hover */
+  border-color: #F25A38 !important; 
 }

@@ -4,8 +4,8 @@
   // overflow: auto;
 }
 .page {
-  background-color: white; /* Fondo blanco para el formulario */
-  padding: 20px; /* Espacio interno alrededor del formulario */
+  background-color: white; 
+  padding: 20px; 
 }
 
 .title .module {
@@ -14,7 +14,7 @@
   line-height: 14.06px;
   letter-spacing: 0.06em;
   text-align: left;
-  color: #F25A38; /* Ejemplo de color para el módulo */
+  color: #F25A38; 
 }
 
 .title .submodule {
@@ -23,13 +23,13 @@
   line-height: 14.06px;
   letter-spacing: 0.06em;
   text-align: left;
-  color: #3B9EFF; /* Ejemplo de color para el submódulo */
+  color: #3B9EFF; 
 }
 
 .title .module::after{
   content: " >> ";
-  margin-top: -22px; /* Espacio entre los elementos */
-  color: #3B9EFF; /* Color del signo de mayor */
+  margin-top: -22px; 
+  color: #3B9EFF; 
   font-style: italic;
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
@@ -40,32 +40,32 @@
 }
 
 .custom-fab .toggle-icon{
-  background: none; /* Quita el fondo */
-  border: none; /* Quita el borde */
-  box-shadow: none; /* Quita la sombra */
-  padding: 0; /* Ajusta el padding */
+  background: none;
+  border: none; 
+  box-shadow: none; 
+  padding: 0; 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .linea-horizontal {
-  border-bottom: 0.5px solid rgba(242, 90, 56, 0.5); /* Cambia el grosor y el color según tus necesidades */
+  border-bottom: 0.5px solid rgba(242, 90, 56, 0.5); 
   margin-top: -10px;
   margin-bottom: 15px;
 }
 
 .title .submodule.orden-carga-mode {
-  color: #F25A38; /* Color del submódulo en modo "Orden de Carga" */
+  color: #F25A38; 
 }
 
 .title .module.orden-carga-mode {
-  color: #3B9EFF; /* Color del módulo en modo "Orden de Carga" */
+  color: #3B9EFF; 
 }
 
 .title .module.orden-carga-mode::after {
-  content: " | "; /* Cambia el contenido del ::after según tu preferencia */
-  color: #3B9EFF; /* Color del separador */
+  content: " | "; 
+  color: #3B9EFF; 
   font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 700;
@@ -89,7 +89,7 @@
 }
 
 .linea-horizontal.orden-carga-mode {
-  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); /* Agrega sombra cuando está en modo "Orden de Carga" */
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2); 
 }
 
 .edicion-mode {
@@ -98,7 +98,7 @@
   line-height: 14.06px;
   letter-spacing: 0.06em;
   text-align: left;
-  color: #F25A38; /* Ejemplo de color para el módulo */
+  color: #F25A38; 
 }
 
 .ver-mode {
@@ -107,7 +107,7 @@
   line-height: 14.06px;
   letter-spacing: 0.06em;
   text-align: left;
-  color: #F25A38; /* Ejemplo de color para el módulo */
+  color: #F25A38; 
 }
 
 .nuevo-mode {
@@ -116,12 +116,12 @@
   line-height: 14.06px;
   letter-spacing: 0.06em;
   text-align: left;
-  color: #F25A38; /* Ejemplo de color para el módulo */
+  color: #F25A38; 
 }
 
 .page-title-buttons {
   display: flex;
-  gap: 2px; /* Espacio entre los botones */
+  gap: 2px; 
 }
 
 .save-button{
@@ -133,20 +133,20 @@
   border-radius: 5.25px;
   border: 1px;
   opacity: 0px;
-  box-shadow: none; /* Elimina la sombra */
+  box-shadow: none; 
   opacity: 0px;
   height: 25px;
-  display: flex; /* Asegura que el contenido esté alineado correctamente */
-  align-items: center; /* Alinea verticalmente el contenido */
-  gap: 3px; /* Espacio entre el icono y el texto */
+  display: flex;
+  align-items: center; 
+  gap: 3px;
   letter-spacing: 0.06em;
   transition: background-color 0.3s;
 }
 
 .save-button mat-icon{
-  font-size: 15px; /* Ajusta el tamaño del ícono */
+  font-size: 15px; 
   font-weight: bold;
-  border-radius: 90%; /* Borde redondeado para el ícono */
+  border-radius: 90%; 
   width: 10px;
   height: 12px;
   padding: 3px;
@@ -163,20 +163,20 @@
   border-radius: 5.25px;
   border: 1px;
   opacity: 0px;
-  box-shadow: none; /* Elimina la sombra */
+  box-shadow: none; 
   opacity: 0px;
   height: 25px;
-  display: flex; /* Asegura que el contenido esté alineado correctamente */
-  align-items: center; /* Alinea verticalmente el contenido */
-  gap: 3px; /* Espacio entre el icono y el texto */
+  display: flex; 
+  align-items: center; 
+  gap: 3px; 
   letter-spacing: 0.06em;
   transition: background-color 0.3s;
 }
 
 .edit-button mat-icon{
-  font-size: 14px; /* Ajusta el tamaño del ícono */
+  font-size: 14px; 
   font-weight: bold;
-  border-radius: 90%; /* Borde redondeado para el ícono */
+  border-radius: 90%; 
   width: 11px;
   height: 12px;
   padding: 3px;
@@ -186,10 +186,9 @@
 }
 
 .edit-button:hover {
-  background-color: #970101; /* Color más oscuro al pasar el ratón */
-  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
+  background-color: #970101; 
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); 
 }
-
 
 .orden-carga-aceptar {
   font-family: 'Roboto', sans-serif;
@@ -260,43 +259,43 @@
   padding: 4px 12px 4px 6px;
   gap: 4px;
   border-radius: 5.25px;
-  border: 0.5px solid #3B9EFF; /* Borde inicial */
+  border: 0.5px solid #3B9EFF; 
   opacity: 0px;
-  box-shadow: none; /* Elimina la sombra */
+  box-shadow: none; 
   height: 25px;
-  display: flex; /* Asegura que el contenido esté alineado correctamente */
-  align-items: center; /* Alinea verticalmente el contenido */
-  gap: 3px; /* Espacio entre el icono y el texto */
+  display: flex; 
+  align-items: center; 
+  gap: 3px; 
   letter-spacing: 0.06em;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
 }
 
 .list-button:hover {
-  background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
-  color: #1e88e5; /* Color de texto más oscuro al hacer hover */
-  border-color: #1e88e5; /* Color de borde más oscuro al hacer hover */
+  background-color: #f2f2f2; 
+  color: #1e88e5; 
+  border-color: #1e88e5; 
 }
 
 .list-button:hover .mat-icon {
-  background: #1976D2; /* Color de ícono más oscuro al hacer hover */
+  background: #1976D2; 
 }
 
 .anticipo-toggle-button-active {
-  background-color: green; /* Color cuando está activo */
-  color: white; /* Color del texto/icono */
+  background-color: green;
+  color: white; 
 }
 
 .anticipo-toggle-button-inactive {
-  background-color: red; /* Color cuando está inactivo */
-  color: white; /* Color del texto/icono */
+  background-color: red; 
+  color: white; 
 }
 
 .list-button mat-icon {
-  font-size: 11px; /* Ajusta el tamaño del ícono */
+  font-size: 11px; 
   font-weight: bold;
-  background-color: #3B9EFF; /* Fondo del ícono */
-  border-radius: 50%; /* Borde redondeado para el ícono */
-  color: white; /* Color del ícono */
+  background-color: #3B9EFF; 
+  border-radius: 50%; 
+  color: white; 
   width: 12px;
   height: 12px;
   gap: 0px;
@@ -306,8 +305,9 @@
   justify-content: center;
   margin-top: -2px;
   margin-left: 2px;
-  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+  transition: color 0.3s; 
 }
+
 .status-label {
   font-weight: bold;
   margin-left: 1rem;
@@ -321,52 +321,52 @@
 }
 
 .estado-oc-label {
-  margin-right: 8px; /* Espacio entre la etiqueta y el botón */
+  margin-right: 8px; 
   font-weight: bold;
 }
 
 .custom-fab {
-  background: none; /* Quita el fondo */
-  border: none; /* Quita el borde */
-  border-radius: 50%; /* Mantén la forma circular */
-  box-shadow: none; /* Quita la sombra */
-  width: 40px; /* Ajusta el ancho */
-  height: 40px; /* Ajusta la altura */
-  padding: 0; /* Ajusta el padding */
+  background: none; 
+  border: none; 
+  border-radius: 50%; 
+  box-shadow: none; 
+  width: 40px; 
+  height: 40px; 
+  padding: 0; 
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .custom-fab .small-icon {
-  font-size: 16px; /* Ajusta el tamaño del ícono según tus necesidades */
+  font-size: 16px; 
 }
 
 .ver-button {
-  background: #F0F0F0; /* Fondo gris claro para indicar estado deshabilitado */
-  color: #A0A0A0; /* Color de texto gris claro */
+  background: #F0F0F0; 
+  color: #A0A0A0; 
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
   width: auto;
   padding: 4px 12px 4px 6px;
   border-radius: 5.25px;
-  border: 0.5px solid #A0A0A0; /* Borde gris claro */
-  opacity: 0.6; /* Opacidad reducida para indicar deshabilitado */
-  box-shadow: none; /* Elimina la sombra */
+  border: 0.5px solid #A0A0A0; 
+  opacity: 0.6; 
+  box-shadow: none; 
   height: 25px;
-  display: flex; /* Asegura que el contenido esté alineado correctamente */
-  align-items: center; /* Alinea verticalmente el contenido */
-  gap: 3px; /* Espacio entre el icono y el texto */
+  display: flex;
+  align-items: center; 
+  gap: 3px; 
   letter-spacing: 0.06em;
-  transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
+  transition: background-color 0.3s, color 0.3s, border-color 0.3s; 
 
 }
-/* styles.css o tu archivo de estilos */
+
 .button-disabled {
-  opacity: 0.5; /* Opacidad reducida para indicar deshabilitado */
-  pointer-events: none; /* Desactiva los eventos de puntero como clics */
+  opacity: 0.5; 
+  pointer-events: none; 
 }
-/* styles.css o tu archivo de estilos */
+
 .estado-container {
   margin-right: 8px;
 }
@@ -389,7 +389,6 @@
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   font-weight: 600;
-
   letter-spacing: 0.07em;
   text-align: center;  
   border: 1px solid #d9d9d9;
@@ -398,8 +397,8 @@
   font-size: 14px;
   width: 89px; 
   height: 5px;
-  background-color: #fff; /* Color de fondo del input */
-  transition: background-color 0.3s ease; /* Transición suave para el color de fondo */
+  background-color: #fff; 
+  transition: background-color 0.3s ease; 
   border-color: #017605;
   pointer-events: none;
 }
@@ -425,13 +424,13 @@
 }
 
 .anticipo-toggle-button {
-  font-size: 2px; /* Reduce el tamaño del texto */
-  width: 40px; /* Ajusta el ancho mínimo del botón */
+  font-size: 2px; 
+  width: 40px; 
   height: 22px;
-  border-radius: 96px; /* Hace que el botón sea más redondeado */
+  border-radius: 96px; 
   display: flex;
   align-items: center;
-  box-shadow: none; /* Elimina la sombra del botón */
+  box-shadow: none; 
   padding: 2px;
   
 }
@@ -455,27 +454,27 @@
   margin-top: -4px;
   margin-left: 4px;
   margin-right: 4px;
-  transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
+  transition: color 0.3s; 
 }
 
 .orden-button {
-  color: white; /* Color de texto gris claro */
+  color: white; 
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
   width: auto;
   padding: 4px 12px 4px 6px;
   border-radius: 5.25px;
-  border: 0.5px solid #A0A0A0; /* Borde gris claro */
-  box-shadow: none; /* Elimina la sombra */
+  border: 0.5px solid #A0A0A0; 
+  box-shadow: none;
   height: 25px;
-  display: flex; /* Asegura que el contenido esté alineado correctamente */
-  align-items: center; /* Alinea verticalmente el contenido */
-  gap: 3px; /* Espacio entre el icono y el texto */
+  display: flex;
+  align-items: center; 
+  gap: 3px; 
   letter-spacing: 0.06em;
 }
 
 .orden-button mat-icon {
-  font-size: 15px; /* Ajusta el tamaño del ícono */
+  font-size: 15px; 
   font-weight: bold;
   width: 12px;
   height: 12px;
@@ -486,11 +485,11 @@
   justify-content: center;
   margin-top: -5px;
   margin-left: 4px;
-  margin-right: 4px; /* Transición suave para el cambio de color del ícono */
+  margin-right: 4px; 
 }
 
 .toggle-margin {
-  margin-right: 12px; /* Ajusta el valor según el espacio deseado */
+  margin-right: 12px; 
 }
 
 .estado-label{
@@ -499,5 +498,5 @@
 
 .disabled {
   opacity: 0.5;
-  pointer-events: none; /* Esto también desactiva la capacidad de hacer clic en el botón */
+  pointer-events: none; 
 }

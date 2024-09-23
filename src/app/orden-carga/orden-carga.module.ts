@@ -40,6 +40,7 @@ import { OrdenCargaRecepcionFormComponent } from './orden-carga-recepcion-form/o
 import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/orden-carga-conciliar-form.component';
 import { PdfPreviewDialogComponent } from './pdf-preview-dialog/pdf-preview-dialog.component';
 import { SafeUrlPipe } from './safe-url.pipe';
+import { PdfPreviewConciliarDialogComponent } from './pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 
 
 
@@ -78,6 +79,7 @@ import { SafeUrlPipe } from './safe-url.pipe';
     OrdenCargaConciliarFormComponent,
     PdfPreviewDialogComponent,
     SafeUrlPipe,
+    PdfPreviewConciliarDialogComponent,
  
   ],
   imports: [

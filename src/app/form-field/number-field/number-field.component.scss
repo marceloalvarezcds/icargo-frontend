@@ -1,10 +1,24 @@
-.nominada-input {
+.nominada-field {
   width: 400px; 
-  height: 20px;
+  height: 30px;
   border-radius: 4px;
   margin-left: 17px;
   text-align: end;
-  }
+}
+
+.cantidad_nominada-input {
+  position: relative;
+  top: -2px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: auto;
+  margin-left: -6px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
+}
 
 .anticipo-monto-input{
   width: 290px; 
@@ -25,55 +39,61 @@
 }
 
 .cantidad-remision-input input{
- font-weight: 700;
+font-weight: 700;
 }
 
-  ::ng-deep .nominada-input .mat-form-field-wrapper .mat-form-field-hint-wrapper .mat-hint {
-    font-size: 16px;
-  }
-  
-  ::ng-deep .nominada-input .mat-form-field-wrapper .mat-form-field-hint-wrapper {
-    margin-top: 10px;
-  }
+::ng-deep .nominada-field .mat-form-field-wrapper .mat-form-field-hint-wrapper .mat-hint {
+  font-size: 16px;
+}
 
-  ::ng-deep .anticipo-monto-input .mat-form-field-outline {
-    border: 1px solid #F25A38 !important;
-    background: white;
-  }
+::ng-deep .nominada-field .mat-form-field-wrapper .mat-form-field-hint-wrapper {
+  margin-top: 10px;
+}
 
-  ::ng-deep .cantidad-remision-input .mat-form-field-outline {
-    border: 1px solid #F25A38 !important;
-    background: white;
-  }
-  
-  
-  ::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
-  ::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
-  
-  ::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-      transform: translateY(-1.1em) scale(.75);
-      width: 133.33333%;
-  }
+::ng-deep .anticipo-monto-input .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}
 
-  .view-mode ::ng-deep .mat-form-field-outline {
-    border: 1px solid #D9D9D9;
-    border-radius: 6px;
-    border: 2px 0px 0px 0px;
-    opacity: 0px;
-    height: 32px;
-  }
-  
-  .view-mode {
-    cursor: not-allowed;       
-  }
-  
-  .view-mode input,
-  .view-mode textarea,
-  .view-mode select {
-    pointer-events: none; 
-  }
-  
-  
+::ng-deep .cantidad-remision-input .mat-form-field-outline {
+  border: 1px solid #F25A38 !important;
+  background: white;
+}
+
+
+::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
+
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
+    transform: translateY(-1.1em) scale(.75);
+    width: 133.33333%;
+}
+
+.view-mode ::ng-deep .mat-form-field-outline {
+  border: 1px solid #D9D9D9;
+  border-radius: 6px;
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+  height: 29px;
+}
+
+::ng-deep .mat-form-field-outline {
+  border: 2px 0px 0px 0px;
+  opacity: 0px;
+  height: 29px;
+}
+
+.view-mode {
+  cursor: not-allowed;       
+}
+
+.view-mode input,
+.view-mode textarea,
+.view-mode select {
+  pointer-events: none; 
+}
+
+
 .large-hint{
   width: 450px;
   text-align: end;
@@ -84,24 +104,24 @@
 }
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
-  .nominada-input {
-    width: 200px; 
-    height: 20px;
-    border-radius: 4px;
-    margin-left: 17px;
-    }
-  
-  .anticipo-monto-input{
-    width: 290px; 
-    height: 20px;
-    border-radius: 4px;
-    margin-left: 10px;
-    text-align: end;
-    margin-right: 14px;
+.nominada-field {
+  width: 200px; 
+  height: 20px;
+  border-radius: 4px;
+  margin-left: 17px;
   }
-  .nominada-input input{
-    font-size: 12px;
-    font-family: 'Roboto' sans-serif;
-    text-align: end;
-  }
+
+.anticipo-monto-input{
+  width: 290px; 
+  height: 20px;
+  border-radius: 4px;
+  margin-left: 10px;
+  text-align: end;
+  margin-right: 14px;
+}
+.nominada-field input{
+  font-size: 12px;
+  font-family: 'Roboto' sans-serif;
+  text-align: end;
+}
 }

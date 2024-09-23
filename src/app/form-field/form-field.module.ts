@@ -102,6 +102,9 @@ import { DialogFieldOcComponent } from './dialog-field-oc/dialog-field-oc.compon
 import { CombinacionDialogFieldComponent } from './combinacion-dialog-field/combinacion-dialog-field.component';
 import { OcByCombinacionDialogFieldComponent } from './oc-by-combinacion-dialog-field/oc-by-combinacion-dialog-field.component';
 import { FileFieldImageComponent } from './file-field-image/file-field-image.component';
+import { OcByCombinacionAceptadosDialogFieldComponent } from './oc-by-combinacion-aceptados-dialog-field/oc-by-combinacion-aceptados-dialog-field.component';
+import { OcByCombinacionFinalizadosDialogFieldComponent } from './oc-by-combinacion-finalizados-dialog-field/oc-by-combinacion-finalizados-dialog-field.component';
+import { OcByCombinacionNuevosDialogFieldComponent } from './oc-by-combinacion-nuevos-dialog-field/oc-by-combinacion-nuevos-dialog-field.component';
 
 
 const modules = [
@@ -199,10 +202,13 @@ const modules = [
   UnidadFieldComponent,
   OcByCombinacionDialogFieldComponent,
   FileFieldImageComponent,
+  OcByCombinacionAceptadosDialogFieldComponent,
+  OcByCombinacionFinalizadosDialogFieldComponent,
+  OcByCombinacionNuevosDialogFieldComponent,
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

@@ -26,7 +26,7 @@
   font-weight: 700;
   line-height: 16.41px;
   color: #007acc;  /* Celeste más oscuro */
-  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc; 
   width: 82%;
 }
 
@@ -36,8 +36,8 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 16.41px;
-  color: #007acc;  /* Celeste más oscuro */
-  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
+  color: #007acc; 
+  border-bottom: 1px solid #007acc; 
   width: 72%;
 }
 
@@ -175,8 +175,8 @@ mat-select{
   // border: 1px solid black;
 }
 .custom-file-field {
-  width: 120px; /* Mantén el mismo ancho */
-  height: 152px; /* Mantén la misma altura */
+  width: 120px; 
+  height: 152px;
   border-radius: 4%;
 }
 
@@ -346,7 +346,7 @@ mat-select{
     // border: 1px solid black;
   }
   .custom-file-field {
-    width: 120px; /* Mantén el mismo ancho */
+    width: 120px; 
     height: 152px; /* Mantén la misma altura */
     border-radius: 4%;
   }
