@@ -51,9 +51,7 @@
 
     </ng-template>
 
-    <div class="col-xs-8 button-container"
-        [class.has-movimiento]="list && list.length"
-         >
+    <div class="col-xs-8 button-container has-movimiento">
       <button mat-raised-button type="button" mat-dialog-close>Cerrar</button>
       <button *ngIf="isNew" mat-raised-button type="button"
           id="submit-button" cdkFocusInitial
