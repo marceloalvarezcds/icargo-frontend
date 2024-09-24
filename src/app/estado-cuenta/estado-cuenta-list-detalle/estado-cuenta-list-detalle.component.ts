@@ -448,7 +448,12 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         .subscribe((data) => {
 
           data.forEach(element =>{
-            element.detalleMovimiento = ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion)
+            element.detalleMovimiento = ( 
+              (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto 
+                : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto 
+                : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+            )
+                        
             element.movimiento_saldo = (element.pendiente + element.confirmado + element.finalizado);
           })
 

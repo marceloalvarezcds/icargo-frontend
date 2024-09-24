@@ -133,6 +133,8 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   finalizado: number ;
   detalleMovimiento?: string ;
   movimiento_saldo?: number ;
+  descuento_concepto?: string;
+  complemento_concepto?: string;
 }
 
 export const mockMovimientoList: Movimiento[] = [

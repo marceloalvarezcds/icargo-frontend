@@ -62,7 +62,11 @@ export class LiquidacionFormMovimientosComponent {
     {
       def: 'tipo',
       title: 'Detalle',
-      value: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion),
+      value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
+          (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto 
+            : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto 
+            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+        ),
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -88,42 +92,13 @@ export class LiquidacionFormMovimientosComponent {
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
       type: 'number',
-    },
-    /*{
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Movimiento) => element.moneda_nombre,
-    },
-    {
-      def: 'monto_ml',
-      title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
-      type: 'number',
-    },
+    },    
     /*{
       def: 'punto_venta',
       title: 'Punto de Venta',
       value: (element: Movimiento) =>
         element.anticipo?.punto_venta_nombre ?? '',
-    },
-    {
-      def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
-      value: (element: Movimiento) => element.tipo_cambio_moneda,
-      type: 'number',
-    },
-    {
-      def: 'fecha_cambio_moneda',
-      title: 'Fecha de cambio',
-      value: (element: Movimiento) => element.fecha_cambio_moneda,
-      type: 'date',
-    },
-    {
-      def: 'created_by',
-      title: 'Usuario',
-      value: (element: Movimiento) => element.created_by,
-    },
-    */
+    },   
     /*{
       def: 'oc',
       title: '',

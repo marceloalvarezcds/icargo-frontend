@@ -25,7 +25,14 @@
 
 ::ng-deep {
   .mat-dialog-container {
-    padding-inline: 24px;
+    padding-inline: 24px;    
+    position: relative;
+  }
+}
+
+::ng-deep {
+  .mat-dialog-content {
+    padding-bottom: 10px;
   }
 }
 
