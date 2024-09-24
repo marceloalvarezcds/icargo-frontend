@@ -16,82 +16,77 @@ export class LiquidacionMovimientosComponent {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº de Movimiento',
+      title: 'Nº',
       value: (element: Movimiento) => element.id,
+      type: 'checkbox',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
       sticky: true,
+    },
+    {
+      def: 'created_at',
+      title: 'Fecha ',
+      value: (element: Movimiento) => element.created_at,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      type: 'only-date',
+    },
+    {
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => element.camion_placa,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'cuenta_codigo_descripcion',
+      title: 'Cuenta',
+      value: (element: Movimiento) => element.cuenta_codigo_descripcion,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'concepto',
+      title: 'Concepto',
+      value: (element: Movimiento) => element.tipo_movimiento_descripcion,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'tipo',
+      title: 'Detalle',
+      value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
+          (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto 
+            : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto 
+            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+        ),
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'numero_documento_relacionado',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.numero_documento_relacionado,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'detalle',
+      title: 'Info',
+      value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Movimiento) => element.estado,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
       type: 'number',
-    },
-    {
-      def: 'concepto',
-      title: 'Concepto',
-      value: (element: Movimiento) => element.concepto,
-    },
-    {
-      def: 'cuenta_codigo_descripcion',
-      title: 'Cuenta',
-      value: (element: Movimiento) => element.cuenta_codigo_descripcion,
-    },
-    {
+    }, 
+    /*{
       def: 'punto_venta',
       title: 'Punto de Venta',
       value: (element: Movimiento) =>
         element.anticipo?.punto_venta_nombre ?? '',
-    },
-    {
-      def: 'detalle',
-      title: 'Detalle',
-      value: (element: Movimiento) => element.detalle,
-    },
-    {
-      def: 'tipo_documento_relacionado_descripcion',
-      title: 'Tipo de Doc Relacionado',
-      value: (element: Movimiento) =>
-        element.tipo_documento_relacionado_descripcion,
-    },
-    {
-      def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
-    },
-    {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Movimiento) => element.moneda_nombre,
-    },
-    {
-      def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
-      value: (element: Movimiento) => element.tipo_cambio_moneda,
-      type: 'number',
-    },
-    {
-      def: 'fecha_cambio_moneda',
-      title: 'Fecha de cambio',
-      value: (element: Movimiento) => element.fecha_cambio_moneda,
-      type: 'date',
-    },
-    {
-      def: 'monto_ml',
-      title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
-      type: 'number',
-    },
-    {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
-    },
-    {
-      def: 'created_by',
-      title: 'Usuario',
-      value: (element: Movimiento) => element.created_by,
-    },
+    },    
     {
       def: 'ver',
       title: '',
@@ -101,7 +96,7 @@ export class LiquidacionMovimientosComponent {
         mov.tipo_documento_relacionado_descripcion === 'OC',
       buttonCallback: (element: Movimiento) => this.redirectToShowOC(element),
       stickyEnd: true,
-    },
+    },*/
   ];
 
   @Input() list: Movimiento[] = [];
