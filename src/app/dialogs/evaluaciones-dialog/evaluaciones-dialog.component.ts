@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 
 @Component({
@@ -8,16 +9,13 @@ import { MatDialogRef } from '@angular/material/dialog';
 })
 export class EvaluacionesDialogComponent {
 
-  constructor(public dialogRef: MatDialogRef<EvaluacionesDialogComponent>) {}
+  fotoRegistroFile: File | null = null;
+  localidadId?: number;
+  paisId?: number;
 
-  // Método que se llama cuando el usuario cancela
-  onCancelClick(): void {
-    this.dialogRef.close(false);
-  }
-
-  // Método que se llama cuando el usuario guarda
-  onSaveClick(): void {
-    this.dialogRef.close(true);
-  }
+  @Input() fotoRegistroFrente: string | null = null;
+  @Input() fotoRegistroReverso: string | null = null;
+  @Input() isEdit = false;
+  @Input() isShow = false;
 
 }

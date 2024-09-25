@@ -6,6 +6,7 @@ import { Camion } from 'src/app/interfaces/camion';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CamionService } from 'src/app/services/camion.service';
 
@@ -31,9 +32,11 @@ export class OrdenCargaCreateFormCombinacionComponent {
   showPedidoSection: boolean = false;
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
+ 
   
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
+  @Input() list: OrdenCargaComentariosHistorial[] = [];
 
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
@@ -43,6 +46,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Input() showSearchOCNuevos: boolean = false;
   @Input() showSearchOCfinalizadas: boolean = false;
   @Input() showSearchOCPedidos: boolean = false;
+  @Input() isSaveForm: boolean = false;
   @Input() disabled: boolean = false;
 
 
@@ -168,7 +172,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.form?.get(this.groupName)?.get('a_pagar')?.setValue(oc.condicion_gestor_cuenta_tarifa); 
       this.form?.get(this.groupName)?.get('valor')?.setValue(oc.resultado_flete_gestor_carga_merma_valor); 
       this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
-      this.form?.get(this.groupNameInfo)?.get('comentarios')?.setValue(oc.comentarios);
+     
       this.form?.get(this.groupName)?.get('cant_origen')?.setValue(oc.cantidad_origen);
       this.form?.get(this.groupName)?.get('cant_destino')?.setValue(oc.cantidad_destino);
       this.form?.get(this.groupName)?.get('diferencia')?.setValue(oc.diferencia_origen_destino);

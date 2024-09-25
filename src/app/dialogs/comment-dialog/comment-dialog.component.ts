@@ -16,26 +16,15 @@ import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_c
 export class CommentDialogComponent {
   a = PermisoAccionEnum;
   columns: Column[] = [
-
     {
-      def: 'created_by',
-      title: 'Usuario',
-      value: (element: OrdenCargaComentariosHistorial) => element.created_by,
+      def: 'modified_by',
+      title: 'Usuario modificación',
+      value: (element: OrdenCargaComentariosHistorial) => element.modified_by,
     },
     {
       def: 'comentario',
       title: 'Comentario',
       value: (element: OrdenCargaComentariosHistorial) => element.comentario,
-    },
-    {
-      def: 'created_at',
-      title: 'Fecha',
-      value: (element: OrdenCargaComentariosHistorial) => element.created_at,
-    },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: OrdenCargaComentariosHistorial) => element.modified_by,
     },
     {
       def: 'modified_at',
@@ -44,6 +33,15 @@ export class CommentDialogComponent {
       type: 'date',
     },
   ];
+
+  formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
+
 
   lista: OrdenCargaComentariosHistorial[] = [];
   modelo = m.ORDEN_CARGA;

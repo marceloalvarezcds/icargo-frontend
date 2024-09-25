@@ -1,5 +1,58 @@
-<div mat-dialog-actions>
-    <button mat-button (click)="onCancelClick()">Cancelar</button>
-    <button mat-button color="primary" (click)="onSaveClick()">Guardar</button>
+<!-- <form [formGroup]="form">
+  <span mat-dialog-title>
+    <span class="anticipos-text"> ANTICIPO</span>
+  </span>
+  <div class="divider"></div>
+  <div mat-dialog-content>
+    <app-tipo-evaluacion-field
+  
+      [form]="form"
+  
+    ></app-tipo-evaluacion-field>
+
+
+    <div class="form-field-container">
+      <label for="observacion">Observación:</label>
+      <mat-form-field appearance="outline" class="observacion-field">
+        <textarea
+          matInput
+          id="observacion"
+          formControlName="observacion"
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="1"
+        ></textarea>
+      </mat-form-field>
+    </div>
+
+    <div class="inline-container comprobante">
+      <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
+      <app-input-field
+        title="Nº de comprobante"
+        controlName="numero_comprobante"
+        [form]="form"
+      ></app-input-field>
+    </div>
   </div>
-  <p>evaluaciones-dialog works!</p>
+  <div mat-dialog-actions class="buttons-actions">
+    <button 
+      mat-raised-button 
+      type="button" 
+      class="close-button" 
+      mat-dialog-close>
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
+    <button
+      mat-raised-button
+      type="button"
+
+      cdkFocusInitial
+      color="primary"
+      id="submit-button"
+      class="save-button"
+    >
+      <mat-icon>save</mat-icon> GUARDAR
+    </button>
+  </div>
+</form> -->

@@ -43,6 +43,7 @@ import {
   mockOrdenCargaRemisionResultadoList,
   OrdenCargaRemisionResultado,
 } from './orden-carga-remision-resultado';
+import { mockOrdenCargaComentariosHistorialList, OrdenCargaComentariosHistorial } from './orden_carga_comentarios_historial';
 import { mockSemiList } from './semi';
 
 export interface OrdenCargaForm {
@@ -133,6 +134,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   auditorias: AuditDatabase[];
   movimientos: Movimiento[];
   historial: OrdenCargaEstadoHistorial[];
+  comentario: OrdenCargaComentariosHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
   porcentaje_anticipos: OrdenCargaAnticipoPorcentaje[];
@@ -310,6 +312,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   modify_by_movimiento: false,
   auditorias: mockAuditDatabaseList,
   movimientos: mockMovimientoList,
+  comentario: mockOrdenCargaComentariosHistorialList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,

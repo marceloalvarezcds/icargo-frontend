@@ -1,4 +1,5 @@
 import { OrdenCarga } from "./orden-carga";
+import { OrdenCargaComentariosHistorial } from "./orden_carga_comentarios_historial";
 
 export interface OCConfirmationInfo {
   flete_id: number;
@@ -19,6 +20,12 @@ export interface OCConfirmationInfo {
 export interface OCConfirmationDialogData {
   oc: OCConfirmationInfo | null;
 }
+
+export interface OCConfirmationDialogData {
+  oc: OCConfirmationInfo | null;
+  comentarios?: OrdenCargaComentariosHistorial[];  // Añadir comentarios como opcional
+}
+
 
 export interface OrdenCargaAnticipoDialogData {
   oc: OrdenCarga | null;

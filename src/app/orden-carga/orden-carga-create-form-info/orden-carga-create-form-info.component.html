@@ -22,7 +22,13 @@
           ></textarea>
         </mat-form-field>
 
-        <button mat-button (click)="openCommentDialog()">Ver Comentarios</button>
+         <button 
+          mat-raised-button 
+          class="coment-button" 
+          (click)="openCommentDialog()"
+          [disabled]="!tieneComentarios">
+          COMENTARIOS
+        </button>
       </div>
     </div>
   </div>

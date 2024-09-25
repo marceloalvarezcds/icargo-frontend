@@ -12,6 +12,7 @@ import { filter } from 'rxjs/operators';
 import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaForm } from 'src/app/interfaces/orden-carga';
+import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 import { NumberValidator } from 'src/app/validators/number-validator';
@@ -30,6 +31,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   @Input() disableForm: boolean = false;
   @Input() disabled: boolean | undefined;
   @Input() oc?: OrdenCarga;
+  @Input() list: OrdenCargaComentariosHistorial[] = [];
 
   @Input() set form(f: FormGroup | undefined) {
     this.formGroup = f;
@@ -88,22 +90,45 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.combinacion.get('semi_id') as FormControl;
   }
 
+  get historialComentariosList(): OrdenCargaComentariosHistorial[] {
+    return this.oc!?.comentario.slice();
+  }
+
+  get gestorCargaId(): number | undefined {
+    return this.oc!?.gestor_carga_id;
+  }
+
   constructor(private camionSemiNetoService: CombinacionService, private matDialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
   }
 
+  updateComentarios(newComentario: string): void {
+    this.group.get('comentarios')?.setValue(newComentario); // Actualiza el valor
+    console.log('Comentario actualizado:', newComentario); // Imprimir el nuevo comentario
+  }
+  
+  get tieneComentarios(): boolean {
+    return this.historialComentariosList && this.historialComentariosList.length > 0;
+  }
+  
+
   openCommentDialog(): void {
-    const comentarios = this.group?.get('comentarios')?.value || 'No hay comentarios';
     this.matDialog.open(CommentDialogComponent, {
-      width: '900px',
-      height: '900px',
+      width: '600px',
+      height: 'auto',
       data: {
-        comentarios: comentarios
+        gestorCargaId: this.gestorCargaId,
+        lista: this.historialComentariosList
       },
+    }).afterClosed().subscribe((result: string) => {
+      if (result) {
+        this.updateComentarios(result);  // Actualiza el comentario en el formulario
+      }
     });
   }
+  
 
   private getListByCamionIdAndSemiId(
     camionId?: number,

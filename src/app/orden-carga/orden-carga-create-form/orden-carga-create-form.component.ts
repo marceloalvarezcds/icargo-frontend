@@ -21,10 +21,12 @@ import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
+import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { StateService } from 'src/app/services/state.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -124,6 +126,10 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     return this.item!?.anticipos.slice();
   }
 
+  get comentariosList(): OrdenCargaComentariosHistorial[]{
+    return this.item!?.comentario.slice();
+  }
+
   get complementoList(): OrdenCargaComplemento[] {
     return this.item!?.complementos.slice();
   }
@@ -131,7 +137,6 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get descuentoList(): OrdenCargaDescuento[] {
     return this.item!?.descuentos.slice();
   }
-
 
   get porcentajeAnticipos(): FormArray {
     return this.form.get('porcentaje_anticipos') as FormArray;
@@ -198,6 +203,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
     private matDialog: MatDialog ,
+    private stateService: StateService,
   ) {}
 
   setInitialToggleState(): void {
@@ -250,9 +256,10 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
+      const comentarios = this.item?.comentario || [];
       const data: OCConfirmationDialogData = {
         oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
-        
+        comentarios: comentarios
       };
       this.dialog
         .open(OcConfirmationDialogComponent, {
@@ -269,8 +276,6 @@ export class OrdenCargaCreateFormComponent implements OnInit {
         });
     }
   }
-
-
 
 
   submit(confirmed: boolean): void {
@@ -299,6 +304,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.ordenCargaId = item.id; 
       this.fleteId = item.flete_id;
       this.item = item;
+      this.info.get('comentarios')?.setValue('');
       this.dataFromParent = item.estado;
       r.ORDEN_CARGA;
       m.ORDEN_CARGA;

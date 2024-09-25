@@ -55,6 +55,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
   dataFromParent: string = 'Nuevo';
   isEdit = false;
   isDataLoaded: boolean = true;
+  private dialogOpened = false;
   originalComentario: string | null = null;
   form = this.fb.group({
     combinacion: this.fb.group({
@@ -183,6 +184,10 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
     );
   }
 
+  get isToggleAnticiposLiberados(): boolean {
+    return this.item ? this.item.anticipos_liberados : false;
+  }
+
   ngOnInit(): void {
     this.setInitialToggleState();
     this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
@@ -230,43 +235,42 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
 
   back(confirmed: boolean): void {
     if (confirmed) {
-      // Guardar toda la información si se confirma la acción
-      this.save(confirmed);
+      this.submit(confirmed);
     } else {
-      // Obtener el valor actual del comentario y convertirlo a mayúsculas
       let comentario = this.form.get('info.comentarios')?.value;
       if (comentario) {
         comentario = comentario.toUpperCase();
       }
-  
-      // Comparar el valor actual del comentario con el valor original
       if (comentario !== this.originalComentario) {
-        // Solicitar confirmación antes de aplicar los cambios
         const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
   
         if (confirmation) {
-          // Guardar el comentario en mayúsculas antes de navegar
-          this.ordenCargaService.updateComentarios(this.idOC, comentario).subscribe(
-            () => {
-              // Actualizar los datos después de guardar el comentario
-              this.getData();
+          const formData = new FormData();
+          const data = {
+            orden_carga_id: this.idOC,
+            comentario: comentario,
+          };
+          formData.append('data', JSON.stringify(data));
   
-              // Navegar después de actualizar los datos
+          this.ordenCargaService.createComentarios(formData).subscribe(
+            (item) => {
+              this.getData();
               this.router.navigate([this.backUrl]);
             },
+            (error) => {
+              console.error('Error al crear el comentario', error);
+             
+            }
           );
         } else {
-          // Si el usuario cancela, simplemente navega a la URL de retorno
           this.router.navigate([this.backUrl]);
         }
       } else {
-        // Navegar directamente si no hay cambios en el comentario
         this.router.navigate([this.backUrl]);
       }
     }
   }
   
-
   active(): void {
     if (this.ordenCargaId !== null) {
       this.dialog.changeStatusConfirm(
@@ -297,72 +301,88 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
 
   aceptar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-      const comentario = this.form.get('info.comentarios')?.value;
-      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
-  
-      if (comentarioUpper) {
-        this.ordenCargaService.updateComentarios(this.idOC, comentarioUpper).subscribe(() => {
-          this.dialog.confirmation(
-            '¿Está seguro que desea aceptar la Orden de Carga?',
-            () => {
-              this.ordenCargaService.aceptar(this.idOC as number).subscribe(
-                () => {
-                  this.snackbar.open('Estado cambiado satisfactoriamente');
-                  this.puedeCrearRemision = true; 
-                  this.form.get('info.comentarios')?.disable();
-                },
-                (error) => {
-                  console.error('Error al aceptar la orden de carga:', error);
-                }
-              );
-            }
-          );
-        });
-      } else {
-        this.dialog.confirmation(
-          '¿Está seguro que desea aceptar la Orden de Carga?',
-          () => {
-            this.ordenCargaService.aceptar(this.idOC as number).subscribe(
-              () => {
-                this.snackbar.open('Estado cambiado satisfactoriamente');
-                this.puedeCrearRemision = true; 
-                this.form.get('info.comentarios')?.disable();
-              },
-              (error) => {
-                console.error('Error al aceptar la orden de carga:', error);
-              }
-            );
+      this.dialog.confirmation(
+        '¿Está seguro que desea aceptar la Orden de Carga?',
+        () => {
+          let comentario = this.form.get('info.comentarios')?.value;
+          if (comentario) {
+            comentario = comentario.toUpperCase();
           }
-        );
-      }
+          if (comentario !== this.originalComentario) {
+            this.createComentarioYAceptar(comentario);
+          } else {
+            this.aceptarOrdenCarga();
+          }
+        }
+      );
     } else {
       console.error('No se puede aceptar la orden de carga sin un ID válido');
     }
   }
   
+  private createComentarioYAceptar(comentario: string): void {
+    const formData = new FormData();
+    const data = {
+      orden_carga_id: this.idOC,
+      comentario: comentario,
+    };
+    formData.append('data', JSON.stringify(data));
+  
+    this.ordenCargaService.createComentarios(formData).subscribe(
+      () => {
+        this.aceptarOrdenCarga();
+      },
+      (error) => {
+        console.error('Error al crear el comentario', error);
+      }
+    );
+  }
+  
+  private aceptarOrdenCarga(): void {
+    this.ordenCargaService.aceptar(this.idOC as number).subscribe(
+      () => {
+        this.snackbar.open('Estado cambiado satisfactoriamente');
+        this.puedeCrearRemision = true; 
+      },
+      (error) => {
+        console.error('Error al aceptar la orden de carga:', error);
+      }
+    );
+  }
+  
   
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-      const comentario = this.form.get('info.comentarios')?.value;
-      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
-  
-      if (comentarioUpper) {
-        this.ordenCargaService.updateComentarios(this.idOC, comentarioUpper).subscribe(() => {
-          this.dialog.changeStatusConfirm(
-            '¿Está seguro que desea cancelar la Orden de Carga?',
-            this.ordenCargaService.cancelar(this.idOC),
-            () => {
-              this.form.get('info.comentarios')?.disable();
-              this.getData();
-            }
-          );
-        });
+      let comentario = this.form.get('info.comentarios')?.value;
+      if (comentario) {
+        comentario = comentario.toUpperCase();
+      }
+      if (comentario !== this.originalComentario) {
+        const formData = new FormData();
+        const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+        };
+        formData.append('data', JSON.stringify(data));
+        this.ordenCargaService.createComentarios(formData).subscribe(
+          () => {
+            this.dialog.changeStatusConfirm(
+              '¿Está seguro que desea cancelar la Orden de Carga?',
+              this.ordenCargaService.cancelar(this.idOC),
+              () => {
+                this.getData();
+              }
+            );
+          },
+          (error) => {
+            console.error('Error al crear el comentario', error);
+          }
+        );
       } else {
         this.dialog.changeStatusConfirm(
           '¿Está seguro que desea cancelar la Orden de Carga?',
           this.ordenCargaService.cancelar(this.idOC),
           () => {
-            this.form.get('info.comentarios')?.disable();
             this.getData();
           }
         );
@@ -371,12 +391,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       console.error('No se puede cancelar la Orden de Carga sin un ID válido');
     }
   }
-  
-  get isToggleAnticiposLiberados(): boolean {
-    return this.item ? this.item.anticipos_liberados : false;
-  }
-
-  private dialogOpened = false;
+ 
   
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();

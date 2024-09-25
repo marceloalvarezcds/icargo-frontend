@@ -4,6 +4,7 @@ import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { catchError, map } from 'rxjs/operators';
+import { OrdenCargaComentariosHistorial } from '../interfaces/orden_carga_comentarios_historial';
 
 @Injectable({
   providedIn: 'root',
@@ -78,7 +79,11 @@ export class OrdenCargaService {
   updateComentarios(id: number, comentarios: string): Observable<any> {
     return this.http.put(`${this.url}/${id}/comentarios`, { comentarios });
   }
-  
+
+  createComentarios(formData: FormData): Observable<OrdenCarga> {
+    return this.http.post<OrdenCarga>(`${this.url}/comentarios`, formData);
+  }
+
   getListOCByCombinacionId(combinacionId: number): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/${combinacionId}`);
   }

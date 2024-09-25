@@ -1,6 +1,7 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { saveAs } from 'file-saver'; // Asegúrate de tener instalado file-saver: npm install file-saver
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 
 @Component({
   selector: 'app-pdf-preview-dialog',
@@ -11,12 +12,14 @@ export class PdfPreviewDialogComponent {
   pdfUrl: string;
   filename: string;
   fileBlob: Blob;
+  oc?: OrdenCarga;
   isGeneratingPdf: boolean = false;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.pdfUrl = data.pdfUrl;
     this.filename = data.filename; // Recibe el nombre del archivo
     this.fileBlob = data.fileBlob;  // Recibe el Blob del archivo
+    this.oc = data.oc;
   }
 
   // Método para descargar el PDF
@@ -25,5 +28,4 @@ export class PdfPreviewDialogComponent {
       saveAs(this.fileBlob, this.filename);
     }
   }
-  actionText: string = 'GUARDAR RESÚMEN | FINALIZADO'; 
 }

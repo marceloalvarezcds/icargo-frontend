@@ -187,9 +187,8 @@
             (valueChange)="onOrdenCargaChange($event)"
           ></app-oc-by-combinacion-dialog-field>
         </div>
-
         <div class="search-tracto small-input input-with-label"
-        *ngIf="oc?.estado === 'Aceptado' || showSearchOCAceptadas">
+        *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas) && !isSaveForm">
          <label>Nº OC</label>
          <app-oc-by-combinacion-aceptados-dialog-field
            [groupName]="groupName"
@@ -199,10 +198,10 @@
            [combinacionId]="combinacionId"
            (valueChange)="onOrdenCargaChange($event)"
          ></app-oc-by-combinacion-aceptados-dialog-field>
-       </div>
-
-       <div class="search-tracto small-input input-with-label"
-       *ngIf="oc?.estado === 'Nuevo' || showSearchOCNuevos">
+      </div>
+      
+      <div class="search-tracto small-input input-with-label"
+        *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm">
         <label>Nº OC</label>
         <app-oc-by-combinacion-nuevos-dialog-field
           [groupName]="groupName"
@@ -213,6 +212,7 @@
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-nuevos-dialog-field>
       </div>
+      
 
       <div class="search-tracto small-input input-with-label"
         *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas">
@@ -350,7 +350,7 @@
       <app-orden-carga-create-form-info
         [form]="form"
         [flete]="flete"
-        
+        [oc]="oc"
         >
       </app-orden-carga-create-form-info>
       

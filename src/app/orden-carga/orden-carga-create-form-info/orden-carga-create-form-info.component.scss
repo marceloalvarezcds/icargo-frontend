@@ -65,7 +65,7 @@ mat-form-field{
 }
 
 .obs{
-  width: 41.5em;
+  width: 39.5em;
 }
 
 textarea{
@@ -75,9 +75,37 @@ textarea{
   font-size: 14px;
   margin-top: -15px;
   margin-left: 0px;
- 
   outline: none;
 }
+
+.coment-button {
+  font-family: 'Roboto', sans-serif;
+  font-size: 12px;
+  width: auto;
+  padding: 8px 8px 4px 8px;
+  border-radius: 5.25px;
+  border: 1px solid transparent; /* Cambiado para hacer que el borde sea visible */
+  opacity: 1; /* Asegúrate de que el botón sea visible */
+  box-shadow: none; 
+  height: 25px;
+  display: flex;
+  align-items: center; 
+  justify-content: center; /* Alinea el texto al centro */
+  letter-spacing: 0.06em;
+  transition: background-color 0.3s;
+  background-color: #0056b3;
+  color: white;
+  /* Nuevos estilos para bajar y mover el botón */
+  margin-top: 8px; /* Ajusta este valor para bajar más el botón */
+  margin-left: 1.5em; /* Esto empuja el botón hacia la derecha */
+}
+
+
+.coment-button:hover {
+  background-color: #0056b3; /* Color más oscuro al pasar el ratón */
+}
+
+
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
   mat-form-field{
