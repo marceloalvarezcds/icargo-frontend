@@ -11,8 +11,6 @@
   margin-right: 8px;
 }
 
-
-
 .label-general{
   font-family: 'Roboto' sans-serif;
   font-size: 14px;
@@ -122,6 +120,20 @@
   color: #FBFBFE;
 }
 
+.propietario-input input {
+  position: relative;
+  top: -2.8px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: 350px;
+  margin-left: -4px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
+}
+
 ::ng-deep .propietario-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -138,6 +150,8 @@
   line-height: 16.41px;
   color: #FBFBFE;
 }
+
+
 
 ::ng-deep .propietario_doc-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -156,6 +170,19 @@
   color: #FBFBFE;
 }
 
+.beneficiario-input input {
+  position: relative;
+  top: -2.8px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: 350px;
+  margin-left: -4px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
+}
 
 ::ng-deep .beneficiario-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
@@ -172,6 +199,20 @@
   font-weight: 400;
   line-height: 16.41px;
   color: #FBFBFE;
+}
+
+.chofer-input input {
+  position: relative;
+  top: -2.8px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: 370px;
+  margin-left: -4px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
 }
 
 ::ng-deep .chofer-input .mat-form-field-outline {
@@ -280,6 +321,20 @@
   color: #FBFBFE;
 }
 
+.origen_destino-input input {
+  position: relative;
+  top: -2.8px; 
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  margin-top: -5px;
+  width: 400px;
+  margin-left: -4px;
+  border: none;
+  border-color: none;
+  background: none;
+  outline: none;
+}
+
 ::ng-deep .origen_destino-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
   background: #FBFBFE;
@@ -315,7 +370,6 @@
   color: #FBFBFE;
   text-align: end;
 }
-
 
 ::ng-deep .a_pagar-input .mat-form-field-outline {
   border: 1px solid #D9D9D9;
