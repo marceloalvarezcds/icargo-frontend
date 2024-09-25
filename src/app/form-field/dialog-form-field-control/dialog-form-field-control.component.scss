@@ -17,6 +17,7 @@
   border-color: none;
   background: none;
   outline: none;
+  font-weight: bold;
 }
 
 @media screen and (max-width: 1366px) and (max-height: 768px) {
@@ -24,14 +25,21 @@
     position: relative;
     top: -2px; 
     font-family: 'Roboto', sans-serif;
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
     margin-top: -5px;
-    width: auto;
+    border: none;
+    border-color: none;
+    background: none;
+    padding: 0;
+    outline: none;
+    font: inherit;
+    width: 100%;
     margin-left: -6px;
     border: none;
     border-color: none;
     background: none;
     outline: none;
+    font-weight: bold;
   }
 }
