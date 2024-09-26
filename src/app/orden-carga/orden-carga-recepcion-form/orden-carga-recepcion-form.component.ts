@@ -30,6 +30,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
+import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 
 @Component({
   selector: 'app-orden-carga-recepcion-form',
@@ -219,7 +220,6 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    // Cancelar la suscripción para evitar posibles fugas de memoria
     if (this.valueChangesSubscription) {
       this.valueChangesSubscription.unsubscribe();
     }
@@ -238,6 +238,18 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
     
   ) {}
 
+  openEvaluacionesDialog(): void {
+    const dialogRef = this.dialog.open(EvaluacionesDialogComponent, {
+      width: '400px', // Define el ancho del diálogo
+      data: { item: this.item, orden_carga_id: this.ordenCargaId  }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El diálogo fue cerrado', result);
+      // Puedes manejar lo que ocurra después de cerrar el diálogo
+    });
+  }
+
   setInitialToggleState(): void {
     if (this.item && this.item.anticipos_liberados) {
       this.isActive = this.item.anticipos_liberados; 
@@ -252,29 +264,21 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
       if (comentario) {
         comentario = comentario.toUpperCase();
       }
-  
-      // Si el comentario ha cambiado, proceder a guardarlo
       if (comentario !== this.originalComentario) {
         const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
   
         if (confirmation) {
           const formData = new FormData();
-          
-          // Crear un objeto simple con solo los campos necesarios
           const data = {
             orden_carga_id: this.idOC,
             comentario: comentario,
           };
   
-          // Añadir el objeto a FormData
           formData.append('data', JSON.stringify(data));
   
           this.ordenCargaService.createComentarios(formData).subscribe(
             (item) => {
-              // Actualiza los datos después de guardar el comentario
               this.getData();
-  
-              // Navega después de actualizar los datos
               this.router.navigate([this.backUrl]);
             },
             (error) => {
@@ -283,11 +287,9 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
             }
           );
         } else {
-          // Si el usuario cancela, simplemente navega a la URL de retorno
           this.router.navigate([this.backUrl]);
         }
       } else {
-        // Navegar directamente si no hay cambios en el comentario
         this.router.navigate([this.backUrl]);
       }
     }
@@ -569,7 +571,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-            comentarios: data.comentarios,
+            comentarios: '',
           },
           tramo: {
             flete_origen_id: data.flete_origen_id,

@@ -655,7 +655,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-            comentarios: data.comentarios,
+            comentarios: '',
           },
           tramo: {
             flete_origen_id: data.flete_origen_id,

@@ -59,14 +59,8 @@
           id="estado" 
           formControlName="estado" 
           class="custom-slide-toggle"
-          [color]="info.controls['estado'].value ? 'primary' : 'accent'"
-          [ngClass]="{
-            'mat-primary': info.controls['estado'].value,
-            'mat-accent': !info.controls['estado'].value
-          }"
           labelPosition="before" 
-          [aria-label]="info.controls['estado'].value ? 'Activo' : 'Inactivo'">
-          {{ info.controls['estado'].value ? 'Activo' : 'Inactivo' }}
+       >
         </mat-slide-toggle>
       </div>
     </div>

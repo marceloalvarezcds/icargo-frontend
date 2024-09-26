@@ -1,39 +1,35 @@
-<!-- <form [formGroup]="form">
+<form [formGroup]="form">
   <span mat-dialog-title>
-    <span class="anticipos-text"> ANTICIPO</span>
+    <span class="evaluaciones-text"> EVALUACIÓN</span>
   </span>
   <div class="divider"></div>
   <div mat-dialog-content>
-    <app-tipo-evaluacion-field
-  
-      [form]="form"
-  
-    ></app-tipo-evaluacion-field>
-
-
+    
+    <!-- Campo para seleccionar el incidente -->
     <div class="form-field-container">
-      <label for="observacion">Observación:</label>
-      <mat-form-field appearance="outline" class="observacion-field">
+      <label for="incidente">Incidente:</label>
+      <app-tipo-evaluacion-field
+        [form]="form"
+
+      ></app-tipo-evaluacion-field>
+    </div>
+
+    <!-- Campo de comentario -->
+    <div class="form-field-container">
+      <label for="comentario">Comentario:</label>
+      <mat-form-field appearance="outline" class="comentario-field">
         <textarea
           matInput
-          id="observacion"
-          formControlName="observacion"
+          id="comentario"
+          formControlName="comentario"
           cdkTextareaAutosize
           #autosize="cdkTextareaAutosize"
           cdkAutosizeMinRows="1"
         ></textarea>
       </mat-form-field>
     </div>
-
-    <div class="inline-container comprobante">
-      <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
-      <app-input-field
-        title="Nº de comprobante"
-        controlName="numero_comprobante"
-        [form]="form"
-      ></app-input-field>
-    </div>
   </div>
+
   <div mat-dialog-actions class="buttons-actions">
     <button 
       mat-raised-button 
@@ -46,8 +42,6 @@
     <button
       mat-raised-button
       type="button"
-
-      cdkFocusInitial
       color="primary"
       id="submit-button"
       class="save-button"
@@ -55,4 +49,4 @@
       <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>
-</form> -->
+</form>

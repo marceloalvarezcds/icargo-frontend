@@ -148,7 +148,7 @@
           CANCELAR
         </button>
       
-        <button
+        <!-- <button
           *ngIf="(oc?.estado !== 'Finalizado' && 
                   oc?.estado !== 'Cancelado' && 
                   oc?.estado !== 'Conciliado' && 
@@ -167,7 +167,29 @@
           class="add-button orden-carga-finalizar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
           FINALIZAR
-        </button>
+        </button> -->
+      
+        <button
+        *ngIf="(oc?.estado !== 'Finalizado' && 
+                oc?.estado !== 'Cancelado' && 
+                oc?.estado !== 'Conciliado' && 
+                module === 'FINALIZAR' && 
+                submodule === 'RECEPCION directa') ||
+                (oc?.estado !== 'Finalizado' && 
+                oc?.estado !== 'Cancelado' && 
+                oc?.estado !== 'Conciliado' &&  
+                submodule !== 'ANTICIPO (directo)' && 
+                submodule !== 'ORDEN DE CARGA (directa)'||
+                module === 'ORDEN DE CARGA')"
+        type="button"
+        mat-raised-button
+        [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) 
+        || (oc?.estado === E.NUEVO) || !oc?.cantidad_destino"
+        (click)="finalizarClick.emit($event)"
+        class="add-button orden-carga-finalizar"
+        [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
+        FINALIZAR
+      </button>
       
         
         <button

@@ -31,6 +31,10 @@ export interface OrdenCargaAnticipoDialogData {
   oc: OrdenCarga | null;
 }
 
+export interface OrdenCargaEvaluacionesDialogData {
+  oc: OrdenCarga | null;
+}
+
 export const mockOCConfirmationInfo: OCConfirmationInfo = {
   flete_id: 0,
   remitente: 'GICAL KM12',

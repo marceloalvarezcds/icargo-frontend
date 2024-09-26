@@ -44,6 +44,7 @@ import {
   OrdenCargaRemisionResultado,
 } from './orden-carga-remision-resultado';
 import { mockOrdenCargaComentariosHistorialList, OrdenCargaComentariosHistorial } from './orden_carga_comentarios_historial';
+import { OrdenCargaEvaluacionesHistorial, mockOrdenCargaEvaluacionesHistorialList } from './orden_carga_evaluacion';
 import { mockSemiList } from './semi';
 
 export interface OrdenCargaForm {
@@ -135,6 +136,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   movimientos: Movimiento[];
   historial: OrdenCargaEstadoHistorial[];
   comentario: OrdenCargaComentariosHistorial[];
+  evaluaciones_historial: OrdenCargaEvaluacionesHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
   porcentaje_anticipos: OrdenCargaAnticipoPorcentaje[];
@@ -152,6 +154,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   total_anticipo_complemento: number;
   total_anticipo_retirado: number;
   total_anticipo_disponible: number;
+  tipo_evaluacion_id: number;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -312,7 +315,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   modify_by_movimiento: false,
   auditorias: mockAuditDatabaseList,
   movimientos: mockMovimientoList,
-  comentario: mockOrdenCargaComentariosHistorialList,
+  comentario: mockOrdenCargaComentariosHistorialList, 
+  evaluaciones_historial: mockOrdenCargaEvaluacionesHistorialList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,
@@ -331,6 +335,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   total_anticipo_complemento: 10000,
   total_anticipo_retirado: 10000,
   total_anticipo_disponible: 10000,
+  tipo_evaluacion_id: 2,
   // Auditoría
   created_by: 'system',
   created_at: '2021-11-30T20:38:09.553757',

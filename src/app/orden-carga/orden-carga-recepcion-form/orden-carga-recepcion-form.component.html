@@ -35,7 +35,7 @@
       [showSearchOCPedidos]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
-
+ 
     <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>REMISIONES</h2></div>
     <div class="remisiones-container">
       <div class="remisiones-item">
@@ -49,7 +49,8 @@
           (ocChange)="getData()"
         ></app-orden-carga-edit-form-remisiones-origen>
       </div>
-    
+      
+
       <div class="remisiones-item">
         <app-orden-carga-edit-form-remisiones-destino
           [class.disabled]="!isAceptado"

@@ -15,6 +15,9 @@ import * as saveAs from 'file-saver';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
+import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
+import { OrdenCargaEvaluacionesHistorial } from 'src/app/interfaces/orden_carga_evaluacion';
+import { EvaluacionDialogData } from 'src/app/interfaces/oc-evaluaciones-dialog-data';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -190,7 +193,12 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     }
 }
 
-
+openEvaluacionesDialog(): void {
+  this.dialog.open(EvaluacionesDialogComponent, {
+    width: '1600px',  
+    data: { oc: this.oc } 
+  });
+}
 
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {
@@ -245,6 +253,29 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
       height: 'auto', 
       data });
   }
+
+  private getEvaluacionesDialogRef(
+    item?: OrdenCargaEvaluacionesHistorial
+  ): MatDialogRef<
+    EvaluacionesDialogComponent,
+    OrdenCargaEvaluacionesHistorial
+  > {
+    const data: EvaluacionDialogData = {
+      orden_carga_id: this.oc!.id,
+      // Agrega aquí cualquier otro dato relevante que necesites para la evaluación
+      item,
+    };
+    return this.dialog.open(EvaluacionesDialogComponent, {
+      width: '700px',
+      height: 'auto',
+      data,
+    });
+  }
+  
+  createEvaluacion(): void {
+    create(this.getEvaluacionesDialogRef(), this.emitOcChange.bind(this));
+  }
+  
 
   private emitOcChange(): void {
     this.ocChange.emit();

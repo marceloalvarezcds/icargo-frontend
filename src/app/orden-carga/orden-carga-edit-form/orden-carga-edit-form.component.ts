@@ -256,6 +256,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private reportsService: ReportsService,
   ) {}
 
+  
+
   ngOnInit(): void {
     if (!this.hasChangeSubscription) {
       this.hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
@@ -653,17 +655,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.anticipoList ? 'toggle_on' : 'toggle_off';
   }
 
-  openEvaluacionesDialog(): void {
-    const dialogRef = this.dialog.open(EvaluacionesDialogComponent, {
-      width: '400px', // Define el ancho del diálogo
-      data: { /* Puedes pasar datos al diálogo aquí, si es necesario */ }
-    });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('El diálogo fue cerrado', result);
-      // Puedes manejar lo que ocurra después de cerrar el diálogo
-    });
-  }
 
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;

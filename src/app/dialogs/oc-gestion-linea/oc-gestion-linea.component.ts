@@ -34,12 +34,12 @@ export class OcGestionLineaComponent  {
     return this.data.oc;
   }
 
-getTotalAnticipo(): number {
-  if (!this.oc?.porcentaje_anticipos) {
-    return 0;
+  getTotalAnticipo(): number {
+    if (!this.oc?.porcentaje_anticipos) {
+      return 0;
+    }
+    return this.oc.porcentaje_anticipos.reduce((total, anticipo) => total + anticipo.porcentaje, 0);
   }
-  return this.oc.porcentaje_anticipos.reduce((total, anticipo) => total + anticipo.porcentaje, 0);
-}
 
   columns: Column[] = [
 
