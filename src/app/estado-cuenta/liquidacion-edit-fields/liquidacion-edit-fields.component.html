@@ -40,7 +40,7 @@
   <ng-container *ngIf="esFinalizado; else pendienteTemp">
     <mat-accordion multi>
 
-      <mat-expansion-panel [expanded]="false">        
+      <mat-expansion-panel [expanded]="false">
         <mat-expansion-panel-header>
           <mat-panel-title> Movimientos </mat-panel-title>
         </mat-expansion-panel-header>
@@ -59,10 +59,11 @@
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
           [liquidacion]="item"
-          [saldo]="item.saldo"
+          [saldo]="item.pago_cobro"
           [isShow]="isShow"
           (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-confirmada-form-instrumentos>
+        {{ item.pago_cobro }}
       </mat-expansion-panel>
 
       <mat-expansion-panel [expanded]="false">
@@ -80,10 +81,10 @@
   </ng-container>
 
   <ng-template #pendienteTemp>
-    
+
     <mat-accordion multi>
 
-      <mat-expansion-panel [expanded]="true">        
+      <mat-expansion-panel [expanded]="true">
         <mat-expansion-panel-header>
           <mat-panel-title> Movimientos </mat-panel-title>
         </mat-expansion-panel-header>
@@ -116,7 +117,7 @@
       </mat-expansion-panel>
 
     </mat-accordion>
-    
+
   </ng-template>
 
 </div>

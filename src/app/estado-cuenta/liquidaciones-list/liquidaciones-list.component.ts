@@ -77,7 +77,7 @@ export class LiquidacionesListComponent implements OnInit {
       value: (element: Liquidacion) => `${element.estado.toUpperCase()}`,
     },
     {
-      def: 'pago_cobro',
+      def: 'es_cobro',
       title: 'Cobro/Pago',
       value: (element: Liquidacion) => (element.es_cobro ? 'COBRO' : 'PAGO') ,
     },
@@ -88,10 +88,16 @@ export class LiquidacionesListComponent implements OnInit {
       value: (element: Liquidacion) => element.movimientos_saldo,
     },
     {
+      def: 'pago_cobro',
+      title: 'Pago/Cobro',
+      type: 'number',
+      value: (element: Liquidacion) => element.pago_cobro,
+    },
+    {
       def: 'instrumentos_saldo',
       title: 'Tot. Instrumento',
       type: 'number',
-      value: (element: Liquidacion) => element.pago_cobro ,
+      value: (element: Liquidacion) => element.instrumentos_saldo ,
     },
     {
       def: 'saldo_residual',
@@ -125,7 +131,6 @@ export class LiquidacionesListComponent implements OnInit {
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
         console.log('alerta desde button: ', $event);
-
       }
     },
     {

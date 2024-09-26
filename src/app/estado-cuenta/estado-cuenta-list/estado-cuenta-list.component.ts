@@ -291,6 +291,7 @@ export class EstadoCuentaListComponent implements OnInit {
       [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
       { queryParams:getQueryParams(mov) }
     );
+
   }
 
 }
