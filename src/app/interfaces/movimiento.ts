@@ -137,6 +137,23 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   complemento_concepto?: string;
 }
 
+export interface MovimientoEstadoCuenta {
+    movimiento_id: number,
+    liquidacion_id: number | null,
+    fecha: string | null,
+    tipo_cuenta_descripcion: string,
+    tipo_movimiento_concepto: string,
+    nro_documento_relacionado: 48,
+    detalle: string,
+    info: string,
+    estado: string,
+    pendiente: number,
+    en_proceso: number,
+    confirmado: number,
+    finalizado: number,
+    movimiento_saldo?: number,
+}
+
 export const mockMovimientoList: Movimiento[] = [
   {
     gestor_carga_id: 1,
