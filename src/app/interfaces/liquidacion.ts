@@ -51,6 +51,7 @@ export interface Liquidacion extends ContraparteInfo {
   monto?: number ;
   user_aprueba?: string;
   aprobado_at?: string;
+  es_pago_cobro: string;
 }
 
 export const mockLiquidacionList: Liquidacion[] = [
@@ -102,6 +103,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     movimientos: [],
     instrumentos: [],
     pago_cobro:0,
+    es_pago_cobro:'pago',
   },
   {
     gestor_carga_id: 1,
@@ -151,6 +153,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     movimientos: [],
     instrumentos: [],
     pago_cobro:0,
+    es_pago_cobro:'pago',
   },
   {
     gestor_carga_id: 1,
@@ -200,6 +203,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     movimientos: [],
     instrumentos: [],
     pago_cobro:0,
+    es_pago_cobro:'pago',
   },
   {
     gestor_carga_id: 1,
@@ -249,6 +253,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     movimientos: [],
     instrumentos: [],
     pago_cobro:0,
+    es_pago_cobro:'pago',
   },
   {
     gestor_carga_id: 1,
@@ -298,6 +303,7 @@ export const mockLiquidacionList: Liquidacion[] = [
     movimientos: [],
     instrumentos: [],
     pago_cobro:0,
+    es_pago_cobro:'pago',
   },
 ];
 

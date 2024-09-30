@@ -141,6 +141,7 @@ export class LiquidacionEditFormAccionesComponent {
         },
       }),
       (comentario: string) => {
+
         let form = { 'monto': this.monto, comentario }
         console.log(form);
         this.liquidacionService

@@ -51,7 +51,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       def: 'movimiento_id',
       title: 'ID Mov',
       value: (element: MovimientoEstadoCuenta) => element.movimiento_id ?? '',
-      sticky: true,
+      //sticky: true,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
@@ -68,7 +68,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
-    },
+    }, 
     /*{
       def: 'camion_placa',
       title: 'Chapa',
@@ -118,8 +118,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       def: 'info',
       title: 'Info',
-      //value: (element: MovimientoEstadoCuenta) => (element.tipo_movimiento_concepto === 'Pago/Cobro') ? ('Factura: ' + (element.info ?? ''))  : element.info,
-      value: (element: MovimientoEstadoCuenta) => 'info',
+      value: (element: MovimientoEstadoCuenta) => (element.tipo_movimiento_concepto === 'Pago/Cobro') ? ('Factura: ' + (element.info ?? ''))  : element.info,
+      //value: (element: MovimientoEstadoCuenta) => 'info',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
@@ -285,7 +285,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   }
 
   get saldo(): number {
-    let saldo = subtract(Math.abs(this.deberes), Math.abs(this.pagos));
+    let saldo = this.deberes + this.pagos;
     return saldo;
   }
 
