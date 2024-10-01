@@ -1,0 +1,23 @@
+
+html {
+    --mat-form-field-container-height: 20px;
+}
+
+mat-form-field {
+    --mat-form-field-container-height: 20px;
+    --mat-form-field-container-vertical-padding: 8px;
+}
+
+
+::ng-deep .mat-mdc-text-field-wrapper {
+    height: 40px !important;
+}
+::ng-deep .mat-mdc-form-field-flex {
+    margin-top: -7px !important;
+}
+
+
+
+  ::ng-deep .mdc-text-field--no-label .mat-mdc-form-field-infix{
+    padding: 8px 0 0 0 !important;
+  }

@@ -324,3 +324,48 @@ h1.mat-dialog-title {
   margin-left: 16px;
   margin-bottom: 1rem;
 }
+
+/*
+.mat-form-field.mat-form-field-appearance-outline .mat-form-field-wrapper {
+  margin: 0;
+}
+
+.mat-form-field-appearance-outline .mat-form-field-infix {
+  padding: .5em;
+}
+*/
+html {
+  --mat-form-field-container-height: 20px;
+  --mat-form-field-filled-label-display: block;
+  --mat-form-field-container-vertical-padding: 16px;
+  --mat-form-field-filled-with-label-container-padding-top: 24px;
+  --mat-form-field-filled-with-label-container-padding-bottom: 8px
+}
+
+
+/*
+
+  .mat-form-field-appearance-outline {
+
+    &.mat-form-field-can-float {
+      &.mat-form-field-should-float .mat-form-field-label,
+      .mat-input-server:focus + .mat-form-field-label-wrapper .mat-form-field-label {
+        height: 20px !important;
+      }
+
+      // Server-side rendered matInput with a label attribute but label not shown
+      // (used as a pure CSS stand-in for mat-form-field-should-float).
+      .mat-form-field-label-wrapper
+      .mat-form-field-label {
+        height: 20px !important;
+        //margin-top:-15px
+      }
+
+    }
+
+  }
+
+
+.mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
+
+*/

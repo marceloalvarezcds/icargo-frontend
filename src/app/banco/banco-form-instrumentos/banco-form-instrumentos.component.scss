@@ -1,29 +1,8 @@
 .table-container::ng-deep {
-  .mat-cell,
-  .mat-header-cell {
-    max-width: 10%;
-    box-sizing: border-box;
-  }
   .mat-column-confirmar {
     right: 103px !important;
   }
   .mat-column-rechazar {
     width: 103px !important;
-  }
-  
-}
-
-
-@media (max-width: 768px) {
-  .table-container .mat-cell,
-  .table-container .mat-header-cell {
-    max-width: 20%; /* Reduce el ancho máximo de las celdas para pantallas más pequeñas */
-  }
-}
-
-@media (max-width: 576px) {
-  .table-container .mat-cell,
-  .table-container .mat-header-cell {
-    max-width: 30%; /* Reduce aún más el ancho máximo para pantallas más pequeñas */
   }
 }
