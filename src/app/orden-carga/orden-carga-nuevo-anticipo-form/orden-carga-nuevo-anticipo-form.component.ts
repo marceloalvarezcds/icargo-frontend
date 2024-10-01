@@ -26,6 +26,7 @@ import { debounceTime } from 'rxjs/operators';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
+import { MatSnackBar } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-orden-carga-nuevo-anticipo-form',
   templateUrl: './orden-carga-nuevo-anticipo-form.component.html',
@@ -216,6 +217,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
     private route: ActivatedRoute,
+    private snackBar: MatSnackBar,
     
   ) {}
 
@@ -293,44 +295,50 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
 
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-      let comentario = this.form.get('info.comentarios')?.value;
-      if (comentario) {
-        comentario = comentario.toUpperCase();
-      }
-      if (comentario !== this.originalComentario) {
-        const formData = new FormData();
-        const data = {
+        const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
+        if (comentario !== this.originalComentario) {
+            this.createComentarioAndCancel(comentario);
+        } else {
+            this.cancelOrdenCarga();
+        }
+    } else {
+        console.error('No se puede cancelar la Orden de Carga sin un ID válido');
+    }
+  }
+
+  private createComentarioAndCancel(comentario: string): void {
+      const formData = new FormData();
+      const data = {
           orden_carga_id: this.idOC,
           comentario: comentario,
-        };
-        formData.append('data', JSON.stringify(data));
-        this.ordenCargaService.createComentarios(formData).subscribe(
+      };
+      formData.append('data', JSON.stringify(data));
+
+      this.ordenCargaService.createComentarios(formData).subscribe(
           () => {
-            this.dialog.changeStatusConfirm(
-              '¿Está seguro que desea cancelar la Orden de Carga?',
-              this.ordenCargaService.cancelar(this.idOC),
-              () => {
-                this.getData();
-              }
-            );
+              this.cancelOrdenCarga();
           },
           (error) => {
-            console.error('Error al crear el comentario', error);
+              console.error('Error al crear el comentario', error);
           }
-        );
-      } else {
-        this.dialog.changeStatusConfirm(
+      );
+  }
+
+  private cancelOrdenCarga(): void {
+      this.dialog.changeStatusConfirm(
           '¿Está seguro que desea cancelar la Orden de Carga?',
           this.ordenCargaService.cancelar(this.idOC),
           () => {
-            this.getData();
-          }
-        );
-      }
-    } else {
-      console.error('No se puede cancelar la Orden de Carga sin un ID válido');
-    }
+              this.getData();
+              this.snackBar.open('Orden de carga cancelada correctamente', 'Cerrar', {
+                  duration: 3000,
+                  verticalPosition: 'top',
+                  horizontalPosition: 'center'
+              });
+          },
+      );
   }
+  
 
  
   save(showDialog: boolean = true): void {

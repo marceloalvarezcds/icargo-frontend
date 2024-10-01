@@ -1,4 +1,4 @@
-<ng-container *ngIf="form" >
+<ng-container *ngIf="form">
   <ng-container *ngIf="groupName">
     <div *ngIf="form" [formGroup]="form">
       <div class="{{ className }}" [formGroupName]="groupName">
@@ -18,37 +18,31 @@
           id="file-input"
           #fileInput
           type="file"
-          [disabled]="disabled"
           accept="images/*"
           (change)="fieldChange($event)"
           style="display: none"
-          class="custom-input"
         />
-        <div class="file-form-field" *ngIf="!isShow">
+        <mat-form-field class="file-form-field" *ngIf="!isShow">
           <mat-label>{{ title }}</mat-label>
           <input
             matInput
             readonly
             [formControlName]="controlName"
-            [disabled]="disabled"
-            (click)="!disabled && fileInput.click()"
-            class="custom-input"
+            (click)="fileInput.click()"
           />
           <button
             type="button"
             color="primary"
             matSuffix
             mat-icon-button
-            [disabled]="disabled"
-            (click)="!disabled && fileInput.click()"
-            class="custom-button"
+            (click)="fileInput.click()"
           >
-           
+            <mat-icon>attach_file</mat-icon>
           </button>
           <mat-error *ngIf="fieldControl.hasError('required')">
             El archivo es <strong>requerido</strong>
           </mat-error>
-        </div>
+        </mat-form-field>
       </div>
     </div>
   </ng-container>
@@ -71,10 +65,8 @@
         #fileInput
         type="file"
         accept="images/*"
-        [disabled]="disabled"
         (change)="fieldChange($event)"
         style="display: none"
-        class="custom-input"
       />
       <mat-form-field class="file-form-field" *ngIf="!isShow">
         <mat-label>{{ title }}</mat-label>
@@ -82,20 +74,16 @@
           matInput
           readonly
           [formControlName]="controlName"
-          [disabled]="disabled"
-          (click)="!disabled && fileInput.click()"
-          class="custom-input"
+          (click)="fileInput.click()"
         />
         <button
           type="button"
           color="primary"
           matSuffix
           mat-icon-button
-          [disabled]="disabled"
-          (click)="!disabled && fileInput.click()"
-          class="custom-button"
+          (click)="fileInput.click()"
         >
-    
+          <mat-icon>attach_file</mat-icon>
         </button>
         <mat-error *ngIf="fieldControl.hasError('required')">
           El archivo es <strong>requerido</strong>
@@ -104,3 +92,4 @@
     </div>
   </ng-container>
 </ng-container>
+

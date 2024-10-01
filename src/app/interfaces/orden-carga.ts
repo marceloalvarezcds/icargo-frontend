@@ -74,6 +74,8 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
+  combinacion_propietario_id: number;
+  combinacion_chofer_id: number;
   neto:number;
   combinacion_id: number;
   camion_beneficiario_nombre: string;
@@ -89,6 +91,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   resultado_propietario_total_anticipos_retirados_efectivo: number | null;
   resultado_propietario_total_anticipos_retirados_combustible: number | null;
   // Datos de fletes
+  flete_producto_id: number;
   flete_anticipo_maximo: number;
   flete_destino_id: number;
   flete_destino_nombre: string;
@@ -245,6 +248,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_chofer_nombre: camion0.chofer_nombre,
   camion_chofer_numero_documento: camion0.chofer_numero_documento,
   camion_chofer_puede_recibir_anticipos: false,
+  combinacion_propietario_id: 1,
+  combinacion_chofer_id: 1,
   camion_limite_cantidad_oc_activas: 1,
   camion_limite_monto_anticipos: null,
   camion_monto_anticipo_disponible: null,
@@ -283,6 +288,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_tarifa: flete0_tarifa,
   flete_tipo: flete0.tipo_flete,
   flete_saldo: 0,
+  flete_producto_id: 1,
   gestor_carga_id: flete0.gestor_carga_id,
   condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
   neto:1000,

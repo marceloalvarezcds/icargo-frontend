@@ -65,7 +65,7 @@ export class GoogleMapComponent implements AfterViewInit, OnDestroy {
   @Input() isShow = false;
   @Input() showMarker = false;
   @Input() height = 450;
-  @Input() width = 990;
+  @Input() width = 0;
   @Input() set center(latLng: google.maps.LatLngLiteral | undefined) {
     if (latLng) {
       this.latLng = latLng;

@@ -1,35 +1,55 @@
-<form [formGroup]="form">
+<form [formGroup]="form" class="small-form">
   <span mat-dialog-title>
-    <span class="evaluaciones-text"> EVALUACIÓN</span>
+    <span class="dialog-title"> REGISTRO DE EVALUACIONES</span>
   </span>
   <div class="divider"></div>
-  <div mat-dialog-content>
-    
-    <!-- Campo para seleccionar el incidente -->
-    <div class="form-field-container">
-      <label for="incidente">Incidente:</label>
-      <app-tipo-evaluacion-field
-        [form]="form"
+  <app-tipo-evaluacion-field
+    controlName="tipo_incidente"
+    [form]="form"
+    [value]="valueConcepto"
+    class="evaluacion"
+  ></app-tipo-evaluacion-field>
 
-      ></app-tipo-evaluacion-field>
+    <div class="rating-wrapper">
+      <label for="rating">Evaluación</label>
+      <div class="rating-container" id="rating">
+        <div class="star-rating">
+          <span 
+            *ngFor="let star of [].constructor(5); let i = index" 
+            class="star" 
+            [class.filled]="i < currentRating" 
+            (click)="currentRating = i + 1" 
+            style="cursor: pointer;">
+            ★
+          </span>
+        </div>
+      </div>
     </div>
 
-    <!-- Campo de comentario -->
-    <div class="form-field-container">
-      <label for="comentario">Comentario:</label>
-      <mat-form-field appearance="outline" class="comentario-field">
-        <textarea
-          matInput
-          id="comentario"
-          formControlName="comentario"
-          cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="1"
-        ></textarea>
-      </mat-form-field>
-    </div>
-  </div>
+  <app-input-field
+  *ngIf="!showComentarios"
+    title="Nota"
+    controlName="nota"
+    [form]="form"
+    class="input-nota"
+  ></app-input-field>
 
+    <app-input-field
+    *ngIf="!showComentarios"
+      title="Concepto"
+      controlName="concepto"
+      [form]="form"
+      class="input-concepto"
+  ></app-input-field>
+
+  <!-- Mostrar solo si el incidente es CANCELADO -->
+  <app-input-field
+    title="Comentarios"
+    controlName="comentarios"
+    [form]="form"
+    class="input-comentario"
+  ></app-input-field>
+  <div class="divider-buttons"></div>
   <div mat-dialog-actions class="buttons-actions">
     <button 
       mat-raised-button 
@@ -45,6 +65,7 @@
       color="primary"
       id="submit-button"
       class="save-button"
+      (click)="submit()"
     >
       <mat-icon>save</mat-icon> GUARDAR
     </button>

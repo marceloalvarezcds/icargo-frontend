@@ -76,6 +76,7 @@ export enum PermisoModeloEnum {
   TIPO_CONCEPTO_DESCUENTO = 'tipo_concepto_descuento',
   TIPO_CUENTA = 'tipo_cuenta',
   TIPO_DOCUMENTO = 'tipo_documento',
+  TIPO_EVALUACION = 'tipo_evaluacion',
   TIPO_MOVIMIENTO = 'tipo_movimiento',
   TIPO_PERSONA = 'tipo_persona',
   TIPO_REGISTRO = 'tipo_registro',
