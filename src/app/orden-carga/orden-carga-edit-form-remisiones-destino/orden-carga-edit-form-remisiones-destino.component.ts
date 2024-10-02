@@ -89,10 +89,12 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
+    console.log('Dialog data:', data);
     return this.dialog.open(OcRemisionDestinoFormDialogComponent, {     
-      width: '650px',  // Ajusta según el contenido y diseño
-      height: '400px', // Ajusta según el contenido y diseño
-      data });
+      width: '650px', 
+      height: '400px', 
+      data 
+    });
   }
 
   private emitOcChange(): void {

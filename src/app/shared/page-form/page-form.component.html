@@ -175,7 +175,7 @@
           type="button"
           mat-raised-button
           (click)="conciliarClick.emit($event)"
-          [class.disabled]="!(modelo | puede: a.CONCILIAR)"
+          [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino"
           class="add-button orden-carga-conciliar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
         >

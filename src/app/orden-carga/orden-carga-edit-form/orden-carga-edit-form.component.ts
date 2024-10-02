@@ -779,7 +779,7 @@ private cancelOrdenCarga(): void {
       this.originalComentario = data.comentarios ?? null;
       this.form.disable();
       this.form.get('info.comentarios')?.enable();
-     
+      console.log('flete_origen_id', data.flete_origen_id)
       setTimeout(() => {
         this.hasChange = false;
         this.initialFormValue = this.form.value;

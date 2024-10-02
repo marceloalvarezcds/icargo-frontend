@@ -5,10 +5,28 @@ body {
 .page-form-row {
   display: flex;
   margin-left: 0;
+  width: 100%;
+}
+
+.row{
+  display: flex;
+  margin-left: 0;
+  width: 100%;
+}
+
+.d-flex {
+  display: flex; /* Asegúrate de que el contenedor sea un flexbox */
+  align-items: center; /* Alinea los elementos verticalmente */
 }
 
 .form-label {
   white-space: nowrap; 
+  margin-right: 8px; 
+  margin-bottom: 8px;
+}
+
+.mat-form-field{
+  width: 100%;
 }
 
 ::ng-deep .mat-form-field-outline {
@@ -20,31 +38,41 @@ body {
 
 ::ng-deep input.mat-input-element {
   line-height: 0.5rem; 
-  margin-top: 3px;
-  padding-bottom: 4px; 
+  padding-top: 3px;
+  padding-bottom: 3px; 
 }
 
-::ng-deep .composicion_cedula-select .mat-select-trigger {
-  margin-top: 6px;
-}
+@media (max-width: 1366px) and (max-height: 768px) {
+  .page-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinear elementos al principio */
+    font-size: 12px;
+  }
 
-::ng-deep .documento-select .mat-select-trigger {
-  margin-top: 6px;
-}
+  .form-label {
+    white-space: nowrap; /* Evita que el label se divida en varias líneas */
+    margin-right: 8px; /* Espacio entre el label y el campo */
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
 
-::ng-deep .foto-file .mat-form-field-outline{
-  border-radius: 6px;
-  border: 2px;
-  opacity: 0px;
-  height: 100px;
-  width: 100px;
-}
+  .col-12 {
+    flex: 0 0 90%; /* Ocupa todo el ancho en pantallas pequeñas */
+  }
 
-::ng-deep .foto-file .mat-form-field{
-  border-radius: 6px;
-  border: 2px;
-  opacity: 0px;
-  height: 100px;
-  width: 100px;
+  .col-md-4 {
+    flex: 0 0 48%; /* Dos columnas en vez de tres */
+  }
+  
+  .col-md-3 {
+    flex: 0 0 48%; /* Mantiene el mismo ancho para las columnas más pequeñas */
+  }
+  
+  input.mat-input-element {
+    line-height: 0.5rem; 
+    padding-top: 6px;
+    padding-bottom: 3px; 
+  }
 }
-

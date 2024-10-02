@@ -10,3 +10,47 @@
     visibility: hidden;
   }
 }
+body, html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.page-container {
+  margin-bottom: 0;
+  padding-bottom: 0px;
+  overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
+  background-color: white;
+}
+
+.geolocation-content {
+  margin-bottom: 0;
+}
+
+.section h2 {
+  margin: 0 0 15px 0;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc;  
+  border-bottom: 1px solid #007acc;  
+  width: 100%;
+}
+
+.section h2.contactos-heading {
+  margin-top: 182px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc; /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc; /* Línea inferior en celeste más oscuro */
+  width: 72%;
+  z-index: 1;
+}
+
+.contactos-section {
+  margin-top: -158px; /* Ajusta este valor según sea necesario para subir más la sección */
+}
+

@@ -23,7 +23,6 @@
           style="display: none"
         />
         <mat-form-field class="file-form-field" *ngIf="!isShow">
-          <mat-label>{{ title }}</mat-label>
           <input
             matInput
             readonly
@@ -37,12 +36,12 @@
             mat-icon-button
             (click)="fileInput.click()"
           >
-            <mat-icon>attach_file</mat-icon>
           </button>
           <mat-error *ngIf="fieldControl.hasError('required')">
             El archivo es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
+        <label class="file-label">Logotipo</label> 
       </div>
     </div>
   </ng-container>
@@ -69,7 +68,6 @@
         style="display: none"
       />
       <mat-form-field class="file-form-field" *ngIf="!isShow">
-        <mat-label>{{ title }}</mat-label>
         <input
           matInput
           readonly
@@ -83,12 +81,12 @@
           mat-icon-button
           (click)="fileInput.click()"
         >
-          <mat-icon>attach_file</mat-icon>
         </button>
         <mat-error *ngIf="fieldControl.hasError('required')">
           El archivo es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
+      <label class="file-label">Logotipo</label> 
     </div>
   </ng-container>
 </ng-container>

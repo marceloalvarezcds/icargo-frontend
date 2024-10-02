@@ -1,8 +1,6 @@
-
-<div class="dialog-field-container">
-  <label for="dialogField" class="dialog-field-label"><span class="required-label">*</span>Ciudad</label>
+<div class="col-12 col-md8 mb-2 d-flex align-items-center small-field">
+  <label class="form-label">Ciudad</label>
   <app-dialog-map-field
-    class="map-field"
     [columns]="columns"
     [list]="ciudadSelected ? [ciudadSelected] : []"
     [groupName]="groupName"

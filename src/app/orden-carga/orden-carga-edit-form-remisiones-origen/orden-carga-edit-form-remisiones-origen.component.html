@@ -17,16 +17,18 @@
       CARGA
     </button>
   </div>
-  <div class="col-xs-12 table-container origen-table-container">
+  <div class="col-xs-12 table-container origen-table-container" >
     <app-table
       [modelo]="modelo"
       [gestorCuentaId]="gestorCargaId"
-      [shouldBeShowFooter]="true"
-      [hideShow]="true"
+      [hideShow]="oc?.estado === 'Conciliado'"
+      [isShow]="oc?.estado === 'Conciliado'"
       [columns]="columns"
       [data]="lista"
       (editClick)="edit($event)"
       (deleteClick)="remove($event)"
+      [shouldShowActiveButton]="false"
+      [ngClass]="{'header-hidden': isShow && hideShow}"
     ></app-table>
   </div>
 </div>

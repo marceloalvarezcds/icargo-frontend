@@ -20,6 +20,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
 import { delay } from 'src/app/utils/observable';
@@ -72,7 +73,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     this.checkedList = values.map((_) => false);
     this.tableDataSource.data = values.slice();
   }
-// En el archivo .ts de tu componente hijo
+
   @Input() mostrarBotonEliminar: boolean = true;
   @Input() isVisible: boolean = false;
 
@@ -80,6 +81,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     this.tableDataSource
   );
 
+  @Input() oc?: OrdenCarga;
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
   @Input() columnWidths: { [key: string]: string; } | undefined;

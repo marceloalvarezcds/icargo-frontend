@@ -10,6 +10,11 @@
     visibility: hidden;
   }
 }
+body, html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .page-container {
   margin-bottom: 0;
@@ -18,15 +23,9 @@
   background-color: white;
 }
 
-.section {
-  text-align: left; /* Alinea el texto y contenido a la izquierda */
-  margin-bottom: 20px; /* Espacio inferior entre secciones (ajústalo según necesites) */
-}
-
 .geolocation-content {
-  margin-right: 0;
+  margin-bottom: 0;
 }
-
 
 .section h2 {
   margin: 0 0 15px 0;
@@ -34,9 +33,9 @@
   font-size: 13px;
   font-weight: 530;
   line-height: 16.41px;
-  color: #007acc;  /* Celeste más oscuro */
-  border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
-  width: 82%;
+  color: #007acc;  
+  border-bottom: 1px solid #007acc;  
+  width: 100%;
 }
 
 .section h2.contactos-heading {
@@ -52,23 +51,6 @@
 }
 
 .contactos-section {
-  margin-top: -12px; /* Ajusta este valor según sea necesario para subir más la sección */
+  margin-top: -158px; /* Ajusta este valor según sea necesario para subir más la sección */
 }
 
-.edicion-mode {
-  // Estilos para modo de Edición
-  background-color: #2196f3; // Ejemplo de color de fondo
-  color: blue; // Ejemplo de color de texto
-}
-
-.ver-mode {
-  // Estilos para modo de Ver
-  background-color: #4caf50; // Ejemplo de color de fondo
-  color: white; // Ejemplo de color de texto
-}
-
-.nuevo-mode {
-  // Estilos para modo Nuevo
-  background-color: #ff9800; // Ejemplo de color de fondo
-  color: white; // Ejemplo de color de texto
-}

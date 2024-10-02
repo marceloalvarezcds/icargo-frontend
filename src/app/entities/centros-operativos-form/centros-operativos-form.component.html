@@ -1,6 +1,6 @@
 <app-page-form
   class="centro-operativo-page"
-  module="NUEVO"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   submodule="CENTRO OPERATIVO"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -11,71 +11,79 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-<div class="page-container" >
-    <div class="section info-section">
+  <div class="page-container">
+    <div class="section">
       <h2>INFORMACIÓN PRINCIPAL</h2>
       <div class="row page-form-row" formGroupName="info">
-        <label><span class="required-field">*</span> Centro Operativo</label>
-        <mat-form-field class="nombre" [ngClass]="{'view-mode': isShow}" >
-          <input matInput formControlName="nombre" appAutofocus />
-          <mat-error *ngIf="info.controls['nombre'].hasError('required')">
-            El nombre es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
-        <label><span class="required-field">*</span> Nombre de Fantasía</label>
-        <mat-form-field class="nombre-corto" [ngClass]="{'view-mode': isShow}">
-          <input matInput formControlName="nombre_corto"  />
-          <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
-            El nombre corto es <strong>requerido</strong>
-          </mat-error>
-        </mat-form-field>
-        <label><span class="required-field">*</span> Clasificación</label>
-        <mat-form-field class="clasificacion_id">
-          <mat-select formControlName="clasificacion_id">
-            <ng-container *ngFor="let o of centroOperativoClasificacionList$ | async">
-              <mat-option [value]="o.id">{{ o.nombre }}</mat-option>
-            </ng-container>
-          </mat-select>
-          <mat-error *ngIf="info.controls['clasificacion_id'].hasError('required')">
-            La clasificación es <strong>requerida</strong>
-          </mat-error>
-        </mat-form-field>
+        <div class="col-12 col-sm-2 col-md-11">
+          <div class="row">
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+              <label class="form-label mr-2"> Centro Operativo</label>
+              <mat-form-field class="nombre" [ngClass]="{'view-mode': isShow}">
+                <input matInput formControlName="nombre" appAutofocus />
+                <mat-error *ngIf="info.controls['nombre'].hasError('required')">
+                  El nombre es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-        <mat-slide-toggle
-          class="estado"
-          labelPosition="before">
-          Estado
-        </mat-slide-toggle>
-      </div>
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center small-field">
+              <label class="form-label mr-2"> Nombre de Fantasía</label>
+              <mat-form-field class="nombre-corto" [ngClass]="{'view-mode': isShow}">
+                <input matInput formControlName="nombre_corto" />
+                <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
+                  El nombre corto es <strong>requerido</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
 
-      <div class="row page-form-row">
-        <label>Web</label>
-        <mat-form-field class="web" [ngClass]="{'view-mode': isShow}" >
-          <input matInput formControlName="pagina_web" [readonly]="isShow"/>
-        </mat-form-field>
-        <label for="" class="comentario-label">Comentario</label>
-        <mat-form-field class="comentario">
-          <input matInput formControlName="pagina_web" />
-        </mat-form-field>
-      </div>
-        <div class="custom-file-field-wrapper">
-          <div class="custom-file-field">
-            <app-file-field
-              className=""
-              groupName="info"
-              controlName="logo"
-              [field]="logo"
-              [form]="form"
-              [isEdit]="isEdit"
-              (fileChange)="fileChange($event)"
-              [readonly]="isShow"
-            ></app-file-field>
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center small-field">
+              <label class="form-label mr-2"> Clasificación</label>
+              <mat-form-field class="clasificacion_id">
+                <mat-select formControlName="clasificacion_id">
+                  <ng-container *ngFor="let o of centroOperativoClasificacionList$ | async">
+                    <mat-option [value]="o.id">{{ o.nombre }}</mat-option>
+                  </ng-container>
+                </mat-select>
+                <mat-error *ngIf="info.controls['clasificacion_id'].hasError('required')">
+                  La clasificación es <strong>requerida</strong>
+                </mat-error>
+              </mat-form-field>
+            </div>
           </div>
-          <label for="" class="label-logo">Logotipo</label>
-        </div>
-    </div>
+        
+       
+          <div class="row">
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+              <label class="form-label mr-2">Web</label>
+              <mat-form-field class="web" [ngClass]="{'view-mode': isShow}">
+                <input matInput formControlName="pagina_web" [readonly]="isShow" />
+              </mat-form-field>
+            </div>
 
-   <div class="section geolocation-section">
+            <div class="col-12 col-md-8 mb-2 d-flex align-items-center">
+              <label class="form-label mr-2">Comentario</label>
+              <mat-form-field class="comentario">
+                <input matInput formControlName="comentario" /> <!-- Asegúrate de que el control sea 'comentario' -->
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div style="margin-left: auto;">
+          <app-file-field
+            title="Foto"
+            groupName="info"
+            controlName="logo"
+            class="foto-file"
+            [field]="logo"
+            [form]="form"
+            [isEdit]="isEdit"
+            (fileChange)="fileChange($event)"
+          ></app-file-field>
+        </div>
+      </div>
+    </div>
+    <div class="section geolocation-section">
       <h2>GEOLOCALIZACIÓN</h2>
       <div formGroupName="geo">
         <app-page-form-geo
@@ -85,7 +93,7 @@
           [isPanelOpen]="true"
         ></app-page-form-geo>
       </div>
-    </div> 
+    </div>
 
     <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
       <h2 class="contactos-heading">CONTACTOS</h2>
@@ -94,6 +102,6 @@
         [isShow]="isShow"
         [contactoList]="contactoList"
       ></app-page-form-contactos>
-    </div>  
-</div>
+    </div>
+  </div>
 </app-page-form>

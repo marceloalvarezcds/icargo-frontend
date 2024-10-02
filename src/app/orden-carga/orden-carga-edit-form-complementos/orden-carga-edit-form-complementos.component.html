@@ -26,6 +26,8 @@
       [hideShow]="true"
       (editClick)="edit($event)"
       (deleteClick)="remove($event)"
+      [hideShow]="oc?.estado === 'Conciliado'"
+      [isShow]="oc?.estado === 'Conciliado'"
     ></app-table>
   </div>
 </div>

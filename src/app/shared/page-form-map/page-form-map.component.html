@@ -1,41 +1,41 @@
-<div class="main-container">
-  <div *ngIf="formGroup" [formGroup]="formGroup">
-    <div [formGroupName]="groupName" class="row page-form-row">
-      <!-- Contenedor de la ciudad -->
-      <div class="col-xs-12 col-sm-4 pr-sm-1">
-          <app-ciudad-map-dialog-field
-            [ngClass]="{'view-mode-ciudad': isShow}"
-            [ciudadSelected]="ciudadSelected"
-            [groupName]="groupName"
-            [form]="formGroup"
-            class="ciudad-search"
-            (valueChange)="ciudadChange($event)"
-          ></app-ciudad-map-dialog-field>
-      </div>
-      <!-- Localidad -->
-      <div class="col-xs-12 col-sm-4 d-flex align-items-center">
-        <label class="form-label mr-2">Localidad</label>
-        <mat-form-field class="map-field">
-          <input matInput formControlName="localidad_nombre" readonly [ngClass]="{'view-mode': isShow}" />
-        </mat-form-field>
-      </div>
-      <!-- País -->
-      <div class="col-xs-12 col-sm-4 d-flex align-items-center">
-        <label class="form-label mr-2">Pais</label>
-        <mat-form-field class="map-field">
-          <input matInput formControlName="pais_nombre" readonly [ngClass]="{'view-mode': isShow}" />
-        </mat-form-field>
-      </div>
-      <!-- Dirección -->
-      <div class="col-xs-12 col-sm-12 d-flex align-items-center">
-        <label class="form-label mr-2">Dirección</label>
-        <mat-form-field class="map-field">
-          <input matInput formControlName="direccion" id="direccion" class="direccion-input" [ngClass]="{'view-mode': isShow}" />
-          <mat-error *ngIf="address.controls['direccion'].hasError('required')">
-            La dirección es <strong>requerida</strong>
-          </mat-error>
-        </mat-form-field>
+
+  <div *ngIf="formGroup" [formGroup]="formGroup" >
+    <div [formGroupName]="groupName" >
+      <div class="row page-form-row">
+        <app-ciudad-map-dialog-field
+          [ngClass]="{'view-mode-ciudad': isShow}"
+          [ciudadSelected]="ciudadSelected"
+          [groupName]="groupName"
+          [form]="formGroup"
+          (valueChange)="ciudadChange($event)"
+        ></app-ciudad-map-dialog-field>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center small-field">
+            <label class="form-label mr-2">Localidad</label>
+            <mat-form-field class="map-field">
+              <input matInput formControlName="localidad_nombre" readonly [ngClass]="{'view-mode': isShow}" />
+            </mat-form-field>
+          </div>
+          <!-- País -->
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center small-field">
+            <label class="form-label mr-2">País</label>
+            <mat-form-field class="map-field w-100">
+              <input matInput formControlName="pais_nombre" readonly [ngClass]="{'view-mode': isShow}" />
+            </mat-form-field>
+          </div>
+
+        <!-- Dirección -->
+        <div class="row">
+          <div class="col-12 col-md-8 mb-2 d-flex align-items-center small-field">
+            <label class="form-label mr-2">Dirección</label>
+            <mat-form-field class="map-field">
+              <input matInput formControlName="direccion" id="direccion" class="direccion-input" [ngClass]="{'view-mode': isShow}" />
+              <mat-error *ngIf="address.controls['direccion'].hasError('required')">
+                La dirección es <strong>requerida</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-</div>
+

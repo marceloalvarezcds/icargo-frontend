@@ -48,6 +48,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() hideShow = false;
   @Input() puedeConciliar = false;
   @Input() set list(l: OrdenCargaRemisionOrigen[]) {
     this.setList(l);

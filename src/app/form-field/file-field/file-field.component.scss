@@ -4,3 +4,46 @@
   width: 100%;
   padding-right: 50px;
 }
+
+.file-field-container {
+  position: relative; /* Necesario para posicionar la imagen dentro del input */
+  display: inline-block; /* Para que el contenedor tenga el tamaño del input */
+}
+
+.file-field {
+  position: absolute;
+  left: 10px; /* Ajusta la distancia desde el borde izquierdo */
+  transform: translateY(-50%);
+  width: 79px; /* Tamaño de la imagen */
+  height: 76px;
+  margin-top: -40px;
+}
+
+#file-input {
+  padding-left: 50px; /* Añade espacio dentro del input para la imagen */
+}
+
+.mat-form-field {
+  position: relative;
+}
+
+.file-label {
+  display: block;
+  margin-top: 8px; 
+  margin-left: 30px;
+  font-size: 10px;
+  color: #333; 
+  width: 10px;
+  height: 10px;
+  margin-bottom: -120px;
+}
+
+
+@media (max-width: 1366px) and (max-height: 768px) {
+  .file-form-field input.mat-input-element {
+    height: 80px;
+    width: 100%;
+    padding-right: 50px;
+  }
+  
+}
