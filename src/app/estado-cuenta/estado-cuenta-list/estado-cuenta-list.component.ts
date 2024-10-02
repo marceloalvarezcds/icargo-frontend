@@ -251,7 +251,7 @@ export class EstadoCuentaListComponent implements OnInit {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
 
       list.forEach( (mov:EstadoCuenta) => {
-        mov.liquidacion_saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+        mov.liquidacion_saldo = mov.pendiente + mov.confirmado + mov.saldo_pendiente + mov.finalizado;
         this.pendiente = this.pendiente + mov.pendiente;
         this.confirmado = this.confirmado + mov.confirmado;
         this.finalizado = this.finalizado + mov.finalizado;

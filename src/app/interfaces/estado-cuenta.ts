@@ -4,6 +4,7 @@ export interface EstadoCuenta extends ContraparteGralInfo {
   pendiente: number;
   en_proceso: number;
   confirmado: number;
+  saldo_pendiente: number;
   finalizado: number;
   liquidacion_saldo: number;
   cantidad_pendiente: number;
@@ -29,6 +30,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
     cantidad_finalizado: 0,
+    saldo_pendiente:0,
     q: 'contraparte=ADM+SANTA+RITA&contraparte_numero_documento=3100100&tipo_contraparte_id=3',
   },
   {
@@ -46,6 +48,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
     cantidad_finalizado: 0,
+    saldo_pendiente:0,
     q: 'contraparte=GICAL+KM12&contraparte_numero_documento=p-100100&tipo_contraparte_id=4',
   },
   {
@@ -63,6 +66,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
     cantidad_finalizado: 0,
+    saldo_pendiente:0,
     q: 'contraparte=LA+PAZ&contraparte_numero_documento=800100100&tipo_contraparte_id=4',
   },
   {
@@ -80,6 +84,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     cantidad_en_proceso: 0,
     cantidad_confirmado: 0,
     cantidad_finalizado: 0,
+    saldo_pendiente:0,
     q: 'contraparte=PUERTO+UNION&contraparte_numero_documento=p-400400&tipo_contraparte_id=1',
   },
 ];

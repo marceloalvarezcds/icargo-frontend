@@ -148,7 +148,7 @@ export class LiquidacionEditFieldsComponent {
 
   modificarLiquidacion():void {
 
-    let es_pago_cobro = (this.childSaldoView.saldo) > 0 ? 'PAGO' : 'COBRO';
+    let es_pago_cobro = (this.childSaldoView.saldoMovimiento) > 0 ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
 
     this.item!.monto = pago_cobro;

@@ -68,7 +68,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
-    }, 
+    },
     /*{
       def: 'camion_placa',
       title: 'Chapa',
@@ -275,8 +275,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   }
 
   get deberes(): number {
-    let debito = this.list.reduce((acc, cur) => acc + (cur.pendiente ?? 0), 0);
-    let credito = this.list.reduce((acc, cur) => acc + (cur.confirmado ?? 0), 0);
+    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado != 'Finalizado') ? cur.pendiente ?? 0 : 0), 0);
+    let credito = this.list.reduce((acc, cur) => acc + ( (cur.estado != 'Finalizado') ? cur.confirmado ?? 0 : 0), 0);
     return (credito + debito);
   }
 
@@ -285,8 +285,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   }
 
   get saldo(): number {
-    let saldo = this.deberes + this.pagos;
-    return saldo;
+    let debito = this.list.reduce((acc, cur) => acc + ( cur.pendiente ?? 0 ), 0);
+    let credito = this.list.reduce((acc, cur) => acc + ( cur.confirmado ?? 0 ), 0);
+    return  credito + debito + this.pagos;
   }
 
   get totalPendiente(): number {

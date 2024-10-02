@@ -47,6 +47,7 @@ export class LiquidacionEditFormAccionesComponent {
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
   @Input() monto : number | undefined = 0;
+  @Input() saldoMovimiento : number | undefined = 0;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
@@ -133,6 +134,10 @@ export class LiquidacionEditFormAccionesComponent {
   }
 
   someter(): void {
+
+    let es_pago_cobro = (this.saldoMovimiento! > 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
+
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
     this.dialogService.configDialogRef(
       this.dialog.open(ComentarioConfirmDialogComponent, {
@@ -141,8 +146,7 @@ export class LiquidacionEditFormAccionesComponent {
         },
       }),
       (comentario: string) => {
-
-        let form = { 'monto': this.monto, comentario }
+        let form = { 'monto': pago_cobro, comentario }
         console.log(form);
         this.liquidacionService
           .someter(this.id, changeLiquidacionDataMonto(form))
@@ -160,8 +164,8 @@ export class LiquidacionEditFormAccionesComponent {
     this.liquidacionFacturaChange.emit();
   }
 
-  datosFiscalesForm(): void{    
-    create(this.getDialogRef(), this.emitChange.bind(this))    
+  datosFiscalesForm(): void{
+    create(this.getDialogRef(), this.emitChange.bind(this))
   }
 
   private getDialogRef(

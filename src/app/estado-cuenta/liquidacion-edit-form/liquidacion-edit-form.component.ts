@@ -52,6 +52,7 @@ export class LiquidacionEditFormComponent implements OnInit {
         cantidad_pendiente: 0,
         cantidad_en_proceso: 0,
         cantidad_confirmado: 0,
+        saldo_pendiente: 0,
         cantidad_finalizado: 0,
         q:''
       }
