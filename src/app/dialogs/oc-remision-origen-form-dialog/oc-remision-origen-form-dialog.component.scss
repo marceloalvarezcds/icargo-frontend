@@ -47,7 +47,21 @@ form {
   padding: 0;
   box-sizing: border-box;
 }
+label{
+  margin-right: 10px;
+}
+.custom-input-field{
+  margin-bottom: 10px;
+}
 
+.form-control{
+  width: 50%;
+  height: 28px; /* Aumenta la altura del input */
+  border-radius: 9px; /* Hace los bordes redondeados */
+  border: 1px solid #D9D9D9; /* Añade un borde */
+  background-color: #FBFBFE; /* Fondo del input */
+  font-size: 11px; /* Ajusta el tamaño del texto */
+}
 
 /* Ajusta las filas del formulario */
 .form-row {

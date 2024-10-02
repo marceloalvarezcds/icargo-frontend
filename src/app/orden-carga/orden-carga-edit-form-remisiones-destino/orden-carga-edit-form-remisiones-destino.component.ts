@@ -92,7 +92,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
     console.log('Dialog data:', data);
     return this.dialog.open(OcRemisionDestinoFormDialogComponent, {     
       width: '650px', 
-      height: '400px', 
+      height: 'auto', 
       data 
     });
   }
