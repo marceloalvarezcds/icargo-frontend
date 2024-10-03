@@ -26,36 +26,70 @@ export class SelectableMovimientoTableComponent {
       sticky: true,
     },
     {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
-      type: 'number',
+      def: 'created_at',
+      title: 'Fecha ',
+      value: (element: Movimiento) => element.created_at,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      type: 'only-date',
     },
     {
-      def: 'concepto',
-      title: 'Concepto',
-      value: (element: Movimiento) => element.concepto,
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => element.camion_placa,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'concepto',
+      title: 'Concepto',
+      value: (element: Movimiento) => element.tipo_movimiento_descripcion,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'tipo',
+      title: 'Detalle',
+      value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
+          (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
+            : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
+            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+        ),
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'numero_documento_relacionado',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.numero_documento_relacionado,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'detalle',
-      title: 'Detalle',
+      title: 'Info',
       value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Movimiento) => element.estado,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'monto',
+      title: 'Monto',
+      value: (element: Movimiento) => element.monto,
+      type: 'number',
+    },
+    /*
     {
       def: 'tipo_documento_relacionado_descripcion',
       title: 'Tipo de Doc Relacionado',
       value: (element: Movimiento) =>
         element.tipo_documento_relacionado_descripcion,
-    },
-    {
-      def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
     },
     {
       def: 'moneda_nombre',
@@ -81,12 +115,6 @@ export class SelectableMovimientoTableComponent {
       type: 'number',
     },
     {
-      def: 'created_at',
-      title: 'Fecha y hora',
-      value: (element: Movimiento) => element.created_at,
-      type: 'date',
-    },
-    {
       def: 'created_by',
       title: 'Usuario',
       value: (element: Movimiento) => element.created_by,
@@ -101,7 +129,7 @@ export class SelectableMovimientoTableComponent {
       buttonCallback: (element: Movimiento) =>
         redirectToShowOCByMovimiento(this.router, element),
       stickyEnd: true,
-    },
+    },*/
   ];
 
   @Input() list: Movimiento[] = [];

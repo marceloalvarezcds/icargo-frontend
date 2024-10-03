@@ -63,8 +63,8 @@ export class LiquidacionFormMovimientosComponent {
       def: 'tipo',
       title: 'Detalle',
       value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
-          (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto 
-            : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto 
+          (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
+            : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
             : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
         ),
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
@@ -92,13 +92,13 @@ export class LiquidacionFormMovimientosComponent {
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
       type: 'number',
-    },    
+    },
     /*{
       def: 'punto_venta',
       title: 'Punto de Venta',
       value: (element: Movimiento) =>
         element.anticipo?.punto_venta_nombre ?? '',
-    },   
+    },
     /*{
       def: 'oc',
       title: '',
