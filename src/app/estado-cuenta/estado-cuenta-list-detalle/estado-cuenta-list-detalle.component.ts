@@ -14,7 +14,7 @@ import {
 import { filter } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
-import { Movimiento } from 'src/app/interfaces/movimiento';
+import { Movimiento, MovimientoEstadoCuenta } from 'src/app/interfaces/movimiento';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
@@ -48,59 +48,93 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   columns: Column[] = [
     {
-      def: 'created_at',
-      title: 'Fecha',
-      value: (element: Movimiento) => element.created_at,
-      type: 'only-date',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'id',
+      def: 'movimiento_id',
       title: 'ID Mov',
-      value: (element: Movimiento) => element.id,
-      sticky: false,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      value: (element: MovimientoEstadoCuenta) => element.movimiento_id ?? '',
+      //sticky: true,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
+      def: 'fecha',
+      title: 'Fecha',
+      value: (element: MovimientoEstadoCuenta) => element.fecha,
+      type: 'only-date',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
+    },
+    /*{
       def: 'camion_placa',
       title: 'Chapa',
       value: (element: Movimiento) => element.camion_placa,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
+    },*/
     {
-      def: 'cuenta_codigo_descripcion',
+      def: 'tipo_cuenta_descripcion',
       title: 'Cuenta',
-      value: (element: Movimiento) => element.cuenta.descripcion,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      value: (element: MovimientoEstadoCuenta) => element.tipo_cuenta_descripcion,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
-      def: 'concepto',
+      def: 'tipo_movimiento_concepto',
       title: 'Concepto',
-      value: (element: Movimiento) => element.tipo_movimiento_descripcion,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      value: (element: MovimientoEstadoCuenta) => element.tipo_movimiento_concepto,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
-      def: 'detalleMovimiento',
+      def: 'detalle_desc',
       title: 'Detalle',
-      value: (element: Movimiento) => element.detalleMovimiento,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      value: (element: MovimientoEstadoCuenta) => element.detalle,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
-      def: 'numero_documento_relacionado',
+      def: 'nro_documento_relacionado',
       title: 'N° OC',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
-      def: 'detalle',
+      def: 'info',
       title: 'Info',
-      value: (element: Movimiento) => element.detalle,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      value: (element: MovimientoEstadoCuenta) => (element.tipo_movimiento_concepto === 'Pago/Cobro') ? ('Factura: ' + (element.info ?? ''))  : element.info,
+      //value: (element: MovimientoEstadoCuenta) => 'info',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
-    /*{
+    {
       def: 'estado',
       title: 'Estado',
-      value: (element: Movimiento) => element.estado,
+      value: (element: MovimientoEstadoCuenta) => element.estado,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     /*{
       def: 'monto_ml',
@@ -111,36 +145,57 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       def: 'liquidacion',
       title: 'N° Liq.',
-      value: (element: Movimiento) => element.liquidacion_id ?? 0,
+      value: (element: MovimientoEstadoCuenta) => element.liquidacion_id ?? '',
       type: 'number',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
       def: 'pendiente',
       title: LiquidacionEtapaEnum.PENDIENTE,
-      value: (element: Movimiento) => element.pendiente,
+      value: (element: MovimientoEstadoCuenta) => element.pendiente,
       type: 'number',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
-      value: (element: Movimiento) => element.confirmado,
+      value: (element: MovimientoEstadoCuenta) => element.confirmado,
       type: 'number',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
       def: 'finalizado',
       title: 'Pago/Cobro',
-      value: (element: Movimiento) => element.finalizado,
+      value: (element: MovimientoEstadoCuenta) => element.finalizado,
       type: 'number',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
       def: 'movimiento_saldo',
       title: LiquidacionEtapaEnum.SALDO,
-      value: (element: Movimiento) => element.movimiento_saldo,
+      value: (element: MovimientoEstadoCuenta) => element.movimiento_saldo,
       type: 'number',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
   ]
 
@@ -219,10 +274,14 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     return (this.estadoFilterList.length !== this.estadoFiltered.length);
   }
 
+  get pendientes(): number {
+    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado === 'Pendiente') ? cur.pendiente ?? 0 : 0), 0);
+    return debito;
+  }
+
   get deberes(): number {
-    let debito = this.list.reduce((acc, cur) => acc + (cur.pendiente ?? 0), 0);
-    let credito = this.list.reduce((acc, cur) => acc + (cur.confirmado ?? 0), 0);
-    return (credito + debito);
+    let credito = this.list.reduce((acc, cur) => acc + ( (true) ? cur.confirmado ?? 0 : 0), 0);
+    return credito;
   }
 
   get pagos(): number {
@@ -230,8 +289,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   }
 
   get saldo(): number {
-    let saldo = subtract(Math.abs(this.deberes), Math.abs(this.pagos));
-    return saldo;
+    //let debito = this.list.reduce((acc, cur) => acc + ( cur.pendiente ?? 0 ), 0);
+    let credito = this.list.reduce((acc, cur) => acc + ( cur.confirmado ?? 0 ), 0);
+    return  credito + this.pagos;
   }
 
   get totalPendiente(): number {
@@ -447,15 +507,33 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         )
         .subscribe((data) => {
 
-          data.forEach(element =>{
-            element.detalleMovimiento = ( 
-              (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto 
-                : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto 
+          /*data.forEach(element =>{
+            /*element.detalleMovimiento = (
+              (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
+                : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
                 : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
             )
-                        
+
             element.movimiento_saldo = (element.pendiente + element.confirmado + element.finalizado);
-          })
+
+            console.log("element.movimiento_saldo");
+            console.log(element.movimiento_saldo);
+            console.log(element.pendiente + element.confirmado + element.finalizado);
+            console.log(element.pendiente );
+            console.log(element.finalizado);
+            console.log(element.confirmado);
+
+          })*/
+
+          let acumulado = 0;
+          data.reverse().forEach(element =>{
+            console.log(element.confirmado);
+            acumulado = acumulado + (element.pendiente + element.confirmado + element.finalizado);
+            element.movimiento_saldo = acumulado ;
+
+          });
+
+          data.reverse();
 
           this.list = data;
           this.movimientosSelected = [];
@@ -500,3 +578,4 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
 }
+

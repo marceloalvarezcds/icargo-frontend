@@ -96,7 +96,11 @@ export class LiquidacionFormFieldsComponent {
 
   sendLiquidacion(confirmed: boolean): void {
 
-    let es_pago_cobro = (this.childSaldoView.saldo > 0 ? 'P' : 'C');
+    let es_pago_cobro = (this.childSaldoView.saldoMovimiento >= 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
+
+    console.log(es_pago_cobro);
+    console.log(this.childSaldoView.saldo);
 
     if (this.controlTipoMovimiento()){
       this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
@@ -112,7 +116,7 @@ export class LiquidacionFormFieldsComponent {
 
     //if (this.movimientosSelected.length) {
       this.liquidacionService
-        .create(createLiquidacionDataFields(this.movimientosSelected, this.estadoCuenta!, this.childSaldoView.monto, es_pago_cobro))
+        .create(createLiquidacionDataFields(this.movimientosSelected, this.estadoCuenta!, pago_cobro, es_pago_cobro))
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 

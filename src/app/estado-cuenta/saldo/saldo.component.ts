@@ -49,16 +49,19 @@ export class SaldoComponent {
       sentido = 'P';
     }
 
-    if (this.monto > Math.abs(calcSaldo)){
-      calcSaldo = subtract(this.monto, Math.abs(calcSaldo));
-    }
-
-    if (this.monto < Math.abs(calcSaldo)){
-      calcSaldo = subtract(Math.abs(calcSaldo), this.monto);
+    if (Math.abs(this.monto) > Math.abs(calcSaldo)){
+      calcSaldo = subtract(Math.abs(this.monto), Math.abs(calcSaldo));
+    } else if (Math.abs(this.monto) < Math.abs(calcSaldo)){
+      calcSaldo = subtract(Math.abs(calcSaldo), Math.abs(this.monto));
+    } else {
+      return 0;
     }
 
     return (sentido==='P') ? Math.abs(calcSaldo) : Math.abs(calcSaldo)*-1;
+  }
 
+  get saldoMovimiento(): number {   
+    return subtract(this.credito, this.debito);
   }
 
 }

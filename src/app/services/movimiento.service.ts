@@ -38,7 +38,7 @@ export class MovimientoService {
     punto_venta_id?: number,
   ): Observable<Movimiento[]> {
     return this.http.get<Movimiento[]>(
-      `${this.url}/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
+      `${environment.api}/estado_cuenta/movimiento/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
     );
   }
 

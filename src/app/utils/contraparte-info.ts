@@ -28,7 +28,7 @@ export function getQueryParams(
     contraparte_id: contraparte.contraparte_id,
     contraparte: contraparte.contraparte,
     contraparte_numero_documento: contraparte.contraparte_numero_documento,
-    punto_venta_id: contraparte.punto_venta_id
+    punto_venta_id: (contraparte.punto_venta_id! > 0) ? contraparte.punto_venta_id : undefined
   };
 }
 

@@ -73,7 +73,8 @@ export class LiquidacionEditFieldsComponent {
   }
 
   get esFinalizado(): boolean {
-    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
+    return (this.item?.estado === LiquidacionEstadoEnum.PENDIENTE ||
+      this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
       this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
@@ -147,7 +148,10 @@ export class LiquidacionEditFieldsComponent {
 
   modificarLiquidacion():void {
 
-    this.item!.monto = this.childSaldoView.monto;
+    let es_pago_cobro = (this.childSaldoView.saldoMovimiento) > 0 ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
+
+    this.item!.monto = pago_cobro;
 
     this.liquidacionService
         .edit(this.item!.id, editLiquidacionData(this.item!))

@@ -23,6 +23,7 @@ import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
+import { subtract } from 'src/app/utils/math';
 
 type Filter = {
   tipo_contraparte_descripcion?: string;
@@ -77,9 +78,9 @@ export class LiquidacionesListComponent implements OnInit {
       value: (element: Liquidacion) => `${element.estado.toUpperCase()}`,
     },
     {
-      def: 'pago_cobro',
+      def: 'es_cobro',
       title: 'Cobro/Pago',
-      value: (element: Liquidacion) => (element.es_cobro ? 'COBRO' : 'PAGO') ,
+      value: (element: Liquidacion) => element.es_pago_cobro,
     },
     {
       def: 'movimientos_saldo',
@@ -88,16 +89,24 @@ export class LiquidacionesListComponent implements OnInit {
       value: (element: Liquidacion) => element.movimientos_saldo,
     },
     {
+      def: 'pago_cobro',
+      title: 'Pago/Cobro',
+      type: 'number',
+      value: (element: Liquidacion) => element.pago_cobro,
+    },
+    {
       def: 'instrumentos_saldo',
       title: 'Tot. Instrumento',
       type: 'number',
-      value: (element: Liquidacion) => element.pago_cobro ,
+      value: (element: Liquidacion) => (element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1,
     },
     {
       def: 'saldo_residual',
       title: 'Saldo C.C.',
       type: 'number',
-      value: (element: Liquidacion) => element.saldo_residual ,
+      //value: (element: Liquidacion) => subtract( Math.abs(element.movimientos_saldo), element.instrumentos_saldo),
+      value: (element: Liquidacion) => 
+        element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1),
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
@@ -125,7 +134,6 @@ export class LiquidacionesListComponent implements OnInit {
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
         console.log('alerta desde button: ', $event);
-
       }
     },
     {

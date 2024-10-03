@@ -251,7 +251,7 @@ export class EstadoCuentaListComponent implements OnInit {
     this.estadoCuentaService.getListByGestorCarga().subscribe((list) => {
 
       list.forEach( (mov:EstadoCuenta) => {
-        mov.liquidacion_saldo = mov.pendiente + mov.confirmado + mov.finalizado;
+        mov.liquidacion_saldo = mov.confirmado + mov.finalizado;
         this.pendiente = this.pendiente + mov.pendiente;
         this.confirmado = this.confirmado + mov.confirmado;
         this.finalizado = this.finalizado + mov.finalizado;
@@ -291,6 +291,7 @@ export class EstadoCuentaListComponent implements OnInit {
       [`/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`],
       { queryParams:getQueryParams(mov) }
     );
+
   }
 
 }
