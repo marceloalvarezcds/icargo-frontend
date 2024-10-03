@@ -82,6 +82,8 @@ export class PageComponent {
     switch (submodule) {
       case 'CLIENTES':
       case 'CENTROS OPERATIVOS':
+      case 'PROVEEDORES':
+      case 'GESTORES DE CARGA':
       case 'Orden de Carga':
         return baseStyles;
       case 'Todas las CUENTAS CORRIENTES':

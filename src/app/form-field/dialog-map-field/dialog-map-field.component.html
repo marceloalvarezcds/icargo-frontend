@@ -1,7 +1,7 @@
 <div *ngIf="form" class="search-container">
+  
     <ng-container *ngIf="fetchFunction || list.length; else inputTemplate">
-      <mat-form-field class="custom-mat-form-field" >
-        <label>{{ title }}</label>
+      <mat-form-field >
         <app-dialog-form-field-control
           [descripcionPropName]="inputValuePropName"
           [columns]="columns"

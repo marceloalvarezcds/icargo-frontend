@@ -42,11 +42,10 @@
 }
 
 .gestion-button {
-  font-size: 10px; /* Tamaño de fuente más pequeño para los botones */
-  padding: 2px 6px; /* Relleno reducido para los botones */
-  min-width: 60px; /* Ancho mínimo para los botones */
+  font-size: 10px; 
+  padding: 2px 6px; 
+  min-width: 60px; 
   color: white;
-  
   padding-left: 10px;
   padding-right: 10px;
 }
@@ -143,6 +142,7 @@ label{
 .small-table{
   width: 89%;
 }
+
 @media screen and (max-width: 1366px) and (max-height: 768px) {
   .main-container h2 {
     margin: 0 0 28px 0;
@@ -163,4 +163,33 @@ label{
     margin-right: -12px;
     font-size: 11px;
   }
+
+  .saldo-form-field{
+    margin-top:25px;
+    width: 100px;
+    pointer-events: none;
+  }
+  
+  .saldo-form-field input {
+    text-align: right;
+    justify-content: flex-end;
+    position: relative;
+    top: -2.8px; 
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    margin-top: -5px;
+    width: auto;
+    margin-left: -4px;
+    border: none;
+    border-color: none;
+    background: none;
+    outline: none;
+  }
+  
+  ::ng-deep .saldo-form-field .mat-form-field-outline {
+    border: 1px solid #D9D9D9;
+    background: #FBFBFE;
+    height: 29px;
+  }
+  
 }

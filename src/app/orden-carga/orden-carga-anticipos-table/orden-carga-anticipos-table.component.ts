@@ -195,8 +195,19 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
 
 openEvaluacionesDialog(): void {
   this.dialog.open(EvaluacionesDialogComponent, {
-    width: '1600px',  
-    data: { oc: this.oc } 
+    data: { orden_carga_id: this.oc?.id,
+            camion_id: this.oc?.camion_id,
+            semi_id: this.oc?.semi_id,
+            propietario_id: this.oc?.combinacion_propietario_id,
+            chofer_id: this.oc?.combinacion_chofer_id,
+            gestor_carga_id: this.oc?.gestor_carga_id,
+            origen_id: this.oc?.origen_id,
+            destino_id: this.oc?.destino_id,
+            producto_id: this.oc?.flete_producto_id
+    }, 
+    width: '30rem',  // Ajusta el ancho del diálogo aquí
+    height: 'auto', // Ajusta la altura del diálogo aquí
+    panelClass: 'custom-dialog-container' // Opcional: Clase personalizada para estilos adicionales
   });
 }
 
@@ -254,27 +265,7 @@ openEvaluacionesDialog(): void {
       data });
   }
 
-  private getEvaluacionesDialogRef(
-    item?: OrdenCargaEvaluacionesHistorial
-  ): MatDialogRef<
-    EvaluacionesDialogComponent,
-    OrdenCargaEvaluacionesHistorial
-  > {
-    const data: EvaluacionDialogData = {
-      orden_carga_id: this.oc!.id,
-      // Agrega aquí cualquier otro dato relevante que necesites para la evaluación
-      item,
-    };
-    return this.dialog.open(EvaluacionesDialogComponent, {
-      width: '700px',
-      height: 'auto',
-      data,
-    });
-  }
-  
-  createEvaluacion(): void {
-    create(this.getEvaluacionesDialogRef(), this.emitOcChange.bind(this));
-  }
+
   
 
   private emitOcChange(): void {

@@ -1,10 +1,12 @@
 
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { EvaluacionDialogData } from 'src/app/interfaces/oc-evaluaciones-dialog-data';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaEvaluacionesHistorial} from 'src/app/interfaces/orden_carga_evaluacion';
+import { TipoIncidente } from 'src/app/interfaces/tipo_evaluacion';
+import { OrdenCargaEvaluacionesService } from 'src/app/services/orden-carga-evaluaciones.service';
 
 
 @Component({
@@ -13,38 +15,104 @@ import { OrdenCargaEvaluacionesHistorial} from 'src/app/interfaces/orden_carga_e
   styleUrls: ['./evaluaciones-dialog.component.scss']
 })
 export class EvaluacionesDialogComponent {
-
+  currentRating: number = 0;
   fotoRegistroFile: File | null = null;
   localidadId?: number;
   paisId?: number;
+  isFinalizadoOConciliado: boolean = false;
+  tipoEvaluacion?: TipoIncidente
+  showComentarios: boolean = false;
 
   form = this.fb.group({
-    orden_carga_id: [this.data?.orden_carga_id, Validators.required], 
-    comentario: [this.data?.comentario],                            
-    tipo_incidente_id: [this.data?.tipo_incidente_id],                
-    gestor_carga_id: [this.data?.gestor_carga_id, Validators.required], 
-    camion_id: [this.data?.camion_id, Validators.required],          
-    semi_id: [this.data?.semi_id],                                   
-    propietario_id: [this.data?.propietario_id],                     
-    chofer_id: [this.data?.chofer_id],                                
-    origen_id: [this.data?.origen_id, Validators.required],           
-    destino_id: [this.data?.destino_id, Validators.required],         
-    producto_id: [this.data?.producto_id],                            
-    concepto: [this.data?.concepto],                                  
-    nota: [this.data?.nota],                                          
-    comentarios: [this.data?.comentarios],                            
+    tipo_incidente: [this.data?.tipo_incidente, Validators.required],  
+    comentarios: this.data?.comentarios,  
+    nota: this.data?.nota,  
   });
+ 
+  get tipoIncidenteControl(): FormControl {
+    return this.form.get('tipo_incidente') as FormControl;
+  }
+
+  get isTipoEvaluacion(): boolean {
+    return this.tipoEvaluacion?.descripcion === 'CANCELADO';
+  }
+
+  constructor(
+    private ordenCargaEvaluacionService: OrdenCargaEvaluacionesService,
+    public dialogRef: MatDialogRef<EvaluacionesDialogComponent>,
+    private fb: FormBuilder,
+    @Inject(MAT_DIALOG_DATA) private data: EvaluacionDialogData 
+  ) {
+    this.form = this.fb.group({
+      tipo_incidente: [this.data?.tipo_incidente, Validators.required],  
+      comentarios: this.data?.comentarios,  
+      nota: this.data?.nota,  
+      concepto: this.data?.concepto
+    });
+
+    this.form.get('tipo_incidente')?.valueChanges.subscribe(value => {
+      this.tipoEvaluacion = value; 
+      this.showComentarios = value?.descripcion === 'CANCELADO';
+    });
+  }
+
+  submit() {
+    this.form.markAsDirty();
+    this.form.markAllAsTouched();
   
-  get data(): OrdenCargaEvaluacionesHistorial | undefined {
-    return this.dialogData?.item;
+    console.log('Formulario enviado:', this.form.value); // Log del formulario al enviarlo
+    
+    if (this.form.valid) {
+      console.log('El formulario es válido');
+      const tipoIncidente: TipoIncidente = this.tipoIncidenteControl.value;
+      const tipoIncidenteId = tipoIncidente?.id;
+      const ordenCargaId = this.data?.orden_carga_id;
+      const camionId = this.data?.camion_id;
+      const semiId = this.data?.semi_id;
+      const propietarioID = this.data?.propietario_id;
+      const choferID = this.data?.propietario_id;
+      const gestorCargaId = this.data?.gestor_carga_id;
+      const origenId = this.data?.origen_id;
+      const destinoId = this.data?.destino_id;
+      const productoId = this.data?.producto_id;
+  
+      const value = JSON.parse(JSON.stringify(this.form.value));
+
+      const data = {
+        ...value,
+        tipo_incidente_id: tipoIncidenteId,  
+        orden_carga_id: ordenCargaId,  
+        camion_id: camionId, 
+        semi_id: semiId,
+        propietario_id: propietarioID,
+        chofer_id: choferID,
+        gestor_carga_id: gestorCargaId,
+        origen_id: origenId,
+        destino_id: destinoId, 
+        producto_id: productoId,
+      };
+
+      console.log('Datos que se van a enviar:', data); // Log de los datos que se enviarán
+  
+      const formData = new FormData();
+      formData.append('data', JSON.stringify(data));
+  
+      this.ordenCargaEvaluacionService
+        .create(formData)
+        .subscribe(this.close.bind(this));
+      
+    } else {
+      console.log('El formulario no es válido', this.form.errors); // Log de los errores si el formulario no es válido
+    }
+  }
+  
+  
+  valueConcepto(item: TipoIncidente): TipoIncidente {
+    return item;
   }
 
 
-   constructor(
-    public dialogRef: MatDialogRef<EvaluacionesDialogComponent>,
-    private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private dialogData: EvaluacionDialogData
-  ) {}
-
-
+  private close(data: OrdenCargaEvaluacionesHistorial): void {
+    this.dialogRef.close(data);
+  }
 }

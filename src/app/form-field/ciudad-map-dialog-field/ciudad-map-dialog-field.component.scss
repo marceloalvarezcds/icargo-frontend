@@ -1,35 +1,21 @@
-.app-dialog-field {
-    margin-bottom: 0;
-    padding-bottom: 0;
-  }
-  
-  .dialog-field-container {
-    display: flex;
-    align-items: center; /* Alinear verticalmente los elementos */
-    justify-content: flex-start;
-    border-radius: 5px; /* Borde redondeado opcional */
-    margin-right: 50em;
-  
-  }
+.d-flex {
+  display: flex; /* Hace que los hijos se alineen en fila (uno al lado del otro) */
+  align-items: center; /* Alinea verticalmente el label y el campo */
+}
 
-  .dialog-field-label {
-    width: 150px; /* Ancho deseado para la etiqueta */
-    text-align: right; /* Alineación del texto a la derecha */
-    margin-right: 18px; /* Espacio entre la etiqueta y el campo de entrada */
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.41px;
-    margin-top: -12px; /* Ajusta el margen superior para subir la etiqueta */
-  }
-  
-  .dialog-field-small {
-    flex: 1; /* El campo de entrada toma todo el espacio disponible */
-  }
-  
-  .required-label {
-    color: red; /* Color del asterisco (opcional) */
-    padding: 3px;
-  }
+.form-label {
+  white-space: nowrap; 
+  margin-right: 8px; 
+  margin-bottom: 8px;
+}
 
-  
+.flex-grow-1 {
+  flex-grow: 1; /* Permite que el componente de búsqueda ocupe el resto del espacio disponible */
+}
+
+small-field {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+

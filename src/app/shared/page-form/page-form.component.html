@@ -60,145 +60,122 @@
                   || submodule === 'ANTICIPO (directo)' 
                   || submodule === 'ORDEN DE CARGA') 
               )">
-          <label class="anticipo-label">Anticipos</label>
-          <button
-            *ngIf="(submodule === 'ORDEN DE CARGA (directa)' 
-                    || submodule === 'ANTICIPO (directo)' 
-                    || submodule === 'ORDEN DE CARGA') 
-                    && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) 
-                    || oc?.estado === E.ACEPTADO 
-                    || (oc?.estado === E.FINALIZADO && puedeConciliar) 
-                    || module === 'CONCILIAR'"
-            type="button"
-            mat-mini-fab
-            [ngClass]="{
-              'anticipo-toggle-button-active': isAnticipoActive,
-              'anticipo-toggle-button-inactive': !isAnticipoActive,
-              'button-disabled': isFormSubmitting || isShow
-            }"
-            color="warn"
-            class="anticipo-toggle-button"
-            [disabled]="isFormSubmitting"
-            (click)="activeClick.emit($event)">
-            <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
-        </button>
-      </div>
-   
-        <button 
-          type="button" 
-          mat-mini-fab 
-          color="primary" 
-          class="orden-button" 
-          matTooltip="Orden" 
-          [class.disabled]="!isFormSaved && oc?.estado !== E.CANCELADO && oc?.estado !== E.FINALIZADO && oc?.estado !== 'Conciliado'" 
-          *ngIf="(module === 'CONCILIAR' && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)) || 
-                  oc?.estado === E.CANCELADO || 
-                  oc?.estado === E.FINALIZADO || 
-                  oc?.estado === 'Conciliado'"  
-          (click)="downloadResumenPDF()">
-          <mat-icon>description</mat-icon> RESUMEN
+            <label class="anticipo-label">Anticipos</label>
+            <button
+              *ngIf="(submodule === 'ORDEN DE CARGA (directa)' 
+                      || submodule === 'ANTICIPO (directo)' 
+                      || submodule === 'ORDEN DE CARGA') 
+                      && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) 
+                      || oc?.estado === E.ACEPTADO 
+                      || (oc?.estado === E.FINALIZADO && puedeConciliar) 
+                      || module === 'CONCILIAR'"
+              type="button"
+              mat-mini-fab
+              [ngClass]="{
+                'anticipo-toggle-button-active': isAnticipoActive,
+                'anticipo-toggle-button-inactive': !isAnticipoActive,
+                'button-disabled': isFormSubmitting || isShow
+              }"
+              color="warn"
+              class="anticipo-toggle-button"
+              [disabled]="isFormSubmitting"
+              (click)="activeClick.emit($event)">
+              <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
           </button>
-  
-          
+        </div>
+   
           <button 
             type="button" 
             mat-mini-fab 
             color="primary" 
             class="orden-button" 
             matTooltip="Orden" 
-            [class.disabled]="!isFormSaved"
-            *ngIf="submodule !== 'ACEPTAR' 
-            && (submodule === 'ORDEN DE CARGA (directa)' 
-            || submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR'
-            && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
-            [disabled]="isFormSubmitting"
-            (click)="previewPDF()"
-            [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
-            <mat-icon>description</mat-icon>  ORDEN
-          </button>
-
-          <button
-            *ngIf="(oc?.estado === 'Nuevo' || module === 'ACEPTAR') 
-                    && submodule !== 'ORDEN DE CARGA (directa)' 
-                    && oc?.estado !== 'Cancelado'"
-              type="button"
-              mat-raised-button
-              color="primary"
-              [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
-              (click)="aceptarClick.emit($event)"
-              class="add-button orden-carga-aceptar"
+            [class.disabled]="!isFormSaved && oc?.estado !== E.CANCELADO && oc?.estado !== E.FINALIZADO && oc?.estado !== 'Conciliado'" 
+            *ngIf="(module === 'CONCILIAR' && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)) || 
+                    oc?.estado === E.CANCELADO || 
+                    oc?.estado === E.FINALIZADO || 
+                    oc?.estado === 'Conciliado'"  
+            (click)="downloadResumenPDF()">
+            <mat-icon>description</mat-icon> RESUMEN
+            </button>
+  
+          
+            <button 
+              type="button" 
+              mat-mini-fab 
+              color="primary" 
+              class="orden-button" 
+              matTooltip="Orden" 
+              [class.disabled]="!isFormSaved"
+              *ngIf="submodule !== 'ACEPTAR' 
+              && (submodule === 'ORDEN DE CARGA (directa)' 
+              || submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR'
+              && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
+              [disabled]="isFormSubmitting"
+              (click)="previewPDF()"
               [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
-              ACEPTAR
+              <mat-icon>description</mat-icon>  ORDEN
+            </button>
+
+            <button
+              *ngIf="(oc?.estado === 'Nuevo' || module === 'ACEPTAR') 
+                      && submodule !== 'ORDEN DE CARGA (directa)' 
+                      && oc?.estado !== 'Cancelado'"
+                type="button"
+                mat-raised-button
+                color="primary"
+                [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
+                (click)="aceptarClick.emit($event)"
+                class="add-button orden-carga-aceptar"
+                [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
+                ACEPTAR
+            </button>
+        
+            <button
+            *ngIf="(oc?.estado !== 'Finalizado' && 
+                    (module === 'ACEPTAR' || module === 'FINALIZAR' 
+                    || submodule === 'ANTICIPO (directo)' || submodule === 'RECEPCION directa' 
+                    || oc?.estado === E.ACEPTADO)) 
+                    && oc?.estado !== 'Cancelado' 
+                    && submodule !== 'ORDEN DE CARGA (directa)'"
+            type="button"
+            mat-raised-button
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO"
+            color="warn"
+            (click)="cancelarClick.emit($event)"
+            class="add-button orden-carga-cancelar"
+            [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
+            CANCELAR
           </button>
       
           <button
-          *ngIf="(oc?.estado !== 'Finalizado' && 
-                  (module === 'ACEPTAR' || module === 'FINALIZAR' 
-                  || submodule === 'ANTICIPO (directo)' || submodule === 'RECEPCION directa' 
-                  || oc?.estado === E.ACEPTADO)) 
-                  && oc?.estado !== 'Cancelado' 
-                  && submodule !== 'ORDEN DE CARGA (directa)'"
-          type="button"
-          mat-raised-button
-          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO"
-          color="warn"
-          (click)="cancelarClick.emit($event)"
-          class="add-button orden-carga-cancelar"
-          [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
-          CANCELAR
+            *ngIf="(oc?.estado === 'Aceptado' || 
+                    module === 'FINALIZAR' || 
+                    submodule === 'RECEPCION directa') && 
+                    (oc?.estado !== 'Finalizado') &&
+                    (oc?.estado !== 'Conciliado') && 
+                    (oc?.estado !== 'Cancelado') && 
+                    (oc?.estado !== 'Nuevo') && 
+                    submodule !== 'ORDEN CARGA (directa)' && 
+                    submodule !== 'ANTICIPO (directo)'" 
+            type="button"
+            mat-raised-button
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || 
+                            (oc?.estado === E.NUEVO) || 
+                            !oc?.cantidad_destino"
+            (click)="finalizarClick.emit($event)"
+            class="add-button orden-carga-finalizar"
+            [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
+            FINALIZAR
         </button>
-      
-        <!-- <button
-          *ngIf="(oc?.estado !== 'Finalizado' && 
-                  oc?.estado !== 'Cancelado' && 
-                  oc?.estado !== 'Conciliado' && 
-                  module === 'FINALIZAR' && 
-                  submodule === 'RECEPCION directa') ||
-                  (oc?.estado !== 'Finalizado' && 
-                  oc?.estado !== 'Cancelado' && 
-                  oc?.estado !== 'Conciliado' &&  
-                  submodule !== 'ANTICIPO (directo)' && 
-                  submodule !== 'ORDEN DE CARGA (directa)')"
-          type="button"
-          mat-raised-button
-          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) 
-          || (oc?.estado === E.NUEVO) || !oc?.cantidad_destino"
-          (click)="finalizarClick.emit($event)"
-          class="add-button orden-carga-finalizar"
-          [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
-          FINALIZAR
-        </button> -->
-      
-        <button
-        *ngIf="(oc?.estado !== 'Finalizado' && 
-                oc?.estado !== 'Cancelado' && 
-                oc?.estado !== 'Conciliado' && 
-                module === 'FINALIZAR' && 
-                submodule === 'RECEPCION directa') ||
-                (oc?.estado !== 'Finalizado' && 
-                oc?.estado !== 'Cancelado' && 
-                oc?.estado !== 'Conciliado' &&  
-                submodule !== 'ANTICIPO (directo)' && 
-                submodule !== 'ORDEN DE CARGA (directa)'||
-                module === 'ORDEN DE CARGA')"
-        type="button"
-        mat-raised-button
-        [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) 
-        || (oc?.estado === E.NUEVO) || !oc?.cantidad_destino"
-        (click)="finalizarClick.emit($event)"
-        class="add-button orden-carga-finalizar"
-        [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
-        FINALIZAR
-      </button>
-      
-        
+    
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR') 
           && oc?.estado !== E.CONCILIADO"
           type="button"
           mat-raised-button
           (click)="conciliarClick.emit($event)"
-          [class.disabled]="!(modelo | puede: a.CONCILIAR)"
+          [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino"
           class="add-button orden-carga-conciliar"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
         >

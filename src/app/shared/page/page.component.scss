@@ -34,21 +34,21 @@ $header-heigth: 64px;
     }
   }
 }
+
 .page-title{
   margin-bottom: 5px;
-  // border-top: 1px solid #F25A38; /* Borde rojo en la parte superior */
-  // border-left: 1px solid #F25A38; /* Borde rojo en el lado izquierdo */
-  // border-right: 1px solid #F25A38; /* Borde rojo en el lado derecho */
-  // border-bottom: none; /* Sin borde en la parte inferior */
 }
+
 .title{
   margin-bottom: -9px;
   margin-left: 0;
 }
+
 .filter-values{
   padding: 0;
   margin: 0;
 }
+
 .submodule{
   font-family: 'Poppins', sans-serif;
   font-size: 14px;
@@ -62,8 +62,8 @@ $header-heigth: 64px;
 
 .button-container {
   display: flex;
-  gap: 0px; /* Espacio entre los botones */
-  align-items: center; /* Alineación vertical centrada */
+  gap: 0px; 
+  align-items: center; 
 }
 
 .download-button{

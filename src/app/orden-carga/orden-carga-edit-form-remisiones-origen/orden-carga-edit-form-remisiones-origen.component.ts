@@ -48,6 +48,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() hideShow = false;
   @Input() puedeConciliar = false;
   @Input() set list(l: OrdenCargaRemisionOrigen[]) {
     this.setList(l);
@@ -94,8 +95,8 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       item,
     };
     return this.dialog.open(OcRemisionOrigenFormDialogComponent, {     
-      width: '650px',  // Ajusta según el contenido y diseño
-      height: '400px', // Ajusta según el contenido y diseño
+      width: '650px',  
+      height: 'auto', 
       data });
   }
 

@@ -1,307 +1,111 @@
-.custom-input-cliente {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 16em; /* Ancho automático para adaptarse al contenido */
-  height: 28px;
-  padding: 8px 4px 4px 8px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados para el input */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-.custom-input-nombre {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 11em; /* Ancho automático para adaptarse al contenido */
-  height: 28px;
-  padding: 8px 4px 4px 8px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados para el input */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+.page-form-row {
+  display: flex;
+  margin-left: -6px;
 }
 
-.custom-input-web {
-  font-family: 'Roboto', sans-serif; 
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 17em; /* Ancho automático para adaptarse al contenido */
-  height: 28px;
-  padding: 8px 4px 4px 8px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados para el input */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+.d-flex {
+  display: flex; /* Asegúrate de que el contenedor sea un flexbox */
+  align-items: center; /* Alinea los elementos verticalmente */
 }
 
-.input-info{
-  font-family: 'Roboto', sans-serif; 
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 75em; /* Ancho automático para adaptarse al contenido */
-  height: 28px;
-  padding: 8px 4px 4px 8px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados para el input */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+.form-label {
+  white-space: nowrap; /* Evita que el label se divida en varias líneas */
+  margin-right: 8px; /* Espacio entre el label y el campo */
+  margin-bottom: 10px;
 }
+
+.mat-form-field{
+  width: 100%;
+}
+
+::ng-deep .mat-form-field-outline {
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 2rem;
+}
+
+.entities-form-field input{
+  line-height: 0.5rem; 
+  padding-top: 5px;
+  padding-bottom: 3px; 
+}
+
+::ng-deep .composicion_cedula-select .mat-select-trigger {
+  margin-top: 6px;
+}
+
+::ng-deep .documento-select .mat-select-trigger {
+  margin-top: 6px;
+}
+
+::ng-deep .foto-file .mat-form-field-outline{
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 100px;
+  width: 100px;
+}
+
+::ng-deep .foto-file .mat-form-field{
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 100px;
+  width: 100px;
+}
+
+
+@media (max-width: 1366px) and (max-height: 768px) {
+  .page-form-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinear elementos al principio */
+    font-size: 12px;
+  }
+
+  .form-label {
+    white-space: nowrap; /* Evita que el label se divida en varias líneas */
+    margin-right: 8px; /* Espacio entre el label y el campo */
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  input.mat-input-element {
+    line-height: 0.5rem; 
+    padding-top: 6px;
+    padding-bottom: 3px; 
+  }
+
+  .col-12 {
+    flex: 0 0 90%; /* Ocupa todo el ancho en pantallas pequeñas */
+  }
+
+  .col-md-4 {
+    flex: 0 0 48%; /* Dos columnas en vez de tres */
+  }
   
-.form-field-container {
-  display: flex;
-  align-items: center;
-  margin-right: 2px; /* Espacio horizontal entre los campos */
-  margin-bottom: 0; /* Espacio vertical entre los contenedores */
-  padding-top: 0;
+  .col-md-3 {
+    flex: 0 0 48%; /* Mantiene el mismo ancho para las columnas más pequeñas */
+  }
+
+  .digito-field{
+    width: 8rem;
+  }
+
+  .documento-select{
+    width: 9rem;
+  }
+
+  .foto-file {
+    margin-top: 15px; /* Agrega un margen superior si es necesario */
+    width: 200px; /* Ajusta el ancho de la foto */
+    align-self: flex-start; /* Alinea la foto al inicio */
+  }
 }
 
-.required-label {
-  color: red; /* Color del asterisco (opcional) */
-  padding: 3px;
-}
-
-.required-field {
-  position: absolute; /* Posición absoluta para el asterisco */
-  right: 0; /* Alineación a la derecha dentro del espacio reservado */
-  top: 0; /* Alineación arriba dentro del espacio reservado */
-  color: red; /* Color del asterisco (opcional) */
-  z-index: 1; /* Asegura que esté por detrás del contenido del label */
-}
-
-.form-field-container label {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px; /* Tamaño de fuente para el label */
-  font-weight: 400;
-  text-align: left; /* Alineación del texto del label */
-  margin-bottom: -3px; /* Espacio vertical inferior del label */
-}
-
-.form-field-container:last-child {
-  margin-right: 0; /* Elimina el margen derecho del último campo en la fila */
-}
-
-.form-field-container label {
-  margin-right: 10px; /* Espacio entre el label y el input */
-}
-
-.custom-input-cliente:focus,
-.custom-input-nombre:focus,
-.custom-input-doc:focus,
-.custom-input-digito:focus,
-.custom-input-web:focus,
-.mat-input-element:focus {
-  border-color: red; /* Cambia el color del borde cuando el input está enfocado */
-  border-width: 2px;
-}
-
-.custom-input-doc {
-  width: 8em;
-  height: 28px;
-  padding: 8px 4px 4px 8px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.custom-input-digito {
-  width: 2.5em; /* Ajusta el ancho para que solo quepa un número */
-  height: 28px;
-  padding: 8px 4px 4px 8px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.small-input-container .custom-input {
-  width: 5px; /* Ancho específico para los inputs pequeños */
-}
-
-.custom-input-estado {
-  padding: 8px;
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px;
-}
-
-.custom-input-estado.active {
-  background-color: #d4edda; /* Verde claro */
-  border-color: #28a745; /* Verde oscuro */
-}
-
-.custom-input-estado.inactive {
-  background-color: #f8d7da; /* Gris claro */
-  border-color: #6c757d; /* Gris oscuro */
-}
-
-//Selector
-.composicion-juridica-select {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 18px; /* Aumenta la altura de la línea para bajar la letra */
-  width: 138px; /* Ancho específico para el selector de Composición Jurídica */
-  min-width: 120px; /* Ancho mínimo */
-  height: 18px; /* Ajusta la altura según tus necesidades */
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados */
-  padding: 8px 4px 2px 8px;
-  overflow: hidden; /* Oculta el desbordamiento */
-  white-space: nowrap; /* Evita saltos de línea */
-  text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
-}
-
-.grey-background {
-  background-color: #f2f2f2; /* Fondo gris */
-}
-.composicion-juridica-select:focus,
-.documento-select:focus {
-  outline: none; /* Evita el cambio de tamaño al enfocar */
-  box-shadow: 0 0 0 1px red;
-}
-
-.documento-select {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  width: 138px; /* Ancho específico para el selector de Composición Jurídica */
-  min-width: 120px; /* Ancho mínimo */
-  height: 18px; /* Ajusta la altura según tus necesidades */
-  border: 1px solid #F25A38; /* Borde rojo */
-  border-radius: 4px; /* Bordes redondeados */
-  padding: 8px 4px 2px 8px;
-  overflow: hidden; /* Oculta el desbordamiento */
-  white-space: nowrap; /* Evita saltos de línea */
-  text-overflow: ellipsis; /* Muestra puntos suspensivos si el texto es demasiado largo */
-}
-
-.mat-select-trigger {
-  padding: 10px 12px; /* Ajusta el padding para centrar el texto verticalmente */
-  font-size: 14px; /* Tamaño de fuente */
-  color: #333; /* Color del texto */
-  text-align: left; /* Texto alineado a la izquierda */
-  line-height: 1; /* Ajusta la altura de línea para centrar verticalmente el texto */
-}
-
-.custom-slide-toggle.mat-primary {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-}
-
-.custom-slide-toggle.mat-accent {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-}
-
-.mat-slide-toggle.mat-primary .mat-slide-toggle-bar {
-  background-color: green; /* Cambia el color de la barra a verde cuando está activo */
-}
-
-.mat-slide-toggle.mat-primary .mat-slide-toggle-thumb {
-  background-color: green; /* Cambia el color del botón a verde cuando está activo */
-}
-
-.mat-option {
-  padding-top: 12px; /* Espacio arriba del texto del option */
-  padding-bottom: 12px; /* Espacio abajo del texto del option */
-  text-align: left; /* Texto alineado a la izquierda */
-}
-
-.mat-select-panel {
-  background-color: #ffffff; /* Color de fondo del panel desplegable */
-  border: 1px solid #ff0000; /* Borde rojo del panel */
-  border-radius: 4px; /* Bordes redondeados */
-}
-
-.mat-option:hover {
-  background-color: #e0e0e0; /* Color de fondo al pasar el ratón */
-}
-
-.row.page-form-row {
-  display: flex;
-  gap: 12px; /* Espacio entre los campos */
-  margin-left: 1px; /* Ajusta el margen izquierdo para mover hacia la derecha */
-}
-
-.form-horizontal-container {
-  display: flex;
-  gap: 15px; /* Espacio entre los campos */
-  margin-left: 3px;
-  margin-top: -12px;
-}
-
-.form-textarea-container{
-  display: block;
-  width: 67.9em;
-  gap: 15px; /* Espacio entre los campos */
-  margin-left: 9px;
-  margin-top: 11px;
-}
-
-.form-textarea-container .form-field-container textarea {
-  width: 433px; /* Ancho del textarea al 90% del contenedor */
-  min-height: 28px; /* Altura mínima */
-  padding: 8px; /* Padding interior */
-  font-size: 14px; /* Tamaño de fuente */
-  border: 1px solid #ccc; /* Borde del textarea */
-  border-radius: 4px; /* Bordes redondeados */
-  box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
-  overflow: auto; /* Evita la barra de desplazamiento */
-  border: 1px solid #F25A38; /* Borde rojo */
-}
-
-.custom-file-field-wrapper {
-  position: relative;
-  float: right;
-  width: 115px;
-  left: -37px;
-  top: -105px;
-  // border: 1px solid black;
-}
-.custom-file-field {
-  width: 120px; /* Mantén el mismo ancho */
-  height: 152px; /* Mantén la misma altura */
-  border-radius: 4%;
-}
-
-.custom-file-field-footer {
-  width: 100%; /* Asegúrate de que ocupe todo el ancho */
-  text-align: center; /* Centra el texto */
-  font-size: 12px; /* Ajusta el tamaño de la fuente */
-  color: #555; /* Ajusta el color */
-  margin-top: 5px; /* Añade un margen superior si es necesario */
-}
-
-.label-logo{
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16.41px;
-  color: #354242;
-  flex: 1;
-  border-radius: 4px;
-  position: absolute; /* Posicionamiento absoluto */
-  top: 122px; /* Ajusta según sea necesario */
-  left: 43px; /* Ajusta según sea necesario */
-  z-index: 10; /* Asegura que el input esté sobre otros elementos */
-}
-
-.view-mode {
-  background-color: #FBFBFE; /* Ejemplo de estilo: color de fondo gris */
-  border: 1px solid #D9D9D9; /* Agregar borde gris */
-  color: #666; /* Cambiar el color del texto si es necesario */
-}

@@ -11,434 +11,149 @@
   }
 }
 
+body, html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
 .page-container {
-  margin-top: -12px;
-  margin-left: -12px;
-  overflow: hidden; 
+  margin-bottom: 0;
+  padding-bottom: 0px;
+  overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
   background-color: white;
 }
 
-.centro-operativo-page .geolocation-section h2,
-.centro-operativo-page .info-section h2 {
-  margin: 0 0 15px 0;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 16.41px;
-  color: #007acc;  /* Celeste más oscuro */
-  border-bottom: 1px solid #007acc; 
-  width: 82%;
+.geolocation-content {
+  margin-bottom: 0;
 }
 
-.centro-operativo-page .contactos-section h2 {
+.section h2 {
   margin: 0 0 15px 0;
   font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 530;
   line-height: 16.41px;
-  color: #007acc; 
-  border-bottom: 1px solid #007acc; 
+  color: #007acc;  
+  border-bottom: 1px solid #007acc;  
+  width: 100%;
+}
+
+.section h2.contactos-heading {
+  margin-top: 182px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 13px;
+  font-weight: 530;
+  line-height: 16.41px;
+  color: #007acc; /* Celeste más oscuro */
+  border-bottom: 1px solid #007acc; /* Línea inferior en celeste más oscuro */
   width: 72%;
+  z-index: 1;
 }
 
-.centro-operativo-page .section {
-  margin-bottom: -14px;
-  padding: 15px;
+.contactos-section {
+  margin-top: -158px; /* Ajusta este valor según sea necesario para subir más la sección */
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
 .page-form-row {
   display: flex;
-  flex-wrap: wrap;
-  gap: 20px; 
-  align-items: flex-start; 
-  margin-left: 8px;
+  margin-left: -6px;
 }
 
-.page-form-row label {
-  margin-right: -15px; 
-  white-space: nowrap; 
-  margin-top: 11px;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: right;
+.d-flex {
+  display: flex; /* Asegúrate de que el contenedor sea un flexbox */
+  align-items: center; /* Alinea los elementos verticalmente */
 }
 
-.page-form-row mat-error {
-  font-size: 10px;
-  color: red;
-  margin-top: -1px;
+.form-label {
+  white-space: nowrap; /* Evita que el label se divida en varias líneas */
+  margin-right: 8px; /* Espacio entre el label y el campo */
+  margin-bottom: 8px;
 }
 
-.required-field{
-  color: red;
+.mat-form-field{
+  width: 100%;
 }
 
-input{
-  margin-top: 2px;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16.41px;
-  text-align: left;
+::ng-deep .mat-form-field-outline {
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 2rem;
 }
 
-.nombre{
-  font-size: 14px;
-  height: 24px;
-  flex: 1;
-  max-width: 179px;
+::ng-deep input.mat-input-element {
+  line-height: 0.5rem; 
+  padding-top: 3px;
+  padding-bottom: 3px; 
 }
 
-.nombre-corto{
-  font-size: 14px;
-  height: 24px;
-  flex: 1;
-  max-width: 119px;
+::ng-deep .composicion_cedula-select .mat-select-trigger {
+  margin-top: 6px;
 }
 
-.clasificacion_id{
-  font-size: 14px;
-  height: 24px;
-  flex: 1;
-  max-width: 149px;
+::ng-deep .clasificacion_id .mat-select-trigger {
+  margin-top: 6px;
 }
 
-.estado{
-  margin-top: 8px;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.41px;
-  text-align: left;
+::ng-deep .foto-file .mat-form-field-outline{
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 100px;
+  width: 100px;
 }
 
-.web{
-  font-size: 14px;
-  height: 24px;
-  flex: 1;
-  max-width: 149px;
-  margin-left: 4px
-}
-
-.comentario{
-  font-size: 14px;
-  height: 24px;
-  flex: 1;
-  max-width: 349px;
-  margin-left: 4px;
-  pointer-events: none;
-}
-
-.comentario-label{
-  margin-left: 100px;
-}
-
-::ng-deep .nombre .mat-form-field-outline,
-::ng-deep .nombre-corto .mat-form-field-outline,
-::ng-deep .clasificacion_id .mat-form-field-outline  {
-  color: red;
-  border-radius: 4px;
-  height: 28px;
-}
-
-::ng-deep .web .mat-form-field-outline{
-  color: #C1C7CD;
-  border-radius: 4px;
-  height: 28px;
-}
-
-::ng-deep .comentario .mat-form-field-outline{
-  color: #C1C7CD;
-  border-radius: 4px;
-  height: 28px;
-  pointer-events: none;
-  background-color: #c1c7cd8a;
-}
-
-mat-select{
-  margin-top: 2px;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 16.41px;
-  text-align: left;
-}
-
-.custom-file-field-wrapper {
-  position: relative;
-  float: right;
-  width: 115px;
-  left: -37px;
-  top: -95px;
-  // border: 1px solid black;
-}
-.custom-file-field {
-  width: 120px; 
-  height: 152px;
-  border-radius: 4%;
-}
-
-.custom-file-field-footer {
-  width: 100%; /* Asegúrate de que ocupe todo el ancho */
-  text-align: center; /* Centra el texto */
-  font-size: 12px; /* Ajusta el tamaño de la fuente */
-  color: #555; /* Ajusta el color */
-  margin-top: 5px; /* Añade un margen superior si es necesario */
-}
-
-.label-logo{
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 16.41px;
-  color: #354242;
-  flex: 1;
-  border-radius: 4px;
-  position: absolute; /* Posicionamiento absoluto */
-  top: 122px; /* Ajusta según sea necesario */
-  left: 43px; /* Ajusta según sea necesario */
-  z-index: 10; /* Asegura que el input esté sobre otros elementos */
-}
-
-.contactos-section {
-  margin-top: 140px; /* Espacio exterior encima del contenedor */
-  padding-top: -100px; /* Espacio interior en la parte superior del contenedor */
-}
-
-::ng-deep .view-mode .nombre .mat-form-field-outline,
-::ng-deep .view-mode .nombre-corto .mat-form-field-outline,
-::ng-deep .view-mode .clasificacion_id .mat-form-field-outline  {
-  color: #C1C7CD;
-  border-radius: 4px;
-  height: 28px;
-  pointer-events: none;
-}
-
-.view-mode .web{
-  font-size: 14px;
-  height: 24px;
-  flex: 1;
-  max-width: 149px;
-  margin-left: 4px;
-  pointer-events: none;
+::ng-deep .foto-file .mat-form-field{
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 100px;
+  width: 100px;
 }
 
 
-/* Ajustes para pantallas grandes (escritorio) */
-@media (min-width: 1571px) {
+@media (max-width: 1366px) and (max-height: 768px) {
   .page-form-row {
     display: flex;
     flex-wrap: wrap;
-    align-items: flex-start; 
-    margin-left: 8px;
-  }
-  
-  .page-form-row mat-error {
-    font-size: 10px;
-    color: red;
-    margin-top: -1px;
-  }
-  
-  .required-field{
-    color: red;
-  }
-  
-  input{
-    margin-top: 2px;
-    font-family: 'Roboto' sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 16.41px;
-    text-align: left;
-  }
-  
-  .nombre{
-    font-size: 14px;
-    height: 24px;
-    flex: 1;
-    max-width: 279px;
-    margin-right: 15px;
-  }
-  
-  .nombre-corto{
-    font-size: 14px;
-    height: 24px;
-    flex: 1;
-    max-width: 219px;
-  }
-  
-  .clasificacion_id{
-    font-size: 14px;
-    height: 24px;
-    flex: 1;
-    max-width: 249px;
-    margin-right: 25px;
-  }
-  
-  .estado{
-    margin-top: 8px;
-    font-family: 'Roboto' sans-serif;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 16.41px;
-    text-align: left;
-    
-  }
-  
-  .web{
-    font-size: 14px;
-    height: 24px;
-    flex: 1;
-    max-width: 249px;
-    margin-left: 4px
-  }
-  
-  .comentario{
-    font-size: 14px;
-    height: 24px;
-    flex: 1;
-    max-width: 449px;
-    margin-left: 4px;
-  }
-  
-  .comentario-label{
-    margin-left: 100px;
-  }
-  
-  ::ng-deep .nombre .ng-tns-c50-2 .ng-star-inserted,
-  ::ng-deep .clasificacion_id .ng-tns-c50-2 .ng-star-inserted{
-    color: red;
-    border-radius: 4px;
-    height: 28px;
-  }
-  
-  ::ng-deep .nombre-corto .mat-form-field-outline,
-  ::ng-deep .clasificacion_id .mat-form-field-outline  {
-    color: red;
-    border-radius: 4px;
-    height: 28px;
-  }
-  
-  ::ng-deep .web .mat-form-field-outline,
-  ::ng-deep .comentario .mat-form-field-outline{
-    color: red;
-    border-radius: 4px;
-    height: 28px;
-  }
-  
-  mat-select{
-    margin-top: 2px;
-    font-family: 'Roboto' sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 16.41px;
-    text-align: left;
-  }
-  
-  .custom-file-field-wrapper {
-    position: relative;
-    float: right;
-    width: 115px;
-    left: -37px;
-    top: -95px;
-    // border: 1px solid black;
-  }
-  .custom-file-field {
-    width: 120px; 
-    height: 152px; /* Mantén la misma altura */
-    border-radius: 4%;
-  }
-  
-  .custom-file-field-footer {
-    width: 100%; /* Asegúrate de que ocupe todo el ancho */
-    text-align: center; /* Centra el texto */
-    font-size: 12px; /* Ajusta el tamaño de la fuente */
-    color: #555; /* Ajusta el color */
-    margin-top: 5px; /* Añade un margen superior si es necesario */
-  }
-  
-  .label-logo{
-    font-family: 'Roboto', sans-serif;
+    justify-content: space-between;
+    align-items: flex-start; /* Alinear elementos al principio */
     font-size: 12px;
-    font-weight: 400;
-    line-height: 16.41px;
-    color: #354242;
-    flex: 1;
-    border-radius: 4px;
-    position: absolute; /* Posicionamiento absoluto */
-    top: 122px; /* Ajusta según sea necesario */
-    left: 43px; /* Ajusta según sea necesario */
-    z-index: 10; /* Asegura que el input esté sobre otros elementos */
+  }
+
+  .form-label {
+    white-space: nowrap; /* Evita que el label se divida en varias líneas */
+    margin-right: 8px; /* Espacio entre el label y el campo */
+    margin-bottom: 8px;
+    font-size: 12px;
+  }
+
+  input.mat-input-element {
+    line-height: 0.5rem; 
+    padding-top: 6px;
+    padding-bottom: 3px; 
+  }
+ 
+  .col-12 {
+    flex: 0 0 90%; /* Ocupa todo el ancho en pantallas pequeñas */
+  }
+
+  .col-md-4 {
+    flex: 0 0 48%; /* Dos columnas en vez de tres */
   }
   
-  .contactos-section {
-    margin-top: 140px; /* Espacio exterior encima del contenedor */
-    padding-top: -100px; /* Espacio interior en la parte superior del contenedor */
+  .col-md-3 {
+    flex: 0 0 48%; /* Mantiene el mismo ancho para las columnas más pequeñas */
+  }
+
+  .foto-file {
+    margin-top: -95px; /* Agrega un margen superior si es necesario */
+    background-color: #007acc;
   }
 }
 
-
-// @media screen and (min-width: 1920px) {
-//   .page-container {
-//     margin-top: -36px;
-//     margin-left: -36px;
-//     padding: 30px;
-//   }
-
-//   .centro-operativo-page .geolocation-section h2,
-//   .centro-operativo-page .info-section h2,
-//   .centro-operativo-page .contactos-section h2 {
-//     font-size: 16px;
-//     line-height: 20px;
-//   }
-
-//   .page-form-row {
-//     gap: 40px; 
-//     margin-left: 24px;
-//   }
-
-//   .page-form-row label {
-//     margin-right: 0px; 
-//     font-size: 18px;
-//     line-height: 20px;
-//   }
-
-//   .page-form-row mat-error {
-//     font-size: 14px;
-//   }
-
-//   input {
-//     font-size: 18px;
-//     height: 32px;
-//   }
-
-//   .nombre,
-//   .nombre-corto,
-//   .clasificacion_id,
-//   .web,
-//   .comentario {
-//     font-size: 18px;
-//     height: 32px;
-//   }
-
-//   .custom-file-field {
-//     width: 160px; 
-//     height: 190px;
-//   }
-
-//   .custom-file-field-footer {
-//     font-size: 16px;
-//   }
-
-//   .label-logo {
-//     font-size: 16px;
-//     top: 140px;
-//     left: 60px;
-//   }
-
-//   .contactos-section {
-//     margin-top: 180px; 
-//   }
-// }

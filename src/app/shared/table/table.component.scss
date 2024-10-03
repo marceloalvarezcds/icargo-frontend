@@ -54,8 +54,8 @@
   .mat-cell-checkbox .mat-checkbox-inner-container {
     overflow: visible;
   }
-  
 }
+
 
 .mat-table td.mat-cell.mat-column-actions {
   border-right: none; /* Elimina la línea vertical a la derecha */
@@ -90,14 +90,12 @@ td.mat-cell {
   margin-bottom: 12px;
 }
 
-
 th.mat-header-cell {
   font-family: 'Roboto', sans-serif;
   font-size: 12px; 
   font-weight: 500;
   color: black;
 }
-
 
 tr.mat-header-row {
   height: 7px;
@@ -120,7 +118,6 @@ tr.mat-header-row {
   padding-top: 8px; /* Padding superior */
   padding-bottom: 8px; /* Padding inferior */
   margin-left: -14px;
-
 }
 
 .mat-cell, .mat-header-cell, .mat-footer-cell {
@@ -136,11 +133,8 @@ tr.mat-header-row {
 .mat-column-actions:not(.mat-header-cell) {
   /* Estilos que deseas aplicar */
   background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
-}
 
-// .mat-column-actions {
-//   box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), -5px 0px 5px rgba(0, 0, 0, 0.1);
-// }
+}
 
 //Tamano de fuente de las letras
 .mat-cell, .mat-header-cell, .mat-footer-cell {
@@ -425,3 +419,11 @@ td.mat-column-pdf{
   margin-bottom: 4px;
   margin-right: 10px;
 }
+
+.larger-header {
+  /* Estilos deseados */
+  background-color: blue; /* Ejemplo de estilo */
+  color: white; /* Cambia el color del texto */
+}
+
+

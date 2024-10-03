@@ -9,6 +9,23 @@
   margin-right: -100px;
 }
 
+label{
+  margin-right: 10px;
+}
+
+.custom-input-field{
+  margin-bottom: 16px;
+  margin-top: 5px;
+}
+
+.form-control{
+  width: 50%;
+  height: 28px; /* Aumenta la altura del input */
+  border-radius: 9px; /* Hace los bordes redondeados */
+  border: 1px solid #D9D9D9; /* Añade un borde */
+  background-color: #FBFBFE; /* Fondo del input */
+  font-size: 11px; /* Ajusta el tamaño del texto */
+}
 
 .tipo-remito-text {
   color: #F25A38;

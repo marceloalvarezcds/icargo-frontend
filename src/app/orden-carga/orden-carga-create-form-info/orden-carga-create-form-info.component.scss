@@ -81,16 +81,12 @@ textarea{
 .coment-button {
   font-family: 'Roboto', sans-serif;
   font-size: 12px;
-  width: auto;
-  padding: 8px 8px 4px 8px;
+  height: 30px;
   border-radius: 5.25px;
-  border: 1px solid transparent; /* Cambiado para hacer que el borde sea visible */
-  opacity: 1; /* Asegúrate de que el botón sea visible */
   box-shadow: none; 
-  height: 25px;
   display: flex;
   align-items: center; 
-  justify-content: center; /* Alinea el texto al centro */
+  justify-content: center; 
   letter-spacing: 0.06em;
   transition: background-color 0.3s;
   background-color: #0056b3;
@@ -99,7 +95,6 @@ textarea{
   margin-top: 8px; /* Ajusta este valor para bajar más el botón */
   margin-left: 1.5em; /* Esto empuja el botón hacia la derecha */
 }
-
 
 .coment-button:hover {
   background-color: #0056b3; /* Color más oscuro al pasar el ratón */
