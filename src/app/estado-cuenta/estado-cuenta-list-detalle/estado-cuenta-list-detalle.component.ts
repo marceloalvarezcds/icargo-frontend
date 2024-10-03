@@ -274,10 +274,14 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     return (this.estadoFilterList.length !== this.estadoFiltered.length);
   }
 
+  get pendientes(): number {
+    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado === 'Pendiente') ? cur.pendiente ?? 0 : 0), 0);
+    return debito;
+  }
+
   get deberes(): number {
-    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado != 'Finalizado') ? cur.pendiente ?? 0 : 0), 0);
-    let credito = this.list.reduce((acc, cur) => acc + ( (cur.estado != 'Finalizado') ? cur.confirmado ?? 0 : 0), 0);
-    return (credito + debito);
+    let credito = this.list.reduce((acc, cur) => acc + ( (true) ? cur.confirmado ?? 0 : 0), 0);
+    return credito;
   }
 
   get pagos(): number {
@@ -285,9 +289,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   }
 
   get saldo(): number {
-    let debito = this.list.reduce((acc, cur) => acc + ( cur.pendiente ?? 0 ), 0);
+    //let debito = this.list.reduce((acc, cur) => acc + ( cur.pendiente ?? 0 ), 0);
     let credito = this.list.reduce((acc, cur) => acc + ( cur.confirmado ?? 0 ), 0);
-    return  credito + debito + this.pagos;
+    return  credito + this.pagos;
   }
 
   get totalPendiente(): number {

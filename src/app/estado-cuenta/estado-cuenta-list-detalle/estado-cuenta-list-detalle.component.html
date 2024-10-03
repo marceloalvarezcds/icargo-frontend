@@ -86,19 +86,24 @@
 
     <div class="row page-form-row">
 
-      <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+        <mat-label>Pendiente</mat-label>
+        <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
+      </mat-form-field>
+
+      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
         <mat-label>Deberes/Haberes</mat-label>
         <input matInput [value]="deberes" appInputThousandsSeparator disabled />
       </mat-form-field>
 
-      <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
         <mat-label>
           Pagos/Cobros
         </mat-label>
         <input matInput [value]="pagos" appInputThousandsSeparator disabled />
       </mat-form-field>
 
-      <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
         <mat-label>
           Saldo C.C.
         </mat-label>
