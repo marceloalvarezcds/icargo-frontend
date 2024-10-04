@@ -1,8 +1,7 @@
 <app-page-form
   class="chofer-page"
-  module="Flota"
-  submodule="Chofer"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  submodule="CHOFER"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -18,11 +17,9 @@
   (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
-  <mat-accordion multi>
-    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Información principal </mat-panel-title>
-      </mat-expansion-panel-header>
+  <div class="page-container">
+    <div class="section" formGroupName="info">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
       <app-chofer-form-info
         [form]="form"
         [estado]="estado"
@@ -43,12 +40,12 @@
         (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
         (anticiposBloqueadosChange)="bloquearAnticipos()"
         (esPropietarioChange)="esPropietarioChange($event)"
+        class="app-input-field"
       ></app-chofer-form-info>
-    </mat-expansion-panel>
+    </div>
 
-    <mat-expansion-panel
+    <div class="section"
       formGroupName="propietario"
-      [expanded]="isPropietarioTouched"
       [hidden]="!esPropietario"
       *ngIf="
         (propietarioModelo | puede: a.CREAR) ||
@@ -56,9 +53,6 @@
         (propietarioModelo | puede: a.VER)
       "
     >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Información del Propietario </mat-panel-title>
-      </mat-expansion-panel-header>
       <app-chofer-form-propietario
         [form]="form"
         [isEdit]="isEdit"
@@ -74,62 +68,55 @@
           fotoDocumentoReversoPropietario = null
         "
       ></app-chofer-form-propietario>
-    </mat-expansion-panel>
+    </div>
 
-    <mat-expansion-panel
-      formGroupName="registro"
-      [expanded]="isRegistroTouched"
-      *ngIf="
-        (propietarioModelo | puede: a.CREAR) ||
-        (propietarioModelo | puede: a.EDITAR) ||
-        (propietarioModelo | puede: a.VER)
+  <div class="section"
+    formGroupName="registro"
+
+    *ngIf="
+      (propietarioModelo | puede: a.CREAR) ||
+      (propietarioModelo | puede: a.EDITAR) ||
+      (propietarioModelo | puede: a.VER)
+    "
+  >
+      <h2> Registro de Conducción del Chofer </h2>
+    <app-registro-conduccion-form
+      [form]="form"
+      [isShow]="isShow"
+      [fotoRegistroFrente]="fotoRegistroFrente"
+      [fotoRegistroReverso]="fotoRegistroReverso"
+      (fotoRegistroFrenteChange)="
+        fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
       "
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Registro de Conducción del Chofer </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-registro-conduccion-form
-        [form]="form"
-        [isShow]="isShow"
-        [fotoRegistroFrente]="fotoRegistroFrente"
-        [fotoRegistroReverso]="fotoRegistroReverso"
-        (fotoRegistroFrenteChange)="
-          fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
-        "
-        (fotoRegistroReversoChange)="
-          fotoRegistroReversoFile = $event; fotoRegistroReverso = null
-        "
-      ></app-registro-conduccion-form>
-    </mat-expansion-panel>
+      (fotoRegistroReversoChange)="
+        fotoRegistroReversoFile = $event; fotoRegistroReverso = null
+      "
+    ></app-registro-conduccion-form>
+  </div>
 
-    <mat-expansion-panel
-      formGroupName="address"
-      [expanded]="isAddressTouched"
-      (opened)="isPanelOpen = true"
-      (closed)="isPanelOpen = false"
-    >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Dirección </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-page-form-address
-        groupName="address"
-        [ciudadSelected]="ciudadSelected"
-        [form]="form"
-        [isShow]="isShow"
-        [isPanelOpen]="isPanelOpen"
-      ></app-page-form-address>
-    </mat-expansion-panel>
+  <div class="section"
+    formGroupName="address"
+    (opened)="isPanelOpen = true"
+    (closed)="isPanelOpen = false"
+  >
+      <h2> Dirección </h2>
+    <app-page-form-address
+      groupName="address"
+      [ciudadSelected]="ciudadSelected"
+      [form]="form"
+      [isShow]="isShow"
+      [isPanelOpen]="isPanelOpen"
+    ></app-page-form-address>
+  </div>
 
-    <mat-expansion-panel *ngIf="isEdit || isShow">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Auditoría </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-page-form-audit
-        [created_by]="created_by"
-        [created_at]="created_at"
-        [modified_by]="modified_by"
-        [modified_at]="modified_at"
-      ></app-page-form-audit>
-    </mat-expansion-panel>
-  </mat-accordion>
+  <div class="section" *ngIf="isEdit || isShow">
+    <h2> Auditoria </h2>
+    <app-page-form-audit
+      [created_by]="created_by"
+      [created_at]="created_at"
+      [modified_by]="modified_by"
+      [modified_at]="modified_at"
+    ></app-page-form-audit>
+  </div>
+</div>
 </app-page-form>

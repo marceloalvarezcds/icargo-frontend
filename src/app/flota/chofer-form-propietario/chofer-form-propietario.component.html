@@ -1,19 +1,22 @@
 <div [formGroup]="form">
-  <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-pais-field
-          title="País de origen"
-          [groupName]="groupName"
-          controlName="pais_origen_id"
-          [form]="form"
-        ></app-pais-field>
+  <div class="row page-form-row" [formGroupName]="groupName">
+    <div class="col-12 col-sm-2 col-md-11">
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Tipo Persona</label>
+          <app-pais-field
+            title="País de origen"
+            [groupName]="groupName"
+            controlName="pais_origen_id"
+            [form]="form"
+            class="app-input-field"
+          ></app-pais-field>
+        </div>
       </div>
-    </div>
-
-    <div class="row page-form-row">
+  
+    <div class="row">
       <div class="col-xs-12 col-sm-6">
-        <app-file-field
+        <app-file-field-input
           title="Foto del documento - frontal"
           [groupName]="groupName"
           controlName="foto_documento_frente_propietario"
@@ -22,13 +25,13 @@
           [isEdit]="isEdit"
           [isShow]="isShow"
           (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-        ></app-file-field>
+        ></app-file-field-input>
       </div>
     </div>
 
-    <div class="row page-form-row">
+    <div class="row">
       <div class="col-xs-12 col-sm-6">
-        <app-file-field
+        <app-file-field-input
           title="Foto del documento - reverso"
           [groupName]="groupName"
           controlName="foto_documento_reverso_propietario"
@@ -37,7 +40,8 @@
           [isEdit]="isEdit"
           [isShow]="isShow"
           (fileChange)="fotoDocumentoReversoChange.emit($event)"
-        ></app-file-field>
+        ></app-file-field-input>
+      </div>
       </div>
     </div>
   </div>

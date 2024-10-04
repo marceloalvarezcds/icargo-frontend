@@ -1,159 +1,175 @@
 <div [formGroup]="form" *ngIf="form">
-  <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-tipo-documento-field
-          [groupName]="groupName"
-          controlName="tipo_documento_id"
-          [form]="form"
-        ></app-tipo-documento-field>
+  <div class="row page-form-row" [formGroupName]="groupName">
+    <div class="col-12 col-sm-2 col-md-11" >
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Tipo Doc.</label>
+            <app-tipo-documento-field
+              [groupName]="groupName"
+              controlName="tipo_documento_id"
+              [form]="form"
+              class="app-input-field"
+            ></app-tipo-documento-field>
+          </div>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">País Emisor Doc.</label>
+            <app-pais-field
+              [groupName]="groupName"
+              controlName="pais_emisor_documento_id"
+              [form]="form"
+              class="app-input-field"
+            ></app-pais-field>
+          </div>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">N. Doc.</label>
+            <app-input-field
+              [groupName]="groupName"
+              controlName="numero_documento"
+              [form]="form"
+              class="app-input-field"
+            ></app-input-field>
+          </div>
+        </div>
+      
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Nombre</label>
+          <app-input-field
+            [groupName]="groupName"
+            controlName="nombre"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Alias</label>
+          <app-alias-field
+            [groupName]="groupName"
+            [form]="form"
+            class="app-input-field"
+          ></app-alias-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Fecha de nacimiento</label>
+          <app-fecha-field
+            [groupName]="groupName"
+            controlName="fecha_nacimiento"
+            [form]="form"
+            class="app-input-field"
+          ></app-fecha-field>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-pais-field
-          title="País Emisor del Documento"
-          [groupName]="groupName"
-          controlName="pais_emisor_documento_id"
-          [form]="form"
-        ></app-pais-field>
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">RUC</label>
+          <app-input-field
+            [groupName]="groupName"
+            controlName="ruc"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Digito Verificador</label>
+          <app-digito-verificador-field
+            [groupName]="groupName"
+            controlName="digito_verificador"
+            [form]="form"
+            class="app-input-field"
+          ></app-digito-verificador-field>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Número de Documento"
-          [groupName]="groupName"
-          controlName="numero_documento"
-          [form]="form"
-        ></app-input-field>
-      </div>
-    </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Nombre"
-          [groupName]="groupName"
-          controlName="nombre"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-alias-field
-          [groupName]="groupName"
-          [form]="form"
-        ></app-alias-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-fecha-field
-          title="Fecha de nacimiento"
-          [groupName]="groupName"
-          controlName="fecha_nacimiento"
-          [form]="form"
-        ></app-fecha-field>
-      </div>
-    </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="RUC"
-          [groupName]="groupName"
-          controlName="ruc"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-digito-verificador-field
-          [groupName]="groupName"
-          controlName="digito_verificador"
-          [form]="form"
-        ></app-digito-verificador-field>
-      </div>
-    </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-telefono-field
-          [groupName]="groupName"
-          [form]="form"
-        ></app-telefono-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-email-field
-          [groupName]="groupName"
-          [form]="form"
-        ></app-email-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-oficial-cuenta-field
-          [groupName]="groupName"
-          [form]="form"
-        ></app-oficial-cuenta-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-estado-field [estado]="estado"></app-estado-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-slide
-          [isShow]="isShow"
-          [control]="esPropietarioControl"
-          trueTitle="Es Propietario"
-          falseTitle="No es Propietario"
-          (valueChange)="esPropietarioChange.emit($event)"
-        ></app-slide>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-slide
-          [isShow]="isShow"
-          [control]="puedeRecibirAnticiposControl"
-          trueTitle="Puede recibir anticipos"
-          falseTitle="No puede recibir anticipos"
-          (valueChange)="
-            !$event &&
-              cantidadOCConAnticiposLiberados > 0 &&
-              anticiposBloqueadosChange.emit()
-          "
-        ></app-slide>
-      </div>
-    </div>
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Telefono</label>
+          <app-telefono-field
+            [groupName]="groupName"
+            [form]="form"
+            class="app-input-field"
+          ></app-telefono-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Mail</label>
+          <app-email-field
+            [groupName]="groupName"
+            [form]="form"
+            class="app-input-field"
+          ></app-email-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Oficial de Cuenta</label>
+          <app-oficial-cuenta-field
+            [groupName]="groupName"
+            [form]="form"
+            class="app-input-field"
+          ></app-oficial-cuenta-field>
+        </div>
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del documento - frontal"
-          [groupName]="groupName"
-          controlName="foto_documento_frente"
-          [field]="fotoDocumentoFrente"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-        ></app-file-field>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <app-estado-field [estado]="estado"></app-estado-field>
+        </div>
+           <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <app-slide
+            [isShow]="isShow"
+            [control]="esPropietarioControl"
+            trueTitle="Es Propietario"
+            falseTitle="No es Propietario"
+            (valueChange)="esPropietarioChange.emit($event)"
+          ></app-slide>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <app-slide
+            [isShow]="isShow"
+            [control]="puedeRecibirAnticiposControl"
+            trueTitle="Puede recibir anticipos"
+            falseTitle="No puede recibir anticipos"
+            (valueChange)="
+              !$event &&
+                cantidadOCConAnticiposLiberados > 0 &&
+                anticiposBloqueadosChange.emit()
+            "
+          ></app-slide>
+        </div>
       </div>
-    </div>
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del documento - reverso"
-          [groupName]="groupName"
-          controlName="foto_documento_reverso"
-          [field]="fotoDocumentoReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoReversoChange.emit($event)"
-        ></app-file-field>
-      </div>
-    </div>
-
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Avatar"
-          [groupName]="groupName"
-          controlName="foto_perfil"
-          [field]="fotoPerfil"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoPerfilChange.emit($event)"
-        ></app-file-field>
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <app-file-field-input
+            title="Doc.frontal"
+            [groupName]="groupName"
+            controlName="foto_documento_frente"
+            [field]="fotoDocumentoFrente"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+          ></app-file-field-input>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <app-file-field-input
+            title="Doc.reverso"
+            [groupName]="groupName"
+            controlName="foto_documento_reverso"
+            [field]="fotoDocumentoReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoDocumentoReversoChange.emit($event)"
+          ></app-file-field-input>
+        </div>
+  
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <app-file-field-input
+            title="Avatar"
+            [groupName]="groupName"
+            controlName="foto_perfil"
+            [field]="fotoPerfil"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoPerfilChange.emit($event)"
+          ></app-file-field-input>
+        </div>
       </div>
     </div>
   </div>

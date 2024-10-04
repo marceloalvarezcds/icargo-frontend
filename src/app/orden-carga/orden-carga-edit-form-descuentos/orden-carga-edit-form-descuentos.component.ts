@@ -91,7 +91,7 @@ export class OrdenCargaEditFormDescuentosComponent {
   @Input() isShow = false;
   @Input() puedeConciliar = false;
   @Input() list: OrdenCargaDescuento[] = [];
-
+  @Input() fleteId?: number;
   @Output() ocChange = new EventEmitter<void>();
 
   constructor(

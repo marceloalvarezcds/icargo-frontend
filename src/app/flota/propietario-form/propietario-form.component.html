@@ -70,28 +70,88 @@
       ></app-propietario-form-chofer>
     </div>
 
-    <div class="section"
-      formGroupName="registro"
-      [hidden]="!esChofer"
-      *ngIf="
-        (choferModelo | puede: a.CREAR) ||
-        (choferModelo | puede: a.EDITAR) ||
-        (choferModelo | puede: a.VER)
-      "
-    >
-      <h2>Registro Chofer</h2>
-      <app-registro-conduccion-form
+      <div class="section"
+        formGroupName="registro"
+        [hidden]="!esChofer"
+        *ngIf="
+          (choferModelo | puede: a.CREAR) ||
+          (choferModelo | puede: a.EDITAR) ||
+          (choferModelo | puede: a.VER)
+        "
+      >
+        <h2>Registro Chofer</h2>
+        <app-registro-conduccion-form
+          [form]="form"
+          [isShow]="isShow"
+          [fotoRegistroFrente]="fotoRegistroFrente"
+          [fotoRegistroReverso]="fotoRegistroReverso"
+          (fotoRegistroFrenteChange)="
+            fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
+          "
+          (fotoRegistroReversoChange)="
+            fotoRegistroReversoFile = $event; fotoRegistroReverso = null
+          "
+        ></app-registro-conduccion-form>
+      </div>
+    <div class="section contactos-section"  *ngIf="modelo | esUsuarioGestorYPuede: a.MODIFICAR_CONTACTOS | async">
+      <h2 class="contactos-heading">CONTACTOS</h2>
+      <app-page-form-contactos
         [form]="form"
         [isShow]="isShow"
-        [fotoRegistroFrente]="fotoRegistroFrente"
-        [fotoRegistroReverso]="fotoRegistroReverso"
-        (fotoRegistroFrenteChange)="
-          fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
-        "
-        (fotoRegistroReversoChange)="
-          fotoRegistroReversoFile = $event; fotoRegistroReverso = null
-        "
-      ></app-registro-conduccion-form>
+        [contactoList]="contactoList"
+      ></app-page-form-contactos>
+    </div>
+
+    <div class="section"
+      formGroupName="address"
+      (opened)="isPanelOpen = true"
+      (closed)="isPanelOpen = false"
+    >
+      <h2>Direccion</h2>
+      <app-page-form-address
+        groupName="address"
+        [ciudadSelected]="ciudadSelected"
+        [form]="form"
+        [isShow]="isShow"
+        [isPanelOpen]="isPanelOpen"
+        class="app-input-field"
+      ></app-page-form-address>
+   
+
+    <div class="section"
+      *ngIf="
+        (isShow || isEdit) &&
+        ((camionModelo | puede: a.LISTAR) ||
+          (semirremolqueModelo | puede: a.LISTAR))
+      "
+    >
+      <div *ngIf="camionModelo | puede: a.LISTAR">
+        <app-propietario-camion-list
+          [backUrl]="propietarioBackUrl"
+          [propietarioId]="id"
+          [isShow]="isShow"
+          [gestorCuentaId]="gestorCuentaId"
+        ></app-propietario-camion-list>
+      </div>
+      <div *ngIf="semirremolqueModelo | puede: a.LISTAR">
+        <app-propietario-semi-list
+          [backUrl]="propietarioBackUrl"
+          [propietarioId]="id"
+          [isShow]="isShow"
+          [gestorCuentaId]="gestorCuentaId"
+        ></app-propietario-semi-list>
+      </div>
+    </div>
+
+    <div class="section" *ngIf="isEdit || isShow">
+      <h2> Auditoria </h2>
+      <app-page-form-audit
+        [created_by]="created_by"
+        [created_at]="created_at"
+        [modified_by]="modified_by"
+        [modified_at]="modified_at"
+      ></app-page-form-audit>
     </div>
   </div>
+</div>
 </app-page-form>

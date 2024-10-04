@@ -1,0 +1,45 @@
+<form [formGroup]="form" class="small-form">
+    <span mat-dialog-title>
+      <span class="dialog-title"> REGISTRO DE EVALUACIONES</span>
+    </span>
+    <div class="divider"></div>
+    <div class="col-12 col-sm-2 col-md-11">
+      <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+        <label class="form-label mr-2">Tipo de Incidente</label>
+        <mat-form-field class="full-width" appearance="outline">
+        <input matInput value="Versión" readonly />
+      </mat-form-field>
+      </div>
+      <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+        <label class="form-label mr-2"> Comentarios</label>
+        <app-input-field
+          controlName="comentarios"
+          [form]="form"
+          class="input-comentario"
+          class="app-field-input"
+        ></app-input-field>
+      </div>
+  </div>
+    <div class="divider-buttons"></div>
+    <div mat-dialog-actions class="buttons-actions">
+      <button 
+        mat-raised-button 
+        type="button" 
+        class="close-button" 
+        mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cerrar
+      </button>
+      <button
+        mat-raised-button
+        type="button"
+        color="primary"
+        id="submit-button"
+        class="save-button"
+        (click)="submit()"
+      >
+        <mat-icon>save</mat-icon> GUARDAR
+      </button>
+    </div>
+  </form>
+  

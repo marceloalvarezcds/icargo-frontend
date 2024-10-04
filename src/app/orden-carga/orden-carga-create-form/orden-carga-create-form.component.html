@@ -51,20 +51,22 @@
         <app-orden-carga-edit-form-complementos
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
+          [isShow]="false"
           [puedeConciliar]="puedeConciliar"
           [list]="complementoList"
           (ocChange)="getData()"
+          [fleteId]="fleteId"
         ></app-orden-carga-edit-form-complementos>
       </div>
     <div class="complementos_descuentos-item">
       <app-orden-carga-edit-form-descuentos
         [oc]="item"
         [gestorCargaId]="gestorCargaId"
-        [isShow]="isShow"
+        [isShow]="false"
         [puedeConciliar]="puedeConciliar"
         [list]="descuentoList"
         (ocChange)="getData()"
+        [fleteId]="fleteId"
       ></app-orden-carga-edit-form-descuentos>
     </div>
   </div>  

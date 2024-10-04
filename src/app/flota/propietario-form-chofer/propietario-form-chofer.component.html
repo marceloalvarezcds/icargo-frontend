@@ -20,25 +20,22 @@
             class="app-input-field"
           ></app-pais-field>
         </div>
-        <!-- Contenedor flex para el número de documento y las fotos -->
+
         <div  class="col-12 col-md-4 mb-2 d-flex align-items-center">
-          <!-- Número de documento -->
-         
             <label class="form-label mr-2">Número de Documento</label>
             <app-input-field
               groupName="chofer"
               controlName="numero_documento"
               [form]="form"
-              
+              class="app-input-field"
             ></app-input-field>
           </div>
         </div>
-      </div>
+      
           <!-- Contenedor para las fotos -->
-          <div class="row page-form-row">
-            <div  style="margin-left: auto;">
-            <div class="photo-container">
-              <app-file-field
+          <div class="row">
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+              <app-file-field-input
                 title="Foto del documento - frontal"
                 groupName="chofer"
                 controlName="foto_documento_frente_chofer"
@@ -47,10 +44,11 @@
                 [isEdit]="isEdit"
                 [isShow]="isShow"
                 (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-                class="foto-file"
-              ></app-file-field>
-            
-              <app-file-field
+                class="app-input-field"
+              ></app-file-field-input>
+            </div>
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+              <app-file-field-input
                 title="Foto del documento - reverso"
                 groupName="chofer"
                 controlName="foto_documento_reverso_chofer"
@@ -59,10 +57,10 @@
                 [isEdit]="isEdit"
                 [isShow]="isShow"
                 (fileChange)="fotoDocumentoReversoChange.emit($event)"
-                class="foto-file"
-              ></app-file-field>
+                class="app-input-field"
+              ></app-file-field-input>
             </div>
-        </div>
       </div>
+    </div>
   </div>
 </div>

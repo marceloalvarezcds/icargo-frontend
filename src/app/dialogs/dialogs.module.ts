@@ -43,6 +43,7 @@ import { ImageDialogComponent } from './image-dialog/image-dialog.component';
 import { OrdenCargaEstadoHistorialDialogComponent } from './orden-carga-estado-historial-dialog/orden-carga-estado-historial-dialog.component';
 import { CommentDialogComponent } from './comment-dialog/comment-dialog.component';
 import { EvaluacionesDialogComponent } from './evaluaciones-dialog/evaluaciones-dialog.component';
+import { EvaluacionesCancelarComponent } from './evaluaciones-cancelar/evaluaciones-cancelar.component';
 
 
 const modules = [
@@ -82,6 +83,7 @@ const modules = [
   OrdenCargaEstadoHistorialDialogComponent,
   CommentDialogComponent,
   EvaluacionesDialogComponent,
+  EvaluacionesCancelarComponent,
 ];
 
 @NgModule({

@@ -1,72 +1,81 @@
 <div *ngIf="form" [formGroup]="form">
-  <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <ng-container *ngIf="camion">
-        <div
-          class="col-xs-12 col-sm-6"
-          [hidden]="camion.propietario_estado === ACTIVO"
-        >
-          Propietario Actual: {{ camion.propietario.nombre }}:
-          {{ camion.propietario_estado }}
-        </div>
-        <div
-          class="col-xs-12 col-sm-6"
-          [hidden]="camion.chofer_estado === ACTIVO"
-        >
-          Chofer Actual: {{ camion.chofer?.nombre }}: {{ camion.chofer_estado }}
-        </div>
-      </ng-container>
-      <div class="col-xs-12 col-sm-6">
-        <app-propietario-readonly-by-id-dialog-field
-          [groupName]="groupName"
-          [form]="form"
-          [camionId]="camion?.id"
-          [propietarioId]="propietarioId"
-        ></app-propietario-readonly-by-id-dialog-field>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-chofer-by-camion-dialog-field
-          [camionId]="camion?.id"
-          [groupName]="groupName"
-          [form]="form"
-        ></app-chofer-by-camion-dialog-field>
-      </div>
-    </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-input-field
-          title="Placa"
-          [groupName]="groupName"
-          controlName="placa"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-input-field
-          title="Número de Chasís"
-          [groupName]="groupName"
-          controlName="numero_chasis"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-estado-field [estado]="estado"></app-estado-field>
-      </div>
-    </div>
+  <div class="row page-form-row"  [formGroupName]="groupName">
+    <div class="col-12 col-sm-2 col-md-11">
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del Tracto"
-          [groupName]="groupName"
-          controlName="foto"
-          [field]="foto"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoChange.emit($event)"
-        ></app-file-field>
+      <div class="row">
+          <ng-container *ngIf="camion">
+            <div
+              class="col-12 col-md-4 mb-2 d-flex align-items-center"
+              [hidden]="camion.propietario_estado === ACTIVO"
+            >
+              Propietario Actual: {{ camion.propietario.nombre }}:
+              {{ camion.propietario_estado }}
+            </div>
+            <div
+              class="col-12 col-md-4 mb-2 d-flex align-items-center"
+              [hidden]="camion.chofer_estado === ACTIVO"
+            >
+              Chofer Actual: {{ camion.chofer?.nombre }}: {{ camion.chofer_estado }}
+            </div>
+          </ng-container>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <app-propietario-readonly-by-id-dialog-field
+              [groupName]="groupName"
+              [form]="form"
+              [camionId]="camion?.id"
+              [propietarioId]="propietarioId"
+              class="app-input-field"
+            ></app-propietario-readonly-by-id-dialog-field>
+          </div>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <label class="form-label mr-2">Chofer</label>
+            <app-chofer-by-camion-dialog-field
+              [camionId]="camion?.id"
+              [groupName]="groupName"
+              [form]="form"
+              class="app-input-field"
+            ></app-chofer-by-camion-dialog-field>
+          </div>
+        </div>
+
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Placa</label>
+          <app-input-field
+            [groupName]="groupName"
+            controlName="placa"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Número de Chasís</label>
+          <app-input-field
+            [groupName]="groupName"
+            controlName="numero_chasis"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <app-estado-field [estado]="estado"></app-estado-field>
+        </div>
       </div>
+
+        <div class="row">
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <app-file-field-input
+              title="Foto del Tracto"
+              [groupName]="groupName"
+              controlName="foto"
+              [field]="foto"
+              [form]="form"
+              [isEdit]="isEdit"
+              [isShow]="isShow"
+              (fileChange)="fotoChange.emit($event)"
+            ></app-file-field-input>
+          </div>
+        </div>
     </div>
   </div>
 </div>

@@ -27,6 +27,10 @@ import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complement
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { MatDialogRef } from '@angular/material/dialog';
+import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
+import { ReportsService } from 'src/app/services/reports.service';
 @Component({
   selector: 'app-orden-carga-nuevo-anticipo-form',
   templateUrl: './orden-carga-nuevo-anticipo-form.component.html',
@@ -218,6 +222,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
+    private reportsService: ReportsService,
     
   ) {}
 
@@ -325,21 +330,68 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   }
 
   private cancelOrdenCarga(): void {
-      this.dialog.changeStatusConfirm(
-          '¿Está seguro que desea cancelar la Orden de Carga?',
-          this.ordenCargaService.cancelar(this.idOC),
-          () => {
-              this.getData();
-              this.snackBar.open('Orden de carga cancelada correctamente', 'Cerrar', {
-                  duration: 3000,
-                  verticalPosition: 'top',
-                  horizontalPosition: 'center'
-              });
-          },
-      );
-  }
-  
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+            this.getData();
 
+            // Abre el diálogo de evaluación
+            const dialogRef = this.openEvaluacionesCancelarDialog();
+
+            dialogRef.afterClosed().subscribe(result => {
+                if (result) { // Si se acepta el diálogo
+                    // Genera el PDF después de que el diálogo se haya cerrado
+                    this.snackBar.open('Generando PDF...', 'Cerrar', {
+                        duration: 3000,
+                        verticalPosition: 'top',
+                        horizontalPosition: 'center'
+                    });
+                    this.downloadResumenPDF();
+                } else {
+                }
+            });
+        },
+    );
+}
+
+openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
+  return this.dialog.open(EvaluacionesCancelarComponent, {
+    data: {
+      orden_carga_id: this.item?.id,
+      camion_id: this.item?.camion_id,
+      semi_id: this.item?.semi_id,
+      propietario_id: this.item?.combinacion_propietario_id,
+      chofer_id: this.item?.combinacion_chofer_id,
+      gestor_carga_id: this.item?.gestor_carga_id,
+      origen_id: this.item?.origen_id,
+      destino_id: this.item?.destino_id,
+      producto_id: this.item?.flete_producto_id
+    },
+    width: '30rem',
+    height: 'auto',
+    panelClass: 'custom-dialog-container'
+  });
+}
+
+  
+downloadResumenPDF(): void {
+  this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
+    this.reportsService.downloadFile(filename).subscribe((file) => {
+      const blob = new Blob([file], { type: 'application/pdf' });
+      const url = URL.createObjectURL(blob);
+      this.dialog.open(PdfPreviewDialogComponent, {
+        width: '80%',
+        height: '80%',
+        data: {
+          pdfUrl: url,
+          fileBlob: blob, 
+          filename: filename 
+        }
+      });
+    });
+  });
+}
  
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();

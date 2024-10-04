@@ -34,6 +34,7 @@ import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
 
 @Component({
   selector: 'app-orden-carga-finalizar-form',
@@ -399,19 +400,31 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   }
 
   private cancelOrdenCarga(): void {
-      this.dialog.changeStatusConfirm(
-          '¿Está seguro que desea cancelar la Orden de Carga?',
-          this.ordenCargaService.cancelar(this.idOC),
-          () => {
-              this.getData();
-              this.snackBar.open('Orden de carga cancelada correctamente', 'Cerrar', {
-                  duration: 3000,
-                  verticalPosition: 'top',
-                  horizontalPosition: 'center'
-              });
-          },
-      );
-  }
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+            this.getData();
+
+            // Abre el diálogo de evaluación
+            const dialogRef = this.openEvaluacionesCancelarDialog();
+
+            dialogRef.afterClosed().subscribe(result => {
+                if (result) { // Si se acepta el diálogo
+                    // Genera el PDF después de que el diálogo se haya cerrado
+                    this.snackBar.open('Generando PDF...', 'Cerrar', {
+                        duration: 3000,
+                        verticalPosition: 'top',
+                        horizontalPosition: 'center'
+                    });
+                    this.downloadResumenPDF();
+                } else {
+                    console.log('Diálogo de evaluación cancelado');
+                }
+            });
+        },
+    );
+}
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -433,6 +446,25 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
   openEvaluacionesDialog(): MatDialogRef<EvaluacionesDialogComponent> {
     return this.dialog.open(EvaluacionesDialogComponent, {
+      data: {
+        orden_carga_id: this.item?.id,
+        camion_id: this.item?.camion_id,
+        semi_id: this.item?.semi_id,
+        propietario_id: this.item?.combinacion_propietario_id,
+        chofer_id: this.item?.combinacion_chofer_id,
+        gestor_carga_id: this.item?.gestor_carga_id,
+        origen_id: this.item?.origen_id,
+        destino_id: this.item?.destino_id,
+        producto_id: this.item?.flete_producto_id
+      },
+      width: '30rem',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
+    return this.dialog.open(EvaluacionesCancelarComponent, {
       data: {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,

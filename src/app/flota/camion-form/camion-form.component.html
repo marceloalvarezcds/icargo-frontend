@@ -1,8 +1,7 @@
 <app-page-form
   class="camion-page"
-  module="Flota"
-  submodule="Tractos"
-  viewTitle="{{ isEdit ? 'Edición' : isShow ? 'Ver' : 'Nuevo' }}"
+  submodule="TRACTOS"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -18,11 +17,9 @@
   (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
-  <mat-accordion multi>
-    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Información principal </mat-panel-title>
-      </mat-expansion-panel-header>
+  <div class="page-container">
+    <div class="section" formGroupName="info">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
       <app-camion-form-info
         [form]="form"
         [camion]="item"
@@ -33,14 +30,11 @@
         [foto]="foto"
         (fotoChange)="fotoFile = $event"
       ></app-camion-form-info>
-    </mat-expansion-panel>
+    </div>
 
-    <mat-expansion-panel [expanded]="isHabilitacionTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Habilitaciones </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="row page-form-row">
-        <div class="col-xs-12 col-md-4" formGroupName="municipal">
+        
+        <div class="section" formGroupName="municipal">
+          <h2> Habilitaciones </h2>
           <app-habilitacion-form-municipal
             [form]="form"
             [isEdit]="isEdit"
@@ -55,7 +49,7 @@
             "
           ></app-habilitacion-form-municipal>
         </div>
-        <div class="col-xs-12 col-md-4" formGroupName="transporte">
+        <div class="section" formGroupName="transporte">
           <app-habilitacion-form-transporte
             [form]="form"
             [isEdit]="isEdit"
@@ -70,7 +64,7 @@
             "
           ></app-habilitacion-form-transporte>
         </div>
-        <div class="col-xs-12 col-md-4" formGroupName="automotor">
+        <div class="section" formGroupName="automotor">
           <app-habilitacion-form-automotor
             [form]="form"
             [isEdit]="isEdit"
@@ -85,42 +79,39 @@
             "
           ></app-habilitacion-form-automotor>
         </div>
-      </div>
-    </mat-expansion-panel>
 
-    <mat-expansion-panel formGroupName="detalle" [expanded]="isDetalleTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Detalle </mat-panel-title>
-      </mat-expansion-panel-header>
+    <div class="section" formGroupName="detalle">
+
+        <h2> Detalle </h2>
+
       <app-camion-form-detalle
         [form]="form"
         [isShow]="isShow"
       ></app-camion-form-detalle>
-    </mat-expansion-panel>
+    </div>
 
-    <mat-expansion-panel
+    <div class="section"
       formGroupName="capacidad"
-      [expanded]="isDetalleTouched"
     >
-      <mat-expansion-panel-header>
-        <mat-panel-title> Capacidad </mat-panel-title>
-      </mat-expansion-panel-header>
+
+        <h2> Capacidad </h2>
+   
       <app-camion-form-capacidad
         [form]="form"
         [isShow]="isShow"
       ></app-camion-form-capacidad>
-    </mat-expansion-panel>
+    </div>
 
-    <mat-expansion-panel formGroupName="limite" [expanded]="isLimiteTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Limitaciones </mat-panel-title>
-      </mat-expansion-panel-header>
+    <div class="section" formGroupName="limite">
+
+        <h2> Limitaciones </h2>
+
       <app-camion-form-limite
         [camion]="item"
         [form]="form"
         [isShow]="isShow"
       ></app-camion-form-limite>
-    </mat-expansion-panel>
+    </div>
 
     <!-- <mat-expansion-panel *ngIf="isEdit || isShow">
       <mat-expansion-panel-header>
@@ -133,16 +124,16 @@
       ></app-camion-form-combinacion>
     </mat-expansion-panel> -->
 
-    <mat-expansion-panel *ngIf="isEdit || isShow">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Auditoría </mat-panel-title>
-      </mat-expansion-panel-header>
+    <div class="section"*ngIf="isEdit || isShow">
+   
+        <h2> Auditoría </h2>
+     
       <app-page-form-audit
         [created_by]="created_by"
         [created_at]="created_at"
         [modified_by]="modified_by"
         [modified_at]="modified_at"
       ></app-page-form-audit>
-    </mat-expansion-panel>
-  </mat-accordion>
+    </div>
+  </div>
 </app-page-form>

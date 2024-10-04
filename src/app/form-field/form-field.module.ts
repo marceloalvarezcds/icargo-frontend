@@ -106,6 +106,7 @@ import { OcByCombinacionAceptadosDialogFieldComponent } from './oc-by-combinacio
 import { OcByCombinacionFinalizadosDialogFieldComponent } from './oc-by-combinacion-finalizados-dialog-field/oc-by-combinacion-finalizados-dialog-field.component';
 import { OcByCombinacionNuevosDialogFieldComponent } from './oc-by-combinacion-nuevos-dialog-field/oc-by-combinacion-nuevos-dialog-field.component';
 import { TipoEvaluacionFieldComponent } from './tipo-evaluacion-field/tipo-evaluacion-field.component';
+import { FileFieldInputComponent } from './file-field-input/file-field-input.component';
 
 
 const modules = [
@@ -207,10 +208,11 @@ const modules = [
   OcByCombinacionFinalizadosDialogFieldComponent,
   OcByCombinacionNuevosDialogFieldComponent,
   TipoEvaluacionFieldComponent,
+  FileFieldInputComponent,
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

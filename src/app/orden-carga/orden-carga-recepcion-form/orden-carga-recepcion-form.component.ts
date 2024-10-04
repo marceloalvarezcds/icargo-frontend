@@ -33,6 +33,7 @@ import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dia
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
+import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
 @Component({
   selector: 'app-orden-carga-recepcion-form',
   templateUrl: './orden-carga-recepcion-form.component.html',
@@ -422,7 +423,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
               this.getData();
 
               // Abre el diálogo de evaluación
-              const dialogRef = this.openEvaluacionesDialog();
+              const dialogRef = this.openEvaluacionesCancelarDialog();
 
               dialogRef.afterClosed().subscribe(result => {
                   if (result) { // Si se acepta el diálogo
@@ -438,6 +439,25 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
               });
           },
       );
+  }
+
+  openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
+    return this.dialog.open(EvaluacionesCancelarComponent, {
+      data: {
+        orden_carga_id: this.item?.id,
+        camion_id: this.item?.camion_id,
+        semi_id: this.item?.semi_id,
+        propietario_id: this.item?.combinacion_propietario_id,
+        chofer_id: this.item?.combinacion_chofer_id,
+        gestor_carga_id: this.item?.gestor_carga_id,
+        origen_id: this.item?.origen_id,
+        destino_id: this.item?.destino_id,
+        producto_id: this.item?.flete_producto_id
+      },
+      width: '30rem',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
   }
 
   

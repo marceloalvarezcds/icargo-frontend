@@ -92,6 +92,7 @@ export class OrdenCargaEditFormComplementosComponent {
   @Input() isShow = false;
   @Input() puedeConciliar = false;
   @Input() list: OrdenCargaComplemento[] = [];
+  @Input() fleteId?: number;
 
   @Output() ocChange = new EventEmitter<void>();
 

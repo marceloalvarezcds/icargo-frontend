@@ -3,13 +3,13 @@
     <span class="dialog-title"> REGISTRO DE EVALUACIONES</span>
   </span>
   <div class="divider"></div>
-  <app-tipo-evaluacion-field
-    controlName="tipo_incidente"
-    [form]="form"
-    [value]="valueConcepto"
-    class="evaluacion"
-  ></app-tipo-evaluacion-field>
-
+  <div class="col-12 col-sm-2 col-md-11">
+    <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+      <label class="form-label mr-2">Tipo de Incidente</label>
+      <mat-form-field class="full-width" appearance="outline">
+      <input matInput value="Versión" readonly />
+    </mat-form-field>
+    </div>
     <div class="rating-wrapper">
       <label for="rating">Evaluación</label>
       <div class="rating-container" id="rating">
@@ -25,30 +25,16 @@
         </div>
       </div>
     </div>
-
-  <app-input-field
-  *ngIf="!showComentarios"
-    title="Nota"
-    controlName="nota"
-    [form]="form"
-    class="input-nota"
-  ></app-input-field>
-
-    <app-input-field
-    *ngIf="!showComentarios"
-      title="Concepto"
-      controlName="concepto"
-      [form]="form"
-      class="input-concepto"
-  ></app-input-field>
-
-  <!-- Mostrar solo si el incidente es CANCELADO -->
-  <app-input-field
-    title="Comentarios"
-    controlName="comentarios"
-    [form]="form"
-    class="input-comentario"
-  ></app-input-field>
+    <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+      <label class="form-label mr-2"> Comentarios</label>
+      <app-input-field
+        controlName="comentarios"
+        [form]="form"
+        class="input-comentario"
+        class="app-field-input"
+      ></app-input-field>
+    </div>
+</div>
   <div class="divider-buttons"></div>
   <div mat-dialog-actions class="buttons-actions">
     <button 

@@ -1,4 +1,3 @@
-
 import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -8,13 +7,12 @@ import { OrdenCargaEvaluacionesHistorial} from 'src/app/interfaces/orden_carga_e
 import { TipoIncidente } from 'src/app/interfaces/tipo_evaluacion';
 import { OrdenCargaEvaluacionesService } from 'src/app/services/orden-carga-evaluaciones.service';
 
-
 @Component({
-  selector: 'app-evaluaciones-dialog',
-  templateUrl: './evaluaciones-dialog.component.html',
-  styleUrls: ['./evaluaciones-dialog.component.scss']
+  selector: 'app-evaluaciones-cancelar',
+  templateUrl: './evaluaciones-cancelar.component.html',
+  styleUrls: ['./evaluaciones-cancelar.component.scss']
 })
-export class EvaluacionesDialogComponent {
+export class EvaluacionesCancelarComponent{
   currentRating: number = 0;
   fotoRegistroFile: File | null = null;
   localidadId?: number;
@@ -40,7 +38,7 @@ export class EvaluacionesDialogComponent {
 
   constructor(
     private ordenCargaEvaluacionService: OrdenCargaEvaluacionesService,
-    public dialogRef: MatDialogRef<EvaluacionesDialogComponent>,
+    public dialogRef: MatDialogRef<EvaluacionesCancelarComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private data: EvaluacionDialogData 
   ) {
