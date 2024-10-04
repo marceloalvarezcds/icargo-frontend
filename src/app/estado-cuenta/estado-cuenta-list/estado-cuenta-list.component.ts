@@ -119,7 +119,7 @@ export class EstadoCuentaListComponent implements OnInit {
       title: LiquidacionEtapaEnum.SALDO,
       value: (element: EstadoCuenta) => element.liquidacion_saldo,
       type: 'number',
-      footerDef: () => (this.totalPendiente+this.totalConfirmado+this.totalFinalizado),
+      footerDef: () => (this.totalConfirmado+this.totalFinalizado),
     },
   ];
 
