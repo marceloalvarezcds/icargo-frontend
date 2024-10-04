@@ -1,148 +1,182 @@
 <div [formGroup]="form">
-  <div formGroupName="info">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-tipo-persona-field
-          groupName="info"
-          controlName="tipo_persona_id"
-          [form]="form"
-          (isFisicaSelected)="isFisicaChange($event)"
-        ></app-tipo-persona-field>
+  <div class="row page-form-row" formGroupName="info">
+    <div class="col-12 col-sm-2 col-md-11">
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <label class="form-label mr-2"> Tipo Persona</label>
+          <app-tipo-persona-field
+            groupName="info"
+            controlName="tipo_persona_id"
+            [form]="form"
+            (isFisicaSelected)="isFisicaChange($event)"
+            class="app-input-field"
+          ></app-tipo-persona-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <label class="form-label mr-2">{{
+              isFisicaSelected ? "Nombre" : "Razón Social"
+            }}</label>
+          <mat-form-field class="propietario-field">
+            <input matInput formControlName="nombre" appAutofocus />
+            <mat-error *ngIf="info.controls['nombre'].hasError('required')">
+              <ng-container *ngIf="isFisicaSelected; else juridicaTemplate"
+                >El nombre es <strong>requerido</strong></ng-container
+              >
+              <ng-template #juridicaTemplate
+                >La razón social es <strong>requerida</strong></ng-template
+              >
+            </mat-error>
+          </mat-form-field>
+        </div>
+        
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Alias</label>
+          <app-alias-field groupName="info" [form]="form" class="app-input-field"></app-alias-field>
+        </div>
       </div>
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
-        <mat-label>{{
-          isFisicaSelected ? "Nombre" : "Razón Social"
-        }}</mat-label>
-        <input matInput formControlName="nombre" appAutofocus />
-        <mat-error *ngIf="info.controls['nombre'].hasError('required')">
-          <ng-container *ngIf="isFisicaSelected; else juridicaTemplate"
-            >El nombre es <strong>requerido</strong></ng-container
-          >
-          <ng-template #juridicaTemplate
-            >La razón social es <strong>requerida</strong></ng-template
-          >
-        </mat-error>
-      </mat-form-field>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-alias-field groupName="info" [form]="form"></app-alias-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-fecha-field
-          title="Fecha de {{
+    
+
+
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Fecha de {{
             isFisicaSelected ? 'nacimiento' : 'constitución'
-          }}"
-          groupName="info"
-          controlName="fecha_nacimiento"
-          [form]="form"
-        ></app-fecha-field>
+          }}</label>
+          <app-fecha-field
+            groupName="info"
+            controlName="fecha_nacimiento"
+            [form]="form"
+            class="app-input-field"
+          ></app-fecha-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">RUC</label>
+          <app-input-field
+            groupName="info"
+            controlName="ruc"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Digito Verificador</label>
+          <app-digito-verificador-field
+            groupName="info"
+            controlName="digito_verificador"
+            [form]="form"
+            class="app-input-field"
+          ></app-digito-verificador-field>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="RUC"
-          groupName="info"
-          controlName="ruc"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-digito-verificador-field
-          groupName="info"
-          controlName="digito_verificador"
-          [form]="form"
-        ></app-digito-verificador-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-pais-field
-          title="País de origen"
-          groupName="info"
-          controlName="pais_origen_id"
-          [form]="form"
-        ></app-pais-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-telefono-field groupName="info" [form]="form"></app-telefono-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-email-field groupName="info" [form]="form"></app-email-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-oficial-cuenta-field
-          groupName="info"
-          [form]="form"
-        ></app-oficial-cuenta-field>
-      </div>
-    </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-estado-field [estado]="estado"></app-estado-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4" [hidden]="!isFisicaSelected">
-        <app-slide
-          [isShow]="isShow"
-          [control]="esChoferControl"
-          trueTitle="Es Chofer"
-          falseTitle="No es Chofer"
-          (valueChange)="esChoferChange.emit($event)"
-        ></app-slide>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-slide
-          [isShow]="isShow"
-          [control]="puedeRecibirAnticiposControl"
-          trueTitle="Puede recibir anticipos"
-          falseTitle="No puede recibir anticipos"
-          (valueChange)="
-            !$event &&
-              cantidadOCConAnticiposLiberados > 0 &&
-              anticiposBloqueadosChange.emit()
-          "
-        ></app-slide>
-      </div>
-    </div>
+  
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del documento - frontal"
-          groupName="info"
-          controlName="foto_documento_frente"
-          [field]="fotoDocumentoFrente"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-        ></app-file-field>
-      </div>
-    </div>
+  
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del documento - reverso"
-          groupName="info"
-          controlName="foto_documento_reverso"
-          [field]="fotoDocumentoReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoReversoChange.emit($event)"
-        ></app-file-field>
+ 
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2" > Pais Origen</label>
+          <app-pais-field
+            class="app-input-field"
+            groupName="info"
+            controlName="pais_origen_id"
+            [form]="form"
+          ></app-pais-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Telefono</label>
+          <app-telefono-field groupName="info" [form]="form" class="app-input-field"></app-telefono-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Correo</label>
+          <app-email-field groupName="info" [form]="form" class="app-input-field"></app-email-field>
+        </div>
       </div>
-    </div>
+   
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Avatar"
-          groupName="info"
-          controlName="foto_perfil"
-          [field]="fotoPerfil"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoPerfilChange.emit($event)"
-        ></app-file-field>
+
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2"> Oficial de Cuenta</label>
+          <app-oficial-cuenta-field
+            class="app-input-field"
+            groupName="info"
+            [form]="form"
+          ></app-oficial-cuenta-field>
+        </div>
       </div>
-    </div>
+ 
+
+
+        <div class="row">
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <app-estado-field [estado]="estado" class="app-input-field">
+
+            </app-estado-field>
+          </div>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center" [hidden]="!isFisicaSelected">
+            <app-slide
+              [isShow]="isShow"
+              [control]="esChoferControl"
+              trueTitle="Es Chofer"
+              falseTitle="No es Chofer"
+              (valueChange)="esChoferChange.emit($event)"
+            ></app-slide>
+          </div>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <app-slide
+              [isShow]="isShow"
+              [control]="puedeRecibirAnticiposControl"
+              trueTitle="Puede recibir anticipos"
+              falseTitle="No puede recibir anticipos"
+              (valueChange)="
+                !$event &&
+                  cantidadOCConAnticiposLiberados > 0 &&
+                  anticiposBloqueadosChange.emit()
+              "
+            ></app-slide>
+          </div>
+        </div>
+      </div>
+      <div class="col-12 col-md-1">
+        <div class="d-flex flex-column align-items-end">
+          <app-file-field
+            title="Doc.frontal"
+            groupName="info"
+            controlName="foto_documento_frente"
+            [field]="fotoDocumentoFrente"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+            class="foto-file mb-2"
+          ></app-file-field>
+      
+          <app-file-field
+            title="Doc.reverso"
+            groupName="info"
+            controlName="foto_documento_reverso"
+            [field]="fotoDocumentoReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoDocumentoReversoChange.emit($event)"
+            class="foto-file mb-2"
+          ></app-file-field>
+      
+          <app-file-field
+            title="Avatar"
+            groupName="info"
+            controlName="foto_perfil"
+            [field]="fotoPerfil"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoPerfilChange.emit($event)"
+            class="foto-file"
+          ></app-file-field>
+        </div>
+      </div>
+      
   </div>
 </div>

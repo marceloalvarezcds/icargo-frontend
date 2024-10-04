@@ -79,7 +79,7 @@ export class PageFormContactosComponent {
   addContacto(): void {
     this.dialog
     .open(ContactoFormDialogComponent, {
-      width: '500px',
+      width: '600px',
       height: 'auto',
       panelClass: 'custom-dialog-container' 
     })
@@ -98,7 +98,7 @@ export class PageFormContactosComponent {
     this.dialog
       .open(ContactoFormDialogComponent, { 
         data, 
-        width: '500px', 
+        width: '600px', 
         height: 'auto',
        disableClose: true, })
       .afterClosed()

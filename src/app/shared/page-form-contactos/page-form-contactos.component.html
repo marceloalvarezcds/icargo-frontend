@@ -6,7 +6,6 @@
         class="outline round custom-button small-button"
         color="primary"
         type="button"
-        (click)="addContacto()"
         id="download-button"
         [ngClass]="{'view-mode': isShow}" 
         >
@@ -38,7 +37,7 @@
         [noCheckGestorCuentaId]="true"
         (editClick)="editContacto($event)"
         (deleteClick)="removeContacto($event)"
-        (showClick)="viewContacto($event)"
+        
         [mostrarBotonEliminar]="!isShow"
       ></app-table>
     </div>

@@ -1,7 +1,7 @@
 <ng-container *ngIf="form">
   <div *ngIf="control" [formGroup]="form" class="field-content">
     <ng-container *ngIf="groupName">
-      <label>{{ title }}</label>
+      <label class="form-label mr-2">{{ title }}</label>
       <mat-form-field [formGroupName]="groupName"       
       [ngClass]="{ 
         'comprobante-anticipo-input' :controlName === 'numero_comprobante', 
@@ -40,7 +40,7 @@
       </mat-form-field>
     </ng-container>
     <ng-container *ngIf="!groupName">
-      <label>{{ title }}</label>
+      <label class="form-label mr-2">{{ title }}</label>
       <mat-form-field   
       [ngClass]="{ 
         'comprobante-anticipo-input' :controlName === 'numero_comprobante' ||

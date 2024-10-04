@@ -1,59 +1,68 @@
 <div [formGroup]="form">
-  <div formGroupName="chofer">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-tipo-documento-field
-          groupName="chofer"
-          controlName="tipo_documento_id"
-          [form]="form"
-        ></app-tipo-documento-field>
+  <div class="row page-form-row" formGroupName="chofer">
+    <div class="col-12 col-sm-2 col-md-11">
+      <div class="row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Tipo Doc.</label>
+          <app-tipo-documento-field
+            groupName="chofer"
+            controlName="tipo_documento_id"
+            [form]="form"
+            class="app-input-field"
+          ></app-tipo-documento-field>
+        </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">País Emisor del Documento</label>
+          <app-pais-field
+            groupName="chofer"
+            controlName="pais_emisor_documento_id"
+            [form]="form"
+            class="app-input-field"
+          ></app-pais-field>
+        </div>
+        <!-- Contenedor flex para el número de documento y las fotos -->
+        <div  class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <!-- Número de documento -->
+         
+            <label class="form-label mr-2">Número de Documento</label>
+            <app-input-field
+              groupName="chofer"
+              controlName="numero_documento"
+              [form]="form"
+              
+            ></app-input-field>
+          </div>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-pais-field
-          title="País Emisor del Documento"
-          groupName="chofer"
-          controlName="pais_emisor_documento_id"
-          [form]="form"
-        ></app-pais-field>
+          <!-- Contenedor para las fotos -->
+          <div class="row page-form-row">
+            <div  style="margin-left: auto;">
+            <div class="photo-container">
+              <app-file-field
+                title="Foto del documento - frontal"
+                groupName="chofer"
+                controlName="foto_documento_frente_chofer"
+                [field]="fotoDocumentoFrente"
+                [form]="form"
+                [isEdit]="isEdit"
+                [isShow]="isShow"
+                (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+                class="foto-file"
+              ></app-file-field>
+            
+              <app-file-field
+                title="Foto del documento - reverso"
+                groupName="chofer"
+                controlName="foto_documento_reverso_chofer"
+                [field]="fotoDocumentoReverso"
+                [form]="form"
+                [isEdit]="isEdit"
+                [isShow]="isShow"
+                (fileChange)="fotoDocumentoReversoChange.emit($event)"
+                class="foto-file"
+              ></app-file-field>
+            </div>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Número de Documento"
-          groupName="chofer"
-          controlName="numero_documento"
-          [form]="form"
-        ></app-input-field>
-      </div>
-    </div>
-
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del documento - frontal"
-          groupName="chofer"
-          controlName="foto_documento_frente_chofer"
-          [field]="fotoDocumentoFrente"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-        ></app-file-field>
-      </div>
-    </div>
-
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field
-          title="Foto del documento - reverso"
-          groupName="chofer"
-          controlName="foto_documento_reverso_chofer"
-          [field]="fotoDocumentoReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoReversoChange.emit($event)"
-        ></app-file-field>
-      </div>
-    </div>
   </div>
 </div>

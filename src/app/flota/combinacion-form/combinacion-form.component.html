@@ -17,33 +17,18 @@
   (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
-  <mat-accordion multi>
-    <mat-expansion-panel formGroupName="info" [expanded]="isInfoTouched">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Información principal </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-combinacion-form-info
-        [form]="form"
-        
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        [combinacion]="item"
-        [modelo]="modelo"
-        [fotoDocumentoFrente]="fotoDocumentoFrente"
-        [gestorCargaId]="gestorCargaId"
-      ></app-combinacion-form-info>
-    </mat-expansion-panel>
-    <mat-expansion-panel *ngIf="isEdit || isShow">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Auditoría </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-page-form-audit
-        [created_by]="created_by"
-        [created_at]="created_at"
-        [modified_by]="modified_by"
-        [modified_at]="modified_at"
-      ></app-page-form-audit>
-    </mat-expansion-panel>
-  </mat-accordion>
+  <div class="page-container">
+    <div class="section" formGroupName="info">
+        <app-combinacion-form-info
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [combinacion]="item"
+          [modelo]="modelo"
+          [fotoDocumentoFrente]="fotoDocumentoFrente"
+          [gestorCargaId]="gestorCargaId"
+        ></app-combinacion-form-info>
+    </div>
+  </div>  
 </app-page-form>
 

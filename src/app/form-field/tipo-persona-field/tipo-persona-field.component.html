@@ -1,6 +1,5 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
     <mat-select [formControlName]="controlName">
       <ng-container *ngFor="let o of tipoPersonaList">
         <mat-option [value]="o.id">{{o.descripcion}}</mat-option>

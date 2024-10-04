@@ -50,7 +50,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit{
   @Input() controlName = 'camion_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
-  @Input() title = 'Tracto';
+  @Input() title = 'TRACTO';
 
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;

@@ -1,7 +1,7 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
-    <mat-select [formControlName]="controlName">
+    <!-- <mat-label>{{ title }}</mat-label> -->
+    <mat-select [formControlName]="controlName"  class="custom-trigger">
       <ng-container *ngFor="let o of paisList$ | async">
         <mat-option [value]="o.id">{{o.nombre}}</mat-option>
       </ng-container>

@@ -47,7 +47,9 @@
   position: relative;
   margin-bottom: 20px; /* Asegúrate de que hay suficiente espacio para el mensaje de error */
 }
-
+.app-input-field {
+  width: 100%;
+}
 .nombre-label,
 .apellido-label {
   position: relative;
@@ -80,6 +82,11 @@
   border: 1px solid #F25A38; /* Borde rojo */
   border-radius: 4px; /* Bordes redondeados para el input */
   box-sizing: border-box; /* Incluye el borde en el cálculo del tamaño */
+}
+.form-label {
+  white-space: nowrap; /* Evita que el label se divida en varias líneas */
+  margin-right: 8px; /* Espacio entre el label y el campo */
+  margin-bottom: 8px;
 }
 
 .form-container {

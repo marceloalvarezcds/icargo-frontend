@@ -83,6 +83,8 @@ export class PageComponent {
       case 'CLIENTES':
       case 'CENTROS OPERATIVOS':
       case 'PROVEEDORES':
+      case 'COMBINACION DE FLOTA':
+      case 'PROPIETARIOS':
       case 'GESTORES DE CARGA':
       case 'Orden de Carga':
         return baseStyles;

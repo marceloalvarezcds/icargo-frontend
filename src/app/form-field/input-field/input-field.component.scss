@@ -67,6 +67,11 @@
   border: 1px solid #F25A38;
 }
 
+.form-label {
+  white-space: nowrap; /* Evita que el label se divida en varias líneas */
+  margin-right: 8px; /* Espacio entre el label y el campo */
+  margin-bottom: 8px;
+}
 
 mat-hint {
   color: #d32f2f; /* Color del texto del hint */

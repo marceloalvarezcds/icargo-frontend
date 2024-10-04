@@ -37,7 +37,7 @@ export class TipoPersonaFieldComponent implements OnDestroy {
   }
   @Input() controlName = 'tipo_persona_id';
   @Input() groupName = '';
-  @Input() title = 'Tipo de Persona';
+
   
   @Output() isFisicaSelected = new EventEmitter<boolean>();
   @Output() valueChange = new EventEmitter<TipoPersona | undefined>();
