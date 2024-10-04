@@ -83,7 +83,11 @@ export class LiquidacionEditFormMovimientosComponent {
     {
       def: 'tipo',
       title: 'Detalle',
-      value: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto : element.tipo_movimiento_descripcion),
+      value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
+          (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
+            : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
+            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+        ),
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -138,7 +142,7 @@ export class LiquidacionEditFormMovimientosComponent {
       buttonIconName: (mov: Movimiento) =>
         mov.es_editable || mov.can_edit_oc ? 'edit' : '',
       stickyEnd: true,
-    },*/ 
+    },*/
   ];
 
   get gestorCargaId(): number | undefined {
@@ -343,12 +347,14 @@ export class LiquidacionEditFormMovimientosComponent {
     const data: MovimientoFormDialogData = {
       liquidacion_id: liquidacion.id,
       tipo_contraparte_id: liquidacion.tipo_contraparte_id,
+      tipo_contraparte_descripcion: liquidacion.tipo_contraparte_descripcion,
       contraparte: liquidacion.contraparte,
       contraparte_numero_documento: liquidacion.contraparte_numero_documento,
       estado: MovimientoEstadoEnum.EN_PROCESO,
       es_contraparte_editable: false,
       item: undefined,
     };
+
     createMovimiento(data, this.dialog, this.snackbar, () => {
       this.selectedMovimientosChange.emit(this.list);
     });

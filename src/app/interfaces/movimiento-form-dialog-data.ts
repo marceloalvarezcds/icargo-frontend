@@ -5,6 +5,7 @@ export interface MovimientoFormDialogData {
   item?: MovimientoForm;
   liquidacion_id?: number | null;
   tipo_contraparte_id?: number | null;
+  tipo_contraparte_descripcion?: string | null;
   contraparte?: string | null;
   contraparte_numero_documento?: string | null;
   estado: MovimientoEstadoEnum;

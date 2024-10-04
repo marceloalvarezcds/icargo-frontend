@@ -24,6 +24,7 @@
       [etapa]="item?.etapa"
       [estadoCuenta]="estadoCuenta"
       [movimientos]="movimientos"
+      (actualizarEstado)="loadLiquidacion()"
       (actualizarLiquidacion)="loadLiquidacion()"
       (actualizarMovimientos)="getList(item!)"
     >

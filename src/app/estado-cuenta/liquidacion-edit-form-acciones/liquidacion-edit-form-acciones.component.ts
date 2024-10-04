@@ -143,11 +143,12 @@ export class LiquidacionEditFormAccionesComponent {
       this.dialog.open(ComentarioConfirmDialogComponent, {
         data: {
           message,
+          comentarioRequirido: true,
         },
       }),
       (comentario: string) => {
         let form = { 'monto': pago_cobro, comentario }
-        console.log(form);
+
         this.liquidacionService
           .someter(this.id, changeLiquidacionDataMonto(form))
           .subscribe((rest) => {
@@ -155,7 +156,7 @@ export class LiquidacionEditFormAccionesComponent {
             this.liquidacionFlujoChange.emit(rest);
           });
       },
-      (val?: string | boolean) => val !== false
+      //(val?: string | boolean) => val !== false
     );
   }
 

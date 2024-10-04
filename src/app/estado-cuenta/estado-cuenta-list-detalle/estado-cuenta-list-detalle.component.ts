@@ -420,10 +420,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     create(): void {
+
       const data: MovimientoFormDialogData = {
         estado: MovimientoEstadoEnum.PENDIENTE,
-        es_contraparte_editable: true,
+        tipo_contraparte_id: this.estadoCuenta?.tipo_contraparte_id,
+        tipo_contraparte_descripcion: this.estadoCuenta?.tipo_contraparte_descripcion,
+        contraparte: this.estadoCuenta?.contraparte,
+        contraparte_numero_documento: this.estadoCuenta?.contraparte_numero_documento,
+        es_contraparte_editable: false,
       };
+
       createMovimiento(data, this.dialog, this.snackbar, () => {
         this.getList();
       });

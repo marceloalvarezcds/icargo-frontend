@@ -98,9 +98,9 @@ export class LiquidacionEditFormComponent implements OnInit {
   back(): void {
       const contraparte_id = this.contraparte_id;
       const contraparte = this.actual_contraparte;
-      const contraparte_numero_documento =
-        this.actual_contraparte_numero_documento;
-      /*this.router.navigate([this.backUrl], {
+      const contraparte_numero_documento = this.actual_contraparte_numero_documento;
+
+      this.router.navigate([this.backUrl], {
         queryParams: getQueryParams(
           {
             ...this.item!,
@@ -110,7 +110,8 @@ export class LiquidacionEditFormComponent implements OnInit {
           },
           this.item!.etapa
         ),
-      });*/
+      });
+
   }
 
   changeMovimientoList(): void {
@@ -179,7 +180,7 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   getList(liq: Liquidacion): void {
     this.movimientoService
-      .getListByLiquidacion(liq, this.etapa)
+      .getListByLiquidacion(liq, liq.etapa ?? this.etapa)
       .subscribe((data) => {
         this.movimientos = data;
       });
