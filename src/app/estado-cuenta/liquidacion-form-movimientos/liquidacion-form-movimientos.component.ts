@@ -65,14 +65,14 @@ export class LiquidacionFormMovimientosComponent {
       value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
           (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
             : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
-            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : ''
         ),
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'numero_documento_relacionado',
+      def: 'orden_carga_id',
       title: 'N° OC',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
+      value: (element: Movimiento) => element.orden_carga_id,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
