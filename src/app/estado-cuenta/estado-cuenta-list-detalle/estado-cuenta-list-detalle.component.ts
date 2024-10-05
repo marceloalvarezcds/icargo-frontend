@@ -459,7 +459,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       this.dialog
         .open(LiquidacionFormDialogComponent, {
           data,
-          panelClass: 'half-dialog',
+          panelClass: 'full-dialog',
         })
         .afterClosed()
         //.pipe(filter((confirmed) => !!confirmed))
