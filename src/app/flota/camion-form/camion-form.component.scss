@@ -57,4 +57,21 @@
   .app-input-field {
     width: 100%;
   }
+  .form-container {
+    display: flex; /* Utiliza flexbox */
+    flex-wrap: wrap; /* Permite que los elementos se ajusten a una nueva línea si no hay espacio */
+    gap: 20px; /* Espacio entre los elementos */
+  }
+  
+  .habilitacion-section {
+    flex: 1 1 calc(33.33% - 20px); /* Cada sección toma un tercio del ancho menos el espacio */
+    box-sizing: border-box; /* Asegura que el padding y los bordes se incluyan en el ancho total */
+  }
+  
+  /* Opcional: Puedes ajustar la apariencia de las secciones */
+  .habilitacion-section {
+    background-color: #f9f9f9; /* Color de fondo opcional */
+    padding: 10px; /* Padding interno */
+    border-radius: 5px; /* Bordes redondeados */
+  }
   

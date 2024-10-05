@@ -1,52 +1,58 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Tara (kg.)</label>
         <app-number-field
-          title="Tara (kg.)"
           [groupName]="groupName"
           controlName="tara"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Bruto (kg.)</label>
         <app-number-field
-          title="Bruto (kg.)"
           [groupName]="groupName"
           controlName="bruto"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Largo (metros)</label>
         <app-number-field
-          title="Largo (metros)"
           [groupName]="groupName"
           controlName="largo"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Alto (metros)</label>
         <app-number-field
-          title="Alto (metros)"
           [groupName]="groupName"
           controlName="alto"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Ancho (metros)</label>
         <app-number-field
-          title="Ancho (metros)"
           [groupName]="groupName"
           controlName="ancho"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Volumen (m3)</label>
         <app-number-field
-          title="Capacidad volumétrica (m3)"
           [groupName]="groupName"
           controlName="volumen"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
     </div>

@@ -1,47 +1,58 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Marca</label>
         <app-marca-semi-field
           [groupName]="groupName"
           controlName="marca_id"
           [form]="form"
+          class="app-input-field"
         ></app-marca-semi-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Clasificación</label>
         <app-semi-clasificacion-field
           [groupName]="groupName"
           controlName="clasificacion_id"
           [form]="form"
+          class="app-input-field"
         ></app-semi-clasificacion-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Tipo Semi</label>
         <app-tipo-semi-field
           [groupName]="groupName"
           controlName="tipo_id"
           [form]="form"
+          class="app-input-field"
         ></app-tipo-semi-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Tipo Carga</label>
         <app-tipo-carga-field
           [groupName]="groupName"
           controlName="tipo_carga_id"
           [form]="form"
+          class="app-input-field"
         ></app-tipo-carga-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Color</label>
         <app-color-field
           [groupName]="groupName"
           controlName="color_id"
           [form]="form"
+          class="app-input-field"
         ></app-color-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Año</label>
         <app-number-field
-          title="Año"
           [groupName]="groupName"
           controlName="anho"
           [form]="form"
+          class="app-input-field"
         ></app-number-field>
       </div>
     </div>

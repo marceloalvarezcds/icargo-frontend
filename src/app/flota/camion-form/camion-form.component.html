@@ -31,59 +31,61 @@
         (fotoChange)="fotoFile = $event"
       ></app-camion-form-info>
     </div>
-
-        
-        <div class="section" formGroupName="municipal">
-          <h2> Habilitaciones </h2>
-          <app-habilitacion-form-municipal
-            [form]="form"
-            [isEdit]="isEdit"
-            [isShow]="isShow"
-            [fotoFrente]="fotoMunicipalFrente"
-            [fotoReverso]="fotoMunicipalReverso"
-            (fotoFrenteChange)="
-              fotoMunicipalFrenteFile = $event; fotoMunicipalFrente = null
-            "
-            (fotoReversoChange)="
-              fotoMunicipalReversoFile = $event; fotoMunicipalReverso = null
-            "
-          ></app-habilitacion-form-municipal>
-        </div>
-        <div class="section" formGroupName="transporte">
-          <app-habilitacion-form-transporte
-            [form]="form"
-            [isEdit]="isEdit"
-            [isShow]="isShow"
-            [fotoFrente]="fotoTransporteFrente"
-            [fotoReverso]="fotoTransporteReverso"
-            (fotoFrenteChange)="
-              fotoTransporteFrenteFile = $event; fotoTransporteFrente = null
-            "
-            (fotoReversoChange)="
-              fotoTransporteReversoFile = $event; fotoTransporteReverso = null
-            "
-          ></app-habilitacion-form-transporte>
-        </div>
-        <div class="section" formGroupName="automotor">
-          <app-habilitacion-form-automotor
-            [form]="form"
-            [isEdit]="isEdit"
-            [isShow]="isShow"
-            [fotoFrente]="fotoAutomotorFrente"
-            [fotoReverso]="fotoAutomotorReverso"
-            (fotoFrenteChange)="
-              fotoAutomotorFrenteFile = $event; fotoAutomotorFrente = null
-            "
-            (fotoReversoChange)="
-              fotoAutomotorReversoFile = $event; fotoAutomotorReverso = null
-            "
-          ></app-habilitacion-form-automotor>
-        </div>
+    <div class="section"><h2>Habilitaciones </h2></div>
+    <div class="row page-form-row">
+      <div class="col-xs-12 col-md-4" formGroupName="municipal">
+        <app-habilitacion-form-municipal
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoMunicipalFrente"
+          [fotoReverso]="fotoMunicipalReverso"
+          (fotoFrenteChange)="
+            fotoMunicipalFrenteFile = $event; fotoMunicipalFrente = null
+          "
+          (fotoReversoChange)="
+            fotoMunicipalReversoFile = $event; fotoMunicipalReverso = null
+          "
+        ></app-habilitacion-form-municipal>
+      </div>
+    
+      <div class="col-xs-12 col-md-4" formGroupName="transporte">
+        <app-habilitacion-form-transporte
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoTransporteFrente"
+          [fotoReverso]="fotoTransporteReverso"
+          (fotoFrenteChange)="
+            fotoTransporteFrenteFile = $event; fotoTransporteFrente = null
+          "
+          (fotoReversoChange)="
+            fotoTransporteReversoFile = $event; fotoTransporteReverso = null
+          "
+        ></app-habilitacion-form-transporte>
+      </div>
+    
+      <div class="col-xs-12 col-md-4" formGroupName="automotor">
+        <app-habilitacion-form-automotor
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoAutomotorFrente"
+          [fotoReverso]="fotoAutomotorReverso"
+          (fotoFrenteChange)="
+            fotoAutomotorFrenteFile = $event; fotoAutomotorFrente = null
+          "
+          (fotoReversoChange)="
+            fotoAutomotorReversoFile = $event; fotoAutomotorReverso = null
+          "
+        ></app-habilitacion-form-automotor>
+      </div>
+    </div>
+    
+    
 
     <div class="section" formGroupName="detalle">
-
         <h2> Detalle </h2>
-
       <app-camion-form-detalle
         [form]="form"
         [isShow]="isShow"
@@ -93,9 +95,7 @@
     <div class="section"
       formGroupName="capacidad"
     >
-
         <h2> Capacidad </h2>
-   
       <app-camion-form-capacidad
         [form]="form"
         [isShow]="isShow"
@@ -103,9 +103,7 @@
     </div>
 
     <div class="section" formGroupName="limite">
-
         <h2> Limitaciones </h2>
-
       <app-camion-form-limite
         [camion]="item"
         [form]="form"
@@ -125,9 +123,7 @@
     </mat-expansion-panel> -->
 
     <div class="section"*ngIf="isEdit || isShow">
-   
         <h2> Auditoría </h2>
-     
       <app-page-form-audit
         [created_by]="created_by"
         [created_at]="created_at"

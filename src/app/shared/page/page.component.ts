@@ -85,6 +85,7 @@ export class PageComponent {
       case 'PROVEEDORES':
       case 'CHOFERES':
       case 'TRACTOS':
+      case 'SEMIS':
       case 'COMBINACION DE FLOTA':
       case 'PROPIETARIOS':
       case 'GESTORES DE CARGA':
