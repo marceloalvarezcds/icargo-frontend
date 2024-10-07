@@ -1,44 +1,64 @@
 <div class="row page-form-row">
-  <mat-form-field *ngIf="showResumen" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+
+  <div class="columna" *ngIf="showResumen">
     <mat-label>Tot. Movimientos</mat-label>
-    <input matInput [value]="(credito-debito)" appInputThousandsSeparator disabled />
-  </mat-form-field>
-  <mat-form-field *ngIf="showIngresoEgreso" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+    <mat-form-field  >      
+      <input matInput [value]="(credito-debito)" appInputThousandsSeparator disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="columna" *ngIf="showIngresoEgreso">
     <mat-label>Ingresos</mat-label>
-    <input matInput [value]="credito" appInputThousandsSeparator disabled />
-  </mat-form-field>
-  <mat-form-field *ngIf="showIngresoEgreso" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+    <mat-form-field  >
+      <input matInput [value]="credito" appInputThousandsSeparator disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="columna" *ngIf="showIngresoEgreso">
     <mat-label>Egresos</mat-label>
-    <input matInput [value]="debito" appInputThousandsSeparator disabled />
-  </mat-form-field>
-  <mat-form-field *ngIf="showMonto" class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
-    <mat-label>
-      Pago/Cobro
-    </mat-label>
-    <input matInput [disabled]="esFinalizado" [(ngModel)]="monto" appInputThousandsSeparator />
-  </mat-form-field>
-  <mat-form-field class="col-xs-6 col-sm-4 col-md-3 col-lg-3">
+    <mat-form-field  >      
+      <input matInput [value]="debito" appInputThousandsSeparator disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="columna" *ngIf="showMonto">
+    <mat-label>Pago/Cobro</mat-label>
+    <mat-form-field  >      
+      <input matInput [disabled]="esFinalizado" [(ngModel)]="monto" appInputThousandsSeparator />
+    </mat-form-field>
+  </div>
+
+  <div class="columna">
     <mat-label>
       Saldo C.C. {{ esFinalizado ? "" : "| Total de la Selección" }}
     </mat-label>
-    <input matInput [value]="saldo" appInputThousandsSeparator disabled />
-  </mat-form-field>
-  <mat-form-field *ngIf="showInstrumentos" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field >      
+      <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="columna" *ngIf="showInstrumentos">
     <mat-label>Valor de los instrumentos</mat-label>
-    <input
-      matInput
-      [value]="valorInstrumentos"
-      appInputThousandsSeparator
-      disabled
-    />
-  </mat-form-field>
-  <mat-form-field *ngIf="showInstrumentos" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field  >      
+      <input matInput
+        [value]="valorInstrumentos"
+        appInputThousandsSeparator
+        disabled
+      />
+    </mat-form-field>
+  </div>
+
+  <div class="columna" *ngIf="showInstrumentos">
     <mat-label>Residuo</mat-label>
-    <input matInput [value]="residuo" appInputThousandsSeparator disabled />
-  </mat-form-field>
+    <mat-form-field  >      
+      <input matInput [value]="residuo" appInputThousandsSeparator disabled />
+    </mat-form-field>
+  </div>
+    
   <app-operacion
     *ngIf="!hideOperacion"
     class="col-xs-6 col-sm-4 col-md-3 col-lg-2"
     [saldo]="saldoMovimiento"
   ></app-operacion>
+  
 </div>

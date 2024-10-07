@@ -1,0 +1,17 @@
+
+::ng-deep {
+  
+    .mat-form-field-infix {
+        padding: 0.5em 0 0.5em 0 !important;
+    }
+    .mat-form-field-wrapper {
+        margin: 0 0 .25em 0 !important;
+        padding-bottom: 0.5em !important;
+    }  
+}
+
+.columna {
+    display: flex;
+    align-items: center;
+    margin-inline: 5px;
+}

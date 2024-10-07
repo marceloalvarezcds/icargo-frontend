@@ -86,29 +86,33 @@
 
     <div class="row page-form-row">
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-        <mat-label>Pendiente</mat-label>
-        <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
-      </mat-form-field>
+      <div class="columna">
+        <label class="form-label mr-2">Pendiente</label>
+        <mat-form-field>
+          <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-        <mat-label>Deberes/Haberes</mat-label>
-        <input matInput [value]="deberes" appInputThousandsSeparator disabled />
-      </mat-form-field>
+      <div class="columna">
+        <label class="form-label mr-2">Deberes/Haberes</label>
+        <mat-form-field>
+          <input matInput [value]="deberes" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-        <mat-label>
-          Pagos/Cobros
-        </mat-label>
-        <input matInput [value]="pagos" appInputThousandsSeparator disabled />
-      </mat-form-field>
+      <div class="columna">
+        <label class="form-label mr-2">Pagos/Cobros</label>
+        <mat-form-field>
+          <input matInput [value]="pagos" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
-        <mat-label>
-          Saldo C.C.
-        </mat-label>
-        <input matInput [value]="saldo" appInputThousandsSeparator disabled />
-      </mat-form-field>
+      <div class="columna">
+        <label class="form-label mr-2">Saldo C.C.</label>
+        <mat-form-field>
+          <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
     </div>
 
@@ -122,7 +126,7 @@
       [hideShow]="true"
       [shouldBeShowFooter]="false">
     </app-table-paginator>
-
+  
   </div>
 
 </app-page>

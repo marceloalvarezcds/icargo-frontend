@@ -1,0 +1,43 @@
+
+::ng-deep {
+    
+    .mat-input-element:disabled,
+    .mat-select-disabled .mat-select-value {
+      color: rgba(0, 0, 0, 0.87);
+    }
+    .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+      color: rgba(0, 0, 0, 0.6);
+    }
+    .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+      visibility: hidden;
+    }
+    .mat-form-field-infix {
+      padding: 0.5em 0 0.5em 0;
+    }
+    .mat-form-field-wrapper {
+      margin: 0 0 .25em 0;
+      padding-bottom: 0.5em;
+    }
+    .page-title .title {
+      font-size: 18px;
+      font-weight: 500;
+      color: #3B9EFF; /* Ejemplo de color para el submódulo */
+    }
+  
+}
+    
+.columna {
+    display: flex;
+    align-items: center;
+    //margin-inline: 5px;
+}
+
+@media (max-width:700px){
+  .columna {
+    display: block;
+  }
+
+}
+@media (min-width:1000px){
+
+}
