@@ -1,6 +1,6 @@
 .mat-column-selector {
   text-align: center;
-  width: 40px;
+  width: 140px;
 }
 
 .mat-column-selector::ng-deep {
@@ -38,8 +38,4 @@
       width: 32px;
     }
   }
-}
-/* Estilo para el encabezado de las columnas de la tabla */
-.table-selector th.mat-header-cell {
-  font-weight: bold; /* Poner en negrita */
 }

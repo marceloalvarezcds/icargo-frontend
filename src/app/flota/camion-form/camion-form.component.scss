@@ -17,7 +17,7 @@
   }
   
   .page-container {
-    margin-bottom: 0;
+    margin-top: 0px;
     padding-bottom: 0px;
     overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
     background-color: white;
@@ -75,3 +75,6 @@
     border-radius: 5px; /* Bordes redondeados */
   }
   
+  .detalles {
+    margin-top: -24px; 
+  }

@@ -1,26 +1,36 @@
 .d-flex {
-    display: flex; /* Habilita flexbox */
-    align-items: center; /* Alinea verticalmente al centro */
-  }
-  
-  .form-label {
-    margin-bottom: 10px; /* Espacio entre el label y el input */
-  }
-  
-  .mb-2 {
-    margin-bottom: 0.5rem; /* Espacio inferior para el margen */
-  }
-  
-  /* Ajustes de estilo para el mat-form-field */
+  display: flex; /* Habilita flexbox */
+  align-items: center; /* Alinea verticalmente al centro */
+}
+
+.form-label {
+  margin-bottom: 20px; 
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem; /* Espacio inferior para el margen */
+}
+
+/* Ajustes de estilo para el mat-form-field */
 .mat-form-field {
-    width: 100%; /* Ocupa todo el ancho disponible */
-  }
-  
-  /* Estilos para alinear etiquetas y campos */
-  .form-label {
-    min-width: 130px; /* Cambia este valor para ajustar el ancho de las etiquetas */
-  }
-  
-  .app-input-field{
-    width: 100%;
-  }
+  width: 100%; /* Ocupa todo el ancho disponible */
+}
+
+/* Estilos para alinear etiquetas y campos */
+.form-label {
+  min-width: 130px; /* Cambia este valor para ajustar el ancho de las etiquetas */
+}
+
+.form-label-hab{
+  min-width: 120px; /* Cambia este valor para ajustar el ancho de las etiquetas */
+  margin-bottom: 20px; 
+}
+
+.app-input-field{
+  width: 100%;
+  margin-top: -10px;
+}
+
+.muni-row{
+  margin-top: -10px;
+}

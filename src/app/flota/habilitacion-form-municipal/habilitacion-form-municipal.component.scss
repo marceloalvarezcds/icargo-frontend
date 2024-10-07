@@ -4,7 +4,7 @@
 }
 
 .form-label {
-  margin-bottom: 10px; /* Espacio entre el label y el input */
+  margin-bottom: 20px; /* Espacio entre el label y el input */
 }
 
 .mb-2 {
@@ -21,6 +21,16 @@
   min-width: 130px; /* Cambia este valor para ajustar el ancho de las etiquetas */
 }
 
+.form-label-hab{
+  min-width: 120px; /* Cambia este valor para ajustar el ancho de las etiquetas */
+  margin-bottom: 20px; /* Espacio entre el label y el input */
+}
+
 .app-input-field{
   width: 100%;
+  margin-top: -10px;
+}
+
+.muni-row{
+  margin-top: -20px;
 }

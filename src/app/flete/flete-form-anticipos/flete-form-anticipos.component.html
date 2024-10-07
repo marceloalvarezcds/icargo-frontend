@@ -6,12 +6,12 @@
   </div>
   <div class="row page-form-row" [formArrayName]="groupName">
     <ng-container *ngFor="let it of formArray.controls; let index = index">
-      <div class="col-xs-12 col-sm-6" [formGroupName]="index">
-        <mat-form-field>
-          <mat-label
-            >Porcentaje de Liberación de
-            {{ it.get("concepto")?.value }}</mat-label
-          >
+      <div class="col-12 col-md-4 mb-2 d-flex align-items-center" [formGroupName]="index">
+        <label class="form-label mr-2"
+        >Porcentaje de Liberación de {{ it.get("concepto")?.value }}</label
+      >
+        <mat-form-field class="porcentaje">
+     
           <input
             matInput
             formControlName="porcentaje"

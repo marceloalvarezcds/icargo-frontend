@@ -1,8 +1,8 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
-        <div class="col-xs-12 d-flex align-items-center mb-2">
-          <label class="form-label mr-2">Límite Ordenes de Carga activas</label>
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Límite Órdenes de Carga activas</label>
         <app-number-field
           [groupName]="groupName"
           controlName="limite_cantidad_oc_activas"
@@ -12,8 +12,8 @@
           class="app-input-field"
         ></app-number-field>
       </div>
-        <div class="col-xs-12 d-flex align-items-center mb-2">
-          <label class="form-label mr-2">Monto Límite de anticipos a retirar</label>
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
+        <label class="form-label mr-2">Monto Límite de anticipos a retirar</label>
         <app-number-field
           [groupName]="groupName"
           controlName="limite_monto_anticipos"
@@ -21,9 +21,11 @@
           class="app-input-field"
         ></app-number-field>
       </div>
-      <ng-container *ngIf="camion">
+    </div>
+    <ng-container *ngIf="camion">
+      <div class="row page-form-row">
         <div class="col-xs-12 d-flex align-items-center mb-2">
-          <label class="form-label mr-2">Pais Emisor</label>
+          <label class="form-label mr-2">Monto de anticipos retirados</label>
           <app-key-value
             key="Monto de anticipos retirados"
             [value]="
@@ -33,14 +35,14 @@
           ></app-key-value>
         </div>
         <div class="col-xs-12 d-flex align-items-center mb-2">
-          <label class="form-label mr-2">Pais Emisor</label>
+          <label class="form-label mr-2">Monto de anticipos disponibles</label>
           <app-key-value
             key="Monto de anticipos disponibles"
             [value]="camion.monto_anticipo_disponible | numberFormat"
             class="app-input-field"
           ></app-key-value>
         </div>
-      </ng-container>
-    </div>
+      </div>
+    </ng-container>
   </div>
 </div>

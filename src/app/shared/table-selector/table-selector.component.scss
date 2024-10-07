@@ -25,7 +25,7 @@
   .mat-header-cell:first-of-type,
   .mat-cell:first-of-type,
   .mat-footer-cell:first-of-type {
-    padding-left: 24px;
+    padding-left: 34px;
   }
   .mat-header-cell:last-of-type,
   .mat-cell:last-of-type,
@@ -39,8 +39,6 @@
   }
 }
 .title-selector{
-  width: 41px;
-  height: 16px;
   gap: 0px;
   opacity: 0px;
   font-family: 'Roboto' sans-serif;
@@ -52,12 +50,12 @@
 }
 
 .selected-row {
-  background-color: rgba(0, 123, 255, 0.1); /* Cambia el color de fondo según tu preferencia */
+  background-color: rgba(0, 123, 255, 0.1);
 }
 
 .table-selector-container {
-  margin-top: -45px; /* Reduce el margen superior */
-  padding-top: 10px; /* Opcional: puedes ajustar el relleno superior */
+  margin-top: -45px; 
+  padding-top: 10px; 
   margin-left: -50px;
 }
 
@@ -85,7 +83,6 @@ td.mat-cell {
   
 }
 
-
 th.mat-header-cell {
   font-family: 'Roboto', sans-serif;
   font-size: 14px; 
@@ -99,33 +96,33 @@ tr.mat-header-row {
 }
 
 table td {
-  line-height: 1.5; /* Ajusta la altura de la línea de texto */
+  line-height: 1.5; 
 }
 
 .table-selector-container table {
-  border-spacing: 0; /* Elimina el espacio entre las celdas */
-  width: 100%; /* Asegura que la tabla ocupe todo el ancho del contenedor */
+  border-spacing: 0;
+  width: 100%; 
 }
 
 .table-selector-container th, 
 .table-selector-container td {
-  padding: 4px 8px; /* Reduce el padding de las celdas */
-  text-align: left; /* Alinea el texto a la izquierda */
-  vertical-align: middle; /* Centra verticalmente el contenido */
+  padding: 4px 8px;
+  text-align: left; 
+  vertical-align: middle; 
 }
 
 .table-selector-container th {
-  font-weight: bold; /* Mantiene los encabezados en negrita */
+  font-weight: bold; 
 }
 
 .table-selector-container td {
-  border-bottom: 1px solid #ddd; /* Añade una línea separadora entre las filas */
+  border-bottom: 1px solid #ddd; 
 }
 
 .table-selector-container tr {
-  height: 32px; /* Controla la altura de cada fila */
+  height: 32px; 
 }
 
 .selected-row {
-  background-color: #f5f5f5; /* Color de fondo para la fila seleccionada */
+  background-color: #f5f5f5; 
 }

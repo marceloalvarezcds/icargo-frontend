@@ -89,6 +89,7 @@ export class PageComponent {
       case 'COMBINACION DE FLOTA':
       case 'PROPIETARIOS':
       case 'GESTORES DE CARGA':
+      case 'PEDIDOS':
       case 'Orden de Carga':
         return baseStyles;
       case 'Todas las CUENTAS CORRIENTES':

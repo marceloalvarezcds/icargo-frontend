@@ -1,21 +1,24 @@
 <form [formGroup]="form">
-  <h1 mat-dialog-title>
-    {{ actionText }} Descuento
-    <button mat-button type="button" mat-dialog-close class="close">
-      <mat-icon>close</mat-icon>
-    </button>
-  </h1>
+  <form [formGroup]="form">
+    <h1 mat-dialog-title>
+      <span class="action-text">{{ actionText }}</span> 
+      <span class="complement-text"> DESCUENTO</span>
+    </h1>
+    <div class="horizontal-line"></div>
   <div mat-dialog-content>
     <app-tipo-concepto-descuento-field
       controlName="concepto"
       [form]="form"
       [value]="valueConcepto"
     ></app-tipo-concepto-descuento-field>
-    <app-input-field
-      title="Detalle"
-      controlName="detalle"
-      [form]="form"
-    ></app-input-field>
+    <div class="d-flex align-items-center mb-2">
+      <label class="form-label-detalle mr-2">Detalle</label>
+      <app-input-field
+        controlName="detalle"
+        [form]="form"
+        class="app-input-field"
+      ></app-input-field>
+    </div>
     <app-number-field
       title="Monto a Cobrar al Propietario"
       controlName="propietario_monto"
@@ -32,27 +35,43 @@
         {{ pagoAProveedor ? "Pagar al Proveedor" : "No pagar al Proveedor" }}
       </mat-slide-toggle>
     </div>
+    <hr [hidden]="!pagoAProveedor"  class="horizontal-line-final">
     <div [hidden]="!pagoAProveedor">
       <app-number-field
         title="Monto a Pagar al Proveedor"
         controlName="proveedor_monto"
         [form]="form"
       ></app-number-field>
+      <div class="d-flex align-items-center mb-2 moneda-field">
+        <label class="form-label mr-2">Moneda del Proveedor</label>
       <app-moneda-field
-        title="Moneda del Proveedor"
         controlName="proveedor_moneda"
         [value]="valueMoneda"
         [form]="form"
       ></app-moneda-field>
-      <app-proveedor-field
-        controlName="proveedor"
-        [form]="form"
-        [value]="valueProveedor"
-      ></app-proveedor-field>
+      </div>  
+      <div class="d-flex align-items-center mb-3 proveedor-field">
+        <label class="form-label-proveedor mr-2">Proveedor</label>
+        <app-proveedor-field
+          controlName="proveedor"
+          [form]="form"
+          [value]="valueProveedor"
+          class="app-input-field"
+        ></app-proveedor-field>
+      </div>
+   
     </div>
+    <hr class="horizontal-line-final">
   </div>
-  <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+  <div mat-dialog-actions class="buttons-actions">
+    <button 
+      mat-raised-button 
+      type="button" 
+      class="close-button" 
+      mat-dialog-close>
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
     <button
       mat-raised-button
       type="button"
@@ -60,8 +79,9 @@
       cdkFocusInitial
       color="primary"
       id="submit-button"
+      class="save-button"
     >
-      Aceptar
+      <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>
 </form>

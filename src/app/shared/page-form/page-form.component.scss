@@ -124,6 +124,18 @@
   gap: 2px; 
 }
 
+.estado-mini-fab {
+  width: 30px;  /* Ajusta el tamaño que necesites */
+  height: 30px;  /* Ajusta el tamaño que necesites */
+  min-width: 30px;
+  min-height: 30px;
+}
+
+.estado-mini-fab mat-icon {
+  font-size: 20px;     
+  margin-top: -7px;
+}
+
 .save-button{
   font-family: 'Roboto', sans-serif;
   font-size: 12px;

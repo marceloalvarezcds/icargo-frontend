@@ -32,7 +32,7 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'centro_operativo_id';
   @Input() groupName = '';
-  @Input() title = 'Centro operativo';
+  @Input() title = '';
 
   @Output() valueChange = new EventEmitter<CentroOperativoList>();
 

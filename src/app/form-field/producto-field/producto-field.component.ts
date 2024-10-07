@@ -23,7 +23,7 @@ export class ProductoFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() readonly = false;
-  @Input() title = 'Producto';
+  @Input() title = '';
 
   @Output() valueChange = new EventEmitter<Producto | undefined>();
 

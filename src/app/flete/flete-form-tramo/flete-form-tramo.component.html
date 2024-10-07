@@ -1,47 +1,63 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
+    <div class="col-12 col-sm-12 col-md-12">
+    <!-- Fila para Origen y Origen Indicaciones -->
     <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-12 col-md-6 mb-2 d-flex align-items-center">
+        <label class="form-label mr-2">Origen</label>
         <app-centro-operativo-by-gestor-map-dialog-field
-          title="Origen"
           controlName="origen_id"
           [groupName]="groupName"
           [form]="form"
           (valueChange)="origenChange.emit($event)"
+          class="app-input-field"
         ></app-centro-operativo-by-gestor-map-dialog-field>
       </div>
-      <div class="col-xs-12 col-sm-6">
+      <div class="col-12 col-md-6 mb-2 d-flex align-items-center">
+        <label class="form-label-or-des-indicador mr-2">Origen Indicaciones</label>
         <app-input-field
-          title="Origen Indicaciones"
           [groupName]="groupName"
           controlName="origen_indicacion"
           [form]="form"
+          class="app-input-field"
         ></app-input-field>
       </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-centro-operativo-by-gestor-map-dialog-field
-          title="Destino"
-          controlName="destino_id"
-          [groupName]="groupName"
-          [form]="form"
-          (valueChange)="destinoChange.emit($event)"
-        ></app-centro-operativo-by-gestor-map-dialog-field>
+    </div>
+    
+      <!-- Fila para Destino -->
+      <div class="row page-form-row" style="margin-top: -28px;">
+        <div class="col-12 col-md-6 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Destino</label>
+          <app-centro-operativo-by-gestor-map-dialog-field
+            controlName="destino_id"
+            [groupName]="groupName"
+            [form]="form"
+            (valueChange)="destinoChange.emit($event)"
+            class="app-input-field"
+          ></app-centro-operativo-by-gestor-map-dialog-field>
+        </div>
+        <div class="col-12 col-md-6 mb-2 d-flex align-items-center">
+          <label class="form-label-or-des-indicador mr-2">Destino Indicaciones</label>
+          <app-input-field
+            [groupName]="groupName"
+            controlName="destino_indicacion"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
       </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-input-field
-          title="Destino Indicaciones"
-          [groupName]="groupName"
-          controlName="destino_indicacion"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12">
-        <app-input-field
-          title="Distancia aproximada (km)"
-          controlName="distancia"
-          [groupName]="groupName"
-          [form]="form"
-        ></app-input-field>
+      
+      <!-- Fila para Distancia aproximada -->
+      <div class="row page-form-row" style="margin-top: -28px;">
+        <div class="col-12 col-md-6 mb-2 d-flex align-items-center">
+          <label class="form-label-distancia mr-2">Distancia aproximada (km)</label>
+          <app-input-field
+            controlName="distancia"
+            [groupName]="groupName"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
       </div>
     </div>
   </div>

@@ -2,7 +2,7 @@
   <ng-container *ngIf="groupName">
     <div class="input-select-container">
        <label>{{ title }}</label>
-      <mat-form-field [formGroupName]="groupName"  appearance="outline" 
+      <mat-form-field [formGroupName]="groupName" 
         [ngClass]="{
             'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
             'select-remisiones-unidad': controlName === 'unidad_id',

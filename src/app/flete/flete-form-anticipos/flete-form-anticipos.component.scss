@@ -11,3 +11,52 @@
 .obs-error {
   color: #f44336;
 }
+.d-flex {
+  display: flex; 
+  align-items: center; 
+}
+
+.form-label {
+  margin-bottom: 10px; 
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem; 
+}
+
+.mat-form-field {
+  width: 100%; 
+}
+
+.form-label {
+  min-width: 280px; 
+}
+
+.form-label-chofer-placa{
+  margin-bottom: 10px; 
+  min-width: 28px;
+  margin-right: 8px;
+}
+
+.app-input-field{
+  width: 100%;
+  margin-right: 8px;
+}
+
+.estado-component{
+  margin-top: -40px;
+}
+
+.estado-foto-row{
+  margin-top: -10px;
+}
+
+@media screen and (max-width: 1366px) and (max-height: 768px) {
+  .form-label {
+    min-width: 180px; 
+    margin-right: 2px;
+  }
+  .porcentaje{
+    min-width: 90px;
+  }
+}

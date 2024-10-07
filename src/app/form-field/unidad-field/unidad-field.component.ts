@@ -21,7 +21,7 @@ export class UnidadFieldComponent {
   @Input() form?: FormGroup;
   @Input() controlName = 'unidad_id';
   @Input() groupName?: string;
-  @Input() title = 'Unidad';
+  @Input() title = '';
 
   @Output() valueChange = new EventEmitter<Unidad | undefined>();
 

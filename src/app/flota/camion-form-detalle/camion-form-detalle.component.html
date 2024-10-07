@@ -1,8 +1,8 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
     <div class="row page-form-row">
-      <div class="col-xs-12 d-flex align-items-center mb-2">
-        <label class="form-label mr-2">Marca</label>
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
+        <label class="form-label mr-1">Marca</label>
         <app-marca-camion-field
           [groupName]="groupName"
           controlName="marca_id"
@@ -10,8 +10,8 @@
           class="app-input-field"
         ></app-marca-camion-field>
       </div>
-      <div class="col-xs-12 d-flex align-items-center mb-2">
-        <label class="form-label mr-2">Tipo</label>
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
+        <label class="form-label mr-1">Tipo</label>
         <app-tipo-camion-field
           [groupName]="groupName"
           controlName="tipo_id"
@@ -20,9 +20,9 @@
         ></app-tipo-camion-field>
       </div>
     </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 d-flex align-items-center mb-2">
-        <label class="form-label mr-2">Color</label>
+    <div class="row page-form-row" style="margin-top: -18px;">
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
+        <label class="form-label mr-1">Color</label>
         <app-color-field
           [groupName]="groupName"
           controlName="color_id"
@@ -30,8 +30,8 @@
           class="app-input-field"
         ></app-color-field>
       </div>
-      <div class="col-xs-12 d-flex align-items-center mb-2">
-        <label class="form-label mr-2">Año</label>
+      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
+        <label class="form-label mr-1">Año</label>
         <app-number-field
           [groupName]="groupName"
           controlName="anho"

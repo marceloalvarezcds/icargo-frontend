@@ -51,7 +51,7 @@ export class ComplementoFormDialogComponent {
     });
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? 'EDITAR' : 'NUEVO';
   }
 
   get anticipadoControl(): FormControl {

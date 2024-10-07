@@ -33,6 +33,9 @@
   line-height: 16.41px;
 }
 
+.form-label{
+  margin-bottom: 10px; 
+}
 
 .comprobante-anticipo-input input {
   width: 100%;
@@ -62,10 +65,7 @@
   margin-top: -2px;
 }
 
-::ng-deep .comprobante-anticipo-input .mat-form-field-outline,
-::ng-deep .complemento-detalle-input .mat-form-field-outline {
-  border: 1px solid #F25A38;
-}
+
 
 .form-label {
   white-space: nowrap; /* Evita que el label se divida en varias líneas */

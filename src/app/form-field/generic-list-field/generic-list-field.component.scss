@@ -105,15 +105,6 @@ mat-select {
 }
 
 
-::ng-deep .select-moneda .mat-form-field-outline,
-::ng-deep .select-concepto .mat-form-field-outline,
-::ng-deep .select-moneda_propietario .mat-form-field-outline,
-::ng-deep .select-moneda_cliente .mat-form-field-outline,
-::ng-deep .select-propietario .mat-form-field-outline,
-::ng-deep .select-propietario .mat-form-field-outline   {
-  border: 1px solid #F25A38 !important; /* Borde rojo */
-  border-radius: 4px;
-}
 
 /* Estilos para el campo de entrada al estar enfocado */
 ::ng-deep .select-moneda.mat-focused .mat-form-field-outline,
@@ -125,21 +116,6 @@ mat-select {
   border-color: red !important; /* Borde rojo al enfocar */
 }
 
-/* Estilos para el campo de entrada al estar en hover */
-::ng-deep .select-moneda:hover .mat-form-field-outline,
-::ng-deep .select-moneda:hover .mat-form-field-outline-thick,
-::ng-deep .select-concepto:hover .mat-form-field-outline,
-::ng-deep .select-concepto:hover .mat-form-field-outline-thick,
-::ng-deep .select-moneda_propietario .mat-form-field-outline,
-::ng-deep .select-moneda_propietario:hover .mat-form-field-outline-thick,
-::ng-deep .select-moneda_cliente .mat-form-field-outline,
-::ng-deep .select-moneda_cliente:hover .mat-form-field-outline-thick,
-::ng-deep .select-propietario .mat-form-field-outline,
-::ng-deep .select-propietario:hover .mat-form-field-outline-thick    {
-  border: 1px solid red; /* Borde rojo */
-  color: red; /* Texto rojo al hacer hover */
-  border-radius: 6px;
-}
 
 /* Estilos adicionales para asegurarse de que el borde no se torne azul */
 ::ng-deep .select-moneda.mat-focused .mat-form-field-ripple,
@@ -177,21 +153,5 @@ mat-select {
 ::ng-deep .select-moneda_propietario .mat-form-field-flex,
 ::ng-deep .select-moneda_cliente .mat-form-field-flex   {
   border-color: red !important; 
-}
-
-
-::ng-deep .select-tipo-anticipo .mat-form-field-outline {
-  border: 1px solid #F25A38 !important;
-  background: white;
-}
-
-::ng-deep .select-remisiones-unidad .mat-form-field-outline {
-  border: 1px solid #F25A38 !important;
-  background: white;
-}
-
-::ng-deep .select-remisiones-doc-origen .mat-form-field-outline {
-  border: 1px solid #F25A38 !important;
-  background: white;
 }
 

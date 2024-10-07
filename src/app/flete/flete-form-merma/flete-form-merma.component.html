@@ -1,19 +1,21 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <div class="row page-form-row">
-    <div class="col-xs-12">Merma para {{ afectadoTitle }}</div>
+    <div class="col-xs-12" style="font-weight: bold;">Merma para {{ afectadoTitle }}</div>
   </div>
   <div class="row page-form-row" [formGroupName]="groupName">
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-12 col-md-6 mb-1 d-flex align-items-center">
+      <label class="form-label mr-2">Valor</label>
       <app-number-field
-        title="Valor"
         controlName="merma_{{ afectado }}_valor"
         [groupName]="groupName"
         [form]="formGroup"
+        class="app-input-field"
       ></app-number-field>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-12 col-md-6 mb-1 d-flex align-items-center">
+      <label class="form-label mr-2">Moneda</label>
       <app-moneda-field
-        title="Moneda"
+      class="app-input-field"
         controlName="merma_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="formGroup"
@@ -24,9 +26,10 @@
         "
       ></app-moneda-field>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-12 col-md-6 mb-1 d-flex align-items-center">
+      <label class="form-label mr-2">Unidad</label>
       <app-unidad-field
-        title="Unidad"
+      class="app-input-field"
         controlName="merma_{{ afectado }}_unidad_id"
         [groupName]="groupName"
         [form]="formGroup"
@@ -47,9 +50,10 @@
         </mat-slide-toggle>
       </ng-template>
     </div>
-    <div class="col-xs-12 col-sm-6 col-md-4">
+    <div class="col-12 col-md-6 mb-1 d-flex align-items-center">
+      <label class="form-label mr-2">Tolerancia</label>
       <app-number-field
-        title="Tolerancia"
+      class="app-input-field"
         controlName="merma_{{ afectado }}_tolerancia"
         [groupName]="groupName"
         [form]="formGroup"

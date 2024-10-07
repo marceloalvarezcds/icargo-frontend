@@ -21,7 +21,7 @@ export class MonedaFieldComponent {
   @Input() controlName = 'moneda_id';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
-  @Input() title = 'Moneda';
+  @Input() title = '';
   @Input() value: (v: Moneda) => number | string | Moneda = (v: Moneda) => v.id;
 
   @Output() valueChange = new EventEmitter<Moneda | undefined>();

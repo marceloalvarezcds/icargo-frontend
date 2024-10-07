@@ -1,6 +1,19 @@
 <div *ngIf="form">
   <div class="row page-form-row">
-    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+    <div class="col-xs-12" [hidden]="isShow" style="text-align: right;">
+      <button 
+        mat-raised-button 
+        class="outline round" 
+        color="primary" 
+        type="button" 
+        (click)="create()" 
+        id="create-button"
+        class="add-button">
+        <mat-icon>add</mat-icon>
+        COMPLEMENTO
+      </button>
+    </div>
+    <div class="col-xs-12 table-container">
       <app-table
         [columns]="columns"
         [modelo]="modelo"
@@ -12,11 +25,6 @@
         (editClick)="edit($event)"
         (deleteClick)="remove($event)"
       ></app-table>
-    </div>
-    <div class="col-xs-12" [hidden]="isShow">
-      <button mat-raised-button class="outline round" color="primary" type="button" (click)="create()" id="create-button">
-        Nuevo Complemento
-      </button>
     </div>
   </div>
 </div>

@@ -1,5 +1,48 @@
 .toggle {
-  margin-top: 10px;
+  margin-top: -16px;
   align-self: center;
   height: 52px;
 }
+
+.d-flex {
+  display: flex; 
+  align-items: center; 
+}
+
+.form-label {
+  margin-bottom: 10px; 
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem; 
+}
+
+.mat-form-field {
+  width: 100%; 
+}
+
+.form-label {
+  min-width: 100px; 
+}
+
+.form-label-producto-carga{
+  margin-bottom: 10px; 
+  min-width: 78px;
+  margin-right: 8px;
+}
+
+.form-label-producto{
+  margin-bottom: 10px; 
+  min-width: 58px;
+  margin-right: 8px;
+}
+
+.app-input-field{
+  width: 100%;
+  margin-right: 8px;
+}
+
+.estado-component{
+  margin-top: -30px;
+}
+
