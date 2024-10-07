@@ -66,17 +66,20 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
         this.form.controls['banco_id'].setValidators(Validators.required);
         this.form.controls['caja_id'].removeValidators(Validators.required);
         this.form.controls['tipo_instrumento_id'].enable();
+        this.form.controls['tipo_instrumento_id'].setValidators(Validators.required);
       } else {
         this.form.controls['tipo_instrumento_id'].disable();
         this.form.controls['numero_referencia'].removeValidators(
           Validators.required
         );
+        this.form.controls['tipo_instrumento_id'].removeValidators(Validators.required);
         this.form.controls['banco_id'].removeValidators(Validators.required);
         this.form.controls['caja_id'].setValidators(Validators.required);
       }
       this.form.controls['numero_referencia'].updateValueAndValidity();
       this.form.controls['banco_id'].updateValueAndValidity();
       this.form.controls['caja_id'].updateValueAndValidity();
+      this.form.controls['tipo_instrumento_id'].updateValueAndValidity();
     }, 500);
   });
 
