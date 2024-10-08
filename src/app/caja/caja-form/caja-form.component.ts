@@ -27,7 +27,9 @@ export class CajaFormComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     nombre: [null, Validators.required],
     moneda_id: [null, Validators.required],
-    ingreso_egreso: null
+    debito: null,
+    credito: null,
+    saldo_confirmado: null,
   });
   initialFormValue = this.form.value;
   hasChange = false;
@@ -92,10 +94,10 @@ export class CajaFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });        
+      });
       formData.append('data', JSON.stringify(data));
 
-        
+
       this.hasChange = false;
       this.initialFormValue = this.form.value;
       if (this.isEdit) {
@@ -131,6 +133,9 @@ export class CajaFormComponent implements OnInit, OnDestroy {
         this.form.patchValue({
           nombre: data.nombre,
           moneda_id: data.moneda_id,
+          debito: data.debito,
+          credito: data.credito,
+          saldo_confirmado: data.saldo_confirmado
         });
         if (!this.puedeModificar) {
           this.form.disable();

@@ -29,7 +29,9 @@ export class BancoFormComponent implements OnInit, OnDestroy {
     titular: [null, Validators.required],
     nombre: [null, Validators.required],
     moneda_id: [null, Validators.required],
-    tot_credito: null
+    credito: null,
+    debito: null,
+    saldo_provisional: null
   })
   initialFormValue = this.form.value;
   hasChange = false;
@@ -94,8 +96,8 @@ export class BancoFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });  
-              
+      });
+
       formData.append('data', JSON.stringify(data));
 
       this.hasChange = false;
@@ -135,7 +137,10 @@ export class BancoFormComponent implements OnInit, OnDestroy {
           titular: data.titular,
           nombre: data.nombre,
           moneda_id: data.moneda_id,
+          credito: data.credito,
+          debito: data.debito
         });
+        this.calcularTotales();
         if (!this.puedeModificar) {
           this.form.disable();
         }
@@ -146,4 +151,12 @@ export class BancoFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  calcularTotales(): void {
+    const totalPendiente = this.item?.instrumentos.reduce((acc, cur) => acc + cur.provision, 0);
+    this.form.patchValue({
+      saldo_provisional: totalPendiente
+    });
+  }
+
 }
