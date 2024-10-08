@@ -60,25 +60,25 @@ export class BancoFormInstrumentosComponent {
 
     },
     {
-      def: 'credito_inst_banco',
+      def: 'credito',
       title: 'Crédito',
       value: (element: Instrumento) => element.credito,
       type: 'number',
     },
     {
-      def: 'debito_inst_banco',
+      def: 'debito',
       title: 'Débito',
       value: (element: Instrumento) => element.debito,
       type: 'number',
     },
     {
-      def: 'pendiente_inst_banco',
+      def: 'provision',
       title: 'Pendiente',
-      value: (element: Instrumento) => element.debito,
+      value: (element: Instrumento) => element.provision,
       type: 'number',
     },
     {
-      def: 'saldo_inst_banco',
+      def: 'saldo_provisional',
       title: 'Saldo',
       value: (element: Instrumento) => element.saldo_provisional,
       type: 'number',
