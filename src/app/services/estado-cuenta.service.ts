@@ -38,4 +38,21 @@ export class EstadoCuentaService {
   generateReports(): Observable<string> {
     return this.http.get<string>(`${this.url}/reports`);
   }
+
+  getSaldoCCContraparte(
+    tipo_contraparte_id: number,
+    contraparte_id: number,
+    punto_venta_id?: number
+  ): Observable<EstadoCuenta | null> {
+
+    if (punto_venta_id)
+      return this.http.get<EstadoCuenta | null>(
+        `${this.url}/saldo/${tipo_contraparte_id}/id/${contraparte_id}/punto_venta_id/${punto_venta_id}`
+      )
+
+    return this.http.get<EstadoCuenta | null>(
+      `${this.url}/saldo/${tipo_contraparte_id}/id/${contraparte_id}`
+    );
+  }
+
 }

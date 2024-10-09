@@ -64,6 +64,10 @@ export class LiquidacionFormFieldsComponent {
     return subtract(this.credito, this.debito);
   }
 
+  get saldoCC():number {
+    return (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
+  }
+
   get tipoContrapartePDV():boolean{
     return (this.estadoCuenta ? this.estadoCuenta.tipo_contraparte_descripcion.includes("PDV") : false);
   }

@@ -59,6 +59,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         ),
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: MovimientoEstadoCuenta) => element.estado,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
+    },
+    {
       def: 'fecha',
       title: 'Fecha',
       value: (element: MovimientoEstadoCuenta) => element.fecha,
@@ -126,16 +136,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: MovimientoEstadoCuenta) => element.estado,
-      dinamicStyles: (element: MovimientoEstadoCuenta) =>
-        (
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
-        ),
-    },
     /*{
       def: 'monto_ml',
       title: 'Monto (ML)',
@@ -147,6 +147,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       title: 'N° Liq.',
       value: (element: MovimientoEstadoCuenta) => element.liquidacion_id ?? '',
       type: 'number',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
+    },
+    {
+      def: 'estado_liquidacion',
+      title: 'Estado Liquidacion',
+      value: (element: MovimientoEstadoCuenta) => element.estadoLiquidacion,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
@@ -532,8 +542,13 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           })*/
 
           let acumulado = 0;
+          let firsPendiente = false;
           data.reverse().forEach(element =>{
             console.log(element.confirmado);
+            if (!firsPendiente && element.estado === 'Pendiente'){
+              acumulado = 0;
+              firsPendiente=true;
+            }
             acumulado = acumulado + (element.pendiente + element.confirmado + element.finalizado);
             element.movimiento_saldo = acumulado ;
 
