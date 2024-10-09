@@ -104,7 +104,6 @@ export class OcByCombinacionAceptadosDialogFieldComponent  {
 
   private getList(): void {
     if (this.cId) {
-      console.log('Cargando lista de OC para combinacionId:', this.cId);
   
       this.ocService.getListOCByCombinacionIdAnOCAceptadas(this.cId).subscribe({
         next: (data) => {

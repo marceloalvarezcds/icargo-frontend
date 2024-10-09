@@ -11,6 +11,7 @@ import { Column } from 'src/app/interfaces/column';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { edit } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -139,7 +140,7 @@ export class OrdenCargaEditFormMovimientosComponent {
 
   @Input() gestorCargaId?: number;
   @Input() list: Movimiento[] = [];
-
+  @Input() oc?: OrdenCarga
   @Output() ocChange = new EventEmitter<void>();
 
   constructor(private dialog: MatDialog) {}

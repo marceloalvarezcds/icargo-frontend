@@ -14,6 +14,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
+import { Flete } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { PdfPreviewDialogComponent } from 'src/app/orden-carga/pdf-preview-dialog/pdf-preview-dialog.component';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -34,6 +35,7 @@ export class PageFormComponent implements OnDestroy {
   @Input() isAnticiposLiberados = false;
   @Input() puedeConciliar = false;
   @Input() oc?: OrdenCarga;
+  @Input() flete?: Flete;
   @Input() isDataLoaded: boolean = false;
   @Input() isFormSaved: boolean | undefined;  
   @Input() isAnticipoActive: boolean = false;
@@ -70,6 +72,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() finalizarClick = new EventEmitter();
   @Output() conciliarClick = new EventEmitter();
   @Output() inactiveClick = new EventEmitter();
+  @Output() cancelarFleteClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
   @Output() formStateChanged = new EventEmitter<FormGroup>();
   @Output() ocChange = new EventEmitter<void>();

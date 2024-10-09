@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -146,6 +146,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       this.gestorCargaId
     );
   }
+  
+  @Input() flete?: Flete;
 
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;

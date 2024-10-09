@@ -38,6 +38,7 @@ import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dia
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { Movimiento } from 'src/app/interfaces/movimiento';
 
 @Component({
   selector: 'app-orden-carga-conciliar-form',
@@ -155,6 +156,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     return this.item!?.remisiones_resultado.slice();
   }
 
+  get movimientoList(): Movimiento[] {
+    return this.item!?.movimientos.slice();
+  }
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
     return this.item!?.anticipos.slice();
@@ -177,7 +181,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   }
 
   get gestorCargaId(): number | undefined {
-    return this.item?.gestor_carga_id;
+    return this.item!?.gestor_carga_id;
   }
 
   get isAceptado(): boolean {
@@ -220,6 +224,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     .subscribe(id => {
       this.handleIdChange(id);
     });
+    console.log('Movimiento', this.gestorCargaId); 
   }
 
   handleIdChange(id: number | null): void {

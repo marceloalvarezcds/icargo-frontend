@@ -14,8 +14,9 @@
   [shouldShowInactiveButton]="!isCancel"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
-  (inactiveClick)="cancelar()"
+  (cancelarFleteClick)="cancelar()"
   (submitEvent)="save(false)"
+  [flete]="item"
 >
   <div class="flete-page-content">
     <app-flete-form-acciones

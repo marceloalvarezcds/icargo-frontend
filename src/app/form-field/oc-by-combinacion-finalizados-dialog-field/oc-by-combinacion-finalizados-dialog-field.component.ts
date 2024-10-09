@@ -105,7 +105,6 @@ export class OcByCombinacionFinalizadosDialogFieldComponent {
     if (this.cId) {
       this.ocService.getListOCByCombinacionIdAnOCFinalizadas(this.cId).subscribe({
         next: (data) => {
-          console.log('Datos recibidos:', data);
           // Verifica si la respuesta contiene órdenes de carga
           const ocFinalizada = data.find(oc => oc.estado === 'Finalizado');
           this.ocEstadoFinalizado = !!ocFinalizada;

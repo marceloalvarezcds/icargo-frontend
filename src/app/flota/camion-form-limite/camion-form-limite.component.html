@@ -23,9 +23,9 @@
       </div>
     </div>
     <ng-container *ngIf="camion">
-      <div class="row page-form-row">
-        <div class="col-xs-12 d-flex align-items-center mb-2">
-          <label class="form-label mr-2">Monto de anticipos retirados</label>
+      <div class="row page-form-row" style="margin-top: -40px;">
+        <!-- Colocamos ambos componentes dentro de la misma fila para que estén uno al lado del otro -->
+        <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
           <app-key-value
             key="Monto de anticipos retirados"
             [value]="
@@ -34,8 +34,7 @@
             "
           ></app-key-value>
         </div>
-        <div class="col-xs-12 d-flex align-items-center mb-2">
-          <label class="form-label mr-2">Monto de anticipos disponibles</label>
+        <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-2">
           <app-key-value
             key="Monto de anticipos disponibles"
             [value]="camion.monto_anticipo_disponible | numberFormat"

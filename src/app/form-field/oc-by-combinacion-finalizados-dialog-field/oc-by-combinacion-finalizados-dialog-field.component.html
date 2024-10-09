@@ -15,14 +15,14 @@
       </ng-container>
     </ng-container>
     <ng-template #inputTemplate>
-      <app-input-field
-        [subtitle]="subtitle"
+      <app-input-field-oc
+
         [hint]="(list$ | async)?.length === 0 && !ocEstadoFinalizado ? 'Sin estado Finalizado' : emptyHint"
         [readonly]="true"
         [groupName]="groupName"
         [controlName]="controlName"
         [form]="form"
-      ></app-input-field>
+      ></app-input-field-oc>
     </ng-template>
   </ng-container>
   

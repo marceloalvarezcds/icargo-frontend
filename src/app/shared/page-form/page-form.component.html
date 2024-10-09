@@ -262,6 +262,21 @@
           <mat-icon>save</mat-icon> 
           GUARDAR
         </button>
+
+        <div *ngIf="flete && isShow" style="margin-left: 8px; margin-right: 14px;">
+            <ng-container>
+              <button
+                type="button"
+                mat-raised-button
+                color="warn"
+                *ngIf="flete.estado !== E.CANCELADO"
+                (click)="cancelarFleteClick.emit($event)"
+                class="cancelar-flete-button"
+              >
+                Cancelar
+              </button>
+            </ng-container>
+        </div>   
       </div>
     </div>
     <div class="page-content">
