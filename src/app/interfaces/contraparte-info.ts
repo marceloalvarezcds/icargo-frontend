@@ -31,6 +31,7 @@ export interface ContraparteInfoMovimientoLiq extends Contraparte {
   etapa: string;
   isNew: boolean;
   punto_venta_id?: number;
+  saldo_cuenta_corriente?: number;
 }
 
 export interface ContraparteGralInfo extends Contraparte {

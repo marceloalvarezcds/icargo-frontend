@@ -147,6 +147,7 @@ export interface MovimientoEstadoCuenta {
     detalle: string,
     info: string,
     estado: string,
+    estadoLiquidacion: string,
     pendiente: number,
     en_proceso: number,
     confirmado: number,

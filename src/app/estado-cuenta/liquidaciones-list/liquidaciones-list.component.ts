@@ -17,6 +17,7 @@ import { Column } from 'src/app/interfaces/column';
 import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
+import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
@@ -84,13 +85,13 @@ export class LiquidacionesListComponent implements OnInit {
     },
     {
       def: 'movimientos_saldo',
-      title: 'Tot. Movimiento',
+      title: 'Total Liquidacion',
       type: 'number',
       value: (element: Liquidacion) => element.movimientos_saldo,
     },
     {
       def: 'pago_cobro',
-      title: 'Pago/Cobro',
+      title: 'Monto Pago/Cobro',
       type: 'number',
       value: (element: Liquidacion) => element.pago_cobro,
     },
@@ -105,8 +106,9 @@ export class LiquidacionesListComponent implements OnInit {
       title: 'Saldo C.C.',
       type: 'number',
       //value: (element: Liquidacion) => subtract( Math.abs(element.movimientos_saldo), element.instrumentos_saldo),
-      value: (element: Liquidacion) => 
-        element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1),
+      value: (element: Liquidacion) =>
+        //element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1),
+      element.movimientos_saldo
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
@@ -195,6 +197,7 @@ export class LiquidacionesListComponent implements OnInit {
 
   constructor(
     private liquidacionService: LiquidacionService,
+    private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: MatDialog,
@@ -348,9 +351,42 @@ export class LiquidacionesListComponent implements OnInit {
   }
 
   private getList(): void {
+    // TODO: llamar a nuevo servicio
     this.liquidacionService.getListAll().subscribe((list) => {
 
       this.list = list;
+
+      this.list.forEach( (ele:any) => {
+
+        const contraparteID = ele.propietario_id ?? ele.proveedor_id ?? ele.remitente_id ?? ele.chofer_id ;
+
+        this.estadoCuentaService
+          .getByContraparte(
+            ele.tipo_contraparte_id,
+            contraparteID,
+            ele.contraparte,
+            ele.contraparte_numero_documento,
+            ele.punto_venta_id
+          )
+          .subscribe((estadoCuenta:any) => {
+            console.log("estadoCuenta: ", estadoCuenta);
+            ele.movimientos_saldo = estadoCuenta.confirmado + estadoCuenta.finalizado;
+      });
+
+        /*this.estadoCuentaService
+          .getSaldoCCContraparte(
+            ele.tipo_contraparte_id,
+            contraparteID,
+            ele.punto_venta_id
+          )
+          .subscribe((estadoCuenta:any) => {
+            console.log("estadoCuenta: ", estadoCuenta);
+            ele.movimientos_saldo = estadoCuenta.confirmado + estadoCuenta.finalizado;
+
+        });*/
+
+
+      })
 
       this.tipoContraparteFilterList = getFilterList(
         list, (x) => x.tipo_contraparte_descripcion);
