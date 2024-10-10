@@ -20,7 +20,7 @@ export class MovimientoFormDialogComponent {
   tipo?: TipoContraparte;
   form = this.fb.group({
     tipo_contraparte_id: [this.tipoContraparteId, Validators.required],
-    contraparte_id: this.data?.contraparte_id,
+    contraparte_id: this.contraparteID,
     contraparte: [this.contraparte, Validators.required],
     contraparte_numero_documento: this.contraparteNumeroDocumento,
     liquidacion_id: this.liquidacionId,
@@ -46,6 +46,10 @@ export class MovimientoFormDialogComponent {
     return this.data && this.data.monto < 0
       ? this.data?.monto * -1
       : this.data?.monto;
+  }
+
+  get contraparteID(): number | null | undefined {
+    return this.data?.contraparte_id ? this.data?.contraparte_id : this.dialogData?.contraparte_id;
   }
 
   get actionText(): string {
