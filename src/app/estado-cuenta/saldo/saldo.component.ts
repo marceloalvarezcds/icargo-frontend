@@ -35,7 +35,7 @@ export class SaldoComponent {
 
   @Input() showMonto = false;
 
-  @Input() saldoCC = 0;
+  @Input() saldoCC : number = 0;
 
   @Input() esEdicion = false;
 
@@ -43,29 +43,37 @@ export class SaldoComponent {
     let calcSaldo = 0;
     let totalOp = 0;
     let sentido = '';
+    let saldoEdicion = 0;
 
     totalOp = subtract(this.credito, this.debito);
 
-    if (this.esEdicion) calcSaldo = this.saldoCC - totalOp;
-    else calcSaldo = totalOp + this.saldoCC;
+    if (this.esEdicion) saldoEdicion = this.saldoCC - totalOp;
+    else saldoEdicion = this.saldoCC;
 
-    if (calcSaldo < 0){
+    if (totalOp === 0) return this.saldoCC;
+
+    if (totalOp < 0){
       // es cobro
       sentido = 'C';
-    } else if (calcSaldo >= 0) {
+    } else if (totalOp >= 0) {
       // es pago
       sentido = 'P';
     }
 
     if (Math.abs(this.monto) > Math.abs(totalOp)){
-      calcSaldo = Math.abs(totalOp) - Math.abs(this.monto) + calcSaldo;
+      calcSaldo = Math.abs(Math.abs(totalOp) - Math.abs(this.monto));
+      calcSaldo = (sentido === 'P') ? calcSaldo : Math.abs(calcSaldo)*-1;
+      calcSaldo = calcSaldo + saldoEdicion;
+
       //calcSaldo = subtract(Math.abs(calcSaldo), Math.abs(calcSaldo));
     } else if (Math.abs(this.monto) < Math.abs(totalOp)){
-      calcSaldo = subtract(Math.abs(totalOp), Math.abs(this.monto)) + calcSaldo;
+      calcSaldo = Math.abs(Math.abs(totalOp) - Math.abs(this.monto));
+      calcSaldo = (sentido === 'P') ? calcSaldo : Math.abs(calcSaldo)*-1;
+      calcSaldo =  calcSaldo + saldoEdicion;
       //calcSaldo = subtract(Math.abs(calcSaldo), Math.abs(this.monto));
-    } //else {
-      //calcSaldo = 0;
-    //}
+    } else {
+      calcSaldo = saldoEdicion;
+    }
     //calcSaldo = calcSaldo + this.saldoCC;
     return (sentido==='P') ? Math.abs(calcSaldo) : Math.abs(calcSaldo)*-1;
     //return calcSaldo;

@@ -131,6 +131,7 @@ export class LiquidacionFormDialogComponent {
         monto: this.child.childSaldoView.monto,
         saldo: this.child.childSaldoView.saldo,
       };
+
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {
           data,

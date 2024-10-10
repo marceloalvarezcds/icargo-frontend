@@ -4,6 +4,7 @@ import { MovimientoForm, mockMovimientoForm1 } from './movimiento';
 export interface MovimientoFormDialogData {
   item?: MovimientoForm;
   liquidacion_id?: number | null;
+  contraparte_id?:number | null;
   tipo_contraparte_id?: number | null;
   tipo_contraparte_descripcion?: string | null;
   contraparte?: string | null;

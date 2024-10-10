@@ -156,7 +156,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       def: 'estado_liquidacion',
       title: 'Estado Liquidacion',
-      value: (element: MovimientoEstadoCuenta) => element.estadoLiquidacion,
+      value: (element: MovimientoEstadoCuenta) => element.estado_liquidacion,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
@@ -433,11 +433,13 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       const data: MovimientoFormDialogData = {
         estado: MovimientoEstadoEnum.PENDIENTE,
+        contraparte_id: this.estadoCuenta?.contraparte_id,
         tipo_contraparte_id: this.estadoCuenta?.tipo_contraparte_id,
         tipo_contraparte_descripcion: this.estadoCuenta?.tipo_contraparte_descripcion,
         contraparte: this.estadoCuenta?.contraparte,
         contraparte_numero_documento: this.estadoCuenta?.contraparte_numero_documento,
         es_contraparte_editable: false,
+        item: undefined,
       };
 
       createMovimiento(data, this.dialog, this.snackbar, () => {
