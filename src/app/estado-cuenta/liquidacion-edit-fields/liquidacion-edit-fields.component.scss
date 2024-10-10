@@ -25,6 +25,13 @@
 
   ::ng-deep {
     .mat-dialog-container {
-      padding-inline: 24px;
+      padding-inline: 24px !important;
+    }
+    .mat-form-field-infix {
+      padding: 0.5em 0 0.5em 0 !important;
+    }
+    .mat-form-field-wrapper {
+      margin: 0 0 .25em 0 !important;
+      padding-bottom: 0.5em !important;
     }
   }

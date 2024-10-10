@@ -14,6 +14,13 @@
   .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
     visibility: hidden;
   }
+  .mat-form-field-infix {
+    padding: 0.5em 0 0.5em 0;
+  }
+  .mat-form-field-wrapper {
+    margin: 0 0 .25em 0;
+    padding-bottom: 0.5em;
+  }
 }
 
 ::ng-deep {
