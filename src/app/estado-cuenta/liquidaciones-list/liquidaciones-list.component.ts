@@ -108,7 +108,7 @@ export class LiquidacionesListComponent implements OnInit {
       //value: (element: Liquidacion) => subtract( Math.abs(element.movimientos_saldo), element.instrumentos_saldo),
       value: (element: Liquidacion) =>
         //element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1),
-      element.instrumentos_saldo
+      element.monto
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
@@ -370,7 +370,7 @@ export class LiquidacionesListComponent implements OnInit {
           )
           .subscribe((estadoCuenta:any) => {
             console.log("estadoCuenta: ", estadoCuenta);
-            ele.instrumentos_saldo = estadoCuenta.confirmado + estadoCuenta.finalizado;
+            ele.monto = estadoCuenta.confirmado + estadoCuenta.finalizado;
       });
 
         /*this.estadoCuentaService
