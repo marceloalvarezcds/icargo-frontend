@@ -28,6 +28,7 @@
     [showInstrumentos]="false"
     [credito]="credito"
     [debito]="debito"
+    [saldoFinalizado]="saldoFinalizado"
     [saldoCC]="saldoCC"
     [esFinalizado]="esFinalizado"
     [esEdicion]="true"
@@ -61,6 +62,7 @@
           [list]="instrumentos"
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
+          [estadoCuenta]="estadoCuenta"
           [liquidacion]="item"
           [saldo]="item.pago_cobro"
           [isShow]="isShow"

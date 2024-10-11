@@ -102,13 +102,13 @@ export class LiquidacionesListComponent implements OnInit {
       value: (element: Liquidacion) => (element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1,
     },
     {
-      def: 'saldo_residual',
+      def: 'saldo_cc',
       title: 'Saldo C.C.',
       type: 'number',
       //value: (element: Liquidacion) => subtract( Math.abs(element.movimientos_saldo), element.instrumentos_saldo),
       value: (element: Liquidacion) =>
         //element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1),
-      element.monto
+      element.saldo_cc
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
@@ -356,7 +356,7 @@ export class LiquidacionesListComponent implements OnInit {
 
       this.list = list;
 
-      this.list.forEach( (ele:any) => {
+      /*this.list.forEach( (ele:any) => {
 
         const contraparteID = ele.propietario_id ?? ele.proveedor_id ?? ele.remitente_id ?? ele.chofer_id ;
 
@@ -372,7 +372,7 @@ export class LiquidacionesListComponent implements OnInit {
             console.log("estadoCuenta: ", estadoCuenta);
             ele.monto = estadoCuenta.confirmado + estadoCuenta.finalizado;
       });
-
+      */
         /*this.estadoCuentaService
           .getSaldoCCContraparte(
             ele.tipo_contraparte_id,
@@ -386,7 +386,7 @@ export class LiquidacionesListComponent implements OnInit {
         });*/
 
 
-      })
+      //})
 
       this.tipoContraparteFilterList = getFilterList(
         list, (x) => x.tipo_contraparte_descripcion);

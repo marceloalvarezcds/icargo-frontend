@@ -76,6 +76,10 @@ export class LiquidacionEditFieldsComponent {
     return (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
   }
 
+  get saldoFinalizado(): number | undefined {
+    return (this.item?.etapa === 'Finalizado') ? this.item.saldo_cc : undefined;
+  }
+
   get esFinalizado(): boolean {
     return (this.item?.estado === LiquidacionEstadoEnum.PENDIENTE ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||

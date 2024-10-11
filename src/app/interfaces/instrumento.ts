@@ -32,6 +32,7 @@ export interface InstrumentoLiquidacionItem extends InstrumentoForm {
   tipo_instrumento_descripcion: string;
   numero_documento: string | null;
   moneda_id: number;
+  saldo_cc: number;
 }
 
 export interface Instrumento extends InstrumentoForm {
@@ -101,7 +102,8 @@ export const mockInstrumentoLiquidacionItem: InstrumentoLiquidacionItem = {
   cheque_es_diferido: false,
   cheque_fecha_vencimiento: null,
   moneda_id:1,
-  numero_documento:null
+  numero_documento:null,
+  saldo_cc:0
 };
 
 export const mockInstrumentoList: Instrumento[] = [
