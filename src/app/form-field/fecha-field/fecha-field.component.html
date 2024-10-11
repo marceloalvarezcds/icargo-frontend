@@ -1,7 +1,6 @@
 <div *ngIf="form" [formGroup]="form">
   <ng-container *ngIf="groupName">
-   
-    
+    <label>{{title}}</label>
     <mat-form-field [formGroupName]="groupName"      
     [ngClass]="{
       'fecha-remision' :controlName === 'fecha'}">
@@ -25,7 +24,7 @@
     </mat-form-field>
   </ng-container>
   <ng-container *ngIf="!groupName">
-   
+    <label>{{title}}</label>
     <mat-form-field    
       [ngClass]="{
         'fecha-remision' :controlName === 'fecha'}">

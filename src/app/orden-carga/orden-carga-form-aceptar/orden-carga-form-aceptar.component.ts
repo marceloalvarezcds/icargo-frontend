@@ -421,8 +421,8 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
         const blob = new Blob([file], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
         this.dialog.open(PdfPreviewDialogComponent, {
-          width: '80%',
-          height: '80%',
+          width: '90%',
+          height: '90%',
           data: {
             pdfUrl: url,
             fileBlob: blob, 

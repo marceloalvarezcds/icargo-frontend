@@ -22,5 +22,5 @@ export class FechaFieldComponent {
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
-  @Input() title = 'Fecha';
+  @Input() title = '';
 }

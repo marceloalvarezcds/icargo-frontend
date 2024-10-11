@@ -3,7 +3,6 @@
     <h2>ANTICIPOS</h2>
     <div class="input-button-container">
 
-      <!-- Renderiza anticipos si existen -->
       <div *ngFor="let anticipo of filteredAnticipos" class="anticipo-item">
         <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
         <mat-form-field class="saldo-form-field">
@@ -13,11 +12,10 @@
             disabled
           />
         </mat-form-field>
-        
       </div>
-
-      <!-- Renderiza un anticipo por defecto si filteredAnticipos está vacío -->
-      <div *ngIf="!filteredAnticipos || filteredAnticipos.length === 0" class="anticipo-item">
+      
+      <!-- Mostrar solo si NO hay anticipos válidos -->
+      <div *ngIf="filteredAnticipos?.length === 0" class="anticipo-item">
         <label class="anticipos-saldo">Saldo Efectivo</label>
         <mat-form-field class="saldo-form-field">
           <input
@@ -35,6 +33,7 @@
           />
         </mat-form-field>
       </div>
+      
 
       <div class="button-container separate-buttons">
         <button

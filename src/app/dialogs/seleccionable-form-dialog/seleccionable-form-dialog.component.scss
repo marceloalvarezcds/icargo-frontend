@@ -1,0 +1,46 @@
+.d-flex {
+  display: flex; 
+  align-items: center; 
+}
+
+.form-label {
+  margin-bottom: 10px; 
+}
+
+.mb-2 {
+  margin-bottom: 0.5rem; 
+}
+
+.mat-form-field {
+  width: 100%; 
+}
+
+.form-label{
+  margin-bottom: 10px; 
+  min-width: 275px;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+.app-input-field{
+  width: 100%;
+  margin-right: 8px;
+  margin-bottom: -4px;
+}
+
+.estado-component{
+  margin-top: -40px;
+}
+
+.estado-foto-row{
+  margin-top: -10px;
+}
+
+::ng-deep .description .mat-form-field-outline {
+  border-radius: 6px;
+  border: 2px;
+  opacity: 0px;
+  height: 35px;
+  margin-top: 10px;
+}
+  

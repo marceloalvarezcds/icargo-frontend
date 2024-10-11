@@ -16,7 +16,7 @@ export class ProveedorFieldComponent {
   @Input() controlName = 'proveedor_id';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
-  @Input() title = 'Proveedor';
+  @Input() title = '';
   @Input() value: (v: Proveedor) => number | string | Proveedor = (v: Proveedor) => v.id;
 
   @Output() valueChange = new EventEmitter<Proveedor>();

@@ -62,3 +62,10 @@ iframe {
 .cancelar-button:hover {
   background-color: #f0f0f0; 
 }
+
+@media (max-width: 1366px) {
+  .finalizar-save-button, .cancelar-button {
+    width: auto; /* Ajustar ancho automáticamente */
+    flex: 1; /* Permitir que los botones crezcan para llenar el espacio */
+  }
+}

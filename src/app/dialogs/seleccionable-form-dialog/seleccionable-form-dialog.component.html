@@ -7,11 +7,12 @@
   </h1>
   <div mat-dialog-content>
     <div>
+      <label class="form-label mr-2">Descripción</label>
       <app-input-field
-        title="Descripción"
         controlName="descripcion"
         [autofocus]="true"
         [form]="form"
+        class="app-input-field description"
       ></app-input-field>
     </div>
     <div *ngIf="data">

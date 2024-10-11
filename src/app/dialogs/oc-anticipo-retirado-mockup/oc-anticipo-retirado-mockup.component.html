@@ -66,8 +66,7 @@
         [hint]="montoRetiradoHint"
         class="spaced "
       ></app-number-field>
-      <div ></div>
-      <app-moneda-field class="spaced " *ngIf="!isTipoInsumo" [form]="form"></app-moneda-field>
+      <app-moneda-field title="Moneda" class="spaced " *ngIf="!isTipoInsumo" [form]="form"></app-moneda-field>
     </div>
 
     <!-- Campo Cantidad retirada, visible solo cuando se selecciona "Litros" -->
