@@ -1,10 +1,13 @@
 import { Component, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
+import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { OcConfirmationDialogComponent } from 'src/app/dialogs/oc-confirmation-dialog/oc-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -21,13 +24,22 @@ import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
+import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
+import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { StateService } from 'src/app/services/state.service';
 import { UserService } from 'src/app/services/user.service';
+import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
+import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
+import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
+import { Movimiento } from 'src/app/interfaces/movimiento';
+import { OrdenCargaEstadoHistorialDialogComponent } from 'src/app/dialogs/orden-carga-estado-historial-dialog/orden-carga-estado-historial-dialog.component';
+import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado-historial';
 
 @Component({
   selector: 'app-orden-carga-create-form',
@@ -52,7 +64,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
   isEdit = false;
-  
+  originalComentario: string | null = null;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -113,6 +125,10 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get estado(): EstadoEnum {
     return this.item!.estado;
   }
+  get idOC(): number {
+    const ocValue = this.form.get('combinacion.id_orden_carga')?.value;
+    return ocValue;
+  }
 
   get combinacion(): FormGroup {
     return this.form.get('combinacion') as FormGroup;
@@ -130,6 +146,14 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     return this.item!?.comentario.slice();
   }
 
+  get remisionDestinoList(): OrdenCargaRemisionDestino[] {
+    return this.item!?.remisiones_destino.slice();
+  }
+
+  get remisionOrigenList(): OrdenCargaRemisionOrigen[] {
+    return this.item!?.remisiones_origen.slice();
+  }
+
   get complementoList(): OrdenCargaComplemento[] {
     return this.item!?.complementos.slice();
   }
@@ -137,6 +161,15 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get descuentoList(): OrdenCargaDescuento[] {
     return this.item!?.descuentos.slice();
   }
+
+  get remisionResultadoList(): OrdenCargaRemisionResultado[] {
+    return this.item!?.remisiones_resultado.slice();
+  }
+
+  get movimientoList(): Movimiento[] {
+    return this.item!?.movimientos.slice();
+  }
+
 
   get porcentajeAnticipos(): FormArray {
     return this.form.get('porcentaje_anticipos') as FormArray;
@@ -150,6 +183,10 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     return this.estado === EstadoEnum.FINALIZADO;
   }
 
+  get historialList(): OrdenCargaEstadoHistorial[] {
+    return this.item!?.historial.slice();
+  }
+  
   get isShow(): boolean {
     return !this.isEdit;
   }
@@ -204,7 +241,23 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     private userService: UserService,
     private matDialog: MatDialog ,
     private stateService: StateService,
+    private snackBar: MatSnackBar,
+    private reportsService: ReportsService,
   ) {}
+
+  openDialog(): void {
+    const dialogRef = this.dialog.open(OrdenCargaEstadoHistorialDialogComponent, {
+      width: '800px',
+      data: {
+        gestorCargaId: this.gestorCargaId,
+        lista: this.historialList
+      },
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('El diálogo ha sido cerrado');
+    });
+  }
 
   setInitialToggleState(): void {
     if (this.item && this.item.anticipos_liberados) {
@@ -251,6 +304,268 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
   }
+
+  cancelar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+        const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
+        if (comentario !== this.originalComentario) {
+            this.createComentarioAndCancel(comentario);
+        } else {
+            this.cancelOrdenCarga();
+        }
+    } else {
+        console.error('No se puede cancelar la Orden de Carga sin un ID válido');
+    }
+  }
+
+  private createComentarioAndCancel(comentario: string): void {
+      const formData = new FormData();
+      const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+      };
+      formData.append('data', JSON.stringify(data));
+
+      this.ordenCargaService.createComentarios(formData).subscribe(
+          () => {
+              this.cancelOrdenCarga();
+          },
+          (error) => {
+              console.error('Error al crear el comentario', error);
+          }
+      );
+  }
+
+  private cancelOrdenCarga(): void {
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+            this.getData();
+
+            // Abre el diálogo de evaluación
+            const dialogRef = this.openEvaluacionesCancelarDialog();
+
+            dialogRef.afterClosed().subscribe(result => {
+                if (result) { // Si se acepta el diálogo
+                    // Genera el PDF después de que el diálogo se haya cerrado
+                    this.snackBar.open('Generando PDF...', 'Cerrar', {
+                        duration: 3000,
+                        verticalPosition: 'top',
+                        horizontalPosition: 'center'
+                    });
+                    this.downloadResumenPDF();
+                } else {
+                    console.log('Diálogo de evaluación cancelado');
+                }
+            });
+        },
+    );
+}
+
+  finalizar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+        if (this.item?.estado === 'Finalizado') {
+            alert('La Orden de Carga ya está finalizada.');
+            return;
+        }
+
+        const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
+        if (comentario !== this.originalComentario) {
+            this.createComentarioAndFinalize(comentario);
+        } else {
+            this.finalizeOrdenCarga();
+        }
+    } else {
+        console.error('No se puede finalizar la Orden de Carga sin un ID válido');
+    }
+  }
+
+  openEvaluacionesDialog(): MatDialogRef<EvaluacionesDialogComponent> {
+    return this.dialog.open(EvaluacionesDialogComponent, {
+      data: {
+        orden_carga_id: this.item?.id,
+        camion_id: this.item?.camion_id,
+        semi_id: this.item?.semi_id,
+        propietario_id: this.item?.combinacion_propietario_id,
+        chofer_id: this.item?.combinacion_chofer_id,
+        gestor_carga_id: this.item?.gestor_carga_id,
+        origen_id: this.item?.origen_id,
+        destino_id: this.item?.destino_id,
+        producto_id: this.item?.flete_producto_id
+      },
+      width: '30rem',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
+    return this.dialog.open(EvaluacionesCancelarComponent, {
+      data: {
+        orden_carga_id: this.item?.id,
+        camion_id: this.item?.camion_id,
+        semi_id: this.item?.semi_id,
+        propietario_id: this.item?.combinacion_propietario_id,
+        chofer_id: this.item?.combinacion_chofer_id,
+        gestor_carga_id: this.item?.gestor_carga_id,
+        origen_id: this.item?.origen_id,
+        destino_id: this.item?.destino_id,
+        producto_id: this.item?.flete_producto_id
+      },
+      width: '30rem',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  private createComentarioAndFinalize(comentario: string): void {
+      const formData = new FormData();
+      const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+      };
+      formData.append('data', JSON.stringify(data));
+
+      this.ordenCargaService.createComentarios(formData).subscribe(
+          () => {
+              this.finalizeOrdenCarga();
+          },
+          (error) => {
+              console.error('Error al crear el comentario', error);
+          }
+      );
+  }
+
+  private finalizeOrdenCarga(): void {
+      this.dialog.changeStatusConfirm(
+          '¿Está seguro que desea finalizar la Orden de Carga?',
+          this.ordenCargaService.finalizar(this.idOC),
+          () => {
+              this.getData();
+              const dialogRef = this.openEvaluacionesDialog();
+
+              dialogRef.afterClosed().subscribe(result => {
+                  if (result) { 
+                      this.snackBar.open('Generando PDF...', 'Cerrar', {
+                          duration: 3000,
+                          verticalPosition: 'top',
+                          horizontalPosition: 'center'
+                      });
+                      this.downloadResumenPDF();
+                  } else {       
+                  }
+              });
+          },
+      );
+  }
+
+  conciliar(): void {
+    if (this.idOC !== null && this.idOC !== undefined) {
+      if (this.item?.estado === 'Conciliado') {
+        alert('La Orden de Carga ya está conciliada.');
+        return;
+      }
+  
+      const comentario = this.form.get('info.comentarios')?.value;
+      const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+  
+      if (comentarioUpper) {
+        this.createComentarioYConciliar(comentarioUpper);
+      } else {
+        this.conciliarOrdenCarga();
+      }
+    } else {
+      console.error('No se puede conciliar la Orden de Carga sin un ID válido');
+    }
+  }
+  
+  private createComentarioYConciliar(comentario: string): void {
+    const formData = new FormData();
+    const data = {
+      orden_carga_id: this.idOC,
+      comentario: comentario,
+    };
+    formData.append('data', JSON.stringify(data));
+  
+    this.ordenCargaService.createComentarios(formData).subscribe(() => {
+      this.conciliarOrdenCarga();
+    }, error => {
+      console.error('Error al crear el comentario', error);
+    });
+  }
+  
+  private conciliarOrdenCarga(): void {
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea conciliar la Orden de Carga?',
+        this.ordenCargaService.conciliar(this.idOC),
+        () => {
+            // Esto se ejecuta si el usuario confirma la conciliación
+            this.getData();
+            this.form.get('info.comentarios')?.disable();
+
+            // Abre el diálogo de evaluación
+            const dialogRef = this.openEvaluacionesDialog();
+
+            dialogRef.afterClosed().subscribe(result => {
+                if (result) { // Si se acepta el diálogo
+                    const comentario = this.form.get('info.comentarios')?.value;
+                    const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+
+                    if (comentarioUpper) {
+                        this.createComentarioYConciliar(comentarioUpper);
+                    }
+                } else {
+                    console.log('Diálogo de evaluación cancelado');
+                }
+                this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
+                this.downloadConciliarResumenPDF();
+            });
+        },
+  
+    );
+  }
+  
+  downloadResumenPDF(): void {
+    this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewDialogComponent, {
+          width: '90%',
+          height: '90%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob, 
+            filename: filename 
+          }
+        });
+      });
+    });
+  }
+  
+  downloadConciliarResumenPDF(): void {
+    this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewConciliarDialogComponent, {
+          width: '90%',
+          height: '90%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob, 
+            filename: filename 
+          }
+        });
+      });
+    });
+  }
+ 
   
   save(confirmed: boolean): void {
     this.form.markAsDirty();

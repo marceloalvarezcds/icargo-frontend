@@ -136,8 +136,7 @@
                     (module === 'ACEPTAR' || module === 'FINALIZAR' 
                     || submodule === 'ANTICIPO (directo)' || submodule === 'RECEPCION directa' 
                     || oc?.estado === E.ACEPTADO)) 
-                    && oc?.estado !== 'Cancelado' 
-                    && submodule !== 'ORDEN DE CARGA (directa)'"
+                    && oc?.estado !== 'Cancelado' "
             type="button"
             mat-raised-button
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO"
