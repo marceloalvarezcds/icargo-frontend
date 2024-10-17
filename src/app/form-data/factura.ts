@@ -3,7 +3,9 @@ import { FormGroup } from '@angular/forms';
 export const facturaData = (
   form: FormGroup,
   fotoFile: File | null,
-  liquidacion_id: number
+  liquidacion_id: number,
+  tipo_contraparte_id: number,
+  contraparte_id: number,
 ): FormData => {
   const value = form.value;
   delete value.foto;
@@ -11,6 +13,8 @@ export const facturaData = (
     JSON.stringify({
       ...form.value,
       liquidacion_id,
+      tipo_contraparte_id,
+      contraparte_id,
     })
   );
   const formData = new FormData();

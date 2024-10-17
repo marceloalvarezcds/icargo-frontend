@@ -10,6 +10,12 @@ interface FacturaBaseModel {
   iva_id: number;
   fecha_vencimiento: string;
   foto: string | null;
+  timbrado: string
+  ruc: string
+  iva: number
+  retencion: number
+  fecha_factura: string
+  contribuyente: string
 }
 
 export interface FacturaForm extends FacturaBaseModel {
@@ -44,6 +50,12 @@ export const mockFacturaForm1: FacturaForm = {
   iva_id: mockTipoIva1.id,
   fecha_vencimiento: '2022-03-16T12:32:14.859823',
   foto: 'foto',
+  timbrado: 'string',
+  ruc: 'string',
+  iva: 0,
+  retencion: 0,
+  fecha_factura: 'string',
+  contribuyente: 'string',
 };
 
 export const mockFacturaForm2: FacturaForm = {
@@ -55,6 +67,12 @@ export const mockFacturaForm2: FacturaForm = {
   iva_id: mockTipoIva2.id,
   fecha_vencimiento: '2022-03-16T12:32:14.859823',
   foto: null,
+  timbrado: 'string',
+  ruc: 'string',
+  iva: 0,
+  retencion: 0,
+  fecha_factura: 'string',
+  contribuyente: 'string',
 };
 
 export const mockFacturaList: Factura[] = [

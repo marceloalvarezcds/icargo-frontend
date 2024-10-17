@@ -108,7 +108,7 @@ export class LiquidacionesListComponent implements OnInit {
       //value: (element: Liquidacion) => subtract( Math.abs(element.movimientos_saldo), element.instrumentos_saldo),
       value: (element: Liquidacion) =>
         //element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1),
-      element.saldo_cc
+      element.saldo_cc ?? ( element.movimientos_saldo + ((element.es_pago_cobro === 'COBRO') ? element.instrumentos_saldo : element.instrumentos_saldo*-1) )
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]

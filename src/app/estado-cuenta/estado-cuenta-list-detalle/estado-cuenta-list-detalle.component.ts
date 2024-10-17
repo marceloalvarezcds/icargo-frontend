@@ -1,5 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -22,12 +22,19 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
-import { createMovimiento } from 'src/app/utils/movimiento-utils';
+import { createMovimiento, deleteMovimiento,
+  editMovimiento,
+  redirectToShowOCByMovimiento, } from 'src/app/utils/movimiento-utils';
 import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
-import { subtract } from 'src/app/utils/math';
+import { AfectadoEnum } from 'src/app/enums/afectado-enum';
+import { edit } from 'src/app/utils/table-event-crud';
+import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
+import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
+import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
+import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 
 type Filter = {
   camion_placa?: string;
@@ -46,6 +53,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   a = PermisoAccionEnum;
   m = PermisoModeloEnum;
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
+  isShowOnly = false;
+
   columns: Column[] = [
     {
       def: 'movimiento_id',
@@ -207,6 +216,45 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
+    /*{
+      def: 'oc',
+      title: '',
+      type: 'button',
+      value: (mov: MovimientoEstadoCuenta) => (mov.es_editable ? '' : 'Ver OC'),
+      buttonCallback: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable
+          ? () => {}
+          : redirectToShowOCByMovimiento(this.router, mov),
+      buttonIconName: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable ? '' : 'visibility',
+      stickyEnd: true,
+    },*/
+    {
+      def: 'editar',
+      title: ' ',
+      type: 'button',
+      value: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable && mov.estado === 'Pendiente' || mov.can_edit_oc ? 'Editar' : '',
+      buttonCallback: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable && mov.estado === 'Pendiente'
+          ? this.edit(mov)
+          : () => {},
+      buttonIconName: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable && mov.estado === 'Pendiente' || mov.can_edit_oc ? 'edit' : '',
+      //stickyEnd: true,
+    },
+    {
+      def: 'delete',
+      title: ' ',
+      type: 'button',
+      value: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable ? 'Eliminar Movimiento' : '',
+      buttonCallback: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable && mov.estado === 'Pendiente' ? this.delete(mov) : undefined,
+      buttonIconName: (mov: MovimientoEstadoCuenta) =>
+        mov.es_editable && mov.estado === 'Pendiente' ? 'delete' : '',
+      //sticky: true,
+    },
   ]
 
   buttons : ButtonList[] = [
@@ -338,7 +386,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
-    ) { }
+    ) {
+
+      this.columns.unshift(
+        ...[
+
+        ]
+      );
+
+
+    }
 
     ngOnInit(): void {
       this.getList();
@@ -492,6 +549,94 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         .subscribe(() => {
           this.getList();
         });
+    }
+
+    private delete(mov: MovimientoEstadoCuenta): void {
+
+      this.movimientoService.getById(mov.movimiento_id)
+        .subscribe( (resp:Movimiento) => {
+
+          deleteMovimiento(
+            resp,
+            this.dialog,
+            this.movimientoService,
+            this.snackbar,
+            () => {
+              /*
+              this.selectedMovimientosChange.emit(
+                this.list.filter((x) => x.id !== mov.id)
+              );
+              */
+            }
+          );
+
+      });
+    }
+
+    private edit(item: MovimientoEstadoCuenta): void {
+
+      // obtenemos movimiento por id y llamamos al dialog
+
+      this.movimientoService.getById(item.movimiento_id)
+        .subscribe( (resp:Movimiento) => {
+
+          const data: MovimientoFormDialogData = {
+            estado: MovimientoEstadoEnum.EN_PROCESO,
+            es_contraparte_editable: false,
+            item: resp,
+          };
+          editMovimiento(data, this.dialog, this.snackbar, () => {
+            //this.selectedMovimientosChange.emit(this.list);
+          });
+
+      });
+    }
+
+    /*
+    private editOC(item: MovimientoEstadoCuenta): void {
+      let afectado = item.es_propietario
+        ? AfectadoEnum.PROPIETARIO
+        : item.es_gestor
+        ? AfectadoEnum.GESTOR
+        : null;
+
+      if (afectado) {
+        if (item.es_flete) {
+          edit(
+            this.getFleteDialogRef(item, afectado),
+            //this.emitOcChange.bind(this)
+            ()=>{}
+          );
+        } else if (item.es_merma) {
+          edit(
+            this.getMermaDialogRef(item, afectado),
+            //this.emitOcChange.bind(this)
+            ()=>{}
+          );
+        }
+      }
+    }*/
+
+    private getFleteDialogRef(
+      item: Movimiento,
+      afectado: AfectadoEnum
+    ): MatDialogRef<MovimientoEditByFleteFormDialogComponent> {
+      const data: MovimientoFleteEditFormDialogData = {
+        afectado,
+        item,
+      };
+      return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data });
+    }
+
+    private getMermaDialogRef(
+      item: Movimiento,
+      afectado: AfectadoEnum
+    ): MatDialogRef<MovimientoEditByMermaFormDialogComponent> {
+      const data: MovimientoMermaEditFormDialogData = {
+        afectado,
+        item,
+      };
+      return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data });
     }
 
     private getList(): void {

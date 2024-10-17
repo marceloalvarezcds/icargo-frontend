@@ -1,3 +1,4 @@
+import { IvyParser } from '@angular/compiler';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -22,9 +23,15 @@ export class FacturaFormDialogComponent {
       this.data?.fecha_vencimiento ?? new Date().toJSON(),
       Validators.required,
     ],
-    monto: [this.data?.monto, [Validators.required, Validators.min(0)]],
+    monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
     iva_id: [this.data?.iva_id, Validators.required],
     foto: this.data?.foto,
+    contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
+    iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
+    retencion: [this.data?.retencion, [Validators.required, Validators.min(0)]],
+    timbrado: [this.data?.timbrado, Validators.required],
+    ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
+    fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
   });
 
   get actionText(): string {
@@ -51,6 +58,14 @@ export class FacturaFormDialogComponent {
     return this.dialogData.valor_operacion;
   }
 
+  get tipo_contraparte_id(): number {
+    return this.dialogData.tipo_contraparte_id;
+  }
+
+  get contraparte_id(): number {
+    return this.dialogData.contraparte_id;
+  }
+
   constructor(
     private facturaService: FacturaService,
     public dialogRef: MatDialogRef<FacturaFormDialogComponent>,
@@ -70,7 +85,9 @@ export class FacturaFormDialogComponent {
       const formData = facturaData(
         this.form,
         this.fotoFile,
-        this.liquidacionId
+        this.liquidacionId,
+        this.tipo_contraparte_id,
+        this.contraparte_id,
       );
       if (this.data && this.data?.id) {
         this.facturaService

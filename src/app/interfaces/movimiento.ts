@@ -148,6 +148,8 @@ export interface MovimientoEstadoCuenta {
     info: string,
     estado: string,
     estado_liquidacion: string,
+    es_editable: boolean,
+    can_edit_oc: boolean,
     pendiente: number,
     en_proceso: number,
     confirmado: number,
@@ -260,7 +262,7 @@ export const mockMovimientoList: Movimiento[] = [
     modified_at: '2022-03-16T12:32:14.859823',
     pendiente: 0,
     confirmado: 0,
-    finalizado: 0
+    finalizado: 0,
   },
   {
     gestor_carga_id: 1,

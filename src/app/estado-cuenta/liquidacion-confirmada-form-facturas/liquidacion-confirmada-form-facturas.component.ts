@@ -140,9 +140,17 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   private getDialogRef(
     item?: Factura
   ): MatDialogRef<FacturaFormDialogComponent, Factura> {
+
+    const contraparteId = this.liquidacion.chofer_id ?? this.liquidacion.propietario_id
+    ?? this.liquidacion.proveedor_id ?? this.liquidacion.remitente_id;
+
     const data: FacturaFormDialogData = {
       liquidacion_id: this.liquidacion.id,
-      valor_operacion: this.residuo + (item?.monto ?? 0),
+      tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
+      contraparte_id: contraparteId!,
+      contribuyente: this.liquidacion.contraparte,
+      ruc: this.liquidacion.contraparte_numero_documento,
+      valor_operacion: this.residuo + (item?.monto ?? this.liquidacion.pago_cobro ?? 0),
       item,
     };
     return this.dialog.open(FacturaFormDialogComponent, { data });
