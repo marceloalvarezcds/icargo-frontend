@@ -172,15 +172,18 @@ export class LiquidacionEditFormAccionesComponent {
   private getDialogRef(
     item?: Factura
   ): MatDialogRef<FacturaFormDialogComponent, Factura> {
+    const contraparteId = this.liquidacion.chofer_id ?? this.liquidacion.propietario_id
+      ?? this.liquidacion.proveedor_id ?? this.liquidacion.remitente_id;
     const data: FacturaFormDialogData = {
       liquidacion_id: this.liquidacion.id,
-      contraparte_id: this.liquidacion.tipo_contraparte_id,
+      contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
       valor_operacion: this.liquidacion.pago_cobro,
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       item,
     };
+
     return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', }, );
   }
 
