@@ -131,7 +131,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
         () => {
           this.facturaService
             .delete(row.id)
-            .subscribe(this.emitChange.bind(this));
+            .subscribe( (r) => this.emitChange("Factura eliminada!") );
         }
       )
     );
@@ -153,11 +153,11 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
       valor_operacion: this.residuo + (item?.monto ?? this.liquidacion.pago_cobro ?? 0),
       item,
     };
-    return this.dialog.open(FacturaFormDialogComponent, { data });
+    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', });
   }
 
-  private emitChange(): void {
-    this.snackbar.open('Factura agregada');
+  private emitChange(mensaje:string): void {
+    this.snackbar.open( mensaje ?? 'Factura agregada');
     this.facturasChange.emit();
     this.loadList();
   }

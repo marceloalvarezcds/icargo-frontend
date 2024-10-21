@@ -35,7 +35,20 @@
     </div>
 
     <div class="row">
-      <app-tipo-iva-field class="col-6" [form]="form"></app-tipo-iva-field>
+      
+      <app-tipo-iva-field class="col-4" [form]="form"></app-tipo-iva-field>
+      
+      <div class="col-4 checkbox-filter-container">
+        <mat-checkbox color="primary" formControlName="iva_incl">IVA INCL</mat-checkbox>      
+      </div>
+      
+      <div class="col-4 checkbox-filter-container">
+        <section>
+          <mat-checkbox formControlName="es_pago">A Pagar</mat-checkbox>
+          <mat-checkbox formControlName="es_cobro">A Cobrar</mat-checkbox>
+        </section>
+      </div>      
+
     </div>
 
     <div class="row">
