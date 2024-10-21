@@ -136,4 +136,17 @@ export class MovimientoService {
   delete(id: number): Observable<Movimiento> {
     return this.http.delete<Movimiento>(`${this.url}/${id}`);
   }
+
+  getReportListByEstadoCuentaDetalle(
+    estadoCuenta: ContraparteInfo,
+    contraparte_id: number,
+    etapa?: LiquidacionEtapaEnum,
+    punto_venta_id?: number,
+  ): Observable<string> {
+    return this.http.get<string>(
+      `${environment.api}/estado_cuenta/report/movimiento/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
+    );
+  }
+
+
 }
