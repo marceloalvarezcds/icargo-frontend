@@ -28,13 +28,15 @@ export class FacturaFormDialogComponent {
     foto: this.data?.foto,
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
-    iva_incl: [ this.data?.iva_incl ],
-    es_cobro: [ this.data?.es_cobro ],
-    es_pago: [ this.data?.es_pago ],
+    iva_incluido: [ this.data?.iva_incluido ],
+    sentido_mov_iva: [ this.data?.sentido_mov_iva ],
+    sentido_mov_retencion: [ this.data?.sentido_mov_retencion ],
     retencion: [this.data?.retencion, [Validators.required, Validators.min(0)]],
     timbrado: [this.data?.timbrado, Validators.required],
     ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
+    iva_movimiento_id: [this.data?.iva_movimiento_id],
+    retencion_movimiento_id: [this.data?.retencion_movimiento_id]
   });
 
   get actionText(): string {
