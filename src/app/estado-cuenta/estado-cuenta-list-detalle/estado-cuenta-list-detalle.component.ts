@@ -354,11 +354,25 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         tipo_contraparte_id,
       } = this.route.snapshot.queryParams;
 
-      this.movimientoService.generateReportsByEstadoCuenta(this.estadoCuenta!, contraparte_id).subscribe((filename) => {
-        this.reportsService.downloadFile(filename).subscribe((file) => {
-          saveAs(file, filename);
-        });
+      /*this.movimientoService.generateReportsByEstadoCuenta(this.estadoCuenta!, contraparte_id)
+        .subscribe((filename) => {
+          this.reportsService.downloadFile(filename).subscribe((file) => {
+            saveAs(file, filename);
+          });
+      });*/
+
+      this.movimientoService
+        .getReportListByEstadoCuentaDetalle(
+              this.estadoCuenta!,
+              this.estadoCuenta!.contraparte_id,
+              undefined,
+              this.estadoCuenta!.punto_venta_id
+        ).subscribe((filename) => {
+          this.reportsService.downloadFile(filename).subscribe((file) => {
+            saveAs(file, filename);
+          });
       });
+
     }
 
     filterPredicate(obj: Movimiento, filterJson: string): boolean {
