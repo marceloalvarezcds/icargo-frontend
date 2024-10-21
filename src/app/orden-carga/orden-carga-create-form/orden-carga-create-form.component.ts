@@ -245,6 +245,13 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     private reportsService: ReportsService,
   ) {}
 
+  redirectToEdit(): void {
+    this.router.navigate([
+      `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
+      this.id,
+    ]);
+  }
+
   openDialog(): void {
     const dialogRef = this.dialog.open(OrdenCargaEstadoHistorialDialogComponent, {
       width: '800px',
@@ -623,13 +630,13 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.dataFromParent = item.estado;
       r.ORDEN_CARGA;
       m.ORDEN_CARGA;
-      // this.snackbar.openSaveAndRedirect(
-      //   confirmed,
-      //  this.backUrl,
-      //   r.ORDEN_CARGA,
-       //  m.ORDEN_CARGA,
-       //  item.id
-       //);
+       this.snackbar.openSaveAndRedirect(
+         confirmed,
+        this.backUrl,
+         r.ORDEN_CARGA,
+         m.ORDEN_CARGA,
+         item.id
+       );
     });
     this.form.disable();
   }

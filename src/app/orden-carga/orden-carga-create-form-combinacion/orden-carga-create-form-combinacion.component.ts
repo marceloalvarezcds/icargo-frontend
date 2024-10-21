@@ -40,7 +40,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
 
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
-  @Input() showSearchPedido: boolean | undefined;
+  @Input() showSearchPedido: boolean = false;
   @Input() showSearchOC: boolean = false;
   @Input() showSearchOCAceptadas: boolean = false;
   @Input() showSearchOCNuevos: boolean = false;
@@ -48,7 +48,7 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Input() showSearchOCPedidos: boolean = false;
   @Input() isSaveForm: boolean = false;
   @Input() disabled: boolean = false;
-
+  @Input() isEdit = false;
 
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<Camion>();
@@ -100,24 +100,50 @@ export class OrdenCargaCreateFormCombinacionComponent {
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
     this.fleteChange.emit(flete);
+    
     this.fleteService.getList().subscribe(
       (fletes: FleteList[]) => {
-          this.form?.get(this.groupName)?.get('numero_lote')?.setValue(flete.numero_lote); 
-          this.form?.get(this.groupName)?.get('pedido_id')?.setValue(flete.id); 
-          this.form?.get(this.groupName)?.get('saldo')?.setValue(flete.condicion_cantidad); 
-          this.form?.get(this.groupName)?.get('cliente')?.setValue(flete.remitente_nombre);
-          this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(flete.producto_descripcion); 
-          this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(flete.origen_nombre); 
-          this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(flete.destino_nombre); 
-          this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(flete.tipo_flete); 
-          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.condicion_propietario_tarifa); 
-          this.form?.get(this.groupName)?.get('valor')?.setValue(flete.merma_gestor_carga_valor); 
-          this.form?.get(this.groupName)?.get('cant_origen')?.setValue(0);
-          this.form?.get(this.groupName)?.get('cant_destino')?.setValue(0);
-          this.form?.get(this.groupName)?.get('diferencia')?.setValue(0);
+        const formGroup = this.form?.get(this.groupName);
+  
+        if (formGroup?.get('numero_lote')?.value !== flete.numero_lote) {
+          formGroup?.get('numero_lote')?.setValue(flete.numero_lote);
+        }
+        if (formGroup?.get('pedido_id')?.value !== flete.id) {
+          formGroup?.get('pedido_id')?.setValue(flete.id);
+        }
+        if (formGroup?.get('saldo')?.value !== flete.condicion_cantidad) {
+          formGroup?.get('saldo')?.setValue(flete.condicion_cantidad);
+        }
+        if (formGroup?.get('cliente')?.value !== flete.remitente_nombre) {
+          formGroup?.get('cliente')?.setValue(flete.remitente_nombre);
+        }
+        if (formGroup?.get('producto_descripcion')?.value !== flete.producto_descripcion) {
+          formGroup?.get('producto_descripcion')?.setValue(flete.producto_descripcion);
+        }
+        if (formGroup?.get('origen_nombre')?.value !== flete.origen_nombre) {
+          formGroup?.get('origen_nombre')?.setValue(flete.origen_nombre);
+        }
+        if (formGroup?.get('destino_nombre')?.value !== flete.destino_nombre) {
+          formGroup?.get('destino_nombre')?.setValue(flete.destino_nombre);
+        }
+        if (formGroup?.get('tipo_flete')?.value !== flete.tipo_flete) {
+          formGroup?.get('tipo_flete')?.setValue(flete.tipo_flete);
+        }
+        if (formGroup?.get('a_pagar')?.value !== flete.condicion_propietario_tarifa) {
+          formGroup?.get('a_pagar')?.setValue(flete.condicion_propietario_tarifa);
+        }
+        if (formGroup?.get('valor')?.value !== flete.merma_gestor_carga_valor) {
+          formGroup?.get('valor')?.setValue(flete.merma_gestor_carga_valor);
+        }
+  
+        // Si los campos "cant_origen", "cant_destino" y "diferencia" siempre son cero, no es necesario verificar
+        formGroup?.get('cant_origen')?.setValue(0);
+        formGroup?.get('cant_destino')?.setValue(0);
+        formGroup?.get('diferencia')?.setValue(0);
       },
     );
   }
+  
 
   constructor(private service: SemiService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef, private ordenCargaService: OrdenCargaService, private reportsService: ReportsService,) {}
   

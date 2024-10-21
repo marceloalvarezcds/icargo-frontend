@@ -61,6 +61,8 @@ export class PageFormComponent implements OnDestroy {
   @Input() form?: FormGroup;
   @Input() estado: any;
   @Input() controlName = '';
+  @Input() isOc: boolean = false;
+  @Input() isButtonPressed: boolean = false;
 
   @Output() backClick = new EventEmitter<boolean>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
@@ -73,6 +75,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() conciliarClick = new EventEmitter();
   @Output() inactiveClick = new EventEmitter();
   @Output() cancelarFleteClick = new EventEmitter();
+  @Output() cambiarFleteClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
   @Output() formStateChanged = new EventEmitter<FormGroup>();
   @Output() ocChange = new EventEmitter<void>();
@@ -82,8 +85,6 @@ export class PageFormComponent implements OnDestroy {
     private reportsService: ReportsService,
     private dialog: MatDialog,
     private loadingService: LoadingService,
-    private snackbar: SnackbarService,
-    private dialogAceptar: DialogService
   ) {}
 
   loading = false;

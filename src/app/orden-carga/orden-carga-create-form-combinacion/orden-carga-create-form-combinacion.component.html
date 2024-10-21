@@ -165,7 +165,8 @@
       <h2 *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido">FLETE</h2>
 
       <div class="row page-form-row">
-        <div class="search-tracto small-input input-with-label" *ngIf="oc?.estado === 'Nuevo' || showSearchPedido">
+        <div class="search-tracto small-input input-with-label" 
+          *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')">
           <label>Nº Pedido</label>
           <app-flete-by-gestor-dialog-field
             [groupName]="groupName"
@@ -175,6 +176,7 @@
             [style]="'width: 160px'"
           ></app-flete-by-gestor-dialog-field>
         </div>
+      
         <div class="search-tracto small-input input-with-label"
          *ngIf="oc?.estado === 'Cancelado' || showSearchOC">
           <label>Nº OC</label>
@@ -214,7 +216,7 @@
       </div>
     
       <div class="search-tracto small-input input-with-label"
-        *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas">
+        *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'">
          <label>Nº OC</label>
          <app-oc-by-combinacion-finalizados-dialog-field
            [groupName]="groupName"
@@ -226,19 +228,20 @@
          ></app-oc-by-combinacion-finalizados-dialog-field>
        </div>
 
-        <div class="small-input input-with-label"  
-        *ngIf="oc?.estado === 'Aceptado' || oc?.estado === 'Finalizado' ||
-         oc?.estado === 'Conciliado' || oc?.estado === 'Cancelado' || showSearchOCPedidos">
-          <app-input-field-oc
-            title="Nº Pedido"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="flete_id"
-          ></app-input-field-oc>
-        </div>
+       <div class="small-input input-with-label"  
+       *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') || 
+              showSearchOCPedidos">
+        <app-input-field-oc
+          title="Nº Pedido"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="flete_id"
+        ></app-input-field-oc>
+      </div>
+      
         <div class="small-input input-with-label">
           <app-input-field-oc
             title="Nº Lote"

@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
@@ -17,6 +18,7 @@ import { FleteService } from 'src/app/services/flete.service';
   styleUrls: ['./flete-by-gestor-dialog-field.component.scss'],
 })
 export class FleteByGestorDialogFieldComponent {
+
   readonly inputValuePropName = 'id';
   list: FleteList[] = [];
   subs = this.fleteService.getListByGestorCarga().subscribe((list) => {
@@ -82,5 +84,6 @@ export class FleteByGestorDialogFieldComponent {
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;
 
   constructor(private fleteService: FleteService) {}
+  
 
 }

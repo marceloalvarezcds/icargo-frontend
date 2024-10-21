@@ -21,20 +21,23 @@
     (finalizarClick)="finalizar()"
     (cancelarClick)="cancelar()"
     (conciliarClick)="conciliar()"
+    (cambiarFleteClick)="enableFleteId()"
     module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
     [estado]="estado"
     [isAnticipoActive]="isToggleAnticiposLiberados"
     [isNuevo]="isNuevo"
     [isAceptado]="isAceptado"
+    [isOc]="isOc"
+    [isButtonPressed]="isButtonPressed"
   >
     <div class="orden-carga-page-content">
         <app-orden-carga-create-form-combinacion
           [oc]="item"
           [form]="form"
-          (fleteChange)="onFleteChange($event)"
-          (combinacionChange)="onCombinacionChange($event)"
-          class="orden-edit"
           (ocChange)="getData()"
+          (fleteChange)="onFleteChange($event)"
+          [isEdit]="isEdit"
+          [showSearchOCPedidos]="isShow"
       ></app-orden-carga-create-form-combinacion>
 
       <div class="anticipo-table">
@@ -48,8 +51,8 @@
         ></app-orden-carga-anticipos-table>
      </div>
 
-        <div *ngIf="!isNuevo">
-          <div class="remisiones-line"><h2>REMISIONES</h2></div>
+      <div *ngIf="!isNuevo">
+        <div class="remisiones-line"><h2>REMISIONES</h2></div>
         <div class="remisiones-container">
           <div class="remisiones-item">
             <app-orden-carga-edit-form-remisiones-origen
@@ -104,6 +107,7 @@
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
             [list]="remisionResultadoList"
+            (ocChange)="getData()"
         ></app-orden-carga-edit-form-remisiones-resultado>
         </div>
        <div class="resultados-container">

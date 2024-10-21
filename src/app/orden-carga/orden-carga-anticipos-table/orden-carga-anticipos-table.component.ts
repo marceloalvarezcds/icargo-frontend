@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
@@ -16,8 +16,6 @@ import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-ret
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
-import { OrdenCargaEvaluacionesHistorial } from 'src/app/interfaces/orden_carga_evaluacion';
-import { EvaluacionDialogData } from 'src/app/interfaces/oc-evaluaciones-dialog-data';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',

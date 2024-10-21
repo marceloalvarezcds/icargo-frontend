@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -31,6 +31,7 @@ import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dia
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { FleteByGestorDialogFieldComponent } from 'src/app/form-field/flete-by-gestor-dialog-field/flete-by-gestor-dialog-field.component';
 
 @Component({
   selector: 'app-orden-carga-edit-form',
@@ -46,6 +47,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   isCombinacionTouched = true;
   isInfoTouched = false;
   isTramoTouched = false;
+  isOc = true;
+  isButtonPressed = false;
   isActive = false;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
@@ -94,7 +97,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       porcentaje_anticipos: null,
       anticipos: null,
       id_orden_carga: null,
-      
+      condicion: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -110,6 +113,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
+
+  
 
   get isShow(): boolean {
     return !this.isEdit;
@@ -171,6 +176,15 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         this.gestorCargaId
       ) && this.isFinalizado
     );
+  }
+
+
+  get isToggleAnticiposLiberados(): boolean {
+    return this.item ? this.item.anticipos_liberados : false;
+  }
+
+  get toggleIcon(): string {
+    return this.anticipoList ? 'toggle_on' : 'toggle_off';
   }
 
   get combinacion(): FormGroup {
@@ -259,17 +273,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   ) {}
 
   
-
   ngOnInit(): void {
-    if (!this.hasChangeSubscription) {
-      this.hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
-        setTimeout(() => {
-          this.hasChange = !isEqual(this.initialFormValue, value);
-        });
-      });
-    }
     this.getData();
-    console.log('Movimiento', this.movimientoList); 
   }
   
 
@@ -283,6 +288,27 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.id,
     ]);
   }
+
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea liberar anticipos?',
+      this.ordenCargaService.modificarAnticipos(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro de bloquear Anticipos?',
+      this.ordenCargaService.modificarAnticipos(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
 
   back(confirmed: boolean): void {
     if (confirmed) {
@@ -333,10 +359,23 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
   }
   
-
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
+      console.log('Nuevo flete recibido:', flete); // Para depurar
+      // Asignar el nuevo flete
       this.flete = flete;
+      if (this.item) {
+        this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
+        this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
+        //Mermas para GC
+        this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
+        this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
+        this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
+        //Mermas para Propietario
+        this.item.merma_propietario_valor = flete.merma_propietario_valor;
+        this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
+        this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
+      }
       this.chRef.detectChanges();
     }
   }
@@ -668,141 +707,165 @@ private cancelOrdenCarga(): void {
     });
   }
 
+  enableFleteId(): void {
+    this.form.get('combinacion.flete_id')?.enable(); // Habilita solo el campo flete_id
+    this.isButtonPressed = true;
+  
+  }
+  
+
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+  
     if (this.form.valid) {
-      const formData = new FormData();
-      const data = JSON.parse(
-        JSON.stringify({
-          ...this.info.value,
-          ...this.tramo.value,
-          ...this.combinacion.value,
-          ...this.combinacion.value,
-          porcentaje_anticipos: this.porcentajeAnticipos.value,
-        })
-      );
-      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
-      Object.keys(data).forEach(key => {
-        if (typeof data[key] === 'string' && key !== 'email') {
-          data[key] = data[key].toUpperCase();
+        const formData = new FormData();
+  
+        const data = JSON.parse(
+            JSON.stringify({
+                ...this.form.value.combinacion,  
+                ...this.form.value.info,  
+                //Condiciones GC, Propietario      
+                condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa, 
+                condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
+                //Mermas para GC
+                merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
+             
+                merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
+                //Mermas para Propietario
+                merma_propietario_valor: this.item?.merma_propietario_valor,
+              
+                merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia
+            })
+        );
+
+        // console.log('Datos enviados:', data); // Verifica los datos enviados
+  
+        formData.append('data', JSON.stringify(data));
+  
+        if (this.isEdit) {
+            this.hasChange = false;
+            this.initialFormValue = this.form.value; 
+            this.ordenCargaService.edit(this.id, formData).subscribe(() => {
+                this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+
+                setTimeout(() => {
+                    this.getDataWithoutOverwritingFlete(); 
+                }, 1000);
+            });
         }
-      });   
-      formData.append('data', JSON.stringify(data));
-      if (this.isEdit) {
-        this.hasChange = false;
-        this.initialFormValue = this.form.value;
-        this.ordenCargaService.edit(this.id, formData).subscribe(() => {
-          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-          this.getData();
-        });
-      }
-    } else {
-      setTimeout(() => {
-        this.isInfoTouched = this.info.invalid;
-        this.isTramoTouched = this.tramo.invalid;
-        this.isCombinacionTouched = this.combinacion.invalid;
-      });
     }
+}
+  
+// Nueva función getData para actualizar solo algunos campos
+getDataWithoutOverwritingFlete(): void {
+  const backUrl = this.route.snapshot.queryParams.backUrl;
+  if (backUrl) {
+      this.backUrl = backUrl;
   }
+  this.id = +this.route.snapshot.params.id;
+  this.isEdit = /edit/.test(this.router.url);
+  
+  this.ordenCargaService.getById(this.id).subscribe((data) => {
+      this.item = data;
+      //Condiciones GC, Propietario  
+      this.isActive = data.estado === EstadoEnum.NUEVO;
+      this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
+      this.item.condicion_propietario_tarifa = data.condicion_propietario_tarifa;
+      //  Mermas GC
+      this.item.merma_gestor_carga_valor = data.merma_gestor_carga_valor;
+    
+      this.item.merma_gestor_carga_tolerancia = data.merma_gestor_carga_tolerancia;
+      //Mermas Propietario
+      this.item.merma_propietario_valor = data.merma_propietario_valor;
+     
+      this.item.merma_propietario_tolerancia = data.merma_propietario_tolerancia
 
-  active(): void {
-    this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea liberar anticipos?',
-      this.ordenCargaService.modificarAnticipos(this.id!),
-      () => {
-        this.getData();
-      }
-    );
-  }
+      this.originalComentario = data.comentarios ?? null;
+      this.form.get('info.comentarios')?.enable();
 
-  inactive(): void {
-    this.dialog.changeStatusConfirm(
-      '¿Está seguro de bloquear Anticipos?',
-      this.ordenCargaService.modificarAnticipos(this.id!),
-      () => {
-        this.getData();
-      }
-    );
-  }
-
-  get isToggleAnticiposLiberados(): boolean {
-    return this.item ? this.item.anticipos_liberados : false;
-  }
-
-  get toggleIcon(): string {
-    return this.anticipoList ? 'toggle_on' : 'toggle_off';
-  }
-
+      setTimeout(() => {
+          this.hasChange = false;
+          this.initialFormValue = this.form.value; // Actualiza el valor inicial
+      }, 500);
+  });
+}
 
 
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
     if (backUrl) {
-      this.backUrl = backUrl;
+        this.backUrl = backUrl;
     }
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-   
-    this.ordenCargaService.getById(this.id).subscribe((data) => {
-      this.item = data;
     
-      this.isActive = data.estado === EstadoEnum.NUEVO;
-      this.form.patchValue({
-        combinacion: {
-          flete_id: data.flete_id,
-          camion_id: data.camion_id,
-          combinacion_id: data.combinacion_id,
-          marca_camion: data.camion_marca,
-          color_camion: data.camion_color,
-          semi_id: data.semi_id,
-          semi_placa: data.semi_placa,
-          marca_semi: data.semi_marca,
-          color_semi: data.semi_color,
-          propietario_camion: data.camion_propietario_nombre,
-          propietario_camion_doc: data.camion_propietario_documento,
-          chofer_camion: data.camion_chofer_nombre,
-          chofer_camion_doc: data.combinacion_chofer_doc,
-          beneficiario_camion: data.camion_beneficiario_nombre,
-          beneficiario_camion_doc: data.camion_beneficiario_documento,
-          numero: data.flete_numero_lote,
-          saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
-          cliente: data.flete_remitente_nombre,
-          tipo_flete: data.flete_tipo,
-          producto_descripcion: data.flete_producto_descripcion,
-          origen_nombre: data.flete_origen_nombre,
-          destino_nombre: data.flete_destino_nombre,
-          a_pagar: data.condicion_gestor_cuenta_tarifa,
-          neto: data.neto,
-          valor: data.flete_monto_efectivo,
-          cant_origen: data.cantidad_origen,
-          cant_destino: data.cantidad_destino,
-          diferencia: data.diferencia_origen_destino,
-          anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
-          estado: data.estado,
-          anticipos: data.anticipos_liberados,
-          id_orden_carga: data.id
-        },
-        info: {
-          cantidad_nominada: data.cantidad_nominada,
-         
-        },
-        tramo: {
-          flete_origen_id: data.flete_origen_id,
-          flete_destino_id: data.flete_destino_id,
-          origen_id: data.flete_origen_nombre,
-          destino_id: data.flete_destino_nombre,
-        },
+    this.ordenCargaService.getById(this.id).subscribe((data) => {
+        this.item = data;
+
+        this.isActive = data.estado === EstadoEnum.NUEVO;
+        this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
+        // Solo actualizar campos que cambian en el formulario
+        this.form.patchValue({
+            combinacion: {
+                ...this.form.value.combinacion, // Mantenemos los valores actuales
+                flete_id: data.flete_id,
+                camion_id: data.camion_id,
+                combinacion_id: data.combinacion_id,
+                marca_camion: data.camion_marca,
+                color_camion: data.camion_color,
+                semi_id: data.semi_id,
+                semi_placa: data.semi_placa,
+                marca_semi: data.semi_marca,
+                color_semi: data.semi_color,
+                propietario_camion: data.camion_propietario_nombre,
+                propietario_camion_doc: data.camion_propietario_documento,
+                chofer_camion: data.camion_chofer_nombre,
+                chofer_camion_doc: data.combinacion_chofer_doc,
+                beneficiario_camion: data.camion_beneficiario_nombre,
+                beneficiario_camion_doc: data.camion_beneficiario_documento,
+                numero: data.flete_numero_lote,
+                saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
+                cliente: data.flete_remitente_nombre,
+                tipo_flete: data.flete_tipo,
+                producto_descripcion: data.flete_producto_descripcion,
+                origen_nombre: data.flete_origen_nombre,
+                destino_nombre: data.flete_destino_nombre,
+                a_pagar: data.condicion_gestor_cuenta_tarifa,
+                neto: data.neto,
+                valor: data.flete_monto_efectivo,
+                cant_origen: data.cantidad_origen,
+                cant_destino: data.cantidad_destino,
+                diferencia: data.diferencia_origen_destino,
+                anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+                estado: data.estado,
+                anticipos: data.anticipos_liberados,
+                id_orden_carga: data.id,
+                condicion: data.condicion_gestor_cuenta_tarifa
+            },
+            info: {
+                cantidad_nominada: data.cantidad_nominada,
+                // Mantener otros campos de info que ya existían
+            },
+            tramo: {
+                flete_origen_id: data.flete_origen_id,
+                flete_destino_id: data.flete_destino_id,
+                origen_id: data.flete_origen_nombre,
+                destino_id: data.flete_destino_nombre,
+                // Mantener otros campos de tramo que ya existían
+            },
+        });
+        this.form.disable(); // Deshabilita todo el formulario
+   
+        this.originalComentario = data.comentarios ?? null;
+        this.form.get('info.comentarios')?.enable();
         
-      });
-      this.originalComentario = data.comentarios ?? null;
-      this.form.disable();
-      this.form.get('info.comentarios')?.enable();
-      setTimeout(() => {
-        this.hasChange = false;
-        this.initialFormValue = this.form.value;
-      }, 500);
+        // Comprobar si se han realizado cambios y actualizar la variable
+        setTimeout(() => {
+            this.hasChange = false;
+            this.initialFormValue = this.form.value; // Actualiza el valor inicial
+        }, 500);
     });
   }
 }
