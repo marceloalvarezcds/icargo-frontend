@@ -55,7 +55,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   modelo = m.ORDEN_CARGA;
   item?: OrdenCarga;
   flete?: FleteList;
-  isEditPressed: boolean = false;
+  isEditPressed: boolean = true;
   combinacionList?: CombinacionList;
   formDisabledTime = new Date();
   combinacionId?: number;
@@ -701,7 +701,7 @@ private cancelOrdenCarga(): void {
     this.form.get('combinacion.flete_id')?.enable(); 
     this.isButtonPressed = true;
     this.isEditPedido = true;
-    this.isEditPressed = true;
+    this.isEditPressed = false;
   }
   
 
@@ -714,7 +714,7 @@ private cancelOrdenCarga(): void {
         const formData = new FormData();
         this.isButtonPressed = false;
         this.isEditPedido = false;
-        this.isEditPressed = false;
+        this.isEditPressed = true;
         this.form.get('combinacion.flete_id')?.disable(); 
         const data = JSON.parse(
             JSON.stringify({
@@ -756,7 +756,7 @@ private cancelOrdenCarga(): void {
 
   // Este método se ejecuta cuando se presiona el botón en el componente hijo
   onEditPressed() {
-    this.isEditPressed = true; // Habilitamos el botón "Guardar"
+    this.isEditPressed = false; // Habilitamos el botón "Guardar"
   }
 
   getDataWithoutOverwritingFlete(): void {
