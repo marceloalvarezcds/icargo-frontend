@@ -29,7 +29,6 @@ import { OrdenCargaRoutingModule } from './orden-carga-routing.module';
 import { OrdenCargaEditFormAuditoriasComponent } from './orden-carga-edit-form-auditorias/orden-carga-edit-form-auditorias.component';
 import { OrdenCargaEditFormMovimientosComponent } from './orden-carga-edit-form-movimientos/orden-carga-edit-form-movimientos.component';
 import { OrdenCargaAnticiposTableComponent } from './orden-carga-anticipos-table/orden-carga-anticipos-table.component';
-import { OrdenCargaAnticiposTableButtonComponent } from './orden-carga-anticipos-table-button/orden-carga-anticipos-table-button.component';
 import { OrdenCargaReportsComponent } from './orden-carga-reports/orden-carga-reports.component';
 import { OrdenCargaNuevoAnticipoFormComponent } from './orden-carga-nuevo-anticipo-form/orden-carga-nuevo-anticipo-form.component';
 import { OrdenCargaAccionesFormCombinacionOcComponent } from './orden-carga-acciones-form-combinacion-oc/orden-carga-acciones-form-combinacion-oc.component';
@@ -67,7 +66,6 @@ import { PdfPreviewConciliarDialogComponent } from './pdf-preview-conciliar-dial
     OrdenCargaEditFormAuditoriasComponent,
     OrdenCargaEditFormMovimientosComponent,
     OrdenCargaAnticiposTableComponent,
-    OrdenCargaAnticiposTableButtonComponent,
     OrdenCargaReportsComponent,
     OrdenCargaNuevoAnticipoFormComponent,
     OrdenCargaAccionesFormCombinacionOcComponent,

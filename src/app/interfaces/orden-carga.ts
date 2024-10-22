@@ -110,9 +110,20 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_tarifa: number;
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
-  condicion_gestor_cuenta_tarifa: number;
   flete_saldo: number;
 
+  //Condiciones para GC y Propietario
+  condicion_gestor_cuenta_tarifa: number;
+  condicion_propietario_tarifa: number;
+
+  //Merma para Gestor de Carga
+  merma_gestor_carga_es_porcentual_descripcion: string;
+  merma_gestor_carga_tolerancia: number;
+  merma_gestor_carga_valor: number;
+  //Merma para el Propietario
+  merma_propietario_es_porcentual_descripcion: string;
+  merma_propietario_tolerancia: number;
+  merma_propietario_valor: number;
   // Historial de Estados
   is_aceptado: boolean;
   is_cancelado: boolean;
@@ -188,10 +199,12 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_saldo: number;
   resultado_flete_gestor_carga_merma_valor:number;
   gestor_carga_nombre: string;
-  condicion_propietario_tarifa: number;
+  
   resultado_gestor_carga_saldo_total: number;
+  //Condiciones
   condicion_gestor_cuenta_tarifa: number;
-
+  condicion_propietario_tarifa: number;
+  
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -290,13 +303,23 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_saldo: 0,
   flete_producto_id: 1,
   gestor_carga_id: flete0.gestor_carga_id,
-  condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
   neto:1000,
   camion_beneficiario_nombre: 'string',
   camion_beneficiario_documento: 'string',
   // cantidad y comentario
   cantidad_nominada: 10000,
   comentarios: '',
+  //Condiciones para GC y Propietario
+  condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
+  condicion_propietario_tarifa: 90,
+  //Merma para Gestor de Carga
+  merma_gestor_carga_es_porcentual_descripcion: 'v',
+  merma_gestor_carga_tolerancia: 30,
+  merma_gestor_carga_valor: 5000,
+  //Merma para el Propietario
+  merma_propietario_es_porcentual_descripcion: 'v',
+  merma_propietario_tolerancia: 20,
+  merma_propietario_valor: 5500,
   // Historial de Estados
   is_aceptado: false,
   is_cancelado: false,

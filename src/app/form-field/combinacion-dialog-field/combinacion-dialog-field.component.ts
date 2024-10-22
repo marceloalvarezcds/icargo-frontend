@@ -21,9 +21,19 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
+      def: 'ID',
+      title: 'ID',
+      value: (element: CombinacionList) => element.id,
+    },
+    {
       def: 'camion_nombre',
       title: 'Tracto',
       value: (element: CombinacionList) => element.camion_placa,
+    },
+    {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: CombinacionList) => element.estado,
     },
     {
       def: 'chofer_nombre',
@@ -46,9 +56,14 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       value: (element: CombinacionList) => element.color_camion,
     },    
     {
+      def: 'propietario',
+      title: 'Propietario',
+      value: (element: CombinacionList) => element.propietario_nombre,
+    },    
+    {
       def: 'neto',
       title: 'Neto',
-      value: (element: CombinacionList) => element.neto,
+      value: (element: CombinacionList) => element.neto?.toLocaleString('de-DE'),
     },
 
   ];

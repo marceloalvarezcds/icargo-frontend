@@ -89,10 +89,12 @@ export class OrdenCargaEditFormDescuentosComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() isEditPedido = false;
   @Input() puedeConciliar = false;
   @Input() list: OrdenCargaDescuento[] = [];
   @Input() fleteId?: number;
   @Output() ocChange = new EventEmitter<void>();
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
@@ -101,10 +103,12 @@ export class OrdenCargaEditFormDescuentosComponent {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   edit({ row }: TableEvent<OrdenCargaDescuento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   remove({ row }: TableEvent<OrdenCargaDescuento>): void {

@@ -46,12 +46,14 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() isEditPedido = false;
   @Input() puedeConciliar = false;
   @Input() set list(l: OrdenCargaRemisionDestino[]) {
     this.setList(l);
   }
 
   @Output() ocChange = new EventEmitter<void>();
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
@@ -60,10 +62,12 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   edit({ row }: TableEvent<OrdenCargaRemisionDestino>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   remove({ row }: TableEvent<OrdenCargaRemisionDestino>): void {

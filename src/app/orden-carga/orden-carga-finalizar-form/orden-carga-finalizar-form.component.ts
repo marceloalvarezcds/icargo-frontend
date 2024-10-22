@@ -35,6 +35,7 @@ import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dia
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { Movimiento } from 'src/app/interfaces/movimiento';
 
 @Component({
   selector: 'app-orden-carga-finalizar-form',
@@ -118,6 +119,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     });
   });
 
+  get isConciliado(): boolean {
+    return this.estado === EstadoEnum.CONCILIADO;
+  }  
+
   get estadoOc() {
     const estadoValue = this.form.get('combinacion.estado')?.value;
     return estadoValue;
@@ -152,7 +157,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     return this.item!?.remisiones_resultado.slice();
   }
 
-
+  get movimientoList(): Movimiento[] {
+    return this.item!?.movimientos.slice();
+  }
+  
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
     return this.item!?.anticipos.slice();
   }

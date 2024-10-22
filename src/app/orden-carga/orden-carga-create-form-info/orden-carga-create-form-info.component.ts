@@ -28,39 +28,38 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   subscription?: Subscription;
   neto?: string | number;
   fl?: FleteList;
+
+  private previousCamionId: number | null = null;
+  private previousSemiId: number | null = null;
+
   @Input() disableForm: boolean = false;
   @Input() disabled: boolean | undefined;
   @Input() oc?: OrdenCarga;
   @Input() list: OrdenCargaComentariosHistorial[] = [];
 
   @Input() set form(f: FormGroup | undefined) {
+    if (this.subscription) {
+      this.subscription.unsubscribe(); // Evitar suscripciones múltiples
+    }
     this.formGroup = f;
     if (f) {
       this.subscription = this.combinacion.valueChanges
         .pipe(
-          filter(
-            (c: Partial<OrdenCargaForm>) =>
-              !!(this.flete && c.camion_id && c.semi_id)
-          )
+          filter((c: Partial<OrdenCargaForm>) => !!(this.flete && c.camion_id && c.semi_id))
         )
         .subscribe((c: Partial<OrdenCargaForm>) => {
           this.getListByCamionIdAndSemiId(c.camion_id, c.semi_id);
         });
     }
     if (this.flete) {
-      this.getListByCamionIdAndSemiId(
-        this.camionIdControl.value,
-        this.semiIdControl.value
-      );
+      this.getListByCamionIdAndSemiId(this.camionIdControl.value, this.semiIdControl.value);
     }
   }
+
   @Input() set flete(f: FleteList | undefined) {
     this.fl = f;
     if (f) {
-      this.getListByCamionIdAndSemiId(
-        this.camionIdControl.value,
-        this.semiIdControl.value
-      );
+      this.getListByCamionIdAndSemiId(this.camionIdControl.value, this.semiIdControl.value);
     }
   }
 
@@ -105,14 +104,12 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   }
 
   updateComentarios(newComentario: string): void {
-    this.group.get('comentarios')?.setValue(newComentario); // Actualiza el valor
-    console.log('Comentario actualizado:', newComentario); // Imprimir el nuevo comentario
+    this.group.get('comentarios')?.setValue(newComentario);
   }
-  
+
   get tieneComentarios(): boolean {
     return this.historialComentariosList && this.historialComentariosList.length > 0;
   }
-  
 
   openCommentDialog(): void {
     this.matDialog.open(CommentDialogComponent, {
@@ -124,33 +121,28 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
       },
     }).afterClosed().subscribe((result: string) => {
       if (result) {
-        this.updateComentarios(result);  // Actualiza el comentario en el formulario
+        this.updateComentarios(result);
       }
     });
   }
-  
 
-  private getListByCamionIdAndSemiId(
-    camionId?: number,
-    semiId?: number
-  ): void {
-    if (camionId && semiId) {
-      this.camionSemiNetoService
-        .getListByCamionIdAndSemiId(
-          camionId,
-          semiId
-        )
-        .subscribe((camionSemiNeto) => {
-          this.neto = camionSemiNeto?.neto;
-          this.cantidadNominadaControl.setValidators([
-            NumberValidator.max(this.neto ?? 0),
-            Validators.required,
-          ]);
-          this.cantidadNominadaControl.updateValueAndValidity();
-          if (this.neto) {
-            this.netoChange.emit(numberWithCommas(this.neto));
-          }
-        });
+  private getListByCamionIdAndSemiId(camionId?: number, semiId?: number): void {
+    if (camionId && semiId && (camionId !== this.previousCamionId || semiId !== this.previousSemiId)) {
+      this.previousCamionId = camionId;
+      this.previousSemiId = semiId;
+
+      this.camionSemiNetoService.getListByCamionIdAndSemiId(camionId, semiId).subscribe((camionSemiNeto) => {
+        this.neto = camionSemiNeto?.neto;
+        this.cantidadNominadaControl.setValidators([
+          NumberValidator.max(this.neto ?? 0),
+          Validators.required,
+        ]);
+        this.cantidadNominadaControl.updateValueAndValidity();
+        if (this.neto) {
+          this.netoChange.emit(numberWithCommas(this.neto));
+        }
+      });
     }
   }
 }
+

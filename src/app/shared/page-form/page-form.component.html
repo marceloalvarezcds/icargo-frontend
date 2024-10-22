@@ -136,8 +136,7 @@
                     (module === 'ACEPTAR' || module === 'FINALIZAR' 
                     || submodule === 'ANTICIPO (directo)' || submodule === 'RECEPCION directa' 
                     || oc?.estado === E.ACEPTADO)) 
-                    && oc?.estado !== 'Cancelado' 
-                    && submodule !== 'ORDEN DE CARGA (directa)'"
+                    && oc?.estado !== 'Cancelado' "
             type="button"
             mat-raised-button
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO"
@@ -250,13 +249,28 @@
         >
           <mat-icon>toggle_on</mat-icon>
         </button>
+
+        <button
+          type="button"
+          mat-mini-fab
+          color="primary"
+          matTooltip="Cambiar Pedido"
+          [disabled]="isButtonPressed"
+          (click)="cambiarFleteClick.emit($event)"
+          *ngIf="isOc && isEdit && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
+
+          class="add-button orden-carga-cambiar-pedido"
+        >
+          CAMBIAR PEDIDO
+        </button>
+
         <button
           type="submit"
           mat-mini-fab
           color="primary"
           matTooltip="Guardar"
-          [disabled]="loading || isDataLoaded"
-          *ngIf="(!isShow && !hideSaveButton) && submodule !== 'ORDEN DE CARGA'"
+          [disabled]="loading || isDataLoaded || !isEditPressed"
+          *ngIf="(!isShow && !hideSaveButton) "
           class="save-button"
         >
           <mat-icon>save</mat-icon> 

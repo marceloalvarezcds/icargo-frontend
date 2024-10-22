@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
@@ -16,8 +16,6 @@ import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-ret
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
-import { OrdenCargaEvaluacionesHistorial } from 'src/app/interfaces/orden_carga_evaluacion';
-import { EvaluacionDialogData } from 'src/app/interfaces/oc-evaluaciones-dialog-data';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -29,7 +27,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   monedaEquiv2: number = 0;
   anticiposEfectivo: any[] = [];
   anticiposCombustible: any[] = [];
-
+  isButtonPressed: boolean = false;
   a = PermisoAccionEnum;
   columns: Column[] = [
 
@@ -129,6 +127,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
 
 
   @Input() isFormSaved: boolean = false;
+  @Input() isEditPedido: boolean = false;
   @Input() oc?: OrdenCarga;
   @Input() ocRetirado?: OrdenCargaAnticipoRetirado;
   @Input() gestorCargaId?: number;
@@ -142,7 +141,8 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   @Input() ordenCargaId: number | null = null;
 
   @Output() ocChange = new EventEmitter<void>();
-  
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
@@ -226,9 +226,9 @@ openEvaluacionesDialog(): void {
             destino_id: this.oc?.destino_id,
             producto_id: this.oc?.flete_producto_id
     }, 
-    width: '30rem',  // Ajusta el ancho del diálogo aquí
-    height: 'auto', // Ajusta la altura del diálogo aquí
-    panelClass: 'custom-dialog-container' // Opcional: Clase personalizada para estilos adicionales
+    width: '30rem',  
+    height: 'auto',
+    panelClass: 'custom-dialog-container'
   });
 }
 
@@ -241,6 +241,7 @@ openEvaluacionesDialog(): void {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {

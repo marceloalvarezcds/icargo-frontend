@@ -24,6 +24,7 @@ import { ImageDialogComponent } from 'src/app/dialogs/image-dialog/image-dialog.
   styleUrls: ['./orden-carga-edit-form-remisiones-origen.component.scss'],
 })
 export class OrdenCargaEditFormRemisionesOrigenComponent {
+  isEditPressed: boolean = false;
   a = PermisoAccionEnum;
   columns: Column[] = [];
 
@@ -48,6 +49,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() isEditPedido = false;
   @Input() hideShow = false;
   @Input() puedeConciliar = false;
   @Input() set list(l: OrdenCargaRemisionOrigen[]) {
@@ -55,6 +57,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   }
 
   @Output() ocChange = new EventEmitter<void>();
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
@@ -63,12 +66,18 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     
   ) {}
 
+  onEditPressed() {
+    this.isEditPressed = true; // Habilitamos el botón "Guardar"
+  }
+
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   edit({ row }: TableEvent<OrdenCargaRemisionOrigen>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   remove({ row }: TableEvent<OrdenCargaRemisionOrigen>): void {

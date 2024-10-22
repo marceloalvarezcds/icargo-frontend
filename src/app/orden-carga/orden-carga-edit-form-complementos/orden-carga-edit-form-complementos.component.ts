@@ -90,11 +90,13 @@ export class OrdenCargaEditFormComplementosComponent {
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
+  @Input() isEditPedido = false;
   @Input() puedeConciliar = false;
   @Input() list: OrdenCargaComplemento[] = [];
   @Input() fleteId?: number;
 
   @Output() ocChange = new EventEmitter<void>();
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
@@ -103,10 +105,12 @@ export class OrdenCargaEditFormComplementosComponent {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   edit({ row }: TableEvent<OrdenCargaComplemento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   remove({ row }: TableEvent<OrdenCargaComplemento>): void {

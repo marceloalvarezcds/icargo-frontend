@@ -122,7 +122,7 @@ export class OcByCombinacionAceptadosDialogFieldComponent  {
         }
       });
     } else {
-      console.warn('No hay combinacionId disponible');
+      // console.warn('No hay combinacionId disponible');
     }
   }
   

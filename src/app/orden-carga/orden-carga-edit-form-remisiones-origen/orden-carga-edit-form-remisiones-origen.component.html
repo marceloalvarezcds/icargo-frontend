@@ -7,12 +7,13 @@
       color="primary"
       type="button"
       (click)="create()"
+      (buttonAnticipoClicked)="onEditPressed()" 
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId)"
+      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
     >
       <mat-icon 
       class="small-icon"
-      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId)  }">
+      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido }">
       add</mat-icon>
       CARGA
     </button>
