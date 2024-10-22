@@ -10,6 +10,7 @@ import { ComentarioConfirmDialogData } from 'src/app/interfaces/comentario-confi
 })
 export class ComentarioConfirmDialogComponent {
   comentario = new FormControl('');
+  htmlContent = '';
   constructor(
     public dialogRef: MatDialogRef<ComentarioConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ComentarioConfirmDialogData
@@ -17,6 +18,9 @@ export class ComentarioConfirmDialogComponent {
     if (data.comentarioRequirido) {
       this.comentario.setValidators(Validators.required);
       this.comentario.updateValueAndValidity();
+    }
+    if (data.htmlContent){
+      this.htmlContent = data.htmlContent;
     }
   }
 }

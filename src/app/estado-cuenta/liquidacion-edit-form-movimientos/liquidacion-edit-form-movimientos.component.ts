@@ -86,7 +86,7 @@ export class LiquidacionEditFormMovimientosComponent {
       value: (element: Movimiento) => ( // descuento_concepto complemento_concepto
           (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
             : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
-            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
+            : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_info ?? element.tipo_movimiento_descripcion
         ),
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
@@ -173,10 +173,12 @@ export class LiquidacionEditFormMovimientosComponent {
             title: '',
             type: 'button',
             value: (mov: Movimiento) =>
-              mov.es_editable ? 'Eliminar Movimiento' : 'Quitar Movimiento',
+              mov.tipo_movimiento_descripcion === 'Fiscal' ? undefined :
+                mov.es_editable ? 'Eliminar Movimiento' : 'Quitar Movimiento',
             buttonCallback: (mov: Movimiento) =>
-              mov.es_editable ? this.delete(mov) : this.removeMovimiento(mov),
-            buttonIconName: () => 'delete',
+              mov.tipo_movimiento_descripcion === 'Fiscal' ? undefined :
+                mov.es_editable ? this.delete(mov) : this.removeMovimiento(mov),
+            buttonIconName: (mov: Movimiento) => 'delete',
             sticky: true,
           },
           {
@@ -325,6 +327,14 @@ export class LiquidacionEditFormMovimientosComponent {
   }
 
   removeMovimientos(): void {
+
+    const movFiscales = this.selectedItems.filter( (mov) => mov.tipo_movimiento_descripcion === 'Fiscal');
+
+    if (movFiscales.length>0) {
+      this.snackbar.open( 'No se puede eliminar movimiento Fiscal!');
+      return;
+    }
+
     const movimientos = this.selectedItems.map((mov) => mov.id).join(', ');
     const message = `¿Está seguro que desea remover los movimients  Nº ${movimientos} de la lista?`;
     this.dialogService.confirmationWithSnackbar(
@@ -345,7 +355,7 @@ export class LiquidacionEditFormMovimientosComponent {
   createMovimiento(): void {
     const liquidacion = this.liquidacion!;
 
-    const contraparteId = liquidacion.chofer_id ?? liquidacion.propietario_id 
+    const contraparteId = liquidacion.chofer_id ?? liquidacion.propietario_id
         ?? liquidacion.proveedor_id ?? liquidacion.remitente_id;
 
     const data: MovimientoFormDialogData = {

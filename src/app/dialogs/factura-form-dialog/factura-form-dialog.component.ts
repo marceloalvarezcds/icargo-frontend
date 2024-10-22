@@ -29,8 +29,10 @@ export class FacturaFormDialogComponent {
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
     iva_incluido: [ this.data?.iva_incluido ],
-    sentido_mov_iva: [ this.data?.sentido_mov_iva ],
-    sentido_mov_retencion: [ this.data?.sentido_mov_retencion ],
+    sentido_mov_iva_pagar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'PAGAR' ? true : undefined : undefined ],
+    sentido_mov_iva_cobrar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'COBRAR' ? true : undefined : undefined],
+    sentido_mov_retencion_pagar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'PAGAR' ? true : undefined : undefined ],
+    sentido_mov_retencion_cobrar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'COBRAR' ? true : undefined : undefined ],
     retencion: [this.data?.retencion, [Validators.required, Validators.min(0)]],
     timbrado: [this.data?.timbrado, Validators.required],
     ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
@@ -39,8 +41,20 @@ export class FacturaFormDialogComponent {
     retencion_movimiento_id: [this.data?.retencion_movimiento_id]
   });
 
+  get check_sentido_mov_iva_pagar():boolean {
+    return true;
+  }
+
+  get check_sentido_mov_iva_cobrar():boolean {
+    return true;
+  }
+
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';
+  }
+
+  get editFormCheck(): boolean {
+    return this.dialogData?.item ? true : false;
   }
 
   get data(): FacturaForm | undefined {
@@ -78,9 +92,9 @@ export class FacturaFormDialogComponent {
     @Inject(MAT_DIALOG_DATA) private dialogData: FacturaFormDialogData
   ) {
     this.foto = this.data?.foto ?? null;
-    if (!this.data) {
+    /*if (!this.data) {
       this.fotoControl.setValidators(Validators.required);
-    }
+    }*/
   }
 
   submit() {

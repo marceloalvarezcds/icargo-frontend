@@ -135,6 +135,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   movimiento_saldo?: number ;
   descuento_concepto?: string;
   complemento_concepto?: string;
+  tipo_movimiento_info?: string;
 }
 
 export interface MovimientoEstadoCuenta {

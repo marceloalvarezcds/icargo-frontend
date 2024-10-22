@@ -14,7 +14,12 @@
         controlName="monto"
         [form]="form"
       ></app-number-field>
+
       <app-moneda-field class="col-3" title="Moneda" [form]="form"></app-moneda-field>
+
+      <div class="col-3 checkbox-filter-container">
+        <mat-checkbox color="primary" formControlName="iva_incluido">IVA INCL</mat-checkbox>
+      </div>
 
     </div>
 
@@ -35,34 +40,42 @@
     </div>
 
     <div class="row">
-      
+
       <app-tipo-iva-field class="col-4" [form]="form"></app-tipo-iva-field>
-      
-      <div class="col-4 checkbox-filter-container">
-        <mat-checkbox color="primary" formControlName="iva_incl">IVA INCL</mat-checkbox>      
-      </div>
-      
-      <div class="col-4 checkbox-filter-container">
-        <section>
-          <mat-checkbox formControlName="es_pago">A Pagar</mat-checkbox>
-          <mat-checkbox formControlName="es_cobro">A Cobrar</mat-checkbox>
-        </section>
-      </div>      
 
     </div>
 
     <div class="row">
 
-      <app-number-field class="col-4"
+      <app-number-field class="col-3"
         title="Valor IVA"
         controlName="iva"
         [form]="form"
       ></app-number-field>
-      <app-number-field class="col-4"
+
+      <div class="col-3 checkbox-filter-container">
+        <fieldset [disabled]="editFormCheck">
+          <section>
+            <mat-checkbox  formControlName="sentido_mov_iva_pagar">A Pagar</mat-checkbox>
+            <mat-checkbox  formControlName="sentido_mov_iva_cobrar">A Cobrar</mat-checkbox>
+          </section>
+        </fieldset>
+      </div>
+
+      <app-number-field class="col-3"
         title="Valor Retencion"
         controlName="retencion"
         [form]="form"
       ></app-number-field>
+
+      <div class="col-3 checkbox-filter-container">
+        <fieldset [disabled]="editFormCheck">
+          <section>
+            <mat-checkbox  formControlName="sentido_mov_retencion_pagar">A Pagar</mat-checkbox>
+            <mat-checkbox  formControlName="sentido_mov_retencion_cobrar">A Cobrar</mat-checkbox>
+          </section>
+        </fieldset>
+      </div>
 
     </div>
 

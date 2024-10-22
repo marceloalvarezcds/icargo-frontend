@@ -93,6 +93,10 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     return subtract(this.montoLimite, this.montoSuma);
   }
 
+  get isFacturaReady():boolean {
+    return this.list ? (this.list.length>0) : false;
+  }
+
   @Input() instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
   @Input() liquidacion!: Liquidacion;
   @Input() isShow = false;

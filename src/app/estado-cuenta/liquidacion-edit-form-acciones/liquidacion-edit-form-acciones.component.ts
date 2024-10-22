@@ -15,9 +15,11 @@ import { Factura } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { DialogService } from 'src/app/services/dialog.service';
+import { HttpErrorService } from 'src/app/services/http-error.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { HttpErrorSnackBarComponent } from 'src/app/shared/http-error-snack-bar/http-error-snack-bar.component';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -44,6 +46,10 @@ export class LiquidacionEditFormAccionesComponent {
       : LiquidacionEtapaEnum.EN_PROCESO;
   }
 
+  get isFacturaReady():boolean {
+    return this.liquidacion.facturas ? (this.liquidacion.facturas.length>0) : false;
+  }
+
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
   @Input() monto : number | undefined = 0;
@@ -59,7 +65,8 @@ export class LiquidacionEditFormAccionesComponent {
     private dialogService: DialogService,
     private snackbar: SnackbarService,
     private liquidacionService: LiquidacionService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private httpErrorService: HttpErrorService,
   ) {}
 
   downloadPDF(): void {
@@ -71,6 +78,19 @@ export class LiquidacionEditFormAccionesComponent {
   }
 
   aceptar(): void {
+
+    if (this.isFacturaReady) {
+      const factura = this.liquidacion.facturas[0];
+      if (!factura.foto) {
+
+        this.httpErrorService.setErrorList([
+          `No se ha cargado la foto de la factura ${factura.numero_factura}`,
+        ]);
+
+        return;
+      }
+    }
+
     const message = `Está seguro que desea Aceptar la Liquidación Nº ${this.id}`;
     this.dialogService.changeStatusConfirm(
       message,
@@ -139,11 +159,19 @@ export class LiquidacionEditFormAccionesComponent {
     let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
 
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
+    let htmlContent = '';
+
+
+    if (!this.isFacturaReady) {
+      htmlContent = `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
+    }
+
     this.dialogService.configDialogRef(
       this.dialog.open(ComentarioConfirmDialogComponent, {
         data: {
           message,
           comentarioRequirido: true,
+          htmlContent: htmlContent,
         },
       }),
       (comentario: string) => {

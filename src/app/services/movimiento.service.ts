@@ -42,17 +42,6 @@ export class MovimientoService {
     );
   }
 
-  getReportListByEstadoCuentaDetalle(
-    estadoCuenta: ContraparteInfo,
-    contraparte_id: number,
-    etapa?: LiquidacionEtapaEnum,
-    punto_venta_id?: number,
-  ): Observable<string> {
-    return this.http.get<string>(
-      `${environment.api}/estado_cuenta/report/movimiento/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
-    );
-  }
-
   getListByLiquidacion(
     liquidacion: Liquidacion,
     etapa: LiquidacionEtapaEnum
