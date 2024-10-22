@@ -1,3 +1,4 @@
+import { IvyParser } from '@angular/compiler';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -22,13 +23,38 @@ export class FacturaFormDialogComponent {
       this.data?.fecha_vencimiento ?? new Date().toJSON(),
       Validators.required,
     ],
-    monto: [this.data?.monto, [Validators.required, Validators.min(0)]],
+    monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
     iva_id: [this.data?.iva_id, Validators.required],
     foto: this.data?.foto,
+    contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
+    iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
+    iva_incluido: [ this.data?.iva_incluido ],
+    sentido_mov_iva_pagar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'PAGAR' ? true : undefined : undefined ],
+    sentido_mov_iva_cobrar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'COBRAR' ? true : undefined : undefined],
+    sentido_mov_retencion_pagar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'PAGAR' ? true : undefined : undefined ],
+    sentido_mov_retencion_cobrar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'COBRAR' ? true : undefined : undefined ],
+    retencion: [this.data?.retencion, [Validators.required, Validators.min(0)]],
+    timbrado: [this.data?.timbrado, Validators.required],
+    ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
+    fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
+    iva_movimiento_id: [this.data?.iva_movimiento_id],
+    retencion_movimiento_id: [this.data?.retencion_movimiento_id]
   });
+
+  get check_sentido_mov_iva_pagar():boolean {
+    return true;
+  }
+
+  get check_sentido_mov_iva_cobrar():boolean {
+    return true;
+  }
 
   get actionText(): string {
     return this.data ? 'Editar' : 'Crear';
+  }
+
+  get editFormCheck(): boolean {
+    return this.dialogData?.item ? true : false;
   }
 
   get data(): FacturaForm | undefined {
@@ -51,6 +77,14 @@ export class FacturaFormDialogComponent {
     return this.dialogData.valor_operacion;
   }
 
+  get tipo_contraparte_id(): number {
+    return this.dialogData.tipo_contraparte_id;
+  }
+
+  get contraparte_id(): number {
+    return this.dialogData.contraparte_id;
+  }
+
   constructor(
     private facturaService: FacturaService,
     public dialogRef: MatDialogRef<FacturaFormDialogComponent>,
@@ -58,9 +92,9 @@ export class FacturaFormDialogComponent {
     @Inject(MAT_DIALOG_DATA) private dialogData: FacturaFormDialogData
   ) {
     this.foto = this.data?.foto ?? null;
-    if (!this.data) {
+    /*if (!this.data) {
       this.fotoControl.setValidators(Validators.required);
-    }
+    }*/
   }
 
   submit() {
@@ -70,7 +104,9 @@ export class FacturaFormDialogComponent {
       const formData = facturaData(
         this.form,
         this.fotoFile,
-        this.liquidacionId
+        this.liquidacionId,
+        this.tipo_contraparte_id,
+        this.contraparte_id,
       );
       if (this.data && this.data?.id) {
         this.facturaService

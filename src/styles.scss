@@ -326,3 +326,20 @@ h1.mat-dialog-title {
   margin-left: 16px;
   margin-bottom: 1rem;
 }
+
+
+.alerta {
+  color: red;
+}
+
+.formulario-center {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  background: #f7f7f7;
+
+  h2 {
+    margin: 0 16px;
+  }
+}

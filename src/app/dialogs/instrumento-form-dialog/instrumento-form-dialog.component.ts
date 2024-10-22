@@ -25,7 +25,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     caja_id: this.data?.caja_id,
     banco_id: this.data?.banco_id,
     monto: [
-      this.data?.monto,
+      this.data?.monto ? this.data.monto : this.residuo,
       [Validators.required, Validators.max(this.residuo)],
     ],
     fecha_instrumento: [

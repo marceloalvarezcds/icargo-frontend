@@ -155,13 +155,32 @@ export class LiquidacionFormDialogComponent {
     this.childEdit.modificarLiquidacion()
   }
 
-  onCreateLiquidacion(liquidacion:any): void {
-    this.liquidacionId = liquidacion.id;
-    this.etapa = liquidacion.etapa;
-    this.liquidacion = liquidacion;
-    this.getMovimientos(liquidacion);
-    this.isNew = false;
-    this.isEdit = true;
+  onCreateLiquidacion(liquidacion:Liquidacion): void {
+    
+    // TODO: cambiar llamada
+    const contraparteId = liquidacion.chofer_id ?? liquidacion.propietario_id 
+        ?? liquidacion.proveedor_id ?? liquidacion.remitente_id;
+
+    this.estadoCuentaService
+      .getByContraparte(
+        liquidacion.tipo_contraparte_id,
+        contraparteId!,
+        liquidacion.contraparte,
+        liquidacion.contraparte_numero_documento,
+        liquidacion.punto_venta_id
+      )
+      .pipe(filter((e) => !!e))
+      .subscribe((estadoCuenta) => {
+        this.estadoCuenta = estadoCuenta!;
+
+        this.liquidacionId = liquidacion.id;
+        this.etapa = liquidacion.etapa;
+        this.liquidacion = liquidacion;
+        this.getMovimientos(liquidacion);
+        this.isNew = false;
+        this.isEdit = true;
+
+    });
   }
 
   cerrarLiquidacion(): void {
@@ -173,6 +192,7 @@ export class LiquidacionFormDialogComponent {
   }
 
   private getEstadoCuenta(): void {
+    console.log("data: ", this.data);
     this.estadoCuentaService
       .getByContraparte(
         this.data.tipo_contraparte_id,

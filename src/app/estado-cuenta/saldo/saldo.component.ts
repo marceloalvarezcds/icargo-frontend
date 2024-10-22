@@ -25,6 +25,8 @@ export class SaldoComponent {
 
   @Input() esFinalizado = false;
 
+  @Input() saldoFinalizado : number | undefined = undefined;
+
   @Input() hideOperacion = false;
 
   @Input() title = 'Saldo | Valor de la operación';
@@ -44,6 +46,8 @@ export class SaldoComponent {
     let totalOp = 0;
     let sentido = '';
     let saldoEdicion = 0;
+
+    if (this.saldoFinalizado) return this.saldoFinalizado;
 
     totalOp = subtract(this.credito, this.debito);
 

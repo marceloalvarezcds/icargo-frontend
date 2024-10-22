@@ -52,6 +52,7 @@ export interface Liquidacion extends ContraparteInfo {
   user_aprueba?: string;
   aprobado_at?: string;
   es_pago_cobro: string;
+  saldo_cc?: number;
 }
 
 export const mockLiquidacionList: Liquidacion[] = [

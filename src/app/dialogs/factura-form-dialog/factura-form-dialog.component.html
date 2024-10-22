@@ -6,23 +6,102 @@
     </button>
   </h1>
   <div mat-dialog-content>
-    <app-moneda-field [form]="form"></app-moneda-field>
-    <app-input-field
-      title="Nº de Factura"
-      controlName="numero_factura"
-      [form]="form"
-    ></app-input-field>
-    <app-fecha-field
-      title="Fecha de Vencimiento"
-      controlName="fecha_vencimiento"
-      [form]="form"
-    ></app-fecha-field>
-    <app-number-field
-      title="Monto"
-      controlName="monto"
-      [form]="form"
-    ></app-number-field>
-    <app-tipo-iva-field [form]="form"></app-tipo-iva-field>
+
+    <div class="row">
+
+      <app-number-field class="col-3"
+        title="Monto"
+        controlName="monto"
+        [form]="form"
+      ></app-number-field>
+
+      <app-moneda-field class="col-3" title="Moneda" [form]="form"></app-moneda-field>
+
+      <div class="col-3 checkbox-filter-container">
+        <mat-checkbox color="primary" formControlName="iva_incluido">IVA INCL</mat-checkbox>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-input-field class="col-6"
+        title="Contribuyente"
+        controlName="contribuyente"
+        [form]="form"
+      ></app-input-field>
+
+      <app-input-field class="col-4"
+        title="RUC"
+        controlName="ruc"
+        [form]="form"
+      ></app-input-field>
+
+    </div>
+
+    <div class="row">
+
+      <app-tipo-iva-field class="col-4" [form]="form"></app-tipo-iva-field>
+
+    </div>
+
+    <div class="row">
+
+      <app-number-field class="col-3"
+        title="Valor IVA"
+        controlName="iva"
+        [form]="form"
+      ></app-number-field>
+
+      <div class="col-3 checkbox-filter-container">
+        <fieldset [disabled]="editFormCheck">
+          <section>
+            <mat-checkbox  formControlName="sentido_mov_iva_pagar">A Pagar</mat-checkbox>
+            <mat-checkbox  formControlName="sentido_mov_iva_cobrar">A Cobrar</mat-checkbox>
+          </section>
+        </fieldset>
+      </div>
+
+      <app-number-field class="col-3"
+        title="Valor Retencion"
+        controlName="retencion"
+        [form]="form"
+      ></app-number-field>
+
+      <div class="col-3 checkbox-filter-container">
+        <fieldset [disabled]="editFormCheck">
+          <section>
+            <mat-checkbox  formControlName="sentido_mov_retencion_pagar">A Pagar</mat-checkbox>
+            <mat-checkbox  formControlName="sentido_mov_retencion_cobrar">A Cobrar</mat-checkbox>
+          </section>
+        </fieldset>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <app-input-field class="col-4"
+        title="Nº de Factura"
+        controlName="numero_factura"
+        [form]="form"
+      ></app-input-field>
+      <app-fecha-field class="col-4"
+        title="Fecha Factura"
+        controlName="fecha_factura"
+        [form]="form"
+      ></app-fecha-field>
+      <app-input-field class="col-4"
+        title="N° Timbrado"
+        controlName="timbrado"
+        [form]="form"
+      ></app-input-field>
+      <app-fecha-field class="col-4"
+        title="Fecha de Vencimiento"
+        controlName="fecha_vencimiento"
+        [form]="form"
+      ></app-fecha-field>
+    </div>
+
     <app-file-field
       className=""
       title="Foto de la Factura"
@@ -32,7 +111,9 @@
       [isEdit]="isEdit"
       (fileChange)="setFoto($event)"
     ></app-file-field>
+
   </div>
+
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
     <button

@@ -18,7 +18,8 @@
         (deleteClick)="remove($event)"
       ></app-table>
     </div>
-    <div
+
+    <!--div
       class="col-xs-12"
       [hidden]="isShow || !(m.FACTURA | puede: a.CREAR:gestorCargaId)"
     >
@@ -28,10 +29,11 @@
         class="outline round"
         color="primary"
         type="button"
+        disabled="isFacturaReady"
         (click)="create()"
       >
         Nueva Factura
       </button>
-    </div>
+    </div-->
   </div>
 </div>

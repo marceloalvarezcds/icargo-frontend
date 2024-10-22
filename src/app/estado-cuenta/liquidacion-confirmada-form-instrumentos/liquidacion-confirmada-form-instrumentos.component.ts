@@ -8,6 +8,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { addInstrumentosData } from 'src/app/form-data/liquidacion-instrumento';
 import { Column } from 'src/app/interfaces/column';
+import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
@@ -90,6 +91,13 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     return subtract(Math.abs(this.saldo), this.valorInstrumentos);
   }
 
+  get saldoCC():number {
+    let saldoCC = (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
+    //let instrumento = this.list.reduce((acc, cur) => acc + cur.monto, 0);
+    return saldoCC;
+  }
+
+  @Input() estadoCuenta?: EstadoCuenta;
   @Input() liquidacion?: Liquidacion;
   @Input() valorInstrumentos = 0;
   @Input() saldo = 0;
@@ -144,8 +152,12 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   }
 
   saveInstrumentos(): void {
-    const list = this.list.slice();
+    const list = this.list.slice().map( (ele:InstrumentoLiquidacionItem) => {
+      ele.saldo_cc = (this.saldoCC - this.liquidacion!.pago_cobro);
+      return  ele
+    });
     const message = `Por favor verifique que los datos de instrumentos y facturas estén correctos, luego de realizar esta acción no podrá modificar los datos de los mismos ¿ Desea guardar ?`;
+    console.log("this.saldoCC: ", this.saldoCC);
     this.dialogService.confirmationWithSnackbar(
       message,
       this.liquidacionService.addInstrumentos(
