@@ -27,7 +27,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   monedaEquiv2: number = 0;
   anticiposEfectivo: any[] = [];
   anticiposCombustible: any[] = [];
-
+  isButtonPressed: boolean = false;
   a = PermisoAccionEnum;
   columns: Column[] = [
 
@@ -127,6 +127,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
 
 
   @Input() isFormSaved: boolean = false;
+  @Input() isEditPedido: boolean = false;
   @Input() oc?: OrdenCarga;
   @Input() ocRetirado?: OrdenCargaAnticipoRetirado;
   @Input() gestorCargaId?: number;
@@ -140,7 +141,8 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   @Input() ordenCargaId: number | null = null;
 
   @Output() ocChange = new EventEmitter<void>();
-  
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
+
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
@@ -224,9 +226,9 @@ openEvaluacionesDialog(): void {
             destino_id: this.oc?.destino_id,
             producto_id: this.oc?.flete_producto_id
     }, 
-    width: '30rem',  // Ajusta el ancho del diálogo aquí
-    height: 'auto', // Ajusta la altura del diálogo aquí
-    panelClass: 'custom-dialog-container' // Opcional: Clase personalizada para estilos adicionales
+    width: '30rem',  
+    height: 'auto',
+    panelClass: 'custom-dialog-container'
   });
 }
 
@@ -239,6 +241,7 @@ openEvaluacionesDialog(): void {
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
   }
 
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {

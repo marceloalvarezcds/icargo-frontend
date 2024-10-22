@@ -45,11 +45,11 @@
           (click)="create()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||
           !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId)"
+          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
         >
           <mat-icon class="small-icon" 
            [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || 
-           !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId)}">add</mat-icon> ANTICIPO
+           !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> ANTICIPO
         </button>
         <button
           mat-raised-button

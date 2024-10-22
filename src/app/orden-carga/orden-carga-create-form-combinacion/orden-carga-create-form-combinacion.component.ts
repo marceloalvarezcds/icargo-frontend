@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
@@ -20,7 +20,7 @@ import { SemiService } from 'src/app/services/semi.service';
   templateUrl: './orden-carga-create-form-combinacion.component.html',
   styleUrls: ['./orden-carga-create-form-combinacion.component.scss'],
 })
-export class OrdenCargaCreateFormCombinacionComponent {
+export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChanges {
   flete?: FleteList;
   combinacion?: CombinacionList;
   groupName = 'combinacion';
@@ -32,11 +32,13 @@ export class OrdenCargaCreateFormCombinacionComponent {
   showPedidoSection: boolean = false;
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
- 
+  manualChange: boolean = false;
+  private originalNeto: number | null = null;
   
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
   @Input() list: OrdenCargaComentariosHistorial[] = [];
+  @Input() isNeto: boolean = false ;;
 
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
@@ -55,6 +57,20 @@ export class OrdenCargaCreateFormCombinacionComponent {
   @Output() semiChange = new EventEmitter<Semi>();
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
+
+  ngOnInit() {
+    // Detectar cuando el usuario cambia manualmente el valor de cantidad_nominada
+    this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.valueChanges.subscribe(() => {
+      this.manualChange = true; // Se activa la bandera cuando se cambia manualmente
+    });
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes.oc && changes.oc.currentValue) {
+      console.log('oc changed:', changes.oc.currentValue);
+      this.onOrdenCargaChange(changes.oc.currentValue);
+    }
+}
 
   get diferenciaOrigenDestino(): number {
     return subtract(
@@ -153,43 +169,65 @@ export class OrdenCargaCreateFormCombinacionComponent {
     }
     
   }
-
+  
   onCamionChange(combinacion?: CombinacionList) {
-      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion?.camion_id); 
-      this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion?.marca_descripcion); 
-      this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion?.color_camion ?? null); 
-      this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion?.semi_id);
-      this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion?.semi_placa);
-      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion?.marca_descripcion_semi ?? null); 
-      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion?.color_semi ?? null); 
-      this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion?.camion_propietario_nombre);
-      this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion?.propietario_ruc);
-      this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion?.propietario_nombre);
-      this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion?.camion_propietario_documento);
-      this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion?.chofer_nombre);
-      this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion?.chofer_numero_documento);
-      this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion?.neto);
-      this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion?.anticipo_propietario);
-      this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion?.puede_recibir_anticipos);
-      if (combinacion){
-        this.combinacionId = combinacion.id;
-        this.combinacionChange.emit(combinacion);
-        this.camionService.getById(combinacion.camion_id).subscribe(camion => {
-          this.camionChange.emit(camion)
-         
-        })
-        this.service.getById(combinacion.semi_id).subscribe(semi => {
-          this.onSemiChange(semi)
-        })
+    if (combinacion) {
+      // Solo almacena el valor original de neto una vez
+      if (this.originalNeto === null) {
+        this.originalNeto = this.form?.get(this.groupName)?.get('neto')?.value;
       }
+  
+      // Actualiza los campos del formulario
+      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id); 
+      this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion); 
+      this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion.color_camion ?? null); 
+      this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion.semi_id);
+      this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion.semi_placa);
+      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null); 
+      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null); 
+      this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion.camion_propietario_nombre);
+      this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion.propietario_ruc);
+      this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
+      this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
+      this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion.chofer_nombre);
+      this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
+  
+      // Comparar y actualizar solo si el nuevo neto es diferente del original
+      if (combinacion.neto !== this.originalNeto) {
+        this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion.neto);
+      } else {
+        // Si no hay cambio, restablece al valor original
+        this.form?.get(this.groupName)?.get('neto')?.setValue(this.originalNeto);
+      }
+  
+      this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
+      this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
+  
+      // Solo actualizar cantidad_nominada si no ha sido modificada manualmente y si isNeto es true
+      if (this.isNeto) {
+        this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
+      }
+  
+      this.combinacionId = combinacion.id;
+      this.combinacionChange.emit(combinacion);
+  
+      this.camionService.getById(combinacion.camion_id).subscribe(camion => {
+        this.camionChange.emit(camion);
+      });
+  
+      this.service.getById(combinacion.semi_id).subscribe(semi => {
+        this.onSemiChange(semi);
+      });
     }
-
-  onOrdenCargaChange(oc?: OrdenCargaList){
-    if (oc){
+  }
+  
+  
+  onOrdenCargaChange(oc?: OrdenCargaList) {
+    if (oc) {
       this.ordenCargaChange.emit(oc);
       this.form?.get(this.groupName)?.get('flete_id')?.setValue(oc.flete_id); 
       this.form?.get(this.groupName)?.get('numero_lote')?.setValue(oc.flete_numero_lote); 
-      this.form?.get(this.groupName)?.get('saldo')?.setValue(oc.flete_saldo); //
+      this.form?.get(this.groupName)?.get('saldo')?.setValue(oc.flete_saldo); 
       this.form?.get(this.groupName)?.get('cliente')?.setValue(oc.flete_remitente_nombre);
       this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(oc.flete_producto_descripcion);
       this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(oc?.flete_origen_nombre);
@@ -197,8 +235,13 @@ export class OrdenCargaCreateFormCombinacionComponent {
       this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(oc.flete_tipo); 
       this.form?.get(this.groupName)?.get('a_pagar')?.setValue(oc.condicion_gestor_cuenta_tarifa); 
       this.form?.get(this.groupName)?.get('valor')?.setValue(oc.resultado_flete_gestor_carga_merma_valor); 
-      this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
-     
+  
+      // No actualizar si el usuario ha modificado el valor manualmente
+      if (this.manualChange) {
+        this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
+      }
+  
+  
       this.form?.get(this.groupName)?.get('cant_origen')?.setValue(oc.cantidad_origen);
       this.form?.get(this.groupName)?.get('cant_destino')?.setValue(oc.cantidad_destino);
       this.form?.get(this.groupName)?.get('diferencia')?.setValue(oc.diferencia_origen_destino);

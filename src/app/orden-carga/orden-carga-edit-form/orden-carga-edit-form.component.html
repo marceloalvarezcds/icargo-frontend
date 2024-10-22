@@ -29,6 +29,7 @@
     [isAceptado]="isAceptado"
     [isOc]="isOc"
     [isButtonPressed]="isButtonPressed"
+    [isEditPressed]="isEditPressed"
   >
     <div class="orden-carga-page-content">
         <app-orden-carga-create-form-combinacion
@@ -38,6 +39,7 @@
           (fleteChange)="onFleteChange($event)"
           [isEdit]="isEdit"
           [showSearchOCPedidos]="isShow"
+          [isNeto]="false"
       ></app-orden-carga-create-form-combinacion>
 
       <div class="anticipo-table">
@@ -45,9 +47,11 @@
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
             [isShow]="isShow"
+            [isEditPedido]="isEditPedido"
             [puedeConciliar]="puedeConciliar"
             [list]="anticipoList"
             (ocChange)="getData()"
+            (buttonAnticipoClicked)="onEditPressed()" 
         ></app-orden-carga-anticipos-table>
      </div>
 
@@ -59,9 +63,11 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [isEditPedido]="isEditPedido"
               [puedeConciliar]="puedeConciliar"
               [list]="remisionOrigenList"
               (ocChange)="getData()"
+              (buttonAnticipoClicked)="onEditPressed()" 
             ></app-orden-carga-edit-form-remisiones-origen>
           </div>
           <div class="remisiones-item">
@@ -69,9 +75,11 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [isEditPedido]="isEditPedido"
               [puedeConciliar]="puedeConciliar"
               [list]="remisionDestinoList"
               (ocChange)="getData()"
+              (buttonAnticipoClicked)="onEditPressed()" 
             ></app-orden-carga-edit-form-remisiones-destino>
           </div>
         </div>
@@ -84,9 +92,11 @@
                 [oc]="item"
                 [gestorCargaId]="gestorCargaId"
                 [isShow]="isShow"
+                [isEditPedido]="isEditPedido"
                 [puedeConciliar]="puedeConciliar"
                 [list]="complementoList"
                 (ocChange)="getData()"
+                (buttonAnticipoClicked)="onEditPressed()" 
               ></app-orden-carga-edit-form-complementos>
             </div>
           <div class="complementos_descuentos-item">
@@ -94,9 +104,11 @@
               [oc]="item"
               [gestorCargaId]="gestorCargaId"
               [isShow]="isShow"
+              [isEditPedido]="isEditPedido"
               [puedeConciliar]="puedeConciliar"
               [list]="descuentoList"
               (ocChange)="getData()"
+              (buttonAnticipoClicked)="onEditPressed()" 
             ></app-orden-carga-edit-form-descuentos>
           </div>
         </div> 

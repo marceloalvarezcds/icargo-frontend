@@ -27,7 +27,7 @@ import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
-import { Semi, SemiList } from 'src/app/interfaces/semi';
+import { Semi } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -64,6 +64,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
   isEdit = false;
+  isNeto = true;
   originalComentario: string | null = null;
   form = this.fb.group({
     combinacion: this.fb.group({
@@ -262,7 +263,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('El diálogo ha sido cerrado');
+      
     });
   }
 
@@ -363,7 +364,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
                     });
                     this.downloadResumenPDF();
                 } else {
-                    console.log('Diálogo de evaluación cancelado');
+                    // console.log('Diálogo de evaluación cancelado');
                 }
             });
         },
@@ -523,7 +524,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
                         this.createComentarioYConciliar(comentarioUpper);
                     }
                 } else {
-                    console.log('Diálogo de evaluación cancelado');
+                    // console.log('Diálogo de evaluación cancelado');
                 }
                 this.snackBar.open('Generando PDF...', 'Cerrar', {
                     duration: 3000,
@@ -578,6 +579,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
+      this.isNeto = false
       const comentarios = this.item?.comentario || [];
       const data: OCConfirmationDialogData = {
         oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),

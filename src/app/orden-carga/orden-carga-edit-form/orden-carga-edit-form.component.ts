@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -31,7 +31,7 @@ import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dia
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
-import { FleteByGestorDialogFieldComponent } from 'src/app/form-field/flete-by-gestor-dialog-field/flete-by-gestor-dialog-field.component';
+
 
 @Component({
   selector: 'app-orden-carga-edit-form',
@@ -44,6 +44,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   id!: number;
   isCreate = false;
   isEdit = false;
+  isEditPedido = false;
   isCombinacionTouched = true;
   isInfoTouched = false;
   isTramoTouched = false;
@@ -54,6 +55,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   modelo = m.ORDEN_CARGA;
   item?: OrdenCarga;
   flete?: FleteList;
+  isEditPressed: boolean = false;
   combinacionList?: CombinacionList;
   formDisabledTime = new Date();
   combinacionId?: number;
@@ -114,7 +116,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     });
   });
 
-  
 
   get isShow(): boolean {
     return !this.isEdit;
@@ -361,8 +362,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
-      console.log('Nuevo flete recibido:', flete); // Para depurar
-      // Asignar el nuevo flete
       this.flete = flete;
       if (this.item) {
         this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
@@ -476,13 +475,10 @@ private cancelOrdenCarga(): void {
         this.ordenCargaService.cancelar(this.idOC),
         () => {
             this.getData();
-
-            // Abre el diálogo de evaluación
             const dialogRef = this.openEvaluacionesCancelarDialog();
 
             dialogRef.afterClosed().subscribe(result => {
                 if (result) { // Si se acepta el diálogo
-                    // Genera el PDF después de que el diálogo se haya cerrado
                     this.snackBar.open('Generando PDF...', 'Cerrar', {
                         duration: 3000,
                         verticalPosition: 'top',
@@ -540,10 +536,7 @@ private cancelOrdenCarga(): void {
           this.ordenCargaService.finalizar(this.idOC),
           () => {
               this.getData();
-              
-              // Abre el diálogo de evaluación
               const dialogRef = this.openEvaluacionesDialog();
-
               dialogRef.afterClosed().subscribe(result => {
                   if (result) { // Si se acepta el diálogo
                       // Genera el PDF después de que el diálogo se haya cerrado
@@ -640,11 +633,8 @@ private cancelOrdenCarga(): void {
         '¿Está seguro que desea conciliar la Orden de Carga?',
         this.ordenCargaService.conciliar(this.idOC),
         () => {
-            // Esto se ejecuta si el usuario confirma la conciliación
             this.getData();
             this.form.get('info.comentarios')?.disable();
-
-            // Abre el diálogo de evaluación
             const dialogRef = this.openEvaluacionesDialog();
 
             dialogRef.afterClosed().subscribe(result => {
@@ -708,9 +698,10 @@ private cancelOrdenCarga(): void {
   }
 
   enableFleteId(): void {
-    this.form.get('combinacion.flete_id')?.enable(); // Habilita solo el campo flete_id
+    this.form.get('combinacion.flete_id')?.enable(); 
     this.isButtonPressed = true;
-  
+    this.isEditPedido = true;
+    this.isEditPressed = true;
   }
   
 
@@ -718,10 +709,13 @@ private cancelOrdenCarga(): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-  
+    
     if (this.form.valid) {
         const formData = new FormData();
-  
+        this.isButtonPressed = false;
+        this.isEditPedido = false;
+        this.isEditPressed = false;
+        this.form.get('combinacion.flete_id')?.disable(); 
         const data = JSON.parse(
             JSON.stringify({
                 ...this.form.value.combinacion,  
@@ -756,41 +750,47 @@ private cancelOrdenCarga(): void {
             });
         }
     }
-}
-  
-// Nueva función getData para actualizar solo algunos campos
-getDataWithoutOverwritingFlete(): void {
-  const backUrl = this.route.snapshot.queryParams.backUrl;
-  if (backUrl) {
-      this.backUrl = backUrl;
   }
-  this.id = +this.route.snapshot.params.id;
-  this.isEdit = /edit/.test(this.router.url);
   
-  this.ordenCargaService.getById(this.id).subscribe((data) => {
-      this.item = data;
-      //Condiciones GC, Propietario  
-      this.isActive = data.estado === EstadoEnum.NUEVO;
-      this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
-      this.item.condicion_propietario_tarifa = data.condicion_propietario_tarifa;
-      //  Mermas GC
-      this.item.merma_gestor_carga_valor = data.merma_gestor_carga_valor;
+  
+
+  // Este método se ejecuta cuando se presiona el botón en el componente hijo
+  onEditPressed() {
+    this.isEditPressed = true; // Habilitamos el botón "Guardar"
+  }
+
+  getDataWithoutOverwritingFlete(): void {
+    const backUrl = this.route.snapshot.queryParams.backUrl;
+    if (backUrl) {
+        this.backUrl = backUrl;
+    }
+    this.id = +this.route.snapshot.params.id;
+    this.isEdit = /edit/.test(this.router.url);
     
-      this.item.merma_gestor_carga_tolerancia = data.merma_gestor_carga_tolerancia;
-      //Mermas Propietario
-      this.item.merma_propietario_valor = data.merma_propietario_valor;
-     
-      this.item.merma_propietario_tolerancia = data.merma_propietario_tolerancia
+    this.ordenCargaService.getById(this.id).subscribe((data) => {
+        this.item = data;
+        //Condiciones GC, Propietario  
+        this.isActive = data.estado === EstadoEnum.NUEVO;
+        this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
+        this.item.condicion_propietario_tarifa = data.condicion_propietario_tarifa;
+        //  Mermas GC
+        this.item.merma_gestor_carga_valor = data.merma_gestor_carga_valor;
+      
+        this.item.merma_gestor_carga_tolerancia = data.merma_gestor_carga_tolerancia;
+        //Mermas Propietario
+        this.item.merma_propietario_valor = data.merma_propietario_valor;
+      
+        this.item.merma_propietario_tolerancia = data.merma_propietario_tolerancia
 
-      this.originalComentario = data.comentarios ?? null;
-      this.form.get('info.comentarios')?.enable();
+        this.originalComentario = data.comentarios ?? null;
+        this.form.get('info.comentarios')?.enable();
 
-      setTimeout(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value; // Actualiza el valor inicial
-      }, 500);
-  });
-}
+        setTimeout(() => {
+            this.hasChange = false;
+            this.initialFormValue = this.form.value; 
+        }, 500);
+    });
+  }
 
 
   getData(): void {
@@ -806,7 +806,6 @@ getDataWithoutOverwritingFlete(): void {
 
         this.isActive = data.estado === EstadoEnum.NUEVO;
         this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
-        // Solo actualizar campos que cambian en el formulario
         this.form.patchValue({
             combinacion: {
                 ...this.form.value.combinacion, // Mantenemos los valores actuales
@@ -846,25 +845,20 @@ getDataWithoutOverwritingFlete(): void {
             },
             info: {
                 cantidad_nominada: data.cantidad_nominada,
-                // Mantener otros campos de info que ya existían
             },
             tramo: {
                 flete_origen_id: data.flete_origen_id,
                 flete_destino_id: data.flete_destino_id,
                 origen_id: data.flete_origen_nombre,
                 destino_id: data.flete_destino_nombre,
-                // Mantener otros campos de tramo que ya existían
             },
         });
-        this.form.disable(); // Deshabilita todo el formulario
-   
+        this.form.disable(); 
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
-        
-        // Comprobar si se han realizado cambios y actualizar la variable
         setTimeout(() => {
             this.hasChange = false;
-            this.initialFormValue = this.form.value; // Actualiza el valor inicial
+            this.initialFormValue = this.form.value; 
         }, 500);
     });
   }

@@ -269,7 +269,7 @@
           mat-mini-fab
           color="primary"
           matTooltip="Guardar"
-          [disabled]="loading || isDataLoaded"
+          [disabled]="loading || isDataLoaded || !isEditPressed"
           *ngIf="(!isShow && !hideSaveButton) "
           class="save-button"
         >
