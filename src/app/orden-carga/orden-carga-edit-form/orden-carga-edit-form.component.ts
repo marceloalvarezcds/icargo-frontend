@@ -359,25 +359,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
-  onFleteChange(flete: FleteList | undefined): void {
-    if (flete) {
-      this.flete = flete;
-      if (this.item) {
-        this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
-        this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
-        //Mermas para GC
-        this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
-        this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
-        this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
-        //Mermas para Propietario
-        this.item.merma_propietario_valor = flete.merma_propietario_valor;
-        this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
-        this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
-      }
-      this.chRef.detectChanges();
-    }
-  }
+
 
   onCombinacionChange(combinacionList: CombinacionList | undefined): void {
     if (combinacionList) {
@@ -697,6 +679,28 @@ private cancelOrdenCarga(): void {
     });
   }
 
+    
+  onFleteChange(flete: FleteList | undefined): void {
+    if (flete) {
+      this.flete = flete;
+      if (this.item) {
+        this.item.flete_id = flete.id
+        this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
+        this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
+        //Mermas para GC
+        this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
+        this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
+        this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
+        //Mermas para Propietario
+        this.item.merma_propietario_valor = flete.merma_propietario_valor;
+        this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
+        this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
+      }
+      this.chRef.detectChanges();
+    }
+    console.log('flete ocChange', this.item?.flete_id)
+  }
+
   enableFleteId(): void {
     this.form.get('combinacion.flete_id')?.enable(); 
     this.isButtonPressed = true;
@@ -718,8 +722,9 @@ private cancelOrdenCarga(): void {
         this.form.get('combinacion.flete_id')?.disable(); 
         const data = JSON.parse(
             JSON.stringify({
-                ...this.form.value.combinacion,  
+                  
                 ...this.form.value.info,  
+                flete_id: this.item?.flete_id,
                 //Condiciones GC, Propietario      
                 condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa, 
                 condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
@@ -734,7 +739,7 @@ private cancelOrdenCarga(): void {
             })
         );
 
-        // console.log('Datos enviados:', data); // Verifica los datos enviados
+        console.log('Datos enviados:', data); // Verifica los datos enviados
   
         formData.append('data', JSON.stringify(data));
   
@@ -831,7 +836,7 @@ private cancelOrdenCarga(): void {
                 producto_descripcion: data.flete_producto_descripcion,
                 origen_nombre: data.flete_origen_nombre,
                 destino_nombre: data.flete_destino_nombre,
-                a_pagar: data.condicion_gestor_cuenta_tarifa,
+               
                 neto: data.neto,
                 valor: data.flete_monto_efectivo,
                 cant_origen: data.cantidad_origen,

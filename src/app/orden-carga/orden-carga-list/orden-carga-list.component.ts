@@ -33,7 +33,7 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
-   
+
     },
     {
       def: 'estado',
@@ -45,8 +45,6 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'created_at',
       title: 'Fecha',
       value: (element: OrdenCargaList) => this.formatDate(element.created_at),
-    
-      
     },
     {
       def: 'nro_tickets',
@@ -139,7 +137,6 @@ export class OrdenCargaListComponent implements OnInit {
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
   }
-
 
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;

@@ -15,4 +15,8 @@ export class InsumoService {
   getListByTipoInsumoId(tipoInsumoId: number): Observable<Insumo[]> {
     return this.http.get<Insumo[]>(`${this.url}/tipo_insumo/${tipoInsumoId}`);
   }
+
+  getList(): Observable<Insumo[]> {
+    return this.http.get<Insumo[]>(`${this.url}/`);
+  }
 }

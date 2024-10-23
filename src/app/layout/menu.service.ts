@@ -175,6 +175,13 @@ export class MenuService {
         active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
       },
       {
+        name: 'Insumo',
+        iconName: 'inventory_2',
+        iconOutline: true,
+        path: `/insumo/${m.INSUMO}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO),
+      },
+      {
         name: u.CAJA_BANCO,
         iconName: 'account_balance_wallet',
         // iconName: 'local_atm',
