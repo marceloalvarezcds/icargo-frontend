@@ -27,7 +27,7 @@ import { LayoutComponent } from './layout/layout.component';
 import { MaterialModule } from './material/material.module';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 import { SharedModule } from './shared/shared.module';
-import { InsumoListComponent } from './insumo/insumo-list/insumo-list.component';
+
 
 registerLocaleData(es);
 
@@ -59,7 +59,6 @@ if (environment.sentryUrl) {
     LayoutComponent,
     HomeComponent,
     PageNotFoundComponent,
-    InsumoListComponent,
   ],
   imports: [
     BrowserModule,

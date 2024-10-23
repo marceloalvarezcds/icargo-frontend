@@ -735,11 +735,12 @@ private cancelOrdenCarga(): void {
                 //Mermas para Propietario
                 merma_propietario_valor: this.item?.merma_propietario_valor,
               
-                merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia
+                merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
+                anticipos: this.item?.porcentaje_anticipos
             })
         );
 
-        console.log('Datos enviados:', data); // Verifica los datos enviados
+        // console.log('Datos enviados:', data); // Verifica los datos enviados
   
         formData.append('data', JSON.stringify(data));
   
@@ -756,10 +757,7 @@ private cancelOrdenCarga(): void {
         }
     }
   }
-  
-  
 
-  // Este método se ejecuta cuando se presiona el botón en el componente hijo
   onEditPressed() {
     this.isEditPressed = false; // Habilitamos el botón "Guardar"
   }
@@ -787,6 +785,8 @@ private cancelOrdenCarga(): void {
       
         this.item.merma_propietario_tolerancia = data.merma_propietario_tolerancia
 
+        this.item.porcentaje_anticipos = data.porcentaje_anticipos
+
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
 
@@ -805,7 +805,7 @@ private cancelOrdenCarga(): void {
     }
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-    
+
     this.ordenCargaService.getById(this.id).subscribe((data) => {
         this.item = data;
 

@@ -60,11 +60,9 @@ export class EvaluacionesDialogComponent {
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-  
-    console.log('Formulario enviado:', this.form.value); // Log del formulario al enviarlo
-    
+
     if (this.form.valid) {
-      console.log('El formulario es válido');
+
       const tipoIncidente: TipoIncidente = this.tipoIncidenteControl.value;
       const tipoIncidenteId = tipoIncidente?.id;
       const ordenCargaId = this.data?.orden_carga_id;
@@ -92,8 +90,6 @@ export class EvaluacionesDialogComponent {
         destino_id: destinoId, 
         producto_id: productoId,
       };
-
-      console.log('Datos que se van a enviar:', data); // Log de los datos que se enviarán
   
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
@@ -103,7 +99,7 @@ export class EvaluacionesDialogComponent {
         .subscribe(this.close.bind(this));
       
     } else {
-      console.log('El formulario no es válido', this.form.errors); // Log de los errores si el formulario no es válido
+ // Log de los errores si el formulario no es válido
     }
   }
   

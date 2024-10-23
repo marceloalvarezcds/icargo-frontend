@@ -1,12 +1,10 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormArray, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { OrdenCargaAnticipoDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
 import { OrdenCargaAnticipoSaldo } from 'src/app/interfaces/orden-carga-anticipo-saldo';
-import { ProportionValidator } from 'src/app/validators/proportion-validator';
 import { OrdenCargaAnticipoPorcentajeForm } from 'src/app/interfaces/orden-carga-anticipo-porcentaje';
 
 @Component({
@@ -35,11 +33,22 @@ export class OcGestionLineaComponent  {
   }
 
   getTotalAnticipo(): number {
-    if (!this.oc?.porcentaje_anticipos) {
-      return 0;
+    if (!this.oc?.flete_anticipos?.length) {
+      return 0; // Si no hay anticipos, devuelve 0
     }
-    return this.oc.porcentaje_anticipos.reduce((total, anticipo) => total + anticipo.porcentaje, 0);
+
+    // Suma los porcentajes de los anticipos
+    return this.oc.flete_anticipos.reduce((total, anticipo) => total + (anticipo.porcentaje || 0), 0);
   }
+
+  getUniqueAnticipos(anticipos: any[]) {
+    return anticipos.filter((value, index, self) => 
+      index === self.findIndex((t) => (
+        t.concepto === value.concepto
+      ))
+    );
+  }
+  
 
   columns: Column[] = [
 

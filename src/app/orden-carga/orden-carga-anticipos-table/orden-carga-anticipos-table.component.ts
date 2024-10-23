@@ -16,6 +16,7 @@ import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-ret
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
+import { FleteList } from 'src/app/interfaces/flete';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -28,6 +29,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   anticiposEfectivo: any[] = [];
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
+  @Output() fleteChange = new EventEmitter<FleteList>();
   a = PermisoAccionEnum;
   columns: Column[] = [
 
@@ -235,8 +237,10 @@ openEvaluacionesDialog(): void {
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {
       width: '1600px',  
-      data: { oc: this.oc } 
+      data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos} 
+     
     });
+    console.log('dataGESTION', this.oc?.flete_anticipos)
   }
 
   create(): void {
