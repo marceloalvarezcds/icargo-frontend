@@ -8,6 +8,7 @@ export interface FacturaFormDialogData {
   contribuyente: string,
   tipo_contraparte_id: number;
   contraparte_id: number;
+  punto_venta_id?: number;
 }
 
 export const mockFacturaFormDialogData: FacturaFormDialogData = {
@@ -18,6 +19,7 @@ export const mockFacturaFormDialogData: FacturaFormDialogData = {
   contribuyente: 'contraparte',
   tipo_contraparte_id: 0,
   contraparte_id: 0,
+  punto_venta_id: 0,
 };
 
 export const mockFacturaFormDialogDataWithoutItem: FacturaFormDialogData = {
@@ -27,4 +29,5 @@ export const mockFacturaFormDialogDataWithoutItem: FacturaFormDialogData = {
   contribuyente: 'contraparte',
   tipo_contraparte_id: 0,
   contraparte_id: 0,
+  punto_venta_id: 0,
 };

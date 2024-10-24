@@ -29,8 +29,10 @@ export class FacturaFormDialogComponent {
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
     iva_incluido: [ this.data?.iva_incluido ],
+    sentido_mov_iva: [ this.data?.sentido_mov_iva ],
     sentido_mov_iva_pagar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_iva_cobrar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'COBRAR' ? true : undefined : undefined],
+    sentido_mov_retencion: [ this.data?.sentido_mov_retencion ],
     sentido_mov_retencion_pagar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_retencion_cobrar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'COBRAR' ? true : undefined : undefined ],
     retencion: [this.data?.retencion, [Validators.required, Validators.min(0)]],
@@ -73,6 +75,10 @@ export class FacturaFormDialogComponent {
     return this.dialogData.liquidacion_id;
   }
 
+  get proveedorPDVId(): number | undefined {
+    return this.dialogData.punto_venta_id;
+  }
+
   get valorOperacion(): number {
     return this.dialogData.valor_operacion;
   }
@@ -107,6 +113,7 @@ export class FacturaFormDialogComponent {
         this.liquidacionId,
         this.tipo_contraparte_id,
         this.contraparte_id,
+        this.proveedorPDVId,
       );
       if (this.data && this.data?.id) {
         this.facturaService

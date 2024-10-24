@@ -156,12 +156,13 @@ export class LiquidacionFormDialogComponent {
   }
 
   onCreateLiquidacion(liquidacion:Liquidacion): void {
-    
-    // TODO: cambiar llamada
-    const contraparteId = liquidacion.chofer_id ?? liquidacion.propietario_id 
-        ?? liquidacion.proveedor_id ?? liquidacion.remitente_id;
 
-    this.estadoCuentaService
+    // TODO: cambiar llamada
+    const contraparteId = liquidacion.tipo_contraparte_descripcion === 'Otro'
+      ? liquidacion.tipo_contraparte_id
+      : liquidacion.chofer_id ?? liquidacion.propietario_id ?? liquidacion.proveedor_id ?? liquidacion.remitente_id ;
+
+    /*this.estadoCuentaService
       .getByContraparte(
         liquidacion.tipo_contraparte_id,
         contraparteId!,
@@ -170,8 +171,8 @@ export class LiquidacionFormDialogComponent {
         liquidacion.punto_venta_id
       )
       .pipe(filter((e) => !!e))
-      .subscribe((estadoCuenta) => {
-        this.estadoCuenta = estadoCuenta!;
+      .subscribe((estadoCuenta) => {*/
+      //  this.estadoCuenta = estadoCuenta!;
 
         this.liquidacionId = liquidacion.id;
         this.etapa = liquidacion.etapa;
@@ -180,7 +181,7 @@ export class LiquidacionFormDialogComponent {
         this.isNew = false;
         this.isEdit = true;
 
-    });
+   // });
   }
 
   cerrarLiquidacion(): void {
@@ -196,7 +197,7 @@ export class LiquidacionFormDialogComponent {
     this.estadoCuentaService
       .getByContraparte(
         this.data.tipo_contraparte_id,
-        this.data.contraparte_id,
+        this.data.tipo_contraparte_descripcion === "Otro" ? this.data.tipo_contraparte_id : this.data.contraparte_id,
         this.data.contraparte,
         this.data.contraparte_numero_documento,
         this.data.punto_venta_id
