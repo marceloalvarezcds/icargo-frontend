@@ -78,6 +78,13 @@ const routes: Routes = [
           ),
       },
       {
+        path: PermisoModuloRouterEnum.INSUMO,
+        loadChildren: () =>
+          import('./insumo/insumo.module').then(
+            (m) => m.InsumoModule
+          ),
+      },
+      {
         path: PermisoModuloRouterEnum.PARAMETROS,
         loadChildren: () =>
           import('./parametros/parametros.module').then(

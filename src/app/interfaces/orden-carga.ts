@@ -186,6 +186,8 @@ export interface OrdenCargaList extends OrdenCargaForm {
   // Datos de semi
   semi_placa: string;
   combinacion_id: number;
+  combinacion_chofer_nombre: string;
+  combinacion_chofer_doc: string;
   // Datos de fletes
   flete_destino_nombre: string;
   flete_gestor_carga_id: number;
@@ -402,7 +404,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 90,
     resultado_gestor_carga_saldo_total:100,
-
+    combinacion_chofer_nombre: 'dario',
+    combinacion_chofer_doc: '900',
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -457,12 +460,13 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_remitente_numero_documento: flete1.remitente_numero_documento,
     flete_tipo: flete1.tipo_flete,
     gestor_carga_nombre: flete0.gestor_carga_nombre,
+    combinacion_chofer_nombre: 'dario',
     condicion_propietario_tarifa: 90,
     resultado_gestor_carga_saldo_total:100,
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,
-
+    combinacion_chofer_doc: '900',
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -502,6 +506,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
     camion_placa: camion0.placa,
     camion_propietario_nombre: camion0.propietario_nombre,
+    combinacion_chofer_nombre: 'dario',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,
@@ -522,7 +527,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,
-
+    combinacion_chofer_doc: '900',
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',

@@ -71,12 +71,12 @@ export class OrdenCargaListComponent implements OnInit {
     {
       def: 'camion_chofer_nombre',
       title: 'Chofer',
-      value: (element: OrdenCargaList) => element.camion_chofer_nombre,
+      value: (element: OrdenCargaList) => element.combinacion_chofer_nombre,
     },
     {
       def: 'camion_chofer_documento',
       title: 'Nº de Doc.',
-      value: (element: OrdenCargaList) => element.camion_chofer_numero_documento,
+      value: (element: OrdenCargaList) => element.combinacion_chofer_doc,
     },
     {
       def: 'flete_id',
