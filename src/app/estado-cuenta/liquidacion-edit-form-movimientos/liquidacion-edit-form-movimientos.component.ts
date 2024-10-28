@@ -334,6 +334,11 @@ export class LiquidacionEditFormMovimientosComponent {
       this.snackbar.open( 'No se puede eliminar movimiento Fiscal!');
       return;
     }
+    
+    if (this.selectedItems.length === 0) {
+      this.snackbar.open( 'No se ha seleccionado movimientos a borrar!');
+      return;
+    }
 
     const movimientos = this.selectedItems.map((mov) => mov.id).join(', ');
     const message = `¿Está seguro que desea remover los movimients  Nº ${movimientos} de la lista?`;
