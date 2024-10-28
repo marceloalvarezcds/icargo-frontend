@@ -383,7 +383,9 @@ td.mat-column-saldo_inst_banco:not(:first-child){
 
 td.mat-column-movimientos_saldo:not(:first-child),
 td.mat-column-instrumentos_saldo:not(:first-child),
-td.mat-column-saldo_residual:not(:first-child) {
+td.mat-column-pago_cobro:not(:first-child),
+td.mat-column-saldo_cc:not(:first-child),
+td.mat-column-saldo_residual:not(:first-child) {  
   width: 90px;
   text-align: right; /* Alinea el contenido a la derecha */
   padding-right: 10px;
