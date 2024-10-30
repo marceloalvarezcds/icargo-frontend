@@ -440,7 +440,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
               this.finalizeOrdenCarga();
           },
           (error) => {
-              console.error('Error al crear el comentario', error);
+             
           }
       );
   }
@@ -508,11 +508,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
         '¿Está seguro que desea conciliar la Orden de Carga?',
         this.ordenCargaService.conciliar(this.idOC),
         () => {
-            // Esto se ejecuta si el usuario confirma la conciliación
             this.getData();
             this.form.get('info.comentarios')?.disable();
-
-            // Abre el diálogo de evaluación
             const dialogRef = this.openEvaluacionesDialog();
 
             dialogRef.afterClosed().subscribe(result => {

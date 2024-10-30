@@ -115,7 +115,9 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
-    this.fleteChange.emit(flete);
+
+      this.fleteChange.emit(flete);
+  
     
     this.fleteService.getList().subscribe(
       (fletes: FleteList[]) => {
@@ -151,8 +153,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         if (formGroup?.get('valor')?.value !== flete.merma_gestor_carga_valor) {
           formGroup?.get('valor')?.setValue(flete.merma_gestor_carga_valor);
         }
-  
-        // Si los campos "cant_origen", "cant_destino" y "diferencia" siempre son cero, no es necesario verificar
         formGroup?.get('cant_origen')?.setValue(0);
         formGroup?.get('cant_destino')?.setValue(0);
         formGroup?.get('diferencia')?.setValue(0);
@@ -233,15 +233,10 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(oc?.flete_origen_nombre);
       this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(oc?.flete_destino_nombre); 
       this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(oc.flete_tipo); 
-      this.form?.get(this.groupName)?.get('a_pagar')?.setValue(oc.condicion_gestor_cuenta_tarifa); 
-      this.form?.get(this.groupName)?.get('valor')?.setValue(oc.resultado_flete_gestor_carga_merma_valor); 
-  
-      // No actualizar si el usuario ha modificado el valor manualmente
+
       if (this.manualChange) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
       }
-  
-  
       this.form?.get(this.groupName)?.get('cant_origen')?.setValue(oc.cantidad_origen);
       this.form?.get(this.groupName)?.get('cant_destino')?.setValue(oc.cantidad_destino);
       this.form?.get(this.groupName)?.get('diferencia')?.setValue(oc.diferencia_origen_destino);

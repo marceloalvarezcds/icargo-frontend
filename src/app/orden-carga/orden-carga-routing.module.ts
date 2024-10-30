@@ -63,16 +63,12 @@ const routes: Routes = [
         component: OrdenCargaEditFormComponent,
         canActivate: [PermisoGuard],
       },
-     
-
       {
         path: `${a.VER}/:id`,
         component: OrdenCargaEditFormComponent,
         canActivate: [PermisoGuard],
       },
      
-    
-  
     ],
   },
 ];

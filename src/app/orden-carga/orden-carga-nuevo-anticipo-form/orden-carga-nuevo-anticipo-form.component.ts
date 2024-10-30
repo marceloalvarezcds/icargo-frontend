@@ -462,7 +462,7 @@ downloadResumenPDF(): void {
             destino_nombre: data.flete_destino_nombre,
             a_pagar: data.condicion_gestor_cuenta_tarifa,
             neto: data.neto,
-            valor: data.flete_monto_efectivo,
+            valor: data.merma_gestor_carga_valor,
             cant_origen: data.cantidad_origen,
             cant_destino: data.cantidad_destino,
             diferencia: data.diferencia_origen_destino,
@@ -490,7 +490,7 @@ downloadResumenPDF(): void {
         this.isShow = false
       });
     } else {
-      console.warn('No se ha encontrado un ID de Orden de Carga válido');
+      
       this.isLoadingData = false; 
     }
   }

@@ -1,7 +1,7 @@
 <div *ngIf="form" class="search-container">
   <ng-container *ngIf="fetchFunction || list.length; else inputTemplate">
     <label  class="form-label mr-2"       [ngClass]="{
-      'label-punto-venta': controlName === 'punto_venta_id' || controlName === 'insumo_punto_venta_precio_id'}">{{ title }}</label>
+      'label-punto-venta mr-2': controlName === 'punto_venta_id' || controlName === 'insumo_punto_venta_precio_id'}">{{ title }}</label>
     <mat-form-field   [ngClass]="getClassForControl(controlName)">
       <app-dialog-form-field-control
         [descripcionPropName]="inputValuePropName"

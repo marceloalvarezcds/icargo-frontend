@@ -116,7 +116,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     });
   });
 
-
   get isShow(): boolean {
     return !this.isEdit;
   }
@@ -178,7 +177,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       ) && this.isFinalizado
     );
   }
-
 
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
@@ -276,8 +274,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.getData();
-  }
-  
+  }  
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
@@ -385,7 +382,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         }
       );
     } else {
-      console.error('No se puede aceptar la orden de carga sin un ID válido');
+     
     }
   }
   
@@ -474,7 +471,6 @@ private cancelOrdenCarga(): void {
         },
     );
 }
-
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -698,7 +694,7 @@ private cancelOrdenCarga(): void {
       }
       this.chRef.detectChanges();
     }
-    console.log('flete ocChange', this.item?.flete_id)
+
   }
 
   enableFleteId(): void {
@@ -836,9 +832,9 @@ private cancelOrdenCarga(): void {
                 producto_descripcion: data.flete_producto_descripcion,
                 origen_nombre: data.flete_origen_nombre,
                 destino_nombre: data.flete_destino_nombre,
-               
+                a_pagar: data.condicion_propietario_tarifa,
                 neto: data.neto,
-                valor: data.flete_monto_efectivo,
+                valor: data.merma_gestor_carga_valor,
                 cant_origen: data.cantidad_origen,
                 cant_destino: data.cantidad_destino,
                 diferencia: data.diferencia_origen_destino,

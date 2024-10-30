@@ -81,7 +81,7 @@ export class FleteByGestorDialogFieldComponent {
   
   @Output() valueChange = new EventEmitter<FleteList>();
 
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList >;
 
   constructor(private fleteService: FleteService) {}
   
