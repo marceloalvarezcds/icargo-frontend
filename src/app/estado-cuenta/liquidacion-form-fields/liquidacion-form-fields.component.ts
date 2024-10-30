@@ -103,9 +103,6 @@ export class LiquidacionFormFieldsComponent {
     let es_pago_cobro = (this.childSaldoView.saldoMovimiento >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
 
-    console.log(es_pago_cobro);
-    console.log(this.childSaldoView.saldo);
-
     if (this.controlTipoMovimiento()){
       this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
       return;

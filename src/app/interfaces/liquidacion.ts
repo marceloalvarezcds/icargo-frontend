@@ -47,7 +47,7 @@ export interface Liquidacion extends ContraparteInfo {
   created_at: string;
   modified_by: string;
   modified_at: string;
-  pago_cobro: number;
+  pago_cobro: number | null;
   monto?: number ;
   user_aprueba?: string;
   aprobado_at?: string;

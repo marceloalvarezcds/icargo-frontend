@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -23,14 +23,12 @@ import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { createMovimiento, deleteMovimiento,
-  editMovimiento,
-  redirectToShowOCByMovimiento, } from 'src/app/utils/movimiento-utils';
-import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
+  editMovimiento } from 'src/app/utils/movimiento-utils';
+import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { AfectadoEnum } from 'src/app/enums/afectado-enum';
-import { edit } from 'src/app/utils/table-event-crud';
 import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
 import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
@@ -267,7 +265,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       label: 'MOVIMIENTO',
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
-        console.log('alerta desde button: ', $event);
         this.create();
       }
     },
@@ -280,7 +277,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       label: 'LIQUIDACION',
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
-        console.log('alerta desde button: ', $event);
         this.createLiquidacion();
       }
     }
@@ -386,16 +382,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
-    ) {
-
-      this.columns.unshift(
-        ...[
-
-        ]
-      );
-
-
-    }
+    ) { }
 
     ngOnInit(): void {
       this.getList();
@@ -519,7 +506,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     createLiquidacion():void {
-
       const {
         contraparte_id,
         contraparte,
@@ -552,21 +538,15 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     private delete(mov: MovimientoEstadoCuenta): void {
-
       this.movimientoService.getById(mov.movimiento_id)
         .subscribe( (resp:Movimiento) => {
-
           deleteMovimiento(
             resp,
             this.dialog,
             this.movimientoService,
             this.snackbar,
             () => {
-              /*
-              this.selectedMovimientosChange.emit(
-                this.list.filter((x) => x.id !== mov.id)
-              );
-              */
+              this.getList();
             }
           );
 
@@ -574,9 +554,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     private edit(item: MovimientoEstadoCuenta): void {
-
       // obtenemos movimiento por id y llamamos al dialog
-
       this.movimientoService.getById(item.movimiento_id)
         .subscribe( (resp:Movimiento) => {
 
@@ -586,7 +564,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             item: resp,
           };
           editMovimiento(data, this.dialog, this.snackbar, () => {
-            //this.selectedMovimientosChange.emit(this.list);
+            this.getList();
           });
 
       });
@@ -641,7 +619,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     private getList(): void {
 
-      console.log('test');
       const {
         backUrl,
         etapa,
@@ -693,19 +670,12 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
             element.movimiento_saldo = (element.pendiente + element.confirmado + element.finalizado);
 
-            console.log("element.movimiento_saldo");
-            console.log(element.movimiento_saldo);
-            console.log(element.pendiente + element.confirmado + element.finalizado);
-            console.log(element.pendiente );
-            console.log(element.finalizado);
-            console.log(element.confirmado);
-
           })*/
 
           let acumulado = 0;
           let firsPendiente = false;
           data.reverse().forEach(element =>{
-            console.log(element.confirmado);
+
             if (!firsPendiente && element.estado === 'Pendiente'){
               acumulado = 0;
               firsPendiente=true;

@@ -104,9 +104,6 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   prepareSend(): void {
-    console.log("monto pago: ", this.monto);
-    console.log("monto: ", this.monto);
-    console.log("monto: ", this.child.childSaldoView.monto);
 
     //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {

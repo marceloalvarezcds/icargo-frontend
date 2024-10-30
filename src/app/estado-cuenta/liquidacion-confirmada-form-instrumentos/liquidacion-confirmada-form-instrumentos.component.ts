@@ -153,11 +153,11 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
   saveInstrumentos(): void {
     const list = this.list.slice().map( (ele:InstrumentoLiquidacionItem) => {
-      ele.saldo_cc = (this.saldoCC - this.liquidacion!.pago_cobro);
+      ele.saldo_cc = (this.saldoCC - this.liquidacion!.pago_cobro!);
       return  ele
     });
     const message = `Por favor verifique que los datos de instrumentos y facturas estén correctos, luego de realizar esta acción no podrá modificar los datos de los mismos ¿ Desea guardar ?`;
-    console.log("this.saldoCC: ", this.saldoCC);
+
     this.dialogService.confirmationWithSnackbar(
       message,
       this.liquidacionService.addInstrumentos(

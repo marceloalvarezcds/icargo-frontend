@@ -28,7 +28,7 @@ export class LiquidacionFormMovimientosComponent {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº',
+      title: 'ID Mov.',
       value: (element: Movimiento) => element.id,
       type: 'checkbox',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),

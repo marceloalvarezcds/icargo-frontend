@@ -15,7 +15,7 @@ export class LiquidacionConfirmDialogComponent {
   columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº de Movimiento',
+      title: 'ID Mov.',
       value: (element: Movimiento) => element.id,
     },
     {

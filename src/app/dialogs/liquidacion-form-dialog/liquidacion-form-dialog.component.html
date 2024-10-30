@@ -45,7 +45,7 @@
           [movimientos]="list"
           (actualizarLiquidacion)="loadLiquidacion()"
           (actualizarEstado)="cerrarLiquidacion()"
-          (actualizarMovimientos)="getMovimientos(liquidacion!)"
+          (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)"
         >
       </app-liquidacion-edit-fields>
 
@@ -71,6 +71,6 @@
 
   </footer>
 
-    
+
 
 

@@ -167,7 +167,7 @@ export class LiquidacionEditFormComponent implements OnInit {
 
   loadLiquidacion(): void {
     this.liquidacionService.getById(this.id!).subscribe((item) => {
-      console.log("item: ", item);
+
       this.item = item;
       this.actual_contraparte = this.item.contraparte;
       this.actual_contraparte_numero_documento = this.item.contraparte_numero_documento;
