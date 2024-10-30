@@ -210,6 +210,7 @@ export class LiquidacionEditFormAccionesComponent {
       valor_operacion: this.liquidacion.pago_cobro,
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
+      punto_venta_id: this.liquidacion.punto_venta_id,
       item,
     };
 

@@ -55,9 +55,12 @@
 
       <div class="col-3 checkbox-filter-container">
         <fieldset [disabled]="editFormCheck">
+          <mat-label>Movimiento IVA</mat-label>
           <section>
-            <mat-checkbox  formControlName="sentido_mov_iva_pagar">A Pagar</mat-checkbox>
-            <mat-checkbox  formControlName="sentido_mov_iva_cobrar">A Cobrar</mat-checkbox>
+            <mat-radio-group formControlName="sentido_mov_iva" >
+              <mat-radio-button value="PAGAR">A Pagar</mat-radio-button>
+              <mat-radio-button value="COBRAR">A Cobrar</mat-radio-button>
+            </mat-radio-group>
           </section>
         </fieldset>
       </div>
@@ -70,9 +73,13 @@
 
       <div class="col-3 checkbox-filter-container">
         <fieldset [disabled]="editFormCheck">
+          <mat-label>Movimiento Retencion</mat-label>
           <section>
-            <mat-checkbox  formControlName="sentido_mov_retencion_pagar">A Pagar</mat-checkbox>
-            <mat-checkbox  formControlName="sentido_mov_retencion_cobrar">A Cobrar</mat-checkbox>
+            <mat-radio-group formControlName="sentido_mov_retencion" >
+              <mat-radio-button value="PAGAR">A Pagar</mat-radio-button>
+              <mat-radio-button value="COBRAR">A Cobrar</mat-radio-button>
+            </mat-radio-group>
+
           </section>
         </fieldset>
       </div>
@@ -124,7 +131,7 @@
       color="primary"
       id="submit-button"
     >
-      Aceptar
+      Guardar
     </button>
   </div>
 </form>

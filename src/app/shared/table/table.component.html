@@ -17,7 +17,6 @@
           [ngClass]="{
             'sticky-column': isStickyColumn(column),
             'header-height': column.def !== 'actions' && column.def === 'estado_historial'
-
           }">
         <ng-container *ngIf="column.type === 'checkbox'">
           <mat-checkbox
@@ -84,8 +83,13 @@
                                 column.def === 'saldo_gestor_carga' ||
                                 column.def === 'saldo_propietario', 
             'align-right-monto':column.def === 'monto' ||
-                                column.def === 'monto_ml',
-
+                                column.def === 'monto_ml' ||
+                                column.def === 'movimientos_saldo' ||                   
+                                column.def === 'instrumentos_saldo' ||
+                                column.def === 'saldo_cc' || 
+                                column.def === 'saldo_residual' || 
+                                column.def === 'pago_cobro',
+                                
             'align-right-instr':column.def === 'credito_caja_instrumento' ||
                                 column.def === 'debito_caja_instrumento' ||
                                 column.def === 'saldo_caja' ||
@@ -93,20 +97,18 @@
                                 column.def === 'debito_inst_banco'  ||
                                 column.def === 'pendiente_inst_banco' ||
                                 column.def === 'saldo_inst_banco',
-            'align-right-liq':  column.def === 'movimientos_saldo' ||                   
-                                column.def === 'instrumentos_saldo' ||
-                                column.def === 'saldo_residual',
+           
             'align-right-oc':  
                                 column.def === 'total_anticipo' ||
                                 column.def === 'total_complemento' ||
                                 column.def === 'total_disponible' ||
                                 column.def === 'total_retirado' ||
-                                column.def === 'saldo' ||
-                   
+                                column.def === 'saldo' ||                   
                                 column.def === 'created_by_anticipo' ||
                                 column.def === 'created_at_anticipo' ||
                                 column.def === 'modified_by_anticipo' ||
                                 column.def === 'modified_at_anticipo',
+
               'align-right-porcentaje':  
                                 column.def === 'porcentaje'
         }"
