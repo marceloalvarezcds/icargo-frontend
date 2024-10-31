@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -27,7 +27,7 @@ import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confi
   templateUrl: './liquidacion-edit-fields.component.html',
   styleUrls: ['./liquidacion-edit-fields.component.scss']
 })
-export class LiquidacionEditFieldsComponent {
+export class LiquidacionEditFieldsComponent implements OnChanges {
 
   E = LiquidacionEstadoEnum;
 
@@ -53,7 +53,7 @@ export class LiquidacionEditFieldsComponent {
   liquidacionTipoInsumo = false;
 
   get monto(): number {
-    return this.item?.pago_cobro ?? subtract((this.item?.credito ?? 0), (this.item?.debito ?? 0));
+    return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
   }
 
   get montoSaldo(): number {
@@ -122,6 +122,23 @@ export class LiquidacionEditFieldsComponent {
     this.obtenetTipoLiquidacion();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      const chng = changes[propName];
+      if (propName === 'movimientos') {
+        this.actualizarSaldos(chng.currentValue);
+      }
+    }
+  }
+
+  actualizarSaldos(movs:Movimiento[]):void{
+    const deb = movs.reduce((acc, cur) => acc + cur.debito, 0);
+    const cred = movs.reduce((acc, cur) => acc + cur.credito, 0);
+    this.item!.debito = deb;
+    this.item!.credito = cred;
+    if (this.item!.pago_cobro == null) this.item!.pago_cobro = subtract(cred, deb);
+  }
+
   actualizarFactura():void{
     this.liquidacionFacturasComponent?.loadList();
   }
@@ -148,9 +165,12 @@ export class LiquidacionEditFieldsComponent {
 
   }
 
-  actualizarMovimientosEvento(movimientos:any){
+  actualizarMovimientosEvento(movimientos: Movimiento[]){
     //this.movimientos = movimientos;
+
     this.obtenetTipoLiquidacion();
+    // recalcula saldo y monto pago cobro
+    this.item!.pago_cobro = null;
     this.actualizarMovimientos.emit(movimientos);
   }
 
@@ -166,7 +186,7 @@ export class LiquidacionEditFieldsComponent {
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 
-          this.actualizarLiquidacion.emit(resp);
+          //this.actualizarLiquidacion.emit(resp);
 
           /*if (confirmed) {
             this.router.navigate([backUrl]);
@@ -178,7 +198,7 @@ export class LiquidacionEditFieldsComponent {
             }
           }*/
 
-          this.movimientos.splice(0, this.movimientos.length);
+          //this.movimientos.splice(0, this.movimientos.length);
         });
 
   }

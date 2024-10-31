@@ -123,7 +123,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
 
   edit({ row }: TableEvent<Factura>): void {
     this.showAlertMessage(() =>
-      edit(this.getDialogRef(row), this.emitChange.bind(this))
+      edit(this.getDialogRef(row), ()=>this.emitChange("Procesado con exito!"))
     );
   }
 

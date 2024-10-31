@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
-import { saveAs } from 'file-saver';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -14,7 +13,6 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
-import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -24,7 +22,6 @@ import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
-import { subtract } from 'src/app/utils/math';
 
 type Filter = {
   tipo_contraparte_descripcion?: string;
@@ -269,8 +266,6 @@ export class LiquidacionesListComponent implements OnInit {
     } else {
       this.liquidacionSelected = this.liquidacionSelected.filter((m) => m.id !== item.id);
     }
-
-    console.log("this.liquidacionSelected: ", this.liquidacionSelected);
   }
 
   redirectToEdit(event: TableEvent<Liquidacion>): void {
@@ -293,9 +288,6 @@ export class LiquidacionesListComponent implements OnInit {
       punto_venta_id: liquidacion.punto_venta_id
     };
 
-    console.log("contraparte id: ", contraparteId);
-    console.log("data: ", data);
-    console.log("data: ", event.row);
 
     this.dialog
       .open(LiquidacionFormDialogComponent, {
@@ -328,10 +320,6 @@ export class LiquidacionesListComponent implements OnInit {
       liquidacionId: event.row.id,
       etapa: event.row.etapa,
     };
-
-    console.log("contraparte id: ", contraparteId);
-    console.log("data: ", data);
-    console.log("data: ", event.row);
 
     this.dialog
       .open(LiquidacionFormDialogComponent, {

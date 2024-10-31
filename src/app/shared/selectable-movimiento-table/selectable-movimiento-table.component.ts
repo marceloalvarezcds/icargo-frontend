@@ -20,7 +20,7 @@ export class SelectableMovimientoTableComponent {
   @Input() columns: Column[] = [
     {
       def: 'id',
-      title: 'Nº de Movimiento',
+      title: 'ID mov.',
       value: (element: Movimiento) => element.id,
       type: 'checkbox',
       sticky: true,

@@ -207,7 +207,7 @@ export class LiquidacionEditFormAccionesComponent {
       liquidacion_id: this.liquidacion.id,
       contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
-      valor_operacion: this.liquidacion.pago_cobro,
+      valor_operacion: this.liquidacion.pago_cobro!,
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       punto_venta_id: this.liquidacion.punto_venta_id,

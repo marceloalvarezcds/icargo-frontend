@@ -11,8 +11,6 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { LiquidacionEditFieldsComponent } from 'src/app/estado-cuenta/liquidacion-edit-fields/liquidacion-edit-fields.component';
 import { LiquidacionFormFieldsComponent } from 'src/app/estado-cuenta/liquidacion-form-fields/liquidacion-form-fields.component';
-import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
-import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
@@ -22,7 +20,6 @@ import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { subtract } from 'src/app/utils/math';
 
 @Component({
   selector: 'app-liquidacion-form-dialog',
@@ -192,7 +189,7 @@ export class LiquidacionFormDialogComponent {
     this.dialogRef.close(true);
   }
 
-  private getEstadoCuenta(): void {
+  getEstadoCuenta(): void {
     console.log("data: ", this.data);
     this.estadoCuentaService
       .getByContraparte(
@@ -208,7 +205,7 @@ export class LiquidacionFormDialogComponent {
     });
   }
 
-  private getData(): void {
+  getData(): void {
 
     /*const {
       backUrl,
@@ -267,6 +264,11 @@ export class LiquidacionFormDialogComponent {
       .subscribe((data) => {
         this.list = data;
       });
+  }
+
+  refreshEstadoCuentaYMovimiento(liq: Liquidacion): void{
+    this.getEstadoCuenta();
+    this.getMovimientos(liq!);
   }
 
 }

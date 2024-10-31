@@ -161,7 +161,7 @@ export class LiquidacionEditFormMovimientosComponent {
     if (value) {
       this.columns.unshift({
         def: 'id',
-        title: 'Nº',
+        title: 'ID Mov.',
         value: (element: Movimiento) => element.id,
         sticky: true,
       });
@@ -183,7 +183,7 @@ export class LiquidacionEditFormMovimientosComponent {
           },
           {
             def: 'id',
-            title: 'Nº',
+            title: 'ID Mov.',
             value: (element: Movimiento) => element.id,
             type: 'checkbox',
             sticky: true,
@@ -334,7 +334,7 @@ export class LiquidacionEditFormMovimientosComponent {
       this.snackbar.open( 'No se puede eliminar movimiento Fiscal!');
       return;
     }
-    
+
     if (this.selectedItems.length === 0) {
       this.snackbar.open( 'No se ha seleccionado movimientos a borrar!');
       return;
