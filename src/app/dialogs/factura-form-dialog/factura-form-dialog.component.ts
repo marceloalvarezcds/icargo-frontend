@@ -28,7 +28,7 @@ export class FacturaFormDialogComponent {
     foto: this.data?.foto,
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
-    iva_incluido: [ this.data?.iva_incluido ],
+    iva_incluido: [ this.data ? this.data.iva_incluido : false ],
     sentido_mov_iva: [ this.data?.sentido_mov_iva ],
     sentido_mov_iva_pagar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_iva_cobrar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'COBRAR' ? true : undefined : undefined],
