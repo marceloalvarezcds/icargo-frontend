@@ -2,6 +2,7 @@
   class="remitente-page"
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   submodule="CLIENTE"
+  clasesModulo="{'color': 'black;'}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -11,6 +12,7 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
+
   <div class="page-container">
     <div class="section" formGroupName="info">
       <h2>INFORMACIÓN PRINCIPAL</h2>
@@ -35,7 +37,7 @@
           [isPanelOpen]="true"
         ></app-page-form-geo>
       </div>
-    </div>   
+    </div>
 
     <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
       <h2 class="contactos-heading">CONTACTOS</h2>
@@ -45,6 +47,7 @@
         [contactoList]="contactoList"
         (downloadClick)="downloadFile()"
       ></app-page-form-contactos>
-    </div>  
+    </div>
   </div>
+
 </app-page-form>

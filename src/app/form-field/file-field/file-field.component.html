@@ -1,7 +1,9 @@
 <ng-container *ngIf="form">
   <ng-container *ngIf="groupName">
-    <div *ngIf="form" [formGroup]="form">
-      <div class="{{ className }}" [formGroupName]="groupName">
+
+    <div [formGroup]="form" >
+
+      <div  [formGroupName]="groupName" class="{{ className }}">
         <div *ngIf="isShow && field">
           <strong>{{ title }}</strong>
         </div>
@@ -22,27 +24,23 @@
           (change)="fieldChange($event)"
           style="display: none"
         />
-        <mat-form-field class="file-form-field" *ngIf="!isShow">
+        <mat-form-field class="file-form-field" floatLabel="always" appearance="outline" *ngIf="!isShow">
           <input
             matInput
             readonly
             [formControlName]="controlName"
             (click)="fileInput.click()"
           />
-          <button
-            type="button"
-            color="primary"
-            matSuffix
-            mat-icon-button
-            (click)="fileInput.click()"
-          >
+          <button matSuffix class="mat-icon-button">
+            <mat-icon>attach_file</mat-icon>
           </button>
           <mat-error *ngIf="fieldControl.hasError('required')">
             El archivo es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
-        <label class="file-label">{{ title }}</label> 
+        <mat-label class="custom-label">{{ title }}</mat-label>
       </div>
+
     </div>
   </ng-container>
   <ng-container *ngIf="!groupName">
@@ -86,7 +84,7 @@
           El archivo es <strong>requerido</strong>
         </mat-error>
       </mat-form-field>
-      <label class="file-label">{{ title }}</label> 
+      <label class="file-label">{{ title }}</label>
     </div>
   </ng-container>
 </ng-container>

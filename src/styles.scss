@@ -127,8 +127,51 @@ h1.mat-dialog-title {
   border-block-end: 1px solid;
 }
 
-.mat-form-field {
-  width: 100%;
+/* estilos globales input form */
+.full-form-field {
+  .mat-form-field {
+    width: 100%;
+  }
+}
+
+.input-form  {
+  margin: 0;
+
+  .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button {
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-icon-button{
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-form-field-error {
+    font-size: 12px;
+    font-weight: bold;
+    color:red;
+  }
+
+  .mat-form-field-wrapper {
+    margin: 0px 0;
+    padding-bottom: 15px;
+  }
+
+  .mat-form-field-hint-spacer {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .mat-form-field-infix {
+    padding: 8px 0 4px 0;
+    border-top: 5px;
+  }
+
+  .required {
+    color:red;
+  }
+
 }
 
 .spacer {
@@ -327,19 +370,7 @@ h1.mat-dialog-title {
   margin-bottom: 1rem;
 }
 
-
 .alerta {
   color: red;
 }
 
-.formulario-center {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background: #f7f7f7;
-
-  h2 {
-    margin: 0 16px;
-  }
-}
