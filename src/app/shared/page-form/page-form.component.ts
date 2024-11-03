@@ -65,8 +65,9 @@ export class PageFormComponent implements OnDestroy {
   @Input() isOc: boolean = false;
   @Input() isButtonPressed: boolean = false;
   @Input() isEditPressed: boolean = false;
-  @Input() clasesModulo:any={}
-
+  @Input() estilosPersonalesModule:any={}
+  @Input() estilosPersonalesSubModule:any={}
+  
   @Output() backClick = new EventEmitter<boolean>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() editClick = new EventEmitter();

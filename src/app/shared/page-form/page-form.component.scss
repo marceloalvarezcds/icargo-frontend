@@ -1,63 +1,30 @@
 
-.page-content {
-  max-height: calc(100vh - 155px);
-  overflow: auto;
+
+.title {
+  .module {
+    color: #F25A38;
+  }
+
+  .module::after{
+    content: " >> ";
+    color: #3B9EFF;
+  }
+
+  .submodule {
+    color: #3B9EFF;
+  }
+
 }
 
-.title .module {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
-  color: #F25A38;
-}
-
-.title .module::after{
-  content: " >> ";
-  margin-top: -22px;
-  color: #3B9EFF;
-  font-style: italic;
-  font-family: 'Roboto', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  line-height: 18.75px;
-  letter-spacing: 0.06em;
-  text-align: left;
-}
-
-.title .submodule {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
-  color: #3B9EFF;
-}
 
 .edicion-mode {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
   color: #F25A38;
 }
 
 .ver-mode {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
   color: #F25A38;
 }
 
 .nuevo-mode {
-  font-family: 'Roboto', sans-serif;
-  font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
   color: #F25A38;
 }

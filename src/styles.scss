@@ -198,40 +198,96 @@ h1.mat-dialog-title {
   padding: 1rem;
 }
 
+/* nuevos css */
+/* page form components */
 .page-title {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 1rem;
 
   .title {
-    font-size: 10px;
-    @media (min-width: 399px) {
-      font-size: 12px;
-    }
-    @media (min-width: 499px) {
-      font-size: 14px;
-    }
-    @media (min-width: 599px) {
-      font-size: 1rem;
-    }
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0.06em;    
   }
+
+  .page-title-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
 }
 
-.page-title-buttons {
-  button {
-    margin-bottom: 5px;
-    margin-right: 5px;
+.botones {   
+  &.mat-button,
+  &.mat-stroked-button {
+    border-color: #3B9EFF;
+    border-radius: 5.25px;    
   }
-  button:last-of-type {
-    margin-right: 0;
+
+  &.mat-button,
+  &.mat-flat-button {
+    border-color: white;
+    border-radius: 5.25px;    
   }
-  @media screen and (min-width: 780px) {
-    button {
-      margin-bottom: 0;
-      margin-right: 1rem;
+
+  font-size: 12px;    
+  letter-spacing: 1px; 
+  margin-right: 8px;
+
+  mat-icon{
+    font-size: 20px; 
+    font-weight: bold;
+    border-radius: 90%;
+    padding-top: 2px;
+  }
+
+}
+
+ .page-form-component {
+    margin: 10px 0 0 10px;
+
+    .page-form-content {
+      max-height: calc(100vh - 155px);
+      overflow: auto;
+    
+  
+      hr {
+        height: 0.5px;
+        background-color: orange;
+        border: orange;
+      }
+  
+      .page-form-container {
+        margin-bottom: 0;
+        padding-bottom: 0px;
+        overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
+        background-color: white;
+      }
+    
+      .section { 
+        h2 {
+          margin: 0 0 15px 0;
+          font-size: 13px;
+          font-weight: 530;
+          line-height: 16.41px;
+          color: #007acc;
+          border-bottom: 1px solid #007acc;
+          width: 100%;
+        }
+      }
+  
     }
-  }
+
+ }
+
+
+.list-button {
+  background: #FFFFFF;
+  color: #3B9EFF;
 }
 
 .page-content {
