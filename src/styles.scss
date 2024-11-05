@@ -35,6 +35,12 @@ $icargo-frontend-theme: mat.define-light-theme((
 // that you are using.
 @include mat.all-component-themes($icargo-frontend-theme);
 
+$app-success: mat.define-palette(mat.$green-palette);
+$app-success-color-config:    mat.get-color-config(mat.$green-palette);
+
+:root {
+  --color-success: #{mat.get-color-from-palette($app-success-color-config, 500)};
+}
 /* You can add global styles to this file, and also import other style files */
 
 ::-webkit-scrollbar {
@@ -127,7 +133,77 @@ h1.mat-dialog-title {
   border-block-end: 1px solid;
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pa-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
+}
+
+.page {
+  padding: 1rem;
+}
+
+/* nuevos css */
 /* estilos globales input form */
+
+.input-form-full {
+  .mat-form-field {
+    width: 100%;
+  }
+
+  margin: 0;
+
+  .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button {
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-icon-button{
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-form-field-error {
+    font-size: 12px;
+    font-weight: bold;
+    color:red;
+  }
+
+  .mat-form-field-wrapper {
+    margin: 0px 0;
+    padding-bottom: 15px;
+  }
+
+  .mat-form-field-hint-spacer {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .mat-form-field-infix {
+    padding: 8px 0 4px 0;
+    border-top: 5px;
+  }
+
+  .required {
+    color:red;
+  }
+
+}
+
 .full-form-field {
   .mat-form-field {
     width: 100%;
@@ -173,32 +249,6 @@ h1.mat-dialog-title {
   }
 
 }
-
-.spacer {
-  flex: 1 1 auto;
-}
-
-.text-center {
-  text-align: center;
-}
-
-.pa-0 {
-  padding: 0;
-}
-
-.pl-0 {
-  padding-left: 0;
-}
-
-.pr-0 {
-  padding-right: 0;
-}
-
-.page {
-  padding: 1rem;
-}
-
-/* nuevos css */
 /* page form components */
 .page-title {
   display: flex;
@@ -209,7 +259,7 @@ h1.mat-dialog-title {
     font-size: 20px;
     font-weight: 700;
     line-height: 14.06px;
-    letter-spacing: 0.06em;    
+    letter-spacing: 0.06em;
   }
 
   .page-title-buttons {
@@ -221,28 +271,46 @@ h1.mat-dialog-title {
 
 }
 
-.botones {   
+.botones {
   &.mat-button,
   &.mat-stroked-button {
-    border-color: #3B9EFF;
-    border-radius: 5.25px;    
+    border-radius: 5.25px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
   }
 
   &.mat-button,
   &.mat-flat-button {
-    border-color: white;
-    border-radius: 5.25px;    
+    border-radius: 5.25px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
   }
 
-  font-size: 12px;    
-  letter-spacing: 1px; 
+  &.mat-button,
+  &.mat-mini-fab {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.mat-button,
+  &.mat-mini-fab,
+  &.mat-mini-fab .mat-button-wrapper {
+    padding: 3px 0;
+    line-height: 0;
+  }
+
+
+  font-size: 12px;
+  letter-spacing: 1px;
   margin-right: 8px;
 
   mat-icon{
-    font-size: 20px; 
-    font-weight: bold;
-    border-radius: 90%;
-    padding-top: 2px;
+    font-size: 20px;
+    //font-weight: bold;
+    //border-radius: 90%;
+    //padding-top: 2px;
   }
 
 }
@@ -253,22 +321,22 @@ h1.mat-dialog-title {
     .page-form-content {
       max-height: calc(100vh - 155px);
       overflow: auto;
-    
-  
+
+
       hr {
         height: 0.5px;
         background-color: orange;
         border: orange;
       }
-  
+
       .page-form-container {
         margin-bottom: 0;
         padding-bottom: 0px;
         overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
         background-color: white;
       }
-    
-      .section { 
+
+      .section {
         h2 {
           margin: 0 0 15px 0;
           font-size: 13px;
@@ -279,15 +347,15 @@ h1.mat-dialog-title {
           width: 100%;
         }
       }
-  
+
     }
 
  }
 
 
 .list-button {
-  background: #FFFFFF;
-  color: #3B9EFF;
+  //background: #FFFFFF;
+  //color: #3B9EFF;
 }
 
 .page-content {

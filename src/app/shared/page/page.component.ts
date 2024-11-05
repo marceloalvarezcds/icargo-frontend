@@ -80,9 +80,6 @@ export class PageComponent {
     };
 
     switch (submodule) {
-      case 'CLIENTES':
-      case 'CENTROS OPERATIVOS':
-      case 'PROVEEDORES':
       case 'CHOFERES':
       case 'TRACTOS':
       case 'SEMIS':
@@ -91,16 +88,12 @@ export class PageComponent {
       case 'GESTORES DE CARGA':
       case 'PEDIDOS':
       case 'Orden de Carga':
-      case 'CAJAS':
-      case 'BANCOS':
       case 'Cargo':
-      case 'USUARIOS':
-      case 'ROLES':
         return baseStyles;
       case 'Todas las CUENTAS CORRIENTES':
         return {...baseStyles, border:'1px solid #1C1C1C29'};
       default:
-        return { 'padding': '6px', 'min-width': '80px' };
+        return { };
     }
   }
 

@@ -34,15 +34,3 @@ $header-heigth: 64px;
     }
   }
 }
-
-.buttons {
-  .mat-button-base {
-    min-width: 100px;
-    margin-left: 1rem;
-    margin-right: 1rem;
-
-    &:first-of-type {
-      margin-right: 0;
-    }
-  }
-}

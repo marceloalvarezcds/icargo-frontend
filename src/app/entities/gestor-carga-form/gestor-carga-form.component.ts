@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import {
@@ -48,10 +48,11 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: null,
+      //estado: [false, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
-      composicion_juridica_id: null,
+      composicion_juridica_id: [null, Validators.required],
       moneda_id: [null, Validators.required],
       logo: null,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
@@ -72,6 +73,8 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       latitud: null,
       longitud: null,
       direccion: null,
+      localidad_nombre: null,
+      pais_nombre: null,
     }),
   });
 
@@ -87,6 +90,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     return this.form.get('info') as FormGroup;
   }
 
+  /*get contactos(): FormArray {
+    return this.form.get('contactos') as FormArray;
+  }*/
+
   get geo(): FormGroup {
     return this.form.get('geo') as FormGroup;
   }
@@ -96,6 +103,10 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       this.tipoDocumentoList,
       this.info.controls['tipo_documento_id'].value
     );
+  }
+
+  get estadoControlValue(): Boolean {
+    return this.info?.controls['estado'].value;
   }
 
   constructor(
@@ -151,7 +162,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });   
+      });
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
@@ -220,6 +231,8 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             latitud: data.latitud,
             longitud: data.longitud,
             direccion: data.direccion,
+            localidad_nombre: data.ciudad?.localidad_nombre,
+            pais_nombre: data.ciudad?.pais_nombre,
           },
         });
         this.logo = data.logo!;

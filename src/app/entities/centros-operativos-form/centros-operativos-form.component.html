@@ -22,7 +22,7 @@
 
           <div class="row">
 
-            <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-4">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
               <mat-label class="custom-label">
                 <span class="required">(*) </span>
                 Centro Operativo
@@ -35,7 +35,7 @@
               </mat-form-field>
             </div>
 
-            <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
               <mat-label class="custom-label">
                 <span class="required">(*) </span>
                 Nombre de Fantasía
@@ -48,7 +48,7 @@
               </mat-form-field>
             </div>
 
-            <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
               <mat-label class="custom-label">
                 <span class="required">(*) </span>
                 Clasificación
@@ -65,16 +65,24 @@
               </mat-form-field>
             </div>
 
-            <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
-              <mat-label floatLabel="always" appearance="outline">Web</mat-label>
-              <mat-form-field class="web" [ngClass]="{'view-mode': isShow}">
+            <!-- Estado -->
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex; align-items: center;">
+              <mat-slide-toggle formControlName="estado" >
+                {{ estadoControlValue ? "Activo" : "No activo" }}
+              </mat-slide-toggle>
+            </div>
+
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+              <mat-label>Web</mat-label>
+              <mat-form-field floatLabel="always" appearance="outline"
+                  [ngClass]="{'view-mode': isShow}">
                 <input matInput formControlName="pagina_web" [readonly]="isShow" />
               </mat-form-field>
             </div>
 
-            <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
-              <mat-label floatLabel="always" appearance="outline">Comentario</mat-label>
-              <mat-form-field class="comentario">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+              <mat-label >Comentario</mat-label>
+              <mat-form-field floatLabel="always" appearance="outline">
                 <input matInput formControlName="comentario" /> <!-- Asegúrate de que el control sea 'comentario' -->
               </mat-form-field>
             </div>
@@ -82,19 +90,19 @@
           </div>
 
         </div>
-      
+
         <app-file-field
           class="col-xs-12 col-md-2"
           title="Foto"
           groupName="info"
           controlName="logo"
-          [className]="'input-form full-form-field'"
+          [className]="'input-form-full'"
           [field]="logo"
           [form]="form"
           [isEdit]="isEdit"
           (fileChange)="fileChange($event)"
         ></app-file-field>
-      
+
       </div>
     </div>
 

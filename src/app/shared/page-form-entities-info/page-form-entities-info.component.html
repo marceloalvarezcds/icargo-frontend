@@ -7,7 +7,7 @@
         <div class="row">
 
           <!-- Cliente -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-4">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
             <mat-label class="custom-label">
               <span class="required">(*) </span>
               Cliente
@@ -21,7 +21,7 @@
           </div>
 
           <!-- Nombre de Fantasía -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
               <span class="required">(*) </span>
               Nombre de Fantasía
@@ -35,7 +35,7 @@
           </div>
 
           <!-- Composición Jurídica -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
               <span class="required">(*) </span>
               Composición Jurídica
@@ -52,8 +52,15 @@
             </mat-form-field>
           </div>
 
+          <!-- Estado -->
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex; align-items: center;">
+            <mat-slide-toggle formControlName="estado" >
+              {{ estadoControlValue ? "Activo" : "No activo" }}
+            </mat-slide-toggle>
+          </div>
+
           <!-- Tipo de Documento -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
               <span class="required">(*) </span>
               Tipo de Documento
@@ -71,7 +78,7 @@
           </div>
 
           <!-- N. Doc -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
               <span class="required">(*) </span>
               Nro de Documento
@@ -85,7 +92,7 @@
           </div>
 
           <!-- Dígito verificador -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
               Dígito Verificador
             </mat-label>
@@ -98,7 +105,7 @@
           </div>
 
           <!-- Página Web -->
-          <div class="input-form full-form-field col-xs-12 col-sm-6 col-md-3">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">Web</mat-label>
             <mat-form-field floatLabel="always" appearance="outline">
               <input matInput formControlName="pagina_web" />
@@ -106,7 +113,7 @@
           </div>
 
           <!-- Comentario -->
-          <div class="input-form full-form-field col-xs-10">
+          <div class="input-form-full col-xs-10">
             <mat-label class="custom-label">Comentario</mat-label>
             <mat-form-field floatLabel="always" appearance="outline">
               <textarea class="entities-form-field"
@@ -129,7 +136,7 @@
       title="Logotipo"
       groupName="info"
       controlName="logo"
-      [className]="'input-form full-form-field'"
+      [className]="'input-form-full'"
       [field]="logo"
       [form]="form"
       [isEdit]="isEdit"

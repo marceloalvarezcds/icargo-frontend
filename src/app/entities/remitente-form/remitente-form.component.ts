@@ -32,7 +32,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class RemitenteFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
-  isViewMode: boolean = false; 
+  isViewMode: boolean = false;
   id?: number;
   isEdit = false;
   isShow = false;
@@ -56,7 +56,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: null,
-      estado: null,
+      estado: [true, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
@@ -154,14 +154,14 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
           contactos: this.contactos.value,
         })
       );
-  
+
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });  
-  
+      });
+
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
@@ -195,7 +195,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;

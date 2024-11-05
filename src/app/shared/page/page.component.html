@@ -24,6 +24,7 @@
   <mat-sidenav-content>
     <div class="page">
       <div class="page-title">
+
         <span class="title">
           {{ module }}
           <span *ngIf="submodule" class="submodule">
@@ -34,55 +35,54 @@
           </span>
           <span *ngIf="viewTitle"> > <strong>{{ viewTitle }}</strong> </span>
         </span>
+
         <div class="page-title-buttons button-container">
           <ng-container *ngIf="!hideBack">
             <button
               type="button"
-              mat-mini-fab
+              mat-stroked-button
               matTooltip="Volver al listado"
               (click)="back()"
               id="back-button"
-              class="list-button"
+              class="botones list-button"
             >
               <mat-icon>arrow_back</mat-icon>
               Volver
             </button>
           </ng-container>
           <button
-            mat-mini-fab
-            color="primary"
+            mat-stroked-button
             matTooltip="Exportar lista"
-            class="download-button"
+            class="botones"
             (click)="downloadClick.emit($event)"
             *ngIf="modelo | puede: a.REPORTE"
           >
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
-            <!-- Botones dinamicos -->
 
-            <ng-container
-                *ngFor="let btn of dbuttons">
+          <!-- Botones dinamicos -->
+          <ng-container
+              *ngFor="let btn of dbuttons">
 
-                <button
-                    mat-mini-fab
-                    [color]="btn.color ?? '' "
-                    [matTooltip]="btn.tooltip ?? '' "
-                    [class]="btn.clases ?? '' "
-                    [style]="btn.styles ?? '' "
-                    (click)="btn.buttonCallback($event)">
+              <button
+                  mat-mini-fab
+                  [color]="btn.color ?? '' "
+                  [matTooltip]="btn.tooltip ?? '' "
+                  [class]="btn.clases ?? '' "
+                  [style]="btn.styles ?? '' "
+                  (click)="btn.buttonCallback($event)">
 
-                  <mat-icon *ngIf="btn.icon"
-                      [class]="btn.iconClass ?? '' ">
-                      {{btn.icon}}
-                  </mat-icon>
-                  {{btn.label}}
-                </button>
+                <mat-icon *ngIf="btn.icon"
+                    [class]="btn.iconClass ?? '' ">
+                    {{btn.icon}}
+                </mat-icon>
+                {{btn.label}}
+              </button>
 
-            </ng-container>
+          </ng-container>
+          <!-- Botones dinamicos -->
 
-            <!-- Botones dinamicos -->
-
-            <!-- Botón específico para Orden de Carga -->
+          <!-- Botón específico para Orden de Carga -->
           <button
             mat-mini-fab color="primary"
             class="add-button orden-carga-anticipo"
@@ -99,19 +99,19 @@
               <mat-icon>add</mat-icon> RECEPCION
             </button>
           <button
-            mat-mini-fab
+            mat-flat-button
             color="primary"
             matTooltip="Crear"
-            class="add-button"
+            class="botones guardar-button"
             (click)="createClick.emit($event)"
             *ngIf="!hideCreate && (modelo | puede: a.CREAR)"
             [ngStyle]="getButtonStyles(submodule)"
           >
-            <mat-icon >add</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
+            <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
             {{
               submodule === 'CLIENTES' ? 'CLIENTE' :
               submodule === 'CENTROS OPERATIVOS' ? 'CENTRO OPERATIVO' :
-              submodule === 'PROVEEDORES' ? 'PROVEEDOR' : 
+              submodule === 'PROVEEDORES' ? 'PROVEEDOR' :
               submodule === 'GESTORES DE CARGA' ? 'GESTOR DE CARGA' :
               submodule === 'PROPIETARIOS' ? 'PROPIETARIO' :
               submodule === 'CHOFERES' ? 'CHOFER' :
@@ -155,16 +155,16 @@
             *ngIf="submodule === 'Orden de Carga'">
               CONCILIAR
         </button>
-          <button
-            mat-mini-fab
-            color="primary"
-            matTooltip="Filtrar"
-            class="filter-button"
-            *ngIf="!hideFilter"
-            (click)="sidenav?.toggle()"
-          >
-            <mat-icon>filter_alt</mat-icon>
-          </button>
+        <button
+          mat-mini-fab
+          color="primary"
+          matTooltip="Filtrar"
+          class="botones"
+          *ngIf="!hideFilter"
+          (click)="sidenav?.toggle()"
+        >
+          <mat-icon>filter_alt</mat-icon>
+        </button>
 
         </div>
       </div>

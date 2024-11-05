@@ -40,8 +40,8 @@
           <mat-icon>arrow_back</mat-icon>
           VOLVER
         </button>
-        
-        <!-- este grupo de botones debe pasarse por parametro -->
+
+        <!-- TODO: este grupo de botones debe pasarse por parametro -->
         <div class="estado-container"  [ngClass]="{'estado-cancelado': oc?.estado === E.CANCELADO}"
         *ngIf="module === 'ACEPTAR' || module === 'FINALIZAR'
           || (submodule === 'ORDEN DE CARGA (directa)' || submodule === 'ANTICIPO (directo)'
@@ -288,7 +288,7 @@
         </button>
 
         <div *ngIf="flete && isShow" style="margin-left: 8px; margin-right: 14px;">
-         
+
           <ng-container>
             <button
               type="button"
@@ -303,7 +303,7 @@
           </ng-container>
 
         </div>
-      
+
       </div>
     </div>
 

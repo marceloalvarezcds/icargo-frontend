@@ -1,12 +1,11 @@
-<!-- Ejemplo de estilo dinamico 
-  puede ser directo asi: [clasesModulo]="{'color': 'black'}"  
-  o definido como un objeto remitenteClaseModule = {'color': 'black'}; 
+<!-- Ejemplo de estilo dinamico
+  puede ser directo asi: [clasesModulo]="{'color': 'black'}"
+  o definido como un objeto remitenteClaseModule = {'color': 'black'};
 -->
 
 <app-page-form
-  class="remitente-page"
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
-  submodule="CLIENTE"  
+  submodule="CLIENTE"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -14,8 +13,7 @@
   [modelo]="modelo"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
-  (submitEvent)="submit(false)"
->
+  (submitEvent)="submit(false)" >
 
   <div class="page-form-container">
     <div class="section" formGroupName="info">
@@ -52,6 +50,7 @@
         (downloadClick)="downloadFile()"
       ></app-page-form-contactos>
     </div>
+
   </div>
 
 </app-page-form>
