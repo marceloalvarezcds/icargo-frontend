@@ -2,6 +2,7 @@ import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, O
 import { FormControl, FormGroup } from '@angular/forms';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
+import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
@@ -40,6 +41,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() list: OrdenCargaComentariosHistorial[] = [];
   @Input() isNeto: boolean = false ;;
 
+  @Input() gestorCargaId?: number;
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
   @Input() showSearchPedido: boolean = false;
@@ -51,6 +53,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() isSaveForm: boolean = false;
   @Input() disabled: boolean = false;
   @Input() isEdit = false;
+  @Input() modelo?: PermisoModeloEnum;
 
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<Camion>();
@@ -211,13 +214,13 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
   
-      this.camionService.getById(combinacion.camion_id).subscribe(camion => {
-        this.camionChange.emit(camion);
-      });
+      // this.camionService.getById(combinacion.camion_id).subscribe(camion => {
+      //   this.camionChange.emit(camion);
+      // });
   
-      this.service.getById(combinacion.semi_id).subscribe(semi => {
-        this.onSemiChange(semi);
-      });
+      // this.service.getById(combinacion.semi_id).subscribe(semi => {
+      //   this.onSemiChange(semi);
+      // });
     }
   }
   

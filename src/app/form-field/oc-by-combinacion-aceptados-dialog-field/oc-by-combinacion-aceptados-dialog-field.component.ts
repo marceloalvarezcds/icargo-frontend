@@ -31,7 +31,7 @@ export class OcByCombinacionAceptadosDialogFieldComponent  {
       value: (element: OrdenCargaList) => this.formatDate(element.created_at),
     },
     {
-      def: 'id_oc',
+      def: 'id',
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
     },
