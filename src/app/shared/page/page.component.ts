@@ -91,6 +91,7 @@ export class PageComponent {
       case 'GESTORES DE CARGA':
       case 'PEDIDOS':
       case 'Orden de Carga':
+      case 'MERCADERIA':
       case 'CAJAS':
       case 'BANCOS':
       case 'Cargo':

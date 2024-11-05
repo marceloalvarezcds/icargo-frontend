@@ -23,4 +23,11 @@ export class FechaFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() title = '';
+
+  onDateChange(selectedDate: Date): void {
+    const currentDate = new Date();
+    const updatedDateTime = new Date(selectedDate);
+    updatedDateTime.setHours(currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
+    this.control.setValue(updatedDateTime); // Actualizar el control con la nueva fecha y hora
+  }
 }

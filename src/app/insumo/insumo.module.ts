@@ -8,13 +8,14 @@ import { SharedModule } from 'src/app/shared/shared.module';
 import { CommonModule } from '@angular/common';
 import { InsumoListComponent } from './insumo-list/insumo-list.component';
 import { InsumoRoutingModule } from './insumo-routing.module';
+import { InsumoVentaPrecioFormComponent } from './insumo-venta-precio-form/insumo-venta-precio-form.component';
 
 
 
 @NgModule({
   declarations: [
-
   InsumoListComponent,
+  InsumoVentaPrecioFormComponent,
   ],
   imports: [
     CommonModule,

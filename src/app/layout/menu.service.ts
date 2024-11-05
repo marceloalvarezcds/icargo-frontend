@@ -175,11 +175,11 @@ export class MenuService {
         active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
       },
       {
-        name: 'Insumo',
+        name: 'Mercaderias',
         iconName: 'inventory_2',
         iconOutline: true,
-        path: `/insumo/${m.INSUMO}`,
-        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO),
+        path: `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO_PUNTO_VENTA_PRECIO),
       },
       {
         name: u.CAJA_BANCO,

@@ -8,12 +8,20 @@ export interface InsumoPuntoVentaPrecioForm {
   punto_venta_id: number;
   moneda_id: number;
   precio: number;
+  fecha_inicio: string;
+  fecha_fin: string;
+  observacion: string;
 }
 
 export interface InsumoPuntoVentaPrecio {
   id: number;
   precio: number;
   fecha_precio: string;
+  fecha_inicio: string;
+  fecha_fin: string;
+  created_at_insumo: string;
+  hora_inicio: string;
+  observacion: string;
 }
 
 export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
@@ -42,22 +50,44 @@ export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
   punto_venta_logo: string | null;
   punto_venta_latitud: number | null;
   punto_venta_longitud: number | null;
+  proveedor_documento: string;
+  created_by: string;
+  created_at_insumo: string;
+  hora_inicio: string;
+  observacion: string;
+  marca_insumo: string;
 }
+
 
 export const mockInsumoPuntoVentaPrecio1: InsumoPuntoVentaPrecio = {
   id: 1,
   precio: 1,
   fecha_precio: '2021-11-30T20:38:09.553757',
+  fecha_inicio: '2021-11-30T20:38:09.553757',
+  fecha_fin: '2021-11-30T20:38:09.553757',
+  created_at_insumo: '2021-11-30T20:38:09.553757',
+  hora_inicio: '09:30:00',
+  observacion: 'observacion'
 };
 
 export const mockInsumoPuntoVentaPrecio2: InsumoPuntoVentaPrecio = {
   id: 2,
   precio: 100,
   fecha_precio: '2021-11-30T20:38:09.553757',
+  fecha_inicio: '2021-11-30T20:38:09.553757',
+  fecha_fin: '2021-11-30T20:38:09.553757',
+  created_at_insumo: '2021-11-30T20:38:09.553757',
+  hora_inicio: '09:30:00',
+  observacion: 'observacion'
 };
 
 export const mockInsumoPuntoVentaPrecio3: InsumoPuntoVentaPrecio = {
   id: 3,
   precio: 1000,
   fecha_precio: '2021-11-30T20:38:09.553757',
+  fecha_inicio: '2021-11-30T20:38:09.553757',
+  fecha_fin: '2021-11-30T20:38:09.553757',
+  created_at_insumo: '2021-11-30T20:38:09.553757',
+  hora_inicio: '09:30:00',
+  observacion: 'observacion'
 };

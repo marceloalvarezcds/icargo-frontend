@@ -46,7 +46,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
 
   resetRucField(): void {
     if (this.control) {
-      this.control.reset(); // Restablecer el valor del campo RUC
+      this.control.reset(); 
     }
   }
   

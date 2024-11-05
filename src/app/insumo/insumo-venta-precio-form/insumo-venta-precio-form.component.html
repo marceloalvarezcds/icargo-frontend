@@ -1,0 +1,143 @@
+<app-page-form
+  class="insumo-page"
+  submodule="Mercaderias"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  (backClick)="back($event)"
+  (editClick)="redirectToEdit()"
+  (submitEvent)="submit(false)"
+>
+  <div class="insumo-content">
+      <div class="row page-form-row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center" *ngIf="isEdit || isShow">
+          <label class="form-label mr-2">Punto de Venta</label>
+          <app-input-field 
+            controlName="punto_venta_id"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          <app-punto-venta-precio-map-field
+            *ngIf="!isEdit && !isShow"
+            [form]="form"
+            (valueChange)="onPDVPrecioChange($event)"
+            controlName="punto_venta_id"
+            class="app-input-field"
+          ></app-punto-venta-precio-map-field>
+        </div>
+      </div>
+
+      <div class="col-12 col-md-4 mb-2 d-flex align-items-center" *ngIf="isEdit || isShow">
+        <label class="form-label mr-2">Descripcion</label>
+          <app-input-field 
+            controlName="insumo_id"
+            [form]="form"
+            class="app-input-field"
+        ></app-input-field>
+      </div>
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+        <app-insumo-by-punto-venta-field
+          *ngIf="!isEdit && !isShow"
+          [form]="form"
+          [puntoVentaId]="puntoVentaId || 0" 
+          (valueChange)="onInsumoDescipcionChange($event)"
+          class="app-input-field"
+        ></app-insumo-by-punto-venta-field>
+      </div>
+ 
+      <div class="row page-form-row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Fecha</label>
+          <app-fecha-field 
+            controlName="created_at_insumo"
+            [form]="form"
+            class="app-input-field"
+          ></app-fecha-field>
+        </div>
+        <div  class="col-12 col-md-2 mb-2 d-flex align-items-center">
+          <label class="form-label-hora mr-2">Hora</label>
+          <mat-form-field class="app-input-field">
+            <input matInput [value]="hora" readonly />
+            
+          </mat-form-field>
+        </div>
+        
+      </div>
+      
+      <div class="row page-form-row">
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <label class="form-label mr-2">Precio</label>
+            <app-number-field
+              controlName="precio"
+              [form]="form"
+              class="app-input-field"
+              autocomplete="on"
+            ></app-number-field>
+          </div>
+          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+            <label class="form-label-vigencia mr-2">Fecha Vigencia</label>
+            <app-fecha-field 
+              controlName="fecha_inicio"
+              [form]="form"
+              class="app-input-field"
+            ></app-fecha-field>
+        
+            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+              <label class="form-label-hora mr-2">Hora</label>
+              <mat-form-field >
+                <input
+                matInput
+                formControlName="hora_inicio"
+                placeholder="  :   "
+                maxlength="5"
+                [value]="form.get('hora_inicio')?.value || defaultTimeValue"
+                (focus)="setCursorToPosition($event, 0)"
+                (input)="onTimeInputChange($event)"
+                (blur)="restoreDefaultFormat($event)"
+                />
+                <mat-hint>Formato: HH:MM</mat-hint>
+                <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
+                  Ingrese una hora válida en formato HH:MM.
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+      </div>
+
+      <div class="row page-form-row ">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Unidad</label>
+            <app-input-field 
+              controlName="unidad_id"
+              [form]="form"
+              class="unidad-field"
+            ></app-input-field>
+          </div>
+          <div class="col-12 col-md-5 mb-2 d-flex align-items-center" >
+            <label class="form-label-moneda  mr-2">Moneda</label>
+            <app-input-field
+              controlName="moneda_id"
+              [form]="form"
+              class="unidad-field"
+          ></app-input-field>
+        </div>
+      </div>
+       
+      <div class="row page-form-row">
+        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+          <label class="form-label mr-2">Observacion</label>
+          <app-input-field 
+            controlName="observacion"
+            [form]="form"
+            class="app-input-field"
+          ></app-input-field>
+        </div>
+      </div>
+  </div>
+</app-page-form>

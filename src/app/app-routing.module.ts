@@ -78,7 +78,7 @@ const routes: Routes = [
           ),
       },
       {
-        path: PermisoModuloRouterEnum.INSUMO,
+        path: PermisoModuloRouterEnum.INSUMO_PUNTO_VENTA_PRECIO,
         loadChildren: () =>
           import('./insumo/insumo.module').then(
             (m) => m.InsumoModule

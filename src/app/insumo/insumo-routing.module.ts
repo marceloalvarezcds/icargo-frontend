@@ -6,10 +6,11 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { InsumoListComponent } from './insumo-list/insumo-list.component';
+import { InsumoVentaPrecioFormComponent } from './insumo-venta-precio-form/insumo-venta-precio-form.component';
 
 const routes: Routes = [
   {
-    path: m.INSUMO,
+    path: m.INSUMO_PUNTO_VENTA_PRECIO,
     children: [
       {
         path: '',
@@ -19,6 +20,21 @@ const routes: Routes = [
       {
         path: a.LISTAR,
         component: InsumoListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: a.CREAR,
+        component: InsumoVentaPrecioFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.EDITAR}/:id`,
+        component: InsumoVentaPrecioFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.VER}/:id`,
+        component: InsumoVentaPrecioFormComponent,
         canActivate: [PermisoGuard],
       },
 
