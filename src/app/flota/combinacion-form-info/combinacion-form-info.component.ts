@@ -7,8 +7,7 @@ import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { Chofer, ChoferList } from 'src/app/interfaces/chofer';
 import { Combinacion } from 'src/app/interfaces/combinacion';
 import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
-import { Remitente } from 'src/app/interfaces/remitente';
-import { Semi, SemiList } from 'src/app/interfaces/semi';
+import { SemiList } from 'src/app/interfaces/semi';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 
 @Component({

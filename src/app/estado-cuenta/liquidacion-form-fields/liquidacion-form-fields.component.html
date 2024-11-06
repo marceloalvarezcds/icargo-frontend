@@ -8,13 +8,16 @@
 
   <app-saldo
     #saldoView
+    [showResumen]="true"
+    [showIngresoEgreso]="false"
     [credito]="credito"
     [debito]="debito"
     [saldoCC]="saldoCC"
-    title="Saldo | Total de la Selección"
+    title="Saldo en Cuenta"
     [showMonto]="true"
     [monto]="monto"
   ></app-saldo>
+
   <div class="row page-form-row" style="margin-bottom: 0px;">
     <div class="col-xs-12">
       <app-liquidacion-form-movimientos
@@ -24,4 +27,5 @@
       ></app-liquidacion-form-movimientos>
     </div>
   </div>
+
 </div>

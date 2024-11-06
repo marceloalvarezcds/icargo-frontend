@@ -16,17 +16,15 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   list$?: Observable<CombinacionList[]>;
   cId?: number;
   id?: number;
-  propietario?: CombinacionList;
-  list: CombinacionList[] = [];
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
-      def: 'ID',
+      def: 'id',
       title: 'ID',
       value: (element: CombinacionList) => element.id,
     },
     {
-      def: 'camion_nombre',
+      def: 'camion_placa',
       title: 'Tracto',
       value: (element: CombinacionList) => element.camion_placa,
     },
@@ -65,7 +63,6 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       title: 'Neto',
       value: (element: CombinacionList) => element.neto?.toLocaleString('de-DE'),
     },
-
   ];
 
   @Input() controlName = 'combinacion_id';
@@ -73,14 +70,9 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   @Input() groupName = '';
   @Input() title = 'TRACTOS';
 
-  @Input() set combinacionId(id: number | undefined) {
-    this.id = id;
-    this.getList();
-  }
-
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CombinacionList>;
+  @ViewChild('app-dialog-field-oc') dialogField?: DialogFieldComponent<CombinacionList>;
 
   constructor(private service: CombinacionService) { }
 

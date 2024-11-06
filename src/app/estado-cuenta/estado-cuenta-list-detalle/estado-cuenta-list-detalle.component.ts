@@ -205,7 +205,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },
     {
       def: 'movimiento_saldo',
-      title: LiquidacionEtapaEnum.SALDO,
+      title: 'Saldo Acumulado',
       value: (element: MovimientoEstadoCuenta) => element.movimiento_saldo,
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>

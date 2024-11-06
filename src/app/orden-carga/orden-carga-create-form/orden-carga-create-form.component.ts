@@ -126,6 +126,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get estado(): EstadoEnum {
     return this.item!.estado;
   }
+  
   get idOC(): number {
     const ocValue = this.form.get('combinacion.id_orden_carga')?.value;
     return ocValue;

@@ -16,4 +16,8 @@ export class TipoInsumoService {
   getListByFleteId(fleteId: number): Observable<TipoInsumo[]> {
     return this.http.get<TipoInsumo[]>(`${this.url}/flete/${fleteId}`);
   }
+
+  getList(): Observable<TipoInsumo[]> {
+    return this.http.get<TipoInsumo[]>(`${this.url}/`);
+  }
 }

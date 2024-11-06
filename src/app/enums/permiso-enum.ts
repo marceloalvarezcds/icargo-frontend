@@ -111,7 +111,7 @@ export enum PermisoModuloRouterEnum {
   FLETE = 'flete',
   LISTADO = 'listado',
   ORDEN_CARGA = 'orden-carga',
-  INSUMO = 'insumo',
+  INSUMO_PUNTO_VENTA_PRECIO = 'insumo_punto_venta_precio',
   PARAMETROS = 'parametros',
   USERS = 'users',
 }

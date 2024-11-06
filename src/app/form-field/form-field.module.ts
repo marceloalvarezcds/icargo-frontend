@@ -107,6 +107,9 @@ import { OcByCombinacionFinalizadosDialogFieldComponent } from './oc-by-combinac
 import { OcByCombinacionNuevosDialogFieldComponent } from './oc-by-combinacion-nuevos-dialog-field/oc-by-combinacion-nuevos-dialog-field.component';
 import { TipoEvaluacionFieldComponent } from './tipo-evaluacion-field/tipo-evaluacion-field.component';
 import { FileFieldInputComponent } from './file-field-input/file-field-input.component';
+import { PuntoVentaPrecioMapFieldComponent } from './punto-venta-precio-map-field/punto-venta-precio-map-field.component';
+import { InsumoByPuntoVentaFieldComponent } from './insumo-by-punto-venta-field/insumo-by-punto-venta-field.component';
+
 
 
 const modules = [
@@ -209,10 +212,12 @@ const modules = [
   OcByCombinacionNuevosDialogFieldComponent,
   TipoEvaluacionFieldComponent,
   FileFieldInputComponent,
+  PuntoVentaPrecioMapFieldComponent,
+  InsumoByPuntoVentaFieldComponent,
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent],
   exports: modules.slice(),
   imports: [
     CommonModule,

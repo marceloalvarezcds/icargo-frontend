@@ -26,4 +26,5 @@ export class NumberFieldComponent {
   @Input() title = '';
   @Input() readonly = false;
   @Input() patternMessageError = (_: any) => 'El patrón no coincide';
+  @Input() autocomplete: 'on' | 'off' | 'nope' = 'nope';
 }

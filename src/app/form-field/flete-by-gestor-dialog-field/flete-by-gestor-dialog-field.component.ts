@@ -62,7 +62,6 @@ export class FleteByGestorDialogFieldComponent {
       value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
     },
 
-
   ];
 
   formatDate(dateString: string): string {

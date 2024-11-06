@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import {
   InsumoPuntoVentaPrecio,
+  InsumoPuntoVentaPrecioForm,
   InsumoPuntoVentaPrecioList,
 } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { environment } from 'src/environments/environment';
@@ -15,14 +16,40 @@ export class InsumoPuntoVentaPrecioService {
 
   constructor(private http: HttpClient) {}
 
+  getByActivosList(): Observable<InsumoPuntoVentaPrecioList[]> {
+    return this.http.get<InsumoPuntoVentaPrecioList[]>(`${this.url}/gestor-carga/activo`);
+  }
+
   getList(): Observable<InsumoPuntoVentaPrecioList[]> {
     return this.http.get<InsumoPuntoVentaPrecioList[]>(`${this.url}/`);
+  }
+
+  getById(id: number): Observable<InsumoPuntoVentaPrecioList> {
+    return this.http.get<InsumoPuntoVentaPrecioList>(`${this.url}/${id}`);
+  }
+
+  generateReports(): Observable<string> {
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
   getListByFleteId(fleteId: number): Observable<InsumoPuntoVentaPrecioList[]> {
     return this.http.get<InsumoPuntoVentaPrecioList[]>(
       `${this.url}/flete/${fleteId}`
     );
+  }
+
+  getListByPuntoVentaId(pdvId: number): Observable<InsumoPuntoVentaPrecioList[]> {
+    return this.http.get<InsumoPuntoVentaPrecioList[]>(
+      `${this.url}/insumos/punto_venta/${pdvId}`
+    );
+  }
+
+  create(formData: FormData): Observable<InsumoPuntoVentaPrecio> {
+    return this.http.post<InsumoPuntoVentaPrecio>(`${this.url}/`, formData);
+  }
+
+  edit(id: number, formData: FormData): Observable<InsumoPuntoVentaPrecioForm> {
+    return this.http.put<InsumoPuntoVentaPrecioForm>(`${this.url}/${id}`, formData);
   }
 
   getByInsumoIdAndMonedaIdAndPuntoVentaId(
