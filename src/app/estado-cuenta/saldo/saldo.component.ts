@@ -44,6 +44,31 @@ export class SaldoComponent {
     let calcSaldo = 0;
     let totalOp = 0;
     let sentido = '';
+
+    totalOp = subtract(this.credito, this.debito);
+
+    if (this.esEdicion) calcSaldo = this.saldoCC ;
+    else calcSaldo = this.saldoCC + totalOp ;
+
+    if (totalOp < 0){
+      // es cobro
+      sentido = 'C';
+    } else if (totalOp >= 0) {
+      // es pago
+      sentido = 'P';
+    }
+
+    return (sentido==='P') ? Math.abs(calcSaldo) : Math.abs(calcSaldo)*-1;
+  }
+
+  get saldoMovimiento(): number {
+    return subtract(this.credito, this.debito);
+  }
+
+  get saldoArrasteSaldo(): number {
+    let calcSaldo = 0;
+    let totalOp = 0;
+    let sentido = '';
     let saldoEdicion = 0;
 
     if (this.saldoFinalizado) return this.saldoFinalizado;
@@ -80,10 +105,6 @@ export class SaldoComponent {
     //calcSaldo = calcSaldo + this.saldoCC;
     return (sentido==='P') ? Math.abs(calcSaldo) : Math.abs(calcSaldo)*-1;
     //return calcSaldo;
-  }
-
-  get saldoMovimiento(): number {
-    return subtract(this.credito, this.debito);
   }
 
 }

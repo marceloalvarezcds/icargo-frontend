@@ -121,6 +121,13 @@ export class EstadoCuentaListComponent implements OnInit {
       type: 'number',
       footerDef: () => (this.totalConfirmado+this.totalFinalizado),
     },
+    {
+      def: 'total_cc',
+      title: 'Total CC',
+      value: (element: EstadoCuenta) => element.total_cc,
+      type: 'number',
+      footerDef: () => (this.pendiente + this.totalConfirmado + this.totalFinalizado),
+    },
   ];
 
   isFiltered = false;
@@ -201,6 +208,7 @@ export class EstadoCuentaListComponent implements OnInit {
     return filterByTipoContraparte && filterByContraparte;
   }
 
+  /* TODO: ver
   calcularTotales(): void{
 
     this.list.forEach( (mov:EstadoCuenta) => {
@@ -210,7 +218,7 @@ export class EstadoCuentaListComponent implements OnInit {
       this.finalizado = this.finalizado + mov.finalizado;
     })
 
-  }
+  }*/
 
   applyFilter(): void {
     let filter: Filter = {};
@@ -252,6 +260,8 @@ export class EstadoCuentaListComponent implements OnInit {
 
       list.forEach( (mov:EstadoCuenta) => {
         mov.liquidacion_saldo = mov.confirmado + mov.finalizado;
+        mov.total_cc = mov.pendiente +  mov.confirmado + mov.finalizado;
+
         this.pendiente = this.pendiente + mov.pendiente;
         this.confirmado = this.confirmado + mov.confirmado;
         this.finalizado = this.finalizado + mov.finalizado;
