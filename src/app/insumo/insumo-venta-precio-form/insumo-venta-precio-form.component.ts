@@ -120,6 +120,17 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     this.getData();
     this.form.get('punto_venta_id')?.setValue(this.pdv?.punto_venta_id);
+    const fechaInicioValue = this.form.get('fecha_inicio')?.value;
+    if (fechaInicioValue) {
+      // Crear un objeto Date a partir del valor de fecha_inicio
+      const date = new Date(fechaInicioValue);
+  
+      // Formatear la hora
+      this.horaInicio = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: false });
+  
+      // Establecer la hora en el campo hora_inicio
+      this.form.get('hora_inicio')?.setValue(this.horaInicio);
+    }
     this.form.get('fecha_inicio')?.valueChanges.subscribe((value: string) => {
       if (value) {
         const date = new Date(value);
