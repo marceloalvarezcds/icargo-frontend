@@ -11,6 +11,7 @@ import { SemiService } from 'src/app/services/semi.service';
   styleUrls: ['./input-field.component.scss'],
 })
 export class InputFieldComponent {
+
   cId?: number;
   pId?: number;
   list$?: Observable<SemiList[]>;
@@ -48,6 +49,7 @@ export class InputFieldComponent {
       value: (element: SemiList) => element.clasificacion_descripcion,
     },
   ];
+
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
@@ -67,6 +69,7 @@ export class InputFieldComponent {
   @Input() autocomplete: 'on' | 'off' | 'nope' = 'nope';
   @Input() formatToPasteNumber = false;
   @Input() formatToPastePhone = false;
+  @Input() requerido = false;
   @Input() autofocus = false;
   @Input() controlName = '';
   @Input() hint = '';
@@ -83,7 +86,7 @@ export class InputFieldComponent {
   }
   @Input() set productoId(id: number | undefined) {
     this.pId = id;
-   
+
  this.getList();
   }
   constructor(private service: SemiService) {}

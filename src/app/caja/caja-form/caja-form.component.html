@@ -14,37 +14,51 @@
   (submitEvent)="submit(false)"
 >
   <div class="caja-page-content">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
+
+    <div class="row">
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <app-input-field
           title="Nombre"
           controlName="nombre"
           [form]="form"
+          [requerido]="true"
         ></app-input-field>
       </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-moneda-field [form]="form"></app-moneda-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <app-moneda-field
+          [title]="'Moneda'"
+          [requerido]="true"
+          controlName="moneda_id"
+          [form]="form">
+        </app-moneda-field>
       </div>
+
     </div>
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-number-field
-          title="Ingresos"
-          controlName="credito"
-          [form]="form"
-          [readonly]="true"
-        ></app-number-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-number-field
-          title="Egresos"
-          controlName="debito"
-          [form]="form"
-          [readonly]="true"
-        ></app-number-field>
-      </div>
-      <ng-container *ngIf="item">
-        <div class="col-xs-12 col-sm-6 col-md-4">
+
+    <ng-container *ngIf="item">
+      <div class="row">
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+          <app-number-field
+            title="Ingresos"
+            controlName="credito"
+            [form]="form"
+            [readonly]="true"
+          ></app-number-field>
+        </div>
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+          <app-number-field
+            title="Egresos"
+            controlName="debito"
+            [form]="form"
+            [readonly]="true"
+          ></app-number-field>
+        </div>
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
           <app-number-field
             title="Saldo"
             controlName="saldo_confirmado"
@@ -52,12 +66,15 @@
             [readonly]="true"
           ></app-number-field>
         </div>
-      </ng-container>
-    </div>
+
+      </div>
+    </ng-container>
+
     <ng-container *ngIf="item">
       <app-caja-form-instrumentos
         [list]="item.instrumentos"
       ></app-caja-form-instrumentos>
     </ng-container>
+
   </div>
 </app-page-form>

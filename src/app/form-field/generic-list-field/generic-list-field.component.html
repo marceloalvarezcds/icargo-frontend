@@ -1,78 +1,68 @@
 <div *ngIf="formGroup" [formGroup]="formGroup" class="field-content">
+
   <ng-container *ngIf="groupName">
-    <div class="input-select-container">
-       <label>{{ title }}</label>
-      <mat-form-field [formGroupName]="groupName" 
-        [ngClass]="{
-            'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
-            'select-remisiones-unidad': controlName === 'unidad_id',
-            'select-remisiones-doc-origen': controlName === 'numero_documento_origen',
-            'select-moneda': controlName === 'moneda_id',
-            'select-comprobante': controlName === 'tipo_comprobante_id',
-            'select-concepto': controlName === 'concepto' || controlName === 'concepto_id',
-            'select-moneda_propietario': controlName === 'propietario_moneda' , 
-            'select-moneda_cliente': controlName === 'remitente_moneda' || controlName === 'proveedor_moneda_id' || controlName === 'propietario_moneda_id',
-            'select-propietario': controlName === 'proveedor_id'}">
+
+      <mat-label class="custom-label">
+        <span *ngIf="requerido" class="required">(*) </span>
+        {{ title }}
+      </mat-label>
+
+      <mat-form-field [formGroupName]="groupName"
+          floatLabel="always" appearance="outline">
         <input
           matInput
           [value]="getTextValue()"
           [disabled]="readonly"
           *ngIf="readonly"
         />
+
         <mat-select
           [formControlName]="controlName"
           [compareWith]="compareWith"
           [hidden]="readonly"
-       
         >
           <ng-container *ngFor="let o of list">
             <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
           </ng-container>
         </mat-select>
+
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
         <mat-error
           *ngIf="control.hasError('required')"
           [innerHTML]="errorMessage"
         ></mat-error>
+
       </mat-form-field>
-    </div>
+
   </ng-container>
+
   <ng-container *ngIf="!groupName">
-    <div class="input-select-container">
-      <label>{{ title }}</label>
-      <mat-form-field  [ngClass]="{
-        'select-tipo-anticipo': controlName === 'tipo_anticipo_id',
-        'select-remisiones-unidad': controlName === 'unidad_id',
-        'select-remisiones-doc-origen': controlName === 'numero_documento_origen',
-        'select-moneda': controlName === 'moneda_id',
-        'select-concepto': controlName === 'concepto' || controlName === 'concepto_id',
-        'select-comprobante': controlName === 'tipo_comprobante_id',
-        'select-moneda_propietario': controlName === 'propietario_moneda', 
-        'select-moneda_cliente': controlName === 'remitente_moneda' || controlName === 'proveedor_moneda_id' || controlName === 'propietario_moneda_id',
-        'select-propietario': controlName === 'proveedor_id'}" >
-        
-        <input
-          matInput
-          [value]="getTextValue()"
-          [disabled]="readonly"
-          *ngIf="readonly"
-        />
-        <mat-select
-          [formControlName]="controlName"
-          [compareWith]="compareWith"
-          [hidden]="readonly"
-        
-        >
+
+      <mat-label class="custom-label">
+        <span *ngIf="requerido" class="required">(*) </span>
+        {{ title }}
+      </mat-label>
+
+      <mat-form-field floatLabel="always" appearance="outline">
+
+        <input matInput *ngIf="readonly"
+          [value]="getTextValue()" [disabled]="readonly"/>
+
+        <mat-select [formControlName]="controlName"
+          [compareWith]="compareWith" [hidden]="readonly" >
           <ng-container *ngFor="let o of list">
             <mat-option [value]="value(o)">{{ textValueFormat(o) }}</mat-option>
           </ng-container>
         </mat-select>
+
         <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
-        <mat-error
-          *ngIf="control.hasError('required')"
+
+        <mat-error *ngIf="control.hasError('required')"
           [innerHTML]="errorMessage"
         ></mat-error>
+
       </mat-form-field>
-    </div>
+
   </ng-container>
+
 </div>

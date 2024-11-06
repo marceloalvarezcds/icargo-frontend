@@ -6,7 +6,8 @@
   display: inline-block;
 }
 
-.value {
-  margin-left: 5px;
+.estado-form-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
-

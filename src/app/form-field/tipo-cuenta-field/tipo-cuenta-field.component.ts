@@ -24,6 +24,7 @@ export class TipoCuentaFieldComponent {
   @Input() form?: FormGroup;
   @Input() controlName = 'cuenta_id';
   @Input() groupName?: string;
+  @Input() requerido = false;
   @Input() title = 'Cuenta';
 
   @Output() valueChange = new EventEmitter<TipoCarga | undefined>();

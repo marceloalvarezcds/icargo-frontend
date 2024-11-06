@@ -90,8 +90,6 @@ export class PageComponent {
       case 'Orden de Carga':
       case 'Cargo':
         return baseStyles;
-      case 'Todas las CUENTAS CORRIENTES':
-        return {...baseStyles, border:'1px solid #1C1C1C29'};
       default:
         return { };
     }

@@ -1,5 +1,4 @@
-
-.page-container {
+.estado-cuenta-page {
   padding-top: 1rem;
 }
 
@@ -23,12 +22,3 @@
   }
 }
 
-::ng-deep {
-  
-  .page-title .title {
-    font-size: 18px;
-    font-weight: 500;
-    color: #3B9EFF; /* Ejemplo de color para el submódulo */
-  }
-  
-}

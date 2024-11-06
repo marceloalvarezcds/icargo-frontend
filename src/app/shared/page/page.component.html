@@ -64,8 +64,8 @@
           <ng-container
               *ngFor="let btn of dbuttons">
 
-              <button
-                  mat-mini-fab
+              <button class="botones"
+                  mat-flat-button
                   [color]="btn.color ?? '' "
                   [matTooltip]="btn.tooltip ?? '' "
                   [class]="btn.clases ?? '' "
@@ -76,7 +76,9 @@
                     [class]="btn.iconClass ?? '' ">
                     {{btn.icon}}
                 </mat-icon>
+
                 {{btn.label}}
+
               </button>
 
           </ng-container>
@@ -102,7 +104,7 @@
             mat-flat-button
             color="primary"
             matTooltip="Crear"
-            class="botones guardar-button"
+            class="botones"
             (click)="createClick.emit($event)"
             *ngIf="!hideCreate && (modelo | puede: a.CREAR)"
             [ngStyle]="getButtonStyles(submodule)"
