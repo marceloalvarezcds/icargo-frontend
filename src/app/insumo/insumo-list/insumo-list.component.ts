@@ -14,6 +14,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 type Filter = {
   estado?: string;
@@ -28,6 +29,7 @@ type Filter = {
 })
 export class InsumoListComponent implements OnInit {
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO
+  item?: InsumoPuntoVentaPrecioList;
   columns: Column[] = [
     {
       def: 'id',
@@ -147,6 +149,7 @@ export class InsumoListComponent implements OnInit {
     this.getList();
   }
 
+  
   redirectToCreate(): void {
     const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`;
     window.open(url, '_blank');

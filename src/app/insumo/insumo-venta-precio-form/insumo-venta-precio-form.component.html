@@ -86,19 +86,17 @@
               [form]="form"
               class="app-input-field"
             ></app-fecha-field>
-        
             <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
               <label class="form-label-hora mr-2">Hora</label>
-              <mat-form-field >
+              <mat-form-field>
                 <input
-                matInput
-                formControlName="hora_inicio"
-                placeholder="  :   "
-                maxlength="5"
-                [value]="form.get('hora_inicio')?.value || defaultTimeValue"
-                (focus)="setCursorToPosition($event, 0)"
-                (input)="onTimeInputChange($event)"
-                (blur)="restoreDefaultFormat($event)"
+                  matInput
+                  formControlName="hora_inicio"
+                  placeholder="HH:MM"
+                  (input)="onInputHoraInicio($event)"
+                  (blur)="onBlurHoraInicio($event)"
+                  [pattern]="horaPattern"
+                  [maxlength]="5"
                 />
                 <mat-hint>Formato: HH:MM</mat-hint>
                 <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">

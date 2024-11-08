@@ -18,6 +18,7 @@ export class FechaFieldComponent {
   get control(): FormControl {
     return this.group.get(this.controlName) as FormControl;
   }
+  
 
   @Input() controlName = '';
   @Input() form?: FormGroup;
@@ -28,6 +29,6 @@ export class FechaFieldComponent {
     const currentDate = new Date();
     const updatedDateTime = new Date(selectedDate);
     updatedDateTime.setHours(currentDate.getHours(), currentDate.getMinutes(), currentDate.getSeconds());
-    this.control.setValue(updatedDateTime); // Actualizar el control con la nueva fecha y hora
+    this.control.setValue(updatedDateTime); 
   }
 }
