@@ -82,6 +82,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       hora_inicio: [
         '',
         [Validators.required, Validators.pattern(this.horaPattern)],
+        { disabled: true }
       ],
       precio: [{ value: '', disabled: true }],
       created_at_insumo: [{ value: '', disabled: true }],
@@ -89,7 +90,9 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       unidad_id: [{ value: '', disabled: true }],
       moneda_id: [{ value: '', disabled: true }],
       observacion: [{ value: '', disabled: true }],
+      
     });
+    this.form.get('hora_inicio')?.disable();
   }
 
   ngOnInit(): void {

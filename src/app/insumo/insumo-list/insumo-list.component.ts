@@ -30,6 +30,7 @@ type Filter = {
 export class InsumoListComponent implements OnInit {
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO
   item?: InsumoPuntoVentaPrecioList;
+  EstadoEnum = EstadoEnum;
   columns: Column[] = [
     {
       def: 'id',
