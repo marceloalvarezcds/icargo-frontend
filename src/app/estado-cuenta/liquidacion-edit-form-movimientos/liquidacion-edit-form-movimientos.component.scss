@@ -2,14 +2,13 @@
   display: grid;
   grid-auto-flow: column;
   grid-column-gap: 10px;
-  //grid-template-columns: auto auto auto;  
+  //grid-template-columns: auto auto auto;
 }
 
 .has-movimiento {
   position: relative;
   overflow: visible;
-  top: -50px;
-  margin-bottom: 0;
+  margin-top: -50px;
 }
 
 .movimientos-container::ng-deep {

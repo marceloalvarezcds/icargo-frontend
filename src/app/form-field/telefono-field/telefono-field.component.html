@@ -1,6 +1,11 @@
 <div *ngIf="form" [formGroup]="form">
-  <mat-form-field [formGroupName]="groupName">
-    <!-- <mat-label>{{ title }}</mat-label> -->
+
+  <mat-label class="custom-label">
+    <span *ngIf="requerido" class="required">(*) </span>
+    {{ title }}
+  </mat-label>
+
+  <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
     <input matInput [formControlName]="controlName" [disabled]="readonly" />
     <mat-hint>Formato: +595981100100 ó 0981100100</mat-hint>
     <mat-error *ngIf="control.hasError('required')">
@@ -10,4 +15,5 @@
       <strong>Inválido</strong>. Formato: +595981100100 ó 0981100100
     </mat-error>
   </mat-form-field>
+
 </div>

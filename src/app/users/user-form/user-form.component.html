@@ -13,101 +13,98 @@
   (submitEvent)="submit(false)"
 >
   <div class="user-page-content">
-    <div class="row page-form-row">
+
+    <div class="row">
+
       <ng-container *ngIf="loggedUser$ | async as user">
         <ng-container *ngIf="!user.gestor_carga_id">
-          <div class="col-12 col-md-3 mb-2 d-flex align-items-center">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
             <app-gestor-carga-dialog-field
               [form]="form"
-              class="app-input-field"
             ></app-gestor-carga-dialog-field>
           </div>
         </ng-container>
       </ng-container>
-      <div class="col-12 col-md-3 mb-2 d-flex align-items-center">
-        <label class="form-label-name mr-2">Nombre</label>
-        <app-input-field
-          controlName="first_name"
-          [autofocus]="true"
-          [form]="form"
-          class="app-input-field name"
-        ></app-input-field>
-      </div>
-      <div class="col-12 col-md-3 mb-2 d-flex align-items-center">
-        <label class="form-label-name mr-2">Apellido</label>
-        <app-input-field
-          controlName="last_name"
-          [form]="form"
-          class="app-input-field last-name"
-        ></app-input-field>
-      </div>
-      <div class="col-12 col-md-3 mb-2 d-flex align-items-center">
-        <label class="form-label-user-name mr-2">Nombre de usuario</label>
-        <app-input-field
-          controlName="usuario"
-          [form]="form"
-          class="app-input-field user-name"
-        ></app-input-field>
-      </div>
-      <div class="col-12 col-md-3 mb-2 d-flex align-items-center">
-        <label class="form-label-email mr-2">E-mail</label>
-        <app-input-field
-          controlName="email"
-          [form]="form"
-          class="app-input-field e-mail"
-        ></app-input-field>
-      </div>
-      <div
-        class="col-xs-12 col-sm-6 col-md-4"
-        *ngIf="!isCreate && !editPasswords"
-      >
-        <button
-          *ngIf="isEdit"
-          type="button"
-          class="edit-pass-buttons"
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        controlName="first_name"
+        title="Nombre"
+        [autofocus]="true"
+        [form]="form"
+      ></app-input-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Apellido"
+        controlName="last_name"
+        [form]="form"
+      ></app-input-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Nombre de usuario"
+        controlName="usuario"
+        [form]="form"
+      ></app-input-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="E-mail"
+        controlName="email"
+        [form]="form"
+      ></app-input-field>
+
+      <div class="col-xs-12 col-sm-6 col-md-3"
+        *ngIf="!isCreate && !editPasswords">
+        <button *ngIf="isEdit"
           mat-raised-button
-          (click)="editPasswords = !editPasswords"
-        >
+          type="button"
+          class="botones"
+          (click)="editPasswords = !editPasswords" >
           Editar contraseñas
         </button>
       </div>
+
       <ng-container *ngIf="isCreate || editPasswords">
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-        <label class="form-label-password mr-2">Contraseña</label>
-          <app-password-field
-            controlName="contrasena"
-            [form]="form"
-            class="app-input-field password"
-          ></app-password-field>
-        </div>
-        <div class="col-12 col-md-3 mb-2 d-flex align-items-center">
-        <label class="form-label-password-repeat mr-2">Repetir contraseña</label>
-          <app-password-field
-            controlName="confirm_password"
-            [form]="form"
-            class="app-input-field password"
-          ></app-password-field>
-        </div>
+
+        <app-password-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3 mr-1"
+          title="Contraseña"
+          controlName="contrasena"
+          [form]="form"
+        ></app-password-field>
+
+        <app-password-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3 mr-1"
+          title="Repetir contraseña"
+          controlName="confirm_password"
+          [form]="form"
+        ></app-password-field>
+
       </ng-container>
-      <div
-        class="col-xs-12 col-sm-6 col-md-4"
-        *ngIf="!isCreate && editPasswords"
-      >
+
+      <div class="col-xs-12 col-sm-6 col-md-3"
+        *ngIf="!isCreate && editPasswords" >
         <button
-          type="button"
-          class="edit-pass-buttons"
           mat-raised-button
-          (click)="editPasswords = !editPasswords"
-        >
+          class="botones"
+          type="button"
+          (click)="editPasswords = !editPasswords">
           Ocultar contraseñas
         </button>
       </div>
-      <div class="col-xs-12" *ngIf="isEdit || isShow">
-        <app-estado-field [estado]="estado"></app-estado-field>
+
+      <div *ngIf="isEdit || isShow">
+        <app-estado-field class="input-form-full col-xs-12 col-sm-6 col-md-3"
+             [estado]="estado">
+        </app-estado-field>
       </div>
+
       <div class="col-xs-12">
         <app-rol-field [control]="form.controls['roles']"></app-rol-field>
       </div>
+
     </div>
   </div>
 </app-page-form>

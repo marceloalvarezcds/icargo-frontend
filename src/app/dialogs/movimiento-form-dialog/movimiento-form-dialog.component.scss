@@ -1,3 +1,19 @@
 .contraparte-button {
   margin-bottom: 1rem;
 }
+
+.title {
+  .module {
+    color: #F25A38;
+  }
+
+  .module::after{
+    content: " >> ";
+    color: #3B9EFF;
+  }
+
+  .submodule {
+    color: #3B9EFF;
+  }
+
+}

@@ -1,6 +1,11 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
-  <mat-form-field [formGroupName]="groupName">
-    <mat-label>{{ title }}</mat-label>
+
+  <mat-label class="custom-label">
+    <span *ngIf="requerido" class="required">(*) </span>
+    {{ title }}
+  </mat-label>
+
+  <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
     <ng-container *ngIf="pId; else localidadReadonly">
       <mat-select [formControlName]="controlName">
         <ng-container *ngFor="let o of localidadList">
@@ -15,4 +20,5 @@
       La localidad es <strong>requerida</strong>
     </mat-error>
   </mat-form-field>
+
 </div>

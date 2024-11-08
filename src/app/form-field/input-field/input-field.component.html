@@ -1,6 +1,6 @@
 <ng-container *ngIf="form">
 
-    <div *ngIf="control" [formGroup]="form" class="field-content">
+    <div *ngIf="control" [formGroup]="form" >
 
       <ng-container *ngIf="groupName">
 
@@ -9,7 +9,7 @@
           {{ title }}
         </mat-label>
 
-        <mat-form-field [formGroupName]="groupName">
+        <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
           <input
             matInput
             [value]="rowValue"

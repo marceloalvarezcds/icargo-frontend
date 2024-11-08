@@ -21,8 +21,7 @@ $header-heigth: 64px;
 .filter-values {
   overflow: auto;
   padding: 4px;
-  margin-bottom: 0.5rem;
-  margin-top: -0.5rem;
+  margin: 2.5px 0;
 
   &::ng-deep {
     .mat-chip-list-wrapper {
@@ -32,5 +31,11 @@ $header-heigth: 64px;
         white-space: nowrap;
       }
     }
+  }
+}
+
+.boton-descarga {
+  mat-icon{
+    color: var(--color-green);
   }
 }

@@ -18,30 +18,27 @@
 </div>
  -->
 
-<div class="page-container">
-  <div *ngIf="formGroup" [formGroup]="formGroup">
-    <div [formGroupName]="groupName" class="row page-form-row">
-      <div class="col-12 col-sm-2 col-md-11">
-        <div class="row">
-          <div class="col-xs-12 col-sm-8 ciudad-field">
-            <app-ciudad-dialog-field
-              [ciudadSelected]="ciudadSelected"
-              [groupName]="groupName"
-              [form]="formGroup"
-              class="app-input-field"
-            ></app-ciudad-dialog-field>
-          </div>
-          <div class="col-12 col-md-4  d-flex align-items-center small-field">
-            <label class="form-label mr-2"> Direccion</label>
-            <mat-form-field>
-              <input matInput formControlName="direccion" />
-              <mat-error *ngIf="address.controls['direccion'].hasError('required')">
-                La dirección es <strong>requerida</strong>
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-      </div>
+<div class="page-container" *ngIf="formGroup" [formGroup]="formGroup">
+  <div [formGroupName]="groupName" class="row">
+
+    <app-ciudad-dialog-field
+      class="input-form-full col-xs-12 col-sm-6 col-md-4"
+      [ciudadSelected]="ciudadSelected"
+      [groupName]="groupName"
+      [form]="formGroup"
+    ></app-ciudad-dialog-field>
+
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+      <mat-label class="custom-label">
+        Dirección
+      </mat-label>
+      <mat-form-field floatLabel="always" appearance="outline">
+        <input matInput formControlName="direccion" />
+        <mat-error *ngIf="address.controls['direccion'].hasError('required')">
+          La dirección es <strong>requerida</strong>
+        </mat-error>
+      </mat-form-field>
     </div>
+
   </div>
 </div>

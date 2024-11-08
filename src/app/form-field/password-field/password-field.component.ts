@@ -30,5 +30,6 @@ export class PasswordFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() readonly = false;
+  @Input() requerido = false;
   @Input() title = '';
 }

@@ -3,6 +3,8 @@ $blue: #3399ff;
 $dark-blue: #0054a9;
 $gray: #575756;
 $error-color: #d50000;
+$black-color:#000000;
+$white-color:#FFFFFF;
 
 $icargo-blue-palette: (
   50: $lightblue,
@@ -67,5 +69,38 @@ $icargo-accent-palette: (
     A200: white,
     A400: white,
     A700: white,
+  )
+);
+
+$icargo-black-palette: (
+  50: $black-color,
+  100: $black-color,
+  200: $black-color,
+  300: $black-color,
+  400: $black-color,
+  500: $black-color,
+  600: $black-color,
+  700: $black-color,
+  800: $black-color,
+  900: $black-color,
+  A100: $black-color,
+  A200: $black-color,
+  A400: $black-color,
+  A700: $black-color,
+  contrast: (
+    50: $white-color,
+    100: $white-color,
+    200: $white-color,
+    300: $white-color,
+    400: $white-color,
+    500: $white-color,
+    600: $white-color,
+    700: $white-color,
+    800: $white-color,
+    900: $white-color,
+    A100: $white-color,
+    A200: $white-color,
+    A400: $white-color,
+    A700: $white-color,
   )
 );

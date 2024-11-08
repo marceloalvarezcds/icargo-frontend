@@ -37,6 +37,7 @@ export class TipoDocumentoFieldComponent implements OnDestroy {
   @Input() controlName = 'tipo_documento_id';
   @Input() groupName = '';
   @Input() title = 'Tipo de Documento';
+  @Input() requerido = false;
 
   @Output() rucSelected = new EventEmitter<boolean>();
 

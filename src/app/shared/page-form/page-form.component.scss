@@ -1,22 +1,17 @@
-
-
-.title {
-  .module {
-    color: #F25A38;
-  }
-
-  .module::after{
-    content: " >> ";
-    color: #3B9EFF;
-  }
-
-  .submodule {
-    color: #3B9EFF;
-  }
-
+.module {
+  color: #F25A38;
 }
 
+.module::after{
+  content: " >> ";
+  color: #3B9EFF;
+}
 
+.submodule {
+  color: #3B9EFF;
+}
+
+/*
 .edicion-mode {
   color: #F25A38;
 }
@@ -28,7 +23,8 @@
 .nuevo-mode {
   color: #F25A38;
 }
-
+*/
+// prueba color global
 .guardar-button-test {
   color:white;
   background: var(--color-success);

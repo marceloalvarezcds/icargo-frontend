@@ -13,14 +13,4 @@
   .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
     visibility: hidden;
   }
-  .estado-form-field {
-    margin-top: 0;
-    margin-bottom: 4px;
-  }
-  @media screen and (min-width: 64em) {
-    .estado-form-field {
-      margin-top: 18px;
-      margin-bottom: 0;
-    }
-  }
 }

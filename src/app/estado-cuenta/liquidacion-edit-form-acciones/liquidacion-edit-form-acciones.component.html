@@ -1,10 +1,10 @@
-<div class="row page-form-row" *ngIf="liquidacion">
+<div class="row" *ngIf="liquidacion">
   <div class="col-xs-12 acciones-buttons">
+
     <ng-container *ngIf="!isShow">
-      <button
-        type="button"
-        mat-raised-button
-        color="primary"
+
+      <button mat-stroked-button
+        class="botones" type="button"
         [disabled]="isFacturaReady"
         *ngIf="(
           liquidacion.estado === E.EN_REVISION ||
@@ -12,46 +12,36 @@
           ) &&
           (m.LIQUIDACION | puede: a.CREAR)
         "
-        (click)="datosFiscalesForm()"
-      >
+        (click)="datosFiscalesForm()" >
         Datos Fiscales
       </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="primary"
+      <button mat-flat-button
+        class="botones" color="primary" type="button"
         *ngIf="(
           liquidacion.estado === E.EN_REVISION ||
           liquidacion.estado === E.RECHAZADO
           ) &&
           (m.LIQUIDACION | puede: a.CREAR)
         "
-        (click)="someter()"
-      >
+        (click)="someter()" >
         Someter
       </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="primary"
+      <button mat-flat-button
+        class="botones" color="accent" type="button"
         *ngIf="
           liquidacion.estado === E.PENDIENTE &&
           (m.LIQUIDACION | puede: a.ACEPTAR)
         "
-        (click)="aceptar()"
-      >
+        (click)="aceptar()" >
         Aceptar
       </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="accent"
+      <button mat-flat-button
+        class="botones" color="warn" type="button"
         *ngIf="
           liquidacion.estado === E.PENDIENTE &&
           (m.LIQUIDACION | puede: a.RECHAZAR)
         "
-        (click)="rechazar()"
-      >
+        (click)="rechazar()" >
         Rechazar
       </button>
       <!--button
@@ -69,26 +59,23 @@
       >
         Revisión
       </button-->
-      <button
-        type="button"
-        mat-raised-button
-        color="warn"
+      <button mat-flat-button
+        class="botones" color="warn" type="button"
         *ngIf="
           liquidacion.estado !== E.CANCELADO &&
           (m.LIQUIDACION | puede: a.CANCELAR)
         "
-        (click)="cancelar()"
-      >
+        (click)="cancelar()" >
         Cancelar
       </button>
+
     </ng-container>
-    <button
-      type="button"
-      mat-raised-button
-      color="primary"
-      (click)="downloadPDF()"
-    >
-      Imprimir liquidación
+
+    <button mat-stroked-button
+      class="botones boton-descarga" type="button"
+      (click)="downloadPDF()" >
+      <mat-icon>description</mat-icon>Imprimir liquidación
     </button>
+
   </div>
 </div>

@@ -17,42 +17,43 @@
   (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
-  <div class="page-container">
-      <div class="section" formGroupName="info">
-          <h2>INFORMACIÓN PRINCIPAL</h2>
-        <app-propietario-form-info
-          [form]="form"
-          [estado]="estado"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          [fotoDocumentoFrente]="fotoDocumentoFrente"
-          [fotoDocumentoReverso]="fotoDocumentoReverso"
-          [fotoPerfil]="fotoPerfil"
-          [modelo]="modelo"
-          [gestorCuentaId]="gestorCuentaId"
-          [cantidadOCConAnticiposLiberados]="cantidadOCConAnticiposLiberados"
-          (fotoDocumentoFrenteChange)="
-            fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null
-          "
-          (fotoDocumentoReversoChange)="
-            fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null
-          "
-          (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
-          (anticiposBloqueadosChange)="bloquearAnticipos()"
-          (esChoferChange)="esChoferChange($event)"
-        ></app-propietario-form-info>
-      </div>
 
-      <div class="section"
-        formGroupName="chofer"
+  <div class="page-form-container">
+
+    <div class="section" formGroupName="info">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+      <app-propietario-form-info
+        [form]="form"
+        [estado]="estado"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        [fotoDocumentoFrente]="fotoDocumentoFrente"
+        [fotoDocumentoReverso]="fotoDocumentoReverso"
+        [fotoPerfil]="fotoPerfil"
+        [modelo]="modelo"
+        [gestorCuentaId]="gestorCuentaId"
+        [cantidadOCConAnticiposLiberados]="cantidadOCConAnticiposLiberados"
+        (fotoDocumentoFrenteChange)="
+          fotoDocumentoFrenteFile = $event; fotoDocumentoFrente = null
+        "
+        (fotoDocumentoReversoChange)="
+          fotoDocumentoReversoFile = $event; fotoDocumentoReverso = null
+        "
+        (fotoPerfilChange)="fotoPerfilFile = $event; fotoPerfil = null"
+        (anticiposBloqueadosChange)="bloquearAnticipos()"
+        (esChoferChange)="esChoferChange($event)"
+      ></app-propietario-form-info>
+    </div>
+
+    <div class="section" formGroupName="chofer"
         [hidden]="!esChofer"
         *ngIf="
           (choferModelo | puede: a.CREAR) ||
           (choferModelo | puede: a.EDITAR) ||
           (choferModelo | puede: a.VER)
-        "
-      >
-        <h2>Chofer</h2>
+        ">
+
+      <h2>Chofer</h2>
       <app-propietario-form-chofer
         [form]="form"
         [isEdit]="isEdit"
@@ -66,34 +67,33 @@
         (fotoDocumentoReversoChange)="
           fotoDocumentoReversoChoferFile = $event;
           fotoDocumentoReversoChofer = null
-        "
-      ></app-propietario-form-chofer>
+        "></app-propietario-form-chofer>
     </div>
 
-      <div class="section"
-        formGroupName="registro"
+    <div class="section" formGroupName="registro"
         [hidden]="!esChofer"
         *ngIf="
           (choferModelo | puede: a.CREAR) ||
           (choferModelo | puede: a.EDITAR) ||
           (choferModelo | puede: a.VER)
+          ">
+      <h2>Registro Chofer</h2>
+      <app-registro-conduccion-form
+        [form]="form"
+        [isShow]="isShow"
+        [fotoRegistroFrente]="fotoRegistroFrente"
+        [fotoRegistroReverso]="fotoRegistroReverso"
+        (fotoRegistroFrenteChange)="
+          fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
         "
-      >
-        <h2>Registro Chofer</h2>
-        <app-registro-conduccion-form
-          [form]="form"
-          [isShow]="isShow"
-          [fotoRegistroFrente]="fotoRegistroFrente"
-          [fotoRegistroReverso]="fotoRegistroReverso"
-          (fotoRegistroFrenteChange)="
-            fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
-          "
-          (fotoRegistroReversoChange)="
-            fotoRegistroReversoFile = $event; fotoRegistroReverso = null
-          "
-        ></app-registro-conduccion-form>
-      </div>
-    <div class="section contactos-section"  *ngIf="modelo | esUsuarioGestorYPuede: a.MODIFICAR_CONTACTOS | async">
+        (fotoRegistroReversoChange)="
+          fotoRegistroReversoFile = $event; fotoRegistroReverso = null
+        "
+      ></app-registro-conduccion-form>
+    </div>
+
+    <div class="section"
+      *ngIf="modelo | esUsuarioGestorYPuede: a.MODIFICAR_CONTACTOS | async">
       <h2 class="contactos-heading">CONTACTOS</h2>
       <app-page-form-contactos
         [form]="form"
@@ -102,11 +102,9 @@
       ></app-page-form-contactos>
     </div>
 
-    <div class="section"
-      formGroupName="address"
+    <div class="section" formGroupName="address"
       (opened)="isPanelOpen = true"
-      (closed)="isPanelOpen = false"
-    >
+      (closed)="isPanelOpen = false" >
       <h2>Direccion</h2>
       <app-page-form-address
         groupName="address"
@@ -116,15 +114,13 @@
         [isPanelOpen]="isPanelOpen"
         class="app-input-field"
       ></app-page-form-address>
-   
+    </div>
 
-    <div class="section"
-      *ngIf="
+    <div class="section" *ngIf="
         (isShow || isEdit) &&
         ((camionModelo | puede: a.LISTAR) ||
           (semirremolqueModelo | puede: a.LISTAR))
-      "
-    >
+        ">
       <div *ngIf="camionModelo | puede: a.LISTAR">
         <app-propietario-camion-list
           [backUrl]="propietarioBackUrl"
@@ -144,7 +140,7 @@
     </div>
 
     <div class="section" *ngIf="isEdit || isShow">
-      <h2> Auditoria </h2>
+      <h2>Auditoria</h2>
       <app-page-form-audit
         [created_by]="created_by"
         [created_at]="created_at"
@@ -152,6 +148,7 @@
         [modified_at]="modified_at"
       ></app-page-form-audit>
     </div>
+
   </div>
-</div>
+
 </app-page-form>

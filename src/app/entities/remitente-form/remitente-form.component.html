@@ -2,7 +2,6 @@
   puede ser directo asi: [clasesModulo]="{'color': 'black'}"
   o definido como un objeto remitenteClaseModule = {'color': 'black'};
 -->
-
 <app-page-form
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   submodule="CLIENTE"
@@ -16,6 +15,7 @@
   (submitEvent)="submit(false)" >
 
   <div class="page-form-container">
+
     <div class="section" formGroupName="info">
       <h2>INFORMACIÓN PRINCIPAL</h2>
       <app-page-form-entities-info
@@ -28,7 +28,7 @@
       ></app-page-form-entities-info>
     </div>
 
-    <div class="section geolocation-section">
+    <div class="section">
       <h2>GEOLOCALIZACIÓN</h2>
       <div class="geolocation-content">
         <app-page-form-geo
@@ -41,8 +41,8 @@
       </div>
     </div>
 
-    <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
-      <h2 class="contactos-heading">CONTACTOS</h2>
+    <div class="section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+      <h2>CONTACTOS</h2>
       <app-page-form-contactos
         [form]="form"
         [isShow]="isShow"

@@ -1,5 +1,4 @@
 <app-page
-  class="estado-cuenta-page"
   module="MOVIMIENTOS (CUENTAS CORRIENTES)"
   [modelo]="m.MOVIMIENTO"
   (backClick)="back($event)"
@@ -75,6 +74,25 @@
     </mat-accordion>
   </div>
 
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByChapa">
+      <mat-chip *ngFor="let item of chapaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByCuenta">
+      <mat-chip *ngFor="let item of cuentaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByConcepto">
+      <mat-chip *ngFor="let item of conceptoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByDetalle">
+      <mat-chip *ngFor="let item of detalleFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+
   <div class="page-container">
 
     <app-estado-cuenta-detalle
@@ -120,17 +138,18 @@
 
     </div>
 
-    <app-table-paginator
-      [columns]="columns"
-      [data]="list"
-      [filterPredicate]="filterPredicate"
-      [modelo]="m.MOVIMIENTO"
-      [hideDelete]="true"
-      [hideEdit]="true"
-      [hideShow]="true"
-      [shouldBeShowFooter]="false">
-    </app-table-paginator>
-
   </div>
+
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="m.MOVIMIENTO"
+    [hideDelete]="true"
+    [hideEdit]="true"
+    [hideShow]="true"
+    [shouldBeShowFooter]="false">
+  </app-table-paginator>
+
 
 </app-page>

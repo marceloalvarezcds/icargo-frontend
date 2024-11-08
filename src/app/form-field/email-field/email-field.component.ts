@@ -20,4 +20,6 @@ export class EmailFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Correo electrónico';
+  @Input() requerido = false;
+
 }

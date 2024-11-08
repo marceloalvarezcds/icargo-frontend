@@ -1,7 +1,16 @@
 <form [formGroup]="form">
 
-  <h1 mat-dialog-title>
-    {{ actionText }} Movimiento
+  <h1 mat-dialog-title class="title">
+
+    <span class="title">
+      <span class="module">
+        {{ actionText }}
+      </span>
+      <span class="submodule">
+        Movimiento
+      </span>
+    </span>
+
     <button mat-button type="button" mat-dialog-close class="close">
       <mat-icon>close</mat-icon>
     </button>
@@ -44,7 +53,7 @@
       </button>
 
       <app-contraparte-by-tipo-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [form]="form"
         [readonly]="!isContraparteEditable"
         [openField]="openField"
@@ -54,7 +63,7 @@
       ></app-contraparte-by-tipo-dialog-field>
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Nº Doc. Contraparte"
         controlName="contraparte_numero_documento"
         [form]="form"
@@ -62,7 +71,7 @@
       ></app-input-field>
 
       <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Fecha de creación"
         controlName="fecha"
         [form]="form"
@@ -70,7 +79,7 @@
       ></app-fecha-field>
 
       <mat-radio-group
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         aria-label="Seleccione una opción"
         formControlName="es_cobro"
         style="display: flex; flex-direction: row; align-items: center;justify-content: space-around;"
@@ -93,11 +102,11 @@
       </app-moneda-field>
 
       <app-estado-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         [estado]="estado">
       </app-estado-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-8">
         <mat-label>Detalle</mat-label>
         <mat-form-field>
           <textarea
@@ -115,12 +124,10 @@
   </div>
 
   <div mat-dialog-actions>
-    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
-    <button id="submit-button" mat-raised-button cdkFocusInitial
-      type="button"(click)="submit()"
-      color="primary"
-    >
-      Aceptar
+    <button mat-stroked-button class="botones" type="button" mat-dialog-close>Cancelar</button>
+    <button id="submit-button" mat-flat-button cdkFocusInitial
+      class="botones" color="primary" type="button"(click)="submit()">
+      Guardar
     </button>
   </div>
 

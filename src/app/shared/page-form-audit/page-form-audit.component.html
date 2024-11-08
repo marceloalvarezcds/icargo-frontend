@@ -1,18 +1,32 @@
-<div class="row page-form-row page-form-audit">
-  <mat-form-field class="col-xs-12 col-sm-6">
+<div class="row">
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Creado por</mat-label>
-    <input matInput [value]="created_by" disabled />
-  </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6">
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [value]="created_by" disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Creado en fecha</mat-label>
-    <input matInput [value]="created_at_format" disabled />
-  </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6">
+    <mat-form-field>
+      <input matInput [value]="created_at_format" disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Modificado por</mat-label>
-    <input matInput [value]="modified_by" disabled />
-  </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6">
+    <mat-form-field>
+      <input matInput [value]="modified_by" disabled />
+    </mat-form-field>
+  </div>
+
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Modificado en fecha</mat-label>
-    <input matInput [value]="modified_at_format" disabled />
-  </mat-form-field>
+    <mat-form-field>
+      <input matInput [value]="modified_at_format" disabled />
+    </mat-form-field>
+  </div>
+
 </div>

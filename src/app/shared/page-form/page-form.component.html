@@ -31,6 +31,7 @@
 
         <button
           mat-stroked-button
+          color="primary"
           matTooltip="Volver al listado"
           [disabled]="loading"
           (click)="backClick.emit()"
@@ -94,7 +95,7 @@
 
         <button
           type="button"
-          mat-mini-fab
+          mat-flat-button
           color="primary"
           class="orden-button"
           matTooltip="Orden"
@@ -109,7 +110,7 @@
 
         <button
           type="button"
-          mat-mini-fab
+          mat-flat-button
           color="primary"
           class="orden-button"
           matTooltip="Orden"
@@ -129,7 +130,7 @@
                   && submodule !== 'ORDEN DE CARGA (directa)'
                   && oc?.estado !== 'Cancelado'"
             type="button"
-            mat-raised-button
+            mat-flat-button
             color="primary"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             (click)="aceptarClick.emit($event)"
@@ -145,7 +146,7 @@
                   || oc?.estado === E.ACEPTADO))
                   && oc?.estado !== 'Cancelado' "
           type="button"
-          mat-raised-button
+          mat-flat-button
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO"
           color="warn"
           (click)="cancelarClick.emit($event)"
@@ -165,7 +166,7 @@
                   submodule !== 'ORDEN CARGA (directa)' &&
                   submodule !== 'ANTICIPO (directo)'"
           type="button"
-          mat-raised-button
+          mat-flat-button
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
                           (oc?.estado === E.NUEVO) ||
                           !oc?.cantidad_destino"
@@ -179,7 +180,7 @@
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
           && oc?.estado !== E.CONCILIADO"
           type="button"
-          mat-raised-button
+          mat-flat-button
           (click)="conciliarClick.emit($event)"
           [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino"
           class="add-button orden-carga-conciliar"
@@ -189,7 +190,7 @@
         </button>
 
         <button
-          type="button" mat-mini-fab color="accent"
+          type="button" mat-flat-button color="accent"
           class="ver-button"
           [disabled]="true"
           *ngIf="submodule === 'ORDEN DE CARGA (directa)'
@@ -211,7 +212,7 @@
 
         <button
           type="button"
-          mat-mini-fab
+          mat-flat-button
           color="warn"
           matTooltip="Editar"
           class="edit-button"
@@ -262,7 +263,7 @@
 
         <button
           type="button"
-          mat-mini-fab
+          mat-flat-button
           color="primary"
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
@@ -281,7 +282,7 @@
           matTooltip="Guardar"
           [disabled]="loading || isDataLoaded || isEditPressed"
           *ngIf="(!isShow && !hideSaveButton) "
-          class="botones guardar-button"
+          class="botones"
         >
           <mat-icon>save</mat-icon>
           GUARDAR
@@ -292,7 +293,7 @@
           <ng-container>
             <button
               type="button"
-              mat-raised-button
+              mat-flat-button
               color="warn"
               *ngIf="flete.estado !== E.CANCELADO"
               (click)="cancelarFleteClick.emit($event)"
@@ -307,7 +308,7 @@
       </div>
     </div>
 
-    <div class="page-form-content">
+    <div class="page-content">
 
       <hr>
       <ng-content></ng-content>

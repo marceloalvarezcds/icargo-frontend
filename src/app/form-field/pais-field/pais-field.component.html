@@ -1,5 +1,11 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
-  <mat-form-field [formGroupName]="groupName">
+
+  <mat-label class="custom-label">
+    <span *ngIf="requerido" class="required">(*) </span>
+    {{ title }}
+  </mat-label>
+
+  <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
     <!-- <mat-label>{{ title }}</mat-label> -->
     <mat-select [formControlName]="controlName"  class="custom-trigger">
       <ng-container *ngFor="let o of paisList$ | async">
@@ -10,4 +16,5 @@
       El país es <strong>requerido</strong>
     </mat-error>
   </mat-form-field>
+
 </div>

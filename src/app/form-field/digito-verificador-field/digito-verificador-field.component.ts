@@ -20,4 +20,6 @@ export class DigitoVerificadorFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Dígito verificador';
+  @Input() requerido = false;
+
 }

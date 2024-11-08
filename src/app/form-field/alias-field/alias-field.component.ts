@@ -24,4 +24,6 @@ export class AliasFieldComponent {
   @Input() groupName = '';
   @Input() modelo?: PermisoModeloEnum;
   @Input() title = 'Alias';
+  @Input() requerido = false;
+
 }

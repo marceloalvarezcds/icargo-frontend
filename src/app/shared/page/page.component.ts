@@ -31,6 +31,7 @@ export class PageComponent {
   @Input() viewTitle = '';
   @Input() modelo?: PermisoModeloEnum;
   @Input() dbuttons?: ButtonList[] = []
+  @Input() isFiltered = false;
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() backClick = new EventEmitter<boolean>();
@@ -42,7 +43,6 @@ export class PageComponent {
   @Output() conciliarClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
-
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 
@@ -84,11 +84,9 @@ export class PageComponent {
       case 'TRACTOS':
       case 'SEMIS':
       case 'COMBINACION DE FLOTA':
-      case 'PROPIETARIOS':
       case 'GESTORES DE CARGA':
       case 'PEDIDOS':
       case 'Orden de Carga':
-      case 'Cargo':
         return baseStyles;
       default:
         return { };

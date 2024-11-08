@@ -1,6 +1,11 @@
 <div *ngIf="form" [formGroup]="form">
-  <mat-form-field [formGroupName]="groupName" class="gestor_select">
-    <!-- <mat-label>{{ title }}</mat-label> -->
+
+  <mat-label class="custom-label">
+    <span *ngIf="requerido" class="required">(*) </span>
+    {{ title }}
+  </mat-label>
+
+  <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
     <mat-select [formControlName]="controlName">
       <ng-container *ngFor="let o of userList$ | async">
         <mat-option [value]="o.id">{{o.first_name}} {{o.last_name}}</mat-option>
@@ -10,4 +15,5 @@
       El oficial de cuenta es <strong>requerido</strong>
     </mat-error>
   </mat-form-field>
+
 </div>

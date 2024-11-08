@@ -21,6 +21,7 @@ import { SaldoComponent } from '../saldo/saldo.component';
 import { editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confirmada-form-facturas/liquidacion-confirmada-form-facturas.component';
+import { Factura } from 'src/app/interfaces/factura';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
@@ -93,6 +94,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
 
   get instrumentos(): Instrumento[] {
     return this.item?.instrumentos ?? [];
+  }
+
+  get facturas(): Factura[] {
+    return this.item?.facturas ?? [];
   }
 
   get residuo(): number {

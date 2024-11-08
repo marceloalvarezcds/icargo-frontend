@@ -1,10 +1,13 @@
 <ng-container *ngIf="form">
-    <ng-container *ngIf="groupName">
+
+  <ng-container *ngIf="groupName">
       <div *ngIf="form" [formGroup]="form">
         <div class="{{ className }}" [formGroupName]="groupName">
+
           <div *ngIf="isShow && field">
             <strong>{{ title }}</strong>
           </div>
+
           <div class="file-field-container">
             <img
               *ngIf="fieldFile && !field"
@@ -14,6 +17,7 @@
             />
             <img *ngIf="field" [src]="field" alt="" class="file-field" />
           </div>
+
           <input
             id="file-input"
             #fileInput
@@ -22,8 +26,8 @@
             (change)="fieldChange($event)"
             style="display: none"
           />
+
           <mat-form-field class="file-form-field" *ngIf="!isShow">
-            <mat-label>{{ title }}</mat-label>
             <input
               matInput
               readonly
@@ -43,14 +47,18 @@
               El archivo es <strong>requerido</strong>
             </mat-error>
           </mat-form-field>
+
         </div>
       </div>
     </ng-container>
+
     <ng-container *ngIf="!groupName">
       <div class="{{ className }}" [formGroup]="form">
+
         <div *ngIf="isShow && field">
           <strong>{{ title }}</strong>
         </div>
+
         <div class="file-field-container">
           <img
             *ngIf="fieldFile"
@@ -69,7 +77,6 @@
           style="display: none"
         />
         <mat-form-field class="file-form-field" *ngIf="!isShow">
-          <mat-label>{{ title }}</mat-label>
           <input
             matInput
             readonly
@@ -89,7 +96,9 @@
             El archivo es <strong>requerido</strong>
           </mat-error>
         </mat-form-field>
+
       </div>
     </ng-container>
+
   </ng-container>
-  
+

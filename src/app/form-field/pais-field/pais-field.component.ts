@@ -32,6 +32,7 @@ export class PaisFieldComponent implements OnDestroy {
   @Input() controlName = 'pais';
   @Input() groupName = '';
   @Input() title = 'País';
+  @Input() requerido = false;
 
   @Output() valueChange = new EventEmitter<number>();
 

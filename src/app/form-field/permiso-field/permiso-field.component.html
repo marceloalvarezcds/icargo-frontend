@@ -1,9 +1,10 @@
-<div *ngIf="list$ | async as list">
+<div *ngIf="list$ | async as list" class="full-form-field">
   <mat-error class="first" [class.visible]="formControl.hasError('required')">
     Debe elegir al menos <strong>1 permiso</strong>
   </mat-error>
   <mat-form-field>
     <mat-label>{{ title }}</mat-label>
+
     <ng-container *ngIf="loggedUser$ | async as user; else noUser">
       <app-permiso-form-field-control
         [hasGestorCargaId]="!!user.gestor_carga_id"
@@ -12,6 +13,7 @@
         (valueChange)="valueChange.emit($event)"
       ></app-permiso-form-field-control>
     </ng-container>
+
     <ng-template #noUser>
       <app-permiso-form-field-control
         [list]="list"
@@ -19,8 +21,10 @@
         (valueChange)="valueChange.emit($event)"
       ></app-permiso-form-field-control>
     </ng-template>
+
     <mat-error *ngIf="formControl.hasError('required')">
       Debe elegir al menos <strong>1 permiso</strong>
     </mat-error>
+
   </mat-form-field>
 </div>

@@ -1,5 +1,4 @@
 <app-page
-  class="liquidacion-page"
   submodule="Liquidaciones"
   [modelo]="m.LIQUIDACION"
   (applyClick)="applyFilter()"
@@ -49,6 +48,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
+
   <mat-chip-list filterValues>
     <ng-container *ngIf="isFiltered">Filtros:</ng-container>
     <ng-container *ngIf="isFilteredByProducto">
@@ -65,6 +65,7 @@
       }}</mat-chip>
     </ng-container>
   </mat-chip-list>
+
   <app-table-paginator
     [columns]="columns"
     [data]="list"
@@ -75,4 +76,5 @@
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
   ></app-table-paginator>
+
 </app-page>
