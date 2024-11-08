@@ -44,13 +44,13 @@ export class InsumoListComponent implements OnInit {
     {
       def: 'fecha_inicio',
       title: 'Fecha',
-      value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.fecha_inicio),
+      value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.created_at_insumo),
     },
   
     {
       def: 'fecha_fin',
       title: 'Vigencia',
-      value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.fecha_fin),
+      value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.fecha_inicio),
     },
     {
       def: 'descripcion',
@@ -149,7 +149,7 @@ export class InsumoListComponent implements OnInit {
     this.getList();
   }
 
-  
+
   redirectToCreate(): void {
     const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`;
     window.open(url, '_blank');
