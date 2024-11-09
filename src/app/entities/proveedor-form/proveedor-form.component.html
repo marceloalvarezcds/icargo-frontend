@@ -11,7 +11,8 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false, false)"
 >
-  <div class="page-container">
+  <div class="page-form-container">
+
     <div class="section" formGroupName="info">
       <h2>INFORMACIÓN PRINCIPAL</h2>
       <app-page-form-entities-info
@@ -35,44 +36,26 @@
           [isPanelOpen]="true"
         ></app-page-form-geo>
       </div>
-    </div>   
+    </div>
 
-    <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
-      <h2 class="contactos-heading">CONTACTOS</h2>
+    <div class="section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+      <h2>CONTACTOS</h2>
       <app-page-form-contactos
         [form]="form"
         [isShow]="isShow"
         [contactoList]="contactoList"
       ></app-page-form-contactos>
-    </div>  
+    </div>
 
     <div *ngIf="puntoVentaModelo | puede: a.LISTAR">
-      
-      <div>
-        <app-punto-venta-list
-          [proveedorId]="id"
-          [isShow]="isShow"
-          [backUrl]="puntoVentaBackUrl"
-        ></app-punto-venta-list>
 
-        <div
-          class="row page-form-row"
-          *ngIf="puntoVentaModelo | puede: a.CREAR"
-        >
-          <div class="col-xs-12" [hidden]="isShow">
-            <button
-              mat-raised-button
-              class="outline round create-punto-venta"
-              color="primary"
-              type="button"
-              (click)="createPuntoVenta()"
-              id="add-button"
-            >
-              Nuevo Punto de Venta
-            </button>
-          </div>
-        </div>
-      </div>
+      <app-punto-venta-list
+        [proveedorId]="id"
+        [isShow]="isShow"
+        [backUrl]="puntoVentaBackUrl"
+      ></app-punto-venta-list>
+
     </div>
+
   </div>
 </app-page-form>

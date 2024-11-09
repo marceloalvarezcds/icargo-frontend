@@ -301,6 +301,12 @@ h1.mat-dialog-title {
     //padding-top: 2px;
   }
 
+  &.boton-descarga {
+    mat-icon{
+      color: var(--color-green);
+    }
+  }
+
 }
 /* estilo gral botones */
 

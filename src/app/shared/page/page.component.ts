@@ -80,9 +80,6 @@ export class PageComponent {
     };
 
     switch (submodule) {
-      case 'CHOFERES':
-      case 'TRACTOS':
-      case 'SEMIS':
       case 'COMBINACION DE FLOTA':
       case 'GESTORES DE CARGA':
       case 'PEDIDOS':

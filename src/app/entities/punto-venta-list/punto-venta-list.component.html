@@ -1,27 +1,37 @@
-<div class="row page-form-row">
-  <div class="col-xs-12 table-container small-table-container" [hidden]="!(list && list.length)">
-    <div class="download-button-container" *ngIf="modelo | puede: a.REPORTE">
-      <button
-        type="button"
-        class="download-button"
-        mat-mini-fab
-        color="primary"
-        matTooltip="Exportar lista"
-        (click)="downloadFile()"
-      >
-        <mat-icon>download</mat-icon>
-      </button>
-    </div>
-    <app-table-paginator
-      class="small-table"
-      [columns]="columns"
-      [data]="list"
-      [isShow]="isShow"
-      [addShowButton]="isShow"
-      [modelo]="modelo"
-      (editClick)="redirectToEdit($event)"
-      (showClick)="redirectToShow($event)"
-      (deleteClick)="deleteRow($event)"
-    ></app-table-paginator>
+<app-page
+  class="punto-venta"
+  submodule="PUNTO VENTA"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (createClick)="createPuntoVenta()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+>
+
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+
+      </mat-expansion-panel>
+    </mat-accordion>
   </div>
-</div>
+
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+  </mat-chip-list>
+
+  <app-table-paginator
+    class="lista-remitente"
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    (deleteClick)="deleteRow($event)"
+  ></app-table-paginator>
+
+</app-page>

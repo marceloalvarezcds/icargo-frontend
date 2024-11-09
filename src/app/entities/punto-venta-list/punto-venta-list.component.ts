@@ -84,6 +84,8 @@ export class PuntoVentaListComponent {
   @Input() isShow = false;
   @Input() backUrl = '/entities/proveedor/create';
 
+  isFiltered = false;
+
   constructor(
     private puntoVentaService: PuntoVentaService,
     private reportsService: ReportsService,
@@ -130,5 +132,26 @@ export class PuntoVentaListComponent {
     this.puntoVentaService.getList(proveedorId).subscribe((list) => {
       this.list = list;
     });
+  }
+
+  // TODO: pendiente agregar filtros al pdv
+  filterPredicate(): boolean {
+    return false;
+  }
+
+  applyFilter(){
+
+  }
+  resetFilter(){
+
+  }
+
+  createPuntoVenta(): void {
+    console.log('createPuntoVenta');
+    console.log(`/entities/${m.PUNTO_VENTA}/${a.CREAR}`);
+    this.router.navigate(
+      [`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.provId],
+      { queryParams: { backUrl: this.backUrl } }
+    );
   }
 }
