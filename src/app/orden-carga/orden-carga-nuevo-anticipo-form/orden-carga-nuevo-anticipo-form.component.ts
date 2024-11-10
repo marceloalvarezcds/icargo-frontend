@@ -399,7 +399,7 @@ downloadResumenPDF(): void {
 
     if (this.form.valid) {
       const data: OCConfirmationDialogData = {
-        oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
+        oc: getOCData(this.form, this.flete, this.form.get('combinacion')?.get('neto')?.value),
       };
 
       if (showDialog) {

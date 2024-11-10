@@ -36,6 +36,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   puntoVentaId: number | null = null;
   insumoId: number | null = null;
   monedaId: number | null = null;
+  horaPattern: RegExp = /^(?:2[0-3]|[01][0-9]):([0-5][0-9])$/;
 
   form = this.fb.group({
       punto_venta_id: [null, Validators.required],
@@ -62,35 +63,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   @Output() insumoPdvChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
   @Output() insumoPrecioChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
 
-  defaultTimeValue: string = "__:__";
-  hourPattern = /^([01]\d|2[0-3]):[0-5]\d$/; // Permite HH:MM en formato de 24 horas
-
-  setCursorToPosition(event: Event, position: number) {
-    const input = event.target as HTMLInputElement;
-    setTimeout(() => input.setSelectionRange(position, position), 0);
-  }
-
-  onTimeInputChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    let value = input.value.replace(/[^0-9:]/g, '');
-
-    if (value.length === 2 && !value.includes(':')) {
-      value = `${value}:`;
-    }
-
-    if (value.length > 5) {
-      value = value.slice(0, 5);
-    }
-
-    input.value = value;
-  }
-
-  restoreDefaultFormat(event: Event) {
-    const input = event.target as HTMLInputElement;
-    if (!input.value) {
-      input.value = this.defaultTimeValue;
-    }
-  }
 
   get getPunto_venta_id(): FormArray {
     return this.form.get('punto_venta_id') as FormArray;
@@ -107,33 +79,78 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       punto_venta_id: [null, Validators.required],
       insumo_id: [{ value: '', disabled: true }, Validators.required],
       fecha_inicio: [{ value: '', disabled: true }],
-      hora_inicio: [{ value: '', disabled: true }],
+      hora_inicio: [
+        '',
+        [Validators.required, Validators.pattern(this.horaPattern)],
+        { disabled: true }
+      ],
       precio: [{ value: '', disabled: true }],
       created_at_insumo: [{ value: '', disabled: true }],
       hora: [{ value: '', disabled: true }],
       unidad_id: [{ value: '', disabled: true }],
       moneda_id: [{ value: '', disabled: true }],
       observacion: [{ value: '', disabled: true }],
+      
     });
+    this.form.get('hora_inicio')?.disable();
   }
 
   ngOnInit(): void {
     this.getData();
     this.form.get('punto_venta_id')?.setValue(this.pdv?.punto_venta_id);
+  
+    // Actualizar el campo hora_inicio cada vez que cambia fecha_inicio
     this.form.get('fecha_inicio')?.valueChanges.subscribe((value: string) => {
       if (value) {
         const date = new Date(value);
-        this.horaInicio = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        this.horaInicio = this.formatearHora24(date);
         this.form.get('hora_inicio')?.setValue(this.horaInicio);
       }
     });
+  
+    // Configuración para created_at_insumo si es necesario
     this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
       if (value) {
         const date = new Date(value);
-        this.hora = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        this.hora = this.formatearHora24(date);
         this.form.get('hora')?.setValue(this.hora);
       }
-    });  
+    });
+  }
+  
+  // Método para formatear la hora en formato HH:MM sin segundos
+  formatearHora24(date: Date): string {
+    const horas = date.getHours().toString().padStart(2, '0');
+    const minutos = date.getMinutes().toString().padStart(2, '0');
+    return `${horas}:${minutos}`;
+  }
+   // Método que se ejecuta al escribir en el campo
+   onInputHoraInicio(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    // Solo permitir el formato de hora HH:MM
+    value = value.replace(/[^0-9:]/g, ''); // Solo permite números y dos puntos
+    if (value.length === 2 || value.length === 5) {
+      value += ':'; // Asegura que se añada el separador ":"
+    }
+    input.value = value.slice(0, 5); // Limita la longitud a 5 caracteres
+  }
+
+  // Método que se ejecuta al perder el foco
+  onBlurHoraInicio(event: Event) {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    // Si el valor tiene el formato incorrecto, lo limpia
+    if (!this.isValidHora(value)) {
+      input.value = ''; // Limpiar el campo si no es válido
+    }
+  }
+
+  // Verifica si la hora es válida
+  isValidHora(value: string): boolean {
+    return this.horaPattern.test(value); // Ahora 'horaPattern' es un objeto RegExp
   }
 
   enableOtherFields(): void {
@@ -172,30 +189,46 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   onInsumoDescipcionChange(insumo?: InsumoPuntoVentaPrecioList) {
     if (insumo) {
       this.insumoPrecioChange.emit(insumo);
-      if (!this.form.get('precio')?.value) { // Solo asigna si el valor es null o vacío
+   
+      if (!this.form.get('precio')?.value || this.form.get('precio')?.value !== insumo.precio) {
         this.form.get('precio')?.setValue(insumo.precio);
       }
-
-      this.form.get('fecha_inicio')?.setValue(insumo.fecha_inicio); 
-      this.form.get('created_at_insumo')?.setValue(insumo.created_at_insumo); 
-      this.form.get('unidad_id')?.setValue(insumo.insumo_unidad_descripcion); 
-      this.form.get('moneda_id')?.setValue(insumo.insumo_moneda_nombre);
-      this.form.get('observacion')?.setValue(insumo.observacion);
-      // Asignación de la hora extraída de fecha_inicio y fecha_fin
+      
+      if (!this.form.get('fecha_inicio')?.value || this.form.get('fecha_inicio')?.value !== insumo.fecha_inicio) {
+        this.form.get('fecha_inicio')?.setValue(insumo.fecha_inicio);
+      }
+  
+      if (!this.form.get('created_at_insumo')?.value || this.form.get('created_at_insumo')?.value !== insumo.created_at_insumo) {
+        this.form.get('created_at_insumo')?.setValue(insumo.created_at_insumo);
+      }
+      if (!this.form.get('unidad_id')?.value || this.form.get('unidad_id')?.value !== insumo.insumo_unidad_descripcion) {
+        this.form.get('unidad_id')?.setValue(insumo.insumo_unidad_descripcion);
+      }
+  
+      if (!this.form.get('moneda_id')?.value || this.form.get('moneda_id')?.value !== insumo.insumo_moneda_nombre) {
+        this.form.get('moneda_id')?.setValue(insumo.insumo_moneda_nombre);
+      }
+  
+      if (!this.form.get('observacion')?.value || this.form.get('observacion')?.value !== insumo.observacion) {
+        this.form.get('observacion')?.setValue(insumo.observacion);
+      }
+  
       if (insumo.fecha_inicio) {
           const dateInicio = new Date(insumo.fecha_inicio);
           this.horaInicio = dateInicio.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
           this.form.get('hora_inicio')?.setValue(this.horaInicio);
       }
-
+  
       if (insumo.created_at_insumo) {
         const dateFin = new Date(insumo.created_at_insumo);
         this.hora = dateFin.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        this.form.get('hora')?.setValue(this.hora); // Asegúrate de que 'hora' se esté configurando aquí
-    }
+        this.form.get('hora')?.setValue(this.hora);
+      }
+  
       this.enableOtherFields();
     }
   }
+
 
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
@@ -237,6 +270,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     }
   }
 
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -247,25 +281,38 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       }
       if (this.isEdit) {
         this.enableOtherFields();
-       }
+      }
       this.insumoPuntoVentaPrecioService.getById(this.id).subscribe((data) => {
         this.item = data;
+  
+        const formattedHoraInicio = this.convertirHoraSinSegundos(data.hora_inicio);
+        
         this.form.patchValue({
           punto_venta_id: data.punto_venta_nombre,
           insumo_id: data.insumo_descripcion,
           precio: data.precio,
           fecha_inicio: data.fecha_inicio,
-          hora_inicio: data.hora_inicio,
+          hora_inicio: formattedHoraInicio, 
           created_at_insumo: data.created_at_insumo,
           unidad_id: data.insumo_unidad_descripcion,
           moneda_id: data.insumo_moneda_nombre,
           observacion: data.observacion,
-        })
+        });
+  
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
         }, 500);
       });
     }
-  }  
+  }
+  
+  private convertirHoraSinSegundos(hora: string | Date): string {
+    const date = typeof hora === 'string' ? new Date(`1970-01-01T${hora}`) : hora;
+    const horas = date.getHours();
+    const minutos = date.getMinutes();
+  
+    return `${horas < 10 ? '0' + horas : horas}:${minutos < 10 ? '0' + minutos : minutos}`;
+  }
+  
 }

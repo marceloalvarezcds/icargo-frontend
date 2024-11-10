@@ -667,16 +667,14 @@ private cancelOrdenCarga(): void {
     this.form.markAllAsTouched();
 
     if (this.form.valid) {
-      const data: OCConfirmationDialogData = {
-        oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
-      };
+      
 
       if (showDialog) {
         if (!this.dialogOpened) {
           this.dialogOpened = true;
           this.dialog
             .open(OcConfirmationDialogComponent, {
-              data,
+          
               panelClass: 'selector-dialog',
               position: {
                 top: '1rem',

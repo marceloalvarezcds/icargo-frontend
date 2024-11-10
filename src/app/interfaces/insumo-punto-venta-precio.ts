@@ -22,6 +22,7 @@ export interface InsumoPuntoVentaPrecio {
   created_at_insumo: string;
   hora_inicio: string;
   observacion: string;
+  estado: EstadoEnum;
 }
 
 export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
@@ -67,7 +68,8 @@ export const mockInsumoPuntoVentaPrecio1: InsumoPuntoVentaPrecio = {
   fecha_fin: '2021-11-30T20:38:09.553757',
   created_at_insumo: '2021-11-30T20:38:09.553757',
   hora_inicio: '09:30:00',
-  observacion: 'observacion'
+  observacion: 'observacion',
+  estado: EstadoEnum.CANCELADO,
 };
 
 export const mockInsumoPuntoVentaPrecio2: InsumoPuntoVentaPrecio = {
@@ -78,7 +80,8 @@ export const mockInsumoPuntoVentaPrecio2: InsumoPuntoVentaPrecio = {
   fecha_fin: '2021-11-30T20:38:09.553757',
   created_at_insumo: '2021-11-30T20:38:09.553757',
   hora_inicio: '09:30:00',
-  observacion: 'observacion'
+  observacion: 'observacion',
+  estado: EstadoEnum.CANCELADO,
 };
 
 export const mockInsumoPuntoVentaPrecio3: InsumoPuntoVentaPrecio = {
@@ -89,5 +92,6 @@ export const mockInsumoPuntoVentaPrecio3: InsumoPuntoVentaPrecio = {
   fecha_fin: '2021-11-30T20:38:09.553757',
   created_at_insumo: '2021-11-30T20:38:09.553757',
   hora_inicio: '09:30:00',
-  observacion: 'observacion'
+  observacion: 'observacion',
+  estado: EstadoEnum.CANCELADO,
 };

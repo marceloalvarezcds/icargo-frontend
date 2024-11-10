@@ -48,6 +48,7 @@ import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado
 })
 export class OrdenCargaCreateFormComponent implements OnInit {
   flete?: FleteList;
+
   ordenCarga?: OrdenCargaList;
   isFormSubmitting = true;
   isCreate=true;
@@ -56,7 +57,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   id?: number;
   camion?: Camion;
   semi?: Semi;
-  combinacionList?: Combinacion
+  combinacionList?: CombinacionList
   isFormSaved: boolean = false;
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
@@ -580,9 +581,10 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.isNeto = false
       const comentarios = this.item?.comentario || [];
       const data: OCConfirmationDialogData = {
-        oc: getOCData(this.form, this.flete, this.camion, this.semi, this.form.get('combinacion')?.get('neto')?.value),
+        oc: getOCData(this.form, this.flete, this.combinacionList,  this.form.get('combinacion')?.get('neto')?.value),
         comentarios: comentarios
       };
+   
       this.dialog
         .open(OcConfirmationDialogComponent, {
           data,

@@ -2,18 +2,16 @@ import { FormGroup } from '@angular/forms';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationInfo } from 'src/app/interfaces/oc-confirmation-dialog-data';
-import { Camion, CamionList } from 'src/app/interfaces/camion';
-import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CombinacionList } from '../interfaces/combinacion';
 
 export const getOCData = (
   form: FormGroup,
   flete?: FleteList,
-  camion?: Camion,
-  semi?: Semi,
+  combinacion?: CombinacionList,
+ 
   neto?: string
 ): OCConfirmationInfo | null => {
-  if (!flete || !camion || !semi || !neto) return null;
+  if (!flete || !neto) return null;
   const value = form.value;
   const info = value.info;
   const propietario_tarifa = `${numberWithCommas(
@@ -26,12 +24,12 @@ export const getOCData = (
     origen: flete.origen_nombre,
     destino: flete.destino_nombre,
     cantidad_nominada: numberWithCommas(info.cantidad_nominada),
-    camion: camion.placa,
+    camion: combinacion?.camion_placa ? combinacion.camion_placa : '',
     camion_semi_neto: neto,
-    chofer: camion.chofer?.nombre ?? '',
-    propietario: camion.propietario.nombre,
+    chofer: '',
+    propietario: combinacion?.propietario_nombre ? combinacion.propietario_nombre : '',
     propietario_tarifa,
     propietario_telefono: '',
-    semi: semi.placa,
+    semi: combinacion?.semi_placa ? combinacion.semi_placa : '',
   };
 };
