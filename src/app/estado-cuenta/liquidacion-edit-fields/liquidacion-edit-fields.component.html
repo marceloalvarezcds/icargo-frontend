@@ -58,7 +58,7 @@
       <app-liquidacion-confirmada-form-instrumentos
         [estadoCuenta]="estadoCuenta"
         [liquidacion]="item"
-        [saldo]="item.pago_cobro!"
+        [saldo]="pago_cobro_abs"
         [isShow]="isShow"
         (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
       ></app-liquidacion-confirmada-form-instrumentos>

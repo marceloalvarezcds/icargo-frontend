@@ -161,7 +161,6 @@ export class LiquidacionEditFormAccionesComponent {
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
     let htmlContent = '';
 
-
     if (!this.isFacturaReady) {
       htmlContent = `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
     }
@@ -207,7 +206,7 @@ export class LiquidacionEditFormAccionesComponent {
       liquidacion_id: this.liquidacion.id,
       contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
-      valor_operacion: this.liquidacion.pago_cobro!,
+      valor_operacion: Math.abs(this.liquidacion.pago_cobro!),
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       punto_venta_id: this.liquidacion.punto_venta_id,

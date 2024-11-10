@@ -119,6 +119,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
     return (this.estadoCuenta ? this.estadoCuenta.tipo_contraparte_descripcion.includes("PDV") : false);
   }
 
+  get pago_cobro_abs():number {
+    return Math.abs(this.item!.pago_cobro!);
+  }
+
   constructor(
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
