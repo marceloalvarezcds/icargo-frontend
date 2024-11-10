@@ -1,51 +1,50 @@
 <div *ngIf="form" [formGroup]="form">
   <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-4 d-flex align-items-center mb-2">
-        <app-propietario-readonly-by-id-dialog-field
-          [groupName]="groupName"
-          [form]="form"
-          [semiId]="semi?.id"
-          [propietarioId]="propietarioId"
-          class="app-input-field"
-        ></app-propietario-readonly-by-id-dialog-field>
-      </div>
-      <div class="col-xs-12 col-sm-4 d-flex align-items-center mb-2">
-        <label class="form-label mr-2">Placa</label>
-        <app-input-field
-          [groupName]="groupName"
-          controlName="placa"
-          [form]="form"
-          class="app-input-field"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-4 d-flex align-items-center mb-2">
-        <label class="form-label mr-2">N°Chasís</label>
-        <app-input-field
-          [groupName]="groupName"
-          controlName="numero_chasis"
-          [form]="form"
-          class="app-input-field"
-        ></app-input-field>
-      </div>
-      <div class="col-xs-12 col-sm-6">
-        <app-estado-field [estado]="estado"></app-estado-field>
-      </div>
+
+    <div class="row">
+
+      <app-propietario-readonly-by-id-dialog-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        [groupName]="groupName"
+        [form]="form"
+        [semiId]="semi?.id"
+        [propietarioId]="propietarioId"
+      ></app-propietario-readonly-by-id-dialog-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Placa"
+        [groupName]="groupName"
+        controlName="placa"
+        [form]="form"
+      ></app-input-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="N° Chasís"
+        [groupName]="groupName"
+        controlName="numero_chasis"
+        [form]="form"
+      ></app-input-field>
+
+      <app-estado-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        [estado]="estado">
+      </app-estado-field>
+
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Foto del Semi-remolque"
+        [groupName]="groupName"
+        controlName="foto"
+        [field]="foto"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoChange.emit($event)"
+      ></app-file-field-input>
+
     </div>
 
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6">
-        <app-file-field-input
-          title="Foto del Semi-remolque"
-          [groupName]="groupName"
-          controlName="foto"
-          [field]="foto"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoChange.emit($event)"
-        ></app-file-field-input>
-      </div>
-    </div>
   </div>
 </div>
