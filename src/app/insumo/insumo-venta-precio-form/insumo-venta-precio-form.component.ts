@@ -81,10 +81,10 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       fecha_inicio: [{ value: '', disabled: true }],
       hora_inicio: [
         '',
-        [Validators.required, Validators.pattern(this.horaPattern)],
+       
         { disabled: true }
       ],
-      precio: [{ value: '', disabled: true }],
+      precio: [{ value: '', disabled: false }],
       created_at_insumo: [{ value: '', disabled: true }],
       hora: [{ value: '', disabled: true }],
       unidad_id: [{ value: '', disabled: true }],
@@ -158,6 +158,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     this.form.get('hora_inicio')?.enable();
     this.form.get('precio')?.enable();
     this.form.get('observacion')?.enable();
+    this.form.get('precio')?.enable();
   }
 
   ngOnDestroy(): void {
@@ -284,15 +285,11 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       }
       this.insumoPuntoVentaPrecioService.getById(this.id).subscribe((data) => {
         this.item = data;
-  
-        const formattedHoraInicio = this.convertirHoraSinSegundos(data.hora_inicio);
-        
         this.form.patchValue({
           punto_venta_id: data.punto_venta_nombre,
           insumo_id: data.insumo_descripcion,
           precio: data.precio,
           fecha_inicio: data.fecha_inicio,
-          hora_inicio: formattedHoraInicio, 
           created_at_insumo: data.created_at_insumo,
           unidad_id: data.insumo_unidad_descripcion,
           moneda_id: data.insumo_moneda_nombre,
@@ -305,14 +302,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
         }, 500);
       });
     }
-  }
-  
-  private convertirHoraSinSegundos(hora: string | Date): string {
-    const date = typeof hora === 'string' ? new Date(`1970-01-01T${hora}`) : hora;
-    const horas = date.getHours();
-    const minutos = date.getMinutes();
-  
-    return `${horas < 10 ? '0' + horas : horas}:${minutos < 10 ? '0' + minutos : minutos}`;
   }
   
 }
