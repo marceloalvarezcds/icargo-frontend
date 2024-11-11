@@ -45,21 +45,21 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     if (f) {
       this.subscription = this.combinacion.valueChanges
         .pipe(
-          filter((c: Partial<OrdenCargaForm>) => !!(this.flete && c.camion_id && c.semi_id))
+          filter((c: Partial<OrdenCargaForm>) => !!(this.flete && c.combinacion_id))
         )
         .subscribe((c: Partial<OrdenCargaForm>) => {
-          this.getListByCamionIdAndSemiId(c.camion_id, c.semi_id);
+          this.getListByCombinacionId(c.combinacion_id!);
         });
     }
     if (this.flete) {
-      this.getListByCamionIdAndSemiId(this.camionIdControl.value, this.semiIdControl.value);
+      this.getListByCombinacionId(this.combinacionIdControl.value);
     }
   }
 
   @Input() set flete(f: FleteList | undefined) {
     this.fl = f;
     if (f) {
-      this.getListByCamionIdAndSemiId(this.camionIdControl.value, this.semiIdControl.value);
+      this.getListByCombinacionId(this.combinacionIdControl.value);
     }
   }
 
@@ -81,13 +81,11 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.group.get('cantidad_nominada') as FormControl;
   }
 
-  get camionIdControl(): FormControl {
-    return this.combinacion.get('camion_id') as FormControl;
+  get combinacionIdControl(): FormControl {
+    return this.combinacion.get('combinacion_id') as FormControl;
   }
 
-  get semiIdControl(): FormControl {
-    return this.combinacion.get('semi_id') as FormControl;
-  }
+
 
   get historialComentariosList(): OrdenCargaComentariosHistorial[] {
     return this.oc!?.comentario.slice();
@@ -97,7 +95,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.oc!?.gestor_carga_id;
   }
 
-  constructor(private camionSemiNetoService: CombinacionService, private matDialog: MatDialog) {}
+  constructor(private combinacionService: CombinacionService, private matDialog: MatDialog) {}
 
   ngOnDestroy(): void {
     this.subscription?.unsubscribe();
@@ -126,13 +124,12 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     });
   }
 
-  private getListByCamionIdAndSemiId(camionId?: number, semiId?: number): void {
-    if (camionId && semiId && (camionId !== this.previousCamionId || semiId !== this.previousSemiId)) {
-      this.previousCamionId = camionId;
-      this.previousSemiId = semiId;
 
-      this.camionSemiNetoService.getListByCamionIdAndSemiId(camionId, semiId).subscribe((camionSemiNeto) => {
-        this.neto = camionSemiNeto?.neto;
+  private getListByCombinacionId(camionId: number): void {
+    if (this.previousCamionId !== camionId) {
+      this.previousCamionId = camionId;
+      this.combinacionService.getById(camionId).subscribe((combinacion) => {
+        this.neto = combinacion?.neto;
         this.cantidadNominadaControl.setValidators([
           NumberValidator.max(this.neto ?? 0),
           Validators.required,
@@ -142,7 +139,8 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
           this.netoChange.emit(numberWithCommas(this.neto));
         }
       });
-    }
+    } 
   }
+  
 }
 

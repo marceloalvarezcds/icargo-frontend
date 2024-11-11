@@ -31,6 +31,7 @@ export class InsumoListComponent implements OnInit {
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO
   item?: InsumoPuntoVentaPrecioList;
   EstadoEnum = EstadoEnum;
+  hideEdit: boolean = false;
   columns: Column[] = [
     {
       def: 'id',
@@ -150,6 +151,9 @@ export class InsumoListComponent implements OnInit {
     this.getList();
   }
 
+  setHideEdit() {
+    this.hideEdit = this.item?.estado === EstadoEnum.INACTIVO;
+  }
 
   redirectToCreate(): void {
     const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`;

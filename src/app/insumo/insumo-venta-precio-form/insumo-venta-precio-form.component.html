@@ -66,7 +66,6 @@
             <input matInput [value]="hora" readonly />
           </mat-form-field>
         </div>
-        
       </div>
       
       <div class="row page-form-row">
@@ -91,14 +90,10 @@
               <mat-form-field>
                 <input
                   matInput
-                  formControlName="hora_inicio"
-                  placeholder="HH:MM"
-                  (input)="onInputHoraInicio($event)"
-                  (blur)="onBlurHoraInicio($event)"
-                  [pattern]="horaPattern"
-                  [maxlength]="5"
+                  [value]="horaInicio"
+      
                 />
-                <mat-hint>Formato: HH:MM</mat-hint>
+               
                 <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
                   Ingrese una hora válida en formato HH:MM.
                 </mat-error>
