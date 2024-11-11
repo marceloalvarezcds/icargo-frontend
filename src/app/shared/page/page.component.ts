@@ -81,7 +81,6 @@ export class PageComponent {
 
     switch (submodule) {
       case 'COMBINACION DE FLOTA':
-      case 'GESTORES DE CARGA':
       case 'Orden de Carga':
         return baseStyles;
       default:

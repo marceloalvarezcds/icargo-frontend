@@ -60,7 +60,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
-      composicion_juridica_id: null,
+      composicion_juridica_id: [null, Validators.required],
       alias: null,
       logo: null,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
@@ -165,6 +165,9 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
+      delete data.estado;
+      data.estado = this.info.get('estado') ? "Activo" : "Inactivo";
+
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);

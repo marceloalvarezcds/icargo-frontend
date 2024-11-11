@@ -23,14 +23,10 @@
           <!-- Nombre de Fantasía -->
           <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
-              <span class="required">(*) </span>
               Nombre de Fantasía
             </mat-label>
             <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
               <input matInput formControlName="nombre_corto" />
-              <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
-                El nombre corto es <strong>requerido</strong>
-              </mat-error>
             </mat-form-field>
           </div>
 
