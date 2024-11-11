@@ -1,89 +1,85 @@
 <ng-container *ngIf="form">
+
   <div [formGroup]="form">
+
     <div [formGroupName]="groupName">
-      <div class="row page-form-row ">
+
+      <div class="row">
+
         <h3 class="col-xs-12">Municipal</h3>
-        <div class="col-xs-12 d-flex align-items-center mb-1">
-          <label class="form-label mr-2">Pais Emisor</label>
-          <app-pais-field
-            [groupName]="groupName"
-            controlName="pais_habilitacion_municipal_id"
-            [form]="form"
-            (valueChange)="paisId = $event"
-            class="app-input-field"
-          ></app-pais-field>
-        </div>
-        <div class="col-xs-12 d-flex align-items-center mb-1">
-          <label class="form-label mr-2">Localidad</label>
-          <app-localidad-field
-            [groupName]="groupName"
-            controlName="localidad_habilitacion_municipal_id"
-            [paisId]="paisId"
-            [form]="form"
-            (valueChange)="localidadId = $event"
-            class="app-input-field"
-          ></app-localidad-field>
-        </div>
-        <div class="col-xs-12 d-flex align-items-center mb-1">
-          <label class="form-label mr-2">Ciudad</label>
-          <app-ciudad-field
-            [groupName]="groupName"
-            controlName="ciudad_habilitacion_municipal_id"
-            [localidadId]="localidadId"
-            [form]="form"
-            class="app-input-field"
-          ></app-ciudad-field>
-        </div>
+
+        <app-pais-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Pais Emisor"
+          [groupName]="groupName"
+          controlName="pais_habilitacion_municipal_id"
+          [form]="form"
+          (valueChange)="paisId = $event"
+        ></app-pais-field>
+
+        <app-localidad-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Localidad"
+          [groupName]="groupName"
+          controlName="localidad_habilitacion_municipal_id"
+          [paisId]="paisId"
+          [form]="form"
+          (valueChange)="localidadId = $event"
+        ></app-localidad-field>
+
+        <app-ciudad-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Ciudad"
+          [groupName]="groupName"
+          controlName="ciudad_habilitacion_municipal_id"
+          [localidadId]="localidadId"
+          [form]="form"
+        ></app-ciudad-field>
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="N° Habilitación"
+          [groupName]="groupName"
+          controlName="numero_habilitacion_municipal"
+          [form]="form"
+        ></app-input-field>
+
+        <app-fecha-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Fecha de vencimiento"
+          [groupName]="groupName"
+          controlName="vencimiento_habilitacion_municipal"
+          [form]="form"
+        ></app-fecha-field>
+
       </div>
 
-      <div class="row page-form-row muni-row">
-        <div class="col-xs-12 d-flex align-items-center mb-1">
-          <label class="form-label-hab mr-2">N° Habilitación</label>
-          <app-input-field
-            [groupName]="groupName"
-            controlName="numero_habilitacion_municipal"
-            [form]="form"
-            class="app-input-field"
-          ></app-input-field>
-        </div>
-        <div class="col-xs-12 d-flex align-items-center mb-1">
-          <label class="form-label mr-2">Fecha Vencimiento</label>
-          <app-fecha-field
-            title="Fecha de vencimiento"
-            [groupName]="groupName"
-            controlName="vencimiento_habilitacion_municipal"
-            [form]="form"
-            class="app-input-field"
-          ></app-fecha-field>
-        </div>
-      </div>
-      <div class="row page-form-row">
-        <div class="col-xs-12 d-flex align-items-center mb-1" style="margin-top: -20px;">
-          <div class="col-sm-6">
-            <app-file-field-input
-              title="Foto de la habilitación - frontal"
-              [groupName]="groupName"
-              controlName="foto_habilitacion_municipal_frente"
-              [field]="fotoFrente"
-              [form]="form"
-              [isEdit]="isEdit"
-              [isShow]="isShow"
-              (fileChange)="fotoFrenteChange.emit($event)"
-            ></app-file-field-input>
-          </div>
-          <div class="col-sm-6">
-            <app-file-field-input
-              title="Foto de la habilitación - reverso"
-              [groupName]="groupName"
-              controlName="foto_habilitacion_municipal_reverso"
-              [field]="fotoReverso"
-              [form]="form"
-              [isEdit]="isEdit"
-              [isShow]="isShow"
-              (fileChange)="fotoReversoChange.emit($event)"
-            ></app-file-field-input>
-          </div>
-        </div>
+    <div class="row">
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Foto de la habilitación - frontal"
+          [groupName]="groupName"
+          controlName="foto_habilitacion_municipal_frente"
+          [field]="fotoFrente"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoFrenteChange.emit($event)"
+        ></app-file-field-input>
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Foto de la habilitación - reverso"
+          [groupName]="groupName"
+          controlName="foto_habilitacion_municipal_reverso"
+          [field]="fotoReverso"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoReversoChange.emit($event)"
+        ></app-file-field-input>
+
       </div>
     </div>
   </div>

@@ -41,12 +41,16 @@ export class PageFormEntitiesInfoComponent implements OnDestroy, AfterViewInit  
   get estadoControl(): FormControl {
     return this.info?.controls['estado'] as FormControl;
   }
-  
+
+  get estadoControlValue(): Boolean {
+    return this.info?.controls['estado'].value;
+  }
+
   @Input() form = new FormGroup({
     info: new FormGroup({
       nombre: new FormControl(null),
       nombre_corto: new FormControl(null),
-      estado: new FormControl(null), 
+      estado: new FormControl(true),
       tipo_documento_id: new FormControl(null),
       numero_documento: new FormControl(null),
       digito_verificador: new FormControl(null),

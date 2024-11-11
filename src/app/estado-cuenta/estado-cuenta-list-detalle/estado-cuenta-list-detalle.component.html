@@ -1,5 +1,4 @@
 <app-page
-  class="estado-cuenta-page"
   module="MOVIMIENTOS (CUENTAS CORRIENTES)"
   [modelo]="m.MOVIMIENTO"
   (backClick)="back($event)"
@@ -75,6 +74,25 @@
     </mat-accordion>
   </div>
 
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByChapa">
+      <mat-chip *ngFor="let item of chapaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByCuenta">
+      <mat-chip *ngFor="let item of cuentaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByConcepto">
+      <mat-chip *ngFor="let item of conceptoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByDetalle">
+      <mat-chip *ngFor="let item of detalleFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+
   <div class="page-container">
 
     <app-estado-cuenta-detalle
@@ -84,45 +102,54 @@
       [showEstado]=false>
     </app-estado-cuenta-detalle>
 
-    <div class="row page-form-row">
+    <div class="row">
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+      <div class="input-form-full col-xs-6 col-sm-2">
         <mat-label>Pendiente</mat-label>
-        <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
-      </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+      <div class="input-form-full col-xs-6 col-sm-2">
         <mat-label>Deberes/Haberes</mat-label>
-        <input matInput [value]="deberes" appInputThousandsSeparator disabled />
-      </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="deberes" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+      <div class="input-form-full col-xs-6 col-sm-2">
         <mat-label>
           Pagos/Cobros
         </mat-label>
-        <input matInput [value]="pagos" appInputThousandsSeparator disabled />
-      </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="pagos" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
-      <mat-form-field class="col-xs-6 col-sm-2 col-md-2 col-lg-2">
+      <div class="input-form-full col-xs-6 col-sm-2">
         <mat-label>
           Saldo en Cuenta
         </mat-label>
-        <input matInput [value]="saldo" appInputThousandsSeparator disabled />
-      </mat-form-field>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
 
     </div>
 
-    <app-table-paginator
-      [columns]="columns"
-      [data]="list"
-      [filterPredicate]="filterPredicate"
-      [modelo]="m.MOVIMIENTO"
-      [hideDelete]="true"
-      [hideEdit]="true"
-      [hideShow]="true"
-      [shouldBeShowFooter]="false">
-    </app-table-paginator>
-
   </div>
+
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="m.MOVIMIENTO"
+    [hideDelete]="true"
+    [hideEdit]="true"
+    [hideShow]="true"
+    [shouldBeShowFooter]="false">
+  </app-table-paginator>
+
 
 </app-page>

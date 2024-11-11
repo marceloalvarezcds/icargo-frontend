@@ -23,6 +23,7 @@ export class FechaFieldComponent {
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
+  @Input() requerido=false;
   @Input() title = '';
 
   onDateChange(selectedDate: Date): void {

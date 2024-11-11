@@ -37,16 +37,17 @@ export class TipoPersonaFieldComponent implements OnDestroy {
   }
   @Input() controlName = 'tipo_persona_id';
   @Input() groupName = '';
+  @Input() title = '';
+  @Input() requerido = false;
 
-  
   @Output() isFisicaSelected = new EventEmitter<boolean>();
   @Output() valueChange = new EventEmitter<TipoPersona | undefined>();
-  
+
   constructor(private tipoPersonaService: TipoPersonaService, private cdRef: ChangeDetectorRef) { }
 
   ngOnDestroy(): void {
     this.controlSubscription?.unsubscribe();
     this.tipoPersonaSubscription.unsubscribe();
   }
-  
+
 }

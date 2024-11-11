@@ -1,6 +1,7 @@
-<div class="liquidacion-page-content" *ngIf="item">
+<div *ngIf="item">
 
   <app-liquidacion-edit-form-acciones
+    style="display: flex;flex-direction: row;justify-content: flex-end; padding-right: 20px;"
     [isShow]="isShow"
     [liquidacion]="item"
     (liquidacionChange)="actualizarLiquidacion.emit()"
@@ -10,118 +11,108 @@
     [saldoMovimiento]="childSaldoView?.saldoMovimiento"
   ></app-liquidacion-edit-form-acciones>
 
-  <app-estado-cuenta-detalle
-    [etapa]="etapa"
-    [estadoLiqui]="item.estado"
-    [estadoCuenta]="estadoCuenta"
-    [showVistaConsolidada]="false"
-    [showEstado]="false"
-    [showEstadoLiqui]="true"
-    [showLiquidacion]="true"
-    [liquidacionId]="item.id"
-  ></app-estado-cuenta-detalle>
+  <div style="padding-top: 10px;">
+    <app-estado-cuenta-detalle
+      [etapa]="etapa"
+      [estadoLiqui]="item.estado"
+      [estadoCuenta]="estadoCuenta"
+      [showVistaConsolidada]="false"
+      [showEstado]="false"
+      [showEstadoLiqui]="true"
+      [showLiquidacion]="true"
+      [liquidacionId]="item.id"
+    ></app-estado-cuenta-detalle>
 
-  <app-saldo
-    #saldoView
-    [showIngresoEgreso]="false"
-    [showResumen]="true"
-    [showInstrumentos]="false"
-    [credito]="credito"
-    [debito]="debito"
-    [saldoFinalizado]="saldoFinalizado"
-    [saldoCC]="saldoCC"
-    [esFinalizado]="esFinalizado"
-    [esEdicion]="true"
-    [showMonto]="true"
-    [monto]="monto"
-    (saldoChange)="saldo = $event"
-  ></app-saldo>
-
-  <app-liquidacion-comentario
-    [comentario]="comentario"
-  ></app-liquidacion-comentario>
+    <app-saldo
+      #saldoView
+      [showIngresoEgreso]="false"
+      [showResumen]="true"
+      [showInstrumentos]="false"
+      [credito]="credito"
+      [debito]="debito"
+      [saldoFinalizado]="saldoFinalizado"
+      [saldoCC]="saldoCC"
+      [esFinalizado]="esFinalizado"
+      [esEdicion]="true"
+      [showMonto]="true"
+      [monto]="monto"
+      (saldoChange)="saldo = $event"
+    ></app-saldo>
+  </div>
 
   <ng-container *ngIf="esFinalizado; else pendienteTemp">
-    <mat-accordion multi>
 
-      <mat-expansion-panel [expanded]="false">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Movimientos </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-liquidacion-movimientos
-          [list]="movimientos"
-          (selectedMovimientosChange)="actualizarLiquidacion.emit()"
-        ></app-liquidacion-movimientos>
-      </mat-expansion-panel>
+    <div class="section">
+      <h2>MOVIMIENTOS</h2>
+      <app-liquidacion-movimientos
+        [list]="movimientos"
+        (selectedMovimientosChange)="actualizarLiquidacion.emit()"
+      ></app-liquidacion-movimientos>
+    </div>
 
-      <mat-expansion-panel [expanded]="false">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Instrumentos </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-liquidacion-instrumentos
-          [list]="instrumentos"
-        ></app-liquidacion-instrumentos>
-        <app-liquidacion-confirmada-form-instrumentos
-          [estadoCuenta]="estadoCuenta"
-          [liquidacion]="item"
-          [saldo]="item.pago_cobro!"
-          [isShow]="isShow"
-          (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
-        ></app-liquidacion-confirmada-form-instrumentos>
-      </mat-expansion-panel>
+    <div class="section">
+      <h2>INSTRUMENTOS</h2>
+      <app-liquidacion-instrumentos
+        [list]="instrumentos"
+      ></app-liquidacion-instrumentos>
+      <app-liquidacion-confirmada-form-instrumentos
+        [estadoCuenta]="estadoCuenta"
+        [liquidacion]="item"
+        [saldo]="pago_cobro_abs"
+        [isShow]="isShow"
+        (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
+      ></app-liquidacion-confirmada-form-instrumentos>
+    </div>
 
-      <mat-expansion-panel [expanded]="false">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Facturas </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-liquidacion-confirmada-form-facturas
-          [liquidacion]="item"
-          [isShow]="isShow"
-          (facturasChange)="actualizarLiquidacion.emit()"
-        ></app-liquidacion-confirmada-form-facturas>
-      </mat-expansion-panel>
+    <div *ngIf="facturas.length>0" class="section">
+      <h2>FACTURAS</h2>
+      <app-liquidacion-confirmada-form-facturas
+        [liquidacion]="item"
+        [isShow]="isShow"
+        (facturasChange)="actualizarLiquidacion.emit()"
+      ></app-liquidacion-confirmada-form-facturas>
+    </div>
 
-    </mat-accordion>
   </ng-container>
 
   <ng-template #pendienteTemp>
 
-    <mat-accordion multi>
+    <div class="section">
+      <h2>MOVIMIENTOS</h2>
+      <app-liquidacion-edit-form-movimientos
+        [list]="movimientos"
+        [liquidacion]="item"
+        [tipoContrapartePDV]="tipoContrapartePDV"
+        [saldo]="saldo"
+        [tipoLiquidacion]="tipoLiquidacion"
+        [isShow]="
+          isShow ||
+          item.estado === E.ACEPTADO ||
+          item.estado === E.CANCELADO ||
+          item.estado === E.CONFIRMADO
+        "
+        (selectedMovimientosChange)="actualizarMovimientosEvento($event)">
+      </app-liquidacion-edit-form-movimientos>
 
-      <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Movimientos </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-liquidacion-edit-form-movimientos
-          [list]="movimientos"
-          [liquidacion]="item"
-          [tipoContrapartePDV]="tipoContrapartePDV"
-          [saldo]="saldo"
-          [tipoLiquidacion]="tipoLiquidacion"
-          [isShow]="
-            isShow ||
-            item.estado === E.ACEPTADO ||
-            item.estado === E.CANCELADO ||
-            item.estado === E.CONFIRMADO
-          "
-          (selectedMovimientosChange)="actualizarMovimientosEvento($event)"
-        ></app-liquidacion-edit-form-movimientos>
-      </mat-expansion-panel>
+    </div>
 
-      <mat-expansion-panel [expanded]="false">
-        <mat-expansion-panel-header>
-          <mat-panel-title> Facturas </mat-panel-title>
-        </mat-expansion-panel-header>
-        <app-liquidacion-confirmada-form-facturas
-          #facturaList
-          [liquidacion]="item"
-          [isShow]="isShow"
-          (facturasChange)="actualizarLiquidacion.emit()"
-        ></app-liquidacion-confirmada-form-facturas>
-      </mat-expansion-panel>
-
-    </mat-accordion>
+    <div *ngIf="facturas.length>0" class="section">
+      <h2>FACTURAS</h2>
+      <app-liquidacion-confirmada-form-facturas
+        #facturaList
+        [liquidacion]="item"
+        [isShow]="isShow"
+        (facturasChange)="actualizarLiquidacion.emit()"
+      ></app-liquidacion-confirmada-form-facturas>
+      </div>
 
   </ng-template>
+
+  <div *ngIf="comentario !== ''" class="section">
+    <h2>HISTORICO</h2>
+    <app-liquidacion-comentario
+      [comentario]="comentario"
+    ></app-liquidacion-comentario>
+  </div>
 
 </div>

@@ -57,6 +57,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       nombre: [null, Validators.required],
       nombre_corto: null,
       proveedor_id: [null, Validators.required],
+      estado:[true, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
@@ -71,9 +72,11 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     contactos: this.fb.array([]),
     geo: this.fb.group({
       ciudad_id: null,
-      latitud: [null, Validators.required],
-      longitud: [null, Validators.required],
+      latitud: null,
+      longitud: null,
       direccion: null,
+      localidad_nombre: null,
+      pais_nombre: null,
     }),
   });
 
@@ -163,7 +166,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string') {
           data[key] = data[key].toUpperCase();
         }
-      });      
+      });
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;

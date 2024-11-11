@@ -2,8 +2,8 @@
   <ng-container *ngIf="list$ | async as list">
     <ng-container *ngIf="list.length; else inputTemplate">
       <app-dialog-field
-      
         [columns]="columns"
+        [title]="title"
         [list]="list"
         [groupName]="groupName"
         [controlName]="controlName"
@@ -15,8 +15,8 @@
   </ng-container>
   <ng-template #inputTemplate>
     <app-input-field
+      [title]="title"
       hint="No hay Choferes activos disponibles"
-    
       [readonly]="true"
       [groupName]="groupName"
       [controlName]="controlName"

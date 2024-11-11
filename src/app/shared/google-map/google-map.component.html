@@ -9,9 +9,9 @@
   >
     <span>Ubicar</span>
   </button>
-  <google-map 
-    [height]="height + 'px'"
-    [width]="(width$ | async) + 'px'"
+  <google-map
+    [height]="height + typeHeight "
+    [width]="width + typeWidth"
     [center]="latLng"
     [options]="options"
     [zoom]="zoom"

@@ -1,9 +1,15 @@
 <div *ngIf="form" [formGroup]="form">
+
   <ng-container *ngIf="groupName">
-    <label>{{title}}</label>
-    <mat-form-field [formGroupName]="groupName"      
-    [ngClass]="{
-      'fecha-remision' :controlName === 'fecha'}">
+
+    <mat-label class="custom-label">
+      <span *ngIf="requerido" class="required">(*) </span>
+      {{ title }}
+    </mat-label>
+
+    <mat-form-field [formGroupName]="groupName"
+      [ngClass]="{'fecha-remision' :controlName === 'fecha'}">
+
       <input
         matInput
         [formControlName]="controlName"
@@ -22,12 +28,18 @@
         La {{ title }} no es <strong>válida</strong>
       </mat-error>
     </mat-form-field>
+
   </ng-container>
+
   <ng-container *ngIf="!groupName">
-    <label>{{title}}</label>
-    <mat-form-field    
-      [ngClass]="{
-        'fecha-remision' :controlName === 'fecha'}">
+
+    <mat-label class="custom-label">
+      <span *ngIf="requerido" class="required">(*) </span>
+      {{ title }}
+    </mat-label>
+
+    <mat-form-field
+      [ngClass]="{'fecha-remision' :controlName === 'fecha'}">
       <input
         matInput
         [formControlName]="controlName"
@@ -46,5 +58,7 @@
         La {{ title }} no es <strong>válida</strong>
       </mat-error>
     </mat-form-field>
+
   </ng-container>
+
 </div>

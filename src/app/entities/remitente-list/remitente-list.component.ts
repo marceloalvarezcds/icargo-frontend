@@ -57,7 +57,7 @@ export class RemitenteListComponent implements OnInit {
       def: 'nombre',
       title: 'Clientes',
       value: (element: RemitenteList) => element.nombre,
- 
+
     },
     // {
     //   def: 'nombre_corto',
@@ -146,12 +146,14 @@ export class RemitenteListComponent implements OnInit {
     );
   }
 
-  @ViewChild(MatAccordion) accordion!: MatAccordion;
+  @ViewChild(MatAccordion)
+  accordion!: MatAccordion;
   @ViewChild('ciudadCheckboxFilter')
   ciudadCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('composicionJuridicaCheckboxFilter')
   composicionJuridicaCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('paisCheckboxFilter')
+  paisCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('tipoDocumentoCheckboxFilter')
   tipoDocumentoCheckboxFilter!: CheckboxFilterComponent;
 
@@ -193,8 +195,6 @@ export class RemitenteListComponent implements OnInit {
     this.configSidebarMode();
   }
 
-
-
   private configSidebarMode(): void {
     setTimeout(() => {
       if (this.responsiveService.isMobileScreen) {
@@ -224,12 +224,12 @@ export class RemitenteListComponent implements OnInit {
     const url = `/entities/${m.REMITENTE}/${a.CREAR}`;
     window.open(url, '_blank');
   }
-  
+
   redirectToEdit(event: TableEvent<RemitenteList>): void {
     const url = `/entities/${m.REMITENTE}/${a.EDITAR}/${event.row.id}`;
     window.open(url, '_blank');
   }
-  
+
   redirectToShow(event: TableEvent<RemitenteList>): void {
     const inputs = document.querySelectorAll('input');
     inputs.forEach(input => {
@@ -243,7 +243,6 @@ export class RemitenteListComponent implements OnInit {
       });
     }, 2000); // Cambia el retardo según sea necesario
   }
-  
 
   deleteRow({ row }: TableEvent<RemitenteList>): void {
     const message = `¿Está seguro que desea eliminar el Remitente ${row.nombre}?`;

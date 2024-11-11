@@ -1,4 +1,4 @@
-<div class="liquidacion-page-content">
+
   <app-estado-cuenta-detalle
     [etapa]="etapa"
     [estadoCuenta]="estadoCuenta"
@@ -18,14 +18,8 @@
     [monto]="monto"
   ></app-saldo>
 
-  <div class="row page-form-row" style="margin-bottom: 0px;">
-    <div class="col-xs-12">
-      <app-liquidacion-form-movimientos
-        [list]="list"
-        (movimientosInDBChange)="getList()"
-        (selectedMovimientosChange)="cargarMovimientos($event)"
-      ></app-liquidacion-form-movimientos>
-    </div>
-  </div>
-
-</div>
+  <app-liquidacion-form-movimientos
+    [list]="list"
+    (movimientosInDBChange)="getList()"
+    (selectedMovimientosChange)="cargarMovimientos($event)"
+  ></app-liquidacion-form-movimientos>

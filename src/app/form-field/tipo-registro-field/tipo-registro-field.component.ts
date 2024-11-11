@@ -23,6 +23,7 @@ export class TipoRegistroFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Tipo de Registro';
+  @Input() requerido = false;
 
   constructor(private tipoRegistroService: TipoRegistroService) { }
 }

@@ -33,7 +33,6 @@ import {
   createMovimiento,
   deleteMovimiento,
   editMovimiento,
-  redirectToShowOCByMovimiento,
 } from 'src/app/utils/movimiento-utils';
 import { edit } from 'src/app/utils/table-event-crud';
 

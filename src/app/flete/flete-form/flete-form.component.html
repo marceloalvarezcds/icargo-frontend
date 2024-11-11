@@ -18,26 +18,30 @@
   (submitEvent)="save(false)"
   [flete]="item"
 >
+
   <div class="flete-page-content">
+
     <app-flete-form-acciones
       [flete]="item"
       [isShow]="isShow"
       (fleteChange)="getData()"
     ></app-flete-form-acciones>
+
     <div class="section">
       <h2>INFORMACIÓN PRINCIPAL</h2>
-        <app-flete-form-info
-          [form]="form"
-          [estado]="estado"
-          [isShow]="isShow"
-          (remitenteChange)="
-            info.get('remitente_nombre')?.setValue($event?.nombre)
-          "
-          (productoChange)="
-            info.get('producto_descripcion')?.setValue($event?.descripcion)
-          "
-        ></app-flete-form-info>
+      <app-flete-form-info
+        [form]="form"
+        [estado]="estado"
+        [isShow]="isShow"
+        (remitenteChange)="
+          info.get('remitente_nombre')?.setValue($event?.nombre)
+        "
+        (productoChange)="
+          info.get('producto_descripcion')?.setValue($event?.descripcion)
+        "
+      ></app-flete-form-info>
     </div>
+
     <div class="section detalles">
       <h2>Tramo</h2>
       <app-flete-form-tramo
@@ -48,10 +52,12 @@
         "
       ></app-flete-form-tramo>
     </div>
+
     <div class="section detalles">
       <h2>Cantidad y Condiciones</h2>
       <app-flete-form-condicion [form]="form"></app-flete-form-condicion>
     </div>
+
     <div class="section detalles">
       <h2>Mermas</h2>
       <app-flete-form-merma
@@ -65,6 +71,7 @@
         [form]="form"
       ></app-flete-form-merma>
     </div>
+
     <div class="section detalles">
       <h2>Anticipos</h2>
       <app-flete-form-anticipos
@@ -74,6 +81,7 @@
         [anticipoList]="anticipoList"
       ></app-flete-form-anticipos>
     </div>
+
     <div class="section detalles">
       <h2>Complementos y Descuentos</h2>
       <div class="grid-container">
@@ -91,13 +99,14 @@
         ></app-flete-form-descuentos>
       </div>
     </div>
-    
+
     <div class="section">
       <h2>Emisión de Órdenes</h2>
       <app-flete-form-emision-orden
         [form]="form"
       ></app-flete-form-emision-orden>
     </div>
+
   </div>
 
 </app-page-form>

@@ -1,82 +1,99 @@
-<div class="row page-form-row">
 
-  <mat-form-field *ngIf="showLiquidacion" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+<div class="row">
+
+  <div *ngIf="showLiquidacion" class="input-form-full col-xs-6 col-md-2">
     <mat-label>N° Liquidacion</mat-label>
-    <input matInput [value]="liquidacionId" disabled />
-  </mat-form-field>
-  <mat-form-field *ngIf="showEstadoLiqui" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [value]="liquidacionId" disabled />
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="showEstadoLiqui" class="input-form-full col-xs-6 col-md-2">
     <mat-label>Estado</mat-label>
-    <input matInput [value]="estadoLiqui" disabled />
-  </mat-form-field>
-  <mat-form-field *ngIf="showEstado" class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [value]="estadoLiqui" disabled />
+    </mat-form-field>
+  </div>
+
+  <div *ngIf="showEstado" class="input-form-full col-xs-6 col-sm-2">
     <mat-label>Estado</mat-label>
-    <input matInput [value]="etapa" disabled />
-  </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [value]="etapa" disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
     <mat-label>Contraparte</mat-label>
-    <input
-      matInput
-      [value]="estadoCuenta?.tipo_contraparte_descripcion"
-      disabled
-    />
-  </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput disabled
+        [value]="estadoCuenta?.tipo_contraparte_descripcion"
+        />
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Nombre</mat-label>
-    <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
-  </mat-form-field>
-  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
     <mat-label>Documento</mat-label>
-    <input
-      matInput
-      [value]="estadoCuenta?.contraparte_numero_documento_pdv ?? estadoCuenta?.contraparte_numero_documento"
-      disabled
-    />
-  </mat-form-field>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput disabled
+        [value]="estadoCuenta?.contraparte_numero_documento_pdv ?? estadoCuenta?.contraparte_numero_documento"
+      />
+    </mat-form-field>
+  </div>
+
   <ng-container *ngIf="showVistaConsolidada">
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+
+    <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>Pendientes (ML)</mat-label>
-      <input
-        matInput
-        [value]="estadoCuenta?.pendiente"
-        appInputThousandsSeparator
-        disabled
-      />
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field floatLabel="always" appearance="outline">
+        <input matInput appInputThousandsSeparator disabled
+          [value]="estadoCuenta?.pendiente"
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>En Procesos (ML)</mat-label>
-      <input
-        matInput
-        [value]="estadoCuenta?.en_proceso"
-        appInputThousandsSeparator
-        disabled
-      />
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field floatLabel="always" appearance="outline">
+        <input matInput [value]="estadoCuenta?.en_proceso"
+          appInputThousandsSeparator disabled
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>Confirmados (ML)</mat-label>
-      <input
-        matInput
-        [value]="estadoCuenta?.confirmado"
-        appInputThousandsSeparator
-        disabled
-      />
-    </mat-form-field>
-    <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+      <mat-form-field floatLabel="always" appearance="outline">
+        <input matInput [value]="estadoCuenta?.confirmado"
+          appInputThousandsSeparator disabled
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>Finalizados (ML)</mat-label>
-      <input
-        matInput
-        [value]="estadoCuenta?.finalizado"
-        appInputThousandsSeparator
-        disabled
+      <mat-form-field floatLabel="always" appearance="outline">
+        <input matInput [value]="estadoCuenta?.finalizado"
+          appInputThousandsSeparator disabled
+        />
+      </mat-form-field>
+    </div>
+
+  </ng-container>
+
+  <div *ngIf="showSaldo" class="input-form-full col-xs-6 col-md-2">
+    <mat-label>Saldo en Cuenta</mat-label>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [value]="estadoCuenta?.liquidacion_saldo"
+        appInputThousandsSeparator disabled
       />
     </mat-form-field>
-  </ng-container>
-  <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3" *ngIf="showSaldo">
-    <mat-label>Saldo en Cuenta</mat-label>
-    <input
-      matInput
-      [value]="estadoCuenta?.liquidacion_saldo"
-      appInputThousandsSeparator
-      disabled
-    />
-  </mat-form-field>
+  </div>
+
 </div>

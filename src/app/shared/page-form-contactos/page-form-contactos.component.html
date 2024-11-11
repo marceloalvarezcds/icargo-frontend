@@ -1,52 +1,43 @@
 <div class="main-container">
-  <div class="row page-form-row">
+
+  <div class="row">
+
     <div class="col-xs-12 button-container">
-      <button
-        mat-raised-button
-        class="outline round custom-button small-button"
-        color="primary"
-        type="button"
-        id="download-button"
-        [ngClass]="{'view-mode': isShow}" 
-        >
+      <button id="download-button" mat-stroked-button
+        class="botones boton-descarga" type="button"
+        [ngClass]="{'view-mode': isShow}" >
         <mat-icon class="download-icon">description</mat-icon> DESCARGAR
       </button>
 
-      <button
-        mat-raised-button
-        class="outline round custom-button small-button"
-        color="primary"
-        type="button"
+      <button id="add-button" mat-flat-button
+        class="botones" color="primary" type="button"
         (click)="addContacto()"
-        id="add-button"
-        [ngClass]="{'view-mode': isShow}" 
-        >
-        <mat-icon class="small-icon">add</mat-icon> CONTACTO
+        [ngClass]="{'view-mode': isShow}" >
+        <mat-icon>add_circle</mat-icon> CONTACTO
       </button>
-    </div> 
+    </div>
 
-    <div class="col-xs-12 table-container small-table" style="margin-top: -65px;" [hidden]="!(list && list.length)" >
+    <div class="col-xs-12 table-container small-table" [hidden]="!(list && list.length)" >
       <app-table
-        [hideEdit]="isShow" 
-        [hideShow]="!isShow" 
+        [hideEdit]="isShow"
+        [hideShow]="!isShow"
         [modelo]="m.CONTACTO"
         [columns]="columns"
         [data]="list"
-        [ngClass]="{'view-mode-table': isShow}" 
+        [ngClass]="{'view-mode-table': isShow}"
         [formArray]="contactoArray"
         [noCheckGestorCuentaId]="true"
         (editClick)="editContacto($event)"
         (deleteClick)="removeContacto($event)"
-        
         [mostrarBotonEliminar]="!isShow"
       ></app-table>
     </div>
-    <div
-      class="col-xs-12 error"
-      *ngIf="contactoArray.touched && contactoArray.hasError('required')"
-    >
+
+    <div *ngIf="contactoArray.touched && contactoArray.hasError('required')"
+      class="col-xs-12 error">
       Debe cargar al menos un contacto
     </div>
+
   </div>
 </div>
 

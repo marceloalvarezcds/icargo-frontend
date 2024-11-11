@@ -37,7 +37,7 @@ export class PageFormComponent implements OnDestroy {
   @Input() oc?: OrdenCarga;
   @Input() flete?: Flete;
   @Input() isDataLoaded: boolean = false;
-  @Input() isFormSaved: boolean | undefined;  
+  @Input() isFormSaved: boolean | undefined;
   @Input() isAnticipoActive: boolean = false;
   @Input() formGroup!: FormGroup;
   @Input() isNuevo: Boolean = false
@@ -52,6 +52,7 @@ export class PageFormComponent implements OnDestroy {
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
   @Input() inactiveTooltipText = 'Desactivar';
+  @Input() accion = '';
   @Input() module = '';
   @Input() submodule = '';
   @Input() viewTitle = '';
@@ -64,7 +65,9 @@ export class PageFormComponent implements OnDestroy {
   @Input() isOc: boolean = false;
   @Input() isButtonPressed: boolean = false;
   @Input() isEditPressed: boolean = false;
-
+  @Input() estilosPersonalesModule:any={}
+  @Input() estilosPersonalesSubModule:any={}
+  
   @Output() backClick = new EventEmitter<boolean>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() editClick = new EventEmitter();
@@ -98,8 +101,8 @@ export class PageFormComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.loadingSubscription.unsubscribe();
   }
-  
- 
+
+
   back(): void {
     if (this.isShow || !this.hasChange || this.submodule === 'ORDEN DE CARGA (directa)') {
       this.backClick.emit(false);
@@ -143,7 +146,7 @@ export class PageFormComponent implements OnDestroy {
     this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
         const url = URL.createObjectURL(file);
-        window.open(url); 
+        window.open(url);
         this.pdfSrc = url;
       });
     });
@@ -159,16 +162,16 @@ export class PageFormComponent implements OnDestroy {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
 
-  
-  
+
+
 
   get group(): FormGroup {
     if (this.groupName) {
@@ -185,5 +188,5 @@ export class PageFormComponent implements OnDestroy {
     const obj = this.group.getRawValue();
     return obj[this.controlName];
   }
-  
+
 }

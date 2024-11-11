@@ -51,18 +51,22 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       nombre: [null, Validators.required],
       nombre_corto: null,
       clasificacion_id: [null, Validators.required],
-      alias: null,
+      estado:[true, Validators.required ],
+      //alias: null,
       logo: null,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
       pagina_web: null,
+      comentario: null,
     }),
     contactos: this.fb.array([]),
     geo: this.fb.group({
-      ciudad_id: [null, Validators.required],
-      latitud: [null, Validators.required],
-      longitud: [null, Validators.required],
+      ciudad_id: [null ],
+      latitud: [null],
+      longitud: [null],
       direccion: null,
+      localidad_nombre: null,
+      pais_nombre: null,
     }),
   });
 
@@ -84,6 +88,10 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   get geo(): FormGroup {
     return this.form.get('geo') as FormGroup;
+  }
+
+  get estadoControlValue(): Boolean {
+    return this.info?.controls['estado'].value;
   }
 
   constructor(
@@ -143,7 +151,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });  
+      });
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
@@ -192,8 +200,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
         this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {
-            alias:
-              data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
+            alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             clasificacion_id: data.clasificacion_id,

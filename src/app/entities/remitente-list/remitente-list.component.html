@@ -59,6 +59,7 @@
       </mat-expansion-panel>
     </mat-accordion>
   </div>
+
   <mat-chip-list filterValues>
     <ng-container *ngIf="isFiltered">Filtros:</ng-container>
     <ng-container *ngIf="isFilteredByTipoDocumento">
@@ -74,6 +75,7 @@
       <mat-chip *ngFor="let item of paisFiltered">{{item}}</mat-chip>
     </ng-container>
   </mat-chip-list>
+
   <app-table-paginator
     class="lista-remitente"
     [columns]="columns"
@@ -83,6 +85,6 @@
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     (deleteClick)="deleteRow($event)"
-    
+
   ></app-table-paginator>
 </app-page>

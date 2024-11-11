@@ -6,8 +6,10 @@
     </button>
   </h1>
   <div mat-dialog-content>
-    <div class="row page-form-row" style="margin-top: 1.1rem;">
-      <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
+
+    <div class="row" style="margin-top: 1.1rem;">
+
+      <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-md-offset-8">
         <mat-label>Tipo Contraparte</mat-label>
         <input
           matInput
@@ -15,10 +17,12 @@
           disabled
         />
       </mat-form-field>
+
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Contraparte</mat-label>
         <input matInput [value]="contraparteInfo.contraparte" disabled />
       </mat-form-field>
+
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4">
         <mat-label>Doc. Fiscal Nº</mat-label>
         <input
@@ -27,8 +31,7 @@
           disabled
         />
       </mat-form-field>
-    </div>
-    <div class="row page-form-row">
+
       <mat-form-field class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
         <mat-label>Debe</mat-label>
         <input matInput [value]="credito" appInputThousandsSeparator disabled />

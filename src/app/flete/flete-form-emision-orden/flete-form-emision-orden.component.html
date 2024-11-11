@@ -1,11 +1,12 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <div [formGroupName]="groupName">
-    <div class="row page-form-row">
+
+    <div class="row">
+
       <!-- Columna para Texto Legal -->
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <label class="form-label mr-2">Texto Legal de Órdenes de Carga</label>
-        <mat-form-field class="col">
-          <mat-label>Texto Legal de Órdenes de Carga</mat-label>
+        <mat-form-field>
           <textarea
             matInput
             formControlName="emision_orden_texto_legal"
@@ -24,10 +25,9 @@
       </div>
 
       <!-- Columna para Detalle - Comentarios -->
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <label class="form-label mr-2">Detalle - Comentarios</label>
         <mat-form-field class="col">
-          <mat-label>Detalle - Comentarios</mat-label>
           <textarea
             matInput
             formControlName="emision_orden_detalle"
@@ -42,14 +42,15 @@
           </mat-error>
         </mat-form-field>
       </div>
+
     </div>
 
     <!-- Fila para Destinatarios -->
-    <div class="row page-form-row destinatario">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center">
+    <div class="row">
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <label class="form-label mr-2">Destinatarios</label>
         <mat-form-field class="col-xs-12">
-          <mat-label>Destinatarios</mat-label>
           <mat-select
             formControlName="destinatarios"
             multiple
@@ -70,6 +71,8 @@
           </mat-error>
         </mat-form-field>
       </div>
+
     </div>
+
   </div>
 </div>

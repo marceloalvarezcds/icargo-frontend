@@ -1,10 +1,8 @@
+.app-dialog-form-field-control-container {
+  display: flex;
+}
+
 .app-dialog-form-field-control-element {
-  position: relative;
-  top: -2px; 
-  font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
-  font-weight: bold;
-  margin-top: -5px;
   border: none;
   border-color: none;
   background: none;
@@ -12,33 +10,8 @@
   outline: none;
   font: inherit;
   width: 100%;
-  margin-left: -6px;
-  border: none;
-  border-color: none;
-  background: none;
-  outline: none;
-  font-weight: bold;
 }
 
-@media screen and (max-width: 1366px) and (max-height: 768px) {
-  .app-dialog-form-field-control-element {
-    position: relative;
-    top: -2px; 
-    font-family: 'Roboto', sans-serif;
-    font-weight: bold;
-    margin-top: -5px;
-    border: none;
-    border-color: none;
-    background: none;
-    padding: 0;
-    outline: none;
-    font: inherit;
-    width: 100%;
-    margin-left: -6px;
-    border: none;
-    border-color: none;
-    background: none;
-    outline: none;
-    font-weight: bold;
-  }
+.mat-form-field-infix {
+  flex: auto;
 }

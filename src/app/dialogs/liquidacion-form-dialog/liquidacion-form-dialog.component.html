@@ -1,22 +1,19 @@
+<h1 mat-dialog-title style="margin: 0;">
 
+  <ng-container *ngIf="isNew">
+    <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
+  </ng-container>
 
+  <ng-container *ngIf="!isNew">
+    <span class="titulo-azul">{{liquidacion?.estado}}</span><span class="titulo"> Movimientos  Liquidados</span>
+  </ng-container>
 
-  <h1 mat-dialog-title style="padding: 10px;">
+  <button mat-button type="button" mat-dialog-close class="close">
+    <mat-icon>close</mat-icon>
+  </button>
+</h1>
 
-    <ng-container *ngIf="isNew">
-      <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
-    </ng-container>
-
-    <ng-container *ngIf="!isNew">
-      <span class="titulo-azul">{{liquidacion?.estado}}</span><span class="titulo"> Movimientos  Liquidados</span>
-    </ng-container>
-
-    <button mat-button type="button" mat-dialog-close class="close">
-      <mat-icon>close</mat-icon>
-    </button>
-  </h1>
-
-  <div mat-dialog-content>
+<div mat-dialog-content>
 
     <ng-container *ngIf="isNew; then new; else edit">
     </ng-container>
@@ -36,41 +33,38 @@
 
     <ng-template #edit>
 
-      <app-liquidacion-edit-fields
-          #childEdit
-          [isEdit]="isEdit"
-          [item]="liquidacion"
-          [etapa]="etapa"
-          [estadoCuenta]="estadoCuenta"
-          [movimientos]="list"
-          (actualizarLiquidacion)="loadLiquidacion()"
-          (actualizarEstado)="cerrarLiquidacion()"
-          (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)"
-        >
-      </app-liquidacion-edit-fields>
+      <div class="page-content-liquidacion">
+        <app-liquidacion-edit-fields
+            #childEdit
+            [isEdit]="isEdit"
+            [item]="liquidacion"
+            [etapa]="etapa"
+            [estadoCuenta]="estadoCuenta"
+            [movimientos]="list"
+            (actualizarLiquidacion)="loadLiquidacion()"
+            (actualizarEstado)="cerrarLiquidacion()"
+            (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)"
+          >
+        </app-liquidacion-edit-fields>
+    </div>
 
     </ng-template>
 
   </div>
 
-  <footer>
 
-    <div class="col-xs-8 button-container has-movimiento">
-      <button mat-raised-button type="button" mat-dialog-close>Cerrar</button>
-      <button *ngIf="isNew" mat-raised-button type="button"
-          id="submit-button" cdkFocusInitial
-          (click)="confirm()" color="primary" >
-        Guardar Liquidación
-      </button>
-      <button *ngIf="!esFinalizado && !isNew && isEdit" mat-raised-button type="button"
-          id="submit-button" cdkFocusInitial
-          (click)="actualizar()" color="primary" >
-        Guardar
-      </button>
-    </div>
-
-  </footer>
-
-
-
-
+<div mat-dialog-actions>
+  <button mat-stroked-button class="botones" type="button" mat-dialog-close>Cerrar</button>
+  <button *ngIf="isNew" cdkFocusInitial
+      mat-flat-button color="primary" type="button"
+      class="botones"
+      (click)="confirm()"  >
+    Guardar Liquidación
+  </button>
+  <button *ngIf="!esFinalizado && !isNew && isEdit"
+      mat-flat-button color="primary" type="button"
+      class="botones" cdkFocusInitial
+      (click)="actualizar()"  >
+    Guardar
+  </button>
+</div>

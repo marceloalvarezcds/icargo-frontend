@@ -1,104 +1,96 @@
 <ng-container *ngIf="form">
+
   <div [formGroup]="form">
     <div formGroupName="registro">
-      <div class="row page-form-row">
-        <div class="col-12 col-sm-2 col-md-11">
 
           <div class="row">
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label mr-2">País</label>
-              <app-pais-field
-                groupName="registro"
-                controlName="pais_emisor_registro_id"
-                [form]="form"
-                (valueChange)="paisId = $event"
-                class="app-input-field"
-              ></app-pais-field>
-            </div>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label mr-2">Localidad</label>
-              <app-localidad-field
-                groupName="registro"
-                controlName="localidad_emisor_registro_id"
-                [paisId]="paisId"
-                [form]="form"
-                (valueChange)="localidadId = $event"
-                class="app-input-field"
-              ></app-localidad-field>
-            </div>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label mr-2">Ciudad</label>
-              <app-ciudad-field
-                groupName="registro"
-                controlName="ciudad_emisor_registro_id"
-                [localidadId]="localidadId"
-                [form]="form"
-                class="app-input-field"
-              ></app-ciudad-field>
-            </div>
-          </div>
-      
-          <div class="row">
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label mr-2">Tipo Registro</label>
-              <app-tipo-registro-field
-                groupName="registro"
-                controlName="tipo_registro_id"
-                [form]="form"
-                class="app-input-field"
-              ></app-tipo-registro-field>
-            </div>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label mr-2">Número de Registro</label>
-              <app-input-field
-                groupName="registro"
-                controlName="numero_registro"
-                [form]="form"
-                class="app-input-field"
-              ></app-input-field>
-            </div>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label mr-2">Fecha de vencimiento</label>
-              <app-fecha-field
-                title="Fecha de vencimiento del Registro"
-                groupName="registro"
-                controlName="vencimiento_registro"
-                [form]="form"
-                class="app-input-field"
-              ></app-fecha-field>
-            </div>
+
+            <app-pais-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="País"
+              groupName="registro"
+              controlName="pais_emisor_registro_id"
+              [form]="form"
+              (valueChange)="paisId = $event"
+            ></app-pais-field>
+
+            <app-localidad-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Localidad"
+              groupName="registro"
+              controlName="localidad_emisor_registro_id"
+              [paisId]="paisId"
+              [form]="form"
+              (valueChange)="localidadId = $event"
+            ></app-localidad-field>
+
+            <app-ciudad-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Ciudad"
+              groupName="registro"
+              controlName="ciudad_emisor_registro_id"
+              [localidadId]="localidadId"
+              [form]="form"
+            ></app-ciudad-field>
+
           </div>
 
           <div class="row">
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <app-file-field-input
-                title="Foto del registro - frontal"
-                groupName="registro"
-                controlName="foto_registro_frente"
-                [field]="fotoRegistroFrente"
-                [form]="form"
-                [isEdit]="isEdit"
-                [isShow]="isShow"
-                (fileChange)="fotoRegistroFrenteChange.emit($event)"
-                class="app-input-field"
-              ></app-file-field-input>
-            </div>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <app-file-field-input
-                title="Foto del registro - reverso"
-                groupName="registro"
-                controlName="foto_registro_reverso"
-                [field]="fotoRegistroReverso"
-                [form]="form"
-                [isEdit]="isEdit"
-                [isShow]="isShow"
-                (fileChange)="fotoRegistroReversoChange.emit($event)"
-                class="app-input-field"
-              ></app-file-field-input>
-            </div>
+
+            <app-tipo-registro-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Tipo Registro"
+              groupName="registro"
+              controlName="tipo_registro_id"
+              [form]="form"
+            ></app-tipo-registro-field>
+
+            <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Número de Registro"
+              groupName="registro"
+              controlName="numero_registro"
+              [form]="form"
+            ></app-input-field>
+
+            <app-fecha-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Fecha de vencimiento del Registro"
+              groupName="registro"
+              controlName="vencimiento_registro"
+              [form]="form"
+            ></app-fecha-field>
+
           </div>
-        </div>
-      </div>
+
+          <div class="row">
+
+            <app-file-field-input
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Foto del registro - frontal"
+              groupName="registro"
+              controlName="foto_registro_frente"
+              [field]="fotoRegistroFrente"
+              [form]="form"
+              [isEdit]="isEdit"
+              [isShow]="isShow"
+              (fileChange)="fotoRegistroFrenteChange.emit($event)"
+            ></app-file-field-input>
+
+            <app-file-field-input
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Foto del registro - reverso"
+              groupName="registro"
+              controlName="foto_registro_reverso"
+              [field]="fotoRegistroReverso"
+              [form]="form"
+              [isEdit]="isEdit"
+              [isShow]="isShow"
+              (fileChange)="fotoRegistroReversoChange.emit($event)"
+            ></app-file-field-input>
+
+          </div>
+
     </div>
   </div>
 </ng-container>

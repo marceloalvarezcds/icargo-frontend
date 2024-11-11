@@ -17,7 +17,9 @@
                 matTooltipPosition="right"
                 [matTooltip]="item.name"
                 [matTooltipDisabled]="isExpanded"
-                (click)="openInNewTab(item.path)"
+                [routerLink]="item.path"
+                [routerLinkActiveOptions]="{ exact: !!item.isRouteExact }"
+                (click)="closeSidebarMenu()"
               >
                 <mat-icon
                   mat-list-icon
@@ -56,7 +58,11 @@
                           matTooltipPosition="right"
                           [matTooltip]="child.name"
                           [matTooltipDisabled]="isExpanded"
-                          (click)="openInNewTab(child.path)"
+                          [routerLink]="[child.path]"
+                          [routerLinkActiveOptions]="{
+                            exact: !!child.isRouteExact
+                          }"
+                          (click)="closeSidebarMenu()"
                         >
                           <mat-icon
                             mat-list-icon

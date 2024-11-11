@@ -1,5 +1,4 @@
 <app-page-form
-  class="chofer-page"
   submodule="CHOFER"
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   [class.page-form-show]="isShow"
@@ -17,7 +16,8 @@
   (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
-  <div class="page-container">
+  <div class="page-form-container">
+
     <div class="section" formGroupName="info">
       <h2>INFORMACIÓN PRINCIPAL</h2>
       <app-chofer-form-info
@@ -44,15 +44,13 @@
       ></app-chofer-form-info>
     </div>
 
-    <div class="section"
-      formGroupName="propietario"
+    <div class="section" formGroupName="propietario"
       [hidden]="!esPropietario"
       *ngIf="
         (propietarioModelo | puede: a.CREAR) ||
         (propietarioModelo | puede: a.EDITAR) ||
         (propietarioModelo | puede: a.VER)
-      "
-    >
+      ">
       <app-chofer-form-propietario
         [form]="form"
         [isEdit]="isEdit"
@@ -70,53 +68,49 @@
       ></app-chofer-form-propietario>
     </div>
 
-  <div class="section"
-    formGroupName="registro"
-
-    *ngIf="
-      (propietarioModelo | puede: a.CREAR) ||
-      (propietarioModelo | puede: a.EDITAR) ||
-      (propietarioModelo | puede: a.VER)
-    "
-  >
+    <div class="section" formGroupName="registro"
+      *ngIf="
+        (propietarioModelo | puede: a.CREAR) ||
+        (propietarioModelo | puede: a.EDITAR) ||
+        (propietarioModelo | puede: a.VER)
+      ">
       <h2> Registro de Conducción del Chofer </h2>
-    <app-registro-conduccion-form
-      [form]="form"
-      [isShow]="isShow"
-      [fotoRegistroFrente]="fotoRegistroFrente"
-      [fotoRegistroReverso]="fotoRegistroReverso"
-      (fotoRegistroFrenteChange)="
-        fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
-      "
-      (fotoRegistroReversoChange)="
-        fotoRegistroReversoFile = $event; fotoRegistroReverso = null
-      "
-    ></app-registro-conduccion-form>
-  </div>
+      <app-registro-conduccion-form
+        [form]="form"
+        [isShow]="isShow"
+        [fotoRegistroFrente]="fotoRegistroFrente"
+        [fotoRegistroReverso]="fotoRegistroReverso"
+        (fotoRegistroFrenteChange)="
+          fotoRegistroFrenteFile = $event; fotoRegistroFrente = null
+        "
+        (fotoRegistroReversoChange)="
+          fotoRegistroReversoFile = $event; fotoRegistroReverso = null
+        "
+      ></app-registro-conduccion-form>
+    </div>
 
-  <div class="section"
-    formGroupName="address"
-    (opened)="isPanelOpen = true"
-    (closed)="isPanelOpen = false"
-  >
+    <div class="section" formGroupName="address"
+      (opened)="isPanelOpen = true"
+      (closed)="isPanelOpen = false">
       <h2> Dirección </h2>
-    <app-page-form-address
-      groupName="address"
-      [ciudadSelected]="ciudadSelected"
-      [form]="form"
-      [isShow]="isShow"
-      [isPanelOpen]="isPanelOpen"
-    ></app-page-form-address>
-  </div>
+      <app-page-form-address
+        groupName="address"
+        [ciudadSelected]="ciudadSelected"
+        [form]="form"
+        [isShow]="isShow"
+        [isPanelOpen]="isPanelOpen"
+      ></app-page-form-address>
+    </div>
 
-  <div class="section" *ngIf="isEdit || isShow">
-    <h2> Auditoria </h2>
-    <app-page-form-audit
-      [created_by]="created_by"
-      [created_at]="created_at"
-      [modified_by]="modified_by"
-      [modified_at]="modified_at"
-    ></app-page-form-audit>
-  </div>
+    <div class="section" *ngIf="isEdit || isShow">
+      <h2> Auditoria </h2>
+      <app-page-form-audit
+        [created_by]="created_by"
+        [created_at]="created_at"
+        [modified_by]="modified_by"
+        [modified_at]="modified_at"
+      ></app-page-form-audit>
+    </div>
+
 </div>
 </app-page-form>

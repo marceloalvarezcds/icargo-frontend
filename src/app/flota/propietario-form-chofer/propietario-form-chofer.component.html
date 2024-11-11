@@ -1,66 +1,63 @@
 <div [formGroup]="form">
-  <div class="row page-form-row" formGroupName="chofer">
-    <div class="col-12 col-sm-2 col-md-11">
+
+  <div formGroupName="chofer">
+
       <div class="row">
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-          <label class="form-label mr-2">Tipo Doc.</label>
+
           <app-tipo-documento-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            title="Tipo Doc."
             groupName="chofer"
             controlName="tipo_documento_id"
             [form]="form"
-            class="app-input-field"
           ></app-tipo-documento-field>
-        </div>
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-          <label class="form-label mr-2">País Emisor del Documento</label>
+
           <app-pais-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            title="País Emisor del Documento"
             groupName="chofer"
             controlName="pais_emisor_documento_id"
             [form]="form"
-            class="app-input-field"
           ></app-pais-field>
-        </div>
 
-        <div  class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Número de Documento</label>
-            <app-input-field
-              groupName="chofer"
-              controlName="numero_documento"
-              [form]="form"
-              class="app-input-field"
-            ></app-input-field>
-          </div>
-        </div>
-      
-          <!-- Contenedor para las fotos -->
-          <div class="row">
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <app-file-field-input
-                title="Foto del documento - frontal"
-                groupName="chofer"
-                controlName="foto_documento_frente_chofer"
-                [field]="fotoDocumentoFrente"
-                [form]="form"
-                [isEdit]="isEdit"
-                [isShow]="isShow"
-                (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-                class="app-input-field"
-              ></app-file-field-input>
-            </div>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <app-file-field-input
-                title="Foto del documento - reverso"
-                groupName="chofer"
-                controlName="foto_documento_reverso_chofer"
-                [field]="fotoDocumentoReverso"
-                [form]="form"
-                [isEdit]="isEdit"
-                [isShow]="isShow"
-                (fileChange)="fotoDocumentoReversoChange.emit($event)"
-                class="app-input-field"
-              ></app-file-field-input>
-            </div>
+          <app-input-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            title="Número de Documento"
+            groupName="chofer"
+            controlName="numero_documento"
+            [form]="form"
+          ></app-input-field>
+
       </div>
+
+      <!-- Contenedor para las fotos -->
+      <div class="row">
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Foto del documento - frontal"
+          groupName="chofer"
+          controlName="foto_documento_frente_chofer"
+          [field]="fotoDocumentoFrente"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+        ></app-file-field-input>
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Foto del documento - reverso"
+          groupName="chofer"
+          controlName="foto_documento_reverso_chofer"
+          [field]="fotoDocumentoReverso"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoReversoChange.emit($event)"
+        ></app-file-field-input>
+
     </div>
+
   </div>
 </div>

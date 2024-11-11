@@ -1,5 +1,6 @@
 <div *ngIf="liquidacion">
-  <div class="row page-form-row movimientos-container">
+
+  <div class="row movimientos-container">
     <div class="col-xs-12" [hidden]="!(list && list.length)">
       <app-table-paginator
         [columns]="columns"
@@ -23,31 +24,29 @@
         [class.has-movimiento]="list && list.length"
       >
         <button
-          mat-raised-button
+          mat-flat-button
+          class="botones"
           color="primary"
           type="button"
           (click)="addMovimientos()"
-          id="add-button"
         >
           Agregar
         </button>
         <button
-          mat-raised-button
-          color="primary"
+          mat-stroked-button
+          class="botones"
           type="button"
           (click)="removeMovimientos()"
-          id="del-button"
           [disabled]="!(list && list.length)"
         >
           Excluir
         </button>
         <button
-          mat-raised-button
-          class="create-button"
-          color="primary"
+          mat-flat-button
+          class="botones"
+          color="accent"
           type="button"
           (click)="createMovimiento()"
-          id="create-button"
         >
           Crear
         </button>

@@ -50,6 +50,7 @@ export class GenericListFieldComponent<T extends { id: number }>
   @Input() controlName = '';
   @Input() groupName?: string;
   @Input() hint = '';
+  @Input() requerido = false;
   @Input() errorMessage = '';
   @Input() set form(f: FormGroup) {
     const key = this.key;
@@ -117,11 +118,11 @@ export class GenericListFieldComponent<T extends { id: number }>
     const controlValue = this.control.value;
     return !controlValue || controlValue.length === 0;
   }
-  
+
   shouldApplySmallSelect(controlName: string): boolean {
     // Define aquí la lógica para aplicar la clase small-select
     const smallSelectControls = ['tipo_anticipo_id', 'camion_id']; // Agrega los nombres de control necesarios
     return smallSelectControls.includes(controlName);
   }
-  
+
 }

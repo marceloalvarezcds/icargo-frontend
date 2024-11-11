@@ -116,9 +116,8 @@ export class LiquidacionesListComponent implements OnInit {
       tooltip: 'Autorizar',
       clases: 'buttons',
       styles: '',
-      icon: 'add',
+      icon: 'add_circle',
       label: 'AUTORIZAR',
-      iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
         console.log('alerta desde button: ', $event);
       }
@@ -128,9 +127,8 @@ export class LiquidacionesListComponent implements OnInit {
       tooltip: 'Rechazar',
       clases: 'buttons',
       styles: '',
-      icon: 'add',
+      icon: 'add_circle',
       label: 'RECHAZAR',
-      iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
         console.log('alerta desde button: ', $event);
       }
@@ -140,9 +138,9 @@ export class LiquidacionesListComponent implements OnInit {
       tooltip: 'Cancelar',
       clases: 'buttons',
       styles: '',
-      icon: 'add',
+      icon: 'add_circle',
       label: 'CANCELAR',
-      iconClass: 'icon-add-style',
+      iconClass: 'add_circle',
       buttonCallback: ($event:any) => {
         console.log('alerta desde button: ', $event);
       }

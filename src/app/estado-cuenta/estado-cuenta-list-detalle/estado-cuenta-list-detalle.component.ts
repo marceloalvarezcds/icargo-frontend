@@ -259,9 +259,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       color: 'warn',
       tooltip: 'Crear Movimiento',
-      clases: 'buttons',
       styles: '',
-      icon: 'add',
+      icon: 'add_circle',
       label: 'MOVIMIENTO',
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
@@ -271,9 +270,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       color: 'primary',
       tooltip: 'Crear Liquidacion',
-      clases: 'buttons',
       styles: '',
-      icon: 'add',
+      icon: 'add_circle',
       label: 'LIQUIDACION',
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {

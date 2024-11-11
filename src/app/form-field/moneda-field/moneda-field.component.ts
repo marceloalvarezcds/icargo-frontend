@@ -21,6 +21,7 @@ export class MonedaFieldComponent {
   @Input() controlName = 'moneda_id';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
+  @Input() requerido=false;
   @Input() title = '';
   @Input() value: (v: Moneda) => number | string | Moneda = (v: Moneda) => v.id;
 

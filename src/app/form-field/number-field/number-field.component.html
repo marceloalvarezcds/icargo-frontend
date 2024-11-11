@@ -1,20 +1,13 @@
 <div *ngIf="form" [formGroup]="form">
+
   <ng-container *ngIf="groupName">
-    <label>{{ title }}</label>
-    <mat-form-field
-      [formGroupName]="groupName"
-      [ngClass]="{
-        'nominada-field'          :controlName === 'cantidad_nominada',
-                                
-        'anticipo-monto-input'    : controlName === 'monto_retirado' ||
-                                    controlName === 'cantidad_retirada',
-        'cantidad-remision-input' : controlName === 'cantidad' ||
-                                    controlName === 'propietario_monto' ||
-                                    controlName === 'remitente_monto' ||
-                                    controlName === 'proveedor_monto',
-        'view-mode'               : viewMode                         
-      }"
-    >
+
+    <mat-label class="custom-label">
+      <span *ngIf="requerido" class="required">(*) </span>
+      {{ title }}
+    </mat-label>
+
+    <mat-form-field [formGroupName]="groupName">
       <input
         matInput
         [autocomplete]="autocomplete"
@@ -24,7 +17,7 @@
         [ngClass]="{
           'nominada-input': controlName === 'nominada',
           'cantidad_nominada-input': controlName === 'cantidad_nominada',
-          'view-mode': viewMode   
+          'view-mode': viewMode
         }"
         tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
@@ -49,21 +42,17 @@
         {{ patternMessageError(control.getError("pattern")) }}
       </mat-error>
     </mat-form-field>
+
   </ng-container>
+
   <ng-container *ngIf="!groupName">
-    <label>{{ title }}</label>
-    <mat-form-field
-      [ngClass]="{
-      'nominada-field'          : controlName === 'cantidad_nominada',
-      'anticipo-monto-input'    : controlName === 'monto_retirado'  ||
-                                  controlName === 'cantidad_retirada',
-      'cantidad-remision-input' : controlName === 'cantidad' ||
-                                  controlName === 'propietario_monto' ||
-                                  controlName === 'remitente_monto' || 
-                                  controlName === 'proveedor_monto',
-      'view-mode'               : viewMode   
-      }"
-    >
+
+    <mat-label class="custom-label">
+      <span *ngIf="requerido" class="required">(*) </span>
+      {{ title }}
+    </mat-label>
+
+    <mat-form-field>
       <input
         matInput
         [autocomplete]="autocomplete"
@@ -73,7 +62,7 @@
         [ngClass]="{
           'nominada-input': controlName === 'cantidad_nominada',
           'cantidad_nominada-input': controlName === 'cantidad_nominada',
-          'view-mode': viewMode   
+          'view-mode': viewMode
         }"
         tabindex="{{ readonly ? -1 : 0 }}"
         appInputThousandsSeparator
@@ -95,5 +84,7 @@
         </strong>
       </mat-error>
     </mat-form-field>
+
   </ng-container>
+
 </div>

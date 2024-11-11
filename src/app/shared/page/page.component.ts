@@ -31,6 +31,7 @@ export class PageComponent {
   @Input() viewTitle = '';
   @Input() modelo?: PermisoModeloEnum;
   @Input() dbuttons?: ButtonList[] = []
+  @Input() isFiltered = false;
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() backClick = new EventEmitter<boolean>();
@@ -42,7 +43,6 @@ export class PageComponent {
   @Output() conciliarClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
-
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 
@@ -80,28 +80,12 @@ export class PageComponent {
     };
 
     switch (submodule) {
-      case 'CLIENTES':
-      case 'CENTROS OPERATIVOS':
-      case 'PROVEEDORES':
-      case 'CHOFERES':
-      case 'TRACTOS':
-      case 'SEMIS':
       case 'COMBINACION DE FLOTA':
-      case 'PROPIETARIOS':
       case 'GESTORES DE CARGA':
-      case 'PEDIDOS':
       case 'Orden de Carga':
-      case 'MERCADERIA':
-      case 'CAJAS':
-      case 'BANCOS':
-      case 'Cargo':
-      case 'USUARIOS':
-      case 'ROLES':
         return baseStyles;
-      case 'Todas las CUENTAS CORRIENTES':
-        return {...baseStyles, border:'1px solid #1C1C1C29'};
       default:
-        return { 'padding': '6px', 'min-width': '80px' };
+        return { };
     }
   }
 

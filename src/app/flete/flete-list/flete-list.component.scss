@@ -3,15 +3,5 @@
   .mat-header-cell {
     max-width: 10%;
   }
-  .mat-header-cell.mat-column-condicion_cantidad,
-  .mat-cell.mat-column-condicion_cantidad {
-      text-align: right;
 }
-}
-@media (max-width: 1940px) {
-  .flete-page,
-  .mat-cell,
-  .mat-header-cell {
-    max-width: 50%;
-  }
-}
+

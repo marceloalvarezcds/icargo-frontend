@@ -1,4 +1,5 @@
 <mat-sidenav-container class="sidebar-filter" from="right">
+
   <mat-sidenav
     #sidenav
     [mode]="sidebarMode"
@@ -7,23 +8,23 @@
   >
     <strong class="sidebar-filter-title">Filtros</strong>
     <ng-content select="[filterMenu]"></ng-content>
-    <div class="buttons">
+    <div>
       <button type="button" mat-raised-button (click)="resetClick.emit($event)">
         Limpiar
       </button>
-      <button
-        type="button"
-        mat-raised-button
-        color="primary"
-        (click)="applyClick.emit($event)"
-      >
+      <button type="button" mat-raised-button
+        color="primary" (click)="applyClick.emit($event)" >
         Filtrar
       </button>
     </div>
   </mat-sidenav>
+
   <mat-sidenav-content>
+
     <div class="page">
+
       <div class="page-title">
+
         <span class="title">
           {{ module }}
           <span *ngIf="submodule" class="submodule">
@@ -34,57 +35,57 @@
           </span>
           <span *ngIf="viewTitle"> > <strong>{{ viewTitle }}</strong> </span>
         </span>
-        <div class="page-title-buttons button-container">
+
+        <div class="page-title-buttons">
           <ng-container *ngIf="!hideBack">
             <button
               type="button"
-              mat-mini-fab
+              mat-stroked-button
+              color="primary"
               matTooltip="Volver al listado"
               (click)="back()"
-              id="back-button"
-              class="list-button"
-            >
+              class="botones">
               <mat-icon>arrow_back</mat-icon>
               Volver
             </button>
           </ng-container>
           <button
-            mat-mini-fab
-            color="primary"
+            mat-stroked-button
             matTooltip="Exportar lista"
-            class="download-button"
+            class="botones boton-descarga"
             (click)="downloadClick.emit($event)"
             *ngIf="modelo | puede: a.REPORTE"
           >
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
-            <!-- Botones dinamicos -->
 
-            <ng-container
-                *ngFor="let btn of dbuttons">
+          <!-- Botones dinamicos -->
+          <ng-container
+              *ngFor="let btn of dbuttons">
 
-                <button
-                    mat-mini-fab
-                    [color]="btn.color ?? '' "
-                    [matTooltip]="btn.tooltip ?? '' "
-                    [class]="btn.clases ?? '' "
-                    [style]="btn.styles ?? '' "
-                    (click)="btn.buttonCallback($event)">
+              <button class="botones"
+                  mat-flat-button
+                  [color]="btn.color ?? '' "
+                  [matTooltip]="btn.tooltip ?? '' "
+                  [class]="btn.clases ?? '' "
+                  [style]="btn.styles ?? '' "
+                  (click)="btn.buttonCallback($event)">
 
-                  <mat-icon *ngIf="btn.icon"
-                      [class]="btn.iconClass ?? '' ">
-                      {{btn.icon}}
-                  </mat-icon>
-                  {{btn.label}}
-                </button>
+                <mat-icon *ngIf="btn.icon"
+                    [class]="btn.iconClass ?? '' ">
+                    {{btn.icon}}
+                </mat-icon>
 
-            </ng-container>
+                {{btn.label}}
 
-            <!-- Botones dinamicos -->
+              </button>
 
-            <!-- Botón específico para Orden de Carga -->
+          </ng-container>
+          <!-- Botones dinamicos -->
+
+          <!-- Botón específico para Orden de Carga -->
           <button
-            mat-mini-fab color="primary"
+            mat-flat-button color="primary"
             class="add-button orden-carga-anticipo"
             *ngIf="submodule === 'Orden de Carga'"
             (click)="createAnticipoClick.emit($event)">
@@ -92,26 +93,26 @@
           </button>
             <!-- Botón específico para Orden de Carga -->
             <button
-              mat-mini-fab color="primary"
+              mat-flat-button color="primary"
               (click)="createRecepcionClick.emit($event)"
               class="add-button orden-carga-recepcion"
               *ngIf="submodule === 'Orden de Carga'">
               <mat-icon>add</mat-icon> RECEPCION
             </button>
           <button
-            mat-mini-fab
+            mat-flat-button
             color="primary"
             matTooltip="Crear"
-            class="add-button"
+            class="botones"
             (click)="createClick.emit($event)"
             *ngIf="!hideCreate && (modelo | puede: a.CREAR)"
             [ngStyle]="getButtonStyles(submodule)"
           >
-            <mat-icon >add</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
+            <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
             {{
               submodule === 'CLIENTES' ? 'CLIENTE' :
               submodule === 'CENTROS OPERATIVOS' ? 'CENTRO OPERATIVO' :
-              submodule === 'PROVEEDORES' ? 'PROVEEDOR' : 
+              submodule === 'PROVEEDORES' ? 'PROVEEDOR' :
               submodule === 'GESTORES DE CARGA' ? 'GESTOR DE CARGA' :
               submodule === 'PROPIETARIOS' ? 'PROPIETARIO' :
               submodule === 'CHOFERES' ? 'CHOFER' :
@@ -126,12 +127,13 @@
               submodule === 'Cargo' ? 'Cargo' :
               submodule === 'USUARIOS' ? 'USUARIO' :
               submodule === 'ROLES' ? 'ROL' :
+              submodule === 'PUNTO VENTA' ? 'PUNTO DE VENTA' :
               submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
               }}
           </button>
               <!-- Botón específico para Orden de Carga -->
           <button
-            mat-mini-fab color="primary"
+            mat-flat-button color="primary"
             class="add-button orden-carga-aceptar"
             (click)="aceptarClick.emit($event)"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
@@ -140,7 +142,7 @@
           </button>
           <!-- Botón específico para Orden de Carga -->
           <button
-            mat-mini-fab color="primary"
+            mat-flat-button color="primary"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             (click)="finalizarClick.emit($event)"
             class="add-button orden-carga-finalizar"
@@ -149,32 +151,87 @@
         </button>
             <!-- Botón específico para Orden de Carga -->
         <button
-            mat-mini-fab color="primary"
+            mat-flat-button color="primary"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
             (click)="conciliarClick.emit($event)"
             class="add-button orden-carga-conciliar"
             *ngIf="submodule === 'Orden de Carga'">
               CONCILIAR
         </button>
-          <button
-            mat-mini-fab
-            color="primary"
-            matTooltip="Filtrar"
-            class="filter-button"
-            *ngIf="!hideFilter"
-            (click)="sidenav?.toggle()"
-          >
-            <mat-icon>filter_alt</mat-icon>
-          </button>
+        <button
+          mat-mini-fab
+          color="primary"
+          matTooltip="Filtrar"
+          class="botones"
+          *ngIf="!hideFilter"
+          (click)="sidenav?.toggle()"
+        >
+          <mat-icon>filter_alt</mat-icon>
+        </button>
 
         </div>
       </div>
+
       <div class="filter-values">
-        <ng-content select="[filterValues]"></ng-content>
+        <ng-content select="[filterValues]">
+        </ng-content>
       </div>
+
       <div class="page-content">
         <ng-content></ng-content>
       </div>
+
+      <div *ngIf="false" style="display: flex; row-gap: 5px;">
+
+        <button mat-stroked-button
+            class="botones">
+              BOTON 1
+        </button>
+
+        <button mat-flat-button
+            color="primary"
+            class="botones">
+            BOTON 2
+        </button>
+
+        <button mat-flat-button
+            color="accent"
+            class="botones">
+            BOTON 3
+        </button>
+
+        <button mat-flat-button
+            color="warn"
+            class="botones">
+            BOTON 4
+        </button>
+
+        <button mat-flat-button
+            style="color: white; background-color: var(--color-green);"
+            class="botones">
+            BOTON 5
+        </button>
+
+        <button mat-flat-button
+            style="color: white; background-color: var(--color-orange);"
+            class="botones">
+            BOTON 6
+        </button>
+
+        <button mat-flat-button
+            style="color: white; background-color: var(--color-grey);"
+            class="botones">
+            BOTON 7
+        </button>
+
+        <button mat-flat-button
+            style="color: white; background-color: var(--color-black);"
+            class="botones">
+            BOTON 8
+        </button>
+
+      </div>
+
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>

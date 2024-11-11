@@ -14,67 +14,73 @@
   (submitEvent)="submit(false)"
 >
   <div class="banco-page-content">
-    <div class="row page-form-row">
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Banco"
-          controlName="nombre"
-          [form]="form"
-        ></app-input-field>
-      </div>
+    <div class="row">
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Número de cuenta"
-          controlName="numero_cuenta"
-          [form]="form"
-        ></app-input-field>
-      </div>
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Banco"
+        controlName="nombre"
+        [form]="form"
+        [requerido]="true"
+      ></app-input-field>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-moneda-field [form]="form"></app-moneda-field>
-      </div>
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Número de cuenta"
+        controlName="numero_cuenta"
+        [form]="form"
+        [requerido]="true"
+      ></app-input-field>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
-        <app-input-field
-          title="Titular"
-          controlName="titular"
-          [form]="form"
-        ></app-input-field>
-      </div>
+      <app-moneda-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          [title]="'Moneda'"
+          [requerido]="true"
+          controlName="moneda_id"
+          [form]="form">
+      </app-moneda-field>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Titular"
+        controlName="titular"
+        [form]="form"
+        [requerido]="true"
+      ></app-input-field>
+
+    </div>
+
+    <ng-container *ngIf="item">
+      <div class="row">
+
         <app-number-field
+          class="input-form-full col-xs-12 col-sm-2"
           title="Tot. Creditos"
           controlName="credito"
           [form]="form"
           [readonly]="true"
         ></app-number-field>
-      </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
         <app-number-field
+          class="input-form-full col-xs-12 col-sm-2"
           title="Tot. Debitos"
           controlName="debito"
           [form]="form"
           [readonly]="true"
         ></app-number-field>
-      </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-4">
         <app-number-field
+          class="input-form-full col-xs-12 col-sm-2"
           title="Tot. Pendientes"
           controlName="saldo_provisional"
           [form]="form"
           [readonly]="true"
         ></app-number-field>
-      </div>
 
-      <ng-container *ngIf="item">
-        <div class="col-xs-12 col-sm-6 col-md-4 input-box">
+        <div class="input-form-full col-xs-12 col-sm-2">
           <mat-label>Saldo Confirmado</mat-label>
-          <mat-form-field>
+          <mat-form-field floatLabel="always" appearance="outline">
             <input
               matInput
               [value]="item.saldo_confirmado"
@@ -83,9 +89,10 @@
             />
           </mat-form-field>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4 input-box">
+
+        <div class="input-form-full col-xs-12 col-sm-2">
           <mat-label>Saldo Provisional</mat-label>
-          <mat-form-field>
+          <mat-form-field floatLabel="always" appearance="outline">
             <input
               matInput
               [value]="item.saldo_provisional"
@@ -94,13 +101,16 @@
             />
           </mat-form-field>
         </div>
-      </ng-container>
-    </div>
+
+      </div>
+    </ng-container>
+
     <ng-container *ngIf="item">
       <app-banco-form-instrumentos
         [list]="item.instrumentos"
         (instrumentosChange)="getData()"
       ></app-banco-form-instrumentos>
     </ng-container>
+
   </div>
 </app-page-form>

@@ -1,24 +1,26 @@
 <div *ngIf="form" [formGroup]="form">
+
   <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
-        <label class="form-label mr-2">Tara (kg.)</label>
-        <app-number-field
-          [groupName]="groupName"
-          controlName="tara"
-          [form]="form"
-          class="app-input-field"
-        ></app-number-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
-        <label class="form-label mr-2">Bruto (kg.)</label>
-        <app-number-field
-          [groupName]="groupName"
-          controlName="bruto"
-          [form]="form"
-          class="app-input-field"
-        ></app-number-field>
-      </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Tara (kg.)"
+        [groupName]="groupName"
+        controlName="tara"
+        [form]="form"
+      ></app-number-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Bruto (kg.)"
+        [groupName]="groupName"
+        controlName="bruto"
+        [form]="form"
+      ></app-number-field>
+
     </div>
+
   </div>
 </div>

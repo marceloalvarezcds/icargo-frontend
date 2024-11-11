@@ -23,7 +23,7 @@ export class PageFormGeoComponent implements OnDestroy {
   get info(): FormGroup {
     return this.formGroup!.get('info') as FormGroup;
   }
-
+/*
   get geo(): FormGroup {
     return this.formGroup!.get('geo') as FormGroup;
   }
@@ -35,16 +35,16 @@ export class PageFormGeoComponent implements OnDestroy {
   get longitudControl(): FormControl {
     return this.geo!.get('longitud') as FormControl;
   }
-
+*/
   @Input() ciudadSelected?: Ciudad | null;
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
-    this.latLngSubscription = zip(this.latitudControl.valueChanges, this.longitudControl.valueChanges)
+    /*this.latLngSubscription = zip(this.latitudControl.valueChanges, this.longitudControl.valueChanges)
       .pipe(filter(x => (x[0] && x[1])))
       .pipe(map((x) => new google.maps.LatLng(x[0], x[1])))
       .subscribe(latLng => {
         this.markerPosition = latLng.toJSON();
-      });
+      });*/
   }
   @Input() isShow = false;
   @Input() isPanelOpen = false;
@@ -56,10 +56,11 @@ export class PageFormGeoComponent implements OnDestroy {
     this.latLngSubscription?.unsubscribe();
   }
 
-  updateMarkerPosition(event: google.maps.MapMouseEvent): void {
+  /*updateMarkerPosition(event: google.maps.MapMouseEvent): void {
     this.geo!.controls['latitud'].setValue(event.latLng.lat());
     this.geo!.controls['longitud'].setValue(event.latLng.lng());
-  }
+  }*/
+
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   get address(): FormGroup {

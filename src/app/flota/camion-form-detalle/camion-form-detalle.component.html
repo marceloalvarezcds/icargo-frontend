@@ -1,44 +1,40 @@
 <div *ngIf="form" [formGroup]="form">
+
   <div [formGroupName]="groupName">
-    <div class="row page-form-row">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
-        <label class="form-label mr-1">Marca</label>
-        <app-marca-camion-field
-          [groupName]="groupName"
-          controlName="marca_id"
-          [form]="form"
-          class="app-input-field"
-        ></app-marca-camion-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
-        <label class="form-label mr-1">Tipo</label>
-        <app-tipo-camion-field
-          [groupName]="groupName"
-          controlName="tipo_id"
-          [form]="form"
-          class="app-input-field"
-        ></app-tipo-camion-field>
-      </div>
-    </div>
-    <div class="row page-form-row" style="margin-top: -18px;">
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
-        <label class="form-label mr-1">Color</label>
-        <app-color-field
-          [groupName]="groupName"
-          controlName="color_id"
-          [form]="form"
-          class="app-input-field"
-        ></app-color-field>
-      </div>
-      <div class="col-xs-12 col-sm-6 d-flex align-items-center mb-1">
-        <label class="form-label mr-1">Año</label>
-        <app-number-field
-          [groupName]="groupName"
-          controlName="anho"
-          [form]="form"
-          class="app-input-field"
-        ></app-number-field>
-      </div>
-    </div>
+
+    <div class="row">
+
+      <app-marca-camion-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Marca"
+        [groupName]="groupName"
+        controlName="marca_id"
+        [form]="form"
+      ></app-marca-camion-field>
+
+      <app-tipo-camion-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Tipo"
+        [groupName]="groupName"
+        controlName="tipo_id"
+        [form]="form"
+      ></app-tipo-camion-field>
+
+      <app-color-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Color"
+        [groupName]="groupName"
+        controlName="color_id"
+        [form]="form"
+      ></app-color-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Año"
+        [groupName]="groupName"
+        controlName="anho"
+        [form]="form"
+      ></app-number-field>
+
   </div>
 </div>

@@ -1,39 +1,10 @@
 .table-container {
-  padding-right: 22px;
+  padding-right: 0;
   padding-left: 0;
-}
-
-.small-table-container {
-  max-width: 1250px; /* Ajusta según tus necesidades */
-  width: 100%; /* Asegura que el contenedor ocupe el ancho completo del padre */
-  box-sizing: border-box; /* Incluye padding y border en el ancho total */
-}
-
-.small-table {
-  width: 90%; /* Asegura que la tabla ocupe el 100% del contenedor */
-  font-size: 12px; /* Ajusta el tamaño de la fuente */
-  table-layout: fixed; /* Hace que las columnas tengan un ancho fijo */
-  border-collapse: collapse; /* Elimina espacios entre celdas */
-}
-
-.small-table th, .small-table td {
-  white-space: nowrap; /* Evita que el texto se divida en varias líneas */
-  overflow: hidden; /* Oculta el desbordamiento del contenido */
-  text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
-  padding: 8px; /* Ajusta el espacio dentro de las celdas */
-  border: 1px solid #ddd; /* Añade un borde a las celdas */
 }
 
 .download-button-container {
   display: flex;
   justify-content: flex-end;
-  margin-bottom: 10px; /* Espacio entre botón y tabla */
+  margin-bottom: 10px;
 }
-
-.page-form-row {
-  display: flex;
-  flex-direction: column; /* Asegura que los elementos hijos se apilen verticalmente */
-  width: 100%; /* Asegura que ocupe todo el ancho disponible */
-  box-sizing: border-box; /* Incluye padding y border en el ancho total */
-}
-

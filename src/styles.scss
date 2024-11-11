@@ -16,9 +16,22 @@
 // hue. Available color palettes: https://material.io/design/color/
 $icargo-frontend-primary: mat.define-palette($icargo-blue-palette);
 $icargo-frontend-accent: mat.define-palette($icargo-accent-palette, A200, A100, A400);
-
 // The warn palette is optional (defaults to red).
 $icargo-frontend-warn: mat.define-palette(mat.$red-palette);
+$icargo-black-color-palette: mat.define-palette($icargo-black-palette);
+$app-blugrey-color-config: mat.get-color-config(mat.$blue-gray-palette);
+
+$custom-typography: mat.define-typography-config(
+  $font-family: 'Roboto|sans-serif',
+);
+
+// fuentes de google
+// https://fonts.google.com/specimen/Roboto?hl=es-419&preview.text=CLIENTES
+// configuracion tipografia del aplicativo y por componente
+// https://v12.material.angular.io/guide/typography
+// Info de referencia de estandares usado en material UI
+// https://m1.material.io/style/typography.html#typography-styles
+
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -27,14 +40,30 @@ $icargo-frontend-theme: mat.define-light-theme((
     primary: $icargo-frontend-primary,
     accent: $icargo-frontend-accent,
     warn: $icargo-frontend-warn,
-  )
+    test:$app-blugrey-color-config,
+  ),
+  typography: $custom-typography,
 ));
-
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include mat.all-component-themes($icargo-frontend-theme);
 
+// colores predefinios en material ui 12
+// https://m1.material.io/style/color.html#color-color-palette
+// Definimos colores basicos a usar
+$app-green-color-config:    mat.get-color-config(mat.$green-palette);
+$app-black-color-config:    mat.get-color-config($icargo-black-color-palette);
+$app-orange-color-config:    mat.get-color-config(mat.$orange-palette);
+$app-grey-color-config:    mat.get-color-config(mat.$grey-palette);
+
+
+:root {
+  --color-green: #{mat.get-color-from-palette($app-green-color-config, 500)};
+  --color-black: #{mat.get-color-from-palette($app-black-color-config, 500)};
+  --color-orange: #{mat.get-color-from-palette($app-orange-color-config, 500)};
+  --color-grey: #{mat.get-color-from-palette($app-grey-color-config, 500)};
+}
 /* You can add global styles to this file, and also import other style files */
 
 ::-webkit-scrollbar {
@@ -67,6 +96,7 @@ html body {
   }
 }
 
+/* estilos generales dialogs */
 .full-dialog {
   width: unset !important;
 }
@@ -99,6 +129,8 @@ h1.mat-dialog-title {
   }
 }
 
+/* estilos generales dialogs */
+
 .col, .col-auto {
   min-height: 1px;
   padding-right: 15px;
@@ -121,80 +153,251 @@ h1.mat-dialog-title {
   width: 100%;
 }
 
-.input-style {
-  cursor: pointer;
-  line-height: 3;
-  border-block-end: 1px solid;
-}
-
-.mat-form-field {
-  width: 100%;
-}
-
 .spacer {
   flex: 1 1 auto;
 }
 
-.text-center {
-  text-align: center;
+
+/* estilo gral inputs */
+.input-form-full {
+  .mat-form-field {
+    width: 100%;
+  }
+
+  margin: 0;
+
+  .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button {
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-icon-button{
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-form-field-error {
+    font-size: 12px;
+    font-weight: bold;
+    color:red;
+  }
+
+  .mat-form-field-wrapper {
+    margin: 0px 0;
+    padding-bottom: 15px;
+  }
+
+  .mat-form-field-hint-spacer {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .mat-form-field-infix {
+    padding: 8px 0 4px 0;
+    border-top: 5px;
+  }
+
+  .required {
+    color:red;
+  }
+
 }
 
-.pa-0 {
-  padding: 0;
+.full-form-field {
+  .mat-form-field {
+    width: 100%;
+  }
 }
 
-.pl-0 {
-  padding-left: 0;
+.input-form  {
+  margin: 0;
+
+  .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button {
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-icon-button{
+    height: 20px;
+    width: 20px;
+  }
+
+  .mat-form-field-error {
+    font-size: 12px;
+    font-weight: bold;
+    color:red;
+  }
+
+  .mat-form-field-wrapper {
+    margin: 0px 0;
+    padding-bottom: 15px;
+  }
+
+  .mat-form-field-hint-spacer {
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .mat-form-field-infix {
+    padding: 8px 0 4px 0;
+    border-top: 5px;
+  }
+
+  .required {
+    color:red;
+  }
+
 }
 
-.pr-0 {
-  padding-right: 0;
+/* estilo gral inputs */
+
+/* estilo gral botones */
+.botones {
+  &.mat-button,
+  &.mat-stroked-button {
+    border-radius: 5.25px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  &.mat-button,
+  &.mat-flat-button {
+    border-radius: 5.25px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  &.mat-button,
+  &.mat-mini-fab {
+    width: 30px;
+    height: 30px;
+  }
+
+  &.mat-button,
+  &.mat-mini-fab,
+  &.mat-mini-fab .mat-button-wrapper {
+    padding: 3px 0;
+    line-height: 0;
+  }
+
+  &.mat-button,
+  &.mat-raised-button {
+    border-radius: 5.25px;
+    padding: 0 10px;
+    height: 30px;
+    line-height: 30px;
+  }
+
+  font-size: 12px;
+  letter-spacing: 1px;
+  margin-right: 8px;
+
+  mat-icon{
+    font-size: 20px;
+    //font-weight: bold;
+    //border-radius: 90%;
+    //padding-top: 2px;
+  }
+
+  &.boton-descarga {
+    mat-icon{
+      color: var(--color-green);
+    }
+  }
+
 }
+/* estilo gral botones */
+
+/* page form components */
 
 .page {
-  padding: 1rem;
-}
+  background-color: white;
+  margin: 0.5em;
+  padding: 0.5em;
+  border-radius: 10px;
 
-.page-title {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1rem;
+  hr {
+    height: 0.5px;
+    background-color: orange;
+    border: orange;
+  }
 
-  .title {
-    font-size: 10px;
-    @media (min-width: 399px) {
-      font-size: 12px;
-    }
-    @media (min-width: 499px) {
-      font-size: 14px;
-    }
-    @media (min-width: 599px) {
-      font-size: 1rem;
-    }
-  }
-}
-
-.page-title-buttons {
-  button {
-    margin-bottom: 5px;
-    margin-right: 5px;
-  }
-  button:last-of-type {
-    margin-right: 0;
-  }
-  @media screen and (min-width: 780px) {
-    button {
-      margin-bottom: 0;
-      margin-right: 1rem;
+  .section {
+    h2 {
+      margin: 0 0 15px 0;
+      font-size: 13px;
+      font-weight: 530;
+      line-height: 16.41px;
+      color: #007acc;
+      border-bottom: 1px solid #007acc;
+      width: 100%;
     }
   }
 }
 
 .page-content {
-  background-color: white;
   border-radius: 10px;
 }
+
+.page-title {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+
+  .title {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 14.06px;
+    letter-spacing: 0.06em;
+  }
+
+  .page-title-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 10px;
+  }
+
+}
+
+.page-form-component {
+  background-color: white;
+  margin: 0.5em;
+  padding: 0.5em;
+  border-radius: 10px;
+
+  .page-content {
+    //max-height: calc(100vh - 155px);
+    //overflow: auto;
+
+    hr {
+      height: 0.5px;
+      background-color: orange;
+      border: orange;
+    }
+
+    .page-form-container {
+      margin-bottom: 0;
+      padding-bottom: 0px;
+      overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
+    }
+
+    .section {
+      h2 {
+        margin: 0 0 15px 0;
+        font-size: 13px;
+        font-weight: 530;
+        line-height: 16.41px;
+        color: #007acc;
+        border-bottom: 1px solid #007acc;
+        width: 100%;
+      }
+    }
+  }
+}
+
 
 .page-form-row {
   margin-left: 1rem;
@@ -206,15 +409,6 @@ h1.mat-dialog-title {
   }
 }
 
-.buttons {
-  display: flex;
-  justify-content: space-between;
-  padding-top: 1rem;
-}
-
-.button-in-form {
-  margin-top: 10px;
-}
 
 .search {
   width: 100%;
@@ -258,7 +452,6 @@ h1.mat-dialog-title {
     width: 50%;
   }
 }
-
 
 
 .table-container {
@@ -322,24 +515,31 @@ h1.mat-dialog-title {
   padding-left: 0;
 }
 
-.mat-radio-button ~ .mat-radio-button {
-  margin-left: 16px;
-  margin-bottom: 1rem;
-}
-
-
 .alerta {
   color: red;
 }
 
-.formulario-center {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
-  background: #f7f7f7;
 
-  h2 {
-    margin: 0 16px;
-  }
+
+/* estilos deprecados */
+.input-style {
+  cursor: pointer;
+  line-height: 3;
+  border-block-end: 1px solid;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.pa-0 {
+  padding: 0;
+}
+
+.pl-0 {
+  padding-left: 0;
+}
+
+.pr-0 {
+  padding-right: 0;
 }

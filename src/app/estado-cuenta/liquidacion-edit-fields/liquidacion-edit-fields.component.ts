@@ -21,6 +21,7 @@ import { SaldoComponent } from '../saldo/saldo.component';
 import { editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confirmada-form-facturas/liquidacion-confirmada-form-facturas.component';
+import { Factura } from 'src/app/interfaces/factura';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
@@ -95,6 +96,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
     return this.item?.instrumentos ?? [];
   }
 
+  get facturas(): Factura[] {
+    return this.item?.facturas ?? [];
+  }
+
   get residuo(): number {
     return this.item?.saldo_residual ?? 0;
   }
@@ -112,6 +117,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
 
   get tipoContrapartePDV():boolean{
     return (this.estadoCuenta ? this.estadoCuenta.tipo_contraparte_descripcion.includes("PDV") : false);
+  }
+
+  get pago_cobro_abs():number {
+    return Math.abs(this.item!.pago_cobro!);
   }
 
   constructor(

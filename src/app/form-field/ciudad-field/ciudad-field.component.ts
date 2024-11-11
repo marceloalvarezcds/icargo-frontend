@@ -33,6 +33,8 @@ export class CiudadFieldComponent {
   @Input() controlName = 'ciudad';
   @Input() groupName = '';
   @Input() title = 'Ciudad';
+  @Input() requerido = false;
 
   constructor(private ciudadService: CiudadService) { }
+
 }

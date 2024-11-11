@@ -1,7 +1,4 @@
-<div class="col-xs-12 col-sm-10 col-md-10 col-lg-10">
-
   <app-page
-    class="estado-cuenta-page"
     submodule="Todas las CUENTAS CORRIENTES"
     [modelo]="m.MOVIMIENTO"
     (applyClick)="applyFilter()"
@@ -37,6 +34,7 @@
         </mat-expansion-panel>
       </mat-accordion>
     </div>
+
     <mat-chip-list filterValues>
       <ng-container *ngIf="isFiltered">Filtros:</ng-container>
       <ng-container *ngIf="isFilteredByProducto">
@@ -49,20 +47,15 @@
       </ng-container>
     </mat-chip-list>
 
-
-
-
-        <app-table-paginator
-          [columns]="columns"
-          [data]="list"
-          [filterPredicate]="filterPredicate"
-          [modelo]="m.MOVIMIENTO"
-          [hideDelete]="true"
-          [hideEdit]="true"
-          [hideShow]="true"
-          [shouldBeShowFooter]="true"
-      ></app-table-paginator>
+    <app-table-paginator
+        [columns]="columns"
+        [data]="list"
+        [filterPredicate]="filterPredicate"
+        [modelo]="m.MOVIMIENTO"
+        [hideDelete]="true"
+        [hideEdit]="true"
+        [hideShow]="true"
+        [shouldBeShowFooter]="true"
+    ></app-table-paginator>
 
   </app-page>
-
-</div>

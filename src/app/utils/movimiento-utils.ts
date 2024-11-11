@@ -21,7 +21,7 @@ function getDialogRef(
   dialog: MatDialog,
   data: MovimientoFormDialogData
 ): MatDialogRef<MovimientoFormDialogComponent, Movimiento> {
-  return dialog.open(MovimientoFormDialogComponent, { data });
+  return dialog.open(MovimientoFormDialogComponent, { data, panelClass: 'half-dialog',});
 }
 
 export function createMovimiento(

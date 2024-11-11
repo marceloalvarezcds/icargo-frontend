@@ -1,58 +1,55 @@
 <ng-container *ngIf="form">
+
   <div [formGroup]="form">
+
     <div [formGroupName]="groupName">
-      <div class="row page-form-row">
+
+      <div class="row">
+
         <h3 class="col-xs-12">Automotor</h3>
 
-        <div class="col-xs-12 d-flex align-items-center mb1">
-          <label class="form-label mr-2">Ente Emisor</label>
-          <app-ente-emisor-automotor-field
-            [groupName]="groupName"
-            controlName="ente_emisor_automotor_id"
-            [form]="form"
-            class="app-input-field"
-          ></app-ente-emisor-automotor-field>
-        </div>
+        <app-ente-emisor-automotor-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Ente Emisor"
+          [groupName]="groupName"
+          controlName="ente_emisor_automotor_id"
+          [form]="form"
+        ></app-ente-emisor-automotor-field>
 
-        <div class="col-xs-12 d-flex align-items-center mb1">
-          <label class="form-label mr-2">Titular</label>
-          <app-input-field
-            [groupName]="groupName"
-            controlName="titular_habilitacion_automotor"
-            [form]="form"
-            class="app-input-field"
-          ></app-input-field>
-        </div>
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Titular"
+          [groupName]="groupName"
+          controlName="titular_habilitacion_automotor"
+          [form]="form"
+        ></app-input-field>
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Foto del registro - frontal"
+          [groupName]="groupName"
+          controlName="foto_habilitacion_automotor_frente"
+          [field]="fotoFrente"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoFrenteChange.emit($event)"
+        ></app-file-field-input>
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Foto del registro - reverso"
+          [groupName]="groupName"
+          controlName="foto_habilitacion_automotor_reverso"
+          [field]="fotoReverso"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoReversoChange.emit($event)"
+        ></app-file-field-input>
+
       </div>
 
-      <div class="row page-form-row">
-        <div class="col-xs-12 d-flex align-items-center mb-1" style="margin-top: -20px;">
-          <div class="col-sm-6">
-            <app-file-field-input
-              title="Foto del registro - frontal"
-              [groupName]="groupName"
-              controlName="foto_habilitacion_automotor_frente"
-              [field]="fotoFrente"
-              [form]="form"
-              [isEdit]="isEdit"
-              [isShow]="isShow"
-              (fileChange)="fotoFrenteChange.emit($event)"
-            ></app-file-field-input>
-          </div>
-          <div class="col-sm-6">
-            <app-file-field-input
-              title="Foto del registro - reverso"
-              [groupName]="groupName"
-              controlName="foto_habilitacion_automotor_reverso"
-              [field]="fotoReverso"
-              [form]="form"
-              [isEdit]="isEdit"
-              [isShow]="isShow"
-              (fileChange)="fotoReversoChange.emit($event)"
-            ></app-file-field-input>
-          </div>
-        </div>
-      </div>      
     </div>
   </div>
 </ng-container>

@@ -1,82 +1,93 @@
 <ng-container *ngIf="form">
-  <div *ngIf="control" [formGroup]="form" class="field-content">
-    <ng-container *ngIf="groupName">
-      <label class="form-label mr-2">{{ title }}</label>
-      <mat-form-field [formGroupName]="groupName"       
-      [ngClass]="{ 
-        'comprobante-anticipo-input' :controlName === 'numero_comprobante', 
-        'complemento-detalle-input' :controlName  === 'detalle' }">
-        
-        <input
-          matInput
-          [value]="rowValue"
-          [disabled]="readonly"
-          *ngIf="readonly"
-        />
-        <input
-          matInput
-          [autocomplete]="autocomplete"
-          [formControlName]="controlName"
-          [appFormatToPasteNumber]="formatToPasteNumber"
-          [appFormatToPastePhone]="formatToPastePhone"
-          [appAutofocus]="autofocus"
-          [hidden]="readonly"
-          
-        />
-        <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
-        <mat-error *ngIf="control.hasError('maxlength')">
-          Hasta
-          <strong>
-            {{ control.getError("maxlength").requiredLength | numberFormat }}
-            caracteres
-          </strong>
-        </mat-error>
-        <mat-error *ngIf="control.hasError('required')">
-          Este campo es <strong>requerido</strong>
-        </mat-error>
-        <mat-error *ngIf="control.hasError('email')">
-          El email no es <strong>válido</strong>
-        </mat-error>
-      </mat-form-field>
-    </ng-container>
-    <ng-container *ngIf="!groupName">
-      <label class="form-label mr-2">{{ title }}</label>
-      <mat-form-field   
-      [ngClass]="{ 
-        'comprobante-anticipo-input' :controlName === 'numero_comprobante' ||
-                                      controlName === 'numero_documento',
-        'complemento-detalle-input' :controlName  === 'detalle'  }">
-       
-        <input
-          matInput
-          [value]="rowValue"
-          [disabled]="readonly"
-          *ngIf="readonly"
-        />
-        <input
-          matInput
-          [autocomplete]="autocomplete"
-          [formControlName]="controlName"
-          [appAutofocus]="autofocus"
-          [hidden]="readonly"
-          [appFormatToPasteNumber]="formatToPasteNumber"
-          [appFormatToPastePhone]="formatToPastePhone"
-        />
-        <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
-        <mat-error *ngIf="control.hasError('maxlength')">
-          Hasta
-          <strong>
-            {{ control.getError("maxlength").requiredLength | numberFormat }}
-            caracteres
-          </strong>
-        </mat-error>
-        <mat-error *ngIf="control.hasError('required')">
-          Este campo es <strong>requerido</strong>
-        </mat-error>
-        <mat-error *ngIf="control.hasError('email')">
-          El email no es <strong>válido</strong>
-        </mat-error>
-      </mat-form-field>
-    </ng-container>
+
+    <div *ngIf="control" [formGroup]="form" >
+
+      <ng-container *ngIf="groupName">
+
+        <mat-label class="custom-label">
+          <span *ngIf="requerido" class="required">(*) </span>
+          {{ title }}
+        </mat-label>
+
+        <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
+          <input
+            matInput
+            [value]="rowValue"
+            [disabled]="readonly"
+            *ngIf="readonly"
+          />
+          <input
+            matInput
+            [autocomplete]="autocomplete"
+            [formControlName]="controlName"
+            [appFormatToPasteNumber]="formatToPasteNumber"
+            [appFormatToPastePhone]="formatToPastePhone"
+            [appAutofocus]="autofocus"
+            [hidden]="readonly"
+
+          />
+
+          <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
+          <mat-error *ngIf="control.hasError('maxlength')">
+            Hasta
+            <strong>
+              {{ control.getError("maxlength").requiredLength | numberFormat }}
+              caracteres
+            </strong>
+          </mat-error>
+          <mat-error *ngIf="control.hasError('required')">
+            Este campo es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="control.hasError('email')">
+            El email no es <strong>válido</strong>
+          </mat-error>
+
+        </mat-form-field>
+
+      </ng-container>
+
+      <ng-container *ngIf="!groupName">
+
+        <mat-label class="custom-label">
+          <span *ngIf="requerido" class="required">(*) </span>
+          {{ title }}
+        </mat-label>
+
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput
+            [value]="rowValue"
+            [disabled]="readonly"
+            *ngIf="readonly"
+          />
+          <input
+            matInput
+            [autocomplete]="autocomplete"
+            [formControlName]="controlName"
+            [appAutofocus]="autofocus"
+            [hidden]="readonly"
+            [appFormatToPasteNumber]="formatToPasteNumber"
+            [appFormatToPastePhone]="formatToPastePhone"
+          />
+
+          <mat-hint *ngIf="hint" [innerHTML]="hint"></mat-hint>
+          <mat-error *ngIf="control.hasError('maxlength')">
+            Hasta
+            <strong>
+              {{ control.getError("maxlength").requiredLength | numberFormat }}
+              caracteres
+            </strong>
+          </mat-error>
+          <mat-error *ngIf="control.hasError('required')">
+            Este campo es <strong>requerido</strong>
+          </mat-error>
+          <mat-error *ngIf="control.hasError('email')">
+            El email no es <strong>válido</strong>
+          </mat-error>
+
+        </mat-form-field>
+
+      </ng-container>
+
   </div>
+
 </ng-container>

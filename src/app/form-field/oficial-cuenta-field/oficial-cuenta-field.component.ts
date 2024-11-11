@@ -23,6 +23,7 @@ export class OficialCuentaFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Oficial de cuenta';
+  @Input() requerido = false;
 
   constructor(private userService: UserService) { }
 }

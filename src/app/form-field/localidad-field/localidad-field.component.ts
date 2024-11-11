@@ -42,6 +42,7 @@ export class LocalidadFieldComponent implements OnDestroy {
   @Input() controlName = 'localidad';
   @Input() groupName = '';
   @Input() title = 'Localidad';
+  @Input() requerido = false;
 
   @Output() valueChange = new EventEmitter<number>();
 
