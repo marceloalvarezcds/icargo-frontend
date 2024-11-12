@@ -47,9 +47,10 @@
       ></app-page-form-contactos>
     </div>
 
-    <div *ngIf="puntoVentaModelo | puede: a.LISTAR">
-
+    <div *ngIf="puntoVentaModelo | puede: a.LISTAR" class="section">
+      <h2>PUNTO DE VENTA</h2>
       <app-punto-venta-list
+        [hideSubModule]="true"
         [proveedorId]="id"
         [isShow]="isShow"
         [backUrl]="puntoVentaBackUrl"

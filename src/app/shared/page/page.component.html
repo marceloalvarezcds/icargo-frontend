@@ -27,7 +27,7 @@
 
         <span class="title">
           {{ module }}
-          <span *ngIf="submodule" class="submodule">
+          <span *ngIf="submodule && !hideSubModule" class="submodule">
             <ng-container *ngIf="viewTitle">{{ submodule }}</ng-container>
             <ng-container *ngIf="!viewTitle">
               <strong>{{ submodule }}</strong>
@@ -163,6 +163,7 @@
           color="primary"
           matTooltip="Filtrar"
           class="botones"
+          type="button"
           *ngIf="!hideFilter"
           (click)="sidenav?.toggle()"
         >

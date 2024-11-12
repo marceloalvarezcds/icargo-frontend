@@ -1,6 +1,7 @@
 <app-page
   class="punto-venta"
-  submodule="PUNTO VENTA"
+  [submodule]="subModuleName"
+  [hideSubModule]="hideSubModule"
   [modelo]="modelo"
   (applyClick)="applyFilter()"
   (createClick)="createPuntoVenta()"

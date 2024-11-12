@@ -48,7 +48,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       nombre_corto: null,
-      //estado: [false, Validators.required],
+      estado: [false, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
@@ -166,6 +166,9 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
+      delete data.estado;
+      data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
+
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);
@@ -215,6 +218,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,
+            estado: ( data.estado === "Activo" ) ? true : false,
             numero_documento: data.numero_documento,
             digito_verificador: data.digito_verificador,
             composicion_juridica_id: data.composicion_juridica_id,
