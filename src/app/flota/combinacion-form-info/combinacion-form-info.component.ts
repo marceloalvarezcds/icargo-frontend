@@ -96,6 +96,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup;
   }
+
   get tipoPersonaId(): number | undefined {
     return this.persona ? this.persona.id : undefined;
   }
@@ -182,10 +183,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;   
   }
 
-  
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
     if (!tipoPersona || tipoPersona.id !== this.tipoPersonaAnterior?.id) {
-      // Si no hay un tipo de persona seleccionado o el tipo de persona ha cambiado, borrar el campo "ruc"
       this.info?.controls["ruc"].setValue('');
     }
   
@@ -193,8 +192,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.tipoPersona = tipoPersona;
       this.personaChange.emit(tipoPersona);
     }
-  
-    // Actualizar el valor anterior de tipoPersona
     this.tipoPersonaAnterior = tipoPersona;
   }
 

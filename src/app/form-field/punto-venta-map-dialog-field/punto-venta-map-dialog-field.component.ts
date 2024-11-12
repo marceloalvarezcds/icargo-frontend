@@ -25,7 +25,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 export class PuntoVentaMapDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
   list: PuntoVentaList[] = [];
-  subs = this.service.getListByGestor().subscribe((list) => {
+  subs = this.service.getListByGestorAndPdvActivos().subscribe((list) => {
     this.list = list;
   });
 

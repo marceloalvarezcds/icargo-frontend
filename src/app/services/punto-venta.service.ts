@@ -22,6 +22,10 @@ export class PuntoVentaService {
     return this.http.get<PuntoVentaList[]>(`${this.url}/`);
   }
 
+  getListByGestorAndPdvActivos(): Observable<PuntoVentaList[]> {
+    return this.http.get<PuntoVentaList[]>(`${this.url}/activos`);
+  }
+
   getListByInsumoIdAndProveedorId(
     insumoId: number,
     proveedorId: number

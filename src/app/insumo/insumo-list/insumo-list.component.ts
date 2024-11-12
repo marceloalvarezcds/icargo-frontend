@@ -178,6 +178,7 @@ export class InsumoListComponent implements OnInit {
     });
   }
 
+ 
 
   filterPredicate(obj: InsumoPuntoVentaPrecioList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
