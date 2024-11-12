@@ -179,6 +179,8 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
+      delete data.estado;
+      data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);
@@ -243,6 +245,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
             alias: data.gestor_carga_proveedor?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
+            estado: ( data.estado === "Activo" ) ? true : false,
             tipo_documento_id: data.tipo_documento_id,
             numero_documento: data.numero_documento,
             digito_verificador: data.digito_verificador,

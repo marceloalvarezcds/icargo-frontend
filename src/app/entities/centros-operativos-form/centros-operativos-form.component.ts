@@ -155,6 +155,8 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
+      delete data.estado;
+      data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);
@@ -208,6 +210,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
             email: data.email,
             pagina_web: data.pagina_web,
             logo: null,
+            estado: ( data.estado === "Activo" ) ? true : false,
           },
           geo: {
             ciudad_id: data.ciudad_id,
