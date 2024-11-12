@@ -166,8 +166,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       delete data.pais_id;
       delete data.localidad_id;
       delete data.estado;
-      data.estado = this.info.get('estado') ? "Activo" : "Inactivo";
-
+      data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
+      
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);
@@ -217,7 +217,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
           info: {
             alias: data.gestor_carga_remitente?.alias ?? null,
             nombre: data.nombre,
-            estado: data.estado,
+            estado: ( data.estado === "Activo" ) ? true : false,
             nombre_corto: data.nombre_corto,
             tipo_documento_id: data.tipo_documento_id,
             numero_documento: data.numero_documento,

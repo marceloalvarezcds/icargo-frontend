@@ -31,7 +31,9 @@
             [formControlName]="controlName"
             (click)="fileInput.click()"
           />
-          <button matSuffix class="mat-icon-button">
+          <button mat-icon-button matSuffix
+              color="primary" type="button"
+              (click)="fileInput.click()">
             <mat-icon>attach_file</mat-icon>
           </button>
           <mat-error *ngIf="fieldControl.hasError('required')">
@@ -72,14 +74,11 @@
           [formControlName]="controlName"
           (click)="fileInput.click()"
         />
-        <button
-          type="button"
-          color="primary"
-          matSuffix
-          mat-icon-button
-          (click)="fileInput.click()"
-        >
-        </button>
+        <button mat-icon-button matSuffix
+              color="primary" type="button"
+              (click)="fileInput.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
         <mat-error *ngIf="fieldControl.hasError('required')">
           El archivo es <strong>requerido</strong>
         </mat-error>
