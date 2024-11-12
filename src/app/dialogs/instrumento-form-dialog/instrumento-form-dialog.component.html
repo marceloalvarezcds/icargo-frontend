@@ -9,24 +9,27 @@
 
   <div mat-dialog-content>
 
-    <div class="instrumentos">
+    <div class="row">
 
-      <div id="via_buttons">
-       
-        <app-instrumento-via-field
-          [form]="form"
-          (valueChange)="via = $event"
-        ></app-instrumento-via-field>
+      <app-instrumento-via-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        [form]="form"
+        (valueChange)="via = $event"
+      ></app-instrumento-via-field>
 
-        <app-tipo-instrumento-via-banco-field
-          [hidden]="!esBanco"
-          [form]="form"
-          (valueChange)="setTipoInstrumento($event)"
-        ></app-tipo-instrumento-via-banco-field>
+      <app-tipo-instrumento-via-banco-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        [hidden]="!esBanco"
+        [form]="form"
+        (valueChange)="setTipoInstrumento($event)"
+      ></app-tipo-instrumento-via-banco-field>
 
-      </div>
+    </div>
+
+    <div class="row">
 
       <app-banco-by-gestor-dialog-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [hidden]="!esBanco"
         [form]="form"
         (valueChange)="banco = $event"
@@ -34,6 +37,7 @@
       </app-banco-by-gestor-dialog-field>
 
       <app-caja-by-gestor-dialog-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [hidden]="esBanco"
         [form]="form"
         (valueChange)="caja = $event"
@@ -41,58 +45,68 @@
       </app-caja-by-gestor-dialog-field>
 
       <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="N° Doc."
         controlName="numero_documento"
         [form]="form"
       ></app-input-field>
-      
+
       <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Monto"
         controlName="monto"
         [form]="form"
       ></app-number-field>
 
-      <app-moneda-field 
+      <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        title="Moneda"
         [form]="form">
       </app-moneda-field>
 
-      <div style="display: flex;flex-direction: row; align-items: center;">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
         <mat-label [innerHTML]="montoHint"></mat-label>
       </div>
 
       <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Fecha"
         controlName="fecha_instrumento"
         [form]="form"
       ></app-fecha-field>
 
-      <div id="cheque">
+    </div>
 
-        <div class="toggle" [hidden]="!esBanco || !esTipoCheque">
-          <mat-slide-toggle formControlName="cheque_es_diferido">
-            {{ chequeEsDiferido ? "Cheque Diferido" : "Cheque Diferido" }}
-          </mat-slide-toggle>
-        </div>
+    <div class="row">
 
-        <div [hidden]="!chequeEsDiferido">
-          <app-fecha-field
-            title="Fecha de vencimiento del cheque"
-            controlName="cheque_fecha_vencimiento"
-            [form]="form"
-          ></app-fecha-field>
-        </div>
-
+      <div class="toggle" [hidden]="!esBanco || !esTipoCheque">
+        <mat-slide-toggle formControlName="cheque_es_diferido">
+          {{ chequeEsDiferido ? "Cheque Diferido" : "Cheque Diferido" }}
+        </mat-slide-toggle>
       </div>
 
-      <app-input-field style="grid-column: span 2;"
+      <div [hidden]="!chequeEsDiferido">
+        <app-fecha-field
+          title="Fecha de vencimiento del cheque"
+          controlName="cheque_fecha_vencimiento"
+          [form]="form"
+        ></app-fecha-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Referencia"
         controlName="numero_referencia"
         [form]="form"
       ></app-input-field>
-      
-      <div style="grid-column: span 2;">
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
         <mat-label>Comentario</mat-label>
-        <mat-form-field appearance="outline">          
+        <mat-form-field appearance="outline">
           <textarea
             matInput
             formControlName="comentario"
@@ -104,9 +118,9 @@
       </div>
 
     </div>
-    
+
   </div>
-  
+
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
     <button
