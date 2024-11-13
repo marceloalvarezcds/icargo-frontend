@@ -38,56 +38,83 @@
     <div class="row page-form-row">
       <div class="column">
         <p>
-          Tarifa Flete:
-          <span class="span-like">{{ oc?.flete_tarifa | number: '1.0-0' }}</span>
+          Tarifa Flete a Pagar:
+          <span class="span-like">{{ oc?.flete_tarifa | number: '1.0-0' }}</span>Gs/Kg
         </p>
-        <p>
-          Limite Crédito Cam.:
-          <span class="span-like">{{ oc?.camion_limite_monto_anticipos ?? 0 | number: '1.0-0' }}</span>
-        </p>
-        <p>
-          Limite Crédito OC + Complem:
-          <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>
-        </p>
-        <p>
-          Limite Crédito OC(% Max Liberado x Flete Proyectado):
-          <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>
-        </p>
-      </div>
-      <div class="column">
         <p>
           Cant. Nominada:
-          <span class="span-like">{{ oc?.cantidad_nominada | number: '1.0-0' }}</span>
+          <span class="span-like">{{ oc?.cantidad_nominada | number: '1.0-0' }}</span>Kg
         </p>
         <p>
-          Anticipos Retirados Cam.:
-          <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>
+          Flete Proyectado:
+          <span class="span-like">{{ oc?.flete_proyectado | number: '1.0-0' }}</span>Gs
         </p>
         <p>
-          Monto Anticipo Retirados OC:
-          <span class="span-like">{{ oc?.total_anticipo_retirado | number: '1.0-0' }}</span>
+          Porcentaje Maximo Liberado:
+          <span class="span-like">{{ oc?.flete_anticipo_maximo | number: '1.0-0' }}</span>%
         </p>
-        <p>
-          Complem. Anticipables:
-          <span class="span-like">{{ oc?.total_anticipo_complemento | number: '1.0-0' }}</span>
+        <p style="color: red;">
+          Limite Crédito Cam.:
+          <span class="span-like" >{{ oc?.camion_limite_monto_anticipos ?? 0 | number: '1.0-0' }}</span>Gs
         </p>
       </div>
       <div class="column">
         <p>
-          Flete Proyectado:
-          <span class="span-like">{{ oc?.flete_proyectado | number: '1.0-0' }}</span>
+          Limite Crédito OC:
+          <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>Gs
         </p>
         <p>
-          Anticipos Disponible Cam.:
-          <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>
+         Total Complementos Anticipables:
+          <span class="span-like">{{ oc?.total_anticipo_complemento | number: '1.0-0' }}</span>Gs
         </p>
+       
         <p>
+          Saldo Crédito Tracto.:
+          <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>Gs
+        </p>
+        <p style="color: red;">
+          Anticipos Retirados Cam.:
+          <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>Gs
+        </p>
+        <p style="color: red;">
+          Monto Anticipo Retirados OC:
+          <span class="span-like">{{ oc?.total_anticipo_retirado | number: '1.0-0' }}</span>Gs
+        </p>
+      
+      </div>
+      <div class="column">
+     
+        <p>
+          Línea Disponible:
+          <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
+        </p>
+        <p style="color: red;">
           Monto Anticipo Disponible OC:
-          <span class="span-like">{{ oc?.total_anticipo_disponible | number: '1.0-0' }}</span>
+          <span class="span-like">{{ oc?.total_anticipo_disponible | number: '1.0-0' }}</span>Gs
         </p>
         <p>
-          % Maximo Liberado:
-          <span class="span-like">{{ oc?.flete_anticipo_maximo | number: '1.0-0' }}</span>
+          Chofer Habilitado para recibir Anticipos:
+          <span class="span-like">
+            {{ oc?.camion_chofer_puede_recibir_anticipos ? 'Si' : 'No' }}
+          </span>
+        </p>
+        <p>
+          Beneficiario Habilitado para recibir Anticipos:
+          <span class="span-like">
+            {{ oc?.camion_propietario_puede_recibir_anticipos ? 'Si' : 'No' }}
+          </span>
+        </p>
+        <p>
+          Tracto:
+          <span class="span-like">
+            {{ oc?.camion_estado}}
+          </span>
+        </p>
+        <p>
+          Semi:
+          <span class="span-like">
+            {{ oc?.semi_estado}}
+          </span>
         </p>
       </div>
     </div>
@@ -97,11 +124,11 @@
         <div class="flex-container">
           <p>
             Monto Efectivo OC:
-            <span class="span-like">{{ oc?.flete_monto_efectivo | number: '1.0-0' }}</span>
+            <span class="span-like">{{ oc?.flete_monto_efectivo | number: '1.0-0' }}</span>Gs
           </p>
           <p>
             Monto Efectivo OC + Complem.:
-            <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>
+            <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>Gs
           </p>
         </div>
       </div>
