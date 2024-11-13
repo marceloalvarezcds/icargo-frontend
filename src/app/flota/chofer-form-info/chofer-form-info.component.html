@@ -1,7 +1,9 @@
 <div [formGroup]="form" *ngIf="form">
-  <div [formGroupName]="groupName">
+  <div [formGroupName]="groupName" class="row">
 
-    <div class="row">
+    <div class="col-xs-10">
+
+      <div class="row">
 
         <app-tipo-documento-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -10,25 +12,6 @@
           controlName="tipo_documento_id"
           [form]="form"
         ></app-tipo-documento-field>
-
-        <app-pais-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="País Emisor Doc."
-          [groupName]="groupName"
-          controlName="pais_emisor_documento_id"
-          [form]="form"
-        ></app-pais-field>
-
-        <app-input-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="N. Doc."
-          [groupName]="groupName"
-          controlName="numero_documento"
-          [form]="form"
-        ></app-input-field>
-
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
-        </div>
 
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -39,19 +22,24 @@
         ></app-input-field>
 
         <app-alias-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Alias"
           [groupName]="groupName"
           [form]="form"
         ></app-alias-field>
 
-        <app-fecha-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Fecha de nacimiento"
+        <app-estado-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [estado]="estado">
+        </app-estado-field>
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="N. Doc."
           [groupName]="groupName"
-          controlName="fecha_nacimiento"
+          controlName="numero_documento"
           [form]="form"
-        ></app-fecha-field>
+        ></app-input-field>
 
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -69,98 +57,111 @@
           [form]="form"
         ></app-digito-verificador-field>
 
+        <app-fecha-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Fecha de nacimiento"
+          [groupName]="groupName"
+          controlName="fecha_nacimiento"
+          [form]="form"
+        ></app-fecha-field>
+
+      </div>
+
+      <div class="row">
+
+        <app-pais-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="País Emisor Doc."
+          [groupName]="groupName"
+          controlName="pais_emisor_documento_id"
+          [form]="form"
+        ></app-pais-field>
+
+        <app-telefono-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          style="height: 75px;"
+          title="Telefono"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-telefono-field>
+
+        <app-email-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Correo"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-email-field>
+
+        <app-oficial-cuenta-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Oficial de Cuenta"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-oficial-cuenta-field>
+
+        <app-slide
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [isShow]="isShow"
+          [control]="esPropietarioControl"
+          trueTitle="Es Propietario"
+          falseTitle="No es Propietario"
+          (valueChange)="esPropietarioChange.emit($event)"
+        ></app-slide>
+
+        <app-slide
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControl"
+          trueTitle="Puede recibir anticipos"
+          falseTitle="No puede recibir anticipos"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
+        ></app-slide>
+
+      </div>
+
     </div>
 
-    <div class="row">
+    <div class="col-xs-2">
 
-      <app-telefono-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        style="height: 75px;"
-        title="Telefono"
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Doc.frontal"
         [groupName]="groupName"
+        controlName="foto_documento_frente"
+        [field]="fotoDocumentoFrente"
         [form]="form"
-      ></app-telefono-field>
-
-      <app-email-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Mail"
-        [groupName]="groupName"
-        [form]="form"
-      ></app-email-field>
-
-      <app-oficial-cuenta-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Oficial de Cuenta"
-        [groupName]="groupName"
-        [form]="form"
-      ></app-oficial-cuenta-field>
-
-      <app-estado-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        [estado]="estado">
-      </app-estado-field>
-
-      <app-slide
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        [isEdit]="isEdit"
         [isShow]="isShow"
-        [control]="esPropietarioControl"
-        trueTitle="Es Propietario"
-        falseTitle="No es Propietario"
-        (valueChange)="esPropietarioChange.emit($event)"
-      ></app-slide>
+        (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+      ></app-file-field-input>
 
-      <app-slide
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Doc.reverso"
+        [groupName]="groupName"
+        controlName="foto_documento_reverso"
+        [field]="fotoDocumentoReverso"
+        [form]="form"
+        [isEdit]="isEdit"
         [isShow]="isShow"
-        [control]="puedeRecibirAnticiposControl"
-        trueTitle="Puede recibir anticipos"
-        falseTitle="No puede recibir anticipos"
-        (valueChange)="
-          !$event &&
-            cantidadOCConAnticiposLiberados > 0 &&
-            anticiposBloqueadosChange.emit()
-        "
-      ></app-slide>
+        (fileChange)="fotoDocumentoReversoChange.emit($event)"
+      ></app-file-field-input>
 
-    </div>
-
-    <div class="row">
-
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
-          title="Doc.frontal"
-          [groupName]="groupName"
-          controlName="foto_documento_frente"
-          [field]="fotoDocumentoFrente"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-        ></app-file-field-input>
-
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
-          title="Doc.reverso"
-          [groupName]="groupName"
-          controlName="foto_documento_reverso"
-          [field]="fotoDocumentoReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoReversoChange.emit($event)"
-        ></app-file-field-input>
-
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
-          title="Avatar"
-          [groupName]="groupName"
-          controlName="foto_perfil"
-          [field]="fotoPerfil"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoPerfilChange.emit($event)"
-        ></app-file-field-input>
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Avatar"
+        [groupName]="groupName"
+        controlName="foto_perfil"
+        [field]="fotoPerfil"
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        (fileChange)="fotoPerfilChange.emit($event)"
+      ></app-file-field-input>
 
     </div>
 

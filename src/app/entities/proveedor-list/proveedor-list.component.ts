@@ -35,19 +35,16 @@ export class ProveedorListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: ProveedorList) => element.id,
-   
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: ProveedorList) => element.estado.toUpperCase(),
-   
     },
     {
       def: 'nombre',
       title: 'Proveedor',
       value: (element: ProveedorList) => element.nombre,
-     
     },
     // {
     //   def: 'nombre_corto',
@@ -55,14 +52,14 @@ export class ProveedorListComponent implements OnInit {
     //   value: (element: ProveedorList) => element.nombre_corto,
     // },
     {
-      def: 'tipo_documento',
-      title: 'Tipo Doc',
-      value: (element: ProveedorList) => element.tipo_documento_descripcion,
-    },
-    {
       def: 'numero_documento',
       title: 'Nº de Doc.',
       value: (element: ProveedorList) => element.numero_documento,
+    },
+    {
+      def: 'tipo_documento',
+      title: 'Tipo Doc',
+      value: (element: ProveedorList) => element.tipo_documento_descripcion,
     },
     {
       def: 'composicion_juridica',
@@ -157,12 +154,12 @@ export class ProveedorListComponent implements OnInit {
     const url = `/entities/${m.PROVEEDOR}/${a.CREAR}`;
     window.open(url, '_blank');
   }
-  
+
   redirectToEdit(event: TableEvent<ProveedorList>): void {
     const url = `/entities/${m.PROVEEDOR}/${a.EDITAR}/${event.row.id}`;
     window.open(url, '_blank');
   }
-  
+
   redirectToShow(event: TableEvent<ProveedorList>): void {
     const url = `/entities/${m.PROVEEDOR}/${a.VER}/${event.row.id}`;
     window.open(url, '_blank');

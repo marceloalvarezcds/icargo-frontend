@@ -10,7 +10,7 @@
 
         <!-- Campo Ente Emisor -->
         <app-ente-emisor-transporte-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Ente Emisor"
           [groupName]="groupName"
           controlName="ente_emisor_transporte_id"
@@ -18,7 +18,7 @@
         ></app-ente-emisor-transporte-field>
 
         <!-- Campo Número de Habilitación -->
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
           <label class="form-label mr-2">N° Habilitación</label>
           <mat-form-field appearance="outline">
             <input matInput [formControlName]="'numero_habilitacion_transporte'" />
@@ -27,20 +27,15 @@
 
         <!-- Campo Fecha de Vencimiento -->
         <app-fecha-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Fecha de vencimiento"
           [groupName]="groupName"
           controlName="vencimiento_habilitacion_transporte"
           [form]="form"
         ></app-fecha-field>
 
-      </div>
-
-      <!-- Fila para las fotos -->
-      <div class="row">
-
         <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Foto de la habilitación - frontal"
           [groupName]="groupName"
           controlName="foto_habilitacion_transporte_frente"
@@ -52,7 +47,7 @@
         ></app-file-field-input>
 
         <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Foto de la habilitación - reverso"
           [groupName]="groupName"
           controlName="foto_habilitacion_transporte_reverso"
