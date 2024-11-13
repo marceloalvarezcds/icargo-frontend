@@ -7,6 +7,7 @@ import {
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { BancoFormComponent } from './banco-form/banco-form.component';
 import { BancoListComponent } from './banco-list/banco-list.component';
+import { BancoFormInstrumentosComponent } from './banco-form-instrumentos/banco-form-instrumentos.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,16 @@ const routes: Routes = [
         component: BancoFormComponent,
         canActivate: [PermisoGuard],
       },
+      {
+        path: m.MOVIMIENTO,
+        children: [
+          {
+            path: `${a.LISTAR}/:id`,
+            component: BancoFormInstrumentosComponent,
+            canActivate: [PermisoGuard],
+          },
+        ]
+      }
     ],
   },
 ];

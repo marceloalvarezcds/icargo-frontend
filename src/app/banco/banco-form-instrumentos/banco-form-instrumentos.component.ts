@@ -1,22 +1,56 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { OperacionEstadoEnum } from 'src/app/enums/operacion-estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { Banco } from 'src/app/interfaces/banco';
 import { Column } from 'src/app/interfaces/column';
 import { Instrumento } from 'src/app/interfaces/instrumento';
+import { BancoService } from 'src/app/services/banco.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { InstrumentoService } from 'src/app/services/instrumento.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-banco-form-instrumentos',
   templateUrl: './banco-form-instrumentos.component.html',
   styleUrls: ['./banco-form-instrumentos.component.scss'],
 })
-export class BancoFormInstrumentosComponent {
+export class BancoFormInstrumentosComponent implements OnInit {
+
   a = a;
   m = m;
+  id!: number;
+  isShow = false;
+  backUrl = `/banco/${m.BANCO}/${a.LISTAR}`;
+  modelo = m.BANCO;
+  item?: Banco;
+  hasChange = false;
+
+  form = this.fb.group({
+    numero_cuenta: [null],
+    titular: [null],
+    nombre: [null],
+    moneda_id: [null],
+    credito: null,
+    debito: null,
+    saldo_provisional: null
+  })
+
+  initialFormValue = this.form.value;
+
+  get gestorCargaId(): number | undefined {
+    return this.item?.gestor_carga_id;
+  }
+
+  get list(): Instrumento[]{
+    return this.item!.instrumentos;
+  }
+
   columns: Column[] = [
     {
       def: 'id',
@@ -147,8 +181,66 @@ export class BancoFormInstrumentosComponent {
     },
   ];
 
-  @Input() list: Instrumento[] = [];
-  @Output() instrumentosChange = new EventEmitter();
+  constructor(
+    private fb: FormBuilder,
+    private route: ActivatedRoute,
+    private router: Router,
+    private snackbar: SnackbarService,
+    private bancoService: BancoService,
+    private userService: UserService,
+    private dialog: DialogService,
+    private instrumentoService: InstrumentoService
+  ) {}
+
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  back(confirmed: boolean): void {
+    if (confirmed) {
+      this.submit(confirmed);
+    } else {
+      this.router.navigate([this.backUrl]);
+    }
+  }
+
+  submit(confirmed: boolean): void {
+  }
+
+  getData(): void {
+    const backUrl = this.route.snapshot.queryParams.backUrl;
+    if (backUrl) {
+      this.backUrl = backUrl;
+    }
+    this.id = +this.route.snapshot.params.id;
+    if (this.id) {
+      this.isShow = true;
+      this.bancoService.getById(this.id).subscribe((data) => {
+        this.item = data;
+        this.form.patchValue({
+          numero_cuenta: data.numero_cuenta,
+          titular: data.titular,
+          nombre: data.nombre,
+          moneda_id: data.moneda_id,
+          credito: data.credito,
+          debito: data.debito
+        });
+        this.calcularTotales();
+        this.form.disable();
+        setTimeout(() => {
+          this.hasChange = false;
+          this.initialFormValue = this.form.value;
+        }, 500);
+      });
+    }
+  }
+
+  calcularTotales(): void {
+    const totalPendiente = this.item?.instrumentos.reduce((acc, cur) => acc + cur.provision, 0);
+    this.form.patchValue({
+      saldo_provisional: totalPendiente
+    });
+  }
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -158,11 +250,6 @@ export class BancoFormInstrumentosComponent {
     return `${day}-${month}-${year}`;
   }
 
-  constructor(
-    private dialog: DialogService,
-    private instrumentoService: InstrumentoService
-  ) {}
-
   private confirmar(instrumento: Instrumento): void {
     const id = instrumento.id;
     const message = `¿Está seguro que desea Confirmar el instrumento Nº ${id}?`;
@@ -170,7 +257,7 @@ export class BancoFormInstrumentosComponent {
       message,
       this.instrumentoService.confirmar(id),
       () => {
-        this.instrumentosChange.emit();
+        this.getData();
       }
     );
   }
@@ -182,7 +269,7 @@ export class BancoFormInstrumentosComponent {
       message,
       this.instrumentoService.rechazar(id),
       () => {
-        this.instrumentosChange.emit();
+        this.getData();
       }
     );
   }

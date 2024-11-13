@@ -12,13 +12,13 @@
     <div class="row">
 
       <app-instrumento-via-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [form]="form"
         (valueChange)="via = $event"
       ></app-instrumento-via-field>
 
       <app-tipo-instrumento-via-banco-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [hidden]="!esBanco"
         [form]="form"
         (valueChange)="setTipoInstrumento($event)"
@@ -29,7 +29,7 @@
     <div class="row">
 
       <app-banco-by-gestor-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [hidden]="!esBanco"
         [form]="form"
         (valueChange)="banco = $event"
@@ -37,7 +37,7 @@
       </app-banco-by-gestor-dialog-field>
 
       <app-caja-by-gestor-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [hidden]="esBanco"
         [form]="form"
         (valueChange)="caja = $event"
@@ -45,31 +45,31 @@
       </app-caja-by-gestor-dialog-field>
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="N° Doc."
         controlName="numero_documento"
         [form]="form"
       ></app-input-field>
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Monto"
         controlName="monto"
         [form]="form"
       ></app-number-field>
 
       <app-moneda-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
         [form]="form">
       </app-moneda-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
         <mat-label [innerHTML]="montoHint"></mat-label>
       </div>
 
       <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Fecha"
         controlName="fecha_instrumento"
         [form]="form"
@@ -79,32 +79,32 @@
 
     <div class="row">
 
-      <div class="toggle" [hidden]="!esBanco || !esTipoCheque">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-5" [hidden]="!esBanco || !esTipoCheque">
         <mat-slide-toggle formControlName="cheque_es_diferido">
           {{ chequeEsDiferido ? "Cheque Diferido" : "Cheque Diferido" }}
         </mat-slide-toggle>
       </div>
 
-      <div [hidden]="!chequeEsDiferido">
-        <app-fecha-field
-          title="Fecha de vencimiento del cheque"
-          controlName="cheque_fecha_vencimiento"
-          [form]="form"
-        ></app-fecha-field>
-      </div>
+      <app-fecha-field
+        [hidden]="!chequeEsDiferido"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
+        title="Fecha de vencimiento del cheque"
+        controlName="cheque_fecha_vencimiento"
+        [form]="form"
+      ></app-fecha-field>
 
     </div>
 
     <div class="row">
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-10"
         title="Referencia"
         controlName="numero_referencia"
         [form]="form"
       ></app-input-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-10">
         <mat-label>Comentario</mat-label>
         <mat-form-field appearance="outline">
           <textarea

@@ -7,6 +7,7 @@ import {
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { CajaFormComponent } from './caja-form/caja-form.component';
 import { CajaListComponent } from './caja-list/caja-list.component';
+import { CajaFormInstrumentosComponent } from './caja-form-instrumentos/caja-form-instrumentos.component';
 
 const routes: Routes = [
   {
@@ -37,6 +38,16 @@ const routes: Routes = [
         component: CajaFormComponent,
         canActivate: [PermisoGuard],
       },
+      {
+        path: m.MOVIMIENTO,
+        children: [
+          {
+            path: `${a.LISTAR}/:id`,
+            component: CajaFormInstrumentosComponent,
+            canActivate: [PermisoGuard],
+          },
+        ]
+      }
     ],
   },
 ];

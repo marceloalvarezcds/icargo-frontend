@@ -33,13 +33,13 @@ export class BancoListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: Banco) => element.id,
-     
+
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: Banco) => element.estado.toUpperCase(),
-     
+
     },
     {
       def: 'nombre',
@@ -50,7 +50,7 @@ export class BancoListComponent implements OnInit {
       def: 'moneda_nombre',
       title: 'Moneda',
       value: (element: Banco) => element.moneda_nombre,
-    },    
+    },
     {
       def: 'numero_cuenta',
       title: 'Nº de Cuenta',
@@ -79,7 +79,7 @@ export class BancoListComponent implements OnInit {
       value: (element: Banco) => element.saldo_confirmado,
       type: 'number',
     },
- 
+
     {
       def: 'created_by',
       title: 'Usuario',
@@ -169,7 +169,12 @@ export class BancoListComponent implements OnInit {
   redirectToShow(event: TableEvent<Banco>): void {
     const url = `/banco/${m.BANCO}/${a.VER}/${event.row.id}`;
     window.open(url, '_blank');
-  }  
+  }
+
+  redirectToShowMovimientos(event: TableEvent<Banco>): void {
+    const url = `/banco/${m.BANCO}/${m.MOVIMIENTO}/${a.LISTAR}/${event.row.id}`;
+    window.open(url, '_blank');
+  }
 
   deleteRow({ row }: TableEvent<Banco>): void {
     const message = `¿Está seguro que desea eliminar la banco ${row.numero_cuenta}?`;

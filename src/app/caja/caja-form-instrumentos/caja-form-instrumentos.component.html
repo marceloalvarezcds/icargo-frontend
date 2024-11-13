@@ -1,11 +1,88 @@
-<div class="row page-form-row">
-  <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
-    <app-table
-      [disableSort]="true"
-      [hideShow]="true"
-      [isShow]="true"
-      [columns]="columns"
-      [data]="list"
-    ></app-table>
+
+<app-page-form
+  class="caja-page"
+  module="Caja & Banco"
+  submodule="Caja"
+  viewTitle="{{ 'Ver' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="false"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  [hideEditButton]="true"
+  (backClick)="back($event)"
+>
+  <div class="page-form-container">
+
+    <div class="row">
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <app-input-field
+          title="Nombre"
+          controlName="nombre"
+          [readonly]="true"
+          [form]="form"
+        ></app-input-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <app-moneda-field
+          [title]="'Moneda'"
+          [readonly]="true"
+          controlName="moneda_id"
+          [form]="form">
+        </app-moneda-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <app-number-field
+          title="Ingresos"
+          controlName="credito"
+          [form]="form"
+          [readonly]="true"
+        ></app-number-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <app-number-field
+          title="Egresos"
+          controlName="debito"
+          [form]="form"
+          [readonly]="true"
+        ></app-number-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <app-number-field
+          title="Saldo"
+          controlName="saldo_confirmado"
+          [form]="form"
+          [readonly]="true"
+        ></app-number-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 table-container">
+        <app-table
+          [disableSort]="true"
+          [hideShow]="true"
+          [isShow]="true"
+          [columns]="columns"
+          [data]="list"
+        ></app-table>
+      </div>
+    </div>
+
   </div>
-</div>
+
+</app-page-form>
+
+
+

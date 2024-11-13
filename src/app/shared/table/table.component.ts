@@ -97,6 +97,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
   @Input() noCheckGestorCuentaId = false;
+  @Input() showBtnMovimientos = false;
   @Input() modelo?: PermisoModeloEnum;
 
   @Output() activeClick = new EventEmitter<TableEvent<T>>();
@@ -106,6 +107,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Output() showClick = new EventEmitter<TableEvent<T>>();
   @Output() allCheckedChange = new EventEmitter<boolean>();
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<T>>();
+  // TODO: los botones nuevos debe pasarse por parametro
+  @Output() showClickDos = new EventEmitter<TableEvent<T>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;

@@ -33,13 +33,13 @@ export class CajaListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: Caja) => element.id,
-     
+
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: Caja) => element.estado.toUpperCase(),
-      
+
     },
     {
       def: 'nombre',
@@ -158,6 +158,11 @@ export class CajaListComponent implements OnInit {
 
   redirectToShow(event: TableEvent<Caja>): void {
     const url = `/caja/${m.CAJA}/${a.VER}/${event.row.id}`;
+    window.open(url, '_blank');
+  }
+
+  redirectToShowMovimientos(event: TableEvent<Caja>): void {
+    const url = `/caja/${m.CAJA}/${m.MOVIMIENTO}/${a.LISTAR}/${event.row.id}`;
     window.open(url, '_blank');
   }
 

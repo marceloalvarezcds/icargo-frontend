@@ -51,7 +51,7 @@
 
     </div>
 
-    <ng-container *ngIf="item">
+    <ng-container *ngIf="false">
       <div class="row">
 
         <app-number-field
@@ -83,7 +83,7 @@
           <mat-form-field floatLabel="always" appearance="outline">
             <input
               matInput
-              [value]="item.saldo_confirmado"
+              [value]="item?.saldo_confirmado"
               appInputThousandsSeparator
               disabled
             />
@@ -95,7 +95,7 @@
           <mat-form-field floatLabel="always" appearance="outline">
             <input
               matInput
-              [value]="item.saldo_provisional"
+              [value]="item?.saldo_provisional"
               appInputThousandsSeparator
               disabled
             />
@@ -103,13 +103,6 @@
         </div>
 
       </div>
-    </ng-container>
-
-    <ng-container *ngIf="item">
-      <app-banco-form-instrumentos
-        [list]="item.instrumentos"
-        (instrumentosChange)="getData()"
-      ></app-banco-form-instrumentos>
     </ng-container>
 
   </div>

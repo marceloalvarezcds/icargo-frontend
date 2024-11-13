@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
-import { Movimiento } from 'src/app/interfaces/movimiento';
+import { Movimiento, MovimientoEstadoCuenta } from 'src/app/interfaces/movimiento';
 import { getParams } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
 import { Liquidacion } from '../interfaces/liquidacion';
@@ -36,8 +36,8 @@ export class MovimientoService {
     contraparte_id: number,
     etapa?: LiquidacionEtapaEnum,
     punto_venta_id?: number,
-  ): Observable<Movimiento[]> {
-    return this.http.get<Movimiento[]>(
+  ): Observable<MovimientoEstadoCuenta[]> {
+    return this.http.get<MovimientoEstadoCuenta[]>(
       `${environment.api}/estado_cuenta/movimiento/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
     );
   }

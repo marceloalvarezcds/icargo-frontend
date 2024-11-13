@@ -23,6 +23,7 @@ export class MonedaFieldComponent {
   @Input() groupName?: string;
   @Input() requerido=false;
   @Input() title = '';
+  @Input() readonly=false;
   @Input() value: (v: Moneda) => number | string | Moneda = (v: Moneda) => v.id;
 
   @Output() valueChange = new EventEmitter<Moneda | undefined>();
