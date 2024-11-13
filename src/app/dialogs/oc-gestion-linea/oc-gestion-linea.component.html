@@ -60,14 +60,17 @@
       </div>
       <div class="column">
         <p>
-          Limite Crédito OC:
+          Limite Crédito OC(% Max Liberado x Flete Proyectado):
           <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>Gs
         </p>
         <p>
-         Total Complementos Anticipables:
+         Total Complementos Anticipados:
           <span class="span-like">{{ oc?.total_anticipo_complemento | number: '1.0-0' }}</span>Gs
         </p>
-       
+        <!-- <p>
+          Límite Crédito OC + Compl.:
+           <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>Gs
+         </p> -->
         <p>
           Saldo Crédito Tracto.:
           <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>Gs
