@@ -81,6 +81,8 @@ export class PuntoVentaListComponent {
     }
   }
 
+  @Input() subModuleName = "PUNTO VENTA";
+  @Input() hideSubModule = false;
   @Input() isShow = false;
   @Input() backUrl = '/entities/proveedor/create';
 

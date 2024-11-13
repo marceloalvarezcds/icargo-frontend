@@ -26,6 +26,8 @@ export class PageComponent {
   @Input() hideBack = true;
   @Input() hideCreate = false;
   @Input() hideFilter = false;
+  @Input() hideModule = false;
+  @Input() hideSubModule = false;
   @Input() module = '';
   @Input() submodule = '';
   @Input() viewTitle = '';
