@@ -1,5 +1,16 @@
 <div class="row">
-  <div class="table-title">Camiones</div>
+
+  <div class="col-xs-12 button-container">
+
+    <button mat-flat-button type="button"
+        class="botones" color="primary"
+        (click)="redirectToCreate()" id="add-button"
+        *ngIf="(modelo | puede: a.CREAR: gestorCuentaId)">
+      <mat-icon>add_circle</mat-icon> Camión
+    </button>
+
+  </div>
+
   <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
     <app-table
       [columns]="columns"
@@ -11,9 +22,5 @@
       (deleteClick)="deleteRow($event)"
     ></app-table>
   </div>
-  <div class="col-xs-12" [hidden]="isShow">
-    <button mat-raised-button class="outline round" color="primary" type="button" (click)="redirectToCreate()" id="add-button" *ngIf="(modelo | puede: a.CREAR: gestorCuentaId)">
-      Nuevo Camión
-    </button>
-  </div>
+
 </div>

@@ -1,11 +1,13 @@
 <div [formGroup]="form">
 
-  <div formGroupName="chofer">
+  <div formGroupName="chofer" class="row">
 
-      <div class="row">
+      <div class="col-xs-10">
+
+        <div class="row">
 
           <app-tipo-documento-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
             title="Tipo Doc."
             groupName="chofer"
             controlName="tipo_documento_id"
@@ -13,7 +15,7 @@
           ></app-tipo-documento-field>
 
           <app-pais-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
             title="País Emisor del Documento"
             groupName="chofer"
             controlName="pais_emisor_documento_id"
@@ -21,17 +23,19 @@
           ></app-pais-field>
 
           <app-input-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
             title="Número de Documento"
             groupName="chofer"
             controlName="numero_documento"
             [form]="form"
           ></app-input-field>
 
+        </div>
+
       </div>
 
       <!-- Contenedor para las fotos -->
-      <div class="row">
+      <div class="col-xs-2">
 
         <app-file-field-input
           class="input-form-full col-xs-12 col-sm-6 col-md-4"
