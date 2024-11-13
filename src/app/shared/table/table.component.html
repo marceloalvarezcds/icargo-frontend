@@ -5,7 +5,7 @@
       [matColumnDef]="column.def"
       [sticky]="column.sticky"
       [stickyEnd]="column.stickyEnd"
-      
+
     >
       <ng-container *ngIf="column.def !== 'actions'">
         <th
@@ -25,7 +25,7 @@
             (change)="setAll($event.checked)"
             (click)="$event.stopPropagation()"
           >
-            {{ column.title }} 
+            {{ column.title }}
           </mat-checkbox>
         </ng-container>
         <span *ngIf="column.type !== 'checkbox'"
@@ -81,15 +81,15 @@
                                 column.def === 'diferencia_descuento' ||
                                 column.def === 'total_anticipo_retirado' ||
                                 column.def === 'saldo_gestor_carga' ||
-                                column.def === 'saldo_propietario', 
+                                column.def === 'saldo_propietario',
             'align-right-monto':column.def === 'monto' ||
                                 column.def === 'monto_ml' ||
-                                column.def === 'movimientos_saldo' ||                   
+                                column.def === 'movimientos_saldo' ||
                                 column.def === 'instrumentos_saldo' ||
-                                column.def === 'saldo_cc' || 
-                                column.def === 'saldo_residual' || 
+                                column.def === 'saldo_cc' ||
+                                column.def === 'saldo_residual' ||
                                 column.def === 'pago_cobro',
-                                
+
             'align-right-instr':column.def === 'credito_caja_instrumento' ||
                                 column.def === 'debito_caja_instrumento' ||
                                 column.def === 'saldo_caja' ||
@@ -97,26 +97,26 @@
                                 column.def === 'debito_inst_banco'  ||
                                 column.def === 'pendiente_inst_banco' ||
                                 column.def === 'saldo_inst_banco',
-           
-            'align-right-oc':  
+
+            'align-right-oc':
                                 column.def === 'total_anticipo' ||
                                 column.def === 'total_complemento' ||
                                 column.def === 'total_disponible' ||
                                 column.def === 'total_retirado' ||
-                                column.def === 'saldo' ||                   
+                                column.def === 'saldo' ||
                                 column.def === 'created_by_anticipo' ||
                                 column.def === 'created_at_anticipo' ||
                                 column.def === 'modified_by_anticipo' ||
                                 column.def === 'modified_at_anticipo',
 
-              'align-right-porcentaje':  
+              'align-right-porcentaje':
                                 column.def === 'porcentaje'
         }"
       >
           {{ column.title }}
         </span>
       </th>
-      
+
         <td
           mat-cell
           *matCellDef="let row; let index = index"   [ngClass]="{'sticky-column': isStickyColumn(column)}"
@@ -179,7 +179,6 @@
                   <ng-container *ngIf="column.buttonIconName; else buttonText">
                     <ng-container *ngIf="column.buttonIconName(row) as iconName">
                       <button
-                      
                         type="button"
                         mat-icon-button
                         class="row-button"
@@ -194,7 +193,6 @@
                   </ng-container>
                   <ng-template #buttonText>
                     <button
-                    
                       type="button"
                       mat-raised-button
                       class="row-button"
@@ -206,7 +204,7 @@
                   </ng-template>
                 </ng-container>
               </ng-container>
-              
+
               <ng-container *ngSwitchDefault>
                 <ng-container *ngIf="column.link">
                   <ng-container
@@ -267,11 +265,10 @@
             </div>
           </mat-menu>
         </th>
-        <td 
+        <td
           mat-cell
-          *matCellDef="let row; let index = index" 
+          *matCellDef="let row; let index = index"
           [hidden]="isShow && !addShowButton"
-          
         >
           <button
             type="button"
@@ -284,7 +281,7 @@
           >
             <mat-icon>visibility</mat-icon>
           </button>
-          <button 
+          <button
             type="button"
             class="row_menu"
             mat-icon-button
@@ -354,7 +351,7 @@
                         ? undefined
                         : row.gestor_cuenta_id ||
                           row.gestor_carga_id ||
-                          gestorCuentaId)) 
+                          gestorCuentaId))
               "
             >
               <mat-icon color="primary">delete</mat-icon>
@@ -399,6 +396,20 @@
             >
               <mat-icon color="primary">toggle_on</mat-icon>
               <span>Desactivar</span>
+            </button>
+
+            <!-- TODO: la lista de opciones adicionales deberia pasarse por parametros entre componentes-->
+            <button
+              type="button"
+              mat-menu-item
+              (click)="showClickDos.emit({ row, index })"
+              *ngIf="showBtnMovimientos &&
+                (modelo | puede: a.VER)
+                "
+              [hidden]="hideShow"
+            >
+              <mat-icon color="primary">visibility</mat-icon>
+              <span>Movimientos</span>
             </button>
           </mat-menu>
         </td>

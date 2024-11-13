@@ -31,10 +31,6 @@
         <mat-checkbox color="primary" formControlName="iva_incluido"></mat-checkbox>
       </div>
 
-    </div>
-
-    <div class="row">
-
       <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Contribuyente"
@@ -59,14 +55,7 @@
 
     <div class="row">
 
-      <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Valor IVA"
-        controlName="iva"
-        [form]="form"
-      ></app-number-field>
-
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
         <fieldset [disabled]="editFormCheck" style="border:0">
           <mat-label>Movimiento IVA</mat-label>
           <mat-radio-group formControlName="sentido_mov_iva" style="display: flex;justify-content: space-around;">
@@ -76,14 +65,7 @@
         </fieldset>
       </div>
 
-      <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Valor Retencion"
-        controlName="retencion"
-        [form]="form"
-      ></app-number-field>
-
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
         <fieldset [disabled]="editFormCheck" style="border:0">
           <mat-label>Movimiento Retencion</mat-label>
           <mat-radio-group formControlName="sentido_mov_retencion" style="display: flex;justify-content: space-around;" >
@@ -92,6 +74,24 @@
           </mat-radio-group>
         </fieldset>
       </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Valor IVA"
+        controlName="iva"
+        [form]="form"
+      ></app-number-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Valor Retencion"
+        controlName="retencion"
+        [form]="form"
+      ></app-number-field>
 
     </div>
 

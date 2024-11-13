@@ -189,7 +189,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     };
     return this.dialog.open(InstrumentoFormDialogComponent, {
       data,
-      panelClass: 'full-dialog',
+      panelClass: 'half-dialog',
     });
   }
 }

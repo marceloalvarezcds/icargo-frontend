@@ -21,7 +21,7 @@
     <div class="row">
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12"
         title="Nº de Liquidación"
         controlName="liquidacion_id"
         [form]="form"
@@ -37,7 +37,7 @@
       ></app-tipo-movimiento-dialog-field> -->
 
       <app-tipo-contraparte-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [form]="form"
         [readonly]="!isContraparteEditable"
         (valueChange)="$event && tipoContraparteChange($event)"
@@ -62,6 +62,10 @@
         (emptyListChange)="openField = isOtro"
       ></app-contraparte-by-tipo-dialog-field>
 
+    </div>
+
+    <div class="row">
+
       <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Nº Doc. Contraparte"
@@ -71,12 +75,16 @@
       ></app-input-field>
 
       <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Fecha de creación"
         controlName="fecha"
         [form]="form"
         [hidden]="isEdit"
       ></app-fecha-field>
+
+    </div>
+
+    <div class="row">
 
       <mat-radio-group
         class="input-form-full col-xs-12 col-sm-6 col-md-6"
@@ -88,21 +96,25 @@
         <mat-radio-button [value]="false">Débito</mat-radio-button>
       </mat-radio-group>
 
+    </div>
+
+    <div class="row">
+
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Monto"
         controlName="monto"
         [form]="form"
       ></app-number-field>
 
       <app-moneda-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Moneda"
         [form]="form">
       </app-moneda-field>
 
       <app-estado-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         [estado]="estado">
       </app-estado-field>
 

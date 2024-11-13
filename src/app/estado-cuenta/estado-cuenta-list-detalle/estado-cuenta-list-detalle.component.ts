@@ -33,6 +33,7 @@ import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento
 import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
+import { zeroCommaTerminatedRegex } from 'src/app/utils/thousands-separator';
 
 type Filter = {
   camion_placa?: string;
@@ -282,14 +283,11 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
   etapa?: LiquidacionEtapaEnum;
   estadoCuenta?: EstadoCuenta;
-  list: Movimiento[] = [];
+  list: MovimientoEstadoCuenta[] = [];
   movimientosSelected: Movimiento[] = [];
   isFiltered = false;
 
   //filtros check
-  chapaFilterList: string[] = [];
-  chapaFiltered: string[] = [];
-
   cuentaFilterList: string[] = [];
   cuentaFiltered: string[] = [];
 
@@ -305,10 +303,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
-
-  get isFilteredByChapa(): boolean {
-    return (this.chapaFiltered.length !== this.chapaFilterList.length);
-  }
 
   get isFilteredByCuenta(): boolean {
     return (this.cuentaFiltered.length !== this.cuentaFilterList.length);
@@ -417,26 +411,23 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     }
 
-    filterPredicate(obj: Movimiento, filterJson: string): boolean {
+
+    filterPredicate(obj: MovimientoEstadoCuenta, filterJson: string): boolean {
       const filter: Filter = JSON.parse(filterJson);
 
-      const filterByChapa = filter.camion_placa?.split('|')
-          .some( (x) => obj.camion_placa.toLowerCase().indexOf(x) >= 0 ) ?? true;
-
       const filterByCuenta = filter.cuenta?.split('|')
-          .some((x) => obj.cuenta_codigo_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+          .some((x) => obj.tipo_cuenta_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
 
       const filterByConcepto = filter.concepto?.split('|')
-          .some((x) => obj.tipo_movimiento_descripcion.toLowerCase().indexOf(x) >= 0) ?? true;
+          .some((x) => obj.tipo_movimiento_concepto.toLowerCase().indexOf(x) >= 0) ?? true;
 
       const filterByDetalle = filter.tipo?.split('|')
-          .some((x) => ((obj.tipo_movimiento_descripcion === 'Anticipo') ? obj.anticipo!.concepto : obj.tipo_movimiento_descripcion).toLowerCase().indexOf(x) >= 0) ?? true;
+          .some((x) => obj.detalle.toLowerCase().indexOf(x) >= 0) ?? true;
 
       const filterByEstado = filter.estado?.split('|')
           .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
 
-
-      return filterByChapa && filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado;
+      return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado;
     }
 
     back(save: boolean): void {
@@ -447,16 +438,11 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       let filter: Filter = {};
       this.isFiltered = false;
 
-      this.chapaFiltered =this.chapaCheckboxFilter.getFilteredList();
       this.cuentaFiltered = this.cuentaCheckboxFilter.getFilteredList();
       this.conceptoFiltered = this.conceptoCheckboxFilter.getFilteredList();
       this.detalleFiltered = this.detalleCheckboxFilter.getFilteredList();
       this.estadoFiltered = this.estadoCheckboxFilter.getFilteredList();
 
-      if (this.isFilteredByChapa) {
-        filter.camion_placa = this.chapaFiltered.join('|');
-        this.isFiltered = true;
-      }
       if (this.isFilteredByCuenta) {
         filter.cuenta = this.cuentaFiltered.join('|');
         this.isFiltered = true;
@@ -659,17 +645,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         )
         .subscribe((data) => {
 
-          /*data.forEach(element =>{
-            /*element.detalleMovimiento = (
-              (element.tipo_movimiento_descripcion === 'Anticipo') ? element.anticipo?.concepto
-                : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
-                : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
-            )
-
-            element.movimiento_saldo = (element.pendiente + element.confirmado + element.finalizado);
-
-          })*/
-
           let acumulado = 0;
           let firsPendiente = false;
           data.reverse().forEach(element =>{
@@ -689,24 +664,20 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           this.movimientosSelected = [];
 
           this.createFiltersList();
-
           this.resetFilterList();
+
         });
     }
 
     createFiltersList(){
 
-      this.chapaFilterList = getFilterList(this.list,(x) => x.camion_placa);
-
-      this.cuentaFilterList = getFilterList(this.list, (x) => x.cuenta_codigo_descripcion);
-
-      this.conceptoFilterList = getFilterList(this.list, (x) => x.tipo_movimiento_descripcion);
-
-      this.detalleFilterList = getFilterList(this.list, (x) =>
-        ((x.tipo_movimiento_descripcion === 'Anticipo') ? x.anticipo?.concepto : x.tipo_movimiento_descripcion),
-      );
+      this.cuentaFilterList = getFilterList(this.list, (x) => x.tipo_cuenta_descripcion);
 
       this.estadoFilterList = getFilterList(this.list, (x) => x.estado);
+
+      this.conceptoFilterList = getFilterList(this.list, (x) => x.tipo_movimiento_concepto);
+
+      this.detalleFilterList = getFilterList(this.list, (x) => x.detalle);
 
     }
 
@@ -720,7 +691,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     private resetFilterList(): void {
       this.isFiltered = false;
-      this.chapaFiltered = this.chapaFilterList.slice();
       this.cuentaFiltered = this.cuentaFilterList.slice();
       this.conceptoFiltered = this.conceptoFilterList.slice();
       this.detalleFiltered = this.detalleFilterList.slice();

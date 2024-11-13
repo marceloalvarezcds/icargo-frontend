@@ -49,8 +49,10 @@
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
+    [showBtnMovimientos]="true"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
+    (showClickDos)="redirectToShowMovimientos($event)"
     (deleteClick)="deleteRow($event)"
   ></app-table-paginator>
 </app-page>
