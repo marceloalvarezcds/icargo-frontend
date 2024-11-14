@@ -113,6 +113,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
   flete_saldo: number;
+  linea_disponible: number;
 
   //Condiciones para GC y Propietario
   condicion_gestor_cuenta_tarifa: number;
@@ -308,6 +309,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_tipo: flete0.tipo_flete,
   flete_saldo: 0,
   flete_producto_id: 1,
+  linea_disponible: 9000,
   gestor_carga_id: flete0.gestor_carga_id,
   neto:1000,
   camion_beneficiario_nombre: 'string',

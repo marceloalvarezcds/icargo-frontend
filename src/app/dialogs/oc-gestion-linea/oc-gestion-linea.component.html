@@ -29,11 +29,11 @@
      
       </app-orden-carga-gestion-anticipos>
     </div>
-  <app-orden-carga-flete 
-    *ngIf="oc"
-    [oc]="oc"
-    >
-  </app-orden-carga-flete>
+    <app-orden-carga-flete 
+      *ngIf="oc"
+      [oc]="oc"
+      >
+    </app-orden-carga-flete>
 
     <div class="row page-form-row">
       <div class="column">
@@ -60,17 +60,17 @@
       </div>
       <div class="column">
         <p>
-          Limite Crédito OC(% Max Liberado x Flete Proyectado):
+          Limite Crédito OC (% Max Liberado x Flete Proyectado):
           <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>Gs
         </p>
         <p>
          Total Complementos Anticipados:
           <span class="span-like">{{ oc?.total_anticipo_complemento | number: '1.0-0' }}</span>Gs
         </p>
-        <!-- <p>
+         <p>
           Límite Crédito OC + Compl.:
            <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>Gs
-         </p> -->
+         </p> 
         <p>
           Saldo Crédito Tracto.:
           <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>Gs
@@ -89,7 +89,7 @@
      
         <p>
           Línea Disponible:
-          <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
+          <span class="span-like">{{ oc?.linea_disponible | number: '1.0-0' }}</span>Gs
         </p>
         <p style="color: red;">
           Monto Anticipo Disponible OC:
