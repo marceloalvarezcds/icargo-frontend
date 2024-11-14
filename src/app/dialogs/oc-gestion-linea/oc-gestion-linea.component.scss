@@ -194,7 +194,7 @@ span{
 
 .column:last-child {
   max-width: 300px; /* Ajusta el ancho máximo de la última columna */
-  min-width: 300px; /* Ajusta el ancho mínimo de la última columna */
+  min-width: 330px; /* Ajusta el ancho mínimo de la última columna */
   margin-left: 50px;
 }
 
@@ -208,7 +208,7 @@ span{
 }
 
 .column:nth-child(2) {
-  margin-left: 30px; /* Aumenta la separación entre la primera y segunda columna */
+  margin-left: -60px; /* Aumenta la separación entre la primera y segunda columna */
 }
 
 .column p {

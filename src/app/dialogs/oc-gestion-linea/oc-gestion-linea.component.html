@@ -69,7 +69,7 @@
         </p>
          <p>
           Límite Crédito OC + Compl.:
-           <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>Gs
+           <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
          </p> 
         <p>
           Saldo Crédito Tracto.:
@@ -86,7 +86,6 @@
       
       </div>
       <div class="column">
-     
         <p>
           Línea Disponible:
           <span class="span-like">{{ oc?.linea_disponible | number: '1.0-0' }}</span>Gs
