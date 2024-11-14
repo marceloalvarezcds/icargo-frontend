@@ -17,18 +17,19 @@
   (inactiveClick)="inactive()"
   (submitEvent)="submit(false)"
 >
-  <div class="page-container">
+  <div class="page-form-container">
     <div class="section" formGroupName="info">
-        <app-combinacion-form-info
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          [combinacion]="item"
-          [modelo]="modelo"
-          [fotoDocumentoFrente]="fotoDocumentoFrente"
-          [gestorCargaId]="gestorCargaId"
-        ></app-combinacion-form-info>
+      <app-combinacion-form-info
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        [combinacion]="item"
+        [modelo]="modelo"
+        [fotoDocumentoFrente]="fotoDocumentoFrente"
+        [gestorCargaId]="gestorCargaId"
+      ></app-combinacion-form-info>
     </div>
-  </div>  
+  </div>
+
 </app-page-form>
 

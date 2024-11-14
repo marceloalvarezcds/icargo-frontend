@@ -72,25 +72,6 @@ export class PageComponent {
     });
   }
 
-  getButtonStyles(submodule: string): { [key: string]: string } {
-    const baseStyles = {
-      'padding': '15px',
-      'font-family': "'Roboto', sans-serif",
-      'font-size': '12px',
-      'font-weight': '580',
-      'line-height': '18.75px',
-      'letter-spacing': '0.06em',
-    };
-
-    switch (submodule) {
-      case 'COMBINACION DE FLOTA':
-      case 'Orden de Carga':
-        return baseStyles;
-      default:
-        return { };
-    }
-  }
-
   back(): void {
     this.backClick.emit(false);
   }

@@ -2,7 +2,7 @@
   <ng-container *ngIf="pId; else inputTemplate">
     <ng-container *ngIf="list$ | async as list">
       <app-dialog-field
-       
+        [title]="title"
         [columns]="columns"
         [list]="list"
         [groupName]="groupName"
@@ -15,7 +15,7 @@
   </ng-container>
   <ng-template #inputTemplate>
     <app-input-field
-     
+      [title]="title"
       [readonly]="true"
       [groupName]="groupName"
       [controlName]="controlName"

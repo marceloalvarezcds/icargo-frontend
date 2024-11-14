@@ -3,15 +3,23 @@
 
     <div class="row">
 
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Número de Lote"
+        [groupName]="groupName"
+        controlName="numero_lote"
+        [form]="form"
+      ></app-input-field>
+
       <app-remitente-by-gestor-map-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         [groupName]="groupName"
         [form]="form"
         (valueChange)="remitenteChange.emit($event)"
       ></app-remitente-by-gestor-map-dialog-field>
 
       <app-producto-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Producto"
         [groupName]="groupName"
         [form]="form"
@@ -19,44 +27,42 @@
       ></app-producto-field>
 
       <app-tipo-carga-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Tipo Carga"
         [groupName]="groupName"
         [form]="form"
       ></app-tipo-carga-field>
 
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Número de Lote"
-        [groupName]="groupName"
-        controlName="numero_lote"
-        [form]="form"
-      ></app-input-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <ng-container *ngIf="isShow; else estaPublicadoTemplate">
-          {{ estaPublicado ? "Publicado" : "No publicado" }}
-        </ng-container>
-        <ng-template #estaPublicadoTemplate>
-          <mat-slide-toggle formControlName="publicado">
+
+      <div class="col-xs-12 col-sm-6 col-md-2" style="display: flex; flex-direction: column; align-items: flex-start;">
+
+        <div class="input-form-full">
+          <ng-container *ngIf="isShow; else estaPublicadoTemplate">
             {{ estaPublicado ? "Publicado" : "No publicado" }}
-          </mat-slide-toggle>
-        </ng-template>
-      </div>
+          </ng-container>
+          <ng-template #estaPublicadoTemplate>
+            <mat-slide-toggle formControlName="publicado">
+              {{ estaPublicado ? "Publicado" : "No publicado" }}
+            </mat-slide-toggle>
+          </ng-template>
+        </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <ng-container *ngIf="isShow; else esSubastaTemplate">
-          {{ esSubasta ? "Es Subasta" : "No es Subasta" }}
-        </ng-container>
-        <ng-template #esSubastaTemplate>
-          <mat-slide-toggle formControlName="es_subasta">
+        <div class="input-form-full">
+          <ng-container *ngIf="isShow; else esSubastaTemplate">
             {{ esSubasta ? "Es Subasta" : "No es Subasta" }}
-          </mat-slide-toggle>
-        </ng-template>
+          </ng-container>
+          <ng-template #esSubastaTemplate>
+            <mat-slide-toggle formControlName="es_subasta">
+              {{ esSubasta ? "Es Subasta" : "No es Subasta" }}
+            </mat-slide-toggle>
+          </ng-template>
+        </div>
+
       </div>
 
       <app-estado-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
         [estado]="estado">
       </app-estado-field>
 

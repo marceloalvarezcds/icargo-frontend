@@ -4,8 +4,8 @@
     <div class="row">
 
       <!-- Columna para Texto Legal -->
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <label class="form-label mr-2">Texto Legal de Órdenes de Carga</label>
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+        <label class="form-label">Texto Legal de Órdenes de Carga</label>
         <mat-form-field>
           <textarea
             matInput
@@ -25,9 +25,9 @@
       </div>
 
       <!-- Columna para Detalle - Comentarios -->
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <label class="form-label mr-2">Detalle - Comentarios</label>
-        <mat-form-field class="col">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+        <label class="form-label">Detalle - Comentarios</label>
+        <mat-form-field >
           <textarea
             matInput
             formControlName="emision_orden_detalle"
@@ -49,13 +49,12 @@
     <div class="row">
 
       <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <label class="form-label mr-2">Destinatarios</label>
-        <mat-form-field class="col-xs-12">
+        <label class="form-label">Destinatarios</label>
+        <mat-form-field>
           <mat-select
             formControlName="destinatarios"
             multiple
-            [compareWith]="compareWith"
-          >
+            [compareWith]="compareWith">
             <ng-container *ngFor="let o of list">
               <mat-option [value]="o">
                 {{ o.nombre }} [{{

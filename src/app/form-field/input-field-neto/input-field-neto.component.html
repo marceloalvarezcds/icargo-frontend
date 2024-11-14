@@ -1,8 +1,14 @@
 <ng-container *ngIf="form">
   <div *ngIf="control" [formGroup]="form" class="field-content">
+
     <ng-container *ngIf="groupName">
+
+      <mat-label class="custom-label">
+        <span *ngIf="requerido" class="required">(*) </span>
+        {{ title }}
+      </mat-label>
+
       <mat-form-field [formGroupName]="groupName">
-        <mat-label>{{ title }}</mat-label>
         <input
           matInput
           [value]="rowValue"
@@ -35,10 +41,17 @@
           El email no es <strong>válido</strong>
         </mat-error>
       </mat-form-field>
+
     </ng-container>
+
     <ng-container *ngIf="!groupName">
+
+      <mat-label class="custom-label">
+        <span *ngIf="requerido" class="required">(*) </span>
+        {{ title }}
+      </mat-label>
+
       <mat-form-field>
-        <mat-label>{{ title }}</mat-label>
         <input
           matInput
           [value]="rowValue"
@@ -69,6 +82,8 @@
           El email no es <strong>válido</strong>
         </mat-error>
       </mat-form-field>
+
     </ng-container>
+
   </div>
 </ng-container>

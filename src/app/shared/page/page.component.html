@@ -107,7 +107,6 @@
             class="botones"
             (click)="createClick.emit($event)"
             *ngIf="!hideCreate && (modelo | puede: a.CREAR)"
-            [ngStyle]="getButtonStyles(submodule)"
           >
             <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
             {{
