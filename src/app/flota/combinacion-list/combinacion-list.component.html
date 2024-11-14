@@ -44,7 +44,7 @@
           [list]="semiFilterList"
         ></app-checkbox-filter>
       </div>
-    </mat-expansion-panel>    
+    </mat-expansion-panel>
     <mat-expansion-panel>
       <mat-expansion-panel-header>
         <mat-panel-title>Chofer</mat-panel-title>
@@ -75,16 +75,16 @@
   <ng-container *ngIf="isFiltered">Filtros:</ng-container>
   <ng-container *ngIf="isFilteredByCamion">
     <mat-chip *ngFor="let item of camionFiltered">{{item}}</mat-chip>
-  </ng-container>  
+  </ng-container>
   <ng-container *ngIf="isFilteredByMarca">
     <mat-chip *ngFor="let item of marcaFiltered">{{item}}</mat-chip>
   </ng-container>
   <ng-container *ngIf="isFilteredBySemi">
     <mat-chip *ngFor="let item of semiFiltered">{{item}}</mat-chip>
-  </ng-container>  
+  </ng-container>
   <ng-container *ngIf="isFilteredByChofer">
     <mat-chip *ngFor="let item of choferFiltered">{{item}}</mat-chip>
-  </ng-container>  
+  </ng-container>
   <ng-container *ngIf="isFilteredByPropietario">
     <mat-chip *ngFor="let item of propietarioFiltered">{{item}}</mat-chip>
   </ng-container>

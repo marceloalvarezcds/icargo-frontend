@@ -4,30 +4,37 @@
     <div class="row">
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Cantidad a Transportar"
         controlName="condicion_cantidad"
         [groupName]="groupName"
         [form]="form"
       ></app-number-field>
 
-      <!-- Sección de Condición para Gestor -->
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4" style="font-weight: bold;">Condición para Gestor</div>
+    </div>
 
-      <app-flete-form-condicion-afectado
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        afectado="gestor_carga"
-        [form]="form"
-      ></app-flete-form-condicion-afectado>
+    <div class="row">
+
+      <!-- Sección de Condición para Gestor -->
+      <div class="col-xs-6" >
+        <span style="font-weight: bold;">Condición para Gestor</span>
+
+        <app-flete-form-condicion-afectado
+          afectado="gestor_carga"
+          [form]="form"
+        ></app-flete-form-condicion-afectado>
+      </div>
 
       <!-- Sección de Condición para Propietario -->
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4" style="font-weight: bold;">Condición para Propietario</div>
+      <div class="col-xs-6">
+        <span style="font-weight: bold;">Condición para Propietario</span>
 
-      <app-flete-form-condicion-afectado
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        afectado="propietario"
-        [form]="form"
-      ></app-flete-form-condicion-afectado>
+        <app-flete-form-condicion-afectado
+          class="col-xs-6"
+          afectado="propietario"
+          [form]="form"
+        ></app-flete-form-condicion-afectado>
+      </div>
 
     </div>
 
