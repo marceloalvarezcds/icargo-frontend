@@ -13,18 +13,6 @@
     <mat-accordion [multi]="true">
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Chapa</mat-panel-title>
-        </mat-expansion-panel-header>
-        <div>
-          <app-checkbox-filter
-            #chapaCheckboxFilter
-            [value]="chapaFiltered"
-            [list]="chapaFilterList"
-          ></app-checkbox-filter>
-        </div>
-      </mat-expansion-panel>
-      <mat-expansion-panel>
-        <mat-expansion-panel-header>
           <mat-panel-title>Cuenta</mat-panel-title>
         </mat-expansion-panel-header>
         <div>
@@ -76,9 +64,6 @@
 
   <mat-chip-list filterValues>
     <ng-container *ngIf="isFiltered">Filtros:</ng-container>
-    <ng-container *ngIf="isFilteredByChapa">
-      <mat-chip *ngFor="let item of chapaFiltered">{{item}}</mat-chip>
-    </ng-container>
     <ng-container *ngIf="isFilteredByCuenta">
       <mat-chip *ngFor="let item of cuentaFiltered">{{item}}</mat-chip>
     </ng-container>

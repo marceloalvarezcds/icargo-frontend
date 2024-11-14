@@ -3,13 +3,12 @@
     <h2>FLOTA</h2>
     <div [formGroupName]="groupName">
       <div class="row page-form-row">
-        <div class="search-tracto small-input input-with-label">
+        <div class="search-tracto col-xs-4">
           <label>Chapa <strong>Tracto</strong></label>
           <app-combinacion-dialog-field
             [groupName]="groupName"
             [form]="form"
             (valueChange)="onCamionChange($event)"
-            [style]="'width: 170px;'"
           ></app-combinacion-dialog-field>
         </div>
         <div class="small-marca-input input-with-label">
@@ -23,7 +22,7 @@
             controlName="marca_camion"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="Color"
             [groupName]="groupName"
@@ -34,7 +33,7 @@
             controlName="color_camion"
           ></app-input-field-oc>
         </div>
-     
+
         <div class="small-chapa_semi-input input-with-label">
           <app-input-field-oc
             title='Chapa <strong>Semi</strong>'
@@ -48,7 +47,7 @@
           ></app-input-field-oc>
         </div>
 
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="Marca"
             [groupName]="groupName"
@@ -59,7 +58,7 @@
             controlName="marca_semi"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="Color"
             [groupName]="groupName"
@@ -70,17 +69,17 @@
             controlName="color_semi"
           ></app-input-field-oc>
         </div>
-        <mat-slide-toggle 
+        <mat-slide-toggle
           trueTitle="Activo"
           falseTitle="Inactivo"
           formControlName="anticipo_propietario"
           labelPosition="before"
-          class="mat-slide-toggle-disabled" 
+          class="mat-slide-toggle-disabled"
         >Anticipos</mat-slide-toggle>
       </div>
 
       <div class="row page-form-row">
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="<strong>Propietario</strong>"
             [matTooltip]="'Propietario'"
@@ -130,7 +129,7 @@
       </div>
     </div>
     <div class="row page-form-row">
-      <div class="small-input input-with-label">
+      <div class="col-xs-4">
         <app-input-field-oc
           title="Chofer"
           [groupName]="groupName"
@@ -153,9 +152,9 @@
           [shouldFormat]="false"
         ></app-input-field-oc>
       </div>
-      <mat-slide-toggle 
+      <mat-slide-toggle
         formControlName="puede_recibir_anticipos"
-        labelPosition="before" 
+        labelPosition="before"
         class="slide-toggle-anticipos mat-slide-toggle-disabled"
       > Anticipos</mat-slide-toggle>
     </div>
@@ -165,7 +164,7 @@
       <h2 *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido">FLETE</h2>
 
       <div class="row page-form-row">
-        <div class="search-tracto small-input input-with-label" 
+        <div class="search-tracto col-xs-4"
           *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')">
           <label>Nº Pedido</label>
           <app-flete-by-gestor-dialog-field
@@ -176,8 +175,8 @@
             [style]="'width: 160px'"
           ></app-flete-by-gestor-dialog-field>
         </div>
-      
-        <div class="search-tracto small-input input-with-label"
+
+        <div class="search-tracto col-xs-4"
          *ngIf="oc?.estado === 'Cancelado' || showSearchOC">
           <label>Nº OC</label>
           <app-oc-by-combinacion-dialog-field
@@ -189,7 +188,7 @@
             (valueChange)="onOrdenCargaChange($event)"
           ></app-oc-by-combinacion-dialog-field>
         </div>
-        <div class="search-tracto small-input input-with-label"
+        <div class="search-tracto col-xs-4"
         *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas) && !isSaveForm">
          <label>Nº OC</label>
          <app-oc-by-combinacion-aceptados-dialog-field
@@ -201,8 +200,8 @@
            (valueChange)="onOrdenCargaChange($event)"
          ></app-oc-by-combinacion-aceptados-dialog-field>
       </div>
-      
-      <div class="search-tracto small-input input-with-label"
+
+      <div class="search-tracto col-xs-4"
         *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm">
         <label>Nº OC</label>
         <app-oc-by-combinacion-nuevos-dialog-field
@@ -214,8 +213,8 @@
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-nuevos-dialog-field>
       </div>
-    
-      <div class="search-tracto small-input input-with-label"
+
+      <div class="search-tracto col-xs-4"
         *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'">
          <label>Nº OC</label>
          <app-oc-by-combinacion-finalizados-dialog-field
@@ -228,8 +227,8 @@
          ></app-oc-by-combinacion-finalizados-dialog-field>
        </div>
 
-       <div class="small-input input-with-label"  
-       *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') || 
+       <div class="col-xs-4"
+       *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') ||
               showSearchOCPedidos">
         <app-input-field-oc
           title="Nº Pedido"
@@ -241,8 +240,8 @@
           controlName="flete_id"
         ></app-input-field-oc>
       </div>
-      
-        <div class="small-input input-with-label">
+
+        <div class="col-xs-4">
           <app-input-field-oc
             title="Nº Lote"
             [groupName]="groupName"
@@ -289,7 +288,7 @@
       </div>
 
       <div class="row page-form-row">
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="L. Carga"
             [groupName]="groupName"
@@ -325,7 +324,7 @@
       </div>
 
       <div class="row page-form-row">
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="Flete a <strong>PAGAR</strong>"
             [groupName]="groupName"
@@ -336,7 +335,7 @@
             controlName="a_pagar"
           ></app-input-field-oc>
         </div>
-        <div class="small-input input-with-label">
+        <div class="col-xs-4">
           <app-input-field-oc
             title="Valor mercaderia"
             [groupName]="groupName"
@@ -355,7 +354,7 @@
         [oc]="oc"
         >
       </app-orden-carga-create-form-info>
-      
+
     <div class="small-neto-input input-with-label">
       <app-input-field-oc
         title="Neto Combinación"
@@ -403,6 +402,6 @@
           controlName="diferencia"
         ></app-input-field-oc>
       </div>
-  
+
   </div>
 </div>

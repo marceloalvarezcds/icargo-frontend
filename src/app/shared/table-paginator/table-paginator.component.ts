@@ -42,6 +42,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() hideDelete = false;
   @Input() hideEdit = false;
   @Input() hideShow = false;
+  @Input() showBtnMovimientos = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() noCheckGestorCuentaId = false;
@@ -57,6 +58,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() showClick = new EventEmitter<TableEvent<any>>();
   @Output() allCheckedChange = new EventEmitter<boolean>();
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
+  @Output() showClickDos = new EventEmitter<TableEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;

@@ -45,6 +45,20 @@
       ></app-propietario-form-info>
     </div>
 
+    <div class="section" formGroupName="address"
+      (opened)="isPanelOpen = true"
+      (closed)="isPanelOpen = false" >
+      <h2>Direccion</h2>
+      <app-page-form-address
+        groupName="address"
+        [ciudadSelected]="ciudadSelected"
+        [form]="form"
+        [isShow]="isShow"
+        [isPanelOpen]="isPanelOpen"
+        class="app-input-field"
+      ></app-page-form-address>
+    </div>
+
     <div class="section" formGroupName="chofer"
         [hidden]="!esChofer"
         *ngIf="
@@ -102,26 +116,13 @@
       ></app-page-form-contactos>
     </div>
 
-    <div class="section" formGroupName="address"
-      (opened)="isPanelOpen = true"
-      (closed)="isPanelOpen = false" >
-      <h2>Direccion</h2>
-      <app-page-form-address
-        groupName="address"
-        [ciudadSelected]="ciudadSelected"
-        [form]="form"
-        [isShow]="isShow"
-        [isPanelOpen]="isPanelOpen"
-        class="app-input-field"
-      ></app-page-form-address>
-    </div>
-
     <div class="section" *ngIf="
         (isShow || isEdit) &&
         ((camionModelo | puede: a.LISTAR) ||
           (semirremolqueModelo | puede: a.LISTAR))
         ">
       <div *ngIf="camionModelo | puede: a.LISTAR">
+        <h2>Camiones</h2>
         <app-propietario-camion-list
           [backUrl]="propietarioBackUrl"
           [propietarioId]="id"
@@ -130,6 +131,7 @@
         ></app-propietario-camion-list>
       </div>
       <div *ngIf="semirremolqueModelo | puede: a.LISTAR">
+        <h2>Semi-Remolques</h2>
         <app-propietario-semi-list
           [backUrl]="propietarioBackUrl"
           [propietarioId]="id"

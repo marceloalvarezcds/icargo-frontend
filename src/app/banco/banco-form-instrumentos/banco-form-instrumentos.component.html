@@ -1,13 +1,119 @@
-<div class="row page-form-row">
-  <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 table-container" [hidden]="!(list && list.length)">
-    <div class="table-responsive">
-      <app-table
-        [disableSort]="true"
-        [hideShow]="true"
-        [isShow]="true"
-        [columns]="columns"
-        [data]="list"
-      ></app-table>
+<app-page-form
+  class="caja-page"
+  module="Caja & Banco"
+  submodule="Banco"
+  viewTitle="{{ 'Ver' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="false"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  [hideEditButton]="true"
+  (backClick)="back($event)"
+>
+  <div class="page-form-container">
+
+    <div class="row">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Banco"
+        controlName="nombre"
+        [form]="form"
+        [readonly]="true"
+      ></app-input-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Número de cuenta"
+        controlName="numero_cuenta"
+        [form]="form"
+        [readonly]="true"
+      ></app-input-field>
+
+      <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        [title]="'Moneda'"
+        [readonly]="true"
+        controlName="moneda_id"
+        [form]="form">
+      </app-moneda-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Titular"
+        controlName="titular"
+        [form]="form"
+        [readonly]="true"
+      ></app-input-field>
+
     </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-2"
+        title="Tot. Creditos"
+        controlName="credito"
+        [form]="form"
+        [readonly]="true"
+      ></app-number-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-2"
+        title="Tot. Debitos"
+        controlName="debito"
+        [form]="form"
+        [readonly]="true"
+      ></app-number-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-2"
+        title="Tot. Pendientes"
+        controlName="saldo_provisional"
+        [form]="form"
+        [readonly]="true"
+      ></app-number-field>
+
+      <div class="input-form-full col-xs-12 col-sm-2">
+        <mat-label>Saldo Confirmado</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input
+            matInput
+            [value]="item?.saldo_confirmado"
+            appInputThousandsSeparator
+            disabled
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-2">
+        <mat-label>Saldo Provisional</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input
+            matInput
+            [value]="item?.saldo_provisional"
+            appInputThousandsSeparator
+            disabled
+          />
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div class="col-xs-12 table-container">
+        <app-table
+          [disableSort]="true"
+          [hideShow]="true"
+          [isShow]="true"
+          [columns]="columns"
+          [data]="list"
+        ></app-table>
+      </div>
+    </div>
+
   </div>
-</div>
+
+</app-page-form>

@@ -1,15 +1,24 @@
 <div [formGroup]="form">
-  <div  [formGroupName]="groupName">
+  <div  [formGroupName]="groupName" class="row">
 
-    <div class="row">
 
-      <app-pais-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="País de origen"
-        [groupName]="groupName"
-        controlName="pais_origen_id"
-        [form]="form"
-      ></app-pais-field>
+    <div class="col-xs-10">
+
+      <div class="row">
+
+        <app-pais-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="País de origen"
+          [groupName]="groupName"
+          controlName="pais_origen_id"
+          [form]="form"
+        ></app-pais-field>
+
+      </div>
+
+    </div>
+
+    <div class="col-xs-2">
 
       <app-file-field-input
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
