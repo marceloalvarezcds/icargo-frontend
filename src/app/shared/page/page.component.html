@@ -1,4 +1,5 @@
-<mat-sidenav-container class="sidebar-filter" from="right">
+<mat-sidenav-container class="sidebar-filter"
+    [class.sidebar-form-list]="isFormList" from="right">
 
   <mat-sidenav
     #sidenav
@@ -21,7 +22,7 @@
 
   <mat-sidenav-content>
 
-    <div class="page">
+    <div class="page" [class.page-form-list]="isFormList">
 
       <div class="page-title">
 
