@@ -34,6 +34,7 @@ export class PageComponent {
   @Input() modelo?: PermisoModeloEnum;
   @Input() dbuttons?: ButtonList[] = []
   @Input() isFiltered = false;
+  @Input() isFormList = false;
 
   @Output() applyClick = new EventEmitter<MouseEvent>();
   @Output() backClick = new EventEmitter<boolean>();
