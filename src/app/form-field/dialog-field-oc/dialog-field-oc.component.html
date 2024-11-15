@@ -1,5 +1,8 @@
 <div *ngIf="form" class="search-container input-container">
   <ng-container *ngIf="fetchFunction || list.length; else inputTemplate">
+
+    <mat-label>{{ title }}</mat-label>
+
     <mat-form-field class="mat-form-field-level">
       <app-dialog-form-field-control
         [descripcionPropName]="inputValuePropName"
@@ -26,9 +29,11 @@
         El campo es <strong>requerido</strong>
       </mat-error>
     </mat-form-field>
+
   </ng-container>
-  
+
   <ng-template #inputTemplate>
+
     <app-input-field-by-placa
       hidden
       [title]="title"
@@ -37,12 +42,13 @@
       [controlName]="controlName"
       [form]="form"
     ></app-input-field-by-placa>
- 
+
     <mat-form-field class="empty-form-field mat-form-field-level">
       <input matInput disabled />
       <mat-hint *ngIf="!list.length">
         {{ emptyHint }}
       </mat-hint>
     </mat-form-field>
+
   </ng-template>
 </div>

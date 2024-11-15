@@ -85,29 +85,28 @@
           <!-- Botones dinamicos -->
 
           <!-- Botón específico para Orden de Carga -->
-          <button
-            mat-flat-button color="primary"
-            class="add-button orden-carga-anticipo"
+          <button mat-flat-button
+            class="botones" color="accent"
             *ngIf="submodule === 'Orden de Carga'"
             (click)="createAnticipoClick.emit($event)">
-            <mat-icon>add</mat-icon> ANTICIPO
+            <mat-icon>add_circle</mat-icon> ANTICIPO
           </button>
-            <!-- Botón específico para Orden de Carga -->
-            <button
-              mat-flat-button color="primary"
-              (click)="createRecepcionClick.emit($event)"
-              class="add-button orden-carga-recepcion"
-              *ngIf="submodule === 'Orden de Carga'">
-              <mat-icon>add</mat-icon> RECEPCION
-            </button>
+
+          <!-- Botón específico para Orden de Carga -->
+          <button mat-flat-button
+            class="botones" color="accent"
+            (click)="createRecepcionClick.emit($event)"
+            *ngIf="submodule === 'Orden de Carga'">
+            <mat-icon>add_circle</mat-icon> RECEPCION
+          </button>
+
           <button
             mat-flat-button
             color="primary"
             matTooltip="Crear"
             class="botones"
             (click)="createClick.emit($event)"
-            *ngIf="!hideCreate && (modelo | puede: a.CREAR)"
-          >
+            *ngIf="!hideCreate && (modelo | puede: a.CREAR)">
             <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
             {{
               submodule === 'CLIENTES' ? 'CLIENTE' :
@@ -132,43 +131,41 @@
               }}
           </button>
               <!-- Botón específico para Orden de Carga -->
-          <button
-            mat-flat-button color="primary"
-            class="add-button orden-carga-aceptar"
+          <button mat-flat-button
+            class="botones" color="warn"
             (click)="aceptarClick.emit($event)"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             *ngIf="submodule === 'Orden de Carga'">
               ACEPTAR
           </button>
           <!-- Botón específico para Orden de Carga -->
-          <button
-            mat-flat-button color="primary"
-            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
-            (click)="finalizarClick.emit($event)"
-            class="add-button orden-carga-finalizar"
-            *ngIf="submodule === 'Orden de Carga'">
-              FINALIZAR
-        </button>
+          <button mat-stroked-button
+              class="botones" color="primary"
+              [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
+              (click)="finalizarClick.emit($event)"
+              *ngIf="submodule === 'Orden de Carga'">
+                FINALIZAR
+          </button>
             <!-- Botón específico para Orden de Carga -->
-        <button
-            mat-flat-button color="primary"
-            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
-            (click)="conciliarClick.emit($event)"
-            class="add-button orden-carga-conciliar"
-            *ngIf="submodule === 'Orden de Carga'">
-              CONCILIAR
-        </button>
-        <button
-          mat-mini-fab
-          color="primary"
-          matTooltip="Filtrar"
-          class="botones"
-          type="button"
-          *ngIf="!hideFilter"
-          (click)="sidenav?.toggle()"
-        >
-          <mat-icon>filter_alt</mat-icon>
-        </button>
+          <button mat-flat-button
+              class="botones" style="color: white; background-color: var(--color-grey);"
+              [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
+              (click)="conciliarClick.emit($event)"
+              *ngIf="submodule === 'Orden de Carga'">
+                CONCILIAR
+          </button>
+
+          <button
+            mat-mini-fab
+            color="primary"
+            matTooltip="Filtrar"
+            class="botones"
+            type="button"
+            *ngIf="!hideFilter"
+            (click)="sidenav?.toggle()"
+          >
+            <mat-icon>filter_alt</mat-icon>
+          </button>
 
         </div>
       </div>
