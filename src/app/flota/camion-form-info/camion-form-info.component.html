@@ -1,74 +1,86 @@
 <div *ngIf="form" [formGroup]="form">
 
-  <div [formGroupName]="groupName" >
+  <div [formGroupName]="groupName" class="row">
 
-    <div class="row">
+    <div class="col-xs-10">
 
-      <ng-container *ngIf="camion">
-        <div class="col-xs-12" style="margin-bottom: 10px;"
-          [hidden]="camion.propietario_estado === ACTIVO">
-          Propietario Actual {{ camion.propietario.nombre }}:
-          {{ camion.propietario_estado }}
-        </div>
-        <div class="col-xs-12" style="margin-bottom: 10px;"
-          [hidden]="camion.chofer_estado === ACTIVO" >
-          Chofer Actual {{ camion.chofer?.nombre }}: {{ camion.chofer_estado }}
-        </div>
-      </ng-container>
+      <div class="row">
 
-      <!-- Propietario, Chofer, Placa, Número de Chasís en una fila -->
-      <app-propietario-readonly-by-id-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        [groupName]="groupName"
-        [form]="form"
-        [camionId]="camion?.id"
-        [propietarioId]="propietarioId"
-      ></app-propietario-readonly-by-id-dialog-field>
+        <ng-container *ngIf="camion">
+          <div class="col-xs-12" style="margin-bottom: 10px;"
+            [hidden]="camion.propietario_estado === ACTIVO">
+            Propietario Actual {{ camion.propietario.nombre }}:
+            {{ camion.propietario_estado }}
+          </div>
+          <div class="col-xs-12" style="margin-bottom: 10px;"
+            [hidden]="camion.chofer_estado === ACTIVO" >
+            Chofer Actual {{ camion.chofer?.nombre }}: {{ camion.chofer_estado }}
+          </div>
+        </ng-container>
 
-      <app-chofer-by-camion-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Chofer"
-        [camionId]="camion?.id"
-        [groupName]="groupName"
-        [form]="form"
-      ></app-chofer-by-camion-dialog-field>
+        <!-- Propietario, Chofer, Placa, Número de Chasís en una fila -->
+        <app-propietario-readonly-by-id-dialog-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [groupName]="groupName"
+          [form]="form"
+          [camionId]="camion?.id"
+          [propietarioId]="propietarioId"
+        ></app-propietario-readonly-by-id-dialog-field>
 
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Placa"
-        [groupName]="groupName"
-        controlName="placa"
-        [form]="form"
-      ></app-input-field>
+        <app-chofer-by-camion-dialog-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Chofer"
+          [camionId]="camion?.id"
+          [groupName]="groupName"
+          [form]="form"
+        ></app-chofer-by-camion-dialog-field>
 
-      <!--TODO: ver con dario -->
-      <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Número Chasís"
-        [groupName]="groupName"
-        controlName="numero_chasis"
-        [form]="form"
-      ></app-input-field>
-
-      <!-- Estado y Foto del Tracto en la misma fila -->
-      <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
-      <app-estado-field
+        <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          [estado]="estado">
-      </app-estado-field>
+          title="Placa"
+          [groupName]="groupName"
+          controlName="placa"
+          [form]="form"
+        ></app-input-field>
 
-      <app-file-field-input
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Foto del Tracto"
-        [groupName]="groupName"
-        controlName="foto"
-        [field]="foto"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoChange.emit($event)"
-      ></app-file-field-input>
+        <!--TODO: ver con dario -->
+        <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Número Chasís"
+          [groupName]="groupName"
+          controlName="numero_chasis"
+          [form]="form"
+        ></app-input-field>
+
+        <!-- Estado y Foto del Tracto en la misma fila -->
+        <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
+        <app-estado-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-2"
+            [estado]="estado">
+        </app-estado-field>
+
+      </div>
+
+    </div>
+
+    <div class="col-md-2">
+
+      <div class="row">
+
+        <app-file-field-input
+          class="input-form-full col-xs-12"
+          title="Foto del Tracto"
+          [groupName]="groupName"
+          controlName="foto"
+          [field]="foto"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoChange.emit($event)"
+        ></app-file-field-input>
+
+      </div>
 
     </div>
 

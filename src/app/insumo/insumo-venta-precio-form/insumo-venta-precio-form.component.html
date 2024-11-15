@@ -12,123 +12,122 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-  <div class="insumo-content">
-      <div class="row page-form-row">
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center" *ngIf="isEdit || isShow">
-          <label class="form-label mr-2">Punto de Venta</label>
-          <app-input-field 
-            controlName="punto_venta_id"
-            [form]="form"
-            class="app-input-field"
-          ></app-input-field>
-        </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-          <app-punto-venta-precio-map-field
-            *ngIf="!isEdit && !isShow"
-            [form]="form"
-            (valueChange)="onPDVPrecioChange($event)"
-            controlName="punto_venta_id"
-            class="app-input-field"
-          ></app-punto-venta-precio-map-field>
-        </div>
-      </div>
 
-      <div class="col-12 col-md-4 mb-2 d-flex align-items-center" *ngIf="isEdit || isShow">
-        <label class="form-label mr-2">Descripcion</label>
-          <app-input-field 
-            controlName="insumo_id"
-            [form]="form"
-            class="app-input-field"
-        ></app-input-field>
-      </div>
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+  <div class="page-form-container">
+
+      <div class="row">
+
+        <app-input-field
+          *ngIf="isEdit || isShow"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Punto de Venta"
+          controlName="punto_venta_id"
+          [form]="form">
+        </app-input-field>
+
+        <app-punto-venta-precio-map-field
+          *ngIf="!isEdit && !isShow"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [form]="form"
+          (valueChange)="onPDVPrecioChange($event)"
+          controlName="punto_venta_id"
+        ></app-punto-venta-precio-map-field>
+
+        <app-input-field
+          *ngIf="isEdit || isShow"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Descripción"
+          controlName="insumo_id"
+          [form]="form">
+        </app-input-field>
+
         <app-insumo-by-punto-venta-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
           *ngIf="!isEdit && !isShow"
           [form]="form"
-          [puntoVentaId]="puntoVentaId || 0" 
+          [puntoVentaId]="puntoVentaId || 0"
           (valueChange)="onInsumoDescipcionChange($event)"
-          class="app-input-field"
         ></app-insumo-by-punto-venta-field>
+
       </div>
- 
-      <div class="row page-form-row">
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-          <label class="form-label mr-2">Fecha</label>
-          <app-fecha-field 
-            controlName="created_at_insumo"
-            [form]="form"
-            class="app-input-field"
-          ></app-fecha-field>
-        </div>
-        <div  class="col-12 col-md-2 mb-2 d-flex align-items-center">
+
+      <div class="row">
+
+        <app-fecha-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Fecha"
+          controlName="created_at_insumo"
+          [form]="form"
+        ></app-fecha-field>
+
+        <div  class="input-form-full col-xs-12 col-sm-6 col-md-3">
           <label class="form-label-hora mr-2">Hora</label>
           <mat-form-field class="app-input-field read-only-field">
             <input matInput [value]="hora" readonly />
           </mat-form-field>
         </div>
-      </div>
-      
-      <div class="row page-form-row">
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Precio</label>
-            <app-number-field
-              controlName="precio"
-              [form]="form"
-              class="app-input-field"
-              autocomplete="on"
-            ></app-number-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label-vigencia mr-2">Fecha Vigencia</label>
-            <app-fecha-field 
-              controlName="fecha_inicio"
-              [form]="form"
-              class="app-input-field"
-            ></app-fecha-field>
-            <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-              <label class="form-label-hora mr-2">Hora</label>
-              <mat-form-field>
-                <input
-                  matInput
-                  [value]="horaInicio"
-                />
-               
-                <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
-                  Ingrese una hora válida en formato HH:MM.
-                </mat-error>
-              </mat-form-field>
-            </div>
-          </div>
+
       </div>
 
-      <div class="row page-form-row ">
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-          <label class="form-label mr-2">Unidad</label>
-            <app-input-field 
-              controlName="unidad_id"
-              [form]="form"
-              class="unidad-field"
-            ></app-input-field>
-          </div>
-          <div class="col-12 col-md-5 mb-2 d-flex align-items-center" >
-            <label class="form-label-moneda  mr-2">Moneda</label>
-            <app-input-field
-              controlName="moneda_id"
-              [form]="form"
-              class="unidad-field"
-          ></app-input-field>
+      <div class="row">
+
+        <app-number-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Precio"
+          controlName="precio"
+          [form]="form"
+          autocomplete="on">
+        </app-number-field>
+
+        <app-fecha-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Fecha Vigencia"
+          controlName="fecha_inicio"
+          [form]="form"
+        ></app-fecha-field>
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="form-label-hora mr-2">Hora</label>
+          <mat-form-field>
+            <input
+              matInput
+              [value]="horaInicio"/>
+            <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
+              Ingrese una hora válida en formato HH:MM.
+            </mat-error>
+          </mat-form-field>
         </div>
+
       </div>
-       
-      <div class="row page-form-row">
-        <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-          <label class="form-label mr-2">Observacion</label>
-          <app-input-field 
-            controlName="observacion"
-            [form]="form"
-            class="app-input-field"
-          ></app-input-field>
-        </div>
+
+      <div class="row">
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Unidad"
+          controlName="unidad_id"
+          [form]="form"
+        ></app-input-field>
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Moneda"
+          controlName="moneda_id"
+          [form]="form"
+        ></app-input-field>
+
       </div>
+
+      <div class="row">
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-8"
+          title="Observación"
+          controlName="observacion"
+          [form]="form"
+        ></app-input-field>
+
+      </div>
+
   </div>
 </app-page-form>

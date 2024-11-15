@@ -1,48 +1,61 @@
 <div *ngIf="form" [formGroup]="form">
-  <div [formGroupName]="groupName">
+  <div [formGroupName]="groupName" class="row">
 
-    <div class="row">
+    <div class="col-xs-9">
 
-      <app-propietario-readonly-by-id-dialog-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        [groupName]="groupName"
-        [form]="form"
-        [semiId]="semi?.id"
-        [propietarioId]="propietarioId"
-      ></app-propietario-readonly-by-id-dialog-field>
+      <div class="row">
 
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Placa"
-        [groupName]="groupName"
-        controlName="placa"
-        [form]="form"
-      ></app-input-field>
+        <app-propietario-readonly-by-id-dialog-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          [groupName]="groupName"
+          [form]="form"
+          [semiId]="semi?.id"
+          [propietarioId]="propietarioId"
+        ></app-propietario-readonly-by-id-dialog-field>
 
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="N° Chasís"
-        [groupName]="groupName"
-        controlName="numero_chasis"
-        [form]="form"
-      ></app-input-field>
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Placa"
+          [groupName]="groupName"
+          controlName="placa"
+          [form]="form"
+        ></app-input-field>
 
-      <app-estado-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-1"
-        [estado]="estado">
-      </app-estado-field>
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="N° Chasís"
+          [groupName]="groupName"
+          controlName="numero_chasis"
+          [form]="form"
+        ></app-input-field>
 
-      <app-file-field-input
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Foto del Semi-remolque"
-        [groupName]="groupName"
-        controlName="foto"
-        [field]="foto"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoChange.emit($event)"
-      ></app-file-field-input>
+        <app-estado-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          [estado]="estado">
+        </app-estado-field>
+
+      </div>
+
+    </div>
+
+    <div class="col-xs-2">
+
+      <div class="row">
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-8"
+          title="Foto del Semi-remolque"
+          [className]="'file-max-size'"
+          [groupName]="groupName"
+          controlName="foto"
+          [field]="foto"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoChange.emit($event)"
+        ></app-file-field-input>
+
+      </div>
 
     </div>
 

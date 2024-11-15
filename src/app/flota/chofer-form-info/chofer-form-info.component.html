@@ -1,7 +1,7 @@
 <div [formGroup]="form" *ngIf="form">
   <div [formGroupName]="groupName" class="row">
 
-    <div class="col-xs-10">
+    <div class="col-xs-9">
 
       <div class="row">
 
@@ -14,7 +14,7 @@
         ></app-tipo-documento-field>
 
         <app-input-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
           title="Nombre"
           [groupName]="groupName"
           controlName="nombre"
@@ -34,7 +34,7 @@
         </app-estado-field>
 
         <app-input-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="N. Doc."
           [groupName]="groupName"
           controlName="numero_documento"
@@ -78,8 +78,7 @@
         ></app-pais-field>
 
         <app-telefono-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          style="height: 75px;"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Telefono"
           [groupName]="groupName"
           [form]="form"
@@ -125,43 +124,47 @@
 
     </div>
 
-    <div class="col-xs-2">
+    <div class="col-xs-3">
 
-      <app-file-field-input
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Doc.frontal"
-        [groupName]="groupName"
-        controlName="foto_documento_frente"
-        [field]="fotoDocumentoFrente"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoDocumentoFrenteChange.emit($event)"
-      ></app-file-field-input>
+      <div class="row">
 
-      <app-file-field-input
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Doc.reverso"
-        [groupName]="groupName"
-        controlName="foto_documento_reverso"
-        [field]="fotoDocumentoReverso"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoDocumentoReversoChange.emit($event)"
-      ></app-file-field-input>
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Doc.frontal"
+          [groupName]="groupName"
+          controlName="foto_documento_frente"
+          [field]="fotoDocumentoFrente"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoFrenteChange.emit($event)"
+        ></app-file-field-input>
 
-      <app-file-field-input
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Avatar"
-        [groupName]="groupName"
-        controlName="foto_perfil"
-        [field]="fotoPerfil"
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        (fileChange)="fotoPerfilChange.emit($event)"
-      ></app-file-field-input>
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Doc.reverso"
+          [groupName]="groupName"
+          controlName="foto_documento_reverso"
+          [field]="fotoDocumentoReverso"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoDocumentoReversoChange.emit($event)"
+        ></app-file-field-input>
+
+        <app-file-field-input
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Avatar"
+          [groupName]="groupName"
+          controlName="foto_perfil"
+          [field]="fotoPerfil"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoPerfilChange.emit($event)"
+        ></app-file-field-input>
+
+      </div>
 
     </div>
 
