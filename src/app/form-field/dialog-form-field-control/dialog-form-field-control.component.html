@@ -1,19 +1,15 @@
-<div
-  role="group"
+<div role="group"
   class="app-dialog-form-field-control-container"
   [formGroup]="formGroup"
   (focusin)="onFocusIn($event)"
-  (focusout)="onFocusOut($event)"
+  (focusout)="onFocusOut($event)">
 
->
- 
   <input formControlName="id" aria-label="Id" readonly hidden #id />
-  <input
-    class="app-dialog-form-field-control-element"
+
+  <input class="app-dialog-form-field-control-element"
     formControlName="descripcion"
     aria-label="Descripción"
     #descripcion
-    (keydown)="keyPress($event)"
-  />
+    (keydown)="keyPress($event)"/>
 
 </div>
