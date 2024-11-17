@@ -5,6 +5,14 @@
     </button>
   </h1>
   <div mat-dialog-content class="dialog-content">
-    <img [src]="data.imageUrl" alt="Imagen" class="dialog-image">
+    <ng-container *ngIf="data.imageBase64">
+      <img [src]="data.imageBase64 | imageFileBase64 | async"
+        alt="Imagen" class="dialog-image">
+    </ng-container>
+
+    <ng-container *ngIf="data.imageUrl">
+      <img  [src]="data.imageUrl" alt="Imagen" class="dialog-image">
+    </ng-container>
+    
   </div>
   

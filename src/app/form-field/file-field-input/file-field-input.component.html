@@ -13,6 +13,7 @@
             *ngIf="fieldFile && !field"
             [src]="fieldFile | imageFileBase64 | async"
             alt=""
+            (click)="openImageDialog()"
             class="file-field {{ className }}"
           />
           <img *ngIf="field" [src]="field" alt="" class="file-field" />
@@ -64,6 +65,7 @@
             *ngIf="fieldFile"
             [src]="fieldFile | imageFileBase64 | async"
             alt=""
+            (click)="openImageDialog()"
             class="file-field {{ className }}"
           />
           <img *ngIf="field" [src]="field" alt="" class="file-field" />
