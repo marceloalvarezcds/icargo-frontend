@@ -247,7 +247,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });  
+      });
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFrenteFile) {
@@ -390,16 +390,16 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             email: data.email,
             es_chofer: data.es_chofer,
             puede_recibir_anticipos: data.puede_recibir_anticipos,
-            foto_documento_frente: null,
-            foto_documento_reverso: null,
-            foto_perfil: null,
+            foto_documento_frente: data.foto_documento_frente,
+            foto_documento_reverso: data.foto_documento_reverso,
+            foto_perfil: data.foto_perfil,
           },
           chofer: {
             tipo_documento_id: data.tipo_documento_id ?? null,
             pais_emisor_documento_id: data.pais_emisor_documento_id ?? null,
             numero_documento: data.numero_documento ?? null,
-            foto_documento_frente_chofer: null,
-            foto_documento_reverso_chofer: null,
+            foto_documento_frente_chofer: data.foto_documento_frente_chofer,
+            foto_documento_reverso_chofer: data.foto_documento_reverso_chofer,
           },
           registro: {
             pais_emisor_registro_id: data.pais_emisor_documento_id ?? null,
@@ -409,8 +409,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             tipo_registro_id: data.tipo_registro_id ?? null,
             numero_registro: data.numero_registro ?? null,
             vencimiento_registro: data.vencimiento_registro ?? null,
-            foto_registro_frente: null,
-            foto_registro_reverso: null,
+            foto_registro_frente: data.foto_registro_frente,
+            foto_registro_reverso: data.foto_registro_reverso,
           },
           address: {
             ciudad_id: data.ciudad_id,
@@ -418,7 +418,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           },
           contactos: [],
         });
-    
+
         this.contactoList = data.contactos.slice();
         setTimeout(() => {
           this.hasChange = false;

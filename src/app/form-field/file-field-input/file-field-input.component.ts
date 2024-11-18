@@ -54,8 +54,16 @@ export class FileFieldInputComponent {
   openImageDialog():void {
     this.dialog.open(ImageDialogComponent, {
       data: { imageBase64: this.fieldFile},
-      width: 'auto',  
-      height: 'auto',     
+      width: 'auto',
+      height: 'auto',
+    });
+  }
+
+  openImageDialogEdit():void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imageUrl: this.field},
+      width: 'auto',
+      height: 'auto',
     });
   }
 

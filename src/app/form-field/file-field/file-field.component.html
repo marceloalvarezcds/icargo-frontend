@@ -15,7 +15,7 @@
             alt=""
             class="file-field"
           />
-          <img *ngIf="field" [src]="field" alt="" class="file-field" />
+          <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
         </div>
         <input
           id="file-input"
@@ -59,7 +59,7 @@
           alt=""
           class="file-field"
         />
-        <img *ngIf="field" [src]="field" alt="" class="file-field" />
+        <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
       </div>
       <input
         id="file-input"

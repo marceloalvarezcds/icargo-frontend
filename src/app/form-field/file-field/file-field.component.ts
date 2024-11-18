@@ -1,5 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
+import { ImageDialogComponent } from 'src/app/dialogs/image-dialog/image-dialog.component';
 import { FileChangeEvent } from 'src/app/interfaces/file-change-event';
 
 @Component({
@@ -25,8 +27,8 @@ export class FileFieldComponent {
   //   return this.fieldControl.disabled
   // }
 
-  @Input() autofocus = false; 
-  @Input() disabled = false; 
+  @Input() autofocus = false;
+  @Input() disabled = false;
   @Input() className = '';
   @Input() controlName = '';
   @Input() form?: FormGroup;
@@ -42,8 +44,11 @@ export class FileFieldComponent {
     }
   }
 
-
   imageLoaded: boolean = false;
+
+  constructor(
+    private dialog: MatDialog,
+  ) {}
 
   onFileChange(event: Event) {
     const fileInput = event.target as HTMLInputElement;
@@ -69,4 +74,13 @@ export class FileFieldComponent {
       // this.imageLoaded = true;
     }
   }
+
+  openImageDialogEdit():void {
+    this.dialog.open(ImageDialogComponent, {
+      data: { imageUrl: this.field},
+      width: 'auto',
+      height: 'auto',
+    });
+  }
+
 }
