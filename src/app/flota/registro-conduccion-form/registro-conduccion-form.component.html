@@ -4,7 +4,35 @@
 
     <div formGroupName="registro" class="row">
 
-      <div class="col-xs-10">
+      <div class="col-xs-9">
+
+        <div class="row">
+
+          <app-tipo-registro-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Tipo Registro"
+            groupName="registro"
+            controlName="tipo_registro_id"
+            [form]="form"
+          ></app-tipo-registro-field>
+
+          <app-input-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Número de Registro"
+            groupName="registro"
+            controlName="numero_registro"
+            [form]="form"
+          ></app-input-field>
+
+          <app-fecha-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Fecha de vencimiento del Registro"
+            groupName="registro"
+            controlName="vencimiento_registro"
+            [form]="form"
+          ></app-fecha-field>
+
+        </div>
 
         <div class="row">
 
@@ -38,61 +66,39 @@
 
         </div>
 
-        <div class="row">
 
-          <app-tipo-registro-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            title="Tipo Registro"
-            groupName="registro"
-            controlName="tipo_registro_id"
-            [form]="form"
-          ></app-tipo-registro-field>
-
-          <app-input-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            title="Número de Registro"
-            groupName="registro"
-            controlName="numero_registro"
-            [form]="form"
-          ></app-input-field>
-
-          <app-fecha-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            title="Fecha de vencimiento del Registro"
-            groupName="registro"
-            controlName="vencimiento_registro"
-            [form]="form"
-          ></app-fecha-field>
-
-        </div>
 
       </div>
 
-      <div class="col-xs-2">
+      <div class="col-xs-3">
 
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
-          title="Foto del registro - frontal"
-          groupName="registro"
-          controlName="foto_registro_frente"
-          [field]="fotoRegistroFrente"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoRegistroFrenteChange.emit($event)"
-        ></app-file-field-input>
+        <div class="row">
 
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
-          title="Foto del registro - reverso"
-          groupName="registro"
-          controlName="foto_registro_reverso"
-          [field]="fotoRegistroReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoRegistroReversoChange.emit($event)"
-        ></app-file-field-input>
+          <app-file-field-input
+            class="input-form-full col-xs-12 col-sm-6 col-md-6"
+            title="Foto del registro - frontal"
+            groupName="registro"
+            controlName="foto_registro_frente"
+            [field]="fotoRegistroFrente"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoRegistroFrenteChange.emit($event)"
+          ></app-file-field-input>
+
+          <app-file-field-input
+            class="input-form-full col-xs-12 col-sm-6 col-md-6"
+            title="Foto del registro - reverso"
+            groupName="registro"
+            controlName="foto_registro_reverso"
+            [field]="fotoRegistroReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoRegistroReversoChange.emit($event)"
+          ></app-file-field-input>
+
+        </div>
 
       </div>
 

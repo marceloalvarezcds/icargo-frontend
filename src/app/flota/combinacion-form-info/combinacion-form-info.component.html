@@ -198,6 +198,7 @@
                 [control]="puedeRecibirAnticiposControl"
                 controlName="puede_recibir_anticipos"
                 trueTitle="Puede recibir anticipos"
+                [readonly]="true"
                 falseTitle="No puede recibir anticipos"
                 (valueChange)="
                   !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"

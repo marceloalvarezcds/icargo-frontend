@@ -78,15 +78,14 @@
                       || oc?.estado === E.ACEPTADO
                       || (oc?.estado === E.FINALIZADO && puedeConciliar)
                       || module === 'CONCILIAR'"
-              type="button"
               mat-mini-fab
+              class="botones" type="button"
               [ngClass]="{
                 'anticipo-toggle-button-active': isAnticipoActive,
                 'anticipo-toggle-button-inactive': !isAnticipoActive,
                 'button-disabled': isFormSubmitting || isShow
               }"
               color="warn"
-              class="anticipo-toggle-button"
               [disabled]="isFormSubmitting"
               (click)="activeClick.emit($event)">
               <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
@@ -161,9 +160,8 @@
                   (oc?.estado !== 'Nuevo') &&
                   submodule !== 'ORDEN CARGA (directa)' &&
                   submodule !== 'ANTICIPO (directo)'"
-          mat-flat-button
-          class="botones"
-          type="button"
+          mat-stroked-button
+          class="botones" type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
                           (oc?.estado === E.NUEVO) ||
                           !oc?.cantidad_destino"
@@ -252,14 +250,12 @@
 
         <button
           mat-flat-button
-          class="botones"color="primary"
+          class="botones" color="primary"
           type="button"
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
           *ngIf="isOc && isEdit && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
-
-          class="add-button orden-carga-cambiar-pedido"
         >
           CAMBIAR PEDIDO
         </button>

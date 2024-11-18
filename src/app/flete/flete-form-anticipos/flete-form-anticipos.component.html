@@ -1,11 +1,4 @@
 <div *ngIf="form" [formGroup]="form">
-  <div class="row page-form-row">
-
-    <div class="col-xs-12 obs" [class.obs-error]="formArray.hasError('max')">
-      <strong>Obs: </strong>La suma de porcentajes no debe superar el 100%
-    </div>
-
-  </div>
 
   <div [formArrayName]="groupName">
 
@@ -13,7 +6,7 @@
 
       <ng-container *ngFor="let it of formArray.controls; let index = index">
 
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-4" [formGroupName]="index">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-3" [formGroupName]="index">
           <label class="form-label mr-2">
             Porcentaje de Liberación de {{ it.get("concepto")?.value }}
           </label>
@@ -42,6 +35,10 @@
 
         </div>
       </ng-container>
+
+      <div class="col-xs-12 obs" [class.obs-error]="formArray.hasError('max')">
+        <strong>Obs: </strong>La suma de porcentajes no debe superar el 100%
+      </div>
 
     </div>
 

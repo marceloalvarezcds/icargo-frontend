@@ -25,8 +25,7 @@
           (change)="fieldChange($event)"
           style="display: none"
         />
-        <mat-form-field floatLabel="always" appearance="outline" *ngIf="!isShow"
-            class="file-form-field-borrar">
+        <mat-form-field floatLabel="always" appearance="outline" *ngIf="!isShow">
           <input
             matInput
             readonly
@@ -35,7 +34,8 @@
           />
           <button mat-icon-button matSuffix
               color="primary" type="button"
-              (click)="fileInput.click()">
+              (click)="fileInput.click()"
+              [disabled]="disabled">
             <mat-icon>attach_file</mat-icon>
           </button>
           <mat-error *ngIf="fieldControl.hasError('required')">
@@ -78,7 +78,8 @@
         />
         <button mat-icon-button matSuffix
               color="primary" type="button"
-              (click)="fileInput.click()">
+              (click)="fileInput.click()"
+              [disabled]="disabled">
             <mat-icon>attach_file</mat-icon>
           </button>
         <mat-error *ngIf="fieldControl.hasError('required')">
