@@ -5,14 +5,6 @@
 
       <div class="row">
 
-        <app-tipo-documento-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Tipo Doc."
-          [groupName]="groupName"
-          controlName="tipo_documento_id"
-          [form]="form"
-        ></app-tipo-documento-field>
-
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-4"
           title="Nombre"
@@ -28,6 +20,14 @@
           [form]="form"
         ></app-alias-field>
 
+        <app-fecha-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Fecha de nacimiento"
+          [groupName]="groupName"
+          controlName="fecha_nacimiento"
+          [form]="form"
+        ></app-fecha-field>
+
         <app-estado-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           [estado]="estado">
@@ -40,6 +40,22 @@
           controlName="numero_documento"
           [form]="form"
         ></app-input-field>
+
+        <app-tipo-documento-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Tipo Doc."
+          [groupName]="groupName"
+          controlName="tipo_documento_id"
+          [form]="form"
+        ></app-tipo-documento-field>
+
+        <app-pais-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="País Emisor Doc."
+          [groupName]="groupName"
+          controlName="pais_emisor_documento_id"
+          [form]="form"
+        ></app-pais-field>
 
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -57,25 +73,17 @@
           [form]="form"
         ></app-digito-verificador-field>
 
-        <app-fecha-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Fecha de nacimiento"
-          [groupName]="groupName"
-          controlName="fecha_nacimiento"
-          [form]="form"
-        ></app-fecha-field>
+
+
+
+
+
+
+
 
       </div>
 
       <div class="row">
-
-        <app-pais-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="País Emisor Doc."
-          [groupName]="groupName"
-          controlName="pais_emisor_documento_id"
-          [form]="form"
-        ></app-pais-field>
 
         <app-telefono-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -98,27 +106,30 @@
           [form]="form"
         ></app-oficial-cuenta-field>
 
-        <app-slide
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          [isShow]="isShow"
-          [control]="esPropietarioControl"
-          trueTitle="Es Propietario"
-          falseTitle="No es Propietario"
-          (valueChange)="esPropietarioChange.emit($event)"
-        ></app-slide>
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            style="display: flex; flex-direction: column; align-items: flex-start;">
 
-        <app-slide
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          [isShow]="isShow"
-          [control]="puedeRecibirAnticiposControl"
-          trueTitle="Puede recibir anticipos"
-          falseTitle="No puede recibir anticipos"
-          (valueChange)="
-            !$event &&
-              cantidadOCConAnticiposLiberados > 0 &&
-              anticiposBloqueadosChange.emit()
-          "
-        ></app-slide>
+          <app-slide
+            [isShow]="isShow"
+            [control]="esPropietarioControl"
+            trueTitle="Es Propietario"
+            falseTitle="No es Propietario"
+            (valueChange)="esPropietarioChange.emit($event)"
+          ></app-slide>
+
+          <app-slide
+            [isShow]="isShow"
+            [control]="puedeRecibirAnticiposControl"
+            trueTitle="Puede recibir anticipos"
+            falseTitle="No puede recibir anticipos"
+            (valueChange)="
+              !$event &&
+                cantidadOCConAnticiposLiberados > 0 &&
+                anticiposBloqueadosChange.emit()
+            "
+          ></app-slide>
+
+        </div>
 
       </div>
 

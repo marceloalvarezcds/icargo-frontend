@@ -8,6 +8,34 @@
 
         <div class="row">
 
+          <app-tipo-registro-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Tipo Registro"
+            groupName="registro"
+            controlName="tipo_registro_id"
+            [form]="form"
+          ></app-tipo-registro-field>
+
+          <app-input-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Número de Registro"
+            groupName="registro"
+            controlName="numero_registro"
+            [form]="form"
+          ></app-input-field>
+
+          <app-fecha-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Fecha de vencimiento del Registro"
+            groupName="registro"
+            controlName="vencimiento_registro"
+            [form]="form"
+          ></app-fecha-field>
+
+        </div>
+
+        <div class="row">
+
           <app-pais-field
             class="input-form-full col-xs-12 col-sm-6 col-md-3"
             title="País"
@@ -38,33 +66,7 @@
 
         </div>
 
-        <div class="row">
 
-          <app-tipo-registro-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            title="Tipo Registro"
-            groupName="registro"
-            controlName="tipo_registro_id"
-            [form]="form"
-          ></app-tipo-registro-field>
-
-          <app-input-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            title="Número de Registro"
-            groupName="registro"
-            controlName="numero_registro"
-            [form]="form"
-          ></app-input-field>
-
-          <app-fecha-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            title="Fecha de vencimiento del Registro"
-            groupName="registro"
-            controlName="vencimiento_registro"
-            [form]="form"
-          ></app-fecha-field>
-
-        </div>
 
       </div>
 
