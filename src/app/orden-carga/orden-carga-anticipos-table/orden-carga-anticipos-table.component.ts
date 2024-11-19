@@ -31,6 +31,9 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   isButtonPressed: boolean = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
   a = PermisoAccionEnum;
+
+  colapseDivAnticipo = false;
+
   columns: Column[] = [
 
     {
@@ -123,7 +126,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
       this.anticiposEfectivo = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
         this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
   }
-  
+
 
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
 
@@ -180,12 +183,12 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
       ['combustible', 'efectivo'].includes(anticipo.concepto.toLowerCase())
     ) || [];
-  
+
     // Eliminar duplicados basados en el concepto
     const uniqueAnticipos = anticiposFiltrados.filter((anticipo, index, self) =>
       index === self.findIndex((a) => a.concepto.toLowerCase() === anticipo.concepto.toLowerCase())
     );
-  
+
     // Ordenar anticipos: primero 'efectivo', luego 'combustible'
     return uniqueAnticipos.sort((a, b) => {
       if (a.concepto.toLowerCase() === 'efectivo' && b.concepto.toLowerCase() === 'combustible') {
@@ -196,7 +199,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
       return 0; // Mantener el orden original si no es 'Efectivo' ni 'Combustible'
     });
   }
-  
+
 
   getSaldoAnticipo(anticipo: any): number {
     const tarifaEfectivo = this.oc?.flete_tarifa ?? 0;
@@ -227,8 +230,8 @@ openEvaluacionesDialog(): void {
             origen_id: this.oc?.origen_id,
             destino_id: this.oc?.destino_id,
             producto_id: this.oc?.flete_producto_id
-    }, 
-    width: '30rem',  
+    },
+    width: '30rem',
     height: 'auto',
     panelClass: 'custom-dialog-container'
   });
@@ -236,9 +239,9 @@ openEvaluacionesDialog(): void {
 
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {
-      width: '1600px',  
-      data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos} 
-     
+      width: '1600px',
+      data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos}
+
     });
     console.log('dataGESTION', this.oc?.flete_anticipos)
   }
@@ -285,9 +288,9 @@ openEvaluacionesDialog(): void {
       flete_id: this.oc!.flete_id,
       item,
     };
-    return this.dialog.open(OcAnticipoRetiradoMockupComponent, {     
-      width: '700px', 
-      height: 'auto', 
+    return this.dialog.open(OcAnticipoRetiradoMockupComponent, {
+      width: '700px',
+      height: 'auto',
       data });
   }
 
@@ -295,13 +298,13 @@ openEvaluacionesDialog(): void {
     // Si filteredAnticipos no contiene 'Efectivo', muestra el saldo por defecto
     return !!this.filteredAnticipos.find(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
   }
-  
+
   getSaldoEfectivo(): number {
     // Obtiene el saldo del anticipo "Efectivo"
     const efectivoAnticipo = this.filteredAnticipos.find(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
     return efectivoAnticipo ? this.getSaldoAnticipo(efectivoAnticipo) : 0;
   }
-  
+
 
   private emitOcChange(): void {
     this.ocChange.emit();
