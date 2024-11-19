@@ -35,7 +35,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   pdfSrc: string | undefined;
   manualChange: boolean = false;
   private originalNeto: number | null = null;
-  
+
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
   @Input() list: OrdenCargaComentariosHistorial[] = [];
@@ -60,6 +60,12 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() semiChange = new EventEmitter<Semi>();
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
+
+  /*  collapside */
+
+  colapseDivFlota = false;
+  colapseDivpedido = false;
+  colapseDivCantidad = false;
 
   ngOnInit() {
     // Detectar cuando el usuario cambia manualmente el valor de cantidad_nominada
@@ -99,18 +105,18 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   }
 
   get estadoChofer(): FormControl {
-    return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl 
+    return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl
   }
 
   isFormValid(): boolean {
-    return  this.form?.get(this.groupName)?.get('semi_placa')?.value 
+    return  this.form?.get(this.groupName)?.get('semi_placa')?.value
   }
 
   previewPDF(): void {
     this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
         const url = URL.createObjectURL(file);
-        window.open(url); 
+        window.open(url);
         this.pdfSrc = url;
       });
     });
@@ -120,12 +126,12 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     this.flete = flete;
 
       this.fleteChange.emit(flete);
-  
-    
+
+
     this.fleteService.getList().subscribe(
       (fletes: FleteList[]) => {
         const formGroup = this.form?.get(this.groupName);
-  
+
         if (formGroup?.get('numero_lote')?.value !== flete.numero_lote) {
           formGroup?.get('numero_lote')?.setValue(flete.numero_lote);
         }
@@ -162,39 +168,39 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       },
     );
   }
-  
+
 
   constructor(private service: SemiService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef, private ordenCargaService: OrdenCargaService, private reportsService: ReportsService,) {}
-  
+
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {
       this.semiChange.emit(semi);
     }
-    
+
   }
-  
+
   onCamionChange(combinacion?: CombinacionList) {
     if (combinacion) {
       // Solo almacena el valor original de neto una vez
       if (this.originalNeto === null) {
         this.originalNeto = this.form?.get(this.groupName)?.get('neto')?.value;
       }
-  
+
       // Actualiza los campos del formulario
-      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id); 
-      this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion); 
-      this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion.color_camion ?? null); 
+      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id);
+      this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion);
+      this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion.color_camion ?? null);
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion.semi_id);
       this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion.semi_placa);
-      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null); 
-      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null); 
+      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null);
+      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
       this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion.camion_propietario_nombre);
       this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion.propietario_ruc);
       this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
       this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
       this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion.chofer_nombre);
       this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
-  
+
       // Comparar y actualizar solo si el nuevo neto es diferente del original
       if (combinacion.neto !== this.originalNeto) {
         this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion.neto);
@@ -202,40 +208,40 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         // Si no hay cambio, restablece al valor original
         this.form?.get(this.groupName)?.get('neto')?.setValue(this.originalNeto);
       }
-  
+
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
-  
+
       // Solo actualizar cantidad_nominada si no ha sido modificada manualmente y si isNeto es true
       if (this.isNeto) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
       }
-  
+
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
-  
+
       // this.camionService.getById(combinacion.camion_id).subscribe(camion => {
       //   this.camionChange.emit(camion);
       // });
-  
+
       // this.service.getById(combinacion.semi_id).subscribe(semi => {
       //   this.onSemiChange(semi);
       // });
     }
   }
-  
-  
+
+
   onOrdenCargaChange(oc?: OrdenCargaList) {
     if (oc) {
       this.ordenCargaChange.emit(oc);
-      this.form?.get(this.groupName)?.get('flete_id')?.setValue(oc.flete_id); 
-      this.form?.get(this.groupName)?.get('numero_lote')?.setValue(oc.flete_numero_lote); 
-      this.form?.get(this.groupName)?.get('saldo')?.setValue(oc.flete_saldo); 
+      this.form?.get(this.groupName)?.get('flete_id')?.setValue(oc.flete_id);
+      this.form?.get(this.groupName)?.get('numero_lote')?.setValue(oc.flete_numero_lote);
+      this.form?.get(this.groupName)?.get('saldo')?.setValue(oc.flete_saldo);
       this.form?.get(this.groupName)?.get('cliente')?.setValue(oc.flete_remitente_nombre);
       this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(oc.flete_producto_descripcion);
       this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(oc?.flete_origen_nombre);
-      this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(oc?.flete_destino_nombre); 
-      this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(oc.flete_tipo); 
+      this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(oc?.flete_destino_nombre);
+      this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(oc.flete_tipo);
 
       if (this.manualChange) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
@@ -253,8 +259,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       });
     });
   }
-  
-  
+
+
 
   @Input() title = 'Chapa Tracto';
   @Input() control!: FormControl;

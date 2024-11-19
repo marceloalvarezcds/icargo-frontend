@@ -1,9 +1,9 @@
 
 
   <div class="section">
-    <h2>ANTICIPOS</h2>
+    <h2 class="title-colapside" (click)="colapseDivAnticipo=!colapseDivAnticipo">ANTICIPOS</h2>
 
-    <div class="row">
+    <div class="row" [class.colapse-div]="colapseDivAnticipo">
 
       <div *ngFor="let anticipo of filteredAnticipos"
         class="input-form-full col-xs-12 col-sm-6 col-md-3">
@@ -72,7 +72,7 @@
 
   </div>
 
-  <div class="table-container small-table">
+  <div class="table-container small-table" [class.colapse-div]="colapseDivAnticipo">
     <app-table
       [columns]="columns"
       [data]="list"

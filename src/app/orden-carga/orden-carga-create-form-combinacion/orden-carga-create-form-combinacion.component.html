@@ -3,9 +3,9 @@
   <div [formGroupName]="groupName">
 
     <div class="section">
-      <h2>FLOTA</h2>
+      <h2 class="title-colapside" (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivFlota">
 
         <app-combinacion-dialog-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -82,7 +82,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivFlota">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -133,7 +133,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivFlota">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -172,10 +172,10 @@
 
     <div class="section">
 
-      <h2 *ngIf="oc?.estado === 'Nuevo' || showSearchPedido" >PEDIDO</h2>
-      <h2 *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido">FLETE</h2>
+      <h2 class="title-colapside" *ngIf="oc?.estado === 'Nuevo' || showSearchPedido" (click)="colapseDivpedido=!colapseDivpedido">PEDIDO</h2>
+      <h2 class="title-colapside" *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido" (click)="colapseDivpedido=!colapseDivpedido">FLETE</h2>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-flete-by-gestor-dialog-field
           *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')"
@@ -285,7 +285,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -322,7 +322,7 @@
 
       </div>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -352,9 +352,9 @@
     </div>
 
     <div class="section">
-      <h2>CANTIDAD NOMINADA</h2>
+      <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">CANTIDAD NOMINADA</h2>
 
-      <div class="row">
+      <div class="row" [class.colapse-div]="colapseDivCantidad">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -380,7 +380,7 @@
 
     </div>
 
-    <div class="row">
+    <div class="row" [class.colapse-div]="colapseDivCantidad">
 
       <app-input-field-oc
         class="input-form-full col-xs-12 col-sm-6 col-md-2"

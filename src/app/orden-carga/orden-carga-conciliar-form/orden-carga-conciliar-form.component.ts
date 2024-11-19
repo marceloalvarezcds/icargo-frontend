@@ -50,7 +50,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   isFormSubmitting = true;
   previousid: number | null = null;
   isLoadingData: boolean = false;
-  isLoading = false; 
+  isLoading = false;
   private valueChangesSubscription: any;
   previousId: number | null = null;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
@@ -71,6 +71,14 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   isDataLoaded: boolean = true;
   private dialogOpened = false;
   originalComentario: string | null = null;
+
+  /*  collapside */
+  colapseDivRemision = false;
+  colapseDivTramo = false;
+  colapseDivResultado = false;
+  colapseDivMovimiento = false;
+  colapseDivDescuento = false;
+
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -218,19 +226,19 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     this.setInitialToggleState();
     this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
     .pipe(
-      debounceTime(300), 
+      debounceTime(300),
       distinctUntilChanged()
     )
     .subscribe(id => {
       this.handleIdChange(id);
     });
-    console.log('Movimiento', this.gestorCargaId); 
+    console.log('Movimiento', this.gestorCargaId);
   }
 
   handleIdChange(id: number | null): void {
     if (id && id !== this.previousId) {
       this.previousId = id;
-      if (!this.isLoadingData) { 
+      if (!this.isLoadingData) {
         this.getData();
       }
     }
@@ -252,7 +260,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private reportsService: ReportsService,
     private snackBar: MatSnackBar,
-    
+
   ) {}
 
   openDialog(): void {
@@ -271,7 +279,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
 
   setInitialToggleState(): void {
     if (this.item && this.item.anticipos_liberados) {
-      this.isActive = this.item.anticipos_liberados; 
+      this.isActive = this.item.anticipos_liberados;
     }
   }
 
@@ -285,7 +293,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       }
       if (comentario !== this.originalComentario) {
         const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
-  
+
         if (confirmation) {
           const formData = new FormData();
           const data = {
@@ -293,7 +301,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             comentario: comentario,
           };
           formData.append('data', JSON.stringify(data));
-  
+
           this.ordenCargaService.createComentarios(formData).subscribe(
             (item) => {
               this.getData();
@@ -301,7 +309,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             },
             (error) => {
               console.error('Error al crear el comentario', error);
-             
+
             }
           );
         } else {
@@ -326,7 +334,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       console.error('No se puede activar anticipos sin un ID válido');
     }
   }
-  
+
   inactive(): void {
     if (this.ordenCargaId !== null) {
       this.dialog.changeStatusConfirm(
@@ -361,7 +369,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       console.error('No se puede aceptar la orden de carga sin un ID válido');
     }
   }
-  
+
   private createComentarioYAceptar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -369,7 +377,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(
       () => {
         this.aceptarOrdenCarga();
@@ -379,20 +387,20 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   private aceptarOrdenCarga(): void {
     this.ordenCargaService.aceptar(this.idOC as number).subscribe(
       () => {
         this.snackbar.open('Estado cambiado satisfactoriamente');
-        this.puedeCrearRemision = true; 
+        this.puedeCrearRemision = true;
       },
       (error) => {
         console.error('Error al aceptar la orden de carga:', error);
       }
     );
   }
-  
-  
+
+
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
         const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
@@ -494,7 +502,7 @@ private cancelOrdenCarga(): void {
           this.ordenCargaService.finalizar(this.idOC),
           () => {
               this.getData();
-              
+
               // Abre el diálogo de evaluación
               const dialogRef = this.openEvaluacionesDialog();
 
@@ -522,10 +530,10 @@ private cancelOrdenCarga(): void {
         alert('La Orden de Carga ya está conciliada.');
         return;
       }
-  
+
       const comentario = this.form.get('info.comentarios')?.value;
       const comentarioUpper = comentario ? comentario.toUpperCase() : '';
-  
+
       if (comentarioUpper) {
         this.createComentarioYConciliar(comentarioUpper);
       } else {
@@ -573,7 +581,7 @@ private cancelOrdenCarga(): void {
       panelClass: 'custom-dialog-container'
     });
   }
-  
+
   private createComentarioYConciliar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -581,14 +589,14 @@ private cancelOrdenCarga(): void {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(() => {
       this.conciliarOrdenCarga();
     }, error => {
       console.error('Error al crear el comentario', error);
     });
   }
-  
+
   private conciliarOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
         '¿Está seguro que desea conciliar la Orden de Carga?',
@@ -620,11 +628,11 @@ private cancelOrdenCarga(): void {
                 this.downloadConciliarResumenPDF();
             });
         },
-  
+
     );
   }
 
-  
+
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -635,14 +643,14 @@ private cancelOrdenCarga(): void {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
-  
+
   downloadConciliarResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -653,28 +661,28 @@ private cancelOrdenCarga(): void {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
- 
-  
+
+
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
     if (this.form.valid) {
-      
+
 
       if (showDialog) {
         if (!this.dialogOpened) {
           this.dialogOpened = true;
           this.dialog
             .open(OcConfirmationDialogComponent, {
-          
+
               panelClass: 'selector-dialog',
               position: {
                 top: '1rem',
@@ -683,20 +691,20 @@ private cancelOrdenCarga(): void {
             .afterClosed()
             .pipe(filter((confirmed: any) => !!confirmed))
             .subscribe((confirmed) => {
-              this.submit(confirmed); 
-              this.dialogOpened = false; 
+              this.submit(confirmed);
+              this.dialogOpened = false;
             });
         }
       } else {
-        this.submit(true); 
+        this.submit(true);
       }
     }
   }
 
   getData(): void {
-    const ocValue = this.idOC; 
-    if (ocValue) { 
-      this.isLoadingData = true; 
+    const ocValue = this.idOC;
+    if (ocValue) {
+      this.isLoadingData = true;
       this.valueChangesSubscription.unsubscribe();
 
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
@@ -750,25 +758,25 @@ private cancelOrdenCarga(): void {
         });
         this.form.get('info.cantidad_nominada')?.disable();
 
-        this.isLoadingData = false; 
+        this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
         this.ngOnInit();
-        this.isFormSaved = true; 
+        this.isFormSaved = true;
         this.isFormSubmitting = false
         this.isShow = false
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');
-      this.isLoadingData = false; 
+      this.isLoadingData = false;
     }
   }
-  
+
 
   submit(confirmed: boolean): void {
-    this.isFormSaved = true; 
+    this.isFormSaved = true;
     this.isFormSubmitting = false
     this.isShow = false
-    this.dataFromParent = this.form.get('combinacion.estado')?.value; 
+    this.dataFromParent = this.form.get('combinacion.estado')?.value;
     this.getData();
   }
 

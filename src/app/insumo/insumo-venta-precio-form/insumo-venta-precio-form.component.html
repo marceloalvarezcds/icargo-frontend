@@ -62,8 +62,8 @@
 
         <div  class="input-form-full col-xs-12 col-sm-6 col-md-3">
           <label class="form-label-hora mr-2">Hora</label>
-          <mat-form-field class="app-input-field read-only-field">
-            <input matInput [value]="hora" readonly />
+          <mat-form-field class="app-input-field read-only-field" >
+            <input matInput [value]="hora" [disabled]="true" />
           </mat-form-field>
         </div>
 
