@@ -1,89 +1,101 @@
 <form [formGroup]="form">
+
   <h1 mat-dialog-title>
-    <span class="action-text">{{ actionText }}</span> 
+    <span class="action-text">{{ actionText }}</span>
     <span class="complement-text"> DESCUENTO</span>
   </h1>
-  <div class="horizontal-line"></div>
+
+  <div class="section" >
+    <h2> </h2>
+  </div>
 
   <div mat-dialog-content>
-    <div class="form-element">
+
+    <div class="row">
+
       <app-tipo-concepto-descuento-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         controlName="concepto_id"
         [form]="form"
       ></app-tipo-concepto-descuento-field>
-    </div>
 
-    <div class="form-element detalle">
       <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-10"
         title="Detalle"
         controlName="detalle"
         [form]="form"
       ></app-input-field>
-    </div>
 
-    <div class="form-element">
       <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Monto a Cobrar al Propietario"
         controlName="propietario_monto"
         [form]="form"
       ></app-number-field>
-    </div>
 
-    <div class="form-element">
       <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda del Propietario"
         controlName="propietario_moneda_id"
         [form]="form"
       ></app-moneda-field>
-   </div>
 
-   <hr class="horizontal-line-cobrar">
-   <div class="form-element">
-      <div class="toggle cobrar">
-        <mat-slide-toggle formControlName="habilitar_pago_proveedor">
-          {{ pagoAProveedor ? "Pagar al Proveedor" : "No pagar al Proveedor" }}
-        </mat-slide-toggle>
-      </div>
-   </div>
-   <hr [hidden]="pagoAProveedor"  class="horizontal-line-final">
-    <div [hidden]="!pagoAProveedor" class="form-element">
+    </div>
+
+    <hr class="horizontal-line">
+
+    <div class="row">
+
+      <mat-slide-toggle formControlName="habilitar_pago_proveedor">
+        {{ pagoAProveedor ? "Pagar al Proveedor" : "No pagar al Proveedor" }}
+      </mat-slide-toggle>
+
+    </div>
+
+    <hr [hidden]="!pagoAProveedor"  class="horizontal-line">
+
+    <div [hidden]="!pagoAProveedor" class="row">
+
       <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Monto a Pagar al Proveedor "
         controlName="proveedor_monto"
         [form]="form"
       ></app-number-field>
+
       <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda del Proveedor"
         controlName="proveedor_moneda_id"
         [form]="form"
       ></app-moneda-field>
+
       <app-proveedor-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Proveedor"
         controlName="proveedor_id"
         [form]="form"
       ></app-proveedor-field>
-      <hr class="horizontal-line-final">
+
     </div>
+
+    <hr class="horizontal-line">
+
   </div>
 
   <div mat-dialog-actions class="buttons-actions">
-    <button 
-      mat-raised-button 
-      type="button" 
-      class="close-button" 
+    <button
+      mat-stroked-button
+      class="botones"  type="button"
       mat-dialog-close>
       <mat-icon>close</mat-icon>
       Cerrar
     </button>
     <button
-      mat-raised-button
-      type="button"
+      mat-flat-button
+      class="botones" color="primary" type="button"
       (click)="submit()"
-      cdkFocusInitial
-      color="primary"
-      id="submit-button"
-      class="save-button"
-    >
+      cdkFocusInitial>
       <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>

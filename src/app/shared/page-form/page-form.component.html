@@ -173,9 +173,8 @@
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
           && oc?.estado !== E.CONCILIADO"
-          mat-flat-button
-          class="botones"
-          type="button"
+          mat-stroked-button
+          class="botones" type="button"
           [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="conciliarClick.emit($event)">
