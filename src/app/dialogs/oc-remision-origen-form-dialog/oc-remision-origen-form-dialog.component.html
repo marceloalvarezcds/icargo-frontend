@@ -1,80 +1,96 @@
-<form [formGroup]="form" class="main-container">
-  <span mat-dialog-title>
-    <span [ngClass]="{ 'action-text': true }">
-      {{ actionText }} 
-      <span class="arrow"> >> </span>
-      <span class="tipo-remito-text">ORIGEN</span>
-    </span>
-  </span>
-  <h2>REMITO</h2>
+<form [formGroup]="form" >
+
+  <h1 mat-dialog-title>
+    <span class="action-text">{{ actionText }}</span>
+    <span class="complement-text"> ORIGEN</span>
+  </h1>
+
   <div mat-dialog-content>
-    <div class="form-group custom-input-field">
-      <label for="nuevoCampo">L. Carga</label>
-      <input id="nuevoCampo" type="text" formControlName="nuevo_campo" class="form-control"  />
-    </div>    
-    <div class="form-row">
-    
-      <div class="form-group remito-field">
-        <app-input-field
-          title="Nº Remito"
-          controlName="numero_documento"
-          [form]="form"
-        ></app-input-field>
-      </div>
-      <div class="form-group cantidad-field">
-        <app-number-field
-          title="Cantidad (kg)"
-          controlName="cantidad"
-          [hint]="cantidadHint"
-          [form]="form"
-        ></app-number-field>
-      </div>
+
+    <div class="section" >
+      <h2>REMITO</h2>
     </div>
-    
-    <div class="form-row">
-      <div class="form-group unidad-field">
-        <app-unidad-field title="Unidad" [form]="form"></app-unidad-field>
-      </div>
-      <div class="form-group fecha-field">
-        <app-fecha-field
-          title="Fecha Carga"
-          controlName="fecha"
-          [form]="form"
-        ></app-fecha-field>
-      </div>
+
+    <div class="row">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="L. Carga"
+        controlName="nuevo_campo"
+        [form]="form"
+      ></app-input-field>
+
     </div>
-    <div class="form-row">
-      <div class="form-group full-width">
-        <app-file-field-image
-          className=""
-          controlName="foto_documento"
-          [field]="fotoDocumento"
-          [form]="form"
-          (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
-        ></app-file-field-image>
-      </div>
+
+    <div class="row" style="padding-bottom: 10px;">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Nº Remito"
+        controlName="numero_documento"
+        [form]="form"
+      ></app-input-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Cantidad (kg)"
+        controlName="cantidad"
+        [hint]="cantidadHint"
+        [form]="form"
+      ></app-number-field>
+
     </div>
+
+    <div class="row">
+
+      <app-unidad-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Unidad"
+        [form]="form">
+      </app-unidad-field>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Fecha Carga"
+        controlName="fecha"
+        [form]="form"
+      ></app-fecha-field>
+
+    </div>
+
+    <div class="row">
+
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        controlName="foto_documento"
+        [field]="fotoDocumento"
+        [form]="form"
+        (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
+      ></app-file-field-input>
+
+    </div>
+
   </div>
-  <div class="button-line"></div>
+
+  <hr class="horizontal-line-final">
+
   <div mat-dialog-actions>
-    <button 
-    mat-raised-button 
-    type="button" 
-    class="close-button" 
-    mat-dialog-close>
-    <mat-icon>close</mat-icon>
-    Cerrar
+    <button
+      mat-stroked-button
+      class="botones"  type="button"
+      mat-dialog-close>
+      <mat-icon>close</mat-icon>
+      Cerrar
     </button>
     <button
-      mat-raised-button
-      type="button"
+      mat-flat-button
+      class="botones" color="primary" type="button"
       (click)="submit()"
       cdkFocusInitial
-      color="primary"
       id="submit-button"
-      class="save-button"
     >
       <mat-icon>save</mat-icon> GUARDAR
     </button>
   </div>
+
 </form>

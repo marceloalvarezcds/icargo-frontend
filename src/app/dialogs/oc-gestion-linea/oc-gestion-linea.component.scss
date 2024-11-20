@@ -24,7 +24,7 @@
 .gestion-container .info-porcentaje {
   display: flex;
   flex-wrap: nowrap;
-  gap: 6px; 
+  gap: 6px;
 }
 
 .gestion-container .form-group {
@@ -42,14 +42,14 @@
 }
 
 .form-group {
-  margin-bottom: 20px; 
+  margin-bottom: 20px;
   display: flex;
   margin-left: 20px;
   margin-right: 20px;
 }
 
 .table-title {
-  margin-top: -30px; 
+  margin-top: -30px;
   margin-bottom: 20px;
   font-family: 'Roboto', sans-serif;
   font-size: 10px;
@@ -60,13 +60,13 @@
 }
 
 .table-container {
-  margin-top: 13px; 
+  margin-top: 13px;
   margin-bottom: 20px;
   margin-left: -17px;
 }
 
 .table-container{
-  width: 100%; 
+  width: 100%;
 }
 
 /* Ajustar el padding y el espaciado de las celdas dentro de la tabla */
@@ -81,6 +81,7 @@
 .table-container mat-row {
   height: 40px; /* Ajusta la altura de las filas según sea necesario */
 }
+
 /* Estilo del título de la tabla */
 .table-title {
   font-family: 'Roboto', sans-serif;
@@ -88,29 +89,10 @@
   font-weight: 700;
   color: black; /* Color del texto del título */
   margin-bottom: 10px; /* Espacio debajo del título */
-
 }
 
 .fondo-rojo {
   background-color: red;
-}
-
-
-::ng-deep .porcentajes .mat-form-field-outline,
-::ng-deep .combustible .mat-form-field-outline {
-  color: #F25A38;
-  border-radius: 4px;
-  height: 25px;
-  pointer-events: none;
-}
-
-::ng-deep .porcentajes.mat-form-field-disabled .mat-form-field-outline,
-::ng-deep .combustible.mat-form-field-disabled .mat-form-field-outline  {
-  color: #F25A38 !important; /* Mantiene el color del borde */
-}
-
-::ng-deep .porcentajes.mat-form-field-disabled .mat-form-field-outline-thick {
-  color: #F25A38 !important; /* Mantiene el color del borde */
 }
 
 .porcentajes input:disabled {
@@ -118,30 +100,11 @@
   opacity: 15; /* Mantiene el color visible en un input deshabilitado */
 }
 
-::ng-deep .total .mat-form-field-outline,
-::ng-deep .combustible .mat-form-field-outline {
-
-  border-radius: 4px;
-  height: 25px;
-  pointer-events: none;
-}
-
 .total input:disabled {
   color: rgba(0, 0, 0, 0.6);
   opacity: 15; /* Mantiene el color visible en un input deshabilitado */
 }
 
-input{
-  margin-top: -25px;
-  font-family: 'Roboto' sans-serif;
-  font-size: 11px;
-  font-weight: 500;
-  line-height: 16.41px;
-  text-align: right;
-  padding-top: 10px;
-  padding-bottom: 5px;
-  color: #F25A38;
-}
 
 .combustible{
   width: 40px;
@@ -149,17 +112,17 @@ input{
 
 .total{
   width: 53px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .porcentajes{
   width: 53px;
-  margin-right: 20px;
+  margin-right: 10px;
 }
 
 .anticipo-item {
   display: flex;
-  align-items: center;
+  //align-items: center;
   gap: 4px; /* Espacio entre el label y el input */
 }
 
@@ -173,7 +136,7 @@ input{
 .row.page-form-row {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 8px; 
+  gap: 8px;
 }
 
 .column {
@@ -216,7 +179,7 @@ span{
   font-size: 12px;
   font-weight: 530;
   line-height: 16.41px;
-  margin: 0; 
+  margin: 0;
 }
 
 p {
@@ -247,35 +210,35 @@ p {
 }
 
 .full-width-line-top {
-  width: 80%; 
+  width: 80%;
   border: 0;
-  margin: 0; 
-  box-sizing: border-box; 
+  margin: 0;
+  box-sizing: border-box;
   margin-bottom: 2px;
   border: 1px solid #1C1C1C26
 }
 
 .full-width-line-bottom {
-  width: 100%; 
+  width: 100%;
   border: 0;
-  margin: 0; 
-  box-sizing: border-box; 
+  margin: 0;
+  box-sizing: border-box;
   margin-top: -10px;
   border: 1px solid #1C1C1C26
 }
 
 .flex-container {
-  display: flex; 
-  align-items: center; 
+  display: flex;
+  align-items: center;
   flex-wrap: nowrap;
   margin-top: 2px;
 }
 
 .flex-container p {
-  margin: 0; 
-  display: flex; 
-  align-items: center; 
-  white-space: nowrap; 
+  margin: 0;
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .close-button {
@@ -284,7 +247,7 @@ p {
   font-family: 'Roboto', sans-serif;
   font-size: 14px;
   width: auto;
-  padding: 8px 16px; 
+  padding: 8px 16px;
   gap: 4px;
   border-radius: 5.25px;
   border: 1px solid transparent; /* Borde inicial transparente */
@@ -331,7 +294,7 @@ p {
     font-size: 14px;
     font-weight: 400;
     line-height: 16.41px;
-   
+
   }
 
   .span-concepto{
@@ -362,7 +325,6 @@ p {
     line-height: 16.41px;
     text-align: right;
     color: #202020;
-
   }
 
   .total-anticipos{
@@ -373,20 +335,8 @@ p {
     text-align: right;
   }
 
-  input{
-    margin-top: -20px;
-    font-family: 'Roboto' sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    line-height: 16.41px;
-    text-align: right;
-    padding-top: 10px;
-    padding-bottom: 5px;
-    color: #010406E5;
-  }
-
   .table-title {
-    margin-top: -20px; 
+    margin-top: -20px;
     margin-bottom: 20px;
     font-family: 'Roboto' sans-serif;
     font-size: 12px;
@@ -399,7 +349,7 @@ p {
   }
 
   .table-container {
-    margin-top: -20px; 
+    margin-top: -20px;
     margin-bottom: 5px;
     margin-left: -17px;
   }

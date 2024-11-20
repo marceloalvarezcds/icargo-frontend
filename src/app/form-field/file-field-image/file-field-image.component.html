@@ -10,7 +10,7 @@
             <label>Imagen Documento</label>
             <button
               type="button"
-              class="custom-input-button"
+              class="botones"
               [style.backgroundImage]="fileURL ? 'url(' + fileURL + ')' : ''"
               (click)="fileInput.click()"
               [disabled]="disabled"
@@ -70,4 +70,5 @@
       </mat-error>
     </div>
   </ng-container>
+
 </ng-container>

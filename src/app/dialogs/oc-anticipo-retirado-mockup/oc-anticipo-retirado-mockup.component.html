@@ -1,127 +1,166 @@
 <form [formGroup]="form">
-  <span mat-dialog-title>
-    <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span> 
-    <span class="anticipos-text"> ANTICIPO</span>
-  </span>
-  <div class="divider"></div>
-  <div mat-dialog-content>
-    <app-tipo-anticipo-by-flete-field
-      [fleteId]="fleteId"
-      [form]="form"
-      (valueChange)="tipoAnticipoChange($event)"
-    ></app-tipo-anticipo-by-flete-field>
 
-    <ng-container *ngIf="isTipoInsumo">
-      <app-insumo-punto-venta-precio-map-dialog-field
+  <span mat-dialog-title>
+    <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
+    <span class="complement-text"> ANTICIPO</span>
+  </span>
+
+  <div class="section" >
+    <h2> </h2>
+  </div>
+
+  <div mat-dialog-content>
+
+    <div class="row">
+
+      <app-tipo-anticipo-by-flete-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         [fleteId]="fleteId"
         [form]="form"
-        (valueChange)="$event && insumoPuntoVentaPrecioChange($event)"
-      ></app-insumo-punto-venta-precio-map-dialog-field>
-      <div class="space-bottom proveedor">
-        <strong class="proveedor-label">Proveedor: </strong>
-        <span class="input-like">{{ proveedor }}</span>
-      </div>
-      <div class="inline-container">
-      <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
-      <div><strong>Insumo: </strong>{{ insumo }}</div>
-      </div>
-      <div class="inline-container">
-        <strong>Monto: </strong>
-        <span >{{ monto }}</span>
-        <strong>Moneda: </strong>
-        <span>{{ moneda }}</span>
-      </div>
-      <div class="space-bottom">
-        <strong>Precio Unitario: </strong>
-        {{ precioUnitarioControl.value | numberFormat }}
-      </div> 
-    </ng-container>
+        (valueChange)="tipoAnticipoChange($event)"
+      ></app-tipo-anticipo-by-flete-field>
 
-    <ng-container *ngIf="!isTipoInsumo">
-      <app-punto-venta-map-dialog-field
-        [form]="form"
-        (valueChange)="$event && puntoVentaChange($event)"
-      ></app-punto-venta-map-dialog-field>
-      <div class="space-bottom proveedor">
-        <strong class="proveedor-label">Proveedor: </strong>
-        <span class="input-like">{{ proveedor }}</span>
-      </div>
-    </ng-container>
+    </div>
 
-    <!-- Radio button para seleccionar Monto o Litros -->
-    <mat-radio-group  *ngIf="isTipoInsumo"
-      aria-label="Seleccione una opción"
-      formControlName="es_con_litro"
-    >
-      <mat-radio-button [value]="true">Litros</mat-radio-button>
-      <mat-radio-button [value]="false">Monto</mat-radio-button>
-    </mat-radio-group> 
+    <div class="row">
 
-    <!-- Campo Monto, visible solo cuando se selecciona "Monto" -->
-    <div *ngIf="!form.get('es_con_litro')?.value" class="inline-container">
+      <ng-container *ngIf="isTipoInsumo">
+
+        <app-insumo-punto-venta-precio-map-dialog-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          [fleteId]="fleteId"
+          [form]="form"
+          (valueChange)="$event && insumoPuntoVentaPrecioChange($event)"
+        ></app-insumo-punto-venta-precio-map-dialog-field>
+
+        <div class="space-bottom proveedor">
+          <strong class="proveedor-label">Proveedor: </strong>
+          <span class="input-like">{{ proveedor }}</span>
+        </div>
+
+        <div class="inline-container">
+          <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
+          <div><strong>Insumo: </strong>{{ insumo }}</div>
+        </div>
+
+        <div class="inline-container">
+          <strong>Monto: </strong>
+          <span >{{ monto }}</span>
+          <strong>Moneda: </strong>
+          <span>{{ moneda }}</span>
+        </div>
+
+        <div class="space-bottom">
+          <strong>Precio Unitario: </strong>
+          {{ precioUnitarioControl.value | numberFormat }}
+        </div>
+
+      </ng-container>
+
+      <ng-container *ngIf="!isTipoInsumo">
+        <app-punto-venta-map-dialog-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          [form]="form"
+          (valueChange)="$event && puntoVentaChange($event)"
+        ></app-punto-venta-map-dialog-field>
+        <div class="space-bottom proveedor">
+          <strong class="proveedor-label">Proveedor: </strong>
+          <span class="input-like">{{ proveedor }}</span>
+        </div>
+      </ng-container>
+
+    </div>
+
+    <div class="row">
+
+      <!-- Radio button para seleccionar Monto o Litros -->
+      <mat-radio-group  *ngIf="isTipoInsumo"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        aria-label="Seleccione una opción"
+        formControlName="es_con_litro">
+        <mat-radio-button [value]="true">Litros</mat-radio-button>
+        <mat-radio-button [value]="false">Monto</mat-radio-button>
+      </mat-radio-group>
+
+      <!-- Campo Monto, visible solo cuando se selecciona "Monto" -->
       <app-number-field
+        *ngIf="!form.get('es_con_litro')?.value"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Monto"
         controlName="monto_retirado"
         [form]="form"
         [hint]="montoRetiradoHint"
-        class="spaced "
       ></app-number-field>
-      <app-moneda-field title="Moneda" class="spaced " *ngIf="!isTipoInsumo" [form]="form"></app-moneda-field>
-    </div>
 
-    <!-- Campo Cantidad retirada, visible solo cuando se selecciona "Litros" -->
-    <div *ngIf="form.get('es_con_litro')?.value">
+      <app-moneda-field *ngIf="!isTipoInsumo"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Moneda"
+         [form]="form">
+      </app-moneda-field>
+
+      <!-- Campo Cantidad retirada, visible solo cuando se selecciona "Litros" -->
       <app-number-field
+        *ngIf="form.get('es_con_litro')?.value"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Cantidad retirada"
         controlName="cantidad_retirada"
         [form]="form"
         [hint]="montoRetiradoHint"
-        class="spaced"
       ></app-number-field>
+
     </div>
 
-    <div class="form-field-container">
-      <label for="observacion">Observación:</label>
-      <mat-form-field appearance="outline" class="observacion-field">
-        <textarea
-          matInput
-          id="observacion"
-          formControlName="observacion"
-          cdkTextareaAutosize
-          #autosize="cdkTextareaAutosize"
-          cdkAutosizeMinRows="1"
-        ></textarea>
-      </mat-form-field>
+    <div class="row">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <label for="observacion">Observación:</label>
+        <mat-form-field appearance="outline" class="observacion-field">
+          <textarea
+            matInput
+            id="observacion"
+            formControlName="observacion"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+          ></textarea>
+        </mat-form-field>
+      </div>
     </div>
 
-    <div class="inline-container comprobante">
-      <app-tipo-comprobante-field [form]="form"></app-tipo-comprobante-field>
+    <div class="row">
+
+      <app-tipo-comprobante-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+         [form]="form">
+      </app-tipo-comprobante-field>
+
       <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Nº de comprobante"
         controlName="numero_comprobante"
         [form]="form"
       ></app-input-field>
+
     </div>
+
   </div>
+
+  <hr class="horizontal-line">
+
   <div mat-dialog-actions class="buttons-actions">
-    <button 
-      mat-raised-button 
-      type="button" 
-      class="close-button" 
+    <button
+      mat-stroked-button
+      class="botones"  type="button"
       mat-dialog-close>
       <mat-icon>close</mat-icon>
       Cerrar
     </button>
     <button
-      mat-raised-button
-      type="button"
+      mat-flat-button
+      class="botones" color="primary" type="button"
       (click)="submit()"
-      cdkFocusInitial
-      color="primary"
-      id="submit-button"
-      class="save-button"
-    >
-      <mat-icon>save</mat-icon> GUARDAR
+      cdkFocusInitial>
+      <mat-icon>save</mat-icon>
+      GUARDAR
     </button>
   </div>
 </form>

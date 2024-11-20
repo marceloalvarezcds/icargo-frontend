@@ -11,306 +11,80 @@
   }
 }
 
-body, html {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.page-container {
-  margin-bottom: 0;
-  padding-bottom: 0px;
-  overflow: hidden; /* Puedes usar overflow hidden para asegurarte de que ningún contenido desborde y cause espacio adicional */
-  background-color: white;
-}
-
-.geolocation-content {
-  margin-bottom: 0;
-}
-
-.section h2 {
-  margin: 0 0 15px 0;
-  font-family: 'Roboto', sans-serif;
-  font-size: 13px;
-  font-weight: 530;
-  line-height: 16.41px;
-  color: #007acc;  
-  border-bottom: 1px solid #007acc;  
-  width: 100%;
-}
-
-.section h2.contactos-heading {
-  margin-top: 182px;
-  font-family: 'Roboto', sans-serif;
-  font-size: 13px;
-  font-weight: 530;
-  line-height: 16.41px;
-  color: #007acc; /* Celeste más oscuro */
-  border-bottom: 1px solid #007acc; /* Línea inferior en celeste más oscuro */
-  width: 72%;
-  z-index: 1;
-}
-
-.contactos-section {
-  margin-top: -158px; /* Ajusta este valor según sea necesario para subir más la sección */
-}
-
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
-.page-form-row {
-  display: flex;
-  margin-left: -6px;
-}
-
-.d-flex {
-  display: flex; /* Asegúrate de que el contenedor sea un flexbox */
-  align-items: center; /* Alinea los elementos verticalmente */
-}
-
-.form-label {
-  white-space: nowrap; /* Evita que el label se divida en varias líneas */
-  margin-right: 8px; /* Espacio entre el label y el campo */
-  margin-bottom: 8px;
-}
-
-.mat-form-field{
-  width: 100%;
-}
-
-::ng-deep .mat-form-field-outline {
-  border-radius: 6px;
-  border: 2px;
-  opacity: 0px;
-  height: 2rem;
-}
-
-::ng-deep input.mat-input-element {
-  line-height: 0.5rem; 
-  padding-top: 3px;
-  padding-bottom: 3px; 
-}
-
-::ng-deep .composicion_cedula-select .mat-select-trigger {
-  margin-top: 6px;
-}
-
-::ng-deep .clasificacion_id .mat-select-trigger {
-  margin-top: 6px;
-}
-
-::ng-deep .foto-file .mat-form-field-outline{
-  border-radius: 6px;
-  border: 2px;
-  opacity: 0px;
-  height: 100px;
-  width: 100px;
-}
-
-::ng-deep .foto-file .mat-form-field{
-  border-radius: 6px;
-  border: 2px;
-  opacity: 0px;
-  height: 100px;
-  width: 100px;
-}
-
-.app-input-field {
-  width: 50%;
-}
-
-.small-form {
-  display: flex;
-  flex-direction: column; /* Cambia esto a row si deseas que los elementos se alineen horizontalmente */
-  gap: 10px; /* Espacio entre los elementos */
-}
-
 .dialog-title {
-    color: #3B9EFF;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 18.75px;
-    letter-spacing: 0.06em;
-    text-align: left;
-  }
+  color: #3B9EFF;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
 
-  .divider {
-    height: 0px;
-    gap: 0px;
-    border: 1px 0px 0px 0px;
-    opacity: 0px;
-    margin-top: -32px; /* Espacio entre el título y la línea */
-    border: 1px solid #1C1C1C3D
-  }
+.action-text {
+  color: #F25A38;
+  //font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
 
-  .divider-buttons {
-    height: 0px;
-    gap: 0px;
-    border: 1px 0px 0px 0px;
-    opacity: 0px;
-    margin-top: -2px; /* Espacio entre el título y la línea */
-    border: 1px solid #1C1C1C3D
+.complement-text {
+  color: #3B9EFF;
+  //font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 18.75px;
+  letter-spacing: 0.06em;
+  text-align: left;
+}
+
+.horizontal-line {
+  width: 455px;
+  border: 1px solid #1C1C1C3D;
+  margin-top: 8px;
+}
+
+.section {
+  h2 {
+    margin: 0 0 15px 0;
+    font-size: 13px;
+    font-weight: 530;
+    line-height: 16.41px;
+    color: #007acc;
+    border-bottom: 1px solid #007acc;
+    width: 100%;
   }
-  
+}
+
+.horizontal-line {
+  border: 1px solid #1C1C1C3D;
+  margin-top: 8px;
+}
+
 .rating-wrapper {
-    display: flex;
-    align-items: center; 
-    margin-left: 10px;
-  }
-  
-  .label {
-    margin-right: 10px;
-  }
-  
-  .small-form {
-    font-size: 12px;
-  }
-  
-  .rating-container {
-    display: flex;
-  }
-  
-  .rating-container label {
-    margin-right: 18px; 
-  }
-  
-  .star-rating {
-    font-size: 25px; 
-    color: lightgray; 
-    margin-right: 2px; 
-    margin-left: 16px;
-  }
-  
-  .star.filled {
-    color: blue; 
-  }
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
 
-  ::ng-deep .evaluacion .mat-form-field {
-    margin-left: 6px;
-    width: 20rem;
-  }
+.rating-container {
+  display: flex;
+}
 
-  ::ng-deep .input-nota .mat-form-field {
-    margin-left: 6px;
-    width: 24.9rem;
-  }
+.rating-container label {
+  margin-right: 18px;
+}
 
-  ::ng-deep .input-concepto .mat-form-field {
-    margin-left: 6px;
-    width: 23.2rem;
-  }
+.star-rating {
+  font-size: 25px;
+  color: lightgray;
+  margin-right: 2px;
+  margin-left: 16px;
+}
 
-  ::ng-deep .input-comentario .mat-form-field {
-    margin-left: 6px;
-    width: 22.2rem;
-  }
-  
-  .buttons-actions {
-    display: flex;
-    justify-content: flex-end;
-    width: 100%;
-  }
-  
-  .save-button {
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    width: auto;
-    padding: 16px 16px;
-    gap: 4px;
-    border-radius: 5.25px;
-    border: 1px;
-    opacity: 0px;
-    box-shadow: none; /* Elimina la sombra */
-    opacity: 0px;
-    height: 32px;
-    display: flex; /* Asegura que el contenido esté alineado correctamente */
-    align-items: center; /* Alinea verticalmente el contenido */
-    letter-spacing: 0.06em;
-    transition: background-color 0.3s;
-    margin-top: -15px;
-  }
-  
-  .save-button mat-icon {
-    font-size: 15px; /* Ajusta el tamaño del ícono */
-    font-weight: bold;
-    border-radius: 90%; /* Borde redondeado para el ícono */
-    width: 10px;
-    height: 12px;
-    padding: 3px;
-    margin-top: -5px;
-    margin-right: 2px;
-  }
-  
-  .save-button:hover {
-    background-color: #155A9E; /* Color más oscuro al pasar el ratón */
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.2); /* Sombra suave al hacer hover */
-  }
-  
-  .close-button {
-    background: #FFFFFF;
-    color: #3B9EFF;
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    width: auto;
-    padding: 8px 16px; /* Aumenta el padding horizontal para hacer el botón más largo */
-    gap: 4px;
-    border-radius: 5.25px;
-    border: 1px solid transparent; /* Borde inicial transparente */
-    opacity: 0px;
-    box-shadow: none; /* Elimina la sombra */
-    height: 32px;
-    display: flex; /* Asegura que el contenido esté alineado correctamente */
-    align-items: center; /* Alinea verticalmente el contenido */
-    letter-spacing: 0.06em;
-    transition: background-color 0.3s, color 0.3s, border-color 0.3s; /* Transiciones suaves */
-    margin-left: auto; /* Mueve el botón hacia la derecha */
-    margin-top: -15px; /* Ajusta el margen hacia arriba según sea necesario */
-    border-color: rgb(211, 200, 200);
-    margin-top: -15px;
-  }
-  
-  .close-button:hover {
-    background-color: #f2f2f2; /* Color de fondo más claro al hacer hover */
-    color: #1e88e5; /* Color de texto más oscuro al hacer hover */
-    border-color: black; /* Color de borde más oscuro al hacer hover */
-  }
-  
-  .close-button mat-icon {
-    font-size: 10.5px; /* Ajusta el tamaño del ícono */
-    font-weight: bold;
-    background-color: red; /* Fondo del ícono */
-    border-radius: 50%; /* Borde redondeado para el ícono */
-    color: white; /* Color del ícono */
-    width: auto;
-    height: 9px;
-    gap: 0px;
-    padding: 3px 3px;
-    opacity: 0px;
-    align-items: center;
-    justify-content: center;
-    margin-top: -1;
-    margin-left: 2px;
-    transition: color 0.3s; /* Transición suave para el cambio de color del ícono */
-  }
+.star.filled {
+  color: blue;
+}
 
-  .form-group {
-    margin-bottom: 20px; /* Espacio entre el label y el input */
-  }
-  
-  .comentarios-field input {
-    width: 100%;
-    padding: 12px; /* Más grande */
-    font-size: 16px;
-    border: 1px solid #D9D9D9; /* Borde gris */
-    border-radius: 8px; /* Bordes redondeados */
-    background-color: #FBFBFE; /* Fondo ligeramente gris */
-    margin-top: 8px; /* Separación del label */
-  }
-  
-  .comentarios-input:focus {
-    outline: none;
-    border-color: #007acc; /* Cambia el borde al enfoque */
-  }
-  
