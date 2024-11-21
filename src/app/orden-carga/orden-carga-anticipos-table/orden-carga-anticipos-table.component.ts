@@ -16,7 +16,7 @@ import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-ret
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
-import { FleteList } from 'src/app/interfaces/flete';
+import { Flete, FleteList } from 'src/app/interfaces/flete';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -26,10 +26,13 @@ import { FleteList } from 'src/app/interfaces/flete';
 export class OrdenCargaAnticiposTableComponent implements OnInit {
   monedaEquiv1: number | null = null;
   monedaEquiv2: number = 0;
+  initialFleteId: number = 32;  // Asignar el valor inicial de flete_id aquí.
+
   anticiposEfectivo: any[] = [];
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
+  
   a = PermisoAccionEnum;
   columns: Column[] = [
 
@@ -131,6 +134,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   @Input() isFormSaved: boolean = false;
   @Input() isEditPedido: boolean = false;
   @Input() oc?: OrdenCarga;
+  @Input() flete?: Flete;
   @Input() ocRetirado?: OrdenCargaAnticipoRetirado;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
@@ -198,6 +202,24 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   }
   
 
+  getSaldoAnticipoNuevo(anticipo: any): number {
+    const tarifaEfectivo = this.flete?.condicion_gestor_carga_tarifa ?? 0;
+    const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
+    const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
+    const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
+    const monto = this.oc?.flete_monto_efectivo_complemento  ?? 0;
+
+    if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
+        const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+        return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
+    } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+        const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+        return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
+    } else {
+        return 0;
+    }
+  }
+
   getSaldoAnticipo(anticipo: any): number {
     const tarifaEfectivo = this.oc?.flete_tarifa ?? 0;
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
@@ -214,7 +236,9 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     } else {
         return 0;
     }
-}
+  }
+
+
 
 openEvaluacionesDialog(): void {
   this.dialog.open(EvaluacionesDialogComponent, {
@@ -240,7 +264,6 @@ openEvaluacionesDialog(): void {
       data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos} 
      
     });
-    console.log('dataGESTION', this.oc?.flete_anticipos)
   }
 
   create(): void {

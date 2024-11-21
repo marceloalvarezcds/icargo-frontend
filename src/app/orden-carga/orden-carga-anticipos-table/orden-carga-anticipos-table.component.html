@@ -4,15 +4,33 @@
     <div class="input-button-container">
 
       <div *ngFor="let anticipo of filteredAnticipos" class="anticipo-item">
-        <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
-        <mat-form-field class="saldo-form-field">
-          <input
-            matInput
-            [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
-            disabled
-          />
-        </mat-form-field>
+        <!-- Mostrar solo si saldo_combustible existe y al menos un anticipo tiene saldo_combustible -->
+        <ng-container *ngIf="oc?.flete_id === anticipo.flete_id">
+          <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
+              disabled
+            />
+          </mat-form-field>
+        </ng-container>
       </div>
+
+      <div *ngFor="let anticipo of filteredAnticipos" class="anticipo-item">
+        <!-- Mostrar solo si saldo_combustible existe y al menos un anticipo tiene saldo_combustible -->
+        <ng-container *ngIf="oc?.flete_id !== anticipo.flete_id">
+          <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="getSaldoAnticipoNuevo(anticipo) | number:'1.0-0'"
+              disabled
+            />
+          </mat-form-field>
+        </ng-container>
+      </div>
+      
       
       <!-- Mostrar solo si NO hay anticipos válidos -->
       <div *ngIf="filteredAnticipos?.length === 0" class="anticipo-item">
@@ -20,7 +38,7 @@
         <mat-form-field class="saldo-form-field">
           <input
             matInput
-            [value]="0"
+            [value]="oc?.saldo_efectivo || 0 | number:'1.0-2'"
             disabled
           />
         </mat-form-field>
@@ -28,7 +46,7 @@
         <mat-form-field class="saldo-form-field">
           <input
             matInput
-            [value]="0"
+            [value]="oc?.saldo_combustible || 0 | number:'1.0-2'"
             disabled
           />
         </mat-form-field>
