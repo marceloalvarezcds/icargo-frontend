@@ -85,7 +85,9 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
     return this.combinacion.get('combinacion_id') as FormControl;
   }
 
-
+  get productoId(): number | undefined {
+    return this.flete ? this.flete.producto_id : undefined;
+  }
 
   get historialComentariosList(): OrdenCargaComentariosHistorial[] {
     return this.oc!?.comentario.slice();
@@ -139,8 +141,8 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
           this.netoChange.emit(numberWithCommas(this.neto));
         }
       });
-    } 
+    }
   }
-  
+
 }
 

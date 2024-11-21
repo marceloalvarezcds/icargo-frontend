@@ -1,8 +1,5 @@
-<div class="main-container">
-  <div class="header-container">
-    <h2>ANTICIPOS</h2>
-    <div class="input-button-container">
 
+<<<<<<< HEAD
       <div *ngFor="let anticipo of filteredAnticipos" class="anticipo-item">
         <!-- Mostrar solo si saldo_combustible existe y al menos un anticipo tiene saldo_combustible -->
         <ng-container *ngIf="oc?.flete_id === anticipo.flete_id">
@@ -32,8 +29,29 @@
       </div>
       
       
+=======
+
+  <div class="section">
+    <h2 class="title-colapside" (click)="colapseDivAnticipo=!colapseDivAnticipo">ANTICIPOS</h2>
+
+    <div class="row" [class.colapse-div]="colapseDivAnticipo">
+
+      <div *ngFor="let anticipo of filteredAnticipos"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
+        <mat-form-field class="saldo-form-field">
+          <input
+            matInput
+            [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
+            disabled
+          />
+        </mat-form-field>
+      </div>
+
+>>>>>>> 00669bc30185055fd7170258ddd06cb0d311c6fe
       <!-- Mostrar solo si NO hay anticipos válidos -->
-      <div *ngIf="filteredAnticipos?.length === 0" class="anticipo-item">
+      <div *ngIf="filteredAnticipos?.length === 0"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3">
         <label class="anticipos-saldo">Saldo Efectivo</label>
         <mat-form-field class="saldo-form-field">
           <input
@@ -42,6 +60,10 @@
             disabled
           />
         </mat-form-field>
+      </div>
+
+      <div *ngIf="filteredAnticipos?.length === 0"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3">
         <label class="anticipos-saldo">Saldo Combustible</label>
         <mat-form-field class="saldo-form-field">
           <input
@@ -51,44 +73,41 @@
           />
         </mat-form-field>
       </div>
-      
 
-      <div class="button-container separate-buttons">
+      <div class="col-xs-6 button-container">
+
         <button
-          mat-raised-button
-          class="outline round custom-button small-button"
-          color="primary"
-          type="button"
+          mat-flat-button type="button"
+          class="botones" color="primary"
           id="add-button"
           (click)="create()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||
           !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
-        >
-          <mat-icon class="small-icon" 
-           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || 
+          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
+          <mat-icon class="small-icon"
+           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||
            !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> ANTICIPO
         </button>
+
         <button
-          mat-raised-button
-          class="gestion-button small-button disabled-button"
-          type="button"
-          color="primary"
+          mat-flat-button type="button"
+          class="botones" color="accent"
           id="add-button"
           (click)="openDialog()"
-          [disabled]="!oc?.flete_id"
-        >
+          [disabled]="!oc?.flete_id">
           GESTION EN LINEA
         </button>
+
       </div>
+
     </div>
+
   </div>
-  
-  <div class="table-container small-table">
+
+  <div class="table-container small-table" [class.colapse-div]="colapseDivAnticipo">
     <app-table
       [columns]="columns"
       [data]="list"
-      
     ></app-table>
   </div>
-</div>
+

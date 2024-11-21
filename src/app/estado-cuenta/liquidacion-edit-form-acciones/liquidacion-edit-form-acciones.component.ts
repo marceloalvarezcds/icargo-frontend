@@ -102,13 +102,33 @@ export class LiquidacionEditFormAccionesComponent {
     );
   }
 
+  preCancelar(){
+    if (this.isFacturaReady) {
+      this.httpErrorService.setErrorList([
+        `No se puede cancelar liquidacion con factura`,
+      ]);
+      return;
+    }
+
+    
+    if (this.liquidacion.instrumentos && this.liquidacion.instrumentos.length>0) {
+      this.httpErrorService.setErrorList([
+        `No se puede cancelar liquidacion con instrumentos`,
+      ]);
+      return;
+    }
+
+    this.cancelar();
+  }
+
   cancelar(): void {
     const message = `Está seguro que desea Cancelar la Liquidación Nº ${this.id}`;
     this.dialogService.changeStatusConfirm(
       message,
       this.liquidacionService.cancelar(this.id),
       () => {
-        this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
+        this.snackbar.changeStatus();
+        this.liquidacionFlujoChange.emit(this.liquidacion);
       }
     );
   }

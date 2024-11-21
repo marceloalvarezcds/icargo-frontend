@@ -35,16 +35,18 @@
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
 
-    <app-orden-carga-anticipos-table 
+    <app-orden-carga-anticipos-table
       [oc]="item"
       [fleteId]="fleteId"
       [list]="anticipoList"
       (ocChange)="getData()">
     </app-orden-carga-anticipos-table>
 
-    <div  class="remisiones-line"><h2>REMISIONES</h2></div>
-    <div class="remisiones-container">
-      <div class="remisiones-item">
+    <div class="remisiones-line">
+      <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">REMISIONES</h2>
+    </div>
+    <div class="remisiones-container" [class.colapse-div]="colapseDivRemision">
+      <div class="remisiones-item" >
         <app-orden-carga-edit-form-remisiones-origen
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
@@ -54,8 +56,8 @@
           (ocChange)="getData()"
         ></app-orden-carga-edit-form-remisiones-origen>
       </div>
-    
-      <div class="remisiones-item">
+
+      <div class="remisiones-item" >
         <app-orden-carga-edit-form-remisiones-destino
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
@@ -66,7 +68,11 @@
         ></app-orden-carga-edit-form-remisiones-destino>
       </div>
     </div>
-    <div class="complementos_descuentos-container">
+
+    <div class="remisiones-line">
+      <h2 class="title-colapside" (click)="colapseDivDescuento=!colapseDivDescuento">Complementos y Descuentos</h2>
+    </div>
+    <div class="complementos_descuentos-container" [class.colapse-div]="colapseDivDescuento">
         <div class="complementos_descuentos-item">
           <app-orden-carga-edit-form-complementos
             [oc]="item"
@@ -87,28 +93,33 @@
           (ocChange)="getData()"
         ></app-orden-carga-edit-form-descuentos>
       </div>
-    </div> 
+    </div>
+
     <div class="resultados-container">
       <div class="resultados-line">
-        <h2>TABLA DE RESULTADOS</h2>
+        <h2 class="title-colapside" (click)="colapseDivResultado=!colapseDivResultado">TABLA DE RESULTADOS</h2>
       </div>
       <app-orden-carga-edit-form-remisiones-resultado
+        [class.colapse-div]="colapseDivResultado"
         [oc]="item"
         [gestorCargaId]="gestorCargaId"
         [list]="remisionResultadoList"
       ></app-orden-carga-edit-form-remisiones-resultado>
     </div>
+
     <div class="resultados-container">
       <div class="resultados-line">
-        <h2>MOVIMIENTOS</h2>
+        <h2 class="title-colapside" (click)="colapseDivMovimiento=!colapseDivMovimiento">MOVIMIENTOS</h2>
       </div>
       <app-orden-carga-edit-form-movimientos
+        [class.colapse-div]="colapseDivMovimiento"
         [gestorCargaId]="gestorCargaId"
         [list]="movimientoList"
         (ocChange)="getData()"
-    ></app-orden-carga-edit-form-movimientos>
-    </div> 
-    <button 
+      ></app-orden-carga-edit-form-movimientos>
+    </div>
+
+    <button
       class="historial-button"
       [disabled]="!item?.flete_id"
       mat-button (click)="openDialog()">

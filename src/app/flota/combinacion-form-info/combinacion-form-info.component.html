@@ -1,71 +1,43 @@
 <div *ngIf="form" [formGroup]="form">
-  <div class="page-container">
-    <h2>INFORMACIÓN PRINCIPAL</h2>
-    <div class="row page-form-row" [formGroupName]="groupName">
-      <div class="col-12 col-sm-2 col-md-11">
-        <div class="row">
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+
+  <div [formGroupName]="groupName">
+
+    <div class="section">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+
+      <div class="row">
+
+        <div class="col-12 col-sm-2 col-md-10">
+
+          <div class="row">
+
             <app-camion-by-propietario-dialog-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
               [groupName]="groupName"
               [form]="form"
               (valueChange)="camionChange($event)"
-              class="app-input-field"
             ></app-camion-by-propietario-dialog-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Marca</label>
+
             <app-input-field
-              class="app-input-field"
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Marca"
               [groupName]="groupName"
               [readonly]="true"
               controlName="marca"
               [form]="form"
             ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Color</label>
+
             <app-input-field
-              class="app-input-field"
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Color"
               [groupName]="groupName"
               [readonly]="true"
               controlName="color"
               [form]="form"
             ></app-input-field>
-          </div>
-        </div>
 
-        <div class="row">
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Propietario</label>
-            <app-input-field
-              [groupName]="groupName"
-              [readonly]="true"
-              controlName="propietario"
-              [form]="form"
-              class="app-input-field"
-            ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Oc Activas</label>
-            <app-input-field
-              [groupName]="groupName"
-              controlName="oc_activa"
-              [form]="form"
-              [autocomplete]="off"
-              class="app-input-field"
-            ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Limite Anticipos</label>
-            <app-input-field-neto
-              [groupName]="groupName"
-              controlName="limite_anticipos"
-              [form]="form"
-              class="app-input-field"
-            ></app-input-field-neto>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4">
             <app-slide
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
               [isShow]="isShow"
               [control]="estadoControlCamion"
               [readonly]="true"
@@ -74,265 +46,315 @@
               falseTitle="Inactivo"
               (valueChange)="estadoCamionChange.emit($event)"
             ></app-slide>
+
+            <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
+              title="Propietario"
+              [groupName]="groupName"
+              [readonly]="true"
+              controlName="propietario"
+              [form]="form"
+            ></app-input-field>
+
+            <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="OC Activas"
+              [groupName]="groupName"
+              controlName="oc_activa"
+              [form]="form"
+              [autocomplete]="off"
+            ></app-input-field>
+
+            <app-input-field-neto
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Limite Anticipos"
+              [groupName]="groupName"
+              controlName="limite_anticipos"
+              [form]="form"
+            ></app-input-field-neto>
+
           </div>
+
         </div>
-    </div>
-      <div style="margin-left: auto;">
+
         <app-file-field
-          title="Tracto"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Foto Tracto"
           groupName="info"
           controlName="foto_camion"
           [field]="fotoPerfil"
           [form]="form"
-          [disabled]="true" 
+          [disabled]="true"
           [readonly]="true"
-          class="foto-file"
         ></app-file-field>
+
       </div>
 
-    <div class="col-12 col-sm-2 col-md-11">
-        <div class="row">
-          <h2>Semi</h2>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+    </div>
+
+    <div class="section">
+      <h2>SEMI</h2>
+
+      <div class="row">
+
+        <div class="col-12 col-sm-2 col-md-10">
+
+          <div class="row">
+
             <app-semi-by-propietario-dialog-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
               [groupName]="groupName"
               [form]="form"
               (valueChange)="semiChange($event)"
-              class="app-input-field"
             ></app-semi-by-propietario-dialog-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Marca</label>
+
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Marca"
               [groupName]="groupName"
               [readonly]="true"
               controlName="marca_semi"
               [form]="form"
-              class="app-input-field"
             ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Color Semi</label>
+
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Color Semi"
               [groupName]="groupName"
               [readonly]="true"
               controlName="color_semi"
               [form]="form"
-              class="app-input-field"
             ></app-input-field>
+
+            <app-slide
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              [isShow]="isShow"
+              [control]="estadoControlSemi"
+              [readonly]="true"
+              controlName="estado_semi"
+              trueTitle="Activo"
+              falseTitle="Inactivo"
+              (valueChange)="estadoSemiChange.emit($event)"
+            ></app-slide>
+
           </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-4">
-          <app-slide
-            [isShow]="isShow"
-            [control]="estadoControlSemi"
-            [readonly]="true"
-            controlName="estado_semi"
-            trueTitle="Activo"
-            falseTitle="Inactivo"
-            (valueChange)="estadoSemiChange.emit($event)"
-          ></app-slide>
-        </div>
-    </div>
-      <div style="margin-left: auto;">
+
         <app-file-field
-          title="Semi"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Foto Semi"
           groupName="info"
           controlName="foto_semi"
           [field]="fotoPerfilSemi"
           [form]="form"
-          [disabled]="true" 
+          [disabled]="true"
           [readonly]="true"
-          class="foto-file"
         ></app-file-field>
+
       </div>
 
-    <div class="col-12 col-sm-2 col-md-11">
-        <div class="row">
-          <h2>Chofer</h2>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
+    </div>
+
+    <div class="section">
+      <h2>Chofer</h2>
+
+      <div class="row">
+
+        <div class="col-12 col-sm-2 col-md-10">
+
+          <div class="row">
+
             <app-chofer-by-propietario-dialog-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
               [groupName]="groupName"
               [form]="form"
               (valueChange)="choferChange($event)"
-              class="app-input-field"
             ></app-chofer-by-propietario-dialog-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Nombre</label>
+
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Nombre"
               [groupName]="groupName"
               [readonly]="true"
               controlName="chofer_nombre"
               [form]="form"
-              class="app-input-field"
             ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Celular</label>
+
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Celular"
               [groupName]="groupName"
               [readonly]="true"
               controlName="chofer_celular"
               [form]="form"
               [disabled]="true"
-              class="app-input-field"
             ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <app-slide
-              [isShow]="isShow"
-              [control]="puedeRecibirAnticiposControl"
-              controlName="puede_recibir_anticipos"
-              trueTitle="Puede recibir anticipos"
-              falseTitle="No puede recibir anticipos"
-              (valueChange)="
-                !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
-            ></app-slide>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <app-slide
-              [isShow]="isShow"
-              [control]="estadoControl"
-              controlName="estado"
-              [readonly]="true"
-              trueTitle="Activo"
-              falseTitle="Inactivo"
-              (valueChange)="estadoChoferChange.emit($event)"
-            ></app-slide>
-          </div>
-        </div>
-    </div>
 
-      <div style="margin-left: auto;">
+            <div style="display: flex; flex-direction: column;">
+
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="puedeRecibirAnticiposControl"
+                controlName="puede_recibir_anticipos"
+                trueTitle="Puede recibir anticipos"
+                [readonly]="true"
+                falseTitle="No puede recibir anticipos"
+                (valueChange)="
+                  !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
+              ></app-slide>
+
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="estadoControl"
+                controlName="estado"
+                [readonly]="true"
+                trueTitle="Activo"
+                falseTitle="Inactivo"
+                (valueChange)="estadoChoferChange.emit($event)"
+              ></app-slide>
+
+            </div>
+
+          </div>
+
+        </div>
+
         <app-file-field
-          title="Chofer"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Foto Chofer"
           groupName="info"
           controlName="foto_chofer"
           [readonly]="true"
           [field]="fotoPerfilChofer"
           [form]="form"
-          [disabled]="true" 
+          [disabled]="true"
           [readonly]="true"
-          class="foto-file"
         ></app-file-field>
+
       </div>
 
-    <div class="col-12 col-sm-2 col-md-11">
-        <div class="row">
-          <h2>Facturación</h2>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Tipo Persona</label>
+    </div>
+
+    <div class="section">
+      <h2>Facturación</h2>
+
+      <div class="row">
+
+        <div class="col-12 col-sm-2 col-md-10">
+
+          <div class="row">
+
             <app-tipo-persona-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
+              title="Tipo Persona"
               [groupName]="groupName"
               controlName="tipo_persona_id"
               [form]="form"
               (valueChange)="onTipoPersonaChange($event)"
               (isFisicaSelected)="isFisicaSelected = $event"
-              class="app-input-field"
             ></app-tipo-persona-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">N Doc.</label>
+
             <app-tipo-persona-by-beneficiario-dialog-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
+              title="N° Doc."
               [groupName]="groupName"
               controlName="ruc"
               [form]="form"
               [tipoPersonaId]="tipoPersona?.id"
               (valueChange)="tipoPersonaChange($event)"
-              class="app-input-field"
             ></app-tipo-persona-by-beneficiario-dialog-field>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4" *ngIf="!isFisicaSelected">
-            <app-slide
-              [isShow]="isShow"
-              [control]="estadoControl"
-              controlName="estado_propietario"
-              [readonly]="true"
-              trueTitle="Activo"
-              falseTitle="Inactivo"
-              (valueChange)="estadoChoferChange.emit($event)"
-            ></app-slide>
-          </div> 
-        </div>
 
-        <div class="row">
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Beneficiario</label>
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="Beneficiario"
               groupName="info"
               [readonly]="true"
               controlName="nombre"
               [form]="form"
-              class="app-input-field"
             ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Celular</label>
+
+            <div style="display: flex; flex-direction: column;">
+
+              <app-slide
+                *ngIf="!isFisicaSelected"
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="estadoControl"
+                controlName="estado_propietario"
+                [readonly]="true"
+                trueTitle="Activo"
+                falseTitle="Inactivo"
+                (valueChange)="estadoChoferChange.emit($event)"
+              ></app-slide>
+
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="puedeRecibirAnticiposControlPropietario"
+                controlName="anticipo_propietario"
+                trueTitle="Puede recibir anticipos"
+                falseTitle="No puede recibir anticipos"
+                (valueChange)="
+                  !$event &&
+                    cantidadOCConAnticiposLiberados > 0 &&
+                    anticiposBloqueadosChange.emit()
+                "
+              ></app-slide>
+            </div>
+
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
+              title="Celular"
               [groupName]="groupName"
               [readonly]="true"
               controlName="telefono"
               [form]="form"
-              class="app-input-field"
             ></app-input-field>
-          </div>
-          <div class="col-xs-12 col-sm-6 col-md-4">
-            <app-slide
-              [isShow]="isShow"
-              [control]="puedeRecibirAnticiposControlPropietario"
-              controlName="anticipo_propietario"
-              trueTitle="Puede recibir anticipos"
-              falseTitle="No puede recibir anticipos"
-              (valueChange)="
-                !$event &&
-                  cantidadOCConAnticiposLiberados > 0 &&
-                  anticiposBloqueadosChange.emit()
-              "
-            ></app-slide>
-          </div>   
-        </div>
-      </div>
 
-        <div style="margin-left: auto;">
-          <app-file-field
-            title="Propietario"
-            [groupName]="groupName"
-            controlName="foto_documento_frente"
-            [field]="fotoDocumentoFrente"
-            [disabled]="true" 
-            [readonly]="true"
-            [form]="form"
-            class="foto-file"
-          ></app-file-field>
+          </div>
+
         </div>
 
-      <div class="col-12 col-sm-2 col-md-11">
-        <div class="row">
-          <hr class="hr-comentario" />
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Comentario</label>
-            <app-input-field
-              [groupName]="groupName"
-              [readonly]="isShow"
-              controlName="comentario"
-              [form]="form"
-              class="app-input-field"
-            ></app-input-field>
-          </div>
-          <div class="col-12 col-md-4 mb-2 d-flex align-items-center">
-            <label class="form-label mr-2">Capacidad Total De Combinacion (Kg)</label>
-            <app-input-field-neto
-              [groupName]="groupName"
-              controlName="neto"
-              [form]="form"
-              class="app-input-field"
-            ></app-input-field-neto>
-          </div>
-        </div>
-        
+        <app-file-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Foto Propietario"
+          [groupName]="groupName"
+          controlName="foto_documento_frente"
+          [field]="fotoDocumentoFrente"
+          [disabled]="true"
+          [readonly]="true"
+          [form]="form"
+        ></app-file-field>
+
       </div>
-      
+
     </div>
+
+    <hr>
+    <br>
+
+    <div class="row">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        title="Comentario"
+        [groupName]="groupName"
+        [readonly]="isShow"
+        controlName="comentario"
+        [form]="form"
+      ></app-input-field>
+
+      <app-input-field-neto
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Capacidad Total De Combinacion (Kg)"
+        [groupName]="groupName"
+        controlName="neto"
+        [form]="form"
+      ></app-input-field-neto>
+
+    </div>
+
   </div>
 </div>

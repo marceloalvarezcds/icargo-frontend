@@ -1,0 +1,14 @@
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.title-colapside {
+  cursor: pointer;
+}
+
+.colapse-div {
+  display: none;
+}

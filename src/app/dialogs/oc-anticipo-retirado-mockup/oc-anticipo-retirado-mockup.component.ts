@@ -1,5 +1,5 @@
 
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subscription } from 'rxjs';
@@ -8,6 +8,7 @@ import { TipoAnticipoEnum } from 'src/app/enums/tipo-anticipo-enum';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { TipoAnticipo } from 'src/app/interfaces/tipo-anticipo';
@@ -32,6 +33,7 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
+  @Input() oc?: OrdenCarga;
 
   form = this.fb.group({
     tipo_anticipo_id: [this.data?.tipo_anticipo_id, Validators.required],
@@ -154,20 +156,32 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   }
 
   get montoRetiradoHint(): string {
+    if (this.saldoDisponible < 0) {
+      const excedente = subtract(this.monto, this.saldoDisponible).toLocaleString();
+      return `<span class="hint-alert-negative">El saldo es negativo: <strong>${this.saldoDisponible.toLocaleString()}</strong>. 
+      El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+    }
+  
     if (this.monto > this.saldoDisponible) {
       return `<span class="hint-alert">El monto supera en <strong>${subtract(
         this.monto,
         this.saldoDisponible
       ).toLocaleString()}</strong> al Saldo</span>`;
     }
-    let text = `<span class="hint-alert-label">Saldo</span> <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
-    return text;
+  
+    return `<span class="hint-alert-label">Saldo</span> <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
   }
+  
+  
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [
     { value: 'efectivo', descripcion: 'EFECTIVO' },
     { value: 'insumo', descripcion: 'INSUMO' }
   ];
+
+  get saldoDisponible(): number {
+    return this.saldoAnticipo + this.montoRetirado;     
+  }
 
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
@@ -197,9 +211,7 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     return this.puntoVentaControl.value;
   }
 
-  get saldoDisponible(): number {
-    return this.saldoAnticipo + this.montoRetirado;
-  }
+ 
 
   get tipoAnticipoControl(): FormControl {
     return this.form.get('tipo_anticipo_id') as FormControl;
@@ -316,7 +328,10 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
       this.fleteAnticipoEfectivoSubscription?.unsubscribe();
       this.fleteAnticipoEfectivoSubscription = this.fleteAnticipoService
         .getByTipoIdAndFleteId(this.tipoAnticipoId, this.fleteId)
-        .subscribe(this.setFleteAnticipo.bind(this));
+        .subscribe((response) => {
+          this.setFleteAnticipo(response);
+        
+        });
     }
   }
 

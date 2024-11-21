@@ -110,6 +110,9 @@ export class LiquidacionesListComponent implements OnInit {
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
 
+  /*
+  TODO: se inhabilita tempralmente los botones
+  para proceso en lote
   buttons : ButtonList[] = [
     {
       color: 'warn',
@@ -146,6 +149,7 @@ export class LiquidacionesListComponent implements OnInit {
       }
     }
   ]
+  */
 
   isFiltered = false;
   list: Liquidacion[] = [];

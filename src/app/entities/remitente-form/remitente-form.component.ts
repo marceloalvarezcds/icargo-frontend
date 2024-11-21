@@ -167,7 +167,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       delete data.localidad_id;
       delete data.estado;
       data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
-      
+
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);

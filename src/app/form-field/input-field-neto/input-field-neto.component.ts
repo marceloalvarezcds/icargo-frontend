@@ -34,5 +34,6 @@ export class InputFieldNetoComponent{
   @Input() groupName?: string;
   @Input() readonly = false;
   @Input() title = '';
+  @Input() requerido = false;
 
 }

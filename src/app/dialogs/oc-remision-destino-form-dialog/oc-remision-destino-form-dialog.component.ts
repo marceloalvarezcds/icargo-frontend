@@ -22,6 +22,7 @@ export class OcRemisionDestinoFormDialogComponent {
     foto_documento: this.data?.foto_documento,
     numero_documento_origen: this.data?.numero_documento_origen,
     destino_id: this.data?.destino_id,
+    nuevo_campo:[null]
   });
 
   get actionText(): string {

@@ -58,6 +58,14 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   complementoList: FleteComplemento[] = [];
   descuentoList: FleteDescuento[] = [];
 
+  /*  collapside */
+  colapseDivTramo = false;
+  colapseDivCantidad = false;
+  colapseDivMerma = false;
+  colapseDivAnticipo = false;
+  colapseDivComplemento = false;
+  colapseDivEmision = false;
+
   form = this.fb.group({
     info: this.fb.group({
       remitente_id: [null, Validators.required],
@@ -146,7 +154,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       this.gestorCargaId
     );
   }
-  
+
   @Input() flete?: Flete;
 
   get info(): FormGroup {
@@ -276,7 +284,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });  
+      });
     formData.append('data', JSON.stringify(data));
     this.hasChange = false;
     this.initialFormValue = this.form.value;

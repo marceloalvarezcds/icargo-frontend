@@ -2,61 +2,75 @@
 
   <div [formGroup]="form">
 
-    <div [formGroupName]="groupName">
+    <div [formGroupName]="groupName" class="row">
 
-      <div class="row">
+      <h3 class="col-xs-12">Transporte</h3>
 
-        <h3 class="col-xs-12">Transporte</h3>
+      <div class="col-xs-9">
 
-        <!-- Campo Ente Emisor -->
-        <app-ente-emisor-transporte-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="Ente Emisor"
-          [groupName]="groupName"
-          controlName="ente_emisor_transporte_id"
-          [form]="form"
-        ></app-ente-emisor-transporte-field>
+        <div class="row">
 
-        <!-- Campo Número de Habilitación -->
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <label class="form-label mr-2">N° Habilitación</label>
-          <mat-form-field appearance="outline">
-            <input matInput [formControlName]="'numero_habilitacion_transporte'" />
-          </mat-form-field>
+          <!-- Campo Ente Emisor -->
+          <app-ente-emisor-transporte-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-5"
+            title="Ente Emisor"
+            [groupName]="groupName"
+            controlName="ente_emisor_transporte_id"
+            [form]="form"
+          ></app-ente-emisor-transporte-field>
+
+          <!-- Campo Número de Habilitación -->
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <label class="form-label mr-2">N° Habilitación</label>
+            <mat-form-field appearance="outline">
+              <input matInput [formControlName]="'numero_habilitacion_transporte'" />
+            </mat-form-field>
+          </div>
+
+          <!-- Campo Fecha de Vencimiento -->
+          <app-fecha-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-2"
+            title="Fecha de vencimiento"
+            [groupName]="groupName"
+            controlName="vencimiento_habilitacion_transporte"
+            [form]="form"
+          ></app-fecha-field>
+
         </div>
 
-        <!-- Campo Fecha de Vencimiento -->
-        <app-fecha-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Fecha de vencimiento"
-          [groupName]="groupName"
-          controlName="vencimiento_habilitacion_transporte"
-          [form]="form"
-        ></app-fecha-field>
+      </div>
 
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Foto de la habilitación - frontal"
-          [groupName]="groupName"
-          controlName="foto_habilitacion_transporte_frente"
-          [field]="fotoFrente"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoFrenteChange.emit($event)"
-        ></app-file-field-input>
+      <div class="col-xs-3">
 
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Foto de la habilitación - reverso"
-          [groupName]="groupName"
-          controlName="foto_habilitacion_transporte_reverso"
-          [field]="fotoReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoReversoChange.emit($event)"
-        ></app-file-field-input>
+        <div class="row">
+
+          <app-file-field-input
+            class="input-form-full col-xs-12 col-sm-6 col-md-6"
+            [className]="'file-max-size'"
+            title="Foto de la habilitación - frontal"
+            [groupName]="groupName"
+            controlName="foto_habilitacion_transporte_frente"
+            [field]="fotoFrente"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoFrenteChange.emit($event)"
+          ></app-file-field-input>
+
+          <app-file-field-input
+            class="input-form-full col-xs-12 col-sm-6 col-md-6"
+            [className]="'file-max-size'"
+            title="Foto de la habilitación - reverso"
+            [groupName]="groupName"
+            controlName="foto_habilitacion_transporte_reverso"
+            [field]="fotoReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoReversoChange.emit($event)"
+          ></app-file-field-input>
+
+        </div>
 
       </div>
 

@@ -39,17 +39,18 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   get group(): FormGroup {
     return this.formGroup!.get(this.groupName) as FormGroup;
   }
-  
+
   get control() {
     return this.form.get(this.groupName)?.get(this.controlName);
   }
 
   resetRucField(): void {
     if (this.control) {
-      this.control.reset(); 
+      this.control.reset();
     }
   }
-  
+
+  @Input() title = '';
   @Input() inputValuePropName = 'ruc';
   @Input() form!: FormGroup;
   @Input() controlName = 'ruc';

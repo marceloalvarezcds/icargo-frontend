@@ -222,7 +222,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });      
+      });
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFrenteFile) {
@@ -311,7 +311,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   private getData(): void {
-  
+
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
@@ -360,14 +360,14 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             email: data.email,
             es_propietario: data.es_propietario,
             puede_recibir_anticipos: data.puede_recibir_anticipos,
-            foto_documento_frente: null,
-            foto_documento_reverso: null,
-            foto_perfil: null,
+            foto_documento_frente: data.foto_documento_frente,
+            foto_documento_reverso: data.foto_documento_reverso,
+            foto_perfil: data.foto_perfil,
           },
           propietario: {
             pais_origen_id: data.pais_origen_id ?? null,
-            foto_documento_frente_propietario: null,
-            foto_documento_reverso_propietario: null,
+            foto_documento_frente_propietario: data.foto_documento_frente_propietario,
+            foto_documento_reverso_propietario: data.foto_documento_reverso_propietario,
           },
           registro: {
             pais_emisor_registro_id: data.pais_emisor_documento_id,
@@ -376,8 +376,8 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             tipo_registro_id: data.tipo_registro_id,
             numero_registro: data.numero_registro,
             vencimiento_registro: data.vencimiento_registro,
-            foto_registro_frente: null,
-            foto_registro_reverso: null,
+            foto_registro_frente: data.foto_registro_frente,
+            foto_registro_reverso: data.foto_registro_reverso,
           },
           address: {
             ciudad_id: data.ciudad_id,

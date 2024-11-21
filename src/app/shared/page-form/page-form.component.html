@@ -78,15 +78,14 @@
                       || oc?.estado === E.ACEPTADO
                       || (oc?.estado === E.FINALIZADO && puedeConciliar)
                       || module === 'CONCILIAR'"
-              type="button"
               mat-mini-fab
+              class="botones" type="button"
               [ngClass]="{
                 'anticipo-toggle-button-active': isAnticipoActive,
                 'anticipo-toggle-button-inactive': !isAnticipoActive,
                 'button-disabled': isFormSubmitting || isShow
               }"
               color="warn"
-              class="anticipo-toggle-button"
               [disabled]="isFormSubmitting"
               (click)="activeClick.emit($event)">
               <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
@@ -94,10 +93,9 @@
         </div>
 
         <button
-          type="button"
           mat-flat-button
-          color="primary"
-          class="orden-button"
+          class="botones" color="primary"
+          type="button"
           matTooltip="Orden"
           [class.disabled]="!isFormSaved && oc?.estado !== E.CANCELADO && oc?.estado !== E.FINALIZADO && oc?.estado !== 'Conciliado'"
           *ngIf="(module === 'CONCILIAR' && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)) ||
@@ -109,10 +107,9 @@
         </button>
 
         <button
-          type="button"
           mat-flat-button
-          color="primary"
-          class="orden-button"
+          class="botones" color="primary"
+          type="button"
           matTooltip="Orden"
           [class.disabled]="!isFormSaved"
           *ngIf="submodule !== 'ACEPTAR'
@@ -126,13 +123,13 @@
         </button>
 
         <button
-          *ngIf="(oc?.estado === 'Nuevo' || module === 'ACEPTAR')
-                  && submodule !== 'ORDEN DE CARGA (directa)'
-                  && oc?.estado !== 'Cancelado'"
             mat-flat-button
-            color="primary" type="button"
+            class="botones" color="primary"
+            type="button"
+            *ngIf="(oc?.estado === 'Nuevo' || module === 'ACEPTAR')
+                    && submodule !== 'ORDEN DE CARGA (directa)'
+                  && oc?.estado !== 'Cancelado'"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
-            class="botones"
             [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
             (click)="aceptarClick.emit($event)">
             ACEPTAR
@@ -144,11 +141,10 @@
                   || submodule === 'ANTICIPO (directo)' || submodule === 'RECEPCION directa'
                   || oc?.estado === E.ACEPTADO))
                   && oc?.estado !== 'Cancelado' "
-          type="button"
           mat-flat-button
-          color="warn"
+          class="botones" color="warn"
+          type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO"
-          class="botones"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="cancelarClick.emit($event)">
           CANCELAR
@@ -164,12 +160,11 @@
                   (oc?.estado !== 'Nuevo') &&
                   submodule !== 'ORDEN CARGA (directa)' &&
                   submodule !== 'ANTICIPO (directo)'"
-          mat-flat-button
-          type="button"
+          mat-stroked-button
+          class="botones" type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
                           (oc?.estado === E.NUEVO) ||
                           !oc?.cantidad_destino"
-          class="botones"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="finalizarClick.emit($event)">
           FINALIZAR
@@ -178,19 +173,18 @@
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
           && oc?.estado !== E.CONCILIADO"
-          type="button"
-          mat-flat-button
+          mat-stroked-button
+          class="botones" type="button"
           [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino"
-          class="botones"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="conciliarClick.emit($event)">
           CONCILIAR
         </button>
 
         <button
-          mat-flat-button color="accent"
+          mat-flat-button
+          class="botones" color="accent"
           type="button"
-          class="botones"
           [disabled]="true"
           *ngIf="submodule === 'ORDEN DE CARGA (directa)'
           || submodule === 'ANTICIPO (directo)'">
@@ -211,8 +205,8 @@
         <button
           mat-flat-button
           type="button" color="warn"
-          matTooltip="Editar"
           class="botones"
+          matTooltip="Editar"
           [disabled]="loading"
           (click)="editClick.emit($event)"
           *ngIf="
@@ -255,14 +249,12 @@
 
         <button
           mat-flat-button
-          class="botones"color="primary"
+          class="botones" color="primary"
           type="button"
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
           *ngIf="isOc && isEdit && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
-
-          class="add-button orden-carga-cambiar-pedido"
         >
           CAMBIAR PEDIDO
         </button>

@@ -1,136 +1,142 @@
 <div *ngIf="form" [formGroup]="form" class="combinacion-container">
-  <div class="section">
-    <h2>FLOTA</h2>
-    <div [formGroupName]="groupName">
-      <div class="row page-form-row">
-        <div class="search-tracto col-xs-4">
-          <label>Chapa <strong>Tracto</strong></label>
-          <app-combinacion-dialog-field
-            [groupName]="groupName"
-            [form]="form"
-            (valueChange)="onCamionChange($event)"
-          ></app-combinacion-dialog-field>
-        </div>
-        <div class="small-marca-input input-with-label">
-          <app-input-field-oc
-            title="Marca"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="marca_camion"
-          ></app-input-field-oc>
-        </div>
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="Color"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="color_camion"
-          ></app-input-field-oc>
-        </div>
 
-        <div class="small-chapa_semi-input input-with-label">
-          <app-input-field-oc
-            title='Chapa <strong>Semi</strong>'
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="semi_placa"
-            [shouldFormat]="false"
-          ></app-input-field-oc>
-        </div>
+  <div [formGroupName]="groupName">
 
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="Marca"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="marca_semi"
-          ></app-input-field-oc>
-        </div>
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="Color"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="color_semi"
-          ></app-input-field-oc>
-        </div>
+    <div class="section">
+      <h2 class="title-colapside" (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
+
+      <div class="row" [class.colapse-div]="colapseDivFlota">
+
+        <app-combinacion-dialog-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Chapa Tracto"
+          [groupName]="groupName"
+          [form]="form"
+          (valueChange)="onCamionChange($event)"
+        ></app-combinacion-dialog-field>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Marca"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="marca_camion"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          title="Color"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="color_camion"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title='Chapa Semi'
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="semi_placa"
+          [shouldFormat]="false"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Marca"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="marca_semi"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          title="Color"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="color_semi"
+        ></app-input-field-oc>
+
         <mat-slide-toggle
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
           trueTitle="Activo"
           falseTitle="Inactivo"
           formControlName="anticipo_propietario"
-          labelPosition="before"
-          class="mat-slide-toggle-disabled"
-        >Anticipos</mat-slide-toggle>
+          labelPosition="before">
+          Anticipos
+        </mat-slide-toggle>
+
       </div>
 
-      <div class="row page-form-row">
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="<strong>Propietario</strong>"
-            [matTooltip]="'Propietario'"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="propietario_camion"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-doc-input input-with-label">
-          <app-input-field-oc
-            title="Doc. Nº"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="propietario_camion_doc"
-            [shouldFormat]="false"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-beneficiario-input input-with-label">
-          <app-input-field-oc
-            title="<strong>Beneficiario</strong> (Nombre/Razon Social)"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="beneficiario_camion"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-doc-input input-with-label">
-          <app-input-field-oc
-            title="Doc. Nº"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="beneficiario_camion_doc"
-            [shouldFormat]="false"
-          ></app-input-field-oc>
-        </div>
-      </div>
-    </div>
-    <div class="row page-form-row">
-      <div class="col-xs-4">
+      <div class="row" [class.colapse-div]="colapseDivFlota">
+
         <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Propietario"
+          [matTooltip]="'Propietario'"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="propietario_camion"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Doc. Nº"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="propietario_camion_doc"
+          [shouldFormat]="false"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="<strong>Beneficiario</strong> (Nombre/Razon Social)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="beneficiario_camion"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Doc. Nº"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="beneficiario_camion_doc"
+          [shouldFormat]="false"
+        ></app-input-field-oc>
+
+      </div>
+
+      <div class="row" [class.colapse-div]="colapseDivFlota">
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Chofer"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -139,9 +145,9 @@
           [form]="form"
           controlName="chofer_camion"
         ></app-input-field-oc>
-      </div>
-      <div class="small-chofer-input input-with-label">
+
         <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Doc. Nº"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -151,86 +157,79 @@
           controlName="chofer_camion_doc"
           [shouldFormat]="false"
         ></app-input-field-oc>
+
+        <mat-slide-toggle
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          formControlName="puede_recibir_anticipos"
+          labelPosition="before">
+          Anticipos
+        </mat-slide-toggle>
+
       </div>
-      <mat-slide-toggle
-        formControlName="puede_recibir_anticipos"
-        labelPosition="before"
-        class="slide-toggle-anticipos mat-slide-toggle-disabled"
-      > Anticipos</mat-slide-toggle>
+
     </div>
 
+
     <div class="section">
-      <h2 *ngIf="oc?.estado === 'Nuevo' || showSearchPedido" >PEDIDO</h2>
-      <h2 *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido">FLETE</h2>
 
-      <div class="row page-form-row">
-        <div class="search-tracto col-xs-4"
-          *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')">
-          <label>Nº Pedido</label>
-          <app-flete-by-gestor-dialog-field
-            [groupName]="groupName"
-            class="buscador"
-            [form]="form"
-            (valueChange)="onFleteChange($event)"
-            [style]="'width: 160px'"
-          ></app-flete-by-gestor-dialog-field>
-        </div>
+      <h2 class="title-colapside" *ngIf="oc?.estado === 'Nuevo' || showSearchPedido" (click)="colapseDivpedido=!colapseDivpedido">PEDIDO</h2>
+      <h2 class="title-colapside" *ngIf="oc?.estado !== 'Nuevo' && !showSearchPedido" (click)="colapseDivpedido=!colapseDivpedido">FLETE</h2>
 
-        <div class="search-tracto col-xs-4"
-         *ngIf="oc?.estado === 'Cancelado' || showSearchOC">
-          <label>Nº OC</label>
-          <app-oc-by-combinacion-dialog-field
-            [groupName]="groupName"
-            class="buscador"
-            [form]="form"
-            [style]="'width: 100px'"
-            [combinacionId]="combinacionId"
-            (valueChange)="onOrdenCargaChange($event)"
-          ></app-oc-by-combinacion-dialog-field>
-        </div>
-        <div class="search-tracto col-xs-4"
-        *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas) && !isSaveForm">
-         <label>Nº OC</label>
-         <app-oc-by-combinacion-aceptados-dialog-field
-           [groupName]="groupName"
-           class="buscador"
-           [form]="form"
-           [style]="'width: 100px'"
-           [combinacionId]="combinacionId"
-           (valueChange)="onOrdenCargaChange($event)"
-         ></app-oc-by-combinacion-aceptados-dialog-field>
-      </div>
+      <div class="row" [class.colapse-div]="colapseDivpedido">
 
-      <div class="search-tracto col-xs-4"
-        *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm">
-        <label>Nº OC</label>
-        <app-oc-by-combinacion-nuevos-dialog-field
+        <app-flete-by-gestor-dialog-field
+          *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº Pedido"
           [groupName]="groupName"
-          class="buscador"
           [form]="form"
-          [style]="'width: 100px'"
+          (valueChange)="onFleteChange($event)"
+        ></app-flete-by-gestor-dialog-field>
+
+        <app-oc-by-combinacion-dialog-field
+          *ngIf="oc?.estado === 'Cancelado' || showSearchOC"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
+          [combinacionId]="combinacionId"
+          (valueChange)="onOrdenCargaChange($event)"
+        ></app-oc-by-combinacion-dialog-field>
+
+        <app-oc-by-combinacion-aceptados-dialog-field
+          *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas) && !isSaveForm"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
+          [combinacionId]="combinacionId"
+          (valueChange)="onOrdenCargaChange($event)">
+        </app-oc-by-combinacion-aceptados-dialog-field>
+
+        <app-oc-by-combinacion-nuevos-dialog-field
+          *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
           [combinacionId]="combinacionId"
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-nuevos-dialog-field>
-      </div>
 
-      <div class="search-tracto col-xs-4"
-        *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'">
-         <label>Nº OC</label>
-         <app-oc-by-combinacion-finalizados-dialog-field
-           [groupName]="groupName"
-           class="buscador"
-           [form]="form"
-           [style]="'width: 100px'"
-           [combinacionId]="combinacionId"
-           (valueChange)="onOrdenCargaChange($event)"
-         ></app-oc-by-combinacion-finalizados-dialog-field>
-       </div>
+        <app-oc-by-combinacion-finalizados-dialog-field
+          *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
+          [combinacionId]="combinacionId"
+          (valueChange)="onOrdenCargaChange($event)"
+        ></app-oc-by-combinacion-finalizados-dialog-field>
 
-       <div class="col-xs-4"
-       *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') ||
-              showSearchOCPedidos">
         <app-input-field-oc
+          *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') ||
+              showSearchOCPedidos"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº Pedido"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -239,169 +238,185 @@
           [form]="form"
           controlName="flete_id"
         ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº Lote"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="numero_lote"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Saldo"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="saldo"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Cliente"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="cliente"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Producto"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="producto_descripcion"
+        ></app-input-field-oc>
+
       </div>
 
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="Nº Lote"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="numero_lote"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-saldo-input input-with-label">
-          <app-input-field-oc
-            title="Saldo"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="saldo"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-cliente-input input-with-label">
-          <app-input-field-oc
-            title="Cliente"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="cliente"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-producto-input input-with-label">
-          <app-input-field-oc
-            title="Producto"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="producto_descripcion"
-          ></app-input-field-oc>
-        </div>
+      <div class="row" [class.colapse-div]="colapseDivpedido">
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="L. Carga"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="origen_nombre"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="L. Descarga"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="destino_nombre"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Tipo Flete"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="tipo_flete"
+        ></app-input-field-oc>
+
       </div>
 
-      <div class="row page-form-row">
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="L. Carga"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="origen_nombre"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-descarga-input input-with-label">
-          <app-input-field-oc
-            title="L. Descarga"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="destino_nombre"
-          ></app-input-field-oc>
-        </div>
-        <div class="small-flete-input input-with-label">
-          <app-input-field-oc
-            title="Tipo Flete"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="tipo_flete"
-          ></app-input-field-oc>
-        </div>
+      <div class="row" [class.colapse-div]="colapseDivpedido">
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Flete a <strong>PAGAR</strong>"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="a_pagar"
+        ></app-input-field-oc>
+
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Valor mercaderia"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="valor"
+        ></app-input-field-oc>
+
       </div>
 
-      <div class="row page-form-row">
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="Flete a <strong>PAGAR</strong>"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="a_pagar"
-          ></app-input-field-oc>
-        </div>
-        <div class="col-xs-4">
-          <app-input-field-oc
-            title="Valor mercaderia"
-            [groupName]="groupName"
-            [camionId]="camionId"
-            [productoId]="productoId"
-            [readonly]="true"
-            [form]="form"
-            controlName="valor"
-          ></app-input-field-oc>
-        </div>
-      </div>
     </div>
-      <app-orden-carga-create-form-info
-        [form]="form"
-        [flete]="flete"
-        [oc]="oc"
-        >
-      </app-orden-carga-create-form-info>
 
-    <div class="small-neto-input input-with-label">
+    <div class="section">
+      <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">CANTIDAD NOMINADA</h2>
+
+      <div class="row" [class.colapse-div]="colapseDivCantidad">
+
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Neto Combinación"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          matinput
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="neto"
+          appInputThousandsSeparator
+        ></app-input-field-oc>
+
+        <app-orden-carga-create-form-info
+          class="col-xs-12 col-sm-10"
+          [form]="form"
+          [flete]="flete"
+          [oc]="oc">
+        </app-orden-carga-create-form-info>
+
+      </div>
+
+    </div>
+
+    <div class="row" [class.colapse-div]="colapseDivCantidad">
+
       <app-input-field-oc
-        title="Neto Combinación"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Cant. Orig. (kg)"
         [groupName]="groupName"
         [camionId]="camionId"
-        matinput
         [productoId]="productoId"
         [readonly]="true"
         [form]="form"
-        controlName="neto"
-        appInputThousandsSeparator
+        controlName="cant_origen"
       ></app-input-field-oc>
-  </div>
-    <div class="cantidades">
-      <div class="small-cantidad_dest-input input-with-label">
-        <app-input-field-oc
-          title="Cant. Orig. (kg)"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="cant_origen"
-        ></app-input-field-oc>
-      </div>
-      <div class="small-cantidad_dest-input input-with-label">
-        <app-input-field-oc
-          title="Cant. Dest. (kg)"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="cant_destino"
-        ></app-input-field-oc>
-      </div>
-      <div class="small-diferencia-input input-with-label">
-        <app-input-field-oc
-          title="Diferencia (kg)"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="diferencia"
-        ></app-input-field-oc>
-      </div>
+
+      <app-input-field-oc
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Cant. Dest. (kg)"
+        [groupName]="groupName"
+        [camionId]="camionId"
+        [productoId]="productoId"
+        [readonly]="true"
+        [form]="form"
+        controlName="cant_destino"
+      ></app-input-field-oc>
+
+      <app-input-field-oc
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Diferencia (kg)"
+        [groupName]="groupName"
+        [camionId]="camionId"
+        [productoId]="productoId"
+        [readonly]="true"
+        [form]="form"
+        controlName="diferencia"
+      ></app-input-field-oc>
+
+    </div>
 
   </div>
+
 </div>

@@ -29,3 +29,37 @@
   color:white;
   background: var(--color-success);
 }
+
+
+.anticipo-toggle-button-active {
+  background-color: green;
+  color: white;
+}
+
+.anticipo-toggle-button-inactive {
+  background-color: red;
+  color: white;
+}
+
+.estado-label {
+  color: #697077;
+}
+
+.estado-container {
+  display: flex;
+  align-items: center;
+}
+
+.estado-input {
+  border: 1px solid #d9d9d9;
+  border-radius: 12px;
+  background-color: #fff;
+  transition: background-color 0.3s ease;
+  border-color: #017605;
+  pointer-events: none;
+  max-width: 5.5rem;
+}
+
+.estado-input:disabled {
+  background-color: #f5f5f5;
+}

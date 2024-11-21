@@ -2,34 +2,39 @@
   <div class="section">
     <h2>GESTION DE LINEA</h2>
     <div class="info-porcentaje">
-      
+
       <div class="conceptos">
         <span class="span-concepto">Redistribucion de Conceptos</span>
         <p>Obs: La suma de porcentajes no debe superar el 80%</p>
       </div>
+
       <div class="form-group" *ngIf="oc?.flete_anticipos?.length">
-        <div *ngFor="let anticipo of oc?.flete_anticipos" class="anticipo-item">
-          <label class="anticipos-porcentaje">% {{ anticipo.concepto }}</label>
+
+        <div *ngFor="let anticipo of oc?.flete_anticipos" class="input-form-full">
+          <label>% {{ anticipo.concepto }}</label>
           <mat-form-field class="porcentajes">
-            <input id="porcentajeInput" matInput [value]="anticipo.porcentaje ?? 0" disabled="true" />
+            <input matInput [value]="anticipo.porcentaje ?? 0" disabled="true" />
           </mat-form-field>
-          
         </div>
-        <label class="total-anticipos">% TOTAL Anticipos</label>
-        <mat-form-field class="total">
-          <input id="totalAnticipoInput" matInput [value]="getTotalAnticipo()" disabled="true" />
-        </mat-form-field>
+
+        <div class="input-form-full">
+          <label class="total-anticipos">% TOTAL Anticipos</label>
+          <mat-form-field class="total">
+            <input id="totalAnticipoInput" matInput [value]="getTotalAnticipo()" disabled="true" />
+          </mat-form-field>
+        </div>
+
       </div>
-      
+
     </div>
     <div class="table-title">TABLA DE SALDOS</div>
     <div class="table-container">
-      
+
       <app-orden-carga-gestion-anticipos [list]="oc?.saldos || [] ">
-     
+
       </app-orden-carga-gestion-anticipos>
     </div>
-    <app-orden-carga-flete 
+    <app-orden-carga-flete
       *ngIf="oc"
       [oc]="oc"
       >
@@ -70,7 +75,7 @@
          <p>
           Límite Crédito OC + Compl.:
            <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
-         </p> 
+         </p>
         <p>
           Saldo Crédito Tracto.:
           <span class="span-like">{{ oc?.camion_monto_anticipo_disponible ?? 0 | number: '1.0-0' }}</span>Gs
@@ -83,7 +88,7 @@
           Monto Anticipo Retirados OC:
           <span class="span-like">{{ oc?.total_anticipo_retirado | number: '1.0-0' }}</span>Gs
         </p>
-      
+
       </div>
       <div class="column">
         <p>
@@ -120,7 +125,7 @@
         </p>
       </div>
     </div>
-    <hr class="full-width-line-top" />
+    <hr class="full-width-line-bottom" />
     <div class="row page-form-row">
       <div class="column">
         <div class="flex-container">
@@ -137,10 +142,10 @@
     </div>
     <hr class="full-width-line-bottom" />
     <div mat-dialog-actions  class="buttons-actions">
-      <button 
-        mat-raised-button 
-        type="button" 
-        class="close-button" 
+      <button
+        mat-raised-button
+        type="button"
+        class="close-button"
         mat-dialog-close>
         <mat-icon>close</mat-icon>
         Cerrar</button>

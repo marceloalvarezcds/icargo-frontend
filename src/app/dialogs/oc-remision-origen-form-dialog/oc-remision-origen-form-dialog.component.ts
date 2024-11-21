@@ -20,6 +20,7 @@ export class OcRemisionOrigenFormDialogComponent {
     cantidad: [this.data?.cantidad, Validators.required],
     unidad_id: [this.data?.unidad_id, Validators.required],
     foto_documento: this.data?.foto_documento,
+    nuevo_campo: null
   });
 
   get actionText(): string {

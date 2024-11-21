@@ -230,7 +230,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });    
+      });
       delete data.logo;
       formData.append('data', JSON.stringify(data));
       if (this.fotoFile) {
@@ -344,7 +344,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             propietario_id: data.propietario_id,
             chofer_id: data.chofer_id,
             numero_chasis: data.numero_chasis,
-            foto: null,
+            foto: this.foto,
           },
           municipal: {
             pais_habilitacion_municipal_id: data.pais_habilitacion_municipal_id,
@@ -355,22 +355,22 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             numero_habilitacion_municipal: data.numero_habilitacion_municipal,
             vencimiento_habilitacion_municipal:
               data.vencimiento_habilitacion_municipal,
-            foto_habilitacion_municipal_frente: null,
-            foto_habilitacion_municipal_reverso: null,
+            foto_habilitacion_municipal_frente: data.foto_habilitacion_municipal_frente,
+            foto_habilitacion_municipal_reverso: data.foto_habilitacion_municipal_reverso,
           },
           transporte: {
             ente_emisor_transporte_id: data.ente_emisor_transporte_id,
             numero_habilitacion_transporte: data.numero_habilitacion_transporte,
             vencimiento_habilitacion_transporte:
               data.vencimiento_habilitacion_transporte,
-            foto_habilitacion_transporte_frente: null,
-            foto_habilitacion_transporte_reverso: null,
+            foto_habilitacion_transporte_frente: data.foto_habilitacion_transporte_frente,
+            foto_habilitacion_transporte_reverso: data.foto_habilitacion_transporte_reverso,
           },
           automotor: {
             ente_emisor_automotor_id: data.ente_emisor_automotor_id,
             titular_habilitacion_automotor: data.titular_habilitacion_automotor,
-            foto_habilitacion_automotor_frente: null,
-            foto_habilitacion_automotor_reverso: null,
+            foto_habilitacion_automotor_frente: data.foto_habilitacion_automotor_frente,
+            foto_habilitacion_automotor_reverso: data.foto_habilitacion_automotor_reverso,
           },
           detalle: {
             marca_id: data.marca_id,
