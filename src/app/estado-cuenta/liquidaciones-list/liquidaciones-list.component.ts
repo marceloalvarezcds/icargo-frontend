@@ -341,42 +341,9 @@ export class LiquidacionesListComponent implements OnInit {
   }
 
   private getList(): void {
-    // TODO: llamar a nuevo servicio
     this.liquidacionService.getListAll().subscribe((list) => {
 
       this.list = list;
-
-      /*this.list.forEach( (ele:any) => {
-
-        const contraparteID = ele.propietario_id ?? ele.proveedor_id ?? ele.remitente_id ?? ele.chofer_id ;
-
-        this.estadoCuentaService
-          .getByContraparte(
-            ele.tipo_contraparte_id,
-            contraparteID,
-            ele.contraparte,
-            ele.contraparte_numero_documento,
-            ele.punto_venta_id
-          )
-          .subscribe((estadoCuenta:any) => {
-            console.log("estadoCuenta: ", estadoCuenta);
-            ele.monto = estadoCuenta.confirmado + estadoCuenta.finalizado;
-      });
-      */
-        /*this.estadoCuentaService
-          .getSaldoCCContraparte(
-            ele.tipo_contraparte_id,
-            contraparteID,
-            ele.punto_venta_id
-          )
-          .subscribe((estadoCuenta:any) => {
-            console.log("estadoCuenta: ", estadoCuenta);
-            ele.movimientos_saldo = estadoCuenta.confirmado + estadoCuenta.finalizado;
-
-        });*/
-
-
-      //})
 
       this.tipoContraparteFilterList = getFilterList(
         list, (x) => x.tipo_contraparte_descripcion);

@@ -14,9 +14,13 @@ export const removeMovimientoData = (movimiento: Movimiento): FormData => {
   return formData;
 };
 
-export const createLiquidacionDataFields = (movimientos: Movimiento[], cabecera:ContraparteGralInfo,  monto:number, es_pago_cobro:string): FormData => {
+export const createLiquidacionDataFields = (
+    movimientos: Movimiento[], cabecera:ContraparteGralInfo,
+    monto:number, es_pago_cobro:string, tipo_mov_liquidacion:string
+  ): FormData => {
   const formData = new FormData();
-  formData.append('data', JSON.stringify({ movimientos: movimientos, cabecera:cabecera, monto:monto, es_pago_cobro: es_pago_cobro}));
+  formData.append('data', JSON.stringify(
+    { movimientos: movimientos, cabecera:cabecera, monto:monto, es_pago_cobro: es_pago_cobro, tipo_mov_liquidacion}));
   return formData;
 };
 

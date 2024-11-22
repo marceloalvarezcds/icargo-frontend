@@ -1,4 +1,4 @@
-import { ContraparteInfo, mockContraparteInfoList } from './contraparte-info';
+import { ContraparteInfo, ContraparteInfoMovimientoLiq, mockContraparteInfoList } from './contraparte-info';
 import { mockMovimientoList, Movimiento } from './movimiento';
 
 export interface MovimientosSelectedDialogData {
@@ -8,9 +8,11 @@ export interface MovimientosSelectedDialogData {
   punto_venta_id?: number;
 }
 
+/*
 export const mockMovimientosSelectedDialogData: MovimientosSelectedDialogData =
   {
-    contraparteInfo: mockContraparteInfoList[0],
+    contraparteInfo: ContraparteInfoMovimientoLiq,
     list: mockMovimientoList,
     saldo: 0,
   };
+*/

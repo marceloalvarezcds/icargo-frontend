@@ -34,6 +34,7 @@ import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimi
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { zeroCommaTerminatedRegex } from 'src/app/utils/thousands-separator';
+import { edit } from 'src/app/utils/table-event-crud';
 
 type Filter = {
   camion_placa?: string;
@@ -230,29 +231,31 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },*/
     {
       def: 'editar',
-      title: ' ',
+      title: '',
       type: 'button',
+      isDisable: (mov: Movimiento) => (mov.estado !== 'Pendiente'),
       value: (mov: MovimientoEstadoCuenta) =>
-        mov.es_editable && mov.estado === 'Pendiente' || mov.can_edit_oc ? 'Editar' : '',
+        mov.es_editable || mov.can_edit_oc ? 'Editar' : '',
       buttonCallback: (mov: MovimientoEstadoCuenta) =>
-        mov.es_editable && mov.estado === 'Pendiente'
+        mov.es_editable
           ? this.edit(mov)
+          : mov.can_edit_oc
+          ? this.editOC(mov)
           : () => {},
-      buttonIconName: (mov: MovimientoEstadoCuenta) =>
-        mov.es_editable && mov.estado === 'Pendiente' || mov.can_edit_oc ? 'edit' : '',
-      //stickyEnd: true,
+      buttonIconName: (mov: Movimiento) =>
+        mov.es_editable || mov.can_edit_oc ? 'edit' : '',
+      stickyEnd: true,
     },
     {
       def: 'delete',
       title: ' ',
       type: 'button',
       value: (mov: MovimientoEstadoCuenta) =>
-        mov.es_editable ? 'Eliminar Movimiento' : '',
-      buttonCallback: (mov: MovimientoEstadoCuenta) =>
-        mov.es_editable && mov.estado === 'Pendiente' ? this.delete(mov) : undefined,
-      buttonIconName: (mov: MovimientoEstadoCuenta) =>
-        mov.es_editable && mov.estado === 'Pendiente' ? 'delete' : '',
-      //sticky: true,
+        mov.es_editable ? 'Eliminar Movimiento' : 'Eliminar',
+      isDisable: (mov: Movimiento) => (!mov.es_editable || mov.estado !== 'Pendiente'),
+      buttonCallback: (mov: MovimientoEstadoCuenta) => this.delete(mov),
+      buttonIconName: (mov: MovimientoEstadoCuenta) => 'delete',
+      stickyEnd: true,
     },
   ]
 
@@ -543,7 +546,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         .subscribe( (resp:Movimiento) => {
 
           const data: MovimientoFormDialogData = {
-            estado: MovimientoEstadoEnum.EN_PROCESO,
+            estado: MovimientoEstadoEnum.PENDIENTE,
             es_contraparte_editable: false,
             item: resp,
           };
@@ -552,6 +555,43 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           });
 
       });
+    }
+
+    private editOC(item: MovimientoEstadoCuenta): void {
+
+      this.movimientoService.getById(item.movimiento_id)
+        .subscribe( (resp:Movimiento) => {
+
+          const data: MovimientoFormDialogData = {
+            estado: MovimientoEstadoEnum.EN_PROCESO,
+            es_contraparte_editable: false,
+            item: resp,
+          };
+
+          let afectado = resp.es_propietario
+            ? AfectadoEnum.PROPIETARIO
+            : resp.es_gestor
+              ? AfectadoEnum.GESTOR
+              : null;
+
+          if (afectado) {
+            if (resp.es_flete) {
+              edit(
+                this.getFleteDialogRef(resp, afectado),
+                ()=> this.getList()
+              );
+            } else if (resp.es_merma) {
+              edit(
+                this.getMermaDialogRef(resp, afectado),
+                ()=> this.getList()
+              );
+            }
+          }
+
+      });
+
+
+
     }
 
     /*

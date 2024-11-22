@@ -166,7 +166,8 @@ export class EstadoCuentaListComponent implements OnInit {
     return this.finalizado;
   }
 
-  @ViewChild(MatAccordion) accordion!: MatAccordion;
+  @ViewChild(MatAccordion)
+  accordion!: MatAccordion;
   @ViewChild('tipoContraparteCheckboxFilter')
   tipoContraparteCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('contraparteCheckboxFilter')
@@ -207,18 +208,6 @@ export class EstadoCuentaListComponent implements OnInit {
         .some((x) => obj.contraparte.toLowerCase().indexOf(x) >= 0) ?? true;
     return filterByTipoContraparte && filterByContraparte;
   }
-
-  /* TODO: ver
-  calcularTotales(): void{
-
-    this.list.forEach( (mov:EstadoCuenta) => {
-      mov.liquidacion_saldo = mov.pendiente + mov.confirmado + mov.finalizado;
-      this.pendiente = this.pendiente + mov.pendiente;
-      this.confirmado = this.confirmado + mov.confirmado;
-      this.finalizado = this.finalizado + mov.finalizado;
-    })
-
-  }*/
 
   applyFilter(): void {
     let filter: Filter = {};

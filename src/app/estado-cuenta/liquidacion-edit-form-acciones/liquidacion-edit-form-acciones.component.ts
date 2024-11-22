@@ -19,8 +19,7 @@ import { HttpErrorService } from 'src/app/services/http-error.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
-import { HttpErrorSnackBarComponent } from 'src/app/shared/http-error-snack-bar/http-error-snack-bar.component';
-import { create, edit, remove } from 'src/app/utils/table-event-crud';
+import { create } from 'src/app/utils/table-event-crud';
 
 @Component({
   selector: 'app-liquidacion-edit-form-acciones',
@@ -95,9 +94,9 @@ export class LiquidacionEditFormAccionesComponent {
     this.dialogService.changeStatusConfirm(
       message,
       this.liquidacionService.aceptar(this.id),
-      () => {
+      (resp) => {
         //this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
-        this.liquidacionFlujoChange.emit();
+        this.liquidacionFlujoChange.emit(resp);
       }
     );
   }
@@ -110,7 +109,6 @@ export class LiquidacionEditFormAccionesComponent {
       return;
     }
 
-    
     if (this.liquidacion.instrumentos && this.liquidacion.instrumentos.length>0) {
       this.httpErrorService.setErrorList([
         `No se puede cancelar liquidacion con instrumentos`,

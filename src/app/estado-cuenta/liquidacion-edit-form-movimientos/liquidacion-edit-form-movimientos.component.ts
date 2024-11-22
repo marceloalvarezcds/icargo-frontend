@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -28,6 +28,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { TablePaginatorComponent } from 'src/app/shared/table-paginator/table-paginator.component';
 import { getContraparteId } from 'src/app/utils/contraparte-info';
 import {
   createMovimiento,
@@ -45,15 +46,11 @@ export class LiquidacionEditFormMovimientosComponent {
   a = a;
   m = m;
   isShowOnly = false;
+
+  @ViewChild(TablePaginatorComponent)
+  tablePaginatorComponent!: TablePaginatorComponent;
+
   columns: Column[] = [
-    /*{
-      def: 'id',
-      title: 'Nº',
-      value: (element: Movimiento) => element.id,
-      type: 'checkbox',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-      sticky: true,
-    },*/
     {
       def: 'created_at',
       title: 'Fecha ',
@@ -108,12 +105,6 @@ export class LiquidacionEditFormMovimientosComponent {
       type: 'number',
     },
     /*{
-      def: 'punto_venta',
-      title: 'Punto de Venta',
-      value: (element: Movimiento) =>
-        element.anticipo?.punto_venta_nombre ?? '',
-    },
-    /*{
       def: 'oc',
       title: '',
       type: 'button',
@@ -144,13 +135,8 @@ export class LiquidacionEditFormMovimientosComponent {
     },*/
   ];
 
-  get gestorCargaId(): number | undefined {
-    return this.liquidacion?.gestor_carga_id;
-  }
+  @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
-  selectedItems: Movimiento[] = [];
-
-  @Input() tipoContrapartePDV:boolean=false;
   @Input() tipoLiquidacion?:string;
   @Input() liquidacion?: Liquidacion;
   @Input() list: Movimiento[] = [];
@@ -192,7 +178,11 @@ export class LiquidacionEditFormMovimientosComponent {
     }
   }
 
-  @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
+  selectedItems: Movimiento[] = [];
+
+  get gestorCargaId(): number | undefined {
+    return this.liquidacion?.gestor_carga_id;
+  }
 
   constructor(
     private route: ActivatedRoute,
@@ -204,39 +194,6 @@ export class LiquidacionEditFormMovimientosComponent {
     private movimientoService: MovimientoService
   ) {}
 
-  controlTipoMovimiento(movimientos: Movimiento[]): boolean {
-
-    if (this.tipoContrapartePDV){
-
-      let nuevoMovInsu = movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
-        && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
-
-      let nuevoMovAnti = movimientos.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
-          && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
-
-      if (nuevoMovInsu && nuevoMovAnti) {
-        return true;
-      }
-
-      let movInsu = this.list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
-        && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
-
-      let movAnti = this.list.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
-          && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
-
-      if (movInsu && nuevoMovAnti) {
-        return true;
-      }
-
-      if (movAnti && nuevoMovInsu) {
-        return true;
-      }
-
-    }
-
-    return false;
-  }
-
   addMovimientos(): void {
     let contraparteId = getContraparteId(this.liquidacion!);
     if (!contraparteId) {
@@ -246,6 +203,7 @@ export class LiquidacionEditFormMovimientosComponent {
         contraparteId = parseInt(queryContraparteId, 10);
       }
     }
+
     if (!contraparteId) {
       console.error('La contraparteId es nula');
     }
@@ -255,7 +213,8 @@ export class LiquidacionEditFormMovimientosComponent {
         this.liquidacion!,
         contraparteId,
         LiquidacionEtapaEnum.PENDIENTE,
-        this.liquidacion!.punto_venta_id
+        this.liquidacion!.punto_venta_id,
+        this.liquidacion!.tipo_mov_liquidacion
       )
       .subscribe((list) => {
         const data: MovimientosSelectedDialogData = {
@@ -271,13 +230,6 @@ export class LiquidacionEditFormMovimientosComponent {
           .afterClosed()
           .pipe(filter((list) => !!list && !!list.length))
           .subscribe((list: Movimiento[]) => {
-
-            if (this.tipoContrapartePDV) {
-              if (this.controlTipoMovimiento(list)) {
-                this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
-                return;
-              }
-            }
 
             this.liquidacionService
               .addMovimientos(this.liquidacion!.id, createLiquidacionData(list))
@@ -352,6 +304,7 @@ export class LiquidacionEditFormMovimientosComponent {
         this.selectedMovimientosChange.emit(
           this.list.filter((x) => this.selectedItems.find( (y) => x.id === y.id ))
         );
+        this.selectedItems = [];
       }
     );
   }

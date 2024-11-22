@@ -60,9 +60,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
   @Output() showClickDos = new EventEmitter<TableEvent<any>>();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
-    null;
-
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
 
   constructor(private tableService: TableService) {}
 
@@ -93,4 +91,5 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   goToPage(pageNumber: number): void {
 
   }
+
 }

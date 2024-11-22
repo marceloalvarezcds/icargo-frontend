@@ -74,7 +74,8 @@ export function getParams(
   contraparteInfo: ContraparteInfo,
   contraparte_id: number,
   etapa?: LiquidacionEtapaEnum,
-  pdv?: number ,
+  pdv?: number,
+  listar_efectivo_insumo?: string,
 ): string {
   const contraparte = encodeURIComponent(contraparteInfo.contraparte);
   const numeroDocumento = encodeURIComponent(
@@ -88,7 +89,10 @@ export function getParams(
   }
 
   if (pdv) {
-    endpoint = `${endpoint}/punto_venta_id/${pdv}`;
+
+    if (listar_efectivo_insumo) endpoint = `${endpoint}/punto_venta_id/${pdv}/tipo_liquidacion/${listar_efectivo_insumo}`;
+    else endpoint = `${endpoint}/punto_venta_id/${pdv}`;
+
   }
 
   return endpoint;

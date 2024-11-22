@@ -29,20 +29,6 @@
   }
 }
 
-.button-container {
-  display: grid;
-  grid-auto-flow: column;
-  grid-column-gap: 10px;
-  justify-content: start;
-}
-
-.has-movimiento {
-  position: relative;
-  overflow: visible;
-  margin-bottom: 0;
-  margin-top: -60px;
-}
-
 .finalizado {
   top: 0px;
 }

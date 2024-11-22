@@ -1,30 +1,17 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
-import { FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
-import { saveAs } from 'file-saver';
-import { of } from 'rxjs';
-import { filter } from 'rxjs/operators';
-import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
+import { Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
-import {
-  PermisoAccionEnum as a,
-  PermisoModeloEnum as m,
-} from 'src/app/enums/permiso-enum';
-import { createLiquidacionData, createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
-import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
+import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
-import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
-import { DialogService } from 'src/app/services/dialog.service';
-import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
-import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { subtract } from 'src/app/utils/math';
 import { SaldoComponent } from '../saldo/saldo.component';
+import { LiquidacionFormMovimientosComponent } from '../liquidacion-form-movimientos/liquidacion-form-movimientos.component';
+import { TipoLiquidacionEnum } from 'src/app/enums/tipo-liquidacion';
 
 @Component({
   selector: 'app-liquidacion-form-fields',
@@ -35,6 +22,15 @@ export class LiquidacionFormFieldsComponent {
 
   private readonly monedaIdGs = 1;
 
+  @ViewChild('saldoView')
+  childSaldoView!:SaldoComponent;
+
+  @ViewChild('movimientosList')
+  liquidacionMovimientoList!:LiquidacionFormMovimientosComponent;
+
+  @Input()
+  isDialog:Boolean = false;
+
   @Input()
   etapa?: LiquidacionEtapaEnum;
 
@@ -44,13 +40,14 @@ export class LiquidacionFormFieldsComponent {
   @Input()
   list: Movimiento[] = [];
 
-  @ViewChild('saldoView')
-  childSaldoView!:SaldoComponent;
-
   @Output()
   createdLiquidacionEvt: EventEmitter<Liquidacion> = new EventEmitter<Liquidacion>();
 
   movimientosSelected: Movimiento[] = [];
+
+  form = new FormGroup({
+    es_insumo_efectivo: new FormControl(true),
+  });
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -72,40 +69,27 @@ export class LiquidacionFormFieldsComponent {
     return (this.estadoCuenta ? this.estadoCuenta.tipo_contraparte_descripcion.includes("PDV") : false);
   }
 
+  get esInsumoControl(): FormControl {
+    return this.form.controls['es_insumo_efectivo'] as FormControl;
+  }
+
   constructor(
     private movimientoService: MovimientoService,
     private liquidacionService: LiquidacionService,
     private snackbar: SnackbarService,
   ) { }
 
-  controlTipoMovimiento():boolean{
-
-    if (this.tipoContrapartePDV){
-
-      let movInsu = this.movimientosSelected.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
-        && mov.anticipo?.tipo_anticipo_descripcion === 'INSUMOS') );
-
-      let movAnti = this.movimientosSelected.find( (mov) => (mov.tipo_movimiento_descripcion === 'Anticipo'
-          && mov.anticipo?.tipo_anticipo_descripcion === 'EFECTIVO') );
-
-      if (movInsu && movAnti) {
-        this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
-        return true;
-      }
-
-    }
-
-    return false;
-  }
 
   sendLiquidacion(confirmed: boolean): void {
 
     let es_pago_cobro = (this.childSaldoView.saldoMovimiento >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
 
-    if (this.controlTipoMovimiento()){
-      this.snackbar.open('No se puede agregar movimientos de tipos diferentes');
-      return;
+    let tipoMovLiquidacion = '';
+    if (this.estadoCuenta!.punto_venta_id){
+      tipoMovLiquidacion = (this.esInsumoControl.value) ? TipoLiquidacionEnum.EFECTIVO : TipoLiquidacionEnum.INSUMO;
+    } else {
+      tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO;
     }
 
     // TODO: seleccionar la moneda en el form, por ahora sino tiene movimientos sera en gs
@@ -117,7 +101,10 @@ export class LiquidacionFormFieldsComponent {
 
     //if (this.movimientosSelected.length) {
       this.liquidacionService
-        .create(createLiquidacionDataFields(this.movimientosSelected, this.estadoCuenta!, pago_cobro, es_pago_cobro))
+        .create(
+            createLiquidacionDataFields(
+              this.movimientosSelected, this.estadoCuenta!, pago_cobro, es_pago_cobro, tipoMovLiquidacion
+            ))
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');
 
@@ -143,11 +130,15 @@ export class LiquidacionFormFieldsComponent {
 
   getList(): void {
     const etapa = this.etapa! as LiquidacionEtapaEnum;
+    const listar_efectivo_insumo = this.esInsumoControl.value ? "Efectivo" : "Insumo";
+
     this.movimientoService
       .getListByEstadoCuenta(
         this.estadoCuenta!,
         this.estadoCuenta!.contraparte_id,
-        etapa
+        etapa,
+        this.estadoCuenta!.punto_venta_id,
+        listar_efectivo_insumo
       )
       .subscribe((data) => {
         this.list = data;
@@ -155,11 +146,13 @@ export class LiquidacionFormFieldsComponent {
       });
   }
 
-  cargarMovimientos(movimientos: Movimiento[]):void {
-    // TODO: ver para evitar el check de tipos distintos
-    this.controlTipoMovimiento();
-    this.movimientosSelected = movimientos;
+  filtrarMovimientosPDV():void{
+    this.liquidacionMovimientoList!.clearMovimientosList();
+    this.getList();
   }
 
+  cargarMovimientos(movimientos: Movimiento[]):void {
+    this.movimientosSelected = movimientos;
+  }
 
 }
