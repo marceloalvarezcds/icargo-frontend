@@ -73,7 +73,7 @@
           <span class="span-like">{{ oc?.total_anticipo_complemento | number: '1.0-0' }}</span>Gs
         </p>
          <p>
-          Límite Crédito OC + Compl.:
+          Línea Disponible (Límite Crédito OC + Compl.):
            <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
          </p>
         <p>
@@ -84,17 +84,10 @@
           Anticipos Retirados Cam.:
           <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>Gs
         </p>
-        <p style="color: red;">
-          Monto Anticipo Retirados OC:
-          <span class="span-like">{{ oc?.total_anticipo_retirado | number: '1.0-0' }}</span>Gs
-        </p>
+     
 
       </div>
       <div class="column">
-        <p>
-          Línea Disponible:
-          <span class="span-like">{{ oc?.linea_disponible | number: '1.0-0' }}</span>Gs
-        </p>
         <p style="color: red;">
           Monto Anticipo Disponible OC:
           <span class="span-like">{{ oc?.total_anticipo_disponible | number: '1.0-0' }}</span>Gs
@@ -122,6 +115,10 @@
           <span class="span-like">
             {{ oc?.semi_estado}}
           </span>
+        </p>
+        <p style="color: red;">
+          Monto Anticipo Retirados OC:
+          <span class="span-like">{{ oc?.total_anticipo_retirado | number: '1.0-0' }}</span>Gs
         </p>
       </div>
     </div>

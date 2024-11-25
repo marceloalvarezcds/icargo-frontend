@@ -1,3 +1,4 @@
+import { Time } from '@angular/common';
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -179,97 +180,94 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
 
   onPDVPrecioChange(pdv?: InsumoPuntoVentaPrecioList) {
     if (pdv) {
-      this.insumoPdvChange.emit(pdv);
-      this.puntoVentaId = pdv.punto_venta_id;
-      this.insumoId = pdv.insumo_id;
-      this.monedaId = pdv.insumo_moneda_id
-      this.form.get('insumo_id')?.enable();
+        this.insumoPdvChange.emit(pdv);
+        this.puntoVentaId = pdv.punto_venta_id; // Este valor depende de la selección del punto de venta.
+        this.monedaId = pdv.insumo_moneda_id; // Este se actualiza correctamente desde pdv.
+        this.form.get('insumo_id')?.enable();
+        
     }
-  }
+}
 
-  onInsumoDescipcionChange(insumo?: InsumoPuntoVentaPrecioList) {
+onInsumoDescipcionChange(insumo?: InsumoPuntoVentaPrecioList) {
     if (insumo) {
-      this.insumoPrecioChange.emit(insumo);
-   
-      if (!this.form.get('precio')?.value || this.form.get('precio')?.value !== insumo.precio) {
-        this.form.get('precio')?.setValue(insumo.precio);
-      }
-      
-      if (!this.form.get('fecha_inicio')?.value || this.form.get('fecha_inicio')?.value !== insumo.fecha_inicio) {
-        this.form.get('fecha_inicio')?.setValue(insumo.fecha_inicio);
-      }
+        this.insumoPrecioChange.emit(insumo);
+        this.insumoId = insumo.insumo_id;
+        this.form.get('precio')?.setValue(insumo.precio || null);
+        this.form.get('fecha_inicio')?.setValue(insumo.fecha_inicio || null);
+        this.form.get('unidad_id')?.setValue(insumo.insumo_unidad_descripcion || null);
+        this.form.get('moneda_id')?.setValue(insumo.insumo_moneda_nombre || null);
+        this.form.get('observacion')?.setValue(insumo.observacion || null);
+
+        // Actualiza la hora de inicio y hora de creación si existen.
+        if (insumo.fecha_inicio) {
+            const dateInicio = new Date(insumo.fecha_inicio);
+            this.horaInicio = dateInicio.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            this.form.get('hora_inicio')?.setValue(this.horaInicio);
+        }
+
+        if (insumo.created_at_insumo) {
+            const dateFin = new Date(insumo.created_at_insumo);
+            this.hora = dateFin.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            this.form.get('hora')?.setValue(this.hora);
+        }
+
+        this.enableOtherFields();
+    }
+}
+
+
+convertToTime(hourString: string): Time {
+  const [hours, minutes] = hourString.split(':').map((value) => parseInt(value, 10));
+  return { hours, minutes };  // Return only hours and minutes, no seconds
+}
+
+
+submit(confirmed: boolean): void {
+  this.form.markAsDirty();
+  this.form.markAllAsTouched();
   
-      if (!this.form.get('created_at_insumo')?.value || this.form.get('created_at_insumo')?.value !== insumo.created_at_insumo) {
-        this.form.get('created_at_insumo')?.setValue(insumo.created_at_insumo);
+  if (this.form.valid) {
+    const formData = new FormData();
+    const data = JSON.parse(JSON.stringify(this.form.value));
+    data.punto_venta_id = this.puntoVentaId;
+    data.insumo_id = this.insumoId;
+    data.moneda_id = this.monedaId;
+
+    // Convertir la hora a tipo 'time' antes de enviarla al backend
+    if (data.hora_inicio) {
+      data.hora_inicio = this.convertToTime(data.hora_inicio); // Convertimos la hora aquí
+    }
+
+    // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+    Object.keys(data).forEach(key => {
+      if (typeof data[key] === 'string' && key !== 'email') {
+        data[key] = data[key].toUpperCase();
       }
-      if (!this.form.get('unidad_id')?.value || this.form.get('unidad_id')?.value !== insumo.insumo_unidad_descripcion) {
-        this.form.get('unidad_id')?.setValue(insumo.insumo_unidad_descripcion);
-      }
-  
-      if (!this.form.get('moneda_id')?.value || this.form.get('moneda_id')?.value !== insumo.insumo_moneda_nombre) {
-        this.form.get('moneda_id')?.setValue(insumo.insumo_moneda_nombre);
-      }
-  
-      if (!this.form.get('observacion')?.value || this.form.get('observacion')?.value !== insumo.observacion) {
-        this.form.get('observacion')?.setValue(insumo.observacion);
-      }
-  
-      if (insumo.fecha_inicio) {
-          const dateInicio = new Date(insumo.fecha_inicio);
-          this.horaInicio = dateInicio.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          this.form.get('hora_inicio')?.setValue(this.horaInicio);
-      }
-  
-      if (insumo.created_at_insumo) {
-        const dateFin = new Date(insumo.created_at_insumo);
-        this.hora = dateFin.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        this.form.get('hora')?.setValue(this.hora);
-      }
-  
-      this.enableOtherFields();
+    });
+
+    formData.append('data', JSON.stringify(data));
+    this.hasChange = false;
+    this.initialFormValue = this.form.value;
+    if (this.isEdit) {
+      this.insumoPuntoVentaPrecioService.edit(this.id, formData).subscribe(() => {
+        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+        this.getData();
+      });
+    } else {
+      this.insumoPuntoVentaPrecioService.create(formData).subscribe((insumoVentaPrecio) => {
+        this.snackbar.openSaveAndRedirect(
+          confirmed,
+          this.backUrl,
+          r.INSUMO_PUNTO_VENTA_PRECIO,
+          m.INSUMO_PUNTO_VENTA_PRECIO,
+          insumoVentaPrecio.id
+        );
+      });
     }
   }
+}
 
 
-  submit(confirmed: boolean): void {
-    this.form.markAsDirty();
-    this.form.markAllAsTouched();
-    
-    if (this.form.valid) {
-        const formData = new FormData();
-        const data = JSON.parse(JSON.stringify(this.form.value));
-        data.punto_venta_id = this.puntoVentaId;
-        data.insumo_id = this.insumoId;
-        data.moneda_id = this.monedaId;
-
-        // Convertir propiedades a mayúsculas, excepto los correos electrónicos
-        Object.keys(data).forEach(key => {
-            if (typeof data[key] === 'string' && key !== 'email') {
-                data[key] = data[key].toUpperCase();
-            }
-        });
-
-        formData.append('data', JSON.stringify(data));
-        this.hasChange = false;
-        this.initialFormValue = this.form.value;
-        if (this.isEdit) {
-            this.insumoPuntoVentaPrecioService.edit(this.id, formData).subscribe(() => {
-                this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-                this.getData();
-            });
-        } else {
-            this.insumoPuntoVentaPrecioService.create(formData).subscribe((insumoVentaPrecio) => {
-                this.snackbar.openSaveAndRedirect(
-                    confirmed,
-                    this.backUrl,
-                    r.INSUMO_PUNTO_VENTA_PRECIO,
-                    m.INSUMO_PUNTO_VENTA_PRECIO,
-                    insumoVentaPrecio.id
-                );
-            });
-      }
-    }
-  }
 
 
   private getData(): void {
