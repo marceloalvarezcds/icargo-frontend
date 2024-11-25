@@ -286,7 +286,7 @@ export class DialogFormFieldControlComponent<
   }
 
   private deshabilitarOpcion(estado: string): boolean {
-    const estadosNoSeleccionables = ['Inactivo', 'Pendiente']; 
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado']; 
     return estadosNoSeleccionables.includes(estado);
   }
 
@@ -299,17 +299,20 @@ openDialog(): void {
     .afterClosed()
     .pipe(filter((selectedValue: T) => !!selectedValue))
     .subscribe((selectedValue: T) => {
-      this.selectedValue = selectedValue
-      if (!this.deshabilitarOpcion((selectedValue as any).estado)) {
-        if (!this.lista.length) {
-          this.lista = [selectedValue];
-        }
-        this.writeValue(selectedValue.id);
-      } else {
+      if (this.deshabilitarOpcion((selectedValue as any).estado)) {
         alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+        return; // Salir sin asignar ni realizar acciones adicionales
       }
+
+      // Si el estado es válido, continuar con la lógica
+      this.selectedValue = selectedValue;
+      if (!this.lista.length) {
+        this.lista = [selectedValue];
+      }
+      this.writeValue(selectedValue.id);
     });
 }
+
 
 
   private getDefaultDialogRef(): MatDialogRef<SelectorDialogComponent<T>> {
@@ -350,7 +353,6 @@ openDialog(): void {
       }
     }
   }
-  
   
   
   findNextEditableField(): HTMLElement | null {
