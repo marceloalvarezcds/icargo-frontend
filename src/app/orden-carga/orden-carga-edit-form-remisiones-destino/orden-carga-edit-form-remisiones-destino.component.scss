@@ -17,7 +17,7 @@
     transition: background-color 0.3s;
     margin-bottom: 5px;
   }
-  
+
   .add-button mat-icon {
     font-size: 10px; /* Ajusta el tamaño del ícono */
     font-weight: bold;
@@ -40,14 +40,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 5px; 
+    margin-bottom: 10px;
   }
 
   h4{
     margin-bottom: -15px;
   }
-  
-  .header-row h4 {                        
+
+  .header-row h4 {
     font-family: 'Roboto', sans-serif;
     font-size: 12px;
     font-weight: 400;
@@ -56,18 +56,18 @@
     text-align: left;
     color: #1C1C1C;
   }
-  
+
   .add-button {
     margin-top: 0; /* Alinea el botón más cerca del h4 */
     margin-bottom: 0; /* Elimina cualquier margen inferior en el botón */
   }
-  
+
   .table-container {
-    margin-top: 0; 
-    padding-top: 0; 
+    margin-top: 0;
+    padding-top: 0;
   }
-  
+
   .mat-icon.small-icon.disabled {
-    color: #9e9e9e; 
-    opacity: 0.5; 
+    color: #9e9e9e;
+    opacity: 0.5;
   }

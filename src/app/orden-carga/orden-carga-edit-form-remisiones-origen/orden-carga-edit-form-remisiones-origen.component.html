@@ -1,4 +1,4 @@
-<div class="row page-form-row">
+<div class="row">
   <div class="col-xs-12 header-row">
     <h4>Remisiones de Origen</h4>
     <button
@@ -7,29 +7,30 @@
       color="primary"
       type="button"
       (click)="create()"
-      (buttonAnticipoClicked)="onEditPressed()" 
+      (buttonAnticipoClicked)="onEditPressed()"
       id="create-button"
       [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
     >
-      <mat-icon 
+      <mat-icon
       class="small-icon"
       [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido }">
       add</mat-icon>
       CARGA
     </button>
   </div>
-  <div class="col-xs-12 table-container origen-table-container" >
-    <app-table
-      [modelo]="modelo"
-      [gestorCuentaId]="gestorCargaId"
-      [hideShow]="oc?.estado === 'Conciliado'"
-      [isShow]="oc?.estado === 'Conciliado'"
-      [columns]="columns"
-      [data]="lista"
-      (editClick)="edit($event)"
-      (deleteClick)="remove($event)"
-      [shouldShowActiveButton]="false"
-      [ngClass]="{'header-hidden': isShow && hideShow}"
-    ></app-table>
-  </div>
+</div>
+
+<div class="table-container small-table" >
+  <app-table
+    [modelo]="modelo"
+    [gestorCuentaId]="gestorCargaId"
+    [hideShow]="oc?.estado === 'Conciliado'"
+    [isShow]="oc?.estado === 'Conciliado'"
+    [columns]="columns"
+    [data]="lista"
+    (editClick)="edit($event)"
+    (deleteClick)="remove($event)"
+    [shouldShowActiveButton]="false"
+    [ngClass]="{'header-hidden': isShow && hideShow}"
+  ></app-table>
 </div>

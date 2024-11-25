@@ -10,24 +10,25 @@
       id="create-button"
       [disabled]="isShow || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) || oc?.estado === 'Conciliado' || isEditPedido"
 
-    ><mat-icon 
+    ><mat-icon
       class="small-icon"
       [ngClass]="{ 'disabled': isShow || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) || oc?.estado === 'Conciliado'} || isEditPedido">
-      add</mat-icon> 
+      add</mat-icon>
       COMPLEMENTO
     </button>
   </div>
-  <div class="col-xs-12 table-container">
-    <app-table
-      [columns]="columns"
-      [modelo]="modelo"
-      [gestorCuentaId]="gestorCargaId"
-      [data]="list"
-      [hideShow]="true"
-      (editClick)="edit($event)"
-      (deleteClick)="remove($event)"
-      [hideShow]="oc?.estado === 'Conciliado'"
-      [isShow]="oc?.estado === 'Conciliado'"
-    ></app-table>
-  </div>
+</div>
+
+<div class="table-container small-table">
+  <app-table
+    [columns]="columns"
+    [modelo]="modelo"
+    [gestorCuentaId]="gestorCargaId"
+    [data]="list"
+    [hideShow]="true"
+    (editClick)="edit($event)"
+    (deleteClick)="remove($event)"
+    [hideShow]="oc?.estado === 'Conciliado'"
+    [isShow]="oc?.estado === 'Conciliado'"
+  ></app-table>
 </div>
