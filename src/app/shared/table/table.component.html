@@ -290,9 +290,7 @@
             *ngIf="
               ((modelo | puede: a.VER) && !hideShow) ||
               (!hideEdit &&
-                (modelo
-                  | puede
-                    : a.EDITAR
+                (modelo | puede : a.EDITAR
                     : (noCheckGestorCuentaId
                         ? undefined
                         : row.gestor_cuenta_id || gestorCuentaId))) ||
@@ -308,6 +306,20 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
+            <!-- TODO: la lista de opciones adicionales deberia pasarse por parametros entre componentes-->
+            <button
+              type="button"
+              mat-menu-item
+              (click)="showClickDos.emit({ row, index })"
+              *ngIf="showBtnMovimientos &&
+                (modelo | puede: a.VER)
+                "
+              [hidden]="hideShow"
+            >
+              <mat-icon color="primary">visibility</mat-icon>
+              <span>Movimientos</span>
+            </button>
+
             <button
               type="button"
               mat-menu-item
@@ -396,20 +408,6 @@
             >
               <mat-icon color="primary">toggle_on</mat-icon>
               <span>Desactivar</span>
-            </button>
-
-            <!-- TODO: la lista de opciones adicionales deberia pasarse por parametros entre componentes-->
-            <button
-              type="button"
-              mat-menu-item
-              (click)="showClickDos.emit({ row, index })"
-              *ngIf="showBtnMovimientos &&
-                (modelo | puede: a.VER)
-                "
-              [hidden]="hideShow"
-            >
-              <mat-icon color="primary">visibility</mat-icon>
-              <span>Movimientos</span>
             </button>
           </mat-menu>
         </td>

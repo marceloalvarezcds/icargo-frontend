@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
@@ -12,10 +12,10 @@ import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dia
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { SelectableMovimientoTableComponent } from 'src/app/shared/selectable-movimiento-table/selectable-movimiento-table.component';
 import {
   deleteMovimiento,
-  editMovimiento,
-  redirectToShowOCByMovimiento,
+  editMovimiento
 } from 'src/app/utils/movimiento-utils';
 import { edit } from 'src/app/utils/table-event-crud';
 
@@ -98,47 +98,63 @@ export class LiquidacionFormMovimientosComponent {
       title: 'Punto de Venta',
       value: (element: Movimiento) =>
         element.anticipo?.punto_venta_nombre ?? '',
-    },
-    /*{
-      def: 'oc',
-      title: '',
-      type: 'button',
-      value: (mov: Movimiento) => (mov.es_editable ? '' : 'Ver OC'),
-      buttonCallback: (mov: Movimiento) =>
-        mov.es_editable
-          ? () => {}
-          : redirectToShowOCByMovimiento(this.router, mov),
-      buttonIconName: (mov: Movimiento) =>
-        mov.es_editable ? '' : 'visibility',
-      stickyEnd: true,
-    },
-    {
-      def: 'editar',
-      title: '',
-      type: 'button',
-      value: (mov: Movimiento) =>
-        mov.es_editable || mov.can_edit_oc ? 'Editar' : '',
-      buttonCallback: (mov: Movimiento) =>
-        mov.es_editable
-          ? this.edit(mov)
-          : mov.can_edit_oc
-          ? this.editOC(mov)
-          : () => {},
-      buttonIconName: (mov: Movimiento) =>
-        mov.es_editable || mov.can_edit_oc ? 'edit' : '',
-      stickyEnd: true,
-    },
-    {
-      def: 'eliminar',
-      title: '',
-      type: 'button',
-      value: () => 'Eliminar',
-      isDisable: (mov: Movimiento) => !mov.es_editable,
-      buttonCallback: (mov: Movimiento) => this.delete(mov),
-      buttonIconName: () => 'delete',
-      stickyEnd: true,
-    },*/
+    },    */
+
   ];
+
+  @ViewChild(SelectableMovimientoTableComponent)
+  selectableMovimientoTable!: SelectableMovimientoTableComponent;
+
+  isshowAccions = true;
+
+  @Input() set showAccions(value: boolean) {
+    this.isshowAccions = value;
+    if (value) {
+      this.columns.unshift(
+        ...[
+          /*{
+            def: 'oc',
+            title: '',
+            type: 'button',
+            value: (mov: Movimiento) => (mov.es_editable ? '' : 'Ver OC'),
+            buttonCallback: (mov: Movimiento) =>
+              mov.es_editable
+                ? () => {}
+                : redirectToShowOCByMovimiento(this.router, mov),
+            buttonIconName: (mov: Movimiento) =>
+              mov.es_editable ? '' : 'visibility',
+            stickyEnd: true,
+          },*/
+          {
+            def: 'editar',
+            title: '',
+            type: 'button',
+            value: (mov: Movimiento) =>
+              mov.es_editable || mov.can_edit_oc ? 'Editar' : '',
+            buttonCallback: (mov: Movimiento) =>
+              mov.es_editable
+                ? this.edit(mov)
+                : mov.can_edit_oc
+                ? this.editOC(mov)
+                : () => {},
+            buttonIconName: (mov: Movimiento) =>
+              mov.es_editable || mov.can_edit_oc ? 'edit' : '',
+            stickyEnd: true,
+          },
+          {
+            def: 'eliminar',
+            title: '',
+            type: 'button',
+            value: () => 'Eliminar',
+            isDisable: (mov: Movimiento) => !mov.es_editable,
+            buttonCallback: (mov: Movimiento) => this.delete(mov),
+            buttonIconName: () => 'delete',
+            stickyEnd: true,
+          },
+        ]
+      );
+    }
+  }
 
   @Input() list: Movimiento[] = [];
 
@@ -221,4 +237,9 @@ export class LiquidacionFormMovimientosComponent {
   private emitOcChange(): void {
     this.movimientosInDBChange.emit();
   }
+
+  clearMovimientosList(): void {
+    this.selectableMovimientoTable.clearSelectValues();
+  }
+
 }

@@ -11,6 +11,7 @@
   <button mat-button type="button" mat-dialog-close class="close">
     <mat-icon>close</mat-icon>
   </button>
+
 </h1>
 
 <div mat-dialog-content>
@@ -25,6 +26,7 @@
           [etapa]="etapa"
           [estadoCuenta]="estadoCuenta"
           [list]="list"
+          [isDialog]="true"
           (createdLiquidacionEvt)="onCreateLiquidacion($event)"
         >
       </app-liquidacion-form-fields>
@@ -51,7 +53,6 @@
     </ng-template>
 
   </div>
-
 
 <div mat-dialog-actions>
   <button mat-stroked-button class="botones" type="button" mat-dialog-close>Cerrar</button>

@@ -41,4 +41,5 @@ export class MovimientosSelectedDialogComponent {
     public dialogRef: MatDialogRef<MovimientosSelectedDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: MovimientosSelectedDialogData
   ) {}
+
 }

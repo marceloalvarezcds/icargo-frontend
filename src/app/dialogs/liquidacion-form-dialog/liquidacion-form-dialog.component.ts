@@ -20,6 +20,7 @@ import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-liquidacion-form-dialog',
@@ -44,6 +45,10 @@ export class LiquidacionFormDialogComponent {
   @ViewChild('childEdit')
   childEdit!: LiquidacionEditFieldsComponent;
 
+  get gestorCargaId(): number | undefined {
+    return this.liquidacion?.gestor_carga_id;
+  }
+
   get contraparteInfo(){
     return this.data;
   }
@@ -55,12 +60,13 @@ export class LiquidacionFormDialogComponent {
 
   constructor(
     private fb: FormBuilder,
-    public dialogRef: MatDialogRef<LiquidacionFormDialogComponent>,
     private snackbar: SnackbarService,
     private estadoCuentaService: EstadoCuentaService,
+    private userService: UserService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
     private dialogService: DialogService,
+    public dialogRef: MatDialogRef<LiquidacionFormDialogComponent>,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
@@ -120,6 +126,7 @@ export class LiquidacionFormDialogComponent {
 
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
+
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
@@ -154,11 +161,9 @@ export class LiquidacionFormDialogComponent {
 
   onCreateLiquidacion(liquidacion:Liquidacion): void {
 
-    // TODO: cambiar llamada
     const contraparteId = liquidacion.tipo_contraparte_descripcion === 'Otro'
       ? liquidacion.tipo_contraparte_id
       : liquidacion.chofer_id ?? liquidacion.propietario_id ?? liquidacion.proveedor_id ?? liquidacion.remitente_id ;
-
     /*this.estadoCuentaService
       .getByContraparte(
         liquidacion.tipo_contraparte_id,
@@ -182,6 +187,16 @@ export class LiquidacionFormDialogComponent {
   }
 
   cerrarLiquidacion(): void {
+
+    if ( this.userService.checkPermisoAndGestorCargaId(
+        a.ACEPTAR,
+        this.modelo,
+        this.gestorCargaId)
+      ) {
+        this.loadLiquidacion();
+        return;
+    }
+
     this.close();
   }
 
@@ -190,7 +205,6 @@ export class LiquidacionFormDialogComponent {
   }
 
   getEstadoCuenta(): void {
-    console.log("data: ", this.data);
     this.estadoCuentaService
       .getByContraparte(
         this.data.tipo_contraparte_id,
@@ -206,20 +220,6 @@ export class LiquidacionFormDialogComponent {
   }
 
   getData(): void {
-
-    /*const {
-      backUrl,
-      contraparte_id,
-      contraparte,
-      contraparte_numero_documento,
-      tipo_contraparte_id,
-    } = this.route.snapshot.queryParams;
-
-    if (backUrl) {
-      this.backUrl = backUrl;
-    }*/
-
-    //this.isEdit = this.data ? true : false;
 
     this.estadoCuentaService
       .getByContraparte(
@@ -243,7 +243,8 @@ export class LiquidacionFormDialogComponent {
         this.estadoCuenta!,
         this.estadoCuenta!.contraparte_id,
         this.etapa,
-        this.estadoCuenta!.punto_venta_id
+        this.estadoCuenta!.punto_venta_id,
+        "Efectivo"
       )
       .subscribe((data) => {
         this.list = data;
@@ -267,7 +268,7 @@ export class LiquidacionFormDialogComponent {
   }
 
   refreshEstadoCuentaYMovimiento(liq: Liquidacion): void{
-    this.getEstadoCuenta();
+    //this.getEstadoCuenta();
     this.getMovimientos(liq!);
   }
 

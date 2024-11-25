@@ -1,7 +1,25 @@
-.estado-cuenta-page::ng-deep {
+.estado-cuenta-list::ng-deep {
   .mat-cell,
   .mat-header-cell {
     max-width: 10%;
   }
+
+  .mat-column-ctacte1 {
+    width: 35px !important;
+  }
+
+  .mat-column-tipo_contraparte_descripcion {
+    width: 120px !important;
+  }
+
+  .mat-column-contraparte {
+    width: 250px !important;
+  }
+
+  .mat-column-contraparte_numero_documento {
+    width: 120px !important;
+  }
+
+
 }
 

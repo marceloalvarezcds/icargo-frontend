@@ -35,6 +35,7 @@
     <div class="row page-form-row">
       <div class="col-xs-12">
         <app-liquidacion-form-movimientos
+          [showAccions]="false"
           [list]="list"
           (movimientosInDBChange)="getList()"
           (selectedMovimientosChange)="movimientosSelected = $event"

@@ -136,7 +136,7 @@ export class SelectableMovimientoTableComponent {
 
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
-  @ViewChild('app-selectable-movimiento-table')
+  @ViewChild(SelectableItemTableComponent)
   component?: SelectableItemTableComponent<Movimiento>;
 
   constructor(private router: Router) {}
@@ -145,4 +145,9 @@ export class SelectableMovimientoTableComponent {
     // TODO: iterar y ver para filtrar los movimientos
     this.selectedMovimientosChange.emit($event)
   }
+
+  clearSelectValues():void {
+    this.component!.clearCheckedValues();
+  }
+
 }
