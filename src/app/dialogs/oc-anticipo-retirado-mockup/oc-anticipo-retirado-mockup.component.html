@@ -14,7 +14,7 @@
     <div class="row">
 
       <app-tipo-anticipo-by-flete-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [fleteId]="fleteId"
         [form]="form"
         (valueChange)="tipoAnticipoChange($event)"
@@ -27,65 +27,82 @@
       <ng-container *ngIf="isTipoInsumo">
 
         <app-insumo-punto-venta-precio-map-dialog-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
           [fleteId]="fleteId"
           [form]="form"
           (valueChange)="$event && insumoPuntoVentaPrecioChange($event)"
         ></app-insumo-punto-venta-precio-map-dialog-field>
 
-        <div class="space-bottom proveedor">
+        <div class="col-xs-6">
           <strong class="proveedor-label">Proveedor: </strong>
           <span class="input-like">{{ proveedor }}</span>
         </div>
 
-        <div class="inline-container">
-          <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
-          <div><strong>Insumo: </strong>{{ insumo }}</div>
-        </div>
+        <div class="col-xs-12">
 
-        <div class="inline-container">
-          <strong>Monto: </strong>
-          <span >{{ monto }}</span>
-          <strong>Moneda: </strong>
-          <span>{{ moneda }}</span>
-        </div>
+            <div style="display: flex; gap: 20px;">
 
-        <div class="space-bottom">
-          <strong>Precio Unitario: </strong>
-          {{ precioUnitarioControl.value | numberFormat }}
+              <div class="inline-container">
+                <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
+                <div><strong>Insumo: </strong>{{ insumo }}</div>
+              </div>
+
+              <div class="inline-container">
+                <div><strong>Monto: </strong><span>{{ monto }}</span></div>
+                <div><strong>Moneda: </strong><span>{{ moneda }}</span></div>
+              </div>
+
+              <div class="inline-container">
+                <div>
+                  <strong>Precio Unitario: </strong>
+                  {{ precioUnitarioControl.value | numberFormat }}
+                </div>
+              </div>
+
+            </div>
         </div>
 
       </ng-container>
 
       <ng-container *ngIf="!isTipoInsumo">
+
         <app-punto-venta-map-dialog-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
           [form]="form"
           (valueChange)="$event && puntoVentaChange($event)"
         ></app-punto-venta-map-dialog-field>
-        <div class="space-bottom proveedor">
+
+        <div class="col-xs-12 col-sm-6 col-md-6">
           <strong class="proveedor-label">Proveedor: </strong>
           <span class="input-like">{{ proveedor }}</span>
         </div>
+
       </ng-container>
 
     </div>
 
-    <div class="row">
+    <div class="row" style="padding-top: 12px;">
 
-      <!-- Radio button para seleccionar Monto o Litros -->
-      <mat-radio-group  *ngIf="isTipoInsumo"
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        aria-label="Seleccione una opción"
-        formControlName="es_con_litro">
-        <mat-radio-button [value]="true">Litros</mat-radio-button>
-        <mat-radio-button [value]="false">Monto</mat-radio-button>
-      </mat-radio-group>
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4" *ngIf="isTipoInsumo">
+
+        <mat-label class="custom-label">
+          Tipo Cobro del Anticipo
+        </mat-label>
+          <!-- Radio button para seleccionar Monto o Litros -->
+        <mat-radio-group
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          aria-label="Seleccione una opción"
+          formControlName="es_con_litro">
+          <mat-radio-button [value]="true">Litros</mat-radio-button>
+          <mat-radio-button [value]="false">Monto</mat-radio-button>
+        </mat-radio-group>
+
+      </div>
 
       <!-- Campo Monto, visible solo cuando se selecciona "Monto" -->
       <app-number-field
         *ngIf="!form.get('es_con_litro')?.value"
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Monto"
         controlName="monto_retirado"
         [form]="form"
@@ -93,7 +110,7 @@
       ></app-number-field>
 
       <app-moneda-field *ngIf="!isTipoInsumo"
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
          [form]="form">
       </app-moneda-field>
@@ -101,7 +118,7 @@
       <!-- Campo Cantidad retirada, visible solo cuando se selecciona "Litros" -->
       <app-number-field
         *ngIf="form.get('es_con_litro')?.value"
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Cantidad retirada"
         controlName="cantidad_retirada"
         [form]="form"
@@ -111,7 +128,7 @@
     </div>
 
     <div class="row">
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-8">
         <label for="observacion">Observación:</label>
         <mat-form-field appearance="outline" class="observacion-field">
           <textarea
@@ -129,12 +146,12 @@
     <div class="row">
 
       <app-tipo-comprobante-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
          [form]="form">
       </app-tipo-comprobante-field>
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Nº de comprobante"
         controlName="numero_comprobante"
         [form]="form"

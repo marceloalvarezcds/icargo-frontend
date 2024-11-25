@@ -57,45 +57,14 @@
     margin-top: 8px;
   }
 
-  .space-bottom {
-    margin-bottom: 8px;
-  }
-  
-  
+
   .mat-dialog-content {
     padding-top: 0;
   }
-  
-  
+
   .inline-container {
     display: flex;
-    align-items: center; /* Alinea verticalmente los elementos en el centro */
-    margin-bottom: 16px; /* Espacio inferior para separación */
-  }
-
-  .inline-container .spaced {
-    margin-right: -15px; /* Espacio entre el monto y la moneda */
-  }
-
-  .inline-container > * {
-    margin-right: 2px; /* Ajusta este valor según el espacio que desees */
-  }
-
-  .inline-container > *:last-child {
-    margin-right: 0; /* Elimina el margen derecho del último elemento */
-  }
-  .space-bottom .proveedor{
-    margin-top: -80px;
-  }
-
-
-  .space-bottom .proveedor{
-    margin-top: -80px;
-  }
-
-  .proveedor-label{
-    padding-bottom: 12px;
-    margin-top: 11px;
+    flex-direction: column;
   }
 
   .input-like {
@@ -103,14 +72,14 @@
     padding: 8px 12px;
     border-radius: 4px; /* Bordes redondeados */
     background: #FBFBFE;
-    width: 549px;
+    width: 270px;
     height: 33px;
     display: flex;
     box-sizing: border-box;
-    margin-left: 12px;
+    //margin-left: 12px;
     font-family: inherit;
     font-size: 14px;
     line-height: 20px;
-    margin-left: 75px;
-    margin-top: -26px;
+    //margin-left: 75px;
+    //margin-top: -26px;
   }

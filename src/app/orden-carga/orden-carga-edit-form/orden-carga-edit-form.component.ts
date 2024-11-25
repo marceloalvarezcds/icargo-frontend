@@ -108,6 +108,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }),
   });
 
+  colapseDivRemision = false;
+  colapseDivResultado = false;
+  colapseDivMovimiento = false;
+
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
@@ -122,8 +126,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get isNuevo(): boolean {
     return this.estado === EstadoEnum.NUEVO;
-  }  
-  
+  }
+
 
   get estado(): EstadoEnum {
     return this.item!.estado;
@@ -271,10 +275,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private reportsService: ReportsService,
   ) {}
 
-  
+
   ngOnInit(): void {
     this.getData();
-  }  
+  }
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
@@ -316,34 +320,34 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       if (comentario) {
         comentario = comentario.toUpperCase();
       }
-  
+
       // Si el comentario ha cambiado, proceder a guardarlo
       if (comentario !== this.originalComentario) {
         const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
-  
+
         if (confirmation) {
           const formData = new FormData();
-          
+
           // Crear un objeto simple con solo los campos necesarios
           const data = {
             orden_carga_id: this.idOC,
             comentario: comentario,
           };
-  
+
           // Añadir el objeto a FormData
           formData.append('data', JSON.stringify(data));
-  
+
           this.ordenCargaService.createComentarios(formData).subscribe(
             (item) => {
               // Actualiza los datos después de guardar el comentario
               this.getData();
-  
+
               // Navega después de actualizar los datos
               this.router.navigate([this.backUrl]);
             },
             (error) => {
               console.error('Error al crear el comentario', error);
-             
+
             }
           );
         } else {
@@ -382,10 +386,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         }
       );
     } else {
-     
+
     }
   }
-  
+
   private createComentarioYAceptar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -393,7 +397,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(
       () => {
         this.aceptarOrdenCarga();
@@ -403,20 +407,20 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   private aceptarOrdenCarga(): void {
     this.ordenCargaService.aceptar(this.idOC as number).subscribe(
       () => {
         this.snackbar.open('Estado cambiado satisfactoriamente');
-        this.puedeCrearRemision = true; 
+        this.puedeCrearRemision = true;
       },
       (error) => {
         console.error('Error al aceptar la orden de carga:', error);
       }
     );
   }
-  
-  
+
+
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
         const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
@@ -539,10 +543,10 @@ private cancelOrdenCarga(): void {
         alert('La Orden de Carga ya está conciliada.');
         return;
       }
-  
+
       const comentario = this.form.get('info.comentarios')?.value;
       const comentarioUpper = comentario ? comentario.toUpperCase() : '';
-  
+
       if (comentarioUpper) {
         this.createComentarioYConciliar(comentarioUpper);
       } else {
@@ -590,7 +594,7 @@ private cancelOrdenCarga(): void {
       panelClass: 'custom-dialog-container'
     });
   }
-  
+
   private createComentarioYConciliar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -598,14 +602,14 @@ private cancelOrdenCarga(): void {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(() => {
       this.conciliarOrdenCarga();
     }, error => {
       console.error('Error al crear el comentario', error);
     });
   }
-  
+
   private conciliarOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
         '¿Está seguro que desea conciliar la Orden de Carga?',
@@ -634,11 +638,11 @@ private cancelOrdenCarga(): void {
                 this.downloadConciliarResumenPDF();
             });
         },
-  
+
     );
   }
-  
-  
+
+
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -649,14 +653,14 @@ private cancelOrdenCarga(): void {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
-  
+
   downloadConciliarResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -667,15 +671,15 @@ private cancelOrdenCarga(): void {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
 
-    
+
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
       this.flete = flete;
@@ -698,56 +702,56 @@ private cancelOrdenCarga(): void {
   }
 
   enableFleteId(): void {
-    this.form.get('combinacion.flete_id')?.enable(); 
+    this.form.get('combinacion.flete_id')?.enable();
     this.isButtonPressed = true;
     this.isEditPedido = true;
     this.isEditPressed = false;
   }
-  
+
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    
+
     if (this.form.valid) {
         const formData = new FormData();
         this.isButtonPressed = false;
         this.isEditPedido = false;
         this.isEditPressed = true;
-        this.form.get('combinacion.flete_id')?.disable(); 
+        this.form.get('combinacion.flete_id')?.disable();
         const data = JSON.parse(
             JSON.stringify({
-                  
-                ...this.form.value.info,  
+
+                ...this.form.value.info,
                 flete_id: this.item?.flete_id,
-                //Condiciones GC, Propietario      
-                condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa, 
+                //Condiciones GC, Propietario
+                condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
                 condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
                 //Mermas para GC
                 merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
-             
+
                 merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
                 //Mermas para Propietario
                 merma_propietario_valor: this.item?.merma_propietario_valor,
-              
+
                 merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
                 anticipos: this.item?.porcentaje_anticipos
             })
         );
 
         // console.log('Datos enviados:', data); // Verifica los datos enviados
-  
+
         formData.append('data', JSON.stringify(data));
-  
+
         if (this.isEdit) {
             this.hasChange = false;
-            this.initialFormValue = this.form.value; 
+            this.initialFormValue = this.form.value;
             this.ordenCargaService.edit(this.id, formData).subscribe(() => {
                 this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
 
                 setTimeout(() => {
-                    this.getDataWithoutOverwritingFlete(); 
+                    this.getDataWithoutOverwritingFlete();
                 }, 1000);
             });
         }
@@ -765,20 +769,20 @@ private cancelOrdenCarga(): void {
     }
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-    
+
     this.ordenCargaService.getById(this.id).subscribe((data) => {
         this.item = data;
-        //Condiciones GC, Propietario  
+        //Condiciones GC, Propietario
         this.isActive = data.estado === EstadoEnum.NUEVO;
         this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
         this.item.condicion_propietario_tarifa = data.condicion_propietario_tarifa;
         //  Mermas GC
         this.item.merma_gestor_carga_valor = data.merma_gestor_carga_valor;
-      
+
         this.item.merma_gestor_carga_tolerancia = data.merma_gestor_carga_tolerancia;
         //Mermas Propietario
         this.item.merma_propietario_valor = data.merma_propietario_valor;
-      
+
         this.item.merma_propietario_tolerancia = data.merma_propietario_tolerancia
 
         this.item.porcentaje_anticipos = data.porcentaje_anticipos
@@ -788,7 +792,7 @@ private cancelOrdenCarga(): void {
 
         setTimeout(() => {
             this.hasChange = false;
-            this.initialFormValue = this.form.value; 
+            this.initialFormValue = this.form.value;
         }, 500);
     });
   }
@@ -854,12 +858,12 @@ private cancelOrdenCarga(): void {
                 destino_id: data.flete_destino_nombre,
             },
         });
-        this.form.disable(); 
+        this.form.disable();
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
         setTimeout(() => {
             this.hasChange = false;
-            this.initialFormValue = this.form.value; 
+            this.initialFormValue = this.form.value;
         }, 500);
     });
   }
