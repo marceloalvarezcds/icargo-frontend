@@ -309,6 +309,7 @@ openEvaluacionesDialog(): void {
     const data: OcAnticipoRetiradoDialogData = {
       orden_carga_id: this.oc!.id,
       flete_id: this.oc!.flete_id,
+      oc: this.oc,
       item,
     };
     return this.dialog.open(OcAnticipoRetiradoMockupComponent, {

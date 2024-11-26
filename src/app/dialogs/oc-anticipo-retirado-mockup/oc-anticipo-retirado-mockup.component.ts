@@ -33,7 +33,7 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
-  @Input() oc?: OrdenCarga;
+
 
   form = this.fb.group({
     tipo_anticipo_id: [this.data?.tipo_anticipo_id, Validators.required],
@@ -155,23 +155,35 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     return this.form.get('monto_retirado') as FormControl;
   }
 
+  get anticipoRetitadoCamion(): number {
+    return this.oc?.camion_monto_anticipo_disponible ?? 0;
+}
+
   get montoRetiradoHint(): string {
+ 
     if (this.saldoDisponible < 0) {
-      const excedente = subtract(this.monto, this.saldoDisponible).toLocaleString();
-      return `<span class="hint-alert-negative">El saldo es negativo: <strong>${this.saldoDisponible.toLocaleString()}</strong>. 
-      El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+        const excedente = subtract(this.monto, this.saldoDisponible).toLocaleString();
+        return `<span>El saldo es negativo: <strong>${this.saldoDisponible.toLocaleString()}</strong>. 
+        El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
-  
+
     if (this.monto > this.saldoDisponible) {
-      return `<span class="hint-alert">El monto supera en <strong>${subtract(
-        this.monto,
-        this.saldoDisponible
-      ).toLocaleString()}</strong> al Saldo</span>`;
+        return `<span class="hint-alert">El monto supera en <strong>${subtract(
+            this.monto,
+            this.saldoDisponible
+        ).toLocaleString()}</strong> al saldo disponible</span>`;
     }
-  
-    return `<span class="hint-alert-label">Saldo</span> <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
+
+    // Verificar si el monto supera el anticipo retirado
+    if (this.monto > this.anticipoRetitadoCamion) {
+      return `<span class="hint-alert">El monto supera en <strong>${subtract(
+          this.monto,
+          this.anticipoRetitadoCamion
+      ).toLocaleString()}</strong> al anticipo del tracto disponible</span>`;
   }
-  
+    return `<span class="hint-alert-label">Saldo</span> <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
+}
+
   
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [
@@ -211,8 +223,6 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     return this.puntoVentaControl.value;
   }
 
- 
-
   get tipoAnticipoControl(): FormControl {
     return this.form.get('tipo_anticipo_id') as FormControl;
   }
@@ -242,6 +252,10 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
   }
 
+  get oc(): OrdenCarga | null {
+    return this.dialogData?.oc || null;
+  }
+
   ngOnDestroy(): void {
     this.esConLitroSubscription.unsubscribe();
     this.fleteAnticipoEfectivoSubscription?.unsubscribe();
@@ -250,6 +264,17 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   }
 
   submit() {
+    if (this.montoRetiradoControl.value === 0) {
+      alert("No se puede realizar el retiro con monto retirado igual a 0.");
+      return;  
+    }
+    if (this.cantidadControl.value === 0) {
+  
+      alert("No se puede realizar el retiro con cantidad retirada igual a 0.");
+      return;  
+    }
+  
+  
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
