@@ -255,6 +255,7 @@ export class LiquidacionFormDialogComponent {
   loadLiquidacion(): void {
     this.liquidacionService.getById(this.liquidacionId!).subscribe((item) => {
       this.liquidacion = item;
+      this.etapa = this.liquidacion.etapa;
       this.getMovimientos(item);
     });
   }
