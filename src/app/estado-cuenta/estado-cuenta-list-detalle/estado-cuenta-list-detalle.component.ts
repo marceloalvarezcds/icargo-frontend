@@ -491,8 +491,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         this.getList();
       });
     }
-
     createLiquidacion():void {
+
+      this.resetFilter();
+
       const {
         contraparte_id,
         contraparte,
