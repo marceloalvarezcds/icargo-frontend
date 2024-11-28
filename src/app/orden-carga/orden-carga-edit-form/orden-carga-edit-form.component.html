@@ -57,9 +57,25 @@
       </div>
 
       <div *ngIf="!isNuevo" style="margin-top: 10px;">
+
         <div class="section">
           <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">REMISIONES</h2>
         </div>
+
+        <div *ngIf="this.item.estado === 'Finalizado' || this.item.estado === 'Conciliado'" class="row" [class.colapse-div]="colapseDivRemision">
+
+          <div class="col-xs-12 col-sm-6">
+            <mat-label>
+              Documentos Físicos Ok?
+            </mat-label>
+            <mat-slide-toggle
+                [formControl]="tieneDocumentoFisico">
+                {{ tieneDocumentoFisicoValue ? 'Sí' : 'No' }}
+            </mat-slide-toggle>
+          </div>
+
+        </div>
+
         <div class="row" [class.colapse-div]="colapseDivRemision">
           <div class="col-xs-12 col-sm-6">
             <app-orden-carga-edit-form-remisiones-origen
