@@ -41,15 +41,21 @@
         <div class="col-xs-12">
 
             <div style="display: flex; gap: 20px;">
-
               <div class="inline-container">
                 <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
                 <div><strong>Insumo: </strong>{{ insumo }}</div>
               </div>
-
+              
               <div class="inline-container">
                 <div><strong>Monto: </strong><span>{{ monto }}</span></div>
+               
                 <div><strong>Moneda: </strong><span>{{ moneda }}</span></div>
+              </div>
+
+              <div class="inline-container">
+                <div *ngIf="!esConLitro">
+                  <strong>Litros: </strong><span>{{ cantidadControl.value | numberFormat }}</span>
+                </div>
               </div>
 
               <div class="inline-container">
@@ -58,7 +64,7 @@
                   {{ precioUnitarioControl.value | numberFormat }}
                 </div>
               </div>
-
+              
             </div>
         </div>
 
@@ -143,7 +149,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
 
       <app-tipo-comprobante-field
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
@@ -157,7 +163,7 @@
         [form]="form"
       ></app-input-field>
 
-    </div>
+    </div> -->
 
   </div>
 
@@ -173,6 +179,7 @@
     </button>
     <button
       mat-flat-button
+      [disabled]="isSubmitDisabled"
       class="botones" color="primary" type="button"
       (click)="submit()"
       cdkFocusInitial>

@@ -75,15 +75,31 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     }
   );
 
-  litroSubscription = combineLatest([
-    this.form.controls['cantidad_retirada'].valueChanges,
+  montoSubscription = combineLatest([
+    this.form.controls['monto_retirado'].valueChanges,
     this.precioUnitarioControl.valueChanges,
   ])
-    .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
-    .subscribe(([cantidad, precio]) => {
-      this.montoRetiradoControl.setValue(round(cantidad * precio));
+    .pipe(map(([m, p]) => [roundString(m), roundString(p)]))
+    .subscribe(([monto, precio]) => {
+      if (this.esConLitroControl.value === false && precio > 0) {
+        const litrosCalculados = monto / precio;
+        this.cantidadControl.setValue(round(litrosCalculados));
+      }
     });
+  
 
+    litroSubscription = combineLatest([
+      this.form.controls['cantidad_retirada'].valueChanges,
+      this.precioUnitarioControl.valueChanges,
+    ])
+      .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
+      .subscribe(([cantidad, precio]) => {
+        if (this.esConLitroControl.value === true && precio > 0) {
+          const montoCalculado = cantidad * precio;
+          this.montoRetiradoControl.setValue(round(montoCalculado));
+        }
+      });
+    
   fleteAnticipoEfectivoSubscription?: Subscription;
   fleteAnticipoInsumoSubscription?: Subscription;
 
@@ -238,6 +254,26 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   get tipoInsumoId(): number | null {
     return this.tipoInsumoControl.value;
   }
+
+  get isSubmitDisabled(): boolean {
+    // Si el saldo es negativo
+    if (this.saldoDisponible < 0) {
+        return true;
+    }
+
+    // Si el monto supera el saldo disponible
+    if (this.monto > this.saldoDisponible) {
+        return true;
+    }
+
+    // Si el monto supera el anticipo retirado
+    if (this.monto > this.anticipoRetitadoCamion) {
+        return true;
+    }
+
+    return false; // Habilitar si ninguna condición aplica
+}
+
 
   constructor(
     private fleteAnticipoService: FleteAnticipoService,
