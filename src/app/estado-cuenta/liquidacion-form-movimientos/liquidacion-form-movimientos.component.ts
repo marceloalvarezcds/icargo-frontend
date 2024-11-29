@@ -76,6 +76,12 @@ export class LiquidacionFormMovimientosComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
+      def: 'documento_fisico',
+      title: 'Documento Físico',
+      value: (element: Movimiento) => element.tieneDocumentoFisico ? 'Sí' : 'No',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
       def: 'detalle',
       title: 'Info',
       value: (element: Movimiento) => element.detalle,

@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -100,6 +100,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       anticipos: null,
       id_orden_carga: null,
       condicion: null,
+      tieneDocumentoFisico:null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -260,6 +261,14 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   get modified_at(): string {
     return this.item!.modified_at;
+  }
+
+  get tieneDocumentoFisico(): FormControl {
+    return this.combinacion.get('tieneDocumentoFisico') as FormControl;
+  }
+
+  get tieneDocumentoFisicoValue(): FormControl {
+    return this.combinacion.get('tieneDocumentoFisico')?.value;
   }
 
   constructor(
@@ -844,7 +853,8 @@ private cancelOrdenCarga(): void {
                 estado: data.estado,
                 anticipos: data.anticipos_liberados,
                 id_orden_carga: data.id,
-                condicion: data.condicion_gestor_cuenta_tarifa
+                condicion: data.condicion_gestor_cuenta_tarifa,
+                tieneDocumentoFisico:false,
             },
             info: {
                 cantidad_nominada: data.cantidad_nominada,
@@ -859,6 +869,11 @@ private cancelOrdenCarga(): void {
         this.form.disable();
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
+
+        if (data.estado === 'Finalizado'){
+          this.form.get('combinacion.tieneDocumentoFisico')?.enable();
+        }
+
         setTimeout(() => {
             this.hasChange = false;
             this.initialFormValue = this.form.value;
