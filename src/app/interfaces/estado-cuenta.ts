@@ -1,6 +1,7 @@
 import { ContraparteGralInfo, ContraparteInfoMovimiento } from './contraparte-info';
 
 export interface EstadoCuenta extends ContraparteGralInfo {
+  provision: number;
   pendiente: number;
   en_proceso: number;
   confirmado: number;
@@ -21,6 +22,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     contraparte_numero_documento: '3100100',
     tipo_contraparte_id: 3,
     tipo_contraparte_descripcion: 'Remitente',
+    provision: 0,
     pendiente: -2350000,
     en_proceso: 0,
     confirmado: 0,
@@ -39,6 +41,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     contraparte_numero_documento: 'p-100100',
     tipo_contraparte_id: 4,
     tipo_contraparte_descripcion: 'Proveedor',
+    provision: 0,
     pendiente: 387900,
     en_proceso: 0,
     confirmado: 0,
@@ -57,6 +60,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     contraparte_numero_documento: '800100100',
     tipo_contraparte_id: 4,
     tipo_contraparte_descripcion: 'Proveedor',
+    provision: 0,
     pendiente: 1000,
     en_proceso: 0,
     confirmado: 0,
@@ -75,6 +79,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     contraparte_numero_documento: 'p-400400',
     tipo_contraparte_id: 1,
     tipo_contraparte_descripcion: 'Propietario',
+    provision: 0,
     pendiente: 1462400,
     en_proceso: 0,
     confirmado: 0,

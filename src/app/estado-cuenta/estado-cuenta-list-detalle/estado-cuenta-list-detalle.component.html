@@ -90,6 +90,13 @@
     <div class="row">
 
       <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>Provision</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="provision" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
         <mat-label>Pendiente</mat-label>
         <mat-form-field floatLabel="always" appearance="outline">
           <input matInput [value]="pendientes" appInputThousandsSeparator disabled />

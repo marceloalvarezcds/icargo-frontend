@@ -222,6 +222,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
           return '#FF0000'; // Rojo
         case 'Pendiente':
           return '#FFA500'; // Naranja
+        case 'Provision':
+          return 'gray'; // Naranja
 
         case 'Saldo abierto':
           return '#9747FF';
