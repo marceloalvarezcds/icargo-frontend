@@ -7,14 +7,12 @@
       {{ title }}
     </mat-label>
 
-    <mat-form-field [formGroupName]="groupName"
-      [ngClass]="{'fecha-remision' :controlName === 'fecha'}">
+    <mat-form-field [formGroupName]="groupName">
 
       <input
         matInput
         [formControlName]="controlName"
         [matDatepicker]="picker"
-        (dateChange)="onDateChange($event.value)"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -38,13 +36,11 @@
       {{ title }}
     </mat-label>
 
-    <mat-form-field
-      [ngClass]="{'fecha-remision' :controlName === 'fecha'}">
+    <mat-form-field>
       <input
         matInput
         [formControlName]="controlName"
         [matDatepicker]="picker"
-        (dateChange)="onDateChange($event.value)"
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

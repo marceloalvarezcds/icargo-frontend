@@ -17,6 +17,13 @@ export interface EvaluacionDialogData {
   origen_id: number;
   destino_id: number;
   producto_id: number;
+  tracto_rating: number;
+  semi_rating: number;
+  chofer_rating: number;
+  propietario_rating: number;
+  carga_rating: number;
+  descarga_rating: number;
 }
+
 
   

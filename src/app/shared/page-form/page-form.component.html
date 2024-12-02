@@ -254,7 +254,7 @@
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
-          *ngIf="isOc && isEdit && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
+          *ngIf="isOc || isEdit && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
         >
           CAMBIAR PEDIDO
         </button>

@@ -14,6 +14,12 @@ import { OrdenCargaEvaluacionesService } from 'src/app/services/orden-carga-eval
 })
 export class EvaluacionesCancelarComponent{
   currentRating: number = 0;
+  tractoRating: number = 0;
+  semiRating: number = 0;
+  choferRating: number = 0;
+  propietarioRating: number = 0;
+  cargaRating: number = 0;
+  descargaRating: number = 0;
   fotoRegistroFile: File | null = null;
   localidadId?: number;
   paisId?: number;
@@ -58,8 +64,6 @@ export class EvaluacionesCancelarComponent{
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-  
-    console.log('Formulario enviado:', this.form.value); // Log del formulario al enviarlo
     
     if (this.form.valid) {
       console.log('El formulario es válido');
@@ -89,9 +93,13 @@ export class EvaluacionesCancelarComponent{
         origen_id: origenId,
         destino_id: destinoId, 
         producto_id: productoId,
+        tracto_rating: this.tractoRating,
+        semi_rating: this.semiRating,
+        chofer_rating: this.choferRating,
+        propietario_rating: this.propietarioRating,
+        carga_rating: this.cargaRating,
+        descarga_rating: this.descargaRating
       };
-
-      console.log('Datos que se van a enviar:', data); // Log de los datos que se enviarán
   
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
@@ -100,9 +108,7 @@ export class EvaluacionesCancelarComponent{
         .create(formData)
         .subscribe(this.close.bind(this));
       
-    } else {
-      console.log('El formulario no es válido', this.form.errors); // Log de los errores si el formulario no es válido
-    }
+    } 
   }
   
   

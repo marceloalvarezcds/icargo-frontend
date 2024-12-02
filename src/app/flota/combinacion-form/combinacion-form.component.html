@@ -1,7 +1,7 @@
 <app-page-form
   class="combinacion-page"
-  module="NUEVA"
-  submodule="COMBINACION DE FLOTA"
+  submodule="COMBINACION"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
