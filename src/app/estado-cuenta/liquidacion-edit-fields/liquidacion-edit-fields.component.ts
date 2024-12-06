@@ -127,14 +127,15 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
     if (this.item!.pago_cobro == null) this.item!.pago_cobro = subtract(cred, deb);
   }
 
-  actualizarFactura():void{
-    this.liquidacionFacturasComponent?.loadList();
+  actualizarFactura():void {
+    this.item!.pago_cobro = null;
+    //this.liquidacionFacturasComponent?.loadList();
+    this.actualizarMovimientos.emit(this.item);
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
     // recalcula saldo y monto pago cobro
     this.item!.pago_cobro = null;
-
     this.actualizarMovimientos.emit(movimientos);
   }
 

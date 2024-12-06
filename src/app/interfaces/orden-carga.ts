@@ -87,6 +87,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_propietario_documento: string;
   camion_estado: string | null;
   combinacion_chofer_doc: string;
+  documento_fisico: boolean;
   // Datos de semi
   semi_placa: string;
   semi_marca: string | null;
@@ -213,12 +214,12 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_saldo: number;
   resultado_flete_gestor_carga_merma_valor:number;
   gestor_carga_nombre: string;
-  
+
   resultado_gestor_carga_saldo_total: number;
   //Condiciones
   condicion_gestor_cuenta_tarifa: number;
   condicion_propietario_tarifa: number;
-  
+
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -290,6 +291,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   chofer_nombre: 'string',
   propietario_nombre: 'string',
   chofer_documento: 'string',
+  documento_fisico:false,
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,
@@ -366,7 +368,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   modify_by_movimiento: false,
   auditorias: mockAuditDatabaseList,
   movimientos: mockMovimientoList,
-  comentario: mockOrdenCargaComentariosHistorialList, 
+  comentario: mockOrdenCargaComentariosHistorialList,
   evaluaciones_historial: mockOrdenCargaEvaluacionesHistorialList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,

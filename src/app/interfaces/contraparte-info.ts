@@ -32,6 +32,7 @@ export interface ContraparteInfoMovimientoLiq extends Contraparte {
   isNew: boolean;
   punto_venta_id?: number;
   saldo_cuenta_corriente?: number;
+  flujo?: string;
 }
 
 export interface ContraparteGralInfo extends Contraparte {
@@ -40,6 +41,8 @@ export interface ContraparteGralInfo extends Contraparte {
   punto_venta_id?: number;
   contraparte_pdv?: string;
   contraparte_numero_documento_pdv?: string;
+  tipo_flujo?: string;
+  flujo?: string;
 }
 
 export const mockContraparteInfoList: ContraparteInfoMovimiento[] = [

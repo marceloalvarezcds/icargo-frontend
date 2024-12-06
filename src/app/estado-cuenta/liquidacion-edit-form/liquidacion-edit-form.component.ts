@@ -8,7 +8,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
+import { mockEstadoCuentaList } from 'src/app/interfaces/estado-cuenta';
 import { Instrumento } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
@@ -38,24 +38,7 @@ export class LiquidacionEditFormComponent implements OnInit {
   saldo = 0;
   @Output() liquidacionChange = new EventEmitter();
 
-  estadoCuenta: EstadoCuenta = {
-        contraparte_id: 0,
-        contraparte: '',
-        contraparte_numero_documento: '',
-        tipo_contraparte_id: 3,
-        tipo_contraparte_descripcion: '',
-        pendiente: 0,
-        en_proceso: 0,
-        confirmado: 0,
-        finalizado: 0,
-        liquidacion_saldo: 0,
-        total_cc:0,
-        cantidad_pendiente: 0,
-        cantidad_en_proceso: 0,
-        cantidad_confirmado: 0,
-        cantidad_finalizado: 0,
-        q:''
-      }
+  estadoCuenta= mockEstadoCuentaList[0];
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
