@@ -8,27 +8,30 @@
 
   <div class="row">
 
-    <div *ngIf="this.estadoCuenta?.punto_venta_id" class="col-xs-12 col-sm-3">
+    <div *ngIf="this.estadoCuenta?.punto_venta_id" [class]="esEditableLinea ? 'col-xs-12 col-sm-2' : 'col-xs-12 col-sm-3'">
 
-      <div class="row">
+      <ng-container *ngIf="esEditableLinea; then flujoActivo; else flujoEdit"></ng-container>
 
-        <ng-container *ngIf="esEditableLinea; then flujoActivo; else flujoEdit">
-        </ng-container>
+      <ng-template #flujoActivo>
 
-        <ng-template #flujoActivo>
+        <div class="row">
 
-          <div class="input-form-full col-xs-12 col-sm-8">
+          <div class="input-form-full col-xs-12">
             <mat-label>Linea</mat-label>
             <mat-form-field>
               <input matInput [value]="this.estadoCuenta!.tipo_flujo" disabled />
             </mat-form-field>
           </div>
 
-        </ng-template>
+        </div>
 
-        <ng-template #flujoEdit>
+      </ng-template>
 
-          <div class="input-form-full col-xs-12 col-sm-6">
+      <ng-template #flujoEdit>
+
+        <div class="row">
+
+          <div class="input-form-full col-xs-12 col-sm-6" >
             <mat-label>
               Listar movimientos
             </mat-label>
@@ -41,12 +44,12 @@
             ></app-slide>
           </div>
 
-          <div class="input-form-full col-xs-12 col-sm-6" *ngIf="!esInsumoControlvalue">
+          <div class="input-form-full col-xs-12 col-sm-6">
             <mat-label>
               Tipo Insumo
             </mat-label>
-            <mat-form-field floatLabel="always" appearance="outline">
-              <mat-select [formControl]="tipo_insumo"
+            <mat-form-field floatLabel="always" appearance="outline" >
+              <mat-select [formControl]="tipo_insumo" [disabled]="esInsumoControlvalue ? true : false"
                 (selectionChange)="filtrarMovimientosPDV()">
                 <mat-option value=""></mat-option>
                   <mat-option value="COMBUSTIBLE">COMBUSTIBLE</mat-option>
@@ -55,9 +58,9 @@
             </mat-form-field>
           </div>
 
-        </ng-template>
+        </div>
 
-      </div>
+      </ng-template>
 
     </div>
 
