@@ -11,11 +11,9 @@ import {
   PermisoModeloEnum as m,
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
-import { getOCData } from 'src/app/form-data/oc-confirmation-data';
 import { Camion } from 'src/app/interfaces/camion';
 import { Combinacion } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
-import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
@@ -45,6 +43,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   flete?: FleteList;
   isFormSubmitting = true;
+  isOc = true;
   previousid: number | null = null;
   isLoadingData: boolean = false;
   isLoading = false; 
@@ -294,6 +293,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+  enableFleteId(): void {
+    this.form.get('combinacion.flete_id')?.enable();
+  }
   
 
   active(): void {
@@ -413,8 +416,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         this.ordenCargaService.cancelar(this.idOC),
         () => {
             this.getData();
-
-            // Abre el diálogo de evaluación
             const dialogRef = this.openEvaluacionesCancelarDialog();
 
             dialogRef.afterClosed().subscribe(result => {
@@ -728,7 +729,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         this.ngOnInit();
         this.isFormSaved = true; 
         this.isFormSubmitting = false
-        this.isShow = false      
+        this.isShow = false  
+        this.isOc = false    
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');

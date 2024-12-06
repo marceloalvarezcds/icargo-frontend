@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Camion, CamionList } from 'src/app/interfaces/camion';
+import { Combinacion } from '../interfaces/combinacion';
 
 @Injectable({
   providedIn: 'root',
@@ -14,6 +15,14 @@ export class CamionService {
 
   getList(): Observable<CamionList[]> {
     return this.http.get<CamionList[]>(`${this.url}/`);
+  }
+
+  getCamionListConCombinaciones(): Observable<CamionList[]> {
+    return this.http.get<CamionList[]>(`${this.url}/camion/combinacion`);
+  }
+
+  verificarCamionEnCombinacion(camionId: number): Observable<Combinacion | {detail: string}> {
+    return this.http.get<Combinacion | {detail: string}>(`${this.url}/combinacion_por_camion/${camionId}`);
   }
 
   getListByGestorCarga(): Observable<CamionList[]> {

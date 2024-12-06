@@ -125,9 +125,29 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
   }
+
+  get semi_id(): FormGroup {
+    return this.form.get('info.semi_id') as FormGroup;
+  }
+
+  get chofer_id(): FormGroup {
+    return this.form.get('info.chofer_id') as FormGroup;
+  }
   
   get chofer(): FormGroup {
     return this.form.get('chofer') as FormGroup;
+  }
+
+  get ruc(): FormGroup {
+    return this.form.get('info.ruc') as FormGroup;
+  }
+
+  get tipo_persona_id(): FormGroup {
+    return this.form.get('info.tipo_persona_id') as FormGroup;
+  }
+
+  get propietario_id(): FormGroup {
+    return this.form.get('info.propietario_id') as FormGroup;
   }
 
   get registro(): FormGroup {
@@ -178,7 +198,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
-
+    console.log('ptopi', this.propietario_id)
   }
 
   ngOnDestroy(): void {
@@ -219,37 +239,36 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   
 
   submit(confirmed: boolean): void {
-    this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
     if (this.form.valid) {
       const formData = new FormData();
+ 
       const data = JSON.parse(
         JSON.stringify({
-          ...this.info.value,
-      
+          ...this.info.value
         })
-        
       );
+    
+     console.log('data', data)
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });    
+      });
       formData.append('data', JSON.stringify(data));
+      console.log('Datos del formulario:', this.info.value);
       this.hasChange = false;
-      this.initialFormValue = this.form.value;
-
+      this.initialFormValue = this.form.value
       if (this.isEdit && this.id) {
         this.combinacionService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-   
         });
       } else {
         this.combinacionService.create(formData).subscribe((combinacion) => {
+  
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -258,16 +277,15 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             combinacion.id
           );
         });
-      
       }
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
-        
       });
     }
-   
   }
+  
+
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
@@ -277,9 +295,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-      if (this.isEdit) {
-        this.form.disable();
-       }
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data?.estado;
@@ -293,11 +308,17 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.created_by = data?.created_by;
         this.modified_by = data?.modified_by;
         this.modified_at = data?.modified_at;
+        this.info.disable()
+        this.semi_id.enable()
+        this.chofer_id.enable()
+        this.tipo_persona_id.enable()
+        this.ruc.enable()
+        this.propietario_id.enable()
         this.form.patchValue({
           info: {
             //Datos camion
             camion_id: data?.camion_id,
-            marca: data?.camion?.marca,
+            marca: data?.camion.marca?.descripcion,
             color: data?.camion?.color?.descripcion,
             oc_activa: data?.camion?.limite_cantidad_oc_activas,
             limite_anticipos: data?.camion?.limite_monto_anticipos,

@@ -9,6 +9,8 @@ import { Combinacion } from 'src/app/interfaces/combinacion';
 import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
 import { SemiList } from 'src/app/interfaces/semi';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
+import { CamionService } from 'src/app/services/camion.service';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 
 @Component({
   selector: 'app-combinacion-form-info',
@@ -22,31 +24,21 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   fotoFile: File | null = null;
   isFisicaSelected = false;
   loading = true;
+  isShearch = false;
   personaId?: number;
   tipoPersona?: TipoPersona
   docBeneficiario?: PropietarioList
   isDisabled = true;
   ngOnInit(){
     this.loading = false;
-    this.form = this.fb.group({
-      camion_id: [''],
-      marca: [''],
-      color: [''],
-      propietario: [''],
-      oc_activa: [''],
-      limite_anticipos: [''],
-      estado_camion: [''],
-      foto_camion: [''],
-      tipo_persona_id: ['1', Validators.required],
-      nombre: [''] 
-    });
+    this.tipoPersonaOriginal = this.item?.propietario?.tipo_persona_id;
   
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.loading = false;
     }, 0);
-    
+
   }
 
 
@@ -59,6 +51,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Input() gestorCargaId?: number;
   @Input() propietarioId?: number;
   @Input() form?: FormGroup;
+  @Input() propietario?: Propietario;
   @Input() fotoDocumentoFrente: string | null = null;
   @Input() fotoDocumentoReverso: string | null = null;
   @Input() combinacion?: Combinacion;
@@ -134,6 +127,10 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.estadoControl.setValue(nuevoEstado);
   }
 
+
+  constructor(private combinacionService: CamionService) {}
+
+
   camionChange(camion?: CamionList) {
     if (camion && camion.id !== this.currentCamionId) {
       this.currentCamionId = camion.id;
@@ -145,7 +142,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["limite_anticipos"].setValue(camion.limite_monto_anticipo);
       this.info?.controls["estado_camion"].setValue(camion.estado);
       this.info?.controls["foto_camion"].setValue(camion.foto);
-      this.fotoPerfil = camion.foto ?? null;
+      this.fotoPerfil = camion.foto ?? null;      
     }
   }
   
@@ -175,19 +172,21 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   tipoPersonaChange(propietario?: PropietarioList): void {
     this.info?.controls["propietario_id"].setValue(propietario?.id);
     this.info?.controls["nombre"].setValue(propietario?.nombre);
+    this.info?.controls["ruc"].setValue(propietario?.ruc);
     this.info?.controls["tipo_persona_id"].setValue(propietario?.tipo_persona_id);
     this.info?.controls["telefono"].setValue(propietario?.telefono);
     this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
     this.info?.controls["estado_propietario"].setValue(propietario?.estado);
     this.info?.controls["foto_documento_frente"].setValue(propietario?.foto_perfil);
-    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;   
+    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;
+
   }
 
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
+    this.isShearch = true
     if (!tipoPersona || tipoPersona.id !== this.tipoPersonaAnterior?.id) {
-      this.info?.controls["ruc"].setValue('');
+      this.info?.controls["propietario_id"].setValue('');
     }
-  
     if (tipoPersona) {
       this.tipoPersona = tipoPersona;
       this.personaChange.emit(tipoPersona);

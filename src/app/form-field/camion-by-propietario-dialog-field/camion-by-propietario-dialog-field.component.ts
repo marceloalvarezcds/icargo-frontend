@@ -11,7 +11,7 @@ import { CamionService } from 'src/app/services/camion.service';
   templateUrl: './camion-by-propietario-dialog-field.component.html',
   styleUrls: ['./camion-by-propietario-dialog-field.component.scss']
 })
-export class CamionByPropietarioDialogFieldComponent implements AfterViewInit{
+export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
   list$?: Observable<CamionList[]>;
   cId?: number;
@@ -34,7 +34,6 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit{
       title: 'Placa',
       value: (element: CamionList) => element.placa,
     },
-  
     {
       def: 'marca_descripcion',
       title: 'Marca',
@@ -51,16 +50,38 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit{
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'TRACTO';
+  @Input() isEdit: boolean = false;
 
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
 
-  constructor(private service: CamionService) {  }
-  
+  constructor(private service: CamionService) {}
+
   ngAfterViewInit(): void {
-    this.getList();
+    this.getList(); 
   }
+
   private getList(): void {
     this.list$ = this.service.getList();
   }
+
+
+  camionChange(camion?: CamionList): void {
+    if (this.isEdit) {
+        return;
+    }
+
+    if (camion) {
+        const isInCombinacion = camion.is_in_combinacion === true;  
+        
+        if (isInCombinacion) {
+            alert(`El camión con placa ${camion.placa} ya está en una combinación.`);
+            this.form.reset();  
+            this.form.get('camion_id')?.setValue(null);  
+        } else {
+            this.valueChange.emit(camion);  
+        }
+    }
+  }
 }
+
