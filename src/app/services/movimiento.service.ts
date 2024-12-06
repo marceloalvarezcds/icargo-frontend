@@ -37,9 +37,10 @@ export class MovimientoService {
     contraparte_id: number,
     etapa?: LiquidacionEtapaEnum,
     punto_venta_id?: number,
+    flujo?: string
   ): Observable<MovimientoEstadoCuenta[]> {
     return this.http.get<MovimientoEstadoCuenta[]>(
-      `${environment.api}/estado_cuenta/movimiento/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id)}`
+      `${environment.api}/estado_cuenta/movimiento/${getParams(estadoCuenta, contraparte_id, etapa, punto_venta_id, flujo)}`
     );
   }
 

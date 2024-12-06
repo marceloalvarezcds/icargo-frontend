@@ -45,6 +45,10 @@ export class LiquidacionFormDialogComponent {
   @ViewChild('childEdit')
   childEdit!: LiquidacionEditFieldsComponent;
 
+  get esEditableLinea():boolean {
+    return this.data.flujo ? true : false;
+  }
+
   get gestorCargaId(): number | undefined {
     return this.liquidacion?.gestor_carga_id;
   }
@@ -221,30 +225,51 @@ export class LiquidacionFormDialogComponent {
 
   getData(): void {
 
-    this.estadoCuentaService
-      .getByContraparte(
-        this.data.tipo_contraparte_id,
-        this.data.contraparte_id,
-        this.data.contraparte,
-        this.data.contraparte_numero_documento,
-        this.data.punto_venta_id
-      )
-      .pipe(filter((e) => !!e))
-      .subscribe((estadoCuenta) => {
-        this.estadoCuenta = estadoCuenta!;
-        this.getList();
-      });
+    let flujo = this.data.flujo ?? "EFECTIVO";
+    // es pdv
+    if (this.data.punto_venta_id) {
+      this.estadoCuentaService
+        .getListByPDVContraparte(
+          this.data.contraparte_id,
+          this.data.contraparte,
+          this.data.contraparte_numero_documento,
+          this.data.punto_venta_id,
+          flujo,
+        )
+        //.pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+          this.getList();
+        });
+
+    } else {
+      this.estadoCuentaService
+        .getByContraparte(
+          this.data.tipo_contraparte_id,
+          this.data.contraparte_id,
+          this.data.contraparte,
+          this.data.contraparte_numero_documento,
+          this.data.punto_venta_id,
+        )
+        .pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+          this.getList();
+        });
+    }
 
   }
 
   getList(): void {
+    let tipo_movimiento = this.data.flujo ?? "EFECTIVO";
+
     this.movimientoService
       .getListByEstadoCuenta(
         this.estadoCuenta!,
         this.estadoCuenta!.contraparte_id,
         this.etapa,
         this.estadoCuenta!.punto_venta_id,
-        "Efectivo"
+        tipo_movimiento
       )
       .subscribe((data) => {
         this.list = data;
@@ -269,8 +294,8 @@ export class LiquidacionFormDialogComponent {
   }
 
   refreshEstadoCuentaYMovimiento(liq: Liquidacion): void{
-    //this.getEstadoCuenta();
-    this.getMovimientos(liq!);
+    this.getEstadoCuenta();
+    this.loadLiquidacion();
   }
 
 }

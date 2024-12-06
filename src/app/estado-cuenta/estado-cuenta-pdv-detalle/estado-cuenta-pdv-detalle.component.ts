@@ -44,15 +44,19 @@ type Filter = {
 };
 
 @Component({
-  selector: 'app-estado-cuenta-list-detalle',
-  templateUrl: './estado-cuenta-list-detalle.component.html',
-  styleUrls: ['./estado-cuenta-list-detalle.component.scss']
+  selector: 'app-estado-cuenta-pdv-detalle',
+  templateUrl: './estado-cuenta-pdv-detalle.component.html',
+  styleUrls: ['./estado-cuenta-pdv-detalle.component.scss']
 })
-export class EstadoCuentaListDetalleComponent implements OnInit {
+export class EstadoCuentaPdvDetalleComponent implements OnInit {
+
   a = PermisoAccionEnum;
   m = PermisoModeloEnum;
-  backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
+
+  backUrl = `/estado-cuenta/${m.PUNTO_VENTA}/${a.LISTAR}`;
   isShowOnly = false;
+  module = '';
+  submodule = '';
 
   columns: Column[] = [
     {
@@ -389,6 +393,13 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     ) { }
 
     ngOnInit(): void {
+      const {
+        flujo,
+      } = this.route.snapshot.queryParams;
+
+      this.module = flujo;
+      this.submodule = "| MOVIMIENTOS (CUENTAS CORRIENTES)";
+
       this.getList();
     }
 
@@ -400,6 +411,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
+        flujo,
       } = this.route.snapshot.queryParams;
 
       /*this.movimientoService.generateReportsByEstadoCuenta(this.estadoCuenta!, contraparte_id)
@@ -500,6 +512,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         this.getList();
       });
     }
+
     createLiquidacion():void {
 
       this.resetFilter();
@@ -509,7 +522,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
-        punto_venta_id
+        punto_venta_id,
+        flujo,
       } = this.route.snapshot.queryParams;
 
       const data: ContraparteInfoMovimientoLiq = {
@@ -520,7 +534,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         tipo_contraparte_descripcion: '',
         isNew: true,
         etapa: LiquidacionEtapaEnum.PENDIENTE,
-        punto_venta_id: punto_venta_id
+        punto_venta_id: punto_venta_id,
+        flujo:flujo
       };
 
       this.dialog
@@ -600,9 +615,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           }
 
       });
-
-
-
     }
 
     /*
@@ -661,20 +673,24 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
-        punto_venta_id
+        punto_venta_id,
+        flujo
       } = this.route.snapshot.queryParams;
+
       if (backUrl) {
         this.backUrl = backUrl;
       }
       this.etapa = etapa;
 
+      // llamar al nuevo servicio por flujo
+
       this.estadoCuentaService
-          .getByContraparte(
-            tipo_contraparte_id,
+          .getListByPDVContraparte(
             contraparte_id,
             contraparte,
             contraparte_numero_documento,
-            punto_venta_id
+            punto_venta_id,
+            flujo
           )
           .pipe(filter((e) => !!e))
           .subscribe((estadoCuenta) => {
@@ -686,13 +702,23 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     getMovList(): void {
       const etapa = this.etapa! as LiquidacionEtapaEnum;
+      const {
+        backUrl,
+        contraparte_id,
+        contraparte,
+        contraparte_numero_documento,
+        tipo_contraparte_id,
+        punto_venta_id,
+        flujo
+      } = this.route.snapshot.queryParams;
 
       this.movimientoService
         .getListByEstadoCuentaDetalle(
               this.estadoCuenta!,
               this.estadoCuenta!.contraparte_id,
               undefined,
-              this.estadoCuenta!.punto_venta_id
+              this.estadoCuenta!.punto_venta_id,
+              flujo
         )
         .subscribe((data) => {
 
@@ -749,4 +775,3 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
 }
-

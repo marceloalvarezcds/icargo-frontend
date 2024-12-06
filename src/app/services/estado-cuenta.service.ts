@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
-import { getParamsBy } from 'src/app/utils/contraparte-info';
+import { getParamsBy, getParamsByPDV } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -35,24 +35,35 @@ export class EstadoCuentaService {
     return this.http.get<EstadoCuenta[]>(`${this.url}/gestor_carga_id`);
   }
 
-  generateReports(): Observable<string> {
-    return this.http.get<string>(`${this.url}/reports`);
+  getListByPDV(flujo?:string): Observable<EstadoCuenta[]> {
+
+    if (flujo) {
+      return this.http.get<EstadoCuenta[]>(`${this.url}/flujo/${flujo}`);
+    }
+
+    return this.http.get<EstadoCuenta[]>(`${this.url}/flujo`);
   }
 
-  getSaldoCCContraparte(
-    tipo_contraparte_id: number,
+  getListByPDVContraparte(
     contraparte_id: number,
-    punto_venta_id?: number
+    contraparte: string,
+    contraparte_numero_documento: string,
+    punto_venta_id: number,
+    flujo:string
   ): Observable<EstadoCuenta | null> {
-
-    if (punto_venta_id)
-      return this.http.get<EstadoCuenta | null>(
-        `${this.url}/saldo/${tipo_contraparte_id}/id/${contraparte_id}/punto_venta_id/${punto_venta_id}`
-      )
-
     return this.http.get<EstadoCuenta | null>(
-      `${this.url}/saldo/${tipo_contraparte_id}/id/${contraparte_id}`
+      `${this.url}/${getParamsByPDV(
+        contraparte_id,
+        contraparte,
+        contraparte_numero_documento,
+        punto_venta_id,
+        flujo
+      )}`
     );
+  }
+
+  generateReports(): Observable<string> {
+    return this.http.get<string>(`${this.url}/reports`);
   }
 
 }

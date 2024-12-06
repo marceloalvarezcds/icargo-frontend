@@ -40,6 +40,9 @@ export class LiquidacionFormFieldsComponent {
   @Input()
   list: Movimiento[] = [];
 
+  @Input()
+  esEditableLinea=false;
+
   @Output()
   createdLiquidacionEvt: EventEmitter<Liquidacion> = new EventEmitter<Liquidacion>();
 
@@ -47,6 +50,7 @@ export class LiquidacionFormFieldsComponent {
 
   form = new FormGroup({
     es_insumo_efectivo: new FormControl(true),
+    tipo_insumo: new FormControl(null),
   });
 
   get credito(): number {
@@ -73,6 +77,14 @@ export class LiquidacionFormFieldsComponent {
     return this.form.controls['es_insumo_efectivo'] as FormControl;
   }
 
+  get esInsumoControlvalue(): FormControl {
+    return this.form.controls['es_insumo_efectivo'].value;
+  }
+
+  get tipo_insumo(): FormControl {
+    return this.form.controls['tipo_insumo'] as FormControl;
+  }
+
   constructor(
     private movimientoService: MovimientoService,
     private liquidacionService: LiquidacionService,
@@ -87,9 +99,9 @@ export class LiquidacionFormFieldsComponent {
 
     let tipoMovLiquidacion = '';
     if (this.estadoCuenta!.punto_venta_id){
-      tipoMovLiquidacion = (this.esInsumoControl.value) ? TipoLiquidacionEnum.EFECTIVO : TipoLiquidacionEnum.INSUMO;
+      tipoMovLiquidacion = this.estadoCuenta!.tipo_flujo!;
     } else {
-      tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO;
+      tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO.toUpperCase();
     }
 
     // TODO: seleccionar la moneda en el form, por ahora sino tiene movimientos sera en gs
@@ -129,8 +141,14 @@ export class LiquidacionFormFieldsComponent {
   }
 
   getList(): void {
+
     const etapa = this.etapa! as LiquidacionEtapaEnum;
-    const listar_efectivo_insumo = this.esInsumoControl.value ? "Efectivo" : "Insumo";
+
+    let listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
+
+    if (listar_efectivo_insumo !== "EFECTIVO") {
+      listar_efectivo_insumo = this.tipo_insumo.value;
+    }
 
     this.movimientoService
       .getListByEstadoCuenta(
@@ -148,6 +166,18 @@ export class LiquidacionFormFieldsComponent {
 
   filtrarMovimientosPDV():void{
     this.liquidacionMovimientoList!.clearMovimientosList();
+
+    const listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
+
+    console.log("listar_efectivo_insumo: ", listar_efectivo_insumo);
+
+    if (listar_efectivo_insumo === 'INSUMO' && !this.tipo_insumo.value ) {
+      this.list = [];
+      this.movimientosSelected = [];
+      console.log("blockero: ");
+      return;
+    }
+
     this.getList();
   }
 

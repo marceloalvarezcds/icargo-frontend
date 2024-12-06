@@ -100,12 +100,12 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       anticipos: null,
       id_orden_carga: null,
       condicion: null,
-      tieneDocumentoFisico:null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
       comentarios: null,
       producto_descripcion: null,
+      documento_fisico:null,
     }),
   });
 
@@ -264,11 +264,11 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   get tieneDocumentoFisico(): FormControl {
-    return this.combinacion.get('tieneDocumentoFisico') as FormControl;
+    return this.info.get('documento_fisico') as FormControl;
   }
 
   get tieneDocumentoFisicoValue(): FormControl {
-    return this.combinacion.get('tieneDocumentoFisico')?.value;
+    return this.info.get('documento_fisico')?.value;
   }
 
   constructor(
@@ -766,7 +766,7 @@ private cancelOrdenCarga(): void {
   }
 
   onEditPressed() {
-    this.isEditPressed = false; 
+    this.isEditPressed = false;
   }
 
   getDataWithoutOverwritingFlete(): void {
@@ -858,6 +858,7 @@ private cancelOrdenCarga(): void {
             },
             info: {
                 cantidad_nominada: data.cantidad_nominada,
+                documento_fisico:data.documento_fisico,
             },
             tramo: {
                 flete_origen_id: data.flete_origen_id,
@@ -871,7 +872,7 @@ private cancelOrdenCarga(): void {
         this.form.get('info.comentarios')?.enable();
 
         if (data.estado === 'Finalizado'){
-          this.form.get('combinacion.tieneDocumentoFisico')?.enable();
+          this.form.get('info.documento_fisico')?.enable();
         }
 
         setTimeout(() => {

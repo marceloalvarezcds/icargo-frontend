@@ -208,7 +208,7 @@ export class LiquidacionEditFormAccionesComponent {
   private emitChange(): void {
     this.snackbar.open('Factura agregada');
     this.liquidacionFacturaChange.emit();
-    this.liquidacionChange.emit();
+    //this.liquidacionChange.emit();
   }
 
   datosFiscalesForm(): void{
