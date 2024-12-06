@@ -51,7 +51,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   @Input() groupName = '';
   @Input() title = 'TRACTO';
   @Input() isEdit: boolean = false;
-
+  @Input() isShow: boolean = true;
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
 
@@ -70,6 +70,10 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
     if (this.isEdit) {
         return;
     }
+    if (this.isShow) {
+      return; // No hacemos nada si está en modo de visualización (show).
+    }
+
 
     if (camion) {
         const isInCombinacion = camion.is_in_combinacion === true;  

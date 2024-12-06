@@ -42,6 +42,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   isActive = false;
   isEdit = false;
   isShow = false;
+  isShowCamion = false
   isPanelOpen = false;
   isInfoTouched = true;
   modelo = m.COMBINACION;
@@ -198,7 +199,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
-    console.log('ptopi', this.propietario_id)
   }
 
   ngOnDestroy(): void {
@@ -250,7 +250,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         })
       );
     
-     console.log('data', data)
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
@@ -258,7 +257,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         }
       });
       formData.append('data', JSON.stringify(data));
-      console.log('Datos del formulario:', this.info.value);
       this.hasChange = false;
       this.initialFormValue = this.form.value
       if (this.isEdit && this.id) {
@@ -290,10 +288,25 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
+      this.form.disable();
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
       if (this.isShow) {
+        this.isShowCamion = true
         this.form.disable();
+        this.semi_id.disable()
+        this.chofer_id.disable()
+        this.tipo_persona_id.disable()
+        this.ruc.disable()
+        this.propietario_id.disable()
+      }
+
+      if (this.isEdit) {
+        this.semi_id.enable()
+        this.chofer_id.enable()
+        this.tipo_persona_id.enable()
+        this.ruc.enable()
+        this.propietario_id.enable()
       }
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
@@ -308,12 +321,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.created_by = data?.created_by;
         this.modified_by = data?.modified_by;
         this.modified_at = data?.modified_at;
-        this.info.disable()
-        this.semi_id.enable()
-        this.chofer_id.enable()
-        this.tipo_persona_id.enable()
-        this.ruc.enable()
-        this.propietario_id.enable()
         this.form.patchValue({
           info: {
             //Datos camion
