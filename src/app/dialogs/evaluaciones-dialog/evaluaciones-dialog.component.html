@@ -11,32 +11,127 @@
   <div class="row">
 
     <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
-      <label class="form-label mr-2">Tipo de Incidente</label>
-      <mat-form-field class="full-width" appearance="outline">
-      <input matInput value="Versión" readonly />
-    </mat-form-field>
+      <label class="form-label mr-2">Tracto</label>
+      <p class="full-width"></p>
     </div>
-
-  </div>
-
-  <div class="row">
-
+  
     <div class="col-xs-12 rating-wrapper">
-      <label for="rating">Evaluación</label>
       <div class="rating-container" id="rating">
         <div class="star-rating">
           <span
             *ngFor="let star of [].constructor(5); let i = index"
             class="star"
-            [class.filled]="i < currentRating"
-            (click)="currentRating = i + 1"
+            [class.filled]="i < tractoRating"
+            (click)="tractoRating = i + 1"
             style="cursor: pointer;">
             ★
           </span>
         </div>
       </div>
     </div>
-
+  
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <label class="form-label mr-2">Semi</label>
+      <p class="full-width"></p>
+    </div>
+  
+    <div class="col-xs-12 rating-wrapper">
+      <div class="rating-container" id="rating">
+        <div class="star-rating">
+          <span
+            *ngFor="let star of [].constructor(5); let i = index"
+            class="star"
+            [class.filled]="i < semiRating"
+            (click)="semiRating = i + 1"
+            style="cursor: pointer;">
+            ★
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <label class="form-label mr-2">Chofer</label>
+      <p class="full-width"></p>
+    </div>
+  
+    <div class="col-xs-12 rating-wrapper">
+      <div class="rating-container" id="rating">
+        <div class="star-rating">
+          <span
+            *ngFor="let star of [].constructor(5); let i = index"
+            class="star"
+            [class.filled]="i < choferRating"
+            (click)="choferRating = i + 1"
+            style="cursor: pointer;">
+            ★
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <label class="form-label mr-2">Propietario</label>
+      <p class="full-width"></p>
+    </div>
+  
+    <div class="col-xs-12 rating-wrapper">
+      <div class="rating-container" id="rating">
+        <div class="star-rating">
+          <span
+            *ngFor="let star of [].constructor(5); let i = index"
+            class="star"
+            [class.filled]="i < propietarioRating"
+            (click)="propietarioRating = i + 1"
+            style="cursor: pointer;">
+            ★
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <label class="form-label mr-2">L.Carga</label>
+      <p class="full-width"></p>
+    </div>
+  
+    <div class="col-xs-12 rating-wrapper">
+      <div class="rating-container" id="rating">
+        <div class="star-rating">
+          <span
+            *ngFor="let star of [].constructor(5); let i = index"
+            class="star"
+            [class.filled]="i < cargaRating"
+            (click)="cargaRating = i + 1"
+            style="cursor: pointer;">
+            ★
+          </span>
+        </div>
+      </div>
+    </div>
+  
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <label class="form-label mr-2">L.Descarga</label>
+      <p class="full-width"></p>
+    </div>
+  
+    <div class="col-xs-12 rating-wrapper">
+      <div class="rating-container" id="rating">
+        <div class="star-rating">
+          <span
+            *ngFor="let star of [].constructor(5); let i = index"
+            class="star"
+            [class.filled]="i < descargaRating"
+            (click)="descargaRating = i + 1"
+            style="cursor: pointer;">
+            ★
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="row">
     <app-input-field
       class="input-form-full col-xs-12 col-sm-6 col-md-10"
       title="Comentarios"

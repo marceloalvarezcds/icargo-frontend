@@ -74,8 +74,12 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
+  
   combinacion_propietario_id: number;
   combinacion_chofer_id: number;
+  chofer_nombre: string;
+  propietario_nombre: string;
+  chofer_documento: string;
   neto:number;
   combinacion_id: number;
   camion_beneficiario_nombre: string;
@@ -83,6 +87,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_propietario_documento: string;
   camion_estado: string | null;
   combinacion_chofer_doc: string;
+  documento_fisico: boolean;
   // Datos de semi
   semi_placa: string;
   semi_marca: string | null;
@@ -188,6 +193,9 @@ export interface OrdenCargaList extends OrdenCargaForm {
   camion_chofer_numero_documento: string | null;
   camion_placa: string;
   camion_propietario_nombre: string;
+  chofer_nombre: string;
+  propietario_nombre: string;
+  chofer_documento: string;
   // Datos de semi
   semi_placa: string;
   combinacion_id: number;
@@ -206,12 +214,12 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_saldo: number;
   resultado_flete_gestor_carga_merma_valor:number;
   gestor_carga_nombre: string;
-  
+
   resultado_gestor_carga_saldo_total: number;
   //Condiciones
   condicion_gestor_cuenta_tarifa: number;
   condicion_propietario_tarifa: number;
-  
+
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -280,6 +288,10 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_propietario_documento: 'string',
   camion_estado: 'activo',
   combinacion_chofer_doc: 'string',
+  chofer_nombre: 'string',
+  propietario_nombre: 'string',
+  chofer_documento: 'string',
+  documento_fisico:false,
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,
@@ -356,7 +368,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   modify_by_movimiento: false,
   auditorias: mockAuditDatabaseList,
   movimientos: mockMovimientoList,
-  comentario: mockOrdenCargaComentariosHistorialList, 
+  comentario: mockOrdenCargaComentariosHistorialList,
   evaluaciones_historial: mockOrdenCargaEvaluacionesHistorialList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
@@ -394,6 +406,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
     camion_placa: camion0.placa,
     camion_propietario_nombre: camion0.propietario_nombre,
+    chofer_nombre: 'juan',
+    propietario_nombre: 'david',
+    chofer_documento: '504367',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,
@@ -455,6 +470,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_chofer_numero_documento: camion1.chofer_numero_documento,
     camion_placa: camion1.placa,
     camion_propietario_nombre: camion1.propietario_nombre,
+    chofer_nombre: 'juan',
+    propietario_nombre: 'david',
+    chofer_documento: '504367',
     // Datos de semi
     semi_id: semi1.id,
     semi_placa: semi1.placa,
@@ -517,6 +535,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_placa: camion0.placa,
     camion_propietario_nombre: camion0.propietario_nombre,
     combinacion_chofer_nombre: 'dario',
+    chofer_nombre: 'juan',
+    propietario_nombre: 'david',
+    chofer_documento: '504367',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,

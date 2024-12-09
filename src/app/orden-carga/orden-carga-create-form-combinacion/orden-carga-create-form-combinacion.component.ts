@@ -4,12 +4,14 @@ import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
 import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
+import { Chofer } from 'src/app/interfaces/chofer';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CamionService } from 'src/app/services/camion.service';
+import { ChoferService } from 'src/app/services/chofer.service';
 
 import { FleteService } from 'src/app/services/flete.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
@@ -58,6 +60,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<Camion>();
   @Output() semiChange = new EventEmitter<Semi>();
+  @Output() choferChange = new EventEmitter<Chofer>();
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
 
@@ -170,13 +173,18 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   }
 
 
-  constructor(private service: SemiService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef, private ordenCargaService: OrdenCargaService, private reportsService: ReportsService,) {}
+  constructor(private service: SemiService, private choferService: ChoferService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef, private ordenCargaService: OrdenCargaService, private reportsService: ReportsService,) {}
 
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {
       this.semiChange.emit(semi);
     }
+  }
 
+  onChoferChange(semi: Chofer | undefined): void {
+    if (semi) {
+      this.choferChange.emit(semi);
+    }
   }
 
   onCamionChange(combinacion?: CombinacionList) {
@@ -186,21 +194,51 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         this.originalNeto = this.form?.get(this.groupName)?.get('neto')?.value;
       }
 
+      if (!this.form?.get(this.groupName)?.get('semi_placa')?.value) {
+        this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion.semi_placa);
+      }
+
+      if (!this.form?.get(this.groupName)?.get('marca_semi')?.value) {
+        this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null);
+      }
+
+      if (!this.form?.get(this.groupName)?.get('color_semi')?.value) {
+        this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
+      }
+  
+      // Comprobamos si chofer_camion ya tiene un valor antes de actualizarlo
+      if (!this.form?.get(this.groupName)?.get('chofer_camion')?.value) {
+        this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion.chofer_nombre);
+      }
+
+      if (!this.form?.get(this.groupName)?.get('chofer_camion_doc')?.value) {
+        this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
+      }
+
+      if (!this.form?.get(this.groupName)?.get('beneficiario_camion')?.value) {
+        this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
+      }
+
+      if (!this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.value) {
+        this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.propietario_ruc);
+      }
+  
       // Actualiza los campos del formulario
       this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id);
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion);
       this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion.color_camion ?? null);
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion.semi_id);
-      this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion.semi_placa);
-      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null);
-      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
+      this.form?.get(this.groupName)?.get('chofer_id')?.setValue(combinacion.chofer_id);
+      this.form?.get(this.groupName)?.get('propietario_id')?.setValue(combinacion.propietario_id);
+      // this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion.semi_placa);
+      // this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null);
+      // this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
       this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion.camion_propietario_nombre);
-      this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion.propietario_ruc);
-      this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
-      this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
-      this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion.chofer_nombre);
-      this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
-
+      this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
+      // this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
+      // this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
+      // this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
+  
       // Comparar y actualizar solo si el nuevo neto es diferente del original
       if (combinacion.neto !== this.originalNeto) {
         this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion.neto);
@@ -208,27 +246,28 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         // Si no hay cambio, restablece al valor original
         this.form?.get(this.groupName)?.get('neto')?.setValue(this.originalNeto);
       }
-
+  
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
-
+  
       // Solo actualizar cantidad_nominada si no ha sido modificada manualmente y si isNeto es true
       if (this.isNeto) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
       }
-
+  
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
-
-      // this.camionService.getById(combinacion.camion_id).subscribe(camion => {
-      //   this.camionChange.emit(camion);
-      // });
-
-      // this.service.getById(combinacion.semi_id).subscribe(semi => {
-      //   this.onSemiChange(semi);
-      // });
+  
+      this.service.getById(combinacion.semi_id).subscribe(semi => {
+        this.onSemiChange(semi);
+      });
+  
+      this.choferService.getById(combinacion.chofer_id).subscribe(chofer => {
+        this.onChoferChange(chofer);
+      });
     }
   }
+  
 
 
   onOrdenCargaChange(oc?: OrdenCargaList) {

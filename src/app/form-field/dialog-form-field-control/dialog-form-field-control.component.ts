@@ -29,7 +29,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Observable, Subject } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
@@ -37,6 +37,7 @@ import {
   PaginatedList,
   PaginatedListRequest,
 } from 'src/app/interfaces/paginate-list';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 
 @Component({
   selector: 'app-dialog-form-field-control',
@@ -188,7 +189,8 @@ export class DialogFormFieldControlComponent<
     private formBuilder: FormBuilder,
     private focusMonitor: FocusMonitor,
     private elementRef: ElementRef<HTMLElement>,
-    public injector: Injector
+    public injector: Injector,
+    private combinacionService: CombinacionService,
   ) {}
 
   ngOnInit(): void {
@@ -285,33 +287,33 @@ export class DialogFormFieldControlComponent<
     this.writeValue(null);
   }
 
+
   private deshabilitarOpcion(estado: string): boolean {
     const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado']; 
     return estadosNoSeleccionables.includes(estado);
   }
 
-openDialog(): void {
-  const dialogRef = this.dialogRefFunction
-    ? this.dialogRefFunction(this.selectedValue)
-    : this.getDefaultDialogRef();
+  openDialog(): void {
+    const dialogRef = this.dialogRefFunction
+      ? this.dialogRefFunction(this.selectedValue)
+      : this.getDefaultDialogRef();
 
-  dialogRef
-    .afterClosed()
-    .pipe(filter((selectedValue: T) => !!selectedValue))
-    .subscribe((selectedValue: T) => {
-      if (this.deshabilitarOpcion((selectedValue as any).estado)) {
-        alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
-        return; // Salir sin asignar ni realizar acciones adicionales
-      }
-
-      // Si el estado es válido, continuar con la lógica
-      this.selectedValue = selectedValue;
-      if (!this.lista.length) {
-        this.lista = [selectedValue];
-      }
-      this.writeValue(selectedValue.id);
-    });
-}
+    dialogRef
+      .afterClosed()
+      .pipe(filter((selectedValue: T) => !!selectedValue))
+      .subscribe((selectedValue: T) => {
+        if (this.deshabilitarOpcion((selectedValue as any).estado)) {
+          alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+          return; // Salir sin asignar ni realizar acciones adicionales
+        }
+        
+        this.selectedValue = selectedValue;
+        if (!this.lista.length) {
+          this.lista = [selectedValue];
+        }
+        this.writeValue(selectedValue.id);
+      });
+  }
 
 
 

@@ -14,6 +14,8 @@ import { LiquidacionFormComponent } from './liquidacion-form/liquidacion-form.co
 import { LiquidacionListComponent } from './liquidacion-list/liquidacion-list.component';
 import { EstadoCuentaListDetalleComponent } from './estado-cuenta-list-detalle/estado-cuenta-list-detalle.component';
 import { LiquidacionesListComponent } from './liquidaciones-list/liquidaciones-list.component';
+import { EstadoCuentaPdvComponent } from './estado-cuenta-pdv/estado-cuenta-pdv.component';
+import { EstadoCuentaPdvDetalleComponent } from './estado-cuenta-pdv-detalle/estado-cuenta-pdv-detalle.component';
 
 const routes: Routes = [
   {
@@ -99,6 +101,26 @@ const routes: Routes = [
             canActivate: [PermisoGuard],
           },
         ],
+      },
+    ],
+  },
+  {
+    path: m.PUNTO_VENTA,
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: a.LISTAR,
+        component: EstadoCuentaPdvComponent,
+        //canActivate: [PermisoGuard],
+      },
+      {
+        path: `detallado/${a.LISTAR}`,
+        component: EstadoCuentaPdvDetalleComponent,
+        //canActivate: [PermisoGuard],
       },
     ],
   },

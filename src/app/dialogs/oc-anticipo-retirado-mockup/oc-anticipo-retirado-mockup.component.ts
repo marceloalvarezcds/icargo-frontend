@@ -173,32 +173,39 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
 
   get anticipoRetitadoCamion(): number {
     return this.oc?.camion_monto_anticipo_disponible ?? 0;
-}
+  }
 
   get montoRetiradoHint(): string {
- 
+    const formatNumber = (value: number): string => {
+        return new Intl.NumberFormat('de-DE', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+        }).format(value);
+    };
+    
+
     if (this.saldoDisponible < 0) {
-        const excedente = subtract(this.monto, this.saldoDisponible).toLocaleString();
-        return `<span>El saldo es negativo: <strong>${this.saldoDisponible.toLocaleString()}</strong>. 
+        const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
+        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>. 
         El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
 
     if (this.monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${subtract(
-            this.monto,
-            this.saldoDisponible
-        ).toLocaleString()}</strong> al saldo disponible</span>`;
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+            subtract(this.monto, this.saldoDisponible)
+        )}</strong> al saldo disponible</span>`;
     }
 
-    // Verificar si el monto supera el anticipo retirado
     if (this.monto > this.anticipoRetitadoCamion) {
-      return `<span class="hint-alert">El monto supera en <strong>${subtract(
-          this.monto,
-          this.anticipoRetitadoCamion
-      ).toLocaleString()}</strong> al anticipo del tracto disponible</span>`;
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+            subtract(this.monto, this.anticipoRetitadoCamion)
+        )}</strong> al anticipo del tracto disponible</span>`;
+    }
+
+    const saldoMostrar = Math.min(this.saldoDisponible, this.anticipoRetitadoCamion);
+
+    return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}</strong>`;
   }
-    return `<span class="hint-alert-label">Saldo</span> <strong>${this.saldoDisponible.toLocaleString()}</strong>`;
-}
 
   
   @Output() valueChange = new EventEmitter<string>();
@@ -256,23 +263,19 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   }
 
   get isSubmitDisabled(): boolean {
-    // Si el saldo es negativo
     if (this.saldoDisponible < 0) {
         return true;
     }
-
-    // Si el monto supera el saldo disponible
     if (this.monto > this.saldoDisponible) {
         return true;
     }
 
-    // Si el monto supera el anticipo retirado
     if (this.monto > this.anticipoRetitadoCamion) {
         return true;
     }
 
-    return false; // Habilitar si ninguna condición aplica
-}
+    return false; 
+  }
 
 
   constructor(

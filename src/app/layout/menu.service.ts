@@ -205,11 +205,27 @@ export class MenuService {
         ],
       },
       {
-        name: u.ESTADO_CUENTA,
+        name: u.CUENTA_CORRIENTE,
         iconName: 'summarize',
+        // iconName: 'local_atm',
         iconOutline: true,
-        path: `/estado-cuenta/${m.ESTADO_CUENTA}`,
-        active: this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO),
+        active: true,
+        children: [
+          {
+            name: t[m.ESTADO_CUENTA],
+            iconName: 'summarize',
+            iconOutline: true,
+            path: `/estado-cuenta/${m.ESTADO_CUENTA}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.ESTADO_CUENTA),
+          },
+          {
+            name: t[m.PUNTO_VENTA],
+            iconName: 'summarize',
+            iconOutline: true,
+            path: `/estado-cuenta/${m.PUNTO_VENTA}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.ESTADO_CUENTA),
+          },
+        ],
       },
       {
         name: u.LIQUIDACION,

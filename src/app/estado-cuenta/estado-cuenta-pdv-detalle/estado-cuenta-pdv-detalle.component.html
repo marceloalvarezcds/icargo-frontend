@@ -1,0 +1,141 @@
+<app-page
+  [module]="module"
+  [submodule]="submodule"
+  [modelo]="m.MOVIMIENTO"
+  (backClick)="back($event)"
+  [hideBack]="false"
+  [hideCreate]="true"
+  (applyClick)="applyFilter()"
+  (downloadClick)="downloadFile()"
+  (resetClick)="resetFilter()"
+  [dbuttons]="buttons">
+
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Cuenta</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #cuentaCheckboxFilter
+            [value]="cuentaFiltered"
+            [list]="cuentaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Concepto</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #conceptoCheckboxFilter
+            [value]="conceptoFiltered"
+            [list]="conceptoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Detalle</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #detalleCheckboxFilter
+            [value]="detalleFiltered"
+            [list]="detalleFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #estadoCheckboxFilter
+            [value]="estadoFiltered"
+            [list]="estadoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByCuenta">
+      <mat-chip *ngFor="let item of cuentaFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByConcepto">
+      <mat-chip *ngFor="let item of conceptoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByDetalle">
+      <mat-chip *ngFor="let item of detalleFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+
+  <div class="page-container">
+
+    <app-estado-cuenta-detalle
+      [etapa]="etapa"
+      [estadoCuenta]="estadoCuenta"
+      [showVistaConsolidada]="false"
+      [showEstado]=false>
+    </app-estado-cuenta-detalle>
+
+    <div class="row">
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>Pendiente</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>Deberes/Haberes</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="deberes" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>
+          Pagos/Cobros
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="pagos" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>
+          Saldo en Cuenta
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
+
+    </div>
+
+  </div>
+
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="m.MOVIMIENTO"
+    [hideDelete]="true"
+    [hideEdit]="true"
+    [hideShow]="true"
+    [shouldBeShowFooter]="false">
+  </app-table-paginator>
+
+
+</app-page>

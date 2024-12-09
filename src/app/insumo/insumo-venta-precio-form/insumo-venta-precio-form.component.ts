@@ -199,31 +199,39 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    
+  
     if (this.form.valid) {
-      const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
       data.punto_venta_id = this.puntoVentaId;
       data.insumo_id = this.insumoId;
       data.moneda_id = this.monedaId;
-
+  
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
       });
-
+  
+      // Log antes de enviar los datos
+      console.log('Datos a enviar:', data);
+  
+      const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
       this.initialFormValue = this.form.value;
+  
       if (this.isEdit) {
         this.insumoPuntoVentaPrecioService.edit(this.id, formData).subscribe(() => {
+          // Log después de enviar los datos (caso de edición)
+          console.log('Datos enviados exitosamente (Edit):', data);
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
         this.insumoPuntoVentaPrecioService.create(formData).subscribe((insumoVentaPrecio) => {
+          // Log después de enviar los datos (caso de creación)
+          console.log('Datos enviados exitosamente (Create):', data);
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -235,6 +243,8 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       }
     }
   }
+  
+  
 
 
   private getData(): void {

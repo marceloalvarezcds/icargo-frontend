@@ -28,13 +28,13 @@
       [showIngresoEgreso]="false"
       [showResumen]="true"
       [showInstrumentos]="false"
+      [esEdicion]="true"
+      [showMonto]="true"
       [credito]="credito"
       [debito]="debito"
       [saldoFinalizado]="saldoFinalizado"
       [saldoCC]="saldoCC"
       [esFinalizado]="esFinalizado"
-      [esEdicion]="true"
-      [showMonto]="true"
       [monto]="monto"
       (saldoChange)="saldo = $event"
     ></app-saldo>
@@ -100,7 +100,7 @@
         #facturaList
         [liquidacion]="item"
         [isShow]="isShow"
-        (facturasChange)="actualizarLiquidacion.emit()"
+        (facturasChange)="actualizarFactura()"
       ></app-liquidacion-confirmada-form-facturas>
       </div>
 

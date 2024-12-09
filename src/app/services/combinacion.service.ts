@@ -16,6 +16,10 @@ export class CombinacionService {
     return this.http.get<CombinacionList[]>(`${this.url}/`);
   }
 
+  getListActiva(): Observable<CombinacionList[]> {
+    return this.http.get<CombinacionList[]>(`${this.url}/combinacion/activa`);
+  }
+
   getListByGestorCarga(): Observable<Combinacion[]> {
     return this.http.get<Combinacion[]>(`${this.url}/gestor_carga`);
   }
@@ -41,6 +45,12 @@ export class CombinacionService {
   getListByCamionId(camionId: number): Observable<Combinacion[]> {
     return this.http.get<CombinacionList[]>(
       `${this.url}/camion/${camionId}`
+    );
+  }
+
+  getCombinacionesActivas(camionId: number): Observable<Combinacion[]> {
+    return this.http.get<CombinacionList[]>(
+      `${this.url}/combinacion_por_camion/${camionId}`
     );
   }
 

@@ -176,6 +176,16 @@
 
       <div class="row" [class.colapse-div]="colapseDivpedido">
 
+        <app-oc-by-combinacion-finalizados-dialog-field
+          *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
+          [combinacionId]="combinacionId"
+          (valueChange)="onOrdenCargaChange($event)"
+        ></app-oc-by-combinacion-finalizados-dialog-field>
+
         <app-flete-by-gestor-dialog-field
           *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -215,16 +225,6 @@
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-nuevos-dialog-field>
 
-        <app-oc-by-combinacion-finalizados-dialog-field
-          *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Nº OC"
-          [groupName]="groupName"
-          [form]="form"
-          [combinacionId]="combinacionId"
-          (valueChange)="onOrdenCargaChange($event)"
-        ></app-oc-by-combinacion-finalizados-dialog-field>
-
         <app-input-field-oc
           *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') ||
               showSearchOCPedidos"
@@ -236,6 +236,7 @@
           [readonly]="true"
           [form]="form"
           controlName="flete_id"
+          [disabled]="readonly"
         ></app-input-field-oc>
 
         <app-input-field-oc

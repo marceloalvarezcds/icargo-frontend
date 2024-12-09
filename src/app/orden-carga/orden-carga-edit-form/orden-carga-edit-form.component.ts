@@ -13,7 +13,7 @@ import { AuditDatabase } from 'src/app/interfaces/audit-database';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { Movimiento } from 'src/app/interfaces/movimiento';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
@@ -54,6 +54,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
   modelo = m.ORDEN_CARGA;
   item?: OrdenCarga;
+  itemList?: OrdenCargaList
   flete?: FleteList;
   isEditPressed: boolean = true;
   combinacionList?: CombinacionList;
@@ -100,12 +101,12 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       anticipos: null,
       id_orden_carga: null,
       condicion: null,
-      tieneDocumentoFisico:null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
       comentarios: null,
       producto_descripcion: null,
+      documento_fisico:null,
     }),
   });
 
@@ -251,6 +252,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.item!.created_by;
   }
 
+  get chofer_nombre(): string | undefined {
+    return this.itemList?.camion_placa;
+  }
+
   get created_at(): string {
     return this.item!.created_at;
   }
@@ -264,11 +269,11 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   get tieneDocumentoFisico(): FormControl {
-    return this.combinacion.get('tieneDocumentoFisico') as FormControl;
+    return this.info.get('documento_fisico') as FormControl;
   }
 
   get tieneDocumentoFisicoValue(): FormControl {
-    return this.combinacion.get('tieneDocumentoFisico')?.value;
+    return this.info.get('documento_fisico')?.value;
   }
 
   constructor(
@@ -286,6 +291,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
+ 
     this.getData();
   }
 
@@ -749,8 +755,6 @@ private cancelOrdenCarga(): void {
             })
         );
 
-        // console.log('Datos enviados:', data); // Verifica los datos enviados
-
         formData.append('data', JSON.stringify(data));
 
         if (this.isEdit) {
@@ -768,7 +772,7 @@ private cancelOrdenCarga(): void {
   }
 
   onEditPressed() {
-    this.isEditPressed = false; // Habilitamos el botón "Guardar"
+    this.isEditPressed = false;
   }
 
   getDataWithoutOverwritingFlete(): void {
@@ -817,7 +821,6 @@ private cancelOrdenCarga(): void {
 
     this.ordenCargaService.getById(this.id).subscribe((data) => {
         this.item = data;
-
         this.isActive = data.estado === EstadoEnum.NUEVO;
         this.item.condicion_gestor_cuenta_tarifa = data.condicion_gestor_cuenta_tarifa;
         this.form.patchValue({
@@ -834,9 +837,9 @@ private cancelOrdenCarga(): void {
                 color_semi: data.semi_color,
                 propietario_camion: data.camion_propietario_nombre,
                 propietario_camion_doc: data.camion_propietario_documento,
-                chofer_camion: data.camion_chofer_nombre,
-                chofer_camion_doc: data.combinacion_chofer_doc,
-                beneficiario_camion: data.camion_beneficiario_nombre,
+                chofer_camion:  this.item.chofer_nombre,
+                chofer_camion_doc: data.chofer_documento,
+                beneficiario_camion: data.propietario_nombre,
                 beneficiario_camion_doc: data.camion_beneficiario_documento,
                 numero: data.flete_numero_lote,
                 saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
@@ -860,6 +863,7 @@ private cancelOrdenCarga(): void {
             },
             info: {
                 cantidad_nominada: data.cantidad_nominada,
+                documento_fisico:data.documento_fisico,
             },
             tramo: {
                 flete_origen_id: data.flete_origen_id,
@@ -873,7 +877,7 @@ private cancelOrdenCarga(): void {
         this.form.get('info.comentarios')?.enable();
 
         if (data.estado === 'Finalizado'){
-          this.form.get('combinacion.tieneDocumentoFisico')?.enable();
+          this.form.get('info.documento_fisico')?.enable();
         }
 
         setTimeout(() => {
