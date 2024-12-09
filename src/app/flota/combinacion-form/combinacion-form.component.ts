@@ -42,6 +42,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   isActive = false;
   isEdit = false;
   isShow = false;
+  isShowCamion = false
   isPanelOpen = false;
   isInfoTouched = true;
   modelo = m.COMBINACION;
@@ -125,9 +126,29 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
   }
+
+  get semi_id(): FormGroup {
+    return this.form.get('info.semi_id') as FormGroup;
+  }
+
+  get chofer_id(): FormGroup {
+    return this.form.get('info.chofer_id') as FormGroup;
+  }
   
   get chofer(): FormGroup {
     return this.form.get('chofer') as FormGroup;
+  }
+
+  get ruc(): FormGroup {
+    return this.form.get('info.ruc') as FormGroup;
+  }
+
+  get tipo_persona_id(): FormGroup {
+    return this.form.get('info.tipo_persona_id') as FormGroup;
+  }
+
+  get propietario_id(): FormGroup {
+    return this.form.get('info.propietario_id') as FormGroup;
   }
 
   get registro(): FormGroup {
@@ -178,7 +199,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
-
   }
 
   ngOnDestroy(): void {
@@ -219,37 +239,34 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   
 
   submit(confirmed: boolean): void {
-    this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
     if (this.form.valid) {
       const formData = new FormData();
+ 
       const data = JSON.parse(
         JSON.stringify({
-          ...this.info.value,
-      
+          ...this.info.value
         })
-        
       );
+    
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });    
+      });
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
-      this.initialFormValue = this.form.value;
-
+      this.initialFormValue = this.form.value
       if (this.isEdit && this.id) {
         this.combinacionService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
-   
         });
       } else {
         this.combinacionService.create(formData).subscribe((combinacion) => {
+  
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -258,28 +275,39 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             combinacion.id
           );
         });
-      
       }
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
-        
       });
     }
-   
   }
+  
+
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
+      this.form.disable();
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
       if (this.isShow) {
+        this.isShowCamion = true
         this.form.disable();
+        this.semi_id.disable()
+        this.chofer_id.disable()
+        this.tipo_persona_id.disable()
+        this.ruc.disable()
+        this.propietario_id.disable()
       }
+
       if (this.isEdit) {
-        this.form.disable();
-       }
+        this.semi_id.enable()
+        this.chofer_id.enable()
+        this.tipo_persona_id.enable()
+        this.ruc.enable()
+        this.propietario_id.enable()
+      }
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data?.estado;
@@ -297,7 +325,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           info: {
             //Datos camion
             camion_id: data?.camion_id,
-            marca: data?.camion?.marca,
+            marca: data?.camion.marca?.descripcion,
             color: data?.camion?.color?.descripcion,
             oc_activa: data?.camion?.limite_cantidad_oc_activas,
             limite_anticipos: data?.camion?.limite_monto_anticipos,

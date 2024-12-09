@@ -74,8 +74,12 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
+  
   combinacion_propietario_id: number;
   combinacion_chofer_id: number;
+  chofer_nombre: string;
+  propietario_nombre: string;
+  chofer_documento: string;
   neto:number;
   combinacion_id: number;
   camion_beneficiario_nombre: string;
@@ -189,6 +193,9 @@ export interface OrdenCargaList extends OrdenCargaForm {
   camion_chofer_numero_documento: string | null;
   camion_placa: string;
   camion_propietario_nombre: string;
+  chofer_nombre: string;
+  propietario_nombre: string;
+  chofer_documento: string;
   // Datos de semi
   semi_placa: string;
   combinacion_id: number;
@@ -281,6 +288,9 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_propietario_documento: 'string',
   camion_estado: 'activo',
   combinacion_chofer_doc: 'string',
+  chofer_nombre: 'string',
+  propietario_nombre: 'string',
+  chofer_documento: 'string',
   documento_fisico:false,
   // Datos de semi
   semi_id: semi0.id,
@@ -396,6 +406,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
     camion_placa: camion0.placa,
     camion_propietario_nombre: camion0.propietario_nombre,
+    chofer_nombre: 'juan',
+    propietario_nombre: 'david',
+    chofer_documento: '504367',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,
@@ -457,6 +470,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_chofer_numero_documento: camion1.chofer_numero_documento,
     camion_placa: camion1.placa,
     camion_propietario_nombre: camion1.propietario_nombre,
+    chofer_nombre: 'juan',
+    propietario_nombre: 'david',
+    chofer_documento: '504367',
     // Datos de semi
     semi_id: semi1.id,
     semi_placa: semi1.placa,
@@ -519,6 +535,9 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     camion_placa: camion0.placa,
     camion_propietario_nombre: camion0.propietario_nombre,
     combinacion_chofer_nombre: 'dario',
+    chofer_nombre: 'juan',
+    propietario_nombre: 'david',
+    chofer_documento: '504367',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,

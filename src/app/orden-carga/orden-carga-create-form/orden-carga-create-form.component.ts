@@ -72,6 +72,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
       combinacion_id: [null, Validators.required],
+      chofer_id: null,
+      propietario_id: null,
       marca_camion: null,
       color_camion: null,
       propietario_camion: null,

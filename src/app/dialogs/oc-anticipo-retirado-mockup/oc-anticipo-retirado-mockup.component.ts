@@ -173,7 +173,7 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
 
   get anticipoRetitadoCamion(): number {
     return this.oc?.camion_monto_anticipo_disponible ?? 0;
-}
+  }
 
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {

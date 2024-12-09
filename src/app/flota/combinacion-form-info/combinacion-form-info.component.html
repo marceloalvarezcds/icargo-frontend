@@ -15,6 +15,8 @@
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               [groupName]="groupName"
               [form]="form"
+              [isEdit]="isEdit"
+              [isShow]="isShow"
               (valueChange)="camionChange($event)"
             ></app-camion-by-propietario-dialog-field>
 
@@ -252,19 +254,18 @@
               [groupName]="groupName"
               controlName="tipo_persona_id"
               [form]="form"
-              (valueChange)="onTipoPersonaChange($event)"
-              (isFisicaSelected)="isFisicaSelected = $event"
-            ></app-tipo-persona-field>
+              (valueChange)="onTipoPersonaChange($event)">
+            </app-tipo-persona-field>
 
             <app-tipo-persona-by-beneficiario-dialog-field
               class="input-form-full col-xs-12 col-sm-6 col-md-2"
               title="N° Doc."
               [groupName]="groupName"
-              controlName="ruc"
+              controlName="propietario_id"
               [form]="form"
               [tipoPersonaId]="tipoPersona?.id"
-              (valueChange)="tipoPersonaChange($event)"
-            ></app-tipo-persona-by-beneficiario-dialog-field>
+              (valueChange)="tipoPersonaChange($event)">
+            </app-tipo-persona-by-beneficiario-dialog-field>
 
             <app-input-field
               class="input-form-full col-xs-12 col-sm-6 col-md-3"

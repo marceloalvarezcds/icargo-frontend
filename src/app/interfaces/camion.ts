@@ -112,6 +112,7 @@ export interface CamionList extends Camion{
   pais_emisor_placa_nombre: string;
   pais_emisor_placa_nombre_corto: string;
   tipo_descripcion: string;
+  is_in_combinacion: boolean,
   created_by: string;
   created_at: string;
   modified_by: string;

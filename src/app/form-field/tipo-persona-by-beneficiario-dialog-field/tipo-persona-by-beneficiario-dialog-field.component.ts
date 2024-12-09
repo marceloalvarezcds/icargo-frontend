@@ -15,7 +15,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   pId?: number;
   formGroup?: FormGroup;
   list$?: Observable<PropietarioList[]>;
-
+  readonly inputValuePropName = 'ruc';
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -51,9 +51,10 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   }
 
   @Input() title = '';
-  @Input() inputValuePropName = 'ruc';
+
   @Input() form!: FormGroup;
-  @Input() controlName = 'ruc';
+  @Input() controlName = 'propietario_id';
+  @Input() controlNameRuc = 'ruc';
   @Input() groupName = '';
   @Input() emptyHint =
      'No existen tipo persona';
