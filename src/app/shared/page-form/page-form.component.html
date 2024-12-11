@@ -111,14 +111,14 @@
           class="botones" color="primary"
           type="button"
           matTooltip="Orden"
-          [class.disabled]="!isFormSaved"
+          [class.disabled]="isFormSubmitting"
           *ngIf="submodule !== 'ACEPTAR'
           && (submodule === 'ORDEN DE CARGA (directa)'
           || submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR'
           && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
           [disabled]="isFormSubmitting"
           (click)="previewPDF()"
-          [ngClass]="{'button-disabled': isFormSubmitting || isShow}">
+          >
           <mat-icon>description</mat-icon>  ORDEN
         </button>
 
@@ -254,7 +254,7 @@
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
-          *ngIf="isOc && isEdit && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
+          *ngIf="isOc  && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado'"
         >
           CAMBIAR PEDIDO
         </button>
