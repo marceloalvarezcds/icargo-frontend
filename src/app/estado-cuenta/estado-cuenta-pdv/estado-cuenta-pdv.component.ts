@@ -68,6 +68,13 @@ export class EstadoCuentaPdvComponent implements OnInit {
       sticky: true
     },
     {
+      def: 'provision',
+      title: LiquidacionEtapaEnum.PROVISION,
+      value: (element: EstadoCuenta) => element.provision,
+      type: 'number',
+      footerDef: () => this.totalProvision,
+    },
+    {
       def: 'pendiente',
       title: LiquidacionEtapaEnum.PENDIENTE,
       value: (element: EstadoCuenta) => element.pendiente,
@@ -137,6 +144,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
   contraparteFilterList: string[] = [];
   contraparteFiltered: string[] = [];
 
+  provision: number = 0;
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
@@ -157,6 +165,10 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
   get totalFinalizado(): number {
     return this.finalizado;
+  }
+
+  get totalProvision(): number {
+    return this.provision;
   }
 
   @ViewChild(MatAccordion)
@@ -241,6 +253,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
         this.pendiente = this.pendiente + mov.pendiente;
         this.confirmado = this.confirmado + mov.confirmado;
         this.finalizado = this.finalizado + mov.finalizado;
+        this.provision = this.provision + mov.provision;
       })
 
       this.list = list;
