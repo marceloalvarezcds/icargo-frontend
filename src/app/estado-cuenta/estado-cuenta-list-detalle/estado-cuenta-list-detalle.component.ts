@@ -147,6 +147,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -194,7 +195,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       def: 'provision',
       title: 'Provision',
-      value: (element: MovimientoEstadoCuenta) => element.pendiente,
+      value: (element: MovimientoEstadoCuenta) => element.provision,
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
@@ -379,7 +380,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   }
 
   get provision(): number {
-    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado === 'Provision') ? cur.pendiente ?? 0 : 0), 0);
+    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado === 'Provision') ? cur.provision ?? 0 : 0), 0);
     return debito;
   }
 
@@ -740,7 +741,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               acumulado = 0;
               firsProvision=true;
             }
-            acumulado = acumulado + (element.pendiente + element.confirmado + element.finalizado + element.pendiente);
+            acumulado = acumulado + (element.pendiente + element.confirmado + element.finalizado + element.provision);
             element.movimiento_saldo = acumulado ;
 
           });

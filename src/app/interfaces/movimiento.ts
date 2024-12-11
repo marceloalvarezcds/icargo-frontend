@@ -152,6 +152,7 @@ export interface MovimientoEstadoCuenta {
     estado_liquidacion: string,
     es_editable: boolean,
     can_edit_oc: boolean,
+    provision: number,
     pendiente: number,
     en_proceso: number,
     confirmado: number,
