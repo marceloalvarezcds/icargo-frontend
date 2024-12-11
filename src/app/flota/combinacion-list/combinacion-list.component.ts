@@ -74,6 +74,11 @@ export class CombinacionListComponent implements OnInit{
     {
       def: 'propietario',
       title: 'Propietario',
+      value: (element: CombinacionList) => element.camion_propietario_nombre,
+    },
+    {
+      def: 'beneficiario',
+      title: 'Beneficiario',
       value: (element: CombinacionList) => element.propietario_nombre,
     },
      {
