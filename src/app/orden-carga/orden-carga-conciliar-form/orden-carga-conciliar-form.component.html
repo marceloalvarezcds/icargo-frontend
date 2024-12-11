@@ -6,7 +6,7 @@
   [modelo]="modelo"
   [oc]="item"
   (backClick)="back($event)"
-  (submitEvent)="save(false)"
+  (submitEvent)="submit(false)"
   (activeClick)="active()"
   (inactiveClick)="inactive()"
   (aceptarClick)="aceptar()"
@@ -19,9 +19,11 @@
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
-  [isDataLoaded]="isToggleAnticiposLiberados"
-  [hideSaveButton]="true"
+  [isDataLoaded]="isDataLoaded"
   [estado]="estadoOc"
+  [isButtonPressed]="isButtonPressed"
+  (cambiarFleteClick)="enableFleteId()"
+  [isOc]="isOc"
 >
 
   <div class="orden-carga-page-content">
@@ -33,6 +35,9 @@
       (combinacionChange)="combinacionList = $event"
       [showSearchOCfinalizadas]="true"
       (ocChange)="getData()"
+      [showSearchPedido]="true"
+      [disabled]="readonly"
+      (fleteChange)="onFleteChange($event)"
     ></app-orden-carga-create-form-combinacion>
 
     <app-orden-carga-anticipos-table
