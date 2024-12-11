@@ -517,6 +517,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     create(): void {
 
+      console.log("this.estadoCuenta?: ", this.estadoCuenta)
+
       const data: MovimientoFormDialogData = {
         estado: MovimientoEstadoEnum.PENDIENTE,
         contraparte_id: this.estadoCuenta?.contraparte_id,
@@ -526,12 +528,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte_numero_documento: this.estadoCuenta?.contraparte_numero_documento,
         es_contraparte_editable: false,
         item: undefined,
+        linea_movimiento: this.estadoCuenta?.tipo_flujo,
+        punto_venta_id: this.estadoCuenta?.punto_venta_id
       };
 
       createMovimiento(data, this.dialog, this.snackbar, () => {
         this.getList();
       });
+
     }
+
     createLiquidacion():void {
 
       this.resetFilter();

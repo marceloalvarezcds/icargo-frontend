@@ -40,6 +40,8 @@ export class MovimientoFormDialogComponent {
     propietario_id: this.data?.propietario_id,
     proveedor_id: this.data?.proveedor_id,
     remitente_id: this.data?.remitente_id,
+    punto_venta_id: this.punto_venta_id,
+    linea_movimiento: this.linea_movimiento
   });
 
   get monto(): number | undefined {
@@ -114,6 +116,16 @@ export class MovimientoFormDialogComponent {
       this.dialogData.tipo_contraparte_id ??
       null
     );
+  }
+
+  get punto_venta_id(): number | undefined {
+    return (this.data?.punto_venta_id ??
+        this.dialogData.punto_venta_id )
+  }
+
+  get linea_movimiento(): string | undefined {
+    return (this.data?.linea_movimiento ??
+      this.dialogData.linea_movimiento )
   }
 
   constructor(

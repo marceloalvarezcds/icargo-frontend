@@ -42,6 +42,7 @@ export interface MovimientoBaseModel {
   remitente_id: number | null;
   punto_venta_id?: number;
   es_punto_venta?: boolean;
+  linea_movimiento?: string;
 }
 
 export interface MovimientoForm extends MovimientoBaseModel {

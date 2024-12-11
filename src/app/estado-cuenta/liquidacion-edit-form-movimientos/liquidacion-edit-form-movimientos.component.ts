@@ -315,6 +315,8 @@ export class LiquidacionEditFormMovimientosComponent {
     const contraparteId = liquidacion.chofer_id ?? liquidacion.propietario_id
         ?? liquidacion.proveedor_id ?? liquidacion.remitente_id;
 
+    console.log("liquidacion: ", liquidacion);
+
     const data: MovimientoFormDialogData = {
       liquidacion_id: liquidacion.id,
       contraparte_id: contraparteId,
@@ -325,6 +327,8 @@ export class LiquidacionEditFormMovimientosComponent {
       estado: MovimientoEstadoEnum.EN_PROCESO,
       es_contraparte_editable: false,
       item: undefined,
+      punto_venta_id: liquidacion.punto_venta_id,
+      linea_movimiento: liquidacion.tipo_mov_liquidacion
     };
 
     createMovimiento(data, this.dialog, this.snackbar, () => {

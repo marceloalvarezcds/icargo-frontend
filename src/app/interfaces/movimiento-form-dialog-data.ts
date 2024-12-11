@@ -11,6 +11,8 @@ export interface MovimientoFormDialogData {
   contraparte_numero_documento?: string | null;
   estado: MovimientoEstadoEnum;
   es_contraparte_editable: boolean;
+  linea_movimiento?: string;
+  punto_venta_id?: number;
 }
 
 export const mockMovimientoFormDialogData: MovimientoFormDialogData = {

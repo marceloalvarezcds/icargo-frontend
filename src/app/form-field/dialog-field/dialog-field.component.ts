@@ -1,4 +1,5 @@
 import {
+  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -22,10 +23,9 @@ import { DialogFormFieldControlComponent } from '../dialog-form-field-control/di
   styleUrls: ['./dialog-field.component.scss'],
   exportAs: 'app-dialog-field',
 })
-export class DialogFieldComponent<
-  T extends { id: number },
-  DialogComponent = SelectorDialogComponent<T>
-> {
+export class DialogFieldComponent<T extends { id: number },
+    DialogComponent = SelectorDialogComponent<T>> implements AfterViewInit {
+
   get group(): FormGroup {
     if (this.groupName) {
       return this.form?.get(this.groupName) as FormGroup;
@@ -58,9 +58,16 @@ export class DialogFieldComponent<
   @Input() fetchFunction?: (
     request: PaginatedListRequest
   ) => Observable<PaginatedList<T>>;
-  @Input() set readonly(val: boolean) {
-    val ? this.control.disable() : this.control.enable();
+  @Input()
+  get readonly(): boolean {
+    return this.isreadonly;
   }
+  set readonly(val: boolean) {
+    this.isreadonly = val;
+    //val ? this.control.disable() : this.control.enable();
+  }
+
+  private isreadonly = false;
 
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
@@ -71,6 +78,11 @@ export class DialogFieldComponent<
 
   constructor() {}
 
+  ngAfterViewInit(): void {
+    if (this.readonly) this.control.disable()
+    else this.control.enable();
+  }
+
   clearSelectedValue(): void {
     this.dialogFieldControl?.clearSelectedValue();
     this.clearClick.emit();
@@ -79,7 +91,7 @@ export class DialogFieldComponent<
   openDialog(): void {
     this.dialogFieldControl?.openDialog();
   }
-  isOpen = false; 
+  isOpen = false;
 
   close() {
     this.isOpen = false;
