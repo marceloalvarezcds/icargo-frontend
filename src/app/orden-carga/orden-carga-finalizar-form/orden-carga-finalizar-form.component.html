@@ -6,7 +6,7 @@
   [modelo]="modelo"
   [oc]="item"
   (backClick)="back($event)"
-  (submitEvent)="save(false)"
+  (submitEvent)="submit(false)"
   (activeClick)="active()"
   (inactiveClick)="inactive()"
   (aceptarClick)="aceptar()"
@@ -19,9 +19,13 @@
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
-  [isDataLoaded]="isToggleAnticiposLiberados"
-  [hideSaveButton]="true"
+  [isDataLoaded]="isDataLoaded"
   [estado]="estadoOc"
+  [isButtonPressed]="isButtonPressed"
+  (cambiarFleteClick)="enableFleteId()"
+  [isOc]="estadoFinalizado"
+  [hideSaveButton]="!estadoFinalizado"
+  [cambiarPedido]="cambiarPedido"
 >
 
   <div class="orden-carga-page-content">
@@ -32,10 +36,13 @@
       (semiChange)="semi = $event"
       (combinacionChange)="combinacionList = $event"
       [showSearchOC]="false"
-      [showSearchOCAceptadas]="true"
-      [showSearchOCPedidos]="true"
+      [showSearchOCAceptadas]="!estadoFinalizado"
+      [showSearchOCPedidos]="!estadoFinalizado"
+      [showSearchPedido]="estadoFinalizado"
       (ocChange)="getData()"
-      
+      (fleteChange)="onFleteChange($event)"
+      [oc]="item"
+      [list]="comentariosList"
     ></app-orden-carga-create-form-combinacion>
 
     <!-- <div class="anticipo-table">
@@ -52,7 +59,7 @@
         <app-orden-carga-edit-form-remisiones-origen
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
+          
           [puedeConciliar]="puedeConciliar"
           [list]="remisionOrigenList"
           (ocChange)="getData()"
@@ -63,7 +70,7 @@
         <app-orden-carga-edit-form-remisiones-destino
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
+        
           [puedeConciliar]="puedeConciliar"
           [list]="remisionDestinoList"
           (ocChange)="getData()"

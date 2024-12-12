@@ -203,6 +203,9 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
     }
 
     const saldoMostrar = Math.min(this.saldoDisponible, this.anticipoRetitadoCamion);
+    if (this.monto && saldoMostrar === 0) {
+      return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+    }
 
     return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}</strong>`;
   }

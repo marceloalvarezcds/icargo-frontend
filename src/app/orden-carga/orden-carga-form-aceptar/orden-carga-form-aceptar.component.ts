@@ -31,6 +31,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
+import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 
 @Component({
   selector: 'app-orden-carga-form-aceptar',
@@ -55,6 +56,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
   isActive = false;
+  aceptado = false;
   isShow: boolean = true;
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
@@ -193,6 +195,10 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
     return this.item ? this.item.anticipos_liberados : false;
   }
 
+  get comentariosList(): OrdenCargaComentariosHistorial[]{
+    return this.item!?.comentario.slice();
+  }
+
   ngOnInit(): void {
     this.setInitialToggleState();
     this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
@@ -244,34 +250,32 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       this.submit(confirmed);
     } else {
       let comentario = this.form.get('info.comentarios')?.value;
+      
+      // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
       }
-      if (comentario !== this.originalComentario) {
-        const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
+
+      if (comentario !== this.originalComentario && comentario.trim() !== '') {
+        const formData = new FormData();
+        const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+        };
+        formData.append('data', JSON.stringify(data));
   
-        if (confirmation) {
-          const formData = new FormData();
-          const data = {
-            orden_carga_id: this.idOC,
-            comentario: comentario,
-          };
-          formData.append('data', JSON.stringify(data));
-  
-          this.ordenCargaService.createComentarios(formData).subscribe(
-            (item) => {
-              this.getData();
-              this.router.navigate([this.backUrl]);
-            },
-            (error) => {
-              console.error('Error al crear el comentario', error);
-             
-            }
-          );
-        } else {
-          this.router.navigate([this.backUrl]);
-        }
+        // Llamar al servicio para guardar el comentario
+        this.ordenCargaService.createComentarios(formData).subscribe(
+          (item) => {
+            this.getData();
+            this.router.navigate([this.backUrl]);
+          },
+          (error) => {
+            console.error('Error al crear el comentario', error);
+          }
+        );
       } else {
+        // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
         this.router.navigate([this.backUrl]);
       }
     }

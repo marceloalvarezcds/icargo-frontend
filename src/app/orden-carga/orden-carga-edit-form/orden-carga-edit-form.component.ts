@@ -192,6 +192,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.anticipoList ? 'toggle_on' : 'toggle_off';
   }
 
+  get isConciliado(): boolean {
+    return this.item?.estado === EstadoEnum.CONCILIADO;
+  }
+  
   get combinacion(): FormGroup {
     return this.form.get('combinacion') as FormGroup;
   }
@@ -291,7 +295,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
 
   ngOnInit(): void {
- 
+    this.form.get('combinacion.flete_id')?.disable();
     this.getData();
   }
 
@@ -816,9 +820,10 @@ private cancelOrdenCarga(): void {
     if (backUrl) {
         this.backUrl = backUrl;
     }
+
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-
+    
     this.ordenCargaService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.isActive = data.estado === EstadoEnum.NUEVO;
@@ -872,7 +877,10 @@ private cancelOrdenCarga(): void {
                 destino_id: data.flete_destino_nombre,
             },
         });
-        this.form.disable();
+        if (this.isShow) {
+          this.form.disable();
+        }
+        
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
 

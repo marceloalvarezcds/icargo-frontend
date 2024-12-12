@@ -10,7 +10,6 @@
   (activeClick)="active()"
   (inactiveClick)="inactive()"
   (aceptarClick)="aceptar()"
-  (cancelarClick)="cancelar()"
   (finalizarClick)="finalizar()"
   (conciliarClick)="conciliar()"
   [isFormSaved]="isFormSaved"
@@ -24,6 +23,8 @@
   [isButtonPressed]="isButtonPressed"
   (cambiarFleteClick)="enableFleteId()"
   [isOc]="isOc"
+  [cambiarPedido]="cambiarPedido"
+  [hideSaveButton]="isConciliado"
 >
 
   <div class="orden-carga-page-content">
@@ -38,6 +39,8 @@
       [showSearchPedido]="true"
       [disabled]="readonly"
       (fleteChange)="onFleteChange($event)"
+      [oc]="item"
+      [list]="comentariosList"
     ></app-orden-carga-create-form-combinacion>
 
     <app-orden-carga-anticipos-table
@@ -55,7 +58,6 @@
         <app-orden-carga-edit-form-remisiones-origen
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
           [puedeConciliar]="puedeConciliar"
           [list]="remisionOrigenList"
           (ocChange)="getData()"
@@ -66,7 +68,6 @@
         <app-orden-carga-edit-form-remisiones-destino
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
           [puedeConciliar]="puedeConciliar"
           [list]="remisionDestinoList"
           (ocChange)="getData()"
@@ -82,7 +83,7 @@
           <app-orden-carga-edit-form-complementos
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
+
             [puedeConciliar]="puedeConciliar"
             [list]="complementoList"
             (ocChange)="getData()"
@@ -92,7 +93,6 @@
         <app-orden-carga-edit-form-descuentos
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
           [puedeConciliar]="puedeConciliar"
           [list]="descuentoList"
           (ocChange)="getData()"
