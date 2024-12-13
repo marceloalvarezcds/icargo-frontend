@@ -186,6 +186,16 @@
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-finalizados-dialog-field>
 
+        <app-oc-by-combinacion-aceptados-dialog-field
+          *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas)"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
+          [combinacionId]="combinacionId"
+          (valueChange)="onOrdenCargaChange($event)">
+        </app-oc-by-combinacion-aceptados-dialog-field>
+
         <app-flete-by-gestor-dialog-field
           *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -205,15 +215,7 @@
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-dialog-field>
 
-        <app-oc-by-combinacion-aceptados-dialog-field
-          *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas) && !isSaveForm"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Nº OC"
-          [groupName]="groupName"
-          [form]="form"
-          [combinacionId]="combinacionId"
-          (valueChange)="onOrdenCargaChange($event)">
-        </app-oc-by-combinacion-aceptados-dialog-field>
+ 
 
         <app-oc-by-combinacion-nuevos-dialog-field
           *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm"

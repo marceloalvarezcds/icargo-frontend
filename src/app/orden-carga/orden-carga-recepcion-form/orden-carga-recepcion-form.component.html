@@ -22,6 +22,7 @@
   [isAnticipoActive]="isToggleAnticiposLiberados"
   [isDataLoaded]="isToggleAnticiposLiberados"
   [hideSaveButton]="true"
+  
 >
 
   <div class="orden-carga-page-content">
@@ -36,6 +37,8 @@
       [showSearchOCAceptadas]="true"
       [showSearchOCPedidos]="true"
       (ocChange)="getData()"
+      [oc]="item"
+      [list]="comentariosList"
     ></app-orden-carga-create-form-combinacion>
 
     <div [class.disabled]="!isAceptado" style="margin-top: 10px;">

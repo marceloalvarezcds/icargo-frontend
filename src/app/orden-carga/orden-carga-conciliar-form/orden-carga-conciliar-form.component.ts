@@ -74,7 +74,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   fleteId?: number;
   dataFromParent: string = 'Finalizado';
   isEdit = false;
-
+  cambiarPedido = false;
   private dialogOpened = false;
   originalComentario: string | null = null;
 
@@ -210,6 +210,10 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     return this.estado === EstadoEnum.FINALIZADO;
   }
 
+  get isConciliado(): boolean {
+    return this.item?.estado === EstadoEnum.CONCILIADO;
+  }
+
   get isAnticiposLiberados(): boolean {
     return this.item!?.anticipos_liberados;
   }
@@ -226,6 +230,10 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
 
   get isToggleAnticiposLiberados(): boolean {
     return this.item ? this.item.anticipos_liberados : false;
+  }
+
+  get comentariosList(): OrdenCargaComentariosHistorial[]{
+    return this.item!?.comentario.slice();
   }
 
   ngOnInit(): void {
@@ -295,34 +303,32 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       this.submit(confirmed);
     } else {
       let comentario = this.form.get('info.comentarios')?.value;
+      
+      // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
       }
-      if (comentario !== this.originalComentario) {
-        const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
 
-        if (confirmation) {
-          const formData = new FormData();
-          const data = {
-            orden_carga_id: this.idOC,
-            comentario: comentario,
-          };
-          formData.append('data', JSON.stringify(data));
-
-          this.ordenCargaService.createComentarios(formData).subscribe(
-            (item) => {
-              this.getData();
-              this.router.navigate([this.backUrl]);
-            },
-            (error) => {
-              console.error('Error al crear el comentario', error);
-
-            }
-          );
-        } else {
-          this.router.navigate([this.backUrl]);
-        }
+      if (comentario !== this.originalComentario && comentario.trim() !== '') {
+        const formData = new FormData();
+        const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+        };
+        formData.append('data', JSON.stringify(data));
+  
+        // Llamar al servicio para guardar el comentario
+        this.ordenCargaService.createComentarios(formData).subscribe(
+          (item) => {
+            this.getData();
+            this.router.navigate([this.backUrl]);
+          },
+          (error) => {
+            console.error('Error al crear el comentario', error);
+          }
+        );
       } else {
+        // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
         this.router.navigate([this.backUrl]);
       }
     }
@@ -545,6 +551,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         this.createComentarioYConciliar(comentarioUpper);
       } else {
         this.conciliarOrdenCarga();
+        this.form.disable
+        this.isOc = false
+        this.isDataLoaded = false
       }
     } else {
       console.error('No se puede conciliar la Orden de Carga sin un ID válido');
@@ -680,8 +689,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     this.form.get('combinacion.flete_id')?.enable();
     this.isButtonPressed = true;
     this.isEditPedido = true;
-    this.isEditPressed = false;
 
+    this.cambiarPedido = true;
   }
 
 
@@ -703,7 +712,6 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       }
       this.chRef.detectChanges();
     }
-
   }
 
 
@@ -716,7 +724,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
         const formData = new FormData();
        
-        
+        this.cambiarPedido = false;
         const data = JSON.parse(
             JSON.stringify({
 
@@ -747,6 +755,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
                     this.getDataWithoutOverwritingFlete();
                 }, 1000);
             });
+            this.isButtonPressed = false;
     }
   }
 
@@ -786,7 +795,6 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   }
 
  
-
   getData(): void {
     const ocValue = this.idOC;
     if (ocValue) {

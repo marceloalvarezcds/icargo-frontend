@@ -42,10 +42,12 @@ export class PageFormComponent implements OnDestroy {
   @Input() formGroup!: FormGroup;
   @Input() isNuevo: Boolean = false
   @Input() isAceptado: Boolean = false
+  @Input() isCancelado: Boolean = false
   @Input() isEdit = false;
   @Input() isShow = false;
   @Input() hasChange = false;
   @Input() hideEditButton = false;
+  @Input() cambiarPedido = false;
   @Input() hideSaveButton = false;
   @Input() shouldShowDownloadButton = false;
   @Input() isFormSubmitting: boolean = false;
