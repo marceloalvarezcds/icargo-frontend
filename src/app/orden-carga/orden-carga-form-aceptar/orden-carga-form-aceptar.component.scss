@@ -1,6 +1,6 @@
 .disabled {
-  pointer-events: none; 
-  opacity: 0.5; 
+  pointer-events: none;
+  opacity: 0.5;
 }
 .remisiones-line h2 {
   margin: 20px 0 15px 0; /* Incrementa el margen inferior para bajar más la línea */
@@ -34,7 +34,7 @@
 }
 
 .anticipo-table {
-  margin-bottom: 50px; 
+  margin-bottom: 50px;
 }
 
 .complementos_descuentos-line h2 {
@@ -73,3 +73,10 @@
   margin-bottom: 50px; /* Aumenta el valor según el espaciado que necesites */
 }
 
+.title-colapside {
+  cursor: pointer;
+}
+
+.colapse-div {
+  display: none;
+}

@@ -101,6 +101,9 @@ export class FacturaFormDialogComponent {
     /*if (!this.data) {
       this.fotoControl.setValidators(Validators.required);
     }*/
+    if (this.dialogData.isShow) {
+      this.form.disable();
+    }
   }
 
   submit() {

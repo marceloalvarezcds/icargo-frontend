@@ -10,6 +10,8 @@ import { InstrumentoVia } from 'src/app/interfaces/instrumento-via';
 import { TipoInstrumento } from 'src/app/interfaces/tipo-instrumento';
 import { subtract } from 'src/app/utils/math';
 
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
+
 @Component({
   selector: 'app-instrumento-form-dialog',
   templateUrl: './instrumento-form-dialog.component.html',
@@ -130,7 +132,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
         this.monto
       ).toLocaleString()}</strong>`;
     }
-    return `Residuo <strong>${this.residuo.toLocaleString()}</strong>`;
+    return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }
 
   get residuo(): number {

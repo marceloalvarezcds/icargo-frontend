@@ -142,8 +142,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     },
     {
       def: 'documento_fisico_oc',
-      title: 'Documento Físico',
-      value: (element: Movimiento) => element.documento_fisico_oc ? 'Sí' : 'No',
+      title: 'Doc. Físico',
+      value: (element: MovimientoEstadoCuenta) =>
+        ( element.tipo_movimiento_concepto === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :

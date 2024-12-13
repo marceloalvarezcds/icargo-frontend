@@ -17,6 +17,7 @@
     <ng-template #inputTemplate>
       <app-input-field-oc
         [hint]="(list$ | async)?.length === 0 && !ocEstadoNuevo ? 'Sin estado Nuevo' : emptyHint"
+        [title]="title"
         [readonly]="true"
         [groupName]="groupName"
         [controlName]="controlName"
@@ -24,5 +25,5 @@
       ></app-input-field-oc>
     </ng-template>
   </ng-container>
-  
+
 

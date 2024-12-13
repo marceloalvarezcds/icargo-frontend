@@ -25,6 +25,7 @@
 >
 
   <div class="orden-carga-page-content">
+
     <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
@@ -36,65 +37,77 @@
       [showSearchOCPedidos]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
- 
-    <div [class.disabled]="!isAceptado" class="remisiones-line"><h2>REMISIONES</h2></div>
-    <div class="remisiones-container">
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-origen
-          [class.disabled]="!isAceptado"
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionOrigenList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-origen>
-      </div>
-      
 
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-destino
-          [class.disabled]="!isAceptado"
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionDestinoList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-destino>
+    <div [class.disabled]="!isAceptado" style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">REMISIONES</h2>
+      </div>
+
+      <div class="row" [class.colapse-div]="colapseDivRemision">
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-origen
+            [class.disabled]="!isAceptado"
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionOrigenList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-origen>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-destino
+            [class.disabled]="!isAceptado"
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionDestinoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-destino>
+        </div>
       </div>
     </div>
 
-    <!-- <div class="complementos_descuentos-container">
+      <!-- <div class="complementos_descuentos-container">
+        <div class="complementos_descuentos-item">
+          <app-orden-carga-edit-form-complementos
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="complementoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-complementos>
+        </div>
       <div class="complementos_descuentos-item">
-        <app-orden-carga-edit-form-complementos
+        <app-orden-carga-edit-form-descuentos
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
           [isShow]="isShow"
           [puedeConciliar]="puedeConciliar"
-          [list]="complementoList"
+          [list]="descuentoList"
           (ocChange)="getData()"
-        ></app-orden-carga-edit-form-complementos>
+        ></app-orden-carga-edit-form-descuentos>
       </div>
-    <div class="complementos_descuentos-item">
-      <app-orden-carga-edit-form-descuentos
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [isShow]="isShow"
-        [puedeConciliar]="puedeConciliar"
-        [list]="descuentoList"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-descuentos>
-    </div>
-  </div>  -->
-  
-    <div [class.disabled]="!isAceptado" class="resultados-line"><h2>TABLA DE RESULTADOS</h2></div>
-    <app-orden-carga-edit-form-remisiones-resultado
-      [class.disabled]="!isAceptado"
-      [oc]="item"
-      [gestorCargaId]="gestorCargaId"
-      [list]="remisionResultadoList"
-  ></app-orden-carga-edit-form-remisiones-resultado>
-</div>
+    </div>  -->
 
+    <div [class.disabled]="!isAceptado" class="resultados-container" style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivResultado=!colapseDivResultado">TABLA DE RESULTADOS</h2>
+      </div>
+
+      <div [class.colapse-div]="colapseDivResultado">
+        <app-orden-carga-edit-form-remisiones-resultado
+          [class.disabled]="!isAceptado"
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [list]="remisionResultadoList"
+        ></app-orden-carga-edit-form-remisiones-resultado>
+      </div>
+    </div>
+
+  </div>
+</app-page-form>
 

@@ -6,16 +6,17 @@
         [modelo]="m.FACTURA"
         [gestorCuentaId]="gestorCargaId"
         [data]="list"
-        [hideShow]="true"
         [isShow]="
           isShow ||
           !(
             (m.FACTURA | puede: a.EDITAR:gestorCargaId) ||
-            (m.FACTURA | puede: a.ELIMINAR:gestorCargaId)
+            (m.FACTURA | puede: a.ELIMINAR:gestorCargaId) ||
+            (m.FACTURA | puede: a.VER:gestorCargaId)
           )
         "
         (editClick)="edit($event)"
         (deleteClick)="remove($event)"
+        (showClick)="show($event)"
       ></app-table>
     </div>
 

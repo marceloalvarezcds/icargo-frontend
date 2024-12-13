@@ -159,6 +159,7 @@ export interface MovimientoEstadoCuenta {
     confirmado: number,
     finalizado: number,
     movimiento_saldo?: number,
+    documento_fisico_oc?: boolean,
 }
 
 export const mockMovimientoList: Movimiento[] = [

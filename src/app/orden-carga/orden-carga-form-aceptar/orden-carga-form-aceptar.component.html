@@ -23,6 +23,7 @@
 >
 
   <div class="orden-carga-page-content">
+
     <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
@@ -32,8 +33,9 @@
       [showSearchOCNuevos]="true"
       (ocChange)="getData()"
     ></app-orden-carga-create-form-combinacion>
+
     <div class="anticipo-table">
-      <app-orden-carga-anticipos-table 
+      <app-orden-carga-anticipos-table
         [oc]="item"
         [fleteId]="fleteId"
         [list]="anticipoList"
@@ -41,30 +43,39 @@
       >
       </app-orden-carga-anticipos-table>
     </div>
-    <div class="remisiones-line"><h2>REMISIONES</h2></div>
-    <div class="remisiones-container">
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-origen
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionOrigenList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-origen>
+
+    <div *ngIf="!isNuevo" style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">REMISIONES</h2>
       </div>
-    
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-destino
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionDestinoList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-destino>
+
+      <div class="row" [class.colapse-div]="colapseDivRemision">
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-origen
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionOrigenList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-origen>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-destino
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionDestinoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-destino>
+        </div>
       </div>
     </div>
+
+  </div>
+</app-page-form>
+
 
     <!-- <div class="complementos_descuentos-container">
       <div class="complementos_descuentos-item">
@@ -77,7 +88,7 @@
           (ocChange)="getData()"
         ></app-orden-carga-edit-form-complementos>
       </div>
-      
+
       <div class="complementos_descuentos-item">
         <app-orden-carga-edit-form-descuentos
           [oc]="item"
@@ -89,6 +100,3 @@
         ></app-orden-carga-edit-form-descuentos>
       </div>
     </div>   -->
-    
-  </div>
-

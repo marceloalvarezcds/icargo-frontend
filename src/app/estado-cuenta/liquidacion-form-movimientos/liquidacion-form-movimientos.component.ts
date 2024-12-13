@@ -35,6 +35,12 @@ export class LiquidacionFormMovimientosComponent {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Movimiento) => element.estado,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
       def: 'created_at',
       title: 'Fecha ',
       value: (element: Movimiento) => element.created_at,
@@ -77,20 +83,15 @@ export class LiquidacionFormMovimientosComponent {
     },
     {
       def: 'documento_fisico_oc',
-      title: 'Documento Físico',
-      value: (element: Movimiento) => element.documento_fisico_oc ? 'Sí' : 'No',
+      title: 'Doc. Físico',
+      value: (element: Movimiento) =>
+        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'detalle',
       title: 'Info',
       value: (element: Movimiento) => element.detalle,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: Movimiento) => element.estado,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {

@@ -81,6 +81,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
+
   list: Factura[] = [];
   montoSuma = 0;
   montoLimite = 0;
@@ -95,6 +96,11 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
 
   get isFacturaReady():boolean {
     return this.list ? (this.list.length>0) : false;
+  }
+
+  get liquidacionFinalizada(): boolean | undefined {
+    return (this.liquidacion?.etapa === 'Finalizado' ||
+          this.liquidacion?.etapa === 'Confirmado') ? true : false;
   }
 
   @Input() instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
@@ -122,12 +128,30 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   }
 
   edit({ row }: TableEvent<Factura>): void {
+
+    if (this.liquidacionFinalizada) {
+      this.snackbar.open( 'No se puede editar Factura de liquidacion cerrada');
+      return;
+    }
+
     this.showAlertMessage(() =>
-      edit(this.getDialogRef(row), ()=>this.emitChange("Procesado con exito!"))
+      edit(this.getDialogRef(row, false), ()=>this.emitChange("Procesado con exito!"))
+    );
+  }
+
+  show({ row }: TableEvent<Factura>): void {
+    this.showAlertMessage(() =>
+      edit(this.getDialogRef(row, true), ()=>this.emitChange("Procesado con exito!"))
     );
   }
 
   remove({ row }: TableEvent<Factura>): void {
+
+    if (this.liquidacionFinalizada) {
+      this.snackbar.open( 'No se puede eliminar Factura de liquidacion cerrada');
+      return;
+    }
+
     this.showAlertMessage(() =>
       remove(
         this.dialog,
@@ -142,7 +166,8 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   }
 
   private getDialogRef(
-    item?: Factura
+    item?: Factura,
+    isShow?: boolean,
   ): MatDialogRef<FacturaFormDialogComponent, Factura> {
 
     const contraparteId = this.liquidacion.chofer_id ?? this.liquidacion.propietario_id
@@ -155,6 +180,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       valor_operacion: this.residuo + (item?.monto ?? this.liquidacion.pago_cobro ?? 0),
+      isShow,
       item,
     };
     return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', });
@@ -189,4 +215,5 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
       observer();
     }
   }
+
 }

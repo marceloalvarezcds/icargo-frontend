@@ -9,23 +9,23 @@
     border-bottom: 1px solid #007acc;  /* Celeste más oscuro */
     width: 98%;
   }
-  
+
   .remisiones-container {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
   }
-  
+
   .remisiones-item {
     flex: 1;
     max-width: 49%; /* Ajuste de ancho para reducir el espacio entre los contenedores */
     margin-right: -50%; /* Reducción del margen derecho */
   }
-  
+
   .remisiones-item:last-child {
     margin-right: 65px;
   }
-  
+
   .remisiones-item:first-child {
     margin-left: -15px; /* Sin margen derecho para el último elemento */
   }
@@ -76,9 +76,17 @@
 
 .resultados-container {
   margin-top: -30px; /* Sube más el contenedor */
-  padding-bottom: 20px; 
+  padding-bottom: 20px;
 }
 
 .anticipo-table {
   margin-bottom: 50px; /* Aumenta el valor según el espaciado que necesites */
+}
+
+.title-colapside {
+  cursor: pointer;
+}
+
+.colapse-div {
+  display: none;
 }
