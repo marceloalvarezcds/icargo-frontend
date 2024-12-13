@@ -29,6 +29,7 @@
 >
 
   <div class="orden-carga-page-content">
+
     <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
@@ -46,35 +47,41 @@
     ></app-orden-carga-create-form-combinacion>
 
     <!-- <div class="anticipo-table">
-      <app-orden-carga-anticipos-table 
+      <app-orden-carga-anticipos-table
         [oc]="item"
         [fleteId]="fleteId"
         [list]="anticipoList"
         (ocChange)="getData()">
       </app-orden-carga-anticipos-table>
     </div> -->
-    <div  class="remisiones-line"><h2>REMISIONES</h2></div>
-    <div class="remisiones-container">
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-origen
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionOrigenList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-origen>
+
+    <div style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">
+          REMISIONES
+        </h2>
       </div>
-    
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-destino
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-        
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionDestinoList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-destino>
+
+      <div class="row" [class.colapse-div]="colapseDivRemision">
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-origen
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionOrigenList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-origen>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-destino
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionDestinoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-destino>
+        </div>
       </div>
     </div>
 
@@ -89,7 +96,7 @@
           (ocChange)="getData()"
         ></app-orden-carga-edit-form-complementos>
       </div>
-      
+
       <div class="complementos_descuentos-item">
         <app-orden-carga-edit-form-descuentos
           [oc]="item"
@@ -102,26 +109,40 @@
       </div>
     </div>   -->
 
-    <div class="resultados-container">
-      <div class="resultados-line">
-        <h2>TABLA DE RESULTADOS</h2>
+    <div class="resultados-container" style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivResultado=!colapseDivResultado">
+          TABLA DE RESULTADOS
+        </h2>
       </div>
-      <app-orden-carga-edit-form-remisiones-resultado
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [list]="remisionResultadoList"
-      ></app-orden-carga-edit-form-remisiones-resultado>
+
+      <div [class.colapse-div]="colapseDivResultado">
+        <app-orden-carga-edit-form-remisiones-resultado
+          [oc]="item"
+          [gestorCargaId]="gestorCargaId"
+          [list]="remisionResultadoList"
+        ></app-orden-carga-edit-form-remisiones-resultado>
+      </div>
     </div>
+
     <div *ngIf="item?.estado === 'Conciliado'" class="resultados-container">
-      <div class="resultados-line">
-        <h2>MOVIMIENTOS</h2>
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivMovimiento=!colapseDivMovimiento">
+          MOVIMIENTOS
+        </h2>
       </div>
-      <app-orden-carga-edit-form-movimientos
-        [gestorCargaId]="gestorCargaId"
-        [list]="movimientoList"
-        (ocChange)="getData()"
-    ></app-orden-carga-edit-form-movimientos>
-    </div> 
+
+      <div [class.colapse-div]="colapseDivMovimiento">
+        <app-orden-carga-edit-form-movimientos
+          [gestorCargaId]="gestorCargaId"
+          [list]="movimientoList"
+          (ocChange)="getData()"
+        ></app-orden-carga-edit-form-movimientos>
+      </div>
+    </div>
+
   </div>
+</app-page-form>
+
 
 

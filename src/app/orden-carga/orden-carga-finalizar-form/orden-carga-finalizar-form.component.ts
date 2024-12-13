@@ -47,7 +47,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   isOc = true;
   previousid: number | null = null;
   isLoadingData: boolean = false;
-  isLoading = false; 
+  isLoading = false;
   private valueChangesSubscription: any;
   previousId: number | null = null;
   backUrl = `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}`;
@@ -116,6 +116,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     }),
   });
 
+  colapseDivRemision = false;
+  colapseDivResultado = false;
+  colapseDivMovimiento = false;
+
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
@@ -128,7 +132,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     // Mostrar true hasta que el estado sea "CONCILIADO"
     return this.item?.estado !== EstadoEnum.CONCILIADO;
   }
-  
+
   get estadoOc() {
     const estadoValue = this.form.get('combinacion.estado')?.value;
     return estadoValue;
@@ -166,7 +170,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   get movimientoList(): Movimiento[] {
     return this.item!?.movimientos.slice();
   }
-  
+
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
     return this.item!?.anticipos.slice();
   }
@@ -236,7 +240,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     this.setInitialToggleState();
     this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
     .pipe(
-      debounceTime(300), 
+      debounceTime(300),
       distinctUntilChanged()
     )
     .subscribe(id => {
@@ -247,7 +251,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   handleIdChange(id: number | null): void {
     if (id && id !== this.previousId) {
       this.previousId = id;
-      if (!this.isLoadingData) { 
+      if (!this.isLoadingData) {
         this.getData();
       }
     }
@@ -270,12 +274,12 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     private reportsService: ReportsService,
     private snackBar: MatSnackBar,
     private chRef: ChangeDetectorRef,
-    
+
   ) {}
 
   setInitialToggleState(): void {
     if (this.item && this.item.anticipos_liberados) {
-      this.isActive = this.item.anticipos_liberados; 
+      this.isActive = this.item.anticipos_liberados;
     }
   }
 
@@ -284,7 +288,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       this.submit(confirmed);
     } else {
       let comentario = this.form.get('info.comentarios')?.value;
-      
+
       // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
@@ -297,7 +301,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
           comentario: comentario,
         };
         formData.append('data', JSON.stringify(data));
-  
+
         // Llamar al servicio para guardar el comentario
         this.ordenCargaService.createComentarios(formData).subscribe(
           (item) => {
@@ -314,7 +318,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
 
   enableFleteId(): void {
     this.form.get('combinacion.flete_id')?.enable();
@@ -323,7 +327,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
     this.cambiarPedido = true;
   }
-  
+
 
   active(): void {
     if (this.ordenCargaId !== null) {
@@ -338,7 +342,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       console.error('No se puede activar anticipos sin un ID válido');
     }
   }
-  
+
   inactive(): void {
     if (this.ordenCargaId !== null) {
       this.dialog.changeStatusConfirm(
@@ -373,7 +377,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       console.error('No se puede aceptar la orden de carga sin un ID válido');
     }
   }
-  
+
   private createComentarioYAceptar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -381,7 +385,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(
       () => {
         this.aceptarOrdenCarga();
@@ -391,20 +395,20 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   private aceptarOrdenCarga(): void {
     this.ordenCargaService.aceptar(this.idOC as number).subscribe(
       () => {
         this.snackbar.open('Estado cambiado satisfactoriamente');
-        this.puedeCrearRemision = true; 
+        this.puedeCrearRemision = true;
       },
       (error) => {
         console.error('Error al aceptar la orden de carga:', error);
       }
     );
   }
-  
-  
+
+
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
         const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
@@ -471,7 +475,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
         if (comentario !== this.originalComentario) {
             this.createComentarioAndFinalize(comentario);
-            
+
         } else {
             this.finalizeOrdenCarga();
             this.ocIsFinalizado = true
@@ -546,14 +550,14 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
               const dialogRef = this.openEvaluacionesDialog();
 
               dialogRef.afterClosed().subscribe(result => {
-                  if (result) { 
+                  if (result) {
                       this.snackBar.open('Generando PDF...', 'Cerrar', {
                           duration: 3000,
                           verticalPosition: 'top',
                           horizontalPosition: 'center'
                       });
                       this.downloadResumenPDF();
-                  } else {       
+                  } else {
                   }
               });
           },
@@ -566,10 +570,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         alert('La Orden de Carga ya está conciliada.');
         return;
       }
-  
+
       const comentario = this.form.get('info.comentarios')?.value;
       const comentarioUpper = comentario ? comentario.toUpperCase() : '';
-  
+
       if (comentarioUpper) {
         this.createComentarioYConciliar(comentarioUpper);
       } else {
@@ -579,7 +583,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       console.error('No se puede conciliar la Orden de Carga sin un ID válido');
     }
   }
-  
+
   private createComentarioYConciliar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -587,14 +591,14 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(() => {
       this.conciliarOrdenCarga();
     }, error => {
       console.error('Error al crear el comentario', error);
     });
   }
-  
+
   private conciliarOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
         '¿Está seguro que desea conciliar la Orden de Carga?',
@@ -626,10 +630,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
                 this.downloadConciliarResumenPDF();
             });
         },
-  
+
     );
   }
-  
+
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -640,14 +644,14 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
-  
+
   downloadConciliarResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -658,15 +662,15 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
     });
   }
- 
-  
+
+
 
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
@@ -697,7 +701,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
     if (this.form.valid) {
         const formData = new FormData();
-       
+
         this.cambiarPedido = false;
         const data = JSON.parse(
             JSON.stringify({
@@ -770,10 +774,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
 
   getData(): void {
-    const ocValue = this.idOC; 
-    if (ocValue) { 
+    const ocValue = this.idOC;
+    if (ocValue) {
       this.isDataLoaded = false
-      this.isLoadingData = true; 
+      this.isLoadingData = true;
       this.valueChangesSubscription.unsubscribe();
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
@@ -830,16 +834,16 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');
-   
+
     }
   }
-  
+
 
   // submit(confirmed: boolean): void {
-  //   this.isFormSaved = true; 
+  //   this.isFormSaved = true;
   //   this.isFormSubmitting = false
   //   this.isShow = false
-  //   this.dataFromParent = this.form.get('combinacion.estado')?.value; 
+  //   this.dataFromParent = this.form.get('combinacion.estado')?.value;
   //   this.getData();
   // }
 

@@ -28,6 +28,7 @@
 >
 
   <div class="orden-carga-page-content">
+
     <app-orden-carga-create-form-combinacion
       [form]="form"
       (fleteChange)="flete = $event"
@@ -50,36 +51,43 @@
       (ocChange)="getData()">
     </app-orden-carga-anticipos-table>
 
-    <div class="remisiones-line">
-      <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">REMISIONES</h2>
-    </div>
-    <div class="remisiones-container" [class.colapse-div]="colapseDivRemision">
-      <div class="remisiones-item" >
-        <app-orden-carga-edit-form-remisiones-origen
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionOrigenList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-origen>
+    <div style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivRemision=!colapseDivRemision">REMISIONES</h2>
       </div>
 
-      <div class="remisiones-item" >
-        <app-orden-carga-edit-form-remisiones-destino
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionDestinoList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-destino>
+      <div class="remisiones-container" [class.colapse-div]="colapseDivRemision">
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-origen
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionOrigenList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-origen>
+        </div>
+
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-remisiones-destino
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [puedeConciliar]="puedeConciliar"
+            [list]="remisionDestinoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-remisiones-destino>
+        </div>
       </div>
     </div>
 
-    <div class="remisiones-line">
-      <h2 class="title-colapside" (click)="colapseDivDescuento=!colapseDivDescuento">Complementos y Descuentos</h2>
-    </div>
-    <div class="complementos_descuentos-container" [class.colapse-div]="colapseDivDescuento">
-        <div class="complementos_descuentos-item">
+    <div style="margin-top: 10px;">
+      <div class="section">
+        <h2 class="title-colapside" (click)="colapseDivDescuento=!colapseDivDescuento">
+          Complementos y Descuentos
+        </h2>
+      </div>
+
+      <div class="row complementos_descuentos-container" [class.colapse-div]="colapseDivDescuento">
+        <div class="col-xs-12 col-sm-6">
           <app-orden-carga-edit-form-complementos
             [oc]="item"
             [gestorCargaId]="gestorCargaId"
@@ -89,39 +97,50 @@
             (ocChange)="getData()"
           ></app-orden-carga-edit-form-complementos>
         </div>
-      <div class="complementos_descuentos-item">
-        <app-orden-carga-edit-form-descuentos
+        <div class="col-xs-12 col-sm-6">
+          <app-orden-carga-edit-form-descuentos
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [puedeConciliar]="puedeConciliar"
+            [list]="descuentoList"
+            (ocChange)="getData()"
+          ></app-orden-carga-edit-form-descuentos>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="resultados-line">
+        <h2 class="title-colapside" (click)="colapseDivResultado=!colapseDivResultado">
+          TABLA DE RESULTADOS
+        </h2>
+      </div>
+
+      <div [class.colapse-div]="colapseDivResultado">
+        <app-orden-carga-edit-form-remisiones-resultado
+          [class.colapse-div]="colapseDivResultado"
           [oc]="item"
           [gestorCargaId]="gestorCargaId"
-          [puedeConciliar]="puedeConciliar"
-          [list]="descuentoList"
+          [list]="remisionResultadoList"
+        ></app-orden-carga-edit-form-remisiones-resultado>
+      </div>
+    </div>
+
+    <div>
+      <div class="resultados-line">
+        <h2 class="title-colapside" (click)="colapseDivMovimiento=!colapseDivMovimiento">
+          MOVIMIENTOS
+        </h2>
+      </div>
+
+      <div [class.colapse-div]="colapseDivMovimiento">
+        <app-orden-carga-edit-form-movimientos
+          [class.colapse-div]="colapseDivMovimiento"
+          [gestorCargaId]="gestorCargaId"
+          [list]="movimientoList"
           (ocChange)="getData()"
-        ></app-orden-carga-edit-form-descuentos>
+        ></app-orden-carga-edit-form-movimientos>
       </div>
-    </div>
-
-    <div class="resultados-container">
-      <div class="resultados-line">
-        <h2 class="title-colapside" (click)="colapseDivResultado=!colapseDivResultado">TABLA DE RESULTADOS</h2>
-      </div>
-      <app-orden-carga-edit-form-remisiones-resultado
-        [class.colapse-div]="colapseDivResultado"
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [list]="remisionResultadoList"
-      ></app-orden-carga-edit-form-remisiones-resultado>
-    </div>
-
-    <div class="resultados-container">
-      <div class="resultados-line">
-        <h2 class="title-colapside" (click)="colapseDivMovimiento=!colapseDivMovimiento">MOVIMIENTOS</h2>
-      </div>
-      <app-orden-carga-edit-form-movimientos
-        [class.colapse-div]="colapseDivMovimiento"
-        [gestorCargaId]="gestorCargaId"
-        [list]="movimientoList"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-movimientos>
     </div>
 
     <button
@@ -130,7 +149,9 @@
       mat-button (click)="openDialog()">
       Historial de Estados
     </button>
-</div>
+
+  </div>
+</app-page-form>
 
 
 

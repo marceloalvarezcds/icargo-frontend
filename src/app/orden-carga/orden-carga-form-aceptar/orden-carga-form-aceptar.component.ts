@@ -107,6 +107,8 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
     }),
   });
 
+  colapseDivRemision = false;
+
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
@@ -203,7 +205,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
     this.setInitialToggleState();
     this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
     .pipe(
-      debounceTime(300), 
+      debounceTime(300),
       distinctUntilChanged()
     )
     .subscribe(id => {
@@ -241,7 +243,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
 
   setInitialToggleState(): void {
     if (this.item && this.item.anticipos_liberados) {
-      this.isActive = this.item.anticipos_liberados; 
+      this.isActive = this.item.anticipos_liberados;
     }
   }
 
@@ -250,7 +252,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       this.submit(confirmed);
     } else {
       let comentario = this.form.get('info.comentarios')?.value;
-      
+
       // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
@@ -263,7 +265,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
           comentario: comentario,
         };
         formData.append('data', JSON.stringify(data));
-  
+
         // Llamar al servicio para guardar el comentario
         this.ordenCargaService.createComentarios(formData).subscribe(
           (item) => {
@@ -280,7 +282,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       }
     }
   }
-  
+
   active(): void {
     if (this.ordenCargaId !== null) {
       this.dialog.changeStatusConfirm(
@@ -294,7 +296,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       console.error('No se puede activar anticipos sin un ID válido');
     }
   }
-  
+
   inactive(): void {
     if (this.ordenCargaId !== null) {
       this.dialog.changeStatusConfirm(
@@ -329,7 +331,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       console.error('No se puede aceptar la orden de carga sin un ID válido');
     }
   }
-  
+
   private createComentarioYAceptar(comentario: string): void {
     const formData = new FormData();
     const data = {
@@ -337,7 +339,7 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       comentario: comentario,
     };
     formData.append('data', JSON.stringify(data));
-  
+
     this.ordenCargaService.createComentarios(formData).subscribe(
       () => {
         this.aceptarOrdenCarga();
@@ -347,20 +349,20 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
       }
     );
   }
-  
+
   private aceptarOrdenCarga(): void {
     this.ordenCargaService.aceptar(this.idOC as number).subscribe(
       () => {
         this.snackbar.open('Estado cambiado satisfactoriamente');
-        this.puedeCrearRemision = true; 
+        this.puedeCrearRemision = true;
       },
       (error) => {
         console.error('Error al aceptar la orden de carga:', error);
       }
     );
   }
-  
-  
+
+
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
         const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
@@ -429,8 +431,8 @@ export class OrdenCargaFormAceptarComponent implements OnInit, OnDestroy {
           height: '90%',
           data: {
             pdfUrl: url,
-            fileBlob: blob, 
-            filename: filename 
+            fileBlob: blob,
+            filename: filename
           }
         });
       });
@@ -455,7 +457,7 @@ openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
     panelClass: 'custom-dialog-container'
   });
 }
-  
+
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
@@ -479,20 +481,20 @@ openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
             .afterClosed()
             .pipe(filter((confirmed: any) => !!confirmed))
             .subscribe((confirmed) => {
-              this.submit(confirmed); 
-              this.dialogOpened = false; 
+              this.submit(confirmed);
+              this.dialogOpened = false;
             });
         }
       } else {
-        this.submit(true); 
+        this.submit(true);
       }
     }
   }
 
   getData(): void {
-    const ocValue = this.idOC; 
-    if (ocValue) { 
-      this.isLoadingData = true; 
+    const ocValue = this.idOC;
+    if (ocValue) {
+      this.isLoadingData = true;
       this.valueChangesSubscription.unsubscribe();
 
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
@@ -544,25 +546,25 @@ openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
             destino_id: data.flete_destino_nombre,
           },
         });
-        this.isLoadingData = false; 
+        this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
         this.ngOnInit();
-        this.isFormSaved = true; 
+        this.isFormSaved = true;
         this.isFormSubmitting = false
         this.isShow = false
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');
-      this.isLoadingData = false; 
+      this.isLoadingData = false;
     }
   }
-  
+
 
   submit(confirmed: boolean): void {
-    this.isFormSaved = true; 
+    this.isFormSaved = true;
     this.isFormSubmitting = false
     this.isShow = false
-    this.dataFromParent = this.form.get('combinacion.estado')?.value; 
+    this.dataFromParent = this.form.get('combinacion.estado')?.value;
     this.getData();
   }
 
