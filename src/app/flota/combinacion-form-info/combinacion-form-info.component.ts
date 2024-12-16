@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -127,9 +127,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.estadoControl.setValue(nuevoEstado);
   }
 
-
-  constructor(private combinacionService: CamionService) {}
-
+  constructor(private cdRef: ChangeDetectorRef) {}
 
   camionChange(camion?: CamionList) {
     if (camion && camion.id !== this.currentCamionId) {
@@ -170,20 +168,37 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
-    this.info?.controls["propietario_id"].setValue(propietario?.id);
-    this.info?.controls["nombre"].setValue(propietario?.nombre);
-    this.info?.controls["ruc"].setValue(propietario?.ruc);
-    this.info?.controls["tipo_persona_id"].setValue(propietario?.tipo_persona_id);
-    this.info?.controls["telefono"].setValue(propietario?.telefono);
-    this.info?.controls["anticipo_propietario"].setValue(propietario?.puede_recibir_anticipos);
-    this.info?.controls["estado_propietario"].setValue(propietario?.estado);
-    this.info?.controls["foto_documento_frente"].setValue(propietario?.foto_perfil);
-    this.fotoDocumentoFrente = propietario?.foto_perfil ?? null;
-
+    if (propietario) {
+      this.info?.controls["propietario_id"].setValue(propietario.id);
+      this.info?.controls["nombre"].setValue(propietario.nombre);
+      this.info?.controls["ruc"].setValue(propietario.ruc);
+      this.info?.controls["tipo_persona_id"].setValue(propietario.tipo_persona_id);
+      this.info?.controls["telefono"].setValue(propietario.telefono);
+      this.info?.controls["anticipo_propietario"].setValue(propietario.puede_recibir_anticipos);
+      this.info?.controls["estado_propietario"].setValue(propietario.estado);
+      this.info?.controls["foto_documento_frente"].setValue(propietario.foto_perfil);
+      this.fotoDocumentoFrente = propietario.foto_perfil ?? null;
+  
+      this.activateFields();
+      if(this.isShow){
+        this.info?.controls["tipo_persona_id"].disable();
+        this.info?.controls["propietario_id"].disable();
+      }
+    }
   }
-
+  
+  private activateFields(): void {
+    if (this.info?.controls['tipo_persona_id'].value) {
+      this.info?.controls["ruc"].enable();
+      this.info?.controls["nombre"].enable();
+    } else {
+      this.info?.controls["ruc"].disable();
+      this.info?.controls["nombre"].disable();
+    }
+  }
+  
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
-    this.isShearch = true
+    this.isShearch = true;
     if (!tipoPersona || tipoPersona.id !== this.tipoPersonaAnterior?.id) {
       this.info?.controls["propietario_id"].setValue('');
     }
@@ -192,6 +207,13 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.personaChange.emit(tipoPersona);
     }
     this.tipoPersonaAnterior = tipoPersona;
+
+    this.cdRef.detectChanges();
+  }
+
+  onChange(tipoPersona: Propietario | undefined): void {
+    this.info?.controls["propietario_id"].setValue(tipoPersona?.id);
+    this.cdRef.detectChanges();
   }
 
   handleFisicaSelected(isFisica: boolean) {

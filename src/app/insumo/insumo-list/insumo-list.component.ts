@@ -31,7 +31,7 @@ export class InsumoListComponent implements OnInit {
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO
   item?: InsumoPuntoVentaPrecioList;
   EstadoEnum = EstadoEnum;
-  hideEdit: boolean = false;
+
   columns: Column[] = [
     {
       def: 'id',
@@ -105,12 +105,14 @@ export class InsumoListComponent implements OnInit {
   
   isFiltered = false;
   list: InsumoPuntoVentaPrecio[] = [];
+  showInactiveOnly: boolean = false; 
   estadoFilterList: string[] = [];
   estadoFiltered: string[] = [];
   descripcionFilterList: string[] = [];
   descripcionFiltered: string[] = [];
   puntoVentaFilterList: string[] = [];
   puntoVentaFiltered: string[] = [];
+  filteredList: InsumoPuntoVentaPrecio[] = [];
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -132,6 +134,12 @@ export class InsumoListComponent implements OnInit {
     return this.puntoVentaFiltered.length !== this.puntoVentaFilterList.length;
   }
 
+  // En tu archivo .ts del componente
+  get isInactive(): boolean {
+    return this.list.some(item => item.estado === EstadoEnum.INACTIVO);
+  }
+
+
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('estadoCheckboxFilter')
   estadoCheckboxFilter!: CheckboxFilterComponent;
@@ -151,9 +159,6 @@ export class InsumoListComponent implements OnInit {
     this.getList();
   }
 
-  setHideEdit() {
-    this.hideEdit = this.item?.estado === EstadoEnum.INACTIVO;
-  }
 
   redirectToCreate(): void {
     const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`;
@@ -178,8 +183,28 @@ export class InsumoListComponent implements OnInit {
     });
   }
 
- 
-
+  filterInactive(isChecked: boolean): void {
+    if (isChecked) {
+      // Si se seleccionan inactivos, llama al servicio para obtener solo los inactivos
+      this.insumoPuntoVentaService.getInactiveList().subscribe((inactiveList) => {
+        this.list = inactiveList; // Reemplaza la lista actual con solo los inactivos
+        this.updateFilters(inactiveList); // Actualiza los filtros basados en los inactivos
+      });
+    } else {
+      // Si no se seleccionan inactivos, recarga la lista original de activos
+      this.getList();
+    }
+  }
+  
+  
+  private updateFilters(list: any[]): void {
+    this.estadoFilterList = getFilterList(list, (x) => x.estado);
+    this.descripcionFilterList = getFilterList(list, (x) => x.insumo_descripcion);
+    this.puntoVentaFilterList = getFilterList(list, (x) => x.punto_venta_nombre);
+    this.resetFilterList();
+  }
+  
+  
   filterPredicate(obj: InsumoPuntoVentaPrecioList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
     const filterByEstado =
@@ -200,6 +225,7 @@ export class InsumoListComponent implements OnInit {
           ) ?? true;
     return filterByEstado && filterByDescripcion && filterByPuntoVenta;
   }
+
 
   applyFilter(): void {
     let filter: Filter = {};
@@ -233,6 +259,7 @@ export class InsumoListComponent implements OnInit {
   private getList(): void {
     this.insumoPuntoVentaService.getList().subscribe((list) => {
       this.list = list;
+      this.updateFilters(list);
       this.estadoFilterList = getFilterList(list, (x) => x.estado);
       this.descripcionFilterList = getFilterList(
         list,

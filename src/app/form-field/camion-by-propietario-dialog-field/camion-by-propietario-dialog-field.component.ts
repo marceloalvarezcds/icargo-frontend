@@ -67,24 +67,18 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
 
 
   camionChange(camion?: CamionList): void {
-    if (this.isEdit) {
-        return;
-    }
-    if (this.isShow) {
-      return; // No hacemos nada si está en modo de visualización (show).
-    }
-
-
     if (camion) {
-        const isInCombinacion = camion.is_in_combinacion === true;  
-        
-        if (isInCombinacion) {
-            alert(`El camión con placa ${camion.placa} ya está en una combinación.`);
-            this.form.reset();  
-            this.form.get('camion_id')?.setValue(null);  
-        } else {
-            this.valueChange.emit(camion);  
-        }
+      const isInCombinacion = camion.is_in_combinacion === true;
+  
+      // Solo mostrar la alerta si no estamos en modo editar o ver
+      if (isInCombinacion && !this.isEdit && !this.isShow) {
+        alert(`El camión con placa ${camion.placa} ya está en una combinación.`);
+        this.form.reset();  
+        this.form.get('camion_id')?.setValue(null);  
+      } else {
+        // Emitir el cambio solo si el camión no está en una combinación
+        this.valueChange.emit(camion);  
+      }
     }
   }
 }

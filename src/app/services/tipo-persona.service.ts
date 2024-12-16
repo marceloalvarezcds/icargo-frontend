@@ -17,7 +17,9 @@ export class TipoPersonaService {
   getList(): Observable<TipoPersona[]> {
     return this.http.get<TipoPersona[]>(`${this.url}/`);
   }
+
   getListByTipoPersona(): Observable<TipoPersona[]> {
     return this.http.get<TipoPersona[]>(`${this.url}/tipo_persona`);
   }
+  
 }
