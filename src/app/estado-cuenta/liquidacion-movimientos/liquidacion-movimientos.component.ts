@@ -64,9 +64,16 @@ export class LiquidacionMovimientosComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'numero_documento_relacionado',
+      def: 'orden_carga_id',
       title: 'N° OC',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
+      value: (element: Movimiento) => element.orden_carga_id,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'documento_fisico_oc',
+      title: 'Doc. Físico',
+      value: (element: Movimiento) =>
+        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
