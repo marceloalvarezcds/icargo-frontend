@@ -46,6 +46,11 @@ export class PageComponent {
   @Output() conciliarClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
+  @Output() verInsumosInactivosChange = new EventEmitter<boolean>();
+
+  onCheckboxChange(checked: boolean): void {
+    this.verInsumosInactivosChange.emit(checked);
+  }
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 

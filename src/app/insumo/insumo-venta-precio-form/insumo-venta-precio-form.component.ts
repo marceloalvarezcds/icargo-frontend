@@ -93,8 +93,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       moneda_id: [{ value: '', disabled: true }],
       observacion: [{ value: '', disabled: true }],
     });
-  
-    // Deshabilitar los campos hora_inicio y fecha_inicio al inicio
+
     this.form.get('hora_inicio')?.disable();
     this.form.get('fecha_inicio')?.disable();
   }
@@ -102,8 +101,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     this.getData();
     this.form.get('punto_venta_id')?.setValue(this.pdv?.punto_venta_id);
-  
-    // Configuración para created_at_insumo si es necesario
+
     this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
       if (value) {
         const date = new Date(value);
@@ -127,8 +125,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     const ampm = hours >= 12 ? 'PM' : 'AM';
     hours = hours % 12;
     hours = hours ? hours : 12; // La hora '0' se convierte a '12'
-    
-    // Asegúrate de que los minutos y horas estén en formato de dos dígitos
     const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
     const formattedHours = hours < 10 ? '0' + hours : hours;
   
@@ -162,8 +158,8 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   onPDVPrecioChange(pdv?: InsumoPuntoVentaPrecioList) {
     if (pdv) {
         this.insumoPdvChange.emit(pdv);
-        this.puntoVentaId = pdv.punto_venta_id; // Este valor depende de la selección del punto de venta.
-        this.monedaId = pdv.insumo_moneda_id; // Este se actualiza correctamente desde pdv.
+        this.puntoVentaId = pdv.punto_venta_id; 
+        this.monedaId = pdv.insumo_moneda_id; 
         this.form.get('insumo_id')?.enable();
     }
   }
@@ -202,6 +198,14 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   
     if (this.form.valid) {
       const data = JSON.parse(JSON.stringify(this.form.value));
+  
+      // Convertir fecha_inicio a formato ISO sin zona horaria
+      if (data.fecha_inicio) {
+        const fechaLocal = new Date(data.fecha_inicio); 
+        // Convertimos a ISO y eliminamos la zona horaria (sin 'Z')
+        data.fecha_inicio = fechaLocal.toISOString().slice(0, -1); // Eliminar el 'Z' al final
+      }
+  
       data.punto_venta_id = this.puntoVentaId;
       data.insumo_id = this.insumoId;
       data.moneda_id = this.monedaId;
@@ -213,9 +217,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
         }
       });
   
-      // Log antes de enviar los datos
-      console.log('Datos a enviar:', data);
-  
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
@@ -223,15 +224,11 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   
       if (this.isEdit) {
         this.insumoPuntoVentaPrecioService.edit(this.id, formData).subscribe(() => {
-          // Log después de enviar los datos (caso de edición)
-          console.log('Datos enviados exitosamente (Edit):', data);
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
         this.insumoPuntoVentaPrecioService.create(formData).subscribe((insumoVentaPrecio) => {
-          // Log después de enviar los datos (caso de creación)
-          console.log('Datos enviados exitosamente (Create):', data);
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -245,8 +242,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   }
   
   
-
-
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {

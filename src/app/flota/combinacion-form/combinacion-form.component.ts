@@ -1,7 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { Observable } from 'rxjs';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -16,6 +17,7 @@ import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { TipoPersonaService } from 'src/app/services/tipo-persona.service';
 import { UserService } from 'src/app/services/user.service';
 
 
@@ -33,6 +35,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   item2?: Camion;
   semi?: PropietarioList;
   tractoId?: number;
+  persona?: TipoPersona
   propietarioId?: number;
   semiId?: number;
   camionId?: number;
@@ -110,6 +113,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   });
 
   @Output() personaChange = new EventEmitter<PropietarioList>();
+
 
 
   get puedeModificar(): boolean {
@@ -190,6 +194,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private combinacionService: CombinacionService,
+    private service: TipoPersonaService,
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
@@ -235,6 +240,16 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.getData();
       }
     );
+  }
+
+  private desactiveFields(): void {
+    this.form.get('info')?.get('camion_id')?.disable();
+    this.form.get('info')?.get('oc_activa')?.disable();
+    this.form.get('info')?.get('limite_anticipos')?.disable();
+    this.form.get('info')?.get('anticipo_propietario')?.disable();
+    this.form.get('info')?.get('propietario_id')?.disable();
+    this.form.get('info')?.get('neto')?.disable();
+    this.form.get('info')?.get('comentario')?.disable();
   }
   
 
@@ -284,30 +299,12 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   }
   
 
-
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
-      this.form.disable();
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      if (this.isShow) {
-        this.isShowCamion = true
-        this.form.disable();
-        this.semi_id.disable()
-        this.chofer_id.disable()
-        this.tipo_persona_id.disable()
-        this.ruc.disable()
-        this.propietario_id.disable()
-      }
-
-      if (this.isEdit) {
-        this.semi_id.enable()
-        this.chofer_id.enable()
-        this.tipo_persona_id.enable()
-        this.ruc.enable()
-        this.propietario_id.enable()
-      }
+ 
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data?.estado;
@@ -365,11 +362,32 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         })
         setTimeout(() => {
           this.hasChange = false;
+          if (this.isEdit) { this.form.get('info')?.get('camion_id')?.disable();
+            this.form.get('info')?.get('oc_activa')?.disable();
+            this.form.get('info')?.get('limite_anticipos')?.disable();
+            this.form.get('info')?.get('anticipo_propietario')?.disable();
+            this.form.get('info')?.get('neto')?.disable();
+            this.form.get('info')?.get('comentario')?.disable();
+          }
+          if (this.isShow) { 
+            this.form.get('info')?.get('camion_id')?.disable();
+            this.form.get('info')?.get('semi_id')?.disable();
+            this.form.get('info')?.get('chofer_id')?.disable();
+         
+            this.form.get('info')?.get('oc_activa')?.disable();
+            this.form.get('info')?.get('limite_anticipos')?.disable();
+            this.form.get('info')?.get('anticipo_propietario')?.disable();
+            this.form.get('info')?.get('propietario_id')?.disable();
+            this.form.get('info')?.get('ruc')?.disable();
+            this.form.get('info')?.get('neto')?.disable();
+            this.form.get('info')?.get('comentario')?.disable();
+          
+          }
           this.initialFormValue = this.form.value;
         }, 500);
       });
     }
-  }  
-
+  } 
+  
 }
   

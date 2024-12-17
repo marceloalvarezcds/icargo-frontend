@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -11,30 +11,16 @@ import { isFisica } from 'src/app/utils/tipo-persona';
   templateUrl: './tipo-persona-field.component.html',
   styleUrls: ['./tipo-persona-field.component.scss']
 })
-export class TipoPersonaFieldComponent implements OnDestroy {
+export class TipoPersonaFieldComponent implements OnInit, OnDestroy {
   formGroup?: FormGroup;
-  controlSubscription?: Subscription;
   tipoPersonaList: TipoPersona[] = [];
-  tipoPersonaSubscription = this.tipoPersonaService.getList().subscribe(list => {
-    this.tipoPersonaList = list.slice();
-  });
-
-  get group(): FormGroup {
-    return this.formGroup!.get(this.groupName) as FormGroup;
-  }
-
-  get control(): FormControl {
-    return this.group.get(this.controlName) as FormControl;
-  }
+  tipoPersonaSubscription?: Subscription;
 
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
-    this.controlSubscription = this.control.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
-      const tipoPersona = this.tipoPersonaList.find(x => x.id === id)
-      this.valueChange.emit(tipoPersona)
-      this.isFisicaSelected.emit(isFisica(this.tipoPersonaList, id));
-    });
+    this.setupControlSubscription();
   }
+
   @Input() controlName = 'tipo_persona_id';
   @Input() groupName = '';
   @Input() title = '';
@@ -45,9 +31,33 @@ export class TipoPersonaFieldComponent implements OnDestroy {
 
   constructor(private tipoPersonaService: TipoPersonaService, private cdRef: ChangeDetectorRef) { }
 
-  ngOnDestroy(): void {
-    this.controlSubscription?.unsubscribe();
-    this.tipoPersonaSubscription.unsubscribe();
+  ngOnInit() {
+    this.tipoPersonaSubscription = this.tipoPersonaService.getList().subscribe(list => {
+      this.tipoPersonaList = list.slice();
+    });
   }
 
+  ngOnDestroy(): void {
+    this.tipoPersonaSubscription?.unsubscribe();
+  }
+
+  private setupControlSubscription(): void {
+    if (this.formGroup) {
+      const control = this.formGroup.get(this.groupName)?.get(this.controlName);
+      control?.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
+        const tipoPersona = this.tipoPersonaList.find(x => x.id === id);
+        this.valueChange.emit(tipoPersona);
+        this.isFisicaSelected.emit(isFisica(this.tipoPersonaList, id));
+      });
+    }
+  }
+
+  get control(): FormControl {
+    return this.formGroup!.get(this.groupName) as FormControl;
+  }
+
+  get group(): FormGroup {
+    return this.formGroup!.get(this.groupName) as FormGroup;
+  }
 }
+

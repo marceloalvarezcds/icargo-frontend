@@ -1,5 +1,4 @@
 <app-page-form
-  class="combinacion-page"
   submodule="COMBINACION"
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   [class.page-form-show]="isShow"
@@ -20,15 +19,16 @@
   <div class="page-form-container">
     <div formGroupName="info">
       <app-combinacion-form-info
-        [form]="form"
-        [isEdit]="isEdit"
-        [isShow]="isShow"
-        [combinacion]="item"
-        [modelo]="modelo"
-        [fotoDocumentoFrente]="fotoDocumentoFrente"
-        [gestorCargaId]="gestorCargaId"
-        [propietarioId]="propietarioId"
-      ></app-combinacion-form-info>
+      [form]="form"
+      [isEdit]="isEdit"
+      [isShow]="isShow"
+      [combinacion]="item"
+      [modelo]="modelo"
+      [gestorCargaId]="gestorCargaId"
+      [propietarioId]="propietarioId"
+      (personaChange)="persona = $event">
+    </app-combinacion-form-info>
+    
     </div>
   </div>
 

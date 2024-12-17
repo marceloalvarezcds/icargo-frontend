@@ -252,9 +252,11 @@
               class="input-form-full col-xs-12 col-sm-6 col-md-2"
               title="Tipo Persona"
               [groupName]="groupName"
-              controlName="tipo_persona_id"
               [form]="form"
-              (valueChange)="onTipoPersonaChange($event)">
+              (valueChange)="onTipoPersonaChange($event)"
+              (isFisicaSelected)="handleFisicaSelected($event)"
+              
+              >
             </app-tipo-persona-field>
 
             <app-tipo-persona-by-beneficiario-dialog-field
@@ -263,7 +265,7 @@
               [groupName]="groupName"
               controlName="propietario_id"
               [form]="form"
-              [tipoPersonaId]="tipoPersona?.id"
+              [tipoPersonaId]="form.get('info.tipo_persona_id')?.value"
               (valueChange)="tipoPersonaChange($event)">
             </app-tipo-persona-by-beneficiario-dialog-field>
 

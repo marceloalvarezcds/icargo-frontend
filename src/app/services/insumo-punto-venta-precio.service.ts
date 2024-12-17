@@ -21,7 +21,11 @@ export class InsumoPuntoVentaPrecioService {
   }
 
   getList(): Observable<InsumoPuntoVentaPrecioList[]> {
-    return this.http.get<InsumoPuntoVentaPrecioList[]>(`${this.url}/`);
+    return this.http.get<InsumoPuntoVentaPrecioList[]>(`${this.url}/gestor-carga/activo`);
+  }
+
+  getInactiveList(): Observable<InsumoPuntoVentaPrecioList[]> {
+    return this.http.get<InsumoPuntoVentaPrecioList[]>(`${this.url}/inactivos`);
   }
 
   getById(id: number): Observable<InsumoPuntoVentaPrecioList> {

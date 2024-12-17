@@ -154,6 +154,14 @@
               *ngIf="submodule === 'Orden de Carga'">
                 CONCILIAR
           </button>
+          <mat-checkbox
+            class="checkbox"
+            *ngIf="submodule === 'MERCADERIA'"
+            [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
+            (change)="verInsumosInactivosChange.emit($event.checked)"
+          >
+            Ver insumos inactivos
+          </mat-checkbox>
 
           <button
             mat-mini-fab
@@ -167,6 +175,7 @@
             <mat-icon>filter_alt</mat-icon>
           </button>
 
+       
         </div>
       </div>
 

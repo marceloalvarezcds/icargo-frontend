@@ -22,6 +22,7 @@ export interface Combinacion {
     chofer: Chofer;
     producto: Producto;
     camion: Camion;
+    tipo_persona_id: number;
     created_at: string;
     modified_at: string;
     modified_by: string;
