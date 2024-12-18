@@ -127,10 +127,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
 
   get montoHint(): string {
     if (this.monto) {
-      return `Residuo <strong>${subtract(
+      return `Residuo: <strong>${ numberWithCommas(subtract(
         this.residuo,
         this.monto
-      ).toLocaleString()}</strong>`;
+      ))}</strong>`;
     }
     return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }

@@ -101,7 +101,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       comentario: null,
       neto: [null, Validators.required],
     }),
-    
+
   });
 
   initialFormValue = this.form.value;
@@ -138,7 +138,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   get chofer_id(): FormGroup {
     return this.form.get('info.chofer_id') as FormGroup;
   }
-  
+
   get chofer(): FormGroup {
     return this.form.get('chofer') as FormGroup;
   }
@@ -251,20 +251,20 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     this.form.get('info')?.get('neto')?.disable();
     this.form.get('info')?.get('comentario')?.disable();
   }
-  
+
 
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
       const formData = new FormData();
- 
+
       const data = JSON.parse(
         JSON.stringify({
           ...this.info.value
         })
       );
-    
+
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
@@ -281,7 +281,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.combinacionService.create(formData).subscribe((combinacion) => {
-  
+
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -297,14 +297,14 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
- 
+
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data?.estado;
@@ -312,7 +312,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.fotoPerfil = data?.foto_camion;
         this.fotoPerfilSemi = data?.semi?.foto;
-        this.fotoPerfilChofer = data?.chofer?.foto_registro_reverso;
+        this.fotoPerfilChofer = data?.chofer?.foto_perfil;
         this.fotoDocumentoFrente = data?.propietario?.foto_perfil ?? null;
         this.created_at = data?.created_at;
         this.created_by = data?.created_by;
@@ -343,7 +343,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             puede_recibir_anticipos: data?.chofer?.puede_recibir_anticipos,
             estado: data?.chofer?.estado,
             gestor_carga_id: data?.gestor_carga_id,
-            foto_chofer: data?.chofer?.foto_registro_reverso,
+            foto_chofer: data?.chofer?.foto_perfil,
             //Datos Facturacion
             tipo_persona_id: data?.propietario.tipo_persona_id,
             propietario_id: data?.propietario_id,
@@ -357,7 +357,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             //Datos combinacion
             neto: data?.neto,
             comentario: data?.comentario,
-          
+
           },
         })
         setTimeout(() => {
@@ -369,11 +369,11 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             this.form.get('info')?.get('neto')?.disable();
             this.form.get('info')?.get('comentario')?.disable();
           }
-          if (this.isShow) { 
+          if (this.isShow) {
             this.form.get('info')?.get('camion_id')?.disable();
             this.form.get('info')?.get('semi_id')?.disable();
             this.form.get('info')?.get('chofer_id')?.disable();
-         
+
             this.form.get('info')?.get('oc_activa')?.disable();
             this.form.get('info')?.get('limite_anticipos')?.disable();
             this.form.get('info')?.get('anticipo_propietario')?.disable();
@@ -381,13 +381,12 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             this.form.get('info')?.get('ruc')?.disable();
             this.form.get('info')?.get('neto')?.disable();
             this.form.get('info')?.get('comentario')?.disable();
-          
+
           }
           this.initialFormValue = this.form.value;
         }, 500);
       });
     }
-  } 
-  
+  }
+
 }
-  

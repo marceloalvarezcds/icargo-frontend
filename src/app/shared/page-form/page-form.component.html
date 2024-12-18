@@ -202,6 +202,37 @@
           <mat-icon>download</mat-icon>
         </button>
 
+        <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)">
+          <button
+            mat-mini-fab
+            class="botones" color="warn"
+            type="button"
+            matTooltip="Activar"
+            [disabled]="loading || isShow"
+            (click)="activeClick.emit($event)"
+            *ngIf="
+              shouldShowActiveButton &&
+              (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
+            " >
+            <mat-icon>toggle_off</mat-icon>
+          </button>
+
+          <button
+            mat-mini-fab
+            class="botones" color="accent"
+            type="button"
+            [matTooltip]="inactiveTooltipText"
+            [disabled]="loading || isShow"
+            (click)="inactiveClick.emit($event)"
+            *ngIf="
+              shouldShowInactiveButton &&
+              (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
+            " >
+            <mat-icon>toggle_on</mat-icon>
+          </button>
+          {{ shouldShowActiveButton ? 'No Activo' : 'Activo' }}
+        </div>
+
         <button
           mat-flat-button
           type="button" color="warn"
@@ -215,36 +246,6 @@
             (modelo | puede: a.EDITAR:gestorCargaId)
           ">
           <mat-icon>save</mat-icon>EDITAR
-        </button>
-
-        <button
-          mat-mini-fab
-          class="botones" color="warn"
-          type="button"
-          matTooltip="Activar"
-          [disabled]="loading"
-          (click)="activeClick.emit($event)"
-          *ngIf="
-            shouldShowActiveButton &&
-            isEdit &&
-            (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
-          " >
-          <mat-icon>toggle_off</mat-icon>
-        </button>
-
-        <button
-          mat-mini-fab
-          class="botones" color="accent"
-          type="button"
-          [matTooltip]="inactiveTooltipText"
-          [disabled]="loading"
-          (click)="inactiveClick.emit($event)"
-          *ngIf="
-            shouldShowInactiveButton &&
-            isEdit &&
-            (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
-          " >
-          <mat-icon>toggle_on</mat-icon>
         </button>
 
         <button

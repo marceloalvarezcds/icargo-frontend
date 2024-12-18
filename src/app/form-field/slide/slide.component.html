@@ -1,6 +1,14 @@
-<div class="slide-container">
+<div>
+
+  <mat-label class="custom-label">
+    <span *ngIf="requerido" class="required">(*) </span>
+    {{ titleLabel }}
+  </mat-label>
+
   <ng-container *ngIf="isShow; else formTemplate">
-    {{ controlValue ? trueTitle : falseTitle }}
+    <mat-label style="font-weight: bold;">
+      {{ controlValue ? trueTitle : falseTitle }}
+    </mat-label>
   </ng-container>
   <ng-template #formTemplate>
     <mat-slide-toggle
@@ -11,4 +19,5 @@
       {{ controlValue ? trueTitle : falseTitle }}
     </mat-slide-toggle>
   </ng-template>
+
 </div>

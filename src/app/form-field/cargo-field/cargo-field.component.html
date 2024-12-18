@@ -1,6 +1,10 @@
-<div class="form-group d-flex align-items-center">
-  <label class="form-label mr-2">{{title}}</label>
-  <mat-form-field *ngIf="list$ && control" class="form-field">
+<div>
+
+  <mat-label class="custom-label">
+    {{ title }}
+  </mat-label>
+
+  <mat-form-field *ngIf="list$ && control" floatLabel="always" appearance="outline">
     <mat-select
       [formControl]="control"
       [compareWith]="compareWith"
@@ -14,4 +18,5 @@
       El cargo es <strong>requerido</strong>
     </mat-error>
   </mat-form-field>
+
 </div>

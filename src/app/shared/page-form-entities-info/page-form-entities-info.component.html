@@ -49,7 +49,10 @@
           </div>
 
           <!-- Estado -->
-          <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex; align-items: center;">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <mat-label class="custom-label">
+              Estado
+            </mat-label>
             <mat-slide-toggle formControlName="estado" >
               {{ estadoControlValue ? "Activo" : "No activo" }}
             </mat-slide-toggle>

@@ -7,12 +7,19 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./slide.component.scss'],
 })
 export class SlideComponent {
+
   @Input() control!: FormControl;
   @Input() isShow = false;
   @Input() trueTitle = 'Si';
   @Input() falseTitle = 'No';
   @Input() readonly = false;
+  @Input() requerido = false;
+  @Input() title = "";
   @Output() valueChange = new EventEmitter<boolean>();
+
+  get titleLabel():string {
+    return this.title + "   ";
+  }
 
   get controlValue(): boolean {
     return !!this.control.value;

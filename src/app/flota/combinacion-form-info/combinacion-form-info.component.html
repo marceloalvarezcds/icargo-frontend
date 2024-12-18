@@ -43,6 +43,7 @@
               [isShow]="isShow"
               [control]="estadoControlCamion"
               [readonly]="true"
+              title="Estado"
               controlName="estado_camion"
               trueTitle="Activo"
               falseTitle="Inactivo"
@@ -133,6 +134,7 @@
               [isShow]="isShow"
               [control]="estadoControlSemi"
               [readonly]="true"
+              title="Estado"
               controlName="estado_semi"
               trueTitle="Activo"
               falseTitle="Inactivo"
@@ -199,9 +201,10 @@
                 [isShow]="isShow"
                 [control]="puedeRecibirAnticiposControl"
                 controlName="puede_recibir_anticipos"
-                trueTitle="Puede recibir anticipos"
+                title="Puede recibir anticipos"
                 [readonly]="true"
-                falseTitle="No puede recibir anticipos"
+                trueTitle="Sí"
+                falseTitle="No"
                 (valueChange)="
                   !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
               ></app-slide>
@@ -212,6 +215,7 @@
                 [control]="estadoControl"
                 controlName="estado"
                 [readonly]="true"
+                title="Estado"
                 trueTitle="Activo"
                 falseTitle="Inactivo"
                 (valueChange)="estadoChoferChange.emit($event)"
@@ -255,7 +259,6 @@
               [form]="form"
               (valueChange)="onTipoPersonaChange($event)"
               (isFisicaSelected)="handleFisicaSelected($event)"
-              
               >
             </app-tipo-persona-field>
 
@@ -278,6 +281,15 @@
               [form]="form"
             ></app-input-field>
 
+            <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
+              title="Celular"
+              [groupName]="groupName"
+              [readonly]="true"
+              controlName="telefono"
+              [form]="form"
+            ></app-input-field>
+
             <div style="display: flex; flex-direction: column;">
 
               <app-slide
@@ -286,6 +298,7 @@
                 [isShow]="isShow"
                 [control]="estadoControl"
                 controlName="estado_propietario"
+                title="Estado"
                 [readonly]="true"
                 trueTitle="Activo"
                 falseTitle="Inactivo"
@@ -297,8 +310,9 @@
                 [isShow]="isShow"
                 [control]="puedeRecibirAnticiposControlPropietario"
                 controlName="anticipo_propietario"
-                trueTitle="Puede recibir anticipos"
-                falseTitle="No puede recibir anticipos"
+                title="Puede recibir anticipos"
+                trueTitle="Sí"
+                falseTitle="No"
                 (valueChange)="
                   !$event &&
                     cantidadOCConAnticiposLiberados > 0 &&
@@ -306,15 +320,6 @@
                 "
               ></app-slide>
             </div>
-
-            <app-input-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-2"
-              title="Celular"
-              [groupName]="groupName"
-              [readonly]="true"
-              controlName="telefono"
-              [form]="form"
-            ></app-input-field>
 
           </div>
 
