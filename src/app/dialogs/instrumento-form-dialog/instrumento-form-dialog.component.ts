@@ -126,6 +126,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
   }
 
   get montoHint(): string {
+    if (this.dialogData.isShow) return "";
     if (this.monto) {
       return `Residuo: <strong>${ numberWithCommas(subtract(
         this.residuo,

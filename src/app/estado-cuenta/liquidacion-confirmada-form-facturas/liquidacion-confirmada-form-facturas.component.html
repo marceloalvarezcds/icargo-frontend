@@ -5,13 +5,15 @@
     <div class="col-xs-12" [hidden]="!(list && list.length)">
 
       <app-table
-        [hideEdit]="isShow ||  !(
-            liquidacion.estado === E.ACEPTADO ||
-            liquidacion.estado === E.CONFIRMADO
+        [hideEdit]="isShow || !(
+            liquidacion.estado === E.PENDIENTE ||
+            liquidacion.estado === E.EN_PROCESO ||
+            liquidacion.estado === E.EN_REVISION
           )"
-        [hideDelete]="isShow ||  !(
-          liquidacion.estado === E.ACEPTADO ||
-          liquidacion.estado === E.CONFIRMADO
+        [hideDelete]="isShow || !(
+          liquidacion.estado === E.PENDIENTE ||
+          liquidacion.estado === E.EN_PROCESO ||
+          liquidacion.estado === E.EN_REVISION
         )"
         [mostrarBotonEliminar]="!isShow"
         [hideShow]="!isShow"

@@ -64,7 +64,7 @@
         [form]="form">
       </app-moneda-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
+      <div *ngIf="!isShow" class="input-form-full col-xs-12 col-sm-6 col-md-5">
         <mat-label [innerHTML]="montoHint"></mat-label>
       </div>
 

@@ -91,6 +91,10 @@ export class FacturaFormDialogComponent {
     return this.dialogData.contraparte_id;
   }
 
+  get isShow():boolean {
+    return this.dialogData.isShow ?? false;
+  }
+
   constructor(
     private facturaService: FacturaService,
     public dialogRef: MatDialogRef<FacturaFormDialogComponent>,

@@ -109,16 +109,18 @@
           <app-slide
             [isShow]="isShow"
             [control]="esPropietarioControl"
-            trueTitle="Es Propietario"
-            falseTitle="No es Propietario"
+            title="Es Propietario"
+            trueTitle="Sí"
+            falseTitle="No"
             (valueChange)="esPropietarioChange.emit($event)"
           ></app-slide>
 
           <app-slide
             [isShow]="isShow"
             [control]="puedeRecibirAnticiposControl"
-            trueTitle="Puede recibir anticipos"
-            falseTitle="No puede recibir anticipos"
+            title="Puede recibir anticipos"
+            trueTitle="Sí"
+            falseTitle="No"
             (valueChange)="
               !$event &&
                 cantidadOCConAnticiposLiberados > 0 &&

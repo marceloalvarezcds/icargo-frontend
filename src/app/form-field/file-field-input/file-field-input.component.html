@@ -17,7 +17,8 @@
             (click)="openImageDialog()"
             class="file-field {{ className }}"
           />
-          <mat-icon *ngIf="!fieldFile">attach_file</mat-icon>
+
+          <mat-icon *ngIf="!fieldFile && !field">attach_file</mat-icon>
 
           <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
         </div>
@@ -71,6 +72,7 @@
             (click)="openImageDialog()"
             class="file-field {{ className }}"
           />
+          <mat-icon *ngIf="!fieldFile && !field">attach_file</mat-icon>
           <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
         </div>
         <input
