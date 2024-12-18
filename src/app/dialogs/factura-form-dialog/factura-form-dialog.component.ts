@@ -52,7 +52,7 @@ export class FacturaFormDialogComponent {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? this.dialogData.isShow ? 'Ver' : 'Editar' : 'Crear';
   }
 
   get editFormCheck(): boolean {

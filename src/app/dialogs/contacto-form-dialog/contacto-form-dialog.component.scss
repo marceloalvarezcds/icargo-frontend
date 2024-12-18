@@ -6,69 +6,30 @@
 }
 
 .mat-dialog-title {
-  margin-top: -20px;
   padding-top: 0;
 }
 
 .submodule {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
   font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
-  color: #3B9EFF; /* Color para el submódulo */
+  color: #3B9EFF;
 }
 
 .module {
-  font-family: 'Roboto', sans-serif;
-  font-size: 14px;
   font-weight: 700;
-  line-height: 14.06px;
-  letter-spacing: 0.06em;
-  text-align: left;
   color: #F25A38; /* Color para el submódulo */
 }
 
 .submodule::after {
   content: " >> ";
-  margin-top: -22px; /* Espacio entre los elementos */
   color: #F25A38; /* Color del signo de mayor */
   font-style: italic;
-  font-size: 12px;
   font-weight: 700;
-  line-height: 18.75px;
-  letter-spacing: 0.06em;
-  text-align: left;
 }
-
-
-.mat-dialog-title::after {
-  content: ''; /* Contenido vacío para el seudoelemento */
-  position: absolute; /* Posición absoluta para ajustar la línea */
-  bottom: 0; /* Coloca la línea en la parte inferior del título */
-  left: 0; /* Alinea la línea desde el borde izquierdo */
-  width: 100%; /* Ancho completo de la línea */
-  height: 1px; /* Grosor de la línea */
-  background-color: #3B9EFF; /* Color de la línea */
-}
-
 
 .mat-dialog-actions {
   position: relative; /* Asegura que la posición sea relativa para el seudoelemento */
   justify-content: flex-end; /* Alinea los botones a la derecha */
   gap: 10px; /* Espacio entre los botones */
-  margin-top: -15px; /* Aumenta el espacio superior entre los botones y el contenido */
   margin-bottom: 0; /* Elimina el margen inferior */
   padding-bottom: 0; /* Elimina el padding inferior */
-}
-
-.mat-dialog-actions::before {
-  content: ''; /* Contenido vacío para el seudoelemento */
-  position: absolute; /* Posición absoluta para ajustar la línea */
-  top: -2px; /* Coloca la línea encima de los botones */
-  left: 0; /* Alinea la línea desde el borde izquierdo */
-  width: 100%; /* Ancho completo de la línea */
-  height: 1px; /* Grosor de la línea */
-  background-color: #ccc; /* Color de la línea */
 }

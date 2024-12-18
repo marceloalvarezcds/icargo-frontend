@@ -7,6 +7,7 @@ export interface InstrumentoFormDialogData {
   item?: InstrumentoLiquidacionItem;
   es_cobro: boolean;
   residuo: number;
+  isShow?:boolean;
 }
 
 export const mockInstrumentoFormDialogData: InstrumentoFormDialogData = {

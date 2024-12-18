@@ -90,7 +90,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'Crear';
+    return this.data ? this.dialogData.isShow ? 'Ver' : 'Editar' : 'Crear';
   }
 
   get anticipadoControl(): FormControl {
@@ -147,11 +147,21 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     return this.form.get('via_id') as FormControl;
   }
 
+  get isShow(): boolean {
+    return this.dialogData.isShow!;
+  }
+
   constructor(
     public dialogRef: MatDialogRef<InstrumentoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: InstrumentoFormDialogData
-  ) {}
+  ) {
+
+    if (this.dialogData.isShow){
+      this.form.disable();
+    }
+
+  }
 
   ngOnDestroy(): void {
     this.chequeEsDiferidoSubscription.unsubscribe();

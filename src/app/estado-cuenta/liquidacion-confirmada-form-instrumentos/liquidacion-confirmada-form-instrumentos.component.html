@@ -2,16 +2,26 @@
   <div class="row">
     <ng-container *ngIf="list && list.length">
       <h4 class="col-xs-12">Instrumentos a crearse</h4>
-      <div class="col-xs-12 table-container">
+      <div class="col-xs-12">
         <app-table
+          [hideEdit]="isShow"
+          [hideDelete]="isShow"
+          [mostrarBotonEliminar]="!isShow"
+          [hideShow]="!isShow"
           [columns]="columns"
           [modelo]="m.INSTRUMENTO"
           [gestorCuentaId]="gestorCargaId"
           [data]="list"
-          [hideShow]="true"
-          [isShow]="isShow"
+          [isShow]="
+            !(
+              (m.INSTRUMENTO | puede: a.EDITAR:gestorCargaId) ||
+              (m.INSTRUMENTO | puede: a.ELIMINAR:gestorCargaId) ||
+              (m.INSTRUMENTO | puede: a.VER:gestorCargaId)
+            )
+          "
           (editClick)="edit($event)"
           (deleteClick)="remove($event)"
+
         ></app-table>
       </div>
     </ng-container>

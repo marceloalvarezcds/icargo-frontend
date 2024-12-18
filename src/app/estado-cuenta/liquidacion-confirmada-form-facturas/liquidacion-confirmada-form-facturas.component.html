@@ -1,13 +1,25 @@
 <div *ngIf="liquidacion">
+
   <div class="row">
-    <div class="col-xs-12 table-container" [hidden]="!(list && list.length)">
+
+    <div class="col-xs-12" [hidden]="!(list && list.length)">
+
       <app-table
+        [hideEdit]="isShow ||  !(
+            liquidacion.estado === E.ACEPTADO ||
+            liquidacion.estado === E.CONFIRMADO
+          )"
+        [hideDelete]="isShow ||  !(
+          liquidacion.estado === E.ACEPTADO ||
+          liquidacion.estado === E.CONFIRMADO
+        )"
+        [mostrarBotonEliminar]="!isShow"
+        [hideShow]="!isShow"
         [columns]="columns"
         [modelo]="m.FACTURA"
         [gestorCuentaId]="gestorCargaId"
         [data]="list"
         [isShow]="
-          isShow ||
           !(
             (m.FACTURA | puede: a.EDITAR:gestorCargaId) ||
             (m.FACTURA | puede: a.ELIMINAR:gestorCargaId) ||

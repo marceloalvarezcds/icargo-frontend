@@ -4,7 +4,8 @@
 
     <div [formGroup]="form">
 
-      <div [formGroupName]="groupName">
+      <div [formGroupName]="groupName"
+        style="display: flex;flex-direction: column; align-items: flex-start;">
 
         <mat-label class="custom-label">{{ title }}</mat-label>
 
@@ -16,6 +17,8 @@
             (click)="openImageDialog()"
             class="file-field {{ className }}"
           />
+          <mat-icon *ngIf="!fieldFile">attach_file</mat-icon>
+
           <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
         </div>
 
@@ -56,7 +59,7 @@
   <ng-container *ngIf="!groupName">
     <div [formGroup]="form">
 
-      <div  >
+      <div style="display: flex;flex-direction: column;  align-items: flex-start;" >
 
         <mat-label class="custom-label">{{ title }}</mat-label>
 

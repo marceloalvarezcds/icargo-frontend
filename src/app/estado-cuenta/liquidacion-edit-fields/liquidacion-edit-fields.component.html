@@ -54,6 +54,8 @@
       <h2>INSTRUMENTOS</h2>
       <app-liquidacion-instrumentos
         [list]="instrumentos"
+        [isShow]="isShow"
+        [liquidacion]="item"
       ></app-liquidacion-instrumentos>
       <app-liquidacion-confirmada-form-instrumentos
         [estadoCuenta]="estadoCuenta"

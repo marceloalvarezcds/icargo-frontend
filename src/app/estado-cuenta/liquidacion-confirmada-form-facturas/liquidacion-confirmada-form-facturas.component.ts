@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FacturaFormDialogComponent } from 'src/app/dialogs/factura-form-dialog/factura-form-dialog.component';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum,
@@ -23,6 +24,8 @@ import { create, edit, remove } from 'src/app/utils/table-event-crud';
   styleUrls: ['./liquidacion-confirmada-form-facturas.component.scss'],
 })
 export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
+  E = LiquidacionEstadoEnum;
+
   a = PermisoAccionEnum;
   m = PermisoModeloEnum;
   columns: Column[] = [

@@ -104,6 +104,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
     return Math.abs(this.item!.pago_cobro!);
   }
 
+  get gestorCargaId(): number | undefined {
+    return this.item?.gestor_carga_id;
+  }
+
   constructor(
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,

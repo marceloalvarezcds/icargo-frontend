@@ -81,7 +81,7 @@ export class PageFormContactosComponent {
     .open(ContactoFormDialogComponent, {
       width: '600px',
       height: 'auto',
-      panelClass: 'custom-dialog-container' 
+      panelClass: 'custom-dialog-container'
     })
       .afterClosed()
       .pipe(filter((contacto) => !!contacto))
@@ -96,9 +96,9 @@ export class PageFormContactosComponent {
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(ContactoFormDialogComponent, { 
-        data, 
-        width: '600px', 
+      .open(ContactoFormDialogComponent, {
+        data,
+        width: '600px',
         height: 'auto',
        disableClose: true, })
       .afterClosed()
@@ -114,9 +114,9 @@ export class PageFormContactosComponent {
     const data = { ...event.row, action: 'view' }; // Agregar un indicador de acción
     const index = event.index;
     this.dialog
-      .open(ContactoFormDialogComponent, { 
-        data, 
-        width: '500px', 
+      .open(ContactoFormDialogComponent, {
+        data,
+        width: '500px',
         height: 'auto',
       })
       .afterClosed()
@@ -127,8 +127,8 @@ export class PageFormContactosComponent {
         this.contactoArray.setControl(index, this.createConactoForm(contacto));
       });
   }
-  
- 
+
+
 
   removeContacto(event: TableEvent<ContactoGestorCargaList>): void {
     const contacto = event.row;
@@ -150,7 +150,7 @@ export class PageFormContactosComponent {
 
   downloadFile(): void {
     console.log("descarga")
- 
+
   }
 
   private createConactoForm(contacto: ContactoGestorCargaList): FormGroup {
