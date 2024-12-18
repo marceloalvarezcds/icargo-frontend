@@ -16,7 +16,6 @@
             alt=""
             class="file-field"
           />
-          <mat-icon *ngIf="!fieldFile && !field">attach_file</mat-icon>
           <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
         </div>
         <input
@@ -27,6 +26,9 @@
           (change)="fieldChange($event)"
           style="display: none"
         />
+        <mat-form-field floatLabel="always" appearance="outline"  class="file-form-field" *ngIf="isShow">
+          <input matInput readonly [formControlName]="controlName"/>
+        </mat-form-field>
         <mat-form-field floatLabel="always" appearance="outline" *ngIf="!isShow">
           <input
             matInput
@@ -61,7 +63,7 @@
           alt=""
           class="file-field"
         />
-        <mat-icon *ngIf="!fieldFile && !field">attach_file</mat-icon>
+
         <img *ngIf="field" (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
       </div>
       <input
@@ -72,6 +74,9 @@
         (change)="fieldChange($event)"
         style="display: none"
       />
+      <mat-form-field floatLabel="always" appearance="outline"  class="file-form-field" *ngIf="isShow">
+        <input matInput readonly [formControlName]="controlName"/>
+      </mat-form-field>
       <mat-form-field class="file-form-field" *ngIf="!isShow">
         <input
           matInput
