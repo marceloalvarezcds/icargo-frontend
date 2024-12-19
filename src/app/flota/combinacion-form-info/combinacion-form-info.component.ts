@@ -32,7 +32,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   ngOnInit(){
     this.loading = false;
     this.tipoPersonaOriginal = this.item?.propietario?.tipo_persona_id;
-  
+
   }
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -42,7 +42,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
 
-  // controlName = 'ruc'; 
+  // controlName = 'ruc';
   fotoPerfil: string | null = null;
   fotoPerfilSemi: string | null = null;
   fotoPerfilChofer: string | null = null;
@@ -84,7 +84,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Output() anticiposBloqueadosChange = new EventEmitter();
 
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
-  
+
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup;
@@ -108,7 +108,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   get estadoControl(): FormControl {
     return this.info?.controls['estado'] as FormControl;
   }
-  
+
   get estadoControlCamion(): FormControl {
     return this.info?.controls['estado_camion'] as FormControl;
   }
@@ -120,7 +120,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   get estadoControlPropietario(): FormControl {
     return this.info?.controls['estado_propietario'] as FormControl;
   }
-  
+
   handleEstadoChange(): void {
     const estadoActual = this.estadoControl.value;
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
@@ -140,10 +140,10 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["limite_anticipos"].setValue(camion.limite_monto_anticipo);
       this.info?.controls["estado_camion"].setValue(camion.estado);
       this.info?.controls["foto_camion"].setValue(camion.foto);
-      this.fotoPerfil = camion.foto ?? null;      
+      this.fotoPerfil = camion.foto ?? null;
     }
   }
-  
+
   semiChange(semi?: SemiList){
      this.info?.controls["semi_id"].setValue(semi?.id)
      this.info?.controls["marca_semi"].setValue(semi?.marca_descripcion)
@@ -162,8 +162,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["chofer_celular"].setValue(chofer?.telefono_chofer)
     this.info?.controls["estado"].setValue(chofer?.estado)
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
-    this.info?.controls["foto_chofer"].setValue(chofer?.foto_registro_reverso)
-    this.fotoPerfilChofer = chofer?.foto_registro_reverso ?? null
+    this.info?.controls["foto_chofer"].setValue(chofer?.foto_perfil)
+    this.fotoPerfilChofer = chofer?.foto_perfil ?? null
     }
   }
 
@@ -178,7 +178,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["estado_propietario"].setValue(propietario.estado);
       this.info?.controls["foto_documento_frente"].setValue(propietario.foto_perfil);
       this.fotoDocumentoFrente = propietario.foto_perfil ?? null;
-  
+
       this.activateFields();
       if(this.isShow){
         this.info?.controls["tipo_persona_id"].disable();
@@ -186,7 +186,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       }
     }
   }
-  
+
   private activateFields(): void {
     if (this.info?.controls['tipo_persona_id'].value) {
       this.info?.controls["ruc"].enable();
@@ -196,7 +196,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["nombre"].disable();
     }
   }
-  
+
   onTipoPersonaChange(tipoPersona: TipoPersona | undefined): void {
     this.isShearch = true;
     if (!tipoPersona || tipoPersona.id !== this.tipoPersonaAnterior?.id) {
@@ -219,5 +219,5 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   handleFisicaSelected(isFisica: boolean) {
     this.isFisicaSelected = isFisica;
   }
- 
+
 }
