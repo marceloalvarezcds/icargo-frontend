@@ -2,10 +2,12 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { RemisionFormDialogComponent } from 'src/app/dialogs/remision-form-dialog/remision-form-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -39,7 +41,7 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado.toUpperCase(),
-    
+
     },
     {
       def: 'created_at',
@@ -107,7 +109,7 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'a_cobrar_flete',
       title: 'A Cobrar',
       value: (element: OrdenCargaList) => element.condicion_propietario_tarifa,
-    },    
+    },
     {
       def: 'cantidad_nominada_oc',
       title: 'Cant. Nominada',
@@ -122,6 +124,20 @@ export class OrdenCargaListComponent implements OnInit {
 
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
+
+  buttons : ButtonList[] = [
+    {
+      color: 'warn',
+      tooltip: 'Remisión',
+      styles: '',
+      icon: 'check_box',
+      label: 'Remisión',
+      iconClass: 'check_box',
+      buttonCallback: ($event:any) => {
+        this.createRemision();
+      }
+    },
+  ]
 
   isFiltered = false;
   list: OrdenCargaList[] = [];
@@ -309,4 +325,19 @@ export class OrdenCargaListComponent implements OnInit {
     this.estadoFiltered = this.estadoFilterList.slice();
     this.productoFiltered = this.productoFilterList.slice();
   }
+
+  createRemision(): void {
+
+    this.dialog
+      .open(RemisionFormDialogComponent,
+        {
+          panelClass: 'half-dialog',
+        })
+      .afterClosed()
+      //.pipe(filter((confirmed) => !!confirmed))
+      .subscribe(() => {
+      });
+
+  }
+
 }

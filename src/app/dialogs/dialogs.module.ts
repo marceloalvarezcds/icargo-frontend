@@ -44,6 +44,7 @@ import { OrdenCargaEstadoHistorialDialogComponent } from './orden-carga-estado-h
 import { CommentDialogComponent } from './comment-dialog/comment-dialog.component';
 import { EvaluacionesDialogComponent } from './evaluaciones-dialog/evaluaciones-dialog.component';
 import { EvaluacionesCancelarComponent } from './evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { RemisionFormDialogComponent } from './remision-form-dialog/remision-form-dialog.component';
 
 
 const modules = [
@@ -84,6 +85,7 @@ const modules = [
   CommentDialogComponent,
   EvaluacionesDialogComponent,
   EvaluacionesCancelarComponent,
+  RemisionFormDialogComponent
 ];
 
 @NgModule({

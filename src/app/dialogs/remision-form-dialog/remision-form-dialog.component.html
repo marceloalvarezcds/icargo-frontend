@@ -1,0 +1,98 @@
+<form [formGroup]="form" class="main-container">
+
+  <h3 mat-dialog-title >
+     <span class="module">CONFIRMACION DE RECEPCION FÍSICA DEL REMITO</span>
+  </h3>
+
+  <div class="section">
+    <h4 class="submodule">REMISIONES</h4>
+  </div>
+
+  <div mat-dialog-content>
+
+      <div class="row" style="margin-top: 10px;">
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+          <mat-label><span class="required">(*) </span>N° Remito</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline" appAutofocus>
+            <input type="text"
+                  placeholder="N° Remito"
+                  matInput
+                  [formControl]="nroRemitoOrigen"
+                  [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete"
+              (optionSelected)="cargarCampoRemision($event.option.value)">
+
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option.numero_documento">
+                {{option.numero_documento}}
+              </mat-option>
+
+            </mat-autocomplete>
+            <mat-error *ngIf="form.controls['nroRemitoOrigen'].hasError('required')">
+              El N° Remito es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+          <mat-label>Recibido Físicamente</mat-label>
+          <mat-slide-toggle
+              (change)="actualizarDocumentoOC($event)"
+              [formControl]="tieneDocumentoFisico">
+              {{ tieneDocumentoFisicovalue ? 'Sí' : 'No' }}
+          </mat-slide-toggle>
+        </div>
+
+        <app-number-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Cantidad"
+          [form]="form"
+          controlName="cantidad"
+          [form]="form"
+          appAutofocus
+        ></app-number-field>
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Unidad"
+          [form]="form"
+          controlName="unidad_descripcion"
+          [form]="form"
+          appAutofocus
+        ></app-input-field>
+
+        <app-fecha-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Fecha"
+          controlName="fecha"
+          [form]="form"
+        ></app-fecha-field>
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Imagen"
+          [form]="form"
+          controlName="foto_documento"
+          [form]="form"
+          appAutofocus
+        ></app-input-field>
+
+    </div>
+  </div>
+
+  <hr>
+
+  <div mat-dialog-actions style="margin-top: 5px;">
+
+    <button
+      mat-stroked-button
+      class="botones list-button" color="primary"
+      (click)="dialogRef.close()"
+      tabindex="7">
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
+
+  </div>
+
+</form>

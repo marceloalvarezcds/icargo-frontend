@@ -17,6 +17,11 @@ export class OrdenCargaRemisionOrigenService {
     return this.http.get<OrdenCargaRemisionOrigen[]>(`${this.url}/orden_carga/${ordenCargaId}`);
   }
 
+  getListByNroRemito(nroRemito: string): Observable<OrdenCargaRemisionOrigen[]> {
+    if (nroRemito) return this.http.get<OrdenCargaRemisionOrigen[]>(`${this.url}/oc/remito/${nroRemito}`);
+    else return this.http.get<OrdenCargaRemisionOrigen[]>(`${this.url}/oc/remito`);
+  }
+
   create(formData: FormData): Observable<OrdenCargaRemisionOrigen> {
     return this.http.post<OrdenCargaRemisionOrigen>(`${this.url}/`, formData);
   }
@@ -29,7 +34,7 @@ export class OrdenCargaRemisionOrigenService {
     return this.http.delete<OrdenCargaRemisionOrigen>(`${this.url}/${id}`);
   }
 
-  private apiUrl = 'http://localhost:9103/api'; 
+  private apiUrl = 'http://localhost:9103/api';
   getImage(filename: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/${filename}`, { responseType: 'blob' });
   }
