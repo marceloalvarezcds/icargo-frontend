@@ -18,7 +18,6 @@
         [readonly]="isExistContacto"
         controlName="nombre"
         [requerido]="true"
-        [form]="form"
         appAutofocus
       ></app-input-field>
 
@@ -28,18 +27,16 @@
         [form]="form"
         [requerido]="true"
         controlName="apellido"
-        [form]="form"
-        appAutofocus
       ></app-input-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-6" [formGroup]="form">
         <mat-label class="custom-label">
           <span class="required">(*) </span>
           Celular
         </mat-label>
-        <mat-form-field floatLabel="always" appearance="outline" [ngClass]="{'view-mode': isViewMode}">
+        <mat-form-field floatLabel="always" appearance="outline"
+          [ngClass]="{'view-mode': isViewMode}">
           <input
-              class="input-telefono"
               matInput
               formControlName="telefono"
               [ngClass]="{ 'view-mode': isViewMode }"
@@ -47,9 +44,9 @@
               appFormatToPastePhone
               (focus)="telefonoBlur$.next(false)"
               (blur)="telefonoBlur$.next(true)"
-              tabindex="3"
             />
           <mat-error *ngIf="form.get('telefono')?.hasError('required')">
+            Este campo es <strong>requerido</strong>
           </mat-error>
           <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
             <strong>Inválido</strong>. Formato: +595981 ó 0981
@@ -57,28 +54,27 @@
         </mat-form-field>
       </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-6" [formGroup]="form">
         <mat-label class="custom-label">
           <span class="required">(*) </span>
           Mail
         </mat-label>
-        <mat-form-field floatLabel="always" appearance="outline" [ngClass]="{'view-mode': isViewMode}">
+        <mat-form-field floatLabel="always" appearance="outline"
+          [ngClass]="{'view-mode': isViewMode}">
           <input
-              class="input-email"
               matInput
               formControlName="email"
               [ngClass]="{ 'view-mode': isViewMode }"
               placeholder="E-mail"
               (focus)="emailBlur$.next(false)"
               (blur)="emailBlur$.next(true)"
-              tabindex="4"
             />
             <mat-error *ngIf="form.get('email')?.hasError('required')">
-              <strong></strong>
-           </mat-error>
-           <mat-error *ngIf="form.get('email')?.hasError('email')">
-             El e-mail es <strong>inválido</strong>
-           </mat-error>
+              Este campo es <strong>requerido</strong>
+            </mat-error>
+            <mat-error *ngIf="form.get('email')?.hasError('email')">
+              El e-mail es <strong>inválido</strong>
+            </mat-error>
         </mat-form-field>
       </div>
 
@@ -88,12 +84,12 @@
         [form]="form"
         controlName="alias"
         [form]="form"
-        appAutofocus
       ></app-input-field>
 
       <app-cargo-field
         class="input-form-full col-xs-12 col-sm-6 col-md-7"
         title="Cargo"
+        [requerido]="true"
         [control]="cargoControl"
         [isViewMode]="isViewMode"
         [ngClass]="{ 'view-mode-cargo': isViewMode }"

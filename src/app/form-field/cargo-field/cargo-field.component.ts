@@ -17,6 +17,7 @@ export class CargoFieldComponent {
   @Input() control?: FormControl;
   @Input() title = 'Cargo';
   @Input() isViewMode: boolean = false;
+  @Input() requerido: boolean = false;
   @Output() valueChange = new EventEmitter<Cargo | undefined>();
 
   constructor(private service: SeleccionableService<Cargo>) {

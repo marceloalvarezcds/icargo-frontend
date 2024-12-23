@@ -3,6 +3,7 @@ import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { facturaData } from 'src/app/form-data/factura';
+import { Contribuyente } from 'src/app/interfaces/contribuyente';
 import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { FacturaService } from 'src/app/services/factura.service';
@@ -15,6 +16,7 @@ import { FacturaService } from 'src/app/services/factura.service';
 export class FacturaFormDialogComponent {
   foto: string | null = null;
   fotoFile: File | null = null;
+  contribuyente: Contribuyente | null = null;
 
   form = this.fb.group({
     moneda_id: [this.data?.moneda_id, Validators.required],
@@ -40,7 +42,7 @@ export class FacturaFormDialogComponent {
     ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
     iva_movimiento_id: [this.data?.iva_movimiento_id],
-    retencion_movimiento_id: [this.data?.retencion_movimiento_id]
+    retencion_movimiento_id: [this.data?.retencion_movimiento_id],
   });
 
   get check_sentido_mov_iva_pagar():boolean {
@@ -108,6 +110,12 @@ export class FacturaFormDialogComponent {
     if (this.dialogData.isShow) {
       this.form.disable();
     }
+  }
+
+  cargarContribuyente(contribuyente:Contribuyente):void {
+    this.form.get('contribuyente')!.setValue(contribuyente.contribuyente);
+    this.form.get('ruc')!.setValue(contribuyente.ruc);
+    this.contribuyente = contribuyente;
   }
 
   submit() {

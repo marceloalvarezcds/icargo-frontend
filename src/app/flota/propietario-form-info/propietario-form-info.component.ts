@@ -72,7 +72,8 @@ export class PropietarioFormInfoComponent {
     this.isFisicaSelected = isFisica;
     if (!isFisica) {
       this.esChoferControl.setValue(isFisica);
-      this.contactos?.setValidators(Validators.required);
+      // Se quita validador de contactos al editar 2024-12-13
+      //this.contactos?.setValidators(Validators.required);
     } else {
       this.contactos?.removeValidators(Validators.required);
     }

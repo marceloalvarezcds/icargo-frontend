@@ -31,12 +31,14 @@
         <mat-checkbox color="primary" formControlName="iva_incluido"></mat-checkbox>
       </div>
 
-      <app-input-field
+      <app-dialog-field-ruc
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Contribuyente"
         controlName="contribuyente"
         [form]="form"
-      ></app-input-field>
+        (valueChange)="cargarContribuyente($event)"
+      >
+      </app-dialog-field-ruc>
 
       <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"

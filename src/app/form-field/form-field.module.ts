@@ -109,10 +109,12 @@ import { TipoEvaluacionFieldComponent } from './tipo-evaluacion-field/tipo-evalu
 import { FileFieldInputComponent } from './file-field-input/file-field-input.component';
 import { PuntoVentaPrecioMapFieldComponent } from './punto-venta-precio-map-field/punto-venta-precio-map-field.component';
 import { InsumoByPuntoVentaFieldComponent } from './insumo-by-punto-venta-field/insumo-by-punto-venta-field.component';
+import { DialogFieldRucComponent } from './dialog-field-ruc/dialog-field-ruc.component';
 
 
 
 const modules = [
+  DialogFieldRucComponent,
   AliasFieldComponent,
   BancoByGestorDialogFieldComponent,
   CajaByGestorDialogFieldComponent,

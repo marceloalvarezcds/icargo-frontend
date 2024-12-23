@@ -71,10 +71,15 @@ export class PageFormContactosComponent {
   }
 
   get contactoArray(): FormArray {
+    let a =this.form.get('contactos') as FormArray;
     return this.form.get('contactos') as FormArray;
   }
 
-  constructor(private fb: FormBuilder, private dialog: MatDialog, private reportsService: ReportsService) {}
+  constructor(
+    private fb: FormBuilder,
+    private dialog: MatDialog,
+    private reportsService: ReportsService
+  ) {}
 
   addContacto(): void {
     this.dialog
@@ -149,8 +154,7 @@ export class PageFormContactosComponent {
   }
 
   downloadFile(): void {
-    console.log("descarga")
-
+    console.log("descarga");
   }
 
   private createConactoForm(contacto: ContactoGestorCargaList): FormGroup {

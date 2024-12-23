@@ -42,8 +42,8 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     {
       def: 'fecha_instrumento',
       title: 'Fecha',
+      type: 'only-date',
       value: (element: InstrumentoLiquidacionItem) => element.fecha_instrumento,
-      type: 'date',
     },
     {
       def: 'tipo_instrumento_descripcion',
@@ -73,7 +73,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       title: 'Fecha de vencimiento del cheque',
       value: (element: InstrumentoLiquidacionItem) =>
         element.cheque_fecha_vencimiento,
-      type: 'date',
+      type: 'only-date',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];

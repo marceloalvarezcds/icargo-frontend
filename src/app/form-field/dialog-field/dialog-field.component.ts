@@ -34,6 +34,7 @@ export class DialogFieldComponent<T extends { id: number },
   }
 
   get control(): FormControl {
+    console.log("control(): ", this.group.get(this.controlName));
     return this.group.get(this.controlName) as FormControl;
   }
 
@@ -52,12 +53,8 @@ export class DialogFieldComponent<T extends { id: number },
   @Input() list: T[] = [];
   @Input() title = '';
   @Input() subtitle = '';
-  @Input() dialogRefFunction?: (
-    selectedValue: T | undefined
-  ) => MatDialogRef<DialogComponent>;
-  @Input() fetchFunction?: (
-    request: PaginatedListRequest
-  ) => Observable<PaginatedList<T>>;
+  @Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
+  @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input()
   get readonly(): boolean {
     return this.isreadonly;
@@ -81,6 +78,8 @@ export class DialogFieldComponent<T extends { id: number },
   ngAfterViewInit(): void {
     if (this.readonly) this.control.disable()
     else this.control.enable();
+    console.log("form: ", this.form);
+    console.log("groupName: ", this.groupName);
   }
 
   clearSelectedValue(): void {

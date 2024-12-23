@@ -54,8 +54,8 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     {
       def: 'fecha_vencimiento',
       title: 'Fecha de Vencimiento',
+      type: 'only-date',
       value: (element: Factura) => element.fecha_vencimiento,
-      type: 'date',
     },
     {
       def: 'moneda_nombre',
@@ -70,6 +70,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha creación',
+      type: 'date-time',
       value: (element: Factura) => element.created_at,
     },
     {
@@ -80,6 +81,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
+      type: 'date-time',
       value: (element: Factura) => element.modified_at,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },

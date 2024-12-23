@@ -171,6 +171,11 @@
                   column.value(row) | momentFormat: "DD-MM-YYYY"
                 }}</span>
               </ng-container>
+              <ng-container *ngSwitchCase="'date-time'">
+                <span>{{
+                  column.value(row) | momentFormat: "DD-MM-YYYY HH:mm"
+                }}</span>
+              </ng-container>
               <ng-container *ngSwitchCase="'html'">
                 <div [innerHTML]="column.value(row)"></div>
               </ng-container>

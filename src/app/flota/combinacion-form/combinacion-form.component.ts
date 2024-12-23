@@ -204,6 +204,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
+    this.form.markAllAsTouched();
   }
 
   ngOnDestroy(): void {

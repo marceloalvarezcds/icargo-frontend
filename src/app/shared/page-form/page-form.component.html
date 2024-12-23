@@ -202,7 +202,7 @@
           <mat-icon>download</mat-icon>
         </button>
 
-        <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)">
+        <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && (isEdit || isShow) ">
           <button
             mat-mini-fab
             class="botones" color="warn"
