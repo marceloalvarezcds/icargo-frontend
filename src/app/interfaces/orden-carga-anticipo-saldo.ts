@@ -15,6 +15,7 @@ export interface OrdenCargaAnticipoSaldo extends OrdenCargaAnticipoSaldoForm {
   concepto: string;
   porcentaje: number;
   total_disponible: number;
+  flete_anticipo_id_property: number;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -39,6 +40,7 @@ export const mockOrdenCargaAnticipoSaldoList: OrdenCargaAnticipoSaldo[] = [
     concepto: fleteAnticipo0.tipo_descripcion,
     porcentaje: 10,
     total_disponible: 300,
+    flete_anticipo_id_property: 1,
     // Auditoría
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -57,6 +59,7 @@ export const mockOrdenCargaAnticipoSaldoList: OrdenCargaAnticipoSaldo[] = [
     concepto: fleteAnticipo1.tipo_insumo_descripcion!,
     porcentaje: 10,
     total_disponible: 300,
+    flete_anticipo_id_property: 1,
     // Auditoría
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',
@@ -75,6 +78,8 @@ export const mockOrdenCargaAnticipoSaldoList: OrdenCargaAnticipoSaldo[] = [
     concepto: fleteAnticipo2.tipo_insumo_descripcion!,
     porcentaje: 10,
     total_disponible: 300,
+    flete_anticipo_id_property: 1,
+
     // Auditoría
     created_by: 'system',
     created_at: '2021-11-30T20:38:09.553757',

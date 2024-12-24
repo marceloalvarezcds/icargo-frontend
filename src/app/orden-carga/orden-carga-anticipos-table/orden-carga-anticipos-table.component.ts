@@ -123,6 +123,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    
     if (this.list.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
@@ -166,44 +167,24 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     return !!this.ocRetirado?.monto_retirado;
   }
 
-  // get filteredAnticipos(): any[] {
-  //   // Filtrar anticipos para incluir solo 'combustible' y 'efectivo'
-  //   const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
-  //     ['combustible', 'efectivo'].includes(anticipo.concepto.toLowerCase())
-  //   ) || [];
 
-  //   // Ordenar anticipos: primero 'efectivo', luego 'combustible'
-  //   return anticiposFiltrados.sort((a, b) => {
-  //     if (a.concepto.toLowerCase() === 'efectivo' && b.concepto.toLowerCase() === 'combustible') {
-  //       return -1; // 'Efectivo' va primero
-  //     } else if (a.concepto.toLowerCase() === 'combustible' && b.concepto.toLowerCase() === 'efectivo') {
-  //       return 1; // 'Combustible' va después
-  //     }
-  //     return 0; // Mantener el orden original si no es 'Efectivo' ni 'Combustible'
-  //   });
-  // }
-
-  get filteredAnticipos(): any[] {
-    const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
+  
+   get filteredAnticipos(): any[] {
+     // Filtrar anticipos para incluir solo 'combustible' y 'efectivo'
+     const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
       ['combustible', 'efectivo'].includes(anticipo.concepto.toLowerCase())
-    ) || [];
+     ) || [];
 
-    // Eliminar duplicados basados en el concepto
-    const uniqueAnticipos = anticiposFiltrados.filter((anticipo, index, self) =>
-      index === self.findIndex((a) => a.concepto.toLowerCase() === anticipo.concepto.toLowerCase())
-    );
-
-    // Ordenar anticipos: primero 'efectivo', luego 'combustible'
-    return uniqueAnticipos.sort((a, b) => {
-      if (a.concepto.toLowerCase() === 'efectivo' && b.concepto.toLowerCase() === 'combustible') {
-        return -1; // 'Efectivo' va primero
-      } else if (a.concepto.toLowerCase() === 'combustible' && b.concepto.toLowerCase() === 'efectivo') {
-        return 1; // 'Combustible' va después
-      }
-      return 0; // Mantener el orden original si no es 'Efectivo' ni 'Combustible'
-    });
-  }
-
+     // Ordenar anticipos: primero 'efectivo', luego 'combustible'
+     return anticiposFiltrados.sort((a, b) => {
+       if (a.concepto.toLowerCase() === 'efectivo' && b.concepto.toLowerCase() === 'combustible') {
+         return -1; // 'Efectivo' va primero
+       } else if (a.concepto.toLowerCase() === 'combustible' && b.concepto.toLowerCase() === 'efectivo') {
+         return 1; // 'Combustible' va después
+       }
+       return 0; // Mantener el orden original si no es 'Efectivo' ni 'Combustible'
+     });
+   }
 
   getSaldoAnticipoNuevo(anticipo: any): number {
     const tarifaEfectivo = this.flete?.condicion_gestor_carga_tarifa ?? 0;

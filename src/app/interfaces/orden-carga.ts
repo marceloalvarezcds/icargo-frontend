@@ -162,6 +162,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   comentario: OrdenCargaComentariosHistorial[];
   evaluaciones_historial: OrdenCargaEvaluacionesHistorial[];
   saldos: OrdenCargaAnticipoSaldo[];
+  saldos_flete_id: OrdenCargaAnticipoSaldo[];
   anticipos: OrdenCargaAnticipoRetirado[];
   porcentaje_anticipos: OrdenCargaAnticipoPorcentaje[];
   flete_anticipos: FleteAnticipo[];
@@ -372,6 +373,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   evaluaciones_historial: mockOrdenCargaEvaluacionesHistorialList,
   historial: mockOrdenCargaEstadoHistorialList,
   saldos: mockOrdenCargaAnticipoSaldoList,
+  saldos_flete_id: mockOrdenCargaAnticipoSaldoList,
   anticipos: mockOrdenCargaAnticipoRetiradoList,
   porcentaje_anticipos: mockOrdenCargaAnticipoPorcentajeList,
   flete_anticipos: mockFleteAnticipoList,

@@ -618,6 +618,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       })
      
     );
+    
     // Convertir propiedades a mayúsculas, excepto los correos electrónicos
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {

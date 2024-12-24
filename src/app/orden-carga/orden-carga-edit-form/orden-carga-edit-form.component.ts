@@ -31,6 +31,11 @@ import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dia
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
+import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { FleteAnticipo, FleteAnticipoForm } from 'src/app/interfaces/flete-anticipo';
+import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
+import { OrdenCargaAnticipoSaldo, OrdenCargaAnticipoSaldoForm } from 'src/app/interfaces/orden-carga-anticipo-saldo';
+import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 
 
 @Component({
@@ -56,6 +61,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   item?: OrdenCarga;
   itemList?: OrdenCargaList
   flete?: FleteList;
+  fleteAnticipo?: OrdenCargaAnticipoSaldo;
   isEditPressed: boolean = true;
   combinacionList?: CombinacionList;
   formDisabledTime = new Date();
@@ -129,7 +135,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   get isNuevo(): boolean {
     return this.estado === EstadoEnum.NUEVO;
   }
-
 
   get estado(): EstadoEnum {
     return this.item!.estado;
@@ -280,9 +285,20 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.info.get('documento_fisico')?.value;
   }
 
+  get felteIdValue(): FormControl {
+    return this.info.get('combinacion.flete_id')?.value;
+  }
+
+  get anticipoFlete(): number | undefined | null {
+    return this.fleteAnticipo?.flete_anticipo_id_property ?? null;  // Retorna null si fleteAnticipo es null o undefined
+  }
+  
+
   constructor(
     private fb: FormBuilder,
     private ordenCargaService: OrdenCargaService,
+    private ordenCargaSaldoService: OrdenCargaAnticipoSaldoService,
+    private insumoService: FleteAnticipoService,
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
@@ -296,6 +312,9 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.form.get('combinacion.flete_id')?.disable();
+    this.form.get('combinacion.combinacion_id')?.disable();
+    this.form.get('combinacion.id_orden_carga')?.disable();
+    this.form.get('info.cantidad_nominada')?.disable()
     this.getData();
   }
 
@@ -732,48 +751,77 @@ private cancelOrdenCarga(): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
+  
     if (this.form.valid) {
         const formData = new FormData();
         this.isButtonPressed = false;
         this.isEditPedido = false;
         this.isEditPressed = true;
         this.form.get('combinacion.flete_id')?.disable();
-        const data = JSON.parse(
-            JSON.stringify({
-
-                ...this.form.value.info,
-                flete_id: this.item?.flete_id,
-                //Condiciones GC, Propietario
-                condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
-                condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
-                //Mermas para GC
-                merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
-
-                merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
-                //Mermas para Propietario
-                merma_propietario_valor: this.item?.merma_propietario_valor,
-
-                merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
-                anticipos: this.item?.porcentaje_anticipos
-            })
-        );
-
-        formData.append('data', JSON.stringify(data));
-
-        if (this.isEdit) {
-            this.hasChange = false;
-            this.initialFormValue = this.form.value;
-            this.ordenCargaService.edit(this.id, formData).subscribe(() => {
-                this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-
-                setTimeout(() => {
-                    this.getDataWithoutOverwritingFlete();
-                }, 1000);
-            });
-        }
+ 
+        const tipoId = 1;  
+        const fleteId = this.form.get('combinacion.flete_id')?.value; 
+        const id_oc = this.form.get('combinacion.id_orden_carga')?.value; 
+        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+          next: (anticipoFlete) => {
+  
+            const anticipoFleteId = anticipoFlete.id;
+            if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+              this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+                next: (saldoAnticipo) => {
+       
+                  const data = JSON.parse(
+                      JSON.stringify({
+                          ...this.form.value.info,
+                          flete_id: this.item?.flete_id,
+                          // Condiciones GC, Propietario
+                          condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
+                          condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
+                          // Mermas para GC
+                          merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
+                          merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
+                          // Mermas para Propietario
+                          merma_propietario_valor: this.item?.merma_propietario_valor,
+                          merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
+                          anticipos: this.item?.porcentaje_anticipos,
+                          saldoAnticipo: saldoAnticipo  
+                      })
+                  );
+  
+                  formData.append('data', JSON.stringify(data));
+  
+                  if (this.isEdit) {
+                      this.hasChange = false;
+                      this.initialFormValue = this.form.value;
+                      this.ordenCargaService.edit(this.id, formData).subscribe(() => {
+                          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+  
+                          setTimeout(() => {
+                              this.getDataWithoutOverwritingFlete();
+                          }, 1000);
+                      });
+                  }
+  
+                },
+                error: (error) => {
+                  console.error('Error al obtener el saldo de anticipo:', error);
+                }
+              });
+            } else {
+              console.error('El ID de anticipo de flete no es válido:', anticipoFleteId);
+            }
+          },
+          error: (error) => {
+            console.error('Error al obtener el anticipo de flete:', error);
+          }
+        });
     }
   }
+  
+  
+  
+
+
 
   onEditPressed() {
     this.isEditPressed = false;
@@ -803,6 +851,8 @@ private cancelOrdenCarga(): void {
         this.item.merma_propietario_tolerancia = data.merma_propietario_tolerancia
 
         this.item.porcentaje_anticipos = data.porcentaje_anticipos
+
+        this.item.saldos_flete_id = data.saldos_flete_id
 
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
