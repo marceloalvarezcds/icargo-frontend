@@ -55,51 +55,12 @@
             matTooltip="Exportar lista"
             class="botones boton-descarga"
             (click)="downloadClick.emit($event)"
-            *ngIf="modelo | puede: a.REPORTE"
-          >
+            *ngIf="(modelo | puede: a.REPORTE) && submodule !== 'Orden de Carga'">
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
+        
 
-          <!-- Botones dinamicos -->
-          <ng-container
-              *ngFor="let btn of dbuttons">
-
-              <button class="botones"
-                  mat-flat-button
-                  [color]="btn.color ?? '' "
-                  [matTooltip]="btn.tooltip ?? '' "
-                  [class]="btn.clases ?? '' "
-                  [style]="btn.styles ?? '' "
-                  (click)="btn.buttonCallback($event)">
-
-                <mat-icon *ngIf="btn.icon"
-                    [class]="btn.iconClass ?? '' ">
-                    {{btn.icon}}
-                </mat-icon>
-
-                {{btn.label}}
-
-              </button>
-
-          </ng-container>
-          <!-- Botones dinamicos -->
-
-          <!-- Botón específico para Orden de Carga -->
-          <button mat-flat-button
-            class="botones" color="accent"
-            *ngIf="submodule === 'Orden de Carga'"
-            (click)="createAnticipoClick.emit($event)">
-            <mat-icon>add_circle</mat-icon> ANTICIPO
-          </button>
-
-          <!-- Botón específico para Orden de Carga -->
-          <button mat-flat-button
-            class="botones" color="accent"
-            (click)="createRecepcionClick.emit($event)"
-            *ngIf="submodule === 'Orden de Carga'">
-            <mat-icon>add_circle</mat-icon> RECEPCION
-          </button>
-
+      
           <button
             mat-flat-button
             color="primary"
@@ -130,14 +91,54 @@
               submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
               }}
           </button>
-              <!-- Botón específico para Orden de Carga -->
+                <!-- Botón específico para Orden de Carga -->
           <button mat-flat-button
+            class="botones" color="accent"
+            *ngIf="submodule === 'Orden de Carga'"
+            (click)="createAnticipoClick.emit($event)">
+            <mat-icon>add_circle</mat-icon> ANTICIPO
+          </button>
+
+          <!-- Botón específico para Orden de Carga -->
+          <button mat-flat-button
+            class="botones" color="accent"
+            (click)="createRecepcionClick.emit($event)"
+            *ngIf="submodule === 'Orden de Carga'">
+            <mat-icon>add_circle</mat-icon> RECEPCION
+          </button>
+
+          <!-- Botones dinamicos -->
+          <ng-container
+            *ngFor="let btn of dbuttons">
+
+            <button class="botones"
+                mat-flat-button
+                [color]="btn.color ?? '' "
+                [matTooltip]="btn.tooltip ?? '' "
+                [class]="btn.clases ?? '' "
+                [style]="btn.styles ?? '' "
+                (click)="btn.buttonCallback($event)">
+
+              <mat-icon *ngIf="btn.icon"
+                  [class]="btn.iconClass ?? '' ">
+                  {{btn.icon}}
+              </mat-icon>
+
+              {{btn.label}}
+
+            </button>
+
+        </ng-container>
+          <!-- Botones dinamicos -->
+
+              <!-- Botón específico para Orden de Carga -->
+          <!-- <button mat-flat-button
             class="botones" color="warn"
             (click)="aceptarClick.emit($event)"
             [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
             *ngIf="submodule === 'Orden de Carga'">
               ACEPTAR
-          </button>
+          </button> -->
           <!-- Botón específico para Orden de Carga -->
           <button mat-stroked-button
               class="botones" color="primary"
@@ -154,6 +155,28 @@
               *ngIf="submodule === 'Orden de Carga'">
                 CONCILIAR
           </button>
+
+          <ng-container *ngIf="!hideBack">
+            <button
+              type="button"
+              mat-stroked-button
+              color="primary"
+              matTooltip="Volver al listado"
+              (click)="back()"
+              class="botones">
+              <mat-icon>arrow_back</mat-icon>
+              Volver
+            </button>
+          </ng-container>
+          <button
+            mat-stroked-button
+            matTooltip="Exportar lista"
+            class="botones boton-descarga"
+            (click)="downloadClickOc.emit($event)"
+            *ngIf="(modelo | puede: a.REPORTE) && submodule === 'Orden de Carga'">
+            <mat-icon>description</mat-icon> DESCARGAR
+          </button>
+
           <mat-checkbox
             class="checkbox"
             *ngIf="submodule === 'MERCADERIA'"

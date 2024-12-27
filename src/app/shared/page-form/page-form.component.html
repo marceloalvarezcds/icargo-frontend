@@ -136,11 +136,12 @@
         </button>
 
         <button
-        *ngIf="(oc?.estado !== 'Finalizado' &&
-        (module === 'ACEPTAR' || module === 'FINALIZAR'
-        || submodule === 'ANTICIPO (directo)' || submodule === 'RECEPCION directa'
-        || oc?.estado === E.ACEPTADO))
-        && oc?.estado !== 'Cancelado' "
+          *ngIf="(oc?.estado !== 'Finalizado' &&
+            (module === 'ACEPTAR' || module === 'FINALIZAR'
+            || oc?.estado === E.ACEPTADO))
+            && oc?.estado !== 'Cancelado'
+            && submodule !== 'RECEPCION directa'
+            && submodule !== 'ANTICIPO (directo)'"
           mat-flat-button
           class="botones" color="warn"
           type="button"
@@ -149,6 +150,7 @@
           (click)="cancelarClick.emit($event)">
           CANCELAR
         </button>
+      
 
         <button
           *ngIf="(oc?.estado === 'Aceptado' ||

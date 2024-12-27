@@ -8,7 +8,7 @@
   (aceptarClick)="redirectToAceptar()"
   (finalizarClick)="redirectToFinalizar()"
   (conciliarClick)="redirectToConciliar()"
-  (downloadClick)="downloadFile()"
+  (downloadClickOc)="downloadFile()"
   (createRecepcionClick)="redirectToCreateRecepcion()"
   (resetClick)="resetFilter()"
   [dbuttons]="buttons"
@@ -57,6 +57,6 @@
     [modelo]="modelo"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
-    (deleteClick)="deleteRow($event)"
+    [hideDelete]="true"
   ></app-table-paginator>
 </app-page>

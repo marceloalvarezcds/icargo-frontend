@@ -69,7 +69,7 @@ export class OrdenCargaEditFormComplementosComponent {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: OrdenCargaComplemento) => element.created_at,
+      value: (element: OrdenCargaComplemento) => this.formatFecha(element.created_at),
     },
     {
       def: 'modified_by',
@@ -79,8 +79,8 @@ export class OrdenCargaEditFormComplementosComponent {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: OrdenCargaComplemento) => element.modified_at,
-      type: 'date',
+      value: (element: OrdenCargaComplemento) => this.formatFecha(element.modified_at),
+   
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -102,6 +102,17 @@ export class OrdenCargaEditFormComplementosComponent {
     private dialog: MatDialog,
     private ordenCargaComplementoService: OrdenCargaComplementoService
   ) {}
+
+  formatFecha(fecha: string | Date): string {
+    const date = new Date(fecha);
+    const year = date.getFullYear().toString().slice(-2);  
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
+    const day = date.getDate().toString().padStart(2, '0'); 
+    const hours = date.getHours().toString().padStart(2, '0'); 
+    const minutes = date.getMinutes().toString().padStart(2, '0'); 
+  
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  }
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));

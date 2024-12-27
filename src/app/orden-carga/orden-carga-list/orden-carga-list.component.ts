@@ -3,13 +3,14 @@ import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { RemisionFormDialogComponent } from 'src/app/dialogs/remision-form-dialog/remision-form-dialog.component';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
-import { OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
@@ -128,10 +129,10 @@ export class OrdenCargaListComponent implements OnInit {
   buttons : ButtonList[] = [
     {
       color: 'warn',
-      tooltip: 'Remisión',
+      tooltip: 'REMISIÓN', 
       styles: '',
       icon: 'check_box',
-      label: 'Remisión',
+      label: 'REMISION',
       iconClass: 'check_box',
       buttonCallback: ($event:any) => {
         this.createRemision();
@@ -161,6 +162,11 @@ export class OrdenCargaListComponent implements OnInit {
   get isFilteredByProducto(): boolean {
     return this.productoFiltered.length !== this.productoFilterList.length;
   }
+
+   get isInactive(): boolean {
+    return this.list.every(item => item.estado === EstadoEnum.CANCELADO);
+  }
+  
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('estadoCheckboxFilter')

@@ -45,6 +45,7 @@ export class PageComponent {
   @Output() finalizarClick = new EventEmitter<MouseEvent>();
   @Output() conciliarClick = new EventEmitter<MouseEvent>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
+  @Output() downloadClickOc = new EventEmitter<MouseEvent>();
   @Output() resetClick = new EventEmitter<MouseEvent>();
   @Output() verInsumosInactivosChange = new EventEmitter<boolean>();
 

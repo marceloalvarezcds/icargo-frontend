@@ -15,6 +15,7 @@ export interface OCConfirmationInfo {
   propietario_tarifa: string;
   propietario_telefono: string | null;
   semi: string;
+  camion_beneficiario_nombre: string;
 }
 
 export interface OCConfirmationDialogData {
@@ -49,6 +50,7 @@ export const mockOCConfirmationInfo: OCConfirmationInfo = {
   propietario_tarifa: '100 PYG/kg',
   propietario_telefono: '0983-500500',
   semi: 'XYZ555',
+  camion_beneficiario_nombre: 'XYZ555',
 };
 
 export const mockOCConfirmationDialogData: OCConfirmationDialogData = {

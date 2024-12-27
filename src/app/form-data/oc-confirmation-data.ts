@@ -26,10 +26,11 @@ export const getOCData = (
     cantidad_nominada: numberWithCommas(info.cantidad_nominada),
     camion: combinacion?.camion_placa ? combinacion.camion_placa : '',
     camion_semi_neto: neto,
-    chofer: '',
-    propietario: combinacion?.propietario_nombre ? combinacion.propietario_nombre : '',
+    chofer: combinacion?.chofer_nombre ? combinacion.chofer_nombre : '',
+    propietario: combinacion?.camion_propietario_nombre ? combinacion.camion_propietario_nombre : '',
     propietario_tarifa,
     propietario_telefono: '',
     semi: combinacion?.semi_placa ? combinacion.semi_placa : '',
+    camion_beneficiario_nombre: combinacion?.propietario_nombre ? combinacion.propietario_nombre : '',
   };
 };
