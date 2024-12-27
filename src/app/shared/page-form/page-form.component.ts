@@ -69,7 +69,9 @@ export class PageFormComponent implements OnDestroy {
   @Input() isEditPressed: boolean = false;
   @Input() estilosPersonalesModule:any={}
   @Input() estilosPersonalesSubModule:any={}
-  
+  @Input() labelBtnGuardar:string="GUARDAR"
+  @Input() tooltipBtnGuardar:string="GUARDAR"
+
   @Output() backClick = new EventEmitter<boolean>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
   @Output() editClick = new EventEmitter();

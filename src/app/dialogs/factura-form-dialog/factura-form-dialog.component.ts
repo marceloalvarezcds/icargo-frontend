@@ -16,7 +16,6 @@ import { FacturaService } from 'src/app/services/factura.service';
 export class FacturaFormDialogComponent {
   foto: string | null = null;
   fotoFile: File | null = null;
-  contribuyente: Contribuyente | null = null;
 
   form = this.fb.group({
     moneda_id: [this.data?.moneda_id, Validators.required],
@@ -112,12 +111,6 @@ export class FacturaFormDialogComponent {
     }
   }
 
-  cargarContribuyente(contribuyente:Contribuyente):void {
-    this.form.get('contribuyente')!.setValue(contribuyente.contribuyente);
-    this.form.get('ruc')!.setValue(contribuyente.ruc);
-    this.contribuyente = contribuyente;
-  }
-
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
@@ -130,10 +123,9 @@ export class FacturaFormDialogComponent {
         this.contraparte_id,
         this.proveedorPDVId,
       );
+
       if (this.data && this.data?.id) {
-        this.facturaService
-          .edit(this.data.id, formData)
-          .subscribe(this.close.bind(this));
+        this.facturaService.edit(this.data.id, formData).subscribe(this.close.bind(this));
       } else {
         this.facturaService.create(formData).subscribe(this.close.bind(this));
       }

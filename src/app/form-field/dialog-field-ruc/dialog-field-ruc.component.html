@@ -1,10 +1,52 @@
-<app-dialog-field
-  [title]="title"
-  [columns]="columns"
-  [list]="list"
-  [groupName]="groupName"
-  [controlName]="controlName"
-  [inputValuePropName]="inputValuePropName"
-  [form]="form"
-  (valueChange)="valueChange.emit($event)"
-></app-dialog-field>
+<div *ngIf="control" [formGroup]="form" >
+
+  <ng-container *ngIf="list.length>0; else inputTemplate">
+
+    <mat-label class="custom-label">
+      <span *ngIf="requerido" class="required">(*) </span>
+      {{ title }}
+    </mat-label>
+
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input
+        matInput
+        [formControlName]="controlName"
+        [hidden]="readonly"
+        [matAutocomplete]="auto"
+      />
+
+      <mat-autocomplete #auto="matAutocomplete"
+        (optionSelected)="cargarCampoContribuyente($event.option.value)">
+
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.contribuyente">
+          {{option.ruc + ' - ' + option.contribuyente}}
+        </mat-option>
+
+      </mat-autocomplete>
+
+      <button
+        type="button"
+        matSuffix
+        mat-icon-button
+        (click)="openDialog(); $event.stopPropagation();"
+        *ngIf="!readonly">
+        <mat-icon class="small-icon">search</mat-icon>
+      </button>
+      <mat-error *ngIf="control.hasError('required')">
+        El campo es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+
+  </ng-container>
+
+  <ng-template #inputTemplate>
+
+    <app-input-field
+      title="Contribuyente"
+      controlName="contribuyente"
+      [form]="form"
+    ></app-input-field>
+
+  </ng-template>
+
+</div>

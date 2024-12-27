@@ -210,6 +210,16 @@ h1.mat-dialog-title {
     color:red;
   }
 
+  .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+    //background-position: unset;
+    background-color: rgba(0, 0, 0, 0.42);
+  }
+  .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+    background-image: unset;
+    background-size: unset;
+    background-repeat: unset;
+  }
+
 }
 
 .full-form-field {
