@@ -88,6 +88,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }),
     condicion: this.fb.group({
       condicion_cantidad: [null, Validators.required],
+      saldo: null,
       // inicio - Condiciones para el Gestor de Carga
       condicion_gestor_carga_moneda_id: [null, Validators.required],
       condicion_gestor_carga_moneda_simbolo: null,
@@ -349,6 +350,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           },
           condicion: {
             condicion_cantidad: data.condicion_cantidad,
+            saldo: data.saldo,
             // inicio - Condiciones para el Gestor de Carga
             condicion_gestor_carga_moneda_id:
               data.condicion_gestor_carga_moneda_id,

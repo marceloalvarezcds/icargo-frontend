@@ -101,7 +101,7 @@ export class FleteListComponent implements OnInit {
     {
       def: 'saldo_flete',
       title: 'Saldo',
-      // value: (element: FleteList) => element.tipo_carga_descripcion,
+      value: (element: FleteList) => element.saldo,
       type: 'number',
     },
     // {

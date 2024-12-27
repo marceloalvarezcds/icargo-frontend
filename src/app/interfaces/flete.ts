@@ -35,6 +35,7 @@ export interface FleteFormBaseModel {
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
   condicion_cantidad: number;
+  saldo: number;
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_id: number;
   condicion_gestor_carga_tarifa: number;
@@ -150,6 +151,7 @@ export interface FleteList extends FleteFormBaseModel {
   merma_propietario_unidad_descripcion: string;
   merma_propietario_es_porcentual_descripcion: string;
   condicion_cantidad: number;
+  saldo: number;
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
 }
@@ -207,6 +209,7 @@ export const mockFlete1: Flete = {
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
   condicion_cantidad: 100,
+  saldo: 100,
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_id: pyg.id,
   condicion_gestor_carga_moneda: pyg,
@@ -285,6 +288,7 @@ export const mockFlete2: Flete = {
   // FIN Tramo de Fletes
   // INICIO Cantidad y Flete
   condicion_cantidad: 100,
+  saldo: 100,
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_id: usd.id,
   condicion_gestor_carga_moneda: usd,
@@ -366,6 +370,7 @@ export const mockFleteList: FleteList[] = [
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
+    saldo: 100,
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: pyg.id,
     condicion_gestor_carga_moneda_nombre: pyg.nombre,
@@ -442,6 +447,7 @@ export const mockFleteList: FleteList[] = [
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
+    saldo: 100,
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: usd.id,
     condicion_gestor_carga_moneda_nombre: usd.nombre,
@@ -518,6 +524,7 @@ export const mockFleteList: FleteList[] = [
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
+    saldo: 100,
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: brl.id,
     condicion_gestor_carga_moneda_nombre: brl.nombre,
