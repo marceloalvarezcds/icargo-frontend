@@ -3,28 +3,28 @@
 
   <div *ngIf="showLiquidacion" class="input-form-full col-xs-6 col-md-2">
     <mat-label>N° Liquidacion</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="liquidacionId" disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showEstadoLiqui" class="input-form-full col-xs-6 col-md-2">
     <mat-label>Estado</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="estadoLiqui" disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showEstado" class="input-form-full col-xs-6 col-sm-2">
     <mat-label>Estado</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="etapa" disabled />
     </mat-form-field>
   </div>
 
   <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
     <mat-label>Contraparte</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput disabled
         [value]="estadoCuenta?.tipo_contraparte_descripcion"
         />
@@ -33,14 +33,14 @@
 
   <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Nombre</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
     </mat-form-field>
   </div>
 
   <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
     <mat-label>Documento</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput disabled
         [value]="estadoCuenta?.contraparte_numero_documento_pdv ?? estadoCuenta?.contraparte_numero_documento"
       />
@@ -51,7 +51,7 @@
 
     <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>Pendientes (ML)</mat-label>
-      <mat-form-field floatLabel="always" appearance="outline">
+      <mat-form-field floatLabel="always" appearance="legacy">
         <input matInput appInputThousandsSeparator disabled
           [value]="estadoCuenta?.pendiente"
         />
@@ -60,7 +60,7 @@
 
     <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>En Procesos (ML)</mat-label>
-      <mat-form-field floatLabel="always" appearance="outline">
+      <mat-form-field floatLabel="always" appearance="legacy">
         <input matInput [value]="estadoCuenta?.en_proceso"
           appInputThousandsSeparator disabled
         />
@@ -69,7 +69,7 @@
 
     <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>Confirmados (ML)</mat-label>
-      <mat-form-field floatLabel="always" appearance="outline">
+      <mat-form-field floatLabel="always" appearance="legacy">
         <input matInput [value]="estadoCuenta?.confirmado"
           appInputThousandsSeparator disabled
         />
@@ -78,7 +78,7 @@
 
     <div class="input-form-full col-xs-6 col-md-2">
       <mat-label>Finalizados (ML)</mat-label>
-      <mat-form-field floatLabel="always" appearance="outline">
+      <mat-form-field floatLabel="always" appearance="legacy">
         <input matInput [value]="estadoCuenta?.finalizado"
           appInputThousandsSeparator disabled
         />
@@ -89,7 +89,7 @@
 
   <div *ngIf="showSaldo" class="input-form-full col-xs-6 col-md-2">
     <mat-label>Saldo en Cuenta</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="estadoCuenta?.liquidacion_saldo"
         appInputThousandsSeparator disabled
       />
