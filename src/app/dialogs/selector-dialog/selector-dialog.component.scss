@@ -28,16 +28,16 @@
 }
 
 .dialog-title {
-  width: 160px;
-  height: 16px;
-  gap: 0px;
-  opacity: 0px;
-  font-family: 'Roboto' sans-serif;
-  font-size: 14px;
-  font-weight: 700;
+  //width: 160px;
+  //height: 16px;
+  //gap: 0px;
+  //opacity: 0px;
+  //font-family: 'Roboto' sans-serif;
+  font-size: 18px;
+  font-weight: 600;
   line-height: 16.41px;
   text-align: left;
-  color: #3B9EFF; 
+  color: #3B9EFF;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -45,17 +45,17 @@
 
 
 .dialog-title .close mat-icon {
-  font-size: 15px; 
+  //font-size: 18px;
   border: 1px 0px 0px 0px;
-  opacity: 0px;
+  //opacity: 0px;
   border: 1px solid #FF0000;
   font-weight: bold;
   color: #FF0000 ;
-  margin-top: -29px;
+  //margin-top: -29px;
   border-radius: 50%;
-  padding: 4px;
-  width: 15px;
-  height: 15px;
+  //padding: 4px;
+  //width: 15px;
+  //height: 15px;
 }
 
 .close {

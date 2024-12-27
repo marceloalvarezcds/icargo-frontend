@@ -282,10 +282,12 @@ td.mat-column-saldo_banco:not(:first-child)  {
 td.mat-column-pendiente:not(:first-child),
 td.mat-column-en_proceso:not(:first-child),
 td.mat-column-confirmado:not(:first-child),
+td.mat-column-provision:not(:first-child),
+td.mat-column-liquidacion_saldo:not(:first-child),
 td.mat-column-finalizado:not(:first-child)  {
-  width: 50px;
+  width: 60px;
   text-align: right; /* Alinea el contenido a la derecha */
-  padding-right: 22px; /* Opcional: añade padding derecho para separación */
+  //padding-right: 22px; /* Opcional: añade padding derecho para separación */
 }
 
 

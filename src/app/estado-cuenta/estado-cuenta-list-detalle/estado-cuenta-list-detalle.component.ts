@@ -58,7 +58,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     {
       def: 'movimiento_id',
       title: 'ID Mov',
-      value: (element: MovimientoEstadoCuenta) => element.movimiento_id ?? '',
+      value: (element: MovimientoEstadoCuenta) =>
+      ( element.tipo_movimiento_concepto === 'Pago/Cobro' ) ? (element.instrumento_id)  : element.movimiento_id,
       //sticky: true,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (

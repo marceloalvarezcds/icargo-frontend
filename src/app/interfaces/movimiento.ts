@@ -143,6 +143,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
 export interface MovimientoEstadoCuenta {
     movimiento_id: number,
     liquidacion_id: number | null,
+    instrumento_id: number,
     fecha: string | null,
     tipo_cuenta_descripcion: string,
     tipo_movimiento_concepto: string,

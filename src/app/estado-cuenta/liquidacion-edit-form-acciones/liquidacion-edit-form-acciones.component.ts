@@ -187,7 +187,7 @@ export class LiquidacionEditFormAccionesComponent {
       this.dialog.open(ComentarioConfirmDialogComponent, {
         data: {
           message,
-          comentarioRequirido: true,
+          comentarioRequirido: false,
           htmlContent: htmlContent,
         },
       }),
@@ -201,7 +201,7 @@ export class LiquidacionEditFormAccionesComponent {
             this.liquidacionFlujoChange.emit(rest);
           });
       },
-      //(val?: string | boolean) => val !== false
+      (val?: string | boolean) => val !== false
     );
   }
 

@@ -150,7 +150,7 @@
           (click)="cancelarClick.emit($event)">
           CANCELAR
         </button>
-      
+
 
         <button
           *ngIf="(oc?.estado === 'Aceptado' ||
@@ -266,13 +266,13 @@
           mat-flat-button
           type="submit"
           color="primary"
-          matTooltip="Guardar"
+          [matTooltip]="tooltipBtnGuardar"
           [disabled]="loading || isDataLoaded || isEditPressed"
           *ngIf="(!isShow && !hideSaveButton) "
           class="botones"
         >
           <mat-icon>save</mat-icon>
-          GUARDAR
+          {{labelBtnGuardar}}
         </button>
 
         <div *ngIf="flete && isShow " style="margin-left: 8px; margin-right: 14px;">
