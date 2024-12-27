@@ -9,6 +9,7 @@ import { FormGroup } from '@angular/forms';
 export class FleteFormCondicionComponent {
 
   groupName = 'condicion';
+  @Input() afectado = 'gestor_carga';
 
   @Input() form?: FormGroup;
 }

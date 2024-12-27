@@ -64,9 +64,9 @@
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
-    [hideEdit]="true"
+
+    [hideDelete]="true"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
-    (deleteClick)="deleteRow($event)"
   ></app-table-paginator>
 </app-page>

@@ -63,6 +63,7 @@ export class FleteFormDescuentosComponent {
   @Input() form?: FormGroup;
   @Input() gestorCuentaId?: number;
   @Input() isShow = false;
+  @Input() isEdit = false;
   @Input() set descuentoList(list: FleteDescuento[]) {
     list.forEach((item) => {
       this.formArray.push(this.createForm(item));

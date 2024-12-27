@@ -73,7 +73,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       producto_id: [null, Validators.required],
       producto_descripcion: null,
       tipo_carga_id: [null, Validators.required],
-      numero_lote: null,
+      // numero_lote: null,
       publicado: true,
       es_subasta: false,
     }),
@@ -84,7 +84,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       destino_id: [null, Validators.required],
       destino_nombre: [null, Validators.required],
       destino_indicacion: null,
-      distancia: null,
+      // distancia: null, 
     }),
     condicion: this.fb.group({
       condicion_cantidad: [null, Validators.required],
@@ -267,6 +267,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   submit(confirmed: boolean): void {
     const formData = new FormData();
+    
     const data = JSON.parse(
       JSON.stringify({
         ...this.info.value,
@@ -320,6 +321,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
+  
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;
@@ -337,7 +339,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             remitente_id: data.remitente_id,
             producto_id: data.producto_id,
             tipo_carga_id: data.tipo_carga_id,
-            numero_lote: data.numero_lote,
+            // numero_lote: data.numero_lote,
             publicado: data.publicado,
             es_subasta: data.es_subasta,
           },
@@ -346,7 +348,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             origen_indicacion: data.origen_indicacion,
             destino_id: data.destino_id,
             destino_indicacion: data.destino_indicacion,
-            distancia: data.distancia,
+            // distancia: data.distancia,
           },
           condicion: {
             condicion_cantidad: data.condicion_cantidad,
@@ -393,10 +395,18 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           complementos: [],
           descuentos: [],
         });
+       
         this.anticipoList = data.anticipos.slice();
         this.complementoList = data.complementos.slice();
         this.descuentoList = data.descuentos.slice();
+       
         setTimeout(() => {
+
+          if (this.isEdit) {
+            this.form.disable();
+            this.form.get('complementos')?.disable()
+  
+          }
           this.hasChange = false;
           this.initialFormValue = this.form.value;
         }, 500);

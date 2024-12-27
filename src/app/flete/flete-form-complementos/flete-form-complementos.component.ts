@@ -58,6 +58,7 @@ export class FleteFormComplementosComponent {
   @Input() form?: FormGroup;
   @Input() gestorCuentaId?: number;
   @Input() isShow = false;
+  @Input() isEdit = false;
   @Input() set complementoList(list: FleteComplemento[]) {
     list.forEach((item) => {
       this.formArray.push(this.createForm(item));
