@@ -1,32 +1,32 @@
 <div class="row">
 
+  <div *ngIf="showMonto" class="input-form-full col-xs-12 col-sm-3">
+    <mat-label>
+      Monto Pago/Cobro
+    </mat-label>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput [disabled]="esFinalizado" [(ngModel)]="monto" appInputThousandsSeparator />
+    </mat-form-field>
+  </div>
+
   <div *ngIf="showResumen" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Tot. Movimientos</mat-label>
-    <mat-form-field >
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="(credito-debito)" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showIngresoEgreso" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Ingresos</mat-label>
-    <mat-form-field >
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="credito" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showIngresoEgreso" class="input-form-full col-xs-12 col-sm-2">
-    <mat-form-field >
-      <mat-label>Egresos</mat-label>
+    <mat-label>Egresos</mat-label>
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="debito" appInputThousandsSeparator disabled />
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="showMonto" class="input-form-full col-xs-12 col-sm-3">
-    <mat-label>
-      Monto Pago/Cobro
-    </mat-label>
-    <mat-form-field >
-      <input matInput [disabled]="esFinalizado" [(ngModel)]="monto" appInputThousandsSeparator />
     </mat-form-field>
   </div>
 
@@ -34,14 +34,14 @@
     <mat-label>
       Saldo en Cuenta
     </mat-label>
-    <mat-form-field>
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="saldo" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showInstrumentos" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Valor de los instrumentos</mat-label>
-    <mat-form-field  class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+    <mat-form-field  floatLabel="always" appearance="legacy">
       <input matInput [value]="valorInstrumentos"
         appInputThousandsSeparator disabled
       />
@@ -50,7 +50,7 @@
 
   <div *ngIf="showInstrumentos" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Residuo</mat-label>
-    <mat-form-field  >
+    <mat-form-field floatLabel="always" appearance="legacy">
       <input matInput [value]="residuo" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
