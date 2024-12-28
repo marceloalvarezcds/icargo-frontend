@@ -93,11 +93,11 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
-    console.log('Dialog data:', data);
-    return this.dialog.open(OcRemisionDestinoFormDialogComponent, {     
-      width: '650px', 
-      height: 'auto', 
-      data 
+
+    return this.dialog.open(OcRemisionDestinoFormDialogComponent, {
+      width: '650px',
+      height: 'auto',
+      data
     });
   }
 
@@ -123,7 +123,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
         title: 'Nº Descarga',
         value: (element: OrdenCargaRemisionDestino) => element.id,
       },
-  
+
       {
         def: 'numero_documento',
         title: 'Nº Remito',
@@ -136,7 +136,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       //   value: (element: OrdenCargaRemisionDestino) =>
       //     element.numero_documento_origen,
       // },
-  
+
       {
         def: 'fecha',
         title: 'Fecha',
@@ -164,11 +164,11 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
           if (element.foto_documento) {
             this.dialog.open(ImageDialogComponent, {
               data: { imageUrl: element.foto_documento },
-              width: 'auto',  
-              height: 'auto',  
-           
+              width: 'auto',
+              height: 'auto',
+
             });
-            
+
           } else {
             console.error('No se proporcionó un nombre de archivo válido.');
           }

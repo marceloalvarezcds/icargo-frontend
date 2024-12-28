@@ -95,7 +95,6 @@ export class RemisionFormDialogComponent implements OnInit {
 
   cargarCampoRemision(remision:any):void {
 
-
     this.remision = this.optionsList.find( x => x.numero_documento===remision);
     if (this.remision) {
 

@@ -58,9 +58,9 @@
             *ngIf="(modelo | puede: a.REPORTE) && submodule !== 'Orden de Carga'">
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
-        
 
-      
+
+
           <button
             mat-flat-button
             color="primary"
@@ -156,18 +156,6 @@
                 CONCILIAR
           </button>
 
-          <ng-container *ngIf="!hideBack">
-            <button
-              type="button"
-              mat-stroked-button
-              color="primary"
-              matTooltip="Volver al listado"
-              (click)="back()"
-              class="botones">
-              <mat-icon>arrow_back</mat-icon>
-              Volver
-            </button>
-          </ng-container>
           <button
             mat-stroked-button
             matTooltip="Exportar lista"
@@ -198,7 +186,7 @@
             <mat-icon>filter_alt</mat-icon>
           </button>
 
-       
+
         </div>
       </div>
 
