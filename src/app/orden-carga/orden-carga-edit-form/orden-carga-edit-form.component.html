@@ -104,31 +104,38 @@
         </div>
       </div>
 
-      <div class="row">
-        <div class="col-xs-12 col-sm-6">
-          <app-orden-carga-edit-form-complementos
-            [oc]="item"
-            [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [isEditPedido]="isEditPedido"
-            [puedeConciliar]="puedeConciliar"
-            [list]="complementoList"
-            (ocChange)="getData()"
-            (buttonAnticipoClicked)="onEditPressed()"
-          ></app-orden-carga-edit-form-complementos>
+      <div>
+        <div class="section">
+          <h2 class="title-colapside" (click)="colapseDivComplementos=!colapseDivComplementos">COMPLEMENTOS Y DESCUENTOS</h2>
         </div>
-        <div class="col-xs-12 col-sm-6">
-          <app-orden-carga-edit-form-descuentos
-            [oc]="item"
-            [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [isEditPedido]="isEditPedido"
-            [puedeConciliar]="puedeConciliar"
-            [list]="descuentoList"
-            (ocChange)="getData()"
-            (buttonAnticipoClicked)="onEditPressed()"
-          ></app-orden-carga-edit-form-descuentos>
+
+        <div class="row" [class.colapse-div]="colapseDivComplementos">
+          <div class="col-xs-12 col-sm-6">
+            <app-orden-carga-edit-form-complementos
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [isEditPedido]="isEditPedido"
+              [puedeConciliar]="puedeConciliar"
+              [list]="complementoList"
+              (ocChange)="getData()"
+              (buttonAnticipoClicked)="onEditPressed()"
+            ></app-orden-carga-edit-form-complementos>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <app-orden-carga-edit-form-descuentos
+              [oc]="item"
+              [gestorCargaId]="gestorCargaId"
+              [isShow]="isShow"
+              [isEditPedido]="isEditPedido"
+              [puedeConciliar]="puedeConciliar"
+              [list]="descuentoList"
+              (ocChange)="getData()"
+              (buttonAnticipoClicked)="onEditPressed()"
+            ></app-orden-carga-edit-form-descuentos>
+          </div>
         </div>
+
       </div>
 
       <div class="resultados-container" style="margin-top: 10px;">

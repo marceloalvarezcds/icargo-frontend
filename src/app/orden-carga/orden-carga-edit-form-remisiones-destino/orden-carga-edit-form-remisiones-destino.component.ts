@@ -140,7 +140,8 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       {
         def: 'fecha',
         title: 'Fecha',
-        value: (element: OrdenCargaRemisionDestino) => this.formatDate(element.fecha),
+        value: (element: OrdenCargaRemisionDestino) => element.fecha,
+        type: 'only-date',
       },
       {
         def: 'cantidad',

@@ -32,13 +32,12 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
-  
+
   a = PermisoAccionEnum;
 
   colapseDivAnticipo = false;
 
   columns: Column[] = [
-
     {
       def: 'id',
       title: 'ID',
@@ -99,7 +98,8 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: OrdenCargaAnticipoRetirado) => this.formatDate(element.created_at),
+      value: (element: OrdenCargaAnticipoRetirado) => element.created_at,
+      type: 'date-time',
     },
     {
       def: 'modified_by',
@@ -109,7 +109,8 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: OrdenCargaAnticipoRetirado) => this.formatDate(element.modified_at),
+      value: (element: OrdenCargaAnticipoRetirado) => element.modified_at,
+      type: 'date-time',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -123,7 +124,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+
     if (this.list.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
@@ -168,7 +169,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   }
 
 
-  
+
    get filteredAnticipos(): any[] {
      // Filtrar anticipos para incluir solo 'combustible' y 'efectivo'
      const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>

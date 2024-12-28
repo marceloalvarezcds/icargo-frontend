@@ -58,7 +58,8 @@
       <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">Cantidad y Condiciones</h2>
       <app-flete-form-condicion
         [class.colapse-div]="colapseDivCantidad"
-       [form]="form">
+        [form]="form"
+        [isEdit]="isEdit || isShow">
       </app-flete-form-condicion>
     </div>
 

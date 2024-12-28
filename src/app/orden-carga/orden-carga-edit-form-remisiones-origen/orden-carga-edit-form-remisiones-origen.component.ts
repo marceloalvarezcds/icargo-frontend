@@ -63,7 +63,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     private dialog: MatDialog,
     private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
     private reportsService: ReportsService,
-    
+
   ) {}
 
   onEditPressed() {
@@ -103,9 +103,9 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       cantidad_disponible: this.cantidadDisponible + (item?.cantidad ?? 0),
       item,
     };
-    return this.dialog.open(OcRemisionOrigenFormDialogComponent, {     
-      width: '650px',  
-      height: 'auto', 
+    return this.dialog.open(OcRemisionOrigenFormDialogComponent, {
+      width: '650px',
+      height: 'auto',
       data });
   }
 
@@ -124,7 +124,6 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
         def: 'lugar',
         title: 'Lugar de Carga',
         value: (element: OrdenCargaRemisionOrigen) => element.lugar_carga,
-      
       },
       {
         def: 'numero_documento',
@@ -135,9 +134,9 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       {
         def: 'fecha',
         title: 'Fecha',
-        value: (element: OrdenCargaRemisionOrigen) => this.formatDate(element.fecha),
+        value: (element: OrdenCargaRemisionOrigen) => element.fecha,
+        type: 'only-date',
       },
-  
       {
         def: 'cantidad',
         title: 'Cant.',
@@ -151,7 +150,6 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
         value: (element: OrdenCargaRemisionOrigen) =>
           element.unidad_descripcion,
       },
-
       {
         def: 'pdf',
         title: 'Imagen',
@@ -161,17 +159,15 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
           if (element.foto_documento) {
             this.dialog.open(ImageDialogComponent, {
               data: { imageUrl: element.foto_documento },
-              width: 'auto',  
-              height: 'auto',  
-           
+              width: 'auto',
+              height: 'auto',
             });
-            
           } else {
             console.error('No se proporcionó un nombre de archivo válido.');
           }
         }
       },
-      
+
       // {
       //   def: 'cantidad_equiv',
       //   title: 'Cantidad Equiv. (kg)',

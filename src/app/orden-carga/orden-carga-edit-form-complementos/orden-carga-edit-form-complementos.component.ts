@@ -69,7 +69,8 @@ export class OrdenCargaEditFormComplementosComponent {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: OrdenCargaComplemento) => this.formatFecha(element.created_at),
+      value: (element: OrdenCargaComplemento) => element.created_at,
+      type: 'date-time',
     },
     {
       def: 'modified_by',
@@ -79,8 +80,9 @@ export class OrdenCargaEditFormComplementosComponent {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: OrdenCargaComplemento) => this.formatFecha(element.modified_at),
-   
+      value: (element: OrdenCargaComplemento) => element.modified_at,
+      type: 'date-time',
+
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -105,12 +107,12 @@ export class OrdenCargaEditFormComplementosComponent {
 
   formatFecha(fecha: string | Date): string {
     const date = new Date(fecha);
-    const year = date.getFullYear().toString().slice(-2);  
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
-    const day = date.getDate().toString().padStart(2, '0'); 
-    const hours = date.getHours().toString().padStart(2, '0'); 
-    const minutes = date.getMinutes().toString().padStart(2, '0'); 
-  
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   }
 
@@ -143,7 +145,7 @@ export class OrdenCargaEditFormComplementosComponent {
       orden_carga_id: this.oc!.id,
       item,
     };
-    return this.dialog.open(OcComplementoFormDialogComponent, { 
+    return this.dialog.open(OcComplementoFormDialogComponent, {
       width: '500px',
       height: 'auto',
       data });

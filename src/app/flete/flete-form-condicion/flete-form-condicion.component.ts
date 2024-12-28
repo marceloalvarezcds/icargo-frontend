@@ -10,6 +10,6 @@ export class FleteFormCondicionComponent {
 
   groupName = 'condicion';
   @Input() afectado = 'gestor_carga';
-
+  @Input() isEdit = false;
   @Input() form?: FormGroup;
 }
