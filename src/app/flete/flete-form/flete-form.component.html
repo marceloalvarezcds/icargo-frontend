@@ -36,9 +36,7 @@
         (remitenteChange)="
           info.get('remitente_nombre')?.setValue($event?.nombre)
         "
-        (productoChange)="
-          info.get('producto_descripcion')?.setValue($event?.descripcion)
-        "
+        (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>
     </div>
 
