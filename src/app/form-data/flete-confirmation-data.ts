@@ -11,7 +11,7 @@ export const getFleteData = (form: FormGroup): FleteConfirmationInfo => {
   const condicion = value.condicion;
   const merma = value.merma;
   const emision = value.emision_orden;
-  const anticipos: Record<string, string> = value.anticipos.reduce(
+  const anticipos: Record<string, string> = value.anticipos?.reduce(
     (obj: Record<string, string>, anticipo: any) => {
       if (!anticipo.porcentaje) return obj;
       const key =
@@ -23,7 +23,7 @@ export const getFleteData = (form: FormGroup): FleteConfirmationInfo => {
     },
     {}
   );
-  const complementos: Record<string, string> = value.complementos.reduce(
+  const complementos: Record<string, string> = value.complementos?.reduce(
     (obj: Record<string, string>, complemento: any) => {
       const propietario = `Propietario: ${numberWithCommas(
         complemento.propietario_monto
@@ -42,7 +42,7 @@ export const getFleteData = (form: FormGroup): FleteConfirmationInfo => {
     },
     {}
   );
-  const descuentos: Record<string, string> = value.descuentos.reduce(
+  const descuentos: Record<string, string> = value.descuentos?.reduce(
     (obj: Record<string, string>, descuento: any) => {
       const propietario = `Propietario: ${numberWithCommas(
         descuento.propietario_monto

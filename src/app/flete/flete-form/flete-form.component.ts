@@ -309,7 +309,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
 
   productoChangeEvent(producto:any):void {
-    console.log("productoChangeEvent: ", producto);
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
     this.info.get('tipo_carga')?.setValue(producto?.tipo_carga.descripcion);
     this.info.get('tipo_carga_id')?.setValue(producto?.tipo_carga.id);
@@ -411,8 +410,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
           if (this.isEdit) {
             this.form.disable();
-            this.form.get('complementos')?.disable()
-
+            this.form.get('complementos')?.disable();
           }
           this.hasChange = false;
           this.initialFormValue = this.form.value;
