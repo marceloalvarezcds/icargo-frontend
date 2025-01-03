@@ -6,6 +6,7 @@
   (createClick)="redirectToCreate()"
   (downloadClick)="downloadFile()"
   (resetClick)="resetFilter()"
+  
 >
   <div filterMenu>
     <mat-accordion [multi]="true">
@@ -64,8 +65,10 @@
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
-
+    (inactiveClick)="inactive($event)"
+    [shouldShowInactiveButton]="true"
     [hideDelete]="true"
+    [hideEdit]="true"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
   ></app-table-paginator>

@@ -163,10 +163,10 @@ export class OrdenCargaListComponent implements OnInit {
     return this.productoFiltered.length !== this.productoFilterList.length;
   }
 
-   get isInactive(): boolean {
-    return this.list.every(item => item.estado === EstadoEnum.CANCELADO);
+  get hideEdit(): boolean {
+    return this.list.some(item => item.estado === EstadoEnum.CANCELADO);
   }
-  
+
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('estadoCheckboxFilter')

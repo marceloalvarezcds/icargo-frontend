@@ -134,7 +134,6 @@ export class InsumoListComponent implements OnInit {
     return this.puntoVentaFiltered.length !== this.puntoVentaFilterList.length;
   }
 
-  // En tu archivo .ts del componente
   get isInactive(): boolean {
     return this.list.some(item => item.estado === EstadoEnum.INACTIVO);
   }

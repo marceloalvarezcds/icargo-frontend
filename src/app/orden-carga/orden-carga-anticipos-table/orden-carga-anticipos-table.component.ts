@@ -168,23 +168,21 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   }
 
 
+  get filteredAnticipos(): any[] {
+    // Filtrar anticipos para incluir solo 'combustible', 'efectivo' y 'lubricantes'
+    const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
+      ['combustible', 'efectivo', 'lubricantes'].includes(anticipo.concepto.toLowerCase())
+    ) || [];
   
-   get filteredAnticipos(): any[] {
-     // Filtrar anticipos para incluir solo 'combustible' y 'efectivo'
-     const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
-      ['combustible', 'efectivo'].includes(anticipo.concepto.toLowerCase())
-     ) || [];
-
-     // Ordenar anticipos: primero 'efectivo', luego 'combustible'
-     return anticiposFiltrados.sort((a, b) => {
-       if (a.concepto.toLowerCase() === 'efectivo' && b.concepto.toLowerCase() === 'combustible') {
-         return -1; // 'Efectivo' va primero
-       } else if (a.concepto.toLowerCase() === 'combustible' && b.concepto.toLowerCase() === 'efectivo') {
-         return 1; // 'Combustible' va después
-       }
-       return 0; // Mantener el orden original si no es 'Efectivo' ni 'Combustible'
-     });
-   }
+    // Ordenar anticipos: primero 'efectivo', luego 'combustible', y después 'lubricantes'
+    return anticiposFiltrados.sort((a, b) => {
+      const order = ['efectivo', 'combustible', 'lubricantes'];
+      const indexA = order.indexOf(a.concepto.toLowerCase());
+      const indexB = order.indexOf(b.concepto.toLowerCase());
+      return indexA - indexB;
+    });
+  }
+  
 
   getSaldoAnticipoNuevo(anticipo: any): number {
     const tarifaEfectivo = this.flete?.condicion_gestor_carga_tarifa ?? 0;
@@ -209,21 +207,26 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
-    const monto = this.oc?.flete_monto_efectivo_complemento  ?? 0;
-
+    const monto = this.oc?.flete_monto_efectivo_complemento ?? 0;
+  
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
-        const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-        return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
+      const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+      return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
-        const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
-        return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
+      const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+      return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
+    } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
+      const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+      return montoAnticipo - montoRetiradoLubricantes; // Restar anticipos de lubricantes
     } else {
-        return 0;
+      return 0;
     }
   }
 
-
-
+  get hasLubricantesWithSaldo(): boolean {
+    return this.filteredAnticipos?.some(a => a.concepto.toLowerCase() === 'lubricantes' && this.getSaldoAnticipo(a) > 0);
+  }
+  
 openEvaluacionesDialog(): void {
   this.dialog.open(EvaluacionesDialogComponent, {
     data: { orden_carga_id: this.oc?.id,

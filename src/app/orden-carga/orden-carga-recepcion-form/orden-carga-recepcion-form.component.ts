@@ -522,9 +522,8 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
                           horizontalPosition: 'center'
                       });
                       this.downloadResumenPDF();
-                  } else {
-                      console.log('Diálogo de evaluación cancelado');
-                  }
+                    
+                  } 
               });
           },
       );

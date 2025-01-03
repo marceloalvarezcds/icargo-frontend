@@ -26,7 +26,8 @@ export class EvaluacionesCancelarComponent{
   isFinalizadoOConciliado: boolean = false;
   tipoEvaluacion?: TipoIncidente
   showComentarios: boolean = false;
-  
+  fotoDocumento: string | null = null;
+  fotoDocumentoFile: File | null = null;
 
   form = this.fb.group({
     tipo_incidente: this.data?.tipo_incidente,  
@@ -66,7 +67,6 @@ export class EvaluacionesCancelarComponent{
     this.form.markAllAsTouched();
     
     if (this.form.valid) {
-      console.log('El formulario es válido');
       const tipoIncidente: TipoIncidente = this.tipoIncidenteControl.value;
       const tipoIncidenteId = tipoIncidente?.id;
       const ordenCargaId = this.data?.orden_carga_id;

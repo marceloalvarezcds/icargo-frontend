@@ -28,7 +28,8 @@ export class EvaluacionesDialogComponent {
   isFinalizadoOConciliado: boolean = false;
   tipoEvaluacion?: TipoIncidente
   showComentarios: boolean = false;
-  
+  fotoDocumento: string | null = null;
+  fotoDocumentoFile: File | null = null;
 
   form = this.fb.group({
     tipo_incidente: this.data?.tipo_incidente,  

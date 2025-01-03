@@ -1,16 +1,15 @@
 .page-form-show::ng-deep {
-    .mat-input-element:disabled,
-    .mat-select-disabled .mat-select-value {
-      color: rgba(0, 0, 0, 0.87);
-    }
-    .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
-      color: rgba(0, 0, 0, 0.6);
-    }
-    .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
-      visibility: hidden;
-    }
+  .mat-input-element:disabled,
+  .mat-select-disabled .mat-select-value {
+    color: rgba(0, 0, 0, 0.87);
   }
-
+  .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+    color: rgba(0, 0, 0, 0.6);
+  }
+  .mat-form-field .mat-select.mat-select-disabled .mat-select-arrow {
+    visibility: hidden;
+  }
+}
 
 .dialog-title {
   color: #3B9EFF;
@@ -63,3 +62,29 @@
   border: 1px solid #1C1C1C3D;
   margin-top: 8px;
 }
+
+.rating-wrapper {
+  display: flex;
+  flex-direction: column;
+  padding-bottom: 10px;
+}
+
+.rating-container {
+  display: flex;
+}
+
+.rating-container label {
+  margin-right: 18px;
+}
+
+.star-rating {
+  font-size: 25px;
+  color: lightgray;
+  margin-right: 2px;
+  margin-left: 16px;
+}
+
+.star.filled {
+  color: blue;
+}
+

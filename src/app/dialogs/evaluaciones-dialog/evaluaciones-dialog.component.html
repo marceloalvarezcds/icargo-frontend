@@ -91,7 +91,7 @@
     </div>
   
     <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
-      <label class="form-label mr-2">L.Carga</label>
+      <label class="form-label mr-2">Lugar de Carga</label>
       <p class="full-width"></p>
     </div>
   
@@ -111,7 +111,7 @@
     </div>
   
     <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
-      <label class="form-label mr-2">L.Descarga</label>
+      <label class="form-label mr-2">Lugar de Descarga</label>
       <p class="full-width"></p>
     </div>
   
@@ -133,11 +133,19 @@
   
   <div class="row">
     <app-input-field
-      class="input-form-full col-xs-12 col-sm-6 col-md-10"
+      class="input-form-full col-xs-12 col-sm-6 col-md-12"
       title="Comentarios"
       controlName="comentarios"
       [form]="form"
     ></app-input-field>
+
+    <app-file-field-input
+      class="input-form-full col-xs-12 col-sm-6 col-md-12"
+      controlName="nota"
+      [field]="fotoDocumento"
+      [form]="form"
+      (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
+    ></app-file-field-input>
 
   </div>
 

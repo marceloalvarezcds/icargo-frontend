@@ -97,6 +97,10 @@ export interface OrdenCarga extends OrdenCargaForm {
   resultado_propietario_total_anticipos_retirados: number | null;
   resultado_propietario_total_anticipos_retirados_efectivo: number | null;
   resultado_propietario_total_anticipos_retirados_combustible: number | null;
+  resultado_propietario_total_anticipos_retirados_lubricantes: number | null;
+  total_anticipo_efectivo: number | null;
+  total_anticipo_combustible:  number | null;
+  total_anticipo_lubricantes: number | null;
   saldo_efectivo: number | null;
   saldo_combustible: number | null;
   // Datos de fletes
@@ -303,6 +307,10 @@ export const mockOrdenCarga1: OrdenCarga = {
   resultado_propietario_total_anticipos_retirados:9000,
   resultado_propietario_total_anticipos_retirados_efectivo: 9000,
   resultado_propietario_total_anticipos_retirados_combustible:10000,
+  resultado_propietario_total_anticipos_retirados_lubricantes: 135000,
+  total_anticipo_combustible:9000,
+  total_anticipo_efectivo:9000,
+  total_anticipo_lubricantes: 10000,
   // Datos de fletes
   flete_id: flete0.id,
   flete_anticipo_maximo: flete0_anticipo_maximo,

@@ -73,7 +73,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       producto_id: [null, Validators.required],
       producto_descripcion: null,
       tipo_carga_id: [null, Validators.required],
-      // numero_lote: null,
+      numero_pedido: null,
       publicado: true,
       es_subasta: false,
     }),
@@ -275,38 +275,37 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         ...this.condicion.value,
         ...this.merma.value,
         ...this.emisionOrden.value,
-        // vigencia_anticipos: this.form.value.vigencia_anticipos,
         anticipos: this.anticipos.value,
         complementos: this.complementos.value,
         descuentos: this.descuentos.value,
       })
     );
-      // Convertir propiedades a mayúsculas, excepto los correos electrónicos
-      Object.keys(data).forEach(key => {
-        if (typeof data[key] === 'string' && key !== 'email') {
-          data[key] = data[key].toUpperCase();
-        }
-      });
+  
+    // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+    Object.keys(data).forEach(key => {
+      if (typeof data[key] === 'string' && key !== 'email') {
+        data[key] = data[key].toUpperCase();
+      }
+    });
+  
     formData.append('data', JSON.stringify(data));
     this.hasChange = false;
     this.initialFormValue = this.form.value;
-    if (this.isEdit && this.id) {
-      this.fleteService.edit(this.id, formData).subscribe(() => {
-        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-        this.getData();
-      });
-    } else {
-      this.fleteService.create(formData).subscribe((flete) => {
-        this.snackbar.openSaveAndRedirect(
-          confirmed,
-          this.backUrl,
-          r.FLETE,
-          m.FLETE,
-          flete.id
-        );
-      });
-    }
+  
+    // Crear el flete y redirigir a la vista de ver
+    this.fleteService.create(formData).subscribe((flete) => {
+      this.snackbar.openSaveAndRedirect(
+        confirmed,
+        this.backUrl,
+        r.FLETE,
+        m.FLETE,
+        flete.id
+      );
+      // Redirigir a la vista de "ver" después de crear el flete
+      this.router.navigate([`/flete/${m.FLETE}/ver`, flete.id]);
+    });
   }
+  
 
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
@@ -339,7 +338,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             remitente_id: data.remitente_id,
             producto_id: data.producto_id,
             tipo_carga_id: data.tipo_carga_id,
-            // numero_lote: data.numero_lote,
+            numero_pedido: data.id,
             publicado: data.publicado,
             es_subasta: data.es_subasta,
           },
