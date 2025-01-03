@@ -34,7 +34,6 @@ export class DialogFieldComponent<T extends { id: number },
   }
 
   get control(): FormControl {
-    console.log("control(): ", this.group.get(this.controlName));
     return this.group.get(this.controlName) as FormControl;
   }
 
@@ -78,8 +77,6 @@ export class DialogFieldComponent<T extends { id: number },
   ngAfterViewInit(): void {
     if (this.readonly) this.control.disable()
     else this.control.enable();
-    console.log("form: ", this.form);
-    console.log("groupName: ", this.groupName);
   }
 
   clearSelectedValue(): void {

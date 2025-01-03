@@ -84,7 +84,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       destino_id: [null, Validators.required],
       destino_nombre: [null, Validators.required],
       destino_indicacion: null,
-      // distancia: null, 
+      // distancia: null,
     }),
     condicion: this.fb.group({
       condicion_cantidad: [null, Validators.required],
@@ -267,7 +267,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   submit(confirmed: boolean): void {
     const formData = new FormData();
-    
+
     const data = JSON.parse(
       JSON.stringify({
         ...this.info.value,
@@ -307,6 +307,12 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
   
 
+  productoChangeEvent(producto:any):void {
+    this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
+    this.info.get('tipo_carga')?.setValue(producto?.tipo_carga.descripcion);
+    this.info.get('tipo_carga_id')?.setValue(producto?.tipo_carga.id);
+  }
+
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
     if (backUrl) {
@@ -320,7 +326,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       if (this.isShow) {
         this.form.disable();
       }
-  
+
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;
@@ -394,17 +400,16 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           complementos: [],
           descuentos: [],
         });
-       
+
         this.anticipoList = data.anticipos.slice();
         this.complementoList = data.complementos.slice();
         this.descuentoList = data.descuentos.slice();
-       
+
         setTimeout(() => {
 
           if (this.isEdit) {
             this.form.disable();
-            this.form.get('complementos')?.disable()
-  
+            this.form.get('complementos')?.disable();
           }
           this.hasChange = false;
           this.initialFormValue = this.form.value;

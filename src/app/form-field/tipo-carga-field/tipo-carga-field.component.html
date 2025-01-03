@@ -1,7 +1,7 @@
 <div *ngIf="form" [formGroup]="form">
   <mat-label>{{ title }}</mat-label>
-  <mat-form-field [formGroupName]="groupName">
-    <mat-select [formControlName]="controlName">
+  <mat-form-field [formGroupName]="groupName" >
+    <mat-select [formControlName]="controlName" [disabled]="readonly">
       <ng-container *ngFor="let o of list$ | async">
         <mat-option [value]="o.id">{{o.descripcion}}</mat-option>
       </ng-container>

@@ -1,7 +1,7 @@
 <form #form [formGroup]="formGroup" (ngSubmit)="submitEvent.emit()">
   <div class="page-form-component">
 
-    <div class="page-title">
+    <div class="page-title" style="align-items: center;">
 
       <span class="title">
 
@@ -204,7 +204,7 @@
           <mat-icon>download</mat-icon>
         </button>
 
-        <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && (isEdit || isShow) ">
+        <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && (isEdit || isShow) && (shouldShowInactiveButton || shouldShowActiveButton)">
           <button
             mat-mini-fab
             class="botones" color="warn"
@@ -232,7 +232,7 @@
             " >
             <mat-icon>toggle_on</mat-icon>
           </button>
-          {{ shouldShowActiveButton ? 'No Activo' : 'Activo' }}
+          {{ (shouldShowInactiveButton || shouldShowActiveButton) ? shouldShowActiveButton ? 'No Activo' : 'Activo' : '' }}
         </div>
 
         <button
@@ -293,9 +293,10 @@
         </div> -->
 
       </div>
+
     </div>
 
-    <div class="page-content">
+    <div class="page-content" style="overflow-y: scroll;max-height: 85vh;" >
 
       <hr>
       <ng-content></ng-content>

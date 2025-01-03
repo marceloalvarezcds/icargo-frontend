@@ -119,6 +119,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   colapseDivRemision = false;
   colapseDivResultado = false;
   colapseDivMovimiento = false;
+  colapseDivComplementos = false;
 
   initialFormValue = this.form.value;
   hasChange = false;
@@ -200,7 +201,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   get isConciliado(): boolean {
     return this.item?.estado === EstadoEnum.CONCILIADO;
   }
-  
+
   get combinacion(): FormGroup {
     return this.form.get('combinacion') as FormGroup;
   }
@@ -292,7 +293,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   get anticipoFlete(): number | undefined | null {
     return this.fleteAnticipo?.flete_anticipo_id_property ?? null;  // Retorna null si fleteAnticipo es null o undefined
   }
-  
+
 
   constructor(
     private fb: FormBuilder,
@@ -330,8 +331,16 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
+    let sms = "¿Está seguro que desea liberar anticipos?";
+
+    console.log("this.item: ", this.item);
+    if (this.item?.anticipos_liberados) {
+     sms = '¿Está seguro de bloquear Anticipos?. '
+      +'Esta acción bloqueará los anticipos en esta OC';
+    }
+
     this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea liberar anticipos?',
+      sms,
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
@@ -341,7 +350,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   inactive(): void {
     this.dialog.changeStatusConfirm(
-      '¿Está seguro de bloquear Anticipos?',
+      '¿Está seguro de bloquear Anticipos?. '
+      +'Esta acción bloqueará los anticipos en esta OC',
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
@@ -751,25 +761,25 @@ private cancelOrdenCarga(): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-  
+
     if (this.form.valid) {
         const formData = new FormData();
         this.isButtonPressed = false;
         this.isEditPedido = false;
         this.isEditPressed = true;
         this.form.get('combinacion.flete_id')?.disable();
- 
-        const tipoId = 1;  
-        const fleteId = this.form.get('combinacion.flete_id')?.value; 
-        const id_oc = this.form.get('combinacion.id_orden_carga')?.value; 
+
+        const tipoId = 1;
+        const fleteId = this.form.get('combinacion.flete_id')?.value;
+        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
         this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
           next: (anticipoFlete) => {
-  
+
             const anticipoFleteId = anticipoFlete.id;
             if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
               this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
                 next: (saldoAnticipo) => {
-       
+
                   const data = JSON.parse(
                       JSON.stringify({
                           ...this.form.value.info,
@@ -784,24 +794,24 @@ private cancelOrdenCarga(): void {
                           merma_propietario_valor: this.item?.merma_propietario_valor,
                           merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
                           anticipos: this.item?.porcentaje_anticipos,
-                          saldoAnticipo: saldoAnticipo  
+                          saldoAnticipo: saldoAnticipo
                       })
                   );
-  
+
                   formData.append('data', JSON.stringify(data));
-  
+
                   if (this.isEdit) {
                       this.hasChange = false;
                       this.initialFormValue = this.form.value;
                       this.ordenCargaService.edit(this.id, formData).subscribe(() => {
                           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-  
+
                           setTimeout(() => {
                               this.getDataWithoutOverwritingFlete();
                           }, 1000);
                       });
                   }
-  
+
                 },
                 error: (error) => {
                   console.error('Error al obtener el saldo de anticipo:', error);
@@ -817,9 +827,9 @@ private cancelOrdenCarga(): void {
         });
     }
   }
-  
-  
-  
+
+
+
 
 
 
@@ -873,7 +883,7 @@ private cancelOrdenCarga(): void {
 
     this.id = +this.route.snapshot.params.id;
     this.isEdit = /edit/.test(this.router.url);
-    
+
     this.ordenCargaService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.isActive = data.estado === EstadoEnum.NUEVO;
@@ -930,7 +940,7 @@ private cancelOrdenCarga(): void {
         if (this.isShow) {
           this.form.disable();
         }
-        
+
         this.originalComentario = data.comentarios ?? null;
         this.form.get('info.comentarios')?.enable();
 

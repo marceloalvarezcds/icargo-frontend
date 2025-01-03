@@ -8,12 +8,29 @@ h4 {
 }
 
 .col-xs-12 {
-  margin-bottom: 2rem;
+  margin-bottom: 1.05rem;
+}
+
+.page-form-row {
+  margin-left: .5rem;
+  margin-right: .5rem;
+  margin-bottom: .5rem;
+}
+
+.border-left {
+  border: 0.5px;
+  border-left: solid;
+  border-color: black ;
+}
+
+.info {
+  margin-right: 0;
+  margin-left: 0;
 }
 
 ::ng-deep {
   .selector-dialog {
-    width: 100vw !important;
+    width: 90vw !important;
     @media screen and (min-width: 48em) {
       width: calc(100vw - 5rem) !important;
     }

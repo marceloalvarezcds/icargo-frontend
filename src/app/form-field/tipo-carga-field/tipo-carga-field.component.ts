@@ -23,6 +23,7 @@ export class TipoCargaFieldComponent {
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Tipo de Carga';
+  @Input() readonly = false;
 
   constructor(private tipoCargaService: TipoCargaService) { }
 }

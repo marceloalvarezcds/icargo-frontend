@@ -184,10 +184,11 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
       contraparte_id: contraparteId!,
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
-      valor_operacion: this.residuo + (item?.monto ?? this.liquidacion.pago_cobro ?? 0),
+      valor_operacion: (item) ? item?.monto : this.residuo,
       isShow,
       item,
     };
+
     return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', });
   }
 

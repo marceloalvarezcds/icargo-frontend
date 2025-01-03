@@ -68,7 +68,8 @@ export class OrdenCargaEditFormDescuentosComponent {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: OrdenCargaDescuento) => this.formatFecha(element.created_at),
+      value: (element: OrdenCargaDescuento) => element.created_at,
+      type: 'date-time',
     },
     {
       def: 'modified_by',
@@ -78,7 +79,8 @@ export class OrdenCargaEditFormDescuentosComponent {
     {
       def: 'modified_at',
       title: 'Fecha modificación',
-      value: (element: OrdenCargaDescuento) => this.formatFecha(element.modified_at),
+      value: (element: OrdenCargaDescuento) => element.modified_at,
+      type: 'date-time',
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -97,15 +99,15 @@ export class OrdenCargaEditFormDescuentosComponent {
 
   formatFecha(fecha: string | Date): string {
     const date = new Date(fecha);
-    const year = date.getFullYear().toString().slice(-2);  
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); 
-    const day = date.getDate().toString().padStart(2, '0'); 
-    const hours = date.getHours().toString().padStart(2, '0'); 
-    const minutes = date.getMinutes().toString().padStart(2, '0'); 
-  
+    const year = date.getFullYear().toString().slice(-2);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   }
-  
+
 
   constructor(
     private dialog: MatDialog,
@@ -141,7 +143,7 @@ export class OrdenCargaEditFormDescuentosComponent {
       orden_carga_id: this.oc!.id,
       item,
     };
-    return this.dialog.open(OcDescuentoFormDialogComponent, {  
+    return this.dialog.open(OcDescuentoFormDialogComponent, {
       width: '500px',
       height: 'auto', data });
   }

@@ -95,10 +95,13 @@ export class EstadoCuentaListComponent implements OnInit {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
       value: (element: EstadoCuenta) => element.confirmado,
+      // TODO: se quita los links hasta corregir las vistase
+      /*
       link: (element: EstadoCuenta) => ({
         url: [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
         queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
       }),
+      */
       type: 'number',
       footerDef: () => this.totalConfirmado,
     },
@@ -106,6 +109,8 @@ export class EstadoCuentaListComponent implements OnInit {
       def: 'finalizado',
       title: LiquidacionEtapaEnum.PAGOS,
       value: (element: EstadoCuenta) => element.finalizado,
+      // TODO: se quita los links hasta corregir las vistase
+      /*
       link: (element: EstadoCuenta) =>
         element.cantidad_finalizado > 0
           ? {
@@ -118,6 +123,7 @@ export class EstadoCuentaListComponent implements OnInit {
               ),
             }
           : undefined,
+          */
       type: 'number',
       footerDef: () => this.totalFinalizado,
     },
