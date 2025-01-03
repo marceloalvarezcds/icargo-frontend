@@ -41,7 +41,7 @@ export class LiquidacionesListComponent implements OnInit {
     {
       def: 'id',
       title: 'ID Liq',
-      type: 'checkbox',
+      //type: 'checkbox',
       value: (element: Liquidacion) => element.id,
     },
     {

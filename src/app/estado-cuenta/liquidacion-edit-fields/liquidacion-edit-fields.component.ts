@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
@@ -20,7 +20,7 @@ import { LiquidacionEditFormMovimientosComponent } from '../liquidacion-edit-for
   templateUrl: './liquidacion-edit-fields.component.html',
   styleUrls: ['./liquidacion-edit-fields.component.scss']
 })
-export class LiquidacionEditFieldsComponent implements OnChanges {
+export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit {
 
   E = LiquidacionEstadoEnum;
 
@@ -44,6 +44,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
   saldo = 0;
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
+
+  colapseDivMovimientos = false;
+  colapseDivFacturas = false;
+  colapseDivInstrumentos = false;
+  colapseDivHistorico = false;
 
   get monto(): number {
     return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
@@ -113,6 +118,18 @@ export class LiquidacionEditFieldsComponent implements OnChanges {
     private movimientoService: MovimientoService,
     private snackbar: SnackbarService,
   ) { }
+
+  ngAfterViewInit(): void {
+
+    setTimeout(() => {
+      console.log('colapse movs');
+      if (this.esFinalizado) {
+        console.log('colapse movs');
+        this.colapseDivMovimientos = true;
+      }
+    }, 500);
+
+  }
 
   ngOnChanges(changes: SimpleChanges) {
     for (const propName in changes) {
