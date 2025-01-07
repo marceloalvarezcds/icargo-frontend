@@ -103,7 +103,8 @@ export class DialogFieldRucComponent<DialogComponent = SelectorDialogComponent<C
 
     // TODO: inicialmente la busqueda sera local
     const matches = this.list.filter(
-      option => { return (option.ruc.includes(filter) || option.contribuyente.includes(filter))}
+      option => { return (option.ruc.toLocaleLowerCase().includes(filter.toLocaleLowerCase())
+          || option.contribuyente.toLocaleLowerCase().includes(filter.toLocaleLowerCase()))}
     );
 
     return of(matches);
