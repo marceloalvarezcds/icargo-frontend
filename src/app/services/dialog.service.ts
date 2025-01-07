@@ -43,6 +43,23 @@ export class DialogService {
     );
   }
 
+  changeStatusConfirmHtml<T>(
+    message: string,
+    html: boolean,
+    observable: Observable<T>,
+    observer: (value: T) => void
+  ) {
+    this.configDialogRef(
+      this.open(ConfirmationDialogComponent, {
+        data: { message, html },
+      }),
+      () => {
+        this.snackbar.changeStatus();
+        observable.subscribe(observer);
+      }
+    );
+  }
+
   confirmation<T>(message: string, observer: () => void = () => {}) {
     this.dialog
       .open(ConfirmationDialogComponent, { data: { message } })

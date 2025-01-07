@@ -16,10 +16,9 @@ export class FleteConfirmationDialogComponent {
     return this.data.flete;
   }
 
-
-  
   constructor(
     public dialogRef: MatDialogRef<FleteConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: FleteConfirmationDialogData
   ) {}
+
 }

@@ -5,6 +5,7 @@ export interface ConfirmationDialogData {
   confirmedButtonClass?: string;
   closeButtonText?: string;
   confirmedButtonText?: string;
+  html?: boolean;
 }
 
 export const mockConfirmationDialogData: ConfirmationDialogData = {

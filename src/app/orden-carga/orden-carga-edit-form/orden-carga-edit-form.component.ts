@@ -335,12 +335,13 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
     console.log("this.item: ", this.item);
     if (this.item?.anticipos_liberados) {
-     sms = '¿Está seguro de bloquear Anticipos?. '
+     sms = '¿Está seguro de bloquear Anticipos?. <br>'
       +'Esta acción bloqueará los anticipos en esta OC';
     }
 
-    this.dialog.changeStatusConfirm(
+    this.dialog.changeStatusConfirmHtml(
       sms,
+      true,
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
@@ -349,9 +350,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   inactive(): void {
-    this.dialog.changeStatusConfirm(
-      '¿Está seguro de bloquear Anticipos?. '
+    this.dialog.changeStatusConfirmHtml(
+      '¿Está seguro de bloquear Anticipos?.<br>'
       +'Esta acción bloqueará los anticipos en esta OC',
+      true,
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();

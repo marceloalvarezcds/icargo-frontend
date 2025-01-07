@@ -8,8 +8,11 @@ import { ConfirmationDialogData } from 'src/app/interfaces/confirmation-dialog-d
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent {
+  html:boolean|undefined=false;
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData,
-  ) {}
+  ) {
+    this.html = data.html;
+  }
 }

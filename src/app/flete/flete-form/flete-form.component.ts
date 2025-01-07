@@ -297,9 +297,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {
+        let url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`
         this.snackbar.openSaveAndRedirect(
-          confirmed,
-          this.backUrl,
+          true,
+          url,
           r.FLETE,
           m.FLETE,
           flete.id

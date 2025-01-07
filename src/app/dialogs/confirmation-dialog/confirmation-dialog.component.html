@@ -5,7 +5,8 @@
   </button>
 </h1>
 <div mat-dialog-content>
-  <p>{{data.message}}</p>
+  <p *ngIf="!html">{{data.message}}</p>
+  <p *ngIf="html" [innerHTML]="data.message"></p>
 </div>
 <div mat-dialog-actions>
   <button mat-raised-button (click)="dialogRef.close(false)" [class]="data.closeButtonClass">

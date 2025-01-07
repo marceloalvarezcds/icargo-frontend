@@ -49,14 +49,13 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'tipo_contraparte_descripcion',
       title: 'Contraparte',
-      value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion,
+      value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion.toUpperCase(),
 
     },
     {
       def: 'contraparte',
       title: 'Cuenta Correntista',
-      value: (element: EstadoCuenta) => element.contraparte_pdv ?? element.contraparte,
-
+      value: (element: EstadoCuenta) => element.contraparte_pdv?.toUpperCase() ?? element.contraparte.toUpperCase(),
     },
     {
       def: 'contraparte_numero_documento',
@@ -76,7 +75,8 @@ export class EstadoCuentaListComponent implements OnInit {
       def: 'pendiente',
       title: LiquidacionEtapaEnum.PENDIENTE,
       value: (element: EstadoCuenta) => element.pendiente,
-      link: (element: EstadoCuenta) =>
+      // TODO: se quita los links hasta corregir las vistase
+      /*link: (element: EstadoCuenta) =>
         element.cantidad_pendiente > 0
           ? {
               url: [
@@ -88,6 +88,7 @@ export class EstadoCuentaListComponent implements OnInit {
               ),
             }
           : undefined,
+      */
       type: 'number',
       footerDef: () => this.totalPendiente,
     },

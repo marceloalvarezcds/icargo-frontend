@@ -63,8 +63,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       //sticky: true,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -74,9 +75,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: MovimientoEstadoCuenta) => element.estado,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+          (element.tipo_movimiento_concepto === 'Flete') ? { color: 'blue' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff' } :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0' } : ""
         ),
     },
     {
@@ -86,8 +88,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'only-date',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -103,8 +106,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: MovimientoEstadoCuenta) => element.tipo_cuenta_descripcion,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -114,8 +118,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: MovimientoEstadoCuenta) => element.tipo_movimiento_concepto,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -125,8 +130,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: MovimientoEstadoCuenta) => element.detalle,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -136,8 +142,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -148,8 +155,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         ( element.tipo_movimiento_concepto === 'Flete' ) ? (element.documento_fisico) ? 'Sí' : 'No'  : '',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -160,8 +168,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       //value: (element: MovimientoEstadoCuenta) => 'info',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -178,8 +187,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -189,8 +199,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       value: (element: MovimientoEstadoCuenta) => element.estado_liquidacion,
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -201,8 +212,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -213,8 +225,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -225,8 +238,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -237,8 +251,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
@@ -249,8 +264,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       type: 'number',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
           (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? {color: 'gray' } :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
