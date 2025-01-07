@@ -3,13 +3,15 @@
 
     <div class="row">
 
-      <!-- <app-input-field
+      <app-input-field
+        *ngIf="isShow"
         class="input-form-full col-xs-12 col-sm-6 col-md-1"
-        title="N° Lote"
+        title="N° Pedido"
         [groupName]="groupName"
-        controlName="numero_lote"
+        controlName="numero_pedido"
         [form]="form"
-      ></app-input-field> -->
+        
+      ></app-input-field> 
 
       <app-remitente-by-gestor-map-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"

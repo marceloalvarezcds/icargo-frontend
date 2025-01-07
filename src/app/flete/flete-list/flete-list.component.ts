@@ -8,12 +8,14 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { FleteList } from 'src/app/interfaces/flete';
+import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
+import { SeleccionableListService } from 'src/app/shared/seleccionable-list/seleccionable-list.service';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
@@ -304,7 +306,8 @@ export class FleteListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+ 
   ) {}
 
   ngOnInit(): void {
@@ -343,6 +346,17 @@ export class FleteListComponent implements OnInit {
     this.dialog.confirmationToDelete(
       message,
       this.fleteService.delete(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<FleteList>): void {
+    const message = `¿Está seguro que desea inactivar el Pedido con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.fleteService.cancel(row.id),
       () => {
         this.getList();
       }
@@ -408,6 +422,7 @@ export class FleteListComponent implements OnInit {
     this.filter('');
   }
 
+ 
   private getList(): void {
     this.fleteService.getList().subscribe((list) => {
       this.list = list;

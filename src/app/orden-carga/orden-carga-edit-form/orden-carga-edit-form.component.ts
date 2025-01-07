@@ -542,7 +542,7 @@ private cancelOrdenCarga(): void {
     } else {
         console.error('No se puede finalizar la Orden de Carga sin un ID válido');
     }
-}
+  }
 
   private createComentarioAndFinalizar(comentario: string): void {
       const formData = new FormData();
