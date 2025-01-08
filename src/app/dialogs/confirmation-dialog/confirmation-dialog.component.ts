@@ -8,11 +8,17 @@ import { ConfirmationDialogData } from 'src/app/interfaces/confirmation-dialog-d
   styleUrls: ['./confirmation-dialog.component.scss']
 })
 export class ConfirmationDialogComponent {
-  html:boolean|undefined=false;
+  isHtml:boolean|undefined=false;
+  innerHtml:string|undefined=undefined;
+
   constructor(
     public dialogRef: MatDialogRef<ConfirmationDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: ConfirmationDialogData,
   ) {
-    this.html = data.html;
+
+    this.isHtml = data.innerHtml ? true  : false;
+    if(this.isHtml) this.innerHtml = data.innerHtml!;
+
   }
+
 }

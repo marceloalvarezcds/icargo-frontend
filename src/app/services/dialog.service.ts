@@ -45,13 +45,13 @@ export class DialogService {
 
   changeStatusConfirmHtml<T>(
     message: string,
-    html: boolean,
+    innerHtml: string,
     observable: Observable<T>,
     observer: (value: T) => void
   ) {
     this.configDialogRef(
       this.open(ConfirmationDialogComponent, {
-        data: { message, html },
+        data: { message, innerHtml },
       }),
       () => {
         this.snackbar.changeStatus();

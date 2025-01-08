@@ -9,6 +9,8 @@
     (liquidacionFacturaChange)="actualizarFactura()"
     [monto]="montoSaldo"
     [saldoMovimiento]="childSaldoView?.saldoMovimiento"
+    [saldoCC]="childSaldoView?.saldo"
+    [totalMovimiento]="(credito-debito)"
   ></app-liquidacion-edit-form-acciones>
 
   <div style="padding-top: 10px;">

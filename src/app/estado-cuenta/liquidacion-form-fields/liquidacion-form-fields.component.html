@@ -4,65 +4,14 @@
     [estadoCuenta]="estadoCuenta"
     [showVistaConsolidada]="false"
     [showEstado]=false
+    [esEditableLinea]="esEditableLinea"
+    [form]="form"
+    [esInsumoControl]="esInsumoControl"
+    [tipo_insumo]="tipo_insumo"
+    (filterEvent)="filtrarMovimientosPDV2($event)"
   ></app-estado-cuenta-detalle>
 
   <div class="row">
-
-    <div *ngIf="this.estadoCuenta?.punto_venta_id" [class]="esEditableLinea ? 'col-xs-12 col-sm-2' : 'col-xs-12 col-sm-3'">
-
-      <ng-container *ngIf="esEditableLinea; then flujoActivo; else flujoEdit"></ng-container>
-
-      <ng-template #flujoActivo>
-
-        <div class="row">
-
-          <div class="input-form-full col-xs-12">
-            <mat-label>Linea</mat-label>
-            <mat-form-field>
-              <input matInput [value]="this.estadoCuenta!.tipo_flujo" disabled />
-            </mat-form-field>
-          </div>
-
-        </div>
-
-      </ng-template>
-
-      <ng-template #flujoEdit>
-
-        <div class="row">
-
-          <div class="input-form-full col-xs-12 col-sm-6" >
-            <mat-label>
-              Listar movimientos
-            </mat-label>
-            <app-slide
-              [isShow]="false"
-              [control]="esInsumoControl"
-              trueTitle="Efectivo"
-              falseTitle="Insumos"
-              (valueChange)="filtrarMovimientosPDV()"
-            ></app-slide>
-          </div>
-
-          <div class="input-form-full col-xs-12 col-sm-6">
-            <mat-label>
-              Tipo Insumo
-            </mat-label>
-            <mat-form-field floatLabel="always" appearance="outline" >
-              <mat-select [formControl]="tipo_insumo" [disabled]="esInsumoControlvalue ? true : false"
-                (selectionChange)="filtrarMovimientosPDV()">
-                <mat-option value=""></mat-option>
-                  <mat-option value="COMBUSTIBLE">COMBUSTIBLE</mat-option>
-                  <mat-option value="LUBRICANTE">LUBRICANTE</mat-option>
-              </mat-select>
-            </mat-form-field>
-          </div>
-
-        </div>
-
-      </ng-template>
-
-    </div>
 
     <app-saldo
       #saldoView

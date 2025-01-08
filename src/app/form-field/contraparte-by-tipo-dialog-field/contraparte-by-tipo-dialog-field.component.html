@@ -1,8 +1,10 @@
-<ng-container *ngIf="openField; else listTemplate">
+
+<ng-container *ngIf="readonly || openField ; else listTemplate">
 
   <app-input-field
     controlName="contraparte"
     [title]="title"
+    [readonly]="readonly"
     [groupName]="groupName"
     [form]="form"
   ></app-input-field>

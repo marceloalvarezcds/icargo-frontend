@@ -20,6 +20,7 @@ import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { create } from 'src/app/utils/table-event-crud';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Component({
   selector: 'app-liquidacion-edit-form-acciones',
@@ -53,6 +54,8 @@ export class LiquidacionEditFormAccionesComponent {
   @Input() liquidacion!: Liquidacion;
   @Input() monto : number | undefined = 0;
   @Input() saldoMovimiento : number | undefined = 0;
+  @Input() totalMovimiento : number = 0;
+  @Input() saldoCC : number | undefined  = 0;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
@@ -89,10 +92,41 @@ export class LiquidacionEditFormAccionesComponent {
         return;
       }
     }
-
+    let es_pago_cobro = (this.saldoMovimiento! > 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
     const message = `Está seguro que desea Aceptar la Liquidación Nº ${this.id}`;
-    this.dialogService.changeStatusConfirm(
+
+    let htmlFooter = `
+    <div class="row mb-1">
+
+      <div class="col-xs-12">
+        <div class="row">
+          <span class="col-xs-7">Saldo Cuenta</span>
+          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="row">
+          <span class="col-xs-7">Tot. Movimientos</span>
+          <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="row" style="font-size: larger;">
+          <strong class="col-xs-7">Monto Pago/Cobro</strong>
+          <strong class="col-xs-5">${numberWithCommas(pago_cobro)}</strong>
+        </div>
+      </div>
+
+    </div>
+    <br>
+    <div class="fondo-gris"><h4 class="alerta"><span>Atencion!!</span>Al aceptar la liquidacion se podra proceder al desembolso.</h4><div></div></div>`;
+
+    this.dialogService.changeStatusConfirmHtml(
       message,
+      htmlFooter,
       this.liquidacionService.aceptar(this.id),
       (resp) => {
         //this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
@@ -178,9 +212,33 @@ export class LiquidacionEditFormAccionesComponent {
 
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
     let htmlContent = '';
+    let htmlFooter = `<div class="row mb-1">
+
+      <div class="col-xs-12">
+        <div class="row">
+          <span class="col-xs-7">Saldo Cuenta</span>
+          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="row">
+          <span class="col-xs-7">Tot. Movimientos</span>
+          <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="row" style="font-size: larger;">
+          <strong class="col-xs-7">Monto Pago/Cobro</strong>
+          <strong class="col-xs-5">${numberWithCommas(pago_cobro)}</strong>
+        </div>
+      </div>
+
+    </div>`;
 
     if (!this.isFacturaReady) {
-      htmlContent = `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
+      htmlContent += `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
     }
 
     this.dialogService.configDialogRef(
@@ -189,6 +247,7 @@ export class LiquidacionEditFormAccionesComponent {
           message,
           comentarioRequirido: false,
           htmlContent: htmlContent,
+          htmlFooter: htmlFooter
         },
       }),
       (comentario: string) => {

@@ -6,6 +6,7 @@ import {
 export interface ComentarioConfirmDialogData extends ConfirmationDialogData {
   comentarioRequirido: boolean;
   htmlContent?:string;
+  htmlFooter?:string;
 }
 
 export const mockComentarioConfirmDialogData: ComentarioConfirmDialogData = {

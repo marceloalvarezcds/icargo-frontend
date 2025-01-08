@@ -181,6 +181,21 @@ export class LiquidacionFormFieldsComponent {
     this.getList();
   }
 
+  filtrarMovimientosPDV2(filter:string):void{
+    this.liquidacionMovimientoList!.clearMovimientosList();
+
+    console.log("listar_efectivo_insumo: ", filter);
+
+    if (filter === 'INSUMO' && !this.tipo_insumo.value ) {
+      this.list = [];
+      this.movimientosSelected = [];
+      console.log("blockero: ");
+      return;
+    }
+
+    this.getList();
+  }
+
   cargarMovimientos(movimientos: Movimiento[]):void {
     this.movimientosSelected = movimientos;
   }

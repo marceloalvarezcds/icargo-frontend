@@ -75,7 +75,8 @@ export class MovimientoFormDialogComponent {
   }
 
   get isOtro(): boolean {
-    return this.tipo?.descripcion === TipoContraparteEnum.OTRO;
+    return this.dialogData?.tipo_contraparte_descripcion ? this.dialogData.tipo_contraparte_descripcion == TipoContraparteEnum.OTRO :
+      this.tipo?.descripcion === TipoContraparteEnum.OTRO;
   }
 
   get isEdit(): boolean {

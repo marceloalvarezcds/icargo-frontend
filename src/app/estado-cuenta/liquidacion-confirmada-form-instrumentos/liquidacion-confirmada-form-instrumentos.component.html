@@ -1,7 +1,30 @@
 <div *ngIf="gestorCargaId">
   <div class="row">
+
+    <div class="col-xs-12 button-container"
+      [hidden]="isShow || !(m.INSTRUMENTO | puede: a.CREAR:gestorCargaId)" >
+      <button *ngIf="esSaldoAbierto"
+        mat-flat-button
+        class="botones"
+        color="primary"
+        type="button"
+        (click)="create()"
+        [disabled]="residuo === 0"
+      >
+        Nuevo Instrumento
+      </button>
+      <button *ngIf="esSaldoAbierto"
+        mat-flat-button
+        class="botones"
+        color="accent"
+        type="button"
+        [disabled]="residuo !== 0"
+        (click)="saveInstrumentos()" >
+        Guardar Instrumentos
+      </button>
+    </div>
+
     <ng-container *ngIf="list && list.length">
-      <h4 class="col-xs-12">Instrumentos a crearse</h4>
       <div class="col-xs-12">
         <div class="table-container">
           <app-table
@@ -28,28 +51,5 @@
       </div>
     </ng-container>
 
-    <div
-      class="col-xs-12 button-container"
-      [hidden]="isShow || !(m.INSTRUMENTO | puede: a.CREAR:gestorCargaId)"
-    >
-      <button *ngIf="esSaldoAbierto"
-        mat-stroked-button
-        class="botones"
-        type="button"
-        (click)="create()"
-        [disabled]="residuo === 0"
-      >
-        Nuevo Instrumento
-      </button>
-      <button *ngIf="esSaldoAbierto"
-        mat-flat-button
-        class="botones"
-        color="accent"
-        type="button"
-        [disabled]="residuo !== 0"
-        (click)="saveInstrumentos()" >
-        Guardar Instrumentos
-      </button>
-    </div>
   </div>
 </div>

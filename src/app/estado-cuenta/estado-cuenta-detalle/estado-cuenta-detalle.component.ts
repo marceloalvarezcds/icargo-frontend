@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
@@ -18,6 +19,25 @@ export class EstadoCuentaDetalleComponent {
   @Input() showSaldo = false;
   @Input() showLiquidacion = false;
   @Input() liquidacionId = 0;
+  @Input() esEditableLinea=false;
+  @Input() form:FormGroup|undefined=undefined;
+
+  @Input() esInsumoControl:FormControl|undefined=undefined;
+  @Input() tipo_insumo:FormControl|undefined=undefined;
+
+  @Output()
+  filterEvent: EventEmitter<string> = new EventEmitter<string>();
+
+  get esInsumoControlvalue(): FormControl {
+    return this.form?.controls['es_insumo_efectivo'].value;
+  }
+
+  filtrarMovimientosPDV():void{
+
+    const listar_efectivo_insumo = this.esInsumoControl?.value ? "EFECTIVO" : "INSUMO";
+    this.filterEvent.emit(listar_efectivo_insumo);
+
+  }
 
 }
 

@@ -26,6 +26,7 @@ import { createMovimiento } from 'src/app/utils/movimiento-utils';
 type Filter = {
   tipo_contraparte_descripcion?: string;
   contraparte?: string;
+  linea?: string;
 };
 
 @Component({
@@ -78,6 +79,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
       def: 'pendiente',
       title: LiquidacionEtapaEnum.PENDIENTE,
       value: (element: EstadoCuenta) => element.pendiente,
+      /*
       link: (element: EstadoCuenta) =>
         element.cantidad_pendiente > 0
           ? {
@@ -90,6 +92,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
               ),
             }
           : undefined,
+      */
       type: 'number',
       footerDef: () => this.totalPendiente,
     },
@@ -97,10 +100,12 @@ export class EstadoCuentaPdvComponent implements OnInit {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
       value: (element: EstadoCuenta) => element.confirmado,
+      /*
       link: (element: EstadoCuenta) => ({
         url: [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`],
         queryParams: getQueryParams(element, LiquidacionEtapaEnum.EN_PROCESO),
       }),
+      */
       type: 'number',
       footerDef: () => this.totalConfirmado,
     },
@@ -108,6 +113,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
       def: 'finalizado',
       title: LiquidacionEtapaEnum.PAGOS,
       value: (element: EstadoCuenta) => element.finalizado,
+      /*
       link: (element: EstadoCuenta) =>
         element.cantidad_finalizado > 0
           ? {
@@ -120,6 +126,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
               ),
             }
           : undefined,
+      */
       type: 'number',
       footerDef: () => this.totalFinalizado,
     },
@@ -143,15 +150,23 @@ export class EstadoCuentaPdvComponent implements OnInit {
   list: EstadoCuenta[] = [];
   contraparteFilterList: string[] = [];
   contraparteFiltered: string[] = [];
+  lineaFilterList: string[] = [];
+  lineaFiltered: string[] = [];
 
   provision: number = 0;
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
 
-  get isFilteredByProducto(): boolean {
+  get isFilteredByContraparte(): boolean {
     return (
       this.contraparteFiltered.length !== this.contraparteFilterList.length
+    );
+  }
+
+  get isFilteredByLinea(): boolean {
+    return (
+      this.lineaFiltered.length !== this.lineaFilterList.length
     );
   }
 
@@ -176,6 +191,9 @@ export class EstadoCuentaPdvComponent implements OnInit {
   @ViewChild('contraparteCheckboxFilter')
   contraparteCheckboxFilter!: CheckboxFilterComponent;
 
+  @ViewChild('lineaCheckboxFilter')
+  lineaCheckboxFilter!: CheckboxFilterComponent;
+
   constructor(
     private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService,
@@ -199,17 +217,18 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
   filterPredicate(obj: EstadoCuenta, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
-    const filterByTipoContraparte =
-      filter.tipo_contraparte_descripcion
-        ?.split('|')
-        .some(
-          (x) => obj.tipo_contraparte_descripcion.toLowerCase().indexOf(x) >= 0
-        ) ?? true;
+
     const filterByContraparte =
       filter.contraparte
         ?.split('|')
-        .some((x) => obj.contraparte.toLowerCase().indexOf(x) >= 0) ?? true;
-    return filterByTipoContraparte && filterByContraparte;
+        .some((x) => obj.contraparte_pdv!.toLowerCase().indexOf(x) >= 0) ?? true;
+
+    const filterByLinea =
+      filter.linea
+        ?.split('|')
+        .some((x) => obj.tipo_flujo!.toLowerCase().indexOf(x) >= 0) ?? true;
+
+    return filterByContraparte && filterByLinea;
   }
 
   applyFilter(): void {
@@ -217,11 +236,18 @@ export class EstadoCuentaPdvComponent implements OnInit {
     this.isFiltered = false;
 
     this.contraparteFiltered = this.contraparteCheckboxFilter.getFilteredList();
+    this.lineaFiltered = this.lineaCheckboxFilter.getFilteredList();
 
-    if (this.isFilteredByProducto) {
+    if (this.isFilteredByContraparte) {
       filter.contraparte = this.contraparteFiltered.join('|');
       this.isFiltered = true;
     }
+
+    if (this.isFilteredByLinea) {
+      filter.linea = this.lineaFiltered.join('|');
+      this.isFiltered = true;
+    }
+
     this.filter(
       this.isFiltered ? JSON.stringify(filter) : '',
       !this.isFiltered
@@ -258,7 +284,8 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
       this.list = list;
 
-      this.contraparteFilterList = getFilterList(list, (x) => x.contraparte);
+      this.contraparteFilterList = getFilterList(list, (x) => x.contraparte_pdv!);
+      this.lineaFilterList = getFilterList(list, (x) => x.tipo_flujo!);
 
       this.resetFilterList();
 
@@ -276,6 +303,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
   private resetFilterList(): void {
     this.isFiltered = false;
     this.contraparteFiltered = this.contraparteFilterList.slice();
+    this.lineaFiltered = this.lineaFilterList.slice();
   }
 
   private redirectToCtaCteContrapartePDV(mov: EstadoCuenta): void {
