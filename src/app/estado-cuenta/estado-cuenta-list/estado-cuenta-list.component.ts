@@ -239,9 +239,11 @@ export class EstadoCuentaListComponent implements OnInit {
       this.isFiltered = true;
     }
     if (this.isFilteredByProducto) {
+      this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
       filter.contraparte = this.contraparteFiltered.join('|');
       this.isFiltered = true;
     }
+
     this.filter(
       this.isFiltered ? JSON.stringify(filter) : '',
       !this.isFiltered
