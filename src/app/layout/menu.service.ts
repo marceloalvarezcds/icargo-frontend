@@ -127,7 +127,7 @@ export class MenuService {
         active: true,
         children: [
           {
-            name: 'Combinacion',
+            name: 'Combinación',
             iconName: 'airport_shuttle',
             path: `/flota/${m.COMBINACION}`,
             active: this.userService.checkPermiso(a.LISTAR, m.COMBINACION),
@@ -140,7 +140,7 @@ export class MenuService {
           },
 
           {
-            name: t[m.CHOFER],
+            name: 'Choferes',
             iconName: 'badge',
             iconOutline: true,
             path: `/flota/${m.CHOFER}`,
@@ -154,7 +154,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.CAMION),
           },
           {
-            name: t[m.SEMIRREMOLQUE],
+            name: 'Semis',
             iconName: 'local_shipping',
             path: `/flota/${m.SEMIRREMOLQUE}`,
             active: this.userService.checkPermiso(a.LISTAR, m.SEMIRREMOLQUE),

@@ -19,7 +19,7 @@
                 [matTooltipDisabled]="isExpanded"
                 [routerLink]="item.path"
                 [routerLinkActiveOptions]="{ exact: !!item.isRouteExact }"
-                (click)="closeSidebarMenu()"
+                
               >
                 <mat-icon
                   mat-list-icon
@@ -62,7 +62,7 @@
                           [routerLinkActiveOptions]="{
                             exact: !!child.isRouteExact
                           }"
-                          (click)="closeSidebarMenu()"
+                        
                         >
                           <mat-icon
                             mat-list-icon

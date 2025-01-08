@@ -12,10 +12,10 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 }
 
 .sidebar {
-
+  
   .mat-sidenav {
     background-color: $parent-background; 
-    width: 65px;
+    width: 0;
   }
 
   [mat-list-text] {
@@ -45,6 +45,19 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
   padding: 0 16px;
 }
 
+//Padding para que se unan mas los items
+.mat-list-base .mat-list-item.mat-list-item-with-avatar, .mat-list-base .mat-list-option.mat-list-item-with-avatar {
+  height: 38px;
+}
+
+.mat-expansion-panel-header.mat-expanded{
+  height: 42px;
+}
+
+.mat-expansion-panel-header {
+  height: 40px;
+}
+
 .mat-expansion-panel-header-title {
   align-items: center;
   color: white; 
@@ -56,7 +69,7 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
 .mat-list-base .mat-list-item,
 .mat-expansion-panel-header {
-  font-size: 1rem;
+  font-size: 0.895rem;
   
   /* Estilo común para hover y focus en todos los items */
   &:hover,
@@ -81,7 +94,7 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
   color: white; 
   display: flex;
   align-items: center;
-  
+ 
   
   &:hover,
   &:focus {
@@ -152,5 +165,7 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
   .sidebar-expanded .mat-expansion-panel .mat-list-item-content {
     padding: 0 36px;
-  }
+  } 
+
+
 }

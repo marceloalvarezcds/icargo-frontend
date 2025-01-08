@@ -22,6 +22,7 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
     this.menuService.configSidebarModeByScreen();
   }
 
+
   @ViewChild(MatSidenav)
   get sidenav(): MatSidenav | undefined {
     return this.nav;

@@ -74,8 +74,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       producto_descripcion: null,
       tipo_carga_id: [null, Validators.required],
       numero_pedido: null,
-      publicado: true,
-      es_subasta: false,
+      // publicado: true,
+      // es_subasta: false,
     }),
     tramo: this.fb.group({
       origen_id: [null, Validators.required],
@@ -349,8 +349,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             producto_id: data.producto_id,
             tipo_carga_id: data.tipo_carga_id,
             numero_pedido: data.id,
-            publicado: data.publicado,
-            es_subasta: data.es_subasta,
+            // publicado: data.publicado,
+            // es_subasta: data.es_subasta,
           },
           tramo: {
             origen_id: data.origen_id,
