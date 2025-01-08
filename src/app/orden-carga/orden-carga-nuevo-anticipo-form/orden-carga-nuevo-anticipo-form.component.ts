@@ -146,7 +146,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   get isFinalizado(): boolean {
     return this.estado === EstadoEnum.FINALIZADO;
   }
-  
+
   get complementoList(): OrdenCargaComplemento[] {
     return this.item!?.complementos.slice();
   }
@@ -154,7 +154,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   get descuentoList(): OrdenCargaDescuento[] {
     return this.item!?.descuentos.slice();
   }
-  
+
   get isAnticiposLiberados(): boolean {
     return this.item!?.anticipos_liberados;
   }
@@ -194,7 +194,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       this.handleIdChange(id);
     });
   }
-  
+
   previousId: number | null = null;
   handleIdChange(id: number | null): void {
     if (id && id !== this.previousId) {
@@ -223,12 +223,12 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
-    
+
   ) {}
 
   setInitialToggleState(): void {
     if (this.item && this.item.anticipos_liberados) {
-      this.isActive = this.item.anticipos_liberados; 
+      this.isActive = this.item.anticipos_liberados;
     }
   }
 
@@ -237,7 +237,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       this.submit(confirmed);
     } else {
       let comentario = this.form.get('info.comentarios')?.value;
-      
+
       // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
@@ -250,7 +250,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
           comentario: comentario,
         };
         formData.append('data', JSON.stringify(data));
-  
+
         // Llamar al servicio para guardar el comentario
         this.ordenCargaService.createComentarios(formData).subscribe(
           (item) => {
@@ -269,10 +269,18 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    if (this.ordenCargaId !== null) {
-      this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea liberar anticipos?',
-        this.ordenCargaService.modificarAnticipos(this.ordenCargaId),
+    let sms = "¿Está seguro que desea liberar anticipos?";
+    if (this.idOC !== null && this.idOC !== undefined) {
+
+      if (this.item?.anticipos_liberados) {
+        sms = '<p>¿Está seguro de bloquear Anticipos?. <br>'
+         +'Esta acción bloqueará los anticipos en esta OC</p>';
+       }
+
+      this.dialog.changeStatusConfirmHtml(
+        '',
+        sms,
+        this.ordenCargaService.modificarAnticipos(this.idOC),
         () => {
           this.getData();
         }
@@ -281,12 +289,14 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       console.error('No se puede activar anticipos sin un ID válido');
     }
   }
-  
+
   inactive(): void {
-    if (this.ordenCargaId !== null) {
-      this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea bloquear anticipos?',
-        this.ordenCargaService.modificarAnticipos(this.ordenCargaId),
+    if (this.idOC !== null && this.idOC !== undefined) {
+      this.dialog.changeStatusConfirmHtml(
+        '',
+        '<p>¿Está seguro de bloquear Anticipos?.<br>'
+        +'Esta acción bloqueará los anticipos en esta OC.</p>',
+        this.ordenCargaService.modificarAnticipos(this.idOC),
         () => {
           this.getData();
         }
@@ -372,7 +382,7 @@ openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
   });
 }
 
-  
+
 downloadResumenPDF(): void {
   this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
     this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -383,14 +393,14 @@ downloadResumenPDF(): void {
         height: '90%',
         data: {
           pdfUrl: url,
-          fileBlob: blob, 
-          filename: filename 
+          fileBlob: blob,
+          filename: filename
         }
       });
     });
   });
 }
- 
+
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
@@ -414,20 +424,20 @@ downloadResumenPDF(): void {
             .afterClosed()
             .pipe(filter((confirmed: any) => !!confirmed))
             .subscribe((confirmed) => {
-              this.submit(confirmed); 
-              this.dialogOpened = false; 
+              this.submit(confirmed);
+              this.dialogOpened = false;
             });
         }
       } else {
-        this.submit(true); 
+        this.submit(true);
       }
     }
   }
 
   getData(): void {
-    const ocValue = this.idOC; 
-    if (ocValue) { 
-      this.isLoadingData = true; 
+    const ocValue = this.idOC;
+    if (ocValue) {
+      this.isLoadingData = true;
       this.valueChangesSubscription.unsubscribe();
       this.info.get('comentarios')?.setValue('');
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
@@ -480,24 +490,24 @@ downloadResumenPDF(): void {
           },
         });
         this.form.get('info.cantidad_nominada')?.disable();
-        this.isLoadingData = false; 
+        this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
         this.ngOnInit();
-        this.isFormSaved = true; 
+        this.isFormSaved = true;
         this.isFormSubmitting = false
         this.isShow = false
       });
     } else {
-      
-      this.isLoadingData = false; 
+
+      this.isLoadingData = false;
     }
   }
-  
+
   submit(confirmed: boolean): void {
-    this.isFormSaved = true; 
+    this.isFormSaved = true;
     this.isFormSubmitting = false
     this.isShow = false
-    this.dataFromParent = this.form.get('combinacion.estado')?.value; 
+    this.dataFromParent = this.form.get('combinacion.estado')?.value;
     this.getData();
   }
 

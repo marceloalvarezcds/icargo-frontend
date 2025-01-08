@@ -36,12 +36,11 @@
   ></app-orden-carga-create-form-combinacion>
 
   <div class="anticipo-table">
-    <app-orden-carga-anticipos-table 
+    <app-orden-carga-anticipos-table
       [oc]="item"
       [fleteId]="fleteId"
       [list]="anticipoList"
-      (ocChange)="getData()"
-    >
+      (ocChange)="getData()">
     </app-orden-carga-anticipos-table>
   </div>
 
@@ -56,7 +55,7 @@
         (ocChange)="getData()"
       ></app-orden-carga-edit-form-complementos>
     </div>
-    
+
     <div class="complementos_descuentos-item">
       <app-orden-carga-edit-form-descuentos
         [oc]="item"

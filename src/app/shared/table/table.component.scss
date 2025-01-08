@@ -272,7 +272,19 @@ td.mat-column-saldo_caja:not(:first-child)  {
 //Banco
 td.mat-column-credito_banco:not(:first-child),
 td.mat-column-debito_banco:not(:first-child),
-td.mat-column-saldo_banco:not(:first-child)  {
+td.mat-column-saldo_banco:not(:first-child)
+  {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 22px; /* Opcional: añade padding derecho para separación */
+}
+
+//Banco-movimientos
+td.mat-column-credito:not(:first-child),
+td.mat-column-debito:not(:first-child),
+td.mat-column-provision:not(:first-child),
+td.mat-column-saldo_provisional:not(:first-child)
+  {
   width: 50px;
   text-align: right; /* Alinea el contenido a la derecha */
   padding-right: 22px; /* Opcional: añade padding derecho para separación */
@@ -284,6 +296,7 @@ td.mat-column-en_proceso:not(:first-child),
 td.mat-column-confirmado:not(:first-child),
 td.mat-column-provision:not(:first-child),
 td.mat-column-liquidacion_saldo:not(:first-child),
+td.mat-column-total_cc:not(:first-child),
 td.mat-column-finalizado:not(:first-child)  {
   width: 60px;
   text-align: right; /* Alinea el contenido a la derecha */
