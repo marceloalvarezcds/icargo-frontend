@@ -106,7 +106,8 @@ export class CamionListComponent implements OnInit {
     {
       def: 'created_at',
       title: 'Fecha',
-      value: (element: CamionList) => this.formatDate(element.created_at),
+      value: (element: CamionList) => element.created_at,
+      type: 'only-date'
     },
     // {
     //   def: 'modified_by',
@@ -132,15 +133,6 @@ export class CamionListComponent implements OnInit {
   propietarioFiltered: string[] = [];
   tipoFilterList: string[] = [];
   tipoFiltered: string[] = [];
-
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${day}-${month}-${year}`;
-  }
-
 
   get isFilteredByMarca(): boolean {
     return this.marcaFiltered.length !== this.marcaFilterList.length;
