@@ -73,6 +73,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       producto_id: [null, Validators.required],
       producto_descripcion: null,
       tipo_carga_id: [null, Validators.required],
+      tipo_carga: [' '],
       numero_pedido: null,
       // publicado: true,
       // es_subasta: false,
@@ -280,14 +281,14 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         descuentos: this.descuentos.value,
       })
     );
-  
+
     // Convertir propiedades a mayúsculas, excepto los correos electrónicos
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {
         data[key] = data[key].toUpperCase();
       }
     });
-  
+
     formData.append('data', JSON.stringify(data));
     this.hasChange = false;
     this.initialFormValue = this.form.value;
@@ -309,12 +310,12 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       });
     }
   }
-  
+
 
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
-    this.info.get('tipo_carga')?.setValue(producto?.tipo_carga.descripcion);
     this.info.get('tipo_carga_id')?.setValue(producto?.tipo_carga.id);
+    if (producto) this.info.get('tipo_carga')?.setValue(producto?.tipo_carga.descripcion);
   }
 
   getData(): void {

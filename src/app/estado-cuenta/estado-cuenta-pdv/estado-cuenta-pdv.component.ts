@@ -239,7 +239,8 @@ export class EstadoCuentaPdvComponent implements OnInit {
     this.lineaFiltered = this.lineaCheckboxFilter.getFilteredList();
 
     if (this.isFilteredByContraparte) {
-      filter.contraparte = this.contraparteFiltered.join('|');
+      this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
+      filter.contraparte = this.contraparteFiltered.join('|').trim();
       this.isFiltered = true;
     }
 

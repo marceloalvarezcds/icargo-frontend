@@ -10,8 +10,8 @@
         [groupName]="groupName"
         controlName="numero_pedido"
         [form]="form"
-        
-      ></app-input-field> 
+
+      ></app-input-field>
 
       <app-remitente-by-gestor-map-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -28,13 +28,22 @@
         (valueChange)="productoChange.emit($event)"
       ></app-producto-field>
 
-      <app-tipo-carga-field
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Tipo Carga"
+        [groupName]="groupName"
+        controlName="tipo_carga"
+        [readonly]="true"
+        [form]="form"
+      ></app-input-field>
+
+      <!--app-tipo-carga-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Tipo Carga"
         [groupName]="groupName"
         [readonly]="true"
         [form]="form"
-      ></app-tipo-carga-field>
+      ></app-tipo-carga-field-->
 
       <!-- <div class="col-xs-12 col-sm-6 col-md-2" style="display: flex; flex-direction: column; align-items: flex-start;">
 

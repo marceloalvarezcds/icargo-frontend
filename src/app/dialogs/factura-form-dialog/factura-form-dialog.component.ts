@@ -1,5 +1,5 @@
 import { IvyParser } from '@angular/compiler';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { facturaData } from 'src/app/form-data/factura';
@@ -19,14 +19,14 @@ export class FacturaFormDialogComponent {
 
   form = this.fb.group({
     moneda_id: [this.data?.moneda_id, Validators.required],
-    numero_factura: [this.data?.numero_factura, Validators.required],
+    numero_factura: [this.data?.numero_factura, /*Validators.required*/],
     fecha_vencimiento: [
       this.data?.fecha_vencimiento ?? new Date().toJSON(),
       Validators.required,
     ],
     monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
     iva_id: [this.data?.iva_id, Validators.required],
-    foto: this.data?.foto,
+    foto: [this.data?.foto, Validators.required],
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
     iva_incluido: [ this.data ? this.data.iva_incluido : false ],
@@ -36,8 +36,8 @@ export class FacturaFormDialogComponent {
     sentido_mov_retencion: [ this.data?.sentido_mov_retencion ],
     sentido_mov_retencion_pagar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_retencion_cobrar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'COBRAR' ? true : undefined : undefined ],
-    retencion: [this.data?.retencion, [Validators.required, Validators.min(0)]],
-    timbrado: [this.data?.timbrado, Validators.required],
+    retencion: [this.data?.retencion, /*[Validators.required, Validators.min(0)]*/],
+    timbrado: [this.data?.timbrado, /*Validators.required*/],
     ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
     iva_movimiento_id: [this.data?.iva_movimiento_id],
@@ -100,6 +100,7 @@ export class FacturaFormDialogComponent {
     private facturaService: FacturaService,
     public dialogRef: MatDialogRef<FacturaFormDialogComponent>,
     private fb: FormBuilder,
+    private ren: Renderer2,
     @Inject(MAT_DIALOG_DATA) private dialogData: FacturaFormDialogData
   ) {
     this.foto = this.data?.foto ?? null;
@@ -136,6 +137,19 @@ export class FacturaFormDialogComponent {
     this.foto = null;
     this.fotoFile = file;
   }
+
+  /*checkState(el:any):any {
+    setTimeout(() => {
+      if (this.currentCheckedValue && this.currentCheckedValue === el.value) {
+        el.checked = false;
+        this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-focused');
+        this.ren.removeClass(el['_elementRef'].nativeElement, 'cdk-program-focused');
+        this.currentCheckedValue = null;
+      } else {
+        this.currentCheckedValue = el.value
+      }
+    })
+  }*/
 
   private close(data: FacturaForm): void {
     this.dialogRef.close(data);
