@@ -424,7 +424,7 @@ export class FleteListComponent implements OnInit {
 
  
   private getList(): void {
-    this.fleteService.getList().subscribe((list) => {
+    this.fleteService.getListByGestorCarga().subscribe((list) => {
       this.list = list;
       this.estadoFilterList = getFilterList(list, (x) => x.estado);
       this.productoFilterList = getFilterList(
