@@ -269,10 +269,10 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   }
 
   active(): void {
-    if (this.ordenCargaId !== null) {
+    if (this.idOC !== null && this.idOC !== undefined) {
       this.dialog.changeStatusConfirm(
         '¿Está seguro que desea liberar anticipos?',
-        this.ordenCargaService.modificarAnticipos(this.ordenCargaId),
+        this.ordenCargaService.modificarAnticipos(this.idOC),
         () => {
           this.getData();
         }
@@ -283,10 +283,10 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   }
   
   inactive(): void {
-    if (this.ordenCargaId !== null) {
+    if (this.idOC !== null && this.idOC !== undefined)  {
       this.dialog.changeStatusConfirm(
         '¿Está seguro que desea bloquear anticipos?',
-        this.ordenCargaService.modificarAnticipos(this.ordenCargaId),
+        this.ordenCargaService.modificarAnticipos(this.idOC),
         () => {
           this.getData();
         }

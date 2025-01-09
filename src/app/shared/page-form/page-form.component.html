@@ -91,20 +91,23 @@
               <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
           </button>
         </div>
-
+        
         <button
           mat-flat-button
-          class="botones" color="primary"
+          class="botones" 
+          color="primary"
           type="button"
           matTooltip="Orden"
           [class.disabled]="!isFormSaved && oc?.estado !== E.CANCELADO && oc?.estado !== E.FINALIZADO && oc?.estado !== 'Conciliado'"
           *ngIf="(module === 'CONCILIAR' && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)) ||
                   oc?.estado === E.CANCELADO ||
                   oc?.estado === E.FINALIZADO ||
-                  oc?.estado === 'Conciliado'"
+                  oc?.estado === 'Conciliado' &&
+                  submodule !== 'RECEPCION directa'"
           (click)="downloadResumenPDF()">
-          <mat-icon>description</mat-icon> RESUMEN
+        <mat-icon>description</mat-icon> RESUMEN
         </button>
+      
 
         <button
           mat-flat-button
@@ -173,15 +176,18 @@
         </button>
 
         <button
-          *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
-          && oc?.estado !== E.CONCILIADO && !isShow"
+          *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR') 
+                  && oc?.estado !== E.CONCILIADO && !isShow
+                  && submodule !== 'RECEPCION directa'" 
           mat-stroked-button
-          class="botones" type="button"
+          class="botones" 
+          type="button"
           [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino || cambiarPedido"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="conciliarClick.emit($event)">
           CONCILIAR
         </button>
+      
 
         <button
           mat-flat-button

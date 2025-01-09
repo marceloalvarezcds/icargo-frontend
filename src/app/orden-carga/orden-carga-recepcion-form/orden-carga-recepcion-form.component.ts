@@ -162,7 +162,6 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
     return this.item!?.descuentos.slice();
   }
 
-
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
     return this.item!?.anticipos.slice();
   }
@@ -469,10 +468,6 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
-        if (this.item?.estado === 'Finalizado') {
-            alert('La Orden de Carga ya está finalizada.');
-            return;
-        }
 
         const comentario = this.form.get('info.comentarios')?.value?.toUpperCase() || '';
         if (comentario !== this.originalComentario) {
@@ -480,6 +475,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
         } else {
             this.finalizarOrdenCarga();
         }
+        
     } else {
         console.error('No se puede finalizar la Orden de Carga sin un ID válido');
     }
@@ -509,7 +505,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
           this.ordenCargaService.finalizar(this.idOC),
           () => {
               this.getData();
-
+              
               // Abre el diálogo de evaluación
               const dialogRef = this.openEvaluacionesDialog();
 
@@ -524,6 +520,13 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
                       this.downloadResumenPDF();
                     
                   } 
+                  this.form.reset()
+                  this.item!.remisiones_origen = [];  
+                  this.item!.remisiones_destino = []; 
+                  this.item!.remisiones_resultado = [];
+                  this.item!.cantidad_origen = 0;  
+                  this.item!.cantidad_destino = 0; 
+                  this.item!.estado = EstadoEnum.PENDIENTE;
               });
           },
       );
