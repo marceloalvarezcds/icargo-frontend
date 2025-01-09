@@ -47,15 +47,15 @@ export class EstadoCuentaListComponent implements OnInit {
       sticky: true
     },
     {
-      def: 'tipo_contraparte_descripcion',
-      title: 'Contraparte',
-      value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion.toUpperCase(),
-
-    },
-    {
       def: 'contraparte',
       title: 'Cuenta Correntista',
       value: (element: EstadoCuenta) => element.contraparte_pdv?.toUpperCase() ?? element.contraparte.toUpperCase(),
+      sticky: true
+    },
+    {
+      def: 'tipo_contraparte_descripcion',
+      title: 'Contraparte',
+      value: (element: EstadoCuenta) => element.tipo_contraparte_descripcion.toUpperCase(),
     },
     {
       def: 'contraparte_numero_documento',
@@ -213,18 +213,22 @@ export class EstadoCuentaListComponent implements OnInit {
     });
   }
 
+  /* OBS: en caso que el * se use como texto como parte de los campos, cambiar condicion de filtrado */
   filterPredicate(obj: EstadoCuenta, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
+
     const filterByTipoContraparte =
       filter.tipo_contraparte_descripcion
-        ?.split('|')
+        ?.split('*')
         .some(
           (x) => obj.tipo_contraparte_descripcion.toLowerCase().indexOf(x) >= 0
         ) ?? true;
+
     const filterByContraparte =
       filter.contraparte
-        ?.split('|')
+        ?.split('*')
         .some((x) => obj.contraparte.toLowerCase().indexOf(x) >= 0) ?? true;
+
     return filterByTipoContraparte && filterByContraparte;
   }
 
@@ -235,12 +239,12 @@ export class EstadoCuentaListComponent implements OnInit {
     this.contraparteFiltered = this.contraparteCheckboxFilter.getFilteredList();
 
     if (this.isFilteredByTipoContraparte) {
-      filter.tipo_contraparte_descripcion = this.tipoContraparteFiltered.join('|');
+      filter.tipo_contraparte_descripcion = this.tipoContraparteFiltered.join('*');
       this.isFiltered = true;
     }
     if (this.isFilteredByProducto) {
-      this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
-      filter.contraparte = this.contraparteFiltered.join('|');
+      //this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
+      filter.contraparte = this.contraparteFiltered.join('*');
       this.isFiltered = true;
     }
 
