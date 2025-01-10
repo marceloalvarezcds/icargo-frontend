@@ -91,10 +91,10 @@
               <mat-icon>{{ isAnticipoActive ? 'toggle_on' : 'toggle_off' }}</mat-icon>
           </button>
         </div>
-        
+
         <button
           mat-flat-button
-          class="botones" 
+          class="botones"
           color="primary"
           type="button"
           matTooltip="Orden"
@@ -107,7 +107,7 @@
           (click)="downloadResumenPDF()">
         <mat-icon>description</mat-icon> RESUMEN
         </button>
-      
+
 
         <button
           mat-flat-button
@@ -176,18 +176,18 @@
         </button>
 
         <button
-          *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR') 
+          *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
                   && oc?.estado !== E.CONCILIADO && !isShow
-                  && submodule !== 'RECEPCION directa'" 
+                  && submodule !== 'RECEPCION directa'"
           mat-stroked-button
-          class="botones" 
+          class="botones"
           type="button"
           [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino || cambiarPedido"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="conciliarClick.emit($event)">
           CONCILIAR
         </button>
-      
+
 
         <button
           mat-flat-button
@@ -302,7 +302,7 @@
 
     </div>
 
-    <div class="page-content" style="overflow-y: auto;max-height: 85vh;" >
+    <div class="page-content page-size" >
 
       <hr>
       <ng-content></ng-content>

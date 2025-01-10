@@ -47,17 +47,15 @@
       </ng-container>
     </mat-chip-list>
 
-    <div class="estado-cuenta-list">
-      <app-table-paginator
-          [columns]="columns"
-          [data]="list"
-          [filterPredicate]="filterPredicate"
-          [modelo]="m.MOVIMIENTO"
-          [hideDelete]="true"
-          [hideEdit]="true"
-          [hideShow]="true"
-          [shouldBeShowFooter]="true"
-      ></app-table-paginator>
-    </div>
+    <app-table-paginator
+        [columns]="columns"
+        [data]="list"
+        [filterPredicate]="filterPredicate"
+        [modelo]="m.MOVIMIENTO"
+        [hideDelete]="true"
+        [hideEdit]="true"
+        [hideShow]="true"
+        [shouldBeShowFooter]="true"
+    ></app-table-paginator>
 
   </app-page>

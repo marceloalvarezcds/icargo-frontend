@@ -30,6 +30,10 @@
   background: var(--color-success);
 }
 
+.page-size {
+  overflow-y: auto;
+  max-height: 85vh;
+}
 
 .anticipo-toggle-button-active {
   background-color: green;

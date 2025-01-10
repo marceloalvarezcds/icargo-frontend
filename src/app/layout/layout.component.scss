@@ -2,19 +2,19 @@
 
 $header-heigth: 64px;
 $active-background: rgba(51, 153, 255, 0.2);
-$blue-background: #8ED3FF; 
+$blue-background: #8ED3FF;
 $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
 .content {
   background-color: #eff2f5;
   height: calc(100vh - #{$header-heigth});
-  overflow: auto;
+  overflow: hidden;
 }
 
 .sidebar {
-  
+
   .mat-sidenav {
-    background-color: $parent-background; 
+    background-color: $parent-background;
     width: 0;
   }
 
@@ -35,9 +35,9 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 .mat-expansion-panel-header {
   box-sizing: border-box;
   padding: 0 8px 0;
-  outline: none; 
-  background-color: $parent-background; 
-  color: white; 
+  outline: none;
+  background-color: $parent-background;
+  color: white;
 }
 
 
@@ -60,7 +60,7 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
 .mat-expansion-panel-header-title {
   align-items: center;
-  color: white; 
+  color: white;
 }
 
 .mat-icon {
@@ -70,11 +70,11 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 .mat-list-base .mat-list-item,
 .mat-expansion-panel-header {
   font-size: 0.895rem;
-  
+
   /* Estilo común para hover y focus en todos los items */
   &:hover,
   &:focus {
-    color: $blue; 
+    color: $blue;
     background-color: darken($parent-background, 10%);
   }
 
@@ -90,64 +90,64 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
 /* Estilos para los items que no tienen hijos */
 .sidebar-expanded .mat-list-base .mat-list-item {
-  background-color: transparent; 
-  color: white; 
+  background-color: transparent;
+  color: white;
   display: flex;
   align-items: center;
- 
-  
+
+
   &:hover,
   &:focus {
-    background-color: darken($blue-background, 10%); 
+    background-color: darken($blue-background, 10%);
   }
 
-  
+
   .mat-icon {
-    color: white; 
+    color: white;
   }
 }
 
 
 .sidebar-expanded .mat-expansion-panel .mat-nav-list {
-  background-color: $blue-background; 
-  padding: 0; 
+  background-color: $blue-background;
+  padding: 0;
 }
 
 .sidebar-expanded .mat-expansion-panel .mat-list-item {
   color: #142B57;
-  background-color: transparent; 
-  
+  background-color: transparent;
+
   &:hover,
   &:focus {
-    background-color: darken($blue-background, 10%); 
+    background-color: darken($blue-background, 10%);
   }
 }
 
 
 .sidebar .mat-list-base .mat-list-item .mat-icon {
-  color: white; 
+  color: white;
   &:hover,
   &:focus {
-    background-color: darken($blue-background, 10%); 
+    background-color: darken($blue-background, 10%);
   }
 }
 /* Hover general para todos los elementos de la barra lateral */
 .sidebar .mat-list-item:hover,
 .sidebar .mat-expansion-panel-header:hover {
   background-color: lighten($parent-background, 10%);
-  color: white; 
+  color: white;
 }
 
 .sidebar .mat-expansion-panel {
-  background-color: $blue-background; 
+  background-color: $blue-background;
 }
 
 .sidebar-expanded .mat-expansion-panel .mat-list-item .mat-icon {
-  color: #1b7af5; 
+  color: #1b7af5;
 }
 
 .sidebar .mat-expansion-panel .mat-list-item .mat-icon {
-  color: #1b7af5; 
+  color: #1b7af5;
 }
 
 
@@ -165,7 +165,7 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
   .sidebar-expanded .mat-expansion-panel .mat-list-item-content {
     padding: 0 36px;
-  } 
+  }
 
 
 }
