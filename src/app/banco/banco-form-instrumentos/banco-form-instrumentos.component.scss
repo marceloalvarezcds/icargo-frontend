@@ -6,3 +6,15 @@
     width: 103px !important;
   }
 }
+
+.table-container {
+  max-height: calc(100vh - 235px);
+  overflow: auto;
+}
+
+/* Estilos para la tabla */
+.table-container {
+  border: 1px solid #00bcd4;
+  border-radius: 4px; /* Bordes redondeados */
+  overflow: auto; /* Asegura que el borde no se vea cortado */
+}

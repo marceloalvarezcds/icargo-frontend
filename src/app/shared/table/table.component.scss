@@ -28,32 +28,40 @@
 
 .mat-table::ng-deep {
   .mat-column-id {
-    width: 68px !important;
+    width: 58px;
     box-sizing: border-box;
+    margin: 0 ;
+    left: 0px ;
   }
 
-  .mat-column-estado{
-    width: 68px !important;
-    margin: 0 !important;
+  .mat-column-estado {
+    width: 65px !important;
+    margin: 0 ;
+    left: 58px !important;
   }
+
   .mat-column-placa_camion{
-    width: 68px !important;
-    margin: 0 !important;
-
+    width: 60px !important;
+    margin: 0 ;
+    left: 133px !important;
   }
+
   .mat-column-numero_lote{
     width: 68px !important;
     box-sizing: border-box;
   }
+
   .mat-header-cell-checkbox .mat-checkbox-mixedmark {
     left: 3px;
     position: absolute;
     top: 7px;
   }
+
   .mat-header-cell-checkbox .mat-checkbox-inner-container,
   .mat-cell-checkbox .mat-checkbox-inner-container {
     overflow: visible;
   }
+
 }
 
 
@@ -68,10 +76,10 @@
 
 /* Estilos para la tabla */
 .mat-table {
-  font-family: 'Roboto', sans-serif;
+  //font-family: 'Roboto', sans-serif;
   font-size: 12px;
   font-weight: 500;
-  line-height: 14.06px;
+  //line-height: 14.06px;
   text-align: left;
   border-radius: 5px;
   box-sizing: border-box;
@@ -83,15 +91,15 @@
 }
 
 td.mat-cell {
-  font-family: 'Roboto', sans-serif;
+  //font-family: 'Roboto', sans-serif;
   font-size: 12px;
   font-weight: 500;
   color: black;
-  margin-bottom: 12px;
+  //margin-bottom: 12px;
 }
 
 th.mat-header-cell {
-  font-family: 'Roboto', sans-serif;
+  //font-family: 'Roboto', sans-serif;
   font-size: 12px;
   font-weight: 500;
   color: black;
@@ -108,9 +116,9 @@ tr.mat-header-row {
 
 /* Estilo específico para las celdas fijas del cuerpo */
 .mat-cell.sticky-column {
-  border: none;
-  position: sticky;
-  z-index: 10;
+  //border: none;
+  //position: sticky;
+  //z-index: 10;
   background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
 }
 
@@ -133,7 +141,6 @@ tr.mat-header-row {
 .mat-column-actions:not(.mat-header-cell) {
   /* Estilos que deseas aplicar */
   background-color: #f7f7f7; /* Color de fondo para las celdas fijas */
-
 }
 
 //Tamano de fuente de las letras
@@ -162,7 +169,6 @@ td.mat-column-porcentaje:not(:first-child) {
   padding-left: 0;
   padding-right: 0; /* Elimina el padding derecho */
   margin-left: -60px; /* Mueve la celda hacia la izquierda */
-
 }
 
 td.mat-column-total_anticipo:not(:first-child),
@@ -175,7 +181,6 @@ td.mat-column-saldo:not(:first-child){
   padding-left: -100;  /* Elimina padding izquierdo */
   padding-right: 30px; /* Elimina padding derecho */
   margin-left: -40px; /* Mueve la celda hacia la izquierda */
-
 }
 
 td.mat-column-created_by_anticipo:not(:first-child),

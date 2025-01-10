@@ -59,14 +59,14 @@ export class EstadoCuentaPdvComponent implements OnInit {
       def: 'linea',
       title: 'Línea',
       value: (element: EstadoCuenta) => element.tipo_flujo,
-      sticky: true
+      //sticky: true
     },
     {
       def: 'contraparte_numero_documento',
       title: 'Nº de Doc.',
       value: (element: EstadoCuenta) => element.contraparte_numero_documento_pdv ?? element.contraparte_numero_documento,
       footerDef: () => 'TOTAL SALDO GENERAL',
-      sticky: true
+      //sticky: true
     },
     {
       def: 'provision',
@@ -215,17 +215,18 @@ export class EstadoCuentaPdvComponent implements OnInit {
     });
   }
 
+  /* OBS: en caso que el * se use como texto como parte de los campos, cambiar condicion de filtrado */
   filterPredicate(obj: EstadoCuenta, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
 
     const filterByContraparte =
       filter.contraparte
-        ?.split('|')
+        ?.split('*')
         .some((x) => obj.contraparte_pdv!.toLowerCase().indexOf(x) >= 0) ?? true;
 
     const filterByLinea =
       filter.linea
-        ?.split('|')
+        ?.split('*')
         .some((x) => obj.tipo_flujo!.toLowerCase().indexOf(x) >= 0) ?? true;
 
     return filterByContraparte && filterByLinea;
@@ -239,13 +240,13 @@ export class EstadoCuentaPdvComponent implements OnInit {
     this.lineaFiltered = this.lineaCheckboxFilter.getFilteredList();
 
     if (this.isFilteredByContraparte) {
-      this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
-      filter.contraparte = this.contraparteFiltered.join('|').trim();
+      //this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
+      filter.contraparte = this.contraparteFiltered.join('*').trim();
       this.isFiltered = true;
     }
 
     if (this.isFilteredByLinea) {
-      filter.linea = this.lineaFiltered.join('|');
+      filter.linea = this.lineaFiltered.join('*');
       this.isFiltered = true;
     }
 
