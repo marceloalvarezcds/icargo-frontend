@@ -202,6 +202,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     return this.item?.estado === EstadoEnum.CONCILIADO;
   }
 
+  get isCancelado(): boolean {
+    return this.item?.estado === EstadoEnum.CANCELADO;
+  }
+
   get combinacion(): FormGroup {
     return this.form.get('combinacion') as FormGroup;
   }

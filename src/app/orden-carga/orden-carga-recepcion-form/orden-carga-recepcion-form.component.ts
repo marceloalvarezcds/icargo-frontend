@@ -500,38 +500,41 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   }
 
   private finalizarOrdenCarga(): void {
-      this.dialog.changeStatusConfirm(
-          '¿Está seguro que desea finalizar la Orden de Carga?',
-          this.ordenCargaService.finalizar(this.idOC),
-          () => {
-              this.getData();
-              
-              // Abre el diálogo de evaluación
-              const dialogRef = this.openEvaluacionesDialog();
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea finalizar la Orden de Carga?',
+        this.ordenCargaService.finalizar(this.idOC),
+        () => {
+            this.getData();
 
-              dialogRef.afterClosed().subscribe(result => {
-                  if (result) { // Si se acepta el diálogo
-                      // Genera el PDF después de que el diálogo se haya cerrado
-                      this.snackBar.open('Generando PDF...', 'Cerrar', {
-                          duration: 3000,
-                          verticalPosition: 'top',
-                          horizontalPosition: 'center'
-                      });
-                      this.downloadResumenPDF();
-                    
-                  } 
-                  this.form.reset()
-                  this.item!.remisiones_origen = [];  
-                  this.item!.remisiones_destino = []; 
-                  this.item!.remisiones_resultado = [];
-                  this.item!.cantidad_origen = 0;  
-                  this.item!.cantidad_destino = 0; 
-                  this.item!.estado = EstadoEnum.PENDIENTE;
-              });
-          },
-      );
+            const dialogRef = this.openEvaluacionesDialog();
+
+            dialogRef.afterClosed().subscribe(result => {
+                if (result) { 
+                    this.snackBar.open('Generando PDF...', 'Cerrar', {
+                        duration: 3000,
+                        verticalPosition: 'top',
+                        horizontalPosition: 'center'
+                    });
+
+                    this.downloadResumenPDF(); 
+
+                } else {
+                    this.resetFormData();
+                }
+            });
+        },
+    );
   }
 
+  private resetFormData(): void {
+    this.form.reset();
+    this.item!.remisiones_origen = [];  
+    this.item!.remisiones_destino = []; 
+    this.item!.remisiones_resultado = [];
+    this.item!.cantidad_origen = 0;  
+    this.item!.cantidad_destino = 0; 
+    this.item!.estado = EstadoEnum.PENDIENTE;
+  }
 
   conciliar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -607,21 +610,29 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
-      this.reportsService.downloadFile(filename).subscribe((file) => {
-        const blob = new Blob([file], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        this.dialog.open(PdfPreviewDialogComponent, {
-          width: '90%',
-          height: '90%',
-          data: {
-            pdfUrl: url,
-            fileBlob: blob,
-            filename: filename
-          }
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+            const blob = new Blob([file], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            
+            // Abre el diálogo del PDF
+            const dialogRefPdf = this.dialog.open(PdfPreviewDialogComponent, {
+                width: '90%',
+                height: '90%',
+                data: {
+                    pdfUrl: url,
+                    fileBlob: blob,
+                    filename: filename
+                }
+            });
+
+            dialogRefPdf.afterClosed().subscribe(() => {
+                // Una vez que se cierra el diálogo del PDF, resetear los datos
+                this.resetFormData();
+            });
         });
-      });
     });
   }
+
 
   downloadConciliarResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {

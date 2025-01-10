@@ -33,6 +33,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   semiAsociado?: number;
   semi?: SemiList;
   showPedidoSection: boolean = false;
+  
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
   manualChange: boolean = false;
@@ -49,6 +50,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() showSearchPedido: boolean = false;
   @Input() showSearchOC: boolean = false;
   @Input() showSearchOCAceptadas: boolean = false;
+  @Input() shouldHideFinalizadoComponent: boolean = false;
   @Input() showSearchOCNuevos: boolean = false;
   @Input() showSearchOCfinalizadas: boolean = false;
   @Input() showSearchOCPedidos: boolean = false;

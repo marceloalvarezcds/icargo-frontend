@@ -153,18 +153,21 @@ export class GestorCargaListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    const url = `/entities/${m.GESTOR_CARGA}/${a.CREAR}`;
-    window.open(url, '_blank');
+    this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.CREAR}`]);
   }
   
   redirectToEdit(event: TableEvent<GestorCargaList>): void {
-    const url = `/entities/${m.GESTOR_CARGA}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/entities/${m.GESTOR_CARGA}/${a.EDITAR}`,
+      event.row.id,
+    ]);
   }
   
   redirectToShow(event: TableEvent<GestorCargaList>): void {
-    const url = `/entities/${m.GESTOR_CARGA}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/entities/${m.GESTOR_CARGA}/${a.VER}`,
+      event.row.id,
+    ]);
   }
 
   deleteRow({ row }: TableEvent<GestorCargaList>): void {

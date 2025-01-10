@@ -124,38 +124,38 @@ export class CentrosOperativosListComponent implements OnInit {
     this.getList();
   }
 
+   redirectToCreate(): void {
+     this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`]);
+   }
+
+   redirectToEdit(event: TableEvent<CentroOperativoList>): void {
+     this.router.navigate([
+       `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
+       event.row.id,
+     ]);
+   }
+
+   redirectToShow(event: TableEvent<CentroOperativoList>): void {
+     this.router.navigate([
+       `/entities/${m.CENTRO_OPERATIVO}/${a.VER}`,
+       event.row.id,
+     ]);
+   }
+
   // redirectToCreate(): void {
-  //   this.router.navigate([`/entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`]);
+  //   const url = `/entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`;
+  //   window.open(url, '_blank');
   // }
-
+  
   // redirectToEdit(event: TableEvent<CentroOperativoList>): void {
-  //   this.router.navigate([
-  //     `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
-  //     event.row.id,
-  //   ]);
+  //   const url = `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
-
+  
   // redirectToShow(event: TableEvent<CentroOperativoList>): void {
-  //   this.router.navigate([
-  //     `/entities/${m.CENTRO_OPERATIVO}/${a.VER}`,
-  //     event.row.id,
-  //   ]);
+  //   const url = `/entities/${m.CENTRO_OPERATIVO}/${a.VER}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
-
-  redirectToCreate(): void {
-    const url = `/entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`;
-    window.open(url, '_blank');
-  }
-  
-  redirectToEdit(event: TableEvent<CentroOperativoList>): void {
-    const url = `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
-  
-  redirectToShow(event: TableEvent<CentroOperativoList>): void {
-    const url = `/entities/${m.CENTRO_OPERATIVO}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
 
   deleteRow({ row }: TableEvent<CentroOperativoList>): void {
     const message = `¿Está seguro que desea eliminar el Centro Operativo

@@ -190,35 +190,35 @@ export class SemiListComponent implements OnInit {
     this.getList();
   }
 
+   redirectToCreate(): void {
+     this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`]);
+   }
+
+   redirectToEdit(event: TableEvent<SemiList>): void {
+     this.router.navigate([
+       `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
+       event.row.id,
+     ]);
+   }
+
+   redirectToShow(event: TableEvent<SemiList>): void {
+     this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.VER}`, event.row.id]);
+   }
+
   // redirectToCreate(): void {
-  //   this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`]);
+  //   const url = `/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToEdit(event: TableEvent<SemiList>): void {
-  //   this.router.navigate([
-  //     `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`,
-  //     event.row.id,
-  //   ]);
+  //   const url = `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToShow(event: TableEvent<SemiList>): void {
-  //   this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.VER}`, event.row.id]);
+  //   const url = `/flota/${m.SEMIRREMOLQUE}/${a.VER}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
-
-  redirectToCreate(): void {
-    const url = `/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToEdit(event: TableEvent<SemiList>): void {
-    const url = `/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToShow(event: TableEvent<SemiList>): void {
-    const url = `/flota/${m.SEMIRREMOLQUE}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
 
   deleteRow({ row }: TableEvent<SemiList>): void {
     const message = `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}?`;

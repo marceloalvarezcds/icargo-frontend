@@ -177,14 +177,15 @@
       <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-oc-by-combinacion-finalizados-dialog-field
-          *ngIf="oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado'"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Nº OC"
-          [groupName]="groupName"
-          [form]="form"
-          [combinacionId]="combinacionId"
-          (valueChange)="onOrdenCargaChange($event)"
-        ></app-oc-by-combinacion-finalizados-dialog-field>
+        *ngIf="(oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado') && !shouldHideFinalizadoComponent"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Nº OC"
+        [groupName]="groupName"
+        [form]="form"
+        [combinacionId]="combinacionId"
+        (valueChange)="onOrdenCargaChange($event)"
+      ></app-oc-by-combinacion-finalizados-dialog-field>
+      
 
         <app-oc-by-combinacion-aceptados-dialog-field
           *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas)"

@@ -156,18 +156,21 @@ export class PropietarioListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    const url = `/flota/${m.PROPIETARIO}/${a.CREAR}`;
-    window.open(url, '_blank');
+    this.router.navigate([`/flota/${m.PROPIETARIO}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<PropietarioList>): void {
-    const url = `/flota/${m.PROPIETARIO}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/flota/${m.PROPIETARIO}/${a.EDITAR}`,
+      event.row.id,
+    ]);
   }
 
   redirectToShow(event: TableEvent<PropietarioList>): void {
-    const url = `/flota/${m.PROPIETARIO}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/flota/${m.PROPIETARIO}/${a.VER}`,
+      event.row.id,
+    ]);
   }
 
   deleteRow({ row }: TableEvent<PropietarioList>): void {

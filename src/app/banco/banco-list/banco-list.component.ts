@@ -149,32 +149,32 @@ export class BancoListComponent implements OnInit {
     this.getList();
   }
 
+   redirectToCreate(): void {
+     this.router.navigate([`/banco/${m.BANCO}/${a.CREAR}`]);
+   }
+
+   redirectToEdit(event: TableEvent<Banco>): void {
+     this.router.navigate([`/banco/${m.BANCO}/${a.EDITAR}`, event.row.id]);
+   }
+
+   redirectToShow(event: TableEvent<Banco>): void {
+     this.router.navigate([`/banco/${m.BANCO}/${a.VER}`, event.row.id]);
+   }
+
   // redirectToCreate(): void {
-  //   this.router.navigate([`/banco/${m.BANCO}/${a.CREAR}`]);
+  //   const url = `/banco/${m.BANCO}/${a.CREAR}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToEdit(event: TableEvent<Banco>): void {
-  //   this.router.navigate([`/banco/${m.BANCO}/${a.EDITAR}`, event.row.id]);
+  //   const url = `/banco/${m.BANCO}/${a.EDITAR}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToShow(event: TableEvent<Banco>): void {
-  //   this.router.navigate([`/banco/${m.BANCO}/${a.VER}`, event.row.id]);
+  //   const url = `/banco/${m.BANCO}/${a.VER}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
-
-  redirectToCreate(): void {
-    const url = `/banco/${m.BANCO}/${a.CREAR}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToEdit(event: TableEvent<Banco>): void {
-    const url = `/banco/${m.BANCO}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToShow(event: TableEvent<Banco>): void {
-    const url = `/banco/${m.BANCO}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
 
   redirectToShowMovimientos(event: TableEvent<Banco>): void {
     const url = `/banco/${m.BANCO}/${m.MOVIMIENTO}/${a.LISTAR}/${event.row.id}`;

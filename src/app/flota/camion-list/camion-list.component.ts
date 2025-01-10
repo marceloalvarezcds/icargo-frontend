@@ -173,18 +173,21 @@ export class CamionListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    const url = `/flota/${m.CAMION}/${a.CREAR}`;
-    window.open(url, '_blank');
+    this.router.navigate([`/flota/${m.CAMION}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<CamionList>): void {
-    const url = `/flota/${m.CAMION}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/flota/${m.CAMION}/${a.EDITAR}`,
+      event.row.id,
+    ]);
   }
 
   redirectToShow(event: TableEvent<CamionList>): void {
-    const url = `/flota/${m.CAMION}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/flota/${m.CAMION}/${a.VER}`,
+      event.row.id,
+    ]);
   }
 
   deleteRow({ row }: TableEvent<CamionList>): void {

@@ -205,44 +205,44 @@ export class RemitenteListComponent implements OnInit {
       }
     });
   }
+   redirectToCreate(): void {
+     this.router.navigate([`/entities/${m.REMITENTE}/${a.CREAR}`]);
+   }
+
+   redirectToEdit(event: TableEvent<RemitenteList>): void {
+     this.router.navigate([
+       `/entities/${m.REMITENTE}/${a.EDITAR}`,
+       event.row.id,
+     ]);
+   }
+
+   redirectToShow(event: TableEvent<RemitenteList>): void {
+     this.router.navigate([`/entities/${m.REMITENTE}/${a.VER}`, event.row.id]);
+   }
+
   // redirectToCreate(): void {
-  //   this.router.navigate([`/entities/${m.REMITENTE}/${a.CREAR}`]);
+  //   const url = `/entities/${m.REMITENTE}/${a.CREAR}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToEdit(event: TableEvent<RemitenteList>): void {
-  //   this.router.navigate([
-  //     `/entities/${m.REMITENTE}/${a.EDITAR}`,
-  //     event.row.id,
-  //   ]);
+  //   const url = `/entities/${m.REMITENTE}/${a.EDITAR}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToShow(event: TableEvent<RemitenteList>): void {
-  //   this.router.navigate([`/entities/${m.REMITENTE}/${a.VER}`, event.row.id]);
+  //   const inputs = document.querySelectorAll('input');
+  //   inputs.forEach(input => {
+  //     this.renderer.addClass(input, 'highlight-border');
+  //   });
+  //   const url = `/entities/${m.REMITENTE}/${a.VER}/${event.row.id}`;
+  //   window.open(url, '_blank');
+  //   setTimeout(() => {
+  //     inputs.forEach(input => {
+  //       this.renderer.removeClass(input, 'highlight-border');
+  //     });
+  //   }, 2000); // Cambia el retardo según sea necesario
   // }
-
-  redirectToCreate(): void {
-    const url = `/entities/${m.REMITENTE}/${a.CREAR}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToEdit(event: TableEvent<RemitenteList>): void {
-    const url = `/entities/${m.REMITENTE}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToShow(event: TableEvent<RemitenteList>): void {
-    const inputs = document.querySelectorAll('input');
-    inputs.forEach(input => {
-      this.renderer.addClass(input, 'highlight-border');
-    });
-    const url = `/entities/${m.REMITENTE}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
-    setTimeout(() => {
-      inputs.forEach(input => {
-        this.renderer.removeClass(input, 'highlight-border');
-      });
-    }, 2000); // Cambia el retardo según sea necesario
-  }
 
   deleteRow({ row }: TableEvent<RemitenteList>): void {
     const message = `¿Está seguro que desea eliminar el Remitente ${row.nombre}?`;

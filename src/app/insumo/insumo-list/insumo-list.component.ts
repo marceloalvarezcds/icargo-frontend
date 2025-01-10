@@ -15,6 +15,7 @@ import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { Router } from '@angular/router';
 
 type Filter = {
   estado?: string;
@@ -152,6 +153,7 @@ export class InsumoListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
+    private router: Router,
   ) {}
 
   ngOnInit(): void {
@@ -160,18 +162,21 @@ export class InsumoListComponent implements OnInit {
 
 
   redirectToCreate(): void {
-    const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`;
-    window.open(url, '_blank');
+    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`]);
   }
 
   redirectToEdit(event: TableEvent<InsumoPuntoVentaPrecio>): void {
-    const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`,
+      event.row.id,
+    ]);
   }
 
   redirectToShow(event: TableEvent<InsumoPuntoVentaPrecio>): void {
-    const url = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
+    this.router.navigate([
+      `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.VER}`,
+      event.row.id,
+    ]);
   }
 
   downloadFile(): void {

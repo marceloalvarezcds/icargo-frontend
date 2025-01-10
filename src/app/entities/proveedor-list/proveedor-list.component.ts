@@ -135,35 +135,35 @@ export class ProveedorListComponent implements OnInit {
     this.getList();
   }
 
+   redirectToCreate(): void {
+     this.router.navigate([`/entities/${m.PROVEEDOR}/${a.CREAR}`]);
+   }
+
+   redirectToEdit(event: TableEvent<ProveedorList>): void {
+     this.router.navigate([
+       `/entities/${m.PROVEEDOR}/${a.EDITAR}`,
+       event.row.id,
+     ]);
+   }
+
+   redirectToShow(event: TableEvent<ProveedorList>): void {
+     this.router.navigate([`/entities/${m.PROVEEDOR}/${a.VER}`, event.row.id]);
+   }
+
   // redirectToCreate(): void {
-  //   this.router.navigate([`/entities/${m.PROVEEDOR}/${a.CREAR}`]);
+  //   const url = `/entities/${m.PROVEEDOR}/${a.CREAR}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToEdit(event: TableEvent<ProveedorList>): void {
-  //   this.router.navigate([
-  //     `/entities/${m.PROVEEDOR}/${a.EDITAR}`,
-  //     event.row.id,
-  //   ]);
+  //   const url = `/entities/${m.PROVEEDOR}/${a.EDITAR}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
 
   // redirectToShow(event: TableEvent<ProveedorList>): void {
-  //   this.router.navigate([`/entities/${m.PROVEEDOR}/${a.VER}`, event.row.id]);
+  //   const url = `/entities/${m.PROVEEDOR}/${a.VER}/${event.row.id}`;
+  //   window.open(url, '_blank');
   // }
-
-  redirectToCreate(): void {
-    const url = `/entities/${m.PROVEEDOR}/${a.CREAR}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToEdit(event: TableEvent<ProveedorList>): void {
-    const url = `/entities/${m.PROVEEDOR}/${a.EDITAR}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
-
-  redirectToShow(event: TableEvent<ProveedorList>): void {
-    const url = `/entities/${m.PROVEEDOR}/${a.VER}/${event.row.id}`;
-    window.open(url, '_blank');
-  }
 
   deleteRow({ row }: TableEvent<ProveedorList>): void {
     const message = `¿Está seguro que desea eliminar el Proveedor ${row.nombre}?`;
