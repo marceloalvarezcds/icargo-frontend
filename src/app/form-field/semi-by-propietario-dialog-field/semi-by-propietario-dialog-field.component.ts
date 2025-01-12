@@ -50,23 +50,25 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() semi? : SemiList;
   @Input() controlName = 'semi_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Semi';
-
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
-
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<SemiList>;
+
+  fetchFunction = () => this.service.getList();
 
   constructor(private service: SemiService) { }
 
   ngAfterViewInit(): void {
-    this.getList();
+    //this.getList();
+    null;
   }
 
   private getList(): void {
     this.list$ = this.service.getList();
   }
-  
+
 }

@@ -42,6 +42,10 @@ export class SelectorDialogComponent<T> {
     return !!this.data.fetchFunction;
   }
 
+  get fetchFunctionLoal(): any {
+    return this.data.fetchFunctionLocal;
+  }
+
   @ViewChild('app-table-selector') dialogField?: TableSelectorComponent<T>;
 
   constructor(

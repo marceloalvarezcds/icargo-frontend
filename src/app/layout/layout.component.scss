@@ -11,6 +11,10 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
   overflow: hidden;
 }
 
+.side-bar-content{
+  height: unset;
+}
+
 .sidebar {
 
   .mat-sidenav {

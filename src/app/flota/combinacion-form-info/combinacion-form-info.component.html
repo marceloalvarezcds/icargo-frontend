@@ -17,6 +17,7 @@
               [form]="form"
               [isEdit]="isEdit"
               [isShow]="isShow"
+              [tracto]="tracto"
               (valueChange)="camionChange($event)"
             ></app-camion-by-propietario-dialog-field>
 
@@ -107,6 +108,7 @@
             <app-semi-by-propietario-dialog-field
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               [groupName]="groupName"
+              [semi]="semiList"
               [form]="form"
               (valueChange)="semiChange($event)"
             ></app-semi-by-propietario-dialog-field>
@@ -170,6 +172,7 @@
 
             <app-chofer-by-propietario-dialog-field
               class="input-form-full col-xs-12 col-sm-6 col-md-2"
+              [chofer]="choferList"
               [groupName]="groupName"
               [form]="form"
               (valueChange)="choferChange($event)"
@@ -257,14 +260,15 @@
               title="Tipo Persona"
               [groupName]="groupName"
               [form]="form"
-              (valueChange)="onTipoPersonaChange($event)"
+			        (valueChange)="onTipoPersonaChange($event)"
               (isFisicaSelected)="handleFisicaSelected($event)"
-              >
+            >
             </app-tipo-persona-field>
 
             <app-tipo-persona-by-beneficiario-dialog-field
               class="input-form-full col-xs-12 col-sm-6 col-md-2"
               title="N° Doc."
+              [persona]="personaList"
               [groupName]="groupName"
               controlName="propietario_id"
               [form]="form"

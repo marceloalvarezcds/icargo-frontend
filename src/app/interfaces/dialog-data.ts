@@ -31,9 +31,8 @@ export interface SelectorInMapDialogData<T> extends SelectorDialogDataBase<T> {
 
 export interface SelectorDialogData<T> extends SelectorDialogDataBase<T> {
   columns: Column[];
-  fetchFunction?: (
-    request: PaginatedListRequest
-  ) => Observable<PaginatedList<T>>;
+  fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
+  fetchFunctionLocal?: () => Observable<T[]>;
 }
 
 export const mockFleteAnticipoDialogData: FleteAnticipoDialogData = {

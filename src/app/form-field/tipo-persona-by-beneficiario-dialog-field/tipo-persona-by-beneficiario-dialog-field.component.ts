@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Observable} from 'rxjs';
+import { Observable, of} from 'rxjs';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Column } from 'src/app/interfaces/column';
 import { PropietarioList } from 'src/app/interfaces/propietario';
@@ -45,6 +45,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
     return this.form?.get(this.groupName)?.get(this.controlName);
   }
 
+  @Input() persona?:PropietarioList;
   @Input() title = '';
   @Input() form!: FormGroup;
   @Input() controlName = 'propietario_id';
@@ -55,15 +56,20 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
   @Input() subtitle = 'Si no encuentra el tipo persona';
 
   @Input() set tipoPersonaId(id: number | undefined) {
-    if (id && id !== this.pId) { 
+    if (id && id !== this.pId) {
       this.pId = id;
-      this.getList();
+      //this.getList();
     }
   }
 
   @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
   @Output() isFisicaSelected = new EventEmitter<boolean>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<PropietarioList>;
+
+  fetchFunction = () => {
+    if (this.pId) return this.service.getListByPersonaId(this.pId);
+    else return of<PropietarioList[]>();
+  }
 
   constructor(private service: PropietarioService) {}
 

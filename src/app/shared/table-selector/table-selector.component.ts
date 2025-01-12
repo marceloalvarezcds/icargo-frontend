@@ -11,7 +11,8 @@ import { FormControl } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
+import { merge, Observable, of, Subscription } from 'rxjs';
+import { catchError, map, startWith, switchMap } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
 
 @Component({
@@ -21,6 +22,7 @@ import { Column } from 'src/app/interfaces/column';
   exportAs: 'app-table-selector',
 })
 export class TableSelectorComponent<T> implements OnInit, OnDestroy {
+
   allColumns: Column[] = [];
   columnStickyList: Column[] = [];
   columnStickyEndList: Column[] = [];
@@ -30,6 +32,9 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource<T>();
   filteredColumns: Column[] = [];
   searchControlSubscription?: Subscription;
+
+  @Input() selectedRow?: T;
+  @Input() fetchFunction?: (() => Observable<T[]>) = undefined;
 
   @Input() set columns(list: Column[]) {
     this.allColumns = list.slice();
@@ -44,8 +49,6 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
     this.filterColumns();
   }
 
-  @Input() selectedRow?: T;
-
   @Input() set data(values: T[]) {
     this.dataSource.data = values.slice();
   }
@@ -57,24 +60,20 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
     );
   }
 
-
-
-  // ... otros métodos y propiedades
-
-  selectRow(row: any): void {
-    this.selectedRow = row;
-    this.selectedChange.emit(row);  // Emitir el evento de cambio si es necesario
-  }
-
   @Output() selectedChange = new EventEmitter<T>();
 
-  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
-    null;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
   @ViewChild(MatSort, { static: true }) sort: MatSort | null = null;
 
   ngOnInit(): void {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    if (this.fetchFunction){
+      this.fetchFunction().subscribe( data => {
+        this.dataSource.data = data.slice();
+      });
+    }
   }
 
   ngOnDestroy(): void {
@@ -117,4 +116,10 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
       this.dataSource.paginator!.firstPage();
     }
   }
+
+  selectRow(row: any): void {
+    this.selectedRow = row;
+    this.selectedChange.emit(row);  // Emitir el evento de cambio si es necesario
+  }
+
 }

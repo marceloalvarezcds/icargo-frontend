@@ -48,21 +48,25 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() chofer?: ChoferList;
   @Input() controlName = 'chofer_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Nº Doc.';
-
   @Output() valueChange = new EventEmitter<ChoferList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<ChoferList>;
+
+  fetchFunction = () => this.service.getList();
 
   constructor(private service: ChoferService) { }
 
   ngAfterViewInit(): void {
-    this.getList();
+    //this.getList();
+    null;
   }
 
   private getList(): void {
     this.list$ = this.service.getList();
   }
+
 }

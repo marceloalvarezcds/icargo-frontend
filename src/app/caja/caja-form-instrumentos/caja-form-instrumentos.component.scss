@@ -9,3 +9,13 @@
   border-radius: 4px; /* Bordes redondeados */
   overflow: auto; /* Asegura que el borde no se vea cortado */
 }
+
+::ng-deep {
+
+  .page-size {
+    overflow-y: auto;
+    max-height: calc(100vh - 19vh);
+  }
+
+}
+

@@ -39,6 +39,7 @@
       <app-table-selector
         [columns]="columns"
         [data]="list"
+        [fetchFunction]="fetchFunctionLoal"
         [searchControl]="searchControl"
         [selectedRow]="selectValue"
         (selectedChange)="selectValue = $event"
