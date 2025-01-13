@@ -9,6 +9,7 @@ import { MatDrawerMode, MatSidenav } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
 import { MenuItem } from 'src/app/interfaces/menu-item';
 import { MenuService } from './menu.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-layout',
@@ -47,7 +48,7 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
     return this.menuService.sidebarMode;
   }
 
-  constructor(private menuService: MenuService) {}
+  constructor(private menuService: MenuService, private router: Router) {}
 
   ngOnDestroy(): void {
     this.menuService.unsubscribe();
@@ -61,26 +62,29 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
     this.menuService.closeSidebarMenu();
   }
 
+  handleMenuClick(event: MouseEvent, path: string | any[] | undefined): void {
+    event.stopPropagation();  
+    this.openInNewTab(path);   
+  }
+
   openInNewTab(path: string | any[] | undefined): void {
     const currentPath = window.location.pathname;
-  
+
     if (currentPath === '/' || path === '') {
       if (typeof path === 'string') {
-        window.location.href = path; 
+        this.router.navigate([path]);
       } else if (Array.isArray(path)) {
-        window.location.href = this.constructPathFromArray(path); 
+        window.location.href = this.constructPathFromArray(path);
       }
     } else {
- 
       if (typeof path === 'string') {
-        window.open(path, '_blank'); 
+        window.open(path, '_blank');
       } else if (Array.isArray(path)) {
-        window.open(this.constructPathFromArray(path), '_blank'); 
+        window.open(this.constructPathFromArray(path), '_blank');
       }
     }
   }
-  
-  
+
   private constructPathFromArray(pathArray: any[]): string {
     return pathArray.join('/');
   }

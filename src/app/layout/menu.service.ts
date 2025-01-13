@@ -55,6 +55,15 @@ export class MenuService {
     this.menuConfigService.setSidebarMenu(false);
   }
 
+  expandSidebar(): void {
+    this.isExpanded = true;
+  }
+
+  // Colapsa el menú
+  collapseSidebar(): void {
+    this.isExpanded = false;
+  }
+
   configSidebarModeByScreen(): void {
     setTimeout(() => {
       if (this.responsiveService.isMobileScreen) {

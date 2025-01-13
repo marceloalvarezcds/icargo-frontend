@@ -15,7 +15,7 @@ $parent-background: #3b9eff; /* Fondo azul para todos los elementos del menú */
 
   .mat-sidenav {
     background-color: $parent-background;
-    width: 0;
+    width: 65px;
   }
 
   [mat-list-text] {
