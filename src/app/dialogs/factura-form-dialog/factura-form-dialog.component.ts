@@ -19,7 +19,7 @@ export class FacturaFormDialogComponent {
 
   form = this.fb.group({
     moneda_id: [this.data?.moneda_id, Validators.required],
-    numero_factura: [this.data?.numero_factura, /*Validators.required*/],
+    numero_factura: [this.data?.numero_factura, /*Validators.required, */ [Validators.maxLength(100)]],
     fecha_vencimiento: [
       this.data?.fecha_vencimiento ?? new Date().toJSON(),
       Validators.required,
@@ -27,7 +27,7 @@ export class FacturaFormDialogComponent {
     monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
     iva_id: [this.data?.iva_id, Validators.required],
     foto: [this.data?.foto, Validators.required],
-    contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, Validators.required],
+    contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, [Validators.required, Validators.maxLength(50)]],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
     iva_incluido: [ this.data ? this.data.iva_incluido : false ],
     sentido_mov_iva: [ this.data?.sentido_mov_iva ],
@@ -37,8 +37,8 @@ export class FacturaFormDialogComponent {
     sentido_mov_retencion_pagar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_retencion_cobrar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'COBRAR' ? true : undefined : undefined ],
     retencion: [this.data?.retencion, /*[Validators.required, Validators.min(0)]*/],
-    timbrado: [this.data?.timbrado, /*Validators.required*/],
-    ruc: [this.data?.ruc ?? this.dialogData.ruc, Validators.required],
+    timbrado: [this.data?.timbrado, /*Validators.required, */ [Validators.maxLength(30)]],
+    ruc: [this.data?.ruc ?? this.dialogData.ruc, [Validators.required, Validators.maxLength(25)]],
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
     iva_movimiento_id: [this.data?.iva_movimiento_id],
     retencion_movimiento_id: [this.data?.retencion_movimiento_id],
