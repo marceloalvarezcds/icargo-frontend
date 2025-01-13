@@ -35,6 +35,13 @@
       <mat-error *ngIf="control.hasError('required')">
         El campo es <strong>requerido</strong>
       </mat-error>
+      <mat-error *ngIf="control.hasError('maxlength')">
+        Hasta
+        <strong>
+          {{ control.getError("maxlength").requiredLength | numberFormat }}
+          caracteres
+        </strong>
+      </mat-error>
     </mat-form-field>
 
   </ng-container>

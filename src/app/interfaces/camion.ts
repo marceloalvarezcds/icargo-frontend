@@ -85,7 +85,7 @@ export interface Camion {
   modified_at: string;
 }
 
-export interface CamionList extends Camion{
+export interface CamionList extends Camion {
   id: number;
   placa: string;
   propietario_nombre: string;
@@ -118,8 +118,6 @@ export interface CamionList extends Camion{
   modified_by: string;
   modified_at: string;
 }
-
-
 
 const color0 = mockColorList[0];
 const chofer0 = mockChoferList[0];

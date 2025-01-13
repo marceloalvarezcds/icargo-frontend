@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@ang
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -358,7 +359,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             //Datos combinacion
             neto: data?.neto,
             comentario: data?.comentario,
-
           },
         })
         setTimeout(() => {
@@ -382,7 +382,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             this.form.get('info')?.get('ruc')?.disable();
             this.form.get('info')?.get('neto')?.disable();
             this.form.get('info')?.get('comentario')?.disable();
-
           }
           this.initialFormValue = this.form.value;
         }, 500);

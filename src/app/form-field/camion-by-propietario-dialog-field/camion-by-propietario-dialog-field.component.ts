@@ -46,6 +46,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() tracto?: CamionList;
   @Input() controlName = 'camion_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
@@ -55,31 +56,34 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
 
+  fetchFunction = () => this.service.getList();
+
   constructor(private service: CamionService) {}
 
   ngAfterViewInit(): void {
-    this.getList(); 
+    //this.getList();
+    null;
   }
 
   private getList(): void {
     this.list$ = this.service.getList();
   }
 
-
   camionChange(camion?: CamionList): void {
     if (camion) {
       const isInCombinacion = camion.is_in_combinacion === true;
-  
+
       // Solo mostrar la alerta si no estamos en modo editar o ver
       if (isInCombinacion && !this.isEdit && !this.isShow) {
         alert(`El camión con placa ${camion.placa} ya está en una combinación.`);
-        this.form.reset();  
-        this.form.get('camion_id')?.setValue(null);  
+        this.form.reset();
+        this.form.get('camion_id')?.setValue(null);
       } else {
         // Emitir el cambio solo si el camión no está en una combinación
-        this.valueChange.emit(camion);  
+        this.valueChange.emit(camion);
       }
     }
   }
+
 }
 

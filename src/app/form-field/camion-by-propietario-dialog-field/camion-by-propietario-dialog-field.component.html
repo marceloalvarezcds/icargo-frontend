@@ -1,21 +1,22 @@
 <ng-container *ngIf="form">
-  <ng-container *ngIf="list$ | async as list; else inputTemplate">
-    <ng-container *ngIf="list.length; else inputTemplate">
-      <div class="app-dialog">
-      <app-dialog-field
-        [title]="title"
-        [columns]="columns"
-        [list]="list"
-        [groupName]="groupName"
-        [controlName]="controlName"
-        [inputValuePropName]="inputValuePropName"
-        [form]="form"
-        (valueChange)="camionChange($event)"
-      ></app-dialog-field>
-    </div>
-    </ng-container>
+  <ng-container *ngIf="fetchFunction else inputTemplate">
+
+    <app-dialog-field-local
+      [title]="title"
+      [columns]="columns"
+      [item]="tracto"
+      [fetchFunctionLocal]="fetchFunction"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [inputValuePropName]="inputValuePropName"
+      [form]="form"
+      (valueChange)="camionChange($event)"
+    ></app-dialog-field-local>
+
   </ng-container>
+
   <ng-template #inputTemplate>
+
     <app-input-field-by-placa
       hidden
       [title]="title"
@@ -23,5 +24,6 @@
       [controlName]="controlName"
       [form]="form"
     ></app-input-field-by-placa>
+
   </ng-template>
 </ng-container>

@@ -18,9 +18,10 @@ import { CombinacionService } from 'src/app/services/combinacion.service';
   styleUrls: ['./combinacion-form-info.component.scss']
 })
 export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
+
   [x: string]: any;
   groupName = 'info';
-  semi?: SemiList;
+  //semi?: SemiList;
   fotoFile: File | null = null;
   isFisicaSelected = false;
   loading = true;
@@ -29,18 +30,17 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   tipoPersona?: TipoPersona
   docBeneficiario?: PropietarioList
   isDisabled = true;
+
   ngOnInit(){
     this.loading = false;
     this.tipoPersonaOriginal = this.item?.propietario?.tipo_persona_id;
-
   }
+
   ngAfterViewInit(): void {
     setTimeout(() => {
       this.loading = false;
     }, 0);
-
   }
-
 
   // controlName = 'ruc';
   fotoPerfil: string | null = null;
@@ -68,8 +68,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Input() cantidadOCConAnticiposLiberados = 0;
   @Input() readonly = true;
   @Input() disabled: boolean = false;
-
   @Input() controlName!: string;
+
   @Output() personaChange = new EventEmitter<TipoPersona | undefined>();
   @Output() propietarioChange = new EventEmitter<Propietario | undefined>();
   @Output() estadoSemiChange = new EventEmitter<boolean>();
@@ -82,9 +82,38 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChoferChange = new EventEmitter<File | null>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
-
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
 
+  // TODO: hacer un refresh con el backend
+  get tracto(): CamionList | undefined {
+    if (this.combinacion) {
+      let item = this.combinacion?.camion as CamionList;
+      item.marca_descripcion = item.marca.descripcion;
+      item.color_descripcion = item.color?.descripcion ?? '';
+      item.propietario_nombre = item.propietario.nombre;
+      return item;
+    }
+    else return undefined;
+  }
+
+  get semiList(): SemiList | undefined {
+    if (this.combinacion) {
+      let item = {...this.combinacion.semi } as unknown as SemiList;
+      item.marca_descripcion = this.combinacion?.semi.marca.descripcion ?? '';
+      item.color_descripcion = this.combinacion?.semi.color?.descripcion ?? '';
+      return item;
+    } else return undefined;
+  }
+
+  get choferList(): ChoferList {
+    let item = this.combinacion?.chofer as ChoferList;
+    return item;
+  }
+
+  get personaList(): PropietarioList {
+    let item = this.combinacion?.propietario as PropietarioList;
+    return item;
+  }
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup;
@@ -168,7 +197,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   }
 
   tipoPersonaChange(propietario?: PropietarioList): void {
-    if (propietario) {
+    if (propietario && propietario.id !== this.info?.controls["propietario_id"].value ) {
       this.info?.controls["propietario_id"].setValue(propietario.id);
       this.info?.controls["nombre"].setValue(propietario.nombre);
       this.info?.controls["ruc"].setValue(propietario.ruc);
