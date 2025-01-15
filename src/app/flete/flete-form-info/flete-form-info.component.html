@@ -10,12 +10,12 @@
         [groupName]="groupName"
         controlName="numero_pedido"
         [form]="form"
-
       ></app-input-field>
 
       <app-remitente-by-gestor-map-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
         [groupName]="groupName"
+        [remitenteEvents]="remitenteEventsSubject.asObservable()"
         [form]="form"
         (valueChange)="remitenteChange.emit($event)"
       ></app-remitente-by-gestor-map-dialog-field>

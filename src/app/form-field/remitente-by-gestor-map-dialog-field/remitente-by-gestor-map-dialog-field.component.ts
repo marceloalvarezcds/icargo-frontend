@@ -17,6 +17,8 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
+import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-remitente-by-gestor-map-dialog-field',
@@ -25,23 +27,26 @@ import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 })
 export class RemitenteByGestorMapDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
+
   list: RemitenteList[] = [];
   subs = this.service.getListByGestorCuentaId().subscribe((list) => {
     this.list = list;
   });
 
+  fetchFunction = () => this.service.getListByGestorCuentaId();
+
+  @Input() remitenteEvents?: Observable<RemitenteList>;
+  @Input() remitente?: RemitenteList;
   @Input() form!: FormGroup;
   @Input() controlName = 'remitente_id';
   @Input() groupName = '';
   @Input() title = 'Cliente';
+  @Input() isRemote = false;
 
   @Output() valueChange = new EventEmitter<RemitenteList>();
 
-  @ViewChild('app-dialog-field')
-  dialogField?: DialogFieldComponent<
-    RemitenteList,
-    SelectorInMapDialogComponent<RemitenteList>
-  >;
+  @ViewChild('app-dialog-field-local')
+  dialogField?: DialogFieldLocalComponent<RemitenteList, SelectorInMapDialogComponent<RemitenteList>>;
 
   constructor(
     private service: RemitenteService,
@@ -81,6 +86,7 @@ export class RemitenteByGestorMapDialogFieldComponent {
             : ''
         }
       </div>`;
+      console.log("createMarker: ", marker);
     return marker;
   }
 
@@ -88,11 +94,13 @@ export class RemitenteByGestorMapDialogFieldComponent {
     selectedValue: RemitenteList | undefined
   ): MatDialogRef<SelectorInMapDialogComponent<RemitenteList>> {
     const data: SelectorInMapDialogData<RemitenteList> = {
-      list: this.list.slice(),
+      list: this.isRemote ? [] : this.list,
       title: this.title,
       selectedValue,
       drawMarkerFunction: this.createMarker.bind(this),
       filterFunction: this.filterMarker.bind(this),
+      fetchFunctionLocal: this.fetchFunction.bind(this),
+      isFetchRemote: true,
     };
     const config: MatDialogConfig = {
       data,
@@ -101,10 +109,8 @@ export class RemitenteByGestorMapDialogFieldComponent {
         top: '1rem',
       },
     };
-    return this.dialog.open<
-      SelectorInMapDialogComponent<RemitenteList>,
-      RemitenteList
-    >(SelectorInMapDialogComponent, config);
+    return this.dialog
+      .open<SelectorInMapDialogComponent<RemitenteList>, RemitenteList>(SelectorInMapDialogComponent, config);
   }
 
   private filterMarker(
@@ -121,4 +127,5 @@ export class RemitenteByGestorMapDialogFieldComponent {
       );
     });
   }
+
 }

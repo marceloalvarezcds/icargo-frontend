@@ -9,3 +9,21 @@
   [dialogRefFunction]="dialogRefFunction.bind(this)"
   (valueChange)="valueChange.emit($event)"
 ></app-dialog-field>
+
+<app-dialog-field-local
+  [title]="title"
+  [columns]="[]"
+  [isRemote]="true"
+  [item]="remitente"
+  [itemEvents]="remitenteEvents"
+  [fetchFunctionLocal]="fetchFunction"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [inputValuePropName]="inputValuePropName"
+  [form]="form"
+  [dialogRefFunction]="dialogRefFunction.bind(this)"
+  (valueChange)="valueChange.emit($event)"
+></app-dialog-field-local>
+
+
+
