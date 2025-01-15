@@ -5,6 +5,8 @@ import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { FormGroup } from '@angular/forms';
+import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-combinacion-dialog-field',
@@ -13,7 +15,7 @@ import { FormGroup } from '@angular/forms';
 })
 export class CombinacionDialogFieldComponent   implements AfterViewInit {
   readonly inputValuePropName = 'camion_placa';
-  list$?: Observable<CombinacionList[]>;
+  //list$?: Observable<CombinacionList[]>;
   cId?: number;
   id?: number;
   columns: Column[] = [
@@ -42,22 +44,22 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       def: 'doc',
       title: 'Documento',
       value: (element: CombinacionList) => element.chofer.numero_documento,
-    }, 
+    },
     {
       def: 'marca',
       title: 'Marca',
       value: (element: CombinacionList) => element.marca_descripcion,
-    },    
+    },
     {
       def: 'color',
       title: 'Color',
       value: (element: CombinacionList) => element.color_camion,
-    },    
+    },
     {
       def: 'propietario',
       title: 'Propietario',
       value: (element: CombinacionList) => element.propietario_nombre,
-    },    
+    },
     {
       def: 'neto',
       title: 'Neto',
@@ -65,6 +67,8 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
     },
   ];
 
+  @Input() combinacionEvents?: Observable<CombinacionList>;
+  @Input() combinacion?: CombinacionList;
   @Input() controlName = 'combinacion_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
@@ -72,15 +76,19 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
 
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 
-  @ViewChild('app-dialog-field-oc') dialogField?: DialogFieldComponent<CombinacionList>;
+  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<CombinacionList>;
+
+  fetchFunction = () => this.service.getList();
 
   constructor(private service: CombinacionService) { }
 
   ngAfterViewInit(): void {
-    this.getList();
+    //this.getList();
+    null;
   }
 
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
+  //private getList(): void {
+  //  this.list$ = this.service.getList();
+  //}
+
 }

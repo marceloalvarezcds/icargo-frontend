@@ -29,8 +29,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Observable, Subject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
@@ -58,7 +58,7 @@ import { CombinacionService } from 'src/app/services/combinacion.service';
   ],
 })
 export class DialogFormFieldControlLocalComponent<T extends { id: number }, DialogComponent = SelectorDialogComponent<T>>
-implements MatFormFieldControl<number>, OnDestroy {
+implements MatFormFieldControl<number>, OnDestroy, AfterViewInit {
 
   @ViewChild('id') idInput!: HTMLInputElement;
   @ViewChild('descripcion') descripcionInput!: HTMLInputElement;
@@ -84,6 +84,7 @@ implements MatFormFieldControl<number>, OnDestroy {
     return this.focused || !this.empty || !!this.selectedValue;
   }
 
+  @Input() itemEvents?: Observable<void>;
   @Input() smallInput: boolean | undefined;
   @Input() excludeInactive: boolean = false;
   @Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
@@ -95,6 +96,7 @@ implements MatFormFieldControl<number>, OnDestroy {
   // eslint-disable-next-line @angular-eslint/no-input-rename
   @Input('aria-describedby') userAriaDescribedBy = '';
   @Input() item: T | undefined;
+  @Input() itemObs?: Observable<T>;
   @Input()
   get value(): number | null {
     return this.idControl.value ? parseInt(this.idControl.value, 10) : null;
@@ -102,6 +104,7 @@ implements MatFormFieldControl<number>, OnDestroy {
   set value(val: number | null) {
     if ((val && !isNaN(val)) || val === null || val === undefined) {
       this.idControl.setValue(val);
+      this.onChange(val);
     }
   }
 
@@ -118,6 +121,8 @@ implements MatFormFieldControl<number>, OnDestroy {
 
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T | null>();
+
+  private eventsSubscription: Subscription | null= null;
 
   // variables formfielcontrol
   stateChanges = new Subject<void>();
@@ -137,15 +142,25 @@ implements MatFormFieldControl<number>, OnDestroy {
     public injector: Injector,
   ) { }
 
+  ngAfterViewInit(): void {
+    if (this.itemEvents) {
+      this.eventsSubscription = this.itemEvents
+        .pipe(
+          take(1),
+        )
+        .subscribe((r:any) => {
+          console.log("itemEvents: ", r);
+          this.selectedValue = r;
+          this.loadDescripcionAndEmitValue();
+      });
+    }
+  }
+
   onChange = (_: any) => {};
 
   onTouched = () => {
     this.touched = true;
   };
-
-  setDescribedByIds(ids: string[]): void {
-    throw new Error('Method not implemented.');
-  }
 
   onContainerClick(event: MouseEvent): void {
     throw new Error('Method not implemented.');
@@ -159,25 +174,34 @@ implements MatFormFieldControl<number>, OnDestroy {
     this.onTouched = fn;
   }
 
+  setDescribedByIds(ids: string[]) {
+    const controlElement = this.elementRef.nativeElement.querySelector(
+      '.app-dialog-form-field-control-local-container'
+    )!;
+    controlElement.setAttribute('aria-describedby', ids.join(' '));
+  }
+
   ngOnDestroy(): void {
     this.focusMonitor.stopMonitoring(this.elementRef);
     this.idSubscription.unsubscribe();
+    this.eventsSubscription?.unsubscribe();
   }
 
-  onload = true;
+  onload = false;
 
   writeValue(val: number | null): void {
-    setTimeout(() => {
+    //setTimeout(() => {
       console.log("writeValue: ", val);
       this.value = val;
 
       if (this.onload) {
+        console.log("item onload: ", this.item);
         this.selectedValue = this.item;
         this.onload = false;
       }
 
       this.loadDescripcionAndEmitValue();
-    }, 500);
+    //}, 1000);
   }
 
   clearSelectedValue(): void {

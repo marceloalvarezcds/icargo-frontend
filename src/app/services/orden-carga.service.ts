@@ -84,6 +84,10 @@ export class OrdenCargaService {
     return this.http.post<OrdenCarga>(`${this.url}/comentarios`, formData);
   }
 
+  getOCListById(id: number): Observable<OrdenCargaList> {
+    return this.http.get<OrdenCargaList>(`${this.url}/oc-list/${id}`);
+  }
+
   getListOCByCombinacionId(combinacionId: number): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/${combinacionId}`);
   }
@@ -115,5 +119,5 @@ export class OrdenCargaService {
     }
     return throwError(() => new Error('Error en el servidor'));
   }
- 
+
 }

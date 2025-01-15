@@ -5,6 +5,7 @@ import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CamionService } from 'src/app/services/camion.service';
+import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-camion-by-propietario-dialog-field',
@@ -13,7 +14,7 @@ import { CamionService } from 'src/app/services/camion.service';
 })
 export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
-  list$?: Observable<CamionList[]>;
+  //list$?: Observable<CamionList[]>;
   cId?: number;
   sId?: number;
   id?: number;
@@ -46,6 +47,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() tractoEvents?: Observable<CamionList>;
   @Input() tracto?: CamionList;
   @Input() controlName = 'camion_id';
   @Input() form!: FormGroup;
@@ -54,7 +56,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   @Input() isEdit: boolean = false;
   @Input() isShow: boolean = true;
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
+  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<CamionList>;
 
   fetchFunction = () => this.service.getList();
 
@@ -65,9 +67,9 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
     null;
   }
 
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
+  //private getList(): void {
+  //  this.list$ = this.service.getList();
+  //}
 
   camionChange(camion?: CamionList): void {
     if (camion) {

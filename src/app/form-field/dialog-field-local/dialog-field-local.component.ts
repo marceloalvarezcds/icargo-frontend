@@ -70,6 +70,8 @@ implements AfterViewInit
     return this.control.disabled;
   }
 
+  @Input() isRemote = false;
+  @Input() itemEvents?: Observable<any>;
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();

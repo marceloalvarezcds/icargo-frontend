@@ -10,6 +10,7 @@
         <app-combinacion-dialog-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Chapa Tracto"
+          [combinacionEvents]="combinacionEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
           (valueChange)="onCamionChange($event)"
@@ -177,20 +178,20 @@
       <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-oc-by-combinacion-finalizados-dialog-field
-        *ngIf="(oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado') && !shouldHideFinalizadoComponent"
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Nº OC"
-        [groupName]="groupName"
-        [form]="form"
-        [combinacionId]="combinacionId"
-        (valueChange)="onOrdenCargaChange($event)"
-      ></app-oc-by-combinacion-finalizados-dialog-field>
-      
+          *ngIf="(oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado') && !shouldHideFinalizadoComponent"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [groupName]="groupName"
+          [form]="form"
+          [combinacionId]="combinacionId"
+          (valueChange)="onOrdenCargaChange($event)"
+        ></app-oc-by-combinacion-finalizados-dialog-field>
 
         <app-oc-by-combinacion-aceptados-dialog-field
           *ngIf="(oc?.estado === 'Aceptado' || showSearchOCAceptadas)"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
+          [ocEvents]="ocEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
           [combinacionId]="combinacionId"
@@ -201,6 +202,7 @@
           *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº Pedido"
+          [fleteEvents]="fleteEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
           (valueChange)="onFleteChange($event)"
@@ -215,8 +217,6 @@
           [combinacionId]="combinacionId"
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-dialog-field>
-
- 
 
         <app-oc-by-combinacion-nuevos-dialog-field
           *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm"

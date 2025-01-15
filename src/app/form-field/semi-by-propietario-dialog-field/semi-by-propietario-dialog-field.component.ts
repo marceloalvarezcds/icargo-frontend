@@ -5,6 +5,7 @@ import { Column } from 'src/app/interfaces/column';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { SemiService } from 'src/app/services/semi.service';
+import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-semi-by-propietario-dialog-field',
@@ -13,7 +14,7 @@ import { SemiService } from 'src/app/services/semi.service';
 })
 export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
-  list$?: Observable<SemiList[]>;
+  //list$?: Observable<SemiList[]>;
   cId?: number;
 
   columns: Column[] = [
@@ -50,13 +51,14 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() semiEvents?: Observable<SemiList>;
   @Input() semi? : SemiList;
   @Input() controlName = 'semi_id';
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Semi';
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<SemiList>;
+  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<SemiList>;
 
   fetchFunction = () => this.service.getList();
 
@@ -67,8 +69,8 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
     null;
   }
 
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
+  //private getList(): void {
+    //this.list$ = this.service.getList();
+  //}
 
 }

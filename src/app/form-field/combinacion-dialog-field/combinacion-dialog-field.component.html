@@ -1,5 +1,6 @@
 <ng-container *ngIf="form">
-    <ng-container *ngIf="list$ | async as list; else inputTemplate">
+  <ng-container *ngIf="fetchFunction; else inputTemplate">
+    <!--ng-container *ngIf="list$ | async as list; else inputTemplate">
       <ng-container *ngIf="list.length; else inputTemplate">
         <app-dialog-field-oc
           [title]="title"
@@ -10,18 +11,30 @@
           [inputValuePropName]="inputValuePropName"
           [form]="form"
           (valueChange)="valueChange.emit($event)"
-
         ></app-dialog-field-oc>
-      </ng-container>
-    </ng-container>
-    <ng-template #inputTemplate>
-      <app-input-field-by-placa
-        hidden
+      </ng-container-->
+      <app-dialog-field-local
         [title]="title"
+        [columns]="columns"
+        [item]="combinacion"
+        [itemEvents]="combinacionEvents"
+        [fetchFunctionLocal]="fetchFunction"
         [groupName]="groupName"
         [controlName]="controlName"
+        [inputValuePropName]="inputValuePropName"
         [form]="form"
+        (valueChange)="valueChange.emit($event)"
+      ></app-dialog-field-local>
 
-      ></app-input-field-by-placa>
-    </ng-template>
   </ng-container>
+  <ng-template #inputTemplate>
+    <app-input-field-by-placa
+      hidden
+      [title]="title"
+      [groupName]="groupName"
+      [controlName]="controlName"
+      [form]="form"
+
+    ></app-input-field-by-placa>
+  </ng-template>
+</ng-container>

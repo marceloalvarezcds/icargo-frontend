@@ -1,6 +1,7 @@
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-
+import { Subject } from 'rxjs';
+import { distinctUntilChanged, timeout } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion, CamionList } from 'src/app/interfaces/camion';
@@ -34,6 +35,84 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   ngOnInit(){
     this.loading = false;
     this.tipoPersonaOriginal = this.item?.propietario?.tipo_persona_id;
+
+    console.log("isEdit: ", this.isEdit);
+
+    if (this.isEdit) {
+
+      this.form?.get(this.groupName)?.get('semi_id')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          console.log("semi_id: ", value);
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            setTimeout(() => {
+              this.semiEventsSubject.next(this.semiList);
+            }, 500);
+
+          }
+
+        });
+
+      this.form?.get(this.groupName)?.get('camion_id')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          console.log("camion_id: ", value);
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            setTimeout(() => {
+              this.tractoEventsSubject.next(this.tracto);
+            }, 500);
+
+          }
+
+        });
+
+      this.form?.get(this.groupName)?.get('chofer_id')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          console.log("chofer_id: ", value);
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            setTimeout(() => {
+              this.choferEventsSubject.next(this.choferList);
+            }, 500);
+
+          }
+
+        });
+
+      this.form?.get(this.groupName)?.get('propietario_id')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          console.log("propietario_id: ", value);
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            setTimeout(() => {
+              this.personaEventsSubject.next(this.personaList);
+            }, 500);
+
+          }
+
+        });
+
+      }
   }
 
   ngAfterViewInit(): void {
@@ -83,6 +162,11 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Output() fotoPerfilChoferChange = new EventEmitter<File | null>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
+
+  semiEventsSubject: Subject<SemiList> = new Subject<SemiList>();
+  tractoEventsSubject: Subject<CamionList> = new Subject<CamionList>();
+  choferEventsSubject: Subject<ChoferList> = new Subject<ChoferList>();
+  personaEventsSubject: Subject<PropietarioList> = new Subject<PropietarioList>();
 
   // TODO: hacer un refresh con el backend
   get tracto(): CamionList | undefined {

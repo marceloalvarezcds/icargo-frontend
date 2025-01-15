@@ -6,6 +6,7 @@ import { Column } from 'src/app/interfaces/column';
 import { PropietarioList } from 'src/app/interfaces/propietario';
 import { PropietarioService } from 'src/app/services/propietario.service';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
+import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-tipo-persona-by-beneficiario-dialog-field',
@@ -15,7 +16,7 @@ import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 export class TipoPersonaByBeneficiarioDialogFieldComponent{
   pId?: number;
   formGroup?: FormGroup;
-  list$: Observable<PropietarioList[]> = new Observable();
+  //list$: Observable<PropietarioList[]> = new Observable();
   readonly inputValuePropName = 'ruc';
 
   columns: Column[] = [
@@ -45,6 +46,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
     return this.form?.get(this.groupName)?.get(this.controlName);
   }
 
+  @Input() personaEvents?: Observable<PropietarioList>;
   @Input() persona?:PropietarioList;
   @Input() title = '';
   @Input() form!: FormGroup;
@@ -64,7 +66,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
 
   @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
   @Output() isFisicaSelected = new EventEmitter<boolean>();
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<PropietarioList>;
+  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<PropietarioList>;
 
   fetchFunction = () => {
     if (this.pId) return this.service.getListByPersonaId(this.pId);
@@ -73,7 +75,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
 
   constructor(private service: PropietarioService) {}
 
-  private getList(): void {
+  /*private getList(): void {
     if (this.pId) {
       this.list$ = this.service.getListByPersonaId(this.pId);
 
@@ -87,7 +89,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
         error: (err) => console.error('Error al obtener la lista:', err),
       });
     }
-  }
+  }*/
 
   resetRucField(): void {
     this.control?.reset();

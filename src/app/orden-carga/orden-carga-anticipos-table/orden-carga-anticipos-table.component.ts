@@ -115,21 +115,14 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${day}-${month}-${year}`;
-  }
-
   ngOnInit(): void {
 
-    if (this.list.length > 0) {
+    if (this.list?.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
-      this.anticiposEfectivo = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
-        this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
+
+    this.anticiposEfectivo = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
+    this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
   }
 
 
@@ -174,7 +167,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     const anticiposFiltrados = this.oc?.porcentaje_anticipos?.filter((anticipo: any) =>
       ['combustible', 'efectivo', 'lubricantes'].includes(anticipo.concepto.toLowerCase())
     ) || [];
-  
+
     // Ordenar anticipos: primero 'efectivo', luego 'combustible', y después 'lubricantes'
     return anticiposFiltrados.sort((a, b) => {
       const order = ['efectivo', 'combustible', 'lubricantes'];
@@ -183,7 +176,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
       return indexA - indexB;
     });
   }
-  
+
 
 
   getSaldoAnticipoNuevo(anticipo: any): number {
@@ -210,7 +203,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
     const monto = this.oc?.flete_monto_efectivo_complemento ?? 0;
-  
+
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
       const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
       return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
@@ -228,7 +221,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   get hasLubricantesWithSaldo(): boolean {
     return this.filteredAnticipos?.some(a => a.concepto.toLowerCase() === 'lubricantes' && this.getSaldoAnticipo(a) > 0);
   }
-  
+
 openEvaluacionesDialog(): void {
   this.dialog.open(EvaluacionesDialogComponent, {
     data: { orden_carga_id: this.oc?.id,

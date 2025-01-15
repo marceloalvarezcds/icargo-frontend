@@ -78,6 +78,10 @@ export class CombinacionService {
     return this.http.get<CombinacionList>(`${this.url}/${id}`);
   }
 
+  getCombinacionById(id: number): Observable<CombinacionList> {
+    return this.http.get<CombinacionList>(`${this.url}/${id}/combinacion`);
+  }
+
   generateReports(): Observable<string> {
     return this.http.get<string>(`${this.url}/reports`);
   }

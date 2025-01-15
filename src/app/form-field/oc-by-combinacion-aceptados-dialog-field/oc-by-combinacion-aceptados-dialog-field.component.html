@@ -1,7 +1,7 @@
 <ng-container *ngIf="form">
   <ng-container *ngIf="ocEstadoAceptado; else inputTemplate">
     <ng-container *ngIf="list$ | async as list">
-      <app-dialog-field-oc
+      <!--app-dialog-field-oc
         [emptyHint]="emptyIdHint"
         [title]="title"
         [columns]="columns"
@@ -11,7 +11,20 @@
         [inputValuePropName]="inputValuePropName"
         [form]="form"
         (valueChange)="valueChange.emit($event)"
-      ></app-dialog-field-oc>
+      ></app-dialog-field-oc-->
+
+      <app-dialog-field-local
+        [title]="title"
+        [columns]="columns"
+        [item]="oc"
+        [itemEvents]="ocEvents"
+        [fetchFunctionLocal]="fetchFunction"
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [inputValuePropName]="inputValuePropName"
+        [form]="form"
+        (valueChange)="valueChange.emit($event)"
+      ></app-dialog-field-local>
     </ng-container>
   </ng-container>
   <ng-template #inputTemplate>
