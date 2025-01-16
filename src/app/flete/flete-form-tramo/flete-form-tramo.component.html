@@ -10,6 +10,7 @@
         controlName="origen_id"
         [groupName]="groupName"
         [form]="form"
+        [origenDestinoEvents]="origenEventsSubject.asObservable()"
         (valueChange)="origenChange.emit($event)"
       ></app-centro-operativo-by-gestor-map-dialog-field>
 
@@ -32,6 +33,7 @@
         controlName="destino_id"
         [groupName]="groupName"
         [form]="form"
+        [origenDestinoEvents]="destinoEventsSubject.asObservable()"
         (valueChange)="destinoChange.emit($event)"
       ></app-centro-operativo-by-gestor-map-dialog-field>
 

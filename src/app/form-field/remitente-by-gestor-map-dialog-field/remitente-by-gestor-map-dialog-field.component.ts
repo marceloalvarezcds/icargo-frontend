@@ -16,7 +16,7 @@ import { RemitenteList } from 'src/app/interfaces/remitente';
 import { DialogService } from 'src/app/services/dialog.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
-import { TipoPersona } from 'src/app/interfaces/tipo-persona';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-remitente-by-gestor-map-dialog-field',
@@ -25,11 +25,14 @@ import { TipoPersona } from 'src/app/interfaces/tipo-persona';
 })
 export class RemitenteByGestorMapDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
-  list: RemitenteList[] = [];
-  subs = this.service.getListByGestorCuentaId().subscribe((list) => {
-    this.list = list;
-  });
 
+  list: RemitenteList[] = [];
+  //subs = this.service.getListByGestorCuentaId().subscribe((list) => {
+  //  this.list = list;
+  //});
+
+  @Input() remitenteEvents?: Observable<RemitenteList>;
+  @Input() isRemote?:boolean = false;
   @Input() form!: FormGroup;
   @Input() controlName = 'remitente_id';
   @Input() groupName = '';
@@ -38,10 +41,9 @@ export class RemitenteByGestorMapDialogFieldComponent {
   @Output() valueChange = new EventEmitter<RemitenteList>();
 
   @ViewChild('app-dialog-field')
-  dialogField?: DialogFieldComponent<
-    RemitenteList,
-    SelectorInMapDialogComponent<RemitenteList>
-  >;
+  dialogField?: DialogFieldComponent<RemitenteList, SelectorInMapDialogComponent<RemitenteList>>;
+
+  fetchDataFunction = () => this.service.getListByGestorCuentaId();
 
   constructor(
     private service: RemitenteService,
@@ -85,10 +87,14 @@ export class RemitenteByGestorMapDialogFieldComponent {
   }
 
   dialogRefFunction(
-    selectedValue: RemitenteList | undefined
+    selectedValue: RemitenteList | undefined,
+    dataList: RemitenteList[] | undefined,
   ): MatDialogRef<SelectorInMapDialogComponent<RemitenteList>> {
+
+    if (this.isRemote && dataList) this.list = dataList;
+
     const data: SelectorInMapDialogData<RemitenteList> = {
-      list: this.list.slice(),
+      list: this.isRemote ? dataList ?? []  : this.list,
       title: this.title,
       selectedValue,
       drawMarkerFunction: this.createMarker.bind(this),
@@ -101,10 +107,8 @@ export class RemitenteByGestorMapDialogFieldComponent {
         top: '1rem',
       },
     };
-    return this.dialog.open<
-      SelectorInMapDialogComponent<RemitenteList>,
-      RemitenteList
-    >(SelectorInMapDialogComponent, config);
+
+    return this.dialog.open<SelectorInMapDialogComponent<RemitenteList>,RemitenteList>(SelectorInMapDialogComponent, config);
   }
 
   private filterMarker(
@@ -121,4 +125,5 @@ export class RemitenteByGestorMapDialogFieldComponent {
       );
     });
   }
+
 }

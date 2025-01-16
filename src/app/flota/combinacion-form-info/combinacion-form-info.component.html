@@ -15,9 +15,9 @@
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               [groupName]="groupName"
               [form]="form"
+              [tractoEvents]="tractoEventsSubject.asObservable()"
               [isEdit]="isEdit"
               [isShow]="isShow"
-              [tracto]="tracto"
               (valueChange)="camionChange($event)"
             ></app-camion-by-propietario-dialog-field>
 
@@ -108,7 +108,7 @@
             <app-semi-by-propietario-dialog-field
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               [groupName]="groupName"
-              [semi]="semiList"
+              [semiEvents]="semiEventsSubject.asObservable()"
               [form]="form"
               (valueChange)="semiChange($event)"
             ></app-semi-by-propietario-dialog-field>
@@ -172,7 +172,7 @@
 
             <app-chofer-by-propietario-dialog-field
               class="input-form-full col-xs-12 col-sm-6 col-md-2"
-              [chofer]="choferList"
+              [choferEvents]="choferEventsSubject.asObservable()"
               [groupName]="groupName"
               [form]="form"
               (valueChange)="choferChange($event)"
@@ -257,6 +257,7 @@
         <div class="col-12 col-sm-2 col-md-10">
 
           <div class="row">
+
             <app-input-field
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               title="N° Doc."

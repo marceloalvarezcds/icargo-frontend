@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   Output,
@@ -11,6 +10,7 @@ import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-fie
 import { Column } from 'src/app/interfaces/column';
 import { FleteList } from 'src/app/interfaces/flete';
 import { FleteService } from 'src/app/services/flete.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-flete-by-gestor-dialog-field',
@@ -20,16 +20,17 @@ import { FleteService } from 'src/app/services/flete.service';
 export class FleteByGestorDialogFieldComponent {
 
   readonly inputValuePropName = 'id';
-  list: FleteList[] = [];
-  subs = this.fleteService.getListByGestorCarga().subscribe((list) => {
-    this.list = list;
-  });
+  //list: FleteList[] = [];
+  //subs = this.fleteService.getListByGestorCarga().subscribe((list) => {
+  //  this.list = list;
+  //});
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
       def: 'fecha',
       title: 'Fecha',
-      value: (element: FleteList) => this.formatDate(element.created_at),
+      value: (element: FleteList) => element.created_at,
+      type: 'only-date'
     },
     {
       def: 'id',
@@ -61,28 +62,22 @@ export class FleteByGestorDialogFieldComponent {
       title: 'Precio',
       value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
     },
-
   ];
 
-  formatDate(dateString: string): string {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${day}-${month}-${year}`;
-  }
-
+  @Input() fleteEvents?: Observable<FleteList>;
+  @Input() pedido?: FleteList;
   @Input() form!: FormGroup;
   @Input() controlName = 'flete_id';
   @Input() groupName = '';
   @Input() title = 'PEDIDOS';
 
-  
   @Output() valueChange = new EventEmitter<FleteList>();
 
-  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList >;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;
+
+  fetchFunction = () => this.fleteService.getListByGestorCarga();
 
   constructor(private fleteService: FleteService) {}
-  
+
 
 }

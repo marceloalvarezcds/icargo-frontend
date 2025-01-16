@@ -110,8 +110,7 @@ import { FileFieldInputComponent } from './file-field-input/file-field-input.com
 import { PuntoVentaPrecioMapFieldComponent } from './punto-venta-precio-map-field/punto-venta-precio-map-field.component';
 import { InsumoByPuntoVentaFieldComponent } from './insumo-by-punto-venta-field/insumo-by-punto-venta-field.component';
 import { DialogFieldRucComponent } from './dialog-field-ruc/dialog-field-ruc.component';
-import { DialogFormFieldControlLocalComponent } from './dialog-form-field-control-local/dialog-form-field-control-local.component';
-import { DialogFieldLocalComponent } from './dialog-field-local/dialog-field-local.component';
+
 import { ComposicionJuridicaFieldComponent } from './composicion-juridica-field/composicion-juridica-field.component';
 import { BeneficiarioFieldComponent } from './beneficiario-field/beneficiario-field.component';
 
@@ -225,7 +224,9 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent, DialogFormFieldControlLocalComponent, DialogFieldLocalComponent, ComposicionJuridicaFieldComponent, BeneficiarioFieldComponent],
+
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent, ComposicionJuridicaFieldComponent, BeneficiarioFieldComponent],
+
   exports: modules.slice(),
   imports: [
     CommonModule,

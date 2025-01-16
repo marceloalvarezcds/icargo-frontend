@@ -311,11 +311,14 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
     this.info.get('tipo_carga_id')?.setValue(producto?.tipo_carga.id);
     if (producto) this.info.get('tipo_carga')?.setValue(producto?.tipo_carga.descripcion);
+  }
+
+  remitenteChangeInfo(remitente:any):void {
+    this.info.get('remitente_nombre')?.setValue(remitente?.nombre)
   }
 
   getData(): void {

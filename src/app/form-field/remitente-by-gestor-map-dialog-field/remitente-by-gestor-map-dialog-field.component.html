@@ -1,7 +1,11 @@
 <app-dialog-field
+  *ngIf="isRemote"
   [title]="title"
   [columns]="[]"
-  [list]="list"
+  [calllbackremote]="true"
+  [list]="[]"
+  [itemEvents]="remitenteEvents"
+  [fetchDataFunction]="fetchDataFunction"
   [groupName]="groupName"
   [controlName]="controlName"
   [inputValuePropName]="inputValuePropName"

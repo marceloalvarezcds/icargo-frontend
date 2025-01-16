@@ -70,7 +70,6 @@ export class RemisionFormDialogComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log();
     this.filteredOptions = this.nroRemitoOrigen.valueChanges
       .pipe(
         startWith(''),

@@ -88,7 +88,6 @@ export class DialogFieldRucComponent<DialogComponent = SelectorDialogComponent<C
   ) {}
 
   ngOnInit(): void {
-    console.log();
     this.filteredOptions = this.control.valueChanges
       .pipe(
         startWith(''),

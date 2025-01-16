@@ -4,16 +4,21 @@ import { MatDialog } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
 import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
+
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+
 import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { Chofer } from 'src/app/interfaces/chofer';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
-import { FleteList } from 'src/app/interfaces/flete';
+import { Flete, FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { CamionService } from 'src/app/services/camion.service';
 import { ChoferService } from 'src/app/services/chofer.service';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 
 import { FleteService } from 'src/app/services/flete.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
@@ -28,6 +33,7 @@ import { SemiService } from 'src/app/services/semi.service';
 export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChanges {
   flete?: FleteList;
   combinacion?: CombinacionList;
+  ocList?: OrdenCargaList;
   groupName = 'combinacion';
   groupNameInfo = 'info'
   camionId?: number;
@@ -35,7 +41,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   semiAsociado?: number;
   semi?: SemiList;
   showPedidoSection: boolean = false;
-  
+
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
   manualChange: boolean = false;
@@ -70,8 +76,12 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
 
-  /*  collapside */
+  // eventos dialogs
+  combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
+  fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
+  ocEventsSubject: Subject<OrdenCargaList> = new Subject<OrdenCargaList>();
 
+  /*  collapside */
   colapseDivFlota = false;
   colapseDivpedido = false;
   colapseDivCantidad = false;
@@ -81,14 +91,73 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.valueChanges.subscribe(() => {
       this.manualChange = true; // Se activa la bandera cuando se cambia manualmente
     });
+
+    if (this.isEdit || this.isShow) {
+
+      this.form?.get(this.groupName)?.get('flete_id')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          if (value) {
+            this.fleteService.getFleteListById(value).subscribe( f => {
+              if (!this.flete) {
+                this.flete = f;
+                this.fleteEventsSubject.next(f);
+              }
+            });
+          }
+
+        });
+
+      this.form?.get(this.groupName)?.get('combinacion_id')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            if (!this.combinacion){
+              this.combinacionService.getCombinacionById(value).subscribe( f => {
+                this.combinacion = f;
+                this.combinacionEventsSubject.next(f);
+              });
+            }
+          }
+
+        });
+
+      this.form?.get(this.groupName)?.get('id_orden_carga')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            if (!this.ocList){
+              this.ordenCargaService.getOCListById(value).subscribe( f => {
+                this.ocList = f;
+                this.ocEventsSubject.next(f);
+              });
+            }
+          }
+
+        });
+      }
+
   }
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.oc && changes.oc.currentValue) {
-      // console.log('oc changed:', changes.oc.currentValue);
       this.onOrdenCargaChange(changes.oc.currentValue);
     }
- }
+  }
 
   get diferenciaOrigenDestino(): number {
     return subtract(
@@ -161,12 +230,13 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
-
-      this.fleteChange.emit(flete);
-
+    this.fleteChange.emit(flete);
 
     this.fleteService.getList().subscribe(
       (fletes: FleteList[]) => {
+
+        console.log("onFleteChange: ", fletes);
+
         const formGroup = this.form?.get(this.groupName);
 
         if (formGroup?.get('numero_lote')?.value !== flete.numero_lote) {
@@ -207,10 +277,24 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   }
 
 
-  constructor(private service: SemiService, private choferService: ChoferService,
-    private fleteService: FleteService, private ordenCargaService: OrdenCargaService,
-     private reportsService: ReportsService,
-    private matDialog: MatDialog) {}
+
+  // constructor(private service: SemiService, private choferService: ChoferService,
+  //   private fleteService: FleteService, private ordenCargaService: OrdenCargaService,
+  //    private reportsService: ReportsService,
+  //   private matDialog: MatDialog) {}
+
+  constructor(
+      private service: SemiService,
+      private choferService: ChoferService,
+      private camionService: CamionService,
+      private fleteService: FleteService,
+      private cdr: ChangeDetectorRef,
+      private ordenCargaService: OrdenCargaService,
+      private combinacionService: CombinacionService,
+      private reportsService: ReportsService,
+      private matDialog: MatDialog,
+  ) {}
+
 
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {
@@ -242,7 +326,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       if (!this.form?.get(this.groupName)?.get('color_semi')?.value) {
         this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
       }
-  
+
       // Comprobamos si chofer_camion ya tiene un valor antes de actualizarlo
       if (!this.form?.get(this.groupName)?.get('chofer_camion')?.value) {
         this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion.chofer_nombre);
@@ -259,7 +343,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       if (!this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.value) {
         this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.propietario_ruc);
       }
-  
+
       // Actualiza los campos del formulario
       this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id);
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion);
@@ -275,7 +359,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       // this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
       // this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
       // this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
-  
+
       // Comparar y actualizar solo si el nuevo neto es diferente del original
       if (combinacion.neto !== this.originalNeto) {
         this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion.neto);
@@ -283,28 +367,28 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         // Si no hay cambio, restablece al valor original
         this.form?.get(this.groupName)?.get('neto')?.setValue(this.originalNeto);
       }
-  
+
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
-  
+
       // Solo actualizar cantidad_nominada si no ha sido modificada manualmente y si isNeto es true
       if (this.isNeto) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
       }
-  
+
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
-  
+
       this.service.getById(combinacion.semi_id).subscribe(semi => {
         this.onSemiChange(semi);
       });
-  
+
       this.choferService.getById(combinacion.chofer_id).subscribe(chofer => {
         this.onChoferChange(chofer);
       });
     }
   }
-  
+
 
 
   onOrdenCargaChange(oc?: OrdenCargaList) {

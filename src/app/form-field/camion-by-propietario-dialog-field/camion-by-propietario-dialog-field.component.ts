@@ -1,7 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Camion, CamionList } from 'src/app/interfaces/camion';
+import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CamionService } from 'src/app/services/camion.service';
@@ -13,7 +13,7 @@ import { CamionService } from 'src/app/services/camion.service';
 })
 export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
-  list$?: Observable<CamionList[]>;
+  //list$?: Observable<CamionList[]>;
   cId?: number;
   sId?: number;
   id?: number;
@@ -46,6 +46,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() tractoEvents?: Observable<CamionList>;
   @Input() tracto?: CamionList;
   @Input() controlName = 'camion_id';
   @Input() form!: FormGroup;
@@ -65,9 +66,9 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
     null;
   }
 
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
+  //private getList(): void {
+  //  this.list$ = this.service.getList();
+  //}
 
   camionChange(camion?: CamionList): void {
     if (camion) {

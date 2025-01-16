@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ChoferList } from 'src/app/interfaces/chofer';
 import { Column } from 'src/app/interfaces/column';
-import { SemiList } from 'src/app/interfaces/semi';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 
@@ -14,7 +13,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 })
 export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'numero_documento';
-  list$?: Observable<ChoferList[]>;
+  //list$?: Observable<ChoferList[]>;
   cId?: number;
   sId?: number;
   id?: number;
@@ -48,6 +47,7 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() choferEvents?: Observable<ChoferList>;
   @Input() chofer?: ChoferList;
   @Input() controlName = 'chofer_id';
   @Input() form!: FormGroup;
@@ -65,8 +65,8 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
     null;
   }
 
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
+  //private getList(): void {
+  //  this.list$ = this.service.getList();
+  //}
 
 }

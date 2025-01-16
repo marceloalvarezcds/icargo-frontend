@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
-import { Semi, SemiList } from 'src/app/interfaces/semi';
+import { SemiList } from 'src/app/interfaces/semi';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { SemiService } from 'src/app/services/semi.service';
 
@@ -13,7 +13,7 @@ import { SemiService } from 'src/app/services/semi.service';
 })
 export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
   readonly inputValuePropName = 'placa';
-  list$?: Observable<SemiList[]>;
+  //list$?: Observable<SemiList[]>;
   cId?: number;
 
   columns: Column[] = [
@@ -50,6 +50,7 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
     },
   ];
 
+  @Input() semiEvents?: Observable<SemiList>;
   @Input() semi? : SemiList;
   @Input() controlName = 'semi_id';
   @Input() form!: FormGroup;
@@ -67,8 +68,8 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
     null;
   }
 
-  private getList(): void {
-    this.list$ = this.service.getList();
-  }
+  //private getList(): void {
+    //this.list$ = this.service.getList();
+  //}
 
 }

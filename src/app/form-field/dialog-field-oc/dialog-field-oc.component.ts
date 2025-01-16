@@ -50,12 +50,8 @@ get disabled(): boolean {
 @Input() list: T[] = [];
 @Input() title = '';
 @Input() subtitle = '';
-@Input() dialogRefFunction?: (
-  selectedValue: T | undefined
-) => MatDialogRef<DialogComponent>;
-@Input() fetchFunction?: (
-  request: PaginatedListRequest
-) => Observable<PaginatedList<T>>;
+@Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
+@Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
 @Input() set readonly(val: boolean) {
   val ? this.control.disable() : this.control.enable();
 }

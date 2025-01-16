@@ -16,6 +16,7 @@ import {
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-centro-operativo-by-gestor-map-dialog-field',
@@ -25,10 +26,12 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 export class CentroOperativoByGestorMapDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
   list: CentroOperativoList[] = [];
-  subs = this.service.getListByGestorCuentaId().subscribe((list) => {
-    this.list = list;
-  });
 
+  //subs = this.service.getListByGestorCuentaId().subscribe((list) => {
+  //  this.list = list;
+  //});
+
+  @Input() origenDestinoEvents?: Observable<CentroOperativoList>;
   @Input() form!: FormGroup;
   @Input() controlName = 'centro_operativo_id';
   @Input() groupName = '';
@@ -37,10 +40,9 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
   @Output() valueChange = new EventEmitter<CentroOperativoList>();
 
   @ViewChild('app-dialog-field')
-  dialogField?: DialogFieldComponent<
-    CentroOperativoList,
-    SelectorInMapDialogComponent<CentroOperativoList>
-  >;
+  dialogField?: DialogFieldComponent<CentroOperativoList, SelectorInMapDialogComponent<CentroOperativoList>>;
+
+  fetchDataFunction = () => this.service.getListByGestorCuentaId();
 
   constructor(
     private service: CentroOperativoService,
@@ -84,8 +86,12 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
   }
 
   dialogRefFunction(
-    selectedValue: CentroOperativoList | undefined
+    selectedValue: CentroOperativoList | undefined,
+    dataList: CentroOperativoList[] | undefined,
   ): MatDialogRef<SelectorInMapDialogComponent<CentroOperativoList>> {
+
+    if (dataList) this.list = dataList;
+
     const data: SelectorInMapDialogData<CentroOperativoList> = {
       list: this.list.slice(),
       title: this.title,
@@ -120,4 +126,5 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
       );
     });
   }
+
 }

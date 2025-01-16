@@ -22,14 +22,16 @@ import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.compone
   styleUrls: ['./selector-in-map-dialog.component.scss'],
 })
 export class SelectorInMapDialogComponent<T extends { id: number }>
-  implements AfterViewInit, OnDestroy
+implements AfterViewInit, OnDestroy
 {
+
   Obj = Object;
   allMarkers: Marker<T>[] = [];
   lastMarker?: Marker<T>;
   markerFilteredList: Marker<T>[] = [];
   selectValue?: T | null;
   searchControl = new FormControl('');
+
   searchControlSubscription = this.searchControl.valueChanges
     .pipe(filter(() => !!this.googleMapComponent))
     .subscribe((searchText) => {
@@ -123,6 +125,7 @@ export class SelectorInMapDialogComponent<T extends { id: number }>
           }
         }
       });
+
       if (!bounds.isEmpty()) {
         setTimeout(() => {
           map.fitBounds(bounds);

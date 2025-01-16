@@ -36,7 +36,6 @@ export class SelectableItemTableComponent<T extends { id: number }> {
   }
 
   clearCheckedValues(){
-    console.log("clearCheckedValues");
     this.selectedItems = [];
     this.selectedItemsChange.emit(this.selectedItems);
   }

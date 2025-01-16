@@ -149,8 +149,6 @@ export class PuntoVentaListComponent {
   }
 
   createPuntoVenta(): void {
-    console.log('createPuntoVenta');
-    console.log(`/entities/${m.PUNTO_VENTA}/${a.CREAR}`);
     this.router.navigate(
       [`/entities/${m.PUNTO_VENTA}/${a.CREAR}`, this.provId],
       { queryParams: { backUrl: this.backUrl } }

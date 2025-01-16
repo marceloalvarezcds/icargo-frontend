@@ -1,5 +1,5 @@
 
-  <app-dialog-field-oc
+  <!--app-dialog-field-oc
     [title]="title"
     [columns]="columns"
     [list]="list"
@@ -8,5 +8,17 @@
     [inputValuePropName]="inputValuePropName"
     [form]="form"
     (valueChange)="valueChange.emit($event)"
-  ></app-dialog-field-oc>
+  ></app-dialog-field-oc-->
 
+  <app-dialog-field
+    [title]="title"
+    [columns]="columns"
+    [calllbackremote]="true"
+    [itemEvents]="fleteEvents"
+    [fetchDataFunction]="fetchFunction"
+    [groupName]="groupName"
+    [controlName]="controlName"
+    [inputValuePropName]="inputValuePropName"
+    [form]="form"
+    (valueChange)="valueChange.emit($event)"
+  ></app-dialog-field>
