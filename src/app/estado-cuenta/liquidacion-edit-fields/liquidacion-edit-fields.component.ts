@@ -122,9 +122,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   ngAfterViewInit(): void {
 
     setTimeout(() => {
-      console.log('colapse movs');
       if (this.esFinalizado) {
-        console.log('colapse movs');
         this.colapseDivMovimientos = true;
       }
     }, 500);

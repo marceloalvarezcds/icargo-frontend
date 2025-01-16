@@ -124,7 +124,7 @@ export class CombinacionListComponent implements OnInit{
       this.propietarioFiltered.length !== this.propietarioFilterList.length
     );
   }
-  
+
   get isFilteredByCamion(): boolean {
     return this.camionFiltered.length !== this.camionFilterList.length;
   }
@@ -142,11 +142,11 @@ export class CombinacionListComponent implements OnInit{
   marcaCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('propietarioCheckboxFilter')
   propietarioCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('camionCheckboxFilter') 
+  @ViewChild('camionCheckboxFilter')
   camionCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('semiCheckboxFilter') 
+  @ViewChild('semiCheckboxFilter')
   semiCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('choferCheckboxFilter') 
+  @ViewChild('choferCheckboxFilter')
   choferCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
@@ -187,7 +187,6 @@ export class CombinacionListComponent implements OnInit{
   }
 
   filterPredicate(obj: CombinacionList, filterJson: string): boolean {
-    console.log("filterPredicate", obj, filterJson)
     const filter: Filter = JSON.parse(filterJson);
     const filterBycamion =
     filter.camion
@@ -234,7 +233,7 @@ export class CombinacionListComponent implements OnInit{
       filter.propietario = this.propietarioFiltered.join('|');
       this.isFiltered = true;
     }
-   
+
     if (this.isFilteredBySemi) {
       filter.semi = this.semiFiltered.join('|');
       this.isFiltered = true;
@@ -273,7 +272,7 @@ export class CombinacionListComponent implements OnInit{
     this.searchService.search(filter, isFilteredByGlobalSearch);
     this.accordion.closeAll();
   }
-  
+
   private resetFilterList(): void {
     this.isFiltered = false;
     this.propietarioFiltered = this.propietarioFilterList.slice();

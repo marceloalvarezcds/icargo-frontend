@@ -169,12 +169,9 @@ export class LiquidacionFormFieldsComponent {
 
     const listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
 
-    console.log("listar_efectivo_insumo: ", listar_efectivo_insumo);
-
     if (listar_efectivo_insumo === 'INSUMO' && !this.tipo_insumo.value ) {
       this.list = [];
       this.movimientosSelected = [];
-      console.log("blockero: ");
       return;
     }
 
@@ -184,12 +181,10 @@ export class LiquidacionFormFieldsComponent {
   filtrarMovimientosPDV2(filter:string):void{
     this.liquidacionMovimientoList!.clearMovimientosList();
 
-    console.log("listar_efectivo_insumo: ", filter);
 
     if (filter === 'INSUMO' && !this.tipo_insumo.value ) {
       this.list = [];
       this.movimientosSelected = [];
-      console.log("blockero: ");
       return;
     }
 

@@ -83,7 +83,6 @@ export class RemitenteByGestorMapDialogFieldComponent {
             : ''
         }
       </div>`;
-      console.log("createMarker: ", marker);
     return marker;
   }
 

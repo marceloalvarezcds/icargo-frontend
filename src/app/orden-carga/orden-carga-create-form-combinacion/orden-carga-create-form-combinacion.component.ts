@@ -149,7 +149,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
   ngOnChanges(changes: SimpleChanges) {
     if (changes.oc && changes.oc.currentValue) {
-      // console.log('oc changed:', changes.oc.currentValue);
       this.onOrdenCargaChange(changes.oc.currentValue);
     }
   }

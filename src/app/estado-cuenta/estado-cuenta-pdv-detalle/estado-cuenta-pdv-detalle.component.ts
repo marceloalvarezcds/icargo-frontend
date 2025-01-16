@@ -496,9 +496,6 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
     }
 
     create(): void {
-
-      console.log("this.estadoCuenta?: ", this.estadoCuenta)
-
       const data: MovimientoFormDialogData = {
         estado: MovimientoEstadoEnum.PENDIENTE,
         contraparte_id: this.estadoCuenta?.contraparte_id,

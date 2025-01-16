@@ -328,8 +328,6 @@ export class LiquidacionEditFormMovimientosComponent {
     const contraparteId = liquidacion.chofer_id ?? liquidacion.propietario_id
         ?? liquidacion.proveedor_id ?? liquidacion.remitente_id;
 
-    console.log("liquidacion: ", liquidacion);
-
     const data: MovimientoFormDialogData = {
       liquidacion_id: liquidacion.id,
       contraparte_id: contraparteId,
