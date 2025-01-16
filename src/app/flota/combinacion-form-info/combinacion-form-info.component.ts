@@ -36,9 +36,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.loading = false;
     this.tipoPersonaOriginal = this.item?.propietario?.tipo_persona_id;
 
-    console.log("isEdit: ", this.isEdit);
-
-    if (this.isEdit) {
+    if (this.isEdit || this.isShow) {
 
       this.form?.get(this.groupName)?.get('semi_id')?.valueChanges
         .pipe(
@@ -47,7 +45,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
         )
         .subscribe((value) => {
 
-          console.log("semi_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             setTimeout(() => {
@@ -65,7 +62,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
         )
         .subscribe((value) => {
 
-          console.log("camion_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             setTimeout(() => {
@@ -83,7 +79,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
         )
         .subscribe((value) => {
 
-          console.log("chofer_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             setTimeout(() => {
@@ -101,7 +96,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
         )
         .subscribe((value) => {
 
-          console.log("propietario_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             setTimeout(() => {
@@ -168,36 +162,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   choferEventsSubject: Subject<ChoferList> = new Subject<ChoferList>();
   personaEventsSubject: Subject<PropietarioList> = new Subject<PropietarioList>();
 
-  // TODO: hacer un refresh con el backend
-  get tracto(): CamionList | undefined {
-    if (this.combinacion) {
-      let item = this.combinacion?.camion as CamionList;
-      item.marca_descripcion = item.marca.descripcion;
-      item.color_descripcion = item.color?.descripcion ?? '';
-      item.propietario_nombre = item.propietario.nombre;
-      return item;
-    }
-    else return undefined;
-  }
-
-  get semiList(): SemiList | undefined {
-    if (this.combinacion) {
-      let item = {...this.combinacion.semi } as unknown as SemiList;
-      item.marca_descripcion = this.combinacion?.semi.marca.descripcion ?? '';
-      item.color_descripcion = this.combinacion?.semi.color?.descripcion ?? '';
-      return item;
-    } else return undefined;
-  }
-
-  get choferList(): ChoferList {
-    let item = this.combinacion?.chofer as ChoferList;
-    return item;
-  }
-
-  get personaList(): PropietarioList {
-    let item = this.combinacion?.propietario as PropietarioList;
-    return item;
-  }
+  
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup;

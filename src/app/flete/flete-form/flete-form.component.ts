@@ -317,6 +317,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     if (producto) this.info.get('tipo_carga')?.setValue(producto?.tipo_carga.descripcion);
   }
 
+  remitenteChangeInfo(remitente:any):void {
+    this.info.get('remitente_nombre')?.setValue(remitente?.nombre)
+  }
+
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
     if (backUrl) {

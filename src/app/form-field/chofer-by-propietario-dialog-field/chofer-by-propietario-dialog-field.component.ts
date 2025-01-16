@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { ChoferList } from 'src/app/interfaces/chofer';
 import { Column } from 'src/app/interfaces/column';
-import { SemiList } from 'src/app/interfaces/semi';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 

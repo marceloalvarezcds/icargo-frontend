@@ -15,8 +15,9 @@
       <app-remitente-by-gestor-map-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
         [groupName]="groupName"
-        [remitenteEvents]="remitenteEventsSubject.asObservable()"
+        [isRemote]="true"
         [form]="form"
+        [remitenteEvents]="remitenteEventsSubject.asObservable()"
         (valueChange)="remitenteChange.emit($event)"
       ></app-remitente-by-gestor-map-dialog-field>
 

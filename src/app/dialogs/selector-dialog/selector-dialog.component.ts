@@ -52,7 +52,7 @@ export class SelectorDialogComponent<T> {
     public dialogRef: MatDialogRef<SelectorDialogComponent<T>>,
     @Inject(MAT_DIALOG_DATA) private data: SelectorDialogData<T>
   ) {
-    this.selectValue = data.selectedValue;
+    this.selectValue = data.selectedValue;    
   }
 
   select() {

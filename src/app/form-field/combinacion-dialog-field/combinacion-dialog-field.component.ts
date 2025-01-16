@@ -1,12 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input,  Output, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { FormGroup } from '@angular/forms';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
-import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-combinacion-dialog-field',
@@ -67,6 +65,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
     },
   ];
 
+  @Input() isRemote = false;
   @Input() combinacionEvents?: Observable<CombinacionList>;
   @Input() combinacion?: CombinacionList;
   @Input() controlName = 'combinacion_id';
@@ -76,7 +75,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
 
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 
-  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<CombinacionList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CombinacionList>;
 
   fetchFunction = () => this.service.getList();
 

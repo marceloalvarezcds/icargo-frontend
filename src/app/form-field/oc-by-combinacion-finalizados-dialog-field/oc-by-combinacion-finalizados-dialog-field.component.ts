@@ -11,7 +11,6 @@ import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-fie
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
-import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-oc-by-combinacion-finalizados-dialog-field',
@@ -84,7 +83,7 @@ export class OcByCombinacionFinalizadosDialogFieldComponent {
 
   @Output() valueChange = new EventEmitter<OrdenCargaList | undefined>();
 
-  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<OrdenCargaList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<OrdenCargaList>;
 
   fetchFunction: any = null;
 

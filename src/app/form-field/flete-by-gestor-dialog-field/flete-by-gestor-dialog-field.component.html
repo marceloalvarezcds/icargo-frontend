@@ -10,15 +10,15 @@
     (valueChange)="valueChange.emit($event)"
   ></app-dialog-field-oc-->
 
-  <app-dialog-field-local
+  <app-dialog-field
     [title]="title"
     [columns]="columns"
-    [item]="pedido"
+    [calllbackremote]="true"
     [itemEvents]="fleteEvents"
-    [fetchFunctionLocal]="fetchFunction"
+    [fetchDataFunction]="fetchFunction"
     [groupName]="groupName"
     [controlName]="controlName"
     [inputValuePropName]="inputValuePropName"
     [form]="form"
     (valueChange)="valueChange.emit($event)"
-  ></app-dialog-field-local>
+  ></app-dialog-field>

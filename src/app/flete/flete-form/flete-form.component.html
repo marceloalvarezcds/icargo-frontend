@@ -34,7 +34,6 @@
         [estado]="estado"
         [flete]="item"
         [isShow]="isShow"
-        [isEdit]="isEdit"
         (remitenteChange)="info.get('remitente_nombre')?.setValue($event?.nombre)"
         (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>
@@ -45,10 +44,10 @@
       <app-flete-form-tramo
         [class.colapse-div]="colapseDivTramo"
         [form]="form"
+        [flete]="item"
+        [isShow]="isShow"
         (origenChange)="tramo.get('origen_nombre')?.setValue($event?.nombre)"
-        (destinoChange)="
-          tramo.get('destino_nombre')?.setValue($event?.nombre)
-        "
+        (destinoChange)="tramo.get('destino_nombre')?.setValue($event?.nombre)"
       ></app-flete-form-tramo>
     </div>
 

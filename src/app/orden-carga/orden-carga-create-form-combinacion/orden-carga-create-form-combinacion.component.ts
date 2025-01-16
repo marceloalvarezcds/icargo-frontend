@@ -86,7 +86,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.manualChange = true; // Se activa la bandera cuando se cambia manualmente
     });
 
-    if (this.isEdit) {
+    if (this.isEdit || this.isShow) {
+
       this.form?.get(this.groupName)?.get('flete_id')?.valueChanges
         .pipe(
           //debounceTime(500),
@@ -94,7 +95,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         )
         .subscribe((value) => {
 
-          console.log("flete_id: ", value);
           if (value) {
             this.fleteService.getFleteListById(value).subscribe( f => {
               if (!this.flete) {
@@ -113,7 +113,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         )
         .subscribe((value) => {
 
-          console.log("combinacion_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             if (!this.combinacion){
@@ -133,7 +132,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         )
         .subscribe((value) => {
 
-          console.log("oc_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             if (!this.ocList){

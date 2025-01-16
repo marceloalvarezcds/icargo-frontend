@@ -16,6 +16,7 @@ import {
   PaginatedListRequest,
 } from 'src/app/interfaces/paginate-list';
 import { DialogFormFieldControlComponent } from '../dialog-form-field-control/dialog-form-field-control.component';
+import { take } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-field',
@@ -41,6 +42,7 @@ export class DialogFieldComponent<T extends { id: number },
     return this.control.disabled;
   }
 
+  @Input() calllbackremote=false;
   @Input() form?: FormGroup;
   @Input() formControl?: AbstractControl | null;
   @Input() columns: Column[] = [];
@@ -52,7 +54,9 @@ export class DialogFieldComponent<T extends { id: number },
   @Input() list: T[] = [];
   @Input() title = '';
   @Input() subtitle = '';
-  @Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
+  //@Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
+  @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
+  @Input() fetchDataFunction?: () => Observable<T[]>;
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input()
   get readonly(): boolean {
@@ -68,6 +72,8 @@ export class DialogFieldComponent<T extends { id: number },
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
+
+  @Input() itemEvents?: Observable<any>;
 
   @ViewChild(DialogFormFieldControlComponent)
   dialogFieldControl?: DialogFormFieldControlComponent<T>;
@@ -85,13 +91,25 @@ export class DialogFieldComponent<T extends { id: number },
   }
 
   openDialog(): void {
-    this.dialogFieldControl?.openDialog();
+
+    if (this.fetchDataFunction){
+
+      this.fetchDataFunction().subscribe((data: T[]) => {
+        this.list = data;
+        this.dialogFieldControl?.openDialogWithData(data);
+      });
+
+    } else {
+      this.dialogFieldControl?.openDialog();
+    }
+
   }
   isOpen = false;
 
   close() {
     this.isOpen = false;
   }
+
   getClassForControl(controlName: string): string {
     switch (controlName) {
       case 'insumo_punto_venta_precio_id':

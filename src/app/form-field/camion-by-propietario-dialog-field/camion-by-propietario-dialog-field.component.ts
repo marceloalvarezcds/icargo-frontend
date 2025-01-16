@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Camion, CamionList } from 'src/app/interfaces/camion';
+import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CamionService } from 'src/app/services/camion.service';
-import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-camion-by-propietario-dialog-field',
@@ -56,7 +55,7 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
   @Input() isEdit: boolean = false;
   @Input() isShow: boolean = true;
   @Output() valueChange = new EventEmitter<CamionList | undefined>();
-  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<CamionList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CamionList>;
 
   fetchFunction = () => this.service.getList();
 

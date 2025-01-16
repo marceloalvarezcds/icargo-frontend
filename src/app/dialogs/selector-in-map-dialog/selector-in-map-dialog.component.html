@@ -34,9 +34,7 @@
       <div class="row">
         <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
           <div class="info-list-container">
-            list.length {{list.length}}
             <ng-container *ngIf="list.length; else emptyListTemplate">
-              markerFilteredList.length{{markerFilteredList.length}}
               <ng-container *ngIf="markerFilteredList.length; else emptyMarkerTemplate">
                 <ng-container *ngFor="let marker of markerFilteredList">
                   <div
@@ -51,8 +49,6 @@
                     "
                   >
                     <div class="info-selector" #radio>
-                      selectValue{{selectValue}}
-                      marker.info{{marker.info}}
                       <mat-radio-group
                         [(ngModel)]="selectValue"
                         (change)="setSelectValue($event.value, marker)"

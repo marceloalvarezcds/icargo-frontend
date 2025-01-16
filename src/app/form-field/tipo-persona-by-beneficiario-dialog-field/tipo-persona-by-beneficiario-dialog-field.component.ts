@@ -1,12 +1,10 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { Observable, of} from 'rxjs';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Column } from 'src/app/interfaces/column';
 import { PropietarioList } from 'src/app/interfaces/propietario';
 import { PropietarioService } from 'src/app/services/propietario.service';
-import { TipoPersona } from 'src/app/interfaces/tipo-persona';
-import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-tipo-persona-by-beneficiario-dialog-field',
@@ -66,7 +64,7 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
 
   @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
   @Output() isFisicaSelected = new EventEmitter<boolean>();
-  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<PropietarioList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<PropietarioList>;
 
   fetchFunction = () => {
     if (this.pId) return this.service.getListByPersonaId(this.pId);

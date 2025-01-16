@@ -2,18 +2,19 @@
 <ng-container *ngIf="form">
   <ng-container *ngIf="fetchFunction else inputTemplate">
 
-    <app-dialog-field-local
+    <app-dialog-field
       [title]="title"
       [columns]="columns"
-      [item]="semi"
+      [list]="[]"
+      [calllbackremote]="true"
       [itemEvents]="semiEvents"
-      [fetchFunctionLocal]="fetchFunction"
+      [fetchDataFunction]="fetchFunction"
       [groupName]="groupName"
       [controlName]="controlName"
       [inputValuePropName]="inputValuePropName"
       [form]="form"
       (valueChange)="valueChange.emit($event)"
-    ></app-dialog-field-local>
+    ></app-dialog-field>
 
   </ng-container>
   <ng-template #inputTemplate>

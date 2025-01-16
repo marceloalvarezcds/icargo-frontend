@@ -1,6 +1,7 @@
 import { FocusMonitor } from '@angular/cdk/a11y';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
+  AfterViewInit,
   Component,
   DoCheck,
   ElementRef,
@@ -28,8 +29,8 @@ import {
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Observable, Subject } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { Observable, Subject, Subscription } from 'rxjs';
+import { filter, map, take } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
@@ -64,7 +65,8 @@ export class DialogFormFieldControlComponent<
     MatFormFieldControl<number>,
     OnDestroy,
     DoCheck,
-    OnInit
+    OnInit,
+    AfterViewInit
 {
   static nextId = 0;
   @ViewChild('id') idInput!: HTMLInputElement;
@@ -83,7 +85,7 @@ export class DialogFormFieldControlComponent<
   idSubscription = this.idControl.valueChanges
     .pipe(filter(() => this.list.length > 0))
     .subscribe((value) => {
-      this.selectedValue = this.list.find(x => x.id === value) 
+      this.selectedValue = this.list.find(x => x.id === value)
       this.loadDescripcionAndEmitValue();
     });
 
@@ -101,14 +103,12 @@ export class DialogFormFieldControlComponent<
   get shouldLabelFloat(): boolean {
     return this.focused || !this.empty || !!this.selectedValue;
   }
+  @Input() itemEvents?: Observable<void>;
   @Input() smallInput: boolean | undefined;
   @Input() excludeInactive: boolean = false;
-  @Input() dialogRefFunction?: (
-    selectedValue: T | undefined
-  ) => MatDialogRef<DialogComponent>;
-  @Input() fetchFunction?: (
-    request: PaginatedListRequest
-  ) => Observable<PaginatedList<T>>;
+  @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
+  @Input() fetchDateFunction?: () => Observable<T[]>;
+  @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input() columns: Column[] = [];
   @Input() descripcionPropName!: string;
   @Input() title = '';
@@ -157,7 +157,7 @@ export class DialogFormFieldControlComponent<
       this.emptyListChange.emit();
     }
     if (this.value) {
-      this.selectedValue = this.list.find(x => x.id === this.value) 
+      this.selectedValue = this.list.find(x => x.id === this.value)
       this.loadDescripcionAndEmitValue();
     }
   }
@@ -184,6 +184,8 @@ export class DialogFormFieldControlComponent<
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T | null>();
 
+  private eventsSubscription: Subscription | null= null;
+
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
@@ -200,10 +202,24 @@ export class DialogFormFieldControlComponent<
     }
   }
 
+  ngAfterViewInit(): void {
+    if (this.itemEvents) {
+      this.eventsSubscription = this.itemEvents
+        .pipe(
+          take(1),
+        )
+        .subscribe((r:any) => {
+          this.selectedValue = r;
+          this.loadDescripcionAndEmitValue();
+      });
+    }
+  }
+
   ngOnDestroy(): void {
     this.stateChanges.complete();
     this.focusMonitor.stopMonitoring(this.elementRef);
     this.idSubscription.unsubscribe();
+    this.eventsSubscription?.unsubscribe();
   }
 
   ngDoCheck(): void {
@@ -289,13 +305,13 @@ export class DialogFormFieldControlComponent<
 
 
   private deshabilitarOpcion(estado: string): boolean {
-    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado']; 
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
     return estadosNoSeleccionables.includes(estado);
   }
 
   openDialog(): void {
     const dialogRef = this.dialogRefFunction
-      ? this.dialogRefFunction(this.selectedValue)
+      ? this.dialogRefFunction(this.selectedValue, [])
       : this.getDefaultDialogRef();
 
     dialogRef
@@ -306,18 +322,43 @@ export class DialogFormFieldControlComponent<
           alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
           return; // Salir sin asignar ni realizar acciones adicionales
         }
-        
+
         this.selectedValue = selectedValue;
         if (!this.lista.length) {
           this.lista = [selectedValue];
         }
         this.writeValue(selectedValue.id);
       });
+
   }
 
+  openDialogWithData(dataList: T[]): void {
+    this.list = dataList;
 
+    const dialogRef = this.dialogRefFunction
+      ? this.dialogRefFunction(this.selectedValue, dataList)
+      : this.getDefaultDialogRef();
+
+    dialogRef
+      .afterClosed()
+      .pipe(filter((selectedValue: T) => !!selectedValue))
+      .subscribe((selectedValue: T) => {
+        if (this.deshabilitarOpcion((selectedValue as any).estado)) {
+          alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+          return; // Salir sin asignar ni realizar acciones adicionales
+        }
+
+        this.selectedValue = selectedValue;
+        if (!this.lista.length) {
+          this.lista = [selectedValue];
+        }
+        this.writeValue(selectedValue.id);
+      });
+
+  }
 
   private getDefaultDialogRef(): MatDialogRef<SelectorDialogComponent<T>> {
+
     const data: SelectorDialogData<T> = {
       list: this.list.slice(),
       columns: this.columns.slice(),
@@ -333,6 +374,7 @@ export class DialogFormFieldControlComponent<
         top: '1rem',
       },
     };
+
     return this.dialog.open<SelectorDialogComponent<T>>(
       SelectorDialogComponent,
       config
@@ -344,10 +386,10 @@ export class DialogFormFieldControlComponent<
     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === 'Tab') {
       event.preventDefault();
       event.stopPropagation();
-  
+
       const inputValue = this.formGroup.controls['descripcion'].value?.toString().trim();
       const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
-  
+
       if (result) {
         this.value = result.id;
       } else {
@@ -355,18 +397,16 @@ export class DialogFormFieldControlComponent<
       }
     }
   }
-  
-  
+
   findNextEditableField(): HTMLElement | null {
     const formControls = Array.from(document.querySelectorAll('input:not([readonly]), select:not([disabled]), textarea:not([disabled])')) as HTMLElement[];
     const currentIndex = formControls.findIndex(control => control === document.activeElement);
     const nextIndex = currentIndex + 1;
     const nextField = formControls[nextIndex];
-    
+
     return nextField || null;
   }
-  
-  
+
   private loadDescripcionAndEmitValue(): void {
     const selectedValue = this.selectedValue;
     let descripcion = null;
@@ -376,5 +416,5 @@ export class DialogFormFieldControlComponent<
     this.formGroup.patchValue({ descripcion });
     setTimeout(() => this.valueChange.emit(this.selectedValue), 0);
   }
-  
+
 }

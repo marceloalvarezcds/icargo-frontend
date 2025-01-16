@@ -1,6 +1,5 @@
 import {
   Component,
-  ElementRef,
   EventEmitter,
   Input,
   Output,
@@ -9,9 +8,8 @@ import {
 import { FormGroup } from '@angular/forms';
 import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-field.component';
 import { Column } from 'src/app/interfaces/column';
-import { Flete, FleteList } from 'src/app/interfaces/flete';
+import { FleteList } from 'src/app/interfaces/flete';
 import { FleteService } from 'src/app/services/flete.service';
-import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 import { Observable } from 'rxjs';
 
 @Component({
@@ -75,7 +73,7 @@ export class FleteByGestorDialogFieldComponent {
 
   @Output() valueChange = new EventEmitter<FleteList>();
 
-  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<FleteList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;
 
   fetchFunction = () => this.fleteService.getListByGestorCarga();
 

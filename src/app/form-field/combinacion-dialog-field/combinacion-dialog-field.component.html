@@ -1,11 +1,14 @@
 <ng-container *ngIf="form">
-  <ng-container *ngIf="fetchFunction; else inputTemplate">
-    <!--ng-container *ngIf="list$ | async as list; else inputTemplate">
-      <ng-container *ngIf="list.length; else inputTemplate">
+
+    <ng-container *ngIf="isRemote; else inputTemplate">
+      <!--ng-container *ngIf="isRemote || list.length; else inputTemplate">
         <app-dialog-field-oc
           [title]="title"
           [columns]="columns"
-          [list]="list"
+          [list]="[]"
+          [calllbackremote]="true"
+          [itemEvents]="combinacionEvents"
+          [fetchDataFunction]="fetchFunction"
           [groupName]="groupName"
           [controlName]="controlName"
           [inputValuePropName]="inputValuePropName"
@@ -13,19 +16,19 @@
           (valueChange)="valueChange.emit($event)"
         ></app-dialog-field-oc>
       </ng-container-->
-      <app-dialog-field-local
+      <app-dialog-field
         [title]="title"
         [columns]="columns"
-        [item]="combinacion"
-        [itemEvents]="combinacionEvents"
-        [fetchFunctionLocal]="fetchFunction"
+        [list]="[]"
+        [calllbackremote]="true"
         [groupName]="groupName"
+        [itemEvents]="combinacionEvents"
+        [fetchDataFunction]="fetchFunction"
         [controlName]="controlName"
         [inputValuePropName]="inputValuePropName"
         [form]="form"
         (valueChange)="valueChange.emit($event)"
-      ></app-dialog-field-local>
-
+      ></app-dialog-field>
   </ng-container>
   <ng-template #inputTemplate>
     <app-input-field-by-placa

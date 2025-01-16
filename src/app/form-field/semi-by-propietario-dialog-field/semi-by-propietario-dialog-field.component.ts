@@ -1,11 +1,10 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
-import { Semi, SemiList } from 'src/app/interfaces/semi';
+import { SemiList } from 'src/app/interfaces/semi';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { SemiService } from 'src/app/services/semi.service';
-import { DialogFieldLocalComponent } from '../dialog-field-local/dialog-field-local.component';
 
 @Component({
   selector: 'app-semi-by-propietario-dialog-field',
@@ -58,7 +57,7 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
   @Input() groupName = '';
   @Input() title = 'Semi';
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
-  @ViewChild('app-dialog-field-local') dialogField?: DialogFieldLocalComponent<SemiList>;
+  @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<SemiList>;
 
   fetchFunction = () => this.service.getList();
 

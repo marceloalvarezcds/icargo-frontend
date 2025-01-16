@@ -54,7 +54,8 @@ export class FleteFormInfoComponent implements OnInit {
 
   ngOnInit(){
 
-    if (this.isEdit) {
+
+    if (this.isEdit || this.isShow) {
 
       this.form?.get(this.groupName)?.get('remitente_id')?.valueChanges
         .pipe(
@@ -63,7 +64,6 @@ export class FleteFormInfoComponent implements OnInit {
         )
         .subscribe((value) => {
 
-          console.log("remitente_id: ", value);
           if (value) {
             // Solo una vez se debe actualizar vista al editar
             setTimeout(() => {
