@@ -48,7 +48,7 @@
     <div class="section" formGroupName="address"
       (opened)="isPanelOpen = true"
       (closed)="isPanelOpen = false" >
-      <h2>Direccion</h2>
+      <h2>DIRECCION</h2>
       <app-page-form-address
         groupName="address"
         [ciudadSelected]="ciudadSelected"
@@ -67,7 +67,7 @@
           (choferModelo | puede: a.VER)
         ">
 
-      <h2>Chofer</h2>
+      <h2>CHOFER</h2>
       <app-propietario-form-chofer
         [form]="form"
         [isEdit]="isEdit"
@@ -91,7 +91,7 @@
           (choferModelo | puede: a.EDITAR) ||
           (choferModelo | puede: a.VER)
           ">
-      <h2>Registro Chofer</h2>
+      <h2>REGISTRO CHOFER</h2>
       <app-registro-conduccion-form
         [form]="form"
         [isShow]="isShow"
@@ -122,7 +122,7 @@
           (semirremolqueModelo | puede: a.LISTAR))
         ">
       <div *ngIf="camionModelo | puede: a.LISTAR">
-        <h2>Camiones</h2>
+        <h2>CAMIONES</h2>
         <app-propietario-camion-list
           [backUrl]="propietarioBackUrl"
           [propietarioId]="id"
@@ -131,7 +131,7 @@
         ></app-propietario-camion-list>
       </div>
       <div *ngIf="semirremolqueModelo | puede: a.LISTAR">
-        <h2>Semi-Remolques</h2>
+        <h2>SEMI-REMOLQUES</h2>
         <app-propietario-semi-list
           [backUrl]="propietarioBackUrl"
           [propietarioId]="id"
@@ -142,7 +142,7 @@
     </div>
 
     <div class="section" *ngIf="isEdit || isShow">
-      <h2>Auditoria</h2>
+      <h2>AUDITORIA</h2>
       <app-page-form-audit
         [created_by]="created_by"
         [created_at]="created_at"

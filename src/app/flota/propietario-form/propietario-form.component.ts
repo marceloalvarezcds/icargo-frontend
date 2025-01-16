@@ -74,9 +74,10 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   form = this.fb.group({
     info: this.fb.group({
       nombre: [null, Validators.required],
-      tipo_persona_id: [null, Validators.required],
+      // tipo_persona_id: [null, Validators.required],
+      composicion_juridica_id: null,
       ruc: [null, Validators.required],
-      digito_verificador: [null, Validators.min(0)],
+      // digito_verificador: [null, Validators.min(0)],
       pais_origen_id: null,
       fecha_nacimiento: [null, DateValidator.date],
       oficial_cuenta_id: null,
@@ -88,6 +89,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       puede_recibir_anticipos: true,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
+      nombre_corto: null,
+      tipo_documento_propietario_id: null,
     }),
     chofer: this.fb.group({
       tipo_documento_id: null,
@@ -380,9 +383,10 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
           info: {
             alias: data.gestor_carga_propietario?.alias ?? null,
             nombre: data.nombre,
-            tipo_persona_id: data.tipo_persona_id,
+            // tipo_persona_id: data.tipo_persona_id,
             ruc: data.ruc,
-            digito_verificador: data.digito_verificador,
+            tipo_documento_propietario_id: data.tipo_documento_propietario_id ?? null,
+            composicion_juridica_id: data.composicion_juridica_id,
             pais_origen_id: data.pais_origen_id,
             fecha_nacimiento: data.fecha_nacimiento,
             oficial_cuenta_id: data.oficial_cuenta_id,
@@ -393,6 +397,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             foto_documento_frente: data.foto_documento_frente,
             foto_documento_reverso: data.foto_documento_reverso,
             foto_perfil: data.foto_perfil,
+        
           },
           chofer: {
             tipo_documento_id: data.tipo_documento_id ?? null,

@@ -6,6 +6,13 @@
 
       <div class="row">
 
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Placa"
+          [groupName]="groupName"
+          controlName="placa"
+          [form]="form"
+        ></app-input-field>
         <ng-container *ngIf="camion">
           <div class="col-xs-12" style="margin-bottom: 10px;"
             [hidden]="camion.propietario_estado === ACTIVO">
@@ -35,30 +42,23 @@
           [form]="form"
         ></app-chofer-by-camion-dialog-field>
 
-        <app-input-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Placa"
-          [groupName]="groupName"
-          controlName="placa"
-          [form]="form"
-        ></app-input-field>
 
         <!--TODO: ver con dario -->
         <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
-        <app-input-field
+        <!-- <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Número Chasís"
           [groupName]="groupName"
           controlName="numero_chasis"
           [form]="form"
-        ></app-input-field>
+        ></app-input-field> -->
 
         <!-- Estado y Foto del Tracto en la misma fila -->
         <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
-        <app-estado-field
+        <!-- <app-estado-field
             class="input-form-full col-xs-12 col-sm-6 col-md-2"
             [estado]="estado">
-        </app-estado-field>
+        </app-estado-field> -->
 
       </div>
 

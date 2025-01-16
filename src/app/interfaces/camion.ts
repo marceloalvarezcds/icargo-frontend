@@ -22,6 +22,9 @@ export interface Camion {
   propietario_id: number;
   propietario: Propietario;
   propietario_estado: EstadoEnum;
+  propietario_puede_recibir_anticipos: boolean,
+  propietario_foto: string,
+  propietario_camion_id: number,
   chofer_id: number | null;
   chofer: Chofer | null;
   chofer_estado: EstadoEnum | null;
@@ -151,7 +154,10 @@ export const mockCamion: Camion = {
   numero_chasis: '23100100',
   foto: null,
   estado: EstadoEnum.ACTIVO,
+  propietario_puede_recibir_anticipos: true,
   gestor_cuenta_id: 1,
+  propietario_foto: "",
+  propietario_camion_id: 1,
   // INICIO Limitaciones del Camión
   limites: '',
   limite_cantidad_oc_activas: 2,

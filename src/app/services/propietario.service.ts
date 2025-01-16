@@ -70,7 +70,7 @@ export class PropietarioService {
     return this.http.get<Propietario>(`${this.url}/${id}/active`);
   }
   getListByPersonaId(tipoPersonaId: number): Observable<PropietarioList[]> {
-    return this.http.get<PropietarioList[]>(`${this.url}/tipo_persona/${tipoPersonaId}`);
+    return this.http.get<PropietarioList[]>(`${this.url}/propietario/${tipoPersonaId}`);
   }
   inactive(id: number): Observable<Propietario> {
     return this.http.get<Propietario>(`${this.url}/${id}/inactive`);

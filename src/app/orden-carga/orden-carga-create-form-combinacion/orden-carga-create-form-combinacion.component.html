@@ -72,13 +72,15 @@
         ></app-input-field-oc>
 
         <mat-slide-toggle
+          *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-1"
-          trueTitle="Activo"
-          falseTitle="Inactivo"
+          trueTitle="Active"
+          falseTitle="Inactive"
           formControlName="anticipo_propietario"
           labelPosition="before">
           Anticipos
-        </mat-slide-toggle>
+      </mat-slide-toggle>
+      
 
       </div>
 
@@ -134,7 +136,6 @@
       </div>
 
       <div class="row" [class.colapse-div]="colapseDivFlota">
-
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Chofer"
@@ -143,9 +144,9 @@
           [productoId]="productoId"
           [readonly]="true"
           [form]="form"
-          controlName="chofer_camion"
-        ></app-input-field-oc>
-
+          controlName="chofer_camion">
+        </app-input-field-oc>
+      
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Doc. Nº"
@@ -155,19 +156,42 @@
           [readonly]="true"
           [form]="form"
           controlName="chofer_camion_doc"
-          [shouldFormat]="false"
-        ></app-input-field-oc>
-
+          [shouldFormat]="false">
+        </app-input-field-oc>
+      
         <mat-slide-toggle
+          *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           formControlName="puede_recibir_anticipos"
           labelPosition="before">
           Anticipos
         </mat-slide-toggle>
-
       </div>
-
-    </div>
+      
+      <div class="row" [class.colapse-div]="colapseDivFlota">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
+          <label for="comentarios" class="label-obs">Observacion</label>
+          <mat-form-field class="obs">
+            <textarea id="comentarios" matInput
+              formControlName="comentarios"
+              cdkTextareaAutosize
+              #autosize="cdkTextareaAutosize"
+              cdkAutosizeMinRows="1">
+            </textarea>
+          </mat-form-field>
+        </div>
+      
+        <div class="col-xs-12 col-sm-6 col-md-4" style="margin-top: 16px;">
+          <button
+            mat-raised-button
+            class="botones"
+            (click)="openCommentDialog()"
+            [disabled]="!tieneComentarios">
+            COMENTARIOS
+          </button>
+        </div>
+      </div>
+      
 
     <div class="section">
 
@@ -216,8 +240,6 @@
           (valueChange)="onOrdenCargaChange($event)"
         ></app-oc-by-combinacion-dialog-field>
 
- 
-
         <app-oc-by-combinacion-nuevos-dialog-field
           *ngIf="(oc?.estado === 'Nuevo' || showSearchOCNuevos) && !isSaveForm"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -244,28 +266,6 @@
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Nº Lote"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="numero_lote"
-        ></app-input-field-oc>
-
-        <app-input-field-oc
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Saldo"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="saldo"
-        ></app-input-field-oc>
-
-        <app-input-field-oc
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Cliente"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -274,6 +274,7 @@
           [form]="form"
           controlName="cliente"
         ></app-input-field-oc>
+
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -286,13 +287,25 @@
           controlName="producto_descripcion"
         ></app-input-field-oc>
 
+        <app-input-field-oc
+          *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Saldo (del Pedido)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true" 
+          [form]="form"
+          controlName="saldo"
+        ></app-input-field-oc>
+
       </div>
 
       <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="L. Carga"
+          title="Lugar Carga"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
@@ -303,7 +316,7 @@
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="L. Descarga"
+          title="Lugar Descarga"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
@@ -313,21 +326,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="Tipo Flete"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="tipo_flete"
-        ></app-input-field-oc>
-
-      </div>
-
-      <div class="row" [class.colapse-div]="colapseDivpedido">
-
-        <app-input-field-oc
+          *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Flete a <strong>PAGAR</strong>"
           [groupName]="groupName"
@@ -338,8 +337,8 @@
           controlName="a_pagar"
         ></app-input-field-oc>
 
-
         <app-input-field-oc
+          *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Valor mercaderia"
           [groupName]="groupName"
@@ -349,12 +348,10 @@
           [form]="form"
           controlName="valor"
         ></app-input-field-oc>
-
       </div>
-
     </div>
 
-    <div class="section">
+    <div class="section" *ngIf="!showField">
       <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">CANTIDAD NOMINADA</h2>
 
       <div class="row" [class.colapse-div]="colapseDivCantidad">
@@ -372,54 +369,57 @@
           appInputThousandsSeparator
         ></app-input-field-oc>
 
-        <app-orden-carga-create-form-info
-          class="col-xs-12 col-sm-10"
+<!--         
+          <app-orden-carga-create-form-info
+            class="input-form-full col-xs-12 col-sm-6 col-md-2"
+            [form]="form"
+            [flete]="flete"
+            [oc]="oc">
+          </app-orden-carga-create-form-info> -->
+
+        <app-number-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nominada"
+          id="cantidad_nominada"
+          controlName="cantidad_nominada"
+          [groupName]="groupNameInfo"
           [form]="form"
-          [flete]="flete"
-          [oc]="oc">
-        </app-orden-carga-create-form-info>
+          [viewMode]="disableForm || oc?.estado !== 'Nuevo'"
+          appAutofocus="true"
+        ></app-number-field>
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Cant. Orig. (kg)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="cant_origen">
+        </app-input-field-oc>
+        
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Cant. Dest. (kg)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="cant_destino"
+        ></app-input-field-oc>
 
+        <app-input-field-oc
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Diferencia (kg)"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="diferencia"
+        ></app-input-field-oc>
       </div>
-
     </div>
-
-    <div class="row" [class.colapse-div]="colapseDivCantidad">
-
-      <app-input-field-oc
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Cant. Orig. (kg)"
-        [groupName]="groupName"
-        [camionId]="camionId"
-        [productoId]="productoId"
-        [readonly]="true"
-        [form]="form"
-        controlName="cant_origen"
-      ></app-input-field-oc>
-
-      <app-input-field-oc
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Cant. Dest. (kg)"
-        [groupName]="groupName"
-        [camionId]="camionId"
-        [productoId]="productoId"
-        [readonly]="true"
-        [form]="form"
-        controlName="cant_destino"
-      ></app-input-field-oc>
-
-      <app-input-field-oc
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Diferencia (kg)"
-        [groupName]="groupName"
-        [camionId]="camionId"
-        [productoId]="productoId"
-        [readonly]="true"
-        [form]="form"
-        controlName="diferencia"
-      ></app-input-field-oc>
-
-    </div>
-
   </div>
-
 </div>

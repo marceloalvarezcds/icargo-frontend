@@ -33,7 +33,7 @@
           <!-- Composición Jurídica -->
           <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
             <mat-label class="custom-label">
-              <span class="required">(*) </span>
+              
               Composición Jurídica
             </mat-label>
             <mat-form-field appearance="outline">
@@ -42,9 +42,9 @@
                   <mat-option [value]="o.id">{{ o.nombre }}</mat-option>
                 </ng-container>
               </mat-select>
-              <mat-error *ngIf="info.controls['composicion_juridica_id'].hasError('required')">
+              <!-- <mat-error *ngIf="info.controls['composicion_juridica_id'].hasError('required')">
                 La composición jurídica es <strong>requerida</strong>
-              </mat-error>
+              </mat-error> -->
             </mat-form-field>
           </div>
 
@@ -91,7 +91,7 @@
           </div>
 
           <!-- Dígito verificador -->
-          <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <!-- <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
             <mat-label class="custom-label">
               Dígito Verificador
             </mat-label>
@@ -101,7 +101,7 @@
                 El dígito verificador es <strong>requerido</strong>
               </mat-error>
             </mat-form-field>
-          </div>
+          </div> -->
 
           <!-- Página Web -->
           <div class="input-form-full col-xs-12 col-sm-6 col-md-3">

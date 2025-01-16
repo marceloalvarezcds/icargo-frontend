@@ -63,7 +63,6 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       placa: [null, Validators.required],
       propietario_id: [null, Validators.required],
       chofer_id: null,
-      numero_chasis: null,
       foto: null,
     }),
     municipal: this.fb.group({
@@ -93,6 +92,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       tipo_id: null,
       color_id: null,
       anho: null,
+      numero_chasis: null,
     }),
     capacidad: this.fb.group({
       bruto: null,
@@ -311,9 +311,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      if (this.isShow) {
-        this.form.disable();
-      }
+   
       this.camionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;
@@ -343,7 +341,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             placa: data.placa,
             propietario_id: data.propietario_id,
             chofer_id: data.chofer_id,
-            numero_chasis: data.numero_chasis,
+            
             foto: this.foto,
           },
           municipal: {
@@ -377,6 +375,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             tipo_id: data.tipo_id,
             color_id: data.color_id,
             anho: data.anho,
+            numero_chasis: data.numero_chasis,
           },
           capacidad: {
             bruto: data.bruto,
@@ -388,6 +387,11 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           },
         });
         setTimeout(() => {
+          if (this.isShow) {
+            this.form.disable();
+            (this.form.get('info') as FormGroup).get('propietario_id')?.disable();
+    
+          }
           this.hasChange = false;
           this.initialFormValue = this.form.value;
         }, 500);

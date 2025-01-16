@@ -60,7 +60,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
-      composicion_juridica_id: [null, Validators.required],
+      composicion_juridica_id: null,
       alias: null,
       logo: null,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],

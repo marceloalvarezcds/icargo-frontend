@@ -33,7 +33,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
 
   ngOnInit(){
     this.loading = false;
-    this.tipoPersonaOriginal = this.item?.propietario?.tipo_persona_id;
+    this.tipoPersonaOriginal = this.item?.propietario?.id;
+   
   }
 
   ngAfterViewInit(): void {
@@ -110,6 +111,11 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     return item;
   }
 
+  get propietarioList(): PropietarioList {
+    let item = this.combinacion?.propietario as PropietarioList;
+    return item;
+  }
+
   get personaList(): PropietarioList {
     let item = this.combinacion?.propietario as PropietarioList;
     return item;
@@ -122,6 +128,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   get tipoPersonaId(): number | undefined {
     return this.persona ? this.persona.id : undefined;
   }
+
   get esChoferControl(): FormControl {
     return this.info?.controls['es_chofer'] as FormControl;
   }
@@ -170,8 +177,21 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["estado_camion"].setValue(camion.estado);
       this.info?.controls["foto_camion"].setValue(camion.foto);
       this.fotoPerfil = camion.foto ?? null;
+      this.info?.controls["ruc"].setValue(camion.propietario_ruc);
+      this.info?.controls["nombre"].setValue(camion.propietario_nombre);
+      this.info?.controls["estado_propietario"].setValue(camion.propietario_estado);
+      this.info?.controls["anticipo_propietario"].setValue(camion.propietario_puede_recibir_anticipos);
+      this.info?.controls["foto_documento_frente"].setValue(camion.propietario_foto);
+      this.info?.controls["nombre"].setValue(camion.propietario_nombre);
+      this.info?.controls["propietario_id"].setValue(camion.propietario_camion_id);
+      const propietarioList = camion.propietario as PropietarioList;
+  
+      this.tipoPersonaChange(propietarioList);
+  
     }
   }
+  
+  
 
   semiChange(semi?: SemiList){
      this.info?.controls["semi_id"].setValue(semi?.id)

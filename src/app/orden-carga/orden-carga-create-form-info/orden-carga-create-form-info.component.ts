@@ -28,7 +28,7 @@ export class OrdenCargaCreateFormInfoComponent implements OnDestroy {
   subscription?: Subscription;
   neto?: string | number;
   fl?: FleteList;
-
+  groupNameCombinacion = 'combinacion';
   private previousCamionId: number | null = null;
   private previousSemiId: number | null = null;
 

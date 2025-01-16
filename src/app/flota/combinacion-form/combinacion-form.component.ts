@@ -88,14 +88,14 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       estado: null,
       foto_chofer: new FormControl({value: null, disabled: true}),
       //Facturacion
-      propietario_id: [null, Validators.required],
-      tipo_persona_id: null,
+      propietario_id: null,
+      // tipo_persona_id: null,
       // tipo_persona: new FormControl({value: null, disabled: true}),
       nombre: null,
       anticipo_propietario: null,
-      ruc: [null, Validators.required],
+      ruc: null,
       numero_documento: null,
-      telefono: new FormControl({value: null, disabled: true}),
+      // telefono: new FormControl({value: null, disabled: true}),
       estado_propietario: new FormControl({value: null, disabled: true}),
       foto_documento_frente: new FormControl({value: null, disabled: true}),
       //Combinacion
@@ -258,6 +258,11 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+    const propietarioId = this.form.get('info.propietario_id')?.value;
+    if (!propietarioId) {
+      console.error("propietario_id no puede ser null o undefined");
+      return; // Detener el envío si propietario_id no es válido
+    }
     if (this.form.valid) {
       const formData = new FormData();
 

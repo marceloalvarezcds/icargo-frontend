@@ -1,7 +1,9 @@
 import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
+import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
 import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { Chofer } from 'src/app/interfaces/chofer';
@@ -42,7 +44,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
   @Input() list: OrdenCargaComentariosHistorial[] = [];
-  @Input() isNeto: boolean = false ;;
+  @Input() isNeto: boolean = false ;
+  @Input() showField: boolean = false;
 
   @Input() gestorCargaId?: number;
   @Input() oc?: OrdenCarga;
@@ -58,6 +61,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() disabled: boolean = false;
   @Input() isEdit = false;
   @Input() modelo?: PermisoModeloEnum;
+  @Input() disableForm: boolean = false;
 
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<Camion>();
@@ -117,6 +121,15 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     return  this.form?.get(this.groupName)?.get('semi_placa')?.value
   }
 
+  get historialComentariosList(): OrdenCargaComentariosHistorial[] {
+    return this.oc!?.comentario.slice();
+  }
+
+
+  get tieneComentarios(): boolean {
+    return this.historialComentariosList && this.historialComentariosList.length > 0;
+  }
+
   previewPDF(): void {
     this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
@@ -126,6 +139,25 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       });
     });
   }
+
+  updateComentarios(newComentario: string): void {
+    this.group.get('comentarios')?.setValue(newComentario);
+  }
+
+   openCommentDialog(): void {
+      this.matDialog.open(CommentDialogComponent, {
+        width: '600px',
+        height: 'auto',
+        data: {
+          gestorCargaId: this.gestorCargaId,
+          lista: this.historialComentariosList
+        },
+      }).afterClosed().subscribe((result: string) => {
+        if (result) {
+          this.updateComentarios(result);
+        }
+      });
+    }
 
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
@@ -175,7 +207,10 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   }
 
 
-  constructor(private service: SemiService, private choferService: ChoferService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef, private ordenCargaService: OrdenCargaService, private reportsService: ReportsService,) {}
+  constructor(private service: SemiService, private choferService: ChoferService,
+    private fleteService: FleteService, private ordenCargaService: OrdenCargaService,
+     private reportsService: ReportsService,
+    private matDialog: MatDialog) {}
 
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {

@@ -61,7 +61,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       placa: [null, Validators.required],
       propietario_id: [null, Validators.required],
-      numero_chasis: null,
+      // numero_chasis: null,
       foto: null,
     }),
     municipal: this.fb.group({
@@ -93,6 +93,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
       tipo_carga_id: null,
       color_id: null,
       anho: null,
+      numero_chasis: null,
     }),
     capacidad: this.fb.group({
       bruto: null,
@@ -329,7 +330,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
           info: {
             placa: data.placa,
             propietario_id: data.propietario_id,
-            numero_chasis: data.numero_chasis,
+            
             foto: data.foto,
           },
           municipal: {
@@ -365,6 +366,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
             tipo_carga_id: data.tipo_carga_id,
             color_id: data.color_id,
             anho: data.anho,
+            numero_chasis: data.numero_chasis,
           },
           capacidad: {
             bruto: data.bruto,

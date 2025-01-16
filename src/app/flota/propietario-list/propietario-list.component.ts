@@ -53,11 +53,11 @@ export class PropietarioListComponent implements OnInit {
       title: 'Nº de Doc.',
       value: (element: PropietarioList) => element.ruc,
     },
-    {
-      def: 'tipo_persona',
-      title: 'Comp. Jurídica',
-      value: (element: PropietarioList) => element.tipo_persona_descripcion,
-    },
+    // {
+    //   def: 'tipo_persona',
+    //   title: 'Comp. Jurídica',
+    //   value: (element: PropietarioList) => element.tipo_persona_descripcion,
+    // },
 
     {
       def: 'telefono',
@@ -202,13 +202,13 @@ export class PropietarioListComponent implements OnInit {
       filter.pais
         ?.split('|')
         .some((x) => obj.pais_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-    const filterByTipoPersona =
-      filter.tipo_persona
-        ?.split('|')
-        .some(
-          (x) => obj.tipo_persona_descripcion.toLowerCase().indexOf(x) >= 0
-        ) ?? true;
-    return filterByCiudad && filterByPais && filterByTipoPersona;
+    // const filterByTipoPersona =
+    //   filter.tipo_persona
+    //     ?.split('|')
+    //     .some(
+    //       (x) => obj.tipo_persona_descripcion.toLowerCase().indexOf(x) >= 0
+    //     ) ?? true;
+    return filterByCiudad && filterByPais;
   }
 
   applyFilter(): void {
@@ -245,10 +245,10 @@ export class PropietarioListComponent implements OnInit {
       this.list = list;
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
-      this.tipoPersonaFilterList = getFilterList(
-        list,
-        (x) => x.tipo_persona_descripcion
-      );
+      // this.tipoPersonaFilterList = getFilterList(
+      //   list,
+      //   (x) => x.tipo_persona_descripcion
+      // );
       this.resetFilterList();
     });
   }

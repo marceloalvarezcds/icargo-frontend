@@ -51,11 +51,11 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
       title: 'Teléfono',
       value: (element: PropietarioList) => element.telefono,
     },
-    {
-      def: 'tipo_persona',
-      title: 'Tipo de Persona',
-      value: (element: PropietarioList) => element.tipo_persona_descripcion,
-    },
+    // {
+    //   def: 'tipo_persona',
+    //   title: 'Tipo de Persona',
+    //   value: (element: PropietarioList) => element.tipo_persona_descripcion,
+    // },
     {
       def: 'ruc',
       title: 'Número de Documento',

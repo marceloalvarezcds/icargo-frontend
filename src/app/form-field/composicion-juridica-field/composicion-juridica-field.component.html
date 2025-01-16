@@ -1,0 +1,21 @@
+<div *ngIf="formGroup" [formGroup]="formGroup">
+
+    <mat-label class="custom-label">
+      <span *ngIf="requerido" class="required">(*) </span>
+      {{ title }}
+    </mat-label>
+  
+    <mat-form-field [formGroupName]="groupName" floatLabel="always" appearance="outline">
+      <mat-select [formControlName]="controlName">
+        <ng-container *ngFor="let o of composicionJuridicaList">
+          <mat-option [value]="o.id">{{o.nombre}}</mat-option>
+        </ng-container>
+      </mat-select>
+      <mat-error *ngIf="control.hasError('required')">
+        El tipo de persona es <strong>requerido</strong>
+      </mat-error>
+    </mat-form-field>
+  
+  </div>
+  
+  

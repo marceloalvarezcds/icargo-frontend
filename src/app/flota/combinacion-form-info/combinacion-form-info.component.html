@@ -162,7 +162,7 @@
     </div>
 
     <div class="section">
-      <h2>Chofer</h2>
+      <h2>CHOFER</h2>
 
       <div class="row">
 
@@ -197,21 +197,7 @@
               [disabled]="true"
             ></app-input-field>
 
-            <div style="display: flex; flex-direction: column;">
-
-              <app-slide
-                class="input-form-full"
-                [isShow]="isShow"
-                [control]="puedeRecibirAnticiposControl"
-                controlName="puede_recibir_anticipos"
-                title="Puede recibir anticipos"
-                [readonly]="true"
-                trueTitle="Sí"
-                falseTitle="No"
-                (valueChange)="
-                  !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
-              ></app-slide>
-
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
               <app-slide
                 class="input-form-full"
                 [isShow]="isShow"
@@ -225,6 +211,23 @@
               ></app-slide>
 
             </div>
+
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
+
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="puedeRecibirAnticiposControl"
+                controlName="puede_recibir_anticipos"
+                title="Puede recibir anticipos"
+                [readonly]="true"
+                trueTitle="Sí"
+                falseTitle="No"
+                (valueChange)="
+                  !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
+              ></app-slide>
+            </div>
+         
 
           </div>
 
@@ -247,60 +250,37 @@
     </div>
 
     <div class="section">
-      <h2>Facturación</h2>
+      <h2>FACTURACIÓN</h2>
 
       <div class="row">
 
         <div class="col-12 col-sm-2 col-md-10">
 
           <div class="row">
-
-            <app-tipo-persona-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-2"
-              title="Tipo Persona"
-              [groupName]="groupName"
-              [form]="form"
-			        (valueChange)="onTipoPersonaChange($event)"
-              (isFisicaSelected)="handleFisicaSelected($event)"
-            >
-            </app-tipo-persona-field>
-
-            <app-tipo-persona-by-beneficiario-dialog-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-2"
-              title="N° Doc."
-              [persona]="personaList"
-              [groupName]="groupName"
-              controlName="propietario_id"
-              [form]="form"
-              [tipoPersonaId]="form.get('info.tipo_persona_id')?.value"
-              (valueChange)="tipoPersonaChange($event)">
-            </app-tipo-persona-by-beneficiario-dialog-field>
-
             <app-input-field
+              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              title="N° Doc."
+              groupName="info"
+              [readonly]="true"
+              controlName="ruc"
+              [form]="form"
+            ></app-input-field> 
+
+             <app-input-field
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               title="Beneficiario"
               groupName="info"
               [readonly]="true"
               controlName="nombre"
               [form]="form"
-            ></app-input-field>
+            ></app-input-field> 
 
-            <app-input-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-2"
-              title="Celular"
-              [groupName]="groupName"
-              [readonly]="true"
-              controlName="telefono"
-              [form]="form"
-            ></app-input-field>
-
-            <div style="display: flex; flex-direction: column;">
-
+          
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
               <app-slide
-                *ngIf="!isFisicaSelected"
                 class="input-form-full"
                 [isShow]="isShow"
-                [control]="estadoControl"
+                [control]="estadoControlPropietario"
                 controlName="estado_propietario"
                 title="Estado"
                 [readonly]="true"
@@ -308,7 +288,8 @@
                 falseTitle="Inactivo"
                 (valueChange)="estadoChoferChange.emit($event)"
               ></app-slide>
-
+            </div>
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" >
               <app-slide
                 class="input-form-full"
                 [isShow]="isShow"

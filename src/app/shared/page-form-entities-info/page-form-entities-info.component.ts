@@ -53,7 +53,7 @@ export class PageFormEntitiesInfoComponent implements OnDestroy, AfterViewInit  
       estado: new FormControl(true),
       tipo_documento_id: new FormControl(null),
       numero_documento: new FormControl(null),
-      digito_verificador: new FormControl(null),
+      // digito_verificador: new FormControl(null),
       composicion_juridica_id: new FormControl(null),
       alias: new FormControl(null),
       logo: new FormControl(null),

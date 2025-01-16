@@ -1,23 +1,11 @@
 <div [formGroup]="form">
-
   <div formGroupName="info" class="row">
-
     <div class="col-xs-9">
-
       <div class="row">
-
-        <app-tipo-persona-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          groupName="info"
-          title="Tipo Persona"
-          controlName="tipo_persona_id"
-          [form]="form"
-          (isFisicaSelected)="isFisicaChange($event)"
-        ></app-tipo-persona-field>
-
+        <!-- Nombre o Razón Social -->
         <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
           <mat-label class="custom-label">
-            {{ isFisicaSelected ? "Nombre" : "Razón Social" }}
+            Nombre o Razón Social
           </mat-label>
           <mat-form-field floatLabel="always" appearance="outline">
             <input matInput formControlName="nombre" appAutofocus />
@@ -32,46 +20,64 @@
           </mat-form-field>
         </div>
 
-        <app-alias-field
+        <!-- Nombre de Fantasía -->
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+          <mat-label class="custom-label">
+            Nombre de Fantasía
+          </mat-label>
+          <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
+            <input matInput formControlName="nombre_corto" />
+          </mat-form-field>
+        </div>
+
+        <app-composicion-juridica-field
+        
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="Alias"
           groupName="info"
+          title="Composición Jurídica"
+          controlName="composicion_juridica_id"
           [form]="form"
-        ></app-alias-field>
+          (isFisicaSelected)="isFisicaChange($event)"
+        ></app-composicion-juridica-field>
 
-        <app-estado-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          [estado]="estado">
-        </app-estado-field>
-
-        <app-input-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          title="RUC"
-          groupName="info"
-          controlName="ruc"
-          [form]="form"
-        ></app-input-field>
-
-        <app-digito-verificador-field
+          <!-- Fecha -->
+          <app-fecha-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Digito Verificador"
-          groupName="info"
-          controlName="digito_verificador"
-          [form]="form"
-        ></app-digito-verificador-field>
-
-        <app-fecha-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
           [title]="'Fecha de ' + (isFisicaSelected ? 'nacimiento' : 'constitución')"
           groupName="info"
           controlName="fecha_nacimiento"
           [form]="form"
         ></app-fecha-field>
-
       </div>
 
       <div class="row">
+       <!-- Tipo de Documento -->
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <mat-label class="custom-label">
+          <span class="required">(*) </span>
+          Tipo de Documento
+        </mat-label>
+        <mat-form-field appearance="outline">
+          <mat-select formControlName="tipo_documento_propietario_id">
+            <ng-container *ngFor="let o of tipoDocumentoList">
+              <mat-option [value]="o.id">{{ o.descripcion }}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="info.controls['tipo_documento_propietario_id'].hasError('required')">
+            El tipo de documento es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        </div>
+        <!-- Nº de Documento -->
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Nº de Documento"
+          groupName="info"
+          controlName="ruc"
+          [form]="form"
+        ></app-input-field>
 
+        <!-- Pais Origen -->
         <app-pais-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Pais Origen"
@@ -79,7 +85,11 @@
           controlName="pais_origen_id"
           [form]="form"
         ></app-pais-field>
+      
+     
+      </div>
 
+      <div class="row">
         <app-telefono-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Telefono"
@@ -100,11 +110,9 @@
           groupName="info"
           [form]="form"
         ></app-oficial-cuenta-field>
-
       </div>
 
       <div class="row" style="padding-top: 5px;">
-
         <div class="input-form-full col-xs-12 col-sm-6 col-md-3" [hidden]="!isFisicaSelected">
           <app-slide
             [isShow]="isShow"
@@ -127,15 +135,11 @@
               anticiposBloqueadosChange.emit()
           "
         ></app-slide>
-
       </div>
-
     </div>
 
-    <div class="col-xs-3">
-
-      <div class="row">
-
+    <div class="col-xs-3" >
+      <div class="row" style="display: flex; justify-content: flex-end;">
         <app-file-field-input
           class="input-form-full col-xs-12 col-sm-6 col-md-6"
           title="Doc.frontal"
@@ -147,19 +151,21 @@
           [isShow]="isShow"
           (fileChange)="fotoDocumentoFrenteChange.emit($event)"
         ></app-file-field-input>
-
-        <app-file-field-input
-          class="input-form-full col-xs-12 col-sm-6 col-md-6"
-          title="Doc.reverso"
-          groupName="info"
-          controlName="foto_documento_reverso"
-          [field]="fotoDocumentoReverso"
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          (fileChange)="fotoDocumentoReversoChange.emit($event)"
-        ></app-file-field-input>
-
+      </div>
+        <div class="row" style="display: flex; justify-content: flex-end;">
+          <app-file-field-input
+            class="input-form-full col-xs-12 col-sm-6 col-md-6"
+            title="Doc.reverso"
+            groupName="info"
+            controlName="foto_documento_reverso"
+            [field]="fotoDocumentoReverso"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoDocumentoReversoChange.emit($event)"
+          ></app-file-field-input>
+      </div>
+      <div class="row" style="display: flex; justify-content: flex-end;">
         <app-file-field-input
           class="input-form-full col-xs-12 col-sm-6 col-md-6"
           title="Avatar"
@@ -171,10 +177,7 @@
           [isShow]="isShow"
           (fileChange)="fotoPerfilChange.emit($event)"
         ></app-file-field-input>
-
       </div>
-
     </div>
-
   </div>
 </div>

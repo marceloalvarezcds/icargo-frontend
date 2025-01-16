@@ -47,7 +47,7 @@
     <div class="section" formGroupName="address"
       (opened)="isPanelOpen = true"
       (closed)="isPanelOpen = false">
-      <h2> Dirección </h2>
+      <h2> DIRECCIÓN </h2>
       <app-page-form-address
         groupName="address"
         [ciudadSelected]="ciudadSelected"
@@ -57,7 +57,7 @@
       ></app-page-form-address>
     </div>
 
-    <div class="section" formGroupName="propietario"
+    <!-- <div class="section" formGroupName="propietario"
       [hidden]="!esPropietario"
       *ngIf="
         (propietarioModelo | puede: a.CREAR) ||
@@ -80,7 +80,7 @@
           fotoDocumentoReversoPropietario = null
         "
       ></app-chofer-form-propietario>
-    </div>
+    </div> -->
 
     <div class="section" formGroupName="registro"
       *ngIf="
@@ -88,7 +88,7 @@
         (propietarioModelo | puede: a.EDITAR) ||
         (propietarioModelo | puede: a.VER)
       ">
-      <h2> Registro de Conducción del Chofer </h2>
+      <h2> REGISTRO DE CONDUCCIÓN DEL CHOFER </h2>
       <app-registro-conduccion-form
         [form]="form"
         [isShow]="isShow"

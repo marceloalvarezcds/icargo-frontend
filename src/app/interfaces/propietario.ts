@@ -40,6 +40,8 @@ export interface Propietario {
   foto_perfil?: string | null;
   es_chofer: boolean;
   oc_with_anticipos_liberados: number;
+  tipo_documento_propietario_id: number;
+  composicion_juridica_id: number;
   /* inicio info del chofer */
   tipo_documento_id?: number;
   tipo_documento?: TipoDocumento;
@@ -85,7 +87,7 @@ export interface PropietarioList extends Propietario {
   foto_perfil: string | null;
   pais_nombre: string;
   pais_nombre_corto: string;
-  tipo_persona_descripcion: string;
+  // tipo_persona_descripcion: string;
 }
 
 const gestorCargaPropietario0 = mockGestorCargaPropietarioList[0];
@@ -122,6 +124,8 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_chofer: true,
     oc_with_anticipos_liberados: 2,
+    tipo_documento_propietario_id:2,
+    composicion_juridica_id:1,
     /* inicio info del chofer */
     tipo_documento_id: tipoDocumento0.id,
     tipo_documento: tipoDocumento0,
@@ -162,7 +166,7 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
-    tipo_persona_descripcion: tipoPersona0.descripcion,
+    // tipo_persona_descripcion: tipoPersona0.descripcion,
   },
   {
     id: 2,
@@ -175,6 +179,7 @@ export const mockPropietarioList: PropietarioList[] = [
     pais_origen_id: pais1.id,
     pais_origen: pais1,
     gestor_cuenta_id: 1,
+    composicion_juridica_id:1,
     gestor_cuenta_nombre: 'Transred',
     oficial_cuenta_id: 1,
     oficial_cuenta_nombre: 'Admin Transred',
@@ -182,6 +187,7 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_documento_frente: null,
     foto_documento_reverso: null,
     foto_perfil: null,
+    tipo_documento_propietario_id:1,
     es_chofer: false,
     oc_with_anticipos_liberados: 2,
     estado: EstadoEnum.ACTIVO,
@@ -201,7 +207,7 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
-    tipo_persona_descripcion: tipoPersona1.descripcion,
+    // tipo_persona_descripcion: tipoPersona1.descripcion,
   },
   {
     id: 3,
@@ -211,7 +217,9 @@ export const mockPropietarioList: PropietarioList[] = [
     puede_recibir_anticipos: false,
     ruc: '800300300',
     digito_verificador: '1',
+    tipo_documento_propietario_id:2,
     pais_origen_id: pais2.id,
+    composicion_juridica_id:1,
     pais_origen: pais2,
     gestor_cuenta_id: 1,
     gestor_cuenta_nombre: 'Transred',
@@ -241,6 +249,6 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
-    tipo_persona_descripcion: tipoPersona0.descripcion,
+    // tipo_persona_descripcion: tipoPersona0.descripcion,
   },
 ];

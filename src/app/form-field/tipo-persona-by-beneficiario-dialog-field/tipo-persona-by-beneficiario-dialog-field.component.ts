@@ -79,7 +79,6 @@ export class TipoPersonaByBeneficiarioDialogFieldComponent{
 
       this.list$.subscribe({
         next: (data) => {
-          console.log('Lista recibida:', data);
           if (!data.length) {
             console.warn('La lista está vacía.');
           }

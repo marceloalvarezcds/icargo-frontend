@@ -42,6 +42,32 @@
           VOLVER
         </button>
 
+           
+        <!-- FIXME -->
+        <div *ngIf="submodule === 'PROPIETARIOS' || submodule === 'CHOFER' || submodule === 'TRACTOS' 
+          || submodule === 'PEDIDOS' || submodule === 'SEMI'  && !isEdit && !isShow" class="estado-container">
+          <label for="estado-input" class="estado-label">ESTADO</label>
+          <input
+            id="estado-input"
+            type="text"
+            value="PENDIENTE"  
+            [ngClass]="{'button-disabled': isFormSubmitting}"
+            [readonly]="isFormSubmitting"
+            class="estado-input"
+          />
+        </div>
+
+        <!-- <app-slide
+          *ngIf="submodule === 'PROPIETARIOS'"  
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControl"
+          trueTitle="Puede recibir anticipos"
+          falseTitle="No puede recibir anticipos"
+          (valueChange)="
+            !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()">
+        </app-slide> -->
+
         <!-- TODO: este grupo de botones debe pasarse por parametro -->
         <div class="estado-container"  [ngClass]="{'estado-cancelado': oc?.estado === E.CANCELADO}"
         *ngIf="module === 'ACEPTAR' || module === 'FINALIZAR'

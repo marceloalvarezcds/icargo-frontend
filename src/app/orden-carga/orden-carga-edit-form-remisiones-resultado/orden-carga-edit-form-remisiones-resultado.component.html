@@ -1,28 +1,23 @@
-<div class="row page-form-row">
-
+<div class="row page-form-row" style="display: flex; flex-direction: column; gap: 2px;">
   <div class="col-xs-12">
-
-    <div class="row">
-
-      <div class="col-xs-4 item-container">
-          <span class="label">P. Orig. (kg)</span>
-          <span class="peso-value"><span class="peso-tarifa-value">{{ (oc?.cantidad_origen ?? 0)  | number: '1.0-0' }}</span></span>
+    <div class="row" style="display: flex; justify-content: flex-start;">
+      <div class="col-xs-4 item-container" style="margin-left: -14px;">
+        <span class="label">P. Orig. (kg)</span>
+        <span class="peso-value"><span class="peso-tarifa-value">{{ (oc?.cantidad_origen ?? 0)  | number: '1.0-0' }}</span></span>
       </div>
       <div class="col-xs-4 item-container">
-          <span class="label">P. Dest. (kg)</span>
-          <span class="peso-value"><span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span></span>
+        <span class="label">P. Dest. (kg)</span>
+        <span class="peso-value"><span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span></span>
       </div>
       <div class="col-xs-4 item-container">
-          <span class="label">Dif. (kg)</span>
-          <span class="peso-value">
-            <span class="peso-tarifa-value">
-              {{ ((oc?.cantidad_origen ?? 0) - (oc?.cantidad_destino ?? 0)) | number: '1.0-0' }}
+        <span class="label">Dif. (kg)</span>
+        <span class="peso-value">
+          <span class="peso-tarifa-value">
+            {{ ((oc?.cantidad_origen ?? 0) - (oc?.cantidad_destino ?? 0)) | number: '1.0-0' }}
           </span>
-          </span>
+        </span>
       </div>
-
     </div>
-
   </div>
 
   <div class="table-container">
@@ -35,5 +30,4 @@
       [data]="lista">
     </app-table-oc>
   </div>
-
 </div>

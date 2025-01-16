@@ -7,59 +7,6 @@
       <div class="col-xs-9">
         <div class="row">
 
-          <div *ngFor="let anticipo of filteredAnticipos"
-            class="input-form-full col-xs-12 col-sm-6 col-md-2">
-            <ng-container 
-              *ngIf="oc?.flete_id === anticipo.flete_id && 
-                      (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)">
-              <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
-              <mat-form-field class="saldo-form-field">
-                <input
-                  matInput
-                  [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
-                  disabled
-                />
-              </mat-form-field>
-            </ng-container>
-          </div>
-        
-          <!-- Mostrar solo si NO hay anticipos válidos -->
-          <div *ngIf="filteredAnticipos?.length === 0"
-            class="input-form-full col-xs-12 col-sm-6 col-md-2">
-            <label class="anticipos-saldo">Saldo Efectivo</label>
-            <mat-form-field class="saldo-form-field">
-              <input
-                matInput
-                [value]="oc?.saldo_efectivo || 0 | number:'1.0-2'"
-                disabled
-              />
-            </mat-form-field>
-          </div>
-        
-          <div *ngIf="filteredAnticipos?.length === 0"
-            class="input-form-full col-xs-12 col-sm-6 col-md-2">
-            <label class="anticipos-saldo">Saldo Combustible</label>
-            <mat-form-field class="saldo-form-field">
-              <input
-                matInput
-                [value]="oc?.saldo_combustible || 0 | number:'1.0-2'"
-                disabled
-              />
-            </mat-form-field>
-          </div>
-
-          <div *ngIf="filteredAnticipos?.length === 0"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <label class="anticipos-saldo">Saldo Lubricantes</label>
-          <mat-form-field class="saldo-form-field">
-            <input
-              matInput
-              [value]="oc?.saldo_lubricantes || 0 | number:'1.0-2'"
-              disabled
-            />
-          </mat-form-field>
-        </div>
-        
           <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
             <label class="anticipos-saldo">Total Efectivo</label>
             <mat-form-field class="saldo-form-field">
@@ -82,36 +29,85 @@
             </mat-form-field>
           </div>
         
-          <!-- Mostrar solo si hay saldo en lubricantes -->
-          <div *ngIf="hasLubricantesWithSaldo" 
+            <!-- Mostrar solo si hay saldo en lubricantes -->
+            <div *ngIf="hasLubricantesWithSaldo" 
+              class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">Total Lubricantes</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="(oc?.saldo_lubricantes ?? 0) | number:'1.0-2'"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+          <!-- Mostrar solo si hay saldo en lubricantes y el valor es mayor a 0 -->
+          <div *ngIf="filteredAnticipos?.length === 0"
             class="input-form-full col-xs-12 col-sm-6 col-md-2">
-         <label class="anticipos-saldo">Total Lubricantes</label>
-         <mat-form-field class="saldo-form-field">
-           <input
-             matInput
-             [value]="(oc?.saldo_lubricantes ?? 0) | number:'1.0-2'"
-             disabled
-           />
-         </mat-form-field>
-       </div>
-        <!-- Mostrar solo si hay saldo en lubricantes y el valor es mayor a 0 -->
+        <label class="anticipos-saldo">Total Lubricantes</label>
+        <mat-form-field class="saldo-form-field">
+          <input
+            matInput
+            [value]="(oc?.saldo_lubricantes ?? 0) | number:'1.0-2'"
+            disabled
+          />
+        </mat-form-field>
+        </div>
+
+        <div *ngFor="let anticipo of filteredAnticipos"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <ng-container 
+            *ngIf="oc?.flete_id === anticipo.flete_id && 
+                    (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)">
+            <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
+            <mat-form-field class="saldo-form-field">
+              <input
+                matInput
+                [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
+                disabled
+              />
+            </mat-form-field>
+          </ng-container>
+        </div>
+      
+        <!-- Mostrar solo si NO hay anticipos válidos -->
         <div *ngIf="filteredAnticipos?.length === 0"
           class="input-form-full col-xs-12 col-sm-6 col-md-2">
-       <label class="anticipos-saldo">Total Lubricantes</label>
-       <mat-form-field class="saldo-form-field">
-         <input
-           matInput
-           [value]="(oc?.saldo_lubricantes ?? 0) | number:'1.0-2'"
-           disabled
-         />
-       </mat-form-field>
-     </div>
-     
-
-        
+          <label class="anticipos-saldo">Saldo Efectivo</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="oc?.saldo_efectivo || 0 | number:'1.0-2'"
+              disabled
+            />
+          </mat-form-field>
         </div>
-        
+      
+        <div *ngIf="filteredAnticipos?.length === 0"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">Saldo Combustible</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="oc?.saldo_combustible || 0 | number:'1.0-2'"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="filteredAnticipos?.length === 0"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2">
+        <label class="anticipos-saldo">Saldo Lubricantes</label>
+        <mat-form-field class="saldo-form-field">
+          <input
+            matInput
+            [value]="oc?.saldo_lubricantes || 0 | number:'1.0-2'"
+            disabled
+          />
+        </mat-form-field>
+        </div>    
       </div>
+    </div>
 
       <div class="col-xs-3 button-container">
 
