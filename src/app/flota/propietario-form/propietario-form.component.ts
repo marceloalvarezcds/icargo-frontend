@@ -75,7 +75,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     info: this.fb.group({
       nombre: [null, Validators.required],
       // tipo_persona_id: [null, Validators.required],
-      composicion_juridica_id: null,
+      composicion_juridica_id: [null, Validators.required],
       ruc: [null, Validators.required],
       // digito_verificador: [null, Validators.min(0)],
       pais_origen_id: null,
@@ -90,7 +90,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
       nombre_corto: null,
-      tipo_documento_propietario_id: null,
+      tipo_documento_propietario_id: [null, Validators.required],
     }),
     chofer: this.fb.group({
       tipo_documento_id: null,
