@@ -79,11 +79,11 @@ export class RemitenteListComponent implements OnInit {
       title: 'Tipo',
       value: (element: RemitenteList) => element.composicion_juridica_nombre,
     },
-    {
-      def: 'telefono',
-      title: 'Celular',
-      value: (element: RemitenteList) => element.telefono,
-    },
+    // {
+    //   def: 'telefono',
+    //   title: 'Celular',
+    //   value: (element: RemitenteList) => element.telefono,
+    // },
     {
       def: 'direccion',
       title: 'Dirección',
