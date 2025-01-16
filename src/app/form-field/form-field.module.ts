@@ -112,7 +112,7 @@ import { InsumoByPuntoVentaFieldComponent } from './insumo-by-punto-venta-field/
 import { DialogFieldRucComponent } from './dialog-field-ruc/dialog-field-ruc.component';
 
 import { ComposicionJuridicaFieldComponent } from './composicion-juridica-field/composicion-juridica-field.component';
-import { BeneficiarioFieldComponent } from './beneficiario-field/beneficiario-field.component';
+
 
 
 
@@ -220,12 +220,12 @@ const modules = [
   PuntoVentaPrecioMapFieldComponent,
   InsumoByPuntoVentaFieldComponent,
   ComposicionJuridicaFieldComponent,
-  BeneficiarioFieldComponent,
+ 
 ];
 
 @NgModule({
 
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent, ComposicionJuridicaFieldComponent, BeneficiarioFieldComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent, ComposicionJuridicaFieldComponent],
 
   exports: modules.slice(),
   imports: [
