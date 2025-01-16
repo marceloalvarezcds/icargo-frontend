@@ -162,7 +162,36 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   choferEventsSubject: Subject<ChoferList> = new Subject<ChoferList>();
   personaEventsSubject: Subject<PropietarioList> = new Subject<PropietarioList>();
 
-  
+  // TODO: hacer un refresh con el backend
+  get tracto(): CamionList | undefined {
+    if (this.combinacion) {
+      let item = this.combinacion?.camion as CamionList;
+      item.marca_descripcion = item.marca.descripcion;
+      item.color_descripcion = item.color?.descripcion ?? '';
+      item.propietario_nombre = item.propietario.nombre;
+      return item;
+    }
+    else return undefined;
+  }
+
+  get semiList(): SemiList | undefined {
+    if (this.combinacion) {
+      let item = {...this.combinacion.semi } as unknown as SemiList;
+      item.marca_descripcion = this.combinacion?.semi.marca.descripcion ?? '';
+      item.color_descripcion = this.combinacion?.semi.color?.descripcion ?? '';
+      return item;
+    } else return undefined;
+  }
+
+  get choferList(): ChoferList {
+    let item = this.combinacion?.chofer as ChoferList;
+    return item;
+  }
+
+  get personaList(): PropietarioList {
+    let item = this.combinacion?.propietario as PropietarioList;
+    return item;
+  }
 
   get info(): FormGroup | undefined{
     return this.form?.get('info') as FormGroup;
