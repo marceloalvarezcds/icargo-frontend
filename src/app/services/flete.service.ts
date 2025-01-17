@@ -26,7 +26,7 @@ export class FleteService {
   }
 
   getFleteListById(id: number): Observable<FleteList> {
-    return this.http.get<FleteList>(`${this.url}/${id}`);
+    return this.http.get<FleteList>(`${this.url}/flete-list/${id}`);
   }
 
   generateReports(): Observable<string> {

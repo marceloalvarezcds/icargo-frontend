@@ -92,7 +92,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.manualChange = true; // Se activa la bandera cuando se cambia manualmente
     });
 
-    if (this.isEdit || this.isShow) {
+    if (this.isEdit || this.isShow || this.showSearchOCPedidos) {
 
       this.form?.get(this.groupName)?.get('flete_id')?.valueChanges
         .pipe(
@@ -102,12 +102,12 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         .subscribe((value) => {
 
           if (value) {
-            this.fleteService.getFleteListById(value).subscribe( f => {
-              if (!this.flete) {
+            setTimeout(() => {
+              this.fleteService.getFleteListById(value).subscribe( f => {
                 this.flete = f;
                 this.fleteEventsSubject.next(f);
-              }
-            });
+              });
+            }, 800);
           }
 
         });
@@ -120,13 +120,12 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         .subscribe((value) => {
 
           if (value) {
-            // Solo una vez se debe actualizar vista al editar
-            if (!this.combinacion){
+            setTimeout(() => {
               this.combinacionService.getCombinacionById(value).subscribe( f => {
                 this.combinacion = f;
                 this.combinacionEventsSubject.next(f);
               });
-            }
+            }, 300);
           }
 
         });
@@ -137,15 +136,13 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
           distinctUntilChanged()
         )
         .subscribe((value) => {
-
           if (value) {
-            // Solo una vez se debe actualizar vista al editar
-            if (!this.ocList){
+            setTimeout(() => {
               this.ordenCargaService.getOCListById(value).subscribe( f => {
                 this.ocList = f;
                 this.ocEventsSubject.next(f);
               });
-            }
+            }, 1100);
           }
 
         });
@@ -234,8 +231,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
     this.fleteService.getList().subscribe(
       (fletes: FleteList[]) => {
-
-        console.log("onFleteChange: ", fletes);
 
         const formGroup = this.form?.get(this.groupName);
 

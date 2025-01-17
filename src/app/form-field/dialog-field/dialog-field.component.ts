@@ -25,7 +25,7 @@ import { take } from 'rxjs/operators';
   exportAs: 'app-dialog-field',
 })
 export class DialogFieldComponent<T extends { id: number },
-    DialogComponent = SelectorDialogComponent<T>> implements AfterViewInit {
+    DialogComponent = SelectorDialogComponent<T>> {
 
   get group(): FormGroup {
     if (this.groupName) {
@@ -59,15 +59,15 @@ export class DialogFieldComponent<T extends { id: number },
   @Input() fetchDataFunction?: () => Observable<T[]>;
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input()
-  get readonly(): boolean {
-    return this.isreadonly;
-  }
+  //get readonly(): boolean {
+  //  return this.isreadonly;
+ // }
   set readonly(val: boolean) {
-    this.isreadonly = val;
-    //val ? this.control.disable() : this.control.enable();
+    //this.isreadonly = val;
+    val ? this.control.disable() : this.control.enable();
   }
 
-  private isreadonly = false;
+  //private isreadonly = false;
 
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
@@ -80,10 +80,10 @@ export class DialogFieldComponent<T extends { id: number },
 
   constructor() {}
 
-  ngAfterViewInit(): void {
+  /*ngAfterViewInit(): void {
     if (this.readonly) this.control.disable()
     else this.control.enable();
-  }
+  }*/
 
   clearSelectedValue(): void {
     this.dialogFieldControl?.clearSelectedValue();

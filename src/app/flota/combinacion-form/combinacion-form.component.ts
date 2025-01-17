@@ -205,7 +205,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
-    this.form.markAllAsTouched();
+    // Se quita marca automatica de campos obligatorios, pedido de jorge
+    //this.form.markAllAsTouched();
   }
 
   ngOnDestroy(): void {
@@ -368,7 +369,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         })
         setTimeout(() => {
           this.hasChange = false;
-          if (this.isEdit) { this.form.get('info')?.get('camion_id')?.disable();
+          if (this.isEdit) {
+            this.form.get('info')?.get('camion_id')?.disable();
             this.form.get('info')?.get('oc_activa')?.disable();
             this.form.get('info')?.get('limite_anticipos')?.disable();
             this.form.get('info')?.get('anticipo_propietario')?.disable();
@@ -379,7 +381,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             this.form.get('info')?.get('camion_id')?.disable();
             this.form.get('info')?.get('semi_id')?.disable();
             this.form.get('info')?.get('chofer_id')?.disable();
-
             this.form.get('info')?.get('oc_activa')?.disable();
             this.form.get('info')?.get('limite_anticipos')?.disable();
             this.form.get('info')?.get('anticipo_propietario')?.disable();
