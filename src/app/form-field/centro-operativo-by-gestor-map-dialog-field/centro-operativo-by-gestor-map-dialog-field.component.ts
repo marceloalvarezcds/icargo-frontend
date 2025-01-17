@@ -70,6 +70,9 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
               : ''
           }
         </div>
+        <div class="info-estado">
+          <strong>${item.estado}</strong>
+        </div>
         ${
           item.logo
             ? `
@@ -116,13 +119,17 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
     regexList: RegExp[],
     item: CentroOperativoList | null
   ): boolean {
+    // FIXME: ver xq el filtro regex de los 3 items falla en algunos casos
+    console.log("filterMarker");
+    console.log("filterMarker: ", regexList);
+    console.log("filterMarker: ", item);
     if (!item) return false;
     if (!regexList.length) return true;
     return regexList.every((regex) => {
       return (
-        regex.test(item.nombre) ||
-        regex.test(item.nombre_corto ?? '') ||
-        regex.test(item.direccion ?? '')
+        regex.test(item.nombre)
+        //regex.test(item.nombre_corto ?? '')
+        //regex.test(item.direccion ?? '')
       );
     });
   }
