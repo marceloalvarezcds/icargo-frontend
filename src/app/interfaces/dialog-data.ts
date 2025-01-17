@@ -26,7 +26,7 @@ export class Marker<T> extends google.maps.Marker {
 
 export interface SelectorInMapDialogData<T> extends SelectorDialogDataBase<T> {
   drawMarkerFunction?: (item: T) => Marker<T>;
-  filterFunction?: (regexList: RegExp[], item: T | null) => boolean;
+  filterFunction?: (regexList: RegExp[], item: T | null, regexString?: string) => boolean;
 }
 
 export interface SelectorDialogData<T> extends SelectorDialogDataBase<T> {

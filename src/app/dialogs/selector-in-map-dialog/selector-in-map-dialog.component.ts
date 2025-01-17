@@ -196,7 +196,7 @@ implements AfterViewInit, OnDestroy
 
     const filterFunction = (m: Marker<T>) => {
       const toFilter = this.data.filterFunction
-        ? this.data.filterFunction(regexList, m.info)
+        ? this.data.filterFunction(regexList, m.info, searchText)
         : true;
       console.log("filter: ", m.info);
       console.log("return: ", toFilter);
