@@ -128,7 +128,7 @@ export class MenuService {
           },
         ],
       },
-   
+
       {
         name: u.FLOTA,
         iconName: 'local_shipping',
@@ -171,6 +171,13 @@ export class MenuService {
         ],
       },
       {
+        name: 'Mercaderias',
+        iconName: 'inventory_2',
+        iconOutline: true,
+        path: `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO_PUNTO_VENTA_PRECIO),
+      },
+      {
         name: 'Pedido',
         iconName: 'timeline',
         iconOutline: true,
@@ -183,13 +190,6 @@ export class MenuService {
         iconOutline: true,
         path: `/orden-carga/${m.ORDEN_CARGA}`,
         active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
-      },
-      {
-        name: 'Mercaderias',
-        iconName: 'inventory_2',
-        iconOutline: true,
-        path: `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
-        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO_PUNTO_VENTA_PRECIO),
       },
       {
         name: u.CAJA_BANCO,

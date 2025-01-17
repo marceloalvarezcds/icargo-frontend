@@ -38,10 +38,15 @@ export class PuntoVentaListComponent {
       title: 'Puntos de Venta',
       value: (element: PuntoVentaList) => element.nombre,
     },
-    {
+    /*{
       def: 'proveedor',
       title: 'Proveedor',
       value: (element: PuntoVentaList) => element.proveedor_nombre,
+    },*/
+    {
+      def: 'nombre_corto',
+      title: 'Nombre de Fantasía',
+      value: (element: PuntoVentaList) => element.nombre_corto,
     },
     {
       def: 'direccion',
@@ -63,11 +68,11 @@ export class PuntoVentaListComponent {
       title: 'Tipo de Doc.',
       value: (element: PuntoVentaList) => element.tipo_documento_descripcion,
     },
-    {
+    /*{
       def: 'composicion_juridica',
       title: 'Comp. Jurídica',
       value: (element: PuntoVentaList) => element.composicion_juridica_nombre,
-    },
+    },*/
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

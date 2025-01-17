@@ -197,6 +197,7 @@ export class DialogFormFieldControlComponent<
 
   ngOnInit(): void {
     this.ngControl = this.injector.get(NgControl);
+
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
