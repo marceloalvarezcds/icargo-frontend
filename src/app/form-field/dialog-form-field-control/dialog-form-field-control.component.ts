@@ -197,21 +197,19 @@ export class DialogFormFieldControlComponent<
 
   ngOnInit(): void {
     this.ngControl = this.injector.get(NgControl);
+
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
     }
   }
 
   ngAfterViewInit(): void {
-    console.log("ngAfterViewInit");
-    console.log("itemEvents: ", this.itemEvents);
     if (this.itemEvents) {
       this.eventsSubscription = this.itemEvents
         .pipe(
           take(1),
         )
         .subscribe((r:any) => {
-          console.log("eventsSubscription: ", r);
           this.selectedValue = r;
           this.loadDescripcionAndEmitValue();
       });

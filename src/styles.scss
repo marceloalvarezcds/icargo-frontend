@@ -173,6 +173,12 @@ h1.mat-dialog-title {
     width: 100%;
   }
 
+  .mat-form-field-disabled {
+    .mat-input-element {
+      color: black;
+    }
+  }
+
   margin: 0;
 
   .mat-form-field:not(.mat-form-field-appearance-legacy) .mat-form-field-suffix .mat-icon-button {
@@ -218,6 +224,11 @@ h1.mat-dialog-title {
     background-image: unset;
     background-size: unset;
     background-repeat: unset;
+  }
+
+  .mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline{
+    background-color:  rgba(0, 0, 0, 0.12);
+    border-radius: 5px;
   }
 
 }

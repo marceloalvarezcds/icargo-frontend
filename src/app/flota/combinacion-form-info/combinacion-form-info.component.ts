@@ -168,8 +168,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   get tracto(): CamionList | undefined {
     if (this.combinacion) {
       let item = this.combinacion?.camion as CamionList;
-      item.marca_descripcion = item.marca.descripcion;
-      item.color_descripcion = item.color?.descripcion ?? '';
+      item.marca_descripcion = item.marca ? item.marca.descripcion : '';
+      item.color_descripcion = item.color ? item.color?.descripcion :  '';
       item.propietario_nombre = item.propietario.nombre;
       return item;
     }
@@ -179,14 +179,15 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   get semiList(): SemiList | undefined {
     if (this.combinacion) {
       let item = {...this.combinacion.semi } as unknown as SemiList;
-      item.marca_descripcion = this.combinacion?.semi.marca.descripcion ?? '';
-      item.color_descripcion = this.combinacion?.semi.color?.descripcion ?? '';
+      item.marca_descripcion = this.combinacion.semi.marca ? this.combinacion.semi.marca.descripcion : '';
+      item.color_descripcion = this.combinacion.semi.color ? this.combinacion.semi.color.descripcion : '';
       return item;
     } else return undefined;
   }
 
   get choferList(): ChoferList {
     let item = this.combinacion?.chofer as ChoferList;
+    item.telefono_chofer = this.combinacion?.chofer.telefono ?? '';
     return item;
   }
 
@@ -264,13 +265,13 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["nombre"].setValue(camion.propietario_nombre);
       this.info?.controls["propietario_id"].setValue(camion.propietario_camion_id);
       const propietarioList = camion.propietario as PropietarioList;
-  
+
       this.tipoPersonaChange(propietarioList);
-  
+
     }
   }
-  
-  
+
+
 
   semiChange(semi?: SemiList){
      this.info?.controls["semi_id"].setValue(semi?.id)

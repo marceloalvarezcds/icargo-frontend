@@ -71,7 +71,10 @@ export class RemitenteByGestorMapDialogFieldComponent {
               : ''
           }
         </div>
-        ${
+        <div class="info-estado">
+          <strong>${item.estado}</strong>
+        </div>
+        ${'' /*
           item.logo
             ? `
             <div class="info-logo">
@@ -80,7 +83,7 @@ export class RemitenteByGestorMapDialogFieldComponent {
                 alt="logo"
               />
             </div>`
-            : ''
+            : ''*/
         }
       </div>`;
     return marker;

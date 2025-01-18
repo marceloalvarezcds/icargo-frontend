@@ -833,11 +833,6 @@ private cancelOrdenCarga(): void {
     }
   }
 
-
-
-
-
-
   onEditPressed() {
     this.isEditPressed = false;
   }
@@ -942,11 +937,13 @@ private cancelOrdenCarga(): void {
                 destino_id: data.flete_destino_nombre,
             },
         });
+
         if (this.isShow) {
           this.form.disable();
         }
 
         this.originalComentario = data.comentarios ?? null;
+        // Todo debe estar deshabilitado
         this.form.get('info.comentarios')?.enable();
 
         if (data.estado === 'Finalizado'){
@@ -956,7 +953,12 @@ private cancelOrdenCarga(): void {
         setTimeout(() => {
             this.hasChange = false;
             this.initialFormValue = this.form.value;
-        }, 500);
+            this.form.get('combinacion.combinacion_id')?.disable();
+            this.form.get('combinacion.flete_id')?.disable();
+            this.form.get('combinacion.id_orden_carga')?.disable();
+            this.form.get('combinacion.id_orden_carga')?.disable();
+        }, 1000);
+
     });
   }
 }

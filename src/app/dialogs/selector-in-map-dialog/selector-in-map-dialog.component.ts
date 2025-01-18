@@ -8,7 +8,7 @@ import {
 } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { filter } from 'rxjs/operators';
+import { debounceTime, distinctUntilChanged, filter } from 'rxjs/operators';
 import { ASSETS_ICONS_URL } from 'src/app/contanst';
 import {
   Marker,
@@ -33,7 +33,11 @@ implements AfterViewInit, OnDestroy
   searchControl = new FormControl('');
 
   searchControlSubscription = this.searchControl.valueChanges
-    .pipe(filter(() => !!this.googleMapComponent))
+    .pipe(
+      filter(() => !!this.googleMapComponent),
+      debounceTime(500),
+      distinctUntilChanged()
+    )
     .subscribe((searchText) => {
       this.markerFilteredList = this.filterMarkers(this.map!, searchText);
     });
@@ -186,10 +190,16 @@ implements AfterViewInit, OnDestroy
       .split(' ')
       .filter((v) => !!v)
       .map((search) => new RegExp(search, 'gi'));
+
+    console.log("searchText: ", searchText);
+    console.log("regexList: ", regexList);
+
     const filterFunction = (m: Marker<T>) => {
       const toFilter = this.data.filterFunction
-        ? this.data.filterFunction(regexList, m.info)
+        ? this.data.filterFunction(regexList, m.info, searchText)
         : true;
+      console.log("filter: ", m.info);
+      console.log("return: ", toFilter);
       if (toFilter && m.getPosition()) {
         m.setMap(map);
       } else {

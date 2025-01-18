@@ -128,7 +128,7 @@ export class MenuService {
           },
         ],
       },
-   
+
       {
         name: u.FLOTA,
         iconName: 'local_shipping',
@@ -171,6 +171,13 @@ export class MenuService {
         ],
       },
       {
+        name: 'Mercaderias',
+        iconName: 'inventory_2',
+        iconOutline: true,
+        path: `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO_PUNTO_VENTA_PRECIO),
+      },
+      {
         name: 'Pedido',
         iconName: 'timeline',
         iconOutline: true,
@@ -183,36 +190,6 @@ export class MenuService {
         iconOutline: true,
         path: `/orden-carga/${m.ORDEN_CARGA}`,
         active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
-      },
-      {
-        name: 'Mercaderias',
-        iconName: 'inventory_2',
-        iconOutline: true,
-        path: `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
-        active: this.userService.checkPermiso(a.LISTAR, m.INSUMO_PUNTO_VENTA_PRECIO),
-      },
-      {
-        name: u.CAJA_BANCO,
-        iconName: 'account_balance_wallet',
-        // iconName: 'local_atm',
-        iconOutline: true,
-        active: true,
-        children: [
-          {
-            name: t[m.CAJA],
-            iconName: 'inventory_2',
-            iconOutline: true,
-            path: `/caja/${m.CAJA}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.CAJA),
-          },
-          {
-            name: t[m.BANCO],
-            iconName: 'account_balance',
-            iconOutline: true,
-            path: `/banco/${m.BANCO}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.BANCO),
-          },
-        ],
       },
       {
         name: u.CUENTA_CORRIENTE,
@@ -243,6 +220,29 @@ export class MenuService {
         iconOutline: true,
         path: `/estado-cuenta/${m.LIQUIDACION}`,
         active: this.userService.checkPermiso(a.LISTAR, m.LIQUIDACION),
+      },
+      {
+        name: u.CAJA_BANCO,
+        iconName: 'account_balance_wallet',
+        // iconName: 'local_atm',
+        iconOutline: true,
+        active: true,
+        children: [
+          {
+            name: t[m.CAJA],
+            iconName: 'inventory_2',
+            iconOutline: true,
+            path: `/caja/${m.CAJA}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.CAJA),
+          },
+          {
+            name: t[m.BANCO],
+            iconName: 'account_balance',
+            iconOutline: true,
+            path: `/banco/${m.BANCO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.BANCO),
+          },
+        ],
       },
       {
         name: u.LISTADOS,

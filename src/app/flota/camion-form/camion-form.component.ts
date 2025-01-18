@@ -107,7 +107,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           Validators.pattern('^[0-9]{1,}$'),
         ],
       ],
-      limite_monto_anticipos: null,
+      limite_monto_anticipos: [null, Validators.required],
     }),
   });
 
@@ -311,7 +311,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-   
+
       this.camionService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;
@@ -341,7 +341,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             placa: data.placa,
             propietario_id: data.propietario_id,
             chofer_id: data.chofer_id,
-            
+
             foto: this.foto,
           },
           municipal: {
@@ -390,7 +390,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           if (this.isShow) {
             this.form.disable();
             (this.form.get('info') as FormGroup).get('propietario_id')?.disable();
-    
+
           }
           this.hasChange = false;
           this.initialFormValue = this.form.value;

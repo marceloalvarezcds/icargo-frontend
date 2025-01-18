@@ -70,7 +70,10 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
               : ''
           }
         </div>
-        ${
+        <div class="info-estado">
+          <strong>${item.estado}</strong>
+        </div>
+        ${'' /*
           item.logo
             ? `
             <div class="info-logo">
@@ -79,7 +82,7 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
                 alt="logo"
               />
             </div>`
-            : ''
+            : ''*/
         }
       </div>`;
     return marker;
@@ -114,15 +117,24 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
 
   private filterMarker(
     regexList: RegExp[],
-    item: CentroOperativoList | null
+    item: CentroOperativoList | null,
+    regexText?:string,
   ): boolean {
+    // FIXME: ver xq el filtro regex de los 3 items falla en algunos casos
+    console.log("filterMarker");
+    console.log("filterMarker: ", regexList);
+    console.log("filterMarker: ", item);
+
     if (!item) return false;
     if (!regexList.length) return true;
+
+    if (regexText) return item.nombre.toLowerCase().includes(regexText.toLowerCase())
+
     return regexList.every((regex) => {
       return (
-        regex.test(item.nombre) ||
-        regex.test(item.nombre_corto ?? '') ||
-        regex.test(item.direccion ?? '')
+        regex.test(item.nombre)
+        //regex.test(item.nombre_corto ?? '')
+        //regex.test(item.direccion ?? '')
       );
     });
   }
