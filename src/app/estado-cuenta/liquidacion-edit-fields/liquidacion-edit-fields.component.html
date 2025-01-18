@@ -53,6 +53,16 @@
       ></app-liquidacion-movimientos>
     </div>
 
+    <div *ngIf="facturas.length>0" class="section section-button">
+      <h2 class="title-colapside" (click)="colapseDivFacturas=!colapseDivFacturas">FACTURAS</h2>
+      <app-liquidacion-confirmada-form-facturas
+        [class.colapse-div]="colapseDivFacturas"
+        [liquidacion]="item"
+        [isShow]="isShow"
+        (facturasChange)="actualizarLiquidacion.emit()"
+      ></app-liquidacion-confirmada-form-facturas>
+    </div>
+
     <div class="section section-button">
       <h2 class="title-colapside" (click)="colapseDivInstrumentos=!colapseDivInstrumentos">INSTRUMENTOS</h2>
       <app-liquidacion-instrumentos
@@ -69,16 +79,6 @@
         [isShow]="isShow"
         (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
       ></app-liquidacion-confirmada-form-instrumentos>
-    </div>
-
-    <div *ngIf="facturas.length>0" class="section section-button">
-      <h2 class="title-colapside" (click)="colapseDivFacturas=!colapseDivFacturas">FACTURAS</h2>
-      <app-liquidacion-confirmada-form-facturas
-        [class.colapse-div]="colapseDivFacturas"
-        [liquidacion]="item"
-        [isShow]="isShow"
-        (facturasChange)="actualizarLiquidacion.emit()"
-      ></app-liquidacion-confirmada-form-facturas>
     </div>
 
   </ng-container>

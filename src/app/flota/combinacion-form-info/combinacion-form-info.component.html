@@ -220,14 +220,14 @@
                 [control]="puedeRecibirAnticiposControl"
                 controlName="puede_recibir_anticipos"
                 title="Puede recibir anticipos"
-                [readonly]="true"
+                [readonly]="false"
                 trueTitle="Sí"
                 falseTitle="No"
                 (valueChange)="
                   !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
               ></app-slide>
             </div>
-         
+
 
           </div>
 
@@ -265,7 +265,7 @@
               [readonly]="true"
               controlName="ruc"
               [form]="form"
-            ></app-input-field> 
+            ></app-input-field>
 
              <app-input-field
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -274,9 +274,9 @@
               [readonly]="true"
               controlName="nombre"
               [form]="form"
-            ></app-input-field> 
+            ></app-input-field>
 
-          
+
             <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
               <app-slide
                 class="input-form-full"

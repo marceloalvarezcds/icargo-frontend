@@ -69,7 +69,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   originalComentario: string | null = null;
   form = this.fb.group({
     combinacion: this.fb.group({
-      flete_id: [null  /*, Validators.required*/],
+      flete_id: [null  , Validators.required],
       camion_id: [null, Validators.required],
       combinacion_id: [null, Validators.required],
       chofer_id: null,

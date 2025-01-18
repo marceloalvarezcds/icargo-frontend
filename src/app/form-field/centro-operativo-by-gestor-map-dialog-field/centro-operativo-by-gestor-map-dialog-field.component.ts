@@ -73,7 +73,7 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
         <div class="info-estado">
           <strong>${item.estado}</strong>
         </div>
-        ${
+        ${'' /*
           item.logo
             ? `
             <div class="info-logo">
@@ -82,7 +82,7 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
                 alt="logo"
               />
             </div>`
-            : ''
+            : ''*/
         }
       </div>`;
     return marker;

@@ -11,37 +11,37 @@
 
   <div *ngIf="showResumen" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Tot. Movimientos</mat-label>
-    <mat-form-field floatLabel="always" appearance="legacy">
+    <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="(credito-debito)" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showIngresoEgreso" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Ingresos</mat-label>
-    <mat-form-field floatLabel="always" appearance="legacy">
+    <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="credito" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showIngresoEgreso" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Egresos</mat-label>
-    <mat-form-field floatLabel="always" appearance="legacy">
+    <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="debito" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
-  <div class="input-form-full col-xs-12 col-sm-2">
+  <div class="input-form-full col-xs-12 col-sm-2" *ngIf="false">
     <mat-label>
       Saldo en Cuenta
     </mat-label>
-    <mat-form-field floatLabel="always" appearance="legacy">
+    <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="saldo" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
 
   <div *ngIf="showInstrumentos" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Valor de los instrumentos</mat-label>
-    <mat-form-field  floatLabel="always" appearance="legacy">
+    <mat-form-field  floatLabel="always" appearance="outline">
       <input matInput [value]="valorInstrumentos"
         appInputThousandsSeparator disabled
       />
@@ -50,7 +50,7 @@
 
   <div *ngIf="showInstrumentos" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Residuo</mat-label>
-    <mat-form-field floatLabel="always" appearance="legacy">
+    <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="residuo" appInputThousandsSeparator disabled />
     </mat-form-field>
   </div>
