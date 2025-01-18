@@ -14,7 +14,7 @@
     [gestorCargaId]="gestorCargaId"
     (backClick)="back($event)"
     (editClick)="redirectToEdit()"
-    [hideEditButton]="isCancelado"
+    [hideEditButton]="isCancelado || isConciliado"
     (submitEvent)="submit(false)"
     (activeClick)="active()"
     (inactiveClick)="inactive()"
