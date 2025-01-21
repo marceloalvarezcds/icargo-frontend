@@ -1,6 +1,6 @@
 <div *ngIf="formGroup" [formGroup]="formGroup">
   <div [formGroupName]="groupName">
-    
+
     <!-- Primera fila: Dirección y Ciudad -->
     <div class="row" style="margin:0">
       <!-- Dirección -->
@@ -32,7 +32,7 @@
       <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <mat-label class="custom-label">Localidad</mat-label>
         <mat-form-field class="map-field" floatLabel="always" appearance="outline">
-          <input matInput formControlName="localidad_nombre" readonly [ngClass]="{'view-mode': isShow}" />
+          <input matInput formControlName="localidad_nombre" readonly [ngClass]="{'view-mode': true}" />
         </mat-form-field>
 
          <!-- País -->
@@ -42,7 +42,7 @@
           <input matInput formControlName="pais_nombre" readonly [ngClass]="{'view-mode': isShow}" />
         </mat-form-field>
       </div>
-    
+
       </div>
 
       <!-- Mapa -->
