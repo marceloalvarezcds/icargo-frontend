@@ -10,25 +10,25 @@
     <div class="row page-form-row">
 
       <div class="col-xs-12 col-sm-6 col-md-2">
-        <div class="row">
-          <strong class="col-xs-6">Tipo Contraparte:</strong>
-          <span class="col-xs-6">
+        <div class="row" style="display: block;">
+          <strong class="col-xs-5">Tipo Contraparte:</strong>
+          <span class="col-xs-6" style="padding-left: 0.5px;">
             {{ contraparteInfo.tipo_contraparte_descripcion }}
           </span>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-3">
-        <div class="row">
+        <div class="row" style="display: block;">
           <strong class="col-xs-3">Contraparte:</strong>
-          <span class="col-xs-9">
+          <span class="col-xs-9" style="padding-left: 0.5px;">
             {{ contraparteInfo.contraparte_pdv ?? contraparteInfo.contraparte }}
           </span>
         </div>
       </div>
       <div class="col-xs-12 col-sm-6 col-md-2">
-        <div class="row">
+        <div class="row" style="display: block;">
           <strong class="col-xs-6">Doc. Fiscal Nº:</strong>
-          <span class="col-xs-6">
+          <span class="col-xs-6" style="padding-left: 0.5px;">
             {{ contraparteInfo.contraparte_numero_documento_pdv ?? contraparteInfo.contraparte_numero_documento }}
           </span>
         </div>
@@ -60,14 +60,14 @@
 
           <div class="row">
             <strong class="col-xs-3">Pago/Cobro:</strong>
-            <span class="col-xs-6 alinear-derecha">
+            <span class="col-xs-9 col-sm-6 alinear-derecha">
               {{ monto | numberFormat }}
             </span>
           </div>
 
           <div class="row">
             <strong class="col-xs-3">Saldo:</strong>
-            <span class="col-xs-6 alinear-derecha">
+            <span class="col-xs-9 col-sm-6 alinear-derecha">
               {{ saldo | numberFormat }}
             </span>
           </div>
