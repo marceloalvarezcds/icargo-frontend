@@ -272,16 +272,17 @@
 
         <button
           mat-flat-button
-          class="botones" color="primary"
+          class="botones"
+          color="primary"
           type="button"
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
-          *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && !isShow"
-        >
+          *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
+          >
           CAMBIAR PEDIDO
         </button>
-
+        
         <button
           mat-flat-button
           type="submit"
