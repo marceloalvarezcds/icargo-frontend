@@ -209,6 +209,13 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     //this.form.markAllAsTouched();
   }
 
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
+
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
   }

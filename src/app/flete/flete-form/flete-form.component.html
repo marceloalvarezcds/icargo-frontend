@@ -19,7 +19,7 @@
   [flete]="item"
 >
 
-  <div class="flete-page-content">
+  <div class="flete-page-content" (keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
 
     <app-flete-form-acciones
       [flete]="item"

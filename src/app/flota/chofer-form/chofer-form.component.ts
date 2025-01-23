@@ -166,6 +166,13 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
+
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
   }

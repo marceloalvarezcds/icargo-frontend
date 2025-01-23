@@ -13,7 +13,7 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-  <div class="banco-page-content">
+  <div class="banco-page-content" (keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
 
     <div class="row">
 

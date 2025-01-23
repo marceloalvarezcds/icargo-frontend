@@ -11,7 +11,7 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-<div class="page-container">
+<div class="page-container" (keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
   <div class="section" formGroupName="info">
     <h2>INFORMACIÓN PRINCIPAL</h2>
     <app-page-form-entities-info

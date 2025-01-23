@@ -71,4 +71,11 @@ export class RolFormComponent implements OnInit, OnDestroy {
   submit(confirmed: boolean): void {
     this.service.submit(confirmed);
   }
+  
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
 }

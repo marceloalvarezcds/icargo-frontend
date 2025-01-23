@@ -130,6 +130,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
+
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
     this.userSubscription.unsubscribe();
@@ -146,6 +147,14 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
   redirectToEdit(): void {
     this.router.navigate([`/entities/${m.REMITENTE}/${a.EDITAR}`, this.id]);
   }
+
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
+
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;

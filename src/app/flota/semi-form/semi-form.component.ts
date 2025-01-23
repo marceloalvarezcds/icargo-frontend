@@ -198,6 +198,13 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     );
   }
 
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
+
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();

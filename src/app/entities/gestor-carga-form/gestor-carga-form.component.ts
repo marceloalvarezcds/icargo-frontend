@@ -145,6 +145,13 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     this.file = file;
   }
 
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
+
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();

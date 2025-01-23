@@ -157,6 +157,13 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent; 
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault(); 
+    }
+  }
+
   submit(confirmed: boolean, redirectToCreatePuntoVenta: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();

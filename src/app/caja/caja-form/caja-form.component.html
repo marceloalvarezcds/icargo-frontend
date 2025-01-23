@@ -13,7 +13,7 @@
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
-  <div class="caja-page-content">
+  <div class="caja-page-content" (keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
 
     <div class="row">
 
