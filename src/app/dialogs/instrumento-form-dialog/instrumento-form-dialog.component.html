@@ -31,6 +31,7 @@
       <app-banco-by-gestor-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [hidden]="!esBanco"
+        [bancoEvents]="bancoEventsSubject.asObservable()"
         [form]="form"
         (valueChange)="banco = $event"
       >
@@ -39,6 +40,7 @@
       <app-caja-by-gestor-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [hidden]="esBanco"
+        [cajaEvents]="cajaEventsSubject.asObservable()"
         [form]="form"
         (valueChange)="caja = $event"
       >

@@ -1,10 +1,12 @@
-<app-dialog-field
-  [title]="title"
-  [columns]="columns"
-  [list]="list"
-  [groupName]="groupName"
-  [controlName]="controlName"
-  [inputValuePropName]="inputValuePropName"
-  [form]="form"
-  (valueChange)="valueChange.emit($event)"
-></app-dialog-field>
+  <app-dialog-field
+    [title]="title"
+    [columns]="columns"
+    [calllbackremote]="true"
+    [itemEvents]="bancoEvents"
+    [fetchDataFunction]="fetchFunction"
+    [groupName]="groupName"
+    [controlName]="controlName"
+    [inputValuePropName]="inputValuePropName"
+    [form]="form"
+    (valueChange)="valueChange.emit($event)"
+  ></app-dialog-field>

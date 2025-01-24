@@ -10,6 +10,7 @@ import { Caja } from 'src/app/interfaces/caja';
 import { Column } from 'src/app/interfaces/column';
 import { CajaService } from 'src/app/services/caja.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-caja-by-gestor-dialog-field',
@@ -19,9 +20,9 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 export class CajaByGestorDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
   list: Caja[] = [];
-  subs = this.cajaService.getListByGestorCarga().subscribe((list) => {
-    this.list = list;
-  });
+  // subs = this.cajaService.getListByGestorCarga().subscribe((list) => {
+  //   this.list = list;
+  // });
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -83,6 +84,7 @@ export class CajaByGestorDialogFieldComponent {
     },
   ];
 
+  @Input() cajaEvents?: Observable<Caja>
   @Input() form!: FormGroup;
   @Input() controlName = 'caja_id';
   @Input() groupName = '';
@@ -91,6 +93,8 @@ export class CajaByGestorDialogFieldComponent {
   @Output() valueChange = new EventEmitter<Caja>();
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Caja>;
+
+  fetchFunction = () => this.cajaService.getListByGestorCarga();
 
   constructor(private cajaService: CajaService) {}
 }

@@ -1,10 +1,13 @@
 <app-dialog-field
-  [title]="title"
-  [columns]="columns"
-  [list]="list"
-  [groupName]="groupName"
-  [controlName]="controlName"
-  [inputValuePropName]="inputValuePropName"
-  [form]="form"
-  (valueChange)="valueChange.emit($event)"
-></app-dialog-field>
+    [title]="title"
+    [columns]="columns"
+    [calllbackremote]="true"
+    [itemEvents]="cajaEvents"
+    [fetchDataFunction]="fetchFunction"
+    [groupName]="groupName"
+    [controlName]="controlName"
+    [inputValuePropName]="inputValuePropName"
+    [form]="form"
+    (valueChange)="valueChange.emit($event)"
+  ></app-dialog-field>
+

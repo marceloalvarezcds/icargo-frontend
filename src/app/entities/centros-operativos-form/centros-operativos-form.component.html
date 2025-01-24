@@ -28,7 +28,7 @@
                 Centro Operativo
               </mat-label>
               <mat-form-field floatLabel="always" appearance="outline" [ngClass]="{'view-mode': isShow}">
-                <input matInput formControlName="nombre" appAutofocus />
+                <input matInput formControlName="nombre"  />
                 <mat-error *ngIf="info.controls['nombre'].hasError('required')">
                   El nombre es <strong>requerido</strong>
                 </mat-error>

@@ -1,8 +1,12 @@
 <app-dialog-field
+  *ngIf="isRemote"
   emptyHint="Sin PDV disponibles, debe crearlos, activarlos o asignarles un precio"
   [title]="title"
   [columns]="[]"
-  [list]="list"
+  [list]="[]"
+  [calllbackremote]="true"
+  [itemEvents]="pdvInsumoEvents"
+  [fetchDataFunction]="fetchDataFunction"
   [groupName]="groupName"
   [controlName]="controlName"
   [inputValuePropName]="inputValuePropName"

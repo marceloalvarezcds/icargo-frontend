@@ -1,14 +1,15 @@
 <app-dialog-field
-  emptyHint="Sin PDV disponibles, debe crearlos, activarlos o asignarles un precio"
+  *ngIf="isRemote"
   [title]="title"
   [columns]="[]"
-  [list]="list"
+  [calllbackremote]="true"
+  [list]="[]"
+  [itemEvents]="pdvEvents"
+  [fetchDataFunction]="fetchDataFunction"
   [groupName]="groupName"
   [controlName]="controlName"
   [inputValuePropName]="inputValuePropName"
   [form]="form"
   [dialogRefFunction]="dialogRefFunction.bind(this)"
   (valueChange)="valueChange.emit($event)"
-  class="custom-search-input"
 ></app-dialog-field>
-

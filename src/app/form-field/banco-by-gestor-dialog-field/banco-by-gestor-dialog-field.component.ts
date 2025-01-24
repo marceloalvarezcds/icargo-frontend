@@ -10,6 +10,7 @@ import { DialogFieldComponent } from 'src/app/form-field/dialog-field/dialog-fie
 import { Banco } from 'src/app/interfaces/banco';
 import { Column } from 'src/app/interfaces/column';
 import { BancoService } from 'src/app/services/banco.service';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-banco-by-gestor-dialog-field',
@@ -19,9 +20,9 @@ import { BancoService } from 'src/app/services/banco.service';
 export class BancoByGestorDialogFieldComponent {
   readonly inputValuePropName = 'info';
   list: Banco[] = [];
-  subs = this.bancoService.getListByGestorCarga().subscribe((list) => {
-    this.list = list;
-  });
+  // subs = this.bancoService.getListByGestorCarga().subscribe((list) => {
+  //   this.list = list;
+  // });
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -98,6 +99,8 @@ export class BancoByGestorDialogFieldComponent {
     },
   ];
 
+
+  @Input() bancoEvents?: Observable<Banco>
   @Input() form!: FormGroup;
   @Input() controlName = 'banco_id';
   @Input() groupName = '';
@@ -106,6 +109,8 @@ export class BancoByGestorDialogFieldComponent {
   @Output() valueChange = new EventEmitter<Banco>();
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<Banco>;
+
+  fetchFunction = () => this.bancoService.getListByGestorCarga();
 
   constructor(private bancoService: BancoService) {}
 }

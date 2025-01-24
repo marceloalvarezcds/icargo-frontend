@@ -16,6 +16,7 @@ import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-punto-venta-map-dialog-field',
@@ -25,10 +26,13 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 export class PuntoVentaMapDialogFieldComponent {
   readonly inputValuePropName = 'nombre';
   list: PuntoVentaList[] = [];
-  subs = this.service.getListByGestor().subscribe((list) => {
-    this.list = list;
-  });
+  // subs = this.service.getListByGestor().subscribe((list) => {
+  //   this.list = list;
+  // });
 
+
+  @Input() pdvEvents?: Observable<PuntoVentaList>;
+  @Input() isRemote?:boolean = false;
   @Input() form!: FormGroup;
   @Input() controlName = 'punto_venta_id';
   @Input() groupName = '';
@@ -41,6 +45,8 @@ export class PuntoVentaMapDialogFieldComponent {
     PuntoVentaList,
     SelectorInMapDialogComponent<PuntoVentaList>
   >;
+
+  fetchDataFunction = () => this.service.getListByGestor();
 
   constructor(
     private service: PuntoVentaService,
@@ -94,10 +100,13 @@ export class PuntoVentaMapDialogFieldComponent {
   }
 
   dialogRefFunction(
-    selectedValue: PuntoVentaList | undefined
+    selectedValue: PuntoVentaList | undefined,
+    dataList: PuntoVentaList[] | undefined,
   ): MatDialogRef<SelectorInMapDialogComponent<PuntoVentaList>> {
+
+    if (this.isRemote && dataList) this.list = dataList;
     const data: SelectorInMapDialogData<PuntoVentaList> = {
-      list: this.list.slice(),
+      list: this.isRemote ? dataList ?? []  : this.list,
       title: this.title,
       selectedValue,
       drawMarkerFunction: this.createMarker.bind(this),
@@ -134,3 +143,4 @@ export class PuntoVentaMapDialogFieldComponent {
     });
   }
 }
+

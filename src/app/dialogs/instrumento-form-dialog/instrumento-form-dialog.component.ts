@@ -9,6 +9,7 @@ import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-d
 import { InstrumentoVia } from 'src/app/interfaces/instrumento-via';
 import { TipoInstrumento } from 'src/app/interfaces/tipo-instrumento';
 import { subtract } from 'src/app/utils/math';
+import { Subject } from 'rxjs';
 
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
@@ -22,6 +23,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
   caja?: Caja;
   via?: InstrumentoVia;
   tipoInstrumento?: TipoInstrumento;
+
+  bancoEventsSubject: Subject<Banco> = new Subject<Banco>();
+  cajaEventsSubject: Subject<Caja> = new Subject<Caja>();
+
   form = this.fb.group({
     via_id: [this.data?.via_id, Validators.required],
     caja_id: this.data?.caja_id,
@@ -84,6 +89,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
       this.form.controls['tipo_instrumento_id'].updateValueAndValidity();
     }, 500);
   });
+  
 
   get data(): InstrumentoLiquidacionItem | undefined {
     return this.dialogData?.item;

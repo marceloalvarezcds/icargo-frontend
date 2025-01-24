@@ -16,6 +16,7 @@ import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-vent
 import { DialogService } from 'src/app/services/dialog.service';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable, of } from 'rxjs';
 
 @Component({
   selector: 'app-insumo-punto-venta-precio-map-dialog-field',
@@ -27,10 +28,13 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
   fId?: number | null;
   list: InsumoPuntoVentaPrecioList[] = [];
 
+  @Input() pdvInsumoEvents?: Observable<InsumoPuntoVentaPrecioList>;
+  @Input() isRemote?: boolean = false;
   @Input() form!: FormGroup;
   @Input() controlName = 'insumo_punto_venta_precio_id';
   @Input() groupName = '';
   @Input() title = 'Punto de Venta';
+
   @Input() set fleteId(id: number | null | undefined) {
     this.fId = id;
     this.getList();
@@ -45,6 +49,13 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     InsumoPuntoVentaPrecioList,
     SelectorInMapDialogComponent<InsumoPuntoVentaPrecioList>
   >;
+
+  fetchDataFunction = (): Observable<InsumoPuntoVentaPrecioList[]> => {
+    if (this.fId) {
+      return this.service.getListByFleteId(this.fId);
+    }
+    return of([]);
+  };
 
   constructor(
     private service: InsumoPuntoVentaPrecioService,
@@ -98,26 +109,31 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
               : ''
           }
         </div>
-        ${
-          item.punto_venta_logo
+         ${'' /*
+          item.logo
             ? `
             <div class="info-logo">
               <img
-                src="${item.punto_venta_logo}"
+                src="${item.logo}"
                 alt="logo"
               />
             </div>`
-            : ''
+            : ''*/
         }
       </div>`;
     return marker;
   }
 
   dialogRefFunction(
-    selectedValue: InsumoPuntoVentaPrecioList | undefined
+    selectedValue: InsumoPuntoVentaPrecioList | undefined,
+    dataList: InsumoPuntoVentaPrecioList[] | undefined
   ): MatDialogRef<SelectorInMapDialogComponent<InsumoPuntoVentaPrecioList>> {
+    if (this.isRemote && dataList) {
+      this.list = dataList;
+    }
+
     const data: SelectorInMapDialogData<InsumoPuntoVentaPrecioList> = {
-      list: this.list.slice(),
+      list: this.isRemote ? dataList ?? [] : this.list.slice(), 
       title: this.title,
       selectedValue,
       drawMarkerFunction: this.createMarker.bind(this),
@@ -130,11 +146,13 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
         top: '1rem',
       },
     };
+
     return this.dialog.open<
       SelectorInMapDialogComponent<InsumoPuntoVentaPrecioList>,
       InsumoPuntoVentaPrecioList
     >(SelectorInMapDialogComponent, config);
   }
+  
 
   private filterMarker(
     regexList: RegExp[],
@@ -158,11 +176,35 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     });
   }
 
+  list$?: Observable<InsumoPuntoVentaPrecioList[]>;
+
   private getList(): void {
-    if (this.fId) {
-      this.service.getListByFleteId(this.fId).subscribe((list) => {
-        this.list = list;
-      });
+    // Verifica si ya existe una lista cargada
+    if (this.list$) {
+      return;
     }
+  
+    // Define la función de obtención de datos basada en el flete ID
+    this.fetchDataFunction = () =>
+      this.fId
+        ? this.service.getListByFleteId(this.fId)
+        : of([]); // Si no hay flete ID, devuelve un observable vacío
+  
+    // Llama a la función de obtención de datos
+    const list$ = this.fId
+      ? this.service.getListByFleteId(this.fId)
+      : of([]);
+  
+    // Suscríbete al observable y maneja los datos
+    list$.subscribe({
+      next: (list) => {
+        this.list$ = of(list); // Guarda la lista como un observable
+      },
+      error: (err) => {
+        console.error('Error al cargar la lista:', err);
+        this.list$ = of([]); // Maneja el error devolviendo una lista vacía
+      },
+    });
   }
+  
 }

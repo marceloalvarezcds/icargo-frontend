@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 import { TipoAnticipoEnum } from 'src/app/enums/tipo-anticipo-enum';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
@@ -34,6 +35,8 @@ export class OcAnticipoRetiradoMockupComponent  implements OnDestroy, OnInit
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
 
+  pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
+  pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
 
   form = this.fb.group({
     tipo_anticipo_id: [this.data?.tipo_anticipo_id, Validators.required],
