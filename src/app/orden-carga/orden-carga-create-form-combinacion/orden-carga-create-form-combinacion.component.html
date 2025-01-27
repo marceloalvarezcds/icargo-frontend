@@ -2,12 +2,14 @@
 
   <div [formGroupName]="groupName">
 
-    <div class="section">
-      <h2 class="title-colapside" (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
+    <div class="section" >
+      <h2 class="title-colapside" *ngIf="!showSearchOCAceptadas" (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
+      <h2 class="title-colapside" *ngIf="showSearchOCAceptadas" (click)="colapseDivpedido=!colapseDivpedido">INFORMACION PRINCIPAL</h2>
 
-      <div class="row" [class.colapse-div]="colapseDivFlota">
+      <div class="row" [class.colapse-div]="colapseDivFlota" >
 
         <app-combinacion-dialog-field
+          *ngIf="showTractoField"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Chapa Tracto"
           [isRemote]="true"
@@ -16,6 +18,39 @@
           [form]="form"
           (valueChange)="onCamionChange($event)"
         ></app-combinacion-dialog-field>
+
+        <app-oc-aceptadas-dialog-field 
+          *ngIf="!showTractoField && !showSearchOCfinalizadas"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [ocAceptadaEvents]="ocEventsSubject.asObservable()"
+          [groupName]="groupName"
+          [form]="form"
+          (valueChange)="onOrdenCargaChange($event)">
+        </app-oc-aceptadas-dialog-field>
+
+        <app-oc-finalizadas-dialog-field 
+          *ngIf="showSearchOCfinalizadas"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Nº OC"
+          [ocAceptadaEvents]="ocEventsSubject.asObservable()"
+          [groupName]="groupName"
+          [form]="form"
+          (valueChange)="onOrdenCargaChange($event)">
+        </app-oc-finalizadas-dialog-field>
+
+        <app-input-field-oc
+          *ngIf="!showTractoField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Chapa Tracto"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="camion_placa"
+          [shouldFormat]="false"
+        ></app-input-field-oc>
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -202,7 +237,7 @@
 
       <div class="row" [class.colapse-div]="colapseDivpedido">
 
-        <app-oc-by-combinacion-finalizados-dialog-field
+        <!-- <app-oc-by-combinacion-finalizados-dialog-field
           *ngIf="(oc?.estado === 'Finalizado' || showSearchOCfinalizadas || oc?.estado === 'Conciliado') && !shouldHideFinalizadoComponent"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
@@ -223,7 +258,8 @@
           [form]="form"
           [combinacionId]="combinacionId"
           (valueChange)="onOrdenCargaChange($event)">
-        </app-oc-by-combinacion-aceptados-dialog-field>
+        </app-oc-by-combinacion-aceptados-dialog-field> -->
+
 
         <app-flete-by-gestor-dialog-field
           *ngIf="showSearchPedido || (isEdit && oc?.estado !== 'Conciliado' && oc?.estado !== 'Cancelado')"
@@ -235,7 +271,7 @@
           (valueChange)="onFleteChange($event)"
         ></app-flete-by-gestor-dialog-field>
 
-        <app-oc-by-combinacion-dialog-field
+        <!-- <app-oc-by-combinacion-dialog-field
           *ngIf="oc?.estado === 'Cancelado' || showSearchOC"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
@@ -253,7 +289,7 @@
           [form]="form"
           [combinacionId]="combinacionId"
           (valueChange)="onOrdenCargaChange($event)"
-        ></app-oc-by-combinacion-nuevos-dialog-field>
+        ></app-oc-by-combinacion-nuevos-dialog-field> -->
 
         <app-input-field-oc
           *ngIf="(isEdit && (oc?.estado === 'Conciliado' && isShow) && oc?.estado === 'Cancelado') ||
@@ -291,6 +327,29 @@
           [form]="form"
           controlName="producto_descripcion"
         ></app-input-field-oc>
+        <app-input-field-oc
+          *ngIf="showSearchOCAceptadas"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Lugar Carga"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="origen_nombre"
+        ></app-input-field-oc>
+
+        <app-input-field-oc
+          *ngIf="showSearchOCAceptadas"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Lugar Descarga"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="destino_nombre"
+        ></app-input-field-oc>
 
         <app-input-field-oc
           *ngIf="!showField"
@@ -309,6 +368,7 @@
       <div class="row" [class.colapse-div]="colapseDivpedido">
 
         <app-input-field-oc
+          *ngIf="!showSearchOCAceptadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Lugar Carga"
           [groupName]="groupName"
@@ -320,6 +380,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
+          *ngIf="!showSearchOCAceptadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Lugar Descarga"
           [groupName]="groupName"

@@ -66,6 +66,8 @@ export class PageFormComponent implements OnDestroy {
   @Input() estado: any;
   @Input() controlName = '';
   @Input() isOc: boolean = false;
+  @Input() formNuevaOc: boolean = false;
+  @Input() nuevoActive: boolean = false;
   @Input() isButtonPressed: boolean = false;
   @Input() isEditPressed: boolean = false;
   @Input() estilosPersonalesModule:any={}
@@ -86,6 +88,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() inactiveClick = new EventEmitter();
   @Output() cancelarFleteClick = new EventEmitter();
   @Output() cambiarFleteClick = new EventEmitter();
+  @Output() nuevoClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
   @Output() formStateChanged = new EventEmitter<FormGroup>();
   @Output() ocChange = new EventEmitter<void>();

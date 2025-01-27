@@ -18,6 +18,14 @@ export class OrdenCargaService {
     return this.http.get<OrdenCargaList[]>(`${this.url}/`);
   }
 
+  getAceptadosList(): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/aceptadas`);
+  }
+
+  getFinalizadosList(): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/finalizadas`);
+  }
+
   getById(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}`);
   }

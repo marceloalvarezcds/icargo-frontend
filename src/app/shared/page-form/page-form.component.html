@@ -44,7 +44,8 @@
 
            
         <!-- FIXME -->
-        <div *ngIf="(submodule === 'PROPIETARIOS' || submodule === 'CHOFER' || submodule === 'TRACTOS' || submodule === 'PEDIDOS' || submodule === 'SEMI') && !isEdit && !isShow" class="estado-container">
+        <div *ngIf="(submodule === 'PROPIETARIOS' || submodule === 'CHOFER' || submodule === 'TRACTOS'
+         || submodule === 'PEDIDOS' || submodule === 'SEMI') && !isEdit && !isShow" class="estado-container">
           <label for="estado-input" class="estado-label">ESTADO</label>
           <input
               id="estado-input"
@@ -122,7 +123,6 @@
         <mat-icon>description</mat-icon> RESUMEN
         </button>
 
-
         <button
           mat-flat-button
           class="botones" color="primary"
@@ -168,7 +168,6 @@
           CANCELAR
         </button>
 
-
         <button
           *ngIf="(oc?.estado === 'Aceptado' ||
                   module === 'FINALIZAR' ||
@@ -201,7 +200,6 @@
           (click)="conciliarClick.emit($event)">
           CONCILIAR
         </button>
-
 
         <button
           mat-flat-button
@@ -278,7 +276,8 @@
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
-          *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
+          *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) 
+            && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
           >
           CAMBIAR PEDIDO
         </button>
@@ -295,6 +294,22 @@
           <mat-icon>save</mat-icon>
           {{labelBtnGuardar}}
         </button>
+
+
+        <button
+          mat-flat-button
+          color="primary"
+          matTooltip="Crear"
+          class="botones"
+          (click)="nuevoClick.emit($event)"
+          [disabled]="!nuevoActive"
+          *ngIf="formNuevaOc">
+          <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
+        {{
+          submodule === 'ANTICIPO (directo)' ? 'NUEVO ANTICIPO' :
+          submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
+          }}
+      </button>
 
         <!-- <div *ngIf="flete && isShow " style="margin-left: 8px; margin-right: 14px;">
 

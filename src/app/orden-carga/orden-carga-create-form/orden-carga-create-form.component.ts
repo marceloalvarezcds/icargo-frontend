@@ -71,6 +71,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     combinacion: this.fb.group({
       flete_id: [null  , Validators.required],
       camion_id: [null, Validators.required],
+      camion_placa: null,
       combinacion_id: [null, Validators.required],
       chofer_id: null,
       propietario_id: null,
@@ -609,7 +610,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   submit(confirmed: boolean): void {
     if (this.form.valid) {
       this.isFormSaved = true;
-      this.isFormSubmitting = false
+      this.isFormSubmitting = false;
       this.dataFromParent = this.form.get('combinacion.estado')?.value;
     }
     const formData = new FormData();
@@ -618,28 +619,26 @@ export class OrdenCargaCreateFormComponent implements OnInit {
         ...this.combinacion.value,
         ...this.info.value,
       })
-
     );
-
     // Convertir propiedades a mayúsculas, excepto los correos electrónicos
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {
         data[key] = data[key].toUpperCase();
       }
     });
+  
     formData.append('data', JSON.stringify(data));
+    
     this.ordenCargaService.create(formData).subscribe((item) => {
-    this.snackbar.openSave();
+      this.snackbar.openSave();
       this.ordenCargaId = item.id;
       this.fleteId = item.flete_id;
       this.item = item;
       this.info.get('comentarios')?.setValue('');
       this.dataFromParent = item.estado;
-      r.ORDEN_CARGA;
-      m.ORDEN_CARGA;
        this.snackbar.openSaveAndRedirect(
          confirmed,
-        this.backUrl,
+         this.backUrl,
          r.ORDEN_CARGA,
          m.ORDEN_CARGA,
          item.id

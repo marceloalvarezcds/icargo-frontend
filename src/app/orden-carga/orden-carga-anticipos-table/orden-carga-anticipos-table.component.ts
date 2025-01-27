@@ -1,10 +1,10 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -23,15 +23,14 @@ import { Flete, FleteList } from 'src/app/interfaces/flete';
   templateUrl: './orden-carga-anticipos-table.component.html',
   styleUrls: ['./orden-carga-anticipos-table.component.scss']
 })
-export class OrdenCargaAnticiposTableComponent implements OnInit {
+export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   monedaEquiv1: number | null = null;
   monedaEquiv2: number = 0;
-  initialFleteId: number = 32;  // Asignar el valor inicial de flete_id aquí.
-
   anticiposEfectivo: any[] = [];
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
+  @Output() ocChange = new EventEmitter<OrdenCargaList>();
 
   a = PermisoAccionEnum;
 
@@ -125,6 +124,15 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
   }
 
+  @Input() anticipoList: any[] = []; // Recibe la lista de anticipos
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['anticipoList']) {
+      console.log('anticipoList actualizado', this.anticipoList);
+    }
+  }
+
+
 
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
 
@@ -144,7 +152,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
   @Input() fleteId?: number;
   @Input() ordenCargaId: number | null = null;
 
-  @Output() ocChange = new EventEmitter<void>();
+  // @Output() ocChange = new EventEmitter<void>();
   @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
@@ -222,23 +230,23 @@ export class OrdenCargaAnticiposTableComponent implements OnInit {
     return this.filteredAnticipos?.some(a => a.concepto.toLowerCase() === 'lubricantes' && this.getSaldoAnticipo(a) > 0);
   }
 
-openEvaluacionesDialog(): void {
-  this.dialog.open(EvaluacionesDialogComponent, {
-    data: { orden_carga_id: this.oc?.id,
-            camion_id: this.oc?.camion_id,
-            semi_id: this.oc?.semi_id,
-            propietario_id: this.oc?.combinacion_propietario_id,
-            chofer_id: this.oc?.combinacion_chofer_id,
-            gestor_carga_id: this.oc?.gestor_carga_id,
-            origen_id: this.oc?.origen_id,
-            destino_id: this.oc?.destino_id,
-            producto_id: this.oc?.flete_producto_id
-    },
-    width: '30rem',
-    height: 'auto',
-    panelClass: 'custom-dialog-container'
-  });
-}
+  openEvaluacionesDialog(): void {
+    this.dialog.open(EvaluacionesDialogComponent, {
+      data: { orden_carga_id: this.oc?.id,
+              camion_id: this.oc?.camion_id,
+              semi_id: this.oc?.semi_id,
+              propietario_id: this.oc?.combinacion_propietario_id,
+              chofer_id: this.oc?.combinacion_chofer_id,
+              gestor_carga_id: this.oc?.gestor_carga_id,
+              origen_id: this.oc?.origen_id,
+              destino_id: this.oc?.destino_id,
+              producto_id: this.oc?.flete_producto_id
+      },
+      width: '30rem',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
 
   openDialog(): void {
     this.dialog.open(OcGestionLineaComponent, {

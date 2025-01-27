@@ -77,6 +77,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      camion_placa: null,
       combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
@@ -463,7 +464,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             });
         },
     );
-}
+  }
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -786,6 +787,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
           combinacion: {
             flete_id: data.flete_id,
             camion_id: data.camion_id,
+            camion_placa: data.camion_placa,
             combinacion_id: data.combinacion_id,
             marca_camion: data.camion_marca,
             color_camion: data.camion_color,

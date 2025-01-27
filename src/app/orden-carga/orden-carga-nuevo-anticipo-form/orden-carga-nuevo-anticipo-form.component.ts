@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -15,7 +15,7 @@ import { Camion, CamionList } from 'src/app/interfaces/camion';
 import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -45,7 +45,8 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   id?: number;
   camion?: Camion;
   semi?: Semi;
-  combinacionList?: Combinacion
+  combinacionList?: Combinacion;
+  ordenCargaList?: OrdenCargaList
   isFormSaved: boolean = false;
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
@@ -54,6 +55,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
   isEdit = false;
+  nuevoActive = false;
   isDataLoaded: boolean = true;
   submodule: string = 'ANTICIPO (directo)';
   originalComentario: string | null = null;
@@ -62,6 +64,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      camion_placa: null,
       combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
@@ -94,10 +97,11 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       anticipo_propietario: null,
       anticipos: null,
       id_orden_carga: [null, Validators.required],
+      comentarios: null,
     }),
     info: this.fb.group({
       cantidad_nominada: null,
-      comentarios: null,
+      
     }),
   });
 
@@ -183,7 +187,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setInitialToggleState();
-
+    this.getData();
     // Suscribirse a cambios en el ID de Orden de Carga
     this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
     .pipe(
@@ -194,6 +198,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       this.handleIdChange(id);
     });
   }
+  
 
   previousId: number | null = null;
   handleIdChange(id: number | null): void {
@@ -217,12 +222,11 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private router: Router,
     private dialog: DialogService,
-    private snackbar: SnackbarService,
     private ordenCargaService: OrdenCargaService,
     private userService: UserService,
-    private route: ActivatedRoute,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
+    private cdRef: ChangeDetectorRef
 
   ) {}
 
@@ -236,7 +240,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     if (confirmed) {
       this.submit(confirmed);
     } else {
-      let comentario = this.form.get('info.comentarios')?.value;
+      let comentario = this.form.get('combinacion.comentarios')?.value;
 
       // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
@@ -361,45 +365,45 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
             });
         },
     );
-}
+  }
 
-openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
-  return this.dialog.open(EvaluacionesCancelarComponent, {
-    data: {
-      orden_carga_id: this.item?.id,
-      camion_id: this.item?.camion_id,
-      semi_id: this.item?.semi_id,
-      propietario_id: this.item?.combinacion_propietario_id,
-      chofer_id: this.item?.combinacion_chofer_id,
-      gestor_carga_id: this.item?.gestor_carga_id,
-      origen_id: this.item?.origen_id,
-      destino_id: this.item?.destino_id,
-      producto_id: this.item?.flete_producto_id
-    },
-    width: '30rem',
-    height: 'auto',
-    panelClass: 'custom-dialog-container'
-  });
-}
+  openEvaluacionesCancelarDialog(): MatDialogRef<EvaluacionesCancelarComponent> {
+    return this.dialog.open(EvaluacionesCancelarComponent, {
+      data: {
+        orden_carga_id: this.item?.id,
+        camion_id: this.item?.camion_id,
+        semi_id: this.item?.semi_id,
+        propietario_id: this.item?.combinacion_propietario_id,
+        chofer_id: this.item?.combinacion_chofer_id,
+        gestor_carga_id: this.item?.gestor_carga_id,
+        origen_id: this.item?.origen_id,
+        destino_id: this.item?.destino_id,
+        producto_id: this.item?.flete_producto_id
+      },
+      width: '30rem',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
 
 
-downloadResumenPDF(): void {
-  this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
-    this.reportsService.downloadFile(filename).subscribe((file) => {
-      const blob = new Blob([file], { type: 'application/pdf' });
-      const url = URL.createObjectURL(blob);
-      this.dialog.open(PdfPreviewDialogComponent, {
-        width: '90%',
-        height: '90%',
-        data: {
-          pdfUrl: url,
-          fileBlob: blob,
-          filename: filename
-        }
+  downloadResumenPDF(): void {
+    this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewDialogComponent, {
+          width: '90%',
+          height: '90%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob,
+            filename: filename
+          }
+        });
       });
     });
-  });
-}
+  }
 
   save(showDialog: boolean = true): void {
     this.form.markAsDirty();
@@ -434,20 +438,38 @@ downloadResumenPDF(): void {
     }
   }
 
+  resetFormData(): void {
+    this.form.reset();
+    this.item!.resultado_propietario_total_anticipos_retirados_efectivo = 0;
+    this.item!.resultado_propietario_total_anticipos_retirados_combustible = 0; 
+    this.item!.porcentaje_anticipos = [];
+    this.item!.saldo_efectivo = 0;
+    this.item!.saldo_combustible = 0;
+    this.item!.saldo_lubricantes = 0;
+    this.item!.anticipos = [];
+    this.isFormSaved = false;
+    this.isFormSubmitting = true;
+    this.isShow = true;
+    this.item!.flete_id = 0;
+    this.nuevoActive = true;
+  }
+
   getData(): void {
     const ocValue = this.idOC;
     if (ocValue) {
       this.isLoadingData = true;
-      this.valueChangesSubscription.unsubscribe();
-      this.info.get('comentarios')?.setValue('');
+
+      this.combinacion.get('comentarios')?.setValue('');
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
+        this.item.anticipos,
         this.isActive = data.estado === EstadoEnum.NUEVO;
-
+        console.log('item', this.item)
         this.form.patchValue({
           combinacion: {
             flete_id: data.flete_id,
             camion_id: data.camion_id,
+            camion_placa: data.camion_placa,
             combinacion_id: data.combinacion_id,
             marca_camion: data.camion_marca,
             color_camion: data.camion_color,
@@ -457,7 +479,7 @@ downloadResumenPDF(): void {
             color_semi: data.semi_color,
             propietario_camion: data.camion_propietario_nombre,
             propietario_camion_doc: data.camion_propietario_documento,
-            chofer_camion: data.camion_chofer_nombre,
+            chofer_camion: data.chofer_nombre,
             chofer_camion_doc: data.combinacion_chofer_doc,
             beneficiario_camion: data.camion_beneficiario_nombre,
             beneficiario_camion_doc: data.camion_beneficiario_documento,
@@ -476,30 +498,24 @@ downloadResumenPDF(): void {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-            anticipos: data.anticipos_liberados
+            anticipos: this.item.anticipos,
+            comentarios: '',
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-            comentarios: '',
+           
           },
-          tramo: {
-            flete_origen_id: data.flete_origen_id,
-            flete_destino_id: data.flete_destino_id,
-            origen_id: data.flete_origen_nombre,
-            destino_id: data.flete_destino_nombre,
-          },
+       
         });
+        this.cdRef.detectChanges(); 
         this.form.get('info.cantidad_nominada')?.disable();
         this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
-        this.ngOnInit();
         this.isFormSaved = true;
-        this.isFormSubmitting = false
-        this.isShow = false
+        this.isFormSubmitting = false;
+        this.isShow = false;
+        this.nuevoActive = true;
       });
-    } else {
-
-      this.isLoadingData = false;
     }
   }
 

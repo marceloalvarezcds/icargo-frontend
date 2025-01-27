@@ -89,6 +89,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      camion_placa: null,
       combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
@@ -528,9 +529,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
                           horizontalPosition: 'center'
                       });
                       this.downloadResumenPDF();
-                  } else {
-                      console.log('Diálogo de evaluación cancelado');
-                  }
+                  } 
               });
           },
       );
@@ -633,9 +632,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
                     if (comentarioUpper) {
                         this.createComentarioYConciliar(comentarioUpper);
                     }
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
                 }
+                
                 this.snackBar.open('Generando PDF...', 'Cerrar', {
                     duration: 3000,
                     verticalPosition: 'top',
@@ -811,6 +809,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
           combinacion: {
             flete_id: data.flete_id,
             camion_id: data.camion_id,
+            camion_placa: data.camion_placa,
             combinacion_id: data.combinacion_id,
             marca_camion: data.camion_marca,
             color_camion: data.camion_color,

@@ -70,6 +70,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      camion_placa: null,
       combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
@@ -528,7 +529,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
   private resetFormData(): void {
     this.form.reset();
-    this.item!.remisiones_origen = [];  
+    this.item!.anticipos = [];  
     this.item!.remisiones_destino = []; 
     this.item!.remisiones_resultado = [];
     this.item!.cantidad_origen = 0;  
@@ -697,6 +698,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
           combinacion: {
             flete_id: data.flete_id,
             camion_id: data.camion_id,
+            camion_placa: data.camion_placa,
             combinacion_id: data.combinacion_id,
             marca_camion: data.camion_marca,
             color_camion: data.camion_color,

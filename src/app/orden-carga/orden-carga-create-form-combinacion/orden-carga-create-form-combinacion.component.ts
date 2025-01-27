@@ -24,6 +24,7 @@ import { FleteService } from 'src/app/services/flete.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SemiService } from 'src/app/services/semi.service';
+import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 
 @Component({
   selector: 'app-orden-carga-create-form-combinacion',
@@ -41,6 +42,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   semiAsociado?: number;
   semi?: SemiList;
   showPedidoSection: boolean = false;
+  
 
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
@@ -50,18 +52,20 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
   @Input() list: OrdenCargaComentariosHistorial[] = [];
+  @Input() listAnticipos: OrdenCargaAnticipoRetirado[] = [];
   @Input() isNeto: boolean = false ;
   @Input() showField: boolean = false;
-
+  @Input() showTractoField: boolean = false;
   @Input() gestorCargaId?: number;
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
   @Input() showSearchPedido: boolean = false;
-  @Input() showSearchOC: boolean = false;
+  // @Input() showSearchOC: boolean = false;
   @Input() showSearchOCAceptadas: boolean = false;
   @Input() shouldHideFinalizadoComponent: boolean = false;
   @Input() showSearchOCNuevos: boolean = false;
   @Input() showSearchOCfinalizadas: boolean = false;
+  @Input() showOCaFinalizar: boolean = false;
   @Input() showSearchOCPedidos: boolean = false;
   @Input() isSaveForm: boolean = false;
   @Input() disabled: boolean = false;
@@ -75,7 +79,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() choferChange = new EventEmitter<Chofer>();
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
-
+  @Output() resetFormEvent: EventEmitter<void> = new EventEmitter<void>();
   // eventos dialogs
   combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
   fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
@@ -225,6 +229,20 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       });
     }
 
+
+  constructor(
+      private service: SemiService,
+      private choferService: ChoferService,
+      private camionService: CamionService,
+      private fleteService: FleteService,
+      private cdr: ChangeDetectorRef,
+      private ordenCargaService: OrdenCargaService,
+      private combinacionService: CombinacionService,
+      private reportsService: ReportsService,
+      private matDialog: MatDialog,
+  ) {}
+
+
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
     this.fleteChange.emit(flete);
@@ -270,26 +288,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       },
     );
   }
-
-
-
-  // constructor(private service: SemiService, private choferService: ChoferService,
-  //   private fleteService: FleteService, private ordenCargaService: OrdenCargaService,
-  //    private reportsService: ReportsService,
-  //   private matDialog: MatDialog) {}
-
-  constructor(
-      private service: SemiService,
-      private choferService: ChoferService,
-      private camionService: CamionService,
-      private fleteService: FleteService,
-      private cdr: ChangeDetectorRef,
-      private ordenCargaService: OrdenCargaService,
-      private combinacionService: CombinacionService,
-      private reportsService: ReportsService,
-      private matDialog: MatDialog,
-  ) {}
-
 
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {
@@ -341,6 +339,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
       // Actualiza los campos del formulario
       this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id);
+      this.form?.get(this.groupName)?.get('camion_placa')?.setValue(combinacion.camion_placa);
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion);
       this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion.color_camion ?? null);
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion.semi_id);
@@ -389,6 +388,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   onOrdenCargaChange(oc?: OrdenCargaList) {
     if (oc) {
       this.ordenCargaChange.emit(oc);
+      this.form?.get(this.groupName)?.get('camion_placa')?.setValue(oc.camion_placa);
       this.form?.get(this.groupName)?.get('flete_id')?.setValue(oc.flete_id);
       this.form?.get(this.groupName)?.get('numero_lote')?.setValue(oc.flete_numero_lote);
       this.form?.get(this.groupName)?.get('saldo')?.setValue(oc.flete_saldo);
@@ -397,14 +397,14 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(oc?.flete_origen_nombre);
       this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(oc?.flete_destino_nombre);
       this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(oc.flete_tipo);
-
+      this.form?.get(this.groupName)?.get('anticipos')?.setValue(oc.anticipos_liberados);
       if (this.manualChange) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(oc.cantidad_nominada);
       }
       this.form?.get(this.groupName)?.get('cant_origen')?.setValue(oc.cantidad_origen);
       this.form?.get(this.groupName)?.get('cant_destino')?.setValue(oc.cantidad_destino);
       this.form?.get(this.groupName)?.get('diferencia')?.setValue(oc.diferencia_origen_destino);
-    }
+    }   
   }
 
   downloadPDF(): void {

@@ -1,0 +1,14 @@
+<app-dialog-field
+[title]="title"
+[columns]="columns"
+[calllbackremote]="true"
+[itemEvents]="ocAceptadaEvents"
+[fetchDataFunction]="fetchFunction"
+[groupName]="groupName"
+[controlName]="controlName"
+[inputValuePropName]="inputValuePropName"
+[form]="form"
+(valueChange)="valueChange.emit($event)"
+></app-dialog-field>
+
+

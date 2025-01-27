@@ -17,7 +17,6 @@
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
   (cancelarClick)="cancelar()"
-  (finalizarClick)="finalizar()"
   (conciliarClick)="conciliar()"
 >
 
@@ -31,6 +30,7 @@
       (combinacionChange)="combinacionList = $event"
       (ordenCargaChange)="ordenCarga = $event"
       [showSearchPedido]="true"
+      [showTractoField]="true"
       [oc]="item"
       [list]="comentariosList"
       [isSaveForm]="true"
@@ -48,79 +48,5 @@
       </app-orden-carga-anticipos-table>
     </div>
 
-      <!-- <div class="remisiones-line"><h2>REMISIONES</h2></div>
-    <div class="remisiones-container">
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-origen
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionOrigenList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-origen>
-      </div>
-      <div class="remisiones-item">
-        <app-orden-carga-edit-form-remisiones-destino
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="remisionDestinoList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-remisiones-destino>
-      </div>
-    </div> -->
-    <!-- <div class="complementos_descuentos-container">
-      <div class="complementos_descuentos-item">
-        <app-orden-carga-edit-form-complementos
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="false"
-          [puedeConciliar]="puedeConciliar"
-          [list]="complementoList"
-          (ocChange)="getData()"
-          [fleteId]="fleteId"
-        ></app-orden-carga-edit-form-complementos>
-      </div>
-    <div class="complementos_descuentos-item">
-      <app-orden-carga-edit-form-descuentos
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [isShow]="false"
-        [puedeConciliar]="puedeConciliar"
-        [list]="descuentoList"
-        (ocChange)="getData()"
-        [fleteId]="fleteId"
-      ></app-orden-carga-edit-form-descuentos>
-    </div>
-  </div>   -->
-  <!-- <div *ngIf="item?.estado === 'Conciliado' || item?.estado === 'Finalizado'" class="resultados-container">
-    <div class="resultados-line">
-      <h2>TABLA DE RESULTADOS</h2>
-    </div>
-    <app-orden-carga-edit-form-remisiones-resultado
-      [oc]="item"
-      [gestorCargaId]="gestorCargaId"
-      [list]="remisionResultadoList"
-    ></app-orden-carga-edit-form-remisiones-resultado>
-  </div>
-  <div *ngIf="item?.estado === 'Conciliado'" class="resultados-container">
-    <div class="resultados-line">
-      <h2>MOVIMIENTOS</h2>
-    </div>
-    <app-orden-carga-edit-form-movimientos
-      [gestorCargaId]="gestorCargaId"
-      [list]="movimientoList"
-      (ocChange)="getData()"
-  ></app-orden-carga-edit-form-movimientos>
-  </div>
-    <button
-    *ngIf="item?.estado === 'Conciliado'"
-    class="historial-button"
-    [disabled]="!item?.flete_id"
-    mat-button (click)="openDialog()">
-    Historial de Estados
-  </button> -->
 </div>
 

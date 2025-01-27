@@ -2,71 +2,49 @@
   class="orden-carga-page"
   module="NUEVO"
   submodule="ANTICIPO (directo)"
-  [formGroup]="form"
-  [modelo]="modelo"
-  [oc]="item"
   (backClick)="back($event)"
   (activeClick)="active()"
   (inactiveClick)="inactive()"
+  (cancelarClick)="cancelar()"
+  (nuevoClick)="resetFormData()"
+  [formGroup]="form"
+  [modelo]="modelo"
+  [oc]="item"
   [isFormSaved]="isFormSaved"
   [class.page-form-show]="isShow"
   [isFormSubmitting]="isFormSubmitting"
   [estado]="estadoOc"
-  (cancelarClick)="cancelar()"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
   [isDataLoaded]="isToggleAnticiposLiberados"
   [hideSaveButton]="true"
+  [formNuevaOc]="true"
+  [nuevoActive]="nuevoActive"
 >
 
-<div class="orden-carga-page-content">
-  <app-orden-carga-create-form-combinacion
-    [form]="form"
-    (fleteChange)="flete = $event"
-    (camionChange)="camion = $event"
-    (semiChange)="semi = $event"
-    (combinacionChange)="combinacionList = $event"
-    [showSearchOC]="false"
-    [showSearchOCAceptadas]="true"
-    [showSearchOCPedidos]="true"
-    (ocChange)="getData()"
-    [oc]="item"
-    [list]="comentariosList"
-    [showField]="true"
-  ></app-orden-carga-create-form-combinacion>
-
-  <div class="anticipo-table">
-    <app-orden-carga-anticipos-table
+  <div class="orden-carga-page-content">
+    <app-orden-carga-create-form-combinacion
+      [form]="form"
+      (fleteChange)="flete = $event"
+      (camionChange)="camion = $event"
+      (semiChange)="semi = $event"
+      (combinacionChange)="combinacionList = $event"
+      [showSearchOCAceptadas]="true"
+      [showSearchOCPedidos]="true"
+      (ocChange)="getData()"
       [oc]="item"
-      [fleteId]="fleteId"
-      [list]="anticipoList"
-      (ocChange)="getData()">
-    </app-orden-carga-anticipos-table>
+      [list]="comentariosList"
+      [showField]="true"
+    ></app-orden-carga-create-form-combinacion>
+
+    <div class="anticipo-table">
+      <app-orden-carga-anticipos-table
+        [oc]="item"
+        [fleteId]="fleteId"
+        [list]="anticipoList"
+        (ocChange)="getData()">
+      </app-orden-carga-anticipos-table>
+    </div>
   </div>
-
-  <!-- <div class="complementos_descuentos-container">
-    <div class="complementos_descuentos-item">
-      <app-orden-carga-edit-form-complementos
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [isShow]="isShow"
-        [puedeConciliar]="puedeConciliar"
-        [list]="complementoList"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-complementos>
-    </div>
-
-    <div class="complementos_descuentos-item">
-      <app-orden-carga-edit-form-descuentos
-        [oc]="item"
-        [gestorCargaId]="gestorCargaId"
-        [isShow]="isShow"
-        [puedeConciliar]="puedeConciliar"
-        [list]="descuentoList"
-        (ocChange)="getData()"
-      ></app-orden-carga-edit-form-descuentos>
-    </div>
-  </div>   -->
-</div>
-
+</app-page-form>
