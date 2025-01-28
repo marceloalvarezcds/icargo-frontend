@@ -8,7 +8,7 @@
   [hasChange]="hasChange"
   [hideEditButton]="true"
   [isEdit]="isEdit"
-  [isShow]="isShow"
+  
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
   [shouldShowInactiveButton]="!isCancel"
@@ -33,7 +33,7 @@
         [form]="form"
         [estado]="estado"
         [flete]="item"
-        [isShow]="isShow"
+       
         (remitenteChange)="info.get('remitente_nombre')?.setValue($event?.nombre)"
         (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>

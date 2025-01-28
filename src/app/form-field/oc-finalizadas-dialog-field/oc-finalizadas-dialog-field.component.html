@@ -1,14 +1,28 @@
-<app-dialog-field
-[title]="title"
-[columns]="columns"
-[calllbackremote]="true"
-[itemEvents]="ocAceptadaEvents"
-[fetchDataFunction]="fetchFunction"
-[groupName]="groupName"
-[controlName]="controlName"
-[inputValuePropName]="inputValuePropName"
-[form]="form"
-(valueChange)="valueChange.emit($event)"
-></app-dialog-field>
-
-
+<ng-container *ngIf="form">
+    <ng-container *ngIf="ocEstadoFinalizado; else inputTemplate">
+      <ng-container *ngIf="list$ | async as list">
+        <app-dialog-field-oc
+         
+          [title]="title"
+          [columns]="columns"
+          [list]="list"
+          [groupName]="groupName"
+          [controlName]="controlName"
+          [inputValuePropName]="inputValuePropName"
+          [form]="form"
+          (valueChange)="valueChange.emit($event)"
+        ></app-dialog-field-oc>
+      </ng-container>
+    </ng-container>
+    <ng-template #inputTemplate>
+      <app-input-field-oc
+        [hint]="(list$ | async)?.length === 0 && !ocEstadoFinalizado ? 'Sin estado Finalizado' : emptyHint"
+        [title]="title"
+        [readonly]="true"
+        [groupName]="groupName"
+        [controlName]="controlName"
+        [form]="form"
+      ></app-input-field-oc>
+    </ng-template>
+  </ng-container>
+  

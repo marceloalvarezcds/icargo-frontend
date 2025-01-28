@@ -72,6 +72,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
       camion_id: [null, Validators.required],
+      camion_placa: null,
       combinacion_id: [null, Validators.required],
       marca_camion: null,
       color_camion: null,
@@ -107,10 +108,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       anticipos: null,
       id_orden_carga: null,
       condicion: null,
+      comentarios: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
-      comentarios: null,
       producto_descripcion: null,
       documento_fisico:null,
     }),
@@ -907,6 +908,7 @@ private cancelOrdenCarga(): void {
                 ...this.form.value.combinacion, // Mantenemos los valores actuales
                 flete_id: data.flete_id,
                 camion_id: data.camion_id,
+                camion_placa: data.camion_placa,
                 combinacion_id: data.combinacion_id,
                 marca_camion: data.camion_marca,
                 color_camion: data.camion_color,

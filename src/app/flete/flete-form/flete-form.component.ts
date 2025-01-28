@@ -338,9 +338,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      if (this.isShow) {
-        this.form.disable();
-      }
+      
 
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
@@ -422,10 +420,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
         setTimeout(() => {
 
-          if (this.isEdit) {
-            this.form.disable();
-            this.form.get('complementos')?.disable();
-          }
           this.hasChange = false;
           this.initialFormValue = this.form.value;
         }, 500);
