@@ -17,15 +17,15 @@ export class OcAceptadasDialogFieldComponent  {
  columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
-      def: 'fecha',
-      title: 'Fecha',
-      value: (element: OrdenCargaList) => element.created_at,
-      type: 'only-date'
-    },
-    {
       def: 'id',
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
+    },
+
+    {
+      def: 'cliente',
+      title: 'Cliente',
+      value: (element: OrdenCargaList) => element.flete_remitente_nombre,
     },
  
     {
@@ -38,6 +38,24 @@ export class OcAceptadasDialogFieldComponent  {
       title: 'Destino',
       value: (element: OrdenCargaList) => element.destino_nombre,
     },
+
+    {
+      def: 'camion_placa',
+      title: 'Tracto',
+      value: (element: OrdenCargaList) => element.camion_placa,
+    },
+
+    {
+      def: 'chofer_nombre',
+      title: 'Chofer',
+      value: (element: OrdenCargaList) => element.chofer_nombre,
+    },
+
+    {
+      def: 'flete_producto_descripcion',
+      title: 'Producto',
+      value: (element: OrdenCargaList) => element.flete_producto_descripcion,
+    }
   ];
 
   @Input() ocAceptadaEvents?: Observable<OrdenCargaList>
