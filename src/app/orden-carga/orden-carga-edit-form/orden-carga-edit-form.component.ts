@@ -845,8 +845,8 @@ private cancelOrdenCarga(): void {
             console.error('Error al obtener el anticipo de flete:', error);
           }
         });
+      }
     }
-  }
 
   onEditPressed() {
     this.isEditPressed = false;

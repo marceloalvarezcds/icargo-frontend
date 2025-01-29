@@ -464,7 +464,6 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
         this.item = data;
         this.item.anticipos,
         this.isActive = data.estado === EstadoEnum.NUEVO;
-        console.log('item', this.item)
         this.form.patchValue({
           combinacion: {
             flete_id: data.flete_id,
@@ -498,7 +497,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-            anticipos: this.item.anticipos,
+           
             comentarios: '',
           },
           info: {
@@ -507,7 +506,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
           },
        
         });
-        this.cdRef.detectChanges(); 
+       
         this.form.get('info.cantidad_nominada')?.disable();
         this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
