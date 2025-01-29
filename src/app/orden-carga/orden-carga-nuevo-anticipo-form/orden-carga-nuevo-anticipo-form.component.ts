@@ -187,15 +187,12 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setInitialToggleState();
-    this.getData();
-    // Suscribirse a cambios en el ID de Orden de Carga
-    this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
-    .pipe(
-      debounceTime(300), // Evitar llamadas frecuentes
-      distinctUntilChanged() // Solo ejecutar si el valor cambia
-    )
-    .subscribe(id => {
-      this.handleIdChange(id);
+    this.getData();  // Asegúrate de que se llame cuando se inicializa
+  
+    this.form.get('combinacion.id_orden_carga')?.valueChanges.subscribe(id => {
+      if (id) {
+        this.getData();  // Llamar cada vez que cambie el ID
+      }
     });
   }
   
@@ -452,6 +449,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     this.isShow = true;
     this.item!.flete_id = 0;
     this.nuevoActive = true;
+    this.getData(); 
   }
 
   getData(): void {
