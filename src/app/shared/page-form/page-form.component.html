@@ -1,7 +1,7 @@
 <form #form [formGroup]="formGroup" (ngSubmit)="submitEvent.emit()">
   <div class="page-form-component">
 
-    <div class="page-title" style="align-items: center;">
+    <div class="page-title"  style="align-items: center;">
 
       <span class="title">
 
@@ -27,7 +27,7 @@
 
       </span>
 
-      <div class="page-title-buttons">
+      <div *ngIf="!isDialog" class="page-title-buttons">
 
         <button
           mat-stroked-button
@@ -42,7 +42,6 @@
           VOLVER
         </button>
 
-           
         <!-- FIXME -->
         <div *ngIf="(submodule === 'PROPIETARIOS' || submodule === 'CHOFER' || submodule === 'TRACTOS'
          || submodule === 'PEDIDOS' || submodule === 'SEMI') && !isEdit && !isShow" class="estado-container">
@@ -50,7 +49,7 @@
           <input
               id="estado-input"
               type="text"
-              value="PENDIENTE"  
+              value="PENDIENTE"
               [ngClass]="{'button-disabled': isFormSubmitting}"
               [readonly]="isFormSubmitting"
               class="estado-input"
@@ -276,12 +275,12 @@
           matTooltip="Cambiar Pedido"
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
-          *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) 
+          *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
             && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
           >
           CAMBIAR PEDIDO
         </button>
-        
+
         <button
           mat-flat-button
           type="submit"
@@ -339,6 +338,19 @@
 
     </div>
 
+  </div>
+
+  <div *ngIf="isDialog" mat-dialog-actions>
+    <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
+    <button *ngIf="!isShow"
+      mat-raised-button
+      type="button"
+      (click)="crearDialog()"
+      cdkFocusInitial
+      color="primary"
+      id="submit-button">
+      Guardar
+    </button>
   </div>
 
 </form>

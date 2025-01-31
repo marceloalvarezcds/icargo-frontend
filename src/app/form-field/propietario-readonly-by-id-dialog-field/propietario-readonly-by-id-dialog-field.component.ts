@@ -10,6 +10,11 @@ import { Column } from 'src/app/interfaces/column';
 import { PropietarioList } from 'src/app/interfaces/propietario';
 import { PropietarioService } from 'src/app/services/propietario.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { Observable } from 'rxjs';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { DialogService } from 'src/app/services/dialog.service';
+import { PropietarioFormComponent } from 'src/app/flota/propietario-form/propietario-form.component';
+import { ComentarioConfirmDialogComponent } from 'src/app/dialogs/comentario-confirm-dialog/comentario-confirm-dialog.component';
 
 @Component({
   selector: 'app-propietario-readonly-by-id-dialog-field',
@@ -18,10 +23,11 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 })
 export class PropietarioReadonlyByIdDialogFieldComponent {
   readonly inputValuePropName = 'info';
+
   cId?: number;
   sId?: number;
   id?: number;
-  list: PropietarioList[] = [];
+  //list: PropietarioList[] = [];
   propietario?: PropietarioList;
 
   columns: Column[] = [
@@ -81,49 +87,88 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
     },
   ];
 
+  @Input() propietarioEvents?: Observable<PropietarioList>;
   @Input() controlName = 'propietario_id';
   @Input() form?: FormGroup;
   @Input() groupName = '';
   @Input() title = 'Propietario';
   @Input() set camionId(id: number | undefined) {
     this.cId = id;
-    this.getList();
+    //this.getList();
   }
   @Input() set propietarioId(id: number | undefined) {
     this.id = id;
-    this.getList();
+    //this.getList();
   }
   @Input() set semiId(id: number | undefined) {
     this.sId = id;
-    this.getList();
+    //this.getList();
   }
 
   @Output() valueChange = new EventEmitter<PropietarioList | undefined>();
 
   @ViewChild('app-dialog-field')
-  dialogField?: DialogFieldComponent<PropietarioList>;
+  dialogField?: DialogFieldComponent<PropietarioList, ComentarioConfirmDialogComponent>;
 
-  constructor(private service: PropietarioService) {}
+  fetchFunction = () => this.cId
+    ? this.service.getListByGestorCuentaByCamionId(this.cId)
+    : this.sId
+      ? this.service.getListByGestorCuentaBySemiId(this.sId)
+      : this.service.getListByGestorCuenta();;
 
-  private getList(): void {
-    this.getPropietario();
-    if (this.list.length === 0) {
+  constructor(
+    private service: PropietarioService,
+    private dialog: MatDialog,
+  ) {}
+
+  dialogRefFunctionCrear(): MatDialogRef<PropietarioFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true
+    }
+
+    let dialog = this.dialog
+        .open(PropietarioFormComponent, { data, panelClass: 'full-dialog' })
+
+    return dialog;
+  }
+
+  dialogRefFunctionVer(id:number): MatDialogRef<PropietarioFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true,
+      readOnly:true,
+      id:id
+    }
+
+    return this.dialog.open(PropietarioFormComponent, { data, panelClass: 'full-dialog' });
+  }
+
+  /*private getList(): void {
+  //  this.getPropietario();
+    //if (this.list.length === 0) {
       const list$ = this.cId
         ? this.service.getListByGestorCuentaByCamionId(this.cId)
         : this.sId
-        ? this.service.getListByGestorCuentaBySemiId(this.sId)
-        : this.service.getListByGestorCuenta();
-      list$.subscribe((list) => {
+          ? this.service.getListByGestorCuentaBySemiId(this.sId)
+          : this.service.getListByGestorCuenta();
+      /*list$.subscribe((list) => {
         this.list = list;
         this.getPropietario();
       });
-    }
-  }
+    //}
+  //}
 
   private getPropietario(): void {
-    this.propietario =
-      this.id && this.list.length > 0
-        ? this.list.find((p) => p.id === this.id)
-        : undefined;
+    this.propietario = undefined;
+      //this.id && this.list.length > 0
+      //  ? this.list.find((p) => p.id === this.id)
+      //  : undefined;
   }
+  */
+
 }

@@ -17,13 +17,14 @@
   (submitEvent)="submit(false)"
 >
 
-  <div class="page-form-container"(keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
+  <div class="page-form-container" (keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
 
     <div class="section" formGroupName="info">
       <h2>INFORMACIÓN PRINCIPAL</h2>
       <app-camion-form-info
         [form]="form"
         [camion]="item"
+        [combinacion]="combinacionTracto"
         [estado]="estado"
         [isEdit]="isEdit"
         [isShow]="isShow"
@@ -109,7 +110,7 @@
       ></app-camion-form-capacidad>
     </div>
 
- 
+
 
     <!-- <mat-expansion-panel *ngIf="isEdit || isShow">
       <mat-expansion-panel-header>

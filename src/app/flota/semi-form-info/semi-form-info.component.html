@@ -5,7 +5,7 @@
 
       <div class="row">
 
-          <app-input-field
+        <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Placa"
           [groupName]="groupName"
@@ -16,11 +16,11 @@
         <app-propietario-readonly-by-id-dialog-field
           class="input-form-full col-xs-12 col-sm-6 col-md-4"
           [groupName]="groupName"
+          [propietarioEvents]="propietarioEventsSubject"
           [form]="form"
           [semiId]="semi?.id"
           [propietarioId]="propietarioId"
         ></app-propietario-readonly-by-id-dialog-field>
-
 
         <!-- <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"

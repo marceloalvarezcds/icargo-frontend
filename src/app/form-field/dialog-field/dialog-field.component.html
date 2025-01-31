@@ -13,6 +13,8 @@
         [formControl]="control"
         [dialogRefFunction]="dialogRefFunction"
         [fetchFunction]="fetchFunction"
+        [fetchDateFunction]="fetchDataFunction"
+        [dialogRefFunctionCrear]="dialogRefFunctionCrear"
         (emptyListChange)="emptyListChange.emit()"
         (valueChange)="$event && valueChange.emit($event)"
       ></app-dialog-form-field-control>
@@ -27,12 +29,22 @@
       </button>
       <button
         type="button"
+        *ngIf="!disabled"
         matSuffix
         mat-icon-button
         (click)="$event.stopPropagation(); openDialog()"
         [disabled]="disabled || readonly"
       >
         <mat-icon class="small-icon">search</mat-icon>
+      </button>
+      <button *ngIf="showButtonVer"
+        type="button"
+        matSuffix
+        mat-icon-button
+        [disabled]="!enableButtonVer"
+        (click)="$event.stopPropagation(); openDialogVer()"
+      >
+        <mat-icon class="small-icon">visibility</mat-icon>
       </button>
       <mat-error *ngIf="control.hasError('required')">
         El campo es <strong>requerido</strong>

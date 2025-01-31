@@ -7,25 +7,51 @@
   </h1>
   <h5 *ngIf="subtitle">{{ subtitle }}</h5>
   <div mat-dialog-content>
-    <mat-form-field class="search-item">
-      <mat-icon matPrefix color="primary">search</mat-icon>
-      <input
-        matInput
-        placeholder="Buscar"
-        [formControl]="searchControl"
-        [appAutofocus]="true"
-        autocomplete="off"
-      />
-      <button
-        *ngIf="searchValue"
-        matSuffix
-        mat-icon-button
-        aria-label="Clear"
-        (click)="searchControl.setValue('')"
-      >
-        <mat-icon>close</mat-icon>
-      </button>
-    </mat-form-field>
+
+    <div class="row" style="align-items: flex-start">
+
+      <div class="col-xs-10 input-form-full">
+
+        <mat-form-field class="search-item">
+          <mat-icon matPrefix color="primary">search</mat-icon>
+          <input
+            matInput
+            placeholder="Buscar"
+            [formControl]="searchControl"
+            [appAutofocus]="true"
+            autocomplete="off"
+          />
+          <button
+            *ngIf="searchValue"
+            matSuffix
+            mat-icon-button
+            aria-label="Clear"
+            (click)="searchControl.setValue('')"
+          >
+            <mat-icon>close</mat-icon>
+          </button>
+        </mat-form-field>
+
+      </div>
+
+      <div class="col-xs-2">
+
+        <button
+          *ngIf="showBotonCrear"
+          mat-raised-button
+          type="button"
+          cdkFocusInitial
+          color="primary"
+          id="select-button"
+          class="botones"
+          (click)="openCreateDialog()">
+          CREAR
+        </button>
+
+      </div>
+
+    </div>
+
     <ng-container *ngIf="isFetchPaginator">
       <app-table-selector-with-fetch-paginator
         [columns]="columns"
@@ -44,6 +70,7 @@
         (selectedChange)="selectValue = $event"
       ></app-table-selector>
     </ng-container>
+
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>

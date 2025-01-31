@@ -86,6 +86,7 @@ export interface Camion {
   created_at: string;
   modified_by: string;
   modified_at: string;
+  is_in_combinacion: boolean,
 }
 
 export interface CamionList extends Camion {
@@ -115,7 +116,6 @@ export interface CamionList extends Camion {
   pais_emisor_placa_nombre: string;
   pais_emisor_placa_nombre_corto: string;
   tipo_descripcion: string;
-  is_in_combinacion: boolean,
   created_by: string;
   created_at: string;
   modified_by: string;
@@ -212,6 +212,7 @@ export const mockCamion: Camion = {
   created_at: '2021-11-30T20:38:09.553757',
   modified_by: 'system',
   modified_at: '2021-11-30T20:38:09.553757',
+  is_in_combinacion: false,
 };
 
 export const mockCamionList: CamionList[] = [

@@ -1,5 +1,4 @@
 import {
-  AfterViewInit,
   Component,
   EventEmitter,
   Input,
@@ -16,7 +15,7 @@ import {
   PaginatedListRequest,
 } from 'src/app/interfaces/paginate-list';
 import { DialogFormFieldControlComponent } from '../dialog-form-field-control/dialog-form-field-control.component';
-import { take } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-field',
@@ -24,7 +23,7 @@ import { take } from 'rxjs/operators';
   styleUrls: ['./dialog-field.component.scss'],
   exportAs: 'app-dialog-field',
 })
-export class DialogFieldComponent<T extends { id: number },
+export class DialogFieldComponent<T extends { id: number }, E = T,
     DialogComponent = SelectorDialogComponent<T>> {
 
   get group(): FormGroup {
@@ -42,6 +41,7 @@ export class DialogFieldComponent<T extends { id: number },
     return this.control.disabled;
   }
 
+  @Input() showButtonVer=false;
   @Input() calllbackremote=false;
   @Input() form?: FormGroup;
   @Input() formControl?: AbstractControl | null;
@@ -56,6 +56,8 @@ export class DialogFieldComponent<T extends { id: number },
   @Input() subtitle = '';
   //@Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
   @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
+  @Input() dialogRefFunctionCrear?: () => MatDialogRef<E>;
+  @Input() dialogRefFunctionVer?: (id:number) => MatDialogRef<E>;
   @Input() fetchDataFunction?: () => Observable<T[]>;
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input()
@@ -68,7 +70,6 @@ export class DialogFieldComponent<T extends { id: number },
   }
 
   //private isreadonly = false;
-
   @Output() clearClick = new EventEmitter();
   @Output() emptyListChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<T>();
@@ -77,6 +78,10 @@ export class DialogFieldComponent<T extends { id: number },
 
   @ViewChild(DialogFormFieldControlComponent)
   dialogFieldControl?: DialogFormFieldControlComponent<T>;
+
+  get enableButtonVer():boolean {
+    return this.control.value ? true : false;
+  }
 
   constructor() {}
 
@@ -104,6 +109,23 @@ export class DialogFieldComponent<T extends { id: number },
     }
 
   }
+
+  openDialogVer(): void {
+
+    const dialogRef = this.dialogRefFunctionVer ? this.dialogRefFunctionVer(this.control.value) : null;
+
+    if (dialogRef) {
+
+      dialogRef
+        .afterClosed()
+        .pipe(filter((confirmed) => !!confirmed))
+        .subscribe((resp: T) => {
+        });
+
+    }
+
+  }
+
   isOpen = false;
 
   close() {
@@ -120,4 +142,5 @@ export class DialogFieldComponent<T extends { id: number },
         return 'default-class';
     }
   }
+
 }
