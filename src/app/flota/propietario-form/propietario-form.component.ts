@@ -189,7 +189,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router,
-    public dialogRef: MatDialogRef<PropietarioFormComponent>,
+    @Optional() public dialogRef: MatDialogRef<PropietarioFormComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
   ) {
 
