@@ -2,54 +2,74 @@
   <ng-container *ngIf="calllbackremote || fetchFunction || list.length; else inputTemplate">
     <label  class="form-label mr-2"       [ngClass]="{
       'label-punto-venta mr-2': controlName === 'punto_venta_id' || controlName === 'insumo_punto_venta_precio_id'}">{{ title }}</label>
-    <mat-form-field   [ngClass]="getClassForControl(controlName)">
-      <app-dialog-form-field-control
-        [descripcionPropName]="inputValuePropName"
-        [columns]="columns"
-        [list]="list"
-        [title]="title"
-        [subtitle]="subtitle"
-        [itemEvents]="itemEvents"
-        [formControl]="control"
-        [dialogRefFunction]="dialogRefFunction"
-        [fetchFunction]="fetchFunction"
-        [fetchDateFunction]="fetchDataFunction"
-        [dialogRefFunctionCrear]="dialogRefFunctionCrear"
-        (emptyListChange)="emptyListChange.emit()"
-        (valueChange)="$event && valueChange.emit($event)"
-      ></app-dialog-form-field-control>
-      <button
-        type="button"
-        matSuffix
-        mat-icon-button
-        (click)="$event.stopPropagation(); clearSelectedValue()"
-        *ngIf="control.value"
-        [disabled]="disabled || readonly"
-      >
-      </button>
-      <button
-        type="button"
-        *ngIf="!disabled"
-        matSuffix
-        mat-icon-button
-        (click)="$event.stopPropagation(); openDialog()"
-        [disabled]="disabled || readonly"
-      >
-        <mat-icon class="small-icon">search</mat-icon>
-      </button>
+
+    <div class="row">
+
+      <mat-form-field  [class]="showButtonVer ? 'col-xs-10' : 'col-xs-12'"  [ngClass]="getClassForControl(controlName)">
+        <app-dialog-form-field-control
+          [descripcionPropName]="inputValuePropName"
+          [columns]="columns"
+          [list]="list"
+          [title]="title"
+          [subtitle]="subtitle"
+          [itemEvents]="itemEvents"
+          [formControl]="control"
+          [dialogRefFunction]="dialogRefFunction"
+          [fetchFunction]="fetchFunction"
+          [fetchDateFunction]="fetchDataFunction"
+          [dialogRefFunctionCrear]="dialogRefFunctionCrear"
+          (emptyListChange)="emptyListChange.emit()"
+          (valueChange)="$event && valueChange.emit($event)"
+        ></app-dialog-form-field-control>
+        <button
+          type="button"
+          matSuffix
+          mat-icon-button
+          matTooltip="Buscar..."
+          (click)="$event.stopPropagation(); clearSelectedValue()"
+          *ngIf="control.value"
+          [disabled]="disabled || readonly"
+        >
+        </button>
+        <button
+          type="button"
+          *ngIf="!disabled"
+          matSuffix
+          mat-icon-button
+          matTooltip="Ver..."
+          (click)="$event.stopPropagation(); openDialog()"
+          [disabled]="disabled || readonly"
+        >
+          <mat-icon class="small-icon">search</mat-icon>
+        </button>
+        <!--button *ngIf="showButtonVer"
+          type="button"
+          matSuffix
+          mat-icon-button
+          [disabled]="!enableButtonVer"
+          (click)="$event.stopPropagation(); openDialogVer()"
+        >
+          <mat-icon class="small-icon">visibility</mat-icon>
+        </button-->
+        <mat-error *ngIf="control.hasError('required')">
+          El campo es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+
       <button *ngIf="showButtonVer"
+        class="botones-dialog col-xs-1"
+        mat-flat-button
+        color="primary"
         type="button"
-        matSuffix
-        mat-icon-button
         [disabled]="!enableButtonVer"
-        (click)="$event.stopPropagation(); openDialogVer()"
-      >
-        <mat-icon class="small-icon">visibility</mat-icon>
+        (click)="$event.stopPropagation(); openDialogVer()">
+        <mat-icon class="small-icon">add_circle</mat-icon>
+        Ver
       </button>
-      <mat-error *ngIf="control.hasError('required')">
-        El campo es <strong>requerido</strong>
-      </mat-error>
-    </mat-form-field>
+
+    </div>
+
+
   </ng-container>
   <ng-template #inputTemplate>
     <app-input-field
