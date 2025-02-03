@@ -353,7 +353,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          *ngIf="!showField"
+          *ngIf="!showField && isEditField"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Saldo (del Pedido)"
           [groupName]="groupName"
@@ -393,7 +393,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          *ngIf="!showField"
+          *ngIf="!showField && !isEditField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Flete a <strong>PAGAR</strong>"
           [groupName]="groupName"
@@ -405,7 +405,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          *ngIf="!showField"
+          *ngIf="!showField && !isEditField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Valor mercaderia"
           [groupName]="groupName"
@@ -418,7 +418,7 @@
       </div>
     </div>
 
-    <div class="section" *ngIf="!showField">
+    <div class="section" *ngIf="!showField && !isEditField">
       <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">CANTIDAD NOMINADA</h2>
 
       <div class="row" [class.colapse-div]="colapseDivCantidad">

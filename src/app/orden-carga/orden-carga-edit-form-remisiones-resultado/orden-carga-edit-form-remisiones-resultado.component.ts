@@ -20,8 +20,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
   columns: Column[] = [
     {
       def: 'responsable',
-      title: '',
-      mainTitle: 'Resultado',
+      title: 'Resultados',
       value: (element: OrdenCargaRemisionResultado) => element.responsable,
       sticky: true,
     },
@@ -34,22 +33,9 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
   
     {
       def: 'total_flete_mon',
-      title: 'Total (Mon)',
-      mainTitle: '',
+      title: 'Total',
+     
       value: (element: OrdenCargaRemisionResultado) => element.total_flete,
-      type: 'number',
-    },
-    {
-      def: 'total_kg',
-      title: 'Tol. (kg)',
-      mainTitle: '',
-      value: (element: OrdenCargaRemisionResultado) => element.tolerancia_kg,
-      type: 'number',
-    },
-    {
-      def: 'merma_valor',
-      title: 'Merma (kg)',
-      value: (element: OrdenCargaRemisionResultado) => element.merma,
       type: 'number',
     },
     {
@@ -59,9 +45,30 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       type: 'number',
     },
     {
+      def: 'total_kg',
+      title: 'Tolerancia',
+     
+      value: (element: OrdenCargaRemisionResultado) => element.tolerancia_kg,
+      type: 'number',
+    },
+    {
+      def: 'merma_valor',
+      title: 'Merma',
+      value: (element: OrdenCargaRemisionResultado) => element.merma,
+      type: 'number',
+    },
+  
+    {
       def: 'tolerancia_kg',
-      title: 'Total (Mon)',
+      title: 'Total',
       value: (element: OrdenCargaRemisionResultado) => element.merma_valor_total_moneda_local,
+      type: 'number',
+    },
+    {
+      def: 'comp_desc',
+      title: 'Total',
+   
+      value: (element: OrdenCargaRemisionResultado) => element.complemento_descuento,
       type: 'number',
     },
     {
@@ -80,7 +87,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
 
     {
       def: 'combustible',
-      title: 'Comb.',
+      title: 'Combustible',
       value: (element: OrdenCargaRemisionResultado) =>
         element.total_combustible,
       type: 'number',
@@ -108,6 +115,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
   lista: OrdenCargaRemisionResultado[] = [];
   modelo = m.ORDEN_CARGA_REMISION_RESULTADO;
 
+  ordencarga?: OrdenCarga
   @Input() oc?: OrdenCarga
   @Input() title = 'Resultados';
   @Input() gestorCargaId?: number;

@@ -36,6 +36,7 @@ import { FleteAnticipo, FleteAnticipoForm } from 'src/app/interfaces/flete-antic
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
 import { OrdenCargaAnticipoSaldo, OrdenCargaAnticipoSaldoForm } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
+import { OcRemitirDialogComponent } from 'src/app/dialogs/oc-remitir-dialog/oc-remitir-dialog.component';
 
 
 @Component({
@@ -582,9 +583,7 @@ private cancelOrdenCarga(): void {
                           horizontalPosition: 'center'
                       });
                       this.downloadResumenPDF();
-                  } else {
-                      console.log('Diálogo de evaluación cancelado');
-                  }
+                  } 
               });
           },
       );
@@ -733,6 +732,14 @@ private cancelOrdenCarga(): void {
     });
   }
 
+
+  openRemitirDialog(): void {  
+    this.dialog.open(OcRemitirDialogComponent, {
+      width: '600px',
+      data: { oc: this.item }, 
+    });
+  }
+  
 
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {

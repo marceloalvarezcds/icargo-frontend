@@ -1,0 +1,48 @@
+<form [formGroup]="form" >
+
+    <!-- <h1 mat-dialog-title>
+      <span class="complement-text"> ORIGEN</span>
+    </h1>
+   -->
+    <div mat-dialog-content>
+  
+      <div class="section" >
+        <h2>REMITIR OC</h2>
+      </div>
+  
+      <div class="row">
+        <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Fecha de Re-emision"
+        controlName="created_at"
+        [form]="form"
+        [showFutureDateWarning]="true" 
+      ></app-fecha-field>
+      
+  
+      </div>
+    </div>
+  
+    <hr class="horizontal-line-final">
+  
+    <div mat-dialog-actions>
+      <button
+        mat-stroked-button
+        class="botones"  type="button"
+        mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cerrar
+      </button>
+      <button
+        mat-flat-button
+        class="botones" color="primary" type="button"
+        (click)="submit()"
+        cdkFocusInitial
+        id="submit-button"
+      >
+        <mat-icon>save</mat-icon> GUARDAR
+      </button>
+    </div>
+  
+  </form>
+  

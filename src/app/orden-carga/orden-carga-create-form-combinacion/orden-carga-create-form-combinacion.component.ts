@@ -55,6 +55,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() listAnticipos: OrdenCargaAnticipoRetirado[] = [];
   @Input() isNeto: boolean = false ;
   @Input() showField: boolean = false;
+  @Input() isEditField: boolean = false;
   @Input() showTractoField: boolean = false;
   @Input() gestorCargaId?: number;
   @Input() oc?: OrdenCarga;

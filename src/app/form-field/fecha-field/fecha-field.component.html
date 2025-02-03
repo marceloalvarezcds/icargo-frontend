@@ -13,6 +13,7 @@
         matInput
         [formControlName]="controlName"
         [matDatepicker]="picker"
+        
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>
@@ -25,6 +26,7 @@
       <mat-error *ngIf="control.hasError('matDatepickerParse')">
         La {{ title }} no es <strong>válida</strong>
       </mat-error>
+      
     </mat-form-field>
 
   </ng-container>
@@ -41,6 +43,7 @@
         matInput
         [formControlName]="controlName"
         [matDatepicker]="picker"
+        
       />
       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
       <mat-datepicker #picker></mat-datepicker>

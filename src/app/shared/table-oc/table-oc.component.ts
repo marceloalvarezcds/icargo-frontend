@@ -56,7 +56,6 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
     this.tableDataSource.sort = this.sort;
   }
 
-  @Input() gestorCargaId?: number;
  
   displayedColumnsWithHeader: string[] = ['title1', 'title2', ...this.displayedColumns];
   @Input() set columns(list: Column[]) {
@@ -83,7 +82,7 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
   ); 
 
   @Input() oc?: OrdenCarga;
-
+  @Input() gestorCargaId?: number;
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
   @Input() columnWidths: { [key: string]: string; } | undefined;

@@ -42,6 +42,11 @@ export class OrdenCargaService {
     return this.http.put<OrdenCarga>(`${this.url}/${id}`, formData);
   }
 
+  editRemitir(id: number, formData: FormData): Observable<OrdenCarga> {
+    return this.http.put<OrdenCarga>(`${this.url}/${id}/remitir`, formData);
+  }
+
+
   delete(id: number): Observable<OrdenCarga> {
     return this.http.delete<OrdenCarga>(`${this.url}/${id}`);
   }

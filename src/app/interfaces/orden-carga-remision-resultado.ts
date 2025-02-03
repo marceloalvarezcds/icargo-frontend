@@ -5,6 +5,7 @@ export interface OrdenCargaRemisionResultado {
   merma_valor: number;
   tolerancia: number;
   tolerancia_kg: number;
+  complemento_descuento: number;
   merma: number;
   merma_valor_total: number;
   merma_valor_total_moneda_local: number;

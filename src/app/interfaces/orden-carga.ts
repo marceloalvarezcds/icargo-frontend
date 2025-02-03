@@ -250,6 +250,11 @@ export interface OrdenCargaList extends OrdenCargaForm {
   modified_at: string;
 }
 
+export interface OrdenCargaRemitir {
+  oc: OrdenCarga;
+  created_at: string;
+}
+
 const camion0 = mockCamionList[0];
 const camion1 = mockCamionList[1];
 

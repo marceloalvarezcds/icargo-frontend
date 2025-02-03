@@ -153,6 +153,18 @@
         </button>
 
         <button
+          *ngIf="oc?.estado === E.ACEPTADO && submodule === 'ORDEN DE CARGA' && isEdit"
+          mat-flat-button
+          class="botones" color="accent"
+          type="button"
+          (click)="remitirClick.emit($event)"
+          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
+          (oc?.estado === E.NUEVO)|| oc?.cantidad_destino || oc?.cantidad_origen"
+          >
+          REMITIR OC
+        </button>
+
+        <button
           *ngIf="(oc?.estado !== 'Finalizado' &&
             (module === 'ACEPTAR' || module === 'FINALIZAR'
             || oc?.estado === E.ACEPTADO))

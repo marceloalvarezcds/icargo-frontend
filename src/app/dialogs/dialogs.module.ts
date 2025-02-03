@@ -45,6 +45,7 @@ import { CommentDialogComponent } from './comment-dialog/comment-dialog.componen
 import { EvaluacionesDialogComponent } from './evaluaciones-dialog/evaluaciones-dialog.component';
 import { EvaluacionesCancelarComponent } from './evaluaciones-cancelar/evaluaciones-cancelar.component';
 import { RemisionFormDialogComponent } from './remision-form-dialog/remision-form-dialog.component';
+import { OcRemitirDialogComponent } from './oc-remitir-dialog/oc-remitir-dialog.component';
 
 
 const modules = [
@@ -85,7 +86,8 @@ const modules = [
   CommentDialogComponent,
   EvaluacionesDialogComponent,
   EvaluacionesCancelarComponent,
-  RemisionFormDialogComponent
+  RemisionFormDialogComponent,
+  OcRemitirDialogComponent,
 ];
 
 @NgModule({

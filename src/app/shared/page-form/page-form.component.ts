@@ -89,6 +89,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() cancelarFleteClick = new EventEmitter();
   @Output() cambiarFleteClick = new EventEmitter();
   @Output() nuevoClick = new EventEmitter();
+  @Output() remitirClick = new EventEmitter();
   @Output() submitEvent = new EventEmitter();
   @Output() formStateChanged = new EventEmitter<FormGroup>();
   @Output() ocChange = new EventEmitter<void>();

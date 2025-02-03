@@ -1,18 +1,67 @@
 <div #tableContainer style="overflow-x: auto;" [ngStyle]="tableStyles" >
   <table>
-   
+    <thead>
+ 
+      <tr>
+        <th class="width-title-nominada"colspan="2" >   
+         
+          <span class="label">Cantidad Nominada </span>
+          <span class="peso-value">
+            <span class="peso-tarifa-value">{{ (oc?.cantidad_nominada ?? 0) | number: '1.0-0' }}</span>
+          </span>
+        
+        </th> 
+
+        <th class="width-title-pesos" colspan="2">   
+         
+          <span class="label">Neto de la Combinacion </span>
+          <span class="peso-value">
+            <span class="peso-tarifa-value">{{ (oc?.neto ?? 0) | number: '1.0-0' }}</span>
+          </span>
+        
+        </th> 
+
+        <th class="width-title-pesos" >   
+         
+          <span class="label">Peso Origen </span>
+          <span class="peso-value">
+            <span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span>
+          </span>
+        
+        </th> 
+
+        <th class="width-title-pesos" >   
+         
+          <span class="label-destino">Peso Destino </span>
+          <span class="peso-value">
+            <span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span>
+          </span>
+        
+        </th> 
+        <th class="width-title-diferencia" colspan="2">   
+         <div class="diferencia">
+          <span class="label">Diferencia </span>
+          <span class="peso-value">
+            <span class="peso-tarifa-value">{{ ((oc?.cantidad_origen ?? 0) - (oc?.cantidad_destino ?? 0)) | number: '1.0-0' }}</span>
+          </span>
+        </div>
+        </th> 
+     
+    </tr>
+    </thead>
+    
     <thead>
       <tr>
-        <th class="width-title-resultados">Resultados</th>
-        <th class="width-title-flete">Flete</th>
-        <th class="width-title-merma">Merma</th>
-        <th class="width-title-desc">Compl./Desc.</th>
-        <th class="width-title-saldo-bruto">Saldo</th>
-        <th class="width-title-anticipos">Anticipos</th>
-        <th class="width-title-saldo-neto">Saldo</th>
+          <th class="width-title-resultados" >Concepto</th> 
+          <th class="width-title-flete" >Flete</th> 
+          <th class="width-title-merma" >Merma</th> 
+          <th class="width-title-desc" >Compl./Desc.</th> 
+          <th class="width-title-saldo-bruto" >Saldo</th> 
+          <th class="width-title-anticipos" colspan="2">Anticipos</th> 
+          <th class="width-title-saldo-neto">Saldo</th> 
       </tr>
-    </thead>
-
+  </thead>
+  
   </table>
   
   <table mat-table [dataSource]="tableDataSource" matSort  >
@@ -44,22 +93,7 @@
             {{ column.title }} 
           </mat-checkbox>
         </ng-container>
-        <span *ngIf="column.type !== 'checkbox'"
-        [ngClass]="{
-          'oc-title': column.def === 'responsable',
-          'width-column-1' :column.def === 'tarifa',
-          'oc-titles-fonts': column.def === 'tarifa' ||
-                             column.def === 'total_flete' ||
-                             column.def === 'total_kg' ||
-                             column.def === 'merma_valor' ||
-                             column.def === 'tolerancia' ||
-                             column.def === 'tolerancia_kg' ||
-                             column.def === 'bruto' ||
-                             column.def === 'efectivo' || 
-                             column.def === 'combustible' || 
-                             column.def === 'saldo',
-            'oc-width-columns': column.def === 'responsable'}"
-      >
+        <span *ngIf="column.type !== 'checkbox'">
           {{ column.title }}
         </span>
       </th>
