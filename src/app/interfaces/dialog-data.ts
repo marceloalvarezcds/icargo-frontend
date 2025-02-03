@@ -1,9 +1,10 @@
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 import { EstadoEnum } from '../enums/estado-enum';
 import { Column } from './column';
 import { FleteList, mockFleteList } from './flete';
 import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
 import { PaginatedList, PaginatedListRequest } from './paginate-list';
+import { MatDialogRef } from '@angular/material/dialog';
 
 export interface FleteAnticipoDialogData {
   list: FleteAnticipo[];
@@ -33,6 +34,9 @@ export interface SelectorDialogData<T> extends SelectorDialogDataBase<T> {
   columns: Column[];
   fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   fetchFunctionLocal?: () => Observable<T[]>;
+  dialogRefFunctionCrear?: ()=> MatDialogRef<any>;
+  nuevoEleEvent?: Subject<[T, T[]]>;
+  backEleEventsSubject?: Subject<T[]>;
 }
 
 export const mockFleteAnticipoDialogData: FleteAnticipoDialogData = {

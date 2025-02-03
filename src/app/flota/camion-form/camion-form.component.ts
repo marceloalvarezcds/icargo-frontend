@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -10,6 +11,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
+import { Combinacion } from 'src/app/interfaces/combinacion';
 import { CamionService } from 'src/app/services/camion.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -26,6 +28,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   id?: number;
   item?: Camion;
   propietarioId?: number;
+  combinacionTracto?: Combinacion;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
   isEdit = false;
@@ -165,17 +168,16 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private dialog: DialogService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router) { }
 
   ngOnInit(): void {
     this.getData();
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -392,7 +394,15 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
             limite_monto_anticipos: data.limite_monto_anticipos,
           },
+
+
         });
+
+        if (data?.is_in_combinacion) {
+          console.log("esta en combinacion, buscamos para llenar campos");
+          this.getCombinacionByTracto(data.id);
+        }
+
         setTimeout(() => {
           if (this.isShow) {
             this.form.disable();
@@ -405,4 +415,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  private getCombinacionByTracto(tractoId:number):void {
+    // TODO llamada al back por tracto para cargar combinacion
+    //this.combinacionTracto
+  }
+
 }

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -6,6 +6,7 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -70,6 +71,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   created_at = '';
   modified_by = '';
   modified_at = '';
+  isDialog: boolean = false;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -186,8 +188,17 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private dialog: DialogService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    @Optional() public dialogRef: MatDialogRef<PropietarioFormComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
+  ) {
+
+    if (this.data && this.data.isDialog) {
+      this.isDialog = this.data.isDialog;
+      this.isShow = this.data.readOnly;
+    }
+
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -230,9 +241,9 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -308,13 +319,21 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.propietarioService.create(formData).subscribe((propietario) => {
-          this.snackbar.openSaveAndRedirect(
-            confirmed,
-            this.backUrl,
-            r.FLOTA,
-            m.PROPIETARIO,
-            propietario.id
-          );
+
+          if (this.isDialog){
+
+            this.dialogRef.close(propietario);
+
+          } else {
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.FLOTA,
+              m.PROPIETARIO,
+              propietario.id
+            );
+          }
+
         });
       }
     } else {
@@ -354,9 +373,14 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
+    if (this.isDialog) {
+      this.id = this.data.id;
+    }
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      if (!this.isDialog) {
+        this.isEdit = /edit/.test(this.router.url);
+        this.isShow = /ver/.test(this.router.url);
+      }
       if (this.isShow) {
         this.form.disable();
       }
@@ -404,7 +428,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             foto_documento_frente: data.foto_documento_frente,
             foto_documento_reverso: data.foto_documento_reverso,
             foto_perfil: data.foto_perfil,
-        
+
           },
           chofer: {
             tipo_documento_id: data.tipo_documento_id ?? null,
@@ -439,4 +463,5 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
 }

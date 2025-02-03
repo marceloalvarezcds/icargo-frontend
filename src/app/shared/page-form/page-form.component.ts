@@ -32,7 +32,7 @@ export class PageFormComponent implements OnDestroy {
   a = PermisoAccionEnum;
   pdfSrc: string | undefined;
   E = EstadoEnum;
-  
+
   @Input() isAnticiposLiberados = false;
   @Input() puedeConciliar = false;
   @Input() oc?: OrdenCarga;
@@ -75,6 +75,7 @@ export class PageFormComponent implements OnDestroy {
   @Input() labelBtnGuardar:string="GUARDAR"
   @Input() tooltipBtnGuardar:string="GUARDAR"
   @Input() cantidadOCConAnticiposLiberados = 0;
+  @Input() isDialog: boolean = false;
 
   @Output() backClick = new EventEmitter<boolean>();
   @Output() downloadClick = new EventEmitter<MouseEvent>();
@@ -96,7 +97,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() anticiposBloqueadosChange = new EventEmitter();
 
   puedeRecibirAnticiposControl: FormControl = new FormControl(false);
-  
+
   constructor(
     private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
@@ -183,7 +184,9 @@ export class PageFormComponent implements OnDestroy {
     });
   }
 
-
+  crearDialog():void {
+    this.submitEvent.emit();
+  }
 
 
   get group(): FormGroup {

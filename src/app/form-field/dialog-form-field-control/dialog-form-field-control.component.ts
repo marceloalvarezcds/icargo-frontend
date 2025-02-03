@@ -30,7 +30,7 @@ import {
 } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
 import { Observable, Subject, Subscription } from 'rxjs';
-import { filter, map, take } from 'rxjs/operators';
+import { filter, take } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
@@ -107,6 +107,7 @@ export class DialogFormFieldControlComponent<
   @Input() smallInput: boolean | undefined;
   @Input() excludeInactive: boolean = false;
   @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
+  @Input() dialogRefFunctionCrear?: () => MatDialogRef<any>
   @Input() fetchDateFunction?: () => Observable<T[]>;
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input() columns: Column[] = [];
@@ -360,6 +361,24 @@ export class DialogFormFieldControlComponent<
 
   private getDefaultDialogRef(): MatDialogRef<SelectorDialogComponent<T>> {
 
+    const nuevoEleEventsSubject: Subject<[T, T[]]> = new Subject<[T, T[]]>();
+    const backEleEventsSubject: Subject<T[]> = new Subject<T[]>();
+
+    nuevoEleEventsSubject.subscribe( (a:any[]) => {
+
+      this.list = a[1];
+
+      setTimeout((e:T) => {
+        this.selectedValue = e;
+        this.writeValue(this.selectedValue.id);
+      }, 500, a[0]);
+
+    })
+
+    backEleEventsSubject.subscribe( (lista:any) => {
+      this.openDialogWithData(lista);
+    });
+
     const data: SelectorDialogData<T> = {
       list: this.list.slice(),
       columns: this.columns.slice(),
@@ -367,7 +386,12 @@ export class DialogFormFieldControlComponent<
       subtitle: this.subtitle,
       selectedValue: this.selectedValue,
       fetchFunction: this.fetchFunction,
+      fetchFunctionLocal: this.fetchDateFunction,
+      dialogRefFunctionCrear: this.dialogRefFunctionCrear,
+      nuevoEleEvent: nuevoEleEventsSubject,
+      backEleEventsSubject: backEleEventsSubject,
     };
+
     const config: MatDialogConfig = {
       data,
       panelClass: 'selector-dialog',

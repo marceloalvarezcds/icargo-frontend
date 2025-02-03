@@ -13,27 +13,33 @@
           controlName="placa"
           [form]="form"
         ></app-input-field>
-        <ng-container *ngIf="camion && camion.chofer">
-          <div class="input-form-full col-xs-12 col-sm-6 col-md-2" 
-               [hidden]="camion.propietario_estado === ACTIVO">
+
+        <ng-container *ngIf="camion">
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-2"
+            [hidden]="camion.propietario_estado === ACTIVO">
+            <mat-label>Propietario</mat-label>
             Propietario Actual {{ camion.propietario.nombre }}:
             {{ camion.propietario_estado }}
           </div>
-          <div class="input-form-full col-xs-12 col-sm-6 col-md-2" 
-               [hidden]="camion.chofer_estado === ACTIVO">
-            Chofer Actual {{ camion.chofer.nombre }}: {{ camion.chofer_estado }}
-          </div>
+          <!--div class="input-form-full col-xs-12 col-sm-6 col-md-2"
+            [hidden]="camion.chofer_estado === ACTIVO" >
+            <mat-label>Propietario</mat-label>
+            Chofer Actual {{ camion.chofer?.nombre }}: {{ camion.chofer_estado }}
+          </div-->
         </ng-container>
 
         <app-propietario-readonly-by-id-dialog-field
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
           [groupName]="groupName"
+          [propietarioEvents]="propietarioEventsSubject"
           [form]="form"
           [camionId]="camion?.id"
           [propietarioId]="propietarioId"
         ></app-propietario-readonly-by-id-dialog-field>
 
-        <ng-container *ngIf="camion?.chofer">
+        <!--TODO: en item combinacion se carga la combinaciones del tracto, mostrar info en campos -->
+        <!-- ojo, las combinacion por traco es por GC -->
+        <!--ng-container *ngIf="camion?.chofer">
           <app-chofer-by-camion-dialog-field
             class="input-form-full col-xs-12 col-sm-6 col-md-3"
             title="Chofer"
@@ -41,11 +47,8 @@
             [groupName]="groupName"
             [form]="form"
           ></app-chofer-by-camion-dialog-field>
-        </ng-container>
-        
+        </ng-container-->
 
-
-        <!--TODO: ver con dario -->
         <!--div [ngClass]="{'move-up': camion && (camion.propietario_estado !== ACTIVO || camion.chofer_estado !== ACTIVO)}"-->
         <!-- <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"

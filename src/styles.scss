@@ -282,6 +282,34 @@ h1.mat-dialog-title {
 /* estilo gral inputs */
 
 /* estilo gral botones */
+.botones-dialog {
+
+  &.mat-button,
+  &.mat-flat-button {
+    border-radius: 5.25px;
+    //padding: 0 10px;
+    height: 28px;
+    margin: 3px 0 0 0;
+    line-height: 0px;
+    padding: 0px;
+  }
+
+  font-size: 12px;
+  letter-spacing: 0px;
+  margin-right: 8px;
+  padding-inline: 5px;
+  min-width: 60px;
+
+  mat-icon{
+    font-size: 22px;
+    //font-weight: bold;
+    //border-radius: 90%;
+    //padding-top: 2px;
+    height: 22px;
+  }
+
+}
+
 .botones {
   &.mat-button,
   &.mat-stroked-button {
