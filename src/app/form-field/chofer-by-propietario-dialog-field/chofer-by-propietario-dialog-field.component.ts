@@ -5,6 +5,8 @@ import { ChoferList } from 'src/app/interfaces/chofer';
 import { Column } from 'src/app/interfaces/column';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
+import { ChoferFormComponent } from 'src/app/flota/chofer-form/chofer-form.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-chofer-by-propietario-dialog-field',
@@ -58,11 +60,41 @@ export class ChoferByPropietarioDialogFieldComponent implements AfterViewInit {
 
   fetchFunction = () => this.service.getList();
 
-  constructor(private service: ChoferService) { }
+  constructor(
+    private service: ChoferService,
+    private dialog: MatDialog,
+  ) { }
 
   ngAfterViewInit(): void {
     //this.getList();
     null;
+  }
+
+  dialogRefFunctionCrear(): MatDialogRef<ChoferFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true
+    }
+
+    let dialog = this.dialog
+        .open(ChoferFormComponent, { data, panelClass: 'full-dialog' })
+
+    return dialog;
+  }
+
+  dialogRefFunctionVer(id:number): MatDialogRef<ChoferFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true,
+      readOnly:true,
+      id:id
+    }
+
+    return this.dialog.open(ChoferFormComponent, { data, panelClass: 'full-dialog' });
   }
 
   //private getList(): void {

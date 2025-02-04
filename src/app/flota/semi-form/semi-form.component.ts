@@ -1,5 +1,6 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -56,6 +57,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
   created_at = '';
   modified_by = '';
   modified_at = '';
+  isDialog: boolean = false;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -155,8 +157,17 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private dialog: DialogService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    @Optional() public dialogRef: MatDialogRef<SemiFormComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
+  ) {
+
+    if (this.data && this.data.isDialog) {
+      this.isDialog = this.data.isDialog;
+      this.isShow = this.data.readOnly;
+    }
+
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -199,9 +210,9 @@ export class SemiFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -277,13 +288,22 @@ export class SemiFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.semiService.create(formData).subscribe((semi) => {
-          this.snackbar.openSaveAndRedirect(
-            confirmed,
-            this.backUrl,
-            r.FLOTA,
-            m.SEMIRREMOLQUE,
-            semi.id
-          );
+
+          if (this.isDialog){
+
+            this.dialogRef.close(semi);
+
+          } else {
+
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.FLOTA,
+              m.SEMIRREMOLQUE,
+              semi.id
+            );
+
+          }
         });
       }
     } else {
@@ -303,9 +323,14 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     }
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
+    if (this.isDialog) {
+      this.id = this.data.id;
+    }
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      if (!this.isDialog) {
+        this.isEdit = /edit/.test(this.router.url);
+        this.isShow = /ver/.test(this.router.url);
+      }
       if (this.isShow) {
         this.form.disable();
       }
@@ -337,7 +362,7 @@ export class SemiFormComponent implements OnInit, OnDestroy {
           info: {
             placa: data.placa,
             propietario_id: data.propietario_id,
-            
+
             foto: data.foto,
           },
           municipal: {

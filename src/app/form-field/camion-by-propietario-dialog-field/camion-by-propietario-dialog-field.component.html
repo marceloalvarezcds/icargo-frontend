@@ -11,7 +11,10 @@
       [groupName]="groupName"
       [controlName]="controlName"
       [inputValuePropName]="inputValuePropName"
+      [dialogRefFunctionCrear]="dialogRefFunctionCrear.bind(this)"
+      [dialogRefFunctionVer]="dialogRefFunctionVer.bind(this)"
       [form]="form"
+      [showButtonVer]="true"
       (valueChange)="camionChange($event)"
     ></app-dialog-field>
 

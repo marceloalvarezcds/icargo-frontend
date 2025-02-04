@@ -12,7 +12,10 @@
       [groupName]="groupName"
       [controlName]="controlName"
       [inputValuePropName]="inputValuePropName"
+      [dialogRefFunctionCrear]="dialogRefFunctionCrear.bind(this)"
+      [dialogRefFunctionVer]="dialogRefFunctionVer.bind(this)"
       [form]="form"
+      [showButtonVer]="true"
       (valueChange)="valueChange.emit($event)"
     ></app-dialog-field>
 

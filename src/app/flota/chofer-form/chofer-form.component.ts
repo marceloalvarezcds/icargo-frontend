@@ -1,10 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -64,6 +65,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   created_at = '';
   modified_by = '';
   modified_at = '';
+  isDialog: boolean = false;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -159,17 +161,26 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private dialog: DialogService,
     private route: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    @Optional() public dialogRef: MatDialogRef<ChoferFormComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
+  ) {
+
+    if (this.data && this.data.isDialog) {
+      this.isDialog = this.data.isDialog;
+      this.isShow = this.data.readOnly;
+    }
+
+  }
 
   ngOnInit(): void {
     this.getData();
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -280,13 +291,22 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.choferService.create(formData).subscribe((chofer) => {
-          this.snackbar.openSaveAndRedirect(
-            confirmed,
-            this.backUrl,
-            r.FLOTA,
-            m.CHOFER,
-            chofer.id
-          );
+
+          if (this.isDialog){
+
+            this.dialogRef.close(chofer);
+
+          } else {
+
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.FLOTA,
+              m.CHOFER,
+              chofer.id
+            );
+
+          }
         });
       }
     } else {
@@ -320,9 +340,14 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   private getData(): void {
 
     this.id = +this.route.snapshot.params.id;
+    if (this.isDialog) {
+      this.id = this.data.id;
+    }
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      if (!this.isDialog) {
+        this.isEdit = /edit/.test(this.router.url);
+        this.isShow = /ver/.test(this.router.url);
+      }
       if (this.isShow) {
         this.form.disable();
       }

@@ -1,17 +1,15 @@
-import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {  FormControl, FormGroup } from '@angular/forms';
 import { Subject } from 'rxjs';
-import { distinctUntilChanged, timeout } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { PermisoAccionEnum, PermisoModeloEnum } from 'src/app/enums/permiso-enum';
+import {  PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion, CamionList } from 'src/app/interfaces/camion';
-import { Chofer, ChoferList } from 'src/app/interfaces/chofer';
+import {  ChoferList } from 'src/app/interfaces/chofer';
 import { Combinacion } from 'src/app/interfaces/combinacion';
 import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
 import { SemiList } from 'src/app/interfaces/semi';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
-import { CamionService } from 'src/app/services/camion.service';
-import { CombinacionService } from 'src/app/services/combinacion.service';
 
 @Component({
   selector: 'app-combinacion-form-info',

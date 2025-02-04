@@ -79,6 +79,8 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
   @ViewChild(DialogFormFieldControlComponent)
   dialogFieldControl?: DialogFormFieldControlComponent<T>;
 
+  loading = false;
+
   get enableButtonVer():boolean {
     return this.control.value ? true : false;
   }
@@ -97,15 +99,19 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
 
   openDialog(): void {
 
+    this.loading = true;
+
     if (this.fetchDataFunction){
 
       this.fetchDataFunction().subscribe((data: T[]) => {
         this.list = data;
         this.dialogFieldControl?.openDialogWithData(data);
+        this.loading = false;
       });
 
     } else {
       this.dialogFieldControl?.openDialog();
+      this.loading = false;
     }
 
   }

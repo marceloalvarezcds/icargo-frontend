@@ -1,6 +1,6 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -60,6 +60,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   created_at = '';
   modified_by = '';
   modified_at = '';
+  isDialog: boolean = false;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -168,7 +169,17 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private dialog: DialogService,
     private route: ActivatedRoute,
-    private router: Router) { }
+    private router: Router,
+    @Optional() public dialogRef: MatDialogRef<CamionFormComponent>,
+    @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
+  ) {
+
+    if (this.data && this.data.isDialog) {
+      this.isDialog = this.data.isDialog;
+      this.isShow = this.data.readOnly;
+    }
+
+   }
 
   ngOnInit(): void {
     this.getData();
@@ -290,13 +301,22 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.camionService.create(formData).subscribe((camion) => {
-          this.snackbar.openSaveAndRedirect(
-            confirmed,
-            this.backUrl,
-            r.FLOTA,
-            m.CAMION,
-            camion.id
-          );
+
+          if (this.isDialog){
+
+            this.dialogRef.close(camion);
+
+          } else {
+
+            this.snackbar.openSaveAndRedirect(
+              confirmed,
+              this.backUrl,
+              r.FLOTA,
+              m.CAMION,
+              camion.id
+            );
+
+          }
         });
       }
     } else {
@@ -317,9 +337,14 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     }
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
+    if (this.isDialog) {
+      this.id = this.data.id;
+    }
     if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
+      if (!this.isDialog) {
+        this.isEdit = /edit/.test(this.router.url);
+        this.isShow = /ver/.test(this.router.url);
+      }
 
       this.camionService.getById(this.id).subscribe((data) => {
         this.item = data;

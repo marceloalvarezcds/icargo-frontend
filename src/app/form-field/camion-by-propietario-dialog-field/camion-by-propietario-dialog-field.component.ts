@@ -5,6 +5,8 @@ import { CamionList } from 'src/app/interfaces/camion';
 import { Column } from 'src/app/interfaces/column';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CamionService } from 'src/app/services/camion.service';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { CamionFormComponent } from 'src/app/flota/camion-form/camion-form.component';
 
 @Component({
   selector: 'app-camion-by-propietario-dialog-field',
@@ -59,7 +61,10 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
 
   fetchFunction = () => this.service.getList();
 
-  constructor(private service: CamionService) {}
+  constructor(
+    private service: CamionService,
+    private dialog: MatDialog,
+  ) {}
 
   ngAfterViewInit(): void {
     //this.getList();
@@ -84,6 +89,33 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
         this.valueChange.emit(camion);
       }
     }
+  }
+
+  dialogRefFunctionCrear(): MatDialogRef<CamionFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true
+    }
+
+    let dialog = this.dialog
+        .open(CamionFormComponent, { data, panelClass: 'full-dialog' })
+
+    return dialog;
+  }
+
+  dialogRefFunctionVer(id:number): MatDialogRef<CamionFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true,
+      readOnly:true,
+      id:id
+    }
+
+    return this.dialog.open(CamionFormComponent, { data, panelClass: 'full-dialog' });
   }
 
 }

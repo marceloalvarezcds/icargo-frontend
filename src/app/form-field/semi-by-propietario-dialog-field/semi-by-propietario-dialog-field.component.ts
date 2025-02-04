@@ -5,6 +5,8 @@ import { Column } from 'src/app/interfaces/column';
 import { SemiList } from 'src/app/interfaces/semi';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { SemiService } from 'src/app/services/semi.service';
+import { SemiFormComponent } from 'src/app/flota/semi-form/semi-form.component';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-semi-by-propietario-dialog-field',
@@ -61,11 +63,41 @@ export class SemiByPropietarioDialogFieldComponent implements AfterViewInit {
 
   fetchFunction = () => this.service.getList();
 
-  constructor(private service: SemiService) { }
+  constructor(
+    private service: SemiService,
+    private dialog: MatDialog,
+  ) { }
 
   ngAfterViewInit(): void {
     //this.getList();
     null;
+  }
+
+  dialogRefFunctionCrear(): MatDialogRef<SemiFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true
+    }
+
+    let dialog = this.dialog
+        .open(SemiFormComponent, { data, panelClass: 'full-dialog' })
+
+    return dialog;
+  }
+
+  dialogRefFunctionVer(id:number): MatDialogRef<SemiFormComponent> {
+
+    const data = {
+      message: "message",
+      comentarioRequirido: true,
+      isDialog: true,
+      readOnly:true,
+      id:id
+    }
+
+    return this.dialog.open(SemiFormComponent, { data, panelClass: 'full-dialog' });
   }
 
   //private getList(): void {

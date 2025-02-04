@@ -25,7 +25,7 @@
           type="button"
           matSuffix
           mat-icon-button
-          matTooltip="Buscar..."
+          matTooltip="Limpiar..."
           (click)="$event.stopPropagation(); clearSelectedValue()"
           *ngIf="control.value"
           [disabled]="disabled || readonly"
@@ -36,9 +36,9 @@
           *ngIf="!disabled"
           matSuffix
           mat-icon-button
-          matTooltip="Ver..."
+          matTooltip="Buscar..."
           (click)="$event.stopPropagation(); openDialog()"
-          [disabled]="disabled || readonly"
+          [disabled]="disabled || readonly || loading"
         >
           <mat-icon class="small-icon">search</mat-icon>
         </button>
