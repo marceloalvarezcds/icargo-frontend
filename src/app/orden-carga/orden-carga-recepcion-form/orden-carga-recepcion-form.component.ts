@@ -13,10 +13,10 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { getOCData } from 'src/app/form-data/oc-confirmation-data';
 import { Camion } from 'src/app/interfaces/camion';
-import { Combinacion } from 'src/app/interfaces/combinacion';
+import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
@@ -35,6 +35,9 @@ import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dia
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
+import { Subject } from 'rxjs';
+import { FleteService } from 'src/app/services/flete.service';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 @Component({
   selector: 'app-orden-carga-recepcion-form',
   templateUrl: './orden-carga-recepcion-form.component.html',
@@ -53,6 +56,8 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   camion?: Camion;
   semi?: Semi;
   combinacionList?: Combinacion
+  co?: CombinacionList
+  ocList?: OrdenCargaList;
   isFormSaved: boolean = false;
   puedeCrearRemision: boolean = false
   ordenCargaId: number | null = null;
@@ -62,6 +67,8 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
   isEdit = false;
+  groupName = 'combinacion';
+  nuevoActive = false;
   isDataLoaded: boolean = true;
   originalComentario: string | null = null;
   cambiarPedido = false;
@@ -112,6 +119,10 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
   colapseDivRemision = false;
   colapseDivResultado = false;
+
+  combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
+  fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
+  ocEventsSubject: Subject<OrdenCargaList> = new Subject<OrdenCargaList>();
 
   initialFormValue = this.form.value;
   hasChange = false;
@@ -210,14 +221,64 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.setInitialToggleState();
-    this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
+    this.form?.get(this.groupName)?.get('flete_id')?.valueChanges
     .pipe(
-      debounceTime(300),
+      //debounceTime(500),
       distinctUntilChanged()
     )
-    .subscribe(id => {
-      this.handleIdChange(id);
+    .subscribe((value) => {
+
+      if (value) {
+        setTimeout(() => {
+          this.fleteService.getFleteListById(value).subscribe( f => {
+            this.flete = f;
+            this.fleteEventsSubject.next(f);
+          });
+        }, 800);
+      }
+
+    });
+
+    this.form?.get(this.groupName)?.get('combinacion_id')?.valueChanges
+    .pipe(
+      //debounceTime(500),
+      distinctUntilChanged()
+    )
+    .subscribe((value) => {
+
+      if (value) {
+        setTimeout(() => {
+          this.combinacionService.getCombinacionById(value).subscribe( f => {
+            this.co = f;
+            this.combinacionEventsSubject.next(f);
+          });
+        }, 300);
+      }
+
+    });
+
+    this.form?.get(this.groupName)?.get('id_orden_carga')?.valueChanges
+    .pipe(
+      //debounceTime(500),
+      distinctUntilChanged()
+    )
+    .subscribe((value) => {
+      if (value) {
+        setTimeout(() => {
+          this.ordenCargaService.getOCListById(value).subscribe( f => {
+            this.ocList = f;
+            this.ocEventsSubject.next(f);
+          });
+        }, 1100);
+      }
+
+    });
+    this.setInitialToggleState();
+ 
+    this.form.get('combinacion.id_orden_carga')?.valueChanges.subscribe(id => {
+      if (id) {
+        this.getData();  // Llamar cada vez que cambie el ID
+      }
     });
   }
 
@@ -246,6 +307,8 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private reportsService: ReportsService,
     private snackBar: MatSnackBar,
+    private fleteService: FleteService,
+    private combinacionService: CombinacionService,
 
   ) {}
 
@@ -506,7 +569,6 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
         this.ordenCargaService.finalizar(this.idOC),
         () => {
             this.getData();
-
             const dialogRef = this.openEvaluacionesDialog();
 
             dialogRef.afterClosed().subscribe(result => {
@@ -519,22 +581,33 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
                     this.downloadResumenPDF(); 
 
-                } else {
-                    this.resetFormData();
-                }
+                } 
+                 else {
+                    //  this.resetFormData();
+                    this.form.get('combinacion.id_orden_carga')?.disable();
+                 }
             });
         },
     );
   }
 
-  private resetFormData(): void {
+  resetFormData(): void {
     this.form.reset();
-    this.item!.anticipos = [];  
+    this.item!.anticipos = []; 
+    this.item!.remisiones_origen = []; 
     this.item!.remisiones_destino = []; 
     this.item!.remisiones_resultado = [];
+    this.item!.neto = 0; 
+    this.item!.cantidad_nominada = 0; 
     this.item!.cantidad_origen = 0;  
     this.item!.cantidad_destino = 0; 
-    this.item!.estado = EstadoEnum.PENDIENTE;
+    this.isFormSaved = false;
+    this.isFormSubmitting = true;
+    this.isShow = true;
+    this.item!.flete_id = 0;
+    this.nuevoActive = true;
+    this.form.get('combinacion.id_orden_carga')?.enable();
+    this.getData(); 
   }
 
   conciliar(): void {
@@ -627,9 +700,10 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
             });
 
             dialogRefPdf.afterClosed().subscribe(() => {
-                // Una vez que se cierra el diálogo del PDF, resetear los datos
-                this.resetFormData();
-            });
+                 // Una vez que se cierra el diálogo del PDF, resetear los datos
+                //  this.resetFormData();
+                this.form.get('combinacion.id_orden_carga')?.disable();
+             });
         });
     });
   }
@@ -690,7 +764,6 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
     const ocValue = this.idOC;
     if (ocValue) {
       this.isLoadingData = true;
-      this.valueChangesSubscription.unsubscribe();
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
         this.isActive = data.estado === EstadoEnum.NUEVO;
@@ -727,31 +800,23 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-            anticipos: data.anticipos_liberados
+            anticipos: data.anticipos_liberados,
+            comentarios: '',
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-            comentarios: '',
           },
-          tramo: {
-            flete_origen_id: data.flete_origen_id,
-            flete_destino_id: data.flete_destino_id,
-            origen_id: data.flete_origen_nombre,
-            destino_id: data.flete_destino_nombre,
-          },
+     
         });
         this.form.get('info.cantidad_nominada')?.disable();
         this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
-        this.ngOnInit();
         this.isFormSaved = true;
         this.isFormSubmitting = false
         this.isShow = false
+        this.nuevoActive = true;
       });
-    } else {
-      console.warn('No se ha encontrado un ID de Orden de Carga válido');
-      this.isLoadingData = false;
-    }
+    } 
   }
 
 

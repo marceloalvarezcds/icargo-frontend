@@ -122,21 +122,20 @@
         <mat-icon>description</mat-icon> RESUMEN
         </button>
 
-        <button
-          mat-flat-button
-          class="botones" color="primary"
-          type="button"
-          matTooltip="Orden"
-          [class.disabled]="isFormSubmitting"
-          *ngIf="submodule !== 'ACEPTAR'
-          && (submodule === 'ORDEN DE CARGA (directa)'
-          || submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR'
-          && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
-          [disabled]="isFormSubmitting"
-          (click)="previewPDF()"
-          >
-          <mat-icon>description</mat-icon>  ORDEN
-        </button>
+          <button
+            mat-flat-button
+            class="botones"
+            color="primary"
+            type="button"
+            matTooltip="Orden"
+            *ngIf="(submodule !== 'ACEPTAR' && submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR' || submodule === 'ORDEN DE CARGA' 
+                  && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
+            [disabled]="isFormSubmitting"
+            (click)="downloadResumenPDF()"
+            >
+          <mat-icon>description</mat-icon> VER OC
+         </button>
+      
 
         <button
             mat-flat-button
@@ -211,7 +210,7 @@
           (click)="conciliarClick.emit($event)">
           CONCILIAR
         </button>
-
+<!-- 
         <button
           mat-flat-button
           class="botones" color="accent"
@@ -220,7 +219,7 @@
           *ngIf="submodule === 'ORDEN DE CARGA (directa)'
           || submodule === 'ANTICIPO (directo)'">
           <mat-icon>visibility</mat-icon> Ver OC
-        </button>
+        </button> -->
 
         <button
           type="button"
@@ -318,6 +317,8 @@
           <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
         {{
           submodule === 'ANTICIPO (directo)' ? 'NUEVO ANTICIPO' :
+          submodule === 'RECEPCION directa' ? 'NUEVA RECEPCION' :
+          module === 'FINALIZAR' ? 'NUEVO FINALIZAR' :
           submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
           }}
       </button>

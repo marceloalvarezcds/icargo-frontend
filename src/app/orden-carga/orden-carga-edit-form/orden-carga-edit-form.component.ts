@@ -68,7 +68,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   formDisabledTime = new Date();
   combinacionId?: number;
   originalComentario: string | null = null;
-  puedeCrearRemision: boolean = false
+  puedeCrearRemision: boolean = false;
+  pdfSrc: string | undefined;
   form = this.fb.group({
     combinacion: this.fb.group({
       flete_id: [null, Validators.required],
@@ -731,6 +732,20 @@ private cancelOrdenCarga(): void {
       });
     });
   }
+
+  previewPDF(): void {
+    if (!this.item){
+      return
+    }
+    this.ordenCargaService.pdf(this.item!.id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const url = URL.createObjectURL(file);
+        window.open(url);
+        this.pdfSrc = url;
+      });
+    });
+  }
+
 
 
   openRemitirDialog(): void {  

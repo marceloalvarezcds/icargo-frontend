@@ -30,6 +30,9 @@ import { delay } from 'src/app/utils/observable';
   styleUrls: ['./table-oc.component.scss']
 })
 export class TableOcComponent<T> implements OnInit, OnDestroy {
+isNaN(arg0: any) {
+throw new Error('Method not implemented.');
+}
   e = EstadoEnum;
   a = PermisoAccionEnum;
   allChecked: boolean = false;
@@ -133,17 +136,7 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
     this.displayedColumns = this.filteredColumns.map((c) => c.def);
   }
 
-  getColumnSpan(title: string): number {
-    switch (title) {
-      case 'title1':
-        return 3; // Number of columns that Título General 1 spans
-      case 'title2':
-        return 2; // Number of columns that Título General 2 spans
-      default:
-        return 0;
-    }
-  }
-  
+
   filterData(searchOptions: SearchOptions): void {
     if (searchOptions.isFilteredByGlobalSearch) {
       this.tableDataSource.filterPredicate = this.defaultFilterPredicate;
@@ -159,13 +152,6 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
     ) {
       this.tableDataSource.paginator!.firstPage();
     }
-  }
-
-  isTitleSaldosColumn(columnDef: string): boolean {
-    const gestionColumns = ['concepto_gestion', 'anticipo_gestion', 
-                  'complemento_gestion', 'disponible_gestion', 'retirado_gestion', 'saldo_gestion',
-                'usuario_gestion', 'fecha_gestion', 'modi_gestion', 'fecha_mod_gestion'];
-    return this.isGestion && gestionColumns.includes(columnDef);
   }
 
   isFirstThreeColumns(columnDef: string): boolean {
@@ -196,23 +182,12 @@ export class TableOcComponent<T> implements OnInit, OnDestroy {
     this.allChecked = this.checkedList.every((t) => t);
   }
   
-  getColorForState(state: string): string {
-    switch (state) {
-      case 'Activo':
-        return '#008000'; // Verde
-      case 'Aceptado':
-        return '#008000'; // Verde
-      case 'Conciliado':
-        return '#9747FF'; 
-      case 'Finalizado':
-        return '#89969F'; 
-      case 'Inactivo':
-        return '#FF0000'; // Rojo
-      case 'Pendiente':
-        return '#FFA500'; // Naranja
-      default:
-        return '#000000'; // Color por defecto o para otros estados
-    }
+  getColumnValue(row: any, column: any): number {
+    return column?.value?.(row) ?? 0;
   }
 
+  isNegative(value: number): boolean {
+    return value < 0;
+  }
+  
 }

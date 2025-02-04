@@ -456,7 +456,6 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     const ocValue = this.idOC;
     if (ocValue) {
       this.isLoadingData = true;
-
       this.combinacion.get('comentarios')?.setValue('');
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
@@ -495,12 +494,10 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-           
             comentarios: '',
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-           
           },
        
         });

@@ -23,7 +23,7 @@
           *ngIf="!showTractoField && !showSearchOCfinalizadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
-          
+          [isRemote]="true"
           [ocAceptadaEvents]="ocEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
@@ -34,7 +34,7 @@
           *ngIf="showSearchOCfinalizadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
-          [ocAceptadaEvents]="ocEventsSubject.asObservable()"
+          [ocFinalizadaEvents]="ocEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
           (valueChange)="onOrdenCargaChange($event)">

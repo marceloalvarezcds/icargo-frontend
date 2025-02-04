@@ -13,6 +13,7 @@
   (cancelarClick)="cancelar()"
   (finalizarClick)="finalizar()"
   (conciliarClick)="conciliar()"
+  (nuevoClick)="resetFormData()"
   [isFormSaved]="isFormSaved"
   [class.page-form-show]="isShow"
   [isFormSubmitting]="isFormSubmitting"
@@ -23,9 +24,10 @@
   [estado]="estadoOc"
   [isButtonPressed]="isButtonPressed"
   (cambiarFleteClick)="enableFleteId()"
-  
   [hideSaveButton]="!estadoFinalizado"
   [cambiarPedido]="cambiarPedido"
+  [formNuevaOc]="true"
+  [nuevoActive]="nuevoActive"
 >
 
   <div class="orden-carga-page-content">

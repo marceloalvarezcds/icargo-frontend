@@ -12,9 +12,9 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
-import { Combinacion } from 'src/app/interfaces/combinacion';
+import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
@@ -35,6 +35,9 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
+import { Subject } from 'rxjs';
+import { FleteService } from 'src/app/services/flete.service';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 
 @Component({
   selector: 'app-orden-carga-finalizar-form',
@@ -60,6 +63,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   puedeCrearRemision: boolean = false
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
+  co?: CombinacionList
+  ocList?: OrdenCargaList;
   isActive = false;
   isShow: boolean = true;
   fleteId?: number;
@@ -69,6 +74,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   isEditPedido = false;
   dataFromParent: string = 'Nuevo';
   ocIsFinalizado = false;
+  nuevoActive = false;
+  groupName = 'combinacion';
   private dialogOpened = false;
   isEdit = false;
   isDataLoaded: boolean = true;
@@ -120,6 +127,10 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   colapseDivRemision = false;
   colapseDivResultado = false;
   colapseDivMovimiento = false;
+
+  combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
+  fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
+  ocEventsSubject: Subject<OrdenCargaList> = new Subject<OrdenCargaList>();
 
   initialFormValue = this.form.value;
   hasChange = false;
@@ -208,11 +219,9 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     return this.item?.estado === EstadoEnum.FINALIZADO;
   }
 
-
   get isConciliado(): boolean {
     return this.item?.estado === EstadoEnum.CONCILIADO;
   }
-
 
   get isAnticiposLiberados(): boolean {
     return this.item!?.anticipos_liberados;
@@ -237,17 +246,67 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.form.get('combinacion.flete_id')?.disable();
-    this.setInitialToggleState();
-    this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
+    this.form?.get(this.groupName)?.get('flete_id')?.valueChanges
     .pipe(
-      debounceTime(300),
+      //debounceTime(500),
       distinctUntilChanged()
     )
-    .subscribe(id => {
-      this.handleIdChange(id);
+    .subscribe((value) => {
+
+      if (value) {
+        setTimeout(() => {
+          this.fleteService.getFleteListById(value).subscribe( f => {
+            this.flete = f;
+            this.fleteEventsSubject.next(f);
+          });
+        }, 800);
+      }
+
+    });
+
+    this.form?.get(this.groupName)?.get('combinacion_id')?.valueChanges
+    .pipe(
+      //debounceTime(500),
+      distinctUntilChanged()
+    )
+    .subscribe((value) => {
+
+      if (value) {
+        setTimeout(() => {
+          this.combinacionService.getCombinacionById(value).subscribe( f => {
+            this.co = f;
+            this.combinacionEventsSubject.next(f);
+          });
+        }, 300);
+      }
+
+    });
+
+    this.form?.get(this.groupName)?.get('id_orden_carga')?.valueChanges
+    .pipe(
+      //debounceTime(500),
+      distinctUntilChanged()
+    )
+    .subscribe((value) => {
+      if (value) {
+        setTimeout(() => {
+          this.ordenCargaService.getOCListById(value).subscribe( f => {
+            this.ocList = f;
+            this.ocEventsSubject.next(f);
+          });
+        }, 1100);
+      }
+
+    });
+    this.setInitialToggleState();
+ 
+    this.form.get('combinacion.id_orden_carga')?.valueChanges.subscribe(id => {
+      if (id) {
+        this.getData();  // Llamar cada vez que cambie el ID
+      }
     });
   }
+
 
   handleIdChange(id: number | null): void {
     if (id && id !== this.previousId) {
@@ -275,7 +334,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     private reportsService: ReportsService,
     private snackBar: MatSnackBar,
     private chRef: ChangeDetectorRef,
-
+    private fleteService: FleteService,
+    private combinacionService: CombinacionService,
   ) {}
 
   setInitialToggleState(): void {
@@ -559,6 +619,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
                       });
                       this.downloadResumenPDF();
                   } else {
+                    this.form.get('combinacion.id_orden_carga')?.disable();
                   }
               });
           },
@@ -637,19 +698,27 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
-      this.reportsService.downloadFile(filename).subscribe((file) => {
-        const blob = new Blob([file], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        this.dialog.open(PdfPreviewDialogComponent, {
-          width: '90%',
-          height: '90%',
-          data: {
-            pdfUrl: url,
-            fileBlob: blob,
-            filename: filename
-          }
+        this.reportsService.downloadFile(filename).subscribe((file) => {
+            const blob = new Blob([file], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            
+            // Abre el diálogo del PDF
+            const dialogRefPdf = this.dialog.open(PdfPreviewDialogComponent, {
+                width: '90%',
+                height: '90%',
+                data: {
+                    pdfUrl: url,
+                    fileBlob: blob,
+                    filename: filename
+                }
+            });
+
+            dialogRefPdf.afterClosed().subscribe(() => {
+                 // Una vez que se cierra el diálogo del PDF, resetear los datos
+                //  this.resetFormData();
+                this.form.get('combinacion.id_orden_carga')?.disable();
+             });
         });
-      });
     });
   }
 
@@ -671,6 +740,25 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     });
   }
 
+
+  resetFormData(): void {
+    this.form.reset();
+    this.item!.anticipos = []; 
+    this.item!.remisiones_origen = []; 
+    this.item!.remisiones_destino = []; 
+    this.item!.remisiones_resultado = [];
+    this.item!.neto = 0; 
+    this.item!.cantidad_nominada = 0; 
+    this.item!.cantidad_origen = 0;  
+    this.item!.cantidad_destino = 0; 
+    this.isFormSaved = false;
+    this.isFormSubmitting = true;
+    this.isShow = true;
+    this.item!.flete_id = 0;
+    this.nuevoActive = true;
+    this.form.get('combinacion.id_orden_carga')?.enable();
+    this.getData(); 
+  }
 
 
   onFleteChange(flete: FleteList | undefined): void {
@@ -777,9 +865,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   getData(): void {
     const ocValue = this.idOC;
     if (ocValue) {
-      this.isDataLoaded = false
       this.isLoadingData = true;
-      this.valueChangesSubscription.unsubscribe();
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
         this.isActive = data.estado === EstadoEnum.NUEVO
@@ -816,23 +902,22 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-            anticipos: data.anticipos_liberados
+            anticipos: data.anticipos_liberados,
+            comentarios: '',
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-            comentarios: '',
+           
           },
-          tramo: {
-            flete_origen_id: data.flete_origen_id,
-            flete_destino_id: data.flete_destino_id,
-            origen_id: data.flete_origen_nombre,
-            destino_id: data.flete_destino_nombre,
-          },
+         
         });
         this.form.get('info.cantidad_nominada')?.disable();
+        this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;
-        this.ngOnInit();
+        this.isFormSaved = true;
         this.isFormSubmitting = false
+        this.isShow = false
+        this.nuevoActive = true;
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');

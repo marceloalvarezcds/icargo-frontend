@@ -59,6 +59,7 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
     }
   ];
 
+  @Input() isRemote = false;
   @Input() ocAceptadaEvents?: Observable<OrdenCargaList>;
   @Input() ocAceptada?: OrdenCargaList;
   @Input() form!: FormGroup;
@@ -66,6 +67,7 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
   @Input() groupName = '';
   @Input() title = 'ORDEN DE CARGA';
   @Input() emptyHint = 'Sin estado Aceptado';
+  
 
   @Output() valueChange = new EventEmitter<OrdenCargaList>();
 
@@ -96,8 +98,10 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
     });
   }
 
-  // Método que se llama cuando cambian los eventos de la orden
   ngOnInit(): void {
     this.getList();
+    if (this.ocAceptadaEvents) {
+      this.ocAceptadaEvents.subscribe(() => this.getList());
+    }
   }
 }

@@ -8,6 +8,38 @@ table {
     padding: 8px;
     text-align: left;
   }
+
+  .align-right {
+    text-align: right;
+    
+  }
+  
+
+  /* Primera columna */
+  td:first-child {
+    text-align: left;
+  }
+  
+  /* Segunda fila de la primera columna */
+  tr:nth-child(2) td:first-child {
+    text-align: left;
+  }
+
+  .negative-number {
+    color: red;
+  }
+
+  .red-text {
+    color: red;
+  }
+  
+  .black-text {
+    color: black;
+  }
+  
+  .color-black {
+    color: black !important;
+  }
   
   .peso-value  {
     padding-top: 6px;

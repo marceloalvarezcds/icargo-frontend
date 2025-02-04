@@ -22,6 +22,7 @@ export class UnidadFieldComponent {
   @Input() controlName = 'unidad_id';
   @Input() groupName?: string;
   @Input() title = '';
+  @Input() readonly: boolean = false;
 
   @Output() valueChange = new EventEmitter<Unidad | undefined>();
 

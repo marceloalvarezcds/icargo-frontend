@@ -11,6 +11,7 @@
   (inactiveClick)="inactive()"
   (aceptarClick)="aceptar()"
   (finalizarClick)="finalizar()"
+  (nuevoClick)="resetFormData()"
   [isFormSaved]="isFormSaved"
   [class.page-form-show]="isShow"
   [estado]="estadoOc"
@@ -20,6 +21,8 @@
   [isAnticipoActive]="isToggleAnticiposLiberados"
   [isDataLoaded]="isToggleAnticiposLiberados"
   [hideSaveButton]="true"
+  [formNuevaOc]="true"
+  [nuevoActive]="nuevoActive"
 >
 
   <div class="orden-carga-page-content">
@@ -70,29 +73,6 @@
         </div>
       </div>
     </div>
-
-      <!-- <div class="complementos_descuentos-container">
-        <div class="complementos_descuentos-item">
-          <app-orden-carga-edit-form-complementos
-            [oc]="item"
-            [gestorCargaId]="gestorCargaId"
-            [isShow]="isShow"
-            [puedeConciliar]="puedeConciliar"
-            [list]="complementoList"
-            (ocChange)="getData()"
-          ></app-orden-carga-edit-form-complementos>
-        </div>
-      <div class="complementos_descuentos-item">
-        <app-orden-carga-edit-form-descuentos
-          [oc]="item"
-          [gestorCargaId]="gestorCargaId"
-          [isShow]="isShow"
-          [puedeConciliar]="puedeConciliar"
-          [list]="descuentoList"
-          (ocChange)="getData()"
-        ></app-orden-carga-edit-form-descuentos>
-      </div>
-    </div>  -->
 
     <div [class.disabled]="!isAceptado" class="resultados-container" style="margin-top: 10px;">
       <div class="section">

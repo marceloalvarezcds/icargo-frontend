@@ -61,6 +61,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() oc?: OrdenCarga;
   @Input() form?: FormGroup;
   @Input() showSearchPedido: boolean = false;
+  @Input() ocAceptadaEvents?: Observable<OrdenCargaList>;
   // @Input() showSearchOC: boolean = false;
   @Input() showSearchOCAceptadas: boolean = false;
   @Input() shouldHideFinalizadoComponent: boolean = false;

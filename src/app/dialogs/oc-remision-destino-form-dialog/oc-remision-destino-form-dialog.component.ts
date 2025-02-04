@@ -18,7 +18,7 @@ export class OcRemisionDestinoFormDialogComponent {
     numero_documento: [this.data?.numero_documento, Validators.required],
     fecha: [this.data?.fecha ?? new Date().toJSON(), Validators.required],
     cantidad: [this.data?.cantidad, Validators.required],
-    unidad_id: [this.data?.unidad_id, Validators.required],
+    unidad_id: [this.data?.unidad_id ?? 1, Validators.required], 
     foto_documento: this.data?.foto_documento,
     numero_documento_origen: this.data?.numero_documento_origen,
     destino_id: this.data?.destino_id,

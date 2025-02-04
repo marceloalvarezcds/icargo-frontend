@@ -58,7 +58,8 @@ export class OcFinalizadasDialogFieldComponent implements OnInit {
     }
   ];
 
-  @Input() ocAceptadaEvents?: Observable<OrdenCargaList>;
+  @Input() isRemote = false;
+  @Input() ocFinalizadaEvents?: Observable<OrdenCargaList>;
   @Input() ocFinalizada?: OrdenCargaList;
   @Input() form!: FormGroup;
   @Input() controlName = 'id_orden_carga';
@@ -95,7 +96,6 @@ export class OcFinalizadasDialogFieldComponent implements OnInit {
     });
   }
 
-  // Método que se llama cuando cambian los eventos de la orden
   ngOnInit(): void {
     this.getList();
   }

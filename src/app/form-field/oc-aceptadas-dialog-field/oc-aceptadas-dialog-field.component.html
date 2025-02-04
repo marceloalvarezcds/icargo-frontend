@@ -1,17 +1,19 @@
 <ng-container *ngIf="form">
   <ng-container *ngIf="ocEstadoAceptado; else inputTemplate">
     <ng-container *ngIf="list$ | async as list">
-      <app-dialog-field-oc
-       
+      <app-dialog-field
         [title]="title"
         [columns]="columns"
-        [list]="list"
+        [list]="[]"
         [groupName]="groupName"
         [controlName]="controlName"
+        [calllbackremote]="true"
+        [fetchDataFunction]="fetchFunction"
         [inputValuePropName]="inputValuePropName"
+        [itemEvents]="ocAceptadaEvents"
         [form]="form"
         (valueChange)="valueChange.emit($event)"
-      ></app-dialog-field-oc>
+      ></app-dialog-field>
     </ng-container>
   </ng-container>
   <ng-template #inputTemplate>
