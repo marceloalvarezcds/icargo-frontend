@@ -55,6 +55,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() listAnticipos: OrdenCargaAnticipoRetirado[] = [];
   @Input() isNeto: boolean = false ;
   @Input() showField: boolean = false;
+  @Input() isConciliar: boolean = false;
   @Input() isEditField: boolean = false;
   @Input() showTractoField: boolean = false;
   @Input() gestorCargaId?: number;
@@ -62,7 +63,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() form?: FormGroup;
   @Input() showSearchPedido: boolean = false;
   @Input() ocAceptadaEvents?: Observable<OrdenCargaList>;
-  // @Input() showSearchOC: boolean = false;
+  @Input() onlyViewCreate: boolean = false;
   @Input() showSearchOCAceptadas: boolean = false;
   @Input() shouldHideFinalizadoComponent: boolean = false;
   @Input() showSearchOCNuevos: boolean = false;
@@ -284,6 +285,13 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         if (formGroup?.get('valor')?.value !== flete.merma_gestor_carga_valor) {
           formGroup?.get('valor')?.setValue(flete.merma_gestor_carga_valor);
         }
+        if (flete && flete.condicion_gestor_carga_unidad_id !== undefined) {
+          formGroup?.get('unidad_id')?.setValue(flete.condicion_gestor_carga_unidad_id ?? '');
+        }
+        if (flete && flete.condicion_gestor_carga_moneda_id !== undefined) {
+          formGroup?.get('moneda_id')?.setValue(flete.condicion_gestor_carga_moneda_id);
+        }
+        
         formGroup?.get('cant_origen')?.setValue(0);
         formGroup?.get('cant_destino')?.setValue(0);
         formGroup?.get('diferencia')?.setValue(0);
@@ -322,7 +330,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
       }
 
-      // Comprobamos si chofer_camion ya tiene un valor antes de actualizarlo
       if (!this.form?.get(this.groupName)?.get('chofer_camion')?.value) {
         this.form?.get(this.groupName)?.get('chofer_camion')?.setValue(combinacion.chofer_nombre);
       }
@@ -338,8 +345,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       if (!this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.value) {
         this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.propietario_ruc);
       }
-
-      // Actualiza los campos del formulario
       this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion.camion_id);
       this.form?.get(this.groupName)?.get('camion_placa')?.setValue(combinacion.camion_placa);
       this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion.marca_descripcion);
@@ -347,15 +352,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion.semi_id);
       this.form?.get(this.groupName)?.get('chofer_id')?.setValue(combinacion.chofer_id);
       this.form?.get(this.groupName)?.get('propietario_id')?.setValue(combinacion.propietario_id);
-      // this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion.semi_placa);
-      // this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion.marca_descripcion_semi ?? null);
-      // this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion.color_semi ?? null);
       this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion.camion_propietario_nombre);
       this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
-      // this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion.propietario_nombre);
-      // this.form?.get(this.groupName)?.get('beneficiario_camion_doc')?.setValue(combinacion.camion_propietario_documento);
-      // this.form?.get(this.groupName)?.get('chofer_camion_doc')?.setValue(combinacion.chofer_numero_documento);
-
       // Comparar y actualizar solo si el nuevo neto es diferente del original
       if (combinacion.neto !== this.originalNeto) {
         this.form?.get(this.groupName)?.get('neto')?.setValue(combinacion.neto);
@@ -366,12 +364,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
-
-      // Solo actualizar cantidad_nominada si no ha sido modificada manualmente y si isNeto es true
-      if (this.isNeto) {
-        this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
-      }
-
+      this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
+     
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
 
@@ -384,7 +378,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       });
     }
   }
-
 
 
   onOrdenCargaChange(oc?: OrdenCargaList) {

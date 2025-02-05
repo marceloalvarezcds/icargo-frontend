@@ -111,6 +111,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       id_orden_carga: null,
       condicion: null,
       comentarios: null,
+      unidad_id: null,
+      moneda_id: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],

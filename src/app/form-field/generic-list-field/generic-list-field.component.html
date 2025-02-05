@@ -11,7 +11,7 @@
           floatLabel="always" appearance="outline">
         <input
           matInput
-          [value]="getTextValue()"
+          [value]="getTextValue() || ''"
           [disabled]="readonly"
           *ngIf="readonly"
         />
@@ -46,7 +46,7 @@
       <mat-form-field floatLabel="always" appearance="outline">
 
         <input matInput *ngIf="readonly"
-          [value]="getTextValue()" [disabled]="readonly"/>
+          [value]="getTextValue() || ''" [disabled]="readonly"/>
 
         <mat-select [formControlName]="controlName"
           [compareWith]="compareWith" [hidden]="readonly" >

@@ -524,7 +524,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
                   if (result) { // Si se acepta el diálogo
                       // Genera el PDF después de que el diálogo se haya cerrado
                       this.snackBar.open('Generando PDF...', 'Cerrar', {
-                          duration: 3000,
+                          duration: 1000,
                           verticalPosition: 'top',
                           horizontalPosition: 'center'
                       });
@@ -617,34 +617,25 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         '¿Está seguro que desea conciliar la Orden de Carga?',
         this.ordenCargaService.conciliar(this.idOC),
         () => {
-            // Esto se ejecuta si el usuario confirma la conciliación
             this.getData();
             this.form.get('info.comentarios')?.disable();
+            const comentario = this.form.get('info.comentarios')?.value;
+            const comentarioUpper = comentario ? comentario.toUpperCase() : '';
 
-            // Abre el diálogo de evaluación
-            const dialogRef = this.openEvaluacionesDialog();
+            if (comentarioUpper) {
+                this.createComentarioYConciliar(comentarioUpper);
+            }
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    const comentario = this.form.get('info.comentarios')?.value;
-                    const comentarioUpper = comentario ? comentario.toUpperCase() : '';
-
-                    if (comentarioUpper) {
-                        this.createComentarioYConciliar(comentarioUpper);
-                    }
-                }
-                
-                this.snackBar.open('Generando PDF...', 'Cerrar', {
-                    duration: 3000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                });
-                this.downloadConciliarResumenPDF();
+            this.snackBar.open('Generando PDF...', 'Cerrar', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
             });
+            this.downloadConciliarResumenPDF();
         },
-
     );
   }
+
 
 
   downloadResumenPDF(): void {

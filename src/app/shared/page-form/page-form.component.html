@@ -122,19 +122,22 @@
         <mat-icon>description</mat-icon> RESUMEN
         </button>
 
-          <button
-            mat-flat-button
-            class="botones"
-            color="primary"
-            type="button"
-            matTooltip="Orden"
-            *ngIf="(submodule !== 'ACEPTAR' && submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR' || submodule === 'ORDEN DE CARGA' 
-                  && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
-            [disabled]="isFormSubmitting"
-            (click)="previewPDF()"
-            >
+        <button
+          mat-flat-button
+          class="botones"
+          color="primary"
+          type="button"
+          matTooltip="Orden"
+          *ngIf="(submodule !== 'ACEPTAR' && submodule === 'ANTICIPO (directo)') || 
+                submodule === 'ORDEN DE CARGA' || 
+                submodule === 'ORDEN DE CARGA (directa)' && 
+                (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && 
+                module !== 'CONCILIAR'"
+          [disabled]="isFormSubmitting"
+          (click)="previewPDF()">
           <mat-icon>visibility</mat-icon> VER OC
-         </button>
+        </button>
+
       
 
         <button
@@ -164,11 +167,11 @@
 
         <button
           *ngIf="(oc?.estado !== 'Finalizado' &&
-            (module === 'ACEPTAR' || module === 'FINALIZAR'
-            || oc?.estado === E.ACEPTADO))
-            && oc?.estado !== 'Cancelado'
-            && submodule !== 'RECEPCION directa'
-            && submodule !== 'ANTICIPO (directo)'"
+                  (module === 'ACEPTAR' || module === 'FINALIZAR' || oc?.estado === E.ACEPTADO))
+                  && oc?.estado !== 'Cancelado'
+                  && submodule !== 'RECEPCION directa'
+                  && submodule !== 'ANTICIPO (directo)'
+                  && submodule !== 'ORDEN DE CARGA (directa)'"
           mat-flat-button
           class="botones" color="warn"
           type="button"
@@ -177,6 +180,7 @@
           (click)="cancelarClick.emit($event)">
           CANCELAR
         </button>
+      
 
         <button
           *ngIf="(oc?.estado === 'Aceptado' ||
@@ -186,17 +190,18 @@
                   (oc?.estado !== 'Conciliado') &&
                   (oc?.estado !== 'Cancelado') &&
                   (oc?.estado !== 'Nuevo') &&
-                  submodule !== 'ORDEN CARGA (directa)' &&
+                  submodule !== 'ORDEN DE CARGA (directa)' &&  
                   submodule !== 'ANTICIPO (directo)' && !isShow"
           mat-stroked-button
           class="botones" type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
-                          (oc?.estado === E.NUEVO)||
-                          !oc?.cantidad_destino"
+                            (oc?.estado === E.NUEVO) ||
+                            !oc?.cantidad_destino"
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="finalizarClick.emit($event)">
           FINALIZAR
         </button>
+      
 
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
@@ -294,6 +299,24 @@
 
         <button
           mat-flat-button
+          color="primary"
+          matTooltip="Crear"
+          class="botones"
+          (click)="nuevoClick.emit($event)"
+          [disabled]="!nuevoActive"
+          *ngIf="formNuevaOc">
+          <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
+        {{
+          submodule === 'ANTICIPO (directo)' ? 'NUEVO ANTICIPO' :
+          submodule === 'RECEPCION directa' ? 'NUEVA RECEPCION' :
+          submodule === 'ORDEN DE CARGA (directa)' ? 'NUEVA ORDEN' :
+          module === 'FINALIZAR' ? 'NUEVO FINALIZAR' :
+          submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
+          }}
+        </button>
+
+        <button
+          mat-flat-button
           type="submit"
           color="primary"
           [matTooltip]="tooltipBtnGuardar"
@@ -305,23 +328,6 @@
           {{labelBtnGuardar}}
         </button>
 
-
-        <button
-          mat-flat-button
-          color="primary"
-          matTooltip="Crear"
-          class="botones"
-          (click)="nuevoClick.emit($event)"
-          [disabled]="!nuevoActive"
-          *ngIf="formNuevaOc">
-          <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
-        {{
-          submodule === 'ANTICIPO (directo)' ? 'NUEVO ANTICIPO' :
-          submodule === 'RECEPCION directa' ? 'NUEVA RECEPCION' :
-          module === 'FINALIZAR' ? 'NUEVO FINALIZAR' :
-          submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
-          }}
-      </button>
 
         <!-- <div *ngIf="flete && isShow " style="margin-left: 8px; margin-right: 14px;">
 

@@ -58,7 +58,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   camion?: Camion;
   semi?: Semi;
   combinacionList?: CombinacionList
-  isFormSaved: boolean = false;
+  isDataLoaded: boolean = false;
+  nuevoActive = false;
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
   isActive = false;
@@ -108,6 +109,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       id_orden_carga: null,
       origen_id: null,
       comentarios: null,
+      unidad_id: null,
+      moneda_id: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -288,6 +291,16 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     }
   }
 
+  resetFormData(): void {
+    this.form.reset();
+    this.form.enable();
+    this.form.markAsPristine();
+    this.form.markAsUntouched();
+    this.isDataLoaded = false
+    this.isFormSubmitting = true;
+    this.nuevoActive = true;
+  }
+
   active(): void {
     if (this.ordenCargaId !== null) {
       this.dialog.changeStatusConfirm(
@@ -376,7 +389,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
             });
         },
     );
-}
+  }
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -580,11 +593,9 @@ export class OrdenCargaCreateFormComponent implements OnInit {
 
 
   save(confirmed: boolean): void {
-
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
-
       this.isNeto = false
       const comentarios = this.item?.comentario || [];
       const data: OCConfirmationDialogData = {
@@ -611,8 +622,9 @@ export class OrdenCargaCreateFormComponent implements OnInit {
 
   submit(confirmed: boolean): void {
     if (this.form.valid) {
-      this.isFormSaved = true;
+      this.isDataLoaded = true
       this.isFormSubmitting = false;
+      this.nuevoActive = true;
       this.dataFromParent = this.form.get('combinacion.estado')?.value;
     }
     const formData = new FormData();
@@ -638,13 +650,13 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.item = item;
       this.info.get('comentarios')?.setValue('');
       this.dataFromParent = item.estado;
-       this.snackbar.openSaveAndRedirect(
-         confirmed,
-         this.backUrl,
-         r.ORDEN_CARGA,
-         m.ORDEN_CARGA,
-         item.id
-       );
+      //  this.snackbar.openSaveAndRedirect(
+      //    confirmed,
+      //    this.backUrl,
+      //    r.ORDEN_CARGA,
+      //    m.ORDEN_CARGA,
+      //    item.id
+      //  );
     });
     this.form.disable();
   }

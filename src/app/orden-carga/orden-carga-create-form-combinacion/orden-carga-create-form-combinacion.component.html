@@ -393,8 +393,8 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          *ngIf="!showField && !isEditField"
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          *ngIf="!isConciliar && (!showField && !isEditField || isConciliar)"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Flete a <strong>PAGAR</strong>"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -403,10 +403,28 @@
           [form]="form"
           controlName="a_pagar"
         ></app-input-field-oc>
+      
+
+        <app-unidad-field
+          *ngIf="onlyViewCreate"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Unidad"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-unidad-field>
+
+        <app-moneda-field class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          *ngIf="onlyViewCreate"
+          title="Moneda"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-moneda-field>
 
         <app-input-field-oc
-          *ngIf="!showField && !isEditField"
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          *ngIf="!isConciliar && (!showField && !isEditField || isConciliar)"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Valor mercaderia"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -415,10 +433,29 @@
           [form]="form"
           controlName="valor"
         ></app-input-field-oc>
+
+        <app-unidad-field
+          *ngIf="onlyViewCreate"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Unidad"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-unidad-field>
+
+       <app-moneda-field 
+          *ngIf="onlyViewCreate"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Moneda"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-moneda-field>
+
       </div>
     </div>
 
-    <div class="section" *ngIf="!showField && !isEditField">
+    <div class="section" *ngIf="!isConciliar && !showField && !isEditField">
       <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">CANTIDAD NOMINADA</h2>
 
       <div class="row" [class.colapse-div]="colapseDivCantidad">
@@ -455,6 +492,7 @@
           appAutofocus="true"
         ></app-number-field>
         <app-input-field-oc
+          *ngIf="!onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Cant. Orig. (kg)"
           [groupName]="groupName"
@@ -466,6 +504,7 @@
         </app-input-field-oc>
         
         <app-input-field-oc
+          *ngIf="!onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Cant. Dest. (kg)"
           [groupName]="groupName"
@@ -477,6 +516,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
+         *ngIf="!onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Diferencia (kg)"
           [groupName]="groupName"

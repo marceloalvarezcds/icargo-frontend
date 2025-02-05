@@ -65,7 +65,7 @@ export class OcFinalizadasDialogFieldComponent implements OnInit {
   @Input() controlName = 'id_orden_carga';
   @Input() groupName = '';
   @Input() title = 'ORDEN DE CARGA';
-  @Input() emptyHint = 'Sin estado Aceptado';
+  @Input() emptyHint = 'Sin estado Finalizado';
 
   @Output() valueChange = new EventEmitter<OrdenCargaList>();
 
@@ -74,12 +74,12 @@ export class OcFinalizadasDialogFieldComponent implements OnInit {
   list$?: Observable<OrdenCargaList[]>;
   ocEstadoFinalizado = false;
 
-  fetchFunction = () => this.ocService.getAceptadosList();
+  fetchFunction = () => this.ocService.getFinalizadosList();
 
   constructor(private ocService: OrdenCargaService) {}
 
   private getList(): void {
-    this.ocService.getAceptadosList().subscribe({
+    this.ocService.getFinalizadosList().subscribe({
       next: (data) => {
         // Verifica si alguna orden tiene el estado 'Aceptado'
         const ocFinalizada = data.find(oc => oc.estado === 'Finalizado');

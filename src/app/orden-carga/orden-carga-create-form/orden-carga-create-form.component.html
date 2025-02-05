@@ -9,15 +9,18 @@
   (submitEvent)="save(false)"
   (activeClick)="active()"
   (inactiveClick)="inactive()"
-  [isFormSaved]="isFormSaved"
+  (cancelarClick)="cancelar()"
+  (conciliarClick)="conciliar()"
+  (nuevoClick)="resetFormData()"
   [class.page-form-show]="isShow"
+  [isDataLoaded]="isDataLoaded"
   [isFormSubmitting]="isFormSubmitting"
   [estado]="dataFromParent"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
   [isAnticipoActive]="isToggleAnticiposLiberados"
-  (cancelarClick)="cancelar()"
-  (conciliarClick)="conciliar()"
+  [formNuevaOc]="true"
+  [nuevoActive]="nuevoActive"
 >
 
   <div class="orden-carga-page-content">
@@ -36,9 +39,10 @@
       [isSaveForm]="true"
       [isNeto]="isNeto"
       [gestorCargaId]="gestorCargaId"
+      [onlyViewCreate]="true"
     ></app-orden-carga-create-form-combinacion>
 
-    <div class="anticipo-table">
+    <!-- <div class="anticipo-table">
       <app-orden-carga-anticipos-table
         [oc]="item"
         [fleteId]="fleteId"
@@ -46,7 +50,7 @@
         (ocChange)="getData()"
         [isShow]="false">
       </app-orden-carga-anticipos-table>
-    </div>
+    </div> -->
 
 </div>
 

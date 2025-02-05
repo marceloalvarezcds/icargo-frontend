@@ -23,7 +23,7 @@
   [isButtonPressed]="isButtonPressed"
   (cambiarFleteClick)="enableFleteId()"
   [cambiarPedido]="cambiarPedido"
-  [hideSaveButton]="isConciliado"
+  [hideSaveButton]="true"
 >
 
   <div class="orden-carga-page-content">
@@ -41,6 +41,7 @@
       (fleteChange)="onFleteChange($event)"
       [oc]="item"
       [list]="comentariosList"
+      [isConciliar]="true"
     ></app-orden-carga-create-form-combinacion>
 
     <app-orden-carga-anticipos-table
