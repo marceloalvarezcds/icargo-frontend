@@ -572,24 +572,23 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
             const dialogRef = this.openEvaluacionesDialog();
 
             dialogRef.afterClosed().subscribe(result => {
-                if (result) { 
-                    this.snackBar.open('Generando PDF...', 'Cerrar', {
-                        duration: 3000,
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center'
-                    });
+                this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
 
-                    this.downloadResumenPDF(); 
+                this.downloadResumenPDF(); // Se ejecuta siempre después del diálogo
 
-                } 
-                 else {
-                    //  this.resetFormData();
+                if (!result) { 
+                    // Si se cancela, solo deshabilita el campo sin evitar el PDF
                     this.form.get('combinacion.id_orden_carga')?.disable();
-                 }
+                }
             });
         },
     );
   }
+
 
   resetFormData(): void {
     this.form.reset();

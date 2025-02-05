@@ -131,9 +131,9 @@
             *ngIf="(submodule !== 'ACEPTAR' && submodule === 'ANTICIPO (directo)') || module === 'CONCILIAR' || submodule === 'ORDEN DE CARGA' 
                   && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)"
             [disabled]="isFormSubmitting"
-            (click)="downloadResumenPDF()"
+            (click)="previewPDF()"
             >
-          <mat-icon>description</mat-icon> VER OC
+          <mat-icon>visibility</mat-icon> VER OC
          </button>
       
 
@@ -159,7 +159,7 @@
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
           (oc?.estado === E.NUEVO)|| oc?.cantidad_destino || oc?.cantidad_origen"
           >
-          REMITIR OC
+          RE-EMITIR OC
         </button>
 
         <button

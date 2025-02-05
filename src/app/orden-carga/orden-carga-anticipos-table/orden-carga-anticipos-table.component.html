@@ -116,11 +116,11 @@
           class="botones" color="primary"
           id="add-button"
           (click)="create()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||
+          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
           !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon"
-           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||
+           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||  oc?.estado === 'Finalizado' ||
            !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> ANTICIPO
         </button>
 

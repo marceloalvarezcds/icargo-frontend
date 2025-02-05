@@ -569,25 +569,28 @@ private cancelOrdenCarga(): void {
   }
 
   private finalizarOrdenCarga(): void {
-      this.dialog.changeStatusConfirm(
-          '¿Está seguro que desea finalizar la Orden de Carga?',
-          this.ordenCargaService.finalizar(this.idOC),
-          () => {
-              this.getData();
-              const dialogRef = this.openEvaluacionesDialog();
-              dialogRef.afterClosed().subscribe(result => {
-                  if (result) { // Si se acepta el diálogo
-                      // Genera el PDF después de que el diálogo se haya cerrado
-                      this.snackBar.open('Generando PDF...', 'Cerrar', {
-                          duration: 3000,
-                          verticalPosition: 'top',
-                          horizontalPosition: 'center'
-                      });
-                      this.downloadResumenPDF();
-                  } 
-              });
-          },
-      );
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea finalizar la Orden de Carga?',
+        this.ordenCargaService.finalizar(this.idOC),
+        () => {
+            this.getData();
+            const dialogRef = this.openEvaluacionesDialog();
+
+            dialogRef.afterClosed().subscribe(result => {
+                this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
+
+                this.downloadResumenPDF(); 
+
+                if (!result) { 
+                    this.form.get('combinacion.id_orden_carga')?.disable();
+                }
+            });
+        },
+    );
   }
 
 
@@ -745,8 +748,6 @@ private cancelOrdenCarga(): void {
       });
     });
   }
-
-
 
   openRemitirDialog(): void {  
     this.dialog.open(OcRemitirDialogComponent, {

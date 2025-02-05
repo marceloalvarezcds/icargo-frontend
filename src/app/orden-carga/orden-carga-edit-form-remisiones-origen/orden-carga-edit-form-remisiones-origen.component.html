@@ -10,7 +10,7 @@
       (buttonAnticipoClicked)="onEditPressed()"
       id="create-button"
       [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
-    >
+      >
       <mat-icon
       class="small-icon"
       [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) } || isEditPedido">
