@@ -8,42 +8,14 @@ import { DialogService } from 'src/app/services/dialog.service';
   templateUrl: './fecha-field.component.html',
   styleUrls: ['./fecha-field.component.scss']
 })
-export class FechaFieldComponent implements OnInit {
+export class FechaFieldComponent {
 
   @Input() controlName = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
   @Input() requerido = false;
   @Input() title = '';
-  @Input() showFutureDateWarning: boolean = true; 
-  private selectedDate: Date | null = null;
-
-  constructor(private dialog: DialogService) {}
-
-  ngOnInit(): void {
-    if (this.showFutureDateWarning) {
-      this.control?.valueChanges.subscribe((value: Date) => {
-        if (value) {
-          const selectedDate = new Date(value);
-          const currentDate = new Date();
-
-          if (selectedDate > currentDate) {
-            this.showConfirmationDialog(selectedDate);
-          }
-        }
-      });
-    }
-  }
-
-  
-  private showConfirmationDialog(selectedDate: Date): void {
-    this.dialog.confirmation(
-      'La fecha seleccionada es futura. ¿Desea continuar?',
-     
-    );
-  }
-  
-
+ 
   get group(): FormGroup {
     if (this.groupName) {
       return this.form!.get(this.groupName) as FormGroup;
