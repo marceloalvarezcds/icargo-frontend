@@ -1,7 +1,9 @@
 export interface ContraparteBaseModel {
   contraparte: string;
+  contraparte_alias?: string;
   contraparte_numero_documento: string;
   tipo_contraparte_id: number;
+  es_pdv?: boolean;
 }
 
 export interface Contraparte extends ContraparteBaseModel {
@@ -45,7 +47,9 @@ export interface ContraparteGralInfo extends Contraparte {
   flujo?: string;
 }
 
-export const mockContraparteInfoList: ContraparteInfoMovimiento[] = [
+
+export const mockContraparteInfoList: ContraparteInfoMovimiento[] = [];
+/*= [
   {
     contraparte_id: 1,
     contraparte: 'ADM SANTA RITA',
@@ -75,3 +79,4 @@ export const mockContraparteInfoList: ContraparteInfoMovimiento[] = [
     tipo_contraparte_descripcion: 'Propietario',
   },
 ];
+*/

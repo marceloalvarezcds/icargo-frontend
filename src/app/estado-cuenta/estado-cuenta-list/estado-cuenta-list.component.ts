@@ -43,7 +43,7 @@ export class EstadoCuentaListComponent implements OnInit {
       value: () => 'Ver detalle Contraparte',
       type: 'button',
       buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
-      buttonIconName: (element: EstadoCuenta) => 'account_circle',
+      buttonIconName: (element: EstadoCuenta) => element.es_pdv ? 'supervisor_account' : 'account_circle',
       sticky: true
     },
     {
@@ -62,35 +62,6 @@ export class EstadoCuentaListComponent implements OnInit {
       title: 'Nº de Doc.',
       value: (element: EstadoCuenta) => element.contraparte_numero_documento_pdv ?? element.contraparte_numero_documento,
       footerDef: () => 'TOTAL SALDO GENERAL',
-
-    },
-    {
-      def: 'provision',
-      title: LiquidacionEtapaEnum.PROVISION,
-      value: (element: EstadoCuenta) => element.provision,
-      type: 'number',
-      footerDef: () => this.totalProvision,
-    },
-    {
-      def: 'pendiente',
-      title: LiquidacionEtapaEnum.PENDIENTE,
-      value: (element: EstadoCuenta) => element.pendiente,
-      // TODO: se quita los links hasta corregir las vistase
-      /*link: (element: EstadoCuenta) =>
-        element.cantidad_pendiente > 0
-          ? {
-              url: [
-                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
-              ],
-              queryParams: getQueryParams(
-                element,
-                LiquidacionEtapaEnum.PENDIENTE
-              ),
-            }
-          : undefined,
-      */
-      type: 'number',
-      footerDef: () => this.totalPendiente,
     },
     {
       def: 'confirmado',
@@ -136,11 +107,49 @@ export class EstadoCuentaListComponent implements OnInit {
       footerDef: () => (this.totalConfirmado+this.totalFinalizado),
     },
     {
+      def: 'saldo_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.liquidacion_saldo >= 0 ? 'D' : 'H' ,
+    },
+    {
+      def: 'provision',
+      title: LiquidacionEtapaEnum.PROVISION,
+      value: (element: EstadoCuenta) => element.provision,
+      type: 'number',
+      footerDef: () => this.totalProvision,
+    },
+    {
+      def: 'pendiente',
+      title: LiquidacionEtapaEnum.PENDIENTE,
+      value: (element: EstadoCuenta) => element.pendiente,
+      // TODO: se quita los links hasta corregir las vistase
+      /*link: (element: EstadoCuenta) =>
+        element.cantidad_pendiente > 0
+          ? {
+              url: [
+                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+              ],
+              queryParams: getQueryParams(
+                element,
+                LiquidacionEtapaEnum.PENDIENTE
+              ),
+            }
+          : undefined,
+      */
+      type: 'number',
+      footerDef: () => this.totalPendiente,
+    },
+    {
       def: 'total_cc',
       title: 'Total CC',
       value: (element: EstadoCuenta) => element.total_cc,
       type: 'number',
       footerDef: () => (this.pendiente + this.totalConfirmado + this.totalFinalizado),
+    },
+    {
+      def: 'total_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.total_cc >= 0 ? 'D' : 'H' ,
     },
   ];
 

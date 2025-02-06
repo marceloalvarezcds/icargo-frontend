@@ -28,7 +28,32 @@ export function getQueryParams(
     contraparte: contraparte.contraparte,
     contraparte_numero_documento: contraparte.contraparte_numero_documento,
     punto_venta_id: (contraparte.punto_venta_id! > 0) ? contraparte.punto_venta_id : undefined,
-    flujo: contraparte.tipo_flujo
+    flujo: contraparte.tipo_flujo,
+    es_pdv: contraparte.es_pdv
+  };
+}
+
+export function getQueryParamsPDV(
+  contraparte: ContraparteGralInfo,
+  etapa?: LiquidacionEtapaEnum
+): Contraparte | ContraparteEtapa | ContraparteGralInfo {
+  if (etapa) {
+    return {
+      tipo_contraparte_id: contraparte.tipo_contraparte_id,
+      contraparte_id: contraparte.tipo_contraparte_descripcion === "Otro" ? contraparte.tipo_contraparte_id : contraparte.contraparte_id,
+      contraparte: contraparte.contraparte,
+      contraparte_numero_documento: contraparte.contraparte_numero_documento,
+      etapa,
+    };
+  }
+  return {
+    tipo_contraparte_id: contraparte.tipo_contraparte_id,
+    contraparte_id: contraparte.tipo_contraparte_descripcion === "Otro" ? contraparte.tipo_contraparte_id : contraparte.contraparte_id,
+    contraparte: contraparte.contraparte_pdv!,
+    contraparte_numero_documento: contraparte.contraparte_numero_documento_pdv!,
+    punto_venta_id: (contraparte.punto_venta_id! > 0) ? contraparte.punto_venta_id : undefined,
+    flujo: contraparte.tipo_flujo,
+    es_pdv: contraparte.es_pdv
   };
 }
 
@@ -62,7 +87,6 @@ export function getParamsByPDV(
 
   const contraparteNombre = encodeURIComponent(contraparte);
   const numeroDocumento = encodeURIComponent(contraparte_numero_documento);
-
 
   let endpoint = `flujo/${flujo}/id/${contraparte_id}/contraparte/${contraparteNombre}/numero_documento/${numeroDocumento}/punto_venta/${punto_venta_id}`;
 

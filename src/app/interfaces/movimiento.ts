@@ -141,6 +141,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
 }
 
 export interface MovimientoEstadoCuenta {
+    contraparte_alias?: string,
     movimiento_id: number,
     liquidacion_id: number | null,
     instrumento_id: number,

@@ -70,4 +70,9 @@ export class CamionService {
   inactive(id: number): Observable<Camion> {
     return this.http.get<Camion>(`${this.url}/${id}/inactive`);
   }
+
+  getCamionListById(id: number): Observable<CamionList> {
+    return this.http.get<CamionList>(`${this.url}/combinacion/camion_list/${id}`);
+  }
+
 }

@@ -19,7 +19,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
-import { getQueryParams } from 'src/app/utils/contraparte-info';
+import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
 import { createMovimiento } from 'src/app/utils/movimiento-utils';
 
@@ -69,34 +69,6 @@ export class EstadoCuentaPdvComponent implements OnInit {
       //sticky: true
     },
     {
-      def: 'provision',
-      title: LiquidacionEtapaEnum.PROVISION,
-      value: (element: EstadoCuenta) => element.provision,
-      type: 'number',
-      footerDef: () => this.totalProvision,
-    },
-    {
-      def: 'pendiente',
-      title: LiquidacionEtapaEnum.PENDIENTE,
-      value: (element: EstadoCuenta) => element.pendiente,
-      /*
-      link: (element: EstadoCuenta) =>
-        element.cantidad_pendiente > 0
-          ? {
-              url: [
-                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
-              ],
-              queryParams: getQueryParams(
-                element,
-                LiquidacionEtapaEnum.PENDIENTE
-              ),
-            }
-          : undefined,
-      */
-      type: 'number',
-      footerDef: () => this.totalPendiente,
-    },
-    {
       def: 'confirmado',
       title: LiquidacionEtapaEnum.CONFIRMADO,
       value: (element: EstadoCuenta) => element.confirmado,
@@ -138,11 +110,49 @@ export class EstadoCuentaPdvComponent implements OnInit {
       footerDef: () => (this.totalConfirmado+this.totalFinalizado),
     },
     {
+      def: 'saldo_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.liquidacion_saldo >= 0 ? 'D' : 'H' ,
+    },
+    {
+      def: 'provision',
+      title: LiquidacionEtapaEnum.PROVISION,
+      value: (element: EstadoCuenta) => element.provision,
+      type: 'number',
+      footerDef: () => this.totalProvision,
+    },
+    {
+      def: 'pendiente',
+      title: LiquidacionEtapaEnum.PENDIENTE,
+      value: (element: EstadoCuenta) => element.pendiente,
+      /*
+      link: (element: EstadoCuenta) =>
+        element.cantidad_pendiente > 0
+          ? {
+              url: [
+                `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+              ],
+              queryParams: getQueryParams(
+                element,
+                LiquidacionEtapaEnum.PENDIENTE
+              ),
+            }
+          : undefined,
+      */
+      type: 'number',
+      footerDef: () => this.totalPendiente,
+    },
+    {
       def: 'total_cc',
       title: 'Total CC',
       value: (element: EstadoCuenta) => element.total_cc,
       type: 'number',
       footerDef: () => (this.pendiente + this.totalConfirmado + this.totalFinalizado),
+    },
+    {
+      def: 'total_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.total_cc >= 0 ? 'D' : 'H' ,
     },
   ];
 
@@ -311,7 +321,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
   private redirectToCtaCteContrapartePDV(mov: EstadoCuenta): void {
     this.router.navigate(
       [`/estado-cuenta/punto_venta/detallado/listar`],
-      { queryParams:getQueryParams(mov) }
+      { queryParams:getQueryParamsPDV(mov) }
     );
   }
 

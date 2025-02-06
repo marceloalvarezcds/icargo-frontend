@@ -10,6 +10,7 @@ import { Combinacion } from 'src/app/interfaces/combinacion';
 import { Propietario, PropietarioList } from 'src/app/interfaces/propietario';
 import { SemiList } from 'src/app/interfaces/semi';
 import { TipoPersona } from 'src/app/interfaces/tipo-persona';
+import { CamionService } from 'src/app/services/camion.service';
 
 @Component({
   selector: 'app-combinacion-form-info',
@@ -62,10 +63,17 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
         .subscribe((value) => {
 
           if (value) {
-            // Solo una vez se debe actualizar vista al editar
+
             setTimeout(() => {
-              this.tractoEventsSubject.next(this.tracto);
-            }, 500);
+              this.camionService.getCamionListById(value).subscribe( f => {
+                //this.camion = f;
+                let a = f;
+                a.color_descripcion = value.color_descripcion ?? ' ';
+                a.marca_descripcion = value.marca_descripcion ?? ' ';
+                console.log("a: ", a);
+                this.tractoEventsSubject.next(a);
+              });
+            }, 800);
 
           }
 
@@ -163,17 +171,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   personaEventsSubject: Subject<PropietarioList> = new Subject<PropietarioList>();
 
   // TODO: hacer un refresh con el backend
-  get tracto(): CamionList | undefined {
-    if (this.combinacion) {
-      let item = this.combinacion?.camion as CamionList;
-      item.marca_descripcion = item.marca ? item.marca.descripcion : '';
-      item.color_descripcion = item.color ? item.color?.descripcion :  '';
-      item.propietario_nombre = item.propietario.nombre;
-      return item;
-    }
-    else return undefined;
-  }
-
   get semiList(): SemiList | undefined {
     if (this.combinacion) {
       let item = {...this.combinacion.semi } as unknown as SemiList;
@@ -241,9 +238,16 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.estadoControl.setValue(nuevoEstado);
   }
 
-  constructor(private cdRef: ChangeDetectorRef) {}
+  constructor(
+    private cdRef: ChangeDetectorRef,
+    private camionService: CamionService,
+  ) {}
 
   camionChange(camion?: CamionList) {
+    /*if (this.isEdit || this.isShow) {
+      return;
+    }*/
+
     if (camion && camion.id !== this.currentCamionId) {
       this.currentCamionId = camion.id;
       this.info?.controls["camion_id"].setValue(camion.id);
@@ -265,11 +269,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       const propietarioList = camion.propietario as PropietarioList;
 
       this.tipoPersonaChange(propietarioList);
-
     }
   }
-
-
 
   semiChange(semi?: SemiList){
      this.info?.controls["semi_id"].setValue(semi?.id)

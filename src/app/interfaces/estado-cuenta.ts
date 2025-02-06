@@ -12,10 +12,12 @@ export interface EstadoCuenta extends ContraparteGralInfo {
   cantidad_en_proceso: number;
   cantidad_confirmado: number;
   cantidad_finalizado: number;
+  //saldo_sentido?:string;
   q: string;
 }
 
-export const mockEstadoCuentaList: EstadoCuenta[] = [
+export const mockEstadoCuentaList: EstadoCuenta[] = []
+/*[
   {
     contraparte_id: 1,
     contraparte: 'ADM SANTA RITA',
@@ -93,3 +95,4 @@ export const mockEstadoCuentaList: EstadoCuenta[] = [
     q: 'contraparte=PUERTO+UNION&contraparte_numero_documento=p-400400&tipo_contraparte_id=1',
   },
 ];
+*/

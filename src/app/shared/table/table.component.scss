@@ -34,6 +34,7 @@
     left: 0px ;
   }
 
+  /* fix columnas para tracto */
   .mat-column-estado {
     width: 65px !important;
     margin: 0 ;
@@ -45,6 +46,20 @@
     margin: 0 ;
     left: 133px !important;
   }
+
+  /* fix columnas para cc */
+  .mat-column-ctacte1{
+    width: 35px;
+    margin: 0 ;
+    left: 0px ;
+  }
+
+  .mat-column-contraparte{
+    width: 120px;
+    margin: 0 ;
+    left: 35px ;
+  }
+
 
   .mat-column-numero_lote{
     width: 68px !important;
