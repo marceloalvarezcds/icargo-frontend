@@ -68,8 +68,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
               this.camionService.getCamionListById(value).subscribe( f => {
                 //this.camion = f;
                 let a = f;
-                a.color_descripcion = value.color_descripcion ?? ' ';
-                a.marca_descripcion = value.marca_descripcion ?? ' ';
+                a.color_descripcion = a.color_descripcion ?? ' ';
+                a.marca_descripcion = a.marca_descripcion ?? ' ';
                 console.log("a: ", a);
                 this.tractoEventsSubject.next(a);
               });

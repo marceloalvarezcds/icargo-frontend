@@ -107,7 +107,7 @@ export class EstadoCuentaListComponent implements OnInit {
       footerDef: () => (this.totalConfirmado+this.totalFinalizado),
     },
     {
-      def: 'saldo_sentido',
+      def: 'saldosentido',
       title: "D/H",
       value: (element: EstadoCuenta) => element.liquidacion_saldo >= 0 ? 'D' : 'H' ,
     },

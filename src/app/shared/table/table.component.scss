@@ -60,7 +60,6 @@
     left: 35px ;
   }
 
-
   .mat-column-numero_lote{
     width: 68px !important;
     box-sizing: border-box;
@@ -75,6 +74,13 @@
   .mat-header-cell-checkbox .mat-checkbox-inner-container,
   .mat-cell-checkbox .mat-checkbox-inner-container {
     overflow: visible;
+  }
+
+  .mat-column-saldosentido {
+    width: 35px;
+  }
+  .mat-column-total_sentido {
+    width: 35px;
   }
 
 }
