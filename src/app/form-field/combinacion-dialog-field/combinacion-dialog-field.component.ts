@@ -72,6 +72,8 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   @Input() form!: FormGroup;
   @Input() groupName = '';
   @Input() title = 'TRACTOS';
+  @Input() isEdit: boolean = false;
+  @Input() isShow: boolean = true;
 
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 
@@ -85,6 +87,39 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
     //this.getList();
     null;
   }
+
+  onCamionChange(combinacion?: CombinacionList): void {
+    if (combinacion) {
+      const fechaVencimientoTransporteChofer = combinacion.camion?.vencimiento_habilitacion_transporte;
+      const fechaVencimientoTransporteSemi = combinacion.semi?.vencimiento_habilitacion_transporte;
+  
+      const hoy = new Date();
+      const vencimientoTransporteChofer = fechaVencimientoTransporteChofer ? new Date(fechaVencimientoTransporteChofer) : null;
+      const vencimientoTransporteSemi = fechaVencimientoTransporteSemi ? new Date(fechaVencimientoTransporteSemi) : null;
+  
+      // Verificar si la habilitación de transporte del camión está vencida
+      if (vencimientoTransporteChofer && vencimientoTransporteChofer < hoy) {
+        alert(`La habilitación de transporte del camión con placa ${combinacion.camion_placa} está vencida (Venció el ${vencimientoTransporteChofer.toLocaleDateString()}).`);
+        this.form.reset();
+        this.form.get('camion_id')?.setValue(null);
+        return;
+      }
+  
+      // Verificar si la habilitación de transporte del semi está vencida
+      if (vencimientoTransporteSemi && vencimientoTransporteSemi < hoy) {
+        alert(`La habilitación de transporte del semi con placa ${combinacion.semi_placa} está vencida (Venció el ${vencimientoTransporteSemi.toLocaleDateString()}).`);
+        this.form.reset();
+        this.form.get('camion_id')?.setValue(null);
+        return;
+      }
+  
+      // Emitir el cambio solo si no hay restricciones
+      this.valueChange.emit(combinacion);
+    }
+  }
+  
+  
+  
 
   //private getList(): void {
   //  this.list$ = this.service.getList();

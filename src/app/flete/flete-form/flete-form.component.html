@@ -7,8 +7,8 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [hideEditButton]="true"
+  [isShow]="isShow"
   [isEdit]="isEdit"
-  
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
   [shouldShowInactiveButton]="!isCancel"
@@ -33,7 +33,7 @@
         [form]="form"
         [estado]="estado"
         [flete]="item"
-       
+        [isShow]="isShow"
         (remitenteChange)="info.get('remitente_nombre')?.setValue($event?.nombre)"
         (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>
@@ -115,6 +115,8 @@
       <app-flete-form-emision-orden
         [class.colapse-div]="colapseDivEmision"
         [form]="form"
+        [isShow]="isShow"
+        [isEdit]="isEdit"
       ></app-flete-form-emision-orden>
     </div>
 

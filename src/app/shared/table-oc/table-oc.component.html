@@ -3,7 +3,8 @@
     <thead>
  
       <tr>
-        <th class="width-title-nominada"colspan="2" >   
+        <th class="width-title-resultados no-rigth"></th>
+        <th class="width-title-flete no-border" >   
          
           <span class="label">Cantidad Nominada </span>
           <span class="peso-value">
@@ -12,16 +13,16 @@
         
         </th> 
 
-        <th class="width-title-pesos" colspan="2">   
-         
-          <span class="label">Neto de la Combinacion </span>
-          <span class="peso-value">
-            <span class="peso-tarifa-value">{{ (oc?.neto ?? 0) | number: '1.0-0' }}</span>
-          </span>
-        
+        <th class="width-title-merma no-border" >   
+          <div class="neto">
+            <span class="label">Neto de la Combinacion </span>
+            <span class="peso-value">
+              <span class="peso-tarifa-value">{{ (oc?.neto ?? 0) | number: '1.0-0' }}</span>
+            </span>
+          </div>
         </th> 
 
-        <th class="width-title-pesos" >   
+        <th class="width-title-desc no-border" >   
          
           <span class="label">Peso Origen </span>
           <span class="peso-value">
@@ -30,7 +31,7 @@
         
         </th> 
 
-        <th class="width-title-pesos" >   
+        <th class="width-title-saldo-bruto no-border" >   
          
           <span class="label-destino">Peso Destino </span>
           <span class="peso-value">
@@ -38,7 +39,7 @@
           </span>
         
         </th> 
-        <th class="width-title-diferencia" colspan="2">   
+        <th class="width-title-saldo-neto no-border">   
          <div class="diferencia">
           <span class="label">Diferencia </span>
           <span class="peso-value">
@@ -46,7 +47,7 @@
           </span>
         </div>
         </th> 
-     
+        <th class="width-title-saldo-neto no-left" colspan="2"></th> 
     </tr>
     </thead>
     
@@ -57,8 +58,8 @@
           <th class="width-title-merma" >Merma</th> 
           <th class="width-title-desc" >Compl./Desc.</th> 
           <th class="width-title-saldo-bruto" >Saldo</th> 
-          <th class="width-title-anticipos" colspan="2">Anticipos</th> 
-          <th class="width-title-saldo-neto">Saldo</th> 
+          <th class="width-title-anticipos">Anticipos</th> 
+          <th class="width-title-saldo-neto" colspan="2">Saldo</th> 
       </tr>
   </thead>
   
@@ -70,18 +71,14 @@
       [matColumnDef]="column.def"
       [sticky]="column.sticky"
       [stickyEnd]="column.stickyEnd"
-      
     >
       <ng-container *ngIf="column.def !== 'actions'">
         
         <th
           mat-header-cell
           *matHeaderCellDef
-          mat-sort-header
-          [disabled]="disableSort"
           [class.mat-header-cell-checkbox]="column.type === 'checkbox'"
-          
-          
+          [ngClass]="{'text-center': true}"
       >
         <ng-container *ngIf="column.type === 'checkbox'">
           <mat-checkbox
@@ -108,29 +105,32 @@
           'red-text': isNegative(getColumnValue(row, column)) && (
             column?.def === 'bruto' ||
             column?.def === 'comp_desc' ||
-            column?.def === 'efectivo' ||
-            column?.def === 'combustible' ||
             column?.def === 'saldo' ||
             column?.def === 'tarifa_flete' ||
             column?.def === 'total_flete_mon' ||
             column?.def === 'tolerancia' ||
             column?.def === 'total_kg' ||
-            column?.def === 'merma_valor' ||
             column?.def === 'tolerancia_kg'
           ),
-          'black-text': !(isNegative(getColumnValue(row, column)) && (
+          'special-red-text': getColumnValue(row, column) !== 0 && (
+            column?.def === 'merma_valor' ||
+            column?.def === 'efectivo' ||
+            column?.def === 'combustible'
+          ),
+          'black-text': !((isNegative(getColumnValue(row, column)) && (
             column?.def === 'bruto' ||
             column?.def === 'comp_desc' ||
-            column?.def === 'efectivo' ||
-            column?.def === 'combustible' ||
             column?.def === 'saldo' ||
             column?.def === 'tarifa_flete' ||
             column?.def === 'total_flete_mon' ||
             column?.def === 'tolerancia' ||
             column?.def === 'total_kg' ||
-            column?.def === 'merma_valor' ||
             column?.def === 'tolerancia_kg'
-          ))
+          )) || (getColumnValue(row, column) !== 0 && (
+            column?.def === 'merma_valor' ||
+            column?.def === 'efectivo' ||
+            column?.def === 'combustible'
+          )))
         }">
 
           <ng-container
@@ -167,18 +167,25 @@
                 </ng-container>
                 <ng-container *ngIf="!column.link">
                   <span *ngIf="row && column.value(row) !== null">
-                    {{ column.value(row) | numberFormat }}
-                  
+                    <ng-container *ngIf="(column.def === 'merma_valor' || column.def === 'efectivo' || column.def === 'combustible') && column.value(row) !== 0; else normalValue">
+                      -{{ column.value(row) | numberFormat }}
+                    </ng-container>
+                    <ng-template #normalValue>
+                      {{ column.value(row) | numberFormat }}
+                    </ng-template>
+                
                     <div *ngIf="column?.def === 'tarifa_flete' || column?.def === 'tolerancia'" 
                           style="color: black; display: inline;"> Gs/Kg </div>
-                  
+                
                     <div *ngIf="column?.def === 'total_flete_mon' || column?.def === 'comp_desc' || column?.def === 'bruto' || column?.def === 'efectivo' || column?.def === 'combustible' || column?.def === 'saldo'" 
                           style="color: black; display: inline;"> Gs </div>
-                  
+                
                     <div *ngIf="column?.def === 'total_kg' || column?.def === 'merma_valor' || column?.def === 'tolerancia_kg'" 
                           style="color: black; display: inline;"> Kg </div>
                   </span>
                 </ng-container>
+                
+                
               </ng-container>
               <ng-container *ngSwitchCase="'date'">
                 <span>{{

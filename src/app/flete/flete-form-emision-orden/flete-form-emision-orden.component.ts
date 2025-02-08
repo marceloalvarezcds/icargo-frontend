@@ -23,6 +23,10 @@ export class FleteFormEmisionOrdenComponent implements OnDestroy {
   remitenteId?: number;
   remitenteSubscription?: Subscription;
 
+
+  @Input() isShow = false;
+  @Input() isEdit = false;
+  
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.destinoSubscription = this.destinoControl.valueChanges.subscribe(

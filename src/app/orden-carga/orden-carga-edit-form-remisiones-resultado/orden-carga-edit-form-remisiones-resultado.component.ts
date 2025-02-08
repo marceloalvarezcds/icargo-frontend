@@ -34,7 +34,6 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'total_flete_mon',
       title: 'Total',
-     
       value: (element: OrdenCargaRemisionResultado) => element.total_flete,
       type: 'number',
     },
