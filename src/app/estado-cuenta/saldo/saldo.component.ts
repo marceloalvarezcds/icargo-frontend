@@ -68,5 +68,4 @@ export class SaldoComponent {
     return subtract(this.credito, this.debito);
   }
 
-
 }

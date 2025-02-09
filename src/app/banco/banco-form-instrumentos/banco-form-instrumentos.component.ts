@@ -252,7 +252,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
         firsPendiente=true;
       }
 
-      acumulado = acumulado + (element.credito + element.debito + element.provision);
+      acumulado = acumulado + (element.credito - element.debito + element.provision);
       element.saldo_provisional = acumulado ;
 
     });
