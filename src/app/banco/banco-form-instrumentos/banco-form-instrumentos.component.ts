@@ -241,6 +241,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
       saldo_provisional: totalPendiente
     });
 
+
     let acumulado = 0;
     let firsPendiente = false;
 
