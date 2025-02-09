@@ -26,7 +26,6 @@ import { createMovimiento, deleteMovimiento,
   editMovimiento } from 'src/app/utils/movimiento-utils';
 import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
-import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { AfectadoEnum } from 'src/app/enums/afectado-enum';
 import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
