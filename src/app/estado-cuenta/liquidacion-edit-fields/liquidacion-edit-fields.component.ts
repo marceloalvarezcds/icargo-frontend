@@ -127,6 +127,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.form.controls['monto_pc'] as FormControl;
   }
 
+  get monto_pc_value(): number {
+    return this.monto_pc.value;
+  }
+
   get saldoMovimientoLiquidacion(){
     return this.childSaldoView.saldoMovimiento;
   }
@@ -181,8 +185,9 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   modificarLiquidacion():void {
-    let es_pago_cobro = (this.childSaldoView.saldoMovimiento) > 0 ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
+
+    let es_pago_cobro = (this.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
 
     this.item!.monto = pago_cobro;
 
