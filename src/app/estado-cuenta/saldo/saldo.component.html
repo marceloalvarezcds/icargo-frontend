@@ -1,6 +1,6 @@
 <div class="row">
 
-  <div *ngIf="showMonto" class="input-form-full col-xs-12 col-sm-3">
+  <div *ngIf="showMonto" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>
       Monto Pago/Cobro
     </mat-label>
@@ -8,6 +8,15 @@
       <input matInput [disabled]="esFinalizado" [(ngModel)]="monto" appInputThousandsSeparator />
     </mat-form-field>
   </div>
+
+  <app-number-field
+    *ngIf="showMonto"
+    class="input-form-full col-xs-12 col-sm-2"
+    title="Monto Pago/Cobro 2"
+    controlName="monto_pc"
+    [readonly]="esFinalizado"
+    [form]="form"
+  ></app-number-field>
 
   <div *ngIf="showResumen" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Tot. Movimientos</mat-label>

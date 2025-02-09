@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, ViewChild} from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, Input, Output, EventEmitter, ViewChild, AfterViewInit} from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
@@ -18,7 +18,7 @@ import { TipoLiquidacionEnum } from 'src/app/enums/tipo-liquidacion';
   templateUrl: './liquidacion-form-fields.component.html',
   styleUrls: ['./liquidacion-form-fields.component.scss']
 })
-export class LiquidacionFormFieldsComponent {
+export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
   private readonly monedaIdGs = 1;
 
@@ -49,8 +49,10 @@ export class LiquidacionFormFieldsComponent {
   movimientosSelected: Movimiento[] = [];
 
   form = new FormGroup({
-    es_insumo_efectivo: new FormControl(true),
-    tipo_insumo: new FormControl(null),
+    monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
+    es_insumo_efectivo: new FormControl(true, Validators.required),
+    tipo_insumo: new FormControl(null, Validators.required),
+    punto_venta_id: new FormControl(null, Validators.required),
   });
 
   get credito(): number {
@@ -85,20 +87,69 @@ export class LiquidacionFormFieldsComponent {
     return this.form.controls['tipo_insumo'] as FormControl;
   }
 
+  get puntoVentaId(): FormControl {
+    return this.form.controls['punto_venta_id'] as FormControl;
+  }
+
+  get monto_pc(): FormControl {
+    return this.form.controls['monto_pc'] as FormControl;
+  }
+
+  get saldoMovimientoLiquidacion(){
+    return this.childSaldoView.saldoMovimiento;
+  }
+
   constructor(
     private movimientoService: MovimientoService,
     private liquidacionService: LiquidacionService,
     private snackbar: SnackbarService,
   ) { }
 
+  ngAfterViewInit(): void {
+    console.log("ngAfterViewInit: ");
+    if (this.estadoCuenta!.es_pdv && !this.estadoCuenta?.tipo_flujo) {
+      this.form.controls['punto_venta_id'].markAsTouched();
+    } else {
+      this.form.controls['es_insumo_efectivo'].removeValidators(Validators.required);
+      this.form.controls['tipo_insumo'].removeValidators(Validators.required);
+      this.form.controls['punto_venta_id'].removeValidators(Validators.required);
+
+      this.form.controls['es_insumo_efectivo'].updateValueAndValidity();
+      this.form.controls['tipo_insumo'].updateValueAndValidity();
+      this.form.controls['punto_venta_id'].updateValueAndValidity();
+    }
+
+    if (this.estadoCuenta?.tipo_flujo ) {
+
+      const esEfectivo = this.estadoCuenta?.tipo_flujo === 'EFECTIVO';
+      this.form.controls['es_insumo_efectivo'].setValue( esEfectivo ? 'EFECTIVO' : 'INSUMO');
+      this.form.controls['tipo_insumo'].setValue(this.estadoCuenta?.tipo_flujo);
+      this.form.controls['punto_venta_id'].setValue(this.estadoCuenta?.punto_venta_id);
+      this.esInsumoControl.setValue( esEfectivo );
+
+      this.form.controls['es_insumo_efectivo'].disable();
+      this.form.controls['tipo_insumo'].disable();
+      this.form.controls['punto_venta_id'].disable();
+      this.esInsumoControl.disable();
+
+    }
+  }
 
   sendLiquidacion(confirmed: boolean): void {
 
-    let es_pago_cobro = (this.childSaldoView.saldoMovimiento >= 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
+    this.form.markAsDirty();
+    this.form.markAllAsTouched();
+    if (!this.form.valid) {
+      console.log("form invalido, verificar!!!");
+      return;
+    }
+
+    let es_pago_cobro = (this.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = 0; //es_pago_cobro === 'PAGO' ? Math.abs(this.childSaldoView.monto) : Math.abs(this.childSaldoView.monto)*-1 ;
+    pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
 
     let tipoMovLiquidacion = '';
-    if (this.estadoCuenta!.punto_venta_id){
+    if (this.estadoCuenta!.punto_venta_id || this.estadoCuenta!.es_pdv){
       tipoMovLiquidacion = this.estadoCuenta!.tipo_flujo!;
     } else {
       tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO.toUpperCase();
@@ -132,6 +183,8 @@ export class LiquidacionFormFieldsComponent {
             }
           }*/
 
+          this.form.reset();
+
           this.movimientosSelected.splice(0, this.movimientosSelected.length);
         });
     //} else {
@@ -150,12 +203,14 @@ export class LiquidacionFormFieldsComponent {
       listar_efectivo_insumo = this.tipo_insumo.value;
     }
 
+    const puntoVenta = this.estadoCuenta!.punto_venta_id! >0 ? this.estadoCuenta!.punto_venta_id : this.puntoVentaId.value;
+
     this.movimientoService
       .getListByEstadoCuenta(
         this.estadoCuenta!,
         this.estadoCuenta!.contraparte_id,
         etapa,
-        this.estadoCuenta!.punto_venta_id,
+        puntoVenta,
         listar_efectivo_insumo
       )
       .subscribe((data) => {
@@ -167,7 +222,18 @@ export class LiquidacionFormFieldsComponent {
   filtrarMovimientosPDV():void{
     this.liquidacionMovimientoList!.clearMovimientosList();
 
+    // obtenemos del form datos de:
+    // proveedor pdv
+    // linea
+
     const listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
+    const puntoVenta = this.puntoVentaId.value;
+
+    console.log("puntoVenta: ", puntoVenta);
+
+    if (!puntoVenta) {
+      return;
+    }
 
     if (listar_efectivo_insumo === 'INSUMO' && !this.tipo_insumo.value ) {
       this.list = [];
@@ -181,6 +247,15 @@ export class LiquidacionFormFieldsComponent {
   filtrarMovimientosPDV2(filter:string):void{
     this.liquidacionMovimientoList!.clearMovimientosList();
 
+    console.log("filtrarMovimientosPDV2");
+
+    const puntoVenta = this.puntoVentaId.value;
+
+    console.log("puntoVenta: ", puntoVenta);
+
+    if (!puntoVenta) {
+      return;
+    }
 
     if (filter === 'INSUMO' && !this.tipo_insumo.value ) {
       this.list = [];
@@ -193,6 +268,8 @@ export class LiquidacionFormFieldsComponent {
 
   cargarMovimientos(movimientos: Movimiento[]):void {
     this.movimientosSelected = movimientos;
+    this.monto_pc.setValue(Math.abs(this.monto));
+    console.log("cargarMovimientos: ", movimientos);
   }
 
 }

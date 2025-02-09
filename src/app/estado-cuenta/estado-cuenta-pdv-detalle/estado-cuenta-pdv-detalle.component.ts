@@ -24,7 +24,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { createMovimiento, deleteMovimiento,
   editMovimiento } from 'src/app/utils/movimiento-utils';
-import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
+import { ContraparteGralInfo, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { getFilterList } from 'src/app/utils/filter';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { ButtonList } from 'src/app/interfaces/buttonList';
@@ -34,6 +34,7 @@ import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimi
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { edit } from 'src/app/utils/table-event-crud';
+import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
 
 type Filter = {
   camion_placa?: string;
@@ -516,7 +517,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
 
     createLiquidacion():void {
 
-      this.resetFilter();
+      //this.resetFilter();
 
       const {
         contraparte_id,
@@ -527,18 +528,33 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
         flujo,
       } = this.route.snapshot.queryParams;
 
-      const data: ContraparteInfoMovimientoLiq = {
+      const data: ContraparteGralInfo = {
         contraparte: contraparte,
         contraparte_id: contraparte_id,
         contraparte_numero_documento: contraparte_numero_documento,
         tipo_contraparte_id: tipo_contraparte_id,
         tipo_contraparte_descripcion: '',
-        isNew: true,
+        //isNew: true,
         etapa: LiquidacionEtapaEnum.PENDIENTE,
         punto_venta_id: punto_venta_id,
-        flujo:flujo
+        flujo:flujo,
+        tipo_flujo:flujo,
+        es_pdv: true,
       };
 
+      console.log("data: ", data);
+
+      const url = [
+        `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+      ];
+
+      const queryParams = getQueryParamsPDV( data, LiquidacionEtapaEnum.PENDIENTE);
+
+      this.router.navigate(url, {
+        queryParams: queryParams,
+      });
+
+      /*
       this.dialog
         .open(LiquidacionFormDialogComponent, {
           data,
@@ -549,6 +565,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
         .subscribe(() => {
           this.getList();
         });
+        */
     }
 
     private delete(mov: MovimientoEstadoCuenta): void {

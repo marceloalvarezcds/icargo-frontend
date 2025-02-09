@@ -35,6 +35,7 @@ import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimi
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { edit } from 'src/app/utils/table-event-crud';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { getQueryParams } from 'src/app/utils/contraparte-info';
 
 type Filter = {
   camion_placa?: string;
@@ -190,8 +191,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         es_pdv
       } = this.route.snapshot.queryParams;
 
-      console.log("es_pdv: ", es_pdv);
-
       this.configurarTabla(coerceBooleanProperty(es_pdv));
 
      }
@@ -230,7 +229,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       });
 
     }
-
 
     filterPredicate(obj: MovimientoEstadoCuenta, filterJson: string): boolean {
       const filter: Filter = JSON.parse(filterJson);
@@ -313,8 +311,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     createLiquidacion():void {
 
-      this.resetFilter();
-
       const {
         contraparte_id,
         contraparte,
@@ -334,6 +330,17 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         punto_venta_id: punto_venta_id
       };
 
+      const url = [
+        `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+      ];
+
+      const queryParams = getQueryParams( data, LiquidacionEtapaEnum.PENDIENTE);
+
+      this.router.navigate(url, {
+        queryParams: queryParams,
+      });
+
+      /*
       this.dialog
         .open(LiquidacionFormDialogComponent, {
           data,
@@ -344,6 +351,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         .subscribe(() => {
           this.getList();
         });
+        */
     }
 
     private delete(mov: MovimientoEstadoCuenta): void {
@@ -412,8 +420,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       });
 
-
-
     }
 
     /*
@@ -464,8 +470,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     private configurarTabla(es_pdv:boolean): void {
-
-      console.log("es_pdv: ", es_pdv);
 
       this.columns = [
         {

@@ -47,7 +47,16 @@
     </mat-form-field>
   </div>
 
-  <ng-container *ngIf="this.estadoCuenta?.punto_venta_id">
+  <app-punto-venta-by-proveedor-field
+      *ngIf="estadoCuenta?.es_pdv"
+      class="input-form-full col-xs-12 col-sm-6 col-md-2"
+      [title]="'Punto de Venta'"
+      [proveedorId]="estadoCuenta?.contraparte_id"
+      (valueChange)="filtrarMovimientosPDV()"
+      [form]="form">
+  </app-punto-venta-by-proveedor-field>
+
+  <ng-container *ngIf="this.estadoCuenta?.punto_venta_id || estadoCuenta?.es_pdv">
 
     <div [class]="esEditableLinea ? 'col-xs-12 col-sm-2' : 'col-xs-12 col-sm-3'">
 

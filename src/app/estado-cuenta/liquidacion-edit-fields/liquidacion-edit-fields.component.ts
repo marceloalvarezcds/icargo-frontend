@@ -14,6 +14,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confirmada-form-facturas/liquidacion-confirmada-form-facturas.component';
 import { Factura } from 'src/app/interfaces/factura';
 import { LiquidacionEditFormMovimientosComponent } from '../liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
@@ -36,6 +37,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() movimientos: Movimiento[] = [];
   @Input() isEdit = false;
 
+  @Input() set liquidacion(liq:Liquidacion) {
+    this.item = liq;
+    this.monto_pc.setValue(Math.abs(this.monto));
+  }
+
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
@@ -49,6 +55,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   colapseDivFacturas = false;
   colapseDivInstrumentos = false;
   colapseDivHistorico = false;
+
+  form = new FormGroup({
+    monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
+  });
 
   get monto(): number {
     return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
@@ -113,6 +123,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.item?.gestor_carga_id;
   }
 
+  get monto_pc(): FormControl {
+    return this.form.controls['monto_pc'] as FormControl;
+  }
+
+  get saldoMovimientoLiquidacion(){
+    return this.childSaldoView.saldoMovimiento;
+  }
+
   constructor(
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
@@ -125,6 +143,9 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       if (this.esFinalizado) {
         this.colapseDivMovimientos = true;
       }
+
+      this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
+
     }, 500);
 
   }
@@ -155,6 +176,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
     // recalcula saldo y monto pago cobro
     this.item!.pago_cobro = null;
+    console.log("cargarMovimientos: ", movimientos);
     this.actualizarMovimientos.emit(movimientos);
   }
 

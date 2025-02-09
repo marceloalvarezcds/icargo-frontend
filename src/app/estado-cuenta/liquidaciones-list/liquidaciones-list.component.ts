@@ -287,7 +287,8 @@ export class LiquidacionesListComponent implements OnInit {
       isEdit: true,
       liquidacionId: liquidacion.id,
       etapa: liquidacion.etapa,
-      punto_venta_id: liquidacion.punto_venta_id
+      punto_venta_id: liquidacion.punto_venta_id,
+      flujo: liquidacion.tipo_mov_liquidacion
     };
 
 
