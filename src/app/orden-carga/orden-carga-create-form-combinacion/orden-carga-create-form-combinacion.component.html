@@ -3,8 +3,8 @@
   <div [formGroupName]="groupName">
 
     <div class="section" >
-      <h2 class="title-colapside" *ngIf="!showSearchOCAceptadas && !isEdit && !isShow" (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
-      <h2 class="title-colapside" *ngIf="showSearchOCAceptadas || isEdit || isShow" (click)="colapseDivpedido=!colapseDivpedido">INFORMACION PRINCIPAL</h2>
+      <h2 class="title-colapside" *ngIf="(!showSearchOCAceptadas && !isEdit && !isShow) && !mostrarInformacionPrincipal "  (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
+      <h2 class="title-colapside" *ngIf="(showSearchOCAceptadas || isEdit || isShow) || mostrarInformacionPrincipal" (click)="colapseDivpedido=!colapseDivpedido">INFORMACION PRINCIPAL</h2>
 
       <div class="row" [class.colapse-div]="colapseDivFlota" >
 

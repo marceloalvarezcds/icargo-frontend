@@ -27,7 +27,7 @@
         [controlName]="controlName"
         [inputValuePropName]="inputValuePropName"
         [form]="form"
-        (valueChange)="valueChange.emit($event)"
+        (valueChange)="onCamionChange($event)"
       ></app-dialog-field>
   </ng-container>
   <ng-template #inputTemplate>

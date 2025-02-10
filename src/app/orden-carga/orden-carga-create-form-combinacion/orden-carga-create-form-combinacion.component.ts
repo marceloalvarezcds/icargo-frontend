@@ -25,6 +25,7 @@ import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SemiService } from 'src/app/services/semi.service';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
+import { INFERRED_TYPE } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-orden-carga-create-form-combinacion',
@@ -69,6 +70,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() showSearchOCNuevos: boolean = false;
   @Input() showSearchOCfinalizadas: boolean = false;
   @Input() showOCaFinalizar: boolean = false;
+  @Input() mostrarInformacionPrincipal: boolean = false;
   @Input() showSearchOCPedidos: boolean = false;
   @Input() isSaveForm: boolean = false;
   @Input() disabled: boolean = false;

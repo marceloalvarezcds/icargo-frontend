@@ -35,6 +35,22 @@
       ></app-camion-form-info>
     </div>
 
+    <div class="section" formGroupName="detalle">
+      <h2> DETALLE </h2>
+      <app-camion-form-detalle
+        [form]="form"
+        [isShow]="isShow"
+      ></app-camion-form-detalle>
+    </div>
+
+    <div class="section" formGroupName="capacidad">
+      <h2> CAPACIDAD </h2>
+      <app-camion-form-capacidad
+        [form]="form"
+        [isShow]="isShow"
+      ></app-camion-form-capacidad>
+    </div>
+
     <div class="section" formGroupName="limite">
       <h2> LIMITACIONES </h2>
       <app-camion-form-limite
@@ -43,9 +59,25 @@
         [isShow]="isShow"
       ></app-camion-form-limite>
     </div>
+    
 
     <div class="section" >
       <h2>HABILITACIONES </h2>
+      <div formGroupName="transporte">
+        <app-habilitacion-form-transporte
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoTransporteFrente"
+          [fotoReverso]="fotoTransporteReverso"
+          (fotoFrenteChange)="
+            fotoTransporteFrenteFile = $event; fotoTransporteFrente = null
+          "
+          (fotoReversoChange)="
+            fotoTransporteReversoFile = $event; fotoTransporteReverso = null
+          "
+        ></app-habilitacion-form-transporte>
+      </div>
       <div formGroupName="municipal">
         <app-habilitacion-form-municipal
           [form]="form"
@@ -62,21 +94,7 @@
         ></app-habilitacion-form-municipal>
       </div>
 
-      <div formGroupName="transporte">
-        <app-habilitacion-form-transporte
-          [form]="form"
-          [isEdit]="isEdit"
-          [isShow]="isShow"
-          [fotoFrente]="fotoTransporteFrente"
-          [fotoReverso]="fotoTransporteReverso"
-          (fotoFrenteChange)="
-            fotoTransporteFrenteFile = $event; fotoTransporteFrente = null
-          "
-          (fotoReversoChange)="
-            fotoTransporteReversoFile = $event; fotoTransporteReverso = null
-          "
-        ></app-habilitacion-form-transporte>
-      </div>
+ 
 
       <div formGroupName="automotor">
         <app-habilitacion-form-automotor
@@ -95,21 +113,7 @@
       </div>
     </div>
 
-    <div class="section" formGroupName="detalle">
-      <h2> DETALLE </h2>
-      <app-camion-form-detalle
-        [form]="form"
-        [isShow]="isShow"
-      ></app-camion-form-detalle>
-    </div>
 
-    <div class="section" formGroupName="capacidad">
-      <h2> CAPACIDAD </h2>
-      <app-camion-form-capacidad
-        [form]="form"
-        [isShow]="isShow"
-      ></app-camion-form-capacidad>
-    </div>
 
 
 
