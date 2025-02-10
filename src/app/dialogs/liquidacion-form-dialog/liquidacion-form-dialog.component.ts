@@ -108,12 +108,16 @@ export class LiquidacionFormDialogComponent {
   }
 
   actualizar(): void {
+
+    let es_pago_cobro = (this.childEdit.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? this.childEdit.monto_pc.value : (this.childEdit.monto_pc.value*-1);
+
     const data: LiquidacionConfirmDialogData = {
       contraparteInfo: this.estadoCuenta!,
       list: this.childEdit.movimientos,
       credito: this.childEdit.credito,
       debito: this.childEdit.debito,
-      monto: this.childEdit.childSaldoView.monto,
+      monto: pago_cobro,
       saldo: this.childEdit.childSaldoView.saldo,
     };
     this.dialog
@@ -209,18 +213,41 @@ export class LiquidacionFormDialogComponent {
   }
 
   getEstadoCuenta(): void {
-    this.estadoCuentaService
-      .getByContraparte(
-        this.data.tipo_contraparte_id,
-        this.data.tipo_contraparte_descripcion === "Otro" ? this.data.tipo_contraparte_id : this.data.contraparte_id,
-        this.data.contraparte,
-        this.data.contraparte_numero_documento,
-        this.data.punto_venta_id
-      )
-      .pipe(filter((e) => !!e))
-      .subscribe((estadoCuenta) => {
-        this.estadoCuenta = estadoCuenta!;
-    });
+    console.log("getEstadoCuenta: ", this.data);
+
+    /* si es pdv tiene que llamar a otro endpoint */
+    if (this.data.punto_venta_id) {
+
+      this.estadoCuentaService
+        .getListByPDVContraparte(
+          this.data.tipo_contraparte_id,
+          //this.data.tipo_contraparte_descripcion === "Otro" ? this.data.tipo_contraparte_id : this.data.contraparte_id,
+          this.data.contraparte,
+          this.data.contraparte_numero_documento,
+          this.data.punto_venta_id,
+          this.data.flujo,
+        )
+        .pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+      });
+
+    } else {
+
+      this.estadoCuentaService
+        .getByContraparte(
+          this.data.tipo_contraparte_id,
+          this.data.tipo_contraparte_descripcion === "Otro" ? this.data.tipo_contraparte_id : this.data.contraparte_id,
+          this.data.contraparte,
+          this.data.contraparte_numero_documento,
+          this.data.punto_venta_id
+        )
+        .pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+      });
+
+    }
   }
 
   getData(): void {
@@ -294,7 +321,7 @@ export class LiquidacionFormDialogComponent {
   }
 
   refreshEstadoCuentaYMovimiento(liq: Liquidacion): void{
-    this.getEstadoCuenta();
+    //this.getEstadoCuenta();
     this.loadLiquidacion();
   }
 

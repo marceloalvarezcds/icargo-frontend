@@ -3,7 +3,6 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { of } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -11,8 +10,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
-import { createLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
-import { ContraparteInfoMovimiento, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
+import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
@@ -25,6 +23,8 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { subtract } from 'src/app/utils/math';
 import { LiquidacionFormFieldsComponent } from '../liquidacion-form-fields/liquidacion-form-fields.component';
+import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
 
 @Component({
   selector: 'app-liquidacion-form',
@@ -34,14 +34,16 @@ import { LiquidacionFormFieldsComponent } from '../liquidacion-form-fields/liqui
 export class LiquidacionFormComponent implements OnInit {
   m = m;
   form = new FormGroup({});
-  backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
+  backUrl = `/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
   etapa?: LiquidacionEtapaEnum;
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
-  @Input() data? : ContraparteInfoMovimientoLiq;
   monto:number = 0;
+
+  @Input() data? : ContraparteInfoMovimientoLiq;
+
   @Output() createdLiquidacion: EventEmitter<any> = new EventEmitter<any>();
 
   @ViewChild('child')
@@ -76,10 +78,29 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   back(save: boolean): void {
+    let {
+      es_pdv,
+      flujo
+    } = this.route.snapshot.queryParams;
+
     if (save) {
       this.submit(save);
     } else {
-      this.router.navigate([this.backUrl]);
+
+      if (coerceBooleanProperty(es_pdv)) {
+
+        this.backUrl = '/estado-cuenta/punto_venta/detallado/listar';
+
+        this.router.navigate([this.backUrl],
+          { queryParams:getQueryParamsPDV!(this.estadoCuenta!) }
+        );
+
+      } else {
+        this.router.navigate([this.backUrl],
+          { queryParams:getQueryParams!(this.estadoCuenta!) }
+        );
+      }
+
     }
   }
 
@@ -105,13 +126,19 @@ export class LiquidacionFormComponent implements OnInit {
 
   prepareSend(): void {
 
+
+    const monto_pc = this.child.monto_pc.value;
+    console.log("monto_pc: ", monto_pc );
+    const es_pago_cobro = (this.child.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
+    const pago_cobro = es_pago_cobro === 'PAGO' ? monto_pc : (monto_pc*-1);
+
     //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
-        monto: this.child.childSaldoView.monto,
+        monto: pago_cobro,
         saldo: this.child.childSaldoView.saldo
       };
       this.dialog
@@ -180,10 +207,17 @@ export class LiquidacionFormComponent implements OnInit {
       contraparte,
       contraparte_numero_documento,
       tipo_contraparte_id,
+      punto_venta_id,
+      es_pdv,
+      flujo
     } = this.route.snapshot.queryParams;
+
     if (backUrl) {
       this.backUrl = backUrl;
     }
+
+    console.log("queryParams: ", this.route.snapshot.queryParams);
+
     this.etapa = etapa;
 
     if (!!this.data){
@@ -194,7 +228,25 @@ export class LiquidacionFormComponent implements OnInit {
       tipo_contraparte_id = this.data.tipo_contraparte_id;
     }
 
-    this.estadoCuentaService
+    if (es_pdv) {
+
+      this.estadoCuentaService
+        .getListByPDVContraparte(
+          contraparte_id,
+          contraparte,
+          contraparte_numero_documento,
+          punto_venta_id,
+          flujo,
+        )
+        //.pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+          this.getList();
+        });
+
+    } else {
+
+      this.estadoCuentaService
       .getByContraparte(
         tipo_contraparte_id,
         contraparte_id,
@@ -206,11 +258,46 @@ export class LiquidacionFormComponent implements OnInit {
         this.estadoCuenta = estadoCuenta!;
         this.getList();
       });
+
+    }
+
   }
 
   getList(): void {
+
+    let {
+      contraparte_id,
+      punto_venta_id,
+      es_pdv,
+      flujo
+    } = this.route.snapshot.queryParams;
+
+    if (this.estadoCuenta!.es_pdv && !flujo) {
+      this.list = [];
+      this.movimientosSelected = [];
+      return;
+    }
+
     const etapa = this.etapa! as LiquidacionEtapaEnum;
-    this.movimientoService
+
+    if (es_pdv) {
+
+      this.movimientoService
+      .getListByEstadoCuenta(
+        this.estadoCuenta!,
+        contraparte_id,
+        etapa,
+        punto_venta_id,
+        flujo
+      )
+      .subscribe((data) => {
+        this.list = data;
+        this.movimientosSelected = [];
+      });
+
+    } else {
+
+      this.movimientoService
       .getListByEstadoCuenta(
         this.estadoCuenta!,
         this.estadoCuenta!.contraparte_id,
@@ -220,5 +307,9 @@ export class LiquidacionFormComponent implements OnInit {
         this.list = data;
         this.movimientosSelected = [];
       });
+
+    }
+
   }
+
 }

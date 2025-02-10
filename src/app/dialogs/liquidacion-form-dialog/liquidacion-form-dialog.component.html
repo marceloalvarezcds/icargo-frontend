@@ -38,9 +38,10 @@
 
       <div class="page-content-liquidacion">
         <app-liquidacion-edit-fields
+            *ngIf="liquidacion"
             #childEdit
             [isEdit]="isEdit"
-            [item]="liquidacion"
+            [liquidacion]="liquidacion"
             [etapa]="etapa"
             [estadoCuenta]="estadoCuenta"
             [movimientos]="list"

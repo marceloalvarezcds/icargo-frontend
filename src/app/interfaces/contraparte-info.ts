@@ -39,6 +39,7 @@ export interface ContraparteInfoMovimientoLiq extends Contraparte {
 
 export interface ContraparteGralInfo extends Contraparte {
   tipo_contraparte_descripcion: string;
+  etapa?: string;
   moneda_id?: number;
   punto_venta_id?: number;
   contraparte_pdv?: string;

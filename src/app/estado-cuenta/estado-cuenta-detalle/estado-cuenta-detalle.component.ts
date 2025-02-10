@@ -28,6 +28,10 @@ export class EstadoCuentaDetalleComponent {
   @Output()
   filterEvent: EventEmitter<string> = new EventEmitter<string>();
 
+  get esInsumoControlControl(): FormControl {
+    return this.form?.controls['es_insumo_efectivo'] as FormControl;
+  }
+
   get esInsumoControlvalue(): FormControl {
     return this.form?.controls['es_insumo_efectivo'].value;
   }

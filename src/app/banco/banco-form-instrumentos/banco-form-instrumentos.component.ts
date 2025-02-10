@@ -240,6 +240,26 @@ export class BancoFormInstrumentosComponent implements OnInit {
     this.form.patchValue({
       saldo_provisional: totalPendiente
     });
+
+
+    let acumulado = 0;
+    let firsPendiente = false;
+
+    // sumatoria acumulada por grupo
+    this.item?.instrumentos.reverse().forEach(element =>{
+
+      if (!firsPendiente && element.operacion_estado === OperacionEstadoEnum.CONFIRMADO ){
+        acumulado = 0;
+        firsPendiente=true;
+      }
+
+      acumulado = acumulado + (element.credito - element.debito + element.provision);
+      element.saldo_provisional = acumulado ;
+
+    });
+
+    this.item?.instrumentos.reverse();
+
   }
 
   formatDate(dateString: string): string {
@@ -273,4 +293,5 @@ export class BancoFormInstrumentosComponent implements OnInit {
       }
     );
   }
+
 }

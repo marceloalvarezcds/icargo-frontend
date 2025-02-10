@@ -7,7 +7,7 @@
     (liquidacionChange)="actualizarLiquidacion.emit()"
     (liquidacionFlujoChange)="actualizarEstado.emit($event)"
     (liquidacionFacturaChange)="actualizarFactura()"
-    [monto]="montoSaldo"
+    [monto]="monto_pc_value"
     [saldoMovimiento]="childSaldoView?.saldoMovimiento"
     [saldoCC]="childSaldoView?.saldo"
     [totalMovimiento]="(credito-debito)"
@@ -39,6 +39,7 @@
       [esFinalizado]="esFinalizado"
       [monto]="monto"
       (saldoChange)="saldo = $event"
+      [form]="form"
     ></app-saldo>
   </div>
 

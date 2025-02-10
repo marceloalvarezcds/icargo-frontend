@@ -40,10 +40,13 @@ export function getQueryParamsPDV(
   if (etapa) {
     return {
       tipo_contraparte_id: contraparte.tipo_contraparte_id,
-      contraparte_id: contraparte.tipo_contraparte_descripcion === "Otro" ? contraparte.tipo_contraparte_id : contraparte.contraparte_id,
+      contraparte_id: contraparte.contraparte_id,
       contraparte: contraparte.contraparte,
       contraparte_numero_documento: contraparte.contraparte_numero_documento,
       etapa,
+      punto_venta_id: contraparte.punto_venta_id,
+      flujo: contraparte.tipo_flujo,
+      es_pdv: contraparte.es_pdv
     };
   }
   return {

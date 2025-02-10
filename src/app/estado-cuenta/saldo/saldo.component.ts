@@ -1,4 +1,5 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { subtract } from 'src/app/utils/math';
 
 @Component({
@@ -40,6 +41,8 @@ export class SaldoComponent {
 
   @Input() esEdicion = false;
 
+  @Input() form?:FormGroup;
+
   get saldo(): number {
     let calcSaldo = 0;
     let totalOp = 0;
@@ -64,6 +67,5 @@ export class SaldoComponent {
   get saldoMovimiento(): number {
     return subtract(this.credito, this.debito);
   }
-
 
 }
