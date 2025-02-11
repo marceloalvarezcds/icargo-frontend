@@ -32,7 +32,7 @@
   </div>
 
   <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
-    <mat-label>Nombre</mat-label>
+    <mat-label>{{es_pdv ? 'Establecimiento' : 'Nombre'}}</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
     </mat-form-field>

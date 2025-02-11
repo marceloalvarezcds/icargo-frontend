@@ -46,6 +46,8 @@ export class PageFormEntitiesInfoComponent implements OnDestroy, AfterViewInit  
     return this.info?.controls['estado'].value;
   }
 
+  @Input() labelNombreCorto = 'Nombre de Fantasía';
+
   @Input() form = new FormGroup({
     info: new FormGroup({
       nombre: new FormControl(null),

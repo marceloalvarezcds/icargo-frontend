@@ -45,7 +45,7 @@ export class PuntoVentaListComponent {
     },*/
     {
       def: 'nombre_corto',
-      title: 'Nombre de Fantasía',
+      title: 'Establecimiento',
       value: (element: PuntoVentaList) => element.nombre_corto,
     },
     {

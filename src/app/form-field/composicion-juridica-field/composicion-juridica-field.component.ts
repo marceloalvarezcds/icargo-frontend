@@ -13,9 +13,11 @@ import { isFisica } from 'src/app/utils/composicion-juridica';
   styleUrls: ['./composicion-juridica-field.component.scss']
 })
 export class ComposicionJuridicaFieldComponent implements OnInit, OnDestroy {
+
   formGroup?: FormGroup;
   composicionJuridicaList: ComposicionJuridica[] = [];
   composicionJuridicaSubscription?: Subscription;
+  composicionJuridicaChangeSubscription?: Subscription;
 
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
@@ -34,18 +36,27 @@ export class ComposicionJuridicaFieldComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.composicionJuridicaSubscription = this.composicionJuridicaService.getList().subscribe(list => {
+
       this.composicionJuridicaList = list.slice();
+
+      if (this.control.value){
+        let a = this.control.value;
+        this.control.setValue(a);
+      }
+
     });
   }
 
   ngOnDestroy(): void {
     this.composicionJuridicaSubscription?.unsubscribe();
+    this.composicionJuridicaChangeSubscription?.unsubscribe();
   }
 
   private setupControlSubscription(): void {
+
     if (this.formGroup) {
-      const control = this.formGroup.get(this.groupName)?.get(this.controlName);
-      control?.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
+
+      this.composicionJuridicaChangeSubscription = this.control?.valueChanges.pipe(filter(v => !!v)).subscribe(id => {
         const composicionJuridica = this.composicionJuridicaList.find(x => x.id === id);
         this.valueChange.emit(composicionJuridica);
         this.isFisicaSelected.emit(isFisica(this.composicionJuridicaList, id));
@@ -53,12 +64,16 @@ export class ComposicionJuridicaFieldComponent implements OnInit, OnDestroy {
     }
   }
 
-  get control(): FormControl {
-    return this.formGroup!.get(this.groupName) as FormControl;
+  get group(): FormGroup {
+    if (this.groupName) {
+      return this.formGroup?.get(this.groupName) as FormGroup;
+    }
+    return this.formGroup!;
   }
 
-  get group(): FormGroup {
-    return this.formGroup!.get(this.groupName) as FormGroup;
+  get control(): FormControl {
+    return this.group?.get(this.controlName) as FormControl;
   }
+
 }
 

@@ -721,7 +721,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           ...[
               {
                 def: 'contraparte_alias',
-                title: 'Alias',
+                title: 'Establecimiento',
                 value: (element: MovimientoEstadoCuenta) => element.contraparte_alias,
                 //sticky: true,
                 dinamicStyles: (element: MovimientoEstadoCuenta) =>

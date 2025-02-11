@@ -15,6 +15,7 @@
   <div class="section" formGroupName="info">
     <h2>INFORMACIÓN PRINCIPAL</h2>
     <app-page-form-entities-info
+      [labelNombreCorto]="'Establecimiento'"
       [form]="form"
       [isEdit]="isEdit"
       [isShow]="isShow"
@@ -35,7 +36,7 @@
         [isPanelOpen]="true"
       ></app-page-form-geo>
     </div>
-  </div>   
+  </div>
 
   <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
     <h2 class="contactos-heading">CONTACTOS</h2>
@@ -44,6 +45,6 @@
       [isShow]="isShow"
       [contactoList]="contactoList"
     ></app-page-form-contactos>
-  </div>  
+  </div>
 </div>
 </app-page-form>

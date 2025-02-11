@@ -10,6 +10,7 @@ import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
   styleUrls: ['./estado-cuenta-detalle.component.scss'],
 })
 export class EstadoCuentaDetalleComponent {
+  @Input() es_pdv?: boolean = false;
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoLiqui?: LiquidacionEstadoEnum;
   @Input() estadoCuenta?: EstadoCuenta;

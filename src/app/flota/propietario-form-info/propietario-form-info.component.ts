@@ -31,7 +31,7 @@ export class PropietarioFormInfoComponent {
         private composicionJuridicaService: ComposicionJuridicaService,
         private tipoDocumentoService: TipoDocumentoService
       ) {}
-      
+
 
   @Input() form = new FormGroup({
     info: new FormGroup({
@@ -88,6 +88,7 @@ export class PropietarioFormInfoComponent {
   }
 
   isFisicaChange(isFisica: boolean): void {
+    console.log("isFisicaChange: ", isFisica);
     this.isFisicaSelected = isFisica;
     if (!isFisica) {
       this.esChoferControl.setValue(isFisica);
@@ -98,4 +99,5 @@ export class PropietarioFormInfoComponent {
     }
     this.contactos?.updateValueAndValidity();
   }
+
 }

@@ -32,7 +32,6 @@
         </div>
 
         <app-composicion-juridica-field
-        
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           groupName="info"
           title="Composición Jurídica"
@@ -41,14 +40,15 @@
           (isFisicaSelected)="isFisicaChange($event)"
         ></app-composicion-juridica-field>
 
-          <!-- Fecha -->
-          <app-fecha-field
+        <!-- Fecha -->
+        <app-fecha-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           [title]="'Fecha de ' + (isFisicaSelected ? 'nacimiento' : 'constitución')"
           groupName="info"
           controlName="fecha_nacimiento"
           [form]="form"
         ></app-fecha-field>
+
       </div>
 
       <div class="row">
@@ -70,7 +70,7 @@
         </mat-form-field>
         </div>
         <!-- Nº de Documento -->
-         
+
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Nº de Documento"
@@ -87,8 +87,7 @@
           controlName="pais_origen_id"
           [form]="form"
         ></app-pais-field>
-      
-     
+
       </div>
 
       <div class="row">
@@ -115,6 +114,7 @@
       </div>
 
       <div class="row" style="padding-top: 5px;">
+
         <div class="input-form-full col-xs-12 col-sm-6 col-md-3" [hidden]="!isFisicaSelected">
           <app-slide
             [isShow]="isShow"
