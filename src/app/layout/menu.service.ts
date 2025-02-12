@@ -280,14 +280,6 @@ export class MenuService {
             path: `/biblioteca/${m.CARGO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.CARGO),
           },
-        ],
-      },
-      {
-        name: u.PARAMETROS,
-        iconName: 'build_circle',
-        iconOutline: true,
-        active: this.userService.checkIfIsAdminIcargo(),
-        children: [
           {
             name: t[m.TIPO_CUENTA],
             iconName: 'wallet',
@@ -303,6 +295,29 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.TIPO_MOVIMIENTO),
           },
         ],
+      },
+      {
+        name: u.PARAMETROS,
+        iconName: 'build_circle',
+        iconOutline: true,
+        active: this.userService.checkIfIsAdminIcargo(),
+        /* se mueven menu de cuenta y concepto a biblioteca
+        children: [
+          {
+            name: t[m.TIPO_CUENTA],
+            iconName: 'wallet',
+            iconOutline: true,
+            path: `/parametros/${m.TIPO_CUENTA}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.TIPO_CUENTA),
+          },
+          {
+            name: t[m.TIPO_MOVIMIENTO],
+            iconName: 'wysiwyg',
+            iconOutline: true,
+            path: `/parametros/${m.TIPO_MOVIMIENTO}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.TIPO_MOVIMIENTO),
+          },
+        ],*/
       },
       {
         name: u.USUARIOS,

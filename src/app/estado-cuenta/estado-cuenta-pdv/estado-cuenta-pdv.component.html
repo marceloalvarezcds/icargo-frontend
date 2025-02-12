@@ -10,6 +10,18 @@ submodule="CUENTA CORRIENTE | PDV"
   <mat-accordion [multi]="true">
     <mat-expansion-panel>
       <mat-expansion-panel-header>
+        <mat-panel-title>Proveedor</mat-panel-title>
+      </mat-expansion-panel-header>
+      <div>
+        <app-checkbox-filter
+          #proveedorCheckboxFilter
+          [value]="proveedorFiltered"
+          [list]="proveedorFilterList"
+        ></app-checkbox-filter>
+      </div>
+    </mat-expansion-panel>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
         <mat-panel-title>Contraparte</mat-panel-title>
       </mat-expansion-panel-header>
       <div>
@@ -38,6 +50,9 @@ submodule="CUENTA CORRIENTE | PDV"
 
 <mat-chip-list filterValues>
   <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+  <ng-container *ngIf="isFilteredByProveedor">
+    <mat-chip *ngFor="let item of proveedorFiltered">{{ item }}</mat-chip>
+  </ng-container>
   <ng-container *ngIf="isFilteredByContraparte">
     <mat-chip *ngFor="let item of contraparteFiltered">{{ item }}</mat-chip>
   </ng-container>

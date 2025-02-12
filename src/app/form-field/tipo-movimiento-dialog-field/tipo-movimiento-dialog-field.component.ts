@@ -17,7 +17,9 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
   styleUrls: ['./tipo-movimiento-dialog-field.component.scss'],
 })
 export class TipoMovimientoDialogFieldComponent {
+
   readonly inputValuePropName = 'info';
+
   list: TipoMovimiento[] = [];
   subs = this.service.getActiveList().subscribe((list) => {
     this.list = list;

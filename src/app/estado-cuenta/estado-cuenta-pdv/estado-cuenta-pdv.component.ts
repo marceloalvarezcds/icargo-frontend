@@ -27,6 +27,7 @@ type Filter = {
   tipo_contraparte_descripcion?: string;
   contraparte?: string;
   linea?: string;
+  proveedor?: string;
 };
 
 @Component({
@@ -50,10 +51,15 @@ export class EstadoCuentaPdvComponent implements OnInit {
       sticky: true
     },
     {
-      def: 'contraparte',
+      def: 'contraparte_pdv',
       title: 'Cuenta Correntista',
-      value: (element: EstadoCuenta) => element.contraparte_pdv ?? element.contraparte,
+      value: (element: EstadoCuenta) => element.contraparte_pdv,
       sticky: true
+    },
+    {
+      def: 'contraparte',
+      title: 'Proveedor',
+      value: (element: EstadoCuenta) => element.contraparte,
     },
     {
       def: 'linea',
@@ -162,6 +168,8 @@ export class EstadoCuentaPdvComponent implements OnInit {
   contraparteFiltered: string[] = [];
   lineaFilterList: string[] = [];
   lineaFiltered: string[] = [];
+  proveedorFilterList: string[] = [];
+  proveedorFiltered: string[] = [];
 
   provision: number = 0;
   pendiente: number = 0;
@@ -177,6 +185,12 @@ export class EstadoCuentaPdvComponent implements OnInit {
   get isFilteredByLinea(): boolean {
     return (
       this.lineaFiltered.length !== this.lineaFilterList.length
+    );
+  }
+
+  get isFilteredByProveedor(): boolean {
+    return (
+      this.proveedorFiltered.length !== this.proveedorFilterList.length
     );
   }
 
@@ -198,11 +212,15 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
   @ViewChild(MatAccordion)
   accordion!: MatAccordion;
+
   @ViewChild('contraparteCheckboxFilter')
   contraparteCheckboxFilter!: CheckboxFilterComponent;
 
   @ViewChild('lineaCheckboxFilter')
   lineaCheckboxFilter!: CheckboxFilterComponent;
+
+  @ViewChild('proveedorCheckboxFilter')
+  proveedorCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private estadoCuentaService: EstadoCuentaService,
@@ -239,7 +257,12 @@ export class EstadoCuentaPdvComponent implements OnInit {
         ?.split('*')
         .some((x) => obj.tipo_flujo!.toLowerCase().indexOf(x) >= 0) ?? true;
 
-    return filterByContraparte && filterByLinea;
+    const filterByProveedor =
+      filter.proveedor
+        ?.split('*')
+        .some((x) => obj.contraparte!.toLowerCase().indexOf(x) >= 0) ?? true;
+
+    return filterByContraparte && filterByLinea && filterByProveedor;
   }
 
   applyFilter(): void {
@@ -248,6 +271,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
     this.contraparteFiltered = this.contraparteCheckboxFilter.getFilteredList();
     this.lineaFiltered = this.lineaCheckboxFilter.getFilteredList();
+    this.proveedorFiltered = this.proveedorCheckboxFilter.getFilteredList();
 
     if (this.isFilteredByContraparte) {
       //this.contraparteFiltered = this.contraparteFiltered.map( (ele:string)=> ele.split('|')[0]);
@@ -257,6 +281,11 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
     if (this.isFilteredByLinea) {
       filter.linea = this.lineaFiltered.join('*');
+      this.isFiltered = true;
+    }
+
+    if (this.isFilteredByProveedor) {
+      filter.proveedor = this.proveedorFiltered.join('*');
       this.isFiltered = true;
     }
 
@@ -298,6 +327,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
       this.contraparteFilterList = getFilterList(list, (x) => x.contraparte_pdv!);
       this.lineaFilterList = getFilterList(list, (x) => x.tipo_flujo!);
+      this.proveedorFilterList = getFilterList(list, (x) => x.contraparte!);
 
       this.resetFilterList();
 
@@ -316,6 +346,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
     this.isFiltered = false;
     this.contraparteFiltered = this.contraparteFilterList.slice();
     this.lineaFiltered = this.lineaFilterList.slice();
+    this.proveedorFiltered = this.proveedorFilterList.slice();
   }
 
   private redirectToCtaCteContrapartePDV(mov: EstadoCuenta): void {

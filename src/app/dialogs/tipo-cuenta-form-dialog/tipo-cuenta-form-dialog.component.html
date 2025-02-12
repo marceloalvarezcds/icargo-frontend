@@ -6,25 +6,32 @@
     </button>
   </h1>
   <div mat-dialog-content>
-    <div>
+
+    <div class="row">
+
       <app-input-field
+        class="input-form-full col-xs-12 col-sm-12"
         title="Código"
         controlName="codigo"
         [autofocus]="true"
         [form]="form"
       ></app-input-field>
-    </div>
-    <div>
+
       <app-input-field
+        class="input-form-full col-xs-12 col-sm-12"
         title="Descripción"
         controlName="descripcion"
         [form]="form"
       ></app-input-field>
+
     </div>
+
     <div *ngIf="data">
       <app-estado-field [estado]="data.estado"></app-estado-field>
     </div>
+
   </div>
+
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>
     <button

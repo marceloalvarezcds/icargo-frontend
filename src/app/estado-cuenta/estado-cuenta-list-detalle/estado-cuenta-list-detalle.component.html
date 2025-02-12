@@ -47,6 +47,18 @@
           ></app-checkbox-filter>
         </div>
       </mat-expansion-panel>
+      <mat-expansion-panel *ngIf="es_pdv">
+        <mat-expansion-panel-header>
+          <mat-panel-title>Establecimiento</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #establecimientoCheckboxFilter
+            [value]="establecimientoFiltered"
+            [list]="establecimientoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>Estado</mat-panel-title>
@@ -64,6 +76,9 @@
 
   <mat-chip-list filterValues>
     <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByEstablecimiento">
+      <mat-chip *ngFor="let item of establecimientoFiltered">{{item}}</mat-chip>
+    </ng-container>
     <ng-container *ngIf="isFilteredByCuenta">
       <mat-chip *ngFor="let item of cuentaFiltered">{{item}}</mat-chip>
     </ng-container>

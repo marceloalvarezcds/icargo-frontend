@@ -47,6 +47,15 @@
     </mat-form-field>
   </div>
 
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-2" *ngIf="es_pdv">
+    <mat-label>Proveedor</mat-label>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput disabled
+        [value]="estadoCuenta?.contraparte"
+      />
+    </mat-form-field>
+  </div>
+
   <app-punto-venta-by-proveedor-field
       *ngIf="estadoCuenta?.es_pdv"
       class="input-form-full col-xs-12 col-sm-6 col-md-2"

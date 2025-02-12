@@ -42,6 +42,8 @@ type Filter = {
   concepto?: string;
   tipo?: string;
   estado?: string;
+  contraparte_alias?: string
+  es_pdv?: boolean
 };
 
 @Component({
@@ -101,9 +103,14 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   estadoFilterList: string[] = [];
   estadoFiltered: string[] = [];
 
+  establecimientoFilterList: string[] = [];
+  establecimientoFiltered: string[] = [];
+
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
+
+  es_pdv:boolean=false;
 
   get isFilteredByCuenta(): boolean {
     return (this.cuentaFiltered.length !== this.cuentaFilterList.length);
@@ -119,6 +126,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
   get isFilteredByEstado(): boolean {
     return (this.estadoFilterList.length !== this.estadoFiltered.length);
+  }
+
+  get isFilteredByEstablecimiento(): boolean {
+    return (this.establecimientoFilterList.length !== this.establecimientoFiltered.length);
   }
 
   get pendientes(): number {
@@ -174,6 +185,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   detalleCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('estadoCheckboxFilter')
   estadoCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('establecimientoCheckboxFilter')
+  establecimientoCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -190,7 +203,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         es_pdv
       } = this.route.snapshot.queryParams;
 
-      this.configurarTabla(coerceBooleanProperty(es_pdv));
+      this.es_pdv = coerceBooleanProperty(es_pdv);
+
+      this.configurarTabla(this.es_pdv);
 
      }
 
@@ -230,6 +245,9 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     filterPredicate(obj: MovimientoEstadoCuenta, filterJson: string): boolean {
+
+      console.log("filterPredicate");
+
       const filter: Filter = JSON.parse(filterJson);
 
       const filterByCuenta = filter.cuenta?.split('|')
@@ -244,6 +262,23 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       const filterByEstado = filter.estado?.split('|')
           .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
 
+      if (filter.es_pdv){
+
+        console.log("filterPredicate: es pdv");
+        console.log("obj.contraparte_alias: ", obj.contraparte_alias);
+
+        if (obj.contraparte_alias) {
+
+          const filterByEstablecimiento = filter.contraparte_alias?.split('|')
+            .some((x) => obj.contraparte_alias!.toLowerCase().indexOf(x) >= 0) ?? true;
+
+          console.log("filterByEstablecimiento ", filterByEstablecimiento);
+
+          return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado && filterByEstablecimiento;
+        }
+
+      }
+
       return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado;
     }
 
@@ -252,6 +287,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     applyFilter(): void {
+
       let filter: Filter = {};
       this.isFiltered = false;
 
@@ -259,6 +295,17 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       this.conceptoFiltered = this.conceptoCheckboxFilter.getFilteredList();
       this.detalleFiltered = this.detalleCheckboxFilter.getFilteredList();
       this.estadoFiltered = this.estadoCheckboxFilter.getFilteredList();
+
+      if (this.es_pdv){
+
+        this.establecimientoFiltered = this.establecimientoCheckboxFilter.getFilteredList();
+
+        if (this.isFilteredByEstablecimiento) {
+          filter.contraparte_alias = this.establecimientoFiltered.join('|');
+          this.isFiltered = true;
+          filter.es_pdv = true;
+        }
+      }
 
       if (this.isFilteredByCuenta) {
         filter.cuenta = this.cuentaFiltered.join('|');
@@ -276,6 +323,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         filter.estado = this.estadoFiltered.join('|');
         this.isFiltered = true;
       }
+
       this.filter(
         this.isFiltered ? JSON.stringify(filter) : '',
         !this.isFiltered
@@ -842,6 +890,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.detalleFilterList = getFilterList(this.list, (x) => x.detalle);
 
+      if (this.es_pdv){
+        this.establecimientoFilterList = getFilterList(this.list, (x) => x.contraparte_alias);
+      }
+
     }
 
     private filter(
@@ -858,6 +910,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       this.conceptoFiltered = this.conceptoFilterList.slice();
       this.detalleFiltered = this.detalleFilterList.slice();
       this.estadoFiltered = this.estadoFilterList.slice();
+      this.establecimientoFiltered = this.establecimientoFilterList.slice();
     }
 
 }
