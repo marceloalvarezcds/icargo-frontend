@@ -46,6 +46,11 @@ import { EvaluacionesDialogComponent } from './evaluaciones-dialog/evaluaciones-
 import { EvaluacionesCancelarComponent } from './evaluaciones-cancelar/evaluaciones-cancelar.component';
 import { RemisionFormDialogComponent } from './remision-form-dialog/remision-form-dialog.component';
 import { OcRemitirDialogComponent } from './oc-remitir-dialog/oc-remitir-dialog.component';
+import { OcAnticipoRetiradoEfectivoDialogComponent } from './oc-anticipo-retirado-efectivo-dialog/oc-anticipo-retirado-efectivo-dialog.component';
+import { OcAnticipoRetiradoInsumoDialogComponent } from './oc-anticipo-retirado-insumo-dialog/oc-anticipo-retirado-insumo-dialog.component';
+import { OcAnticipoRetiradoEfectivoAnulacionDialogComponent } from './oc-anticipo-retirado-efectivo-anulacion-dialog/oc-anticipo-retirado-efectivo-anulacion-dialog.component';
+import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from './oc-anticipo-retirado-insumo-anulacion-dialog/oc-anticipo-retirado-insumo-anulacion-dialog.component';
+
 
 
 const modules = [
@@ -88,6 +93,10 @@ const modules = [
   EvaluacionesCancelarComponent,
   RemisionFormDialogComponent,
   OcRemitirDialogComponent,
+  OcAnticipoRetiradoEfectivoDialogComponent,
+  OcAnticipoRetiradoInsumoDialogComponent,
+  OcAnticipoRetiradoEfectivoAnulacionDialogComponent,
+  OcAnticipoRetiradoInsumoAnulacionDialogComponent,
 ];
 
 @NgModule({

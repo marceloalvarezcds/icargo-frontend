@@ -8,7 +8,13 @@ export interface OcAnticipoRetiradoDialogData {
   oc?: OrdenCarga | null;
 }
 
-
+export interface OcAnticipoRetiradoTestDialogData {
+  item?: OrdenCargaAnticipoRetirado,
+  orden_carga_id: number,
+  flete_id: number,
+  moneda_id?: number,
+  oc?: OrdenCarga | null;
+}
 
 export const mockOcAnticipoRetiradoDialogData: OcAnticipoRetiradoDialogData = {
   item: mockOrdenCargaAnticipoRetiradoList[0],

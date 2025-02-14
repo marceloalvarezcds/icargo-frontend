@@ -6,6 +6,7 @@ export enum PermisoAccionEnum {
   CREAR = 'crear',
   EDITAR = 'editar',
   ELIMINAR = 'eliminar',
+  ANULAR = 'anular',
   LISTAR = 'listar',
   MODIFICAR_CONTACTOS = 'modificar_contactos',
   MODIFICAR_ALIAS = 'modificar_alias',

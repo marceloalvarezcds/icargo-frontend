@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
@@ -12,11 +12,17 @@ import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 import { TableEvent } from 'src/app/interfaces/table';
 import * as saveAs from 'file-saver';
-import { OcAnticipoRetiradoDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
+import { OcAnticipoRetiradoDialogData, OcAnticipoRetiradoTestDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { OcAnticipoRetiradoMockupComponent } from 'src/app/dialogs/oc-anticipo-retirado-mockup/oc-anticipo-retirado-mockup.component';
 import { OcGestionLineaComponent } from 'src/app/dialogs/oc-gestion-linea/oc-gestion-linea.component';
 import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog/evaluaciones-dialog.component';
 import { Flete, FleteList } from 'src/app/interfaces/flete';
+import { OcAnticipoRetiradoEfectivoDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-efectivo-dialog/oc-anticipo-retirado-efectivo-dialog.component';
+import { OcAnticipoRetiradoInsumoDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-insumo-dialog/oc-anticipo-retirado-insumo-dialog.component';
+import { OcAnticipoRetiradoFormDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-form-dialog/oc-anticipo-retirado-form-dialog.component';
+import { OcAnticipoRetiradoEfectivoAnulacionDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-efectivo-anulacion-dialog/oc-anticipo-retirado-efectivo-anulacion-dialog.component';
+import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-insumo-anulacion-dialog/oc-anticipo-retirado-insumo-anulacion-dialog.component';
+
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -30,7 +36,9 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
-  @Output() ocChange = new EventEmitter<OrdenCargaList>();
+  // @Output() ocChange = new EventEmitter<OrdenCargaList>();
+
+  @Output() ocAnticipoRetiradoChange = new EventEmitter<void>();;
 
   a = PermisoAccionEnum;
 
@@ -51,6 +59,40 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
         this.downloadPDF(element),
     },
     {
+      def: 'estados_movimientos',
+      title: 'Estado',
+      value: (element: OrdenCargaAnticipoRetirado) => element.estados_movimientos?.toUpperCase(),
+      dinamicStyles: (element: OrdenCargaAnticipoRetirado) => {
+        switch (element.estados_movimientos) {
+          case 'Activo':
+          case 'Aceptado':
+          case 'En Revisión':
+            return { color: '#008000' }; 
+          case 'Conciliado':
+            return { color: '#9747FF' }; 
+          case 'Finalizado':
+            return { color: '#89969F' }; 
+          case 'Inactivo':
+            return { color: '#FF0000' }; 
+          case 'Pendiente':
+            return { color: '#FFA500' }; 
+          case 'Provision':
+            return { color: 'gray' }; 
+          case 'Anulado':
+            return { color: 'red' }; 
+          case 'Saldo abierto':
+            return { color: '#9747FF' }; 
+          case 'Saldo cerrado':
+            return { color: '#89969F' }; 
+          case 'Rechazado':
+            return { color: '#FF0000' }; 
+          default:
+            return {}; 
+        }
+      }
+    },
+                      
+    {
       def: 'concepto',
       title: 'Concepto',
       value: (element: OrdenCargaAnticipoRetirado) => element.concepto,
@@ -60,6 +102,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       title: 'Proveedor',
       value: (element: OrdenCargaAnticipoRetirado) => element.proveedor_nombre,
     },
+
     {
       def: 'punto_venta_pais_nombre',
       title: 'País',
@@ -115,7 +158,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   ];
 
   ngOnInit(): void {
-
     if (this.list?.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
@@ -126,14 +168,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
   @Input() anticipoList: any[] = []; // Recibe la lista de anticipos
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['anticipoList']) {
-      console.log('anticipoList actualizado', this.anticipoList);
-    }
+  ngOnChanges() {
+    this.cdr.detectChanges();
   }
 
-
-
+  lista: OrdenCargaAnticipoRetirado[] = [];
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
 
 
@@ -152,13 +191,15 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   @Input() fleteId?: number;
   @Input() ordenCargaId: number | null = null;
 
-  // @Output() ocChange = new EventEmitter<void>();
+  @Output() ocChange = new EventEmitter<void>();
+  @Output() ocChangeInsumo = new EventEmitter<void>();
   @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private reportsService: ReportsService,
+    private cdr: ChangeDetectorRef,
   ) {}
 
   get isAnticiposLiberados(): boolean {
@@ -261,8 +302,23 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.buttonAnticipoClicked.emit();
   }
 
+  createEfectivo(): void {
+    create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
+  }
+
+  createInsumo(): void {
+    create(this.getDialogInsumoRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
+  }
+
   edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
-    edit(this.getDialogRef(row), this.emitOcChange.bind(this));
+    if (row.tipo_insumo_id === null) {
+      edit(this.getDialogEfectivoAnulacionRef(row), this.emitOcChange.bind(this));
+    } else {
+      edit(this.getDialogInsumoAnulacionRef(row), this.emitOcChange.bind(this));
+    }
+    this.buttonAnticipoClicked.emit();
   }
 
   remove({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
@@ -290,7 +346,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   private getDialogRef(
     item?: OrdenCargaAnticipoRetirado
   ): MatDialogRef<
-    OcAnticipoRetiradoMockupComponent,
+  OcAnticipoRetiradoFormDialogComponent,
     OrdenCargaAnticipoRetirado
   > {
     const data: OcAnticipoRetiradoDialogData = {
@@ -299,10 +355,92 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       oc: this.oc,
       item,
     };
-    return this.dialog.open(OcAnticipoRetiradoMockupComponent, {
+    return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
       width: '700px',
       height: 'auto',
       data });
+  }
+
+  private getDialogEfectivoRef(
+    item?: OrdenCargaAnticipoRetirado
+  ): MatDialogRef<
+    OcAnticipoRetiradoEfectivoDialogComponent,
+    OrdenCargaAnticipoRetirado
+  > {
+    const data: OcAnticipoRetiradoTestDialogData = {
+      orden_carga_id: this.oc!.id,
+      flete_id: this.oc!.flete_id,
+      oc: this.oc,
+      moneda_id: this.ocRetirado?.moneda_id ?? 0,
+      item,
+    };
+    
+    return this.dialog.open(OcAnticipoRetiradoEfectivoDialogComponent, {
+      width: '700px',
+      height: 'auto',
+      data });
+  }
+  
+
+  private getDialogInsumoRef(
+    item?: OrdenCargaAnticipoRetirado
+  ): MatDialogRef<
+    OcAnticipoRetiradoInsumoDialogComponent,
+    OrdenCargaAnticipoRetirado
+  > {
+    const data: OcAnticipoRetiradoDialogData = {
+      orden_carga_id: this.oc!.id,
+      flete_id: this.oc!.flete_id,
+      oc: this.oc,
+      item,
+    };
+    return this.dialog.open(OcAnticipoRetiradoInsumoDialogComponent, {
+      width: '700px',
+      height: 'auto',
+      data });
+  }
+
+  private getDialogEfectivoAnulacionRef(
+    item?: OrdenCargaAnticipoRetirado
+  ): MatDialogRef<
+    OcAnticipoRetiradoEfectivoAnulacionDialogComponent,
+    OrdenCargaAnticipoRetirado
+  > {
+    const data: OcAnticipoRetiradoTestDialogData = {
+      orden_carga_id: this.oc!.id,
+      flete_id: this.oc!.flete_id,
+      oc: this.oc,
+      moneda_id: this.ocRetirado?.moneda_id ?? 0,
+      item,
+    };
+    
+    return this.dialog.open(OcAnticipoRetiradoEfectivoAnulacionDialogComponent, {
+      width: '700px',
+      height: 'auto',
+      data });
+  }
+  
+
+  private getDialogInsumoAnulacionRef(
+    item?: OrdenCargaAnticipoRetirado
+  ): MatDialogRef<
+    OcAnticipoRetiradoInsumoAnulacionDialogComponent,
+    OrdenCargaAnticipoRetirado
+  > {
+    const data: OcAnticipoRetiradoDialogData = {
+      orden_carga_id: this.oc!.id,
+      flete_id: this.oc!.flete_id,
+      oc: this.oc,
+      item,
+    };
+    return this.dialog.open(OcAnticipoRetiradoInsumoAnulacionDialogComponent, {
+      width: '700px',
+      height: 'auto',
+      data });
+  }
+
+  private emitOcChange(): void {
+    this.ocChange.emit();
   }
 
   shouldRenderEfectivoSaldo(): boolean {
@@ -314,11 +452,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     // Obtiene el saldo del anticipo "Efectivo"
     const efectivoAnticipo = this.filteredAnticipos.find(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
     return efectivoAnticipo ? this.getSaldoAnticipo(efectivoAnticipo) : 0;
-  }
-
-
-  private emitOcChange(): void {
-    this.ocChange.emit();
   }
   @Input() isDisabled: boolean = false;
 }

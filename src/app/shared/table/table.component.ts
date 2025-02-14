@@ -93,15 +93,18 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
+  @Input() anularAnticipo = false;
   @Input() shouldBeShowFooter = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() showBtnMovimientos = false;
+  @Input() hideAnular: boolean = false;
   @Input() modelo?: PermisoModeloEnum;
 
   @Output() activeClick = new EventEmitter<TableEvent<T>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
+  @Output() anularAnticipoClick = new EventEmitter<TableEvent<T>>();
   @Output() editClick = new EventEmitter<TableEvent<T>>();
   @Output() deleteClick = new EventEmitter<TableEvent<T>>();
   @Output() showClick = new EventEmitter<TableEvent<T>>();
@@ -224,7 +227,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
           return '#FFA500'; // Naranja
         case 'Provision':
           return 'gray'; // Naranja
-
+        case 'Anulado':
+          return 'red'; 
         case 'Saldo abierto':
           return '#9747FF';
         case 'Saldo cerrado':

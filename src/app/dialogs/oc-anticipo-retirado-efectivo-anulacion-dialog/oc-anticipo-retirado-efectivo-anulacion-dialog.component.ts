@@ -17,11 +17,11 @@ import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
 @Component({
-  selector: 'app-oc-anticipo-retirado-form-dialog',
-  templateUrl: './oc-anticipo-retirado-form-dialog.component.html',
-  styleUrls: ['./oc-anticipo-retirado-form-dialog.component.scss'],
+  selector: 'app-oc-anticipo-retirado-efectivo-anulacion-dialog',
+  templateUrl: './oc-anticipo-retirado-efectivo-anulacion-dialog.component.html',
+  styleUrls: ['./oc-anticipo-retirado-efectivo-anulacion-dialog.component.scss']
 })
-export class OcAnticipoRetiradoFormDialogComponent implements OnInit
+export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnInit
 
 {
   fleteAnticipo?: FleteAnticipo;
@@ -198,7 +198,7 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnInit
     private fleteAnticipoService: FleteAnticipoService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
-    public dialogRef: MatDialogRef<OcAnticipoRetiradoFormDialogComponent>,
+    public dialogRef: MatDialogRef<OcAnticipoRetiradoEfectivoAnulacionDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
@@ -245,3 +245,4 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnInit
     this.montoRetiradoControl.updateValueAndValidity();
   }
 }
+

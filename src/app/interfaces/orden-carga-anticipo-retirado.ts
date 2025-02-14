@@ -53,12 +53,16 @@ export interface OrdenCargaAnticipoRetirado
   tipo_insumo_descripcion?: string | null;
   unidad_abreviatura?: string | null;
   unidad_descripcion?: string | null;
+  estados_movimientos?: string | null;
   // Auditoría
   created_by: string;
   created_at: string;
   modified_by: string;
   modified_at: string;
+  
 }
+
+
 
 const fleteAnticipo0 = mockFleteAnticipoList[0];
 const fleteAnticipo1 = mockFleteAnticipoList[1];

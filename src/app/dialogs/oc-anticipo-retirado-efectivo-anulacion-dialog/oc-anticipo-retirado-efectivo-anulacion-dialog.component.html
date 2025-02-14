@@ -1,0 +1,92 @@
+<form [formGroup]="form">
+
+    <span mat-dialog-title>
+      <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
+      <span class="complement-text"> ANTICIPO</span>
+    </span>
+  
+    <div class="section" >
+      <h2> </h2>
+    </div>
+  
+    <div mat-dialog-content>
+  
+      <div class="row ocultar">
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          controlName="tipo_anticipo_id"
+          [form]="form"
+        ></app-input-field>
+      </div>
+  
+      <div class="row">
+  
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          controlName="punto_venta_nombre"
+          [form]="form"
+          title="Punto De Venta"
+          [readonly]="true"
+        ></app-input-field>
+  
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          controlName="proveedor_nombre"
+          [form]="form"
+          title="Proveedor"
+          [readonly]="true"
+        ></app-input-field>
+  
+        <app-number-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          title="Monto"
+          controlName="monto_retirado"
+          [form]="form"
+          [readonly]="true"
+          
+        ></app-number-field>
+  
+        <app-moneda-field 
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          title="Moneda"
+          controlName="moneda_id"
+          [form]="form"
+          [readonly]="true"
+        ></app-moneda-field>
+      </div>
+  
+      <div class="row">
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-8"
+          title="Observacion"
+          controlName="observacion"
+          [form]="form"
+          [readonly]="true"
+        ></app-input-field>
+      </div>
+    </div>
+  
+    <div mat-dialog-actions  class="buttons-actions">
+      <button
+        mat-stroked-button
+        class="botones"  type="button"
+        mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cerrar</button>
+      <button
+        *ngIf="data?.estados_movimientos !== 'Anulado'" 
+        mat-flat-button
+        class="botones" 
+        color="warn" 
+        type="button"
+        (click)="anularAnticipo()"
+        cdkFocusInitial
+        id="submit-button">
+        <mat-icon>remove_circle</mat-icon> ANULAR
+      </button>
+    <span *ngIf="data?.estados_movimientos === 'Anulado'" class="anulado-text">
+      Anticipo ya anulado.
+    </span>
+    </div>
+  </form>
+  

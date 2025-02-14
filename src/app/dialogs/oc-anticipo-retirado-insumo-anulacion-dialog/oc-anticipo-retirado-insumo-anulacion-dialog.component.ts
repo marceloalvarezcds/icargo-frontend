@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subscription } from 'rxjs';
@@ -15,13 +15,12 @@ import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
-
 @Component({
-  selector: 'app-oc-anticipo-retirado-form-dialog',
-  templateUrl: './oc-anticipo-retirado-form-dialog.component.html',
-  styleUrls: ['./oc-anticipo-retirado-form-dialog.component.scss'],
+  selector: 'app-oc-anticipo-retirado-insumo-anulacion-dialog',
+  templateUrl: './oc-anticipo-retirado-insumo-anulacion-dialog.component.html',
+  styleUrls: ['./oc-anticipo-retirado-insumo-anulacion-dialog.component.scss']
 })
-export class OcAnticipoRetiradoFormDialogComponent implements OnInit
+export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
 
 {
   fleteAnticipo?: FleteAnticipo;
@@ -31,9 +30,10 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnInit
   tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
-
+  
+  
   form = this.fb.group({
-    tipo_anticipo_id: ['efectivo', Validators.required],
+    tipo_anticipo_id: ['insumo', Validators.required],
     tipo_insumo_id: this.data?.tipo_insumo_id,
     flete_anticipo_id: [this.data?.flete_anticipo_id, Validators.required],
     proveedor_id: [this.data?.proveedor_id, Validators.required],
@@ -56,8 +56,14 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnInit
     es_con_litro: !!this.data?.cantidad_retirada,
   });
 
+  @Input() isShow: boolean = false;
+
   ngOnInit(): void {
     this.form.get('monto_retirado')?.disable();
+    this.form.get('cantidad_retirada')?.disable();
+    this.tipoInsumo = this.data?.insumo_tipo_descripcion;
+    this.insumo = this.data?.insumo_descripcion ?? '';
+    this.moneda = this.data?.moneda_nombre
   }
 
   get actionText(): string {
@@ -66,6 +72,10 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnInit
 
   get data(): OrdenCargaAnticipoRetirado | undefined {
     return this.dialogData?.item;
+  }
+
+  get cantidadControl(): FormControl {
+    return this.form.get('cantidad_retirada') as FormControl;
   }
 
   get fleteAnticipoId(): number | undefined {
@@ -198,7 +208,7 @@ export class OcAnticipoRetiradoFormDialogComponent implements OnInit
     private fleteAnticipoService: FleteAnticipoService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
-    public dialogRef: MatDialogRef<OcAnticipoRetiradoFormDialogComponent>,
+    public dialogRef: MatDialogRef<OcAnticipoRetiradoInsumoAnulacionDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}

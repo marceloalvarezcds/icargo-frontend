@@ -115,13 +115,26 @@
           mat-flat-button type="button"
           class="botones" color="primary"
           id="add-button"
-          (click)="create()"
+          (click)="createEfectivo()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
           !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon"
-           [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||  oc?.estado === 'Finalizado' ||
-           !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> ANTICIPO
+          [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||  oc?.estado === 'Finalizado' ||
+          !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> EFECTIVO
+        </button>
+
+        <button
+          mat-flat-button type="button"
+          class="botones" color="primary"
+          id="add-button"
+          (click)="createInsumo()"
+          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+          !isAnticiposLiberados ||
+          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
+          <mat-icon class="small-icon"
+          [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||  oc?.estado === 'Finalizado' ||
+          !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> INSUMO
         </button>
 
         <button
@@ -143,6 +156,12 @@
     <app-table
       [columns]="columns"
       [data]="list"
+      [modelo]="modelo"
+      [anularAnticipo]="true"
+      (anularAnticipoClick)="edit($event)"
+      [hideAnular]="true"
+      [hideShow]="true"
+      [hideEdit]="true"
     ></app-table>
   </div>
 

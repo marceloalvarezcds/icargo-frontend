@@ -1,0 +1,173 @@
+<form [formGroup]="form">
+
+    <span mat-dialog-title>
+      <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
+      <span class="complement-text"> ANTICIPO</span>
+    </span>
+  
+    <div class="section" >
+      <h2> </h2>
+    </div>
+  
+    <div mat-dialog-content>
+  
+      <div class="row ocultar">
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          controlName="tipo_anticipo_id"
+          [form]="form"
+        ></app-input-field>
+        </div>
+  
+      <div class="row">
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          controlName="punto_venta_nombre"
+          [form]="form"
+          title="Punto De Venta"
+          [readonly]="true"
+        ></app-input-field>
+  
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          controlName="proveedor_nombre"
+          [form]="form"
+          title="Proveedor"
+          [readonly]="true"
+        ></app-input-field>
+  
+        <div class="col-xs-12">
+  
+            <div style="display: flex; gap: 20px;">
+              <div class="inline-container">
+                <div><strong>Tipo de Insumo: </strong>{{ tipoInsumo }}</div>
+                <div><strong>Insumo: </strong>{{ insumo }}</div>
+              </div>
+              
+              <div class="inline-container">
+                <div><strong>Monto: </strong><span>{{ monto | numberFormat  }}</span></div>
+                
+                <div><strong>Moneda: </strong><span>{{ moneda }}</span></div>
+              </div>
+  
+              <div class="inline-container">
+                <div *ngIf="!esConLitro">
+                  <strong>Litros: </strong><span>{{ cantidadControl.value | numberFormat }}</span>
+                </div>
+              </div>
+  
+              <div class="inline-container">
+                <div>
+                  <strong>Precio Unitario: </strong>
+                  {{ precioUnitarioControl.value | numberFormat }}
+                </div>
+              </div>
+              
+            </div>
+          </div>
+  
+      </div>
+  
+      <div class="row" style="padding-top: 12px;">
+  
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+  
+          <mat-label class="custom-label">
+            Tipo Cobro del Anticipo
+          </mat-label>
+            <!-- Radio button para seleccionar Monto o Litros -->
+          <mat-radio-group
+            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            aria-label="Seleccione una opción"
+            formControlName="es_con_litro">
+            <mat-radio-button [value]="true">Litros</mat-radio-button>
+            <mat-radio-button [value]="false">Monto</mat-radio-button>
+          </mat-radio-group>
+  
+        </div>
+  
+        <!-- Campo Monto, visible solo cuando se selecciona "Monto" -->
+        <app-number-field
+          *ngIf="!form.get('es_con_litro')?.value"
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          title="Monto"
+          controlName="monto_retirado"
+          [form]="form"
+          [readonly]="true"
+        ></app-number-field>
+  
+        <!-- Campo Cantidad retirada, visible solo cuando se selecciona "Litros" -->
+        <app-number-field
+          *ngIf="form.get('es_con_litro')?.value"
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          title="Cantidad retirada"
+          controlName="cantidad_retirada"
+          [form]="form"
+          [readonly]="true"
+        ></app-number-field>
+
+        <app-moneda-field 
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          title="Moneda"
+          controlName="moneda_id"
+          [form]="form"
+          [readonly]="true"
+        ></app-moneda-field>
+  
+      </div>
+  
+      <div class="row">
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-8"
+          title="Observacion"
+          controlName="observacion"
+          [form]="form"
+          [readonly]="true"
+        ></app-input-field>
+      </div>
+  
+      <!-- <div class="row">
+  
+        <app-tipo-comprobante-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+           [form]="form">
+        </app-tipo-comprobante-field>
+  
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          title="Nº de comprobante"
+          controlName="numero_comprobante"
+          [form]="form"
+        ></app-input-field>
+  
+      </div> -->
+  
+    </div>
+  
+    <hr class="horizontal-line">
+  
+    <div mat-dialog-actions class="buttons-actions">
+      <button
+        mat-stroked-button
+        class="botones"  type="button"
+        mat-dialog-close>
+        <mat-icon>close</mat-icon>
+        Cerrar
+      </button>
+      <button
+        *ngIf="data?.estados_movimientos !== 'Anulado'" 
+        mat-flat-button
+        class="botones" 
+        color="warn" 
+        type="button"
+        (click)="anularAnticipo()"
+        cdkFocusInitial
+        id="submit-button">
+      <mat-icon>remove_circle</mat-icon> ANULAR
+    </button>
+    <span *ngIf="data?.estados_movimientos === 'Anulado'" class="anulado-text">
+      Anticipo ya anulado.
+    </span>
+    </div>
+  </form>
+  

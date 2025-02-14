@@ -20,10 +20,8 @@
   }
 }
 
-
 .action-text {
   color: #F25A38;
-  //font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 18.75px;
@@ -33,18 +31,11 @@
 
 .complement-text {
   color: #3B9EFF;
-  //font-family: 'Roboto', sans-serif;
   font-size: 16px;
   font-weight: 700;
   line-height: 18.75px;
   letter-spacing: 0.06em;
   text-align: left;
-}
-
-.horizontal-line {
-  width: 455px;
-  border: 1px solid #1C1C1C3D;
-  margin-top: 8px;
 }
 
 .section {
@@ -62,4 +53,33 @@
 .horizontal-line {
   border: 1px solid #1C1C1C3D;
   margin-top: 8px;
+}
+
+
+.mat-dialog-content {
+  padding-top: 0;
+}
+
+.inline-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.input-like {
+  border: 1px solid #d9d9d9; 
+  border-radius: 4px; 
+  background: #FBFBFE;
+  width: 270px;
+  height: 27px;
+  display: flex;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 20px;
+  padding-left: 10px;
+  margin-top: 3px;
+}
+
+.ocultar {
+  display: none;
 }

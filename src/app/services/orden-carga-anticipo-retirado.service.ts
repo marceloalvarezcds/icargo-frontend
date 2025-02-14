@@ -30,5 +30,10 @@ export class OrdenCargaAnticipoRetiradoService {
   pdf(id: number): Observable<string> {
     return this.http.get<string>(`${this.url}/${id}/pdf`);
   }
+
+  anularAnticipoRetirado(id: number): Observable<OrdenCargaAnticipoRetirado> {
+    return this.http.get<OrdenCargaAnticipoRetirado>(`${this.url}/${id}/anular`);
+  }
+  
 }
 
