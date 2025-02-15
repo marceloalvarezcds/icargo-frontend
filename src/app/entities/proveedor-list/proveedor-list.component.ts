@@ -2,15 +2,18 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { map } from 'rxjs/operators';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { ProveedorList } from 'src/app/interfaces/proveedor';
+import { PuntoVenta } from 'src/app/interfaces/punto-venta';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { ProveedorService } from 'src/app/services/proveedor.service';
+import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
@@ -65,6 +68,11 @@ export class ProveedorListComponent implements OnInit {
       def: 'composicion_juridica',
       title: 'Comp. Jurídica',
       value: (element: ProveedorList) => element.composicion_juridica_nombre,
+    },
+    {
+      def: 'proveedor_pdv',
+      title: 'PDV?',
+      value: (element: ProveedorList) => element.proveedor_pdv ? 'SÍ' : 'NO',
     },
     {
       def: 'direccion',
@@ -125,6 +133,7 @@ export class ProveedorListComponent implements OnInit {
 
   constructor(
     private proveedorService: ProveedorService,
+    private puntoVentaService: PuntoVentaService,
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
@@ -261,7 +270,20 @@ export class ProveedorListComponent implements OnInit {
   }
 
   private getList(): void {
-    this.proveedorService.getList().subscribe((list) => {
+    this.proveedorService.getList()
+    .pipe(
+      map ((resp) => {
+
+        resp.forEach(ele=> {
+          this.puntoVentaService.getList(ele.id).subscribe((pdvList)=>{
+            if (pdvList && pdvList.length>0) ele.proveedor_pdv = true;
+            return ele;
+          })
+        })
+
+        return resp;
+      })
+    ).subscribe((list) => {
       this.list = list;
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.composicionJuridicaFilterList = getFilterList(

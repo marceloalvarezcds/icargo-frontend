@@ -49,6 +49,11 @@ export class PuntoVentaListComponent {
       value: (element: PuntoVentaList) => element.nombre_corto,
     },
     {
+      def: 'numero_sucursal',
+      title: 'Número Sucursal',
+      value: (element: PuntoVentaList) => element.numero_sucursal,
+    },
+    {
       def: 'direccion',
       title: 'Dirección',
       value: (element: PuntoVentaList) => element.direccion,

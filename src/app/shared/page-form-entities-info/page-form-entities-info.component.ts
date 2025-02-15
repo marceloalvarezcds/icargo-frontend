@@ -47,6 +47,8 @@ export class PageFormEntitiesInfoComponent implements OnDestroy, AfterViewInit  
   }
 
   @Input() labelNombreCorto = 'Nombre de Fantasía';
+  @Input() showComposicionJuridica = true;
+  @Input() showSucursalNro = false;
 
   @Input() form = new FormGroup({
     info: new FormGroup({

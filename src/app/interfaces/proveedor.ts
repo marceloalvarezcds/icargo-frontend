@@ -42,6 +42,7 @@ export interface Proveedor {
   ciudad: Ciudad | null;
   contactos: ProveedorContactoGestorCargaList[];
   gestor_carga_proveedor?: GestorCargaProveedor;
+  proveedor_pdv?: boolean;
 }
 
 const gestorCargaProveedor0 = mockGestorCargaProveedorList[0];

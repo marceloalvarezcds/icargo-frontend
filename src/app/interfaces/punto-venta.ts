@@ -24,6 +24,7 @@ export interface PuntoVenta {
   id: number;
   nombre: string;
   nombre_corto?: string | null;
+  numero_sucursal: number,
   proveedor_id: number;
   proveedor_nombre: string;
   tipo_documento_id: number;
@@ -65,8 +66,9 @@ export interface PuntoVentaList extends PuntoVenta {
   tipo_documento_descripcion: string;
 }
 
-export const mockPuntoVentaList: PuntoVentaList[] = [
-  {
+
+export const mockPuntoVentaList: PuntoVentaList[] = []
+/*  {
     id: 1,
     nombre: 'CARGILL CEDRALES',
     nombre_corto: 'cargill',
@@ -162,3 +164,4 @@ export const mockPuntoVentaList: PuntoVentaList[] = [
     tipo_documento_descripcion: tipoDocumento2.descripcion,
   },
 ];
+*/

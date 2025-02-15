@@ -47,6 +47,7 @@ export interface InsumoPuntoVentaPrecioList extends InsumoPuntoVentaPrecio {
   proveedor_nombre: string;
   punto_venta_id: number;
   punto_venta_nombre: string;
+  punto_venta_alias: string | null;
   punto_venta_direccion: string | null;
   punto_venta_logo: string | null;
   punto_venta_latitud: number | null;

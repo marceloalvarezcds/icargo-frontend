@@ -24,7 +24,7 @@ import { Observable, of } from 'rxjs';
   styleUrls: ['./insumo-punto-venta-precio-map-dialog-field.component.scss'],
 })
 export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
-  readonly inputValuePropName = 'punto_venta_nombre';
+  readonly inputValuePropName = 'punto_venta_alias';
   fId?: number | null;
   list: InsumoPuntoVentaPrecioList[] = [];
 
@@ -33,7 +33,8 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'insumo_punto_venta_precio_id';
   @Input() groupName = '';
-  @Input() title = 'Punto de Venta';
+  @Input() title = 'Establecimiento';
+  // nombre_corto
 
   @Input() set fleteId(id: number | null | undefined) {
     this.fId = id;
@@ -77,7 +78,7 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     marker.template = `
       <div class="info-template">
         <div class="info-data">
-          <strong>${item.punto_venta_nombre}</strong>
+          <strong>Establecimiento: </strong>${item.punto_venta_alias}
           ${latLng ? '' : ' <span>(Sin Ubicación)</span>'}
           ${
             item.proveedor_nombre
@@ -133,7 +134,7 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     }
 
     const data: SelectorInMapDialogData<InsumoPuntoVentaPrecioList> = {
-      list: this.isRemote ? dataList ?? [] : this.list.slice(), 
+      list: this.isRemote ? dataList ?? [] : this.list.slice(),
       title: this.title,
       selectedValue,
       drawMarkerFunction: this.createMarker.bind(this),
@@ -152,7 +153,7 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
       InsumoPuntoVentaPrecioList
     >(SelectorInMapDialogComponent, config);
   }
-  
+
 
   private filterMarker(
     regexList: RegExp[],
@@ -183,18 +184,18 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     if (this.list$) {
       return;
     }
-  
+
     // Define la función de obtención de datos basada en el flete ID
     this.fetchDataFunction = () =>
       this.fId
         ? this.service.getListByFleteId(this.fId)
         : of([]); // Si no hay flete ID, devuelve un observable vacío
-  
+
     // Llama a la función de obtención de datos
     const list$ = this.fId
       ? this.service.getListByFleteId(this.fId)
       : of([]);
-  
+
     // Suscríbete al observable y maneja los datos
     list$.subscribe({
       next: (list) => {
@@ -206,5 +207,5 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
       },
     });
   }
-  
+
 }

@@ -38,15 +38,6 @@
       </div>
     </div>
 
-    <div class="section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
-      <h2>CONTACTOS</h2>
-      <app-page-form-contactos
-        [form]="form"
-        [isShow]="isShow"
-        [contactoList]="contactoList"
-      ></app-page-form-contactos>
-    </div>
-
     <div *ngIf="puntoVentaModelo | puede: a.LISTAR" class="section">
       <h2>PDV</h2>
       <app-punto-venta-list
@@ -55,7 +46,15 @@
         [isShow]="isShow"
         [backUrl]="puntoVentaBackUrl"
       ></app-punto-venta-list>
+    </div>
 
+    <div class="section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">
+      <h2>CONTACTOS</h2>
+      <app-page-form-contactos
+        [form]="form"
+        [isShow]="isShow"
+        [contactoList]="contactoList"
+      ></app-page-form-contactos>
     </div>
 
   </div>
