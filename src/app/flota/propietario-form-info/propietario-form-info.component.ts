@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -14,7 +14,7 @@ import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
   templateUrl: './propietario-form-info.component.html',
   styleUrls: ['./propietario-form-info.component.scss'],
 })
-export class PropietarioFormInfoComponent {
+export class PropietarioFormInfoComponent implements OnInit{
   a = PermisoAccionEnum;
   fotoDocumentoFile: File | null = null;
   fotoPerfilFile: File | null = null;
@@ -32,6 +32,76 @@ export class PropietarioFormInfoComponent {
         private tipoDocumentoService: TipoDocumentoService
       ) {}
 
+    ngOnInit(): void {
+      let previousFotoFrontal: any = null;
+      let previousFotoReverso: any = null;
+      this.form.get('info.ruc')?.valueChanges.subscribe(value => {
+        if (this.form.get('info.es_chofer')?.value) {
+          this.form.get('chofer.numero_documento')?.setValue(value, { emitEvent: false });
+        }
+      });
+  
+      this.form.get('info.tipo_documento_propietario_id')?.valueChanges.subscribe(value => {
+        if (this.form.get('info.es_chofer')?.value) {
+          this.form.get('chofer.tipo_documento_id')?.setValue(value, { emitEvent: false });
+        }
+      });
+    
+      this.form.get('info.foto_documento_frente')?.valueChanges.subscribe(value => {
+        if (this.form.get('info.es_chofer')?.value) {
+          this.form.get('chofer.foto_documento_frente_chofer')?.setValue(value, { emitEvent: false });
+        } else {
+          previousFotoFrontal = value;  
+        }
+      });
+    
+      this.form.get('info.foto_documento_reverso')?.valueChanges.subscribe(value => {
+        if (this.form.get('info.es_chofer')?.value) {
+          this.form.get('chofer.foto_documento_reverso_chofer')?.setValue(value, { emitEvent: false });
+        } else {
+          previousFotoReverso = value;  
+        }
+      });
+
+      this.form.get('info.pais_origen_id')?.valueChanges.subscribe(value => {
+        if (this.form.get('info.es_chofer')?.value) {
+          this.form.get('chofer.pais_emisor_documento_id')?.setValue(value, { emitEvent: false });
+        }
+      });
+    
+      this.form.get('info.es_chofer')?.valueChanges.subscribe(esChofer => {
+        if (!esChofer) {
+          this.form.get('chofer.numero_documento')?.reset();
+          this.form.get('chofer.tipo_documento_id')?.reset();
+          this.form.get('chofer.foto_documento_frente_chofer')?.reset();
+          this.form.get('chofer.foto_documento_reverso_chofer')?.reset();
+          this.form.get('chofer.pais_emisor_documento_id')?.reset();
+        } else {
+          if (previousFotoFrontal !== null) {
+            this.form.get('chofer.foto_documento_frente_chofer')?.setValue(previousFotoFrontal, { emitEvent: false });
+          }
+          if (previousFotoReverso !== null) {
+            this.form.get('chofer.foto_documento_reverso_chofer')?.setValue(previousFotoReverso, { emitEvent: false });
+          }
+
+          const ruc = this.form.get('info.ruc')?.value;
+          if (ruc) {
+            this.form.get('chofer.numero_documento')?.setValue(ruc, { emitEvent: false });
+          }
+          const tipoDocumento = this.form.get('info.tipo_documento_propietario_id')?.value;
+          if (tipoDocumento) {
+            this.form.get('chofer.tipo_documento_id')?.setValue(tipoDocumento, { emitEvent: false });
+          }
+    
+          const paisOrigenId = this.form.get('info.pais_origen_id')?.value;
+          if (paisOrigenId) {
+            this.form.get('chofer.pais_emisor_documento_id')?.setValue(paisOrigenId, { emitEvent: false });
+          }
+        }
+      });
+    }
+      
+      
 
   @Input() form = new FormGroup({
     info: new FormGroup({
@@ -54,6 +124,10 @@ export class PropietarioFormInfoComponent {
       nombre_corto: new FormControl(null),
       tipo_documento_propietario_id: new FormControl(null),
     }),
+    chofer: new FormGroup({
+      tipo_documento_id: new FormControl(null),
+      numero_documento: new FormControl(null),
+    })
   });
   @Input() isEdit = false;
   @Input() isShow = false;

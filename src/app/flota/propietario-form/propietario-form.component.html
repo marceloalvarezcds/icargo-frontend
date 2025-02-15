@@ -60,8 +60,8 @@
       ></app-page-form-address>
     </div>
 
-    <div class="section" formGroupName="chofer"
-        [hidden]="!esChofer"
+    <div class="section ocultar" formGroupName="chofer"
+        
         *ngIf="
           (choferModelo | puede: a.CREAR) ||
           (choferModelo | puede: a.EDITAR) ||

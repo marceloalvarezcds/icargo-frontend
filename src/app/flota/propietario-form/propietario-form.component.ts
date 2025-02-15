@@ -80,7 +80,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       composicion_juridica_id: [null, Validators.required],
       ruc: [null, Validators.required],
       // digito_verificador: [null, Validators.min(0)],
-      pais_origen_id: null,
+      pais_origen_id: [null, Validators.required],
       fecha_nacimiento: [null, DateValidator.date],
       oficial_cuenta_id: null,
       alias: null,
