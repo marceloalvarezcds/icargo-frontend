@@ -24,7 +24,7 @@ import { Observable } from 'rxjs';
   styleUrls: ['./punto-venta-map-dialog-field.component.scss'],
 })
 export class PuntoVentaMapDialogFieldComponent {
-  readonly inputValuePropName = 'nombre';
+  readonly inputValuePropName = 'nombre_corto';
   list: PuntoVentaList[] = [];
   // subs = this.service.getListByGestor().subscribe((list) => {
   //   this.list = list;
@@ -36,7 +36,7 @@ export class PuntoVentaMapDialogFieldComponent {
   @Input() form!: FormGroup;
   @Input() controlName = 'punto_venta_id';
   @Input() groupName = '';
-  @Input() title = 'Punto de Venta';
+  @Input() title = 'Establecimiento';
 
   @Output() valueChange = new EventEmitter<PuntoVentaList | undefined>();
 
@@ -66,7 +66,7 @@ export class PuntoVentaMapDialogFieldComponent {
     marker.template = `
       <div class="info-template">
         <div class="info-data">
-          <strong>${item.nombre}</strong>
+          <strong>Establecimiento: </strong>${item.nombre_corto}
           ${latLng ? '' : ' <span>(Sin Ubicación)</span>'}
           ${
             item.proveedor_nombre

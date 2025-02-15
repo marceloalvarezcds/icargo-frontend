@@ -15,9 +15,11 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
+import { Proveedor } from 'src/app/interfaces/proveedor';
 import { PuntoVenta } from 'src/app/interfaces/punto-venta';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
 import { User } from 'src/app/interfaces/user';
+import { ProveedorService } from 'src/app/services/proveedor.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -33,6 +35,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   id?: number;
   proveedorId?: number;
+  proveedor?: Proveedor;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -54,14 +57,15 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   form = this.fb.group({
     info: this.fb.group({
-      nombre: [null, Validators.required],
+      nombre: [{value:null, disabled:true}, Validators.required],
       nombre_corto: null,
       proveedor_id: [null, Validators.required],
       estado:[true, Validators.required],
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
-      composicion_juridica_id: null,
+      //composicion_juridica_id: null,
+      numero_sucursal: [null, [Validators.required, Validators.min(0)]],
       alias: null,
       logo: null,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
@@ -114,6 +118,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private puntoVentaService: PuntoVentaService,
+    private proveedorService: ProveedorService,
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
@@ -149,9 +154,9 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -168,6 +173,9 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
           contactos: this.contactos.value,
         })
       );
+      //console.log("data: ", data);
+      //console.log("data.nombre: ", this.info.get('nombre')!.value);
+      data.nombre = this.info.get('nombre')!.value
       // Convertir propiedades a mayúsculas
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string') {
@@ -197,8 +205,8 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
             this.backUrl,
             r.ENTITIES,
             m.PUNTO_VENTA,
-            this.proveedorId || puntoVenta.proveedor_id,
-            `/${puntoVenta.id}`,
+            puntoVenta.id,
+            `/${this.proveedorId || puntoVenta.proveedor_id}`,
             { queryParams: { backUrl: this.backUrl } }
           );
         });
@@ -218,6 +226,13 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     this.backUrl = this.route.snapshot.queryParams.backUrl;
     if (this.proveedorId) {
       this.info.get('proveedor_id')!.setValue(this.proveedorId);
+
+      this.proveedorService.getById(this.proveedorId)
+        .subscribe((prov)=> {
+          this.info.get('nombre')!.setValue(prov.nombre);
+          this.proveedor = prov;
+        });
+
     }
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
@@ -236,12 +251,13 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
             alias: data.gestor_carga_punto_venta?.alias ?? null,
             nombre: data.nombre,
             nombre_corto: data.nombre_corto,
+            numero_sucursal: data.numero_sucursal,
             estado: ( data.estado === "Activo" ) ? true : false,
             proveedor_id: data.proveedor_id,
             tipo_documento_id: data.tipo_documento_id,
             numero_documento: data.numero_documento,
             digito_verificador: data.digito_verificador,
-            composicion_juridica_id: data.composicion_juridica_id,
+            //composicion_juridica_id: data.composicion_juridica_id,
             telefono: data.telefono,
             email: data.email,
             pagina_web: data.pagina_web,
@@ -265,3 +281,4 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     }
   }
 }
+

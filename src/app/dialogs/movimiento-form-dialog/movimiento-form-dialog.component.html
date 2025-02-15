@@ -30,12 +30,6 @@
         [requerido]="true"
       ></app-input-field>
 
-      <!-- <app-tipo-movimiento-dialog-field
-        title="Cuenta - Concepto"
-        [form]="form"
-        (valueChange)="$event && cuentaControl.setValue($event.cuenta_id)"
-      ></app-tipo-movimiento-dialog-field> -->
-
       <app-tipo-contraparte-field
         class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [form]="form"
@@ -95,6 +89,17 @@
         <mat-radio-button [value]="true">Crédito</mat-radio-button>
         <mat-radio-button [value]="false">Débito</mat-radio-button>
       </mat-radio-group>
+
+    </div>
+
+    <div class="row">
+
+      <app-tipo-movimiento-dialog-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-12"
+        title="Cuenta - Concepto"
+        [form]="form"
+        (valueChange)="$event && cuentaControl.setValue($event.cuenta_id)"
+      ></app-tipo-movimiento-dialog-field>
 
     </div>
 
