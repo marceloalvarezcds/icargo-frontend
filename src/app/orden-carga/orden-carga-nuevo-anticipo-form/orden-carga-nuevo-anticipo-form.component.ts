@@ -187,13 +187,13 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.setInitialToggleState();
-    this.getData();  // Asegúrate de que se llame cuando se inicializa
-  
-    this.form.get('combinacion.id_orden_carga')?.valueChanges.subscribe(id => {
-      if (id) {
-        this.getData();  // Llamar cada vez que cambie el ID
-      }
-    });
+    this.form.get('combinacion.id_orden_carga')?.valueChanges
+      .pipe(distinctUntilChanged()) 
+      .subscribe(id => {
+        if (id) {
+          this.getData();
+        }
+      });
   }
   
 

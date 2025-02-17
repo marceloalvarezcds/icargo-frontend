@@ -13,10 +13,10 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { getOCData } from 'src/app/form-data/oc-confirmation-data';
 import { Camion } from 'src/app/interfaces/camion';
-import { Combinacion } from 'src/app/interfaces/combinacion';
+import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
-import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
@@ -39,6 +39,9 @@ import { EvaluacionesDialogComponent } from 'src/app/dialogs/evaluaciones-dialog
 import { MatDialogRef } from '@angular/material/dialog';
 import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-cancelar/evaluaciones-cancelar.component';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { Subject } from 'rxjs';
+import { FleteService } from 'src/app/services/flete.service';
+import { CombinacionService } from 'src/app/services/combinacion.service';
 
 @Component({
   selector: 'app-orden-carga-conciliar-form',
@@ -47,6 +50,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 })
 export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   flete?: FleteList;
+  groupName = 'combinacion';
   isOc = true;
   isFormSubmitting = true;
   isButtonPressed = true;
@@ -65,6 +69,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   camion?: Camion;
   semi?: Semi;
   combinacionList?: Combinacion
+  ocList?: OrdenCargaList;
+  co?: CombinacionList
   isFormSaved: boolean = false;
   puedeCrearRemision: boolean = false
   ordenCargaId: number | null = null;
@@ -136,6 +142,10 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
+
+    combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
+    fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
+    ocEventsSubject: Subject<OrdenCargaList> = new Subject<OrdenCargaList>();
 
   get estadoOc() {
     const estadoValue = this.form.get('combinacion.estado')?.value;
@@ -238,15 +248,66 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.form.get('combinacion.flete_id')?.disable();
-    this.setInitialToggleState();
-    this.valueChangesSubscription = this.form.get('combinacion.id_orden_carga')?.valueChanges
+    this.form?.get(this.groupName)?.get('flete_id')?.valueChanges
     .pipe(
-      debounceTime(300),
+      //debounceTime(500),
       distinctUntilChanged()
     )
+    .subscribe((value) => {
+
+      if (value) {
+        setTimeout(() => {
+          this.fleteService.getFleteListById(value).subscribe( f => {
+            this.flete = f;
+            this.fleteEventsSubject.next(f);
+          });
+        }, 800);
+      }
+
+    });
+
+    this.form?.get(this.groupName)?.get('combinacion_id')?.valueChanges
+    .pipe(
+      //debounceTime(500),
+      distinctUntilChanged()
+    )
+    .subscribe((value) => {
+
+      if (value) {
+        setTimeout(() => {
+          this.combinacionService.getCombinacionById(value).subscribe( f => {
+            this.co = f;
+            this.combinacionEventsSubject.next(f);
+          });
+        }, 300);
+      }
+
+    });
+
+    this.form?.get(this.groupName)?.get('id_orden_carga')?.valueChanges
+    .pipe(
+      //debounceTime(500),
+      distinctUntilChanged()
+    )
+    .subscribe((value) => {
+      if (value) {
+        setTimeout(() => {
+          this.ordenCargaService.getOCListById(value).subscribe( f => {
+            this.ocList = f;
+            this.ocEventsSubject.next(f);
+          });
+        }, 1100);
+      }
+
+    });
+    this.setInitialToggleState();
+ 
+    this.form.get('combinacion.id_orden_carga')?.valueChanges
+    .pipe(distinctUntilChanged()) 
     .subscribe(id => {
-      this.handleIdChange(id);
+      if (id) {
+        this.getData();
+      }
     });
   }
 
@@ -276,7 +337,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     private reportsService: ReportsService,
     private snackBar: MatSnackBar,
     private chRef: ChangeDetectorRef,
-
+    private fleteService: FleteService,
+    private combinacionService: CombinacionService,
   ) {}
 
   openDialog(): void {
@@ -791,7 +853,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       this.isButtonPressed = false;
       this.isFormSaved = false;
       this.isFormSubmitting = false;
-      this.valueChangesSubscription.unsubscribe();
+
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
         this.isActive = data.estado === EstadoEnum.NUEVO;
@@ -844,8 +906,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         });
         this.form.get('info.cantidad_nominada')?.disable();
         this.originalComentario = data.comentarios ?? null;
-        this.ngOnInit();
-   
+      
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');

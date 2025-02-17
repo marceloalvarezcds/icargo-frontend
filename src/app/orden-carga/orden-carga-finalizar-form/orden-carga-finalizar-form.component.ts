@@ -300,9 +300,11 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     });
     this.setInitialToggleState();
  
-    this.form.get('combinacion.id_orden_carga')?.valueChanges.subscribe(id => {
+    this.form.get('combinacion.id_orden_carga')?.valueChanges
+    .pipe(distinctUntilChanged()) 
+    .subscribe(id => {
       if (id) {
-        this.getData();  // Llamar cada vez que cambie el ID
+        this.getData();
       }
     });
   }
