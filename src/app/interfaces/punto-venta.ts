@@ -46,6 +46,7 @@ export interface PuntoVenta {
   ciudad: Ciudad | null;
   contactos: PuntoVentaContactoGestorCargaList[];
   gestor_carga_punto_venta?: GestorCargaPuntoVenta;
+  modified_by: string;
 }
 
 const gestorCargaPuntoVenta0 = mockGestorCargaPuntoVentaList[0];

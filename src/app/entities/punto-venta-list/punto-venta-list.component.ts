@@ -76,7 +76,7 @@ export class PuntoVentaListComponent {
     {
       def: 'created_by',
       title: 'Usuario',
-      value: (element: PuntoVentaList) => element.created_by,
+      value: (element: PuntoVentaList) => element.modified_by,
     },
     /*{
       def: 'composicion_juridica',
