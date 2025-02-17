@@ -48,7 +48,7 @@ import { OrdenCargaEstadoHistorial } from 'src/app/interfaces/orden-carga-estado
 })
 export class OrdenCargaCreateFormComponent implements OnInit {
   flete?: FleteList;
-
+  isShowId: boolean = false;
   ordenCarga?: OrdenCargaList;
   isFormSubmitting = true;
   isCreate=true;
@@ -299,6 +299,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     this.isDataLoaded = false
     this.isFormSubmitting = true;
     this.nuevoActive = true;
+    this.isShowId = false;
   }
 
   active(): void {
@@ -649,6 +650,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.fleteId = item.flete_id;
       this.item = item;
       this.info.get('comentarios')?.setValue('');
+      this.isShowId = true;
       this.dataFromParent = item.estado;
       //  this.snackbar.openSaveAndRedirect(
       //    confirmed,

@@ -73,6 +73,11 @@ export class PuntoVentaListComponent {
       title: 'Tipo de Doc.',
       value: (element: PuntoVentaList) => element.tipo_documento_descripcion,
     },
+    {
+      def: 'created_by',
+      title: 'Usuario',
+      value: (element: PuntoVentaList) => element.created_by,
+    },
     /*{
       def: 'composicion_juridica',
       title: 'Comp. Jurídica',

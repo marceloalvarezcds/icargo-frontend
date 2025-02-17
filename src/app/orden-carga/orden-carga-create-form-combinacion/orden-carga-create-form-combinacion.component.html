@@ -8,6 +8,17 @@
 
       <div class="row" [class.colapse-div]="colapseDivFlota" >
 
+        <app-input-field-oc
+          *ngIf="showId"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          title="ID"
+          [groupName]="groupName"
+          [readonly]="true"
+          [form]="form"
+          controlName="id_orden_carga"
+          [shouldFormat]="false"
+        ></app-input-field-oc>
+
         <app-combinacion-dialog-field
           *ngIf="showTractoField"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"

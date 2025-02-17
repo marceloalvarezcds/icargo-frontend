@@ -313,6 +313,18 @@
           <mat-menu #menu="matMenu">
             <!-- TODO: la lista de opciones adicionales deberia pasarse por parametros entre componentes-->
             <button
+            type="button"
+            mat-menu-item
+            (click)="anularAnticipoClick.emit({ row, index })"
+            *ngIf="
+            hideAnular
+            "
+        
+            >
+          <mat-icon color="primary">remove_circle</mat-icon>
+          <span>Anular</span>
+          </button>
+            <button
               type="button"
               mat-menu-item
               (click)="showClickDos.emit({ row, index })"
@@ -376,17 +388,7 @@
               <span>Eliminar</span>
             </button>
 
-            <button
-              type="button"
-              mat-menu-item
-              (click)="anularAnticipoClick.emit({ row, index })"
-              *ngIf="anularAnticipo &&
-              (modelo | puede: a.ANULAR)
-              "
-              >
-            <mat-icon color="primary">remove_circle</mat-icon>
-            <span>Anular</span>
-            </button>
+     
             
             <button
               type="button"

@@ -118,8 +118,17 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
   }
 
   selectRow(row: any): void {
+    if (this.deshabilitarOpcion(row.estado)) {
+      alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+      return; // Detener la ejecución si no es seleccionable
+    }
+  
     this.selectedRow = row;
     this.selectedChange.emit(row);  // Emitir el evento de cambio si es necesario
   }
 
+  private deshabilitarOpcion(estado: string): boolean {
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
+    return estadosNoSeleccionables.includes(estado);
+  }
 }

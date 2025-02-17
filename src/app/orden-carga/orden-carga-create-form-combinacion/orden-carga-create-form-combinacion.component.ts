@@ -43,8 +43,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   semiAsociado?: number;
   semi?: SemiList;
   showPedidoSection: boolean = false;
-  
-
+ 
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
   manualChange: boolean = false;
@@ -77,7 +76,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Input() isEdit = false;
   @Input() modelo?: PermisoModeloEnum;
   @Input() disableForm: boolean = false;
-
+  @Input() showId: boolean = false;
   @Output() fleteChange = new EventEmitter<FleteList>();
   @Output() camionChange = new EventEmitter<Camion>();
   @Output() semiChange = new EventEmitter<Semi>();
@@ -200,6 +199,21 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     return this.oc!?.comentario.slice();
   }
 
+  @Input()
+  set orden(value: any) {
+    this.orden = value;
+    if (this.form) {
+      this.form.get('id')?.setValue(this.idOrdenCarga);
+    }
+  }
+  
+  get orden(): any {
+    return this.orden;
+  }
+  
+  get idOrdenCarga(): number {
+    return this.orden?.id ?? 0; // Retorna 0 si `oc` es null/undefined
+  }
 
   get tieneComentarios(): boolean {
     return this.historialComentariosList && this.historialComentariosList.length > 0;
@@ -385,6 +399,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   onOrdenCargaChange(oc?: OrdenCargaList) {
     if (oc) {
       this.ordenCargaChange.emit(oc);
+      this.form?.get(this.groupName)?.get('id_orden_carga')?.setValue(oc.id);
       this.form?.get(this.groupName)?.get('camion_placa')?.setValue(oc.camion_placa);
       this.form?.get(this.groupName)?.get('flete_id')?.setValue(oc.flete_id);
       this.form?.get(this.groupName)?.get('numero_lote')?.setValue(oc.flete_numero_lote);

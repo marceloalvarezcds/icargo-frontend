@@ -87,6 +87,11 @@ export class ProveedorListComponent implements OnInit {
           ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
           : '',
     },
+       {
+          def: 'created_by',
+          title: 'Usuario',
+          value: (element: ProveedorList) => element.created_by,
+        },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 

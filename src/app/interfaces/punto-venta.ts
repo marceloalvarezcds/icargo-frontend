@@ -64,6 +64,7 @@ export interface PuntoVentaList extends PuntoVenta {
   pais_nombre: string | null;
   pais_nombre_corto: string | null;
   tipo_documento_descripcion: string;
+  created_by: string;
 }
 
 

@@ -61,6 +61,7 @@ export interface ProveedorList extends Proveedor {
   pais_nombre: string | null;
   pais_nombre_corto: string | null;
   tipo_documento_descripcion: string;
+  created_by: string;
 }
 
 export const mockProveedorList: ProveedorList[] = [
@@ -93,6 +94,7 @@ export const mockProveedorList: ProveedorList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento0.descripcion,
+    created_by: 'admin',
   },
   {
     id: 2,
@@ -122,6 +124,7 @@ export const mockProveedorList: ProveedorList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento1.descripcion,
+    created_by: 'admin',
   },
   {
     id: 3,
@@ -152,5 +155,6 @@ export const mockProveedorList: ProveedorList[] = [
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
     tipo_documento_descripcion: tipoDocumento2.descripcion,
+    created_by: 'admin',
   },
 ];

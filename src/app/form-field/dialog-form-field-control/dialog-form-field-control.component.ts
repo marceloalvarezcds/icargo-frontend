@@ -346,8 +346,8 @@ export class DialogFormFieldControlComponent<
       .pipe(filter((selectedValue: T) => !!selectedValue))
       .subscribe((selectedValue: T) => {
         if (this.deshabilitarOpcion((selectedValue as any).estado)) {
-          alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
-          return; // Salir sin asignar ni realizar acciones adicionales
+          alert('El elemento seleccionado está inactivo o en un estado no seleccionble.');
+          return; 
         }
 
         this.selectedValue = selectedValue;
@@ -356,7 +356,6 @@ export class DialogFormFieldControlComponent<
         }
         this.writeValue(selectedValue.id);
       });
-
   }
 
   private getDefaultDialogRef(): MatDialogRef<SelectorDialogComponent<T>> {
