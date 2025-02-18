@@ -112,7 +112,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       merma_gestor_carga_moneda_simbolo: null,
       merma_gestor_carga_unidad_id: [null, Validators.required],
       merma_gestor_carga_unidad_abreviatura: null,
-      merma_gestor_carga_es_porcentual: false,
+      merma_gestor_carga_es_porcentual: true,
       merma_gestor_carga_tolerancia: [null, Validators.required],
       // fin - Mermas para el Gestor de Carga
       // inicio - Mermas para el Propietario
@@ -121,7 +121,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       merma_propietario_moneda_simbolo: null,
       merma_propietario_unidad_id: [null, Validators.required],
       merma_propietario_unidad_abreviatura: null,
-      merma_propietario_es_porcentual: false,
+      merma_propietario_es_porcentual: true,
       merma_propietario_tolerancia: [null, Validators.required],
       // fin - Mermas para el Propietario
     }),
@@ -232,9 +232,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -338,7 +338,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-      
+
 
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;

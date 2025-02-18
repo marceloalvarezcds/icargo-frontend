@@ -30,7 +30,7 @@
           (valueChange)="onCamionChange($event)"
         ></app-combinacion-dialog-field>
 
-        <app-oc-aceptadas-dialog-field 
+        <app-oc-aceptadas-dialog-field
           *ngIf="!showTractoField && !showSearchOCfinalizadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
@@ -41,7 +41,7 @@
           (valueChange)="onOrdenCargaChange($event)">
         </app-oc-aceptadas-dialog-field>
 
-        <app-oc-finalizadas-dialog-field 
+        <app-oc-finalizadas-dialog-field
           *ngIf="showSearchOCfinalizadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Nº OC"
@@ -129,7 +129,7 @@
           labelPosition="before">
           Anticipos
       </mat-slide-toggle>
-      
+
 
       </div>
 
@@ -195,7 +195,7 @@
           [form]="form"
           controlName="chofer_camion">
         </app-input-field-oc>
-      
+
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Doc. Nº"
@@ -207,7 +207,7 @@
           controlName="chofer_camion_doc"
           [shouldFormat]="false">
         </app-input-field-oc>
-      
+
         <mat-slide-toggle
           *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -216,7 +216,7 @@
           Anticipos
         </mat-slide-toggle>
       </div>
-      
+
       <div class="row" [class.colapse-div]="colapseDivFlota">
         <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
           <label for="comentarios" class="label-obs">Observacion</label>
@@ -229,7 +229,7 @@
             </textarea>
           </mat-form-field>
         </div>
-      
+
         <div class="col-xs-12 col-sm-6 col-md-4" style="margin-top: 16px;">
           <button
             mat-raised-button
@@ -240,7 +240,7 @@
           </button>
         </div>
       </div>
-      
+
 
     <div class="section">
 
@@ -258,7 +258,7 @@
           [form]="form"
           [combinacionId]="combinacionId"
           (valueChange)="onOrdenCargaChange($event)"
-       
+
         ></app-oc-by-combinacion-finalizados-dialog-field>
 
         <app-oc-by-combinacion-aceptados-dialog-field
@@ -370,7 +370,7 @@
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
-          [readonly]="true" 
+          [readonly]="true"
           [form]="form"
           controlName="saldo"
         ></app-input-field-oc>
@@ -414,12 +414,13 @@
           [form]="form"
           controlName="a_pagar"
         ></app-input-field-oc>
-      
+
 
         <app-unidad-field
           *ngIf="onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Unidad"
+          [auto_select]="false"
           [form]="form"
           [groupName]="groupName"
           [readonly]="true"
@@ -428,6 +429,7 @@
         <app-moneda-field class="input-form-full col-xs-12 col-sm-6 col-md-2"
           *ngIf="onlyViewCreate"
           title="Moneda"
+          [auto_select]="false"
           [form]="form"
           [groupName]="groupName"
           [readonly]="true"
@@ -449,14 +451,16 @@
           *ngIf="onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Unidad"
+          [auto_select]="false"
           [form]="form"
           [groupName]="groupName"
           [readonly]="true"
         ></app-unidad-field>
 
-       <app-moneda-field 
+       <app-moneda-field
           *ngIf="onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [auto_select]="false"
           title="Moneda"
           [form]="form"
           [groupName]="groupName"
@@ -484,7 +488,7 @@
           appInputThousandsSeparator
         ></app-input-field-oc>
 
-<!--         
+<!--
           <app-orden-carga-create-form-info
             class="input-form-full col-xs-12 col-sm-6 col-md-2"
             [form]="form"
@@ -513,7 +517,7 @@
           [form]="form"
           controlName="cant_origen">
         </app-input-field-oc>
-        
+
         <app-input-field-oc
           *ngIf="!onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"

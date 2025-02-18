@@ -94,7 +94,7 @@
       type="button"
       (click)="select()"
       cdkFocusInitial
-      [disabled]="!selectValue"
+      [disabled]="!selectValue || deshabilitarOpcion(selectValue)"
       color="primary"
       id="select-button"
     >

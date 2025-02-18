@@ -90,6 +90,12 @@ implements AfterViewInit, OnDestroy
   }
 
   setSelectValue(value: T | null, marker: Marker<T>): void {
+
+    if (this.deshabilitarOpcion(value)) {
+      alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+      return; // Detener la ejecución si no es seleccionable
+    }
+
     this.selectValue = value;
     if (this.lastMarker) {
       this.lastMarker.isSelected = false;
@@ -98,6 +104,15 @@ implements AfterViewInit, OnDestroy
     this.selectedMarkerIcon(marker);
     marker.isSelected = true;
     this.lastMarker = marker;
+  }
+
+  deshabilitarOpcion(selectValue?: T | null): boolean {
+    if (!selectValue || typeof selectValue !== 'object' || !('estado' in selectValue)) {
+      return true;
+    }
+
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
+    return estadosNoSeleccionables.includes((selectValue as any).estado);
   }
 
   drawAllMarkers(): void {
