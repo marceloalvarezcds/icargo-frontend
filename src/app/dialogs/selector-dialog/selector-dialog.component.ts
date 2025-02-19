@@ -65,15 +65,19 @@ export class SelectorDialogComponent<T> {
     this.dialogRef.close(this.selectValue);
   }
 
-   deshabilitarOpcion(selectValue?: T | null): boolean {
-    if (!selectValue || typeof selectValue !== 'object' || !('estado' in selectValue)) {
-      return true; 
+  deshabilitarOpcion(selectValue?: T | null): boolean {
+    if (!selectValue || typeof selectValue !== 'object') {
+      return true;
     }
-  
+    
+    if (!('estado' in selectValue)) {
+      return false;
+    }
     const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
     return estadosNoSeleccionables.includes((selectValue as any).estado);
   }
-  
+
+
   openCreateDialog():void {
 
     const dialogCrearRef = this.data.dialogRefFunctionCrear ? this.data.dialogRefFunctionCrear() : null;

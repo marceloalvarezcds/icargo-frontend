@@ -1,0 +1,64 @@
+<app-page
+  class="orden-carga-page"
+  submodule="Orden de Carga - Cerradas"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
+  (createAnticipoClick)="redirectToCreateAnticipo()"
+  (aceptarClick)="redirectToAceptar()"
+  (finalizarClick)="redirectToFinalizar()"
+  (conciliarClick)="redirectToConciliar()"
+  (downloadClickOc)="downloadFile()"
+  (createRecepcionClick)="redirectToCreateRecepcion()"
+  (resetClick)="resetFilter()"
+  [dbuttons]="buttons"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Producto</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #productoCheckboxFilter
+            [value]="productoFiltered"
+            [list]="productoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Estado</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #estadoCheckboxFilter
+            [value]="estadoFiltered"
+            [list]="estadoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByProducto">
+      <mat-chip *ngFor="let item of productoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstado">
+      <mat-chip *ngFor="let item of estadoFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    [hideDelete]="true"
+  ></app-table-paginator>
+</app-page>
+
+

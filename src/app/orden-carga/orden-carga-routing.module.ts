@@ -13,6 +13,8 @@ import { OrdenCargaFormAceptarComponent } from './orden-carga-form-aceptar/orden
 import { OrdenCargaFinalizarFormComponent } from './orden-carga-finalizar-form/orden-carga-finalizar-form.component';
 import { OrdenCargaRecepcionFormComponent } from './orden-carga-recepcion-form/orden-carga-recepcion-form.component';
 import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/orden-carga-conciliar-form.component';
+import { OrdenCargaListEnProcesoComponent } from './orden-carga-list-en-proceso/orden-carga-list-en-proceso.component';
+import { OrdenCargaListCerradasComponent } from './orden-carga-list-cerradas/orden-carga-list-cerradas.component';
 
 const routes: Routes = [
   {
@@ -26,6 +28,16 @@ const routes: Routes = [
       {
         path: a.LISTAR,
         component: OrdenCargaListComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.LISTAR}/:enproceso`,
+        component: OrdenCargaListEnProcesoComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.LISTAR}/:oc/:cerradas`,
+        component: OrdenCargaListCerradasComponent,
         canActivate: [PermisoGuard],
       },
       {
@@ -68,7 +80,7 @@ const routes: Routes = [
         component: OrdenCargaEditFormComponent,
         canActivate: [PermisoGuard],
       },
-     
+
     ],
   },
 ];

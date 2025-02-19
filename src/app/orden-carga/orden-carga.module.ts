@@ -39,6 +39,8 @@ import { OrdenCargaConciliarFormComponent } from './orden-carga-conciliar-form/o
 import { PdfPreviewDialogComponent } from './pdf-preview-dialog/pdf-preview-dialog.component';
 import { SafeUrlPipe } from './safe-url.pipe';
 import { PdfPreviewConciliarDialogComponent } from './pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
+import { OrdenCargaListEnProcesoComponent } from './orden-carga-list-en-proceso/orden-carga-list-en-proceso.component';
+import { OrdenCargaListCerradasComponent } from './orden-carga-list-cerradas/orden-carga-list-cerradas.component';
 
 
 
@@ -76,6 +78,8 @@ import { PdfPreviewConciliarDialogComponent } from './pdf-preview-conciliar-dial
     PdfPreviewDialogComponent,
     SafeUrlPipe,
     PdfPreviewConciliarDialogComponent,
+    OrdenCargaListEnProcesoComponent,
+    OrdenCargaListCerradasComponent,
  
   ],
   imports: [

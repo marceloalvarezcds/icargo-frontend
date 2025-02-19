@@ -67,7 +67,7 @@
             matTooltip="Crear"
             class="botones"
             (click)="createClick.emit($event)"
-            *ngIf="!hideCreate && (modelo | puede: a.CREAR)">
+            *ngIf="submodule !== 'Orden de Carga - Cerradas' && !hideCreate && (modelo | puede: a.CREAR)">
             <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
             {{
               submodule === 'CLIENTES' ? 'CLIENTE' :
@@ -81,6 +81,7 @@
               submodule === 'COMBINACION DE FLOTA' ? 'EQUIPO' :
               submodule === 'PEDIDOS' ? 'PEDIDO' :
               submodule === 'Orden de Carga' ? 'NUEVA OC' :
+              submodule === 'Orden de Carga - En Proceso' ? 'NUEVA OC' :
               submodule === 'MERCADERIA' ? 'NUEVO PRECIO' :
               submodule === 'CAJAS' ? 'CAJA' :
               submodule === 'BANCOS' ? 'BANCO' :
@@ -94,7 +95,7 @@
                 <!-- Botón específico para Orden de Carga -->
           <button mat-flat-button
             class="botones" color="accent"
-            *ngIf="submodule === 'Orden de Carga'"
+            *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'"
             (click)="createAnticipoClick.emit($event)">
             <mat-icon>add_circle</mat-icon> ANTICIPO
           </button>
@@ -103,7 +104,7 @@
           <button mat-flat-button
             class="botones" color="accent"
             (click)="createRecepcionClick.emit($event)"
-            *ngIf="submodule === 'Orden de Carga'">
+            *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'">
             <mat-icon>add_circle</mat-icon> RECEPCION
           </button>
 
@@ -144,7 +145,7 @@
               class="botones" color="primary"
               [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO)"
               (click)="finalizarClick.emit($event)"
-              *ngIf="submodule === 'Orden de Carga'">
+              *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'">
                 FINALIZAR
           </button>
             <!-- Botón específico para Orden de Carga -->
@@ -152,7 +153,7 @@
               class="botones" style="color: white; background-color: var(--color-grey);"
               [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
               (click)="conciliarClick.emit($event)"
-              *ngIf="submodule === 'Orden de Carga'">
+              *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - Cerradas'">
                 CONCILIAR
           </button>
 

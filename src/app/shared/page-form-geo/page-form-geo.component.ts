@@ -49,7 +49,7 @@ export class PageFormGeoComponent implements OnDestroy {
   @Input() isShow = false;
   @Input() isPanelOpen = false;
   @Input() isEdit = false;
-
+  @Input() title = 'CIudad';
 
   @Input() groupName = 'address';
   ngOnDestroy(): void {

@@ -18,9 +18,12 @@ export class OrdenCargaService {
     return this.http.get<OrdenCargaList[]>(`${this.url}/`);
   }
 
-
   getEnProcesoList(): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/enproceso`);
+  }
+
+  getCerradasList(): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/cerradas`);
   }
 
   getAceptadosList(): Observable<OrdenCargaList[]> {

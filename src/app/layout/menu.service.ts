@@ -190,6 +190,29 @@ export class MenuService {
         iconOutline: true,
         path: `/orden-carga/${m.ORDEN_CARGA}`,
         active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
+        children: [
+          {
+            name: 'Todas las Órdenes',
+            iconName: 'description',
+            iconOutline: true,
+            path: `/orden-carga/${m.ORDEN_CARGA}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
+          },
+          {
+            name: 'En Proceso',
+            iconName: 'description',
+            iconOutline: true,
+            path: `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}/enproceso`,
+            active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
+          },
+          {
+            name: 'Cerradas',
+            iconName: 'description',
+            iconOutline: true,
+            path: `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}/oc/cerradas`,
+            active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
+          },
+        ],
       },
       {
         name: u.CUENTA_CORRIENTE,
