@@ -18,10 +18,12 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { Proveedor } from 'src/app/interfaces/proveedor';
 import { PuntoVenta } from 'src/app/interfaces/punto-venta';
 import { PuntoVentaContactoGestorCargaList } from 'src/app/interfaces/punto-venta-contacto-gestor-carga';
+import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { User } from 'src/app/interfaces/user';
 import { ProveedorService } from 'src/app/services/proveedor.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
@@ -53,12 +55,20 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   contactoList: PuntoVentaContactoGestorCargaList[] = [];
 
+  tipoDocumentoList: TipoDocumento[] = [];
+    tipoDocumentoSubscription = this.tipoDocumentoService
+      .getList()
+      .subscribe((list) => {
+        this.tipoDocumentoList = list.slice();
+      });
+
   logo: string | null = null;
 
   form = this.fb.group({
     info: this.fb.group({
-      nombre: [{value:null, disabled:true}, Validators.required],
-      nombre_corto: null,
+      proveedor: [{value:null, disabled:true}],
+      nombre: [{value:null, disabled:false} ],
+      nombre_corto: [{value:null, disabled:false}, Validators.required],
       proveedor_id: [null, Validators.required],
       estado:[true, Validators.required],
       tipo_documento_id: [null, Validators.required],
@@ -84,6 +94,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     }),
   });
 
+  file: File | null = null;
   initialFormValue = this.form.value;
   hasChange = false;
   hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
@@ -104,12 +115,16 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     return this.form.get('geo') as FormGroup;
   }
 
-  get file(): File | null {
+  /*get file(): File | null {
     return this.pageInfo!.file;
-  }
+  }*/
 
   get fileControl(): FormControl {
     return this.info.get('logo') as FormControl;
+  }
+
+  get estadoControlValue(): Boolean {
+    return this.info?.controls['estado'].value;
   }
 
   @ViewChild(PageFormEntitiesInfoComponent)
@@ -119,6 +134,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     private fb: FormBuilder,
     private puntoVentaService: PuntoVentaService,
     private proveedorService: ProveedorService,
+    private tipoDocumentoService: TipoDocumentoService,
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
@@ -229,7 +245,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
       this.proveedorService.getById(this.proveedorId)
         .subscribe((prov)=> {
-          this.info.get('nombre')!.setValue(prov.nombre);
+          this.info.get('proveedor')!.setValue(prov.nombre);
           this.proveedor = prov;
         });
 
@@ -280,5 +296,11 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       });
     }
   }
+
+  fileChange(file: File | null): void {
+    this.logo = null;
+    this.file = file;
+  }
+
 }
 

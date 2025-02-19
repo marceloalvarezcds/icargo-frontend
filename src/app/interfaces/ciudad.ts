@@ -6,6 +6,7 @@ export interface Ciudad {
   pais_id: number;
   pais_nombre: string;
   pais_nombre_corto: string;
+  estado?: string;
 }
 
 export const mockCiudadParaguay: Ciudad = {

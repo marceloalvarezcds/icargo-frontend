@@ -34,8 +34,13 @@ export class PuntoVentaListComponent {
       value: (element: PuntoVentaList) => element.estado.toUpperCase(),
     },
     {
+      def: 'nombre_corto',
+      title: 'Nombre del Establecimiento',
+      value: (element: PuntoVentaList) => element.nombre_corto,
+    },
+    {
       def: 'nombre',
-      title: 'Puntos de Venta',
+      title: 'Establecimiento (Razon Social)',
       value: (element: PuntoVentaList) => element.nombre,
     },
     /*{
@@ -43,11 +48,6 @@ export class PuntoVentaListComponent {
       title: 'Proveedor',
       value: (element: PuntoVentaList) => element.proveedor_nombre,
     },*/
-    {
-      def: 'nombre_corto',
-      title: 'Establecimiento',
-      value: (element: PuntoVentaList) => element.nombre_corto,
-    },
     {
       def: 'numero_sucursal',
       title: 'Número Sucursal',
