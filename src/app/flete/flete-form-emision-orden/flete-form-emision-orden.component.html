@@ -48,7 +48,7 @@
     <!-- Fila para Destinatarios -->
     <div class="row">
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+      <div *ngIf="!isShow" class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <label class="form-label">Destinatarios</label>
         <mat-form-field>
           <mat-select
@@ -69,6 +69,16 @@
             Los destinatarios son <strong>requeridos</strong>
           </mat-error>
         </mat-form-field>
+      </div>
+
+      <div *ngIf="isShow" class="col-xs-12 col-sm-6">
+        <label class="form-label">Destinatarios</label>
+        <mat-chip-list filterValues>
+          <ng-container>
+            <mat-chip *ngFor="let item of list">{{item.nombre}}({{item.email}})</mat-chip>
+          </ng-container>
+        </mat-chip-list>
+
       </div>
 
     </div>
