@@ -35,6 +35,17 @@
         ></app-punto-venta-precio-map-field>
 
         <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Proveedor"
+          controlName="proveedor_id"
+          [form]="form">
+        </app-input-field>
+
+      </div>
+
+      <div class="row">
+
+        <app-input-field
           *ngIf="isEdit || isShow"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Descripción"
@@ -49,10 +60,6 @@
           [puntoVentaId]="puntoVentaId || 0"
           (valueChange)="onInsumoDescipcionChange($event)"
         ></app-insumo-by-punto-venta-field>
-
-      </div>
-
-      <div class="row">
 
         <app-fecha-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"

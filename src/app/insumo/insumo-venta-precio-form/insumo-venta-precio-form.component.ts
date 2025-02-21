@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angu
 import { FormArray, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -11,6 +11,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { InsumoPuntoVenta } from 'src/app/interfaces/insumo-punto-venta';
 import { InsumoPuntoVentaPrecioForm, InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
+import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 
@@ -37,10 +38,13 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   puntoVentaId: number | null = null;
   insumoId: number | null = null;
   monedaId: number | null = null;
+  proveedorId: number | null = null;
   horaPattern: RegExp =  /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
+  pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
 
   form = this.fb.group({
       punto_venta_id: [null, Validators.required],
+      proveedor_id: null,
       insumo_id: [null, Validators.required],
       moneda_id: null,
       unidad_id: null,
@@ -60,7 +64,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       this.hasChange = !isEqual(this.initialFormValue, value);
     });
   });
-  
+
   @Output() insumoPdvChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
   @Output() insumoPrecioChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
 
@@ -78,6 +82,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     this.form = this.fb.group({
       punto_venta_id: [null, Validators.required],
       insumo_id: [{ value: '', disabled: true }, Validators.required],
+      proveedor_id: [{ value: '', disabled: true }, Validators.required],
       fecha_inicio: [{ value: '', disabled: true }],
       hora_inicio: [
         '',
@@ -98,10 +103,13 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     this.form.get('fecha_inicio')?.disable();
   }
 
+  get proveedorControl(): FormControl {
+    return this.form.get('proveedor_id') as FormControl;
+    }
+
   ngOnInit(): void {
     this.getData();
     this.form.get('punto_venta_id')?.setValue(this.pdv?.punto_venta_id);
-
     this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
       if (value) {
         const date = new Date(value);
@@ -110,15 +118,13 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       }
     });
   }
-  
-  // Método para formatear la hora en formato HH:MM sin segundos
+
   formatearHora24(date: Date): string {
     const horas = date.getHours().toString().padStart(2, '0');
     const minutos = date.getMinutes().toString().padStart(2, '0');
     return `${horas}:${minutos}`;
   }
 
-  // Función para convertir hora a formato de 12 horas
   convertTo12HourFormat(date: Date): string {
     let hours = date.getHours();
     let minutes: number = date.getMinutes();
@@ -127,7 +133,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     hours = hours ? hours : 12; // La hora '0' se convierte a '12'
     const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
     const formattedHours = hours < 10 ? '0' + hours : hours;
-  
+
     return `${formattedHours}:${formattedMinutes} ${ampm}`;
   }
 
@@ -136,7 +142,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
      this.form.get('fecha_inicio')?.enable();
      this.form.get('hora_inicio')?.enable();
      this.form.get('precio')?.enable();
-     this.form.get('observacion')?.enable(); 
+     this.form.get('observacion')?.enable();
   }
 
   ngOnDestroy(): void {
@@ -158,9 +164,10 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   onPDVPrecioChange(pdv?: InsumoPuntoVentaPrecioList) {
     if (pdv) {
         this.insumoPdvChange.emit(pdv);
-        this.puntoVentaId = pdv.punto_venta_id; 
-        this.monedaId = pdv.insumo_moneda_id; 
+        this.puntoVentaId = pdv.punto_venta_id;
+        this.monedaId = pdv.insumo_moneda_id;
         this.form.get('insumo_id')?.enable();
+        this.form.get('proveedor_id')?.setValue(pdv.proveedor_nombre || null);
     }
   }
 
@@ -182,46 +189,46 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
               this.form.get('hora')?.setValue(this.hora);
           }
         this.enableOtherFields()
-      } 
+      }
 
       const now = new Date();
-      const currentDate = now.toISOString(); 
+      const currentDate = now.toISOString();
       this.form.get('fecha_inicio')?.setValue(currentDate);
       const formattedTime = this.convertTo12HourFormat(now);
-      this.form.get('hora_inicio')?.setValue(formattedTime);  
+      this.form.get('hora_inicio')?.setValue(formattedTime);
   }
 
 
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-  
+
     if (this.form.valid) {
       const data = JSON.parse(JSON.stringify(this.form.value));
-  
+
       // Convertir fecha_inicio a formato ISO sin zona horaria
       if (data.fecha_inicio) {
-        const fechaLocal = new Date(data.fecha_inicio); 
+        const fechaLocal = new Date(data.fecha_inicio);
         // Convertimos a ISO y eliminamos la zona horaria (sin 'Z')
         data.fecha_inicio = fechaLocal.toISOString().slice(0, -1); // Eliminar el 'Z' al final
       }
-  
+
       data.punto_venta_id = this.puntoVentaId;
       data.insumo_id = this.insumoId;
       data.moneda_id = this.monedaId;
-  
+
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
       });
-  
+
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
       this.initialFormValue = this.form.value;
-  
+
       if (this.isEdit) {
         this.insumoPuntoVentaPrecioService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
@@ -240,8 +247,8 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       }
     }
   }
-  
-  
+
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.id) {
@@ -256,7 +263,8 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       this.insumoPuntoVentaPrecioService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.form.patchValue({
-          punto_venta_id: data.punto_venta_nombre,
+          punto_venta_id: data.punto_venta_alias,
+          proveedor_id: data.proveedor_nombre ?? null,
           insumo_id: data.insumo_descripcion,
           precio: data.precio,
           fecha_inicio: data.fecha_inicio,
@@ -266,7 +274,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
           moneda_id: data.insumo_moneda_nombre,
           observacion: data.observacion,
         });
-  
+
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
@@ -274,5 +282,4 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       });
     }
   }
-  
 }

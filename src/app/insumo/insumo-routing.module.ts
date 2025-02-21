@@ -7,6 +7,7 @@ import {
 import { PermisoGuard } from 'src/app/guards/permiso.guard';
 import { InsumoListComponent } from './insumo-list/insumo-list.component';
 import { InsumoVentaPrecioFormComponent } from './insumo-venta-precio-form/insumo-venta-precio-form.component';
+import { CreateInsmunoVentaPrecioFormComponent } from './create-insmuno-venta-precio-form/create-insmuno-venta-precio-form.component';
 
 const routes: Routes = [
   {
@@ -25,6 +26,11 @@ const routes: Routes = [
       {
         path: a.CREAR,
         component: InsumoVentaPrecioFormComponent,
+        canActivate: [PermisoGuard],
+      },
+      {
+        path: `${a.CREAR}/:mercaderias`,
+        component: CreateInsmunoVentaPrecioFormComponent,
         canActivate: [PermisoGuard],
       },
       {

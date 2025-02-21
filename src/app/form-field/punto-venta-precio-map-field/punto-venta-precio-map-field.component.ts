@@ -24,7 +24,7 @@ import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-ven
 })
 export class PuntoVentaPrecioMapFieldComponent{
 
-  readonly inputValuePropName = 'punto_venta_nombre';
+  readonly inputValuePropName = 'punto_venta_alias';
   list: InsumoPuntoVentaPrecioList[] = [];
   subs = this.service.getByActivosList().subscribe((list) => {
     this.list = list;
@@ -61,7 +61,7 @@ export class PuntoVentaPrecioMapFieldComponent{
     marker.template = `
       <div class="info-template">
         <div class="info-data">
-          <strong>${item.punto_venta_nombre}</strong>
+          <strong>Establecimiento: </strong>${item.punto_venta_alias}
           ${latLng ? '' : ' <span>(Sin Ubicación)</span>'}
           ${
             item.proveedor_nombre

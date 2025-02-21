@@ -49,7 +49,7 @@ export class InsumoListComponent implements OnInit {
       title: 'Fecha',
       value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.created_at_insumo),
     },
-  
+
     {
       def: 'fecha_fin',
       title: 'Vigencia',
@@ -82,6 +82,11 @@ export class InsumoListComponent implements OnInit {
       value: (element: InsumoPuntoVentaPrecioList) => element.insumo_moneda_nombre,
     },
     {
+      def: 'pdv',
+      title: 'Establecimiento',
+      value: (element: InsumoPuntoVentaPrecioList) => element.punto_venta_alias,
+    },
+    {
       def: 'proveedor',
       title: 'Proveedor',
       value: (element: InsumoPuntoVentaPrecioList) => element.proveedor_nombre,
@@ -92,21 +97,16 @@ export class InsumoListComponent implements OnInit {
       value: (element: InsumoPuntoVentaPrecioList) => element.proveedor_documento,
     },
     {
-      def: 'pdv',
-      title: 'Punto de Venta',
-      value: (element: InsumoPuntoVentaPrecioList) => element.punto_venta_nombre,
-    },
-    {
       def: 'created_by',
       title: 'Usuario',
       value: (element: InsumoPuntoVentaPrecioList) => element.created_by,
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
-  
+
   isFiltered = false;
   list: InsumoPuntoVentaPrecio[] = [];
-  showInactiveOnly: boolean = false; 
+  showInactiveOnly: boolean = false;
   estadoFilterList: string[] = [];
   estadoFiltered: string[] = [];
   descripcionFilterList: string[] = [];
@@ -148,7 +148,7 @@ export class InsumoListComponent implements OnInit {
   @ViewChild('puntoVentaCheckboxFilter')
   puntoVentaCheckboxFilter!: CheckboxFilterComponent;
 
-  constructor(  
+  constructor(
     private insumoPuntoVentaService: InsumoPuntoVentaPrecioService,
     private reportsService: ReportsService,
     private searchService: SearchService,
@@ -160,9 +160,12 @@ export class InsumoListComponent implements OnInit {
     this.getList();
   }
 
-
   redirectToCreate(): void {
     this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`]);
+  }
+
+  redirectToCreateMercaderias(): void {
+    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}/mercaderias`]);
   }
 
   redirectToEdit(event: TableEvent<InsumoPuntoVentaPrecio>): void {
@@ -189,26 +192,46 @@ export class InsumoListComponent implements OnInit {
 
   filterInactive(isChecked: boolean): void {
     if (isChecked) {
-      // Si se seleccionan inactivos, llama al servicio para obtener solo los inactivos
       this.insumoPuntoVentaService.getInactiveList().subscribe((inactiveList) => {
-        this.list = inactiveList; // Reemplaza la lista actual con solo los inactivos
-        this.updateFilters(inactiveList); // Actualiza los filtros basados en los inactivos
+        this.list = inactiveList;
+        this.updateFilters(inactiveList);
       });
     } else {
-      // Si no se seleccionan inactivos, recarga la lista original de activos
       this.getList();
     }
   }
-  
-  
+
   private updateFilters(list: any[]): void {
     this.estadoFilterList = getFilterList(list, (x) => x.estado);
     this.descripcionFilterList = getFilterList(list, (x) => x.insumo_descripcion);
     this.puntoVentaFilterList = getFilterList(list, (x) => x.punto_venta_nombre);
     this.resetFilterList();
   }
-  
-  
+
+
+  active({ row }: TableEvent<InsumoPuntoVentaPrecio>): void {
+    const message = `¿Está seguro que desea activar la Mercaderia con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.insumoPuntoVentaService.active(row.id),
+      () => {
+        this.filterInactive(true);
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<InsumoPuntoVentaPrecio>): void {
+    const message = `¿Está seguro que desea inactivar la Mercaderia con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.insumoPuntoVentaService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+
   filterPredicate(obj: InsumoPuntoVentaPrecioList, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
     const filterByEstado =

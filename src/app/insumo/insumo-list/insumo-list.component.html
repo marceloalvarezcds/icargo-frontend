@@ -4,6 +4,7 @@
   [modelo]="modelo"
   (applyClick)="applyFilter()"
   (createClick)="redirectToCreate()"
+  (createMercaderiasClick)="redirectToCreateMercaderias()"
   (resetClick)="resetFilter()"
   (downloadClick)="downloadFile()"
   (verInsumosInactivosChange)="filterInactive($event)"
@@ -67,6 +68,10 @@
     [modelo]="modelo"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
+    (activeClick)="active($event)"
+    (inactiveClick)="inactive($event)"
     [hideEdit]="isInactive"
+    [shouldShowActiveButton]="true"
+    [shouldShowInactiveButton]="true"
   ></app-table-paginator>
 </app-page>

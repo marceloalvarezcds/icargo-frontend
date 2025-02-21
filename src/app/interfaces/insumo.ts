@@ -14,6 +14,7 @@ export interface Insumo extends InsumoForm {
   tipo_descripcion: string;
   unidad_descripcion?: string | null;
   unidad_abreviatura?: string | null;
+  fecha_creacion?: string | null;
 }
 
 const tipo0 = mockTipoAnticipoList[0];

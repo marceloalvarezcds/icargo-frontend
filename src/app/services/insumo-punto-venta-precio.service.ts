@@ -52,6 +52,10 @@ export class InsumoPuntoVentaPrecioService {
     return this.http.post<InsumoPuntoVentaPrecio>(`${this.url}/`, formData);
   }
 
+  createMercaderia(formData: FormData): Observable<InsumoPuntoVentaPrecio> {
+    return this.http.post<InsumoPuntoVentaPrecio>(`${this.url}/nueva/mercaderia`, formData);
+  }
+
   edit(id: number, formData: FormData): Observable<InsumoPuntoVentaPrecioForm> {
     return this.http.put<InsumoPuntoVentaPrecioForm>(`${this.url}/${id}`, formData);
   }
@@ -64,5 +68,13 @@ export class InsumoPuntoVentaPrecioService {
     return this.http.get<InsumoPuntoVentaPrecio | null>(
       `${this.url}/insumo/${insumoId}/moneda/${monedaId}/punto_venta/${puntoVentaId}`
     );
+  }
+
+  inactive(id: number): Observable<InsumoPuntoVentaPrecio> {
+    return this.http.get<InsumoPuntoVentaPrecio>(`${this.url}/${id}/inactive`);
+  }
+
+  active(id: number): Observable<InsumoPuntoVentaPrecio> {
+    return this.http.get<InsumoPuntoVentaPrecio>(`${this.url}/${id}/active`);
   }
 }

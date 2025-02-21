@@ -1,0 +1,141 @@
+<app-page-form
+  class="insumo-page"
+  submodule="Mercaderias"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  (backClick)="back($event)"
+  [modelo]="modelo"
+  (submitEvent)="submit(false)"
+>
+
+  <div class="page-form-container">
+
+    <div class="row">
+
+      <app-punto-venta-map-dialog-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
+        [form]="form"
+        [isRemote]="true"
+        [pdvEvents]="pdvEventsSubject.asObservable()"
+        (valueChange)="$event && puntoVentaChange($event)"
+      ></app-punto-venta-map-dialog-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <mat-label class="custom-label">
+          Proveedor
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="proveedor || ''" disabled="true"/>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <div *ngIf="!isShow"  class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <mat-label class="custom-label">
+          <span class="required">(*) </span>
+          Descripcion
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <mat-select formControlName="insumo_id" (valueChange)="onInsumoDescipcionChange($event)">
+            <ng-container *ngFor="let o of tipoInsumoList">
+              <mat-option [value]="o.id">{{ o.descripcion }}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div *ngIf="isShow" class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <mat-label class="custom-label">
+          Descripcion
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <!-- Mostrar la descripción en lugar del ID cuando está en modo ver -->
+          <input matInput [value]="getDescripcionById(form.get('insumo_id')?.value)" disabled />
+        </mat-form-field>
+      </div>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Fecha"
+        controlName="created_at_insumo"
+        [form]="form"
+      ></app-fecha-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <label class="form-label-hora mr-2">Hora</label>
+        <mat-form-field class="app-input-field read-only-field" >
+          <input matInput [value]="hora" [disabled]="true" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Precio"
+        controlName="precio"
+        [form]="form"
+        autocomplete="on">
+      </app-number-field>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Fecha Vigencia"
+        controlName="fecha_inicio"
+        [form]="form"
+      ></app-fecha-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+        <label class="form-label-hora mr-2">Hora</label>
+        <mat-form-field>
+          <input
+            matInput
+            formControlName="hora_inicio"
+            type="text"
+            placeholder="HH:MM AM/PM"
+
+         >
+
+          <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
+            Ingrese una hora válida en formato HH:MM.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-unidad-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Unidad"
+        controlName="unidad_id"
+        [form]="form"
+      ></app-unidad-field>
+
+      <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Moneda"
+        controlName="moneda_id"
+        [form]="form"
+      ></app-moneda-field>
+
+    </div>
+
+    <div class="row">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-8"
+        title="Observación"
+        controlName="observacion"
+        [form]="form"
+      ></app-input-field>
+
+    </div>
+
+  </div>
+</app-page-form>

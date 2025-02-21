@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { InsumoListComponent } from './insumo-list/insumo-list.component';
 import { InsumoRoutingModule } from './insumo-routing.module';
 import { InsumoVentaPrecioFormComponent } from './insumo-venta-precio-form/insumo-venta-precio-form.component';
+import { CreateInsmunoVentaPrecioFormComponent } from './create-insmuno-venta-precio-form/create-insmuno-venta-precio-form.component';
 
 
 
@@ -16,6 +17,7 @@ import { InsumoVentaPrecioFormComponent } from './insumo-venta-precio-form/insum
   declarations: [
   InsumoListComponent,
   InsumoVentaPrecioFormComponent,
+  CreateInsmunoVentaPrecioFormComponent,
   ],
   imports: [
     CommonModule,
