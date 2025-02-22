@@ -17,27 +17,18 @@
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Moneda"
-        controlName="merma_{{ afectado }}_moneda_id"
+        controlName="merma_{{ afectado }}_moneda"
         [groupName]="groupName"
         [form]="formGroup"
-        (valueChange)="
-          group
-            .get('merma_' + afectado + '_moneda_simbolo')
-            ?.setValue($event?.simbolo)
-        "
+
       ></app-moneda-field>
 
       <app-unidad-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Unidad"
-        controlName="merma_{{ afectado }}_unidad_id"
+        controlName="merma_{{ afectado }}_unidad"
         [groupName]="groupName"
         [form]="formGroup"
-        (valueChange)="
-          group
-            .get('merma_' + afectado + '_unidad_abreviatura')
-            ?.setValue($event?.abreviatura)
-        "
       ></app-unidad-field>
 
     <div class="input-form-full col-xs-12 col-sm-6 col-md-2">

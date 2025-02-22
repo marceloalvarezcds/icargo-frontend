@@ -84,6 +84,7 @@ export enum PermisoModeloEnum {
   TIPO_SEMI = 'tipo_semi',
   UNIDAD = 'unidad',
   USER = 'usuario',
+  TEXTO_LEGAL = 'texto_legal',
 }
 
 export enum PermisoModuloEnum {
@@ -191,4 +192,5 @@ export const permisoModeloTitulo: Record<string, string> = {
   tipo_semi: 'Tipo de Semi',
   unidad: 'Unidad',
   usuario: 'Usuario',
+  texto_legal: 'Texto Legal'
 };

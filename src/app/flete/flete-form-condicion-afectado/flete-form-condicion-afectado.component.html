@@ -1,4 +1,4 @@
-<div *ngIf="form" [formGroup]="form">
+<div *ngIf="formGroup" [formGroup]="formGroup">
   <div [formGroupName]="groupName">
 
     <div class="row">
@@ -8,33 +8,23 @@
         title="Tarifa"
         controlName="condicion_{{ afectado }}_tarifa"
         [groupName]="groupName"
-        [form]="form"
+        [form]="formGroup"
       ></app-number-field>
 
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Moneda"
-        controlName="condicion_{{ afectado }}_moneda_id"
+        controlName="condicion_{{ afectado }}_moneda"
         [groupName]="groupName"
-        [form]="form"
-        (valueChange)="
-          group
-            .get('condicion_' + afectado + '_moneda_simbolo')
-            ?.setValue($event?.simbolo)
-        "
+        [form]="formGroup"
       ></app-moneda-field>
 
       <app-unidad-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Unidad"
-        controlName="condicion_{{ afectado }}_unidad_id"
+        controlName="condicion_{{ afectado }}_unidad"
         [groupName]="groupName"
-        [form]="form"
-        (valueChange)="
-          group
-            .get('condicion_' + afectado + '_unidad_abreviatura')
-            ?.setValue($event?.abreviatura)
-        "
+        [form]="formGroup"
       ></app-unidad-field>
 
     </div>

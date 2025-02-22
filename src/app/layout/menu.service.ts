@@ -317,6 +317,13 @@ export class MenuService {
             path: `/parametros/${m.TIPO_MOVIMIENTO}`,
             active: this.userService.checkPermiso(a.LISTAR, m.TIPO_MOVIMIENTO),
           },
+          {
+            name: t[m.TEXTO_LEGAL],
+            iconName: 'wysiwyg',
+            iconOutline: true,
+            path: `/parametros/${m.TEXTO_LEGAL}`,
+            active: this.userService.checkPermiso(a.LISTAR, m.TEXTO_LEGAL),
+          },
         ],
       },
       {

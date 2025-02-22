@@ -50,6 +50,7 @@ import { OcAnticipoRetiradoEfectivoDialogComponent } from './oc-anticipo-retirad
 import { OcAnticipoRetiradoInsumoDialogComponent } from './oc-anticipo-retirado-insumo-dialog/oc-anticipo-retirado-insumo-dialog.component';
 import { OcAnticipoRetiradoEfectivoAnulacionDialogComponent } from './oc-anticipo-retirado-efectivo-anulacion-dialog/oc-anticipo-retirado-efectivo-anulacion-dialog.component';
 import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from './oc-anticipo-retirado-insumo-anulacion-dialog/oc-anticipo-retirado-insumo-anulacion-dialog.component';
+import { TextoLegalFormDialogComponent } from './texto-legal-form-dialog/texto-legal-form-dialog.component';
 
 
 
@@ -97,6 +98,7 @@ const modules = [
   OcAnticipoRetiradoInsumoDialogComponent,
   OcAnticipoRetiradoEfectivoAnulacionDialogComponent,
   OcAnticipoRetiradoInsumoAnulacionDialogComponent,
+  TextoLegalFormDialogComponent
 ];
 
 @NgModule({

@@ -32,7 +32,8 @@ export class MovimientoFormDialogComponent {
     estado: this.estado,
     fecha: this.fecha,
     monto: [this.monto, [Validators.required, Validators.min(0)]],
-    moneda_id: [this.data?.moneda_id, Validators.required],
+    moneda: [this.data?.moneda_id, Validators.required],
+    moneda_id: [],
     detalle: this.data?.detalle,
     tipo_cambio_moneda: this.data?.tipo_cambio_moneda,
     fecha_cambio_moneda: this.data?.fecha_cambio_moneda,
@@ -139,11 +140,15 @@ export class MovimientoFormDialogComponent {
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
+    
     if (this.form.valid) {
       const descripcionControl = this.form.get('detalle');
-    if (descripcionControl && descripcionControl.value) {
-      descripcionControl.setValue(descripcionControl.value.toUpperCase());
-    }
+      if (descripcionControl && descripcionControl.value) {
+        descripcionControl.setValue(descripcionControl.value.toUpperCase());
+      }
+      const moneda = this.form.get('moneda')?.value;
+      this.form.get('moneda_id')?.setValue( moneda.id );
       const formData = movimientoData(
         this.form,
         this.liquidacionId,

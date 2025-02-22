@@ -53,8 +53,6 @@ export class FleteFormInfoComponent implements OnInit {
   }
 
   ngOnInit(){
-
-
     if (this.isEdit || this.isShow) {
 
       this.form?.get(this.groupName)?.get('remitente_id')?.valueChanges
@@ -72,10 +70,9 @@ export class FleteFormInfoComponent implements OnInit {
 
           }
 
-        });
+      });
 
-      }
-
+    }
   }
 
 }

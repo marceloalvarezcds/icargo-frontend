@@ -1,18 +1,24 @@
-import { Component, Input, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged } from 'rxjs/operators';
 import { FleteDestinatarioEnum } from 'src/app/enums/flete-destinatario-enum';
+import { Flete } from 'src/app/interfaces/flete';
 import { FleteDestinatario } from 'src/app/interfaces/flete-destinatario';
+import { TextoLegal } from 'src/app/interfaces/texto-legal';
 import { FleteService } from 'src/app/services/flete.service';
+import { TextoLegalService } from 'src/app/services/texto-legal.service';
 
 @Component({
   selector: 'app-flete-form-emision-orden',
   templateUrl: './flete-form-emision-orden.component.html',
   styleUrls: ['./flete-form-emision-orden.component.scss'],
 })
-export class FleteFormEmisionOrdenComponent implements OnDestroy {
+export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
+
   D = FleteDestinatarioEnum;
   list: FleteDestinatario[] = [];
+
 
   formGroup?: FormGroup;
   groupName = 'emision_orden';
@@ -23,26 +29,31 @@ export class FleteFormEmisionOrdenComponent implements OnDestroy {
   remitenteId?: number;
   remitenteSubscription?: Subscription;
 
+  textoLegalEventsSubject: Subject<TextoLegal> = new Subject<TextoLegal>();
 
   @Input() isShow = false;
   @Input() isEdit = false;
-  
+  @Input() flete?: Flete;
+
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
     this.destinoSubscription = this.destinoControl.valueChanges.subscribe(
       (val) => {
+        
         this.destinoId = val;
         this.getList();
       }
     );
     this.origenSubscription = this.origenControl.valueChanges.subscribe(
       (val) => {
+        
         this.origenId = val;
         this.getList();
       }
     );
     this.remitenteSubscription = this.remitenteControl.valueChanges.subscribe(
       (val) => {
+        
         this.remitenteId = val;
         this.getList();
       }
@@ -73,12 +84,49 @@ export class FleteFormEmisionOrdenComponent implements OnDestroy {
     return this.formGroup!.get('tramo') as FormGroup;
   }
 
-  constructor(private fleteService: FleteService) {}
+  get textoLegalControl(): FormControl {
+    return this.group.get('emision_orden_texto_legal') as FormControl;
+  }
+
+  constructor(
+    private fleteService: FleteService,
+    private textoLegalService: TextoLegalService,
+  ) {}
 
   ngOnDestroy(): void {
     this.destinoSubscription?.unsubscribe();
     this.origenSubscription?.unsubscribe();
     this.remitenteSubscription?.unsubscribe();
+  }
+
+  ngOnInit(){
+    if (this.isEdit || this.isShow) {
+
+      this.group.get('emision_orden_texto_legal')?.valueChanges
+        .pipe(
+          //debounceTime(500),
+          distinctUntilChanged()
+        )
+        .subscribe((value) => {
+
+          if (value) {
+            // Solo una vez se debe actualizar vista al editar
+            setTimeout(() => {
+
+              this.textoLegalService.geItemByTitletList(value).subscribe( f => {
+
+                
+
+                this.textoLegalEventsSubject.next(f);
+              });
+
+            }, 500);
+
+          }
+
+      });
+
+    }
   }
 
   compareWith(o1?: FleteDestinatario, o2?: FleteDestinatario): boolean {

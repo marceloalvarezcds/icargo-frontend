@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 @Component({
@@ -7,12 +7,40 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./flete-form-condicion-afectado.component.scss'],
 })
 export class FleteFormCondicionAfectadoComponent {
-  groupName = 'condicion';
 
-  @Input() form?: FormGroup;
+  groupName = 'condicion';
+  formGroup?: FormGroup;
+
+  @Input() set form(f: FormGroup) {
+    this.formGroup = f;
+    
+
+    this.group.get(`condicion_${this.afectado}_moneda`)?.valueChanges.subscribe((item:any)=> {
+      this.cargarSelec(item);
+    });
+
+    this.group.get(`condicion_${this.afectado}_unidad`)?.valueChanges.subscribe((item:any)=> {
+      this.cargarSelecUnidad(item);
+    })
+
+  }
+
   @Input() afectado = 'gestor_carga';
 
   get group(): FormGroup {
-    return this.form!.get(this.groupName) as FormGroup;
+    return this.formGroup!.get(this.groupName) as FormGroup;
   }
+
+  cargarSelec(moneda:any):void {
+    
+    this.group.get(`condicion_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
+    this.group.get(`condicion_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo)
+  }
+
+  cargarSelecUnidad(unidad:any):void {
+    
+    this.group.get(`condicion_${this.afectado}_unidad_id`)?.setValue(unidad?.id);
+    this.group.get(`condicion_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
+  }
+
 }

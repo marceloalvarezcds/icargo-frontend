@@ -26,6 +26,15 @@ export class FleteFormMermaComponent implements OnDestroy {
         }
         this.toleranciaControl.updateValueAndValidity();
       });
+
+    this.group.get(`merma_${this.afectado}_moneda`)?.valueChanges.subscribe((item:any)=> {
+      this.cargarSelec(item);
+    });
+
+    this.group.get(`merma_${this.afectado}_unidad`)?.valueChanges.subscribe((item:any)=> {
+      this.cargarSelecUnidad(item);
+    })
+
   }
 
   get group(): FormGroup {
@@ -51,4 +60,17 @@ export class FleteFormMermaComponent implements OnDestroy {
   ngOnDestroy(): void {
     this.esPorcentualSubscription?.unsubscribe();
   }
+
+  cargarSelec(moneda:any):void {
+    console.log("cargarSelec: merma_ ", moneda);
+    this.group.get(`merma_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
+    this.group.get(`merma_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo);
+  }
+
+  cargarSelecUnidad(unidad:any):void {
+    console.log("cargarSelec: merma_", unidad);
+    this.group.get(`merma_${this.afectado}_unidad_id`)?.setValue(unidad?.id);
+    this.group.get(`merma_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
+  }
+
 }

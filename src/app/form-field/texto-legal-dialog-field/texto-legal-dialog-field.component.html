@@ -1,0 +1,14 @@
+<app-dialog-field
+  *ngIf="isRemote"
+  [title]="title"
+  [columns]="columns"
+  [calllbackremote]="true"
+  [list]="[]"
+  [itemEvents]="textoLegalEvents"
+  [fetchDataFunction]="fetchDataFunction"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [inputValuePropName]="inputValuePropName"
+  [form]="form"
+  (valueChange)="valueChange.emit($event)"
+></app-dialog-field>

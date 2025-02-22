@@ -25,7 +25,7 @@ export class UnidadFieldComponent {
             if (resp){
               resp.forEach((ele:any)=>{
                 if (ele[this.auto_select_property] === this.auto_select_filtro){
-                  this.control.setValue(ele.id)
+                  this.control.setValue(ele)
                 }
               });
             }

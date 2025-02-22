@@ -11,6 +11,8 @@ import { SeleccionableListComponent } from 'src/app/shared/seleccionable-list/se
 import { TipoCuentaFormDialogComponent } from '../dialogs/tipo-cuenta-form-dialog/tipo-cuenta-form-dialog.component';
 import { TipoMovimientoFormDialogComponent } from '../dialogs/tipo-movimiento-form-dialog/tipo-movimiento-form-dialog.component';
 import { TipoCuenta } from '../interfaces/tipo-cuenta';
+import { TextoLegal } from '../interfaces/texto-legal';
+import { TextoLegalFormDialogComponent } from '../dialogs/texto-legal-form-dialog/texto-legal-form-dialog.component';
 
 const routes: Routes = [
   {
@@ -68,6 +70,39 @@ const routes: Routes = [
           def: 'codigo',
           title: 'Código',
           value: (element: TipoMovimiento) => element.codigo,
+        },
+      ],
+    },
+    children: [
+      {
+        path: '',
+        redirectTo: a.LISTAR,
+        pathMatch: 'full',
+      },
+      {
+        path: a.LISTAR,
+        component: SeleccionableListComponent,
+        canActivate: [PermisoGuard],
+      },
+    ],
+  },
+  {
+    path: m.TEXTO_LEGAL,
+    data: {
+      modelo: m.TEXTO_LEGAL,
+      submodule: permisoModeloTitulo[m.TEXTO_LEGAL],
+      changeStatusMsg: ' holaaaa ',
+      dialogComponent: TextoLegalFormDialogComponent,
+      getDialogData: (item?: TextoLegal) => ({
+        item,
+        modelo: m.TEXTO_LEGAL,
+        submodule: permisoModeloTitulo[m.TEXTO_LEGAL],
+      }),
+      additionalColumns: [
+        {
+          def: 'titulo',
+          title: 'Título',
+          value: (element: TextoLegal) => element.titulo,
         },
       ],
     },
