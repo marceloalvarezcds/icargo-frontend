@@ -83,6 +83,12 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
     this.form.get('created_at_insumo')?.disable();
 
   }
+  @Output() valueChange = new EventEmitter<number>();
+
+  onMonedaSeleccionada(moneda: any) {
+    this.form.get('moneda_id')?.setValue(moneda?.id);  // 🔥 Guarda el ID en el formulario
+    this.valueChange.emit(moneda?.id);
+  }
 
 
   constructor(

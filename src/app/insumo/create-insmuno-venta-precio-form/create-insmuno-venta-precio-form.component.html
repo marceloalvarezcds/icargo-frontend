@@ -52,7 +52,6 @@
           Descripcion
         </mat-label>
         <mat-form-field floatLabel="always" appearance="outline">
-          <!-- Mostrar la descripción en lugar del ID cuando está en modo ver -->
           <input matInput [value]="getDescripcionById(form.get('insumo_id')?.value)" disabled />
         </mat-form-field>
       </div>
@@ -122,6 +121,7 @@
         title="Moneda"
         controlName="moneda_id"
         [form]="form"
+        (valueChange)="onMonedaSeleccionada($event)"
       ></app-moneda-field>
 
     </div>
