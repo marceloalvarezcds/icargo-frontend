@@ -88,7 +88,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
         this.cantidadControl.setValue(round(litrosCalculados));
       }
     });
-  
+
 
     litroSubscription = combineLatest([
       this.form.controls['cantidad_retirada'].valueChanges,
@@ -101,7 +101,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
           this.montoRetiradoControl.setValue(round(montoCalculado));
         }
       });
-    
+
   fleteAnticipoEfectivoSubscription?: Subscription;
   fleteAnticipoInsumoSubscription?: Subscription;
 
@@ -157,8 +157,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
     return this.insumoPuntoVentaPrecioControl.value;
   }
 
- 
-
   get monto(): number {
     return roundString(this.montoRetiradoControl.value);
   }
@@ -167,8 +165,16 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
     return this.form.get('monto_retirado') as FormControl;
   }
 
-  get anticipoRetitadoCamion(): number {
+  get limiteAnticipoCamion(): number {
+    return this.oc?.camion_limite_monto_anticipos ?? 0;
+  }
+
+  get anticipoDisponibleCamion(): number {
     return this.oc?.camion_monto_anticipo_disponible ?? 0;
+  }
+
+  get anticipoRetiradoCamion(): number {
+    return this.oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0;
   }
 
   get montoRetiradoHint(): string {
@@ -178,35 +184,36 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
             maximumFractionDigits: 2
         }).format(value);
     };
-    
 
     if (this.saldoDisponible < 0) {
         const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
-        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>. 
+        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
         El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
-
-    if (this.monto > this.saldoDisponible) {
+    // Si limiteAnticipoCamion > 0, mostrar mensaje con anticipoDisponibleCamion
+    if (this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+            subtract(this.monto, this.anticipoDisponibleCamion)
+        )}</strong> al anticipo del tracto disponible</span>`;
+    }
+    // Si limiteAnticipoCamion === 0, mostrar mensaje con saldoDisponible
+    if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
         return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
             subtract(this.monto, this.saldoDisponible)
         )}</strong> al saldo disponible</span>`;
     }
+    const saldoMostrar = this.limiteAnticipoCamion > 0
+        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+        : this.saldoDisponible;
 
-    if (this.monto > this.anticipoRetitadoCamion) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.anticipoRetitadoCamion)
-        )}</strong> al anticipo del tracto disponible</span>`;
-    }
-
-    const saldoMostrar = Math.min(this.saldoDisponible, this.anticipoRetitadoCamion);
     if (this.monto && saldoMostrar === 0) {
-      return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+        return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
     return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}</strong>`;
   }
 
-  
+
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [
     { value: 'efectivo', descripcion: 'EFECTIVO' },
@@ -214,7 +221,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
   ];
 
   get saldoDisponible(): number {
-    return this.saldoAnticipo + this.montoRetirado;     
+    return this.saldoAnticipo + this.montoRetirado;
   }
 
   get montoRetirado(): number {
@@ -262,20 +269,25 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
   }
 
   get isSubmitDisabled(): boolean {
+    // Si el saldoDisponible es negativo, deshabilitar
     if (this.saldoDisponible < 0) {
         return true;
     }
+    // Si el monto es mayor que el saldoDisponible
     if (this.monto > this.saldoDisponible) {
         return true;
     }
-
-    if (this.monto > this.anticipoRetitadoCamion) {
+    // Si limiteAnticipoCamion > 0, deshabilitar si monto es mayor que anticipoDisponibleCamion
+    if (this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
         return true;
     }
-
-    return false; 
+    // Si limiteAnticipoCamion === 0, deshabilitar si monto es mayor que saldoDisponible
+    if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
+        return true;
+    }
+    // Si todas las condiciones son correctas, habilitar el submit
+    return false;
   }
-
 
   constructor(
     private fleteAnticipoService: FleteAnticipoService,
@@ -289,7 +301,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
   }
-  
+
   get oc(): OrdenCarga | null {
     return this.dialogData?.oc || null;
   }
@@ -304,14 +316,14 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
   submit() {
     if (this.montoRetiradoControl.value === 0) {
       alert("No se puede realizar el retiro con monto retirado igual a 0.");
-      return;  
+      return;
     }
     if (this.cantidadControl.value === 0) {
-  
+
       alert("No se puede realizar el retiro con cantidad retirada igual a 0.");
-      return;  
+      return;
     }
-  
+
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {
@@ -322,7 +334,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
           orden_carga_id: this.ordenCargaId,
         })
       );
-      
+
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.data?.id) {
@@ -334,36 +346,32 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
           .create(formData)
           .subscribe(this.close.bind(this));
       }
-      this.montoRetiradoChange.emit(data.cantidad_retirada); 
+      this.montoRetiradoChange.emit(data.cantidad_retirada);
       this.montoRetiradoChange.emit(data.montoRetirado);
     }
   }
-  
-  
+
+
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.saldoAnticipo = 0;
     this.tipoAnticipo = event;
     this.esConLitroControl.setValue(this.isTipoInsumo);
-  
     this.insumoControl.removeValidators(Validators.required);
     this.insumoPuntoVentaPrecioControl.removeValidators(Validators.required);
     this.tipoInsumoControl.removeValidators(Validators.required);
-  
     this.insumoControl.updateValueAndValidity();
     this.insumoPuntoVentaPrecioControl.updateValueAndValidity();
     this.tipoInsumoControl.updateValueAndValidity();
-  
     this.insumoPuntoVentaPrecioChange();
     this.puntoVentaChange();
     this.getSaldoDisponibleForEfectivo();
   }
-  
+
 
   insumoPuntoVentaPrecioChange(event?: InsumoPuntoVentaPrecioList): void {
     this.insumo = event?.insumo_descripcion;
     this.insumoControl.setValue(event?.insumo_id);
     this.moneda = event?.insumo_moneda_nombre;
-
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
     this.puntoVentaControl.setValue(event?.punto_venta_id);
@@ -376,24 +384,22 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
   puntoVentaChange(event?: PuntoVentaList): void {
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
-
     this.getSaldoDisponibledForInsumo(event);
 
   }
-  
+
   private close(data: OrdenCargaAnticipoRetirado): void {
     this.dialogRef.close(data);
   }
 
   private getSaldoDisponibleForEfectivo(): void {
     if (!this.isTipoInsumo && this.tipoAnticipoId) {
-      // Consulta saldo disponible para Efectivo
       this.fleteAnticipoEfectivoSubscription?.unsubscribe();
       this.fleteAnticipoEfectivoSubscription = this.fleteAnticipoService
         .getByTipoIdAndFleteId(this.tipoAnticipoId, this.fleteId)
         .subscribe((response) => {
           this.setFleteAnticipo(response);
-        
+
         });
     }
   }
@@ -442,6 +448,11 @@ export class OcAnticipoRetiradoEfectivoDialogComponent   implements OnDestroy, O
       NumberValidator.max(this.saldoDisponible),
     ]);
     this.montoRetiradoControl.updateValueAndValidity();
+  }
+
+  onMonedaSeleccionada(moneda: any) {
+    this.form.get('moneda_id')?.setValue(moneda?.id);  
+    this.valueChange.emit(moneda?.id);
   }
 }
 

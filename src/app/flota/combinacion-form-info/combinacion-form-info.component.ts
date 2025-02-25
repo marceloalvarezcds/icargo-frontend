@@ -21,7 +21,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
 
   [x: string]: any;
   groupName = 'info';
-  //semi?: SemiList;
+  isVisible = true;
   fotoFile: File | null = null;
   isFisicaSelected = false;
   loading = true;
@@ -236,6 +236,11 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     const estadoActual = this.estadoControl.value;
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
     this.estadoControl.setValue(nuevoEstado);
+  }
+
+  toggleControl = new FormControl(true);
+  toggleFieldVisibility(isChecked: boolean) {
+    this.isVisible = isChecked;
   }
 
   constructor(

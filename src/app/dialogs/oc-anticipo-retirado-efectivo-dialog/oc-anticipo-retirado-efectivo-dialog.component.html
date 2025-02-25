@@ -17,7 +17,7 @@
         [fleteId]="fleteId"
         [form]="form"
         (valueChange)="tipoAnticipoChange($event)"
-      
+
       ></app-tipo-anticipo-by-flete-field>
     </div>
 
@@ -37,7 +37,7 @@
       </div>
     </div>
 
-    
+
     <div class="row" style="padding-top: 12px;">
 
       <app-number-field
@@ -48,11 +48,11 @@
         [hint]="montoRetiradoHint"
       ></app-number-field>
 
-      <app-moneda-field 
+      <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
-  
-        [form]="form">
+        [form]="form"
+        (valueChange)="onMonedaSeleccionada($event)">
       </app-moneda-field>
     </div>
 

@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormControl, FormGroup } from '@angular/forms';
 import { Camion } from 'src/app/interfaces/camion';
 
 @Component({
@@ -9,6 +9,7 @@ import { Camion } from 'src/app/interfaces/camion';
 })
 export class CamionFormLimiteComponent {
   groupName = 'limite';
+  isVisible = true;
 
   @Input() camion?: Camion;
   @Input() form?: FormGroup;
@@ -16,5 +17,10 @@ export class CamionFormLimiteComponent {
 
   patternMessageError(_: any): string {
     return 'Debe ser un número entero y positivo';
+  }
+
+  toggleControl = new FormControl(true);
+  toggleFieldVisibility(isChecked: boolean) {
+    this.isVisible = isChecked;
   }
 }

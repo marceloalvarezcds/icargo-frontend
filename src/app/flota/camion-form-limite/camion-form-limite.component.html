@@ -15,20 +15,27 @@
       ></app-number-field>
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        *ngIf="isVisible"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Monto Límite de anticipos a retirar"
         [groupName]="groupName"
         controlName="limite_monto_anticipos"
         [form]="form"
       ></app-number-field>
 
+      <app-slide
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        [control]="toggleControl"
+        title="Límites de anticipos a retirar ?"
+        [trueTitle]="'SI'"
+        [falseTitle]="'NO'"
+        (valueChange)="toggleFieldVisibility($event)"
+      ></app-slide>
     </div>
 
     <ng-container *ngIf="camion">
 
       <div class="row" >
-
-        <!-- Colocamos ambos componentes dentro de la misma fila para que estén uno al lado del otro -->
         <app-key-value
           class="input-form-full col-xs-12 col-sm-6 col-md-4"
           key="Monto de anticipos retirados"

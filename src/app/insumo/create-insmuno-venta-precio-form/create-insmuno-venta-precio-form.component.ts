@@ -86,7 +86,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   @Output() valueChange = new EventEmitter<number>();
 
   onMonedaSeleccionada(moneda: any) {
-    this.form.get('moneda_id')?.setValue(moneda?.id);  // 🔥 Guarda el ID en el formulario
+    this.form.get('moneda_id')?.setValue(moneda?.id); 
     this.valueChange.emit(moneda?.id);
   }
 

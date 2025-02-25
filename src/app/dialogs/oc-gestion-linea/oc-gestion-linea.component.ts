@@ -34,21 +34,19 @@ export class OcGestionLineaComponent  {
 
   getTotalAnticipo(): number {
     if (!this.oc?.flete_anticipos?.length) {
-      return 0; // Si no hay anticipos, devuelve 0
+      return 0; 
     }
-
-    // Suma los porcentajes de los anticipos
     return this.oc.flete_anticipos.reduce((total, anticipo) => total + (anticipo.porcentaje || 0), 0);
   }
 
   getUniqueAnticipos(anticipos: any[]) {
-    return anticipos.filter((value, index, self) => 
+    return anticipos.filter((value, index, self) =>
       index === self.findIndex((t) => (
         t.concepto === value.concepto
       ))
     );
   }
-  
+
 
   columns: Column[] = [
 

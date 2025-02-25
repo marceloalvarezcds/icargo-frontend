@@ -111,7 +111,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
           Validators.pattern('^[0-9]{1,}$'),
         ],
       ],
-      limite_monto_anticipos: [null, Validators.required],
+      limite_monto_anticipos: null,
     }),
   });
 
