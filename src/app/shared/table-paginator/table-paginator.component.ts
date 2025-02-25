@@ -15,6 +15,7 @@ import { Column } from 'src/app/interfaces/column';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { TableService } from 'src/app/services/table.service';
 import { delay } from 'src/app/utils/observable';
+import { TableComponent } from '../table/table.component';
 
 @Component({
   selector: 'app-table-paginator',
@@ -50,6 +51,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
   @Input() shouldBeShowFooter = false;
+  @Input() configurarColumnasVisibles?: Column[];
 
   @Output() activeClick = new EventEmitter<TableEvent<any>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<any>>();

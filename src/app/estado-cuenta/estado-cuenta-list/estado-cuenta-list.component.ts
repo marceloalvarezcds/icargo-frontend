@@ -222,6 +222,7 @@ export class EstadoCuentaListComponent implements OnInit {
     });
   }
 
+  // aca comparar IGUAL y no LIKE
   /* OBS: en caso que el * se use como texto como parte de los campos, cambiar condicion de filtrado */
   filterPredicate(obj: EstadoCuenta, filterJson: string): boolean {
     const filter: Filter = JSON.parse(filterJson);
@@ -236,7 +237,7 @@ export class EstadoCuentaListComponent implements OnInit {
     const filterByContraparte =
       filter.contraparte
         ?.split('*')
-        .some((x) => obj.contraparte.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) => obj.contraparte.toLowerCase() === x.toLowerCase() ) ?? true;
 
     return filterByTipoContraparte && filterByContraparte;
   }

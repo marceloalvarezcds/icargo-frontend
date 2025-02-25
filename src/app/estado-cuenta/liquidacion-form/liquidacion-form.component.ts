@@ -25,6 +25,7 @@ import { subtract } from 'src/app/utils/math';
 import { LiquidacionFormFieldsComponent } from '../liquidacion-form-fields/liquidacion-form-fields.component';
 import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { UserService } from 'src/app/services/user.service';
 
 @Component({
   selector: 'app-liquidacion-form',
@@ -71,6 +72,7 @@ export class LiquidacionFormComponent implements OnInit {
     private movimientoService: MovimientoService,
     private reportsService: ReportsService,
     private dialogService: DialogService,
+    private userService: UserService,
   ) {}
 
   ngOnInit(): void {
@@ -88,13 +90,11 @@ export class LiquidacionFormComponent implements OnInit {
     } else {
 
       if (coerceBooleanProperty(es_pdv)) {
-
         this.backUrl = '/estado-cuenta/punto_venta/detallado/listar';
 
         this.router.navigate([this.backUrl],
           { queryParams:getQueryParamsPDV!(this.estadoCuenta!) }
         );
-
       } else {
         this.router.navigate([this.backUrl],
           { queryParams:getQueryParams!(this.estadoCuenta!) }
@@ -125,10 +125,8 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   prepareSend(): void {
-
-
     const monto_pc = this.child.monto_pc.value;
-    console.log("monto_pc: ", monto_pc );
+
     const es_pago_cobro = (this.child.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
     const pago_cobro = es_pago_cobro === 'PAGO' ? monto_pc : (monto_pc*-1);
 
@@ -171,12 +169,34 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   onCreateLiquidacion(liquidacion:Liquidacion): void {
+
+    const gestorCargaId = liquidacion.gestor_carga_id;
+
+    if ( this.userService.checkPermisoAndGestorCargaId(
+      a.PASAR_A_REVISION,
+      this.modelo,
+      gestorCargaId)
+    ) {
+      const nav = '/estado-cuenta/estado_cuenta/liquidacion/editar/'+liquidacion.id;
+      this.router.navigate([nav]);
+      return;
+    }
+
     this.getData();
   }
 
   private submit(confirmed: boolean): void {
 
     this.child.sendLiquidacion(confirmed)
+    /*if (confirmed) {
+      this.router.navigate([backUrl]);
+    } else {
+      if (isDialog){
+        this.createdLiquidacion.emit(resp);
+      } else {
+        this.getData();
+      }
+    }*/
 
     /*if (this.movimientosSelected.length) {
       this.liquidacionService
@@ -215,8 +235,6 @@ export class LiquidacionFormComponent implements OnInit {
     if (backUrl) {
       this.backUrl = backUrl;
     }
-
-    console.log("queryParams: ", this.route.snapshot.queryParams);
 
     this.etapa = etapa;
 

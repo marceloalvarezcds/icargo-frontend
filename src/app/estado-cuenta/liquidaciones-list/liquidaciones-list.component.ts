@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
@@ -21,6 +21,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
+import { TablePaginatorComponent } from 'src/app/shared/table-paginator/table-paginator.component';
 import { getFilterList } from 'src/app/utils/filter';
 
 type Filter = {
@@ -34,7 +35,7 @@ type Filter = {
   templateUrl: './liquidaciones-list.component.html',
   styleUrls: ['./liquidaciones-list.component.scss']
 })
-export class LiquidacionesListComponent implements OnInit {
+export class LiquidacionesListComponent implements OnInit, AfterViewInit {
   a = PermisoAccionEnum;
   m = PermisoModeloEnum;
   columns: Column[] = [
@@ -109,6 +110,8 @@ export class LiquidacionesListComponent implements OnInit {
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
+
+  columnasVisibles?: Column[];
 
   /*
   TODO: se inhabilita tempralmente los botones
@@ -206,6 +209,10 @@ export class LiquidacionesListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
+  }
+
+  ngAfterViewInit(): void {
+    this.columnasVisibles= this.columns.filter( item=> item.def !=='saldo_cc').slice();
   }
 
   downloadFile(): void {

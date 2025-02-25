@@ -19,7 +19,6 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
   D = FleteDestinatarioEnum;
   list: FleteDestinatario[] = [];
 
-
   formGroup?: FormGroup;
   groupName = 'emision_orden';
   destinoId?: number;
@@ -39,21 +38,18 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
     this.formGroup = f;
     this.destinoSubscription = this.destinoControl.valueChanges.subscribe(
       (val) => {
-        
         this.destinoId = val;
         this.getList();
       }
     );
     this.origenSubscription = this.origenControl.valueChanges.subscribe(
       (val) => {
-        
         this.origenId = val;
         this.getList();
       }
     );
     this.remitenteSubscription = this.remitenteControl.valueChanges.subscribe(
       (val) => {
-        
         this.remitenteId = val;
         this.getList();
       }
@@ -102,7 +98,7 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
   ngOnInit(){
     if (this.isEdit || this.isShow) {
 
-      this.group.get('emision_orden_texto_legal')?.valueChanges
+      /*this.group.get('emision_orden_texto_legal')?.valueChanges
         .pipe(
           //debounceTime(500),
           distinctUntilChanged()
@@ -115,8 +111,6 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
 
               this.textoLegalService.geItemByTitletList(value).subscribe( f => {
 
-                
-
                 this.textoLegalEventsSubject.next(f);
               });
 
@@ -124,7 +118,7 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
 
           }
 
-      });
+      });*/
 
     }
   }

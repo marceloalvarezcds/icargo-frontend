@@ -250,7 +250,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
     const filterByContraparte =
       filter.contraparte
         ?.split('*')
-        .some((x) => obj.contraparte_pdv!.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) => obj.contraparte_pdv!.toLowerCase() === x.toLowerCase() ) ?? true;
 
     const filterByLinea =
       filter.linea
@@ -260,7 +260,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
     const filterByProveedor =
       filter.proveedor
         ?.split('*')
-        .some((x) => obj.contraparte!.toLowerCase().indexOf(x) >= 0) ?? true;
+        .some((x) => obj.contraparte!.toLowerCase() === x.toLowerCase() ) ?? true;
 
     return filterByContraparte && filterByLinea && filterByProveedor;
   }

@@ -16,8 +16,8 @@ export interface EstadoCuenta extends ContraparteGralInfo {
   q: string;
 }
 
-export const mockEstadoCuentaList: EstadoCuenta[] = []
-/*[
+export const mockEstadoCuentaList: EstadoCuenta[] =
+[
   {
     contraparte_id: 1,
     contraparte: 'ADM SANTA RITA',
@@ -37,6 +37,7 @@ export const mockEstadoCuentaList: EstadoCuenta[] = []
     liquidacion_saldo:0,
     q: 'contraparte=ADM+SANTA+RITA&contraparte_numero_documento=3100100&tipo_contraparte_id=3',
   },
+]/*
   {
     contraparte_id: 2,
     contraparte: 'GICAL KM12',

@@ -106,7 +106,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   ) { }
 
   ngAfterViewInit(): void {
-    console.log("ngAfterViewInit: ");
+
     if (this.estadoCuenta!.es_pdv && !this.estadoCuenta?.tipo_flujo) {
       this.form.controls['punto_venta_id'].markAsTouched();
     } else {
@@ -139,6 +139,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
     if (!this.form.valid) {
       console.log("form invalido, verificar!!!");
       return;
@@ -221,15 +222,8 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
   filtrarMovimientosPDV():void{
     this.liquidacionMovimientoList!.clearMovimientosList();
-
-    // obtenemos del form datos de:
-    // proveedor pdv
-    // linea
-
     const listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
     const puntoVenta = this.puntoVentaId.value;
-
-    console.log("puntoVenta: ", puntoVenta);
 
     if (!puntoVenta) {
       return;
@@ -247,11 +241,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   filtrarMovimientosPDV2(filter:string):void{
     this.liquidacionMovimientoList!.clearMovimientosList();
 
-    console.log("filtrarMovimientosPDV2");
-
     const puntoVenta = this.puntoVentaId.value;
-
-    console.log("puntoVenta: ", puntoVenta);
 
     if (!puntoVenta) {
       return;
@@ -269,7 +259,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   cargarMovimientos(movimientos: Movimiento[]):void {
     this.movimientosSelected = movimientos;
     this.monto_pc.setValue(Math.abs(this.monto));
-    console.log("cargarMovimientos: ", movimientos);
   }
 
 }

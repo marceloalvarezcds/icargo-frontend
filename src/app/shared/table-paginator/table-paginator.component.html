@@ -25,6 +25,7 @@
     (showClick)="showClick.emit($event)"
     (showClickDos)="showClickDos.emit($event)"
     (deleteClick)="deleteClick.emit($event)"
+    [configurarColumnasVisibles]="configurarColumnasVisibles"
     [mostrarBotonEliminar]="false"
     [shouldBeShowFooter]="shouldBeShowFooter"
   ></app-table>

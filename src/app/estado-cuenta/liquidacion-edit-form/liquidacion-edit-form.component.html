@@ -17,18 +17,18 @@
   (downloadClick)="downloadFile()"
 >
 
-<app-liquidacion-edit-fields
-      #child
-      [item]="item"
-      [isEdit]="isEdit"
-      [etapa]="item?.etapa"
-      [estadoCuenta]="estadoCuenta"
-      [movimientos]="movimientos"
-      (actualizarEstado)="loadLiquidacion()"
-      (actualizarLiquidacion)="loadLiquidacion()"
-      (actualizarMovimientos)="getList(item!)"
-    >
-  </app-liquidacion-edit-fields>
+<app-liquidacion-edit-fields #child
+    *ngIf="item"
+    [item]="item"
+    [isEdit]="isEdit"
+    [etapa]="item.etapa"
+    [estadoCuenta]="estadoCuenta"
+    [movimientos]="movimientos"
+    (actualizarEstado)="loadLiquidacion()"
+    (actualizarLiquidacion)="loadLiquidacion()"
+    (actualizarMovimientos)="getList(item!)"
+  >
+</app-liquidacion-edit-fields>
 
   <div class="liquidacion-page-content" *ngIf="item && false">
     <app-liquidacion-edit-form-acciones

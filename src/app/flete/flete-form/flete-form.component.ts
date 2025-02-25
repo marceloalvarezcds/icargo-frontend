@@ -251,12 +251,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    console.log("form: ", this.form);
-    console.log("form: ", this.anticipos);
-    console.log("form: ", this.descuentos);
-    console.log("form: ", this.complementos);
-
-
     if (this.form.valid) {
       const data: FleteConfirmationDialogData = {
         flete: getFleteData(this.form),
@@ -353,8 +347,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-
-
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;

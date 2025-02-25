@@ -40,6 +40,14 @@ export class ProveedorListComponent implements OnInit {
       value: (element: ProveedorList) => element.id,
     },
     {
+      def: 'proveedor_pdv',
+      title: 'PDV?',
+      type: 'button',
+      value: (element: ProveedorList) => element.proveedor_pdv ? 'SÍ' : 'NO',
+      buttonCallback: (element: ProveedorList) => element,
+      buttonIconName: (element: ProveedorList) => element.proveedor_pdv ? 'check_circle' : '',
+    },
+    {
       def: 'estado',
       title: 'Estado',
       value: (element: ProveedorList) => element.estado.toUpperCase(),
@@ -68,11 +76,6 @@ export class ProveedorListComponent implements OnInit {
       def: 'composicion_juridica',
       title: 'Comp. Jurídica',
       value: (element: ProveedorList) => element.composicion_juridica_nombre,
-    },
-    {
-      def: 'proveedor_pdv',
-      title: 'PDV?',
-      value: (element: ProveedorList) => element.proveedor_pdv ? 'SÍ' : 'NO',
     },
     {
       def: 'direccion',

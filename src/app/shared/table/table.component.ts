@@ -101,6 +101,12 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() showBtnMovimientos = false;
   @Input() hideAnular: boolean = false;
   @Input() modelo?: PermisoModeloEnum;
+  @Input() set configurarColumnasVisibles(list: Column[] | undefined) {
+    if (list) {
+      this.displayedColumns = list.map((c) => c.def);
+      this.columnsToShowFilteredList = list.map((c) => c.title);
+    }
+  };
 
   @Output() activeClick = new EventEmitter<TableEvent<T>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
@@ -228,7 +234,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
         case 'Provision':
           return 'gray'; // Naranja
         case 'Anulado':
-          return 'red'; 
+          return 'red';
         case 'Saldo abierto':
           return '#9747FF';
         case 'Saldo cerrado':

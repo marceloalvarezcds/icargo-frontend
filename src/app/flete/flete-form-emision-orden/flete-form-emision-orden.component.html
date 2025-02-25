@@ -25,14 +25,24 @@
       </div-->
 
       <app-texto-legal-dialog-field
+        *ngIf="!isShow"
         class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Texto Legal"
         [isRemote]="true"
         [form]="formGroup"
         [groupName]="groupName"
-        [textoLegalEvents]="textoLegalEventsSubject.asObservable()"
-        (valueChange)="$event && textoLegalControl.setValue($event.titulo)"
+        (valueChange)="$event && textoLegalControl.setValue($event.descripcion)"
       ></app-texto-legal-dialog-field>
+
+      <div *ngIf="isShow" class="col-xs-12 col-sm-12">
+        <label class="form-label">Texto Legal</label>
+        {{flete?.emision_orden_texto_legal}}
+        <mat-chip-list filterValues>
+          <ng-container>
+            <mat-chip >{{flete?.emision_orden_texto_legal}}</mat-chip>
+          </ng-container>
+        </mat-chip-list>
+      </div>
 
       <!-- Columna para Detalle - Comentarios -->
       <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
@@ -88,7 +98,6 @@
             <mat-chip *ngFor="let item of list">{{item.nombre}}({{item.email}})</mat-chip>
           </ng-container>
         </mat-chip-list>
-
       </div>
 
     </div>

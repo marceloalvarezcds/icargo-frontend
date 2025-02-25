@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { filter } from 'rxjs/operators';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -12,6 +13,7 @@ import { mockEstadoCuentaList } from 'src/app/interfaces/estado-cuenta';
 import { Instrumento } from 'src/app/interfaces/instrumento';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Movimiento } from 'src/app/interfaces/movimiento';
+import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -26,13 +28,12 @@ export class LiquidacionEditFormComponent implements OnInit {
   E = LiquidacionEstadoEnum;
   m = m;
   form = new FormGroup({});
-  backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.LISTAR}`;
+  backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/list-detalle/${a.LISTAR}`;
   modelo = m.LIQUIDACION;
   @Input() id?: number;
   item?: Liquidacion;
   @Input() isEdit = false;
   movimientos: Movimiento[] = [];
-  contraparte_id = 0;
   actual_contraparte = '';
   actual_contraparte_numero_documento = '';
   saldo = 0;
@@ -66,11 +67,20 @@ export class LiquidacionEditFormComponent implements OnInit {
     return this.item?.instrumentos ?? [];
   }
 
+  get contraparte_id():number{
+    const contraparteId = this.item?.chofer_id ?? this.item?.propietario_id ?? this.item?.proveedor_id ?? this.item?.remitente_id;
+
+    if (contraparteId) return contraparteId
+
+    return 0;
+  }
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
+    private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService
   ) {}
 
@@ -79,22 +89,20 @@ export class LiquidacionEditFormComponent implements OnInit {
   }
 
   back(): void {
-      const contraparte_id = this.contraparte_id;
-      const contraparte = this.actual_contraparte;
-      const contraparte_numero_documento = this.actual_contraparte_numero_documento;
+    const contraparte = this.actual_contraparte;
+    const contraparte_numero_documento = this.actual_contraparte_numero_documento;
 
-      this.router.navigate([this.backUrl], {
-        queryParams: getQueryParams(
-          {
-            ...this.item!,
-            contraparte_id,
-            contraparte,
-            contraparte_numero_documento,
-          },
-          this.item!.etapa
-        ),
-      });
-
+    this.router.navigate([this.backUrl], {
+      queryParams: getQueryParams(
+        {
+          ...this.item!,
+          contraparte_id: this.contraparte_id,
+          contraparte: contraparte,
+          contraparte_numero_documento: contraparte_numero_documento,
+        },
+        this.item!.etapa
+      ),
+    });
   }
 
   changeMovimientoList(): void {
@@ -136,7 +144,7 @@ export class LiquidacionEditFormComponent implements OnInit {
     } = this.route.snapshot.queryParams;
 
     this.id = +this.route.snapshot.params.id;
-    this.contraparte_id = contraparte_id;
+
     this.actual_contraparte = actual_contraparte;
     this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
     this.isEdit = /edit/.test(this.router.url);
@@ -166,7 +174,27 @@ export class LiquidacionEditFormComponent implements OnInit {
       .getListByLiquidacion(liq, liq.etapa ?? this.etapa)
       .subscribe((data) => {
         this.movimientos = data;
+        this.getEstadoCuenta(liq)
       });
+  }
+
+  getEstadoCuenta(liq: Liquidacion):void {
+
+    const contraparteId = liq.chofer_id ?? liq.propietario_id ?? liq.proveedor_id ?? liq.remitente_id;
+
+    this.estadoCuentaService
+      .getByContraparte(
+        liq.tipo_contraparte_id,
+        contraparteId!,
+        liq.contraparte,
+        liq.contraparte_numero_documento,
+        liq.punto_venta_id
+      )
+      .pipe(filter((e) => !!e))
+      .subscribe((estadoCuenta) => {
+        this.estadoCuenta = estadoCuenta!;
+    });
+
   }
 
   someterLiquidacionFinish(liquidacion:any) {
