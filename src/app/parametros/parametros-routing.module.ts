@@ -91,7 +91,7 @@ const routes: Routes = [
     data: {
       modelo: m.TEXTO_LEGAL,
       submodule: permisoModeloTitulo[m.TEXTO_LEGAL],
-      changeStatusMsg: ' holaaaa ',
+      changeStatusMsg: ' texto legal ',
       dialogComponent: TextoLegalFormDialogComponent,
       getDialogData: (item?: TextoLegal) => ({
         item,
