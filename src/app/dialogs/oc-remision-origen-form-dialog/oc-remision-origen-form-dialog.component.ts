@@ -18,11 +18,10 @@ export class OcRemisionOrigenFormDialogComponent {
     numero_documento: [this.data?.numero_documento, Validators.required],
     fecha: [this.data?.fecha ?? new Date().toJSON(), Validators.required],
     cantidad: [this.data?.cantidad, Validators.required],
-    unidad_id: [this.data?.unidad_id ?? 1, Validators.required], 
+    unidad_id: [this.data?.unidad_id, Validators.required],
     foto_documento: this.data?.foto_documento,
     nuevo_campo: null
   });
-  
 
   get actionText(): string {
     return this.data ? 'EDITAR' : 'NUEVO';
@@ -86,6 +85,10 @@ export class OcRemisionOrigenFormDialogComponent {
           orden_carga_id: this.dialogData.orden_carga_id,
         })
       );
+
+      const unidad = data.unidad_id;
+      data.unidad_id = unidad.id;
+
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFile) {
