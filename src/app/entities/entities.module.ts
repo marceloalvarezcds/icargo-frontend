@@ -18,6 +18,7 @@ import { PuntoVentaFormComponent } from './punto-venta-form/punto-venta-form.com
 import { PuntoVentaListComponent } from './punto-venta-list/punto-venta-list.component';
 import { RemitenteFormComponent } from './remitente-form/remitente-form.component';
 import { RemitenteListComponent } from './remitente-list/remitente-list.component';
+import { PuntoVentaByInsumoProveedorListComponent } from './punto-venta-by-insumo-proveedor-list/punto-venta-by-insumo-proveedor-list.component';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { RemitenteListComponent } from './remitente-list/remitente-list.componen
     ProveedorFormComponent,
     PuntoVentaListComponent,
     PuntoVentaFormComponent,
+    PuntoVentaByInsumoProveedorListComponent,
   ],
   imports: [
     CommonModule,

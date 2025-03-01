@@ -23,7 +23,6 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
     this.menuService.configSidebarModeByScreen();
   }
 
-
   @ViewChild(MatSidenav)
   get sidenav(): MatSidenav | undefined {
     return this.nav;
@@ -63,8 +62,8 @@ export class LayoutComponent implements OnDestroy, AfterViewInit {
   }
 
   handleMenuClick(event: MouseEvent, path: string | any[] | undefined): void {
-    event.stopPropagation();  
-    this.openInNewTab(path);   
+    event.stopPropagation();
+    this.openInNewTab(path);
   }
 
   openInNewTab(path: string | any[] | undefined): void {

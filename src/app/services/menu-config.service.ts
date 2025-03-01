@@ -37,5 +37,5 @@ export class MenuConfigService {
   toggleSidebarMenu(): void {
     this.setSidebarMenu(!this.toggleSidebarMenuBehaviorSubject.value);
   }
-  
+
 }

@@ -1,0 +1,35 @@
+<div class="main-container">
+  <div class="row">
+    <div class="col-xs-12 button-container" *ngIf="isEdit">
+      <!-- <button id="add-button" mat-flat-button
+        class="botones" color="primary" type="button"
+        (click)="nuevoPrecio()"
+        [ngClass]="{'view-mode': isShow}" >
+        <mat-icon>add_circle</mat-icon> NUEVO PRECIO
+      </button> -->
+
+      <button id="add-button" mat-flat-button
+        class="botones" color="primary" type="button"
+        (click)="createMercaderia()"
+        [ngClass]="{'view-mode': isShow}" >
+        <mat-icon>add_circle</mat-icon> NUEVA MERCADERIA
+      </button>
+    </div>
+
+    <div class="col-xs-12 table-container small-table" [hidden]="!(list && list.length)">
+      <app-table
+        class="lista-remitente"
+        [columns]="columns"
+        [data]="list"
+        [filterPredicate]="filterPredicate"
+        [modelo]="modelo"
+        [hideDelete]="true"
+        (editClick)="redirectToEdit($event)"
+        (showClick)="redirectToShow($event)"
+        [ngClass]="{'view-mode-table': isShow}"
+      ></app-table>
+    </div>
+
+
+  </div>
+</div>

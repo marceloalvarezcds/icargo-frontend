@@ -53,6 +53,7 @@ export class PageComponent {
   onCheckboxChange(checked: boolean): void {
     this.verInsumosInactivosChange.emit(checked);
   }
+  
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 

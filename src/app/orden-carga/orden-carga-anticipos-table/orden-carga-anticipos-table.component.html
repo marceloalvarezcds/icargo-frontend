@@ -17,7 +17,7 @@
               />
             </mat-form-field>
           </div>
-        
+
           <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
             <label class="anticipos-saldo">Total Combustible</label>
             <mat-form-field class="saldo-form-field">
@@ -28,9 +28,9 @@
               />
             </mat-form-field>
           </div>
-        
+
             <!-- Mostrar solo si hay saldo en lubricantes -->
-            <div *ngIf="hasLubricantesWithSaldo" 
+            <div *ngIf="hasLubricantesWithSaldo"
               class="input-form-full col-xs-12 col-sm-6 col-md-2">
           <label class="anticipos-saldo">Total Lubricantes</label>
           <mat-form-field class="saldo-form-field">
@@ -56,8 +56,8 @@
 
         <div *ngFor="let anticipo of filteredAnticipos"
           class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <ng-container 
-            *ngIf="oc?.flete_id === anticipo.flete_id && 
+          <ng-container
+            *ngIf="oc?.flete_id === anticipo.flete_id &&
                     (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)">
             <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
             <mat-form-field class="saldo-form-field">
@@ -69,7 +69,7 @@
             </mat-form-field>
           </ng-container>
         </div>
-      
+
         <!-- Mostrar solo si NO hay anticipos válidos -->
         <div *ngIf="filteredAnticipos?.length === 0"
           class="input-form-full col-xs-12 col-sm-6 col-md-2">
@@ -82,7 +82,7 @@
             />
           </mat-form-field>
         </div>
-      
+
         <div *ngIf="filteredAnticipos?.length === 0"
           class="input-form-full col-xs-12 col-sm-6 col-md-2">
           <label class="anticipos-saldo">Saldo Combustible</label>
@@ -105,7 +105,7 @@
             disabled
           />
         </mat-form-field>
-        </div>    
+        </div>
       </div>
     </div>
 
@@ -158,7 +158,7 @@
       [data]="list"
       [modelo]="modelo"
       (anularAnticipoClick)="edit($event)"
- [hideAnular]="true"
+      [hideAnular]="true"
     ></app-table>
   </div>
 

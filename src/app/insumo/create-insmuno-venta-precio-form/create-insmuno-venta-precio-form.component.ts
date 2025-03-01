@@ -64,7 +64,8 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   @Output() insumoChange = new EventEmitter<Insumo | undefined>();
   @Output() insumoPdvChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
   @Output() insumoPrecioChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
-
+  @Output() valueChange = new EventEmitter<number>();
+  
   get proveedorControl(): FormControl {
     return this.form.get('proveedor_id') as FormControl;
     }
@@ -83,10 +84,10 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
     this.form.get('created_at_insumo')?.disable();
 
   }
-  @Output() valueChange = new EventEmitter<number>();
+
 
   onMonedaSeleccionada(moneda: any) {
-    this.form.get('moneda_id')?.setValue(moneda?.id); 
+    this.form.get('moneda_id')?.setValue(moneda?.id);
     this.valueChange.emit(moneda?.id);
   }
 

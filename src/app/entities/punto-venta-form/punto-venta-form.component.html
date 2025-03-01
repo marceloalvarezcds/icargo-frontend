@@ -26,7 +26,7 @@
       [modelo]="modelo"
       [showComposicionJuridica]="false"
     ></app-page-form-entities-info-->
-    <div [formGroup]="form">
+    <div [formGroup]="form" >
 
       <div formGroupName="info" class="row" style="margin: 0;">
 
@@ -178,6 +178,16 @@
         [isPanelOpen]="true"
       ></app-page-form-geo>
     </div>
+  </div>
+
+  <div class="section" *ngIf="isShowInsumo">
+    <h2>MERCADERÍAS</h2>
+    <app-punto-venta-by-insumo-proveedor-list
+      [hideSubModule]="true"
+      [puntoVentaId]="id"
+      [isEdit]="isEdit"
+      [backUrl]="puntoVentaPrecioBackUrl"
+    ></app-punto-venta-by-insumo-proveedor-list>
   </div>
 
   <div class="section contactos-section" *ngIf="user?.gestor_carga_id && (modelo | puede: a.MODIFICAR_CONTACTOS)">

@@ -1,0 +1,193 @@
+
+  <form [formGroup]="form">
+    <span mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+      <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
+      <span class="complement-text"> {{ modeText }}</span>
+    </span>
+      <hr class="horizontal-line">
+    <div class="row">
+      <app-input-field
+        *ngIf="(isEdit || isShow)"
+        class="input-form-full col-xs-12 col-sm-6 col-md-5 ocultar"
+        title="Establecimiento"
+        controlName="punto_venta_id"
+        [readonly]="true"
+        [form]="form">
+      </app-input-field>
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-5"
+        title="Establecimiento"
+        controlName="punto_venta_nombre"
+        [readonly]="true"
+        [form]="form">
+      </app-input-field>
+
+      <app-punto-venta-precio-map-field
+        *ngIf="isEdit && isShow"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        [form]="form"
+        controlName="punto_venta_id">
+      </app-punto-venta-precio-map-field>
+
+      <app-input-field
+       *ngIf="(isEdit || isShow)"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Proveedor"
+        controlName="proveedor_id"
+        [form]="form">
+      </app-input-field>
+
+      <app-input-field
+        *ngIf="!(isEdit || isShow)"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Proveedor"
+        controlName="proveedor_nombre"
+        [form]="form">
+      </app-input-field>
+    </div>
+
+    <div class="row">
+      <app-input-field
+        *ngIf="isEdit || isShow"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Mercaderia"
+        controlName="insumo_id"
+        [form]="form">
+      </app-input-field>
+
+      <div *ngIf="!(isEdit || isShow)" class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <mat-label class="custom-label">
+          <span class="required">(*) </span>
+          Mercaderia
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <mat-select formControlName="insumo_id" (valueChange)="onInsumoDescipcionChange($event)">
+            <ng-container *ngFor="let o of tipoInsumoList">
+              <mat-option [value]="o.id">{{ o.descripcion }}</mat-option>
+            </ng-container>
+          </mat-select>
+          <mat-error *ngIf="form.get('insumo_id')?.hasError('required') && form.get('insumo_id')?.touched">
+            Este campo es requerido.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Fecha"
+        controlName="created_at_insumo"
+        [form]="form">
+      </app-fecha-field>
+
+       <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <label class="form-label-hora mr-2">Hora</label>
+        <mat-form-field class="app-input-field read-only-field" >
+          <input formControlName="hora" matInput [value]="hora" [disabled]="true" />
+        </mat-form-field>
+      </div>
+    </div>
+
+    <div class="row">
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Precio"
+        controlName="precio"
+        [form]="form">
+      </app-number-field>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Fecha Vigencia"
+        controlName="fecha_inicio"
+        [form]="form">
+      </app-fecha-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <label class="form-label-hora mr-2">Hora</label>
+        <mat-form-field>
+          <input
+            matInput
+            formControlName="hora_inicio"
+            type="text"
+            placeholder="HH:MM AM/PM"
+          />
+          <mat-error *ngIf="form.get('hora_inicio')?.hasError('required')">
+            Este campo es requerido.
+          </mat-error>
+          <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
+            Ingrese una hora válida en formato HH:MM AM/PM.
+          </mat-error>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+      <app-input-field
+        *ngIf="isEdit || isShow"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Unidad"
+        controlName="unidad_id"
+        [form]="form">
+      </app-input-field>
+
+      <app-unidad-field
+        *ngIf="!(isEdit || isShow)"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Unidad"
+        controlName="unidad_id"
+        [form]="form"
+      ></app-unidad-field>
+
+      <app-input-field
+       *ngIf="isEdit || isShow"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Moneda"
+        controlName="moneda_id"
+        [form]="form">
+      </app-input-field>
+
+      <app-moneda-field
+        *ngIf="!(isEdit || isShow)"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Moneda"
+        controlName="moneda_id"
+        [form]="form"
+        (valueChange)="onMonedaSeleccionada($event)"
+      ></app-moneda-field>
+    </div>
+
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-8"
+        title="Observación"
+        controlName="observacion"
+        [form]="form">
+      </app-input-field>
+    </div>
+
+    <hr class="horizontal-line">
+
+  </form>
+
+  <div mat-dialog-actions class="buttons-actions">
+    <button
+      mat-stroked-button
+      class="botones"
+      type="button"
+      mat-dialog-close>
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
+    <button
+    *ngIf="!isShowBtn"
+      mat-flat-button
+      class="botones" color="primary" type="button"
+      (click)="submit()"
+      cdkFocusInitial>
+      <mat-icon>save</mat-icon>
+      GUARDAR
+    </button>
+  </div>
+

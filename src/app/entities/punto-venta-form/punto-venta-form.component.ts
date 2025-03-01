@@ -44,6 +44,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   isInfoTouched = true;
   isContactoTouched = false;
   isGeoTouched = false;
+  isShowInsumo = false;
   backUrl = `/entities/${m.PROVEEDOR}/${a.CREAR}`;
   user?: User;
   userSubscription = this.userService.getLoggedUser().subscribe((user) => {
@@ -115,6 +116,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     return this.form.get('geo') as FormGroup;
   }
 
+
   /*get file(): File | null {
     return this.pageInfo!.file;
   }*/
@@ -125,6 +127,10 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   get estadoControlValue(): Boolean {
     return this.info?.controls['estado'].value;
+  }
+
+  get puntoVentaPrecioBackUrl(): string {
+    return this.router.url;
   }
 
   @ViewChild(PageFormEntitiesInfoComponent)
@@ -289,6 +295,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         });
         this.contactoList = data.contactos.slice();
         this.logo = data.logo!;
+        this.isShowInsumo = true;
         setTimeout(() => {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
