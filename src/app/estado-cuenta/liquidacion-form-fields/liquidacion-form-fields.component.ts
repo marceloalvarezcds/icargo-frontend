@@ -117,7 +117,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
       });
 
       this.esInsumoControl.valueChanges.subscribe( (val:boolean)=> {
-
         if (val) {
 
           this.form.controls['tipo_insumo'].removeValidators(Validators.required);
@@ -129,7 +128,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
           this.form.controls['tipo_insumo'].updateValueAndValidity();
 
         }
-
       });
 
     } else {
