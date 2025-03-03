@@ -32,7 +32,7 @@ export class PuntoVentaByProveedorFieldComponent {
   constructor(private service: PuntoVentaService) {}
 
   textValueFormat(value: PuntoVentaList): string {
-    return value.nombre;
+    return value.nombre_corto!;
   }
 
   private getList(): void {
