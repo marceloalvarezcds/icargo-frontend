@@ -24,7 +24,7 @@
       controlName="tarifa"
       [form]="form"
     ></app-number-field>
-    <app-moneda-field title="Moneda" [form]="form"></app-moneda-field>
+    <app-moneda-field [auto_select]="false" title="Moneda" [form]="form"></app-moneda-field>
     <app-key-value
       key="Detalle tarifa anterior"
       [value]="data.detalle"
