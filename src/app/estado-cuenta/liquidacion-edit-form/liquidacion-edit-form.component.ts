@@ -174,7 +174,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       .getListByLiquidacion(liq, liq.etapa ?? this.etapa)
       .subscribe((data) => {
         this.movimientos = data;
-        this.getEstadoCuenta(liq)
+        //this.getEstadoCuenta(liq)
       });
   }
 
