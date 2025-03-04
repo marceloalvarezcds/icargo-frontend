@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { AfterViewInit, Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
@@ -15,7 +15,7 @@ import { MovimientoService } from 'src/app/services/movimiento.service';
   templateUrl: './movimiento-form-dialog.component.html',
   styleUrls: ['./movimiento-form-dialog.component.scss'],
 })
-export class MovimientoFormDialogComponent {
+export class MovimientoFormDialogComponent implements AfterViewInit {
   openField = false;
   tipo?: TipoContraparte;
   form = this.fb.group({
@@ -97,11 +97,20 @@ export class MovimientoFormDialogComponent {
   }
 
   get contraparteNumeroDocumento(): string | null {
-    return (
-      this.data?.contraparte_numero_documento ??
-      this.dialogData.contraparte_numero_documento ??
-      null
-    );
+    if (this.dialogData.tipo_contraparte_descripcion == "PUNTO DE VENTA") {
+      return (
+        this.data?.contraparte_numero_documento ??
+        this.dialogData.contraparte_numero_documento ??
+        null
+      )
+      ;
+    } else {
+      return (
+        this.data?.contraparte_numero_documento ??
+        this.dialogData.contraparte_numero_documento ??
+        null
+      );
+    }
   }
 
   get contraparteNumeroDocumentoControl(): FormControl {
@@ -135,13 +144,41 @@ export class MovimientoFormDialogComponent {
     public dialogRef: MatDialogRef<MovimientoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: MovimientoFormDialogData
-  ) {}
+  ) {  }
+
+  ngAfterViewInit(): void {
+
+    console.log("tipo: ", this.tipo);
+    console.log("this.dialogData: ", this.dialogData);
+
+    if (!this.dialogData.es_contraparte_editable) {
+      // seteamos los id contraparte segun tipo
+      if (this.dialogData.tipo_contraparte_descripcion == TipoContraparteEnum.PROPIETARIO) {
+        this.form.controls['propietario_id'].setValue(this.dialogData.contraparte_id);
+      } else if (this.dialogData.tipo_contraparte_descripcion == TipoContraparteEnum.CHOFER) {
+        this.form.controls['chofer_id'].setValue(this.dialogData.contraparte_id);
+      } else if (this.dialogData.tipo_contraparte_descripcion == TipoContraparteEnum.PROVEEDOR) {
+        this.form.controls['proveedor_id'].setValue(this.dialogData.contraparte_id);
+      } else if (this.dialogData.tipo_contraparte_descripcion == TipoContraparteEnum.REMITENTE) {
+        this.form.controls['remitente_id'].setValue(this.dialogData.contraparte_id);
+      } else if (this.dialogData.tipo_contraparte_descripcion == "PUNTO DE VENTA") {
+        this.form.controls['proveedor_id'].setValue(this.dialogData.contraparte_id);
+        this.form.controls['punto_venta_id'].setValue(this.dialogData.punto_venta_id);
+
+      }
+
+      if (this.dialogData.punto_venta_id) {
+        this.form.controls['punto_venta_id'].setValue(this.dialogData.punto_venta_id);
+      }
+
+    }
+
+  }
 
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    
     if (this.form.valid) {
       const descripcionControl = this.form.get('detalle');
       if (descripcionControl && descripcionControl.value) {

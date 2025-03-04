@@ -12,6 +12,8 @@ import { subtract } from 'src/app/utils/math';
 import { SaldoComponent } from '../saldo/saldo.component';
 import { LiquidacionFormMovimientosComponent } from '../liquidacion-form-movimientos/liquidacion-form-movimientos.component';
 import { TipoLiquidacionEnum } from 'src/app/enums/tipo-liquidacion';
+import { PuntoVentaService } from 'src/app/services/punto-venta.service';
+import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 
 @Component({
   selector: 'app-liquidacion-form-fields',
@@ -47,6 +49,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   createdLiquidacionEvt: EventEmitter<Liquidacion> = new EventEmitter<Liquidacion>();
 
   movimientosSelected: Movimiento[] = [];
+  puntoVentaList?: PuntoVentaList[];
 
   form = new FormGroup({
     monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
@@ -102,12 +105,20 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   constructor(
     private movimientoService: MovimientoService,
     private liquidacionService: LiquidacionService,
+    private puntoVentaService: PuntoVentaService,
     private snackbar: SnackbarService,
   ) { }
 
   ngAfterViewInit(): void {
 
     if (this.estadoCuenta!.es_pdv && !this.estadoCuenta?.tipo_flujo) {
+
+      // obtenemos los pdv
+      this.puntoVentaService.getList(this.estadoCuenta!.contraparte_id)
+        .subscribe((resp:any) => {
+          this.puntoVentaList = resp;
+        });
+
       this.form.controls['punto_venta_id'].markAsTouched();
 
       this.puntoVentaId.valueChanges.subscribe( (val:boolean)=> {
@@ -128,6 +139,21 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
           this.form.controls['tipo_insumo'].updateValueAndValidity();
 
         }
+      });
+
+      this.puntoVentaId.valueChanges.subscribe( (val:number)=> {
+        if (val) {
+
+          console.log("!pdv::: ", val);
+
+          const pdv = this.puntoVentaList?.find(item=> item.id == val);
+
+          console.log("!pdv::: ", pdv);
+          this.estadoCuenta!.contraparte_numero_documento_pdv = pdv?.numero_documento ?? '';
+          this.estadoCuenta!.contraparte_pdv = pdv?.nombre_corto ?? '';
+
+        }
+
       });
 
     } else {
@@ -178,7 +204,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     console.log(":: ", this.estadoCuenta!.punto_venta_id);
     console.log(":: ", this.estadoCuenta!.es_pdv);
 
-
     if (this.estadoCuenta!.punto_venta_id || this.estadoCuenta!.es_pdv){
       //tipoMovLiquidacion = this.estadoCuenta!.tipo_flujo!;
       let listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
@@ -198,6 +223,10 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
       this.estadoCuenta!.moneda_id = this.monedaIdGs;
     } else {
       this.estadoCuenta!.moneda_id = this.movimientosSelected[0].moneda_id;
+    }
+
+    if (this.estadoCuenta!.punto_venta_id === 0) {
+      this.estadoCuenta!.punto_venta_id = this.puntoVentaId.value;
     }
 
     //if (this.movimientosSelected.length) {

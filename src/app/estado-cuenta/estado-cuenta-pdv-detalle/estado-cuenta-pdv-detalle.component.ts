@@ -497,13 +497,14 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
     }
 
     create(): void {
+
       const data: MovimientoFormDialogData = {
         estado: MovimientoEstadoEnum.PENDIENTE,
-        contraparte_id: this.estadoCuenta?.contraparte_id,
+        contraparte_id: this.estadoCuenta?.punto_venta_id,
         tipo_contraparte_id: this.estadoCuenta?.tipo_contraparte_id,
         tipo_contraparte_descripcion: this.estadoCuenta?.tipo_contraparte_descripcion,
-        contraparte: this.estadoCuenta?.contraparte,
-        contraparte_numero_documento: this.estadoCuenta?.contraparte_numero_documento,
+        contraparte: this.estadoCuenta?.contraparte_pdv,
+        contraparte_numero_documento: this.estadoCuenta?.contraparte_numero_documento_pdv,
         es_contraparte_editable: false,
         item: undefined,
         linea_movimiento: this.estadoCuenta?.tipo_flujo,
