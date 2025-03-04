@@ -149,9 +149,9 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -160,6 +160,10 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
+    console.log('Formulario válido:', this.form.valid); // Verifica si el formulario es válido
+    console.log('Errores del formulario:', this.form.errors); // Verifica los errores del formulario
+
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(
@@ -170,6 +174,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         })
       );
 
+      console.log('Datos del formulario antes de convertir a mayúsculas:', data);
+
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
@@ -177,25 +183,37 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         }
       });
 
+      console.log('Datos del formulario después de convertir a mayúsculas:', data);
+
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
       delete data.estado;
       data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
 
+      console.log('Datos del formulario después de eliminar propiedades:', data);
+
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);
+        console.log('Archivo agregado a formData:', this.file);
       }
+
       this.hasChange = false;
       this.initialFormValue = this.form.value;
+
+      // Verifica si el formulario está en modo edición o creación
       if (this.isEdit && this.id) {
+        console.log('Editando remitente con ID:', this.id);
         this.remitenteService.edit(this.id, formData).subscribe(() => {
+          console.log('Remitente editado con éxito');
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
+        console.log('Creando nuevo remitente');
         this.remitenteService.create(formData).subscribe((remitente) => {
+          console.log('Remitente creado con éxito:', remitente);
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -206,13 +224,19 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         });
       }
     } else {
+      console.log('Formulario no válido');
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
         this.isContactoTouched = this.contactos.invalid;
         this.isGeoTouched = this.geo.invalid;
+        console.log('Estado de validación de secciones:');
+        console.log('info inválido:', this.isInfoTouched);
+        console.log('contactos inválido:', this.isContactoTouched);
+        console.log('geo inválido:', this.isGeoTouched);
       });
     }
   }
+
 
 
   private getData(): void {

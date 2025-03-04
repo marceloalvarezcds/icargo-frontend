@@ -10,7 +10,7 @@
     <div class="row page-form-row">
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Información Básica</h3>
+        <h3 class="titulo">Información Básica</h3>
         <app-key-value key="Nº de Pedido" [value]="flete.id"></app-key-value>
         <app-key-value
           key="Remitente"
@@ -24,13 +24,13 @@
       </div>
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Tramo</h3>
+        <h3 class="titulo">Tramo</h3>
         <app-key-value key="Origen" [value]="flete.origen"></app-key-value>
         <app-key-value key="Destino" [value]="flete.destino"></app-key-value>
       </div>
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Cantidad y Condiciones</h3>
+        <h3 class="titulo">Cantidad y Condiciones</h3>
         <app-key-value key="Cantidad" [shouldFormat]="false" [value]="flete.cantidad"></app-key-value>
         <app-key-value
           key="Gestora"
@@ -43,27 +43,27 @@
       </div>
 
       <div class="info col-xs-12 col-sm-4 col-md-2">
-        <h3>Anticipos</h3>
+        <h3 class="titulo">Anticipos</h3>
         <ng-container *ngFor="let entry of Obj.entries(flete.anticipos)">
           <app-key-value [key]="entry[0]" [value]="entry[1]"></app-key-value>
         </ng-container>
       </div>
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Complementos</h3>
+        <h3 class="titulo">Complementos</h3>
         <ng-container *ngFor="let entry of Obj.entries(flete.complementos)">
           <app-key-value [key]="entry[0]" [value]="entry[1]"></app-key-value>
         </ng-container>
       </div>
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Descuentos</h3>
+        <h3 class="titulo">Descuentos</h3>
         <ng-container *ngFor="let entry of Obj.entries(flete.descuentos)">
           <app-key-value [key]="entry[0]" [value]="entry[1]"></app-key-value>
         </ng-container>
       </div>
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Merma</h3>
+        <h3 class="titulo">Merma</h3>
         <h4>Gestora</h4>
         <app-key-value
           key="Valor"
@@ -85,7 +85,7 @@
       </div>
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
-        <h3>Emisión de Orden</h3>
+        <h3 class="titulo">Emisión de Orden</h3>
         <app-key-value
           key="Texto Legal"
           [value]="flete.emision_orden_texto_legal"

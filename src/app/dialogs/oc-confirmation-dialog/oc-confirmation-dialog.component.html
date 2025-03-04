@@ -8,7 +8,7 @@
   <div mat-dialog-content>
     <div class="row page-form-row" *ngIf="oc">
       <div class="col-xs-12 col-sm-6">
-        <h3>Información Básica</h3>
+        <h3 class="titulo">Información Básica</h3>
         <app-key-value key="Nº de Pedido" [value]="oc.flete_id" [shouldFormat]="false"></app-key-value>
         <app-key-value key="Remitente" [value]="oc.remitente"></app-key-value>
         <app-key-value key="Producto" [value]="oc.producto"></app-key-value>
@@ -19,7 +19,7 @@
         ></app-key-value>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <h3>Chofer y Propietario</h3>
+        <h3 class="titulo">Chofer y Propietario</h3>
         <app-key-value key="Chofer" [value]="oc.chofer"></app-key-value>
         <app-key-value
           key="Propietario"
@@ -36,12 +36,12 @@
         ></app-key-value>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <h3>Tramo</h3>
+        <h3 class="titulo">Tramo</h3>
         <app-key-value key="Origen" [value]="oc.origen"></app-key-value>
         <app-key-value key="Destino" [value]="oc.destino"></app-key-value>
       </div>
       <div class="col-xs-12 col-sm-6">
-        <h3>Camión y Semi</h3>
+        <h3 class="titulo">Camión y Semi</h3>
         <app-key-value key="Camión" [value]="oc.camion" [shouldFormat]="false"></app-key-value>
         <app-key-value key="Semi" [value]="oc.semi" [shouldFormat]="false"></app-key-value>
         <app-key-value

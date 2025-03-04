@@ -2,7 +2,7 @@ table {
     width: 100%;
     border-collapse: collapse;
   }
-  
+
   th, td {
     border: 1px solid #ddd;
     padding: 8px;
@@ -12,7 +12,7 @@ table {
   .text-center {
     text-align: center;
   }
-  
+
   .align-right {
     text-align: right;
   }
@@ -21,7 +21,7 @@ table {
   td:first-child {
     text-align: left;
   }
-  
+
   /* Segunda fila de la primera columna */
   tr:nth-child(2) td:first-child {
     text-align: left;
@@ -38,15 +38,15 @@ table {
   .red-text {
     color: red;
   }
-  
+
   .black-text {
     color: black;
   }
-  
+
   .color-black {
     color: black !important;
   }
-  
+
   .peso-value  {
     padding-top: 4px;
     padding-bottom: 4px;
@@ -90,7 +90,7 @@ table {
   thead:nth-of-type(2) th.width-title-saldo-bruto {
     text-align: center;
   }
- 
+
   thead:nth-of-type(2) th.width-title-anticipos {
     text-align: center;
   }
@@ -153,7 +153,7 @@ table {
   .diferencia{
     margin-right: 10vw;
   }
-  
+
 
  /* Ajuste de los encabezados */
 .width-title-resultados { width: 7.8%; }
@@ -172,7 +172,7 @@ th.mat-header-cell.mat-column-total_flete_mon { width: 7%; color: black;}
 th.mat-header-cell.mat-column-tolerancia,
 th.mat-header-cell.mat-column-total_kg,
 th.mat-header-cell.mat-column-merma_valor,
-th.mat-header-cell.mat-column-tolerancia_kg { width: 6.2%; color: black;}
+th.mat-header-cell.mat-column-merma_valor_total_moneda_local{ width: 6.2%; color: black;}
 
 th.mat-header-cell.mat-column-comp_desc { width: 9%; color: black;  }
 th.mat-header-cell.mat-column-bruto { width: 9%; color: black; }

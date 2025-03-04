@@ -163,7 +163,7 @@ export class PageFormContactosComponent {
       nombre: [contacto.contacto_nombre, Validators.required],
       apellido: [contacto.contacto_apellido, Validators.required],
       telefono: [contacto.contacto_telefono, Validators.required],
-      email: [contacto.contacto_email, Validators.required],
+      email: contacto.contacto_email,
       alias: contacto.alias,
       cargo: [contacto.cargo, Validators.required],
     });

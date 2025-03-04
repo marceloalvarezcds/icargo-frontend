@@ -30,7 +30,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       value: (element: OrdenCargaRemisionResultado) => element.tarifa_flete,
       type: 'number',
     },
-  
+
     {
       def: 'total_flete_mon',
       title: 'Total',
@@ -46,7 +46,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'total_kg',
       title: 'Tolerancia',
-     
+
       value: (element: OrdenCargaRemisionResultado) => element.tolerancia_kg,
       type: 'number',
     },
@@ -56,9 +56,9 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       value: (element: OrdenCargaRemisionResultado) => element.merma,
       type: 'number',
     },
-  
+
     {
-      def: 'tolerancia_kg',
+      def: 'merma_valor_total_moneda_local',
       title: 'Total',
       value: (element: OrdenCargaRemisionResultado) => element.merma_valor_total_moneda_local,
       type: 'number',
@@ -66,7 +66,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'comp_desc',
       title: 'Total',
-   
+
       value: (element: OrdenCargaRemisionResultado) => element.complemento_descuento,
       type: 'number',
     },

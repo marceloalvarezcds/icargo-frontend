@@ -114,7 +114,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
-      
+
     }),
 
   });
@@ -641,9 +641,9 @@ export class OrdenCargaCreateFormComponent implements OnInit {
         data[key] = data[key].toUpperCase();
       }
     });
-  
+
     formData.append('data', JSON.stringify(data));
-    
+
     this.ordenCargaService.create(formData).subscribe((item) => {
       this.snackbar.openSave();
       this.ordenCargaId = item.id;

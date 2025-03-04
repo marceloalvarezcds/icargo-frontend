@@ -45,7 +45,7 @@ export class ProveedorListComponent implements OnInit {
       type: 'button',
       value: (element: ProveedorList) => element.proveedor_pdv ? 'SÍ' : 'NO',
       buttonCallback: (element: ProveedorList) => element,
-      buttonIconName: (element: ProveedorList) => element.proveedor_pdv ? 'check_circle' : '',
+      buttonIconName: (element: ProveedorList) => element.proveedor_pdv ? 'supervisor_account' : '',
     },
     {
       def: 'estado',

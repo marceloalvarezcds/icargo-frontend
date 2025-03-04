@@ -1,6 +1,6 @@
 <app-page-form
   class="propietario-page"
-  submodule="PROPIETARIOS"
+  submodule="TITULARES"
   module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
@@ -61,7 +61,7 @@
     </div>
 
     <div class="section ocultar" formGroupName="chofer"
-        
+
         *ngIf="
           (choferModelo | puede: a.CREAR) ||
           (choferModelo | puede: a.EDITAR) ||

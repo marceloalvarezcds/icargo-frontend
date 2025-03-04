@@ -1,70 +1,70 @@
 <div #tableContainer style="overflow-x: auto;" [ngStyle]="tableStyles" >
   <table>
     <thead>
- 
+
       <tr>
         <th class="width-title-resultados no-rigth"></th>
-        <th class="width-title-flete no-border" >   
-         
+        <th class="width-title-flete no-border" >
+
           <span class="label">Cantidad Nominada </span>
           <span class="peso-value">
             <span class="peso-tarifa-value">{{ (oc?.cantidad_nominada ?? 0) | number: '1.0-0' }}</span>
           </span>
-        
-        </th> 
 
-        <th class="width-title-merma no-border" >   
+        </th>
+
+        <th class="width-title-merma no-border" >
           <div class="neto">
             <span class="label">Neto de la Combinacion </span>
             <span class="peso-value">
               <span class="peso-tarifa-value">{{ (oc?.neto ?? 0) | number: '1.0-0' }}</span>
             </span>
           </div>
-        </th> 
+        </th>
 
-        <th class="width-title-desc no-border" >   
-         
+        <th class="width-title-desc no-border" >
+
           <span class="label">Peso Origen </span>
           <span class="peso-value">
             <span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span>
           </span>
-        
-        </th> 
 
-        <th class="width-title-saldo-bruto no-border" >   
-         
+        </th>
+
+        <th class="width-title-saldo-bruto no-border" >
+
           <span class="label-destino">Peso Destino </span>
           <span class="peso-value">
             <span class="peso-tarifa-value">{{ (oc?.cantidad_destino ?? 0) | number: '1.0-0' }}</span>
           </span>
-        
-        </th> 
-        <th class="width-title-saldo-neto no-border">   
+
+        </th>
+        <th class="width-title-saldo-neto no-border">
          <div class="diferencia">
           <span class="label">Diferencia </span>
           <span class="peso-value">
             <span class="peso-tarifa-value">{{ ((oc?.cantidad_origen ?? 0) - (oc?.cantidad_destino ?? 0)) | number: '1.0-0' }}</span>
           </span>
         </div>
-        </th> 
-        <th class="width-title-saldo-neto no-left" colspan="2"></th> 
+        </th>
+        <th class="width-title-saldo-neto no-left" colspan="2"></th>
     </tr>
     </thead>
-    
+
     <thead>
       <tr>
-          <th class="width-title-resultados" >Concepto</th> 
-          <th class="width-title-flete" >Flete</th> 
-          <th class="width-title-merma" >Merma</th> 
-          <th class="width-title-desc" >Compl./Desc.</th> 
-          <th class="width-title-saldo-bruto" >Saldo</th> 
-          <th class="width-title-anticipos">Anticipos</th> 
-          <th class="width-title-saldo-neto" colspan="2">Saldo</th> 
+          <th class="width-title-resultados" >Concepto</th>
+          <th class="width-title-flete" >Flete</th>
+          <th class="width-title-merma" >Merma</th>
+          <th class="width-title-desc" >Compl./Desc.</th>
+          <th class="width-title-saldo-bruto" >Saldo</th>
+          <th class="width-title-anticipos">Anticipos</th>
+          <th class="width-title-saldo-neto" colspan="2">Saldo</th>
       </tr>
   </thead>
-  
+
   </table>
-  
+
   <table mat-table [dataSource]="tableDataSource" matSort  >
     <ng-container
       *ngFor="let column of filteredColumns; let last = last"
@@ -73,7 +73,7 @@
       [stickyEnd]="column.stickyEnd"
     >
       <ng-container *ngIf="column.def !== 'actions'">
-        
+
         <th
           mat-header-cell
           *matHeaderCellDef
@@ -87,17 +87,17 @@
             (change)="setAll($event.checked)"
             (click)="$event.stopPropagation()"
           >
-            {{ column.title }} 
+            {{ column.title }}
           </mat-checkbox>
         </ng-container>
         <span *ngIf="column.type !== 'checkbox'">
           {{ column.title }}
         </span>
       </th>
-      
+
       <td
         mat-cell
-        *matCellDef="let row; let index = index"   
+        *matCellDef="let row; let index = index"
         [class.mat-cell-checkbox]="column.type === 'checkbox'"
         [class.row-error]="formArray.at(index)?.get(column.def)?.errors"
         [ngClass]="{
@@ -110,7 +110,7 @@
             column?.def === 'total_flete_mon' ||
             column?.def === 'tolerancia' ||
             column?.def === 'total_kg' ||
-            column?.def === 'tolerancia_kg'
+            column?.def === 'merma_valor_total_moneda_local'
           ),
           'special-red-text': getColumnValue(row, column) !== 0 && (
             column?.def === 'merma_valor' ||
@@ -125,7 +125,7 @@
             column?.def === 'total_flete_mon' ||
             column?.def === 'tolerancia' ||
             column?.def === 'total_kg' ||
-            column?.def === 'tolerancia_kg'
+            column?.def === 'merma_valor_total_moneda_local'
           )) || (getColumnValue(row, column) !== 0 && (
             column?.def === 'merma_valor' ||
             column?.def === 'efectivo' ||
@@ -173,19 +173,19 @@
                     <ng-template #normalValue>
                       {{ column.value(row) | numberFormat }}
                     </ng-template>
-                
-                    <div *ngIf="column?.def === 'tarifa_flete' || column?.def === 'tolerancia'" 
+
+                    <div *ngIf="column?.def === 'tarifa_flete' || column?.def === 'tolerancia'"
                           style="color: black; display: inline;"> Gs/Kg </div>
-                
-                    <div *ngIf="column?.def === 'total_flete_mon' || column?.def === 'comp_desc' || column?.def === 'bruto' || column?.def === 'efectivo' || column?.def === 'combustible' || column?.def === 'saldo'" 
+
+                    <div *ngIf="column?.def === 'total_flete_mon' || column?.def === 'comp_desc' || column?.def === 'bruto' || column?.def === 'efectivo' || column?.def === 'combustible' || column?.def === 'saldo' || column?.def === 'merma_valor_total_moneda_local'"
                           style="color: black; display: inline;"> Gs </div>
-                
-                    <div *ngIf="column?.def === 'total_kg' || column?.def === 'merma_valor' || column?.def === 'tolerancia_kg'" 
+
+                    <div *ngIf="column?.def === 'total_kg' || column?.def === 'merma_valor'"
                           style="color: black; display: inline;"> Kg </div>
                   </span>
                 </ng-container>
-                
-                
+
+
               </ng-container>
               <ng-container *ngSwitchCase="'date'">
                 <span>{{
@@ -287,9 +287,9 @@
         </th>
         <td
           mat-cell
-          *matCellDef="let row; let index = index" 
+          *matCellDef="let row; let index = index"
           [hidden]="isShow && !addShowButton"
-          
+
         >
           <button
             type="button"
@@ -302,7 +302,7 @@
           >
             <mat-icon>visibility</mat-icon>
           </button>
-          <button 
+          <button
             type="button"
             class="row_menu"
             mat-icon-button

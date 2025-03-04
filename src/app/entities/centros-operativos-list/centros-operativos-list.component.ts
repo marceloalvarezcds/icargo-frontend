@@ -57,11 +57,6 @@ export class CentrosOperativosListComponent implements OnInit {
       value: (element: CentroOperativoList) => element.clasificacion_nombre,
     },
     {
-      def: 'telefono',
-      title: 'Celular',
-      value: (element: CentroOperativoList) => element.telefono,
-    },
-    {
       def: 'direccion',
       title: 'Dirección',
       value: (element: CentroOperativoList) => element.direccion,
@@ -146,12 +141,12 @@ export class CentrosOperativosListComponent implements OnInit {
   //   const url = `/entities/${m.CENTRO_OPERATIVO}/${a.CREAR}`;
   //   window.open(url, '_blank');
   // }
-  
+
   // redirectToEdit(event: TableEvent<CentroOperativoList>): void {
   //   const url = `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}/${event.row.id}`;
   //   window.open(url, '_blank');
   // }
-  
+
   // redirectToShow(event: TableEvent<CentroOperativoList>): void {
   //   const url = `/entities/${m.CENTRO_OPERATIVO}/${a.VER}/${event.row.id}`;
   //   window.open(url, '_blank');
