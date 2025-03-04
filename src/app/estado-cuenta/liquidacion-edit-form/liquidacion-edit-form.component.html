@@ -19,14 +19,14 @@
 
 <app-liquidacion-edit-fields #child
     *ngIf="item"
-    [item]="item"
+    [liquidacion]="item"
     [isEdit]="isEdit"
     [etapa]="item.etapa"
     [estadoCuenta]="estadoCuenta"
     [movimientos]="movimientos"
     (actualizarEstado)="loadLiquidacion()"
     (actualizarLiquidacion)="loadLiquidacion()"
-    (actualizarMovimientos)="getList(item!)"
+    (actualizarMovimientos)="loadLiquidacion()"
   >
 </app-liquidacion-edit-fields>
 

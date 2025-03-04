@@ -109,7 +109,29 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
     if (this.estadoCuenta!.es_pdv && !this.estadoCuenta?.tipo_flujo) {
       this.form.controls['punto_venta_id'].markAsTouched();
+
+      this.puntoVentaId.valueChanges.subscribe( (val:boolean)=> {
+
+        this.esInsumoControl.setValue(true);
+
+      });
+
+      this.esInsumoControl.valueChanges.subscribe( (val:boolean)=> {
+        if (val) {
+
+          this.form.controls['tipo_insumo'].removeValidators(Validators.required);
+          this.form.controls['tipo_insumo'].updateValueAndValidity();
+
+        } else {
+
+          this.form.controls['tipo_insumo'].addValidators(Validators.required);
+          this.form.controls['tipo_insumo'].updateValueAndValidity();
+
+        }
+      });
+
     } else {
+
       this.form.controls['es_insumo_efectivo'].removeValidators(Validators.required);
       this.form.controls['tipo_insumo'].removeValidators(Validators.required);
       this.form.controls['punto_venta_id'].removeValidators(Validators.required);
@@ -117,6 +139,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
       this.form.controls['es_insumo_efectivo'].updateValueAndValidity();
       this.form.controls['tipo_insumo'].updateValueAndValidity();
       this.form.controls['punto_venta_id'].updateValueAndValidity();
+
     }
 
     if (this.estadoCuenta?.tipo_flujo ) {
@@ -150,8 +173,22 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
 
     let tipoMovLiquidacion = '';
+
+    console.log("datos: ");
+    console.log(":: ", this.estadoCuenta!.punto_venta_id);
+    console.log(":: ", this.estadoCuenta!.es_pdv);
+
+
     if (this.estadoCuenta!.punto_venta_id || this.estadoCuenta!.es_pdv){
-      tipoMovLiquidacion = this.estadoCuenta!.tipo_flujo!;
+      //tipoMovLiquidacion = this.estadoCuenta!.tipo_flujo!;
+      let listar_efectivo_insumo = this.esInsumoControl.value ? "EFECTIVO" : "INSUMO";
+
+      if (listar_efectivo_insumo !== "EFECTIVO") {
+        tipoMovLiquidacion = this.tipo_insumo.value;
+      } else {
+        tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO.toUpperCase();
+      }
+
     } else {
       tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO.toUpperCase();
     }

@@ -77,6 +77,7 @@ export class MovimientoEditByFleteFormDialogComponent {
           .subscribe(this.close.bind(this));
       }
     }
+
   }
 
   private close(data: Movimiento): void {
