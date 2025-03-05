@@ -45,10 +45,11 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
       moneda_id: null,
       unidad_id: null,
       precio: [null, Validators.required],
-      fecha_inicio:  [null, [Validators.required, DateValidator.date]],
-      created_at_insumo: null,
-      hora_inicio: null,
-      hora: null,
+      fecha_inicio: [new Date(), Validators.required],
+      hora_inicio: [
+        this.convertTo12HourFormat(new Date()),
+        Validators.compose([Validators.required, Validators.pattern(this.horaPattern)])
+      ],
       insumo: null,
       punto_venta: null,
       observacion: null,
@@ -65,7 +66,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   @Output() insumoPdvChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
   @Output() insumoPrecioChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
   @Output() valueChange = new EventEmitter<number>();
-  
+
   get proveedorControl(): FormControl {
     return this.form.get('proveedor_id') as FormControl;
     }
@@ -74,14 +75,14 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
     this.insumoService.getList().subscribe(insumos => {
       this.tipoInsumoList = insumos;
     });
-    this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const date = new Date(value);
-        this.hora = this.convertTo12HourFormat(date);
-        this.form.get('hora')?.setValue(this.hora);
-      }
-    });
-    this.form.get('created_at_insumo')?.disable();
+    // this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
+    //   if (value) {
+    //     const date = new Date(value);
+    //     this.hora = this.convertTo12HourFormat(date);
+    //     this.form.get('hora')?.setValue(this.hora);
+    //   }
+    // });
+    // this.form.get('created_at_insumo')?.disable();
 
   }
 
@@ -102,17 +103,12 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
     this.form = this.fb.group({
       punto_venta_id: [null, Validators.required],
       insumo_id: ['', Validators.required],
-      fecha_inicio: ['', Validators.required],
+      fecha_inicio: [new Date(), Validators.required],
       hora_inicio: [
-        '',
-        [
-          Validators.required,
-          Validators.pattern(this.horaPattern)
-        ]
+        this.convertTo12HourFormat(new Date()),
+        Validators.compose([Validators.required, Validators.pattern(this.horaPattern)])
       ],
       precio: ['', Validators.required],
-      created_at_insumo: ['', []],
-      hora: ['', []],
       unidad_id: ['', []],
       moneda_id: ['', []],
       observacion: ['', []],

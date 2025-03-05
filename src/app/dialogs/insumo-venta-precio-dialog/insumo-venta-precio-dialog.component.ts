@@ -30,6 +30,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   this.insumoService.getList();
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   horaPattern: RegExp = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
+  autoSelectFiltro = "lt";
 
   form = this.fb.group({
     punto_venta_id: [this.data?.punto_venta_nombre || null],
@@ -40,15 +41,15 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
     moneda_id: this.data?.insumo_moneda_nombre || null,
     unidad_id: this.data?.insumo_unidad_descripcion,
     precio: [this.data?.precio || null, Validators.required],
-    fecha_inicio: [this.data?.fecha_inicio || null, Validators.required],
-    created_at_insumo: [this.data?.created_at_insumo || null],
-    hora_inicio: [this.data?.hora_inicio || null,    [
-      Validators.required,
-      Validators.pattern(this.horaPattern)
-    ]],
-    hora: null,
+    fecha_inicio: [this.data?.fecha_inicio || new Date(), Validators.required],
+    hora_inicio: [
+      this.data?.hora_inicio || this.convertTo12HourFormat(new Date()),
+      Validators.compose([Validators.required, Validators.pattern(this.horaPattern)])
+    ],
     observacion: [this.data?.observacion || null],
   });
+
+
     initialFormValue = this.form.value;
     hasChange = false;
     hasChangeSubscription = this.form.valueChanges.subscribe((value) => {
@@ -92,7 +93,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
 
     this.form.get('proveedor_id')?.disable();
     this.form.get('proveedor_nombre')?.disable();
-    this.form.get('created_at_insumo')?.disable();
+    // this.form.get('created_at_insumo')?.disable();
     this.form.get('hora')?.disable();
     if (this.dialogData?.punto_venta_id) {
       this.form.get('punto_venta_id')?.setValue(this.dialogData.punto_venta_id);
@@ -139,15 +140,15 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
       });
       }
     }
-
-    this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const date = new Date(value);
-        this.hora = this.convertTo12HourFormat(date);
-        this.form.get('hora')?.setValue(this.hora);
-      }
-    });
+    // this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
+    //   if (value) {
+    //     const date = new Date(value);
+    //     this.hora = this.convertTo12HourFormat(date);
+    //     this.form.get('hora')?.setValue(this.hora);
+    //   }
+    // });
   }
+
 
 
   formatearHora24(date: Date): string {
@@ -211,14 +212,14 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
           .edit(this.data!.id, formData)
           .subscribe(() => {
             this.close();
-            this.dataSaved.emit(data); // Emitir todo el objeto de datos
+            this.dataSaved.emit(data);
           });
       } else {
         this.insumoPuntoVentaPrecioService
           .createMercaderia(formData)
           .subscribe(() => {
             this.close();
-            this.dataSaved.emit(data); // Emitir todo el objeto de datos
+            this.dataSaved.emit(data);
           });
       }
     }

@@ -56,7 +56,7 @@
         </mat-form-field>
       </div>
 
-      <app-fecha-field
+      <!-- <app-fecha-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Fecha"
         controlName="created_at_insumo"
@@ -68,7 +68,7 @@
         <mat-form-field class="app-input-field read-only-field" >
           <input matInput [value]="hora" [disabled]="true" />
         </mat-form-field>
-      </div>
+      </div> -->
     </div>
 
     <div class="row">
@@ -80,34 +80,6 @@
         [form]="form"
         autocomplete="on">
       </app-number-field>
-
-      <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Fecha Vigencia"
-        controlName="fecha_inicio"
-        [form]="form"
-      ></app-fecha-field>
-
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <label class="form-label-hora mr-2">Hora</label>
-        <mat-form-field>
-          <input
-            matInput
-            formControlName="hora_inicio"
-            type="text"
-            placeholder="HH:MM AM/PM"
-
-         >
-
-          <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
-            Ingrese una hora válida en formato HH:MM.
-          </mat-error>
-        </mat-form-field>
-      </div>
-
-    </div>
-
-    <div class="row">
 
       <app-unidad-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -123,6 +95,33 @@
         [form]="form"
         (valueChange)="onMonedaSeleccionada($event)"
       ></app-moneda-field>
+    </div>
+
+    <div class="row">
+
+      <app-fecha-field
+      class="input-form-full col-xs-12 col-sm-6 col-md-2"
+      title="Fecha Vigencia"
+      controlName="fecha_inicio"
+      [form]="form"
+    ></app-fecha-field>
+
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <label class="form-label-hora mr-2">Hora</label>
+      <mat-form-field>
+        <input
+          matInput
+          formControlName="hora_inicio"
+          type="text"
+          placeholder="HH:MM AM/PM"
+
+       >
+
+        <mat-error *ngIf="form.get('hora_inicio')?.hasError('pattern')">
+          Ingrese una hora válida en formato HH:MM.
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     </div>
 

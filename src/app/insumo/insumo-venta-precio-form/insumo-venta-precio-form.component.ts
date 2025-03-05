@@ -49,10 +49,8 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
       moneda_id: null,
       unidad_id: null,
       precio: [null, Validators.required],
-      fecha_inicio: null,
-      created_at_insumo: null,
+      fecha_inicio: [new Date(), Validators.required],
       hora_inicio: null,
-      hora: null,
       insumo: null,
       punto_venta: null,
       observacion: null,
@@ -92,7 +90,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
         ]
       ],
       precio: [{ value: '', disabled: true }],
-      created_at_insumo: [{ value: '', disabled: true }],
       hora: [{ value: '', disabled: true }],
       unidad_id: [{ value: '', disabled: true }],
       moneda_id: [{ value: '', disabled: true }],
@@ -110,13 +107,13 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     this.getData();
     this.form.get('punto_venta_id')?.setValue(this.pdv?.punto_venta_id);
-    this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
-      if (value) {
-        const date = new Date(value);
-        this.hora = this.convertTo12HourFormat(date);
-        this.form.get('hora')?.setValue(this.hora);
-      }
-    });
+    // this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
+    //   if (value) {
+    //     const date = new Date(value);
+    //     this.hora = this.convertTo12HourFormat(date);
+    //     this.form.get('hora')?.setValue(this.hora);
+    //   }
+    // });
   }
 
   formatearHora24(date: Date): string {
@@ -181,13 +178,13 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
           this.form.get('moneda_id')?.setValue(insumo.insumo_moneda_nombre || null);
           this.form.get('observacion')?.setValue(insumo.observacion || null);
           this.form.get('hora_inicio')?.setValue(insumo.hora_inicio || null);
-          this.form.get('created_at_insumo')?.setValue(insumo.created_at_insumo || null);
+          // this.form.get('created_at_insumo')?.setValue(insumo.created_at_insumo || null);
 
-          if (insumo.created_at_insumo) {
-              const dateFin = new Date(insumo.created_at_insumo);
-              this.hora = dateFin.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-              this.form.get('hora')?.setValue(this.hora);
-          }
+          // if (insumo.created_at_insumo) {
+          //     const dateFin = new Date(insumo.created_at_insumo);
+          //     this.hora = dateFin.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          //     this.form.get('hora')?.setValue(this.hora);
+          // }
         this.enableOtherFields()
       }
 
@@ -269,7 +266,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
           precio: data.precio,
           fecha_inicio: data.fecha_inicio,
           hora_inicio: data.hora_inicio,
-          created_at_insumo: data.created_at_insumo,
           unidad_id: data.insumo_unidad_descripcion,
           moneda_id: data.insumo_moneda_nombre,
           observacion: data.observacion,
