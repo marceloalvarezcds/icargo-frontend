@@ -9,11 +9,13 @@
       (click)="create()"
       (buttonAnticipoClicked)="onEditPressed()"
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
+      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'
+      || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
       >
       <mat-icon
       class="small-icon"
-      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado'  || oc?.estado === 'Finalizado' || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) } || isEditPedido">
+      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado'  || oc?.estado === 'Finalizado'
+      || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) } || isEditPedido">
       add</mat-icon>
       CARGA
     </button>
@@ -24,13 +26,12 @@
   <app-table
     [modelo]="modelo"
     [gestorCuentaId]="gestorCargaId"
-    [hideShow]="oc?.estado === 'Conciliado'"
-    [isShow]="oc?.estado === 'Conciliado'"
+    [shouldBeShowFooter]="true"
     [columns]="columns"
     [data]="lista"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
-    [shouldShowActiveButton]="false"
-    [ngClass]="{'header-hidden': isShow && hideShow}"
+    [hideShow]="oc?.estado === 'Conciliado'"
+    [isShow]="oc?.estado === 'Conciliado'"
   ></app-table>
 </div>

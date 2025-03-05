@@ -142,7 +142,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
         title: 'Cant.',
         footerDef: () => this.totalCantidad,
         value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
-        type: 'number',
+
       },
       {
         def: 'unidad_descripcion',

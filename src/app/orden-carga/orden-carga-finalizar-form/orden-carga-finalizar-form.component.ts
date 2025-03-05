@@ -299,9 +299,9 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
     });
     this.setInitialToggleState();
- 
+
     this.form.get('combinacion.id_orden_carga')?.valueChanges
-    .pipe(distinctUntilChanged()) 
+    .pipe(distinctUntilChanged())
     .subscribe(id => {
       if (id) {
         this.getData();
@@ -668,42 +668,35 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         '¿Está seguro que desea conciliar la Orden de Carga?',
         this.ordenCargaService.conciliar(this.idOC),
         () => {
-            // Esto se ejecuta si el usuario confirma la conciliación
+  
             this.getData();
             this.form.get('info.comentarios')?.disable();
 
-            // Abre el diálogo de evaluación
-            const dialogRef = this.openEvaluacionesDialog();
+            const comentario = this.form.get('info.comentarios')?.value;
+            const comentarioUpper = comentario ? comentario.toUpperCase() : '';
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    const comentario = this.form.get('info.comentarios')?.value;
-                    const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+            if (comentarioUpper) {
+                this.createComentarioYConciliar(comentarioUpper);
+            }
 
-                    if (comentarioUpper) {
-                        this.createComentarioYConciliar(comentarioUpper);
-                    }
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
-                }
-                this.snackBar.open('Generando PDF...', 'Cerrar', {
-                    duration: 3000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                });
-                this.downloadConciliarResumenPDF();
+            this.snackBar.open('Generando PDF...', 'Cerrar', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center'
             });
-        },
 
+            this.downloadConciliarResumenPDF();
+        },
     );
   }
+
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
         this.reportsService.downloadFile(filename).subscribe((file) => {
             const blob = new Blob([file], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
-            
+
             // Abre el diálogo del PDF
             const dialogRefPdf = this.dialog.open(PdfPreviewDialogComponent, {
                 width: '90%',
@@ -745,21 +738,21 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
   resetFormData(): void {
     this.form.reset();
-    this.item!.anticipos = []; 
-    this.item!.remisiones_origen = []; 
-    this.item!.remisiones_destino = []; 
+    this.item!.anticipos = [];
+    this.item!.remisiones_origen = [];
+    this.item!.remisiones_destino = [];
     this.item!.remisiones_resultado = [];
-    this.item!.neto = 0; 
-    this.item!.cantidad_nominada = 0; 
-    this.item!.cantidad_origen = 0;  
-    this.item!.cantidad_destino = 0; 
+    this.item!.neto = 0;
+    this.item!.cantidad_nominada = 0;
+    this.item!.cantidad_origen = 0;
+    this.item!.cantidad_destino = 0;
     this.isFormSaved = false;
     this.isFormSubmitting = true;
     this.isShow = true;
     this.item!.flete_id = 0;
     this.nuevoActive = true;
     this.form.get('combinacion.id_orden_carga')?.enable();
-    this.getData(); 
+    this.getData();
   }
 
 
@@ -909,9 +902,9 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
-           
+
           },
-         
+
         });
         this.form.get('info.cantidad_nominada')?.disable();
         this.isLoadingData = false;

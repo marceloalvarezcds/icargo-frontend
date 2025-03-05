@@ -128,17 +128,17 @@
           color="primary"
           type="button"
           matTooltip="Orden"
-          *ngIf="(submodule !== 'ACEPTAR' && submodule === 'ANTICIPO (directo)') || 
-                submodule === 'ORDEN DE CARGA' || 
-                submodule === 'ORDEN DE CARGA (directa)' && 
-                (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && 
+          *ngIf="(submodule !== 'ACEPTAR' && submodule === 'ANTICIPO (directo)') ||
+                submodule === 'ORDEN DE CARGA' ||
+                submodule === 'ORDEN DE CARGA (directa)' &&
+                (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) &&
                 module !== 'CONCILIAR'"
           [disabled]="isFormSubmitting"
           (click)="previewPDF()">
           <mat-icon>visibility</mat-icon> VER OC
         </button>
 
-      
+
 
         <button
             mat-flat-button
@@ -167,7 +167,8 @@
 
         <button
           *ngIf="(oc?.estado !== 'Finalizado' &&
-                  (module === 'ACEPTAR' || module === 'FINALIZAR' || oc?.estado === E.ACEPTADO))
+                  oc?.estado !== 'Conciliado' &&
+                  (module === 'ACEPTAR' || oc?.estado === E.ACEPTADO))
                   && oc?.estado !== 'Cancelado'
                   && submodule !== 'RECEPCION directa'
                   && submodule !== 'ANTICIPO (directo)'
@@ -180,7 +181,6 @@
           (click)="cancelarClick.emit($event)">
           CANCELAR
         </button>
-      
 
         <button
           *ngIf="(oc?.estado === 'Aceptado' ||
@@ -190,7 +190,7 @@
                   (oc?.estado !== 'Conciliado') &&
                   (oc?.estado !== 'Cancelado') &&
                   (oc?.estado !== 'Nuevo') &&
-                  submodule !== 'ORDEN DE CARGA (directa)' &&  
+                  submodule !== 'ORDEN DE CARGA (directa)' &&
                   submodule !== 'ANTICIPO (directo)' && !isShow"
           mat-stroked-button
           class="botones" type="button"
@@ -201,7 +201,7 @@
           (click)="finalizarClick.emit($event)">
           FINALIZAR
         </button>
-      
+
 
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
@@ -215,7 +215,7 @@
           (click)="conciliarClick.emit($event)">
           CONCILIAR
         </button>
-<!-- 
+<!--
         <button
           mat-flat-button
           class="botones" color="accent"
