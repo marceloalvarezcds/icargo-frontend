@@ -45,7 +45,6 @@ export class TextoLegalFormDialogComponent {
   }
 
   submit() {
-    console.log("submit event");
     this.form.markAsDirty();
     this.form.markAllAsTouched();
     if (this.form.valid) {

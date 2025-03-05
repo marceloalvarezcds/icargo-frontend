@@ -148,9 +148,6 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
 
   ngAfterViewInit(): void {
 
-    console.log("tipo: ", this.tipo);
-    console.log("this.dialogData: ", this.dialogData);
-
     if (!this.dialogData.es_contraparte_editable) {
       // seteamos los id contraparte segun tipo
       if (this.dialogData.tipo_contraparte_descripcion == TipoContraparteEnum.PROPIETARIO) {

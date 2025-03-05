@@ -57,7 +57,6 @@ export class MonedaFieldComponent {
   }
 
   get control(): FormControl {
-    console.log("this.group: ", this.group);
     return this.group.get(this.controlName) as FormControl;
   }
 

@@ -543,8 +543,6 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
         es_pdv: true,
       };
 
-      console.log("data: ", data);
-
       const url = [
         `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
       ];

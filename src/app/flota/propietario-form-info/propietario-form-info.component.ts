@@ -40,26 +40,26 @@ export class PropietarioFormInfoComponent implements OnInit{
           this.form.get('chofer.numero_documento')?.setValue(value, { emitEvent: false });
         }
       });
-  
+
       this.form.get('info.tipo_documento_propietario_id')?.valueChanges.subscribe(value => {
         if (this.form.get('info.es_chofer')?.value) {
           this.form.get('chofer.tipo_documento_id')?.setValue(value, { emitEvent: false });
         }
       });
-    
+
       this.form.get('info.foto_documento_frente')?.valueChanges.subscribe(value => {
         if (this.form.get('info.es_chofer')?.value) {
           this.form.get('chofer.foto_documento_frente_chofer')?.setValue(value, { emitEvent: false });
         } else {
-          previousFotoFrontal = value;  
+          previousFotoFrontal = value;
         }
       });
-    
+
       this.form.get('info.foto_documento_reverso')?.valueChanges.subscribe(value => {
         if (this.form.get('info.es_chofer')?.value) {
           this.form.get('chofer.foto_documento_reverso_chofer')?.setValue(value, { emitEvent: false });
         } else {
-          previousFotoReverso = value;  
+          previousFotoReverso = value;
         }
       });
 
@@ -68,7 +68,7 @@ export class PropietarioFormInfoComponent implements OnInit{
           this.form.get('chofer.pais_emisor_documento_id')?.setValue(value, { emitEvent: false });
         }
       });
-    
+
       this.form.get('info.es_chofer')?.valueChanges.subscribe(esChofer => {
         if (!esChofer) {
           this.form.get('chofer.numero_documento')?.reset();
@@ -92,7 +92,7 @@ export class PropietarioFormInfoComponent implements OnInit{
           if (tipoDocumento) {
             this.form.get('chofer.tipo_documento_id')?.setValue(tipoDocumento, { emitEvent: false });
           }
-    
+
           const paisOrigenId = this.form.get('info.pais_origen_id')?.value;
           if (paisOrigenId) {
             this.form.get('chofer.pais_emisor_documento_id')?.setValue(paisOrigenId, { emitEvent: false });
@@ -100,8 +100,8 @@ export class PropietarioFormInfoComponent implements OnInit{
         }
       });
     }
-      
-      
+
+
 
   @Input() form = new FormGroup({
     info: new FormGroup({
@@ -162,7 +162,6 @@ export class PropietarioFormInfoComponent implements OnInit{
   }
 
   isFisicaChange(isFisica: boolean): void {
-    console.log("isFisicaChange: ", isFisica);
     this.isFisicaSelected = isFisica;
     if (!isFisica) {
       this.esChoferControl.setValue(isFisica);

@@ -121,9 +121,6 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
     regexText?:string,
   ): boolean {
     // FIXME: ver xq el filtro regex de los 3 items falla en algunos casos
-    console.log("filterMarker");
-    console.log("filterMarker: ", regexList);
-    console.log("filterMarker: ", item);
 
     if (!item) return false;
     if (!regexList.length) return true;

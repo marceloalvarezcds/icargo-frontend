@@ -143,12 +143,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
       this.puntoVentaId.valueChanges.subscribe( (val:number)=> {
         if (val) {
-
-          console.log("!pdv::: ", val);
-
           const pdv = this.puntoVentaList?.find(item=> item.id == val);
-
-          console.log("!pdv::: ", pdv);
           this.estadoCuenta!.contraparte_numero_documento_pdv = pdv?.numero_documento ?? '';
           this.estadoCuenta!.contraparte_pdv = pdv?.nombre_corto ?? '';
 
@@ -190,7 +185,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     this.form.markAllAsTouched();
 
     if (!this.form.valid) {
-      console.log("form invalido, verificar!!!");
       return;
     }
 
@@ -199,10 +193,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
 
     let tipoMovLiquidacion = '';
-
-    console.log("datos: ");
-    console.log(":: ", this.estadoCuenta!.punto_venta_id);
-    console.log(":: ", this.estadoCuenta!.es_pdv);
 
     if (this.estadoCuenta!.punto_venta_id || this.estadoCuenta!.es_pdv){
       //tipoMovLiquidacion = this.estadoCuenta!.tipo_flujo!;

@@ -306,6 +306,26 @@ export class EstadoCuentaListComponent implements OnInit {
     });
   }
 
+  calcularTotales(list:EstadoCuenta[]){
+
+    this.pendiente=0;
+    this.confirmado=0;
+    this.finalizado=0;
+    this.provision=0;
+
+    list.forEach( (mov:EstadoCuenta) => {
+      this.pendiente = this.pendiente + mov.pendiente;
+      this.confirmado = this.confirmado + mov.confirmado;
+      this.finalizado = this.finalizado + mov.finalizado;
+      this.provision = this.provision + mov.provision;
+    });
+
+  }
+
+  filterResult(list:EstadoCuenta[]){
+    this.calcularTotales(list);
+  }
+
   private filter(
     filter: string,
     isFilteredByGlobalSearch: boolean = true
@@ -318,6 +338,7 @@ export class EstadoCuentaListComponent implements OnInit {
     this.isFiltered = false;
     this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
     this.contraparteFiltered = this.contraparteFilterList.slice();
+    this.calcularTotales(this.list) ;
   }
 
   private redirectToCtaCteContraparte(mov: EstadoCuenta): void {
