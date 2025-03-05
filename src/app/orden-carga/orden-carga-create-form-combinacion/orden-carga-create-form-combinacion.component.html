@@ -3,10 +3,10 @@
   <div [formGroupName]="groupName">
 
     <div class="section" >
-      <h2 class="title-colapside" *ngIf="(!showSearchOCAceptadas && !isEdit && !isShow) && !mostrarInformacionPrincipal "  (click)="colapseDivFlota=!colapseDivFlota">FLOTA</h2>
-      <h2 class="title-colapside" *ngIf="(showSearchOCAceptadas || isEdit || isShow) || mostrarInformacionPrincipal" (click)="colapseDivpedido=!colapseDivpedido">INFORMACION PRINCIPAL</h2>
+      <h2 class="title-colapside" *ngIf="(!showSearchOCAceptadas && !isEdit && !isShow) && !mostrarInformacionPrincipal "  (click)="colapseDivPrincipal=!colapseDivPrincipal">FLOTA</h2>
+      <h2 class="title-colapside" *ngIf="(showSearchOCAceptadas || isEdit || isShow) || mostrarInformacionPrincipal" (click)="colapseDivPrincipal=!colapseDivPrincipal">INFORMACION PRINCIPAL</h2>
 
-      <div class="row" [class.colapse-div]="colapseDivFlota" >
+      <div class="row" [class.colapse-div]="colapseDivPrincipal" >
 
         <app-input-field-oc
           *ngIf="showId"
@@ -130,10 +130,9 @@
           Anticipos
       </mat-slide-toggle>
 
-
       </div>
 
-      <div class="row" [class.colapse-div]="colapseDivFlota">
+      <div class="row" [class.colapse-div]="colapseDivPrincipal">
 
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -184,7 +183,8 @@
 
       </div>
 
-      <div class="row" [class.colapse-div]="colapseDivFlota">
+      <div class="row" [class.colapse-div]="colapseDivPrincipal">
+
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Chofer"
@@ -215,9 +215,10 @@
           labelPosition="before">
           Anticipos
         </mat-slide-toggle>
+
       </div>
 
-      <div class="row" [class.colapse-div]="colapseDivFlota">
+      <div class="row" [class.colapse-div]="colapseDivPrincipal">
         <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
           <label for="comentarios" class="label-obs">Observacion</label>
           <mat-form-field class="obs">

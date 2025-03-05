@@ -43,7 +43,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   semiAsociado?: number;
   semi?: SemiList;
   showPedidoSection: boolean = false;
- 
+
   isEditMode: boolean = true;
   pdfSrc: string | undefined;
   manualChange: boolean = false;
@@ -90,6 +90,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   ocEventsSubject: Subject<OrdenCargaList> = new Subject<OrdenCargaList>();
 
   /*  collapside */
+  colapseDivPrincipal = false;
   colapseDivFlota = false;
   colapseDivpedido = false;
   colapseDivCantidad = false;
@@ -206,11 +207,11 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.form.get('id')?.setValue(this.idOrdenCarga);
     }
   }
-  
+
   get orden(): any {
     return this.orden;
   }
-  
+
   get idOrdenCarga(): number {
     return this.orden?.id ?? 0; // Retorna 0 si `oc` es null/undefined
   }
@@ -307,7 +308,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         if (flete && flete.condicion_gestor_carga_moneda_id !== undefined) {
           formGroup?.get('moneda_id')?.setValue(flete.condicion_gestor_carga_moneda_id);
         }
-        
+
         formGroup?.get('cant_origen')?.setValue(0);
         formGroup?.get('cant_destino')?.setValue(0);
         formGroup?.get('diferencia')?.setValue(0);
@@ -381,7 +382,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
       this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
-     
+
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
 
@@ -416,7 +417,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       this.form?.get(this.groupName)?.get('cant_origen')?.setValue(oc.cantidad_origen);
       this.form?.get(this.groupName)?.get('cant_destino')?.setValue(oc.cantidad_destino);
       this.form?.get(this.groupName)?.get('diferencia')?.setValue(oc.diferencia_origen_destino);
-    }   
+    }
   }
 
   downloadPDF(): void {

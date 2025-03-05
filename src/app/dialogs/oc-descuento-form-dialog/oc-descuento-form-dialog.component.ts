@@ -102,6 +102,13 @@ export class OcDescuentoFormDialogComponent {
           orden_carga_id: this.dialogData.orden_carga_id,
         })
       );
+
+      const monPropie = data.propietario_moneda_id ;
+      data.propietario_moneda_id = monPropie.id;
+
+      const monProov = data.proveedor_moneda_id ;
+      data.proveedor_moneda_id = monProov?.id;
+
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.data?.id) {
