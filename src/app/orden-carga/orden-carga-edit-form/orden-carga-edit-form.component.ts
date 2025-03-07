@@ -374,50 +374,38 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     if (confirmed) {
       this.submit(confirmed);
     } else {
-      let comentario = this.form.get('info.comentarios')?.value;
+      let comentario = this.form.get('combinacion.comentarios')?.value;
+
+      // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
       }
 
-      // Si el comentario ha cambiado, proceder a guardarlo
-      if (comentario !== this.originalComentario) {
-        const confirmation = window.confirm('¿Estás seguro de aplicar los cambios antes de salir?');
+      if (comentario !== this.originalComentario && comentario.trim() !== '') {
+        const formData = new FormData();
+        const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+        };
+        formData.append('data', JSON.stringify(data));
 
-        if (confirmation) {
-          const formData = new FormData();
-
-          // Crear un objeto simple con solo los campos necesarios
-          const data = {
-            orden_carga_id: this.idOC,
-            comentario: comentario,
-          };
-
-          // Añadir el objeto a FormData
-          formData.append('data', JSON.stringify(data));
-
-          this.ordenCargaService.createComentarios(formData).subscribe(
-            (item) => {
-              // Actualiza los datos después de guardar el comentario
-              this.getData();
-
-              // Navega después de actualizar los datos
-              this.router.navigate([this.backUrl]);
-            },
-            (error) => {
-              console.error('Error al crear el comentario', error);
-
-            }
-          );
-        } else {
-          // Si el usuario cancela, simplemente navega a la URL de retorno
-          this.router.navigate([this.backUrl]);
-        }
+        // Llamar al servicio para guardar el comentario
+        this.ordenCargaService.createComentarios(formData).subscribe(
+          (item) => {
+            this.getData();
+            this.router.navigate([this.backUrl]);
+          },
+          (error) => {
+            console.error('Error al crear el comentario', error);
+          }
+        );
       } else {
-        // Navegar directamente si no hay cambios en el comentario
+        // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
         this.router.navigate([this.backUrl]);
       }
     }
   }
+
 
 
   onCombinacionChange(combinacionList: CombinacionList | undefined): void {
@@ -585,9 +573,9 @@ private cancelOrdenCarga(): void {
                     horizontalPosition: 'center'
                 });
 
-                this.downloadResumenPDF(); 
+                this.downloadResumenPDF();
 
-                if (!result) { 
+                if (!result) {
                     this.form.get('combinacion.id_orden_carga')?.disable();
                 }
             });
@@ -751,13 +739,13 @@ private cancelOrdenCarga(): void {
     });
   }
 
-  openRemitirDialog(): void {  
+  openRemitirDialog(): void {
     this.dialog.open(OcRemitirDialogComponent, {
       width: '600px',
-      data: { oc: this.item }, 
+      data: { oc: this.item },
     });
   }
-  
+
 
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
@@ -800,7 +788,7 @@ private cancelOrdenCarga(): void {
       this.isEditPressed = false;
     }
   }
-  
+
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;

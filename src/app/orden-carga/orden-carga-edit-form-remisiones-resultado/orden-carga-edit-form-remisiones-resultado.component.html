@@ -1,6 +1,62 @@
 <div class="row page-form-row" style="display: flex; flex-direction: column; gap: 2px;">
+  <div class="row">
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <label class="anticipos-saldo">Cantidad Nominada</label>
+      <mat-form-field class="saldo-form-field">
+        <input
+          matInput
+          [value]="oc?.cantidad_nominada || 0 | number:'1.0-2'"
+          disabled
+        />
+      </mat-form-field>
+    </div>
 
-  <div class="table-container">
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <label class="anticipos-saldo">Neto de la Combinacion</label>
+      <mat-form-field class="saldo-form-field">
+        <input
+          matInput
+          [value]="oc?.neto || 0 | number:'1.0-2'"
+          disabled
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <label class="anticipos-saldo">Peso Origen</label>
+      <mat-form-field class="saldo-form-field">
+        <input
+          matInput
+          [value]="oc?.cantidad_origen || 0 | number:'1.0-2'"
+          disabled
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <label class="anticipos-saldo">Peso Destino</label>
+      <mat-form-field class="saldo-form-field">
+        <input
+          matInput
+          [value]="oc?.cantidad_destino || 0 | number:'1.0-2'"
+          disabled
+        />
+      </mat-form-field>
+    </div>
+
+    <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <label class="anticipos-saldo">Diferencia</label>
+      <mat-form-field class="saldo-form-field">
+        <input
+          matInput
+          [value]="((oc?.cantidad_origen ?? 0) - (oc?.cantidad_destino ?? 0)) || 0 | number:'1.0-2'"
+          disabled
+        />
+      </mat-form-field>
+    </div>
+  </div>
+
+  <div class="table-container" style="margin-top: 30px;">
     <app-table-oc
       [modelo]="modelo"
       [gestorCuentaId]="gestorCargaId"

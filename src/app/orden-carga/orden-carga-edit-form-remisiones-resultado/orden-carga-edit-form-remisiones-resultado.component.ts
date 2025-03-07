@@ -6,8 +6,6 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
-import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
-import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionResultado } from 'src/app/interfaces/orden-carga-remision-resultado';
 
 @Component({
@@ -26,20 +24,21 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     },
     {
       def: 'tarifa_flete',
-      title: 'Tarifa',
+      title: 'Tarifa Flete',
       value: (element: OrdenCargaRemisionResultado) => element.tarifa_flete,
       type: 'number',
+      
     },
 
     {
       def: 'total_flete_mon',
-      title: 'Total',
+      title: 'Total Flete',
       value: (element: OrdenCargaRemisionResultado) => element.total_flete,
       type: 'number',
     },
     {
       def: 'tolerancia',
-      title: 'Tarifa',
+      title: 'Tarifa Merma',
       value: (element: OrdenCargaRemisionResultado) => element.merma_valor,
       type: 'number',
     },
@@ -59,26 +58,26 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
 
     {
       def: 'merma_valor_total_moneda_local',
-      title: 'Total',
+      title: 'Total Merma',
       value: (element: OrdenCargaRemisionResultado) => element.merma_valor_total_moneda_local,
       type: 'number',
     },
     {
       def: 'comp_desc',
-      title: 'Total',
+      title: 'Total Compl./Desc',
 
       value: (element: OrdenCargaRemisionResultado) => element.complemento_descuento,
       type: 'number',
     },
     {
       def: 'bruto',
-      title: 'Bruto',
+      title: 'Total Bruto',
       value: (element: OrdenCargaRemisionResultado) => element.saldo_bruto,
       type: 'number',
     },
     {
       def: 'efectivo',
-      title: 'Efectivo',
+      title: 'Anticipo (Efectivo)',
       value: (element: OrdenCargaRemisionResultado) =>
         element.total_efectivo,
       type: 'number',
@@ -86,7 +85,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
 
     {
       def: 'combustible',
-      title: 'Combustible',
+      title: 'Anticipo (Combustible)',
       value: (element: OrdenCargaRemisionResultado) =>
         element.total_combustible,
       type: 'number',
@@ -94,7 +93,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
 
     {
       def: 'saldo',
-      title: 'Neto',
+      title: 'Saldo Cobrar/Pagar',
       value: (element: OrdenCargaRemisionResultado) => element.saldo,
       type: 'number',
       stickyEnd: true,

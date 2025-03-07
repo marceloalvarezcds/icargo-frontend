@@ -1,183 +1,121 @@
+
 table {
-    width: 100%;
-    border-collapse: collapse;
-  }
-
-  th, td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: right;
-  }
-
-  .text-center {
-    text-align: center;
-  }
-
-  .align-right {
-    text-align: right;
-  }
-
-  /* Primera columna */
-  td:first-child {
-    text-align: left;
-  }
-
-  /* Segunda fila de la primera columna */
-  tr:nth-child(2) td:first-child {
-    text-align: left;
-  }
-
-  .negative-number {
-    color: red;
-  }
-
-  .special-red-text {
-    color: red;
-  }
-
-  .red-text {
-    color: red;
-  }
-
-  .black-text {
-    color: black;
-  }
-
-  .color-black {
-    color: black !important;
-  }
-
-  .peso-value  {
-    padding-top: 4px;
-    padding-bottom: 4px;
-    background-color: #e0e0e0;
-    padding-right: 35px;
-    margin-left: 3px;
-    border-radius: 1px;
-    text-align: end;
-  }
-
-  .peso-tarifa-value{
-    font-family: 'Roboto', sans-serif;
-    font-size: 14px;
-    margin-left: 20px;
-    font-weight: 500;
-    padding-top: 10px;
-    text-align: left;
-    box-sizing: border-box;
-    color: black;
-  }
-
-  /* Centrando las columnas en el segundo <thead> */
-
-  /* Centrar la columna Concepto */
-  thead:nth-of-type(2) th.width-title-resultados {
-    text-align: center;
-  }
-
-  thead:nth-of-type(2) th.width-title-flete {
-    text-align: center;
-  }
-
-  thead:nth-of-type(2) th.width-title-merma {
-    text-align: center;
-  }
-
-  thead:nth-of-type(2) th.width-title-desc {
-    text-align: center;
-  }
-
-  thead:nth-of-type(2) th.width-title-saldo-bruto {
-    text-align: center;
-  }
-
-  thead:nth-of-type(2) th.width-title-anticipos {
-    text-align: center;
-  }
-  thead:nth-of-type(2) th.width-title-saldo-neto {
-    text-align: center;
-  }
-
-  /* Asegurarse de que el contenido dentro de cada celda también esté centrado */
-  thead:nth-of-type(2) th.width-title-resultados .label,
-  thead:nth-of-type(2) th.width-title-flete .label,
-  thead:nth-of-type(2) th.width-title-merma .label,
-  thead:nth-of-type(2) th.width-title-desc .label,
-  thead:nth-of-type(2) th.width-title-saldo-bruto .label,
-  thead:nth-of-type(2) th.width-title-anticipos .label,
-  thead:nth-of-type(2) th.width-title-saldo-neto .label {
-    display: block;
-    text-align: center;
-  }
-
-  /* Centrar también los valores de las celdas */
-  thead:nth-of-type(2) th.width-title-resultados .peso-value,
-  thead:nth-of-type(2) th.width-title-flete .peso-value,
-  thead:nth-of-type(2) th.width-title-merma .peso-value,
-  thead:nth-of-type(2) th.width-title-desc .peso-value,
-  thead:nth-of-type(2) th.width-title-saldo-bruto .peso-value,
-  thead:nth-of-type(2) th.width-title-anticipos .peso-value,
-  thead:nth-of-type(2) th.width-title-saldo-neto .peso-value {
-    display: block;
-    text-align: center;
-  }
-
-   th.no-border {
-     border-left: none !important;
-     border-right: none !important;
-    }
-
-    th.width-title-resultados.no-right {
-     border-right: none;
-   }
-
-   th.width-title-saldo-neto.no-left {
-     border-left: none;
-   }
-// /* Eliminar el borde inferior solo de las columnas 'Saldo' y 'Compl./Desc.' */
-   table tr th.width-title-saldo-bruto,
-   table tr th.width-title-desc {
-       border-bottom: none !important;
-   }
-
-  /* Eliminar el borde superior de las columnas 'Comp/Desc.' y 'Bruto' */
-   th.mat-header-cell.mat-column-comp_desc,
-   th.mat-header-cell.mat-column-bruto {
-       border-top: none !important;
-   }
-
-  .neto{
-    margin-right: 10vw;
-  }
-
-  .diferencia{
-    margin-right: 10vw;
-  }
+  width: 100%;
+  border-collapse: collapse;
+}
 
 
- /* Ajuste de los encabezados */
-.width-title-resultados { width: 7.8%; }
-.width-title-flete { width: 14%; }
-.width-title-merma { width: 24.8%; }
-.width-title-desc { width: 9%; }
-.width-title-saldo-bruto { width: 9%; }
-.width-title-anticipos { width: 19%; }
-.width-title-saldo-neto { width: 9.5%; }
 
-/* Ajuste de las columnas */
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.align-right {
+  text-align: right;
+}
+
+/* Primera columna */
+td:first-child {
+  text-align: left;
+}
+
+/* Segunda fila de la primera columna */
+tr:nth-child(2) td:first-child {
+  text-align: left;
+}
+
+.negative-number {
+  color: red;
+}
+
+.special-red-text {
+  color: red;
+}
+
+.red-text {
+  color: red;
+}
+
+.black-text {
+  color: black;
+}
+
+.color-black {
+  color: black !important;
+}
+
+th.mat-header-cell,
+td.mat-cell,
+td.mat-footer-cell {
+  border-left: none !important;
+  border-right: none !important;
+}
+
+
+th.mat-header-cell {
+  color: black;
+  text-align: center;
+  padding: 8px;
+}
+
 th.mat-header-cell.mat-column-responsable { width: 7.8%; color: black; }
 th.mat-header-cell.mat-column-tarifa_flete,
-th.mat-header-cell.mat-column-total_flete_mon { width: 7%; color: black;}
+th.mat-header-cell.mat-column-total_flete_mon { width: 7%; color: black; }
 
 th.mat-header-cell.mat-column-tolerancia,
 th.mat-header-cell.mat-column-total_kg,
 th.mat-header-cell.mat-column-merma_valor,
-th.mat-header-cell.mat-column-merma_valor_total_moneda_local{ width: 6.2%; color: black;}
+th.mat-header-cell.mat-column-merma_valor_total_moneda_local { width: 6.2%; color: black; }
 
-th.mat-header-cell.mat-column-comp_desc { width: 9%; color: black;  }
+th.mat-header-cell.mat-column-merma_valor_total_moneda_local { width: 9%; color: black; }
 th.mat-header-cell.mat-column-bruto { width: 9%; color: black; }
 
 th.mat-header-cell.mat-column-efectivo,
 th.mat-header-cell.mat-column-combustible { width: 9.5%; color: black; }
 
 th.mat-header-cell.mat-column-saldo { width: 9.5%; color: black; }
+
+
+th.mat-header-cell.mat-column-merma_valor_total_moneda_local,
+td.mat-column-merma_valor_total_moneda_local {
+  font-weight: bold;
+}
+
+
+
+th.mat-header-cell.mat-column-total_flete_mon,
+td.mat-column-total_flete_mon {
+  font-weight: bold;
+}
+
+th.mat-header-cell.mat-column-comp_desc,
+td.mat-column-comp_desc {
+  font-weight: bold;
+}
+
+th.mat-header-cell.mat-column-bruto,
+td.mat-column-bruto {
+  font-weight: bold;
+}
+
+th.mat-header-cell.mat-column-efectivo,
+td.mat-column-efectivo {
+  font-weight: bold;
+}
+
+th.mat-header-cell.mat-column-combustible,
+td.mat-column-combustible {
+  font-weight: bold;
+}
+
+th.mat-header-cell.mat-column-saldo,
+td.mat-column-saldo {
+  font-weight: bold;
+}
+
