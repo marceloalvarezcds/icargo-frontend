@@ -213,7 +213,6 @@ export class LiquidacionFormDialogComponent {
   }
 
   getEstadoCuenta(): void {
-    console.log("getEstadoCuenta: ", this.data);
 
     /* si es pdv tiene que llamar a otro endpoint */
     if (this.data.punto_venta_id) {

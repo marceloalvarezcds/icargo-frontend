@@ -195,8 +195,6 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
           contactos: this.contactos.value,
         })
       );
-      //console.log("data: ", data);
-      //console.log("data.nombre: ", this.info.get('nombre')!.value);
       data.nombre = this.info.get('nombre')!.value
       // Convertir propiedades a mayúsculas
       Object.keys(data).forEach(key => {

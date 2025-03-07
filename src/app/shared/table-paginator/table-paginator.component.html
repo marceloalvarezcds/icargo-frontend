@@ -17,6 +17,7 @@
     [modelo]="modelo"
     [shouldShowActiveButton]="shouldShowActiveButton"
     [shouldShowInactiveButton]="shouldShowInactiveButton"
+    (filterResult)="filterResult.emit($event)"
     (allCheckedChange)="allCheckedChange.emit($event)"
     (checkboxChange)="checkboxChange.emit($event)"
     (activeClick)="activeClick.emit($event)"

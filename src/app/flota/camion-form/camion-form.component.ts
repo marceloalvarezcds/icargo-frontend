@@ -424,7 +424,6 @@ export class CamionFormComponent implements OnInit, OnDestroy {
         });
 
         if (data?.is_in_combinacion) {
-          console.log("esta en combinacion, buscamos para llenar campos");
           this.getCombinacionByTracto(data.id);
         }
 

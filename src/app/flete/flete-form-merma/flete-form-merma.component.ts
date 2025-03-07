@@ -62,13 +62,11 @@ export class FleteFormMermaComponent implements OnDestroy {
   }
 
   cargarSelec(moneda:any):void {
-    console.log("cargarSelec: merma_ ", moneda);
     this.group.get(`merma_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
     this.group.get(`merma_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo);
   }
 
   cargarSelecUnidad(unidad:any):void {
-    console.log("cargarSelec: merma_", unidad);
     this.group.get(`merma_${this.afectado}_unidad_id`)?.setValue(unidad?.id);
     this.group.get(`merma_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
   }

@@ -180,7 +180,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
     // recalcula saldo y monto pago cobro
     this.item!.pago_cobro = null;
-    console.log("cargarMovimientos: ", movimientos);
     this.actualizarMovimientos.emit(movimientos);
   }
 

@@ -70,7 +70,6 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
                 let a = f;
                 a.color_descripcion = a.color_descripcion ?? ' ';
                 a.marca_descripcion = a.marca_descripcion ?? ' ';
-                console.log("a: ", a);
                 this.tractoEventsSubject.next(a);
               });
             }, 800);

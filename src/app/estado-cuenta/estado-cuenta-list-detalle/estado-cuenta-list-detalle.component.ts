@@ -246,8 +246,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
     filterPredicate(obj: MovimientoEstadoCuenta, filterJson: string): boolean {
 
-      console.log("filterPredicate");
-
       const filter: Filter = JSON.parse(filterJson);
 
       const filterByCuenta = filter.cuenta?.split('|')
@@ -264,21 +262,15 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       if (filter.es_pdv){
 
-        console.log("filterPredicate: es pdv");
-        console.log("obj.contraparte_alias: ", obj.contraparte_alias);
-
         if (obj.contraparte_alias) {
 
           const filterByEstablecimiento = filter.contraparte_alias?.split('|')
             .some((x) => obj.contraparte_alias!.toLowerCase().indexOf(x) >= 0) ?? true;
 
-          console.log("filterByEstablecimiento ", filterByEstablecimiento);
-
           return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado && filterByEstablecimiento;
         }
 
       }
-
       return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado;
     }
 
@@ -337,6 +329,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     create(): void {
+
       const data: MovimientoFormDialogData = {
         estado: MovimientoEstadoEnum.PENDIENTE,
         contraparte_id: this.estadoCuenta?.contraparte_id,

@@ -108,6 +108,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     }
   };
 
+  @Output() filterResult = new EventEmitter<T[]>();
   @Output() activeClick = new EventEmitter<TableEvent<T>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
   @Output() anularAnticipoClick = new EventEmitter<TableEvent<T>>();
@@ -158,7 +159,10 @@ export class TableComponent<T> implements OnInit, OnDestroy {
       this.tableDataSource.paginator
     ) {
       this.tableDataSource.paginator!.firstPage();
+
+      this.tableDataSource.filteredData;
     }
+    this.filterResult.emit(this.tableDataSource.filteredData);
   }
 
   isTitleSaldosColumn(columnDef: string): boolean {
