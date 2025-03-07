@@ -123,6 +123,29 @@ h1.mat-dialog-title {
   }
 }
 
+.preview-width-dialog {
+  max-width: 90vw;
+  max-height: 90vw;
+  height: unset !important;
+  width: unset !important;
+
+  .mat-dialog-container {
+    max-width: 95vw;
+    max-height: 95vw;
+  }
+}
+
+.selector-map-dialog {
+  width: 95vw !important;
+  height: 95vh !important;;
+  margin-top: 0 !important;
+
+  .mat-dialog-content {
+    max-height: calc(95vh - 150px);
+  }
+
+}
+
 .mat-dialog-container {
   position: relative;
 

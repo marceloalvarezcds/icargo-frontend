@@ -114,6 +114,9 @@
                   <mat-option value="COMBUSTIBLE">COMBUSTIBLE</mat-option>
                   <mat-option value="LUBRICANTE">LUBRICANTE</mat-option>
               </mat-select>
+              <mat-error *ngIf="form?.get('tipo_insumo')?.hasError('required')">
+                Este campo es <strong>requerido</strong>
+              </mat-error>
             </mat-form-field>
           </div>
 

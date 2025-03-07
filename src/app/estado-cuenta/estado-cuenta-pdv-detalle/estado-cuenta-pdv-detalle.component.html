@@ -92,14 +92,7 @@
     <div class="row">
 
       <div class="input-form-full col-xs-6 col-sm-2">
-        <mat-label>Pendiente</mat-label>
-        <mat-form-field floatLabel="always" appearance="outline">
-          <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
-        </mat-form-field>
-      </div>
-
-      <div class="input-form-full col-xs-6 col-sm-2">
-        <mat-label>Deberes/Haberes</mat-label>
+        <mat-label>Total Deberes/Haberes</mat-label>
         <mat-form-field floatLabel="always" appearance="outline">
           <input matInput [value]="deberes" appInputThousandsSeparator disabled />
         </mat-form-field>
@@ -107,7 +100,7 @@
 
       <div class="input-form-full col-xs-6 col-sm-2">
         <mat-label>
-          Pagos/Cobros
+          Total Pagos/Cobros
         </mat-label>
         <mat-form-field floatLabel="always" appearance="outline">
           <input matInput [value]="pagos" appInputThousandsSeparator disabled />
@@ -120,6 +113,29 @@
         </mat-label>
         <mat-form-field floatLabel="always" appearance="outline">
           <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+          <mat-icon matSuffix color="primary">
+            <span matPrefix style="padding-right: 5px;">{{saldo_sentido}}</span>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>
+
+        </mat-label>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>Total Provisiones</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="provision" appInputThousandsSeparator disabled />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-6 col-sm-2">
+        <mat-label>Total Pendientes</mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="pendientes" appInputThousandsSeparator disabled />
         </mat-form-field>
       </div>
 

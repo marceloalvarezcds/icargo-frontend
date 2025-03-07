@@ -95,7 +95,7 @@
         <label class="form-label">Destinatarios</label>
         <mat-chip-list filterValues>
           <ng-container>
-            <mat-chip *ngFor="let item of list">{{item.nombre}}({{item.email}})</mat-chip>
+            <mat-chip *ngFor="let item of flete?.destinatarios">{{item.nombre}}({{item.email}})</mat-chip>
           </ng-container>
         </mat-chip-list>
       </div>

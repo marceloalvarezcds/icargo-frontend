@@ -75,7 +75,8 @@ export class FleteFormComplementosComponent {
   create(): void {
     this.dialog
       .open(ComplementoFormDialogComponent, {
-        width: '500px',
+        //width: '500px',
+        panelClass: 'half-dialog'
       })
       .afterClosed()
       .pipe(filter((complemento) => !!complemento))
@@ -84,7 +85,7 @@ export class FleteFormComplementosComponent {
         this.formArray.push(this.createForm(complemento));
       });
   }
-  
+
 
   edit(event: TableEvent<FleteComplemento>): void {
     const data = event.row;

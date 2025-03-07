@@ -1,7 +1,8 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatDialogConfig } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
-import { isEqual } from 'lodash';
+import { isEqual, unset } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { FleteConfirmationDialogComponent } from 'src/app/dialogs/flete-confirmation-dialog/flete-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -255,13 +256,11 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       const data: FleteConfirmationDialogData = {
         flete: getFleteData(this.form),
       };
+
       this.dialog
         .open(FleteConfirmationDialogComponent, {
           data,
-          panelClass: 'selector-dialog',
-          position: {
-            top: '1rem',
-          },
+          panelClass: 'preview-width-dialog',
         })
         .afterClosed()
         .pipe(filter((confirmed: any) => !!confirmed))

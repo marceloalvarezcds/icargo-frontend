@@ -110,18 +110,24 @@ export class LiquidacionFormComponent implements OnInit {
 
   confirm(): void {
 
-    if (this.child.movimientosSelected.length <= 0) {
-
-      this.dialogService.confirmation(
-        `Está seguro que desea Crear Liquidacións sin Movimientos`,
-        () => {
-          this.prepareSend();
-        }
-      );
+    if (!this.child.validateForm()){
+      this.snackbar.open('Verifique campos!');
       return;
-    }
+    } else {
 
-    this.prepareSend();
+      if (this.child.movimientosSelected.length <= 0) {
+
+        this.dialogService.confirmation(
+          `Está seguro que desea Crear Liquidacións sin Movimientos`,
+          () => {
+            this.prepareSend();
+          }
+        );
+        return;
+      }
+
+      this.prepareSend();
+    }
   }
 
   prepareSend(): void {

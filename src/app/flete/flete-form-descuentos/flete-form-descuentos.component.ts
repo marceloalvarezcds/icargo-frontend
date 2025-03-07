@@ -80,7 +80,8 @@ export class FleteFormDescuentosComponent {
   create(): void {
     this.dialog
       .open(DescuentoFormDialogComponent, {
-        width: '500px' 
+        //width: '500px'
+        panelClass: 'half-dialog'
       })
       .afterClosed()
       .pipe(filter((descuento) => !!descuento))
@@ -89,7 +90,7 @@ export class FleteFormDescuentosComponent {
         this.formArray.push(this.createForm(descuento));
       });
   }
-  
+
 
   edit(event: TableEvent<FleteDescuento>): void {
     const data = event.row;

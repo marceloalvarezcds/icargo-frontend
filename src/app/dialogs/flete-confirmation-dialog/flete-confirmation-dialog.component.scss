@@ -33,18 +33,32 @@ h4 {
   font-weight: bold;
 }
 
+.mat-mdc-dialog-content {
+  max-height: 95%;
+}
 
+.mat-dialog-content {
+  max-height: 95%;
+}
+
+.preview-width-dialog {
+  width: 80vw;
+}
+
+/*
 ::ng-deep {
-  .selector-dialog {
-    width: 90vw !important;
+  .preview-dialog {
+    width: 80vw !important;
+    height: unset;
     @media screen and (min-width: 48em) {
-      width: calc(100vw - 5rem) !important;
+      width: calc(90vw - 5rem) !important;
     }
     @media screen and (min-width: 64em) {
-      width: calc(100vw - 10rem) !important;
+      width: calc(90vw - 10rem) !important;
     }
     @media screen and (min-width: 75em) {
-      width: calc(100vw - 20rem) !important;
+      width: calc(90vw - 15rem) !important;
     }
   }
 }
+*/

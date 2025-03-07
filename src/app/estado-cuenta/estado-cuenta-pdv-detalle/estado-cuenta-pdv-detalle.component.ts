@@ -369,6 +369,15 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
     return this.finalizado;
   }
 
+  get saldo_sentido(): string {
+    return this.saldo >= 0 ? 'D' : 'H';
+  }
+
+  get provision(): number {
+    let debito = this.list.reduce((acc, cur) => acc + ( (cur.estado === 'Provision') ? cur.provision ?? 0 : 0), 0);
+    return debito;
+  }
+
   @ViewChild(MatAccordion) accordion!: MatAccordion;
 
   @ViewChild('chapaCheckboxFilter')

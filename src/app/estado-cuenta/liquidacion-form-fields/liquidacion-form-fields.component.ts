@@ -179,6 +179,19 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     }
   }
 
+  validateForm():boolean{
+
+    this.form.markAsDirty();
+    this.form.markAllAsTouched();
+
+    if (!this.form.valid) {
+      return false;
+    } else {
+      return true;
+    }
+
+  }
+
   sendLiquidacion(confirmed: boolean): void {
 
     this.form.markAsDirty();

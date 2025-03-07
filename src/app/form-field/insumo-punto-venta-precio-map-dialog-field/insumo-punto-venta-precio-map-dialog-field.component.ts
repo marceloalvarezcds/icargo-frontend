@@ -142,9 +142,9 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
     };
     const config: MatDialogConfig = {
       data,
-      panelClass: 'selector-dialog',
+      panelClass: 'selector-map-dialog',
       position: {
-        top: '1rem',
+        //top: '1rem',
       },
     };
 
