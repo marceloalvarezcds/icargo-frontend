@@ -58,11 +58,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
   form = new FormGroup({
     monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
+    es_cobro: new FormControl(true, Validators.required),
   });
 
   get monto(): number {
     return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
   }
+
+
 
   get montoSaldo(): number {
     return (this.childSaldoView?.monto ?? 0);
@@ -135,6 +138,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.childSaldoView.saldoMovimiento;
   }
 
+  get pagoCobro(): FormControl {
+    return this.form.controls['es_cobro'] as FormControl;
+  }
+
+  get pagoCobroValue() {
+    return this.form.controls['es_cobro'].value;
+  }
+
   constructor(
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
@@ -142,6 +153,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   ) { }
 
   ngAfterViewInit(): void {
+
+    if (this.item!.es_pago_cobro === 'PAGO') {
+      this.form.controls['es_cobro'].setValue(true);
+    } else {
+      this.form.controls['es_cobro'].setValue(false);
+    }
 
     setTimeout(() => {
       if (this.esFinalizado) {
@@ -169,6 +186,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     this.item!.debito = deb;
     this.item!.credito = cred;
     if (this.item!.pago_cobro == null) this.item!.pago_cobro = subtract(cred, deb);
+    if (this.item!.pago_cobro>0) {
+      this.form.controls['es_cobro'].setValue(true);
+    } else {
+      this.form.controls['es_cobro'].setValue(false);
+    }
   }
 
   actualizarFactura():void {
@@ -189,6 +211,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     let pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
 
     this.item!.monto = pago_cobro;
+
+    const pagoCobro = this.pagoCobroValue;
+    console.log("pagoCobro value: ", pagoCobro);
+    if ( !pagoCobro ) {
+      this.item!.monto = Math.abs(pago_cobro)*-1;
+      this.item!.es_pago_cobro='COBRO';
+    } else {
+      this.item!.monto = Math.abs(pago_cobro);
+      this.item!.es_pago_cobro='PAGO';
+    }
 
     this.liquidacionService
       .edit(this.item!.id, editLiquidacionData(this.item!))

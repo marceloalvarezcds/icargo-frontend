@@ -62,6 +62,10 @@ export class LiquidacionFormDialogComponent {
             this.liquidacion?.estado === LiquidacionEstadoEnum.SALDO_CERRADO);
   }
 
+  get esOrdenPago():boolean {
+    return this.data.isOrdenPago;
+  }
+
   constructor(
     private fb: FormBuilder,
     private snackbar: SnackbarService,
@@ -94,17 +98,24 @@ export class LiquidacionFormDialogComponent {
   }
 
   confirm(): void {
-    if (this.child.movimientosSelected.length <= 0) {
-      this.dialogService.confirmation(
-        `Está seguro que desea Crear Liquidacións sin Movimientos`,
-        () => {
-          this.prepareSend();
-        }
-      );
-      return;
-    }
 
-    this.prepareSend();
+    if (!this.child.validateForm()){
+      this.snackbar.open('Verifique campos!');
+      return;
+    } else {
+
+      if (!this.esOrdenPago && this.child.movimientosSelected.length <= 0) {
+        this.dialogService.confirmation(
+          `Está seguro que desea Crear Liquidacións sin Movimientos`,
+          () => {
+            this.prepareSend();
+          }
+        );
+        return;
+      }
+
+      this.prepareSend();
+    }
   }
 
   actualizar(): void {
@@ -140,8 +151,9 @@ export class LiquidacionFormDialogComponent {
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
-        monto: this.child.childSaldoView.monto,
+        monto: this.child.monto_pc.value,
         saldo: this.child.childSaldoView.saldo,
+        esOrdenPago: this.esOrdenPago
       };
 
       this.dialog

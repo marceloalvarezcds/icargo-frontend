@@ -36,7 +36,6 @@
 
     </div>
 
-
     <div class="row page-form-row mb-1">
 
       <div class="col-xs-12 col-sm-2">
@@ -76,7 +75,7 @@
 
     </div>
 
-    <div class="row page-form-row">
+    <div class="row page-form-row" *ngIf="!esOrdenPago">
       <div class="col-xs-12">
         <app-table-paginator
           [columns]="columns"

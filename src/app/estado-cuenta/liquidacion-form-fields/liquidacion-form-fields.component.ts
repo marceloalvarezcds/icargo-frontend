@@ -45,6 +45,9 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   @Input()
   esEditableLinea=false;
 
+  @Input()
+  esOrdenPago=false;
+
   @Output()
   createdLiquidacionEvt: EventEmitter<Liquidacion> = new EventEmitter<Liquidacion>();
 
@@ -52,10 +55,15 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   puntoVentaList?: PuntoVentaList[];
 
   form = new FormGroup({
-    monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
-    es_insumo_efectivo: new FormControl(true, Validators.required),
-    tipo_insumo: new FormControl(null, Validators.required),
-    punto_venta_id: new FormControl(null, Validators.required),
+    //sentido: new FormGroup({
+      es_insumo_efectivo: new FormControl(true, Validators.required),
+      tipo_insumo: new FormControl(null, Validators.required),
+      punto_venta_id: new FormControl(null, Validators.required),
+    //}),
+    //pago: new FormGroup({
+      monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
+      es_cobro: new FormControl(true, Validators.required),
+    //})
   });
 
   get credito(): number {
@@ -102,6 +110,14 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     return this.childSaldoView.saldoMovimiento;
   }
 
+  get pagoCobro(): FormControl {
+    return this.form.controls['es_cobro'] as FormControl;
+  }
+
+  get pagoCobroValue() {
+    return this.form.controls['es_cobro'].value;
+  }
+
   constructor(
     private movimientoService: MovimientoService,
     private liquidacionService: LiquidacionService,
@@ -110,6 +126,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   ) { }
 
   ngAfterViewInit(): void {
+    console.log("ngAfterViewInit")
 
     if (this.estadoCuenta!.es_pdv && !this.estadoCuenta?.tipo_flujo) {
 
@@ -184,6 +201,8 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
+    console.log(this.form.controls);
+
     if (!this.form.valid) {
       return false;
     } else {
@@ -220,6 +239,18 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     } else {
       tipoMovLiquidacion = TipoLiquidacionEnum.EFECTIVO.toUpperCase();
     }
+
+    //if (this.esOrdenPago) {
+      const pagoCobro = this.pagoCobroValue;
+      console.log("pagoCobro value: ", pagoCobro);
+      if ( !pagoCobro ) {
+        pago_cobro = Math.abs(pago_cobro)*-1;
+        es_pago_cobro='COBRO';
+      } else {
+        pago_cobro = Math.abs(pago_cobro);
+        es_pago_cobro='PAGO';
+      }
+    //}
 
     // TODO: seleccionar la moneda en el form, por ahora sino tiene movimientos sera en gs
     if (this.movimientosSelected.length === 0) {

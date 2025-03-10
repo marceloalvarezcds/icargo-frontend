@@ -8,6 +8,7 @@ export interface LiquidacionConfirmDialogData {
   debito: number;
   monto: number;
   saldo: number;
+  esOrdenPago?:boolean;
 }
 
 export const mockLiquidacionConfirmDialogData: LiquidacionConfirmDialogData = {

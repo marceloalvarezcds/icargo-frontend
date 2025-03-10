@@ -110,6 +110,10 @@ export class LiquidacionConfirmDialogComponent {
     return this.data.saldo;
   }
 
+  get esOrdenPago():boolean {
+    return this.data.esOrdenPago ?? false;
+  }
+
   constructor(
     public dialogRef: MatDialogRef<LiquidacionConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: LiquidacionConfirmDialogData

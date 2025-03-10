@@ -23,9 +23,11 @@
 
       <app-liquidacion-form-fields
           #child
+          *ngIf="estadoCuenta"
           [esEditableLinea]="esEditableLinea"
           [etapa]="etapa"
           [estadoCuenta]="estadoCuenta"
+          [esOrdenPago]="esOrdenPago"
           [list]="list"
           [isDialog]="true"
           (createdLiquidacionEvt)="onCreateLiquidacion($event)"

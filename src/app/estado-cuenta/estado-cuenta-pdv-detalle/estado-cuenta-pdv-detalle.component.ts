@@ -295,6 +295,17 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
       buttonCallback: ($event:any) => {
         this.createLiquidacion();
       }
+    },
+    {
+      color: 'primary',
+      tooltip: 'Crear Orden Pago/Cobro',
+      styles: '',
+      icon: 'add_circle',
+      label: 'ORDEN PAGO/COBRO',
+      iconClass: 'icon-add-style',
+      buttonCallback: ($event:any) => {
+        this.createOrdenPago();
+      }
     }
   ]
 
@@ -574,6 +585,44 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
           this.getList();
         });
         */
+    }
+
+    createOrdenPago():void {
+
+      const {
+        contraparte_id,
+        contraparte,
+        contraparte_numero_documento,
+        tipo_contraparte_id,
+        punto_venta_id,
+        flujo
+      } = this.route.snapshot.queryParams;
+
+      const data: ContraparteInfoMovimientoLiq = {
+        contraparte: contraparte,
+        contraparte_id: contraparte_id,
+        contraparte_numero_documento: contraparte_numero_documento,
+        tipo_contraparte_id: tipo_contraparte_id,
+        tipo_contraparte_descripcion: '',
+        isNew: true,
+        etapa: LiquidacionEtapaEnum.PENDIENTE,
+        punto_venta_id: punto_venta_id,
+        flujo:flujo,
+        es_pdv: true,
+        isOrdenPago:true,
+      };
+
+      this.dialog
+        .open(LiquidacionFormDialogComponent, {
+          data,
+          panelClass: 'full-dialog',
+        })
+        .afterClosed()
+        //.pipe(filter((confirmed) => !!confirmed))
+        .subscribe(() => {
+          this.getList();
+        });
+
     }
 
     private delete(mov: MovimientoEstadoCuenta): void {

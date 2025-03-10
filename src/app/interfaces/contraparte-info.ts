@@ -35,6 +35,7 @@ export interface ContraparteInfoMovimientoLiq extends Contraparte {
   punto_venta_id?: number;
   saldo_cuenta_corriente?: number;
   flujo?: string;
+  isOrdenPago?:boolean;
 }
 
 export interface ContraparteGralInfo extends Contraparte {

@@ -1,13 +1,4 @@
-<div class="row">
-
-  <div *ngIf="false" class="input-form-full col-xs-12 col-sm-2">
-    <mat-label>
-      Monto Pago/Cobro
-    </mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [disabled]="esFinalizado" [(ngModel)]="monto" appInputThousandsSeparator />
-    </mat-form-field>
-  </div>
+<div class="row" [formGroup]="form" >
 
   <app-number-field
     *ngIf="showMonto"
@@ -64,10 +55,30 @@
     </mat-form-field>
   </div>
 
-  <app-operacion
+  <!--mat-radio-group
+    class="input-form-full col-xs-12 col-sm-6 col-md-4"
+    aria-label="Seleccione una opción"
+    formControlName="es_cobro"
+    style="display: flex; flex-direction: row; align-items: center;justify-content: space-around;"
+  >
+    <mat-radio-button [value]="true">Pagar</mat-radio-button>
+    <mat-radio-button [value]="false">Cobrar</mat-radio-button>
+  </mat-radio-group-->
+
+  <div class="input-form-full col-xs-6 col-sm-4 col-md-2">
+    <mat-label>Sentido Operación</mat-label>
+    <mat-form-field>
+      <mat-select formControlName="es_cobro">
+        <mat-option [value]="true">Pagar</mat-option>
+        <mat-option [value]="false">Cobrar</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <!--app-operacion
     *ngIf="!hideOperacion"
     class="input-form-full col-xs-12 col-sm-2"
     [saldo]="saldoMovimiento"
-  ></app-operacion>
+  ></app-operacion-->
 
 </div>

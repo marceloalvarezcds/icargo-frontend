@@ -117,12 +117,7 @@ export class LiquidacionFormComponent implements OnInit {
 
       if (this.child.movimientosSelected.length <= 0) {
 
-        this.dialogService.confirmation(
-          `Está seguro que desea Crear Liquidacións sin Movimientos`,
-          () => {
-            this.prepareSend();
-          }
-        );
+        this.snackbar.open('Debe elegir al menos 1 movimiento');
         return;
       }
 

@@ -41,7 +41,9 @@ export class SaldoComponent {
 
   @Input() esEdicion = false;
 
-  @Input() form?:FormGroup;
+  @Input() form!:FormGroup;
+
+  @Input() esOrdenPago?=false;
 
   get saldo(): number {
     let calcSaldo = 0;

@@ -1,38 +1,47 @@
+<form [formGroup]="form">
 
-  <app-estado-cuenta-detalle
-    [etapa]="etapa"
-    [estadoCuenta]="estadoCuenta"
-    [showVistaConsolidada]="false"
-    [showEstado]=false
-    [esEditableLinea]="esEditableLinea"
-    [form]="form"
-    [esInsumoControl]="esInsumoControl"
-    [tipo_insumo]="tipo_insumo"
-    (filterEvent)="filtrarMovimientosPDV2($event)"
-  ></app-estado-cuenta-detalle>
+    <app-estado-cuenta-detalle
+      [etapa]="etapa"
+      [estadoCuenta]="estadoCuenta"
+      [showVistaConsolidada]="false"
+      [showEstado]=false
+      [esEditableLinea]="esEditableLinea"
+      [form]="form"
+      [esInsumoControl]="esInsumoControl"
+      [tipo_insumo]="tipo_insumo"
+      (filterEvent)="filtrarMovimientosPDV2($event)"
+    ></app-estado-cuenta-detalle>
 
-  <div class="row">
+    <div class="row" >
 
-    <app-saldo
-      #saldoView
-      class="col-xs-12 col-sm-9"
-      [showResumen]="true"
-      [showIngresoEgreso]="false"
-      [credito]="credito"
-      [debito]="debito"
-      [saldoCC]="saldoCC"
-      title="Saldo en Cuenta"
-      [showMonto]="true"
-      [monto]="monto"
-      [form]="form">
-    </app-saldo>
+      <app-saldo
+        #saldoView
+        class="col-xs-12 col-sm-9"
+        [showResumen]="true"
+        [showIngresoEgreso]="false"
+        [credito]="credito"
+        [debito]="debito"
+        [saldoCC]="saldoCC"
+        title="Saldo en Cuenta"
+        [showMonto]="true"
+        [monto]="monto"
+        [form]="form"
+        [esOrdenPago]="esOrdenPago">
+      </app-saldo>
 
-  </div>
+    </div>
 
-  <app-liquidacion-form-movimientos
-    #movimientosList
-    [showAccions]="!isDialog"
-    [list]="list"
-    (movimientosInDBChange)="getList()"
-    (selectedMovimientosChange)="cargarMovimientos($event)">
-  </app-liquidacion-form-movimientos>
+    <div class="row">
+
+      <app-liquidacion-form-movimientos
+        *ngIf="!esOrdenPago"
+        #movimientosList
+        [showAccions]="!isDialog"
+        [list]="list"
+        (movimientosInDBChange)="getList()"
+        (selectedMovimientosChange)="cargarMovimientos($event)">
+      </app-liquidacion-form-movimientos>
+
+    </div>
+
+</form>
