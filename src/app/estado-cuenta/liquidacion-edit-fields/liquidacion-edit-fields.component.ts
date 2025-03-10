@@ -65,8 +65,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
   }
 
-
-
   get montoSaldo(): number {
     return (this.childSaldoView?.monto ?? 0);
   }
@@ -172,6 +170,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log("changes: ", changes);
     for (const propName in changes) {
       const chng = changes[propName];
       if (propName === 'movimientos') {
@@ -181,11 +180,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   actualizarSaldos(movs:Movimiento[]):void{
-    const deb = movs.reduce((acc, cur) => acc + cur.debito, 0);
-    const cred = movs.reduce((acc, cur) => acc + cur.credito, 0);
-    this.item!.debito = deb;
-    this.item!.credito = cred;
-    if (this.item!.pago_cobro == null) this.item!.pago_cobro = subtract(cred, deb);
+    console.log("this.item!.pago_cobro: ", this.item!.pago_cobro);
+    if (this.item!.pago_cobro === null) {
+      const deb = movs.reduce((acc, cur) => acc + cur.debito, 0);
+      const cred = movs.reduce((acc, cur) => acc + cur.credito, 0);
+      this.item!.debito = deb;
+      this.item!.credito = cred;
+      this.item!.pago_cobro = subtract(cred, deb);
+      this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
+    }
+
     if (this.item!.pago_cobro>0) {
       this.form.controls['es_cobro'].setValue(true);
     } else {
@@ -200,6 +204,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
+    console.log("movimientos: ", movimientos);
     // recalcula saldo y monto pago cobro
     this.item!.pago_cobro = null;
     this.actualizarMovimientos.emit(movimientos);

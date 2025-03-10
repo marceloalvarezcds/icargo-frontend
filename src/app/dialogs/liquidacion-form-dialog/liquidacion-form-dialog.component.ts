@@ -333,7 +333,8 @@ export class LiquidacionFormDialogComponent {
 
   refreshEstadoCuentaYMovimiento(liq: Liquidacion): void{
     //this.getEstadoCuenta();
-    this.loadLiquidacion();
+    //this.loadLiquidacion();
+    this.getMovimientos(liq);
   }
 
 }
