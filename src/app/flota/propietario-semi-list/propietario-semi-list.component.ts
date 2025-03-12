@@ -1,22 +1,25 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { SemiList } from 'src/app/interfaces/semi';
+import { Semi, SemiList } from 'src/app/interfaces/semi';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SemiService } from 'src/app/services/semi.service';
+import { SemiFormDialogComponent } from '../semi-form-dialog/semi-form-dialog.component';
 
 @Component({
   selector: 'app-propietario-semi-list',
   templateUrl: './propietario-semi-list.component.html',
   styleUrls: ['./propietario-semi-list.component.scss'],
 })
-export class PropietarioSemiListComponent {
+export class PropietarioSemiListComponent implements OnInit{
   a = a;
+  semi?: Semi;
+  item?: SemiList;
   columns: Column[] = [
     {
       def: 'id',
@@ -78,26 +81,71 @@ export class PropietarioSemiListComponent {
   constructor(
     private semiService: SemiService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef,
   ) {}
 
+  ngOnInit(): void {
+    if (this.id !== undefined) {
+      this.semiService.getById(this.id).subscribe(
+        (data) => {
+          this.semi = data;
+        },
+        (error) => {
+
+        });
+      }
+    }
+
+
   redirectToCreate(): void {
-    this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.CREAR}`], {
-      queryParams: { backUrl: this.backUrl, propietarioId: this.id },
+    const dialogRef = this.dialog.open(SemiFormDialogComponent, {
+      width: '1200px',
+      data: {
+        item: this.item,
+        propietarioId: this.id,
+      }
+    });
+    dialogRef.componentInstance.dataSemiSaved.subscribe(() => {
+      this.getSemiPropietarioList(this.id!);
     });
   }
 
+
   redirectToEdit(event: TableEvent<SemiList>): void {
-    this.router.navigate(
-      [`/flota/${m.SEMIRREMOLQUE}/${a.EDITAR}`, event.row.id],
-      { queryParams: { backUrl: this.backUrl, propietarioId: this.id } }
-    );
+    this.item = this.list.find(i => i.id === event.row.id);
+    if (this.item) {
+      const dialogRef = this.dialog.open(SemiFormDialogComponent, {
+        width: '1200px',
+        data: {
+          item: this.item,
+          propietarioId: this.id,
+          camionId: event.row.id,
+          isEdit: true,
+        }
+      });
+      dialogRef.componentInstance.dataSemiSaved.subscribe(() => {
+        this.getSemiPropietarioList(this.id!);
+      });
+    }
   }
 
   redirectToShow(event: TableEvent<SemiList>): void {
-    this.router.navigate([`/flota/${m.SEMIRREMOLQUE}/${a.VER}`, event.row.id], {
-      queryParams: { backUrl: this.backUrl },
-    });
+    this.item = this.list.find(i => i.id === event.row.id);
+    if (this.item) {
+      const dialogRef = this.dialog.open(SemiFormDialogComponent, {
+        width: '1200px',
+        data: {
+          item: this.item,
+          propietarioId: this.id,
+          camionId: event.row.id,
+          isShow: true,
+        }
+      });
+      dialogRef.componentInstance.dataSemiSaved.subscribe(() => {
+        this.getSemiPropietarioList(this.id!);
+      });
+    }
   }
 
   deleteRow({ row }: TableEvent<SemiList>): void {
@@ -118,4 +166,24 @@ export class PropietarioSemiListComponent {
       });
     }
   }
+
+  private getSemiPropietarioList(cId: number): void {
+    this.semiService.getListByPropietarioId(cId).subscribe(
+      (list) => {
+
+        this.list = list;
+
+        if (this.list.length > 0) {
+          this.item = this.list[0];
+
+        }
+
+        this.cdr.markForCheck();
+      },
+      (error) => {
+        console.error('Error al obtener la lista de camiones:', error);
+      }
+    );
+  }
+
 }

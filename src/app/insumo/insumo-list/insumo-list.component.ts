@@ -51,15 +51,28 @@ export class InsumoListComponent implements OnInit {
     },
 
     {
+      def: 'descripcion',
+      title: 'Mercadería',
+      value: (element: InsumoPuntoVentaPrecioList) => element.insumo_descripcion,
+    },
+    {
+      def: 'precio',
+      title: 'Precio',
+      value: (element: InsumoPuntoVentaPrecioList) => element.precio,
+      type: 'number',
+    },
+    {
+      def: 'pdv',
+      title: 'Establecimiento',
+      value: (element: InsumoPuntoVentaPrecioList) => element.punto_venta_alias,
+    },
+
+    {
       def: 'fecha_fin',
       title: 'Vigencia',
       value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.fecha_inicio),
     },
-    {
-      def: 'descripcion',
-      title: 'Descripcion',
-      value: (element: InsumoPuntoVentaPrecioList) => element.insumo_descripcion,
-    },
+
     {
       def: 'marca',
       title: 'Marca',
@@ -70,22 +83,13 @@ export class InsumoListComponent implements OnInit {
       title: 'Unidad',
       value: (element: InsumoPuntoVentaPrecioList) => element.insumo_unidad_descripcion,
     },
-    {
-      def: 'precio',
-      title: 'Precio',
-      value: (element: InsumoPuntoVentaPrecioList) => element.precio,
-      type: 'number',
-    },
+
     {
       def: 'moneda',
       title: 'Moneda',
       value: (element: InsumoPuntoVentaPrecioList) => element.insumo_moneda_nombre,
     },
-    {
-      def: 'pdv',
-      title: 'Establecimiento',
-      value: (element: InsumoPuntoVentaPrecioList) => element.punto_venta_alias,
-    },
+
     {
       def: 'proveedor',
       title: 'Proveedor',

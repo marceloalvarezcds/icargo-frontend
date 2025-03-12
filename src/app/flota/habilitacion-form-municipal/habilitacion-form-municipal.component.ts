@@ -19,6 +19,8 @@ export class HabilitacionFormMunicipalComponent {
   @Input() fotoReverso: string | null = null;
   @Input() isEdit = false;
   @Input() isShow = false;
+  @Input() esDialog: boolean = false;
+
 
   @Output() fotoFrenteChange = new EventEmitter<File | null>();
   @Output() fotoReversoChange = new EventEmitter<File | null>();

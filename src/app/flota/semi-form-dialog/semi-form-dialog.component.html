@@ -1,0 +1,177 @@
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <span mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="title-container">
+      <span [ngClass]="{ 'action-text': true }"> {{ actionText }}</span>
+      <span class="complement-text">SEMI</span>
+      <div *ngIf="isEdit || isShow && a.CAMBIAR_ESTADO" class="status-toggle">
+        <button
+          *ngIf="!isActive"
+          mat-mini-fab
+          class="botones"
+          color="warn"
+          type="button"
+          matTooltip="Activar"
+          (click)="active()"
+          [disabled]="isShow"
+        >
+          <mat-icon>toggle_off</mat-icon>
+        </button>
+
+        <button
+          *ngIf="isActive"
+          mat-mini-fab
+          class="botones"
+          color="accent"
+          type="button"
+          matTooltip="Desactivar"
+          (click)="inactive()"
+          [disabled]="isShow"
+        >
+          <mat-icon>toggle_on</mat-icon>
+        </button>
+
+        <span class="status-text">{{ isActive ? 'Activo' : 'No Activo' }}</span>
+      </div>
+      <div *ngIf="!isEdit && !isShow" class="estado-container">
+        <label for="estado-input" class="estado-label">ESTADO</label>
+        <input
+          id="estado-input"
+          type="text"
+          value="PENDIENTE"
+          class="estado-input"
+        />
+      </div>
+    </span>
+    <div class="section" formGroupName="info">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+        <div class="row">
+          <app-input-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            title="Placa"
+            [groupName]="groupName"
+            controlName="placa"
+            [form]="form"
+          ></app-input-field>
+
+          <app-input-field
+            class="input-form-full col-xs-12 col-sm-6 col-md-4"
+            title="Titular"
+            [groupName]="groupName"
+            controlName="propietario_nombre"
+            [readonly]="true"
+            [form]="form">
+          </app-input-field>
+
+          <app-file-field-input
+            class="input-form-full  col-xs-12 col-sm-6 col-md-4"
+            title="Foto del Semi"
+            [groupName]="groupName"
+            controlName="foto"
+            [field]="foto"
+            [form]="form"
+            [isEdit]="isEdit"
+            [isShow]="isShow"
+            (fileChange)="fotoChangeHandler($event)"
+          ></app-file-field-input>
+        </div>
+
+      </div>
+
+    <div class="section" formGroupName="detalle">
+      <h2> DETALLE </h2>
+      <app-semi-form-detalle
+        [form]="form"
+        [isShow]="isShow"
+        [esDialog]="true"
+      ></app-semi-form-detalle>
+    </div>
+
+    <div class="section" formGroupName="capacidad">
+      <h2> CAPACIDAD </h2>
+      <app-semi-form-capacidad
+        [form]="form"
+        [isShow]="isShow"
+
+      ></app-semi-form-capacidad>
+    </div>
+
+    <div class="section">
+      <h2>HABILITACIONES </h2>
+
+      <div formGroupName="transporte">
+        <app-habilitacion-form-transporte
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoTransporteFrente"
+          [fotoReverso]="fotoTransporteReverso"
+          (fotoFrenteChange)="
+            fotoTransporteFrenteFile = $event; fotoTransporteFrente = null
+          "
+          (fotoReversoChange)="
+            fotoTransporteReversoFile = $event; fotoTransporteReverso = null
+          "
+          [esDialog]="true"
+        ></app-habilitacion-form-transporte>
+      </div>
+
+      <app-habilitacion-form-municipal
+        [form]="form"
+        [isEdit]="isEdit"
+        [isShow]="isShow"
+        [fotoFrente]="fotoMunicipalFrente"
+        [fotoReverso]="fotoMunicipalReverso"
+        (fotoFrenteChange)="
+          fotoMunicipalFrenteFile = $event; fotoMunicipalFrente = null
+        "
+        (fotoReversoChange)="
+          fotoMunicipalReversoFile = $event; fotoMunicipalReverso = null
+        "
+        [esDialog]="true"
+      ></app-habilitacion-form-municipal>
+
+
+
+      <div formGroupName="automotor">
+        <app-habilitacion-form-automotor
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoAutomotorFrente"
+          [fotoReverso]="fotoAutomotorReverso"
+          (fotoFrenteChange)="
+            fotoAutomotorFrenteFile = $event; fotoAutomotorFrente = null
+          "
+          (fotoReversoChange)="
+            fotoAutomotorReversoFile = $event; fotoAutomotorReverso = null
+          "
+          [esDialog]="true"
+        ></app-habilitacion-form-automotor>
+      </div>
+
+    </div>
+
+
+  </form>
+</mat-dialog-content>
+
+<div mat-dialog-actions class="buttons-actions">
+  <button
+    mat-stroked-button
+    class="botones"
+    type="button"
+    mat-dialog-close>
+    <mat-icon>close</mat-icon>
+    Cerrar
+  </button>
+  <button
+    *ngIf="!isShowBtn"
+    mat-flat-button
+    class="botones" color="primary" type="button"
+    (click)="submit()"
+    cdkFocusInitial>
+    <mat-icon>save</mat-icon>
+    GUARDAR
+  </button>
+</div>
+

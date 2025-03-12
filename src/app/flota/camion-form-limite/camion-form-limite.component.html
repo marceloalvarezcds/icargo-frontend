@@ -5,7 +5,7 @@
     <div class="row">
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-3'"
         title="Límite Órdenes de Carga activas"
         [groupName]="groupName"
         controlName="limite_cantidad_oc_activas"
@@ -15,22 +15,12 @@
       ></app-number-field>
 
       <app-number-field
-        *ngIf="isVisible"
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
         title="Monto Límite de anticipos a retirar"
         [groupName]="groupName"
         controlName="limite_monto_anticipos"
         [form]="form"
       ></app-number-field>
-
-      <app-slide
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        [control]="toggleControl"
-        title="Límites de anticipos a retirar ?"
-        [trueTitle]="'SI'"
-        [falseTitle]="'NO'"
-        (valueChange)="toggleFieldVisibility($event)"
-      ></app-slide>
     </div>
 
     <ng-container *ngIf="camion">

@@ -2,17 +2,18 @@
 
   <div [formGroup]="form">
 
-    <div [formGroupName]="groupName" class="row">
+    <div [formGroupName]="groupName" class="row" [ngClass]="{ 'dialog-style': esDialog, 'normal-style': !esDialog }">
 
       <h3 class="col-xs-12">Transporte</h3>
 
-      <div class="col-xs-9">
+      <div [ngClass]="esDialog ? 'col-xs-12 col-sm-9 dialog-column' : 'col-xs-9'">
 
         <div class="row">
 
           <!-- Campo Ente Emisor -->
           <app-ente-emisor-transporte-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-5"
+            [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-4' : 'input-form-full col-xs-12 col-sm-6 col-md-5'"
+            title="Ente Emisor"
             title="Ente Emisor"
             [groupName]="groupName"
             controlName="ente_emisor_transporte_id"
@@ -20,7 +21,7 @@
           ></app-ente-emisor-transporte-field>
 
           <!-- Campo Número de Habilitación -->
-          <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <div [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-4' : 'input-form-full col-xs-12 col-sm-6 col-md-2'">
             <label class="form-label mr-2">N° Habilitación</label>
             <mat-form-field appearance="outline">
               <input matInput [formControlName]="'numero_habilitacion_transporte'" />
@@ -29,7 +30,7 @@
 
           <!-- Campo Fecha de Vencimiento -->
           <app-fecha-field
-            class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-4' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
             title="Fecha de vencimiento"
             [groupName]="groupName"
             controlName="vencimiento_habilitacion_transporte"
@@ -40,7 +41,7 @@
 
       </div>
 
-      <div class="col-xs-3">
+      <div [ngClass]="esDialog ? 'col-xs-12 col-sm-9 dialog-column' : 'col-xs-3'">
 
         <div class="row">
 

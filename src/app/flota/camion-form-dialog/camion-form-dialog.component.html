@@ -1,0 +1,134 @@
+<mat-dialog-content>
+  <form [formGroup]="form">
+    <span mat-dialog-title cdkDrag cdkDragRootElement=".cdk-overlay-pane" class="title-container">
+      <span [ngClass]="{ 'action-text': true }"> {{ actionText }}</span>
+      <span class="complement-text">TRACTO</span>
+      <div *ngIf="isEdit || isShow && a.CAMBIAR_ESTADO" class="status-toggle">
+        <button
+          *ngIf="!isActive"
+          mat-mini-fab
+          class="botones"
+          color="warn"
+          type="button"
+          matTooltip="Activar"
+          (click)="active()"
+          [disabled]="isShow"
+        >
+          <mat-icon>toggle_off</mat-icon>
+        </button>
+
+        <button
+          *ngIf="isActive"
+          mat-mini-fab
+          class="botones"
+          color="accent"
+          type="button"
+          matTooltip="Desactivar"
+          (click)="inactive()"
+          [disabled]="isShow"
+        >
+          <mat-icon>toggle_on</mat-icon>
+        </button>
+
+        <span class="status-text">{{ isActive ? 'Activo' : 'No Activo' }}</span>
+      </div>
+      <div *ngIf="!isEdit && !isShow" class="estado-container">
+        <label for="estado-input" class="estado-label">ESTADO</label>
+        <input
+          id="estado-input"
+          type="text"
+          value="PENDIENTE"
+          class="estado-input"
+        />
+      </div>
+    </span>
+
+    <div class="section" formGroupName="info">
+      <h2>INFORMACIÓN PRINCIPAL</h2>
+      <div class="row">
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          title="Placa"
+          [groupName]="groupName"
+          controlName="placa"
+          [form]="form"
+        ></app-input-field>
+
+        <app-input-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          title="Titular"
+          [groupName]="groupName"
+          controlName="propietario_nombre"
+          [readonly]="true"
+          [form]="form">
+        </app-input-field>
+
+        <app-file-field-input
+          class="input-form-full  col-xs-12 col-sm-6 col-md-4"
+          title="Foto del Tracto"
+          [groupName]="groupName"
+          controlName="foto"
+          [field]="foto"
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          (fileChange)="fotoChangeHandler($event)"
+        ></app-file-field-input>
+
+      </div>
+    </div>
+
+    <div class="section" formGroupName="detalle">
+      <h2> DETALLE </h2>
+      <app-camion-form-detalle [form]="form" [isShow]="isShow"></app-camion-form-detalle>
+    </div>
+
+    <div class="section" formGroupName="capacidad">
+      <h2> CAPACIDAD </h2>
+      <app-camion-form-capacidad [form]="form" [isShow]="isShow"></app-camion-form-capacidad>
+    </div>
+
+    <div class="section" formGroupName="limite">
+      <h2> LIMITACIONES </h2>
+      <app-camion-form-limite [esDialog]="true" [camion]="item" [form]="form" [isShow]="isShow"></app-camion-form-limite>
+    </div>
+
+    <div class="section">
+      <h2>HABILITACIONES</h2>
+      <div formGroupName="transporte">
+        <app-habilitacion-form-transporte
+          [form]="form"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [fotoFrente]="fotoTransporteFrente"
+          [fotoReverso]="fotoTransporteReverso"
+          (fotoFrenteChange)="fotoTransporteFrenteFile = $event; fotoTransporteFrente = null"
+          (fotoReversoChange)="fotoTransporteReversoFile = $event; fotoTransporteReverso = null"
+          [esDialog]="true"
+        ></app-habilitacion-form-transporte>
+      </div>
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<div mat-dialog-actions class="buttons-actions">
+  <button
+    mat-stroked-button
+    class="botones"
+    type="button"
+    mat-dialog-close>
+    <mat-icon>close</mat-icon>
+    Cerrar
+  </button>
+  <button
+    *ngIf="!isShowBtn"
+    mat-flat-button
+    class="botones" color="primary" type="button"
+    (click)="submit()"
+    cdkFocusInitial>
+    <mat-icon>save</mat-icon>
+    GUARDAR
+  </button>
+</div>
+

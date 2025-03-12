@@ -37,6 +37,8 @@ import { CamionFormLimiteComponent } from './camion-form-limite/camion-form-limi
 import { CombinacionListComponent } from './combinacion-list/combinacion-list.component';
 import { CombinacionFormComponent } from './combinacion-form/combinacion-form.component';
 import { CombinacionFormInfoComponent } from './combinacion-form-info/combinacion-form-info.component';
+import { CamionFormDialogComponent } from './camion-form-dialog/camion-form-dialog.component';
+import { SemiFormDialogComponent } from './semi-form-dialog/semi-form-dialog.component';
 
 @NgModule({
   declarations: [
@@ -69,6 +71,8 @@ import { CombinacionFormInfoComponent } from './combinacion-form-info/combinacio
     CombinacionListComponent,
     CombinacionFormComponent,
     CombinacionFormInfoComponent,
+    CamionFormDialogComponent,
+    SemiFormDialogComponent,
   ],
   imports: [
     CommonModule,

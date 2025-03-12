@@ -12,4 +12,5 @@ export class SemiFormDetalleComponent {
 
   @Input() form?: FormGroup;
   @Input() isShow = false;
+  @Input() esDialog: boolean = false;
 }

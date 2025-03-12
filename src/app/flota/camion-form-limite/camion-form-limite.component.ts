@@ -9,18 +9,17 @@ import { Camion } from 'src/app/interfaces/camion';
 })
 export class CamionFormLimiteComponent {
   groupName = 'limite';
-  isVisible = true;
+
 
   @Input() camion?: Camion;
   @Input() form?: FormGroup;
   @Input() isShow = false;
+  @Input() esDialog: boolean = false; 
 
   patternMessageError(_: any): string {
     return 'Debe ser un número entero y positivo';
   }
 
   toggleControl = new FormControl(true);
-  toggleFieldVisibility(isChecked: boolean) {
-    this.isVisible = isChecked;
-  }
+
 }
