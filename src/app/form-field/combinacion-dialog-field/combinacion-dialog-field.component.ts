@@ -19,7 +19,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
-      def: 'id',
+      def: 'id_combinacion',
       title: 'ID',
       value: (element: CombinacionList) => element.id,
     },
@@ -29,12 +29,12 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       value: (element: CombinacionList) => element.camion_placa,
     },
     {
-      def: 'estado',
+      def: 'estado_combinacion',
       title: 'Estado',
       value: (element: CombinacionList) => element.estado,
     },
     {
-      def: 'chofer_nombre',
+      def: 'chofer',
       title: 'Chofer',
       value: (element: CombinacionList) => element.chofer_nombre,
     },
@@ -89,14 +89,15 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   }
 
   onCamionChange(combinacion?: CombinacionList): void {
+    console.log('Búsqueda por:', this.inputValuePropName, 'Valor:', event);
     if (combinacion) {
       const fechaVencimientoTransporteChofer = combinacion.camion?.vencimiento_habilitacion_transporte;
       const fechaVencimientoTransporteSemi = combinacion.semi?.vencimiento_habilitacion_transporte;
-  
+
       const hoy = new Date();
       const vencimientoTransporteChofer = fechaVencimientoTransporteChofer ? new Date(fechaVencimientoTransporteChofer) : null;
       const vencimientoTransporteSemi = fechaVencimientoTransporteSemi ? new Date(fechaVencimientoTransporteSemi) : null;
-  
+
       // Verificar si la habilitación de transporte del camión está vencida
       if (vencimientoTransporteChofer && vencimientoTransporteChofer < hoy) {
         alert(`La habilitación de transporte del camión con placa ${combinacion.camion_placa} está vencida (Venció el ${vencimientoTransporteChofer.toLocaleDateString()}).`);
@@ -104,7 +105,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
         this.form.get('camion_id')?.setValue(null);
         return;
       }
-  
+
       // Verificar si la habilitación de transporte del semi está vencida
       if (vencimientoTransporteSemi && vencimientoTransporteSemi < hoy) {
         alert(`La habilitación de transporte del semi con placa ${combinacion.semi_placa} está vencida (Venció el ${vencimientoTransporteSemi.toLocaleDateString()}).`);
@@ -112,14 +113,12 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
         this.form.get('camion_id')?.setValue(null);
         return;
       }
-  
-      // Emitir el cambio solo si no hay restricciones
       this.valueChange.emit(combinacion);
     }
   }
-  
-  
-  
+
+
+
 
   //private getList(): void {
   //  this.list$ = this.service.getList();

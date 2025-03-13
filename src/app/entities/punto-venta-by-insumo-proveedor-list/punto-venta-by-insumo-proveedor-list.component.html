@@ -9,6 +9,7 @@
       </button> -->
 
       <button id="add-button" mat-flat-button
+        *ngIf="(modelo | puede: a.CREAR)"
         class="botones" color="primary" type="button"
         (click)="createMercaderia()"
         [ngClass]="{'view-mode': isShow}" >

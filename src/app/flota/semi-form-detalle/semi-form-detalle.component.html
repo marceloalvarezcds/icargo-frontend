@@ -11,32 +11,8 @@
         [form]="form"
       ></app-marca-semi-field>
 
-      <app-semi-clasificacion-field
-        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
-        title="Clasificación"
-        [groupName]="groupName"
-        controlName="clasificacion_id"
-        [form]="form"
-      ></app-semi-clasificacion-field>
-
-      <app-tipo-semi-field
-      [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
-        title="Tipo Semi"
-        [groupName]="groupName"
-        controlName="tipo_id"
-        [form]="form"
-      ></app-tipo-semi-field>
-
-      <app-tipo-carga-field
-        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
-        title="Tipo Carga"
-        [groupName]="groupName"
-        controlName="tipo_carga_id"
-        [form]="form"
-      ></app-tipo-carga-field>
-
       <app-color-field
-        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
+       [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
         title="Color"
         [groupName]="groupName"
         controlName="color_id"
@@ -57,7 +33,31 @@
         [groupName]="groupName"
         controlName="numero_chasis"
         [form]="form"
-    ></app-input-field>
+      ></app-input-field>
+
+      <app-tipo-semi-field
+        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
+        title="Tipo Semi"
+        [groupName]="groupName"
+        controlName="tipo_id"
+        [form]="form"
+      ></app-tipo-semi-field>
+
+      <app-tipo-carga-field
+        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
+        title="Tipo Carga"
+        [groupName]="groupName"
+        controlName="tipo_carga_id"
+        [form]="form"
+      ></app-tipo-carga-field>
+
+      <app-semi-clasificacion-field
+        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
+        title="Clasificación"
+        [groupName]="groupName"
+        controlName="clasificacion_id"
+        [form]="form"
+      ></app-semi-clasificacion-field>
 
     </div>
 

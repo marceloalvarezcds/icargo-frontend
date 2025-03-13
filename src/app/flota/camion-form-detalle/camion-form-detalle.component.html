@@ -12,14 +12,6 @@
         [form]="form"
       ></app-marca-camion-field>
 
-      <app-tipo-camion-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Tipo"
-        [groupName]="groupName"
-        controlName="tipo_id"
-        [form]="form"
-      ></app-tipo-camion-field>
-
       <app-color-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Color"
@@ -42,7 +34,14 @@
         [groupName]="groupName"
         controlName="numero_chasis"
         [form]="form"
-    ></app-input-field>
+      ></app-input-field>
 
+      <app-tipo-camion-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Tipo"
+        [groupName]="groupName"
+        controlName="tipo_id"
+        [form]="form"
+      ></app-tipo-camion-field>
   </div>
 </div>

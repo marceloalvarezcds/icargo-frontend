@@ -13,7 +13,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 })
 export class OcFinalizadasDialogFieldComponent implements OnInit {
   readonly inputValuePropName = 'id';
-  
+
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -25,6 +25,11 @@ export class OcFinalizadasDialogFieldComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado,
+    },
+    {
+      def: 'tracto',
+      title: 'Tracto',
+      value: (element: OrdenCargaList) => element.camion_placa,
     },
     {
       def: 'cliente',

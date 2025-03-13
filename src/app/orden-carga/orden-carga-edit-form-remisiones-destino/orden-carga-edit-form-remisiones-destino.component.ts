@@ -127,20 +127,14 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       {
         def: 'numero_documento',
         title: 'Nº Remito',
-        footerDef: () => 'Total',
         value: (element: OrdenCargaRemisionDestino) => element.numero_documento,
       },
-      // {
-      //   def: 'numero_documento_origen',
-      //   title: 'Nº de Documento origen',
-      //   value: (element: OrdenCargaRemisionDestino) =>
-      //     element.numero_documento_origen,
-      // },
-
+    
       {
         def: 'fecha',
         title: 'Fecha',
         value: (element: OrdenCargaRemisionDestino) => element.fecha,
+        footerDef: () => 'Total',
         type: 'only-date',
       },
       {

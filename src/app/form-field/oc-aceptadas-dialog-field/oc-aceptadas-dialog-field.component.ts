@@ -13,7 +13,7 @@ import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 })
 export class OcAceptadasDialogFieldComponent implements OnInit {
   readonly inputValuePropName = 'id';
-  
+
   columns: Column[] = [
     { def: 'selector', title: '', sticky: true },
     {
@@ -26,6 +26,11 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado,
+    },
+    {
+      def: 'tracto',
+      title: 'Tracto',
+      value: (element: OrdenCargaList) => element.camion_placa,
     },
     {
       def: 'cliente',
@@ -67,7 +72,7 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
   @Input() groupName = '';
   @Input() title = 'ORDEN DE CARGA';
   @Input() emptyHint = 'Sin estado Aceptado';
-  
+
 
   @Output() valueChange = new EventEmitter<OrdenCargaList>();
 
