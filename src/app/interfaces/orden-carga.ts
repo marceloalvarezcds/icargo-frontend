@@ -74,7 +74,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
-  
+
   combinacion_propietario_id: number;
   combinacion_chofer_id: number;
   chofer_nombre: string;
@@ -121,6 +121,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_proyectado: number;
   flete_remitente_nombre: string;
   flete_remitente_numero_documento: string;
+  flete_tarifa_unidad_abreviatura: string;
   flete_tarifa: number;
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
@@ -337,6 +338,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_tarifa: flete0_tarifa,
   flete_tipo: flete0.tipo_flete,
   flete_saldo: 0,
+  flete_tarifa_unidad_abreviatura: 'kg',
   flete_producto_id: 1,
   linea_disponible: 9000,
   gestor_carga_id: flete0.gestor_carga_id,

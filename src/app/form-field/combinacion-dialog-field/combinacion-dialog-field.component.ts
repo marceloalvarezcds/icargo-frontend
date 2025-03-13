@@ -89,7 +89,6 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   }
 
   onCamionChange(combinacion?: CombinacionList): void {
-    console.log('Búsqueda por:', this.inputValuePropName, 'Valor:', event);
     if (combinacion) {
       const fechaVencimientoTransporteChofer = combinacion.camion?.vencimiento_habilitacion_transporte;
       const fechaVencimientoTransporteSemi = combinacion.semi?.vencimiento_habilitacion_transporte;

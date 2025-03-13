@@ -16,7 +16,7 @@ import { SemiFormDialogComponent } from '../semi-form-dialog/semi-form-dialog.co
   templateUrl: './propietario-semi-list.component.html',
   styleUrls: ['./propietario-semi-list.component.scss'],
 })
-export class PropietarioSemiListComponent implements OnInit{
+export class PropietarioSemiListComponent {
   a = a;
   semi?: Semi;
   item?: SemiList;
@@ -85,17 +85,6 @@ export class PropietarioSemiListComponent implements OnInit{
     private cdr: ChangeDetectorRef,
   ) {}
 
-  ngOnInit(): void {
-    if (this.id !== undefined) {
-      this.semiService.getById(this.id).subscribe(
-        (data) => {
-          this.semi = data;
-        },
-        (error) => {
-
-        });
-      }
-    }
 
 
   redirectToCreate(): void {

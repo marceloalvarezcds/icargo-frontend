@@ -20,7 +20,7 @@ import { CamionDialogData } from 'src/app/interfaces/camion-dialog-data';
   templateUrl: './propietario-camion-list.component.html',
   styleUrls: ['./propietario-camion-list.component.scss'],
 })
-export class PropietarioCamionListComponent implements OnInit {
+export class PropietarioCamionListComponent {
   a = PermisoAccionEnum;
   item?: Camion;
   camionList?: CamionList;
@@ -92,15 +92,15 @@ export class PropietarioCamionListComponent implements OnInit {
 
   ) {}
 
-  ngOnInit(): void {
-    if (this.id !== undefined) {
-      this.camionService.getById(this.id).subscribe((data) => {
-        this.item = data;
-      },(error) => {
+  // ngOnInit(): void {
+  //   if (this.id !== undefined) {
+  //     this.camionService.getById(this.id).subscribe((data) => {
+  //       this.item = data;
+  //     },(error) => {
 
-      });
-    }
-  }
+  //     });
+  //   }
+  // }
 
   redirectToCreate(): void {
     const dialogRef = this.dialog.open(CamionFormDialogComponent, {

@@ -122,7 +122,7 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
       alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
       return; // Detener la ejecución si no es seleccionable
     }
-  
+
     this.selectedRow = row;
     this.selectedChange.emit(row);  // Emitir el evento de cambio si es necesario
   }
@@ -130,5 +130,48 @@ export class TableSelectorComponent<T> implements OnInit, OnDestroy {
   private deshabilitarOpcion(estado: string): boolean {
     const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
     return estadosNoSeleccionables.includes(estado);
+  }
+
+  getColorForStateNew(column:any, row: any): string {
+    if (column.def === 'estado'){
+      const state = row[column.def];
+      switch (state) {
+        case 'Activo':
+          return '#008000'; // Verde
+        case 'Aceptado':
+          return '#008000'; // Verde
+        case 'Conciliado':
+          return '#9747FF';
+        case 'Finalizado':
+          return '#89969F';
+        case 'Inactivo':
+          return '#FF0000'; // Rojo
+        case 'Pendiente':
+          return '#FFA500'; // Naranja
+        case 'Provision':
+          return 'gray'; // Naranja
+        case 'Anulado':
+          return 'red';
+        case 'Saldo abierto':
+          return '#9747FF';
+        case 'Saldo cerrado':
+          return '#89969F';
+        case 'En Revisión':
+          return '#008000'; // Verde
+        case 'Pendiente':
+          return '#FFA500'; // Naranja
+        case 'Rechazado':
+          return '#FF0000'; // Rojo
+        default:
+          return '#000000'; // Color por defecto o para otros estados
+      }
+    } else {
+      if (column.dinamicStyles) {
+        let stylos = column.dinamicStyles(row);
+        return stylos.color ?? 'inherit';
+      }
+      return '';
+    }
+
   }
 }

@@ -347,7 +347,7 @@ export class DialogFormFieldControlComponent<
       .subscribe((selectedValue: T) => {
         if (this.deshabilitarOpcion((selectedValue as any).estado)) {
           alert('El elemento seleccionado está inactivo o en un estado no seleccionble.');
-          return; 
+          return;
         }
 
         this.selectedValue = selectedValue;
@@ -405,19 +405,29 @@ export class DialogFormFieldControlComponent<
     );
   }
 
+
+  readonly searchBy = 'id';
   keyPress(event: Event) {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === 'Tab') {
       event.preventDefault();
       event.stopPropagation();
-
       const inputValue = this.formGroup.controls['descripcion'].value?.toString().trim();
-      const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
-
-      if (result) {
-        this.value = result.id;
-      } else {
-        alert('No se encontró ningún elemento en la lista con el valor proporcionado');
+      if (this.searchBy === 'id') {
+        const result = this.list.find((x: any) => x.id === Number(inputValue));
+        if (result) {
+          this.value = result.id;
+        } else {
+          alert('No se encontró ningún elemento en la lista con el valor proporcionado por ID');
+        }
+      }
+      else if (this.searchBy === 'descripcion') {
+        const result = this.list.find((x: any) => x[this.descripcionPropName] === inputValue);
+        if (result) {
+          this.value = result.id;
+        } else {
+          alert('No se encontró ningún elemento en la lista con el valor proporcionado por Descripción');
+        }
       }
     }
   }

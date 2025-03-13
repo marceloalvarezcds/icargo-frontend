@@ -25,7 +25,8 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>
           <span class="title-selector">{{ column.title }}</span>
         </th>
-        <td mat-cell *matCellDef="let row" [ngClass]="{'selected-row': row === selectedRow}">
+        <td mat-cell *matCellDef="let row" [ngClass]="{'selected-row': row === selectedRow}"
+         [ngStyle]="{'color': getColorForStateNew(column, row), 'text-transform': 'uppercase'}">
           <ng-container *ngIf="column.value">
 
             <ng-container [ngSwitch]="column.type">

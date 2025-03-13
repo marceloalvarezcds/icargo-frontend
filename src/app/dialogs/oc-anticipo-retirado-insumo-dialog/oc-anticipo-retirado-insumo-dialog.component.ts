@@ -218,7 +218,8 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
         return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}</strong>`;
+    return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}
+    </strong> | Monto: <strong>${formatNumber(this.monto)}</strong>`;
   }
 
   @Output() valueChange = new EventEmitter<string>();
