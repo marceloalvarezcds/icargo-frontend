@@ -59,6 +59,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   form = new FormGroup({
     monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
     es_cobro: new FormControl(true, Validators.required),
+    moneda_id: new FormControl(null, Validators.required),
   });
 
   get monto(): number {
@@ -158,6 +159,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.form.controls['es_cobro'].setValue(false);
     }
 
+    if (this.esFinalizado) {
+      this.form.controls['monto_pc'].disable();
+      this.form.controls['moneda_id'].disable();
+      this.form.controls['es_cobro'].disable();
+    }
+
     setTimeout(() => {
       if (this.esFinalizado) {
         this.colapseDivMovimientos = true;
@@ -176,6 +183,13 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       if (propName === 'movimientos') {
         this.actualizarSaldos(chng.currentValue);
       }
+      if (propName === 'liquidacion') {
+        if (this.esFinalizado) {
+          this.form.controls['monto_pc'].disable();
+          this.form.controls['moneda_id'].disable();
+          this.form.controls['es_cobro'].disable();
+        }
+      }
     }
   }
 
@@ -190,17 +204,18 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
     }
 
-    if (this.item!.pago_cobro>0) {
-      this.form.controls['es_cobro'].setValue(true);
-    } else {
-      this.form.controls['es_cobro'].setValue(false);
-    }
+    if (this.item!.pago_cobro!=0)
+      if (this.item!.pago_cobro>0) {
+        this.form.controls['es_cobro'].setValue(true);
+      } else {
+        this.form.controls['es_cobro'].setValue(false);
+      }
   }
 
   actualizarFactura():void {
-    this.item!.pago_cobro = null;
+    //this.item!.pago_cobro = null;
     //this.liquidacionFacturasComponent?.loadList();
-    this.actualizarMovimientos.emit(this.item);
+    //this.actualizarMovimientos.emit(this.item);
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
@@ -212,12 +227,20 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
   modificarLiquidacion():void {
 
+    this.form.markAsDirty();
+    this.form.markAllAsTouched();
+    if (!this.form.valid) {
+      return;
+    }
+
     let es_pago_cobro = (this.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
 
     this.item!.monto = pago_cobro;
 
     const pagoCobro = this.pagoCobroValue;
+    const moneda = this.form.controls['moneda_id'].value;
+
     console.log("pagoCobro value: ", pagoCobro);
     if ( !pagoCobro ) {
       this.item!.monto = Math.abs(pago_cobro)*-1;
@@ -226,6 +249,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.item!.monto = Math.abs(pago_cobro);
       this.item!.es_pago_cobro='PAGO';
     }
+
+    this.item!.moneda_id = moneda.id;
+
+    console.log("moneda: ", moneda);
+    console.log("this.monto_pc.value: ", this.monto_pc.value);
+    console.log("pagoCobro: ", pagoCobro);
 
     this.liquidacionService
       .edit(this.item!.id, editLiquidacionData(this.item!))

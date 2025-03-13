@@ -151,9 +151,25 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     );
   }
 
+  suma(num1:number, num2:number): number {
+    return num1+num2
+  }
+
+  resta(num1:number, num2:number): number {
+    return num1-num2
+  }
+
   saveInstrumentos(): void {
+
     const list = this.list.slice().map( (ele:InstrumentoLiquidacionItem) => {
-      ele.saldo_cc = (this.saldoCC - this.liquidacion!.pago_cobro!);
+
+      ele.saldo_cc = ( this.saldoCC>0
+          ? this.suma(this.saldoCC, this.liquidacion!.pago_cobro!*-1)
+          : this.resta(this.saldoCC, this.liquidacion!.pago_cobro!)
+      );
+
+      console.log(`ele.saldo_cc = (${this.saldoCC} + ${this.liquidacion!.pago_cobro!});`);
+      console.log(`ele.saldo_cc: `, ele.saldo_cc);
       return  ele
     });
     const message = `Por favor verifique que los datos de instrumentos y facturas estén correctos, luego de realizar esta acción no podrá modificar los datos de los mismos ¿ Desea guardar ?`;

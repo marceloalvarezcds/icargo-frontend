@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -14,6 +15,7 @@ import { changeLiquidacionDataMonto, changeLiquidacionStatusData } from 'src/app
 import { Factura } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
+import { Movimiento } from 'src/app/interfaces/movimiento';
 import { DialogService } from 'src/app/services/dialog.service';
 import { HttpErrorService } from 'src/app/services/http-error.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
@@ -56,6 +58,9 @@ export class LiquidacionEditFormAccionesComponent {
   @Input() saldoMovimiento : number | undefined = 0;
   @Input() totalMovimiento : number = 0;
   @Input() saldoCC : number | undefined  = 0;
+  @Input() sentidoOp: boolean = false;
+  @Input() movimientos : Movimiento[] = [];
+  @Input() form : FormGroup|undefined=undefined;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
@@ -115,8 +120,8 @@ export class LiquidacionEditFormAccionesComponent {
 
       <div class="col-xs-12">
         <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">Monto Pago/Cobro</strong>
-          <strong class="col-xs-5">${numberWithCommas(pago_cobro)}</strong>
+          <strong class="col-xs-7">${ this.sentidoOp ? "Monto Pagar" :"Monto Cobrar"}</strong>
+          <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
         </div>
       </div>
 
@@ -207,8 +212,39 @@ export class LiquidacionEditFormAccionesComponent {
 
   someter(): void {
 
-    let es_pago_cobro = (this.saldoMovimiento! > 0) ? 'PAGO' : 'COBRO';
+    this.form!.markAsDirty();
+    this.form!.markAllAsTouched();
+
+    console.log("this.form: ", this.form);
+
+    if (!this.form!.valid) {
+      return;
+    }
+
+    let es_pago_cobro = (this.saldoMovimiento! >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
+
+    if ( !this.sentidoOp ) {
+      pago_cobro = Math.abs(pago_cobro)*-1;
+      es_pago_cobro='COBRO';
+    } else {
+      pago_cobro = Math.abs(pago_cobro);
+      es_pago_cobro='PAGO';
+    }
+
+    // si liquidacion no tiene movimientos, es una orde de pago
+    if (this.movimientos.length === 0) {
+
+      const form = { 'monto': pago_cobro, comentario:"" };
+
+      this.liquidacionService
+        .someter(this.id, changeLiquidacionDataMonto(form))
+        .subscribe((rest) => {
+          this.snackbar.changeStatus();
+          this.liquidacionFlujoChange.emit(rest);
+        });
+      return;
+    }
 
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
     let htmlContent = '';
@@ -230,8 +266,8 @@ export class LiquidacionEditFormAccionesComponent {
 
       <div class="col-xs-12">
         <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">Monto Pago/Cobro</strong>
-          <strong class="col-xs-5">${numberWithCommas(pago_cobro)}</strong>
+          <strong class="col-xs-7">${ this.sentidoOp ? "Monto Pagar" :"Monto Cobrar"}</strong>
+          <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
         </div>
       </div>
 
@@ -239,6 +275,14 @@ export class LiquidacionEditFormAccionesComponent {
 
     if (!this.isFacturaReady) {
       htmlContent += `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
+    }
+
+    if ( this.totalMovimiento != this.monto ) {
+      htmlContent += `
+        <div class="formulario-center">
+          <span class="material-icons">warning</span>
+          <h2 class="alerta">Atencion!! Monto Pago/Cobro es diferente a la sumatoria de los movimientos!</h2>
+        <div>`;
     }
 
     this.dialogService.configDialogRef(
@@ -249,9 +293,10 @@ export class LiquidacionEditFormAccionesComponent {
           htmlContent: htmlContent,
           htmlFooter: htmlFooter
         },
+        panelClass: 'half-dialog'
       }),
       (comentario: string) => {
-        let form = { 'monto': pago_cobro, comentario }
+        const form = { 'monto': pago_cobro, comentario }
 
         this.liquidacionService
           .someter(this.id, changeLiquidacionDataMonto(form))

@@ -36,6 +36,9 @@ import { edit } from 'src/app/utils/table-event-crud';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
+import { DialogService } from 'src/app/services/dialog.service';
+import { LiquidacionService } from 'src/app/services/liquidacion.service';
+import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 
 type Filter = {
   camion_placa?: string;
@@ -57,6 +60,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   m = PermisoModeloEnum;
   backUrl = `/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`;
   isShowOnly = false;
+  private readonly monedaIdGs = 1;
 
   columns: Column[] = []
 
@@ -156,6 +160,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
   get pagos(): number {
     return this.list.reduce((acc, cur) => acc + (cur.finalizado ?? 0), 0);
+    //return this.list.reduce((acc, cur) => acc + ((cur.detalle === 'PAGO' ? cur.finalizado : (cur.finalizado*-1)) ?? 0), 0);
   }
 
   get saldo(): number {
@@ -205,6 +210,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     private estadoCuentaService: EstadoCuentaService,
     private movimientoService: MovimientoService,
     private reportsService: ReportsService,
+    private dialogService: DialogService,
+    private liquidacionService: LiquidacionService,
     private searchService: SearchService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
@@ -407,6 +414,63 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     }
 
     createOrdenPago():void {
+
+      this.dialogService.confirmation(
+        `Está seguro que desea Crear Orden de Pago/Cobro?`,
+        () => {
+
+          this.estadoCuenta!.moneda_id = this.monedaIdGs;
+
+          if (this.estadoCuenta!.es_pdv){
+            this.snackbar.open('Debe seleccionar Punto de Venta!');
+            return;
+          }
+
+          this.liquidacionService.create(
+                createLiquidacionDataFields([], this.estadoCuenta!, 0, "PAGO", "EFECTIVO"))
+            .subscribe((resp) => {
+
+              this.snackbar.open('Datos guardados satisfactoriamente');
+
+              const liquidacion = resp;
+              const contraparteId = liquidacion.chofer_id ??
+                    liquidacion.propietario_id ??
+                    liquidacion.proveedor_id ??
+                    liquidacion.remitente_id;
+
+              const data = {
+                contraparte: liquidacion.contraparte,
+                contraparte_id: contraparteId,
+                contraparte_numero_documento: liquidacion.contraparte_numero_documento,
+                tipo_contraparte_id: liquidacion.tipo_contraparte_id,
+                tipo_contraparte_descripcion: liquidacion.tipo_contraparte.descripcion,
+                isEdit: true,
+                liquidacionId: liquidacion.id,
+                etapa: liquidacion.etapa,
+                punto_venta_id: liquidacion.punto_venta_id,
+                flujo: liquidacion.tipo_mov_liquidacion
+              };
+
+              this.dialog
+                .open(LiquidacionFormDialogComponent, {
+                  data,
+                  panelClass: 'full-dialog',
+                })
+                .afterClosed()
+                //.pipe(filter((confirmed) => !!confirmed))
+                .subscribe(() => {
+                  this.getList();
+                });
+
+            });
+
+        }
+      );
+
+      return;
+    }
+
+    createOrdenPagoBck():void {
 
       const {
         contraparte_id,

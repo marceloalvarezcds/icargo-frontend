@@ -138,7 +138,7 @@ export class LiquidacionFormComponent implements OnInit {
         credito: this.child.credito,
         debito: this.child.debito,
         monto: pago_cobro,
-        saldo: this.child.childSaldoView.saldo
+        saldo: this.child.childSaldoView.saldo-pago_cobro
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {

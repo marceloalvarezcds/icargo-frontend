@@ -6,14 +6,14 @@
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="false"
-  [hideSaveButton]="true"
+  [hideSaveButton]="false"
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
   [shouldShowDownloadButton]="true"
   (backClick)="back()"
-  (editClick)="redirectToEdit()"
+  (submitEvent)="actualizar()"
   (downloadClick)="downloadFile()"
 >
 

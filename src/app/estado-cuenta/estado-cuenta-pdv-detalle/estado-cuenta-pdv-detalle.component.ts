@@ -35,6 +35,9 @@ import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimi
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { edit } from 'src/app/utils/table-event-crud';
 import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
+import { DialogService } from 'src/app/services/dialog.service';
+import { LiquidacionService } from 'src/app/services/liquidacion.service';
+import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 
 type Filter = {
   camion_placa?: string;
@@ -58,6 +61,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
   isShowOnly = false;
   module = '';
   submodule = '';
+  private readonly monedaIdGs = 1;
 
   columns: Column[] = [
     {
@@ -408,6 +412,8 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
     private movimientoService: MovimientoService,
     private reportsService: ReportsService,
     private searchService: SearchService,
+    private dialogService: DialogService,
+    private liquidacionService: LiquidacionService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
@@ -588,6 +594,64 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
     }
 
     createOrdenPago():void {
+
+      this.dialogService.confirmation(
+        `Está seguro que desea Crear Orden de Pago/Cobro?`,
+        () => {
+
+          this.estadoCuenta!.moneda_id = this.monedaIdGs;
+
+          if (this.estadoCuenta!.es_pdv){
+            this.snackbar.open('Debe seleccionar Punto de Venta!');
+            return;
+          }
+
+          this.liquidacionService.create(
+                createLiquidacionDataFields([], this.estadoCuenta!, 0, "PAGO", this.estadoCuenta!.tipo_flujo!))
+            .subscribe((resp) => {
+
+              this.snackbar.open('Datos guardados satisfactoriamente');
+
+              const liquidacion = resp;
+              const contraparteId = liquidacion.chofer_id ??
+                    liquidacion.propietario_id ??
+                    liquidacion.proveedor_id ??
+                    liquidacion.remitente_id;
+
+              const data = {
+                contraparte: liquidacion.contraparte,
+                contraparte_id: contraparteId,
+                contraparte_numero_documento: liquidacion.contraparte_numero_documento,
+                tipo_contraparte_id: liquidacion.tipo_contraparte_id,
+                tipo_contraparte_descripcion: liquidacion.tipo_contraparte.descripcion,
+                isEdit: true,
+                liquidacionId: liquidacion.id,
+                etapa: liquidacion.etapa,
+                punto_venta_id: liquidacion.punto_venta_id,
+                flujo: liquidacion.tipo_mov_liquidacion
+              };
+
+              this.dialog
+                .open(LiquidacionFormDialogComponent, {
+                  data,
+                  panelClass: 'full-dialog',
+                })
+                .afterClosed()
+                //.pipe(filter((confirmed) => !!confirmed))
+                .subscribe(() => {
+                  this.getList();
+                });
+
+            });
+
+        }
+      );
+
+      return;
+
+    }
+
+    createOrdenPagoBck():void {
 
       const {
         contraparte_id,

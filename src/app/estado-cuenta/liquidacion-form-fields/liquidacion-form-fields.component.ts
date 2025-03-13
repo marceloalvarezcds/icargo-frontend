@@ -63,6 +63,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     //pago: new FormGroup({
       monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
       es_cobro: new FormControl(true, Validators.required),
+      moneda_id: new FormControl(null, Validators.required),
     //})
   });
 
@@ -357,8 +358,14 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   }
 
   cargarMovimientos(movimientos: Movimiento[]):void {
+    console.log("movimientos: ", movimientos);
     this.movimientosSelected = movimientos;
     this.monto_pc.setValue(Math.abs(this.monto));
+    if (this.monto>=0) {
+      this.form.controls['es_cobro'].setValue(true);
+    } else {
+      this.form.controls['es_cobro'].setValue(false);
+    }
   }
 
 }

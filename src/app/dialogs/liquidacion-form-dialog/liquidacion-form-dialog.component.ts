@@ -120,6 +120,11 @@ export class LiquidacionFormDialogComponent {
 
   actualizar(): void {
 
+    if (this.childEdit.movimientos.length===0) {
+      this.submitEdit();
+      return;
+    }
+
     let es_pago_cobro = (this.childEdit.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? this.childEdit.monto_pc.value : (this.childEdit.monto_pc.value*-1);
 

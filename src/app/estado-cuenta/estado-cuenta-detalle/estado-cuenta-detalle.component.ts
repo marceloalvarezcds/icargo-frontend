@@ -10,6 +10,7 @@ import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
   styleUrls: ['./estado-cuenta-detalle.component.scss'],
 })
 export class EstadoCuentaDetalleComponent {
+
   @Input() es_pdv?: boolean = false;
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoLiqui?: LiquidacionEstadoEnum;
@@ -21,7 +22,7 @@ export class EstadoCuentaDetalleComponent {
   @Input() showLiquidacion = false;
   @Input() liquidacionId = 0;
   @Input() esEditableLinea=false;
-  @Input() form:FormGroup|undefined=undefined;
+  @Input() form!:FormGroup;
 
   @Input() esInsumoControl:FormControl|undefined=undefined;
   @Input() tipo_insumo:FormControl|undefined=undefined;

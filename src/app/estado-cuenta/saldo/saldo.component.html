@@ -1,14 +1,5 @@
 <div class="row" [formGroup]="form" >
 
-  <app-number-field
-    *ngIf="showMonto"
-    class="input-form-full col-xs-12 col-sm-2"
-    title="Monto Pago/Cobro"
-    controlName="monto_pc"
-    [readonly]="esFinalizado"
-    [form]="form"
-  ></app-number-field>
-
   <div *ngIf="showResumen" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Tot. Movimientos</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
@@ -67,11 +58,49 @@
 
   <div class="input-form-full col-xs-6 col-sm-4 col-md-2">
     <mat-label>Sentido Operación</mat-label>
-    <mat-form-field>
-      <mat-select formControlName="es_cobro">
+    <mat-form-field >
+      <mat-select formControlName="es_cobro" [disabled]="esFinalizado">
         <mat-option [value]="true">Pagar</mat-option>
         <mat-option [value]="false">Cobrar</mat-option>
       </mat-select>
+    </mat-form-field>
+  </div>
+
+  <app-moneda-field
+    class="input-form-full col-xs-6 col-sm-4 col-md-2"
+    [title]="'Moneda'"
+    [requerido]="true"
+    [readonly]="esFinalizado"
+    controlName="moneda_id"
+    [form]="form">
+  </app-moneda-field>
+
+  <!--app-number-field
+    class="input-form-full col-xs-6 col-sm-4 col-md-2"
+    *ngIf="showMonto"
+    title="Monto Pago/Cobro"
+    controlName="monto_pc"
+    [readonly]="esFinalizado"
+    [form]="form"
+  ></app-number-field-->
+
+  <div class="input-form-full" style="display: flex; flex-direction: column;">
+    <mat-label style="font-size: large; font-weight: 500;">
+      <span style="color: red;">(*) </span>
+      Monto Pagar/Cobrar
+    </mat-label>
+
+    <mat-form-field>
+      <input
+        matInput
+        formControlName="monto_pc"
+        [disabled]="esFinalizado"
+        [readonly]="esFinalizado"
+        appInputThousandsSeparator
+      />
+      <mat-error *ngIf="form.controls['monto_pc'].hasError('required')">
+        Este campo es <strong>requerido</strong>
+      </mat-error>
     </mat-form-field>
   </div>
 

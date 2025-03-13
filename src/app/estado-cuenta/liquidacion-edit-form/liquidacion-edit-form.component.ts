@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -18,6 +18,10 @@ import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { getQueryParams } from 'src/app/utils/contraparte-info';
+import { LiquidacionEditFieldsComponent } from '../liquidacion-edit-fields/liquidacion-edit-fields.component';
+import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
+import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-liquidacion-edit-form',
@@ -25,6 +29,7 @@ import { getQueryParams } from 'src/app/utils/contraparte-info';
   styleUrls: ['./liquidacion-edit-form.component.scss'],
 })
 export class LiquidacionEditFormComponent implements OnInit {
+
   E = LiquidacionEstadoEnum;
   m = m;
   form = new FormGroup({});
@@ -40,6 +45,9 @@ export class LiquidacionEditFormComponent implements OnInit {
   @Output() liquidacionChange = new EventEmitter();
 
   estadoCuenta= mockEstadoCuentaList[0];
+
+  @ViewChild('child')
+  childEdit!: LiquidacionEditFieldsComponent;
 
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
@@ -81,7 +89,8 @@ export class LiquidacionEditFormComponent implements OnInit {
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
     private estadoCuentaService: EstadoCuentaService,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private dialog: MatDialog,
   ) {}
 
   ngOnInit(): void {
@@ -117,6 +126,40 @@ export class LiquidacionEditFormComponent implements OnInit {
           saveAs(file, filename);
         });
       });
+  }
+
+  actualizar(): void {
+
+    if (this.childEdit.movimientos.length===0) {
+      this.editLiquidacion();
+      return;
+    }
+
+    let es_pago_cobro = (this.childEdit.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
+    let pago_cobro = es_pago_cobro === 'PAGO' ? this.childEdit.monto_pc.value : (this.childEdit.monto_pc.value*-1);
+
+    const data: LiquidacionConfirmDialogData = {
+      contraparteInfo: this.estadoCuenta!,
+      list: this.childEdit.movimientos,
+      credito: this.childEdit.credito,
+      debito: this.childEdit.debito,
+      monto: pago_cobro,
+      saldo: this.childEdit.childSaldoView.saldo,
+    };
+    this.dialog
+      .open(LiquidacionConfirmDialogComponent, {
+        data,
+        panelClass: 'full-dialog',
+      })
+      .afterClosed()
+      .pipe(filter((confirmed) => !!confirmed))
+      .subscribe(() => {
+        this.editLiquidacion();
+      });
+  }
+
+  editLiquidacion():void {
+    this.childEdit.modificarLiquidacion()
   }
 
   redirectToEdit(): void {
