@@ -21,7 +21,6 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
     },
-
     {
       def: 'estado',
       title: 'Estado',
@@ -46,11 +45,6 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
       def: 'destino_nombre',
       title: 'Destino',
       value: (element: OrdenCargaList) => element.destino_nombre,
-    },
-    {
-      def: 'chapa_tracto',
-      title: 'Tracto',
-      value: (element: OrdenCargaList) => element.camion_placa,
     },
     {
       def: 'chofer_nombre',
