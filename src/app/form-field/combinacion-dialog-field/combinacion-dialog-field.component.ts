@@ -29,7 +29,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       value: (element: CombinacionList) => element.camion_placa,
     },
     {
-      def: 'estado_combinacion',
+      def: 'estado',
       title: 'Estado',
       value: (element: CombinacionList) => element.estado,
     },

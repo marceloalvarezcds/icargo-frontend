@@ -43,7 +43,7 @@ export class RemitenteByGestorMapDialogFieldComponent {
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<RemitenteList, SelectorInMapDialogComponent<RemitenteList>>;
 
-  fetchDataFunction = () => this.service.getListByGestorCuentaId();
+  fetchDataFunction = () => this.service.getListActivos();
 
   constructor(
     private service: RemitenteService,

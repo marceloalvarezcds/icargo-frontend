@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { TextoLegal } from '../interfaces/texto-legal';
+import { concatMap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,15 @@ export class TextoLegalService {
   }
 
   getList(): Observable<TextoLegal[]> {
-    return this.http.get<TextoLegal[]>(`${this.url}/`);
+    return this.http.get<TextoLegal[]>(`${this.url}/`)
+      .pipe(
+        map((resp:TextoLegal[])=> {
+          resp.map(texto=>{
+            texto.texto_legal = texto.titulo + ' - ' + texto.descripcion
+          })
+          return resp;
+        })
+      );
   }
 
   geItemByTitletList(title: string): Observable<TextoLegal> {

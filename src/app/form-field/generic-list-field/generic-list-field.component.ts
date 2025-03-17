@@ -46,6 +46,7 @@ export class GenericListFieldComponent<T extends { id: number }>
   @Input() set list(l: T[]) {
     this.lista = l.slice();
   }
+  @Input() useAsObject = false;
   @Input() key = 'id';
   @Input() controlName = '';
   @Input() groupName?: string;
@@ -59,7 +60,10 @@ export class GenericListFieldComponent<T extends { id: number }>
     this.setValueChange(currentId);
     this.subscription = this.control.valueChanges
       .pipe(filter((v) => !!v))
-      .pipe(map((v) => getIdFromAny(v, key)))
+      .pipe(map((v) => {
+        console.log(`formcontrol:${this.controlName}, value: ${v} `);
+        return (this.useAsObject) ? v : getIdFromAny(v, key)
+      }))
       .subscribe((id) => {
         this.setValueChange(id);
       });
@@ -107,10 +111,22 @@ export class GenericListFieldComponent<T extends { id: number }>
     return item ? this.textValueFormat(item) : item;
   }
 
-  private setValueChange(id: string | number | undefined): void {
+  private setValueChange(id: string | number | T | undefined): void {
     setTimeout(() => {
-      const value = this.getItemById(id);
-      this.valueChange.emit(value);
+
+      console.log("control: ", this.controlName);
+      console.log("useAsObject: ", this.useAsObject);
+      console.log("id: ", id);
+
+      if ( typeof id === 'object' ) {
+        this.valueChange.emit(id);
+      }
+
+      if (typeof id === 'string' || typeof id === 'number') {
+        const value = this.getItemById(id);
+        this.valueChange.emit(value);
+      }
+
     }, 0);
   }
 

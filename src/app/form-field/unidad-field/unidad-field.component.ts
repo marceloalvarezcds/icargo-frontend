@@ -18,21 +18,25 @@ import { UnidadService } from 'src/app/services/unidad.service';
 })
 export class UnidadFieldComponent {
 
+  //list: Unidad[] = [];
   list$ = this.unidadService.getList()
     .pipe(
         tap((resp) => {
-          if (this.auto_select){
-            if (resp){
-              resp.forEach((ele:any)=>{
-                if (ele[this.auto_select_property] === this.auto_select_filtro){
-                  this.control.setValue(ele)
-                }
-              });
-            }
+          if (this.auto_select && resp && !this.control.value){
+            resp.forEach((ele:any)=>{
+              if (ele[this.auto_select_property] === this.auto_select_filtro){
+                this.control.setValue(ele.id)
+              }
+            });
           }
         }),
-      );
+    );
 
+
+  @Input() set optionsList(l: Unidad[]) {
+    //this.list = l;
+    // auto-carga hacer en este apartado
+  }
   @Input() auto_select_filtro= "kg";
   @Input() auto_select_property= "abreviatura";
   @Input() auto_select=true;
@@ -47,7 +51,7 @@ export class UnidadFieldComponent {
   @ViewChild('app-generic-list-field')
   GenericListFieldComponent?: GenericListFieldComponent<Unidad>;
 
-  constructor(private unidadService: UnidadService) {}
+  constructor(private unidadService: UnidadService) { }
 
   get group(): FormGroup {
     if (this.groupName) {
@@ -67,4 +71,5 @@ export class UnidadFieldComponent {
   value(value: Unidad): number {
     return value.id;
   }
+
 }

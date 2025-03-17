@@ -12,17 +12,18 @@
   }
 }
 
+//TODO: el selector define su tamaño, pero mejor seria que asuma el tamaño del componente que lo usa
 ::ng-deep {
   .selector-dialog {
     width: 100vw !important;
     @media screen and (min-width: 48em) {
-      width: calc(100vw - 5rem) !important;
+      width: calc(80vw - 5rem) !important;
     }
     @media screen and (min-width: 64em) {
-      width: calc(100vw - 10rem) !important;
+      width: calc(80vw - 10rem) !important;
     }
     @media screen and (min-width: 75em) {
-      width: calc(100vw - 20rem) !important;
+      width: calc(80vw - 20rem) !important;
     }
   }
 }

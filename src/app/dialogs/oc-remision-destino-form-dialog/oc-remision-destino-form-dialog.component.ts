@@ -87,10 +87,6 @@ export class OcRemisionDestinoFormDialogComponent {
           orden_carga_id: this.dialogData.orden_carga_id,
         })
       );
-
-      const unidad = data.unidad_id;
-      data.unidad_id = unidad.id;
-
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFile) {

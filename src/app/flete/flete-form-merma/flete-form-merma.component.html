@@ -26,9 +26,10 @@
       <app-unidad-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Unidad"
-        controlName="merma_{{ afectado }}_unidad"
+        controlName="merma_{{ afectado }}_unidad_id"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="cargarSelecUnidad($event)"
       ></app-unidad-field>
 
     <div class="input-form-full col-xs-12 col-sm-6 col-md-2">

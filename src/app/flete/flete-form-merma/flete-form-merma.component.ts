@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Unidad } from 'src/app/interfaces/unidad';
 
 @Component({
   selector: 'app-flete-form-merma',
@@ -31,9 +32,9 @@ export class FleteFormMermaComponent implements OnDestroy {
       this.cargarSelec(item);
     });
 
-    this.group.get(`merma_${this.afectado}_unidad`)?.valueChanges.subscribe((item:any)=> {
+    /*this.group.get(`merma_${this.afectado}_unidad`)?.valueChanges.subscribe((item:any)=> {
       this.cargarSelecUnidad(item);
-    })
+    })*/
 
   }
 
@@ -66,8 +67,9 @@ export class FleteFormMermaComponent implements OnDestroy {
     this.group.get(`merma_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo);
   }
 
-  cargarSelecUnidad(unidad:any):void {
-    this.group.get(`merma_${this.afectado}_unidad_id`)?.setValue(unidad?.id);
+  cargarSelecUnidad(unidad:Unidad | undefined):void {
+    if (!unidad) return;
+    //this.group.get(`merma_${this.afectado}_unidad_id`)?.setValue(unidad?.id);
     this.group.get(`merma_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
   }
 

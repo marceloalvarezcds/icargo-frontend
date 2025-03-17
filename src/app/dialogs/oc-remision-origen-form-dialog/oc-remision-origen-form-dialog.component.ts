@@ -77,6 +77,9 @@ export class OcRemisionOrigenFormDialogComponent {
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
+    console.log("this.form: ", this.form);
+
     if (this.form.valid) {
       const data = JSON.parse(
         JSON.stringify({
@@ -85,10 +88,6 @@ export class OcRemisionOrigenFormDialogComponent {
           orden_carga_id: this.dialogData.orden_carga_id,
         })
       );
-
-      const unidad = data.unidad_id;
-      data.unidad_id = unidad.id;
-
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
       if (this.fotoDocumentoFile) {
