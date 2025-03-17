@@ -129,7 +129,7 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
         title: 'Nº Remito',
         value: (element: OrdenCargaRemisionDestino) => element.numero_documento,
       },
-    
+
       {
         def: 'fecha',
         title: 'Fecha',

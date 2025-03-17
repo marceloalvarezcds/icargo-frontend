@@ -471,7 +471,7 @@
       </div>
     </div>
 
-    <div class="section" *ngIf="!isConciliar && !showField && !isEditField">
+    <div class="section" *ngIf="!isFinalizarForm && (!isConciliar && !showField && !isEditField)">
       <h2 class="title-colapside" (click)="colapseDivCantidad=!colapseDivCantidad">CANTIDAD NOMINADA</h2>
 
       <div class="row" [class.colapse-div]="colapseDivCantidad">

@@ -79,8 +79,8 @@ export class SemiFormComponent implements OnInit, OnDestroy {
       ente_emisor_transporte_id: [null, Validators.required],
       numero_habilitacion_transporte: [null, Validators.required],
       vencimiento_habilitacion_transporte: [null, [Validators.required, DateValidator.date]],
-      foto_habilitacion_transporte_frente: [null, Validators.required],
-      foto_habilitacion_transporte_reverso: [null, Validators.required],
+      foto_habilitacion_transporte_frente: null,
+      foto_habilitacion_transporte_reverso: null,
     }),
     automotor: this.fb.group({
       ente_emisor_automotor_id: null,

@@ -234,7 +234,7 @@
           </ng-container>
         </td>
         <ng-container *ngIf="shouldBeShowFooter">
-          <td mat-footer-cell *matFooterCellDef >
+          <td mat-footer-cell *matFooterCellDef [ngClass]="{ 'text-right': column.footerDef && column.footerDef() === 'Total' }">
             <strong [ngSwitch]="column.type">
               <ng-container *ngSwitchCase="'number'">
                 {{ column.footerDef && column.footerDef() | numberFormat }}
@@ -244,6 +244,7 @@
               </ng-container>
             </strong>
           </td>
+
         </ng-container>
       </ng-container>
       <ng-container *ngIf="column.def === 'actions'" >
@@ -429,9 +430,10 @@
           </mat-menu>
         </td>
         <ng-container *ngIf="shouldBeShowFooter">
-          <td mat-footer-cell *matFooterCellDef>
+          <td mat-footer-cell *matFooterCellDef [ngClass]="{ 'text-right': column.footerDef && column.footerDef() === 'Total' }">
             <strong>{{ column.footerDef && column.footerDef() }}</strong>
           </td>
+
         </ng-container>
       </ng-container>
     </ng-container>
