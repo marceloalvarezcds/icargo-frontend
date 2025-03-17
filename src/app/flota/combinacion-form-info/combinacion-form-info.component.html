@@ -58,22 +58,12 @@
             ></app-input-field>
 
             <app-input-field-neto
-             *ngIf="isVisible"
               class="input-form-full col-xs-12 col-sm-6 col-md-3"
               title="Limite Anticipos"
               [groupName]="groupName"
               controlName="limite_anticipos"
               [form]="form"
             ></app-input-field-neto>
-
-            <app-slide
-              class="input-form-full col-xs-12 col-sm-6 col-md-2"
-              [control]="toggleControl"
-              title="Límites de anticipos a retirar ?"
-              [trueTitle]="'SI'"
-              [falseTitle]="'NO'"
-              (valueChange)="toggleFieldVisibility($event)"
-            ></app-slide>
 
             <app-slide
               class="input-form-full col-xs-12 col-sm-6 col-md-1"

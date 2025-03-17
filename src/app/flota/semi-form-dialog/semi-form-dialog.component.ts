@@ -126,7 +126,7 @@ export class SemiFormDialogComponent implements OnInit {
     if (this.isShow) {
       return 'VER';
     }
-    return this.isEdit ? 'ACTUALIZAR' : 'NUEVO';
+    return this.isEdit ? 'EDITAR' : 'NUEVO';
   }
 
   get puedeModificar(): boolean {
