@@ -10,6 +10,7 @@ import { Column } from 'src/app/interfaces/column';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { TableEvent } from 'src/app/interfaces/table';
 import { CombinacionService } from 'src/app/services/combinacion.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
@@ -153,7 +154,8 @@ export class CombinacionListComponent implements OnInit{
     private combinacionService: CombinacionService,
     private reportsService: ReportsService,
     private searchService: SearchService,
-    private router: Router
+    private router: Router,
+    private dialog: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -177,6 +179,28 @@ export class CombinacionListComponent implements OnInit{
       event.row.id,
     ]);
   }
+
+    active({ row }: TableEvent<CombinacionList>): void {
+      const message = `¿Está seguro que desea activar la Combinación con Nº ${row.id}?`;
+      this.dialog.confirmationToDelete(
+        message,
+        this.combinacionService.active(row.id),
+        () => {
+          this.getList();
+        }
+      );
+    }
+
+    inactive({ row }: TableEvent<CombinacionList>): void {
+      const message = `¿Está seguro que desea inactivar la Combinación con Nº ${row.id}?`;
+      this.dialog.confirmationToDelete(
+        message,
+        this.combinacionService.inactive(row.id),
+        () => {
+          this.getList();
+        }
+      );
+    }
 
   downloadFile(): void {
     this.combinacionService.generateReports().subscribe((filename) => {

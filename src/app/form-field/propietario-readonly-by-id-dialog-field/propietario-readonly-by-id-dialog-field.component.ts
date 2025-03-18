@@ -91,7 +91,7 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
   @Input() controlName = 'propietario_id';
   @Input() form?: FormGroup;
   @Input() groupName = '';
-  @Input() title = 'Propietario';
+  @Input() title = 'Titular';
   @Input() set camionId(id: number | undefined) {
     this.cId = id;
     //this.getList();

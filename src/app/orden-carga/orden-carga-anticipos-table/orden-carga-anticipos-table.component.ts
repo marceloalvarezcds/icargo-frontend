@@ -67,31 +67,31 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
           case 'Activo':
           case 'Aceptado':
           case 'En Revisión':
-            return { color: '#008000' }; 
+            return { color: '#008000' };
           case 'Conciliado':
-            return { color: '#9747FF' }; 
+            return { color: '#9747FF' };
           case 'Finalizado':
-            return { color: '#89969F' }; 
+            return { color: '#89969F' };
           case 'Inactivo':
-            return { color: '#FF0000' }; 
+            return { color: '#FF0000' };
           case 'Pendiente':
-            return { color: '#FFA500' }; 
+            return { color: '#FFA500' };
           case 'Provision':
-            return { color: 'gray' }; 
+            return { color: 'gray' };
           case 'Anulado':
-            return { color: 'red' }; 
+            return { color: 'red' };
           case 'Saldo abierto':
-            return { color: '#9747FF' }; 
+            return { color: '#9747FF' };
           case 'Saldo cerrado':
-            return { color: '#89969F' }; 
+            return { color: '#89969F' };
           case 'Rechazado':
-            return { color: '#FF0000' }; 
+            return { color: '#FF0000' };
           default:
-            return {}; 
+            return {};
         }
       }
     },
-                      
+
     {
       def: 'concepto',
       title: 'Concepto',
@@ -159,6 +159,10 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
   ngOnInit(): void {
     if (this.list?.length > 0) {
+      // Ordenar por ID en orden descendente
+      this.list = [...this.list].sort((a, b) => b.id - a.id);
+    }
+    if (this.list?.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
 
@@ -169,6 +173,9 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   @Input() anticipoList: any[] = []; // Recibe la lista de anticipos
 
   ngOnChanges() {
+    if (this.list?.length > 0) {
+      this.list = [...this.list].sort((a, b) => b.id - a.id);
+    }
     this.cdr.detectChanges();
   }
 
@@ -374,13 +381,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       moneda_id: this.ocRetirado?.moneda_id ?? 0,
       item,
     };
-    
+
     return this.dialog.open(OcAnticipoRetiradoEfectivoDialogComponent, {
       width: '700px',
       height: 'auto',
       data });
   }
-  
+
 
   private getDialogInsumoRef(
     item?: OrdenCargaAnticipoRetirado
@@ -413,13 +420,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       moneda_id: this.ocRetirado?.moneda_id ?? 0,
       item,
     };
-    
+
     return this.dialog.open(OcAnticipoRetiradoEfectivoAnulacionDialogComponent, {
       width: '700px',
       height: 'auto',
       data });
   }
-  
+
 
   private getDialogInsumoAnulacionRef(
     item?: OrdenCargaAnticipoRetirado

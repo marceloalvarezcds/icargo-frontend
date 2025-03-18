@@ -68,6 +68,9 @@
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     (deleteClick)="deleteRow($event)"
-    [hideDelete]="true"
+    (activeClick)="active($event)"
+    [shouldShowActiveButton]="true"
+    (inactiveClick)="inactive($event)"
+    [shouldShowInactiveButton]="true"
   ></app-table-paginator>
 </app-page>

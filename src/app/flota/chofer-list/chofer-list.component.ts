@@ -34,20 +34,20 @@ export class ChoferListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: ChoferList) => element.id,
-    
+
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: ChoferList) => element.estado.toUpperCase(),
-      
+
     },
 
     {
       def: 'nombre',
       title: 'Choferes',
       value: (element: ChoferList) => element.nombre,
-   
+
     },
     {
       def: 'numero_documento',
@@ -64,7 +64,7 @@ export class ChoferListComponent implements OnInit {
       title: 'País',
       value: (element: ChoferList) => element.pais_emisor_documento_nombre,
     },
- 
+
     {
       def: 'gestor_cuenta_nombre',
       title: 'Gestor de Cuenta',
@@ -188,6 +188,28 @@ export class ChoferListComponent implements OnInit {
     this.dialog.confirmationToDelete(
       message,
       this.choferService.delete(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  active({ row }: TableEvent<ChoferList>): void {
+    const message = `¿Está seguro que desea activar el Chofer con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.choferService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<ChoferList>): void {
+    const message = `¿Está seguro que desea inactivar el Chofer con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.choferService.inactive(row.id),
       () => {
         this.getList();
       }

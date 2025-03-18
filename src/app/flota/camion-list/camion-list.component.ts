@@ -201,6 +201,30 @@ export class CamionListComponent implements OnInit {
     );
   }
 
+
+  active({ row }: TableEvent<CamionList>): void {
+    const message = `¿Está seguro que desea activar el Tracto con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.camionService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<CamionList>): void {
+    const message = `¿Está seguro que desea inactivar el Tracto con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.camionService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+
   downloadFile(): void {
     this.camionService.generateReports().subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {

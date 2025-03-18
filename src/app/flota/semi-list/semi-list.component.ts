@@ -37,7 +37,7 @@ export class SemiListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: SemiList) => element.id,
-   
+
     },
     {
       def: 'estado',
@@ -230,6 +230,29 @@ export class SemiListComponent implements OnInit {
       }
     );
   }
+
+  active({ row }: TableEvent<SemiList>): void {
+    const message = `¿Está seguro que desea activar el Semi con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.semiService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<SemiList>): void {
+    const message = `¿Está seguro que desea inactivar el Semi con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.semiService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
 
   downloadFile(): void {
     this.semiService.generateReports().subscribe((filename) => {

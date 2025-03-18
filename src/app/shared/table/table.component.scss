@@ -46,6 +46,7 @@
     margin: 0 ;
     left: 133px !important;
   }
+
   .text-right {
     text-align: right;
   }
@@ -177,6 +178,20 @@ tr.mat-header-row {
   padding-bottom: 8px; /* Padding inferior */
   margin-left: -14px;
 }
+
+.align-right-oc-retirado {
+  text-align: right;
+  margin-left: -22px;
+}
+
+td.mat-column-monto_equiv,
+td.mat-column-monto_retirado {
+  align-items: end;
+
+}
+
+
+
 .align-right-porcentaje{
   margin-left: -10px;
 }
@@ -185,7 +200,7 @@ td.mat-column-id_anticipo {
   text-align: left;
   padding-left: 0;
   padding-right: 0; /* Elimina el padding derecho */
-  margin-left: -60px; /* Mueve la celda hacia la izquierda */
+  margin-left: -60px;
 }
 
 td.mat-column-porcentaje:not(:first-child) {
@@ -202,9 +217,9 @@ td.mat-column-total_retirado:not(:first-child),
 td.mat-column-saldo:not(:first-child){
   width: 50px;
   text-align: right;
-  padding-left: -100;  /* Elimina padding izquierdo */
-  padding-right: 30px; /* Elimina padding derecho */
-  margin-left: -40px; /* Mueve la celda hacia la izquierda */
+  padding-left: -100;
+  padding-right: 30px;
+  margin-left: -40px;
 }
 
 td.mat-column-created_by_anticipo:not(:first-child),
@@ -215,7 +230,7 @@ td.mat-column-modified_at_anticipo:not(:first-child) {
   text-align: left;
   padding-left: 0;  /* Elimina padding izquierdo */
   padding-right: 0; /* Elimina padding derecho */
-  margin-left: -40px; /* Mueve la celda hacia la izquierda */
+  margin-left: -40px;
 
 }
 

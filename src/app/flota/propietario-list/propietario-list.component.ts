@@ -184,6 +184,28 @@ export class PropietarioListComponent implements OnInit {
     );
   }
 
+    active({ row }: TableEvent<PropietarioList>): void {
+      const message = `¿Está seguro que desea activar el Titular con Nº ${row.id}?`;
+      this.dialog.confirmationToDelete(
+        message,
+        this.propietarioService.active(row.id),
+        () => {
+          this.getList();
+        }
+      );
+    }
+
+    inactive({ row }: TableEvent<PropietarioList>): void {
+      const message = `¿Está seguro que desea inactivar el Titular con Nº ${row.id}?`;
+      this.dialog.confirmationToDelete(
+        message,
+        this.propietarioService.inactive(row.id),
+        () => {
+          this.getList();
+        }
+      );
+    }
+
   downloadFile(): void {
     this.propietarioService.generateReports().subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
