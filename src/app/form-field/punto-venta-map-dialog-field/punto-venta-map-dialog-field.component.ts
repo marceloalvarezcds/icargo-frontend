@@ -140,7 +140,8 @@ export class PuntoVentaMapDialogFieldComponent {
 
     if (regexText)
       return (
-        item.nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
+        item.nombre_corto!.toLowerCase().includes(regexText.toLowerCase()) ||
         item.proveedor_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
         (item.ciudad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
         (item.localidad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase())
