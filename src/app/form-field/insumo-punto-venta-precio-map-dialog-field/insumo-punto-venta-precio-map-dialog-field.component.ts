@@ -170,7 +170,8 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
 
     if (regexText)
       return (
-        item.punto_venta_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.punto_venta_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
+        item.punto_venta_alias!.toLowerCase().includes(regexText.toLowerCase()) ||
         (item.proveedor_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
         (item.insumo_tipo_descripcion ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
         (item.insumo_descripcion ?? '').toLowerCase().includes(regexText.toLowerCase()) ||

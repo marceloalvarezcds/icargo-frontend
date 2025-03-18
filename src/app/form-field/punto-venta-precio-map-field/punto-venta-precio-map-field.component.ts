@@ -132,7 +132,8 @@ export class PuntoVentaPrecioMapFieldComponent{
 
     if (regexText)
       return (
-        item.punto_venta_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.punto_venta_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
+        item.punto_venta_alias!.toLowerCase().includes(regexText.toLowerCase()) ||
         item.proveedor_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
         (item.ciudad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
         (item.localidad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase())
