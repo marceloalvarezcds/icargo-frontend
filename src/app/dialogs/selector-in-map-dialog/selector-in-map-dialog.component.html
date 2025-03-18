@@ -32,7 +32,7 @@
     </div>
     <div class="map-container">
       <div class="row">
-        <div class="col-xs-12 col-sm-5 col-md-4 col-lg-3">
+        <div class="col-xs-12 col-sm-5 col-md-4">
           <div class="info-list-container">
             <ng-container *ngIf="list.length; else emptyListTemplate">
               <ng-container *ngIf="markerFilteredList.length; else emptyMarkerTemplate">
@@ -76,7 +76,7 @@
             </ng-template>
           </div>
         </div>
-        <div class="col-xs-12 col-sm-7 col-md-8 col-lg-9" #mapContainer>
+        <div class="col-xs-12 col-sm-7 col-md-8" #mapContainer>
           <app-google-map
             [title]="title"
             [isShow]="true"

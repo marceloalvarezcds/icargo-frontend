@@ -18,6 +18,7 @@ import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-ven
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Observable, of } from 'rxjs';
 import { getClassColorForState } from 'src/app/utils/movimiento-utils';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Component({
   selector: 'app-insumo-punto-venta-precio-map-dialog-field',
@@ -94,7 +95,7 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
                 }
                     ${
                       item.precio
-                        ? `<strong>: ${item.precio} ${item.insumo_moneda_simbolo}</strong>`
+                        ? `<strong>: ${numberWithCommas(item.precio)} ${item.insumo_moneda_simbolo} / ${item.insumo_unidad_abreviatura}</strong>`
                         : ''
                     }
                   </div>`
