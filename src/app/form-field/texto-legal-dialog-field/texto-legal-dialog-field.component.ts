@@ -19,11 +19,11 @@ import { Observable } from 'rxjs';
 })
 export class TextoLegalDialogFieldComponent {
 
-  readonly inputValuePropName = 'titulo';
+  readonly inputValuePropName = 'texto_legal';
 
   list: TextoLegal[] = [];
   //subs = this.service.getList().subscribe((list) => {
-//    this.list = list;
+  //  this.list = list;
   //});
 
   fetchDataFunction = () => this.service.getList();

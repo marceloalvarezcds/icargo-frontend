@@ -125,7 +125,11 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
     if (!item) return false;
     if (!regexList.length) return true;
 
-    if (regexText) return item.nombre.toLowerCase().includes(regexText.toLowerCase())
+    if (regexText)
+      return (
+        item.nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.nombre_corto ?? '').toLowerCase().includes(regexText.toLowerCase())
+      );
 
     return regexList.every((regex) => {
       return (

@@ -119,10 +119,21 @@ export class PuntoVentaPrecioMapFieldComponent{
 
   private filterMarker(
     regexList: RegExp[],
-    item: InsumoPuntoVentaPrecioList | null
+    item: InsumoPuntoVentaPrecioList | null,
+    regexText?:string,
   ): boolean {
     if (!item) return false;
+
     if (!regexList.length) return true;
+
+    if (regexText)
+      return (
+        item.punto_venta_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        item.proveedor_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.ciudad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.localidad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase())
+      );
+
     return regexList.every((regex) => {
       return (
         regex.test(item.punto_venta_nombre) ||

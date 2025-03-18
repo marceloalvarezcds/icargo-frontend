@@ -126,10 +126,22 @@ export class PuntoVentaMapDialogFieldComponent {
 
   private filterMarker(
     regexList: RegExp[],
-    item: PuntoVentaList | null
+    item: PuntoVentaList | null,
+    regexText?:string,
   ): boolean {
+
     if (!item) return false;
+
     if (!regexList.length) return true;
+
+    if (regexText)
+      return (
+        item.nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        item.proveedor_nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.ciudad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.localidad_nombre ?? '').toLowerCase().includes(regexText.toLowerCase())
+      );
+
     return regexList.every((regex) => {
       return (
         regex.test(item.nombre) ||

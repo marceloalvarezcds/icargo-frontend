@@ -116,10 +116,19 @@ export class RemitenteByGestorMapDialogFieldComponent {
 
   private filterMarker(
     regexList: RegExp[],
-    item: RemitenteList | null
+    item: RemitenteList | null,
+    regexText?:string,
   ): boolean {
     if (!item) return false;
+
     if (!regexList.length) return true;
+
+    if (regexText)
+      return (
+        item.nombre.toLowerCase().includes(regexText.toLowerCase()) ||
+        (item.nombre_corto ?? '').toLowerCase().includes(regexText.toLowerCase())
+      );
+
     return regexList.every((regex) => {
       return (
         regex.test(item.nombre) ||
