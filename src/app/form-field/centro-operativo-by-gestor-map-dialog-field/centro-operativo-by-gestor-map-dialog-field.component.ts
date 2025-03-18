@@ -17,6 +17,7 @@ import { CentroOperativoService } from 'src/app/services/centro-operativo.servic
 import { DialogService } from 'src/app/services/dialog.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Observable } from 'rxjs';
+import { getClassColorForState } from 'src/app/utils/movimiento-utils';
 
 @Component({
   selector: 'app-centro-operativo-by-gestor-map-dialog-field',
@@ -70,8 +71,8 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
               : ''
           }
         </div>
-        <div class="info-estado">
-          <strong>${item.estado}</strong>
+        <div class="info-estado estado" >
+          <strong class="${getClassColorForState(item.estado)}">${item.estado.toUpperCase()}</strong>
         </div>
         ${'' /*
           item.logo

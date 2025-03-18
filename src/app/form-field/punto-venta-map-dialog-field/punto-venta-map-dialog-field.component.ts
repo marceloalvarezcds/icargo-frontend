@@ -17,6 +17,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { PuntoVentaService } from 'src/app/services/punto-venta.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Observable } from 'rxjs';
+import { getClassColorForState } from 'src/app/utils/movimiento-utils';
 
 @Component({
   selector: 'app-punto-venta-map-dialog-field',
@@ -83,7 +84,10 @@ export class PuntoVentaMapDialogFieldComponent {
               : ''
           }
         </div>
-        ${
+        <div class="info-estado estado" >
+          <strong class="${getClassColorForState(item.estado)}">${item.estado.toUpperCase()}</strong>
+        </div>
+        ${''/*
           item.logo
             ? `
             <div class="info-logo">
@@ -92,7 +96,7 @@ export class PuntoVentaMapDialogFieldComponent {
                 alt="logo"
               />
             </div>`
-            : ''
+            : ''*/
         }
       </div>`;
     return marker;

@@ -17,6 +17,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { RemitenteService } from 'src/app/services/remitente.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Observable } from 'rxjs';
+import { getClassColorForState, getColorForState } from 'src/app/utils/movimiento-utils';
 
 @Component({
   selector: 'app-remitente-by-gestor-map-dialog-field',
@@ -71,8 +72,8 @@ export class RemitenteByGestorMapDialogFieldComponent {
               : ''
           }
         </div>
-        <div class="info-estado">
-          <strong>${item.estado}</strong>
+        <div class="info-estado estado" >
+          <strong class="${getClassColorForState(item.estado)}">${item.estado.toUpperCase()}</strong>
         </div>
         ${'' /*
           item.logo

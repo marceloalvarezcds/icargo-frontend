@@ -633,3 +633,36 @@ h1.mat-dialog-title {
   max-height: 85vh;
 }
 
+/* color para estados */
+.estado {
+  .activo{
+    color: #008000;
+  }
+  .aceptado {
+    color: #008000;
+  }
+  .revision{
+    color: #008000;
+  }
+
+  .inactivo{
+    color: #FF0000;
+  }
+
+  .finalizado{
+    color: #89969F;
+  }
+
+  .conciliado {
+    color: #9747FF;
+  }
+
+  .pendiente {
+    color: #FFA500;
+  }
+
+  .provision {
+    color: gray ;
+  }
+
+}

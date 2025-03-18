@@ -17,6 +17,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { Observable, of } from 'rxjs';
+import { getClassColorForState } from 'src/app/utils/movimiento-utils';
 
 @Component({
   selector: 'app-insumo-punto-venta-precio-map-dialog-field',
@@ -109,6 +110,9 @@ export class InsumoPuntoVentaPrecioMapDialogFieldComponent {
               ? `<div><strong>Dir: </strong>${item.punto_venta_direccion}</div>`
               : ''
           }
+        </div>
+        <div class="info-estado estado" >
+          <strong class="${getClassColorForState(item.estado)}">${item.estado.toUpperCase()}</strong>
         </div>
          ${'' /*
           item.logo

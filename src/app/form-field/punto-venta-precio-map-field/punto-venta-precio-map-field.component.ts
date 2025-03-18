@@ -16,6 +16,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
+import { getClassColorForState } from 'src/app/utils/movimiento-utils';
 
 @Component({
   selector: 'app-punto-venta-precio-map-field',
@@ -79,7 +80,10 @@ export class PuntoVentaPrecioMapFieldComponent{
               : ''
           }
         </div>
-        ${
+        <div class="info-estado estado" >
+          <strong class="${getClassColorForState(item.estado)}">${item.estado.toUpperCase()}</strong>
+        </div>
+        ${'' /*
           item.punto_venta_logo
             ? `
             <div class="info-logo">
@@ -88,7 +92,7 @@ export class PuntoVentaPrecioMapFieldComponent{
                 alt="logo"
               />
             </div>`
-            : ''
+            : ''*/
         }
       </div>`;
     return marker;
