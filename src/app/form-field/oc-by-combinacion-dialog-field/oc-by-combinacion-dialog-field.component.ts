@@ -60,8 +60,6 @@ export class OcByCombinacionDialogFieldComponent{
       title: 'Precio',
       value: (element: OrdenCargaList) => element.condicion_gestor_cuenta_tarifa,
     },
-
-
   ];
 
   formatDate(dateString: string): string {
@@ -80,12 +78,12 @@ export class OcByCombinacionDialogFieldComponent{
   @Input() emptyIdHint = 'Cree una OC';
   @Input() subtitle =
   'Si no encuentra al camión deseado se debe a que este no está activo o no tiene chofer asignado o el chofer no está activo';
-  
+
   @Input() set combinacionId(id: number | undefined) {
     this.cId = id;
     this.getList();
   }
-  
+
   @Output() valueChange = new EventEmitter<OrdenCargaList | undefined>();
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<OrdenCargaList>;

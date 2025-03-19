@@ -2,6 +2,7 @@ import { FocusMonitor } from '@angular/cdk/a11y';
 import { BooleanInput, coerceBooleanProperty } from '@angular/cdk/coercion';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   DoCheck,
   ElementRef,
@@ -45,6 +46,7 @@ import { CombinacionService } from 'src/app/services/combinacion.service';
   templateUrl: './dialog-form-field-control.component.html',
   styleUrls: ['./dialog-form-field-control.component.scss'],
   exportAs: 'app-dialog-form-field-control',
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

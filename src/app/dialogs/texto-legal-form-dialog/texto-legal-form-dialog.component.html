@@ -7,7 +7,7 @@
     </button>
   </h1>
 
-  <div mat-dialog-content>
+  <div mat-dialog-content class="row">
 
     <app-input-field
       class="input-form-full col-xs-12 col-sm-2"
@@ -18,13 +18,25 @@
       [requerido]="true"
     ></app-input-field>
 
-    <app-input-field
-      class="input-form-full col-xs-12 col-sm-2"
-      title="Descripción"
-      controlName="descripcion"
-      [form]="form"
-      [requerido]="true"
-    ></app-input-field>
+
+    <div class="input-form-full col-xs-12 col-sm-12">
+      <mat-label class="custom-label">
+        <span class="required">(*) </span>
+        Descripción
+      </mat-label>
+      <mat-form-field appearance="outline">
+        <textarea
+          matInput
+          formControlName="descripcion"
+          cdkTextareaAutosize
+          #autosize="cdkTextareaAutosize"
+          cdkAutosizeMinRows="3"
+        ></textarea>
+        <mat-error *ngIf="form.controls['descripcion'].hasError('required')">
+          El campo descripcion es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
 
     <div *ngIf="data">
       <app-estado-field
