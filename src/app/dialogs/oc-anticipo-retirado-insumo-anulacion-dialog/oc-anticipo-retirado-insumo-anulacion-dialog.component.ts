@@ -30,8 +30,9 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
   tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
-  
-  
+  isShow = false;
+  isShowBtn: boolean = false;
+
   form = this.fb.group({
     tipo_anticipo_id: ['insumo', Validators.required],
     tipo_insumo_id: this.data?.tipo_insumo_id,
@@ -56,9 +57,13 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
     es_con_litro: !!this.data?.cantidad_retirada,
   });
 
-  @Input() isShow: boolean = false;
 
   ngOnInit(): void {
+    if (this.dialogData?.isShow) {
+      this.isShow = this.dialogData.isShow;
+      this.isShowBtn = true
+      this.form.disable();
+    }
     this.form.get('monto_retirado')?.disable();
     this.form.get('cantidad_retirada')?.disable();
     this.tipoInsumo = this.data?.insumo_tipo_descripcion;
@@ -67,8 +72,12 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
   }
 
   get actionText(): string {
-    return this.data ? 'ANULAR' : 'NUEVO';
+    if (this.isShow) {
+      return 'VER';
+    }
+    return this.data ? 'ANULAR ' : 'NUEVO';
   }
+
 
   get data(): OrdenCargaAnticipoRetirado | undefined {
     return this.dialogData?.item;
@@ -101,7 +110,7 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
   get isTipoInsumo(): boolean {
     return this.tipoAnticipo?.descripcion === TipoAnticipoEnum.INSUMOS;
   }
-  
+
 
   get insumoControl(): FormControl {
     return this.form.get('insumo_id') as FormControl;
@@ -155,7 +164,7 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
     const selectedValue = event.value;
     this.valueChange.emit(selectedValue);
   }
-  
+
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
   }
@@ -210,8 +219,11 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoInsumoAnulacionDialogComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+  ) {
+      this.isShow = dialogData.isShow;
+    }
+
 
 
 
@@ -222,13 +234,13 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
         .subscribe(this.close.bind(this));
     }
   }
-  
+
 
   private close(data: OrdenCargaAnticipoRetirado): void {
     this.dialogRef.close(data);
   }
 
- 
+
   private loadOrdenCargaAnticipoSaldo(
     fleteAnticipoId: number | null | undefined
   ): void {

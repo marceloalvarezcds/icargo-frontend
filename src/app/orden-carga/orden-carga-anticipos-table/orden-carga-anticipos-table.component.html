@@ -156,9 +156,13 @@
     <app-table
       [columns]="columns"
       [data]="list"
+      [isShow]="isShow"
       [modelo]="modelo"
       (anularAnticipoClick)="edit($event)"
-      [hideAnular]="true"
+      (showClick)="redirectToShow($event)"
+      [shouldShowAnularButton]="true"
+      [hideDelete]="true"
+      [hideEdit]="true"
     ></app-table>
   </div>
 

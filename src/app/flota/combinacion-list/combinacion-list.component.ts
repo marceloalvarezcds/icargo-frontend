@@ -182,7 +182,7 @@ export class CombinacionListComponent implements OnInit{
 
     active({ row }: TableEvent<CombinacionList>): void {
       const message = `¿Está seguro que desea activar la Combinación con Nº ${row.id}?`;
-      this.dialog.confirmationToDelete(
+      this.dialog.changeStatusConfirm(
         message,
         this.combinacionService.active(row.id),
         () => {
@@ -193,7 +193,7 @@ export class CombinacionListComponent implements OnInit{
 
     inactive({ row }: TableEvent<CombinacionList>): void {
       const message = `¿Está seguro que desea inactivar la Combinación con Nº ${row.id}?`;
-      this.dialog.confirmationToDelete(
+      this.dialog.changeStatusConfirm(
         message,
         this.combinacionService.inactive(row.id),
         () => {

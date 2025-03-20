@@ -31,6 +31,8 @@ export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnIni
   tipoInsumo?: string;
   tipoAnticipo?: TipoAnticipo;
   saldoAnticipo = 0;
+  isShow = false;
+  isShowBtn: boolean = false;
 
   form = this.fb.group({
     tipo_anticipo_id: ['efectivo', Validators.required],
@@ -57,12 +59,21 @@ export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnIni
   });
 
   ngOnInit(): void {
+    if (this.dialogData?.isShow) {
+      this.isShow = this.dialogData.isShow;
+      this.isShowBtn = true
+      this.form.disable();
+    }
     this.form.get('monto_retirado')?.disable();
   }
 
   get actionText(): string {
-    return this.data ? 'ANULAR' : 'NUEVO';
+    if (this.isShow) {
+      return 'VER';
+    }
+    return this.data ? 'ANULAR ' : 'NUEVO';
   }
+
 
   get data(): OrdenCargaAnticipoRetirado | undefined {
     return this.dialogData?.item;
@@ -91,7 +102,7 @@ export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnIni
   get isTipoInsumo(): boolean {
     return this.tipoAnticipo?.descripcion === TipoAnticipoEnum.INSUMOS;
   }
-  
+
 
   get insumoControl(): FormControl {
     return this.form.get('insumo_id') as FormControl;
@@ -145,7 +156,7 @@ export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnIni
     const selectedValue = event.value;
     this.valueChange.emit(selectedValue);
   }
-  
+
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
   }
@@ -200,8 +211,10 @@ export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnIni
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoEfectivoAnulacionDialogComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
-  ) {}
+    @Inject(MAT_DIALOG_DATA) public dialogData: any,
+  ) {
+      this.isShow = dialogData.isShow;
+    }
 
 
 
@@ -212,13 +225,13 @@ export class OcAnticipoRetiradoEfectivoAnulacionDialogComponent implements OnIni
         .subscribe(this.close.bind(this));
     }
   }
-  
+
 
   private close(data: OrdenCargaAnticipoRetirado): void {
     this.dialogRef.close(data);
   }
 
- 
+
   private loadOrdenCargaAnticipoSaldo(
     fleteAnticipoId: number | null | undefined
   ): void {

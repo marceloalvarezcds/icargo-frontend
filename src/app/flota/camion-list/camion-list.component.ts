@@ -204,7 +204,7 @@ export class CamionListComponent implements OnInit {
 
   active({ row }: TableEvent<CamionList>): void {
     const message = `¿Está seguro que desea activar el Tracto con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+    this.dialog.changeStatusConfirm(
       message,
       this.camionService.active(row.id),
       () => {
@@ -215,7 +215,7 @@ export class CamionListComponent implements OnInit {
 
   inactive({ row }: TableEvent<CamionList>): void {
     const message = `¿Está seguro que desea inactivar el Tracto con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+    this.dialog.changeStatusConfirm(
       message,
       this.camionService.inactive(row.id),
       () => {

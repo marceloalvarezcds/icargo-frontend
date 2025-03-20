@@ -233,7 +233,7 @@ export class SemiListComponent implements OnInit {
 
   active({ row }: TableEvent<SemiList>): void {
     const message = `¿Está seguro que desea activar el Semi con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+    this.dialog.changeStatusConfirm(
       message,
       this.semiService.active(row.id),
       () => {
@@ -244,7 +244,7 @@ export class SemiListComponent implements OnInit {
 
   inactive({ row }: TableEvent<SemiList>): void {
     const message = `¿Está seguro que desea inactivar el Semi con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+    this.dialog.changeStatusConfirm(
       message,
       this.semiService.inactive(row.id),
       () => {

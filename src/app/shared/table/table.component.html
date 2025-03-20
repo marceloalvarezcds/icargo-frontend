@@ -114,7 +114,7 @@
                                 column.def === 'porcentaje',
               'align-right-oc-retirado':
                                 column.def === 'monto_equiv'||
-                                column.def === 'monto_retirado' 
+                                column.def === 'monto_retirado'
         }"
       >
           {{ column.title }}
@@ -318,15 +318,7 @@
           </button>
           <mat-menu #menu="matMenu">
             <!-- TODO: la lista de opciones adicionales deberia pasarse por parametros entre componentes-->
-            <button
-              type="button"
-              mat-menu-item
-              (click)="anularAnticipoClick.emit({ row, index })"
-              *ngIf="hideAnular"
-              >
-              <mat-icon color="primary">remove_circle</mat-icon>
-              <span>Anular</span>
-            </button>
+
 
             <button
               type="button"
@@ -351,6 +343,7 @@
               <mat-icon color="primary">visibility</mat-icon>
               <span>Ver</span>
             </button>
+
             <button
               type="button"
               mat-menu-item
@@ -371,6 +364,7 @@
               <mat-icon color="primary">edit</mat-icon>
               <span>Editar</span>
             </button>
+
             <button
               type="button"
               mat-menu-item
@@ -386,11 +380,32 @@
                           row.gestor_carga_id ||
                           gestorCuentaId))
               "
-              [hidden]="hideAnular"
             >
               <mat-icon color="primary">delete</mat-icon>
               <span>Eliminar</span>
             </button>
+
+            <button
+              type="button"
+              mat-menu-item
+              (click)="anularAnticipoClick.emit({ row, index })"
+              *ngIf="
+              row.estado === e.ANULADO &&
+              shouldShowAnularButton &&
+              (modelo
+                | puede
+                  : a.ANULAR
+                  : (noCheckGestorCuentaId
+                      ? undefined
+                      : row.gestor_cuenta_id ||
+                        row.gestor_carga_id ||
+                        gestorCuentaId))
+            "
+          >
+            <mat-icon color="primary">remove_circle</mat-icon>
+            <span>Anular</span>
+          </button>
+
 
             <button
               type="button"

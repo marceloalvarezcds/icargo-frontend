@@ -186,7 +186,7 @@ export class PropietarioListComponent implements OnInit {
 
     active({ row }: TableEvent<PropietarioList>): void {
       const message = `¿Está seguro que desea activar el Titular con Nº ${row.id}?`;
-      this.dialog.confirmationToDelete(
+      this.dialog.changeStatusConfirm(
         message,
         this.propietarioService.active(row.id),
         () => {
@@ -197,7 +197,7 @@ export class PropietarioListComponent implements OnInit {
 
     inactive({ row }: TableEvent<PropietarioList>): void {
       const message = `¿Está seguro que desea inactivar el Titular con Nº ${row.id}?`;
-      this.dialog.confirmationToDelete(
+      this.dialog.changeStatusConfirm(
         message,
         this.propietarioService.inactive(row.id),
         () => {

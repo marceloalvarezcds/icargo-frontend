@@ -20,7 +20,9 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
+import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
 import { delay } from 'src/app/utils/observable';
@@ -93,7 +95,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() hideShow = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
-  @Input() anularAnticipo = false;
+  @Input() showBtnAnular = false;
+  @Input() shouldShowAnularButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;

@@ -206,7 +206,7 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
           },
           {
-            name: 'Cerradas',
+            name: 'Finalizadas y Canceladas',
             iconName: 'description',
             iconOutline: true,
             path: `/orden-carga/${m.ORDEN_CARGA}/${a.LISTAR}/oc/cerradas`,

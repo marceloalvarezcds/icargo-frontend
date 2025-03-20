@@ -148,6 +148,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   is_en_proceso: boolean;
   is_finalizado: boolean;
   is_liquidado: boolean;
+  is_anulado: boolean;
   // Campos para la edición
   estado: EstadoEnum;
   orden_carga_estado: OrdenCargaEstadoEnum;
@@ -370,6 +371,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   is_en_proceso: false,
   is_finalizado: false,
   is_liquidado: false,
+  is_anulado: false,
   // Campos para la edición
   estado: EstadoEnum.NUEVO,
   orden_carga_estado: OrdenCargaEstadoEnum.PENDIENTE,
