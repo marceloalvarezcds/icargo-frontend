@@ -5,6 +5,7 @@ import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 import { FormGroup } from '@angular/forms';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Component({
   selector: 'app-combinacion-dialog-field',
@@ -34,34 +35,34 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       value: (element: CombinacionList) => element.estado,
     },
     {
-      def: 'chofer',
+      def: 'chofer_nombre',
       title: 'Chofer',
       value: (element: CombinacionList) => element.chofer_nombre,
     },
     {
-      def: 'doc',
+      def: 'chofer_numero_documento',
       title: 'Documento',
-      value: (element: CombinacionList) => element.chofer.numero_documento,
+      value: (element: CombinacionList) => element.chofer_numero_documento,
     },
     {
-      def: 'marca',
+      def: 'marca_descripcion',
       title: 'Marca',
       value: (element: CombinacionList) => element.marca_descripcion,
     },
     {
-      def: 'color',
+      def: 'color_camion',
       title: 'Color',
       value: (element: CombinacionList) => element.color_camion,
     },
     {
-      def: 'propietario',
+      def: 'propietario_nombre',
       title: 'Propietario',
       value: (element: CombinacionList) => element.propietario_nombre,
     },
     {
       def: 'neto',
       title: 'Neto',
-      value: (element: CombinacionList) => element.neto?.toLocaleString('de-DE'),
+      value: (element: CombinacionList) => numberWithCommas(element.neto),
     },
   ];
 
@@ -115,9 +116,6 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       this.valueChange.emit(combinacion);
     }
   }
-
-
-
 
   //private getList(): void {
   //  this.list$ = this.service.getList();

@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Subject, Subscription } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
@@ -13,6 +13,7 @@ import { TextoLegalService } from 'src/app/services/texto-legal.service';
   selector: 'app-flete-form-emision-orden',
   templateUrl: './flete-form-emision-orden.component.html',
   styleUrls: ['./flete-form-emision-orden.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
 

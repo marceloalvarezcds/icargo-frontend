@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -22,6 +23,7 @@ import { filter } from 'rxjs/operators';
   templateUrl: './dialog-field.component.html',
   styleUrls: ['./dialog-field.component.scss'],
   exportAs: 'app-dialog-field',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DialogFieldComponent<T extends { id: number }, E = T,
     DialogComponent = SelectorDialogComponent<T>> {
@@ -149,6 +151,6 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
     }
   }
 
-  
+
 
 }

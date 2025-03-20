@@ -3,6 +3,7 @@
   [title]="title"
   [columns]="columns"
   [calllbackremote]="true"
+  [hint]="hint"
   [list]="[]"
   [itemEvents]="textoLegalEvents"
   [fetchDataFunction]="fetchDataFunction"
@@ -10,5 +11,5 @@
   [controlName]="controlName"
   [inputValuePropName]="inputValuePropName"
   [form]="form"
-  (valueChange)="valueChange.emit($event)"
+  (valueChange)="selectTextoLegal($event)"
 ></app-dialog-field>

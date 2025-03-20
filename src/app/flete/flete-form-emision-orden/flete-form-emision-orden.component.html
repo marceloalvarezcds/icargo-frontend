@@ -34,9 +34,8 @@
         (valueChange)="$event && textoLegalControl.setValue($event.descripcion)"
       ></app-texto-legal-dialog-field>
 
-      <div *ngIf="isShow" class="col-xs-12 col-sm-12">
+      <div *ngIf="isShow" class="col-xs-12 col-sm-6">
         <label class="form-label">Texto Legal</label>
-        {{flete?.emision_orden_texto_legal}}
         <mat-chip-list filterValues>
           <ng-container>
             <mat-chip >{{flete?.emision_orden_texto_legal}}</mat-chip>
@@ -68,7 +67,7 @@
     <!-- Fila para Destinatarios -->
     <div class="row">
 
-      <div *ngIf="!isShow" class="input-form-full col-xs-12 col-sm-6">
+      <div *ngIf="!isShow" class="input-form-full col-xs-12 col-sm-12">
         <label class="form-label">Destinatarios</label>
         <mat-form-field>
           <mat-select

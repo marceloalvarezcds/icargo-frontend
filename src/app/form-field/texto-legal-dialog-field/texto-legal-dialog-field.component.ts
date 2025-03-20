@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -15,11 +16,12 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-texto-legal-dialog-field',
   templateUrl: './texto-legal-dialog-field.component.html',
-  styleUrls: ['./texto-legal-dialog-field.component.scss']
+  styleUrls: ['./texto-legal-dialog-field.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TextoLegalDialogFieldComponent {
 
-  readonly inputValuePropName = 'texto_legal';
+  readonly inputValuePropName = 'titulo';
 
   list: TextoLegal[] = [];
   //subs = this.service.getList().subscribe((list) => {
@@ -65,6 +67,13 @@ export class TextoLegalDialogFieldComponent {
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<TextoLegal>;
 
+  hint = '';
+
   constructor(private service: TextoLegalService) {}
+
+  selectTextoLegal(texto:any):void {
+
+    this.hint = texto.descripcion;
+  }
 
 }
