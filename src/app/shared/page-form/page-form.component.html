@@ -300,12 +300,13 @@
         <button
           mat-flat-button
           color="primary"
-          matTooltip="Crear"
+          type="button"
+          matTooltip="Limpiar"
           class="botones"
-          (click)="nuevoClick.emit($event)"
+          (click)="nuevoClick.emit($event); $event.stopPropagation()"
           [disabled]="!nuevoActive"
           *ngIf="formNuevaOc">
-          <mat-icon >add_circle</mat-icon> <!-- Ajusta el tamaño del ícono aquí -->
+          <mat-icon >add_circle</mat-icon>
         {{
           submodule === 'ANTICIPO (directo)' ? 'NUEVO ANTICIPO' :
           submodule === 'RECEPCION directa' ? 'NUEVA RECEPCION' :

@@ -185,6 +185,11 @@ export class PageFormComponent implements OnDestroy {
     });
   }
 
+  onNuevoClick(event: Event): void {
+    event.stopPropagation(); // Evita que el evento de clic propague hacia el formulario
+    this.nuevoClick.emit(event); // Emite el evento al componente padre
+  }
+
   crearDialog():void {
     this.submitEvent.emit();
   }

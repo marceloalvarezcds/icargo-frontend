@@ -16,8 +16,8 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getOCData } from 'src/app/form-data/oc-confirmation-data';
-import { Camion, CamionList } from 'src/app/interfaces/camion';
-import { Combinacion, CombinacionList } from 'src/app/interfaces/combinacion';
+import { Camion } from 'src/app/interfaces/camion';
+import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { FleteList } from 'src/app/interfaces/flete';
 import { OCConfirmationDialogData } from 'src/app/interfaces/oc-confirmation-dialog-data';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
@@ -63,6 +63,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   ordenCargaId: number | null = null;
   item?: OrdenCarga;
   isActive = false;
+  isViewMode: boolean = true;
   fleteId?: number;
   dataFromParent: string = 'Nuevo';
   isEdit = false;
@@ -181,7 +182,6 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     return this.item!?.movimientos.slice();
   }
 
-
   get porcentajeAnticipos(): FormArray {
     return this.form.get('porcentaje_anticipos') as FormArray;
   }
@@ -201,8 +201,6 @@ export class OrdenCargaCreateFormComponent implements OnInit {
   get isShow(): boolean {
     return !this.isEdit;
   }
-
-  isViewMode: boolean = true;
 
   get isAnticiposLiberados(): boolean {
     return this.item!?.anticipos_liberados;
@@ -226,7 +224,6 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     );
     return permiso;
   }
-
 
   ngOnInit(): void {
     this.setInitialToggleState();
@@ -291,16 +288,6 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     }
   }
 
-  resetFormData(): void {
-    this.form.reset();
-    this.form.enable();
-    this.form.markAsPristine();
-    this.form.markAsUntouched();
-    this.isDataLoaded = false
-    this.isFormSubmitting = true;
-    this.nuevoActive = true;
-    this.isShowId = false;
-  }
 
   active(): void {
     if (this.ordenCargaId !== null) {
@@ -592,6 +579,14 @@ export class OrdenCargaCreateFormComponent implements OnInit {
     });
   }
 
+  resetFormData(): void {
+    this.form.reset();
+    this.form.enable();
+    this.isDataLoaded = false
+    this.isFormSubmitting = true;
+    this.nuevoActive = true;
+    this.isShowId = false;
+  }
 
   save(confirmed: boolean): void {
     this.form.markAsDirty();
