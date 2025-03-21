@@ -26,7 +26,7 @@
 
       <app-texto-legal-dialog-field
         *ngIf="!isShow"
-        class="input-form-full col-xs-12 col-sm-6 col-md-6"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Texto Legal"
         [isRemote]="true"
         [form]="formGroup"
@@ -34,17 +34,17 @@
         (valueChange)="$event && textoLegalControl.setValue($event.descripcion)"
       ></app-texto-legal-dialog-field>
 
-      <div *ngIf="isShow" class="col-xs-12 col-sm-6">
-        <label class="form-label">Texto Legal</label>
-        <mat-chip-list filterValues>
-          <ng-container>
-            <mat-chip >{{flete?.emision_orden_texto_legal}}</mat-chip>
-          </ng-container>
-        </mat-chip-list>
-      </div>
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-8"
+        title="Descripcion Texto Legal"
+        [readonly]="true"
+        [groupName]="groupName"
+        controlName="emision_orden_texto_legal"
+        [form]="formGroup"
+      ></app-input-field>
 
       <!-- Columna para Detalle - Comentarios -->
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-6">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-8">
         <label class="form-label">Detalle - Comentarios</label>
         <mat-form-field >
           <textarea

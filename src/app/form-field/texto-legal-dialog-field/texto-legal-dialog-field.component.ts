@@ -67,13 +67,10 @@ export class TextoLegalDialogFieldComponent {
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<TextoLegal>;
 
-  hint = '';
-
   constructor(private service: TextoLegalService) {}
 
-  selectTextoLegal(texto:any):void {
-
-    this.hint = texto.descripcion;
+  selectTextoLegal(texto:TextoLegal):void {
+    this.valueChange.emit(texto);
   }
 
 }
