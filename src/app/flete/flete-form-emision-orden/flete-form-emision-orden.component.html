@@ -34,15 +34,6 @@
         (valueChange)="$event && textoLegalControl.setValue($event.descripcion)"
       ></app-texto-legal-dialog-field>
 
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-8"
-        title="Descripcion Texto Legal"
-        [readonly]="true"
-        [groupName]="groupName"
-        controlName="emision_orden_texto_legal"
-        [form]="formGroup"
-      ></app-input-field>
-
       <!-- Columna para Detalle - Comentarios -->
       <div class="input-form-full col-xs-12 col-sm-6 col-md-8">
         <label class="form-label">Detalle - Comentarios</label>
@@ -59,6 +50,20 @@
           >
             El detalle es <strong>requerido</strong>
           </mat-error>
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-8">
+        <label class="form-label">Descripcion Texto Legal</label>
+        <mat-form-field >
+          <textarea
+            matInput
+            [disabled]="true"
+            formControlName="emision_orden_texto_legal"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="1"
+          ></textarea>
         </mat-form-field>
       </div>
 
