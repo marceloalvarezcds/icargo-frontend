@@ -119,6 +119,12 @@ export class PuntoVentaByInsumoProveedorListComponent implements OnInit{
       });
     }
 
+    this.getDatosPDV();
+
+
+  }
+
+  getDatosPDV() {
     if (this.pdvId !== undefined) {
       this.puntoVentaService.getById(this.pdvId).subscribe((data) => {
         this.pdv = data;
@@ -134,7 +140,6 @@ export class PuntoVentaByInsumoProveedorListComponent implements OnInit{
         console.error('Error al obtener los items del punto de venta:', error);
       });
     }
-
   }
 
    // TODO: pendiente agregar filtros al pdv

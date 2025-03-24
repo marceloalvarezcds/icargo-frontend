@@ -27,6 +27,7 @@ import { TipoDocumentoService } from 'src/app/services/tipo-documento.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
+import { PuntoVentaByInsumoProveedorListComponent } from '../punto-venta-by-insumo-proveedor-list/punto-venta-by-insumo-proveedor-list.component';
 
 @Component({
   selector: 'app-punto-venta-form',
@@ -136,6 +137,10 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   @ViewChild(PageFormEntitiesInfoComponent)
   pageInfo?: PageFormEntitiesInfoComponent;
 
+  @ViewChild(PuntoVentaByInsumoProveedorListComponent)
+  mercaderiaListComponent?: PuntoVentaByInsumoProveedorListComponent;
+
+
   constructor(
     private fb: FormBuilder,
     private puntoVentaService: PuntoVentaService,
@@ -217,6 +222,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
         this.puntoVentaService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
+          this.mercaderiaListComponent?.getDatosPDV();
         });
       } else {
         this.puntoVentaService.create(formData).subscribe((puntoVenta) => {
