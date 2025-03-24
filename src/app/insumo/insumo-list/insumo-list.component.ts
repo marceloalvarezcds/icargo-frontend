@@ -62,34 +62,30 @@ export class InsumoListComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'pdv',
-      title: 'Establecimiento',
-      value: (element: InsumoPuntoVentaPrecioList) => element.punto_venta_alias,
-    },
-
-    {
-      def: 'fecha_fin',
-      title: 'Vigencia',
-      value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.fecha_inicio),
-    },
-
-    {
-      def: 'marca',
-      title: 'Marca',
-      value: (element: InsumoPuntoVentaPrecioList) => element.marca_insumo,
+      def: 'moneda',
+      title: 'Moneda',
+      value: (element: InsumoPuntoVentaPrecioList) => element.insumo_moneda_nombre,
     },
     {
       def: 'unidad',
       title: 'Unidad',
       value: (element: InsumoPuntoVentaPrecioList) => element.insumo_unidad_descripcion,
     },
-
     {
-      def: 'moneda',
-      title: 'Moneda',
-      value: (element: InsumoPuntoVentaPrecioList) => element.insumo_moneda_nombre,
+      def: 'pdv',
+      title: 'Establecimiento',
+      value: (element: InsumoPuntoVentaPrecioList) => element.punto_venta_alias,
     },
-
+    {
+      def: 'fecha_fin',
+      title: 'Vigencia',
+      value: (element: InsumoPuntoVentaPrecioList) => this.formatDate(element.fecha_inicio),
+    },
+    {
+      def: 'marca',
+      title: 'Marca',
+      value: (element: InsumoPuntoVentaPrecioList) => element.marca_insumo,
+    },
     {
       def: 'proveedor',
       title: 'Proveedor',
