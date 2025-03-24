@@ -24,30 +24,35 @@ export class OrdenCargaEditFormMovimientosComponent {
 
   columns: Column[] = [
     {
-      def: 'id',
-      title: 'Nº de Movimiento',
+      def: 'mov',
+      title: 'ID Mov.',
       value: (element: Movimiento) => element.id,
-    },
-    {
-      def: 'contraparte',
-      title: 'Contraparte',
-      value: (element: Movimiento) => element.contraparte,
-    },
-    {
-      def: 'contraparte_numero_documento',
-      title: 'Nº de Doc. Contraparte',
-      value: (element: Movimiento) => element.contraparte_numero_documento,
-    },
-    {
-      def: 'tipo_contraparte_descripcion',
-      title: 'Tipo de Contraparte',
-      value: (element: Movimiento) => element.tipo_contraparte_descripcion,
     },
     {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
       type: 'number',
+    },
+    {
+      def: 'contraparte',
+      title: 'Contraparte',
+      value: (element: Movimiento) => element.contraparte,
+    },
+    /*{
+      def: 'contraparte_numero_documento',
+      title: 'Nº de Doc. Contraparte',
+      value: (element: Movimiento) => element.contraparte_numero_documento,
+    },*/
+    {
+      def: 'detalle',
+      title: 'Detalle',
+      value: (element: Movimiento) => element.detalle,
+    },
+    {
+      def: 'tipo_contraparte_descripcion',
+      title: 'Tipo de Contraparte',
+      value: (element: Movimiento) => element.tipo_contraparte_descripcion,
     },
     {
       def: 'concepto',
@@ -58,11 +63,6 @@ export class OrdenCargaEditFormMovimientosComponent {
       def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
-    },
-    {
-      def: 'detalle',
-      title: 'Detalle',
-      value: (element: Movimiento) => element.detalle,
     },
     {
       def: 'moneda_nombre',

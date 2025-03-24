@@ -38,6 +38,11 @@ export class FleteByGestorDialogFieldComponent {
       value: (element: FleteList) => element.id,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: FleteList) => element.estado,
+    },
+    {
       def: 'remitente_nombre',
       title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
