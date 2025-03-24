@@ -120,11 +120,17 @@ export class PuntoVentaByInsumoProveedorListComponent implements OnInit{
     }
 
     this.getDatosPDV();
+  }
 
+  refreshList(){
+    if (this.pdvId !== undefined) {
+      this.getList(this.pdvId)
+    }
 
   }
 
   getDatosPDV() {
+    console.log("update mercadertiah n  ")
     if (this.pdvId !== undefined) {
       this.puntoVentaService.getById(this.pdvId).subscribe((data) => {
         this.pdv = data;

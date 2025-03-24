@@ -223,6 +223,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
           this.mercaderiaListComponent?.getDatosPDV();
+          this.mercaderiaListComponent?.refreshList();
         });
       } else {
         this.puntoVentaService.create(formData).subscribe((puntoVenta) => {
