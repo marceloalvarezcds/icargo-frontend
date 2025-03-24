@@ -47,6 +47,7 @@ export interface OrdenCargaAnticipoRetirado
   moneda_nombre: string;
   proveedor_nombre: string;
   punto_venta_nombre: string;
+  punto_venta_alias: string;
   punto_venta_pais_nombre: string | null;
   tipo_anticipo_descripcion: string;
   tipo_comprobante_descripcion: string;
@@ -59,7 +60,7 @@ export interface OrdenCargaAnticipoRetirado
   created_at: string;
   modified_by: string;
   modified_at: string;
-  
+
 }
 
 
@@ -97,6 +98,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       punto_venta_nombre: puntoVenta0.nombre,
       punto_venta_pais_nombre: puntoVenta0.pais_nombre,
       proveedor_nombre: puntoVenta0.proveedor_nombre,
+      punto_venta_alias: 'Ayolas',
       insumo_punto_venta_precio_id: mockInsumoPuntoVentaPrecio1.id,
       insumo_fecha_precio: mockInsumoPuntoVentaPrecio1.fecha_precio,
       insumo_precio: mockInsumoPuntoVentaPrecio1.precio,
@@ -140,6 +142,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       flete_anticipo_id: fleteAnticipo1.id!,
       punto_venta_id: puntoVenta1.id,
       punto_venta_nombre: puntoVenta1.nombre,
+      punto_venta_alias: 'Petropar',
       punto_venta_pais_nombre: puntoVenta1.pais_nombre,
       proveedor_nombre: puntoVenta1.proveedor_nombre,
       insumo_punto_venta_precio_id: mockInsumoPuntoVentaPrecio2.id,
@@ -185,6 +188,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       flete_anticipo_id: fleteAnticipo2.id!,
       punto_venta_id: puntoVenta2.id,
       punto_venta_nombre: puntoVenta2.nombre,
+      punto_venta_alias: 'algo',
       punto_venta_pais_nombre: puntoVenta2.pais_nombre,
       proveedor_nombre: puntoVenta2.proveedor_nombre,
       insumo_punto_venta_precio_id: mockInsumoPuntoVentaPrecio3.id,

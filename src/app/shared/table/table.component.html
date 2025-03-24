@@ -390,7 +390,7 @@
               mat-menu-item
               (click)="anularAnticipoClick.emit({ row, index })"
               *ngIf="
-              row.estado === e.ANULADO &&
+              row.estado !== e.ANULADO &&
               shouldShowAnularButton &&
               (modelo
                 | puede

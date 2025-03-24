@@ -40,7 +40,7 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
     proveedor_id: [this.data?.proveedor_id, Validators.required],
     proveedor_nombre: [this.data?.proveedor_nombre, Validators.required],
     punto_venta_id: [this.data?.punto_venta_id, Validators.required],
-    punto_venta_nombre: this.data?.punto_venta_nombre,
+    punto_venta_nombre: this.data?.punto_venta_alias,
     moneda_id: [this.data?.moneda_id, Validators.required],
     tipo_comprobante_id: this.data?.tipo_comprobante_id,
     numero_comprobante: this.data?.numero_comprobante,
