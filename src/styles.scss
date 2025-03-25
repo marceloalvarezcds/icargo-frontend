@@ -98,15 +98,16 @@ html body {
 
 /* estilos generales dialogs */
 .full-dialog {
-  width: unset !important;
+  //width: unset !important;
+  width: 95vw !important;
 }
 
 .large-dialog {
-  width: 80% !important;
+  width: 75vw !important;
 }
 
 .half-dialog {
-  width: 50% !important;
+  width: 50vw !important;
 }
 
 h1.mat-dialog-title {

@@ -18,13 +18,7 @@ export class LiquidacionConfirmDialogComponent {
       title: 'ID Mov.',
       value: (element: Movimiento) => element.id,
     },
-    {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
-      type: 'number',
-    },
-    {
+    /*{
       def: 'concepto',
       title: 'Concepto',
       value: (element: Movimiento) => element.concepto,
@@ -33,7 +27,7 @@ export class LiquidacionConfirmDialogComponent {
       def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
-    },
+    },*/
     {
       def: 'detalle',
       title: 'Detalle',
@@ -57,23 +51,29 @@ export class LiquidacionConfirmDialogComponent {
     },
     {
       def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
+      title: 'Cambio',
       value: (element: Movimiento) => element.tipo_cambio_moneda,
       type: 'number',
     },
     {
+      def: 'monto',
+      title: 'Monto',
+      value: (element: Movimiento) => element.monto,
+      type: 'number',
+    },
+    /*{
       def: 'fecha_cambio_moneda',
       title: 'Fecha de cambio',
       value: (element: Movimiento) => element.fecha_cambio_moneda,
       type: 'date',
-    },
+    },*/
     {
       def: 'monto_ml',
       title: 'Monto (ML)',
       value: (element: Movimiento) => element.monto_ml,
       type: 'number',
     },
-    {
+    /*{
       def: 'created_at',
       title: 'Fecha y hora',
       value: (element: Movimiento) => element.created_at,
@@ -83,7 +83,7 @@ export class LiquidacionConfirmDialogComponent {
       def: 'created_by',
       title: 'Usuario',
       value: (element: Movimiento) => element.created_by,
-    },
+    },*/
   ];
 
   get contraparteInfo(): ContraparteGralInfo {

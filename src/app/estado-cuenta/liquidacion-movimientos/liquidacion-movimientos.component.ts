@@ -18,7 +18,7 @@ export class LiquidacionMovimientosComponent {
       def: 'id',
       title: 'ID mov.',
       value: (element: Movimiento) => element.id,
-      type: 'checkbox',
+      //type: 'checkbox',
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
       sticky: true,
     },
