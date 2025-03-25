@@ -166,12 +166,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }
 
     setTimeout(() => {
-      if (this.esFinalizado) {
-        this.colapseDivMovimientos = true;
-      }
-
       this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
-
     }, 500);
 
   }
