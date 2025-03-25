@@ -182,18 +182,30 @@ tr.mat-header-row {
 .align-right-oc-retirado {
   text-align: right;
   margin-left: -25px;
+  padding-left: 20px;
 }
 
 td.mat-column-monto_equiv,
 td.mat-column-monto_retirado {
   width: 50px;
   text-align: right;
-  padding-left: -100;
   padding-right: 30px;
-  margin-left: -40px;
-
 }
 
+th.mat-column-monto_litro {
+  width: auto;
+  text-align: right;
+}
+
+td.mat-column-monto_litro {
+  width: auto;
+  text-align: right;
+}
+
+th.mat-column-moneda_nombre{
+  width: 40px;
+  margin-left: 10px;
+}
 
 
 .align-right-porcentaje{
@@ -203,14 +215,14 @@ td.mat-column-monto_retirado {
 td.mat-column-id_anticipo {
   text-align: left;
   padding-left: 0;
-  padding-right: 0; 
+  padding-right: 0;
   margin-left: -60px;
 }
 
 td.mat-column-porcentaje:not(:first-child) {
   text-align: left;
   padding-left: 0;
-  padding-right: 0; 
+  padding-right: 0;
   margin-left: -60px; /* Mueve la celda hacia la izquierda */
 }
 

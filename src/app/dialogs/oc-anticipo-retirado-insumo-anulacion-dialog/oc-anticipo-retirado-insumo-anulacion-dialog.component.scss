@@ -3,7 +3,7 @@
       padding: 0 0 0 1em;
     }
   }
-  
+
   .mat-dialog-content::ng-deep {
     .hint-alert {
       color: #ee6904;
@@ -19,7 +19,7 @@
       visibility: hidden;
     }
   }
-  
+
   .action-text {
     color: #F25A38;
     font-size: 16px;
@@ -28,7 +28,7 @@
     letter-spacing: 0.06em;
     text-align: left;
   }
-  
+
   .complement-text {
     color: #3B9EFF;
     font-size: 16px;
@@ -37,7 +37,7 @@
     letter-spacing: 0.06em;
     text-align: left;
   }
-  
+
   .section {
     h2 {
       margin: 0 0 15px 0;
@@ -49,25 +49,25 @@
       width: 100%;
     }
   }
-  
+
   .horizontal-line {
     border: 1px solid #1C1C1C3D;
     margin-top: 8px;
   }
-  
-  
+
+
   .mat-dialog-content {
     padding-top: 0;
   }
-  
+
   .inline-container {
     display: flex;
     flex-direction: column;
   }
-  
+
   .input-like {
-    border: 1px solid #d9d9d9; 
-    border-radius: 4px; 
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
     background: #FBFBFE;
     width: 270px;
     height: 27px;
@@ -79,14 +79,19 @@
     padding-left: 10px;
     margin-top: 3px;
   }
-  
+
   .ocultar {
     display: none;
   }
-  
+
+  mat-radio-group {
+    display: flex;
+    gap: 20px;
+  }
+
+
   .anulado-text {
     font-weight: bold;
     font-size: 16px;
     margin-left: 30px;
   }
-  

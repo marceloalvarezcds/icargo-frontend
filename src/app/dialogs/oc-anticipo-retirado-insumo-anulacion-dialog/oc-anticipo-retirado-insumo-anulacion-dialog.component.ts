@@ -63,6 +63,7 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
       this.isShow = this.dialogData.isShow;
       this.isShowBtn = true
       this.form.disable();
+      this.form.get('es_con_litro')?.enable();
     }
     this.form.get('monto_retirado')?.disable();
     this.form.get('cantidad_retirada')?.disable();
@@ -224,9 +225,6 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
       this.isShow = dialogData.isShow;
     }
 
-
-
-
   anularAnticipo() {
     if (this.data?.id) {
       this.ordenCargaAnticipoRetiradoService
@@ -234,7 +232,6 @@ export class OcAnticipoRetiradoInsumoAnulacionDialogComponent  implements OnInit
         .subscribe(this.close.bind(this));
     }
   }
-
 
   private close(data: OrdenCargaAnticipoRetirado): void {
     this.dialogRef.close(data);

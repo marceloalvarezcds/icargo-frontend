@@ -95,7 +95,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     {
       def: 'concepto',
       title: 'Concepto',
-      value: (element: OrdenCargaAnticipoRetirado) => element.concepto,
+      value: (element: OrdenCargaAnticipoRetirado) => element.concepto_detalle,
+    },
+
+    {
+      def: 'punto_venta_alias',
+      title: 'Establecimiento',
+      value: (element: OrdenCargaAnticipoRetirado) => element.punto_venta_alias,
     },
     {
       def: 'proveedor_nombre',
@@ -113,6 +119,12 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       def: 'monto_retirado',
       title: 'Monto retirado',
       value: (element: OrdenCargaAnticipoRetirado) => element.monto_retirado,
+      type: 'number',
+    },
+    {
+      def: 'monto_litro',
+      title: 'Litros',
+      value: (element: OrdenCargaAnticipoRetirado) => element.cantidad_retirada,
       type: 'number',
     },
     {
@@ -347,7 +359,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
       // Abre el diálogo correspondiente
       const dialogRef = this.dialog.open(dialogComponent, {
-        width: '1000px',
+        width: '700px',
         data: {
           orden_carga_id: this.oc!.id,
           flete_id: this.oc!.flete_id,
@@ -455,7 +467,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     return this.dialog.open(OcAnticipoRetiradoEfectivoAnulacionDialogComponent, {
       width: '700px',
       height: 'auto',
-
       data });
   }
 
@@ -473,7 +484,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       item,
     };
     return this.dialog.open(OcAnticipoRetiradoInsumoAnulacionDialogComponent, {
-      width: '700px',
+      width: '720px',
       height: 'auto',
       data });
   }
