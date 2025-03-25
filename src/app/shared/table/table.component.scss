@@ -181,12 +181,16 @@ tr.mat-header-row {
 
 .align-right-oc-retirado {
   text-align: right;
-  margin-left: -22px;
+  margin-left: -25px;
 }
 
 td.mat-column-monto_equiv,
 td.mat-column-monto_retirado {
-  align-items: end;
+  width: 50px;
+  text-align: right;
+  padding-left: -100;
+  padding-right: 30px;
+  margin-left: -40px;
 
 }
 
@@ -199,14 +203,14 @@ td.mat-column-monto_retirado {
 td.mat-column-id_anticipo {
   text-align: left;
   padding-left: 0;
-  padding-right: 0; /* Elimina el padding derecho */
+  padding-right: 0; 
   margin-left: -60px;
 }
 
 td.mat-column-porcentaje:not(:first-child) {
   text-align: left;
   padding-left: 0;
-  padding-right: 0; /* Elimina el padding derecho */
+  padding-right: 0; 
   margin-left: -60px; /* Mueve la celda hacia la izquierda */
 }
 
