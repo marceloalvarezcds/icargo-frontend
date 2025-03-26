@@ -94,7 +94,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
     {
       def: 'concepto',
-      title: 'Concepto',
+      title: 'Mercaderia',
       value: (element: OrdenCargaAnticipoRetirado) => element.concepto_detalle,
     },
 
