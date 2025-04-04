@@ -10,6 +10,7 @@ export interface FacturaFormDialogData {
   contraparte_id: number;
   punto_venta_id?: number;
   isShow?: boolean;
+  tipo_cambio_moneda?:number;
 }
 
 export const mockFacturaFormDialogData: FacturaFormDialogData = {

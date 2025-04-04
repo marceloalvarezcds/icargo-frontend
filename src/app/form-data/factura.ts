@@ -12,10 +12,7 @@ export const facturaData = (
   delete value.foto;
 
   //const sentido_mov_iva = value.sentido_mov_iva_pagar ? 'PAGAR' : value.sentido_mov_iva_cobrar ? 'COBRAR' : undefined;
-  //const sentido_mov_retencion = value.sentido_mov_retencion_pagar ? 'PAGAR' : value.sentido_mov_retencion_cobrar ? 'COBRAR' : undefined;;
-
-  const mon = value.moneda_id;
-  value.moneda_id = mon.id;
+  //const sentido_mov_retencion = value.sentido_mov_retencion_pagar ? 'PAGAR' : value.sentido_mov_retencion_cobrar ? 'COBRAR' : undefined;
 
   const data = JSON.parse(
     JSON.stringify({

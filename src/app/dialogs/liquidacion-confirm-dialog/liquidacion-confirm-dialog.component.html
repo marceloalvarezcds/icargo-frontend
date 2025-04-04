@@ -73,6 +73,17 @@
 
       </div>
 
+      <div *ngFor="let totalMoneda of totalMonedas" class="col-xs-12 col-sm-2">
+
+        <div class="row">
+          <strong class="col-xs-12 col-sm-6">Total en {{totalMoneda.moneda.simbolo}}</strong>
+          <span class="col-xs-12 col-sm-6 alinear-derecha">
+            {{ totalMoneda.total | numberFormat }}
+          </span>
+        </div>
+
+    </div>
+
     </div>
 
     <div class="row page-form-row" *ngIf="!esOrdenPago">

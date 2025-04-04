@@ -74,12 +74,14 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   moneda: Moneda;
   // Campos calculados
   credito: number;
+  credito_ml: number;
   camion_placa: string;
   chofer_nombre: string;
   chofer_numero_documento: string;
   concepto: string;
   cuenta_codigo_descripcion: string;
   debito: number;
+  debito_ml: number;
   destino_nombre: string;
   es_cobro: boolean;
   fecha_pago_cobro: string | null;
@@ -89,6 +91,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   moneda_nombre: string;
   moneda_simbolo: string;
   monto_ml: number;
+  monto_mon_local: number;
   origen_nombre: string;
   producto_descripcion: string;
   propietario_nombre: string | null;
@@ -156,6 +159,8 @@ export interface MovimientoEstadoCuenta {
     es_editable: boolean,
     can_edit_oc: boolean,
     documento_fisico: boolean,
+    moneda: string,
+    tipo_cambio_moneda: number,
     provision: number,
     pendiente: number,
     en_proceso: number,
@@ -165,6 +170,8 @@ export interface MovimientoEstadoCuenta {
     documento_fisico_oc?: boolean,
 }
 
+export const mockMovimientoList: Movimiento[] = [];
+/*
 export const mockMovimientoList: Movimiento[] = [
   {
     gestor_carga_id: 1,
@@ -699,7 +706,7 @@ export const mockMovimientoList: Movimiento[] = [
     finalizado: 0
   },
 ];
-
+*/
 export const mockMovimientoForm1: MovimientoForm = {
   ...mockMovimientoList[0],
   es_creacion_contraparte: false,

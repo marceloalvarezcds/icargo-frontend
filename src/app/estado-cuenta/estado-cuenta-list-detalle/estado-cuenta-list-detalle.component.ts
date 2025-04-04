@@ -39,6 +39,7 @@ import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
+import { mockMoneda1 } from 'src/app/interfaces/moneda';
 
 type Filter = {
   camion_placa?: string;
@@ -95,7 +96,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       label: 'ORDEN PAGO/COBRO',
       iconClass: 'icon-add-style',
       buttonCallback: ($event:any) => {
-        this.createOrdenPago();
+        //this.createOrdenPago();
+        this.createOrdenPagoDialog();
       }
     }
   ]
@@ -419,15 +421,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         `Está seguro que desea Crear Orden de Pago/Cobro?`,
         () => {
 
+          // TODO: obtener moneda local
           this.estadoCuenta!.moneda_id = this.monedaIdGs;
-
-          if (this.estadoCuenta!.es_pdv){
+          /*if (this.estadoCuenta!.es_pdv){
             this.snackbar.open('Debe seleccionar Punto de Venta!');
             return;
-          }
+          }*/
+          let moneda_local = mockMoneda1;
 
           this.liquidacionService.create(
-                createLiquidacionDataFields([], this.estadoCuenta!, 0, "PAGO", "EFECTIVO"))
+                createLiquidacionDataFields([], this.estadoCuenta!, 0, "PAGO", "EFECTIVO", moneda_local))
             .subscribe((resp) => {
 
               this.snackbar.open('Datos guardados satisfactoriamente');
@@ -470,7 +473,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       return;
     }
 
-    createOrdenPagoBck():void {
+    createOrdenPagoDialog():void {
 
       const {
         contraparte_id,
@@ -751,6 +754,30 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
           def: 'estado_liquidacion',
           title: 'Estado Liquidacion',
           value: (element: MovimientoEstadoCuenta) => element.estado_liquidacion,
+          dinamicStyles: (element: MovimientoEstadoCuenta) =>
+            (
+              (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+              (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+              (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
+              (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+            ),
+        },
+        {
+          def: 'moneda',
+          title: 'Moneda',
+          value: (element: MovimientoEstadoCuenta) => element.moneda,
+          dinamicStyles: (element: MovimientoEstadoCuenta) =>
+            (
+              (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+              (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+              (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
+              (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+            ),
+        },
+        {
+          def: 'tipo_cambio_moneda',
+          title: 'Cambio',
+          value: (element: MovimientoEstadoCuenta) => element.tipo_cambio_moneda,
           dinamicStyles: (element: MovimientoEstadoCuenta) =>
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :

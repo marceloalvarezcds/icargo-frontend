@@ -117,6 +117,23 @@ export class LiquidacionEditFormMovimientosComponent {
       value: (element: Movimiento) => element.monto,
       type: 'number',
     },
+    {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
+      type: 'number',
+    },
     /*{
       def: 'oc',
       title: '',
@@ -150,6 +167,7 @@ export class LiquidacionEditFormMovimientosComponent {
 
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
+  @Input() esOrdenPago = false;
   @Input() tipoLiquidacion?:string;
   @Input() liquidacion?: Liquidacion;
   @Input() list: Movimiento[] = [];

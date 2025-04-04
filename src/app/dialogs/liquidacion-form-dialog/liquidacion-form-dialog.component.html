@@ -20,27 +20,24 @@
     </ng-container>
 
     <ng-template #new>
-
       <app-liquidacion-form-fields
           #child
           *ngIf="estadoCuenta"
           [esEditableLinea]="esEditableLinea"
           [etapa]="etapa"
+          [moneda]="moneda"
           [estadoCuenta]="estadoCuenta"
-          [esOrdenPago]="esOrdenPago"
+          [ordenPagoValue]="ordenPagoValue"
           [list]="list"
           [isDialog]="true"
           (createdLiquidacionEvt)="onCreateLiquidacion($event)"
         >
       </app-liquidacion-form-fields>
-
     </ng-template>
 
     <ng-template #edit>
-
-      <div class="page-content-liquidacion">
+      <div *ngIf="liquidacion" class="page-content-liquidacion" >
         <app-liquidacion-edit-fields
-            *ngIf="liquidacion"
             #childEdit
             [isEdit]="isEdit"
             [liquidacion]="liquidacion"
@@ -49,11 +46,9 @@
             [movimientos]="list"
             (actualizarLiquidacion)="loadLiquidacion()"
             (actualizarEstado)="cerrarLiquidacion()"
-            (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)"
-          >
+            (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)">
         </app-liquidacion-edit-fields>
-    </div>
-
+      </div>
     </ng-template>
 
   </div>

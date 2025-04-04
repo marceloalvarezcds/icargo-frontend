@@ -38,6 +38,7 @@ import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-inf
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
+import { mockMoneda1 } from 'src/app/interfaces/moneda';
 
 type Filter = {
   camion_placa?: string;
@@ -606,8 +607,10 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
             return;
           }
 
+          let moneda_local = mockMoneda1;
+
           this.liquidacionService.create(
-                createLiquidacionDataFields([], this.estadoCuenta!, 0, "PAGO", this.estadoCuenta!.tipo_flujo!))
+                createLiquidacionDataFields([], this.estadoCuenta!, 0, "PAGO", this.estadoCuenta!.tipo_flujo!, moneda_local))
             .subscribe((resp) => {
 
               this.snackbar.open('Datos guardados satisfactoriamente');

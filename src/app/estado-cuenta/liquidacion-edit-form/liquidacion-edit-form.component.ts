@@ -134,7 +134,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       this.editLiquidacion();
       return;
     }
-
+    /*
     let es_pago_cobro = (this.childEdit.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? this.childEdit.monto_pc.value : (this.childEdit.monto_pc.value*-1);
 
@@ -145,6 +145,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       debito: this.childEdit.debito,
       monto: pago_cobro,
       saldo: this.childEdit.childSaldoView.saldo,
+
     };
     this.dialog
       .open(LiquidacionConfirmDialogComponent, {
@@ -156,6 +157,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       .subscribe(() => {
         this.editLiquidacion();
       });
+      */
   }
 
   editLiquidacion():void {

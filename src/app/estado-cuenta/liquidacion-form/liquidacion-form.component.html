@@ -10,41 +10,17 @@
   [shouldShowDownloadButton]="true"
   (backClick)="back($event)"
   (submitEvent)="confirm()"
-  (downloadClick)="downloadFile()"
->
+  (downloadClick)="downloadFile()">
 
   <app-liquidacion-form-fields
       *ngIf="estadoCuenta"
       #child
       [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
+      [ordenPagoValue]="false"
+      [moneda]="moneda"
       [list]="list"
-      (createdLiquidacionEvt)="onCreateLiquidacion($event)"
-    >
+      (createdLiquidacionEvt)="onCreateLiquidacion($event)">
   </app-liquidacion-form-fields>
-
-  <div class="liquidacion-page-content" *ngIf="false">
-    <app-estado-cuenta-detalle
-      [etapa]="etapa"
-      [estadoCuenta]="estadoCuenta"
-      [showVistaConsolidada]="false"
-      [showEstado]=false
-    ></app-estado-cuenta-detalle>
-    <app-saldo
-      [credito]="credito"
-      [debito]="debito"
-      title="Saldo | Total de la Selección"
-    ></app-saldo>
-    <div class="row page-form-row">
-      <div class="col-xs-12">
-        <app-liquidacion-form-movimientos
-          [showAccions]="false"
-          [list]="list"
-          (movimientosInDBChange)="getList()"
-          (selectedMovimientosChange)="movimientosSelected = $event"
-        ></app-liquidacion-form-movimientos>
-      </div>
-    </div>
-  </div>
 
 </app-page-form>

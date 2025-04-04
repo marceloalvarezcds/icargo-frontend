@@ -15,6 +15,7 @@ import { Column, ColumnLink } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -204,6 +205,7 @@ export class EstadoCuentaListComponent implements OnInit {
   constructor(
     private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService,
+    private monedaService : MonedaService,
     private searchService: SearchService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
@@ -220,6 +222,10 @@ export class EstadoCuentaListComponent implements OnInit {
         saveAs(file, filename);
       });
     });
+  }
+
+  test():void {
+    console.log("test: test");
   }
 
   // aca comparar IGUAL y no LIKE
