@@ -6,6 +6,7 @@ import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { FacturaService } from 'src/app/services/factura.service';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 
 @Component({
@@ -106,6 +107,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
   constructor(
     private facturaService: FacturaService,
     private monedaService: MonedaService,
+    private cotizacionService: MonedaCotizacionService,
     public dialogRef: MatDialogRef<FacturaFormDialogComponent>,
     private fb: FormBuilder,
     private ren: Renderer2,
@@ -154,12 +156,23 @@ export class FacturaFormDialogComponent implements AfterViewInit {
 
   onMonedaSelect(mon:Moneda){
     this.moneda = mon;
-    // buscamos la cotizacion actual
-    // y cargamos
-
-      this.form.patchValue({
-        tipo_cambio_moneda:1
-      })
+    
+    if (mon.id !== this.monedaLocal!.id){
+      this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
+        .subscribe(res=>{
+          if (res){
+            this.form.controls['tipo_cambio_moneda'].enable();
+            this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
+            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda); 
+            this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+          }
+      });
+    } else {
+      this.form.controls['tipo_cambio_moneda'].disable();
+      this.form.controls['tipo_cambio_moneda'].setValidators([]);
+      this.form.controls['tipo_cambio_moneda'].setValue(1); 
+      this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+    }
   }
 
   /*checkState(el:any):any {

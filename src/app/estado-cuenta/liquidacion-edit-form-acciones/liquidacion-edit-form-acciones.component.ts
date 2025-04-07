@@ -60,16 +60,16 @@ export class LiquidacionEditFormAccionesComponent {
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
   //@Input() monto : number | undefined = 0;
-  @Input() saldoMovimiento : number | undefined = 0;
+  //@Input() saldoMovimiento : number | undefined = 0;
   @Input() totalMovimiento : number = 0;
   @Input() saldoCC : number | undefined  = 0;
   //@Input() sentidoOp: boolean = false;
-  @Input() movimientos : Movimiento[] = [];
+  //@Input() movimientos : Movimiento[] = [];
   @Input() form : FormGroup|undefined=undefined;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
-  @Output() liquidacionFacturaChange = new EventEmitter();
+  @Output() liquidacionFacturaChange = new EventEmitter<Factura>();
 
   constructor(
     private router: Router,
@@ -224,7 +224,7 @@ export class LiquidacionEditFormAccionesComponent {
     this.form!.markAllAsTouched();
 
     console.log("this.form: ", this.form);
-    if (!this.form!.valid) {
+    if ( this.liquidacion.es_orden_pago && !this.form!.valid) {
       return;
     }
 
@@ -237,9 +237,9 @@ export class LiquidacionEditFormAccionesComponent {
       pago_cobro = Math.abs(pago_cobro);
       es_pago_cobro='PAGO';
     }*/
-    if (this.movimientos.length === 0) {
+    if (this.liquidacion.es_orden_pago) {
 
-      const form = { 'monto': this.liquidacion.monto, comentario:"" };
+      const form = { 'monto': this.liquidacion.pago_cobro, comentario:"" };
 
       this.liquidacionService
         .someter(this.id, changeLiquidacionDataMonto(form))
@@ -300,7 +300,7 @@ export class LiquidacionEditFormAccionesComponent {
         panelClass: 'half-dialog'
       }),
       (comentario: string) => {
-        const form = { 'monto': this.liquidacion.monto!, comentario }
+        const form = { 'monto': this.liquidacion.pago_cobro!, comentario }
 
         this.liquidacionService
           .someter(this.id, changeLiquidacionDataMonto(form))
@@ -313,9 +313,10 @@ export class LiquidacionEditFormAccionesComponent {
     );
   }
 
-  private emitChange(): void {
+  private emitChange(factura:Factura): void {
+    console.log("factura: ", factura);
     this.snackbar.open('Factura agregada');
-    this.liquidacionFacturaChange.emit();
+    this.liquidacionFacturaChange.emit(factura);
     //this.liquidacionChange.emit();
   }
 
@@ -332,7 +333,9 @@ export class LiquidacionEditFormAccionesComponent {
       liquidacion_id: this.liquidacion.id,
       contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
-      valor_operacion: Math.abs(this.liquidacion.pago_cobro!),
+      valor_operacion: this.liquidacion.es_orden_pago 
+        ? Math.abs(this.liquidacion.pago_cobro!)
+        : Math.abs(this.totalMovimiento),
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       punto_venta_id: this.liquidacion.punto_venta_id,

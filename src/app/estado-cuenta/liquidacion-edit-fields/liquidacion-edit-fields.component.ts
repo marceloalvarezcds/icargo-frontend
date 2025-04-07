@@ -49,7 +49,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     this.form.patchValue({
       moneda_id: liq.moneda_id
     });
-
+    this.calcularTotalMoneda(liq.movimientos);
   }
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
@@ -61,6 +61,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   liquidacionTipoInsumo = false;
   saldo = 0;
   monedaLocal?:Moneda;
+  totalMonedas:any;
 
   colapseDivMovimientos = false;
   colapseDivFacturas = false;
@@ -98,8 +99,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get esFinalizado(): boolean {
-    return (this.item?.estado === LiquidacionEstadoEnum.PENDIENTE ||
-      this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
       this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
@@ -138,6 +138,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
   get esOrdenPago():boolean {
     return this.item?.es_orden_pago ?? false;
+  }
+
+  get montoLiquidacion():number {
+    return this.item!.es_orden_pago ? this.item!.pago_cobro! : this.monto;
   }
 
   constructor(
@@ -197,16 +201,25 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       }
   }*/
 
-  actualizarFactura():void {
+  actualizarFactura(factura:Factura|null):void {
     //this.item!.pago_cobro = null;
+    console.log("actualizarFactura: ", factura);
+    if (factura)
+      this.item!.facturas = this.item!.facturas ? [...this.item!.facturas, factura] : [factura];
+    else this.item!.facturas = [];
+
     //this.liquidacionFacturasComponent?.loadList();
-    //this.actualizarMovimientos.emit(this.item);
+    this.actualizarMovimientos.emit(this.item);
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
     //console.log("movimientos: ", movimientos);
     // recalcula saldo y monto pago cobro
-    this.item!.pago_cobro = null;
+    //this.item!.pago_cobro = null;
+    if (this.esOrdenPago) return;
+
+    this.calcularTotalMoneda(movimientos);
+
     this.actualizarMovimientos.emit(movimientos);
   }
 
@@ -215,19 +228,19 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    if (!this.form.valid) {
+    if (!this.form.valid && this.liquidacion.es_orden_pago) {
       return;
     }
 
-    let liquidacionValues = this.form.getRawValue();
-    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+    let liquidacionValues = this.form.getRawValue();    
     let pago_cobro = this.esOrdenPago
       ?  liquidacionValues.es_cobro ? liquidacionValues.monto_pc : (liquidacionValues.monto_pc*-1)
       : 0;
 
+    this.item!.pago_cobro = pago_cobro;
     this.item!.monto = pago_cobro;
-    this.item!.es_pago_cobro = es_pago_cobro;
-    this.item!.moneda_id = this.monedaLocal!.id;
+    this.item!.es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+    this.item!.moneda_id = liquidacionValues.moneda_id;
 
     this.liquidacionService
       .edit(this.item!.id, editLiquidacionData(this.item!))
@@ -251,11 +264,29 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     this.monedaLocal = moneda;
   }
 
-  setMontoPagoCobro(monto:number) {
-    if (!monto) return;
-    if (this.item && this.esOrdenPago){
-      this.monto_pc.setValue(Math.abs(monto));
-    }
+  private calcularTotalMoneda(movimientos: Movimiento[]):void {
+
+    const resultado = movimientos.reduce((acumulador:any, item) => {
+      const { moneda, monto } = item;
+      const clave = moneda.id; // Usamos el id como clave única
+
+      if (!acumulador[clave]) {
+        acumulador[clave] = {
+          moneda: { ...moneda }, // Copiamos el objeto moneda
+          total: 0,
+          instrumento:0,
+          residuo:0
+        };
+      }
+      acumulador[clave].total += monto;
+      acumulador[clave].residuo += monto;
+
+      return acumulador;
+    }, {});
+
+    console.log("resultado: ", resultado);
+
+    this.totalMonedas = Object.values(resultado);;
   }
 
 }

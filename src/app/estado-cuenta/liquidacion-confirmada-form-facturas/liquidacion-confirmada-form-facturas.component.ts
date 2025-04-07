@@ -113,7 +113,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   @Input() isShow = false;
 
   @Output() emptyInstrumentoListChange = new EventEmitter<void>();
-  @Output() facturasChange = new EventEmitter<void>();
+  @Output() facturasChange = new EventEmitter<Factura|null>();
 
   constructor(
     private dialog: MatDialog,
@@ -140,13 +140,13 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     }
 
     this.showAlertMessage(() =>
-      edit(this.getDialogRef(row, false), ()=>this.emitChange("Procesado con exito!"))
+      edit(this.getDialogRef(row, false), this.emitChange.bind(this))
     );
   }
 
   show({ row }: TableEvent<Factura>): void {
     this.showAlertMessage(() =>
-      edit(this.getDialogRef(row, true), ()=>this.emitChange("Procesado con exito!"))
+      edit(this.getDialogRef(row, true), ()=>this.emitChange.bind(this))
     );
   }
 
@@ -164,7 +164,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
         () => {
           this.facturaService
             .delete(row.id)
-            .subscribe( (r) => this.emitChange("Factura eliminada!") );
+            .subscribe( (r) => this.emitChange(null) );
         }
       )
     );
@@ -192,9 +192,9 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
     return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', });
   }
 
-  private emitChange(mensaje:string): void {
-    this.snackbar.open( mensaje ?? 'Factura agregada');
-    this.facturasChange.emit();
+  private emitChange(factura:Factura|null): void {
+    //this.snackbar.open( mensaje ?? 'Factura agregada');
+    this.facturasChange.emit(factura);
     this.loadList();
   }
 

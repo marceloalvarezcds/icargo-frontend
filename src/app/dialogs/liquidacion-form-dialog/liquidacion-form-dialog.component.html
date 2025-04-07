@@ -61,7 +61,7 @@
       (click)="confirm()"  >
     Guardar Liquidación
   </button>
-  <button *ngIf="!esFinalizado && !isNew && isEdit"
+  <button *ngIf="!esFinalizado && !isNew && isEdit && liquidacion?.es_orden_pago"
       mat-flat-button color="primary" type="button"
       class="botones" cdkFocusInitial
       (click)="actualizar()"  >

@@ -120,7 +120,8 @@ export class LiquidacionInstrumentosComponent {
       es_cobro: this.liquidacion?.es_cobro ?? false,
       residuo: item?.monto!,
       item,
-      isShow:true
+      isShow:true,
+      totalMonedas: []
     };
     return this.dialog.open(InstrumentoFormDialogComponent, {
       data,

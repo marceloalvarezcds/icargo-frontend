@@ -325,7 +325,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     if (this.esOrdenPago) return;
 
     this.movimientosSelected = movimientos;
-    this.form.controls['monto_pc'].setValue(Math.abs(this.monto));
+    //this.form.controls['monto_pc'].setValue(Math.abs(this.monto));
 
     this.calcularTotalMoneda(movimientos);
 
