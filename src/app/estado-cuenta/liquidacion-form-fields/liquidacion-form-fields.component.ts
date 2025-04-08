@@ -74,7 +74,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     punto_venta_id: new FormControl(null, Validators.required),
     monto_pc: new FormControl({value:null, disabled:true} ),
     es_cobro: new FormControl({value:true, disabled:true}, [Validators.required]),
-    moneda_id: new FormControl({value:null, disabled:true}, [Validators.required]),
+    moneda_id: new FormControl({value:null}, [Validators.required]),
   });
 
   get credito(): number {
@@ -203,6 +203,8 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
+    console.log(this.form);
 
     if (!this.form.valid) {
       return false;

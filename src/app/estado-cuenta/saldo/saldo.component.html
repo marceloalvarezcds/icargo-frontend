@@ -93,7 +93,7 @@
     [title]="'Moneda'"
     [requerido]="true"
     [auto_select]="false"
-    [readonly]="esFinalizado"
+    [readonly]="!esOrdenPago || esFinalizado"
     controlName="moneda_id"
     [form]="form"
     (valueChange)="$event && monedaSelect.emit($event)">
