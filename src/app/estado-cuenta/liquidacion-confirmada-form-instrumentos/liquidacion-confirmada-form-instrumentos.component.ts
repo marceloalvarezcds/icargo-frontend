@@ -117,7 +117,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   @Input() estadoCuenta?: EstadoCuenta;
   @Input() liquidacion?: Liquidacion;
   @Input() valorInstrumentos = 0;
-  @Input() saldo = 0;
+  //@Input() saldo = 0;
   @Input() isShow = false;
   @Input() totalMonedas:MonetaTotalType[] = [];
   @Input() set instrumentoList(list: InstrumentoLiquidacionItem[]) {
@@ -216,6 +216,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
         t.residuo = t.total - t.instrumento;
       }
     });
+    console.log("this.totalMonedas: ", this.totalMonedas);
     //this.residuoChange.emit(this.residuo);
     //this.valorInstrumentosChange.emit(this.valorInstrumentos);
   }
@@ -223,7 +224,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   private getDialogRef(
     item?: InstrumentoLiquidacionItem
   ): MatDialogRef<InstrumentoFormDialogComponent, InstrumentoLiquidacionItem> {
-    
+
     const data: InstrumentoFormDialogData = {
       es_cobro: this.liquidacion?.es_cobro ?? false,
       //residuo: Math.abs((item?.monto ?? 0) + this.getResiduo(item?.moneda_id ?? 0)),

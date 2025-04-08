@@ -22,7 +22,7 @@ import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.serv
   styleUrls: ['./instrumento-form-dialog.component.scss'],
 })
 export class InstrumentoFormDialogComponent implements OnDestroy, AfterViewInit {
-  
+
   banco?: Banco;
   caja?: Caja;
   via?: InstrumentoVia;
@@ -96,7 +96,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, AfterViewInit 
       this.form.controls['tipo_instrumento_id'].updateValueAndValidity();
     }, 500);
   });
-  
+
 
   get data(): InstrumentoLiquidacionItem | undefined {
     return this.dialogData?.item;
@@ -149,14 +149,14 @@ export class InstrumentoFormDialogComponent implements OnDestroy, AfterViewInit 
     return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }
 
-  get residuo(): number {    
+  get residuo(): number {
     let moneda_id = this.form.controls['moneda_id'].value;
-    
+
     if (!moneda_id) return 0;
 
     let saldo = this.totalMonedas.find((e:any)=> e.moneda.id === moneda_id);
     if (!saldo) return 0;
-    
+
     return saldo.residuo;;
   }
 
@@ -197,31 +197,40 @@ export class InstrumentoFormDialogComponent implements OnDestroy, AfterViewInit 
   onbancoSelect(banco:Banco):void {
     console.log("banco: ", banco)
     this.banco = banco;
-    this.montoControl.setValidators([]);
-    this.montoControl.updateValueAndValidity();
-
     const totalMonena = this.totalMonedas.find( (total:any) => total.moneda.id === banco.moneda_id);
-    this.montoControl.setValidators([Validators.required, Validators.max(totalMonena.residuo ?? totalMonena.total)]);
-    this.montoControl.setValue(totalMonena.residuo ?? totalMonena.total);
-    this.montoControl.updateValueAndValidity();
-
     this.form.controls['moneda_id'].setValue(banco.moneda_id);
+
+    if (totalMonena) {
+      this.montoControl.setValidators([]);
+      this.montoControl.updateValueAndValidity();
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(totalMonena.residuo ?? totalMonena.total)]);
+      this.montoControl.setValue(totalMonena.residuo ?? totalMonena.total);
+      this.montoControl.updateValueAndValidity();
+    } else{
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(0)]);
+      this.montoControl.setValue(0);
+      this.montoControl.updateValueAndValidity();
+    }
   }
 
   onCajaSelect(caja:Caja):void {
     console.log("caja: ", caja)
     this.caja = caja;
     const totalMonena = this.totalMonedas.find( (total:any) => total.moneda.id === caja.moneda_id);
+    this.form.controls['moneda_id'].setValue(caja.moneda_id);
+
     if (totalMonena) {
       this.montoControl.setValidators([]);
-      this.montoControl.updateValueAndValidity();    
-      this.montoControl.setValidators([Validators.required, Validators.max(totalMonena.total)]);
+      this.montoControl.updateValueAndValidity();
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(totalMonena.residuo ?? totalMonena.total)]);
       this.montoControl.setValue(totalMonena.residuo ?? totalMonena.total);
       this.montoControl.updateValueAndValidity();
-
-      this.form.controls['moneda_id'].setValue(caja.moneda_id);
+    } else {
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(0)]);
+      this.montoControl.setValue(0);
+      this.montoControl.updateValueAndValidity();
     }
-    
+
   }
 
   onMonedaSelect(mon:Moneda){
@@ -230,21 +239,21 @@ export class InstrumentoFormDialogComponent implements OnDestroy, AfterViewInit 
     if (!this.monedaLocal) return;
 
     this.moneda = mon;
-    
+
     if (mon.id !== this.monedaLocal!.id){
       this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
         .subscribe(res=>{
           if (res){
             this.form.controls['tipo_cambio_moneda'].enable();
             this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
-            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda); 
+            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
             this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
           }
       });
     } else {
       this.form.controls['tipo_cambio_moneda'].disable();
       this.form.controls['tipo_cambio_moneda'].setValidators([]);
-      this.form.controls['tipo_cambio_moneda'].setValue(1); 
+      this.form.controls['tipo_cambio_moneda'].setValue(1);
       this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
     }
   }

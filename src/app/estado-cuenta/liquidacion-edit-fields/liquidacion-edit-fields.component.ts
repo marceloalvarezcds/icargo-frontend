@@ -49,6 +49,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     this.form.patchValue({
       moneda_id: liq.moneda_id
     });
+    this.selectMoneda(liq.moneda);
     this.calcularTotalMoneda(liq.movimientos);
   }
 
@@ -232,7 +233,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       return;
     }
 
-    let liquidacionValues = this.form.getRawValue();    
+    let liquidacionValues = this.form.getRawValue();
     let pago_cobro = this.esOrdenPago
       ?  liquidacionValues.es_cobro ? liquidacionValues.monto_pc : (liquidacionValues.monto_pc*-1)
       : 0;
@@ -265,6 +266,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   private calcularTotalMoneda(movimientos: Movimiento[]):void {
+
+    if (this.item?.es_orden_pago) {
+      this.totalMonedas = [{
+          moneda:this.monedaLocal,
+          total:this.item.pago_cobro,
+          residuo:this.item.pago_cobro,
+          instrumento:0
+        }];
+      return;
+    }
 
     const resultado = movimientos.reduce((acumulador:any, item) => {
       const { moneda, monto } = item;
