@@ -36,6 +36,7 @@ type Filter = {
   styleUrls: ['./liquidaciones-list.component.scss']
 })
 export class LiquidacionesListComponent implements OnInit, AfterViewInit {
+
   a = PermisoAccionEnum;
   m = PermisoModeloEnum;
   columns: Column[] = [
@@ -110,9 +111,7 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ]
-
   columnasVisibles?: Column[];
-
   /*
   TODO: se inhabilita tempralmente los botones
   para proceso en lote
@@ -183,11 +182,11 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
     );
   }
 
-  esFinalizado(liquidacion:Liquidacion): boolean {
+  /*esFinalizado(liquidacion:Liquidacion): boolean {
     return ( liquidacion.etapa === LiquidacionEtapaEnum.FINALIZADO
           || liquidacion.estado === LiquidacionEstadoEnum.SALDO_ABIERTO
           || liquidacion.estado === LiquidacionEstadoEnum.SALDO_CERRADO);
-  }
+  }*/
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('tipoContraparteCheckboxFilter')
@@ -292,12 +291,12 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       tipo_contraparte_id: liquidacion.tipo_contraparte_id,
       tipo_contraparte_descripcion: liquidacion.tipo_contraparte.descripcion,
       isEdit: true,
+      isNew: false,
       liquidacionId: liquidacion.id,
       etapa: liquidacion.etapa,
       punto_venta_id: liquidacion.punto_venta_id,
-      flujo: liquidacion.tipo_mov_liquidacion
+      flujo: liquidacion.tipo_mov_liquidacion,
     };
-
 
     this.dialog
       .open(LiquidacionFormDialogComponent, {
@@ -352,12 +351,8 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
     this.liquidacionService.getListAll().subscribe((list) => {
 
       this.list = list;
-
-      this.tipoContraparteFilterList = getFilterList(
-        list, (x) => x.tipo_contraparte_descripcion);
-
+      this.tipoContraparteFilterList = getFilterList(list, (x) => x.tipo_contraparte_descripcion);
       this.contraparteFilterList = getFilterList(list, (x) => x.contraparte);
-
       this.estadoFilterList = getFilterList(list, (x) => x.estado);
 
       this.resetFilterList();

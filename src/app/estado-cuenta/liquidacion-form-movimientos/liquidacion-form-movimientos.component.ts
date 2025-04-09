@@ -25,6 +25,7 @@ import { edit } from 'src/app/utils/table-event-crud';
   styleUrls: ['./liquidacion-form-movimientos.component.scss'],
 })
 export class LiquidacionFormMovimientosComponent {
+
   columns: Column[] = [
     {
       def: 'id',
@@ -100,6 +101,23 @@ export class LiquidacionFormMovimientosComponent {
       value: (element: Movimiento) => element.monto,
       type: 'number',
     },
+    {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
+      type: 'number',
+    },
     /*{
       def: 'punto_venta',
       title: 'Punto de Venta',
@@ -113,6 +131,8 @@ export class LiquidacionFormMovimientosComponent {
   selectableMovimientoTable!: SelectableMovimientoTableComponent;
 
   isshowAccions = true;
+
+  @Input() list: Movimiento[] = [];
 
   @Input() set showAccions(value: boolean) {
     this.isshowAccions = value;
@@ -162,8 +182,6 @@ export class LiquidacionFormMovimientosComponent {
       );
     }
   }
-
-  @Input() list: Movimiento[] = [];
 
   @Output() movimientosInDBChange = new EventEmitter<Movimiento[]>();
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();

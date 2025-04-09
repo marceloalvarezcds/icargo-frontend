@@ -12,30 +12,23 @@
       (filterEvent)="filtrarMovimientosPDV2($event)"
     ></app-estado-cuenta-detalle>
 
-    <div class="row" >
+    <app-saldo
+      #saldoView
+      class="col-xs-12 col-sm-9"
+      title="Saldo en Cuenta"
+      [showResumen]="true"
+      [showIngresoEgreso]="false"
+      [credito]="credito"
+      [debito]="debito"
+      [saldoCC]="saldoCC"
+      [esOrdenPago]="esOrdenPago"
+      [form]="form"
+      (monedaSelect)="selectMoneda($event)">
+    </app-saldo>
 
-      <app-saldo
-        #saldoView
-        class="col-xs-12 col-sm-9"
-        [showResumen]="true"
-        [showIngresoEgreso]="false"
-        [credito]="credito"
-        [debito]="debito"
-        [saldoCC]="saldoCC"
-        title="Saldo en Cuenta"
-        [showMonto]="true"
-        [monto]="monto"
-        [form]="form"
-        [esOrdenPago]="esOrdenPago">
-      </app-saldo>
+    <div class="row" *ngIf="!esOrdenPago">
 
-    </div>
-
-    <div class="row">
-
-      <app-liquidacion-form-movimientos
-        *ngIf="!esOrdenPago"
-        #movimientosList
+      <app-liquidacion-form-movimientos #movimientosList
         [showAccions]="!isDialog"
         [list]="list"
         (movimientosInDBChange)="getList()"

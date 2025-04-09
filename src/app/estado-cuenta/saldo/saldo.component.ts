@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { subtract } from 'src/app/utils/math';
 
 @Component({
@@ -33,17 +34,15 @@ export class SaldoComponent {
 
   @Output() saldoChange = new EventEmitter<number>();
 
-  @Input() monto = 0;
-
-  @Input() showMonto = false;
-
   @Input() saldoCC : number = 0;
 
   @Input() esEdicion = false;
 
+  @Input() esOrdenPago = false;
+
   @Input() form!:FormGroup;
 
-  @Input() esOrdenPago?=false;
+  @Output() monedaSelect: EventEmitter<Moneda> = new EventEmitter<Moneda>();
 
   get saldo(): number {
     let calcSaldo = 0;

@@ -16,7 +16,8 @@
       *ngIf="
         !isShowOnly &&
         (m.LIQUIDACION | puede: a.EDITAR:gestorCargaId) &&
-        (m.MOVIMIENTO | puede: a.EDITAR:gestorCargaId)
+        (m.MOVIMIENTO | puede: a.EDITAR:gestorCargaId) &&
+        !esOrdenPago
       "
     >
       <div

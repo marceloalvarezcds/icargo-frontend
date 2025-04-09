@@ -25,7 +25,7 @@ export class MonedaFieldComponent {
           if (resp){
             resp.forEach((ele:any)=>{
               if (ele[this.auto_select_property] === this.auto_select_filtro){
-                this.control.setValue(ele)
+                this.control.setValue(ele.id)
               }
             });
           }
@@ -62,7 +62,6 @@ export class MonedaFieldComponent {
   }
 
   constructor(private service: MonedaService) {}
-
 
   textValueFormat(value: Moneda): string {
     return value.nombre;

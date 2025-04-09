@@ -11,6 +11,17 @@
 
     <div class="row">
 
+      <div *ngFor="let totalMoneda of totalMonedas" class="col-xs-12 col-sm-6">
+        <strong class="col-xs-12 col-sm-5">Total en {{totalMoneda.moneda.simbolo}}</strong>
+        <span class="col-xs-12 col-sm-7 alinear-derecha">
+          {{ totalMoneda.total | numberFormat }}
+        </span>
+      </div>
+      
+    </div>
+
+    <div class="row">
+
       <app-instrumento-via-field
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         [form]="form"
@@ -33,7 +44,7 @@
         [hidden]="!esBanco"
         [bancoEvents]="bancoEventsSubject.asObservable()"
         [form]="form"
-        (valueChange)="banco = $event"
+        (valueChange)="onbancoSelect( $event )"
       >
       </app-banco-by-gestor-dialog-field>
 
@@ -42,7 +53,7 @@
         [hidden]="esBanco"
         [cajaEvents]="cajaEventsSubject.asObservable()"
         [form]="form"
-        (valueChange)="caja = $event"
+        (valueChange)="onCajaSelect( $event )"
       >
       </app-caja-by-gestor-dialog-field>
 
@@ -54,17 +65,25 @@
       ></app-input-field>
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-5"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Monto"
         controlName="monto"
         [form]="form"
       ></app-number-field>
 
       <app-moneda-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-5"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Moneda"
-        [form]="form">
+        [form]="form"
+        (valueChange)="$event && onMonedaSelect($event)">
       </app-moneda-field>
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Cotizacion"
+        controlName="tipo_cambio_moneda"
+        [form]="form"
+      ></app-number-field>
 
       <div *ngIf="!isShow" class="input-form-full col-xs-12 col-sm-6 col-md-5">
         <mat-label [innerHTML]="montoHint"></mat-label>

@@ -45,6 +45,12 @@ export class LiquidacionConfirmDialogComponent {
       value: (element: Movimiento) => element.numero_documento_relacionado,
     },
     {
+      def: 'monto',
+      title: 'Monto',
+      value: (element: Movimiento) => element.monto,
+      type: 'number',
+    },
+    {
       def: 'moneda_nombre',
       title: 'Moneda',
       value: (element: Movimiento) => element.moneda_nombre,
@@ -53,12 +59,6 @@ export class LiquidacionConfirmDialogComponent {
       def: 'tipo_cambio_moneda',
       title: 'Cambio',
       value: (element: Movimiento) => element.tipo_cambio_moneda,
-      type: 'number',
-    },
-    {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
       type: 'number',
     },
     /*{
@@ -70,7 +70,7 @@ export class LiquidacionConfirmDialogComponent {
     {
       def: 'monto_ml',
       title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
+      value: (element: Movimiento) => element.monto_mon_local,
       type: 'number',
     },
     /*{
@@ -112,6 +112,10 @@ export class LiquidacionConfirmDialogComponent {
 
   get esOrdenPago():boolean {
     return this.data.esOrdenPago ?? false;
+  }
+
+  get totalMonedas() {
+    return this.data.totalMonedas;
   }
 
   constructor(

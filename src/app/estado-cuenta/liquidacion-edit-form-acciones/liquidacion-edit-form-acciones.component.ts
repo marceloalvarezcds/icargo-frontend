@@ -21,6 +21,7 @@ import { HttpErrorService } from 'src/app/services/http-error.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { subtract } from 'src/app/utils/math';
 import { create } from 'src/app/utils/table-event-crud';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
@@ -52,19 +53,23 @@ export class LiquidacionEditFormAccionesComponent {
     return this.liquidacion.facturas ? (this.liquidacion.facturas.length>0) : false;
   }
 
+  get esPagoCobro():boolean {
+    return (this.liquidacion.es_pago_cobro === 'PAGO');
+  }
+
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
-  @Input() monto : number | undefined = 0;
-  @Input() saldoMovimiento : number | undefined = 0;
+  //@Input() monto : number | undefined = 0;
+  //@Input() saldoMovimiento : number | undefined = 0;
   @Input() totalMovimiento : number = 0;
   @Input() saldoCC : number | undefined  = 0;
-  @Input() sentidoOp: boolean = false;
-  @Input() movimientos : Movimiento[] = [];
+  //@Input() sentidoOp: boolean = false;
+  //@Input() movimientos : Movimiento[] = [];
   @Input() form : FormGroup|undefined=undefined;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
-  @Output() liquidacionFacturaChange = new EventEmitter();
+  @Output() liquidacionFacturaChange = new EventEmitter<Factura>();
 
   constructor(
     private router: Router,
@@ -97,8 +102,11 @@ export class LiquidacionEditFormAccionesComponent {
         return;
       }
     }
-    let es_pago_cobro = (this.saldoMovimiento! > 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
+
+    let pago_cobro = this.totalMovimiento;
+    if (this.liquidacion.es_orden_pago){
+      pago_cobro = this.liquidacion.monto!;
+    }
     const message = `Está seguro que desea Aceptar la Liquidación Nº ${this.id}`;
 
     let htmlFooter = `
@@ -120,7 +128,7 @@ export class LiquidacionEditFormAccionesComponent {
 
       <div class="col-xs-12">
         <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.sentidoOp ? "Monto Pagar" :"Monto Cobrar"}</strong>
+          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
           <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
         </div>
       </div>
@@ -216,26 +224,22 @@ export class LiquidacionEditFormAccionesComponent {
     this.form!.markAllAsTouched();
 
     console.log("this.form: ", this.form);
-
-    if (!this.form!.valid) {
+    if ( this.liquidacion.es_orden_pago && !this.form!.valid) {
       return;
     }
 
-    let es_pago_cobro = (this.saldoMovimiento! >= 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
-
-    if ( !this.sentidoOp ) {
+    //let es_pago_cobro = (this.saldoMovimiento! >= 0) ? 'PAGO' : 'COBRO';
+    //let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
+    /*if ( !this.sentidoOp ) {
       pago_cobro = Math.abs(pago_cobro)*-1;
       es_pago_cobro='COBRO';
     } else {
       pago_cobro = Math.abs(pago_cobro);
       es_pago_cobro='PAGO';
-    }
+    }*/
+    if (this.liquidacion.es_orden_pago) {
 
-    // si liquidacion no tiene movimientos, es una orde de pago
-    if (this.movimientos.length === 0) {
-
-      const form = { 'monto': pago_cobro, comentario:"" };
+      const form = { 'monto': this.liquidacion.pago_cobro, comentario:"" };
 
       this.liquidacionService
         .someter(this.id, changeLiquidacionDataMonto(form))
@@ -266,8 +270,8 @@ export class LiquidacionEditFormAccionesComponent {
 
       <div class="col-xs-12">
         <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.sentidoOp ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
+          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
+          <strong class="col-xs-5">${numberWithCommas(Math.abs(this.liquidacion.monto!))}</strong>
         </div>
       </div>
 
@@ -277,13 +281,13 @@ export class LiquidacionEditFormAccionesComponent {
       htmlContent += `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
     }
 
-    if ( this.totalMovimiento != this.monto ) {
+    /*if ( this.totalMovimiento != this.monto ) {
       htmlContent += `
         <div class="formulario-center">
           <span class="material-icons">warning</span>
           <h2 class="alerta">Atencion!! Monto Pago/Cobro es diferente a la sumatoria de los movimientos!</h2>
         <div>`;
-    }
+    }*/
 
     this.dialogService.configDialogRef(
       this.dialog.open(ComentarioConfirmDialogComponent, {
@@ -296,7 +300,7 @@ export class LiquidacionEditFormAccionesComponent {
         panelClass: 'half-dialog'
       }),
       (comentario: string) => {
-        const form = { 'monto': pago_cobro, comentario }
+        const form = { 'monto': this.liquidacion.pago_cobro!, comentario }
 
         this.liquidacionService
           .someter(this.id, changeLiquidacionDataMonto(form))
@@ -309,9 +313,10 @@ export class LiquidacionEditFormAccionesComponent {
     );
   }
 
-  private emitChange(): void {
+  private emitChange(factura:Factura): void {
+    console.log("factura: ", factura);
     this.snackbar.open('Factura agregada');
-    this.liquidacionFacturaChange.emit();
+    this.liquidacionFacturaChange.emit(factura);
     //this.liquidacionChange.emit();
   }
 
@@ -328,7 +333,9 @@ export class LiquidacionEditFormAccionesComponent {
       liquidacion_id: this.liquidacion.id,
       contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
-      valor_operacion: Math.abs(this.liquidacion.pago_cobro!),
+      valor_operacion: this.liquidacion.es_orden_pago 
+        ? Math.abs(this.liquidacion.pago_cobro!)
+        : Math.abs(this.totalMovimiento),
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       punto_venta_id: this.liquidacion.punto_venta_id,

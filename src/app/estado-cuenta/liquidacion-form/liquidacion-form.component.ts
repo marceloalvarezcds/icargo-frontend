@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ChangeDetectionStrategy} from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -26,13 +26,17 @@ import { LiquidacionFormFieldsComponent } from '../liquidacion-form-fields/liqui
 import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
 import { coerceBooleanProperty } from '@angular/cdk/coercion';
 import { UserService } from 'src/app/services/user.service';
+import { MonedaService } from 'src/app/services/moneda.service';
+import { Moneda, mockMoneda1 } from 'src/app/interfaces/moneda';
 
 @Component({
   selector: 'app-liquidacion-form',
   templateUrl: './liquidacion-form.component.html',
   styleUrls: ['./liquidacion-form.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionFormComponent implements OnInit {
+
   m = m;
   form = new FormGroup({});
   backUrl = `/estado-cuenta/estado_cuenta/list-detalle/${a.LISTAR}`;
@@ -41,14 +45,13 @@ export class LiquidacionFormComponent implements OnInit {
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
-  monto:number = 0;
+  moneda?:Moneda;
 
   @Input() data? : ContraparteInfoMovimientoLiq;
 
   @Output() createdLiquidacion: EventEmitter<any> = new EventEmitter<any>();
 
-  @ViewChild('child')
-  child!: LiquidacionFormFieldsComponent;
+  @ViewChild('child') child!: LiquidacionFormFieldsComponent;
 
   get credito(): number {
     return this.movimientosSelected.reduce((acc, cur) => acc + cur.credito, 0);
@@ -70,6 +73,7 @@ export class LiquidacionFormComponent implements OnInit {
     private estadoCuentaService: EstadoCuentaService,
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService,
+    private monedaService: MonedaService,
     private reportsService: ReportsService,
     private dialogService: DialogService,
     private userService: UserService,
@@ -80,15 +84,11 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   back(save: boolean): void {
-    let {
-      es_pdv,
-      flujo
-    } = this.route.snapshot.queryParams;
+    let { es_pdv } = this.route.snapshot.queryParams;
 
     if (save) {
       this.submit(save);
     } else {
-
       if (coerceBooleanProperty(es_pdv)) {
         this.backUrl = '/estado-cuenta/punto_venta/detallado/listar';
 
@@ -100,23 +100,16 @@ export class LiquidacionFormComponent implements OnInit {
           { queryParams:getQueryParams!(this.estadoCuenta!) }
         );
       }
-
     }
   }
 
-  montoChange(monto : number): void {
-    this.monto = monto;
-  }
-
   confirm(): void {
-
     if (!this.child.validateForm()){
       this.snackbar.open('Verifique campos!');
       return;
     } else {
 
       if (this.child.movimientosSelected.length <= 0) {
-
         this.snackbar.open('Debe elegir al menos 1 movimiento');
         return;
       }
@@ -126,19 +119,15 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   prepareSend(): void {
-    const monto_pc = this.child.monto_pc.value;
-
-    const es_pago_cobro = (this.child.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
-    const pago_cobro = es_pago_cobro === 'PAGO' ? monto_pc : (monto_pc*-1);
-
     //if (this.movimientosSelected.length) {
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
-        monto: pago_cobro,
-        saldo: this.child.childSaldoView.saldo-pago_cobro
+        monto: this.child.monto,
+        saldo: this.child.monto,
+        totalMonedas: this.child.totalMonedas
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {
@@ -187,37 +176,7 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   private submit(confirmed: boolean): void {
-
-    this.child.sendLiquidacion(confirmed)
-    /*if (confirmed) {
-      this.router.navigate([backUrl]);
-    } else {
-      if (isDialog){
-        this.createdLiquidacion.emit(resp);
-      } else {
-        this.getData();
-      }
-    }*/
-
-    /*if (this.movimientosSelected.length) {
-      this.liquidacionService
-        .create(createLiquidacionData(this.movimientosSelected))
-        .subscribe((resp) => {
-          this.snackbar.open('Datos guardados satisfactoriamente');
-          if (confirmed) {
-            this.router.navigate([this.backUrl]);
-          } else {
-            if (!!this.data){
-              this.createdLiquidacion.emit(resp);
-            } else {
-              this.getData();
-            }
-          }
-          this.movimientosSelected.splice(0, this.movimientosSelected.length);
-        });
-    } else {
-      this.snackbar.open('Debe elegir al menos 1 movimiento');
-    }*/
+    this.child.sendLiquidacion(confirmed);
   }
 
   private getData(): void {
@@ -280,10 +239,11 @@ export class LiquidacionFormComponent implements OnInit {
 
     }
 
+    // TODO: obtenemos la moneda local
+    this.moneda = mockMoneda1;
   }
 
   getList(): void {
-
     let {
       contraparte_id,
       punto_venta_id,

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
@@ -13,23 +13,22 @@ import { editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confirmada-form-facturas/liquidacion-confirmada-form-facturas.component';
 import { Factura } from 'src/app/interfaces/factura';
-import { LiquidacionEditFormMovimientosComponent } from '../liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Moneda } from 'src/app/interfaces/moneda';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
   templateUrl: './liquidacion-edit-fields.component.html',
-  styleUrls: ['./liquidacion-edit-fields.component.scss']
+  styleUrls: ['./liquidacion-edit-fields.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit {
 
   E = LiquidacionEstadoEnum;
 
-  @ViewChild('saldoView')
-  childSaldoView!:SaldoComponent;
+  @ViewChild('saldoView') childSaldoView!:SaldoComponent;
 
-  @ViewChild('facturaList')
-  liquidacionFacturasComponent?: LiquidacionConfirmadaFormFacturasComponent;
+  @ViewChild('facturaList') liquidacionFacturasComponent?: LiquidacionConfirmadaFormFacturasComponent;
 
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
@@ -39,7 +38,19 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
-    this.monto_pc.setValue(Math.abs(this.monto));
+    if (liq.es_orden_pago){
+      this.monto_pc.setValue(Math.abs(liq.pago_cobro!));
+      this.form.controls['monto_pc'].addValidators([Validators.required, Validators.min(0)]);
+      this.form.controls['monto_pc'].enable();
+      this.form.controls['monto_pc'].updateValueAndValidity();
+      this.form.controls['es_cobro'].enable();
+      this.form.controls['moneda_id'].enable();
+    };
+    this.form.patchValue({
+      moneda_id: liq.moneda_id
+    });
+    this.selectMoneda(liq.moneda);
+    this.calcularTotalMoneda(liq.movimientos);
   }
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
@@ -47,9 +58,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
-  saldo = 0;
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
+  saldo = 0;
+  monedaLocal?:Moneda;
+  totalMonedas:any;
 
   colapseDivMovimientos = false;
   colapseDivFacturas = false;
@@ -57,25 +70,21 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   colapseDivHistorico = false;
 
   form = new FormGroup({
-    monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
-    es_cobro: new FormControl(true, Validators.required),
-    moneda_id: new FormControl(null, Validators.required),
+    monto_pc: new FormControl({value:null, disabled:true}, [Validators.required, Validators.min(0)] ),
+    es_cobro: new FormControl({value:true, disabled:true }, [Validators.required]),
+    moneda_id: new FormControl({value:null, disabled:true}, [Validators.required]),
   });
 
   get monto(): number {
-    return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
-  }
-
-  get montoSaldo(): number {
-    return (this.childSaldoView?.monto ?? 0);
+    return subtract(this.credito, this.debito);
   }
 
   get credito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.credito, 0);
+    return this.movimientos.reduce((acc, cur) => acc + ((this.monedaLocal?.id === cur.moneda_id) ? cur.credito: cur.credito_ml), 0);
   }
 
   get debito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.debito, 0);
+    return this.movimientos.reduce((acc, cur) => acc + ((this.monedaLocal?.id === cur.moneda_id) ? cur.debito: cur.debito_ml), 0);
   }
 
   get isShow(): boolean {
@@ -91,8 +100,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get esFinalizado(): boolean {
-    return (this.item?.estado === LiquidacionEstadoEnum.PENDIENTE ||
-      this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
       this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
@@ -117,10 +125,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.item?.instrumentos_saldo ?? 0;
   }
 
-  get pago_cobro_abs():number {
-    return Math.abs(this.item!.pago_cobro!);
-  }
-
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
   }
@@ -129,20 +133,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.form.controls['monto_pc'] as FormControl;
   }
 
-  get monto_pc_value(): number {
-    return this.monto_pc.value;
-  }
-
   get saldoMovimientoLiquidacion(){
     return this.childSaldoView.saldoMovimiento;
   }
 
-  get pagoCobro(): FormControl {
-    return this.form.controls['es_cobro'] as FormControl;
+  get esOrdenPago():boolean {
+    return this.item?.es_orden_pago ?? false;
   }
 
-  get pagoCobroValue() {
-    return this.form.controls['es_cobro'].value;
+  get montoLiquidacion():number {
+    return this.item!.es_orden_pago ? this.item!.pago_cobro! : this.monto;
   }
 
   constructor(
@@ -165,19 +165,15 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.form.controls['es_cobro'].disable();
     }
 
-    setTimeout(() => {
-      this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
-    }, 500);
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
     console.log("changes: ", changes);
     for (const propName in changes) {
       const chng = changes[propName];
-      if (propName === 'movimientos') {
+      /*if (propName === 'movimientos') {
         this.actualizarSaldos(chng.currentValue);
-      }
+      }*/
       if (propName === 'liquidacion') {
         if (this.esFinalizado) {
           this.form.controls['monto_pc'].disable();
@@ -188,7 +184,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }
   }
 
-  actualizarSaldos(movs:Movimiento[]):void{
+  /*actualizarSaldos(movs:Movimiento[]):void{
     console.log("this.item!.pago_cobro: ", this.item!.pago_cobro);
     if (this.item!.pago_cobro === null) {
       const deb = movs.reduce((acc, cur) => acc + cur.debito, 0);
@@ -198,25 +194,33 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.item!.pago_cobro = subtract(cred, deb);
       this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
     }
-
     if (this.item!.pago_cobro!=0)
       if (this.item!.pago_cobro>0) {
         this.form.controls['es_cobro'].setValue(true);
       } else {
         this.form.controls['es_cobro'].setValue(false);
       }
-  }
+  }*/
 
-  actualizarFactura():void {
+  actualizarFactura(factura:Factura|null):void {
     //this.item!.pago_cobro = null;
+    console.log("actualizarFactura: ", factura);
+    if (factura)
+      this.item!.facturas = this.item!.facturas ? [...this.item!.facturas, factura] : [factura];
+    else this.item!.facturas = [];
+
     //this.liquidacionFacturasComponent?.loadList();
-    //this.actualizarMovimientos.emit(this.item);
+    this.actualizarMovimientos.emit(this.item);
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
-    console.log("movimientos: ", movimientos);
+    //console.log("movimientos: ", movimientos);
     // recalcula saldo y monto pago cobro
-    this.item!.pago_cobro = null;
+    //this.item!.pago_cobro = null;
+    if (this.esOrdenPago) return;
+
+    this.calcularTotalMoneda(movimientos);
+
     this.actualizarMovimientos.emit(movimientos);
   }
 
@@ -224,40 +228,26 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    if (!this.form.valid) {
+
+    if (!this.form.valid && this.liquidacion.es_orden_pago) {
       return;
     }
 
-    let es_pago_cobro = (this.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
+    let liquidacionValues = this.form.getRawValue();
+    let pago_cobro = this.esOrdenPago
+      ?  liquidacionValues.es_cobro ? liquidacionValues.monto_pc : (liquidacionValues.monto_pc*-1)
+      : 0;
 
+    this.item!.pago_cobro = pago_cobro;
     this.item!.monto = pago_cobro;
-
-    const pagoCobro = this.pagoCobroValue;
-    const moneda = this.form.controls['moneda_id'].value;
-
-    console.log("pagoCobro value: ", pagoCobro);
-    if ( !pagoCobro ) {
-      this.item!.monto = Math.abs(pago_cobro)*-1;
-      this.item!.es_pago_cobro='COBRO';
-    } else {
-      this.item!.monto = Math.abs(pago_cobro);
-      this.item!.es_pago_cobro='PAGO';
-    }
-
-    this.item!.moneda_id = moneda.id;
-
-    console.log("moneda: ", moneda);
-    console.log("this.monto_pc.value: ", this.monto_pc.value);
-    console.log("pagoCobro: ", pagoCobro);
+    this.item!.es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+    this.item!.moneda_id = liquidacionValues.moneda_id;
 
     this.liquidacionService
       .edit(this.item!.id, editLiquidacionData(this.item!))
       .subscribe((resp) => {
         this.snackbar.open('Datos guardados satisfactoriamente');
-
         //this.actualizarLiquidacion.emit(resp);
-
         /*if (confirmed) {
           this.router.navigate([backUrl]);
         } else {
@@ -267,9 +257,47 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
             this.getData();
           }
         }*/
-
         //this.movimientos.splice(0, this.movimientos.length);
       });
+  }
+
+  selectMoneda(moneda: Moneda) {
+    this.monedaLocal = moneda;
+  }
+
+  private calcularTotalMoneda(movimientos: Movimiento[]):void {
+
+    if (this.item?.es_orden_pago) {
+      this.totalMonedas = [{
+          moneda:this.monedaLocal,
+          total:this.item.pago_cobro,
+          residuo:this.item.pago_cobro,
+          instrumento:0
+        }];
+      return;
+    }
+
+    const resultado = movimientos.reduce((acumulador:any, item) => {
+      const { moneda, monto } = item;
+      const clave = moneda.id; // Usamos el id como clave única
+
+      if (!acumulador[clave]) {
+        acumulador[clave] = {
+          moneda: { ...moneda }, // Copiamos el objeto moneda
+          total: 0,
+          instrumento:0,
+          residuo:0
+        };
+      }
+      acumulador[clave].total += monto;
+      acumulador[clave].residuo += monto;
+
+      return acumulador;
+    }, {});
+
+    console.log("resultado: ", resultado);
+
+    this.totalMonedas = Object.values(resultado);;
   }
 
 }

@@ -8,13 +8,9 @@
       [liquidacion]="item"
       (liquidacionChange)="actualizarLiquidacion.emit()"
       (liquidacionFlujoChange)="actualizarEstado.emit($event)"
-      (liquidacionFacturaChange)="actualizarFactura()"
-      [monto]="monto_pc_value"
-      [sentidoOp]="pagoCobroValue"
-      [saldoMovimiento]="childSaldoView?.saldoMovimiento"
+      (liquidacionFacturaChange)="actualizarFactura($event)"
       [saldoCC]="childSaldoView?.saldo"
       [totalMovimiento]="(credito-debito)"
-      [movimientos]="movimientos"
       [form]="form"
     ></app-liquidacion-edit-form-acciones>
 
@@ -36,17 +32,16 @@
         #saldoView
         [showIngresoEgreso]="false"
         [showResumen]="true"
-        [showInstrumentos]="false"
         [esEdicion]="true"
-        [showMonto]="true"
         [credito]="credito"
         [debito]="debito"
         [saldoFinalizado]="saldoFinalizado"
         [saldoCC]="saldoCC"
+        [esOrdenPago]="esOrdenPago"
         [esFinalizado]="esFinalizado"
-        [monto]="monto"
-        (saldoChange)="saldo = $event"
         [form]="form"
+        (saldoChange)="saldo = $event"
+        (monedaSelect)="selectMoneda($event)">
       ></app-saldo>
     </div>
 
@@ -83,7 +78,7 @@
           [class.colapse-div]="colapseDivInstrumentos"
           [estadoCuenta]="estadoCuenta"
           [liquidacion]="item"
-          [saldo]="pago_cobro_abs"
+          [totalMonedas]=totalMonedas
           [isShow]="isShow"
           (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-confirmada-form-instrumentos>
@@ -99,6 +94,7 @@
           [class.colapse-div]="colapseDivMovimientos"
           [list]="movimientos"
           [liquidacion]="item"
+          [esOrdenPago]="esOrdenPago"
           [saldo]="saldo"
           [isShow]="
             isShow ||
@@ -118,7 +114,7 @@
           #facturaList
           [liquidacion]="item"
           [isShow]="isShow"
-          (facturasChange)="actualizarFactura()"
+          (facturasChange)="actualizarFactura($event)"
         ></app-liquidacion-confirmada-form-facturas>
         </div>
 

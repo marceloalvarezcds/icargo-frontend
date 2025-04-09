@@ -1,21 +1,24 @@
-import { IvyParser } from '@angular/compiler';
-import { Component, Inject, Renderer2 } from '@angular/core';
+import { AfterViewInit, Component, Inject, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { facturaData } from 'src/app/form-data/factura';
-import { Contribuyente } from 'src/app/interfaces/contribuyente';
 import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { FacturaService } from 'src/app/services/factura.service';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 
 @Component({
   selector: 'app-factura-form-dialog',
   templateUrl: './factura-form-dialog.component.html',
   styleUrls: ['./factura-form-dialog.component.scss'],
 })
-export class FacturaFormDialogComponent {
+export class FacturaFormDialogComponent implements AfterViewInit {
   foto: string | null = null;
   fotoFile: File | null = null;
+  monedaLocal?: Moneda;
+  moneda?: Moneda;
 
   form = this.fb.group({
     moneda_id: [this.data?.moneda_id, Validators.required],
@@ -42,6 +45,7 @@ export class FacturaFormDialogComponent {
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
     iva_movimiento_id: [this.data?.iva_movimiento_id],
     retencion_movimiento_id: [this.data?.retencion_movimiento_id],
+    tipo_cambio_moneda: [this.data?.tipo_cambio_moneda ?? 1, [Validators.required]],
   });
 
   get check_sentido_mov_iva_pagar():boolean {
@@ -96,8 +100,14 @@ export class FacturaFormDialogComponent {
     return this.dialogData.isShow ?? false;
   }
 
+  get showCotizacion():boolean {
+    return this.monedaLocal?.id === this.moneda?.id;
+  }
+
   constructor(
     private facturaService: FacturaService,
+    private monedaService: MonedaService,
+    private cotizacionService: MonedaCotizacionService,
     public dialogRef: MatDialogRef<FacturaFormDialogComponent>,
     private fb: FormBuilder,
     private ren: Renderer2,
@@ -110,6 +120,12 @@ export class FacturaFormDialogComponent {
     if (this.dialogData.isShow) {
       this.form.disable();
     }
+  }
+
+  ngAfterViewInit(): void {
+    this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
+      this.monedaLocal = resp;
+    });
   }
 
   submit() {
@@ -136,6 +152,27 @@ export class FacturaFormDialogComponent {
   setFoto(file: File | null): void {
     this.foto = null;
     this.fotoFile = file;
+  }
+
+  onMonedaSelect(mon:Moneda){
+    this.moneda = mon;
+    
+    if (mon.id !== this.monedaLocal!.id){
+      this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
+        .subscribe(res=>{
+          if (res){
+            this.form.controls['tipo_cambio_moneda'].enable();
+            this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
+            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda); 
+            this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+          }
+      });
+    } else {
+      this.form.controls['tipo_cambio_moneda'].disable();
+      this.form.controls['tipo_cambio_moneda'].setValidators([]);
+      this.form.controls['tipo_cambio_moneda'].setValue(1); 
+      this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+    }
   }
 
   /*checkState(el:any):any {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnDestroy } from '@angular/core';
+import { AfterViewInit, Component, Inject, OnDestroy } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InstrumentoViaEnum } from 'src/app/enums/instrumento-via';
@@ -12,17 +12,23 @@ import { subtract } from 'src/app/utils/math';
 import { Subject } from 'rxjs';
 
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
+import { Moneda } from 'src/app/interfaces/moneda';
+import { MonedaService } from 'src/app/services/moneda.service';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 
 @Component({
   selector: 'app-instrumento-form-dialog',
   templateUrl: './instrumento-form-dialog.component.html',
   styleUrls: ['./instrumento-form-dialog.component.scss'],
 })
-export class InstrumentoFormDialogComponent implements OnDestroy {
+export class InstrumentoFormDialogComponent implements OnDestroy, AfterViewInit {
+
   banco?: Banco;
   caja?: Caja;
   via?: InstrumentoVia;
   tipoInstrumento?: TipoInstrumento;
+  moneda?:Moneda;
+  monedaLocal?:Moneda;
 
   bancoEventsSubject: Subject<Banco> = new Subject<Banco>();
   cajaEventsSubject: Subject<Caja> = new Subject<Caja>();
@@ -32,9 +38,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     caja_id: this.data?.caja_id,
     banco_id: this.data?.banco_id,
     monto: [
-      this.data?.monto ? this.data.monto : this.residuo,
-      [Validators.required, Validators.max(this.residuo)],
+      this.data?.monto ? this.data.monto : 0,
+      [Validators.required, Validators.max(0)],
     ],
+    tipo_cambio_moneda: [{value:1, disabled:true}],
     fecha_instrumento: [
       this.data?.fecha_instrumento ?? new Date().toJSON(),
       Validators.required,
@@ -42,7 +49,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     numero_referencia: this.data?.numero_referencia,
     comentario: this.data?.comentario,
     numero_documento: this.data?.numero_documento,
-    moneda_id: [this.data?.moneda_id, [Validators.required] ],
+    moneda_id: [{value:this.data?.moneda_id, disabled:true}, [Validators.required] ],
     // Datos mostrados solo para Banco
     tipo_instrumento_id: [{value: this.data?.tipo_instrumento_id, disabled: true}],
     // Solo para cheque
@@ -89,7 +96,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
       this.form.controls['tipo_instrumento_id'].updateValueAndValidity();
     }, 500);
   });
-  
+
 
   get data(): InstrumentoLiquidacionItem | undefined {
     return this.dialogData?.item;
@@ -143,7 +150,14 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
   }
 
   get residuo(): number {
-    return this.dialogData.residuo;
+    let moneda_id = this.form.controls['moneda_id'].value;
+
+    if (!moneda_id) return 0;
+
+    let saldo = this.totalMonedas.find((e:any)=> e.moneda.id === moneda_id);
+    if (!saldo) return 0;
+
+    return saldo.residuo;;
   }
 
   get esTipoCheque(): boolean {
@@ -158,16 +172,90 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
     return this.dialogData.isShow!;
   }
 
+  get totalMonedas(): any {
+    return this.dialogData.totalMonedas;
+  }
+
   constructor(
+    private monedaService: MonedaService,
+    private cotizacionService: MonedaCotizacionService,
     public dialogRef: MatDialogRef<InstrumentoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: InstrumentoFormDialogData
   ) {
-
     if (this.dialogData.isShow){
       this.form.disable();
     }
+  }
 
+  ngAfterViewInit(): void {
+    this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
+      this.monedaLocal = resp;
+    });
+  }
+
+  onbancoSelect(banco:Banco):void {
+    console.log("banco: ", banco)
+    this.banco = banco;
+    const totalMonena = this.totalMonedas.find( (total:any) => total.moneda.id === banco.moneda_id);
+    this.form.controls['moneda_id'].setValue(banco.moneda_id);
+
+    if (totalMonena) {
+      this.montoControl.setValidators([]);
+      this.montoControl.updateValueAndValidity();
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(totalMonena.residuo ?? totalMonena.total)]);
+      this.montoControl.setValue(totalMonena.residuo ?? totalMonena.total);
+      this.montoControl.updateValueAndValidity();
+    } else{
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(0)]);
+      this.montoControl.setValue(0);
+      this.montoControl.updateValueAndValidity();
+    }
+  }
+
+  onCajaSelect(caja:Caja):void {
+    console.log("caja: ", caja)
+    this.caja = caja;
+    const totalMonena = this.totalMonedas.find( (total:any) => total.moneda.id === caja.moneda_id);
+    this.form.controls['moneda_id'].setValue(caja.moneda_id);
+
+    if (totalMonena) {
+      this.montoControl.setValidators([]);
+      this.montoControl.updateValueAndValidity();
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(totalMonena.residuo ?? totalMonena.total)]);
+      this.montoControl.setValue(totalMonena.residuo ?? totalMonena.total);
+      this.montoControl.updateValueAndValidity();
+    } else {
+      this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(0)]);
+      this.montoControl.setValue(0);
+      this.montoControl.updateValueAndValidity();
+    }
+
+  }
+
+  onMonedaSelect(mon:Moneda){
+    if (!mon) return;
+
+    if (!this.monedaLocal) return;
+
+    this.moneda = mon;
+
+    if (mon.id !== this.monedaLocal!.id){
+      this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
+        .subscribe(res=>{
+          if (res){
+            this.form.controls['tipo_cambio_moneda'].enable();
+            this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
+            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
+            this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+          }
+      });
+    } else {
+      this.form.controls['tipo_cambio_moneda'].disable();
+      this.form.controls['tipo_cambio_moneda'].setValidators([]);
+      this.form.controls['tipo_cambio_moneda'].setValue(1);
+      this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+    }
   }
 
   ngOnDestroy(): void {
@@ -190,7 +278,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy {
           : this.caja?.nombre
       }`;
       const data: InstrumentoLiquidacionItem = {
-        ...this.form.value,
+        ...this.form.getRawValue(),
         via_descripcion: this.via?.descripcion ?? '',
         cuenta_descripcion: cuentaDescripcion,
         tipo_instrumento_descripcion:
