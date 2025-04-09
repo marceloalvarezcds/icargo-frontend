@@ -92,8 +92,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       condicion_cantidad: [null, Validators.required],
       saldo: [{ value: null, disabled: true }],
       // inicio - Condiciones para el Gestor de Carga
-      condicion_gestor_carga_moneda: [null, Validators.required],
-      condicion_gestor_carga_moneda_id: [null],
+      condicion_gestor_carga_moneda: [null],
+      condicion_gestor_carga_moneda_id: [null, Validators.required],
       condicion_gestor_carga_moneda_simbolo: null,
       condicion_gestor_carga_tarifa: [null, Validators.required],
       //condicion_gestor_carga_unidad: [null, Validators.required],
@@ -101,8 +101,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       condicion_gestor_carga_unidad_abreviatura: null,
       // fin - Condiciones para el Gestor de Carga
       // inicio - Condiciones para el Propietario
-      condicion_propietario_moneda: [null, Validators.required],
-      condicion_propietario_moneda_id: [null],
+      condicion_propietario_moneda: [null],
+      condicion_propietario_moneda_id: [null, Validators.required],
       condicion_propietario_moneda_simbolo: null,
       condicion_propietario_tarifa: [null, Validators.required],
       //condicion_propietario_unidad: [null],
@@ -113,8 +113,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     merma: this.fb.group({
       // inicio - Mermas para el Gestor de Carga
       merma_gestor_carga_valor: [null, Validators.required],
-      merma_gestor_carga_moneda: [null, Validators.required],
-      merma_gestor_carga_moneda_id: [null],
+      merma_gestor_carga_moneda: [null],
+      merma_gestor_carga_moneda_id: [null, Validators.required],
       merma_gestor_carga_moneda_simbolo: null,
       //merma_gestor_carga_unidad: [null, Validators.required],
       merma_gestor_carga_unidad_id: [null],
@@ -124,8 +124,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       // fin - Mermas para el Gestor de Carga
       // inicio - Mermas para el Propietario
       merma_propietario_valor: [null, Validators.required],
-      merma_propietario_moneda: [null, Validators.required],
-      merma_propietario_moneda_id: [null],
+      merma_propietario_moneda: [null],
+      merma_propietario_moneda_id: [null, Validators.required],
       merma_propietario_moneda_simbolo: null,
       //merma_propietario_unidad: [null, Validators.required],
       merma_propietario_unidad_id: [null],
@@ -251,6 +251,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
+    console.log(this.form);
 
     if (this.form.valid) {
       const data: FleteConfirmationDialogData = {
@@ -387,7 +389,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
             // fin - Condiciones para el Gestor de Carga
             // inicio - Condiciones para el Propietario
-
+            condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
             condicion_propietario_tarifa: data.condicion_propietario_tarifa,
             condicion_propietario_unidad: data.condicion_propietario_unidad,
             condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,

@@ -31,6 +31,9 @@ export class DescuentoFormDialogComponent {
     // FIN Monto a pagar al Proveedor
   });
 
+  propietarioMoneda?:Moneda;
+  proveedorMoneda?:Moneda;
+
   pagoAProveedorSubscription =
     this.pagoAProveedorControl.valueChanges.subscribe((val) => {
       if (val) {
@@ -87,8 +90,8 @@ export class DescuentoFormDialogComponent {
     if (this.form.valid) {
       const value = JSON.parse(JSON.stringify(this.form.value));
       const concepto: TipoConceptoDescuento = value.concepto;
-      const propietarioMoneda: Moneda = value.propietario_moneda;
-      const proveedorMoneda: Moneda | null = value.proveedor_moneda;
+      //const propietarioMoneda: Moneda = value.propietario_moneda;
+      //const proveedorMoneda: Moneda | null = value.proveedor_moneda;
       const proveedor: Proveedor | null = value.proveedor;
       const data: FleteDescuento = {
         id: this.data?.id,
@@ -99,16 +102,16 @@ export class DescuentoFormDialogComponent {
         anticipado: value.anticipado,
         // INICIO Monto a cobrar al Propietario
         propietario_monto: value.propietario_monto,
-        propietario_moneda_id: propietarioMoneda.id,
-        propietario_moneda: propietarioMoneda,
-        propietario_moneda_nombre: propietarioMoneda.nombre,
+        propietario_moneda_id: value.propietario_moneda,
+        propietario_moneda: this.propietarioMoneda!,
+        propietario_moneda_nombre: this.propietarioMoneda!.nombre,
         // FIN Monto a cobrar al Propietario
         // INICIO Monto a pagar al Proveedor
         habilitar_pago_proveedor: value.habilitar_pago_proveedor,
         proveedor_monto: value.proveedor_monto,
-        proveedor_moneda_id: proveedorMoneda?.id,
-        proveedor_moneda: proveedorMoneda,
-        proveedor_moneda_nombre: proveedorMoneda?.nombre,
+        proveedor_moneda_id: value.proveedor_moneda,
+        proveedor_moneda: this.proveedorMoneda,
+        proveedor_moneda_nombre: this.proveedorMoneda?.nombre,
         proveedor_id: proveedor?.id,
         proveedor: proveedor,
         proveedor_nombre: proveedor?.nombre,
@@ -130,4 +133,13 @@ export class DescuentoFormDialogComponent {
   valueProveedor(item: Proveedor): Proveedor {
     return item;
   }
+
+  onSelectMonedaPropietario(moneda:Moneda){
+    this.propietarioMoneda = moneda;
+  }
+
+  onSelectMonedaProveedor(moneda:Moneda){
+    this.proveedorMoneda = moneda;
+  }
+
 }

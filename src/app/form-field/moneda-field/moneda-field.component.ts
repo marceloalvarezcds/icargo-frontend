@@ -21,11 +21,11 @@ export class MonedaFieldComponent {
   list$ = this.service.getList()
     .pipe(
       tap((resp) => {
-        if (this.auto_select){
+        if (this.auto_select && resp && !this.control.value){
           if (resp){
             resp.forEach((ele:any)=>{
               if (ele[this.auto_select_property] === this.auto_select_filtro){
-                this.control.setValue(ele.id)
+                this.control.setValue(ele.id);
               }
             });
           }
