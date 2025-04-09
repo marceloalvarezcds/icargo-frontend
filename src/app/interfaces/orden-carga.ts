@@ -98,6 +98,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   resultado_propietario_total_anticipos_retirados_efectivo: number | null;
   resultado_propietario_total_anticipos_retirados_combustible: number | null;
   resultado_propietario_total_anticipos_retirados_lubricantes: number | null;
+  resultado_gestor_carga_merma_valor_total_moneda_local: number | null;
   total_anticipo_efectivo: number | null;
   total_anticipo_combustible:  number | null;
   total_anticipo_lubricantes: number | null;
@@ -109,6 +110,8 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_anticipo_maximo: number;
   flete_destino_id: number;
   flete_destino_nombre: string;
+  flete_tarifa_unidad_gestor_carga: string;
+  flete_moneda_id:number;
   flete_gestor_carga_id: number;
   flete_gestor_carga_nombre: string;
   flete_limite_credito: number;
@@ -129,9 +132,15 @@ export interface OrdenCarga extends OrdenCargaForm {
   linea_disponible: number;
 
   //Condiciones para GC y Propietario
+  gestor_carga_moneda_simbolo: string;
   condicion_gestor_cuenta_tarifa: number;
   condicion_propietario_tarifa: number;
-
+  condicion_propietario_tarifa_ml: number;
+  condicion_gestor_moneda_simbolo: string
+  gestor_carga_moneda_id: number;
+  condicion_gestor_carga_moneda_id: number
+  condicion_propietario_moneda_simbolo: string
+  condicion_propietario_moneda_id: number
   //Merma para Gestor de Carga
   merma_gestor_carga_es_porcentual_descripcion: string;
   merma_gestor_carga_tolerancia: number;
@@ -316,6 +325,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   resultado_propietario_total_anticipos_retirados_efectivo: 9000,
   resultado_propietario_total_anticipos_retirados_combustible:10000,
   resultado_propietario_total_anticipos_retirados_lubricantes: 135000,
+  resultado_gestor_carga_merma_valor_total_moneda_local: 2000,
   total_anticipo_combustible:9000,
   total_anticipo_efectivo:9000,
   total_anticipo_lubricantes: 10000,
@@ -326,6 +336,9 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_destino_nombre: flete0.destino_nombre,
   flete_gestor_carga_id: flete0.gestor_carga_id,
   flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
+  flete_tarifa_unidad_gestor_carga:'USD/TON',
+  flete_moneda_id: 1,
+  gestor_carga_moneda_id: 10,
   flete_limite_credito: flete0_limite_credito,
   flete_numero_lote: flete0.numero_lote,
   flete_monto_efectivo: flete0_monto_efectivo,
@@ -350,8 +363,14 @@ export const mockOrdenCarga1: OrdenCarga = {
   cantidad_nominada: 10000,
   comentarios: '',
   //Condiciones para GC y Propietario
+  gestor_carga_moneda_simbolo: 'PYG',
   condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
   condicion_propietario_tarifa: 90,
+  condicion_gestor_moneda_simbolo:'USD',
+  condicion_propietario_moneda_simbolo:'PYG',
+  condicion_gestor_carga_moneda_id:1,
+  condicion_propietario_moneda_id:1,
+  condicion_propietario_tarifa_ml: 100,
   //Merma para Gestor de Carga
   merma_gestor_carga_es_porcentual_descripcion: 'v',
   merma_gestor_carga_tolerancia: 30,

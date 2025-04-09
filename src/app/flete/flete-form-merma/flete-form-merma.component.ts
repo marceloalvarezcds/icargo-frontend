@@ -73,4 +73,10 @@ export class FleteFormMermaComponent implements OnDestroy {
     this.group.get(`merma_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
   }
 
+  onMonedaChange(moneda: any) {
+    console.log('Cambio de moneda:', moneda);
+    this.group.get(`merma_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
+    this.group.get(`merma_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo);
+  }
+
 }

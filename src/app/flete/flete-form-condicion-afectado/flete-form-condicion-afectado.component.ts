@@ -43,4 +43,13 @@ export class FleteFormCondicionAfectadoComponent {
     this.group.get(`condicion_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
   }
 
+  onMonedaChange(moneda: any): void {
+
+    if (moneda) {
+      this.cargarSelec(moneda);
+    } else {
+      console.warn('Moneda no válida o indefinida');
+    }
+  }
+
 }

@@ -27,7 +27,6 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       title: 'Tarifa Flete',
       value: (element: OrdenCargaRemisionResultado) => element.tarifa_flete,
       type: 'number',
-      
     },
 
     {
@@ -45,7 +44,6 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'total_kg',
       title: 'Tolerancia',
-
       value: (element: OrdenCargaRemisionResultado) => element.tolerancia_kg,
       type: 'number',
     },
@@ -65,7 +63,6 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'comp_desc',
       title: 'Total Compl./Desc',
-
       value: (element: OrdenCargaRemisionResultado) => element.complemento_descuento,
       type: 'number',
     },

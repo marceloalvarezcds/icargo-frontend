@@ -17,7 +17,6 @@
         [fleteId]="fleteId"
         [form]="form"
         (valueChange)="tipoAnticipoChange($event)"
-
       ></app-tipo-anticipo-by-flete-field>
     </div>
 
@@ -52,7 +51,9 @@
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
         [form]="form"
-        (valueChange)="onMonedaSeleccionada($event)">
+       
+        (valueChange)="onMonedaDestinoChange($event)"
+    >
       </app-moneda-field>
     </div>
 

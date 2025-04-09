@@ -61,7 +61,7 @@ export class GenericListFieldComponent<T extends { id: number }>
     this.subscription = this.control.valueChanges
       .pipe(filter((v) => !!v))
       .pipe(map((v) => {
-        console.log(`formcontrol:${this.controlName}, value: ${v} `);
+        // console.log(`formcontrol:${this.controlName}, value: ${v} `);
         return (this.useAsObject) ? v : getIdFromAny(v, key)
       }))
       .subscribe((id) => {
@@ -114,9 +114,9 @@ export class GenericListFieldComponent<T extends { id: number }>
   private setValueChange(id: string | number | T | undefined): void {
     setTimeout(() => {
 
-      console.log("control: ", this.controlName);
-      console.log("useAsObject: ", this.useAsObject);
-      console.log("id: ", id);
+      // console.log("control: ", this.controlName);
+      // console.log("useAsObject: ", this.useAsObject);
+      // console.log("id: ", id);
 
       if ( typeof id === 'object' ) {
         this.valueChange.emit(id);

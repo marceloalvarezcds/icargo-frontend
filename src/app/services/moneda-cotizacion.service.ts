@@ -14,11 +14,14 @@ export class MonedaCotizacionService {
   get_cotizacion_by_moneda(
     moneda_origen_id: number,
     moneda_destino_id: number,
-  ): Observable<MonedaCotizacion | null> {  // Cambiado a MonedaCotizacion (único objeto)
+  ): Observable<MonedaCotizacion | null> {
     return this.http.get<MonedaCotizacion | null>(
       `${this.url}/cotizacion/moneda_origen/${moneda_origen_id}/moneda_destino/${moneda_destino_id}`
     );
   }
 
+  getCotizacionByGestor(monedaId: number, gestorId: number): Observable<MonedaCotizacion | null> {
+    return this.http.get<MonedaCotizacion | null>(`${this.url}/moneda/${monedaId}/${gestorId}`);
+  }
 
 }

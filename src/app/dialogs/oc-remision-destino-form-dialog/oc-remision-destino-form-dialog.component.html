@@ -20,23 +20,25 @@
         [form]="form"
       ></app-input-field>
 
-      <app-number-field
+      <app-unidad-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Cantidad (kg)"
-        controlName="cantidad"
-        [hint]="cantidadHint"
+        title="Unidad"
         [form]="form"
-      ></app-number-field>
+        (valueChange)="onUnidadChange($event)"
+      ></app-unidad-field>
+
 
     </div>
 
     <div class="row">
 
-      <app-unidad-field
+      <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Unidad"
-        [form]="form">
-      </app-unidad-field>
+        title="Cantidad"
+        controlName="cantidad"
+        [hint]="cantidadHint"
+        [form]="form"
+      ></app-number-field>
 
       <app-fecha-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"

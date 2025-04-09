@@ -25,6 +25,9 @@ import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from 'src/app/dialog
 import { ComponentType } from '@angular/cdk/overlay';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { GestorCarga } from 'src/app/interfaces/gestor-carga';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -41,6 +44,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   ocAnticipoRetirado?: OrdenCargaAnticipoRetirado
   a = PermisoAccionEnum;
   e = EstadoEnum
+  cotizacion: number = 0;
 
   colapseDivAnticipo = false;
 
@@ -135,7 +139,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     {
       def: 'monto_equiv',
       title: 'Monto Equiv.',
-      value: (element: OrdenCargaAnticipoRetirado) => element.monto_retirado,
+      value: (element: OrdenCargaAnticipoRetirado) => element.monto_mon_local,
       type: 'number',
     },
     {
@@ -176,6 +180,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   @Input() anticipoList: any[] = [];
   @Input() isFormSaved: boolean = false;
   @Input() isEditPedido: boolean = false;
+  @Input() gestorCarga?: GestorCarga
   @Input() oc?: OrdenCarga;
   @Input() mov?: Movimiento;
   @Input() flete?: Flete;
@@ -197,12 +202,19 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
 
+  cotizacionOrigen: number | null = null;
+  cotizacionDestino: number | null = null;
+  monedaDestinoId: number | null = null;
+  simboloMoneda?:string;
+  monedaId: number | null = null;
   ngOnInit(): void {
-
+    this.getMonedaByGestor()
+    this.obtenerCotizaciones()
     if (this.list?.length > 0) {
       // Ordenar por ID en orden descendente
       this.list = [...this.list].sort((a, b) => b.id - a.id);
     }
+
     if (this.list?.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
@@ -224,7 +236,54 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private reportsService: ReportsService,
     private cdr: ChangeDetectorRef,
+    private monedaService: MonedaService,
+    private monedaCotizacionService: MonedaCotizacionService,
   ) {}
+
+  getMonedaByGestor(): void {
+    if (this.oc?.gestor_carga_id) {
+      this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(
+        (response) => {
+          this.monedaDestinoId = response?.id ?? null;
+          // console.log('Moneda ID:', this.monedaDestinoId);
+        }
+      );
+    }
+  }
+
+  obtenerCotizaciones(): void {
+    this.monedaCotizacionService
+      .getCotizacionByGestor(this.oc!.flete_moneda_id, this.oc!.gestor_carga_id)
+      .subscribe({
+        next: (responseOrigen) => {
+          this.cotizacionOrigen = responseOrigen?.cotizacion_moneda ?? null;
+          // console.log('Cotización Origen:', this.cotizacionOrigen);
+
+          if (this.monedaDestinoId) {
+            this.monedaCotizacionService
+              .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
+              .subscribe({
+                next: (responseDestino) => {
+                  this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+                  // console.log('Cotización Destino:', this.cotizacionDestino);
+                }
+              });
+          }
+        }
+      });
+  }
+
+
+  getCotizacionMonedaDestino(monedaDestinoId: number): void {
+    this.monedaCotizacionService
+      .getCotizacionByGestor(monedaDestinoId, this.oc!.gestor_carga_id)
+      .subscribe({
+        next: (responseDestino) => {
+          this.cotizacionDestino = responseDestino ? responseDestino.cotizacion_moneda : null;
+
+        }
+      });
+  }
 
   get isAnticiposLiberados(): boolean {
     return !!this.oc?.anticipos_liberados;
@@ -273,15 +332,14 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   getSaldoAnticipo(anticipo: any): number {
-    const tarifaEfectivo = this.oc?.flete_tarifa ?? 0;
+    const propietarioTarifa = ((this.oc?.condicion_propietario_tarifa ?? 0) * (this.cotizacionOrigen ?? 0)) / this.cotizacionDestino!;
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
-    const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
-    const monto = this.oc?.flete_monto_efectivo_complemento ?? 0;
+    const montoAnticipo = propietarioTarifa * cantidadNominada * (anticipoPorcentaje / 100);
 
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
       const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-      return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
+      return montoAnticipo - montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
       const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
       return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible

@@ -3,7 +3,9 @@ import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-destino-dialog-data';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
+import { Unidad } from 'src/app/interfaces/unidad';
 import { OrdenCargaRemisionDestinoService } from 'src/app/services/orden-carga-remision-destino.service';
+import { UnidadService } from 'src/app/services/unidad.service';
 import { subtract } from 'src/app/utils/math';
 
 @Component({
@@ -12,6 +14,7 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./oc-remision-destino-form-dialog.component.scss'],
 })
 export class OcRemisionDestinoFormDialogComponent {
+  conversion: number = 0
   fotoDocumento: string | null = null;
   fotoDocumentoFile: File | null = null;
   form = this.fb.group({
@@ -64,17 +67,34 @@ export class OcRemisionDestinoFormDialogComponent {
   }
 
   get saldo(): number {
-    return subtract(this.max, this.cantidad);
+    const cantidadConvertida = this.cantidad * this.conversion;
+    return subtract(this.max, cantidadConvertida);
   }
 
   constructor(
     private ordenCargaRemisionDestinoService: OrdenCargaRemisionDestinoService,
+    private unidadService: UnidadService,
     public dialogRef: MatDialogRef<OcRemisionDestinoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dialogData: OcRemisionDestinoDialogData
   ) {
     this.fotoDocumento = this.data?.foto_documento ?? null;
   }
+
+    getConversionRate(unidadId: number): void {
+      this.unidadService.getConversionById(unidadId).subscribe({
+        next: (conversionData) => {
+          this.conversion = conversionData.conversion_kg || 1;
+        },
+      });
+    }
+
+    onUnidadChange(unidad: Unidad | undefined): void {
+      if (unidad) {
+        const unidadId = unidad.id;
+        this.getConversionRate(unidadId);
+      }
+    }
 
   submit() {
     this.form.markAsDirty();

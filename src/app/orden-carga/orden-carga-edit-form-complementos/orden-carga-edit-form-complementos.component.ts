@@ -143,6 +143,7 @@ export class OrdenCargaEditFormComplementosComponent {
   ): MatDialogRef<OcComplementoFormDialogComponent, OrdenCargaComplemento> {
     const data: OcComplementoDialogData = {
       orden_carga_id: this.oc!.id,
+      oc: this.oc,
       item,
     };
     return this.dialog.open(OcComplementoFormDialogComponent, {

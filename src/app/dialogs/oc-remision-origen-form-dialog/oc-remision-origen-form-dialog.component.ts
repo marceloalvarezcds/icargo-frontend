@@ -1,3 +1,4 @@
+import { Unidad } from 'src/app/interfaces/unidad';
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -5,6 +6,7 @@ import { OcRemisionOrigenDialogData } from 'src/app/interfaces/oc-remision-orige
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionOrigenService } from 'src/app/services/orden-carga-remision-origen.service';
 import { subtract } from 'src/app/utils/math';
+import { UnidadService } from 'src/app/services/unidad.service';
 
 @Component({
   selector: 'app-oc-remision-origen-form-dialog',
@@ -12,6 +14,7 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./oc-remision-origen-form-dialog.component.scss'],
 })
 export class OcRemisionOrigenFormDialogComponent {
+  conversion: number = 0
   fotoDocumento: string | null = null;
   fotoDocumentoFile: File | null = null;
   form = this.fb.group({
@@ -62,11 +65,13 @@ export class OcRemisionOrigenFormDialogComponent {
   }
 
   get saldo(): number {
-    return subtract(this.max, this.cantidad);
+    const cantidadConvertida = this.cantidad * this.conversion;
+    return subtract(this.max, cantidadConvertida);
   }
 
   constructor(
     private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
+    private unidadService: UnidadService,
     public dialogRef: MatDialogRef<OcRemisionOrigenFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcRemisionOrigenDialogData
@@ -74,12 +79,24 @@ export class OcRemisionOrigenFormDialogComponent {
     this.fotoDocumento = this.data?.foto_documento ?? null;
   }
 
+  getConversionRate(unidadId: number): void {
+    this.unidadService.getConversionById(unidadId).subscribe({
+      next: (conversionData) => {
+        this.conversion = conversionData.conversion_kg || 1;
+      },
+    });
+  }
+
+  onUnidadChange(unidad: Unidad | undefined): void {
+    if (unidad) {
+      const unidadId = unidad.id;
+      this.getConversionRate(unidadId);
+    }
+  }
+
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
-    console.log("this.form: ", this.form);
-
     if (this.form.valid) {
       const data = JSON.parse(
         JSON.stringify({

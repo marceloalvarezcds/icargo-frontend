@@ -252,8 +252,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    console.log(this.form);
-
     if (this.form.valid) {
       const data: FleteConfirmationDialogData = {
         flete: getFleteData(this.form),
@@ -345,11 +343,13 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
+
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
+        console.log('form data:', data);
         this.estado = data.estado;
         this.isCancel = data.estado === EstadoEnum.CANCELADO;
         this.gestorCargaId = data.gestor_carga_id;
@@ -360,6 +360,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         if (!this.puedeModificar) {
           this.form.disable();
         }
+
         this.form.patchValue({
           info: {
             remitente_id: data.remitente_id,
@@ -382,13 +383,13 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             // inicio - Condiciones para el Gestor de Carga
             condicion_gestor_carga_moneda_id: data.condicion_gestor_carga_moneda_id,
             condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
-            //condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
+            condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
             condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
             // fin - Condiciones para el Gestor de Carga
             // inicio - Condiciones para el Propietario
-            condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
+
             condicion_propietario_tarifa: data.condicion_propietario_tarifa,
-            //condicion_propietario_unidad: data.condicion_propietario_unidad,
+            condicion_propietario_unidad: data.condicion_propietario_unidad,
             condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,
             // fin - Condiciones para el Propietario
           },

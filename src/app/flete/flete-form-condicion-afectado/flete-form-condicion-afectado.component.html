@@ -9,6 +9,7 @@
         controlName="condicion_{{ afectado }}_tarifa"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="onMonedaChange($event)"
       ></app-number-field>
 
       <app-moneda-field
@@ -17,6 +18,7 @@
         controlName="condicion_{{ afectado }}_moneda"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="onMonedaChange($event)"
       ></app-moneda-field>
 
       <app-unidad-field

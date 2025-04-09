@@ -12,6 +12,7 @@
         controlName="merma_{{ afectado }}_valor"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="onMonedaChange($event)"
       ></app-number-field>
 
       <app-moneda-field
@@ -20,7 +21,7 @@
         controlName="merma_{{ afectado }}_moneda"
         [groupName]="groupName"
         [form]="formGroup"
-
+        (valueChange)="onMonedaChange($event)"
       ></app-moneda-field>
 
       <app-unidad-field

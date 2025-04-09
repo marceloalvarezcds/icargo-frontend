@@ -142,6 +142,7 @@ export class OrdenCargaEditFormDescuentosComponent {
     const data: OcDescuentoDialogData = {
       orden_carga_id: this.oc!.id,
       item,
+      oc: this.oc,
     };
     return this.dialog.open(OcDescuentoFormDialogComponent, {
       width: '500px',

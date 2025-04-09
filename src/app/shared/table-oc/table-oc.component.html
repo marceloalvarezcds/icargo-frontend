@@ -110,13 +110,13 @@
                     </ng-template>
 
                     <div *ngIf="column?.def === 'tarifa_flete' || column?.def === 'tolerancia'"
-                          style="color: black; display: inline;"> Gs/Kg </div>
+                          style="color: black; display: inline;"> {{ oc?.flete_tarifa_unidad_gestor_carga }} </div>
 
                     <div *ngIf="column?.def === 'total_flete_mon' || column?.def === 'comp_desc' || column?.def === 'bruto' || column?.def === 'efectivo' || column?.def === 'combustible' || column?.def === 'saldo' || column?.def === 'merma_valor_total_moneda_local'"
-                          style="color: black; display: inline; font-weight: bold;"> Gs </div>
+                          style="color: black; display: inline; font-weight: bold;"> {{ oc?.gestor_carga_moneda_simbolo }} </div>
 
                     <div *ngIf="column?.def === 'total_kg' || column?.def === 'merma_valor'"
-                          style="color: black; display: inline;"> Kg </div>
+                          style="color: black; display: inline;"> {{ oc?.flete_tarifa_unidad_abreviatura }} </div>
                   </span>
                 </ng-container>
 

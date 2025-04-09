@@ -18,6 +18,7 @@ export interface OrdenCargaAnticipoRetiradoForm {
   numero_comprobante: string | null;
   moneda_id: number;
   monto_retirado: number;
+  monto_mon_local: number;
   monto_litro: number;
   observacion?: string | null;
   insumo_punto_venta_precio_id?: number | null;
@@ -119,6 +120,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       moneda_nombre: moneda0.nombre,
       monto_retirado: 100,
       monto_litro: 100,
+      monto_mon_local: 100,
       observacion: null,
       unidad_id: unidad0.id,
       unidad_abreviatura: unidad0.abreviatura,
@@ -166,6 +168,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       moneda_id: moneda1.id,
       moneda_nombre: moneda1.nombre,
       monto_retirado: 200,
+      monto_mon_local: 100,
       monto_litro: 100,
       observacion: null,
       unidad_id: unidad1.id,
@@ -214,6 +217,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       moneda_id: moneda2.id,
       moneda_nombre: moneda2.nombre,
       monto_retirado: 300,
+      monto_mon_local: 100,
       monto_litro: 100,
       observacion: null,
       unidad_id: unidad2.id,

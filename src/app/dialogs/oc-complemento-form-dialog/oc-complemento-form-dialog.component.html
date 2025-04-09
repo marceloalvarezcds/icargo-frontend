@@ -47,6 +47,7 @@
         controlName="propietario_moneda"
         [value]="valueMoneda"
         [form]="form"
+        (valueChange)="onMonedaOrigenPropietarioChange($event)"
       ></app-moneda-field>
 
     </div>
@@ -79,6 +80,7 @@
         controlName="remitente_moneda"
         [value]="valueMoneda"
         [form]="form"
+        (valueChange)="onMonedaOrigenRemitenteChange($event)"
       ></app-moneda-field>
 
     </div>
