@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subject, Subscription } from 'rxjs';
@@ -313,20 +313,21 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     private monedaCotizacionService: MonedaCotizacionService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoEfectivoDialogComponent>,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
+    this.getCotizacionMonedaOrigen()
     const monedaControl = this.form?.get('moneda_id');
+
     if (monedaControl) {
       monedaControl.valueChanges.subscribe((moneda) => {
         if (moneda && typeof moneda === 'object' && moneda.id) {
           this.monedaDestinoId = moneda.id;
-          this.obtenerCotizaciones();
         }
       });
-
     }
   }
 
@@ -334,36 +335,21 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     if (this.oc?.gestor_carga_id) {
       this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(
         (response) => {
-          this.simboloMoneda = response.simbolo || 'PYG';
-          this.monedaDestinoId = response?.id || null;
+          this.monedaOrigenId = response?.id || null;
         }
       );
     }
   }
 
-  obtenerCotizaciones(): void {
-    // this.monedaOrigenId = this.form.get('moneda_id')!.value!.id;
+  getCotizacionMonedaOrigen(): void {
     this.monedaOrigenId = this.oc!.flete_moneda_id;
     this.monedaCotizacionService
-      .getCotizacionByGestor(this.monedaOrigenId!, this.oc!.gestor_carga_id)
-      .subscribe({
-        next: (responseOrigen) => {
-          this.cotizacionOrigen = responseOrigen ? responseOrigen.cotizacion_moneda : null;
-
-          // this.monedaDestinoId = this.form.get('moneda_id')?.value?.id;
-
-          if (this.monedaDestinoId) {
-            this.monedaCotizacionService
-              .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
-              .subscribe({
-                next: (responseDestino) => {
-                  this.cotizacionDestino = responseDestino ? responseDestino.cotizacion_moneda : null;
-
-                }
-              });
-          }
-        }
-      });
+    .getCotizacionByGestor(this.oc!.flete_moneda_id, this.oc!.gestor_carga_id)
+    .subscribe({
+      next: (responseOrigen) => {
+        this.cotizacionOrigen = responseOrigen ? responseOrigen.cotizacion_moneda : null;
+      }
+    });
   }
 
   getCotizacionMonedaDestino(monedaDestinoId: number): void {
@@ -371,28 +357,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
       .getCotizacionByGestor(monedaDestinoId, this.oc!.gestor_carga_id)
       .subscribe({
         next: (responseDestino) => {
-          this.cotizacionDestino = responseDestino?.cotizacion_moneda || null; // <- esta línea es clave
-          this.cotizacionDestinoMonedaId = this.cotizacionDestino;
-          console.log('cotizacionDestinoMonedaId', this.cotizacionDestinoMonedaId);
-          this.calcularValores();
+          this.cotizacionDestino = responseDestino ? responseDestino.cotizacion_moneda : null;
+          this.cdr.detectChanges();
         }
       });
   }
 
-  calcularValores(): void {
-    if (this.cotizacionOrigen && this.cotizacionDestinoMonedaId) {
-      const resultado = (this.saldoAnticipo * this.cotizacionDestinoMonedaId) / this.cotizacionDestinoMonedaId;
-    }
-  }
 
-  onMonedaDestinoChange(monedaDestino: any): void {
-    console.log('Cambio detectado:', monedaDestino); // Asegura que esto se dispare
-
-    if (monedaDestino) {
-      const monedaDestinoId = monedaDestino.id;
-      this.getCotizacionMonedaDestino(monedaDestinoId);
-    }
-  }
 
 
   get simboloMonedaGestora(): string {
@@ -561,7 +532,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     }
   }
 
-
   private setFleteAnticipo(fleteAnticipo: FleteAnticipo): void {
     this.fleteAnticipo = fleteAnticipo;
     this.fleteAnticipoControl.setValue(fleteAnticipo.id);
@@ -569,9 +539,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   }
 
   private setOrdenCargaAnticipoSaldo(saldo: number): void {
-    console.log('🧾 saldo_ml recibido:', saldo);
     this.saldoAnticipo = saldo;
-
     this.montoRetiradoControl.setValidators([
       Validators.required,
       Validators.min(0),
@@ -584,5 +552,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     this.form.get('moneda_id')?.setValue(moneda?.id);
     this.valueChange.emit(moneda?.id);
   }
+
+  onMonedaDestinoChange(monedaDestino: any): void {
+    if (monedaDestino) {
+      const monedaDestinoId = monedaDestino.id;
+      this.getCotizacionMonedaDestino(monedaDestinoId);
+    }
+  }
+
 }
 

@@ -6,7 +6,6 @@ import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialo
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
-import { MonedaService } from 'src/app/services/moneda.service';
 import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
 
 @Component({

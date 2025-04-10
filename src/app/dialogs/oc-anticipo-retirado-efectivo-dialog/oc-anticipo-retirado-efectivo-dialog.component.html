@@ -51,7 +51,7 @@
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
         [form]="form"
-       
+        [auto_select_property]="simboloMonedaGestora"
         (valueChange)="onMonedaDestinoChange($event)"
     >
       </app-moneda-field>

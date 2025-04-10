@@ -29,6 +29,12 @@ export class FleteFormDescuentosComponent {
       type: 'number',
     },
     {
+      def: 'propietario_monto_ml',
+      title: 'A Cobrar ML',
+      value: (element: FleteDescuento) => element.propietario_monto_ml,
+      type: 'number',
+    },
+    {
       def: 'propietario_moneda_nombre',
       title: 'Moneda',
       value: (element: FleteDescuento) => element.propietario_moneda_nombre,
@@ -37,6 +43,12 @@ export class FleteFormDescuentosComponent {
       def: 'proveedor_monto',
       title: 'A Pagar',
       value: (element: FleteDescuento) => element.proveedor_monto,
+      type: 'number',
+    },
+    {
+      def: 'proveedor_monto_ml',
+      title: 'A Pagar ML',
+      value: (element: FleteDescuento) => element.proveedor_monto_ml,
       type: 'number',
     },
     {
@@ -131,10 +143,12 @@ export class FleteFormDescuentosComponent {
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
+      propietario_monto_ml: data.propietario_monto_ml,
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
       propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_pago_proveedor: data.habilitar_pago_proveedor,
       proveedor_monto: data.proveedor_monto,
+      proveedor_monto_ml: data.proveedor_monto_ml,
       proveedor_moneda_id: data.proveedor_moneda_id,
       proveedor_moneda_simbolo: data.proveedor_moneda?.simbolo,
       proveedor_id: data.proveedor_id,

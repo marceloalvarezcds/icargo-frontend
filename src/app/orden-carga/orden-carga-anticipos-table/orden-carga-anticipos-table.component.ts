@@ -273,7 +273,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       });
   }
 
-
   getCotizacionMonedaDestino(monedaDestinoId: number): void {
     this.monedaCotizacionService
       .getCotizacionByGestor(monedaDestinoId, this.oc!.gestor_carga_id)
@@ -336,10 +335,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = propietarioTarifa * cantidadNominada * (anticipoPorcentaje / 100);
-
+    const totalComplemento = this.oc?.total_anticipo_complemento ?? 0
+    
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
       const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-      return montoAnticipo - montoRetiradoEfectivo; // Restar anticipos de efectivo
+      return montoAnticipo + totalComplemento - montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
       const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
       return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible

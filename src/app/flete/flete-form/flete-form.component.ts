@@ -270,8 +270,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           this.submit(confirmed);
         });
     } else {
-      console.log('⚠️ El formulario no es válido:');
-      this.logInvalidControls(this.form);
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
         this.isTramoTouched = this.tramo.invalid;
@@ -330,18 +328,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  logInvalidControls(formGroup: FormGroup | FormArray, path: string = ''): void {
-    Object.keys(formGroup.controls).forEach(controlName => {
-      const control = formGroup.get(controlName);
-      const currentPath = path ? `${path}.${controlName}` : controlName;
-
-      if (control instanceof FormGroup || control instanceof FormArray) {
-        this.logInvalidControls(control, currentPath);
-      } else if (control && control.invalid) {
-        console.log(`❌ Control inválido: ${currentPath}`, control.errors);
-      }
-    });
-  }
 
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);

@@ -8,6 +8,7 @@ import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { TableEvent } from 'src/app/interfaces/table';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-flete-form-complementos',
@@ -29,6 +30,12 @@ export class FleteFormComplementosComponent {
       type: 'number',
     },
     {
+      def: 'remitente_monto_ml',
+      title: 'A Cobrar ML',
+      value: (element: FleteComplemento) => element.remitente_monto_ml,
+      type: 'number',
+    },
+    {
       def: 'remitente_moneda_nombre',
       title: 'Moneda',
       value: (element: FleteComplemento) => element.remitente_moneda_nombre,
@@ -37,6 +44,12 @@ export class FleteFormComplementosComponent {
       def: 'propietario_monto',
       title: 'A Pagar',
       value: (element: FleteComplemento) => element.propietario_monto,
+      type: 'number',
+    },
+    {
+      def: 'propietario_monto_ml',
+      title: 'A Pagar ML',
+      value: (element: FleteComplemento) => element.propietario_monto_ml,
       type: 'number',
     },
     {
@@ -57,6 +70,7 @@ export class FleteFormComplementosComponent {
 
   @Input() form?: FormGroup;
   @Input() gestorCuentaId?: number;
+  @Input() user?: User
   @Input() isShow = false;
   @Input() isEdit = false;
   @Input() set complementoList(list: FleteComplemento[]) {
@@ -126,10 +140,12 @@ export class FleteFormComplementosComponent {
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
+      propietario_monto_ml: data.propietario_monto_ml,
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
       propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_cobro_remitente: data.habilitar_cobro_remitente,
       remitente_monto: data.remitente_monto,
+      remitente_monto_ml: data.remitente_monto_ml,
       remitente_moneda_id: data.remitente_moneda_id,
       remitente_moneda_simbolo: data.remitente_moneda?.simbolo,
     });
