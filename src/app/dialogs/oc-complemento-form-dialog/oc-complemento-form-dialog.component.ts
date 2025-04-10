@@ -73,7 +73,6 @@ export class OcComplementoFormDialogComponent implements OnInit {
     .subscribe({
       next: (responseOrigen) => {
         this.cotizacionOrigenPropietario = responseOrigen ? responseOrigen.cotizacion_moneda : null;
-
       },
       error: (err) => {
         console.error('Error al obtener cotización para moneda origen:', err);
@@ -94,7 +93,6 @@ export class OcComplementoFormDialogComponent implements OnInit {
       });
   }
 
-
   getCotizacionMonedaDestinoPropietario(): void {
     this.monedaCotizacionService
       .getCotizacionByGestor(this.dialogData.oc!.gestor_carga_moneda_id, this.dialogData.oc!.gestor_carga_id)
@@ -108,20 +106,19 @@ export class OcComplementoFormDialogComponent implements OnInit {
       });
   }
 
-    onMonedaOrigenPropietarioChange(monedaDestino: any): void {
-      if (monedaDestino) {
-        const monedaOrigen = monedaDestino.id;
-        this.getCotizacionMonedaOrigenPropietario(monedaOrigen);
-      }
+  onMonedaOrigenPropietarioChange(monedaOrigen: any): void {
+    if (monedaOrigen) {
+      const monedaId = monedaOrigen.id;
+      this.getCotizacionMonedaOrigenPropietario(monedaId);
     }
+  }
 
-    onMonedaOrigenRemitenteChange(monedaDestino: any): void {
-      if (monedaDestino) {
-        const monedaOrigenRemitente = monedaDestino.id;
-        this.getCotizacionMonedaOrigenRemitente(monedaOrigenRemitente);
-      }
+  onMonedaOrigenRemitenteChange(monedaOrigen: any): void {
+    if (monedaOrigen) {
+      const monedaId = monedaOrigen.id;
+      this.getCotizacionMonedaOrigenRemitente(monedaId);
     }
-
+  }
 
   get data(): OrdenCargaComplemento | undefined {
     return this.dialogData?.item;

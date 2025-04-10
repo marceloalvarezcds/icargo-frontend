@@ -11,17 +11,20 @@ export interface FleteComplemento {
   anticipado: boolean;
   // INICIO Monto a pagar al Propietario
   propietario_monto?: number | null;
+  propietario_monto_ml?: number | null;
   propietario_moneda_id?: number | null;
   propietario_moneda: Moneda | null;
   propietario_moneda_nombre: string | null;
   // FIN Monto a pagar al Propietario
   // INICIO Monto a cobrar al Remitente
   remitente_monto?: number | null;
+  remitente_monto_ml?: number | null,
   remitente_moneda_id?: number | null;
   remitente_moneda?: Moneda | null;
   remitente_moneda_nombre?: string | null;
   // FIN Monto a cobrar al Remitente
   flete_id?: number;
+  flete_gestor_carga_id?: number;
 }
 
 const tipoConceptoComplemento0 = mockTipoConceptoComplementoList[0];
@@ -52,6 +55,7 @@ export const mockFleteComplementoList: FleteComplemento[] = [
     remitente_moneda_nombre: moneda0.nombre,
     // FIN Monto a cobrar al Remitente
     flete_id: 1,
+    flete_gestor_carga_id:1,
   },
   {
     id: 2,
@@ -74,5 +78,6 @@ export const mockFleteComplementoList: FleteComplemento[] = [
     remitente_moneda_nombre: moneda1.nombre,
     // FIN Monto a cobrar al Remitente
     flete_id: 1,
+    flete_gestor_carga_id:2,
   },
 ];
