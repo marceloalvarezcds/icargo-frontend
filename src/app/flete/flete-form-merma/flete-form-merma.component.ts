@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { Unidad } from 'src/app/interfaces/unidad';
 
 @Component({
@@ -28,9 +29,9 @@ export class FleteFormMermaComponent implements OnDestroy {
         this.toleranciaControl.updateValueAndValidity();
       });
 
-    this.group.get(`merma_${this.afectado}_moneda`)?.valueChanges.subscribe((item:any)=> {
+    /*this.group.get(`merma_${this.afectado}_moneda`)?.valueChanges.subscribe((item:any)=> {
       this.cargarSelec(item);
-    });
+    });*/
 
     /*this.group.get(`merma_${this.afectado}_unidad`)?.valueChanges.subscribe((item:any)=> {
       this.cargarSelecUnidad(item);
@@ -73,9 +74,10 @@ export class FleteFormMermaComponent implements OnDestroy {
     this.group.get(`merma_${this.afectado}_unidad_abreviatura`)?.setValue(unidad?.abreviatura);
   }
 
-  onMonedaChange(moneda: any) {
+  onMonedaChange(moneda: Moneda | undefined) {
+    if (!moneda) return;
     console.log('Cambio de moneda:', moneda);
-    this.group.get(`merma_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
+    //this.group.get(`merma_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
     this.group.get(`merma_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo);
   }
 

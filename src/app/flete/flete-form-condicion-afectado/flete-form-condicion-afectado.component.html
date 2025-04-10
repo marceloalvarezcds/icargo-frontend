@@ -9,16 +9,15 @@
         controlName="condicion_{{ afectado }}_tarifa"
         [groupName]="groupName"
         [form]="formGroup"
-        (valueChange)="onMonedaChange($event)"
       ></app-number-field>
 
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Moneda"
-        controlName="condicion_{{ afectado }}_moneda"
+        controlName="condicion_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="formGroup"
-        (valueChange)="onMonedaChange($event)"
+        (valueChange)="cargarSelec($event)"
       ></app-moneda-field>
 
       <app-unidad-field

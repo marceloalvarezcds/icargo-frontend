@@ -12,13 +12,12 @@
         controlName="merma_{{ afectado }}_valor"
         [groupName]="groupName"
         [form]="formGroup"
-        (valueChange)="onMonedaChange($event)"
       ></app-number-field>
 
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Moneda"
-        controlName="merma_{{ afectado }}_moneda"
+        controlName="merma_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="formGroup"
         (valueChange)="onMonedaChange($event)"

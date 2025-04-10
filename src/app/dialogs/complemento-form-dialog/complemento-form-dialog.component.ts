@@ -40,6 +40,9 @@ export class ComplementoFormDialogComponent {
     // FIN Monto a cobrar al Remitente
   });
 
+  propietarioMoneda?:Moneda;
+  remitenteMoneda?:Moneda;
+
   cobroARemitenteSubscription =
     this.cobroARemitenteControl.valueChanges.subscribe((val) => {
       if (val) {
@@ -164,8 +167,8 @@ export class ComplementoFormDialogComponent {
 
       const value = JSON.parse(JSON.stringify(this.form.value));
       const concepto: TipoConceptoComplemento = value.concepto;
-      const propietarioMoneda: Moneda = value.propietario_moneda;
-      const remitenteMoneda: Moneda | null = value.remitente_moneda;
+      //const propietarioMoneda: Moneda = value.propietario_moneda;
+      //const remitenteMoneda: Moneda | null = value.remitente_moneda;
       const data: FleteComplemento = {
         id: this.data?.id,
         concepto_id: concepto.id,
@@ -175,18 +178,18 @@ export class ComplementoFormDialogComponent {
         anticipado: value.anticipado,
         // INICIO Monto a pagar al Propietario
         propietario_monto: value.propietario_monto,
-        propietario_monto_ml: this.propietario_monto_ml,
-        propietario_moneda_id: propietarioMoneda.id,
-        propietario_moneda: propietarioMoneda,
-        propietario_moneda_nombre: propietarioMoneda.nombre,
+        //propietario_moneda_id: propietarioMoneda.id,
+        propietario_moneda_id: value.propietario_moneda,
+        propietario_moneda: this.propietarioMoneda!,
+        propietario_moneda_nombre: this.propietarioMoneda!.nombre,
+
         // FIN Monto a pagar al Propietario
         // INICIO Monto a cobrar al Remitente
         habilitar_cobro_remitente: value.habilitar_cobro_remitente,
         remitente_monto: value.remitente_monto,
-        remitente_monto_ml: this.remitente_monto_ml,
-        remitente_moneda_id: remitenteMoneda?.id,
-        remitente_moneda: remitenteMoneda,
-        remitente_moneda_nombre: remitenteMoneda?.nombre,
+        remitente_moneda_id: value.remitente_moneda,
+        remitente_moneda: this.remitenteMoneda,
+        remitente_moneda_nombre: this.remitenteMoneda?.nombre,
         // FIN Monto a cobrar al Remitente
         flete_id: this.data?.flete_id,
         flete_gestor_carga_id: this.data?.flete_gestor_carga_id,
@@ -199,7 +202,15 @@ export class ComplementoFormDialogComponent {
     return item;
   }
 
-  valueMoneda(item: Moneda): Moneda {
-    return item;
+  onSelectMonedaPropietario(moneda:Moneda){
+    this.propietarioMoneda = moneda;
   }
+
+  onSelectMonedaRemitente(moneda:Moneda){
+    this.remitenteMoneda = moneda;
+  }
+
+  /*valueMoneda(item: Moneda): Moneda {
+    return item;
+  }*/
 }
