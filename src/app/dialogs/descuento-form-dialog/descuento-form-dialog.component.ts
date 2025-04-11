@@ -180,15 +180,14 @@ export class DescuentoFormDialogComponent implements OnInit{
       const propietarioMonto = this.form.value.propietario_monto;
       const proveedorMonto = this.form.value.proveedor_monto;
 
-      console.log('propietarioMonto:', propietarioMonto);
-      console.log('remitenteMonto:', proveedorMonto);
-      console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
-      console.log('cotizacionOrigenRemitente:', this.cotizacionOrigenRemitente);
-      console.log('cotizacionDestino:', this.cotizacionDestino);
-
-      this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
+      // console.log('propietarioMonto:', propietarioMonto);
+      // console.log('remitenteMonto:', proveedorMonto);
+      // console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
+      // console.log('cotizacionOrigenRemitente:', this.cotizacionOrigenRemitente);
+      // console.log('cotizacionDestino:', this.cotizacionDestino);
+      this.propietario_monto_ml = Math.round((propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!);
       if (proveedorMonto != null && this.cotizacionOrigenRemitente != null && this.cotizacionDestino != null) {
-        this.proveedor_monto_ml = (proveedorMonto * this.cotizacionOrigenRemitente) / this.cotizacionDestino;
+        this.proveedor_monto_ml = Math.round((proveedorMonto * this.cotizacionOrigenRemitente) / this.cotizacionDestino);
       } else {
         this.proveedor_monto_ml = null;
       }

@@ -188,18 +188,24 @@ export class ComplementoFormDialogComponent implements OnInit {
       const propietarioMonto = this.form.value.propietario_monto;
       const remitenteMonto = this.form.value.remitente_monto;
 
-      console.log('propietarioMonto:', propietarioMonto);
-      console.log('remitenteMonto:', remitenteMonto);
-      console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
-      console.log('cotizacionOrigenRemitente:', this.cotizacionOrigenRemitente);
-      console.log('cotizacionDestino:', this.cotizacionDestino);
+      // console.log('propietarioMonto:', propietarioMonto);
+      // console.log('remitenteMonto:', remitenteMonto);
+      // console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
+      // console.log('cotizacionOrigenRemitente:', this.cotizacionOrigenRemitente);
+      // console.log('cotizacionDestino:', this.cotizacionDestino);
 
-      this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
+      this.propietario_monto_ml = Math.round(
+        (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!
+      );
+
       if (remitenteMonto != null && this.cotizacionOrigenRemitente != null && this.cotizacionDestino != null) {
-        this.remitente_monto_ml = (remitenteMonto * this.cotizacionOrigenRemitente) / this.cotizacionDestino;
+        this.remitente_monto_ml = Math.round(
+          (remitenteMonto * this.cotizacionOrigenRemitente) / this.cotizacionDestino
+        );
       } else {
         this.remitente_monto_ml = null;
       }
+
 
       console.log('this.propietario_monto_ml calculado:', this.propietario_monto_ml);
       console.log('this.remitente_monto_ml calculado:', this.remitente_monto_ml);
