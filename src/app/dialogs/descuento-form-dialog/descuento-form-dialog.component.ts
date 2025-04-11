@@ -34,13 +34,13 @@ export class DescuentoFormDialogComponent implements OnInit{
       [Validators.required, Validators.min(0)],
     ],
     propietario_monto_ml:[null],
-    propietario_moneda: [this.data?.propietario_moneda, Validators.required],
+    propietario_moneda_id: [this.data?.propietario_moneda_id, Validators.required],
     // FIN Monto a cobrar al Propietario
     // INICIO Monto a pagar al Proveedor
     habilitar_pago_proveedor: this.data?.habilitar_pago_proveedor,
     proveedor_monto: [this.data?.proveedor_monto, [Validators.min(0)]],
     proveedor_monto_ml:[null],
-    proveedor_moneda: this.data?.proveedor_moneda,
+    proveedor_moneda_id: this.data?.proveedor_moneda_id,
     proveedor: this.data?.proveedor,
     // FIN Monto a pagar al Proveedor
   });
@@ -210,7 +210,7 @@ export class DescuentoFormDialogComponent implements OnInit{
         // INICIO Monto a cobrar al Propietario
         propietario_monto: value.propietario_monto,
         propietario_monto_ml: this.propietario_monto_ml,
-        propietario_moneda_id: value.propietario_moneda,
+        propietario_moneda_id: value.propietario_moneda_id,
         propietario_moneda: this.propietarioMoneda!,
         propietario_moneda_nombre: this.propietarioMoneda!.nombre,
         // FIN Monto a cobrar al Propietario
@@ -218,7 +218,7 @@ export class DescuentoFormDialogComponent implements OnInit{
         habilitar_pago_proveedor: value.habilitar_pago_proveedor,
         proveedor_monto: value.proveedor_monto,
         proveedor_monto_ml: this.proveedor_monto_ml,
-        proveedor_moneda_id: value.proveedor_moneda,
+        proveedor_moneda_id: value.proveedor_moneda_id,
         proveedor_moneda: this.proveedorMoneda,
         proveedor_moneda_nombre: this.proveedorMoneda?.nombre,
         proveedor_id: proveedor?.id,
