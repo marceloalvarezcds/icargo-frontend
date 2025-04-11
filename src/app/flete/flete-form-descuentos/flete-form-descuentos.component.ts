@@ -108,7 +108,7 @@ export class FleteFormDescuentosComponent {
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(DescuentoFormDialogComponent, { data })
+      .open(DescuentoFormDialogComponent, { data,  panelClass: 'half-dialog' })
       .afterClosed()
       .pipe(filter((descuento) => !!descuento))
       .subscribe((descuento: FleteDescuento) => {

@@ -105,7 +105,7 @@ export class FleteFormComplementosComponent {
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(ComplementoFormDialogComponent, { data })
+      .open(ComplementoFormDialogComponent, { data,  panelClass: 'half-dialog' })
       .afterClosed()
       .pipe(filter((complemento) => !!complemento))
       .subscribe((complemento: FleteComplemento) => {
