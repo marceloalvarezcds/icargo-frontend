@@ -3,7 +3,7 @@
 node('linux-docker') {
 
     def REGISTRY_IMAGE_URL="registry.gitlab.com/cds.py/icargo/icargo-v1/icargo-frontend"; 
-    def WEBHOOKS_URL="http://51.159.176.45:19989";
+    def WEBHOOKS_URL="http://127.0.0.1:19989";
 
     stage('Preparation') {
         checkout scm;
