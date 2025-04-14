@@ -168,11 +168,11 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   }
 
   get remisionOrigenList(): OrdenCargaRemisionOrigen[] {
-    return this.item!?.remisiones_origen.slice();
+    return this.item?.remisiones_origen?.slice() || [];
   }
 
   get remisionDestinoList(): OrdenCargaRemisionDestino[] {
-    return this.item!?.remisiones_destino.slice();
+    return this.item?.remisiones_destino?.slice() || [];
   }
 
   get remisionResultadoList(): OrdenCargaRemisionResultado[] {
@@ -180,7 +180,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   }
 
   get movimientoList(): Movimiento[] {
-    return this.item!?.movimientos.slice();
+    return this.item?.movimientos?.slice() || [];
   }
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
@@ -668,7 +668,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         '¿Está seguro que desea conciliar la Orden de Carga?',
         this.ordenCargaService.conciliar(this.idOC),
         () => {
-  
+
             this.getData();
             this.form.get('info.comentarios')?.disable();
 

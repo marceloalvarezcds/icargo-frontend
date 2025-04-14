@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -101,7 +101,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     }),
     info: this.fb.group({
       cantidad_nominada: null,
-      
+
     }),
   });
 
@@ -117,6 +117,8 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     const estadoValue = this.form.get('combinacion.estado')?.value;
     return estadoValue;
   }
+  cotizacionOrigen: number = 0;
+  cotizacionDestino: number = 0;
 
   get estado(): EstadoEnum {
     return this.item!.estado;
@@ -136,7 +138,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   }
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
-    return this.item!?.anticipos.slice();
+    return this.item?.anticipos?.slice() || [];
   }
 
   get porcentajeAnticipos(): FormArray {
@@ -188,14 +190,13 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setInitialToggleState();
     this.form.get('combinacion.id_orden_carga')?.valueChanges
-      .pipe(distinctUntilChanged()) 
+      .pipe(distinctUntilChanged())
       .subscribe(id => {
         if (id) {
           this.getData();
         }
       });
   }
-  
 
   previousId: number | null = null;
   handleIdChange(id: number | null): void {
@@ -276,7 +277,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
         sms = '<p>¿Está seguro de bloquear Anticipos?.<br>'
            + 'Esta acción bloqueará los anticipos en esta OC</p>';
       }
-  
+
       this.dialog.changeStatusConfirmHtml(
         '',
         sms,
@@ -289,7 +290,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       console.error('No se puede activar anticipos sin un ID válido');
     }
   }
-  
+
   inactive(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
       this.dialog.changeStatusConfirmHtml(
@@ -305,7 +306,6 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       console.error('No se puede bloquear anticipos sin un ID válido');
     }
   }
-  
 
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -438,7 +438,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   resetFormData(): void {
     this.form.reset();
     this.item!.resultado_propietario_total_anticipos_retirados_efectivo = 0;
-    this.item!.resultado_propietario_total_anticipos_retirados_combustible = 0; 
+    this.item!.resultado_propietario_total_anticipos_retirados_combustible = 0;
     this.item!.porcentaje_anticipos = [];
     this.item!.saldo_efectivo = 0;
     this.item!.saldo_combustible = 0;
@@ -449,7 +449,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     this.isShow = true;
     this.item!.flete_id = 0;
     this.nuevoActive = true;
-    this.getData(); 
+    this.getData();
   }
 
   getData(): void {
@@ -459,7 +459,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       this.combinacion.get('comentarios')?.setValue('');
       this.ordenCargaService.getById(ocValue).subscribe((data) => {
         this.item = data;
-        this.item.anticipos,
+        this.item.gestor_carga_id
         this.isActive = data.estado === EstadoEnum.NUEVO;
         this.form.patchValue({
           combinacion: {
@@ -499,9 +499,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
           info: {
             cantidad_nominada: data.cantidad_nominada,
           },
-       
         });
-       
         this.form.get('info.cantidad_nominada')?.disable();
         this.isLoadingData = false;
         this.originalComentario = data.comentarios ?? null;

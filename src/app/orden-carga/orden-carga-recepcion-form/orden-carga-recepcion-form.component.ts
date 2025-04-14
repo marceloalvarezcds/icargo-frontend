@@ -155,15 +155,15 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
   }
 
   get remisionOrigenList(): OrdenCargaRemisionOrigen[] {
-    return this.item!?.remisiones_origen.slice();
+    return this.item?.remisiones_origen?.slice() || [];
   }
 
   get remisionDestinoList(): OrdenCargaRemisionDestino[] {
-    return this.item!?.remisiones_destino.slice();
+    return this.item?.remisiones_destino?.slice() || [];
   }
 
   get remisionResultadoList(): OrdenCargaRemisionResultado[] {
-    return this.item!?.remisiones_resultado.slice();
+    return this.item?.remisiones_resultado?.slice() || []
   }
 
   get complementoList(): OrdenCargaComplemento[] {
@@ -274,9 +274,9 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
     });
     this.setInitialToggleState();
- 
+
     this.form.get('combinacion.id_orden_carga')?.valueChanges
-    .pipe(distinctUntilChanged()) 
+    .pipe(distinctUntilChanged())
     .subscribe(id => {
       if (id) {
         this.getData();
@@ -541,7 +541,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
         } else {
             this.finalizarOrdenCarga();
         }
-        
+
     } else {
         console.error('No se puede finalizar la Orden de Carga sin un ID válido');
     }
@@ -582,7 +582,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
                 this.downloadResumenPDF(); // Se ejecuta siempre después del diálogo
 
-                if (!result) { 
+                if (!result) {
                     // Si se cancela, solo deshabilita el campo sin evitar el PDF
                     this.form.get('combinacion.id_orden_carga')?.disable();
                 }
@@ -594,21 +594,21 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
 
   resetFormData(): void {
     this.form.reset();
-    this.item!.anticipos = []; 
-    this.item!.remisiones_origen = []; 
-    this.item!.remisiones_destino = []; 
+    this.item!.anticipos = [];
+    this.item!.remisiones_origen = [];
+    this.item!.remisiones_destino = [];
     this.item!.remisiones_resultado = [];
-    this.item!.neto = 0; 
-    this.item!.cantidad_nominada = 0; 
-    this.item!.cantidad_origen = 0;  
-    this.item!.cantidad_destino = 0; 
+    this.item!.neto = 0;
+    this.item!.cantidad_nominada = 0;
+    this.item!.cantidad_origen = 0;
+    this.item!.cantidad_destino = 0;
     this.isFormSaved = false;
     this.isFormSubmitting = true;
     this.isShow = true;
     this.item!.flete_id = 0;
     this.nuevoActive = true;
     this.form.get('combinacion.id_orden_carga')?.enable();
-    this.getData(); 
+    this.getData();
   }
 
   conciliar(): void {
@@ -688,7 +688,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
         this.reportsService.downloadFile(filename).subscribe((file) => {
             const blob = new Blob([file], { type: 'application/pdf' });
             const url = URL.createObjectURL(blob);
-            
+
             // Abre el diálogo del PDF
             const dialogRefPdf = this.dialog.open(PdfPreviewDialogComponent, {
                 width: '90%',
@@ -807,7 +807,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
           info: {
             cantidad_nominada: data.cantidad_nominada,
           },
-     
+
         });
         this.form.get('info.cantidad_nominada')?.disable();
         this.isLoadingData = false;
@@ -817,7 +817,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
         this.isShow = false
         this.nuevoActive = true;
       });
-    } 
+    }
   }
 
 

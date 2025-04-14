@@ -125,7 +125,9 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_remitente_nombre: string;
   flete_remitente_numero_documento: string;
   flete_tarifa_unidad_abreviatura: string;
+  flete_tarifa_unidad: string;
   flete_tarifa: number;
+
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
   flete_saldo: number;
@@ -353,6 +355,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_tipo: flete0.tipo_flete,
   flete_saldo: 0,
   flete_tarifa_unidad_abreviatura: 'kg',
+  flete_tarifa_unidad: 'PYG/kg',
   flete_producto_id: 1,
   linea_disponible: 9000,
   gestor_carga_id: flete0.gestor_carga_id,
