@@ -36,7 +36,7 @@
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-3"
         title="Moneda del Titular"
-        controlName="propietario_moneda"
+        controlName="propietario_moneda_id"
         (valueChange)="$event && onSelectMonedaPropietario($event)"
         [form]="form">
       </app-moneda-field>
@@ -64,7 +64,7 @@
         [hidden]="!cobroARemitente"
         class="input-form-full col-xs-12 col-sm-5"
         title="Moneda del Cliente"
-        controlName="remitente_moneda"
+        controlName="remitente_moneda_id"
         (valueChange)="$event && onSelectMonedaRemitente($event)"
         [form]="form"
       ></app-moneda-field>

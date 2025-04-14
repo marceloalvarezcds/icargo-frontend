@@ -33,13 +33,13 @@ export class ComplementoFormDialogComponent implements OnInit {
       [Validators.required, Validators.min(0)],
     ],
     propietario_monto_ml:[null],
-    propietario_moneda: [this.data?.propietario_moneda, Validators.required],
+    propietario_moneda_id: [this.data?.propietario_moneda_id, Validators.required],
     // FIN Monto a pagar al Propietario
     // INICIO Monto a cobrar al Remitente
     habilitar_cobro_remitente: this.data?.habilitar_cobro_remitente,
     remitente_monto: [this.data?.remitente_monto, [Validators.min(0)]],
     remitente_monto_ml: [null],
-    remitente_moneda: this.data?.remitente_moneda,
+    remitente_moneda_id: this.data?.remitente_moneda_id,
     // FIN Monto a cobrar al Remitente
   });
 
@@ -214,7 +214,7 @@ export class ComplementoFormDialogComponent implements OnInit {
         // Monto Propietario
         propietario_monto: value.propietario_monto,
         propietario_monto_ml: this.propietario_monto_ml,
-        propietario_moneda_id: value.propietario_moneda,
+        propietario_moneda_id: value.propietario_moneda_id,
         propietario_moneda: this.propietarioMoneda!,
         propietario_moneda_nombre: this.propietarioMoneda!.nombre,
 
@@ -222,7 +222,7 @@ export class ComplementoFormDialogComponent implements OnInit {
         habilitar_cobro_remitente: value.habilitar_cobro_remitente,
         remitente_monto: value.remitente_monto,
         remitente_monto_ml: this.remitente_monto_ml,
-        remitente_moneda_id: value.remitente_moneda,
+        remitente_moneda_id: value.remitente_moneda_id,
         remitente_moneda: this.remitenteMoneda,
         remitente_moneda_nombre: this.remitenteMoneda?.nombre,
 
