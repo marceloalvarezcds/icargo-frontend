@@ -396,7 +396,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     if (this.form.valid) {
       const formValue = this.form.value;
       const monto_retirado = formValue.monto_retirado;
-      const monedaOrigenSubmitId = this.form.get('moneda_id')!.value!.id;
+      const monedaOrigenSubmitId = formValue.moneda_id;
       const monedaDestinoSubmitId = this.oc!.gestor_carga_moneda_id;
 
       // Primero obtenemos cotización origen y luego la destino para hacer el cálculo y guardar
@@ -423,7 +423,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
                 id: this.data?.id,
                 orden_carga_id: this.ordenCargaId,
                 monto_mon_local: this.monto_mon_local,
-                moneda_id: formValue.moneda_id?.id ?? null,
               };
 
               const formData = new FormData();
