@@ -178,19 +178,12 @@ export class OcDescuentoFormDialogComponent implements OnInit {
       if (this.form.valid) {
           const formValue = this.form.value;
 
-          // Obtener los montos de propietario y proveedor desde el formulario
           const propietarioMonto = formValue.propietario_monto;
           const proveedorMonto = formValue.proveedor_monto;
 
-          console.log('propietarioMonto', propietarioMonto);
-          console.log('proveedorMonto', proveedorMonto);
-
           // Calcular el monto en moneda local para el propietario y proveedor
-          this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
-          this.proveedor_monto_ml = (proveedorMonto * this.cotizacionOrigenProveedor!) / this.cotizacionDestino!;
-
-          console.log('this.propietario_monto_ml', this.propietario_monto_ml);
-          console.log('this.proveedor_monto_ml', this.proveedor_monto_ml);
+          this.propietario_monto_ml = Math.round((propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!);
+          this.proveedor_monto_ml = Math.round((proveedorMonto * this.cotizacionOrigenProveedor!) / this.cotizacionDestino!);
 
           const data = JSON.parse(
               JSON.stringify({
@@ -212,7 +205,6 @@ export class OcDescuentoFormDialogComponent implements OnInit {
           action.subscribe(this.close.bind(this));
       }
   }
-
 
   private close(data: OrdenCargaDescuento): void {
     this.dialogRef.close(data);

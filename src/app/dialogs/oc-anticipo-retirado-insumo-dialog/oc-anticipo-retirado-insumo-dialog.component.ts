@@ -333,42 +333,9 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
-    // this.obtenerCotizaciones()
-    // this.getMonedaByGestor()
   }
 
 
-  // getMonedaByGestor(): void {
-  //   if (this.oc?.gestor_carga_id) {
-  //     this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(
-  //       (response) => {
-  //         this.monedaDestinoId = response?.id ?? null;
-  //       }
-  //     );
-  //   }
-  // }
-
-  // obtenerCotizaciones(): void {
-  //   this.monedaCotizacionService
-  //     .getCotizacionByGestor(this.oc!.flete_moneda_id, this.oc!.gestor_carga_id)
-  //     .subscribe({
-  //       next: (responseOrigen) => {
-  //         this.cotizacionOrigen = responseOrigen?.cotizacion_moneda ?? null;
-  //         console.log('Cotización Origen:', this.cotizacionOrigen);
-
-  //         if (this.monedaDestinoId) {
-  //           this.monedaCotizacionService
-  //             .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
-  //             .subscribe({
-  //               next: (responseDestino) => {
-  //                 this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
-  //                 console.log('Cotización Destino:', this.cotizacionDestino);
-  //               }
-  //             });
-  //         }
-  //       }
-  //     });
-  // }
 
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
@@ -419,7 +386,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
                 return;
               }
 
-              this.monto_mon_local = (monto_retirado * cotizacionOrigen) / cotizacionDestino;
+              this.monto_mon_local = Math.round((monto_retirado * cotizacionOrigen) / cotizacionDestino);
 
               const data = {
                 ...formValue,
@@ -490,18 +457,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.dialogRef.close(data);
   }
 
-  private getSaldoDisponibleForEfectivo(): void {
-    if (!this.isTipoInsumo && this.tipoAnticipoId) {
-      // Consulta saldo disponible para Efectivo
-      this.fleteAnticipoEfectivoSubscription?.unsubscribe();
-      this.fleteAnticipoEfectivoSubscription = this.fleteAnticipoService
-        .getByTipoIdAndFleteId(this.tipoAnticipoId, this.fleteId)
-        .subscribe((response) => {
-          this.setFleteAnticipo(response);
-
-        });
-    }
-  }
 
   private getSaldoDisponibledForInsumo(
     event?: InsumoPuntoVentaPrecioList | PuntoVentaList

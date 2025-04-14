@@ -180,21 +180,13 @@ export class DescuentoFormDialogComponent implements OnInit{
       const propietarioMonto = this.form.value.propietario_monto;
       const proveedorMonto = this.form.value.proveedor_monto;
 
-      // console.log('propietarioMonto:', propietarioMonto);
-      // console.log('remitenteMonto:', proveedorMonto);
-      // console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
-      // console.log('cotizacionOrigenRemitente:', this.cotizacionOrigenRemitente);
-      // console.log('cotizacionDestino:', this.cotizacionDestino);
       this.propietario_monto_ml = Math.round((propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!);
       if (proveedorMonto != null && this.cotizacionOrigenRemitente != null && this.cotizacionDestino != null) {
         this.proveedor_monto_ml = Math.round((proveedorMonto * this.cotizacionOrigenRemitente) / this.cotizacionDestino);
       } else {
         this.proveedor_monto_ml = null;
       }
-
-      console.log('this.propietario_monto_ml calculado:', this.propietario_monto_ml);
-      console.log('this.proveedor_monto_ml calculado:', this.proveedor_monto_ml);
-
+      
       const value = JSON.parse(JSON.stringify(this.form.value));
       const concepto: TipoConceptoDescuento = value.concepto;
       //const propietarioMoneda: Moneda = value.propietario_moneda;

@@ -331,12 +331,12 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   getSaldoAnticipo(anticipo: any): number {
-    const propietarioTarifa = ((this.oc?.condicion_propietario_tarifa ?? 0) * (this.cotizacionOrigen ?? 0)) / this.cotizacionDestino!;
+    const propietarioTarifa = Math.round(((this.oc?.condicion_propietario_tarifa ?? 0) * (this.cotizacionOrigen ?? 0)) / this.cotizacionDestino!);
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = propietarioTarifa * cantidadNominada * (anticipoPorcentaje / 100);
     const totalComplemento = this.oc?.total_anticipo_complemento ?? 0
-    
+
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
       const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
       return montoAnticipo + totalComplemento - montoRetiradoEfectivo; // Restar anticipos de efectivo

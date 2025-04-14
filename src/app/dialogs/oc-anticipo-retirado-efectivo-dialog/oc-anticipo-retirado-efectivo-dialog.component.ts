@@ -235,7 +235,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get saldoDisponible(): number {
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino + this.montoRetirado;
+      return  Math.round((this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino) + this.montoRetirado;
     }
     return this.saldoAnticipo + this.montoRetirado;
   }
@@ -363,9 +363,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
       });
   }
 
-
-
-
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
   }
@@ -419,7 +416,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
                 return;
               }
 
-              this.monto_mon_local = (monto_retirado * cotizacionOrigen) / cotizacionDestino;
+              this.monto_mon_local = Math.round(((monto_retirado * cotizacionOrigen) / cotizacionDestino) * 100) / 100;
 
               const data = {
                 ...formValue,

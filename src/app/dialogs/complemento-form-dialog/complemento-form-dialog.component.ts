@@ -188,12 +188,6 @@ export class ComplementoFormDialogComponent implements OnInit {
       const propietarioMonto = this.form.value.propietario_monto;
       const remitenteMonto = this.form.value.remitente_monto;
 
-      // console.log('propietarioMonto:', propietarioMonto);
-      // console.log('remitenteMonto:', remitenteMonto);
-      // console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
-      // console.log('cotizacionOrigenRemitente:', this.cotizacionOrigenRemitente);
-      // console.log('cotizacionDestino:', this.cotizacionDestino);
-
       this.propietario_monto_ml = Math.round(
         (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!
       );
@@ -205,10 +199,6 @@ export class ComplementoFormDialogComponent implements OnInit {
       } else {
         this.remitente_monto_ml = null;
       }
-
-
-      console.log('this.propietario_monto_ml calculado:', this.propietario_monto_ml);
-      console.log('this.remitente_monto_ml calculado:', this.remitente_monto_ml);
 
       const value = JSON.parse(JSON.stringify(this.form.value));
       const concepto: TipoConceptoComplemento = value.concepto;
@@ -239,9 +229,6 @@ export class ComplementoFormDialogComponent implements OnInit {
         flete_id: this.data?.flete_id,
       };
 
-      console.log('Datos que se envían al cerrar el diálogo:', data);
-      console.log('cotizacionOrigenPropietario:', this.cotizacionOrigenPropietario);
-      console.log('cotizacionDestino:', this.cotizacionDestino);
       this.dialogRef.close(data);
     }
   }

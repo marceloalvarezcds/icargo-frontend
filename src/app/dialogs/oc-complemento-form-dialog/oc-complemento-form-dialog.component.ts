@@ -170,8 +170,8 @@ export class OcComplementoFormDialogComponent implements OnInit {
       const propietarioMonto = formValue.propietario_monto;
       const remitenteMonto = formValue.remitente_monto;
 
-      this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
-      this.remitente_monto_ml = (remitenteMonto * this.cotizacionOrigenRemitente!) / this.cotizacionDestino!;
+      this.propietario_monto_ml = Math.round((propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!);
+      this.remitente_monto_ml = Math.round((remitenteMonto * this.cotizacionOrigenRemitente!) / this.cotizacionDestino!);
 
         const data = {
           concepto: formValue.concepto,
