@@ -440,9 +440,9 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     this.item!.resultado_propietario_total_anticipos_retirados_efectivo = 0;
     this.item!.resultado_propietario_total_anticipos_retirados_combustible = 0;
     this.item!.porcentaje_anticipos = [];
-    this.item!.saldo_efectivo = 0;
-    this.item!.saldo_combustible = 0;
-    this.item!.saldo_lubricantes = 0;
+    // this.item!.saldo_efectivo = 0;
+    // this.item!.saldo_combustible = 0;
+    this.item!.flete_saldo_lubricante = 0;
     this.item!.anticipos = [];
     this.isFormSaved = false;
     this.isFormSubmitting = true;

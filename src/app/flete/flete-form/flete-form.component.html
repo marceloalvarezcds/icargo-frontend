@@ -14,7 +14,6 @@
   [shouldShowInactiveButton]="!isCancel"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
-
   (submitEvent)="save(false)"
   [flete]="item"
 >
@@ -34,6 +33,7 @@
         [estado]="estado"
         [flete]="item"
         [isShow]="isShow"
+        [isEdit]="isEdit"
         (remitenteChange)="info.get('remitente_nombre')?.setValue($event?.nombre)"
         (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>
@@ -46,6 +46,7 @@
         [form]="form"
         [flete]="item"
         [isShow]="isShow"
+        [isEdit]="isEdit"
         (origenChange)="tramo.get('origen_nombre')?.setValue($event?.nombre)"
         (destinoChange)="tramo.get('destino_nombre')?.setValue($event?.nombre)"
       ></app-flete-form-tramo>
@@ -96,7 +97,6 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
-          [isEdit]="isEdit"
           [complementoList]="complementoList"
         ></app-flete-form-complementos>
         <app-flete-form-descuentos
@@ -104,7 +104,6 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
-          [isEdit]="isEdit"
           [descuentoList]="descuentoList"
         ></app-flete-form-descuentos>
       </div>

@@ -83,6 +83,7 @@
       Cerrar
     </button>
     <button
+      *ngIf="!isDisabled"
       mat-flat-button cdkFocusInitial
       class="botones" type="button"
       (click)="submit()"

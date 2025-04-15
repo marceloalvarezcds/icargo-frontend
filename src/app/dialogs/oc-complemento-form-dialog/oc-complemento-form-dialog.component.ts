@@ -40,6 +40,7 @@ export class OcComplementoFormDialogComponent implements OnInit {
     // FIN Monto a cobrar al Remitente
   });
 
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
   cobroARemitenteSubscription =
     this.cobroARemitenteControl.valueChanges.subscribe((val) => {
@@ -63,6 +64,9 @@ export class OcComplementoFormDialogComponent implements OnInit {
     });
 
   ngOnInit(): void {
+   if (this.dialogConfig.disabled) {
+      this.form.disable();
+    }
     this.getCotizacionMonedaDestinoPropietario()
   }
 
@@ -132,7 +136,7 @@ export class OcComplementoFormDialogComponent implements OnInit {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get anticipadoControl(): FormControl {

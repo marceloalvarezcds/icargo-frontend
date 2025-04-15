@@ -335,17 +335,20 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
     const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
     const montoAnticipo = propietarioTarifa * cantidadNominada * (anticipoPorcentaje / 100);
-    const totalComplemento = this.oc?.total_anticipo_complemento ?? 0
+    const saldo_efectivo = this.oc?.flete_saldo_efectivo ?? 0;
+    const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
+    const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
+    const totalComplemento = this.oc?.total_anticipo_complemento ?? 0;
 
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
       const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-      return montoAnticipo + totalComplemento - montoRetiradoEfectivo; // Restar anticipos de efectivo
+      return saldo_efectivo- montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
       const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
-      return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
+      return saldo_combustible - montoRetiradoCombustible; // Restar anticipos de combustible
     } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
       const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
-      return montoAnticipo - montoRetiradoLubricantes; // Restar anticipos de lubricantes
+      return saldo_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
     } else {
       return 0;
     }
@@ -414,8 +417,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       } else {
         dialogComponent = OcAnticipoRetiradoInsumoAnulacionDialogComponent;
       }
-
-      // Abre el diálogo correspondiente
       const dialogRef = this.dialog.open(dialogComponent, {
         width: '700px',
         data: {

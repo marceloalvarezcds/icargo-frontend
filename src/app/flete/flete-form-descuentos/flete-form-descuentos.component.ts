@@ -104,6 +104,13 @@ export class FleteFormDescuentosComponent {
       });
   }
 
+  show(event: TableEvent<FleteDescuento>): void {
+    const data = event.row;
+    this.dialog.open(DescuentoFormDialogComponent, {
+      data: { ...data, isShow: true },
+      panelClass: 'half-dialog',
+    });
+  }
 
   edit(event: TableEvent<FleteDescuento>): void {
     const data = event.row;

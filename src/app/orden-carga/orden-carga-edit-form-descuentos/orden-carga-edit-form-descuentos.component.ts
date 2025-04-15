@@ -119,6 +119,17 @@ export class OrdenCargaEditFormDescuentosComponent {
     this.buttonAnticipoClicked.emit();
   }
 
+   show({ row }: TableEvent<OrdenCargaDescuento>): void {
+      const dialogRef = this.getDialogRef(row);
+      const dialogConfig = {
+        ...dialogRef.componentInstance.dialogConfig,
+        disabled: true,
+      };
+      dialogRef.componentInstance.dialogConfig = dialogConfig;
+      this.buttonAnticipoClicked.emit();
+    }
+
+
   edit({ row }: TableEvent<OrdenCargaDescuento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();
@@ -145,8 +156,7 @@ export class OrdenCargaEditFormDescuentosComponent {
       oc: this.oc,
     };
     return this.dialog.open(OcDescuentoFormDialogComponent, {
-      width: '500px',
-      height: 'auto', data });
+      panelClass: 'half-dialog', data });
   }
 
   private emitOcChange(): void {

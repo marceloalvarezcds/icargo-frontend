@@ -102,9 +102,9 @@ export interface OrdenCarga extends OrdenCargaForm {
   total_anticipo_efectivo: number | null;
   total_anticipo_combustible:  number | null;
   total_anticipo_lubricantes: number | null;
-  saldo_efectivo: number | null;
-  saldo_combustible: number | null;
-  saldo_lubricantes: number | null;
+  flete_saldo_efectivo: number | null;
+  flete_saldo_combustible: number | null;
+  flete_saldo_lubricante: number | null;
   // Datos de fletes
   flete_producto_id: number;
   flete_anticipo_maximo: number;
@@ -382,9 +382,9 @@ export const mockOrdenCarga1: OrdenCarga = {
   merma_propietario_es_porcentual_descripcion: 'v',
   merma_propietario_tolerancia: 20,
   merma_propietario_valor: 5500,
-  saldo_efectivo: 1000,
-  saldo_combustible: 800,
-  saldo_lubricantes: 800,
+  flete_saldo_efectivo: 1000,
+  flete_saldo_combustible: 800,
+  flete_saldo_lubricante: 800,
   // Historial de Estados
   is_aceptado: false,
   is_cancelado: false,

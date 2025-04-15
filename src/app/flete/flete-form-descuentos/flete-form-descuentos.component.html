@@ -18,9 +18,11 @@
         [modelo]="modelo"
         [gestorCuentaId]="gestorCuentaId"
         [data]="list"
-        [hideShow]="true"
-        [isShow]="isShow"
+        [hideDelete]="true"
+        [isShow]="isEdit"
+        [hideEdit]="isShow"
         [formArray]="formArray"
+        (showClick)="show($event)"
         (editClick)="edit($event)"
         (deleteClick)="remove($event)"
       ></app-table>

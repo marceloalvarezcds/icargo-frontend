@@ -100,6 +100,14 @@ export class FleteFormComplementosComponent {
       });
   }
 
+  show(event: TableEvent<FleteComplemento>): void {
+    const data = event.row;
+    this.dialog.open(ComplementoFormDialogComponent, {
+      data: { ...data, isShow: true },
+      panelClass: 'half-dialog',
+    });
+  }
+
 
   edit(event: TableEvent<FleteComplemento>): void {
     const data = event.row;

@@ -328,7 +328,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
-
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
     this.info.get('tipo_carga_id')?.setValue(producto?.tipo_carga.id);
@@ -346,7 +345,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
     this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
     this.id = +this.route.snapshot.params.id;
-
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);

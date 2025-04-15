@@ -197,7 +197,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   get anticipoRetiradoCamion(): number {
     return this.oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0;
   }
-  saldoAnticipoConvertido: number = 0;
 
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {

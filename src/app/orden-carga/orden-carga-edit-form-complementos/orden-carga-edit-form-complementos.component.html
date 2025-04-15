@@ -25,7 +25,7 @@
     [modelo]="modelo"
     [gestorCuentaId]="gestorCargaId"
     [data]="list"
-    [hideShow]="true"
+    (showClick)="show($event)"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
     [hideShow]="oc?.estado === 'Conciliado'"

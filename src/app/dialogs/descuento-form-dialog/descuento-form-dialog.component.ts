@@ -23,6 +23,7 @@ export class DescuentoFormDialogComponent implements OnInit{
   monedaDestinoId: number | null = null;
   propietario_monto_ml = 0
   proveedor_monto_ml: number | null = null;
+  isShow = false;
 
   form = this.fb.group({
     concepto: [this.data?.concepto, Validators.required],
@@ -73,6 +74,9 @@ export class DescuentoFormDialogComponent implements OnInit{
     });
 
     ngOnInit(): void {
+      if ((this.data as any)?.isShow) {
+        this.form.disable();
+      }
       // Llamar a getLoggedUser() para obtener los datos del usuario logueado
       this.userService.getLoggedUser().subscribe((user) => {
         this.gestorCargaId = user.gestor_carga_id;
@@ -144,7 +148,14 @@ export class DescuentoFormDialogComponent implements OnInit{
 
 
   get actionText(): string {
+    if (this.isDisabled) {
+      return 'VER';
+    }
     return this.data ? 'EDITAR' : 'NUEVO';
+  }
+
+  get isDisabled(): boolean {
+    return (this.data as any)?.isShow === true;
   }
 
   get anticipadoControl(): FormControl {
@@ -186,7 +197,7 @@ export class DescuentoFormDialogComponent implements OnInit{
       } else {
         this.proveedor_monto_ml = null;
       }
-      
+
       const value = JSON.parse(JSON.stringify(this.form.value));
       const concepto: TipoConceptoDescuento = value.concepto;
       //const propietarioMoneda: Moneda = value.propietario_moneda;

@@ -416,17 +416,6 @@
           controlName="a_pagar"
         ></app-input-field-oc>
 
-
-        <app-unidad-field
-          *ngIf="onlyViewCreate"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Unidad"
-          [auto_select]="false"
-          [form]="form"
-          [groupName]="groupName"
-          [readonly]="true"
-        ></app-unidad-field>
-
         <app-moneda-field class="input-form-full col-xs-12 col-sm-6 col-md-2"
           *ngIf="onlyViewCreate"
           title="Moneda"
@@ -436,18 +425,6 @@
           [readonly]="true"
         ></app-moneda-field>
 
-        <app-input-field-oc
-          *ngIf="!isConciliar && (!showField && !isEditField || isConciliar)"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Valor mercaderia"
-          [groupName]="groupName"
-          [camionId]="camionId"
-          [productoId]="productoId"
-          [readonly]="true"
-          [form]="form"
-          controlName="valor"
-        ></app-input-field-oc>
-
         <app-unidad-field
           *ngIf="onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -458,7 +435,19 @@
           [readonly]="true"
         ></app-unidad-field>
 
-       <app-moneda-field
+        <app-input-field-oc
+          *ngIf="!isConciliar && (!showField && !isEditField || isConciliar)"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Valor producto"
+          [groupName]="groupName"
+          [camionId]="camionId"
+          [productoId]="productoId"
+          [readonly]="true"
+          [form]="form"
+          controlName="valor"
+        ></app-input-field-oc>
+
+        <app-moneda-field
           *ngIf="onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           [auto_select]="false"
@@ -467,6 +456,16 @@
           [groupName]="groupName"
           [readonly]="true"
         ></app-moneda-field>
+
+        <app-unidad-field
+          *ngIf="onlyViewCreate"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Unidad"
+          [auto_select]="false"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-unidad-field>
 
       </div>
     </div>

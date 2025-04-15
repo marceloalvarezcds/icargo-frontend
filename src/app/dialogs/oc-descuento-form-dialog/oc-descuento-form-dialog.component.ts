@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcDescuentoDialogData } from 'src/app/interfaces/oc-descuento-dialog-data';
@@ -68,7 +68,12 @@ export class OcDescuentoFormDialogComponent implements OnInit {
       this.form.controls['proveedor_id'].updateValueAndValidity();
     });
 
+    @Input() dialogConfig: { disabled: boolean } = { disabled: false };
+
     ngOnInit(): void {
+      if (this.dialogConfig.disabled) {
+        this.form.disable();
+      }
       this.getCotizacionMonedaDestinoPropietario()
     }
 
@@ -143,9 +148,9 @@ export class OcDescuentoFormDialogComponent implements OnInit {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
-
+  
   get anticipadoControl(): FormControl {
     return this.form.get('anticipado') as FormControl;
   }

@@ -8,13 +8,13 @@
       type="button"
       (click)="create()"
       id="create-button"
-      [disabled]="isShow || !oc?.flete_id 
-       || !(modelo | puede: a.CREAR:gestorCargaId) 
+      [disabled]="isShow || !oc?.flete_id
+       || !(modelo | puede: a.CREAR:gestorCargaId)
        || oc?.estado === 'Conciliado' || isEditPedido"
     ><mat-icon
       class="small-icon"
-      [ngClass]="{ 'disabled': isShow || !oc?.flete_id  
-      || !(modelo | puede: a.CREAR:gestorCargaId)} || 
+      [ngClass]="{ 'disabled': isShow || !oc?.flete_id
+      || !(modelo | puede: a.CREAR:gestorCargaId)} ||
       oc?.estado === 'Conciliado' || isEditPedido">
       add</mat-icon>
       DESCUENTO
@@ -28,7 +28,7 @@
     [modelo]="modelo"
     [gestorCuentaId]="gestorCargaId"
     [data]="list"
-    [hideShow]="true"
+    (showClick)="show($event)"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
     [hideShow]="oc?.estado === 'Conciliado'"

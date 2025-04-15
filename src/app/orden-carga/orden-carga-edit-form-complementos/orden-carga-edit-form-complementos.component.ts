@@ -20,6 +20,7 @@ import { create, edit, remove } from 'src/app/utils/table-event-crud';
 })
 export class OrdenCargaEditFormComplementosComponent {
   a = PermisoAccionEnum;
+
   columns: Column[] = [
     {
       def: 'id',
@@ -90,6 +91,7 @@ export class OrdenCargaEditFormComplementosComponent {
   modelo = m.ORDEN_CARGA_COMPLEMENTO;
 
   @Input() oc?: OrdenCarga;
+  ocComplemento?: OrdenCargaComplemento
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
   @Input() isEditPedido = false;
@@ -121,6 +123,17 @@ export class OrdenCargaEditFormComplementosComponent {
     this.buttonAnticipoClicked.emit();
   }
 
+  show({ row }: TableEvent<OrdenCargaComplemento>): void {
+    const dialogRef = this.getDialogRef(row);
+    const dialogConfig = {
+      ...dialogRef.componentInstance.dialogConfig,
+      disabled: true,
+    };
+    dialogRef.componentInstance.dialogConfig = dialogConfig;
+    this.buttonAnticipoClicked.emit();
+  }
+
+
   edit({ row }: TableEvent<OrdenCargaComplemento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();
@@ -147,8 +160,7 @@ export class OrdenCargaEditFormComplementosComponent {
       item,
     };
     return this.dialog.open(OcComplementoFormDialogComponent, {
-      width: '500px',
-      height: 'auto',
+      panelClass: 'half-dialog',
       data });
   }
 

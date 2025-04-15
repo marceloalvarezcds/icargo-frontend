@@ -22,6 +22,7 @@ export class ComplementoFormDialogComponent implements OnInit {
   monedaDestinoId: number | null = null;
   propietario_monto_ml = 0
   remitente_monto_ml: number | null = null;
+  isShow = false;
 
   form = this.fb.group({
     concepto: [this.data?.concepto, Validators.required],
@@ -68,6 +69,9 @@ export class ComplementoFormDialogComponent implements OnInit {
     });
 
     ngOnInit(): void {
+      if ((this.data as any)?.isShow) {
+        this.form.disable();
+      }
       // Llamar a getLoggedUser() para obtener los datos del usuario logueado
       this.userService.getLoggedUser().subscribe((user) => {
         this.gestorCargaId = user.gestor_carga_id;
@@ -153,8 +157,16 @@ export class ComplementoFormDialogComponent implements OnInit {
   }
 
   get actionText(): string {
+    if (this.isDisabled) {
+      return 'VER';
+    }
     return this.data ? 'EDITAR' : 'NUEVO';
   }
+
+  get isDisabled(): boolean {
+    return (this.data as any)?.isShow === true;
+  }
+
 
   get anticipadoControl(): FormControl {
     return this.form.get('anticipado') as FormControl;
