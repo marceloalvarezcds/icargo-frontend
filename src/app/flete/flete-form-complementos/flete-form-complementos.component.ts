@@ -24,23 +24,6 @@ export class FleteFormComplementosComponent {
       sticky: true,
     },
     {
-      def: 'remitente_monto',
-      title: 'A Cobrar',
-      value: (element: FleteComplemento) => element.remitente_monto,
-      type: 'number',
-    },
-    {
-      def: 'remitente_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.remitente_moneda_nombre,
-    },
-    {
-      def: 'remitente_monto_ml',
-      title: 'A Cobrar ML',
-      value: (element: FleteComplemento) => element.remitente_monto_ml,
-      type: 'number',
-    },
-    {
       def: 'propietario_monto',
       title: 'A Pagar',
       value: (element: FleteComplemento) => element.propietario_monto,
@@ -57,6 +40,24 @@ export class FleteFormComplementosComponent {
       title: 'Moneda',
       value: (element: FleteComplemento) => element.propietario_moneda_nombre,
     },
+    {
+      def: 'remitente_monto',
+      title: 'A Cobrar',
+      value: (element: FleteComplemento) => element.remitente_monto,
+      type: 'number',
+    },
+    {
+      def: 'remitente_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteComplemento) => element.remitente_moneda_nombre,
+    },
+    {
+      def: 'remitente_monto_ml',
+      title: 'A Cobrar ML',
+      value: (element: FleteComplemento) => element.remitente_monto_ml,
+      type: 'number',
+    },
+
     {
       def: 'anticipado',
       title: 'Anticipado',

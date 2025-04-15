@@ -26,7 +26,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       def: 'tarifa_flete',
       title: 'Tarifa Flete',
       value: (element: OrdenCargaRemisionResultado) =>
-        `${element.tarifa_flete} ${this.getFleteUnidad(element)}`,
+        `${element.tarifa_flete} ${this.getFleteTarifaUnidad(element)}`,
       type: 'text',
     },
     {
@@ -39,7 +39,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       def: 'tolerancia',
       title: 'Tarifa Merma',
       value: (element: OrdenCargaRemisionResultado) =>
-        `${element.merma_valor} ${this.getFleteUnidad(element)}`,
+        `${element.merma_valor} ${this.getFleteMermaUnidad(element)}`,
       type: 'text',
     },
     {
@@ -123,12 +123,22 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     this.lista = list.slice();
   }
 
-  getFleteUnidad(element: OrdenCargaRemisionResultado): string {
+  getFleteTarifaUnidad(element: OrdenCargaRemisionResultado): string {
     if (element.responsable === 'Gestor de Carga') {
       return this.oc?.flete_tarifa_unidad_gestor_carga || '';
     }
     if (element.responsable === 'Propietario') {
       return this.oc?.flete_tarifa_unidad || '';
+    }
+    return '';
+  }
+
+  getFleteMermaUnidad(element: OrdenCargaRemisionResultado): string {
+    if (element.responsable === 'Gestor de Carga') {
+      return this.oc?.flete_merma_unidad_gestor_carga || '';
+    }
+    if (element.responsable === 'Propietario') {
+      return this.oc?.flete_merma_unidad || '';
     }
     return '';
   }

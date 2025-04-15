@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual, unset } from 'lodash';
 import { filter } from 'rxjs/operators';
@@ -205,6 +206,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private fleteService: FleteService,
     private userService: UserService,
     private snackbar: SnackbarService,
+    private matSnackbar: MatSnackBar,
     private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
@@ -213,6 +215,26 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getData();
   }
+
+  // editar() {
+  //   this.form.enable();
+
+  //   const snackBarRef: MatSnackBarRef<SimpleSnackBar> = this.matSnackbar.open(
+  //     '¿Desea copiar el pedido?',
+  //     'Sí',
+  //     {
+  //       duration: 5000, // 5 segundos
+  //     }
+  //   );
+
+  //   snackBarRef.onAction().subscribe(() => {
+  //     console.log('some')
+  //   });
+  // }
+
+  // ampliar(){
+  //   this.form.get('condicion.condicion_cantidad')?.enable();
+  // }
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();

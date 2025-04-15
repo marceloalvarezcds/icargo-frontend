@@ -111,6 +111,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_destino_id: number;
   flete_destino_nombre: string;
   flete_tarifa_unidad_gestor_carga: string;
+  flete_merma_unidad_gestor_carga: string;
   flete_moneda_id:number;
   flete_gestor_carga_id: number;
   flete_gestor_carga_nombre: string;
@@ -126,6 +127,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_remitente_numero_documento: string;
   flete_tarifa_unidad_abreviatura: string;
   flete_tarifa_unidad: string;
+  flete_merma_unidad: string;
   flete_tarifa: number;
 
   flete_tipo: TipoFleteEnum;
@@ -339,6 +341,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_gestor_carga_id: flete0.gestor_carga_id,
   flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
   flete_tarifa_unidad_gestor_carga:'USD/TON',
+  flete_merma_unidad_gestor_carga: 'PYG/kg',
   flete_moneda_id: 1,
   gestor_carga_moneda_id: 10,
   flete_limite_credito: flete0_limite_credito,
@@ -356,6 +359,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_saldo: 0,
   flete_tarifa_unidad_abreviatura: 'kg',
   flete_tarifa_unidad: 'PYG/kg',
+  flete_merma_unidad: 'PYG/KG',
   flete_producto_id: 1,
   linea_disponible: 9000,
   gestor_carga_id: flete0.gestor_carga_id,
