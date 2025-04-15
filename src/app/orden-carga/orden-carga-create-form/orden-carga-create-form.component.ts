@@ -110,8 +110,10 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       id_orden_carga: null,
       origen_id: null,
       comentarios: null,
+      condicion_propietario_unidad_id:null,
       unidad_id: null,
       moneda_id: null,
+      condicion_propietario_moneda_id: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
