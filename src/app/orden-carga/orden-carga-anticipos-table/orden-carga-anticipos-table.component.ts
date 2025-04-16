@@ -331,23 +331,35 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   getSaldoAnticipo(anticipo: any): number {
-    const propietarioTarifa = Math.round(((this.oc?.condicion_propietario_tarifa ?? 0) * (this.cotizacionOrigen ?? 0)) / this.cotizacionDestino!);
-    const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
-    const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
-    const montoAnticipo = propietarioTarifa * cantidadNominada * (anticipoPorcentaje / 100);
     const saldo_efectivo = this.oc?.flete_saldo_efectivo ?? 0;
     const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
     const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
-    const totalComplemento = this.oc?.total_anticipo_complemento ?? 0;
+    const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+    const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
+    const flete_monto_efectivo_complemento = this.oc?.flete_monto_efectivo_complemento ?? 0;
+    const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
+    const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
+
+    if (limiteAnticipoCamion === 0) {
+      // Cuando el camión no tiene límite, mostrar montos directos. Limite de la oc
+      if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
+        return flete_monto_efectivo_complemento - montoRetiradoEfectivo;
+      } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+        return flete_monto_combustible - montoRetiradoCombustible;
+      } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
+        return flete_monto_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
+      } else {
+        return 0;
+      }
+    }
 
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
-      const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
       return saldo_efectivo- montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
-      const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
       return saldo_combustible - montoRetiradoCombustible; // Restar anticipos de combustible
     } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
-      const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
       return saldo_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
     } else {
       return 0;

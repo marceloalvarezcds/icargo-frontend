@@ -17,6 +17,7 @@ import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.serv
 import { MonedaService } from 'src/app/services/moneda.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { UserService } from 'src/app/services/user.service';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
@@ -44,7 +45,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   monedaDestinoId: number | null = null;
   monto_mon_local = 0
   insumoMonedaId: number | null = null;
-
+  gestorCargaId: number | null = null;
 
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
@@ -326,15 +327,29 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     private fb: FormBuilder,
     private monedaService: MonedaService,
     private monedaCotizacionService: MonedaCotizacionService,
-    private cdr: ChangeDetectorRef,
+    private userService: UserService,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
+          // Llamar a getLoggedUser() para obtener los datos del usuario logueado
+          this.userService.getLoggedUser().subscribe((user) => {
+            this.gestorCargaId = user.gestor_carga_id;
+
+            this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
+              this.monedaDestinoId = moneda?.id ?? null;
+
+              this.monedaCotizacionService
+                .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
+                .subscribe((responseDestino) => {
+                  this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+
+                  console.log('Cotización destino cargada:', this.cotizacionDestino);
+                });
+            });
+          });
   }
-
-
 
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
@@ -369,7 +384,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       const monto_retirado = formValue.monto_retirado;
       const monedaDestinoSubmitId = this.oc!.gestor_carga_moneda_id;
 
-      this.monedaCotizacionService.getCotizacionByGestor(this.insumoMonedaId!, this.oc!.gestor_carga_id).subscribe({
+      this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId!, this.oc!.gestor_carga_id).subscribe({
         next: (responseOrigen) => {
           const cotizacionOrigen = responseOrigen?.cotizacion_moneda;
           if (!cotizacionOrigen) {
@@ -377,7 +392,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
             return;
           }
 
-          this.monedaCotizacionService.getCotizacionByGestor(monedaDestinoSubmitId, this.oc!.gestor_carga_id).subscribe({
+          this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId!, this.oc!.gestor_carga_id).subscribe({
             next: (responseDestino) => {
               const cotizacionDestino = responseDestino?.cotizacion_moneda;
               if (!cotizacionDestino) {
@@ -473,33 +488,10 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
           this.fleteId,
           this.tipoInsumoId
         )
-        .subscribe((response) => {
-          this.setFleteAnticipo(response);
-          const fleteAnticipoId = response.flete_id;
-          if (fleteAnticipoId != null && !isNaN(fleteAnticipoId)) {
-            this.getInsumoVentaPrecio(fleteAnticipoId, response.id ?? 0);
-          } else {
-            console.error('fleteAnticipoId no es un número válido o es null/undefined');
-          }
-        });
+        .subscribe(this.setFleteAnticipo.bind(this));
     }
   }
 
-  private getInsumoVentaPrecio(fleteAnticipoId: number, id: number): void {
-    if (fleteAnticipoId) {
-      this.insumoVentaPrecio
-        .getListByFleteId(fleteAnticipoId)
-        .subscribe((response) => {
-          const item = response.find((item) => item.id === id);
-          if (item) {
-
-            this.insumoMonedaId = item.insumo_moneda_id;
-          } else {
-            console.log('No se encontró el item con el id proporcionado.');
-          }
-        });
-    }
-  }
 
   private loadOrdenCargaAnticipoSaldo(
     fleteAnticipoId: number | null | undefined

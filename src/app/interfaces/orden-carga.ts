@@ -119,6 +119,8 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_numero_lote?: string | null;
   flete_monto_efectivo: number;
   flete_monto_efectivo_complemento: number;
+  flete_monto_combustible: number;
+  flete_monto_lubricante: number;
   flete_origen_id: number;
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
@@ -348,6 +350,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_numero_lote: flete0.numero_lote,
   flete_monto_efectivo: flete0_monto_efectivo,
   flete_monto_efectivo_complemento: flete0_monto_efectivo,
+  flete_monto_combustible: 9000,
+  flete_monto_lubricante: 1000,
   flete_origen_id: flete0.origen_id,
   flete_origen_nombre: flete0.origen_nombre,
   flete_producto_descripcion: flete0.producto_descripcion,
