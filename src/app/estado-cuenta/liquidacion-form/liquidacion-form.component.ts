@@ -33,7 +33,6 @@ import { Moneda, mockMoneda1 } from 'src/app/interfaces/moneda';
   selector: 'app-liquidacion-form',
   templateUrl: './liquidacion-form.component.html',
   styleUrls: ['./liquidacion-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionFormComponent implements OnInit {
 
@@ -45,7 +44,7 @@ export class LiquidacionFormComponent implements OnInit {
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
-  moneda?:Moneda;
+  moneda?:Moneda = mockMoneda1;
 
   @Input() data? : ContraparteInfoMovimientoLiq;
 
@@ -180,6 +179,7 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   private getData(): void {
+
     let {
       backUrl,
       etapa,
@@ -198,13 +198,13 @@ export class LiquidacionFormComponent implements OnInit {
 
     this.etapa = etapa;
 
-    if (!!this.data){
+    /*if (!!this.data){
       this.etapa = this.data.etapa as LiquidacionEtapaEnum;
       contraparte_id = this.data.contraparte_id;
       contraparte = this.data.contraparte;
       contraparte_numero_documento = this.data.contraparte_numero_documento;
       tipo_contraparte_id = this.data.tipo_contraparte_id;
-    }
+    }*/
 
     if (es_pdv) {
 
@@ -218,8 +218,8 @@ export class LiquidacionFormComponent implements OnInit {
         )
         //.pipe(filter((e) => !!e))
         .subscribe((estadoCuenta) => {
-          this.estadoCuenta = estadoCuenta!;
-          this.getList();
+          this.estadoCuenta = estadoCuenta ?? undefined;
+          this.getListPDV(contraparte_id, punto_venta_id, flujo);
         });
 
     } else {
@@ -231,25 +231,17 @@ export class LiquidacionFormComponent implements OnInit {
         contraparte,
         contraparte_numero_documento
       )
-      .pipe(filter((e) => !!e))
+      //.pipe(filter((e) => !!e))
       .subscribe((estadoCuenta) => {
-        this.estadoCuenta = estadoCuenta!;
-        this.getList();
+        this.estadoCuenta = estadoCuenta ?? undefined;
+        this.getList(flujo);
       });
 
     }
 
-    // TODO: obtenemos la moneda local
-    this.moneda = mockMoneda1;
   }
 
-  getList(): void {
-    let {
-      contraparte_id,
-      punto_venta_id,
-      es_pdv,
-      flujo
-    } = this.route.snapshot.queryParams;
+  getList(flujo:string): void {
 
     if (this.estadoCuenta!.es_pdv && !flujo) {
       this.list = [];
@@ -259,35 +251,42 @@ export class LiquidacionFormComponent implements OnInit {
 
     const etapa = this.etapa! as LiquidacionEtapaEnum;
 
-    if (es_pdv) {
+    this.movimientoService
+    .getListByEstadoCuenta(
+      this.estadoCuenta!,
+      this.estadoCuenta!.contraparte_id,
+      etapa
+    )
+    .subscribe((data) => {
+      this.list = data;
+      this.movimientosSelected = [];
+    });
 
-      this.movimientoService
-      .getListByEstadoCuenta(
-        this.estadoCuenta!,
-        contraparte_id,
-        etapa,
-        punto_venta_id,
-        flujo
-      )
-      .subscribe((data) => {
-        this.list = data;
-        this.movimientosSelected = [];
-      });
 
-    } else {
+  }
 
-      this.movimientoService
-      .getListByEstadoCuenta(
-        this.estadoCuenta!,
-        this.estadoCuenta!.contraparte_id,
-        etapa
-      )
-      .subscribe((data) => {
-        this.list = data;
-        this.movimientosSelected = [];
-      });
+  getListPDV(contraparte_id:number, punto_venta_id:number, flujo:string): void {
 
+    if (this.estadoCuenta!.es_pdv && !flujo) {
+      this.list = [];
+      this.movimientosSelected = [];
+      return;
     }
+
+    const etapa = this.etapa! as LiquidacionEtapaEnum;
+
+      this.movimientoService
+        .getListByEstadoCuenta(
+          this.estadoCuenta!,
+          contraparte_id,
+          etapa,
+          punto_venta_id,
+          flujo
+        )
+        .subscribe((data) => {
+          this.list = data;
+          this.movimientosSelected = [];
+       });
 
   }
 
