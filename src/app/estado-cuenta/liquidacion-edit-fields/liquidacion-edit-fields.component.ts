@@ -290,7 +290,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         };
       }
       acumulador[clave].total += monto;
-      acumulador[clave].residuo += monto;
+      acumulador[clave].residuo += Math.abs(monto);
 
       return acumulador;
     }, {});
