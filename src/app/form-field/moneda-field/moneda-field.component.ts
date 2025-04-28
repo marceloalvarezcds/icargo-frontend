@@ -26,14 +26,18 @@ export class MonedaFieldComponent {
           if (resp){
             resp.forEach((ele:any)=>{
               if (ele[this.auto_select_property] === this.auto_select_filtro){
-                
-                if (this.value.toString() === ((v: Moneda) => v.id).toString() ) {                  
+
+                const mon = this.value(ele);
+                console.log("moneda: ", mon);
+                this.control.setValue(mon);
+
+                /*if (this.value.toString() === ((v: Moneda) => v.id).toString() ) {
                   this.value(ele.id);
                   this.control.setValue(ele.id);
                 } else {
                   this.value(ele);
                   this.control.setValue(ele);
-                }
+                }*/
 
               }
             });
