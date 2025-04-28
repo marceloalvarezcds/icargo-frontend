@@ -150,7 +150,7 @@ export class OcDescuentoFormDialogComponent implements OnInit {
   get actionText(): string {
     return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
-  
+
   get anticipadoControl(): FormControl {
     return this.form.get('anticipado') as FormControl;
   }
@@ -198,8 +198,8 @@ export class OcDescuentoFormDialogComponent implements OnInit {
                   id: this.data?.id,
                   flete_id: this.data?.flete_id,
                   orden_carga_id: this.dialogData.orden_carga_id,
-                  propietario_moneda_id: formValue.propietario_moneda_id?.id,
-                  proveedor_moneda_id: formValue.proveedor_moneda_id?.id,
+                  propietario_moneda_id: formValue.propietario_moneda_id,
+                  proveedor_moneda_id: formValue.proveedor_moneda_id,
               })
           );
           const formData = new FormData();
