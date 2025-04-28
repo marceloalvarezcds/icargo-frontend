@@ -270,8 +270,8 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     if (this.item?.es_orden_pago) {
       this.totalMonedas = [{
           moneda:this.monedaLocal,
-          total:this.item.pago_cobro,
-          residuo:this.item.pago_cobro,
+          total:Math.abs(this.item.pago_cobro!),
+          residuo: Math.abs(this.item.pago_cobro!),
           instrumento:0
         }];
       return;
@@ -290,12 +290,17 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         };
       }
       acumulador[clave].total += monto;
-      acumulador[clave].residuo += Math.abs(monto);
+      acumulador[clave].residuo += monto;
 
       return acumulador;
     }, {});
 
     console.log("resultado: ", resultado);
+
+    Object.keys(resultado).forEach(key => {
+      resultado[key].total = Math.abs(resultado[key].total);
+      resultado[key].residuo = Math.abs(resultado[key].residuo);
+    });
 
     this.totalMonedas = Object.values(resultado);;
   }
