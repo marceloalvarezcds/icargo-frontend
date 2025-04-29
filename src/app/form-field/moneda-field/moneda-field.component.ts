@@ -31,14 +31,6 @@ export class MonedaFieldComponent {
                 console.log("moneda: ", mon);
                 this.control.setValue(mon);
 
-                /*if (this.value.toString() === ((v: Moneda) => v.id).toString() ) {
-                  this.value(ele.id);
-                  this.control.setValue(ele.id);
-                } else {
-                  this.value(ele);
-                  this.control.setValue(ele);
-                }*/
-
               }
             });
           }

@@ -61,7 +61,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   @Input() item?: InsumoPuntoVentaPrecioList;
 
   @Output() dataSaved = new EventEmitter<void>();
-  @Output() valueChange = new EventEmitter<number>();
+  //@Output() valueChange = new EventEmitter<number>();
 
   constructor(
     private fb: FormBuilder,
@@ -182,8 +182,8 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   }
 
   onMonedaSeleccionada(moneda: any) {
-    this.form.get('moneda_id')?.setValue(moneda?.id);
-    this.valueChange.emit(moneda?.id);
+    //this.form.get('moneda_id')?.setValue(moneda?.id);
+    //this.valueChange.emit(moneda?.id);
   }
 
 
