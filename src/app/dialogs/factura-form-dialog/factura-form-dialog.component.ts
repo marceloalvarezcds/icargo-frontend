@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { pairwise } from 'rxjs/operators';
 import { facturaData } from 'src/app/form-data/factura';
 import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
@@ -47,14 +48,6 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     retencion_movimiento_id: [this.data?.retencion_movimiento_id],
     tipo_cambio_moneda: [this.data?.tipo_cambio_moneda ?? 1, [Validators.required]],
   });
-
-  get check_sentido_mov_iva_pagar():boolean {
-    return true;
-  }
-
-  get check_sentido_mov_iva_cobrar():boolean {
-    return true;
-  }
 
   get actionText(): string {
     return this.data ? this.dialogData.isShow ? 'Ver' : 'Editar' : 'Crear';
@@ -120,6 +113,12 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     if (this.dialogData.isShow) {
       this.form.disable();
     }
+
+    if (this.editFormCheck) {
+      this.form.controls['sentido_mov_iva']?.disable();
+      this.form.controls['sentido_mov_retencion']?.disable();
+    }
+
   }
 
   ngAfterViewInit(): void {
@@ -156,21 +155,21 @@ export class FacturaFormDialogComponent implements AfterViewInit {
 
   onMonedaSelect(mon:Moneda){
     this.moneda = mon;
-    
+
     if (mon.id !== this.monedaLocal!.id){
       this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
         .subscribe(res=>{
           if (res){
             this.form.controls['tipo_cambio_moneda'].enable();
             this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
-            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda); 
+            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
             this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
           }
       });
     } else {
       this.form.controls['tipo_cambio_moneda'].disable();
       this.form.controls['tipo_cambio_moneda'].setValidators([]);
-      this.form.controls['tipo_cambio_moneda'].setValue(1); 
+      this.form.controls['tipo_cambio_moneda'].setValue(1);
       this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
     }
   }
@@ -191,4 +190,5 @@ export class FacturaFormDialogComponent implements AfterViewInit {
   private close(data: FacturaForm): void {
     this.dialogRef.close(data);
   }
+
 }

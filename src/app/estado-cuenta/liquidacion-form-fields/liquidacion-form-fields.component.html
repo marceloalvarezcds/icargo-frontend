@@ -1,6 +1,7 @@
 <form [formGroup]="form">
 
     <app-estado-cuenta-detalle
+      class="row"
       [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
       [showVistaConsolidada]="false"
@@ -14,7 +15,7 @@
 
     <app-saldo
       #saldoView
-      class="col-xs-12 col-sm-9"
+      class="row"
       title="Saldo en Cuenta"
       [showResumen]="true"
       [showIngresoEgreso]="false"
