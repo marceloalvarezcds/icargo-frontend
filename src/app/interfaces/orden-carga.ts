@@ -74,7 +74,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
-
+  combinacion_chofer_puede_recibir_anticipos: boolean;
   combinacion_propietario_id: number;
   combinacion_chofer_id: number;
   chofer_nombre: string;
@@ -312,6 +312,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso: null,
   camion_placa: camion0.placa,
   camion_propietario_nombre: camion0.propietario_nombre,
+  combinacion_chofer_puede_recibir_anticipos: false,
   camion_propietario_puede_recibir_anticipos: true,
   camion_propietario_documento: 'string',
   camion_estado: 'activo',

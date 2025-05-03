@@ -74,6 +74,7 @@ export class FleteFormComplementosComponent {
   @Input() user?: User
   @Input() isShow = false;
   @Input() isEdit = false;
+  @Input() isEditCopyForm = false;
   @Input() set complementoList(list: FleteComplemento[]) {
     list.forEach((item) => {
       this.formArray.push(this.createForm(item));

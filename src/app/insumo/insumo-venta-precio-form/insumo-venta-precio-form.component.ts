@@ -71,7 +71,8 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
     return this.form.get('punto_venta_id') as FormArray;
   }
 
-  constructor( private fb: FormBuilder,
+  constructor(
+    private fb: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
     private snackbar: SnackbarService,
@@ -107,13 +108,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   ngOnInit(): void {
     this.getData();
     this.form.get('punto_venta_id')?.setValue(this.pdv?.punto_venta_id);
-    // this.form.get('created_at_insumo')?.valueChanges.subscribe((value: string) => {
-    //   if (value) {
-    //     const date = new Date(value);
-    //     this.hora = this.convertTo12HourFormat(date);
-    //     this.form.get('hora')?.setValue(this.hora);
-    //   }
-    // });
   }
 
   formatearHora24(date: Date): string {
@@ -178,13 +172,6 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
           this.form.get('moneda_id')?.setValue(insumo.insumo_moneda_nombre || null);
           this.form.get('observacion')?.setValue(insumo.observacion || null);
           this.form.get('hora_inicio')?.setValue(insumo.hora_inicio || null);
-          // this.form.get('created_at_insumo')?.setValue(insumo.created_at_insumo || null);
-
-          // if (insumo.created_at_insumo) {
-          //     const dateFin = new Date(insumo.created_at_insumo);
-          //     this.hora = dateFin.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          //     this.form.get('hora')?.setValue(this.hora);
-          // }
         this.enableOtherFields()
       }
 

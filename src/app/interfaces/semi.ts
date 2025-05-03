@@ -71,6 +71,11 @@ export interface Semi {
   color_id: number | null;
   color: Color | null;
   anho: number;
+
+  promedio_semi_gestor: number,
+  promedio_semi_general: number,
+  cantidad_semi_evaluaciones: number,
+  cantidad_semi_evaluaciones_gestor: number;
   // FIN Detalles del Camión
   // INICIO Capacidad del Camión
   bruto: number;
@@ -189,6 +194,11 @@ export const mockSemi: Semi = {
   color_id: color0.id,
   color: color0,
   anho: 2020,
+
+  promedio_semi_general: 1,
+  promedio_semi_gestor:2,
+  cantidad_semi_evaluaciones:2,
+  cantidad_semi_evaluaciones_gestor:1,
   // FIN Detalles del Camión
   // INICIO Capacidad del Camión
   bruto: 1000,

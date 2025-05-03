@@ -5,6 +5,7 @@ import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/s
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual, unset } from 'lodash';
 import { filter } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { FleteConfirmationDialogComponent } from 'src/app/dialogs/flete-confirmation-dialog/flete-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -14,6 +15,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getFleteData } from 'src/app/form-data/flete-confirmation-data';
+import { ConfirmationDialogData } from 'src/app/interfaces/confirmation-dialog-data';
 import { Flete } from 'src/app/interfaces/flete';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
@@ -36,6 +38,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   propietarioId?: number;
   estado = EstadoEnum.ACTIVO;
   isCancel = false;
+  isEditPressed= false
+  isEditCopyForm = false;
+  isCopyFlete = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -157,7 +162,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   });
 
   get puedeModificar(): boolean {
-    if (this.isShow || !this.isEdit) {
+    if (this.isShow || !this.isEdit || this.isEditCopyForm) {
       return false;
     }
     return this.userService.checkPermisoAndGestorCargaId(
@@ -216,25 +221,128 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  // editar() {
-  //   this.form.enable();
+  copiar() {
+    this.isEditPressed = false
+    this.isEditCopyForm = false;
+    this.isCopyFlete = true;
+    this.form.enable();
+    const copiedData = {
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    };
 
-  //   const snackBarRef: MatSnackBarRef<SimpleSnackBar> = this.matSnackbar.open(
-  //     '¿Desea copiar el pedido?',
-  //     'Sí',
-  //     {
-  //       duration: 5000, // 5 segundos
-  //     }
-  //   );
+    delete copiedData.id;
+    delete copiedData.createdAt;
+    delete copiedData.updatedAt;
 
-  //   snackBarRef.onAction().subscribe(() => {
-  //     console.log('some')
-  //   });
-  // }
+    this.info.patchValue(copiedData);
+    this.tramo.patchValue(copiedData);
+    this.condicion.patchValue(copiedData);
+    this.merma.patchValue(copiedData);
+    this.emisionOrden.patchValue(copiedData);
+    this.anticipos.setValue(copiedData.anticipos || []);
+    this.complementos.setValue(copiedData.complementos || []);
+    this.descuentos.setValue(copiedData.descuentos || []);
 
-  // ampliar(){
-  //   this.form.get('condicion.condicion_cantidad')?.enable();
-  // }
+    this.isEdit = true;
+    this.id = copiedData.id;
+    this.copiarFlete();
+  }
+
+  private copiarFlete(): void {
+    const formData = new FormData();
+    const data = JSON.parse(JSON.stringify({
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    }));
+
+    Object.keys(data).forEach(key => {
+      if (typeof data[key] === 'string' && key !== 'email') {
+        data[key] = data[key].toUpperCase();
+      }
+    });
+
+    formData.append('data', JSON.stringify(data));
+
+    this.fleteService.create(formData).subscribe((flete) => {
+      this.matSnackbar.open('Pedido copiado y guardado como nuevo.', 'Cerrar', {
+        duration: 3000,
+      });
+
+      this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
+
+      const dialogData: ConfirmationDialogData = {
+        title: '¿Quieres cancelar el pedido original?',
+        message: 'Si confirma, el pedido original será cancelado.',
+        closeButtonText: 'No',
+        confirmedButtonText: 'Sí',
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: dialogData
+      });
+
+      dialogRef.afterClosed().subscribe((confirmed) => {
+        if (confirmed) {
+          this.fleteService.cancel(this.id!).subscribe(() => {
+            this.getData();
+            this.matSnackbar.open(
+              'Pedido original cancelado correctamente.',
+              'Cerrar',
+              { duration: 3000 }
+            );
+          });
+        }
+      });
+
+      this.id = flete.id;
+    });
+  }
+
+  ampliar() {
+    this.isEditPressed = false;
+
+    const condicionGroup = this.form.get('condicion') as FormGroup;
+    const cantidadCtrl = condicionGroup?.get('condicion_cantidad');
+    const saldoCtrl = condicionGroup?.get('saldo');
+
+    if (cantidadCtrl && saldoCtrl) {
+      cantidadCtrl.enable();
+
+      const saldo = saldoCtrl.value;
+
+      cantidadCtrl.clearValidators();
+
+      cantidadCtrl.setValidators([
+        Validators.required,
+        Validators.min(saldo) 
+      ]);
+
+      cantidadCtrl.updateValueAndValidity();
+    }
+  }
+
+  delete(){
+    this.dialog.cancelStatusConfirm(
+      '¿Está seguro que desea cancelar el Pedido?',
+      this.fleteService.delete(this.id!),
+      () => {
+        this.router.navigate([this.backUrl]);
+      }
+    );
+  }
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
@@ -273,8 +381,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
-    console.log(this.form);
 
     if (this.form.valid) {
       const data: FleteConfirmationDialogData = {
@@ -372,7 +478,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       this.isShow = /ver/.test(this.router.url);
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
-        console.log('form data:', data);
         this.estado = data.estado;
         this.isCancel = data.estado === EstadoEnum.CANCELADO;
         this.gestorCargaId = data.gestor_carga_id;
@@ -383,6 +488,18 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         if (!this.puedeModificar) {
           this.form.disable();
         }
+        if (this.isEdit){
+          if (this.item?.is_in_orden_carga) {
+            this.matSnackbar.open(
+              'Este pedido no se puede editar porque ya está relacionado con una orden de carga.',
+              'Cerrar',
+              { duration: 5000 }
+            );
+            this.isEditCopyForm = true
+            this.isEditPressed = true
+            this.form.disable();
+          }
+         }
 
         this.form.patchValue({
           info: {

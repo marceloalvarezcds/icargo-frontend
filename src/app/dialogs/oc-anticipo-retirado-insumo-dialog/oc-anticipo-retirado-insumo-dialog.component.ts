@@ -333,22 +333,21 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
-          // Llamar a getLoggedUser() para obtener los datos del usuario logueado
-          this.userService.getLoggedUser().subscribe((user) => {
-            this.gestorCargaId = user.gestor_carga_id;
+      // Llamar a getLoggedUser() para obtener los datos del usuario logueado
+      this.userService.getLoggedUser().subscribe((user) => {
+        this.gestorCargaId = user.gestor_carga_id;
 
-            this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
-              this.monedaDestinoId = moneda?.id ?? null;
+        this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
+          this.monedaDestinoId = moneda?.id ?? null;
 
-              this.monedaCotizacionService
-                .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
-                .subscribe((responseDestino) => {
-                  this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+          this.monedaCotizacionService
+            .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
+            .subscribe((responseDestino) => {
+              this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
 
-                  console.log('Cotización destino cargada:', this.cotizacionDestino);
-                });
             });
-          });
+        });
+      });
   }
 
   get simboloMonedaGestora(): string {

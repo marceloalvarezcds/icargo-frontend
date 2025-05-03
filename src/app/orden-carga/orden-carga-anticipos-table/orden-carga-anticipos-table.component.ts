@@ -28,6 +28,7 @@ import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { GestorCarga } from 'src/app/interfaces/gestor-carga';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -238,6 +239,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef,
     private monedaService: MonedaService,
     private monedaCotizacionService: MonedaCotizacionService,
+    private snackBar: MatSnackBar
   ) {}
 
   getMonedaByGestor(): void {
@@ -398,11 +400,27 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createEfectivo(): void {
+    if (!this.oc?.combinacion_chofer_puede_recibir_anticipos) {
+      this.snackBar.open('El Chofer no esta habilitado para recibir anticipos.', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
     create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();
   }
 
   createInsumo(): void {
+    if (!this.oc?.combinacion_chofer_puede_recibir_anticipos) {
+      this.snackBar.open('El Chofer no esta habilitado para recibir anticipos.', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
     create(this.getDialogInsumoRef(), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();
   }
@@ -488,6 +506,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     OcAnticipoRetiradoEfectivoDialogComponent,
     OrdenCargaAnticipoRetirado
   > {
+
     const data: OcAnticipoRetiradoTestDialogData = {
       orden_carga_id: this.oc!.id,
       flete_id: this.oc!.flete_id,

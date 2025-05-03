@@ -88,8 +88,6 @@ export class DescuentoFormDialogComponent implements OnInit{
             .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
             .subscribe((responseDestino) => {
               this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
-
-              console.log('Cotización destino cargada:', this.cotizacionDestino);
             });
         });
       });
@@ -100,8 +98,6 @@ export class DescuentoFormDialogComponent implements OnInit{
       this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe(
         (response) => {
           this.monedaDestinoId = response?.id ?? null;
-          console.log('monedaDestinoId:', this.monedaDestinoId);
-          console.log('gestorCargaId:', this.gestorCargaId);
         }
       );
     }

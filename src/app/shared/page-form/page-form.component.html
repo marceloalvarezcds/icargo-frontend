@@ -138,8 +138,6 @@
           <mat-icon>visibility</mat-icon> VER OC
         </button>
 
-
-
         <button
             mat-flat-button
             class="botones" color="primary"
@@ -156,7 +154,8 @@
         <button
           *ngIf="oc?.estado === E.ACEPTADO && submodule === 'ORDEN DE CARGA' && isEdit"
           mat-flat-button
-          class="botones" color="accent"
+          class="botones"
+          color="accent"
           type="button"
           (click)="remitirClick.emit($event)"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
@@ -174,7 +173,8 @@
                   && submodule !== 'ANTICIPO (directo)'
                   && submodule !== 'ORDEN DE CARGA (directa)'"
           mat-flat-button
-          class="botones" color="warn"
+          class="botones"
+          color="warn"
           type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO || isFormSubmitting"
           [ngClass]="{'disabled': isFormSubmitting || isShow}"
@@ -193,7 +193,8 @@
                   submodule !== 'ORDEN DE CARGA (directa)' &&
                   submodule !== 'ANTICIPO (directo)' && !isShow"
           mat-stroked-button
-          class="botones" type="button"
+          class="botones"
+          type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
                             (oc?.estado === E.NUEVO) ||
                             !oc?.cantidad_destino"
@@ -240,7 +241,8 @@
         <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && (isEdit || isShow) && (shouldShowInactiveButton || shouldShowActiveButton)">
           <button
             mat-mini-fab
-            class="botones" color="warn"
+            class="botones"
+            color="warn"
             type="button"
             matTooltip="Activar"
             [disabled]="loading || isShow"
@@ -254,7 +256,8 @@
 
           <button
             mat-mini-fab
-            class="botones" color="accent"
+            class="botones"
+            color="accent"
             type="button"
             [matTooltip]="inactiveTooltipText"
             [disabled]="loading || isShow"
@@ -270,7 +273,8 @@
 
         <button
           mat-flat-button
-          type="button" color="warn"
+          type="button"
+          color="warn"
           class="botones"
           matTooltip="Editar"
           [disabled]="loading"
@@ -295,6 +299,35 @@
             && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
           >
           CAMBIAR PEDIDO
+        </button>
+
+        <button
+          type="button"
+          mat-flat-button
+          color="warn"
+          *ngIf="isCopyFlete"
+          (click)="cancelarClick.emit($event)"
+          class="botones">
+          CANCELAR
+        </button>
+
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          *ngIf="flete && !isShow"
+          (click)="copiarFleteClick.emit($event)"
+          class="botones">
+          COPIAR
+        </button>
+
+        <button
+          type="button"
+          mat-stroked-button
+          class="botones"
+          *ngIf="flete && !isShow && flete.is_in_orden_carga"
+          (click)="ampliarFleteClick.emit($event)">
+          AMPLIAR
         </button>
 
         <button

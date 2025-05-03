@@ -171,6 +171,13 @@ export class MenuService {
         ],
       },
       {
+        name: 'Cotización',
+        iconName: 'currency_exchange',
+        iconOutline: true,
+        path: `/moneda_cotizacion/${m.MONEDA_COTIZACION}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.MONEDA_COTIZACION),
+      },
+      {
         name: 'Mercaderias',
         iconName: 'inventory_2',
         iconOutline: true,
@@ -183,6 +190,13 @@ export class MenuService {
         iconOutline: true,
         path: `/flete/${m.FLETE}`,
         active: this.userService.checkPermiso(a.LISTAR, m.FLETE),
+      },
+      {
+        name: 'Evaluación',
+        iconName: 'assessment',
+        iconOutline: true,
+        path: `/orden_carga_evaluacion/${m.ORDEN_CARGA_EVALUACION}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA_EVALUACION),
       },
       {
         name: u.OC,

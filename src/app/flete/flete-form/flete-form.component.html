@@ -6,13 +6,17 @@
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
-  [hideEditButton]="true"
   [isShow]="isShow"
   [isEdit]="isEdit"
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
   [shouldShowInactiveButton]="!isCancel"
+  [isCopyFlete]="isCopyFlete"
+  [isEditPressed]="isEditPressed"
   (backClick)="back($event)"
+  (copiarFleteClick)="copiar()"
+  (ampliarFleteClick)="ampliar()"
+  (cancelarClick)="delete()"
   (editClick)="redirectToEdit()"
   (submitEvent)="save(false)"
   [flete]="item"
@@ -97,6 +101,7 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
+          [isEditCopyForm] = "isEditCopyForm"
           [complementoList]="complementoList"
         ></app-flete-form-complementos>
         <app-flete-form-descuentos
@@ -104,6 +109,7 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
+          [isEditCopyForm] = "isEditCopyForm"
           [descuentoList]="descuentoList"
         ></app-flete-form-descuentos>
       </div>

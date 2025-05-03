@@ -30,6 +30,8 @@ import { SharedModule } from './shared/shared.module';
 
 
 
+
+
 registerLocaleData(es);
 
 let sentryProvider: Provider[] = [];

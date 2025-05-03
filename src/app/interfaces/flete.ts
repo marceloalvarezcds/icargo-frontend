@@ -82,6 +82,7 @@ export interface Flete extends FleteFormBaseModel {
   tipo_carga: TipoCarga | null;
   estado: EstadoEnum;
   gestor_carga_id: number;
+  is_in_orden_carga: boolean,
   // INICIO Tramo de Fletes
   origen: CentroOperativo;
   destino: CentroOperativo;
@@ -114,6 +115,7 @@ export interface Flete extends FleteFormBaseModel {
   anticipos: FleteAnticipo[];
   complementos: FleteComplemento[];
   descuentos: FleteDescuento[];
+  // is_in_orden_carga: boolean;
 }
 
 export interface FleteList extends FleteFormBaseModel {
@@ -194,6 +196,7 @@ export const mockFlete1: Flete = {
   tipo_carga: seca,
   numero_lote: '1000000',
   publicado: true,
+  is_in_orden_carga: true,
   publicado_descripcion: 'Si',
   es_subasta: true,
   estado: EstadoEnum.ACTIVO,
@@ -275,6 +278,7 @@ export const mockFlete2: Flete = {
   publicado: true,
   publicado_descripcion: 'Si',
   es_subasta: true,
+  is_in_orden_carga: true,
   estado: EstadoEnum.ACTIVO,
   gestor_carga_id: gestor1.id,
   // INICIO Tramo de Fletes

@@ -95,9 +95,6 @@ export class ComplementoFormDialogComponent implements OnInit {
         this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe(
           (response) => {
             this.monedaDestinoId = response?.id ?? null;
-            console.log('monedaDestinoId:', this.monedaDestinoId);
-            console.log('gestorCargaId:', this.gestorCargaId);
-
           }
         );
       }
@@ -166,7 +163,6 @@ export class ComplementoFormDialogComponent implements OnInit {
   get isDisabled(): boolean {
     return (this.data as any)?.isShow === true;
   }
-
 
   get anticipadoControl(): FormControl {
     return this.form.get('anticipado') as FormControl;

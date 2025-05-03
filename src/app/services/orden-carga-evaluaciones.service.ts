@@ -17,4 +17,12 @@ export class OrdenCargaEvaluacionesService {
     return this.http.post<OrdenCargaEvaluacionesHistorial>(`${this.url}/`, formData);
   }
 
+  getList(): Observable<OrdenCargaEvaluacionesHistorial[]> {
+    return this.http.get<OrdenCargaEvaluacionesHistorial[]>(`${this.url}/`);
+  }
+
+  getById(id: number): Observable<OrdenCargaEvaluacionesHistorial> {
+      return this.http.get<OrdenCargaEvaluacionesHistorial>(`${this.url}/${id}`);
+  }
+
 }
