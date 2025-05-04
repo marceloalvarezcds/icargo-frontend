@@ -20,7 +20,6 @@ import { Moneda } from 'src/app/interfaces/moneda';
   selector: 'app-liquidacion-edit-fields',
   templateUrl: './liquidacion-edit-fields.component.html',
   styleUrls: ['./liquidacion-edit-fields.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit {
 
