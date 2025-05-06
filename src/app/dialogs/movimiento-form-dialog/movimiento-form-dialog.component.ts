@@ -182,7 +182,7 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
         descripcionControl.setValue(descripcionControl.value.toUpperCase());
       }
       const moneda = this.form.get('moneda')?.value;
-      this.form.get('moneda_id')?.setValue( moneda.id );
+      this.form.get('moneda_id')?.setValue( moneda );
       const formData = movimientoData(
         this.form,
         this.liquidacionId,
