@@ -201,43 +201,57 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {
-        return new Intl.NumberFormat('de-DE', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        }).format(value);
+      return new Intl.NumberFormat('de-DE', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(value);
     };
 
     if (this.saldoDisponible < 0) {
-        const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
-        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
+      const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
+      return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
         El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
-    // Si limiteAnticipoCamion > 0, mostrar mensaje con anticipoDisponibleCamion
+
     if (this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.anticipoDisponibleCamion)
-        )}</strong> al anticipo del tracto disponible</span>`;
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.anticipoDisponibleCamion)
+      )}</strong> al anticipo del tracto disponible</span>`;
     }
-    // Si limiteAnticipoCamion === 0, mostrar mensaje con saldoDisponible
+
     if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.saldoDisponible)
-        )}</strong> al saldo disponible</span>`;
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.saldoDisponible)
+      )}</strong> al saldo disponible</span>`;
     }
+
     const saldoMostrar = this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
+      ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+      : this.saldoDisponible;
 
     if (this.monto && saldoMostrar === 0) {
-        return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+      return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    return `<span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Monto:</span>
-    <strong style="font-size: 16px;">${formatNumber(this.monto)}</strong>
-    | <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Saldo:</span>
-    <strong style="font-size: 16px;">${formatNumber(saldoMostrar)}</strong>`;
+    const anticipoCamion = this.limiteAnticipoCamion === null
+      ? 'Sin límites'
+      : formatNumber(this.anticipoDisponibleCamion);
 
+    return `
+      <div>
+        <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Monto:</span>
+        <strong style="font-size: 16px;">${formatNumber(this.monto)}</strong> |
+
+        <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Saldo OC:</span>
+        <strong style="font-size: 16px;">${formatNumber(saldoMostrar)}</strong>
+      </div>
+      <div style="padding-bottom: 14px;">
+        <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Saldo Tracto:</span>
+        <strong style="font-size: 16px;">${anticipoCamion}</strong>
+      </div>
+    `;
   }
+
 
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [

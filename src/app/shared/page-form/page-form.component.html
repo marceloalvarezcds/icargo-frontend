@@ -293,10 +293,14 @@
           color="primary"
           type="button"
           matTooltip="Cambiar Pedido"
+          [ngClass]="{
+            'disabled-button': oc?.estado === 'Finalizado' || oc?.estado === 'Conciliado'
+          }"
+
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
           *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
-            && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
+            && !isShow  && estado !== 'Cancelado'"
           >
           CAMBIAR PEDIDO
         </button>

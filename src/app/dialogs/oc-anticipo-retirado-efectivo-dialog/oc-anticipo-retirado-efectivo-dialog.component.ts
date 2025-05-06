@@ -223,7 +223,18 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}</strong>`;
+    const saldoLine = `<div class="hint-alert-label">Saldo OC: <strong>${formatNumber(saldoMostrar)}</strong></div>`;
+
+    let anticipoLine = '';
+
+    if (this.limiteAnticipoCamion === null) {
+      anticipoLine = `<div style="margin-top: 8px;" class="hint-alert-label">Saldo Tracto <strong>Sin límites</strong></div>`;
+    } else {
+      anticipoLine = `<div style="margin-top: 8px;" class="hint-alert-label">Saldo Tracto <strong>${formatNumber(this.anticipoDisponibleCamion)}</strong></div>`;
+    }
+
+    return saldoLine + anticipoLine;
+
   }
 
 

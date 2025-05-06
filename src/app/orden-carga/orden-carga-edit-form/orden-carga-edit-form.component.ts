@@ -407,7 +407,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
 
-
   onCombinacionChange(combinacionList: CombinacionList | undefined): void {
     if (combinacionList) {
       this.combinacionList = combinacionList;
@@ -490,7 +489,7 @@ private createComentarioAndCancel(comentario: string): void {
 
     this.ordenCargaService.createComentarios(formData).subscribe(
         () => {
-            this.cancelOrdenCarga(); // Llama a cancelar después de crear el comentario
+            this.cancelOrdenCarga();
         },
         (error) => {
             console.error('Error al crear el comentario', error);
@@ -769,18 +768,42 @@ private cancelOrdenCarga(): void {
   }
 
   enableFleteId(): void {
+    if (this.item?.estado === 'Finalizado') {
+      this.snackBar.open(
+        'No se puede cambiar el pedido, la orden ya está Finalizada',
+        'Cerrar',
+        { duration: 3000 }
+      );
+      return;
+    }
+
+    if (this.item?.estado === 'Conciliado') {
+      this.snackBar.open(
+        'No se puede cambiar el pedido, la orden ya está Conciliada',
+        'Cerrar',
+        { duration: 3000 }
+      );
+      return;
+    }
+
     if (this.item?.cantidad_origen && this.item?.cantidad_destino) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de origen y destino', 'Cerrar', {
-        duration: 3000,
-      });
+      this.snackBar.open(
+        'No se puede habilitar el campo, tiene remisiones de origen y destino',
+        'Cerrar',
+        { duration: 3000 }
+      );
     } else if (this.item?.cantidad_origen) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de origen', 'Cerrar', {
-        duration: 3000,
-      });
+      this.snackBar.open(
+        'No se puede habilitar el campo, tiene remisiones de origen',
+        'Cerrar',
+        { duration: 3000 }
+      );
     } else if (this.item?.cantidad_destino) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de destino', 'Cerrar', {
-        duration: 3000,
-      });
+      this.snackBar.open(
+        'No se puede habilitar el campo, tiene remisiones de destino',
+        'Cerrar',
+        { duration: 3000 }
+      );
     } else {
       this.form.get('combinacion.flete_id')?.enable();
       this.isButtonPressed = true;
@@ -788,6 +811,7 @@ private cancelOrdenCarga(): void {
       this.isEditPressed = false;
     }
   }
+
 
 
   submit(confirmed: boolean): void {

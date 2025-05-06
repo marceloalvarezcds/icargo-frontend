@@ -74,3 +74,9 @@
   opacity: 0.5;
   cursor: not-allowed;
 }
+
+.disabled-button {
+  background-color: #e0e0e0 !important;
+  color: rgba(0, 0, 0, 0.38) !important;
+  cursor: default;
+}
