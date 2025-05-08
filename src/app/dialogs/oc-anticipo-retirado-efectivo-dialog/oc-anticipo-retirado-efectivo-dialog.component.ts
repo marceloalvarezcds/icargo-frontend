@@ -190,34 +190,43 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {
-        return new Intl.NumberFormat('de-DE', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        }).format(value);
+      return new Intl.NumberFormat('de-DE', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(value);
     };
 
     if (this.saldoDisponible < 0) {
-        const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
-        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
-        El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+      const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
+      return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
+      El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
 
-    // Si limiteAnticipoCamion > 0, mostrar mensaje con anticipoDisponibleCamion
-    if (this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
-      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-        subtract(this.monto, this.anticipoDisponibleCamion)
-      )}</strong> al anticipo del tracto disponible</span>`;
+    // Si limiteAnticipoCamion > 0, verificar ambas condiciones
+    if (this.limiteAnticipoCamion > 0) {
+      if (this.monto > this.saldoDisponible) {
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+          subtract(this.monto, this.saldoDisponible)
+        )}</strong> al saldo disponible</span>`;
+      }
+
+      if (this.monto > this.anticipoDisponibleCamion) {
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+          subtract(this.monto, this.anticipoDisponibleCamion)
+        )}</strong> al anticipo del tracto disponible</span>`;
+      }
     }
+
     // Si limiteAnticipoCamion === 0, mostrar mensaje con saldoDisponible
     if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.saldoDisponible)
-        )}</strong> al saldo disponible</span>`;
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.saldoDisponible)
+      )}</strong> al saldo disponible</span>`;
     }
 
     const saldoMostrar = this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
+      ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+      : this.saldoDisponible;
 
     if (this.monto && saldoMostrar === 0) {
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
@@ -234,8 +243,8 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     }
 
     return saldoLine + anticipoLine;
-
   }
+
 
 
   @Output() valueChange = new EventEmitter<string>();

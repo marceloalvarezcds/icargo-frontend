@@ -80,7 +80,7 @@
           class="botones" color="primary"
           id="add-button"
           (click)="createEfectivo()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+          [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
           !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon"
@@ -93,7 +93,7 @@
           class="botones" color="primary"
           id="add-button"
           (click)="createInsumo()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+          [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
           !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon"
@@ -107,7 +107,7 @@
           id="add-button"
           (click)="openDialog()"
           [disabled]="!oc?.flete_id">
-          GESTION EN LINEA
+          GESTION DE LINEA
         </button>
         <!-- <button
         mat-flat-button type="button"

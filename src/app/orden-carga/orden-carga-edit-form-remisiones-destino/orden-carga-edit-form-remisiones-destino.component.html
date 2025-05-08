@@ -8,11 +8,11 @@
       type="button"
       (click)="create()"
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || !oc?.flete_id  || oc?.estado === 'Conciliado'
+      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id  || oc?.estado === 'Conciliado'
         || oc?.estado === 'Finalizado' || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
     ><mat-icon
       class="small-icon"
-      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id   || oc?.estado === 'Finalizado'
+      [ngClass]="{ 'disabled': isShow ||  oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id   || oc?.estado === 'Finalizado'
        ||  oc?.estado === 'Conciliado' || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">
       add</mat-icon>
       DESCARGA

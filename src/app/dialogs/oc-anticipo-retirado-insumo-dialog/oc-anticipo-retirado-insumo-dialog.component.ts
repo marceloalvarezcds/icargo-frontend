@@ -44,6 +44,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   monedaOrigenId: number | null = null;
   monedaDestinoId: number | null = null;
   monto_mon_local = 0
+  monto_retirado_cotizacion = 0
   insumoMonedaId: number | null = null;
   gestorCargaId: number | null = null;
 
@@ -78,10 +79,15 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       if (esConLitro) {
         const cantidad = this.cantidadControl.value;
         const precio = this.precioUnitarioControl.value;
+
         if (cantidad && precio) {
-          this.montoRetiradoControl.setValue(
-            roundString(cantidad) * roundString(precio)
-          );
+          if (this.cotizacionDestino !== null) {
+
+            const montoCalculado = roundString(cantidad) * roundString((precio * this.cotizacionDestino).toString());
+            this.montoRetiradoControl.setValue(montoCalculado);
+          } else {
+            this.montoRetiradoControl.setValue(0);
+          }
         } else {
           this.montoRetiradoControl.setValue(0);
         }
@@ -91,30 +97,39 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     }
   );
 
+
   montoSubscription = combineLatest([
     this.form.controls['monto_retirado'].valueChanges,
     this.precioUnitarioControl.valueChanges,
   ])
     .pipe(map(([m, p]) => [roundString(m), roundString(p)]))
     .subscribe(([monto, precio]) => {
-      if (this.esConLitroControl.value === false && precio > 0) {
-        const litrosCalculados = monto / precio;
+      if (
+        this.esConLitroControl.value === false &&
+        precio > 0 &&
+        this.cotizacionOrigen != null &&
+        this.cotizacionDestino != null &&
+        this.cotizacionDestino !== 0
+      ) {
+
+        const litrosCalculados = monto / precio * (this.cotizacionOrigen! / this.cotizacionDestino!);
         this.cantidadControl.setValue(round(litrosCalculados));
       }
     });
 
-
-    litroSubscription = combineLatest([
-      this.form.controls['cantidad_retirada'].valueChanges,
-      this.precioUnitarioControl.valueChanges,
-    ])
-      .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
-      .subscribe(([cantidad, precio]) => {
-        if (this.esConLitroControl.value === true && precio > 0) {
-          const montoCalculado = cantidad * precio;
+  litroSubscription = combineLatest([
+    this.form.controls['cantidad_retirada'].valueChanges,
+    this.precioUnitarioControl.valueChanges,
+  ])
+    .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
+    .subscribe(([cantidad, precio]) => {
+      if (this.esConLitroControl.value === true && precio > 0) {
+        if (this.cotizacionDestino !== null) {
+          const montoCalculado = cantidad * precio * (this.cotizacionDestino!);
           this.montoRetiradoControl.setValue(round(montoCalculado));
         }
-      });
+      }
+    });
 
   fleteAnticipoEfectivoSubscription?: Subscription;
   fleteAnticipoInsumoSubscription?: Subscription;
@@ -261,7 +276,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   get saldoDisponible(): number {
      if (this.cotizacionOrigen && this.cotizacionDestino) {
-       return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino + this.montoRetirado;
+       return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionOrigen + this.montoRetirado;
      }
     return this.saldoAnticipo + this.montoRetirado;
   }
@@ -269,6 +284,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
   }
+
 
   get ordenCargaId(): number {
     return this.dialogData.orden_carga_id;
@@ -352,16 +368,17 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
         this.gestorCargaId = user.gestor_carga_id;
 
         this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
-          this.monedaDestinoId = moneda?.id ?? null;
+          this.monedaOrigenId = moneda?.id ?? null;
 
           this.monedaCotizacionService
-            .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
+            .getCotizacionByGestor(this.monedaOrigenId!, this.gestorCargaId!)
             .subscribe((responseDestino) => {
-              this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+              this.cotizacionOrigen = responseDestino?.cotizacion_moneda ?? null;
 
             });
         });
       });
+
   }
 
   get simboloMonedaGestora(): string {
@@ -395,9 +412,9 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     if (this.form.valid) {
       const formValue = this.form.value;
       const monto_retirado = formValue.monto_retirado;
-      const monedaDestinoSubmitId = this.oc!.gestor_carga_moneda_id;
+      const monedaDestino = this.monedaDestinoId;
 
-      this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId!, this.oc!.gestor_carga_id).subscribe({
+      this.monedaCotizacionService.getCotizacionByGestor(this.monedaOrigenId!, this.oc!.gestor_carga_id).subscribe({
         next: (responseOrigen) => {
           const cotizacionOrigen = responseOrigen?.cotizacion_moneda;
           if (!cotizacionOrigen) {
@@ -405,7 +422,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
             return;
           }
 
-          this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId!, this.oc!.gestor_carga_id).subscribe({
+          this.monedaCotizacionService.getCotizacionByGestor(monedaDestino!, this.oc!.gestor_carga_id).subscribe({
             next: (responseDestino) => {
               const cotizacionDestino = responseDestino?.cotizacion_moneda;
               if (!cotizacionDestino) {
@@ -420,8 +437,8 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
                 id: this.data?.id,
                 orden_carga_id: this.ordenCargaId,
                 monto_mon_local: this.monto_mon_local,
-              };
 
+              };
               const formData = new FormData();
               formData.append('data', JSON.stringify(data));
 
@@ -430,7 +447,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
               } else {
                 this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
               }
-
               this.montoRetiradoChange.emit(data.cantidad_retirada);
               this.montoRetiradoChange.emit(data.montoRetirado);
             }
@@ -439,6 +455,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       });
     }
   }
+
 
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.saldoAnticipo = 0;
@@ -464,6 +481,8 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.insumo = event?.insumo_descripcion;
     this.insumoControl.setValue(event?.insumo_id);
     this.moneda = event?.insumo_moneda_nombre;
+    this.monedaDestinoId = event?.insumo_moneda_id ?? null;
+    console.log('monedaDestinoId', this.monedaDestinoId);
     this.monedaControl.setValue(event?.insumo_moneda_id);
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
@@ -472,7 +491,24 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.tipoInsumoControl.setValue(event?.insumo_tipo_id);
     this.precioUnitarioControl.setValue(event?.precio);
     this.getSaldoDisponibledForInsumo(event);
+
+    // Llamada al servicio de cotización para moneda destino
+    if (this.monedaDestinoId !== null) {
+      this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId, this.oc?.gestor_carga_id ?? 0).subscribe({
+        next: (responseDestino) => {
+          this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+        },
+        error: (err) => {
+          console.error("Error al obtener cotización de destino:", err);
+          alert("No se pudo obtener la cotización de destino.");
+        }
+      });
+    } else {
+      console.error('La moneda de destino no está definida.');
+      alert('Por favor, seleccione una moneda de destino válida.');
+    }
   }
+
 
   puntoVentaChange(event?: PuntoVentaList): void {
     this.proveedor = event?.proveedor_nombre;
@@ -518,6 +554,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   private setFleteAnticipo(fleteAnticipo: FleteAnticipo): void {
     this.fleteAnticipo = fleteAnticipo;
+    console.log('flete anticipo', this.fleteAnticipo)
     this.fleteAnticipoControl.setValue(fleteAnticipo.id);
     this.loadOrdenCargaAnticipoSaldo(fleteAnticipo.id);
   }

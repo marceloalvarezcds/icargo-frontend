@@ -8,12 +8,12 @@
       type="button"
       (click)="create()"
       id="create-button"
-      [disabled]="isShow || !oc?.flete_id
+      [disabled]="isShow || !oc?.flete_id || oc?.estado === 'Cancelado'
        || !(modelo | puede: a.CREAR:gestorCargaId)
        || oc?.estado === 'Conciliado' || isEditPedido"
     ><mat-icon
       class="small-icon"
-      [ngClass]="{ 'disabled': isShow || !oc?.flete_id
+      [ngClass]="{ 'disabled': isShow || !oc?.flete_id || oc?.estado === 'Cancelado'
       || !(modelo | puede: a.CREAR:gestorCargaId)} ||
       oc?.estado === 'Conciliado' || isEditPedido">
       add</mat-icon>
