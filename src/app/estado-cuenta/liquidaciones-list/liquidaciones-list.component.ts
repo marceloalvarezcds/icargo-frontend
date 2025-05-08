@@ -86,14 +86,14 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       def: 'movimientos_saldo',
       title: 'Total Liquidacion',
       type: 'number',
-      value: (element: Liquidacion) => element.movimientos_saldo,
+      value: (element: Liquidacion) => element.es_orden_pago ? element.pago_cobro : element.movimientos_saldo,
     },
-    {
+    /*{
       def: 'pago_cobro',
       title: 'Monto Pago/Cobro',
       type: 'number',
       value: (element: Liquidacion) => element.pago_cobro,
-    },
+    },*/
     {
       def: 'instrumentos_saldo',
       title: 'Tot. Instrumento',

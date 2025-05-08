@@ -364,11 +364,14 @@
               <span>Editar</span>
             </button>
 
+            <!--TODO: pasar una funcion para mostrar o no el boton, que reciba el registro actual y retorne true/false -->
             <button
               type="button"
               mat-menu-item
               (click)="deleteClick.emit({ row, index })"
               *ngIf="
+                row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
+                row.estado !== e.FINALIZADO &&
                 !hideDelete &&
                 (modelo
                   | puede

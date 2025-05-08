@@ -11,7 +11,7 @@ import {
   PermisoModeloEnum as m,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
-import { filter } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Movimiento, MovimientoEstadoCuenta } from 'src/app/interfaces/movimiento';
@@ -40,6 +40,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 import { mockMoneda1 } from 'src/app/interfaces/moneda';
+import { UserService } from 'src/app/services/user.service';
 
 type Filter = {
   camion_placa?: string;
@@ -65,42 +66,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
   columns: Column[] = []
 
-  buttons : ButtonList[] = [
-    {
-      color: 'warn',
-      tooltip: 'Crear Movimiento',
-      styles: '',
-      icon: 'add_circle',
-      label: 'MOVIMIENTO',
-      iconClass: 'icon-add-style',
-      buttonCallback: ($event:any) => {
-        this.create();
-      }
-    },
-    {
-      color: 'primary',
-      tooltip: 'Crear Liquidacion',
-      styles: '',
-      icon: 'add_circle',
-      label: 'LIQUIDACION',
-      iconClass: 'icon-add-style',
-      buttonCallback: ($event:any) => {
-        this.createLiquidacion();
-      }
-    },
-    {
-      color: 'primary',
-      tooltip: 'Crear Orden Pago/Cobro',
-      styles: '',
-      icon: 'add_circle',
-      label: 'ORDEN PAGO/COBRO',
-      iconClass: 'icon-add-style',
-      buttonCallback: ($event:any) => {
-        //this.createOrdenPago();
-        this.createOrdenPagoDialog();
-      }
-    }
-  ]
+  buttons : ButtonList[] = [];
 
   etapa?: LiquidacionEtapaEnum;
   estadoCuenta?: EstadoCuenta;
@@ -127,6 +93,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
+  gestorCargaId: number | null = null;
 
   es_pdv:boolean=false;
 
@@ -215,6 +182,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
     private dialogService: DialogService,
     private liquidacionService: LiquidacionService,
     private searchService: SearchService,
+    private userService: UserService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
@@ -228,7 +196,60 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.configurarTabla(this.es_pdv);
 
-     }
+      this.userService.getLoggedUser().pipe(first()).subscribe((user) => {
+        this.gestorCargaId = user.gestor_carga_id;
+
+        this.buttons = [];
+        // control permiso para botones de cabecera
+        if ( this.userService.checkPermisoAndGestorCargaId( a.CREAR, m.MOVIMIENTO, this.gestorCargaId)) {
+          this.buttons.push(
+            {
+              color: 'warn',
+              tooltip: 'Crear Movimiento',
+              styles: '',
+              icon: 'add_circle',
+              label: 'MOVIMIENTO',
+              iconClass: 'icon-add-style',
+              buttonCallback: ($event:any) => {
+                this.create();
+              }
+            },
+          )
+        }
+
+        if ( this.userService.checkPermisoAndGestorCargaId( a.CREAR, m.LIQUIDACION, this.gestorCargaId)) {
+          this.buttons.push(
+            {
+              color: 'primary',
+              tooltip: 'Crear Liquidacion',
+              styles: '',
+              icon: 'add_circle',
+              label: 'LIQUIDACION',
+              iconClass: 'icon-add-style',
+              buttonCallback: ($event:any) => {
+                this.createLiquidacion();
+              }
+            },
+            {
+              color: 'primary',
+              tooltip: 'Crear Orden Pago/Cobro',
+              styles: '',
+              icon: 'add_circle',
+              label: 'ORDEN PAGO/COBRO',
+              iconClass: 'icon-add-style',
+              buttonCallback: ($event:any) => {
+                //this.createOrdenPago();
+                this.createOrdenPagoDialog();
+              }
+            }
+          )
+        }
+
+        console.log("buttons: ", this.buttons);
+
+      });
+
+    }
 
     ngOnInit(): void {
       this.getList();
