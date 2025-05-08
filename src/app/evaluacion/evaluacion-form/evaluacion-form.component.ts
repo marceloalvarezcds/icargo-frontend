@@ -26,6 +26,7 @@ export class EvaluacionFormComponent implements OnInit, OnDestroy  {
   id?: number;
   item?: OrdenCargaEvaluacionesHistorial;
   insumoPdvId: number | null = null;
+  nota: string | null = null;
   tipoInsumoList$ =
   this.evaluacionService.getList();
 
@@ -44,6 +45,7 @@ export class EvaluacionFormComponent implements OnInit, OnDestroy  {
       promedio_propietario_gestor: null,
       promedio_propietario_general: null,
       comentarios: null,
+      nota: null,
   });
   initialFormValue = this.form.value;
   hasChange = false;
@@ -83,6 +85,8 @@ export class EvaluacionFormComponent implements OnInit, OnDestroy  {
       }
       this.evaluacionService.getById(this.id).subscribe((data) => {
         this.item = data;
+        this.nota = data.nota !== undefined ? data.nota : null;
+
         this.form.patchValue({
           orden_carga_id: data.orden_carga_id,
           oc_camion_placa: data.oc_camion_placa,
@@ -97,7 +101,8 @@ export class EvaluacionFormComponent implements OnInit, OnDestroy  {
           promedio_chofer_general: data.promedio_chofer_general,
           promedio_propietario_gestor: data.promedio_propietario_gestor,
           promedio_propietario_general: data.promedio_propietario_general,
-          comentario: data.comentarios,
+          comentarios: data.comentarios,
+          nota: this.nota,
         });
 
         setTimeout(() => {
@@ -105,7 +110,7 @@ export class EvaluacionFormComponent implements OnInit, OnDestroy  {
           this.initialFormValue = this.form.value;
         }, 500);
       });
-    } 
+    }
   }
 
 }

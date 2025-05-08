@@ -107,14 +107,23 @@
         [form]="form"
       ></app-number-field>
     </div>
-    
+
     <div class="row">
-      <app-number-field
+      <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-8"
         title="Comentario"
         controlName="comentarios"
         [form]="form"
-      ></app-number-field>
+      ></app-input-field>
+
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-8"
+        controlName="nota"
+        [form]="form"
+        [field]="nota"
+        readonly
+        [isShow]="isShow"
+    ></app-file-field-input>
     </div>
 
   </div>
