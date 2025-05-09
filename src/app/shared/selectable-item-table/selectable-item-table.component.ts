@@ -11,8 +11,11 @@ import { CheckboxEvent } from 'src/app/interfaces/table';
 export class SelectableItemTableComponent<T extends { id: number }> {
   private selectedItems: T[] = [];
 
+  @Input() expandible= false;
+  @Input() expandibleButton= false;
   @Input() list: T[] = [];
   @Input() columns: Column[] = [];
+  @Input() subRowColumnsToDisplay: Column[] = [];
 
   @Output() selectedItemsChange = new EventEmitter<T[]>();
 

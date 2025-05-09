@@ -2,6 +2,9 @@
   <div class="col-xs-12" [hidden]="!(list && list.length)">
     <app-table-paginator
       [columns]="columns"
+      [subRowColumnsToDisplay]="subRowColumnsToDisplay"
+      [expandible]="false"
+      [expandibleRow]="false"
       [data]="list"
       [hideDelete]="true"
       [hideEdit]="true"

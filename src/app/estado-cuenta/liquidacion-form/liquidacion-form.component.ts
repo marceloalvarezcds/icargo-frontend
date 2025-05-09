@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -257,12 +257,17 @@ export class LiquidacionFormComponent implements OnInit {
       this.estadoCuenta!.contraparte_id,
       etapa
     )
+    .pipe(
+      map((response:Movimiento[]) => {
+        response.forEach(r=> r.isExpanded= false);
+        return response;
+      })
+    )
     .subscribe((data) => {
       this.list = data;
+      console.log("movimientos: ", data);
       this.movimientosSelected = [];
     });
-
-
   }
 
   getListPDV(contraparte_id:number, punto_venta_id:number, flujo:string): void {
@@ -282,6 +287,12 @@ export class LiquidacionFormComponent implements OnInit {
           etapa,
           punto_venta_id,
           flujo
+        )
+        .pipe(
+          map((response:Movimiento[]) => {
+            response.forEach(r=> r.isExpanded= false);
+            return response;
+          })
         )
         .subscribe((data) => {
           this.list = data;

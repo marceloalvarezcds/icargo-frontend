@@ -65,12 +65,6 @@ export class LiquidacionEditFormMovimientosComponent {
       type: 'only-date',
     },
     {
-      def: 'camion_placa',
-      title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
       def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
@@ -90,25 +84,6 @@ export class LiquidacionEditFormMovimientosComponent {
             : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
             : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_info ?? element.tipo_movimiento_descripcion
         ),
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'orden_carga_id',
-      title: 'N° OC',
-      value: (element: Movimiento) => element.orden_carga_id,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'documento_fisico_oc',
-      title: 'Doc. Físico',
-      value: (element: Movimiento) =>
-        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'detalle',
-      title: 'Info',
-      value: (element: Movimiento) => element.detalle,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -134,6 +109,12 @@ export class LiquidacionEditFormMovimientosComponent {
       value: (element: Movimiento) => element.monto_mon_local,
       type: 'number',
     },
+    {
+      def: 'expandir',
+      title: ' ',
+      value: (element: Movimiento) => element.isExpanded,
+      type: 'expandir'
+    }
     /*{
       def: 'oc',
       title: '',
@@ -164,6 +145,34 @@ export class LiquidacionEditFormMovimientosComponent {
       stickyEnd: true,
     },*/
   ];
+
+  subRowColumnsToDisplay: Column[] = [
+    {
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => element.camion_placa,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'orden_carga_id',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.orden_carga_id,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'documento_fisico_oc',
+      title: 'Doc. Físico',
+      value: (element: Movimiento) =>
+        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'detalle',
+      title: 'Info',
+      value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+  ]
 
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 

@@ -32,7 +32,11 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
       this.pageOptions = pageOptions;
     });
 
+  @Input() expandible: boolean = false;
+  @Input() expandibleRow: boolean = false;
+  @Input() expandibleButton: boolean = false;
   @Input() columns: Column[] = [];
+  @Input() subRowColumnsToDisplay: Column[] = [];
   @Input() data: any[] = [];
   @Input() filterPredicate = this.dataSource.filterPredicate.bind(
     this.dataSource
