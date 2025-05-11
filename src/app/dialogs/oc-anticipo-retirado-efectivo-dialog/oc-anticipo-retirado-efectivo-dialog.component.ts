@@ -239,12 +239,11 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     if (this.limiteAnticipoCamion === null) {
       anticipoLine = `<div style="margin-top: 8px;" class="hint-alert-label">Saldo Tracto <strong>Sin límites</strong></div>`;
     } else {
-      anticipoLine = `<div style="margin-top: 8px;" class="hint-alert-label">Saldo Tracto <strong>${formatNumber(this.anticipoDisponibleCamion)}</strong></div>`;
+      anticipoLine = `<div style="margin-top: 18px;" class="hint-alert-label">Saldo Tracto <strong>${formatNumber(this.anticipoDisponibleCamion)}</strong></div>`;
     }
 
     return saldoLine + anticipoLine;
   }
-
 
 
   @Output() valueChange = new EventEmitter<string>();
@@ -255,10 +254,12 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get saldoDisponible(): number {
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return  Math.round((this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino) + this.montoRetirado;
+      const valor = (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino;
+      return Math.floor(valor * 100) / 100 + this.montoRetirado;
     }
     return this.saldoAnticipo + this.montoRetirado;
   }
+
 
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
@@ -436,7 +437,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
                 return;
               }
 
-              this.monto_mon_local = Math.round(((monto_retirado * cotizacionOrigen) / cotizacionDestino) * 100) / 100;
+              this.monto_mon_local = ((monto_retirado * cotizacionOrigen) / cotizacionDestino * 100) / 100;
 
               const data = {
                 ...formValue,

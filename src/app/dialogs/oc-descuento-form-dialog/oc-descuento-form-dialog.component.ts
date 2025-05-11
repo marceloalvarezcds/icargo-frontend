@@ -187,8 +187,8 @@ export class OcDescuentoFormDialogComponent implements OnInit {
           const proveedorMonto = formValue.proveedor_monto;
 
           // Calcular el monto en moneda local para el propietario y proveedor
-          this.propietario_monto_ml = Math.round((propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!);
-          this.proveedor_monto_ml = Math.round((proveedorMonto * this.cotizacionOrigenProveedor!) / this.cotizacionDestino!);
+          this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
+          this.proveedor_monto_ml = (proveedorMonto * this.cotizacionOrigenProveedor!) / this.cotizacionDestino!;
 
           const data = JSON.parse(
               JSON.stringify({

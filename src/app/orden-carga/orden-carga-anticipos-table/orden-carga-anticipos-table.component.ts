@@ -135,7 +135,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     {
       def: 'moneda_nombre',
       title: 'Moneda',
-      value: (element: OrdenCargaAnticipoRetirado) => element.moneda_nombre,
+      value: (element: OrdenCargaAnticipoRetirado) => element.gestor_carga_moneda_nombre,
     },
     {
       def: 'monto_equiv',
@@ -147,7 +147,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       def: 'gestor_carga_moneda_nombre',
       title: 'Moneda Equiv.',
       value: (element: OrdenCargaAnticipoRetirado) =>
-        element.gestor_carga_moneda_nombre,
+        element.moneda_nombre,
     },
     {
       def: 'created_by',

@@ -430,7 +430,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
                 return;
               }
 
-              this.monto_mon_local = Math.round((monto_retirado * cotizacionOrigen) / cotizacionDestino);
+              this.monto_mon_local = (monto_retirado * cotizacionOrigen) / cotizacionDestino;
 
               const data = {
                 ...formValue,
