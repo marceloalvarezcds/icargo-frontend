@@ -176,9 +176,12 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
       //   value: (element: OrdenCargaRemisionDestino) => element.cantidad,
       //   type: 'number',
       // },
-
-      { def: 'actions', title: 'Acciones', stickyEnd: true },
     ];
+
+    if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
+      this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
+    }
+
   }
 
   formatDate(dateString: string): string {

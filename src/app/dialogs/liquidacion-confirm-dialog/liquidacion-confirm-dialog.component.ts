@@ -12,6 +12,7 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./liquidacion-confirm-dialog.component.scss'],
 })
 export class LiquidacionConfirmDialogComponent {
+
   columns: Column[] = [
     {
       def: 'id',

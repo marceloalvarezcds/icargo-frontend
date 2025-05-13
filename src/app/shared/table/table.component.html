@@ -459,9 +459,33 @@
         </ng-container>
       </ng-container>
     </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <!--  TODO: prever hacer esto dinamico reutilizable para otros componentes   -->
+    <!--  ahora solo funciona con preview de liquidacion   -->
+    <ng-container matColumnDef="groupHeader" *ngIf="grouped">
+      <td [attr.colspan]="displayedColumns.length-2" mat-cell *matCellDef="let group">
+        <strong>{{group.groupName}}</strong>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="groupTotales" *ngIf="grouped">
+      <td colspan="2" mat-cell *matCellDef="let group">
+        <strong>Totales:</strong> {{group.totales | numberFormat }}
+      </td>
+    </ng-container>
+
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <ng-container *ngIf="grouped">
+      <tr mat-row
+        *matRowDef="let row; columns: ['groupHeader', 'groupTotales'];  when: isGroup">
+      </tr>
+    </ng-container>
+
     <ng-container *ngIf="shouldBeShowFooter">
       <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
     </ng-container>
+
   </table>

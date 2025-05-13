@@ -671,7 +671,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         afectado,
         item,
       };
-      return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data });
+      return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data, panelClass: 'half-dialog', });
     }
 
     private getMermaDialogRef(
@@ -682,7 +682,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         afectado,
         item,
       };
-      return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data });
+      return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data, panelClass: 'half-dialog', });
     }
 
     private configurarTabla(es_pdv:boolean): void {

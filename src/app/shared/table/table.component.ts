@@ -54,6 +54,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     .pipe(delay(500))
     .subscribe((search) => this.filterData(search));
 
+  @Input() grouped = false;
   @Input() set dataSource(source: MatTableDataSource<T>) {
     this.tableDataSource = source;
     this.tableDataSource.sort = this.sort;
@@ -271,4 +272,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     }
     return '';
   }
+
+  isGroup(index:number, item:any): boolean{
+    return item.isGroup;
+  }
+
 }
