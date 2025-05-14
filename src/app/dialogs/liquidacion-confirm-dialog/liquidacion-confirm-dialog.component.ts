@@ -36,13 +36,13 @@ export class LiquidacionConfirmDialogComponent {
     },
     {
       def: 'tipo_documento_relacionado_descripcion',
-      title: 'Tipo de Doc Relacionado',
+      title: 'Tipo de Doc.',
       value: (element: Movimiento) =>
         element.tipo_documento_relacionado_descripcion,
     },
     {
       def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
+      title: 'Nº Doc',
       value: (element: Movimiento) => element.numero_documento_relacionado,
     },
     {

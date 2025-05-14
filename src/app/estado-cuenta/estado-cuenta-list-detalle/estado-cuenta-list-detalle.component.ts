@@ -689,7 +689,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.columns = [
         {
-          def: 'estado',
+          def: 'estado_liq',
           title: 'Estado',
           value: (element: MovimientoEstadoCuenta) => element.estado,
           dinamicStyles: (element: MovimientoEstadoCuenta) =>

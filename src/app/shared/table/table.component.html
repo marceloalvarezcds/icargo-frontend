@@ -348,7 +348,9 @@
               mat-menu-item
               (click)="editClick.emit({ row, index })"
               *ngIf="
-                row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
+                (row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO &&
+                  row.estado !== e.INACTIVO && row.estado !== f.FINALIZADO && row.estado !== f.SALDO_CERRADO
+                 ) &&
                 !hideEdit &&
                 (modelo
                   | puede
@@ -370,8 +372,8 @@
               mat-menu-item
               (click)="deleteClick.emit({ row, index })"
               *ngIf="
-                row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
-                row.estado !== e.FINALIZADO &&
+                ( row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
+                row.estado !== e.FINALIZADO && row.estado !== f.FINALIZADO && row.estado !== f.SALDO_CERRADO ) &&
                 !hideDelete &&
                 (modelo
                   | puede
@@ -465,13 +467,13 @@
     <!--  TODO: prever hacer esto dinamico reutilizable para otros componentes   -->
     <!--  ahora solo funciona con preview de liquidacion   -->
     <ng-container matColumnDef="groupHeader" *ngIf="grouped">
-      <td [attr.colspan]="displayedColumns.length-2" mat-cell *matCellDef="let group">
+      <td [attr.colspan]="displayedColumns.length-4" mat-cell *matCellDef="let group">
         <strong>{{group.groupName}}</strong>
       </td>
     </ng-container>
 
     <ng-container matColumnDef="groupTotales" *ngIf="grouped">
-      <td colspan="2" mat-cell *matCellDef="let group">
+      <td colspan="4" mat-cell *matCellDef="let group">
         <strong>Totales:</strong> {{group.totales | numberFormat }}
       </td>
     </ng-container>
@@ -479,7 +481,7 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
     <ng-container *ngIf="grouped">
-      <tr mat-row
+      <tr mat-row style="background-color: #f7f7f7 !important"
         *matRowDef="let row; columns: ['groupHeader', 'groupTotales'];  when: isGroup">
       </tr>
     </ng-container>

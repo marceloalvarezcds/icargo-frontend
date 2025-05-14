@@ -43,11 +43,18 @@ tr.example-element-row:not(.example-expanded-row):active {
 }
 
 .mat-table::ng-deep {
+  .mat-column-delete {
+    width: 40px;
+    box-sizing: border-box;
+    margin: 0 ;
+    left: 0px ;
+  }
+
   .mat-column-id {
     width: 58px;
     box-sizing: border-box;
     margin: 0 ;
-    left: 0px ;
+    left: 30px ;
   }
 
   /* fix columnas para tracto */

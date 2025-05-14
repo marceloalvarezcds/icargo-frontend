@@ -35,6 +35,23 @@ export class OrdenCargaEditFormMovimientosComponent {
       type: 'number',
     },
     {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
+      type: 'number',
+    },
+    {
       def: 'contraparte',
       title: 'Contraparte',
       value: (element: Movimiento) => element.contraparte,
@@ -65,27 +82,10 @@ export class OrdenCargaEditFormMovimientosComponent {
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
     },
     {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Movimiento) => element.moneda_nombre,
-    },
-    {
-      def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
-      value: (element: Movimiento) => element.tipo_cambio_moneda,
-      type: 'number',
-    },
-    {
       def: 'fecha_cambio_moneda',
       title: 'Fecha de cambio',
       value: (element: Movimiento) => element.fecha_cambio_moneda,
       type: 'date',
-    },
-    {
-      def: 'monto_ml',
-      title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
-      type: 'number',
     },
     {
       def: 'estado',

@@ -87,6 +87,12 @@ export class LiquidacionEditFormMovimientosComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
+      def: 'orden_carga_id',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.orden_carga_id,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
@@ -151,12 +157,6 @@ export class LiquidacionEditFormMovimientosComponent {
       def: 'camion_placa',
       title: 'Chapa',
       value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'orden_carga_id',
-      title: 'N° OC',
-      value: (element: Movimiento) => element.orden_carga_id,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
