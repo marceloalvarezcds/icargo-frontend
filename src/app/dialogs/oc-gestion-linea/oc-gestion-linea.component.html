@@ -45,7 +45,7 @@
       <div class="column">
         <p>
           Tarifa Flete a Pagar:
-          <span class="span-like">{{ oc?.flete_tarifa | number: '1.0-0' }}</span>Gs/Kg
+          <span class="span-like">{{ oc?.condicion_propietario_tarifa_ml | number: '1.0-0' }}</span>Gs/Kg
         </p>
         <p>
           Cant. Nominada:
@@ -53,7 +53,7 @@
         </p>
         <p>
           Flete Proyectado:
-          <span class="span-like">{{ oc?.flete_proyectado | number: '1.0-0' }}</span>Gs
+          <span class="span-like">{{ oc?.flete_proyectado_ml | number: '1.0-0' }}</span>Gs
         </p>
         <!-- <p>
           Porcentaje Maximo Liberado:
@@ -69,12 +69,12 @@
 
       </div>
       <div class="column">
-        <p style="color: red;">
+        <p>
           Limite Crédito Cam.:
           <span class="span-like">
               {{ (oc?.camion_limite_monto_anticipos ?? 0) > 0 ? (oc?.camion_limite_monto_anticipos | number: '1.0-0') : 'sin límites' }}
           </span>
-          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0">Gs</span>
+          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0"></span>Gs
         </p>
 
         <!-- <p>
@@ -94,10 +94,10 @@
           <span class="span-like">
               {{ (oc?.camion_limite_monto_anticipos ?? 0) !== 0 ? (oc?.camion_monto_anticipo_disponible | number: '1.0-0') : 'sin límites' }}
           </span>
-          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0">Gs</span>
+          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0"></span>Gs
         </p>
 
-        <p style="color: red;">
+        <p>
           Anticipos Retirados Cam.:
           <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>Gs
         </p>

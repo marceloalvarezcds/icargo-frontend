@@ -125,6 +125,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
   flete_proyectado: number;
+  flete_proyectado_ml: number;
   flete_remitente_nombre: string;
   flete_remitente_numero_documento: string;
   flete_tarifa_unidad_abreviatura: string;
@@ -140,6 +141,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   //Condiciones para GC y Propietario
   gestor_carga_moneda_simbolo: string;
   condicion_gestor_cuenta_tarifa: number;
+  condicion_gestor_carga_tarifa_ml: number;
   condicion_propietario_tarifa: number;
   condicion_propietario_tarifa_ml: number;
   condicion_gestor_moneda_simbolo: string
@@ -151,10 +153,12 @@ export interface OrdenCarga extends OrdenCargaForm {
   merma_gestor_carga_es_porcentual_descripcion: string;
   merma_gestor_carga_tolerancia: number;
   merma_gestor_carga_valor: number;
+  merma_gestor_carga_valor_ml: number;
   //Merma para el Propietario
   merma_propietario_es_porcentual_descripcion: string;
   merma_propietario_tolerancia: number;
   merma_propietario_valor: number;
+  merma_propietario_valor_ml: number;
   // Historial de Estados
   is_aceptado: boolean;
   is_cancelado: boolean;
@@ -272,6 +276,14 @@ export interface OrdenCargaRemitir {
   created_at: string;
 }
 
+export interface RecalculoCondiciones {
+  condicion_gestor_carga_tarifa_ml: number;
+  condicion_propietario_tarifa_ml: number;
+  merma_gestor_carga_valor_ml: number;
+  merma_propietario_valor_ml: number;
+}
+
+
 const camion0 = mockCamionList[0];
 const camion1 = mockCamionList[1];
 
@@ -357,6 +369,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_origen_nombre: flete0.origen_nombre,
   flete_producto_descripcion: flete0.producto_descripcion,
   flete_proyectado: flete0_proyectado,
+  flete_proyectado_ml: flete0_proyectado,
   flete_remitente_nombre: flete0.remitente_nombre,
   flete_remitente_numero_documento: flete0.remitente_numero_documento,
   flete_tarifa: flete0_tarifa,
@@ -377,6 +390,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   //Condiciones para GC y Propietario
   gestor_carga_moneda_simbolo: 'PYG',
   condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
+  condicion_gestor_carga_tarifa_ml:1,
   condicion_propietario_tarifa: 90,
   condicion_gestor_moneda_simbolo:'USD',
   condicion_propietario_moneda_simbolo:'PYG',
@@ -387,10 +401,12 @@ export const mockOrdenCarga1: OrdenCarga = {
   merma_gestor_carga_es_porcentual_descripcion: 'v',
   merma_gestor_carga_tolerancia: 30,
   merma_gestor_carga_valor: 5000,
+  merma_gestor_carga_valor_ml: 5000,
   //Merma para el Propietario
   merma_propietario_es_porcentual_descripcion: 'v',
   merma_propietario_tolerancia: 20,
   merma_propietario_valor: 5500,
+  merma_propietario_valor_ml: 5500,
   flete_saldo_efectivo: 1000,
   flete_saldo_combustible: 800,
   flete_saldo_lubricante: 800,

@@ -477,7 +477,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     } else {
         console.error('No se puede cancelar la Orden de Carga sin un ID válido');
     }
-}
+  }
 
 private createComentarioAndCancel(comentario: string): void {
     const formData = new FormData();
@@ -497,29 +497,27 @@ private createComentarioAndCancel(comentario: string): void {
     );
 }
 
-private cancelOrdenCarga(): void {
-    this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
-        this.ordenCargaService.cancelar(this.idOC),
-        () => {
-            this.getData();
-            const dialogRef = this.openEvaluacionesCancelarDialog();
+  private cancelOrdenCarga(): void {
+      this.dialog.changeStatusConfirm(
+          '¿Está seguro que desea cancelar la Orden de Carga?',
+          this.ordenCargaService.cancelar(this.idOC),
+          () => {
+              this.getData();
+              const dialogRef = this.openEvaluacionesCancelarDialog();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    this.snackBar.open('Generando PDF...', 'Cerrar', {
-                        duration: 3000,
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center'
-                    });
-                    this.downloadResumenPDF();
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
-                }
-            });
-        },
-    );
-}
+              dialogRef.afterClosed().subscribe(result => {
+                  if (result) { // Si se acepta el diálogo
+                      this.snackBar.open('Generando PDF...', 'Cerrar', {
+                          duration: 3000,
+                          verticalPosition: 'top',
+                          horizontalPosition: 'center'
+                      });
+                      this.downloadResumenPDF();
+                  }
+              });
+          },
+      );
+  }
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -681,7 +679,7 @@ private cancelOrdenCarga(): void {
                     verticalPosition: 'top',
                     horizontalPosition: 'center'
                 });
-                this.downloadConciliarResumenPDF();
+                // this.downloadConciliarResumenPDF();
             });
         },
 
@@ -745,27 +743,43 @@ private cancelOrdenCarga(): void {
     });
   }
 
-
   onFleteChange(flete: FleteList | undefined): void {
-    if (flete) {
-      this.flete = flete;
-      if (this.item) {
-        this.item.flete_id = flete.id
-        this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
-        this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
-        //Mermas para GC
-        this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
-        this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
-        this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
-        //Mermas para Propietario
-        this.item.merma_propietario_valor = flete.merma_propietario_valor;
-        this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
-        this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
-      }
-      this.chRef.detectChanges();
-    }
+      if (flete) {
+        this.flete = flete;
+        if (this.item) {
+          this.item.flete_id = flete.id;
+          this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
+          this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
+          this.item.condicion_propietario_tarifa_ml = flete.condicion_propietario_tarifa;
+          // Mermas para GC
+          this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
+          this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
+          this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
+          // Mermas para Propietario
+          this.item.merma_propietario_valor = flete.merma_propietario_valor;
+          this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
+          this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
 
+          const ordenCargaId = this.form.get('combinacion.id_orden_carga')?.value;
+          console.log('ordenCargaId:', ordenCargaId);
+          this.ordenCargaService.recalcularCondiciones(flete.id, ordenCargaId).subscribe({
+            next: (recalculoResponse) => {
+              if (this.item) {
+                this.item.condicion_gestor_carga_tarifa_ml = recalculoResponse.condicion_gestor_carga_tarifa_ml;
+                this.item.condicion_propietario_tarifa_ml = recalculoResponse.condicion_propietario_tarifa_ml;
+                this.item.merma_gestor_carga_valor_ml = recalculoResponse.merma_gestor_carga_valor_ml;
+                this.item.merma_propietario_valor = recalculoResponse.merma_propietario_valor_ml;
+              }
+            },
+            error: (error) => {
+              console.error('Error en el recalculo:', error);
+            }
+          });
+        }
+        this.chRef.detectChanges();
+      }
   }
+
 
   enableFleteId(): void {
     if (this.item?.estado === 'Finalizado') {
@@ -811,7 +825,6 @@ private cancelOrdenCarga(): void {
       this.isEditPressed = false;
     }
   }
-
 
 
   submit(confirmed: boolean): void {

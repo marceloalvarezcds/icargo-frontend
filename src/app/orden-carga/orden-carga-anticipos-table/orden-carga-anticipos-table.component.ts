@@ -29,6 +29,8 @@ import { GestorCarga } from 'src/app/interfaces/gestor-carga';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -208,6 +210,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   monedaDestinoId: number | null = null;
   simboloMoneda?:string;
   monedaId: number | null = null;
+
   ngOnInit(): void {
     this.getMonedaByGestor()
     this.obtenerCotizaciones()
@@ -239,6 +242,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef,
     private monedaService: MonedaService,
     private monedaCotizacionService: MonedaCotizacionService,
+    private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     private snackBar: MatSnackBar
   ) {}
 

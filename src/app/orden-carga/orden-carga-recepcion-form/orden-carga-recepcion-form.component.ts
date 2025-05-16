@@ -782,7 +782,7 @@ export class OrdenCargaRecepcionFormComponent  implements OnInit, OnDestroy {
             color_semi: data.semi_color,
             propietario_camion: data.camion_propietario_nombre,
             propietario_camion_doc: data.camion_propietario_documento,
-            chofer_camion: data.camion_chofer_nombre,
+            chofer_camion: data.chofer_nombre,
             chofer_camion_doc: data.combinacion_chofer_doc,
             beneficiario_camion: data.camion_beneficiario_nombre,
             beneficiario_camion_doc: data.camion_beneficiario_documento,

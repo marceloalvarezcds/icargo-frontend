@@ -257,6 +257,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   private copiarFlete(): void {
     const formData = new FormData();
+      const anticiposCopy = this.anticipos.value;
+
+  console.log('ANTICIPOS ORIGINALES:', anticiposCopy); // <--- DEBUG
     const data = JSON.parse(JSON.stringify({
       ...this.info.value,
       ...this.tramo.value,
@@ -327,7 +330,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
       cantidadCtrl.setValidators([
         Validators.required,
-        Validators.min(saldo) 
+        Validators.min(saldo)
       ]);
 
       cantidadCtrl.updateValueAndValidity();

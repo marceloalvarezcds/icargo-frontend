@@ -482,7 +482,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.insumoControl.setValue(event?.insumo_id);
     this.moneda = event?.insumo_moneda_nombre;
     this.monedaDestinoId = event?.insumo_moneda_id ?? null;
-    console.log('monedaDestinoId', this.monedaDestinoId);
     this.monedaControl.setValue(event?.insumo_moneda_id);
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
@@ -492,7 +491,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.precioUnitarioControl.setValue(event?.precio);
     this.getSaldoDisponibledForInsumo(event);
 
-    // Llamada al servicio de cotización para moneda destino
     if (this.monedaDestinoId !== null) {
       this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId, this.oc?.gestor_carga_id ?? 0).subscribe({
         next: (responseDestino) => {
@@ -554,7 +552,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   private setFleteAnticipo(fleteAnticipo: FleteAnticipo): void {
     this.fleteAnticipo = fleteAnticipo;
-    console.log('flete anticipo', this.fleteAnticipo)
     this.fleteAnticipoControl.setValue(fleteAnticipo.id);
     this.loadOrdenCargaAnticipoSaldo(fleteAnticipo.id);
   }
@@ -567,6 +564,13 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       NumberValidator.max(this.saldoDisponible),
     ]);
     this.montoRetiradoControl.updateValueAndValidity();
+  }
+
+
+  @Output() fleteAnticipoIdSelected: EventEmitter<number | null> = new EventEmitter<number | null>();
+
+  onFleteAnticipoSelect(fleteAnticipoId: number | null): void {
+    this.fleteAnticipoIdSelected.emit(fleteAnticipoId);
   }
 }
 
