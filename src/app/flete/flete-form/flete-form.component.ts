@@ -221,121 +221,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  copiar() {
-    this.isEditPressed = false
-    this.isEditCopyForm = false;
-    this.isCopyFlete = true;
-    this.form.enable();
-    const copiedData = {
-      ...this.info.value,
-      ...this.tramo.value,
-      ...this.condicion.value,
-      ...this.merma.value,
-      ...this.emisionOrden.value,
-      anticipos: this.anticipos.value,
-      complementos: this.complementos.value,
-      descuentos: this.descuentos.value,
-    };
-
-    delete copiedData.id;
-    delete copiedData.createdAt;
-    delete copiedData.updatedAt;
-
-    this.info.patchValue(copiedData);
-    this.tramo.patchValue(copiedData);
-    this.condicion.patchValue(copiedData);
-    this.merma.patchValue(copiedData);
-    this.emisionOrden.patchValue(copiedData);
-    this.anticipos.setValue(copiedData.anticipos || []);
-    this.complementos.setValue(copiedData.complementos || []);
-    this.descuentos.setValue(copiedData.descuentos || []);
-
-    this.isEdit = true;
-    this.id = copiedData.id;
-    this.copiarFlete();
-  }
-
-  private copiarFlete(): void {
-    const formData = new FormData();
-      const anticiposCopy = this.anticipos.value;
-
-  console.log('ANTICIPOS ORIGINALES:', anticiposCopy); // <--- DEBUG
-    const data = JSON.parse(JSON.stringify({
-      ...this.info.value,
-      ...this.tramo.value,
-      ...this.condicion.value,
-      ...this.merma.value,
-      ...this.emisionOrden.value,
-      anticipos: this.anticipos.value,
-      complementos: this.complementos.value,
-      descuentos: this.descuentos.value,
-    }));
-
-    Object.keys(data).forEach(key => {
-      if (typeof data[key] === 'string' && key !== 'email') {
-        data[key] = data[key].toUpperCase();
-      }
-    });
-
-    formData.append('data', JSON.stringify(data));
-
-    this.fleteService.create(formData).subscribe((flete) => {
-      this.matSnackbar.open('Pedido copiado y guardado como nuevo.', 'Cerrar', {
-        duration: 3000,
-      });
-
-      this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
-
-      const dialogData: ConfirmationDialogData = {
-        title: '¿Quieres cancelar el pedido original?',
-        message: 'Si confirma, el pedido original será cancelado.',
-        closeButtonText: 'No',
-        confirmedButtonText: 'Sí',
-      };
-
-      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-        data: dialogData
-      });
-
-      dialogRef.afterClosed().subscribe((confirmed) => {
-        if (confirmed) {
-          this.fleteService.cancel(this.id!).subscribe(() => {
-            this.getData();
-            this.matSnackbar.open(
-              'Pedido original cancelado correctamente.',
-              'Cerrar',
-              { duration: 3000 }
-            );
-          });
-        }
-      });
-
-      this.id = flete.id;
-    });
-  }
-
-  ampliar() {
-    this.isEditPressed = false;
-
-    const condicionGroup = this.form.get('condicion') as FormGroup;
-    const cantidadCtrl = condicionGroup?.get('condicion_cantidad');
-    const saldoCtrl = condicionGroup?.get('saldo');
-
-    if (cantidadCtrl && saldoCtrl) {
-      cantidadCtrl.enable();
-
-      const saldo = saldoCtrl.value;
-
-      cantidadCtrl.clearValidators();
-
-      cantidadCtrl.setValidators([
-        Validators.required,
-        Validators.min(saldo)
-      ]);
-
-      cantidadCtrl.updateValueAndValidity();
-    }
-  }
 
   delete(){
     this.dialog.cancelStatusConfirm(
@@ -380,6 +265,122 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+copiar() {
+  this.isEditPressed = false;
+  this.isEditCopyForm = false;
+  this.isCopyFlete = true;
+  this.form.enable();
+
+  const originalId = this.id; 
+
+  const copiedData = {
+    ...this.info.value,
+    ...this.tramo.value,
+    ...this.condicion.value,
+    ...this.merma.value,
+    ...this.emisionOrden.value,
+    anticipos: this.anticipos.value,
+    complementos: this.complementos.value,
+    descuentos: this.descuentos.value,
+  };
+
+  delete copiedData.id;
+  delete copiedData.createdAt;
+  delete copiedData.updatedAt;
+
+  this.info.patchValue(copiedData);
+  this.tramo.patchValue(copiedData);
+  this.condicion.patchValue(copiedData);
+  this.merma.patchValue(copiedData);
+  this.emisionOrden.patchValue(copiedData);
+
+
+  this.isEdit = true;
+
+  if (originalId !== undefined) {
+  this.copiarFlete(originalId);
+  }
+}
+
+private copiarFlete(originalId: number): void {
+  const formData = new FormData();
+  const data = {
+    ...this.info.value,
+    ...this.tramo.value,
+    ...this.condicion.value,
+    ...this.merma.value,
+    ...this.emisionOrden.value,
+    anticipos: this.anticipos.value,
+    complementos: this.complementos.value,
+    descuentos: this.descuentos.value,
+  };
+
+  Object.keys(data).forEach(key => {
+    if (typeof data[key] === 'string' && key !== 'email') {
+      data[key] = data[key].toUpperCase();
+    }
+  });
+
+  formData.append('data', JSON.stringify(data));
+
+  this.fleteService.create(formData).subscribe((flete) => {
+    this.matSnackbar.open('Pedido copiado y guardado como nuevo.', 'Cerrar', {
+      duration: 3000,
+    });
+
+    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
+
+    const dialogData: ConfirmationDialogData = {
+      title: '¿Quieres cancelar el pedido original?',
+      message: 'Si confirma, el pedido original será cancelado.',
+      closeButtonText: 'No',
+      confirmedButtonText: 'Sí',
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.fleteService.cancel(originalId!).subscribe(() => {
+          this.getData();
+          this.matSnackbar.open(
+            'Pedido original cancelado correctamente.',
+            'Cerrar',
+            { duration: 3000 }
+          );
+        });
+      }
+    });
+
+    this.id = flete.id;
+  });
+}
+
+  ampliar() {
+    this.isEditPressed = false;
+
+    const condicionGroup = this.form.get('condicion') as FormGroup;
+    const cantidadCtrl = condicionGroup?.get('condicion_cantidad');
+    const saldoCtrl = condicionGroup?.get('saldo');
+
+    if (cantidadCtrl && saldoCtrl) {
+      cantidadCtrl.enable();
+
+      const saldo = saldoCtrl.value;
+
+      cantidadCtrl.clearValidators();
+
+      cantidadCtrl.setValidators([
+        Validators.required,
+        Validators.min(saldo)
+      ]);
+
+      cantidadCtrl.updateValueAndValidity();
+    }
+  }
+
   save(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
@@ -389,6 +390,16 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       const data: FleteConfirmationDialogData = {
         flete: getFleteData(this.form),
       };
+  console.log('📦 Datos preparados para guardar (save):', {
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    });
 
       this.dialog
         .open(FleteConfirmationDialogComponent, {
@@ -429,7 +440,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         descuentos: this.descuentos.value,
       })
     );
-
     // Convertir propiedades a mayúsculas, excepto los correos electrónicos
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {
@@ -441,6 +451,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.hasChange = false;
     this.initialFormValue = this.form.value;
     if (this.isEdit && this.id) {
+      console.log('📝 Editando flete existente con ID:', this.id);
       this.fleteService.edit(this.id, formData).subscribe(() => {
         this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
         this.getData();
