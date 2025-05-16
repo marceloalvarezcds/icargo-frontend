@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -117,11 +117,49 @@ export class LiquidacionFormComponent implements OnInit {
     }
   }
 
+  groupBy( column:string, data: any[] ){
+
+    if(!column) return data;
+
+    const customReducer = (accumulator:any, currentValue:any) => {
+      let currentGroup = currentValue[column];
+      if(!accumulator[currentGroup])
+      accumulator[currentGroup] = [{
+        groupName: `Moneda: ${currentValue[column]}`,
+        totales: 0,
+        isGroup: true,
+      }];
+
+      accumulator[currentGroup][0] =
+        {
+          ...accumulator[currentGroup][0],
+          totales:accumulator[currentGroup][0].totales + currentValue.monto
+        };
+
+      accumulator[currentGroup].push(currentValue);
+
+      return accumulator;
+    }
+
+    let groups = data.reduce(customReducer,{});
+    let groupArray = Object.keys(groups).map(key => groups[key]);
+    let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
+
+    return flatList;
+  }
+
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
+
+    const listMovimientos = this.child.movimientosSelected.slice();
+    // agrupamos por moneda
+    const listMovimientosGrouped = this.groupBy('moneda_nombre', listMovimientos);
+
+    console.log("movs agrupados: ",listMovimientosGrouped);
+
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
-        list: this.child.movimientosSelected.slice(),
+        list: listMovimientosGrouped,
         credito: this.child.credito,
         debito: this.child.debito,
         monto: this.child.monto,
@@ -257,12 +295,17 @@ export class LiquidacionFormComponent implements OnInit {
       this.estadoCuenta!.contraparte_id,
       etapa
     )
+    .pipe(
+      map((response:Movimiento[]) => {
+        response.forEach(r=> r.isExpanded= false);
+        return response;
+      })
+    )
     .subscribe((data) => {
       this.list = data;
+      console.log("movimientos: ", data);
       this.movimientosSelected = [];
     });
-
-
   }
 
   getListPDV(contraparte_id:number, punto_venta_id:number, flujo:string): void {
@@ -282,6 +325,12 @@ export class LiquidacionFormComponent implements OnInit {
           etapa,
           punto_venta_id,
           flujo
+        )
+        .pipe(
+          map((response:Movimiento[]) => {
+            response.forEach(r=> r.isExpanded= false);
+            return response;
+          })
         )
         .subscribe((data) => {
           this.list = data;

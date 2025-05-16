@@ -30,6 +30,7 @@
     <div class="row" *ngIf="!esOrdenPago">
 
       <app-liquidacion-form-movimientos #movimientosList
+        class="col-xs-12"
         [showAccions]="!isDialog"
         [list]="list"
         (movimientosInDBChange)="getList()"

@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import {
   Component,
   EventEmitter,
@@ -13,7 +14,6 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
-import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum,
@@ -21,23 +21,28 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
-import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
-import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
 import { SearchService } from 'src/app/services/search.service';
 import { delay } from 'src/app/utils/observable';
 
 @Component({
-  selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['./table.component.scss'],
+  selector: 'app-table-expandable',
+  templateUrl: './table-expandable.component.html',
+  styleUrls: ['./table-expandable.component.scss'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', display: 'none', minHeight: '0'})),
+      state('expanded', style({height: '*', display: 'block'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
-export class TableComponent<T> implements OnInit, OnDestroy {
+export class TableExpandibleComponent<T> implements OnInit, OnDestroy {
   e = EstadoEnum;
-  f = LiquidacionEstadoEnum;
   a = PermisoAccionEnum;
   le = LiquidacionEtapaEnum;
+  expandedElement: T | null = null;
   allChecked: boolean = false;
   checkedList: boolean[] = [];
   allColumns: Column[] = [];
@@ -56,7 +61,14 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     .pipe(delay(500))
     .subscribe((search) => this.filterData(search));
 
-  @Input() grouped = false;
+  @Input() subRowColumnsToDisplay: Column[] | null = [];
+  @Input() expandibleButton: boolean = false;
+  @Input() expandibleRow: boolean = false;
+
+  get subRowColumnsToDisplayString():string[] {
+    return (this.subRowColumnsToDisplay) ? this.subRowColumnsToDisplay.map((c) => c.def) : [""];
+  }
+
   @Input() set dataSource(source: MatTableDataSource<T>) {
     this.tableDataSource = source;
     this.tableDataSource.sort = this.sort;
@@ -274,9 +286,4 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     }
     return '';
   }
-
-  isGroup(index:number, item:any): boolean{
-    return item.isGroup;
-  }
-
 }

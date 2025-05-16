@@ -74,15 +74,15 @@ export class BancoListComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'saldo_banco',
-      title: 'Saldo',
-      value: (element: Banco) => element.saldo_confirmado,
-      type: 'number',
-    },
-    {
       def: 'saldo_provisional',
       title: 'Pendiente',
       value: (element: Banco) => element.saldo_provisional,
+      type: 'number',
+    },
+    {
+      def: 'saldo_banco',
+      title: 'Saldo',
+      value: (element: Banco) => element.saldo_confirmado,
       type: 'number',
     },
     {

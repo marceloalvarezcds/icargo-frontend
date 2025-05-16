@@ -12,6 +12,7 @@ import { OcDescuentoDialogData } from 'src/app/interfaces/oc-descuento-dialog-da
 import { OcDescuentoFormDialogComponent } from 'src/app/dialogs/oc-descuento-form-dialog/oc-descuento-form-dialog.component';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuento.service';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 @Component({
   selector: 'app-orden-carga-edit-form-descuentos',
@@ -19,80 +20,23 @@ import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuen
   styleUrls: ['./orden-carga-edit-form-descuentos.component.scss'],
 })
 export class OrdenCargaEditFormDescuentosComponent {
+
   a = PermisoAccionEnum;
-  columns: Column[] = [
-    {
-      def: 'id',
-      title: 'Nº',
-      value: (element: OrdenCargaDescuento) => element.id,
-      sticky: true,
-    },
-    {
-      def: 'concepto_descripcion',
-      title: 'Concepto',
-      value: (element: OrdenCargaDescuento) => element.concepto_descripcion,
-    },
-    {
-      def: 'propietario_monto',
-      title: 'A Cobrar',
-      value: (element: OrdenCargaDescuento) => element.propietario_monto,
-      type: 'number',
-    },
-    {
-      def: 'propietario_moneda_nombre',
-      title: 'Moneda de Cobro',
-      value: (element: OrdenCargaDescuento) =>
-        element.propietario_moneda_nombre,
-    },
-    {
-      def: 'proveedor_monto',
-      title: 'A Pagar',
-      value: (element: OrdenCargaDescuento) => element.proveedor_monto,
-      type: 'number',
-    },
-    {
-      def: 'proveedor_moneda_nombre',
-      title: 'Moneda de Pago',
-      value: (element: OrdenCargaDescuento) => element.proveedor_moneda_nombre,
-    },
-    {
-      def: 'proveedor_nombre',
-      title: 'Proveedor',
-      value: (element: OrdenCargaDescuento) => element.proveedor_nombre,
-    },
-    {
-      def: 'created_by',
-      title: 'Usuario creación',
-      value: (element: OrdenCargaDescuento) => element.created_by,
-    },
-    {
-      def: 'created_at',
-      title: 'Fecha creación',
-      value: (element: OrdenCargaDescuento) => element.created_at,
-      type: 'date-time',
-    },
-    {
-      def: 'modified_by',
-      title: 'Usuario modificación',
-      value: (element: OrdenCargaDescuento) => element.modified_by,
-    },
-    {
-      def: 'modified_at',
-      title: 'Fecha modificación',
-      value: (element: OrdenCargaDescuento) => element.modified_at,
-      type: 'date-time',
-    },
-    { def: 'actions', title: 'Acciones', stickyEnd: true },
-  ];
+
+  columns: Column[] = [];
 
   modelo = m.ORDEN_CARGA_DESCUENTO;
+
+  lista: OrdenCargaDescuento[] = [];
 
   @Input() oc?: OrdenCarga;
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
   @Input() isEditPedido = false;
   @Input() puedeConciliar = false;
-  @Input() list: OrdenCargaDescuento[] = [];
+  @Input() set list( l:  OrdenCargaDescuento[] ){
+    this.setList(l);
+  }
   @Input() fleteId?: number;
   @Output() ocChange = new EventEmitter<void>();
   @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
@@ -108,7 +52,6 @@ export class OrdenCargaEditFormDescuentosComponent {
     return `${year}-${month}-${day} ${hours}:${minutes}`;
   }
 
-
   constructor(
     private dialog: MatDialog,
     private ordenCargaDescuentoService: OrdenCargaDescuentoService
@@ -119,16 +62,15 @@ export class OrdenCargaEditFormDescuentosComponent {
     this.buttonAnticipoClicked.emit();
   }
 
-   show({ row }: TableEvent<OrdenCargaDescuento>): void {
-      const dialogRef = this.getDialogRef(row);
-      const dialogConfig = {
-        ...dialogRef.componentInstance.dialogConfig,
-        disabled: true,
-      };
-      dialogRef.componentInstance.dialogConfig = dialogConfig;
-      this.buttonAnticipoClicked.emit();
-    }
-
+  show({ row }: TableEvent<OrdenCargaDescuento>): void {
+    const dialogRef = this.getDialogRef(row);
+    const dialogConfig = {
+      ...dialogRef.componentInstance.dialogConfig,
+      disabled: true,
+    };
+    dialogRef.componentInstance.dialogConfig = dialogConfig;
+    this.buttonAnticipoClicked.emit();
+  }
 
   edit({ row }: TableEvent<OrdenCargaDescuento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
@@ -162,4 +104,82 @@ export class OrdenCargaEditFormDescuentosComponent {
   private emitOcChange(): void {
     this.ocChange.emit();
   }
+
+  private setList(list: OrdenCargaDescuento[]):void {
+    this.lista = list ? list.slice() : [];
+    this.configColumns();
+  }
+
+  private configColumns():void {
+    this.columns = [
+      {
+        def: 'id',
+        title: 'Nº',
+        value: (element: OrdenCargaDescuento) => element.id,
+        sticky: true,
+      },
+      {
+        def: 'concepto_descripcion',
+        title: 'Concepto',
+        value: (element: OrdenCargaDescuento) => element.concepto_descripcion,
+      },
+      {
+        def: 'propietario_monto',
+        title: 'A Cobrar',
+        value: (element: OrdenCargaDescuento) => element.propietario_monto,
+        type: 'number',
+      },
+      {
+        def: 'propietario_moneda_nombre',
+        title: 'Moneda de Cobro',
+        value: (element: OrdenCargaDescuento) =>
+          element.propietario_moneda_nombre,
+      },
+      {
+        def: 'proveedor_monto',
+        title: 'A Pagar',
+        value: (element: OrdenCargaDescuento) => element.proveedor_monto,
+        type: 'number',
+      },
+      {
+        def: 'proveedor_moneda_nombre',
+        title: 'Moneda de Pago',
+        value: (element: OrdenCargaDescuento) => element.proveedor_moneda_nombre,
+      },
+      {
+        def: 'proveedor_nombre',
+        title: 'Proveedor',
+        value: (element: OrdenCargaDescuento) => element.proveedor_nombre,
+      },
+      {
+        def: 'created_by',
+        title: 'Usuario creación',
+        value: (element: OrdenCargaDescuento) => element.created_by,
+      },
+      {
+        def: 'created_at',
+        title: 'Fecha creación',
+        value: (element: OrdenCargaDescuento) => element.created_at,
+        type: 'date-time',
+      },
+      {
+        def: 'modified_by',
+        title: 'Usuario modificación',
+        value: (element: OrdenCargaDescuento) => element.modified_by,
+      },
+      {
+        def: 'modified_at',
+        title: 'Fecha modificación',
+        value: (element: OrdenCargaDescuento) => element.modified_at,
+        type: 'date-time',
+      },
+    ];
+
+    if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
+      this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
+    }
+
+  }
+
+
 }

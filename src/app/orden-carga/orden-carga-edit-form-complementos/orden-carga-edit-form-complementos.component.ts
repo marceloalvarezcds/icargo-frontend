@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OcComplementoFormDialogComponent } from 'src/app/dialogs/oc-complemento-form-dialog/oc-complemento-form-dialog.component';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
@@ -85,10 +86,11 @@ export class OrdenCargaEditFormComplementosComponent {
       type: 'date-time',
 
     },
-    { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   modelo = m.ORDEN_CARGA_COMPLEMENTO;
+
+  lista: OrdenCargaComplemento[] = [];
 
   @Input() oc?: OrdenCarga;
   ocComplemento?: OrdenCargaComplemento
@@ -96,7 +98,10 @@ export class OrdenCargaEditFormComplementosComponent {
   @Input() isShow = false;
   @Input() isEditPedido = false;
   @Input() puedeConciliar = false;
-  @Input() list: OrdenCargaComplemento[] = [];
+  @Input() set list( l:  OrdenCargaComplemento[] ){
+    this.setList(l);
+  }
+
   @Input() fleteId?: number;
 
   @Output() ocChange = new EventEmitter<void>();
@@ -105,7 +110,8 @@ export class OrdenCargaEditFormComplementosComponent {
   constructor(
     private dialog: MatDialog,
     private ordenCargaComplementoService: OrdenCargaComplementoService
-  ) {}
+  ) {
+  }
 
   formatFecha(fecha: string | Date): string {
     const date = new Date(fecha);
@@ -133,6 +139,18 @@ export class OrdenCargaEditFormComplementosComponent {
     this.buttonAnticipoClicked.emit();
   }
 
+  private setList(list: OrdenCargaComplemento[]):void {
+    this.lista = list ? list.slice() : [];
+    this.configColumns();
+  }
+
+  private configColumns():void {
+
+    if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
+      this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
+    }
+
+  }
 
   edit({ row }: TableEvent<OrdenCargaComplemento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
