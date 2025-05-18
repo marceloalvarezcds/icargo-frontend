@@ -84,8 +84,8 @@ export class OrdenCargaEditFormComplementosComponent {
       title: 'Fecha modificación',
       value: (element: OrdenCargaComplemento) => element.modified_at,
       type: 'date-time',
-
     },
+    { def: 'actions', title: 'Acciones', stickyEnd: true }
   ];
 
   modelo = m.ORDEN_CARGA_COMPLEMENTO;
@@ -141,14 +141,14 @@ export class OrdenCargaEditFormComplementosComponent {
 
   private setList(list: OrdenCargaComplemento[]):void {
     this.lista = list ? list.slice() : [];
-    this.configColumns();
+    //this.configColumns();
   }
 
   private configColumns():void {
 
-    if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
+    /*#inputTemplate*if ( this.oc?.estado !== EstadoEnum.FINALIZADO && this.oc?.estado! !== EstadoEnum.CONCILIADO ){
       this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
-    }
+    }*/
 
   }
 

@@ -29,7 +29,7 @@
     [data]="lista"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
-    [hideShow]="oc?.estado === 'Conciliado'"
-    [isShow]="oc?.estado === 'Conciliado'"
+    [hideShow]="oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'"
+    [isShow]="oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'"
   ></app-table>
 </div>
