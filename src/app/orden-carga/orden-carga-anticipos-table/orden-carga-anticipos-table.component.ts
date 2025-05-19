@@ -405,6 +405,14 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createEfectivo(): void {
+    if (!this.oc?.camion_propietario_puede_recibir_anticipos) {
+      this.snackBar.open('El Propietario no está habilitado para recibir anticipos.', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
+
     if (!this.oc?.combinacion_chofer_puede_recibir_anticipos) {
       this.snackBar.open('El Chofer no esta habilitado para recibir anticipos.', 'Cerrar', {
         duration: 3000,
@@ -418,6 +426,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createInsumo(): void {
+    if (!this.oc?.camion_propietario_puede_recibir_anticipos) {
+      this.snackBar.open('El Propietario no está habilitado para recibir anticipos.', 'Cerrar', {
+        duration: 3000,
+        panelClass: ['error-snackbar']
+      });
+      return;
+    }
     if (!this.oc?.combinacion_chofer_puede_recibir_anticipos) {
       this.snackBar.open('El Chofer no esta habilitado para recibir anticipos.', 'Cerrar', {
         duration: 3000,
@@ -442,10 +457,8 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
   redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
     this.ocAnticipoRetirado = this.list.find(i => i.id === event.row.id);
-
     if (this.ocAnticipoRetirado) {
       let dialogComponent: ComponentType<any>;
-
       // Verifica si tipo_insumo_id es null
       if (this.ocAnticipoRetirado.tipo_insumo_id === null) {
         dialogComponent = OcAnticipoRetiradoEfectivoAnulacionDialogComponent;
