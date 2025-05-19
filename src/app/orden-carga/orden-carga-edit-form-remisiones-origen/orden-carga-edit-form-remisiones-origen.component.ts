@@ -167,7 +167,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
           }
         }
       },
-
+      { def: 'actions', title: 'Acciones', stickyEnd: true }
       // {
       //   def: 'cantidad_equiv',
       //   title: 'Cantidad Equiv. (kg)',
@@ -177,9 +177,9 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       // },
     ];
 
-    if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
+    /*if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
       this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
-    }
+    }*/
 
   }
 

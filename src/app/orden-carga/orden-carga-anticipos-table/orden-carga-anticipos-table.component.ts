@@ -258,25 +258,26 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   obtenerCotizaciones(): void {
-    this.monedaCotizacionService
-      .getCotizacionByGestor(this.oc!.flete_moneda_id, this.oc!.gestor_carga_id)
-      .subscribe({
-        next: (responseOrigen) => {
-          this.cotizacionOrigen = responseOrigen?.cotizacion_moneda ?? null;
-          // console.log('Cotización Origen:', this.cotizacionOrigen);
+    if (this.oc)
+      this.monedaCotizacionService
+        .getCotizacionByGestor(this.oc.flete_moneda_id, this.oc.gestor_carga_id)
+        .subscribe({
+          next: (responseOrigen) => {
+            this.cotizacionOrigen = responseOrigen?.cotizacion_moneda ?? null;
+            // console.log('Cotización Origen:', this.cotizacionOrigen);
 
-          if (this.monedaDestinoId) {
-            this.monedaCotizacionService
-              .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
-              .subscribe({
-                next: (responseDestino) => {
-                  this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
-                  // console.log('Cotización Destino:', this.cotizacionDestino);
-                }
-              });
+            if (this.monedaDestinoId) {
+              this.monedaCotizacionService
+                .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
+                .subscribe({
+                  next: (responseDestino) => {
+                    this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+                    // console.log('Cotización Destino:', this.cotizacionDestino);
+                  }
+                });
+            }
           }
-        }
-      });
+        });
   }
 
   getCotizacionMonedaDestino(monedaDestinoId: number): void {
