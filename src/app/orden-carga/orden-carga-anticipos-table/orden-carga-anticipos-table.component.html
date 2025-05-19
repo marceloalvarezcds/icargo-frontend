@@ -99,7 +99,6 @@
           mat-flat-button type="button"
           class="botones"
           color="primary"
-          [ngClass]="{ 'disabled': oc?.combinacion_chofer_puede_recibir_anticipos}"
           id="add-button"
           (click)="createInsumo()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
