@@ -607,8 +607,8 @@ private createComentarioAndCancel(comentario: string): void {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -626,8 +626,8 @@ private createComentarioAndCancel(comentario: string): void {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -674,11 +674,11 @@ private createComentarioAndCancel(comentario: string): void {
                 } else {
                     console.log('Diálogo de evaluación cancelado');
                 }
-                this.snackBar.open('Generando PDF...', 'Cerrar', {
-                    duration: 3000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                });
+                // this.snackBar.open('Generando PDF...', 'Cerrar', {
+                //     duration: 3000,
+                //     verticalPosition: 'top',
+                //     horizontalPosition: 'center'
+                // });
                 // this.downloadConciliarResumenPDF();
             });
         },
@@ -969,7 +969,7 @@ private createComentarioAndCancel(comentario: string): void {
                 propietario_camion: data.camion_propietario_nombre,
                 propietario_camion_doc: data.camion_propietario_documento,
                 chofer_camion:  this.item.chofer_nombre,
-                chofer_camion_doc: data.chofer_documento,
+                chofer_camion_doc: data.combinacion_chofer_doc,
                 beneficiario_camion: data.propietario_nombre,
                 beneficiario_camion_doc: data.camion_beneficiario_documento,
                 numero: data.flete_numero_lote,

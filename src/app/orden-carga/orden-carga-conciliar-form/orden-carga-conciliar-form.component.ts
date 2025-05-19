@@ -627,8 +627,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -646,8 +646,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -687,17 +687,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             if (comentarioUpper) {
                 this.createComentarioYConciliar(comentarioUpper);
             }
-
-            this.snackBar.open('Generando PDF...', 'Cerrar', {
-                duration: 3000,
-                verticalPosition: 'top',
-                horizontalPosition: 'center'
-            });
-            // this.downloadConciliarResumenPDF();
         },
     );
   }
-
 
 
   downloadResumenPDF(): void {
@@ -764,7 +756,6 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       this.chRef.detectChanges();
     }
   }
-
 
 
   submit(confirmed: boolean): void {

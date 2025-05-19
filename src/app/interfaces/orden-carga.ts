@@ -50,6 +50,8 @@ import { mockSemiList } from './semi';
 export interface OrdenCargaForm {
   camion_id: number;
   semi_id: number;
+  chofer_id:number;
+  propietario_id:number;
   combinacion_id: number;
   flete_id: number;
   cantidad_nominada: number;
@@ -310,6 +312,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   id: 1,
   // Datos de camion
   camion_id: camion0.id,
+  chofer_id: 1,
+  propietario_id:2,
   combinacion_id: camion0.id,
   camion_marca: '',
   camion_color: '',
@@ -469,6 +473,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 1,
     // Datos de camion
     camion_id: camion0.id,
+    chofer_id: 1,
+    propietario_id:2,
     combinacion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
@@ -533,6 +539,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 2,
     // Datos de camion
     camion_id: camion1.id,
+    chofer_id: 1,
+    propietario_id:2,
     combinacion_id: camion0.id,
     camion_chofer_nombre: camion1.chofer_nombre,
     camion_chofer_numero_documento: camion1.chofer_numero_documento,
@@ -597,6 +605,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 3,
     // Datos de camion
     camion_id: camion0.id,
+    chofer_id: 1,
+    propietario_id:2,
     combinacion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
     camion_chofer_numero_documento: camion0.chofer_numero_documento,

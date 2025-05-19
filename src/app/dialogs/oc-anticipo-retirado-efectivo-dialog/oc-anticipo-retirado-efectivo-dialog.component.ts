@@ -261,6 +261,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   }
 
 
+
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
   }
@@ -363,9 +364,9 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   }
 
   getCotizacionMonedaOrigen(): void {
-    this.monedaOrigenId = this.oc!.flete_moneda_id;
+    this.monedaOrigenId = this.oc!.condicion_propietario_moneda_id;
     this.monedaCotizacionService
-    .getCotizacionByGestor(this.oc!.flete_moneda_id, this.oc!.gestor_carga_id)
+    .getCotizacionByGestor(this.oc!.condicion_propietario_moneda_id, this.oc!.gestor_carga_id)
     .subscribe({
       next: (responseOrigen) => {
         this.cotizacionOrigen = responseOrigen ? responseOrigen.cotizacion_moneda : null;
