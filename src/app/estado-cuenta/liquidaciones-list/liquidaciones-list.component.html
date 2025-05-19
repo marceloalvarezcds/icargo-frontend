@@ -75,6 +75,8 @@
     (checkboxChange)="onCheckboxChange($event)"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
+    [fnHideEditRowButton]="fnHideEdit"
+    [fnHideDeleteRowButton]="fnHideDelete"
   ></app-table-paginator>
 
 </app-page>

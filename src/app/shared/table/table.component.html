@@ -348,9 +348,8 @@
               mat-menu-item
               (click)="editClick.emit({ row, index })"
               *ngIf="
-                (row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO &&
-                  row.estado !== e.INACTIVO && row.estado !== f.FINALIZADO && row.estado !== f.SALDO_CERRADO
-                 ) &&
+                row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
+                hideButtonEdit(row) &&
                 !hideEdit &&
                 (modelo
                   | puede
@@ -372,8 +371,7 @@
               mat-menu-item
               (click)="deleteClick.emit({ row, index })"
               *ngIf="
-                ( row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
-                row.estado !== e.FINALIZADO && row.estado !== f.FINALIZADO && row.estado !== f.SALDO_CERRADO ) &&
+                hideButtonDelete(row) &&
                 !hideDelete &&
                 (modelo
                   | puede

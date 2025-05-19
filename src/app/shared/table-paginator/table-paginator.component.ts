@@ -57,6 +57,8 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() shouldShowInactiveButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() configurarColumnasVisibles?: Column[];
+  @Input() fnHideEditRowButton?: (r:any) => boolean;
+  @Input() fnHideDeleteRowButton?: (r:any) => boolean;
 
   @Output() filterResult = new EventEmitter<any[]>();
   @Output() activeClick = new EventEmitter<TableEvent<any>>();

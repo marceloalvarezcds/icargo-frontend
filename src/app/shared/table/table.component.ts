@@ -86,6 +86,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     this.tableDataSource
   );
 
+  @Input() fnHideEditRowButton?: (r:any) => boolean;
+  @Input() fnHideDeleteRowButton?: (r:any) => boolean;
   @Input() oc?: OrdenCarga;
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
@@ -181,6 +183,16 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   isFirstThreeColumns(columnDef: string): boolean {
     const firstThreeColumns = ['id_gestion',  '%'];
     return firstThreeColumns.includes(columnDef);
+  }
+
+  hideButtonEdit(row:T):boolean{
+    if (this.fnHideEditRowButton) return this.fnHideEditRowButton(row);
+    return true;
+  }
+
+  hideButtonDelete(row:T):boolean{
+    if (this.fnHideDeleteRowButton) return this.fnHideDeleteRowButton(row);
+    return true;
   }
 
 
