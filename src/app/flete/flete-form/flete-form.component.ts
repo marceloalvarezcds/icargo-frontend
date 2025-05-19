@@ -271,7 +271,7 @@ copiar() {
   this.isCopyFlete = true;
   this.form.enable();
 
-  const originalId = this.id; 
+  const originalId = this.id;
 
   const copiedData = {
     ...this.info.value,
@@ -296,10 +296,32 @@ copiar() {
 
 
   this.isEdit = true;
+ const dialogData: ConfirmationDialogData = {
+      title: '¿Quieres cancelar el pedido original?',
+      message: 'Si confirma, el pedido original será cancelado.',
+      closeButtonText: 'No',
+      confirmedButtonText: 'Sí',
+    };
 
-  if (originalId !== undefined) {
-  this.copiarFlete(originalId);
-  }
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.fleteService.cancel(originalId!).subscribe(() => {
+          this.getData();
+          this.matSnackbar.open(
+            'Pedido original cancelado correctamente.',
+            'Cerrar',
+            { duration: 3000 }
+          );
+        });
+      }
+    });
+  // if (originalId !== undefined) {
+  // this.copiarFlete(originalId);
+  // }
 }
 
 private copiarFlete(originalId: number): void {
@@ -425,50 +447,71 @@ private copiarFlete(originalId: number): void {
     }
   }
 
-  submit(confirmed: boolean): void {
-    const formData = new FormData();
+submit(confirmed: boolean): void {
+  const formData = new FormData();
 
-    const data = JSON.parse(
-      JSON.stringify({
-        ...this.info.value,
-        ...this.tramo.value,
-        ...this.condicion.value,
-        ...this.merma.value,
-        ...this.emisionOrden.value,
-        anticipos: this.anticipos.value,
-        complementos: this.complementos.value,
-        descuentos: this.descuentos.value,
-      })
-    );
-    // Convertir propiedades a mayúsculas, excepto los correos electrónicos
-    Object.keys(data).forEach(key => {
-      if (typeof data[key] === 'string' && key !== 'email') {
-        data[key] = data[key].toUpperCase();
+  // Crear copia profunda de los datos del formulario para no modificar los originales
+  const data = JSON.parse(
+    JSON.stringify({
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    })
+  );
+
+  // Si estamos en modo copiar, eliminar los IDs para crear nuevos registros en backend
+  if (this.isCopyFlete) {
+    ['anticipos', 'complementos', 'descuentos'].forEach((lista) => {
+      if (Array.isArray(data[lista])) {
+        data[lista] = data[lista].map((item: any) => {
+          if (item && typeof item === 'object') {
+            const newItem = { ...item };
+            delete newItem.id;
+            return newItem;
+          }
+          return item;
+        });
       }
     });
-
-    formData.append('data', JSON.stringify(data));
-    this.hasChange = false;
-    this.initialFormValue = this.form.value;
-    if (this.isEdit && this.id) {
-      console.log('📝 Editando flete existente con ID:', this.id);
-      this.fleteService.edit(this.id, formData).subscribe(() => {
-        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-        this.getData();
-      });
-    } else {
-      this.fleteService.create(formData).subscribe((flete) => {
-        let url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`
-        this.snackbar.openSaveAndRedirect(
-          true,
-          url,
-          r.FLETE,
-          m.FLETE,
-          flete.id
-        );
-      });
-    }
   }
+
+  // Convertir strings a mayúsculas salvo email
+  Object.keys(data).forEach(key => {
+    if (typeof data[key] === 'string' && key !== 'email') {
+      data[key] = data[key].toUpperCase();
+    }
+  });
+
+  formData.append('data', JSON.stringify(data));
+  this.hasChange = false;
+  this.initialFormValue = this.form.value;
+
+  if (this.isEdit && this.id && !this.isCopyFlete) {
+    console.log('📝 Editando flete existente con ID:', this.id);
+    this.fleteService.edit(this.id, formData).subscribe(() => {
+      this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+      this.getData();
+    });
+  } else {
+    this.fleteService.create(formData).subscribe((flete) => {
+      const url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`;
+      this.snackbar.openSaveAndRedirect(
+        true,
+        url,
+        r.FLETE,
+        m.FLETE,
+        flete.id
+      );
+      this.isCopyFlete = false; // resetear bandera después de crear
+    });
+  }
+}
+
 
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
