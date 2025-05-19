@@ -40,19 +40,7 @@
 
     <div class="row">
 
-      <app-dialog-field-ruc
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Contribuyente"
-        controlName="contribuyente"
-        [form]="form">
-      </app-dialog-field-ruc>
-
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="RUC"
-        controlName="ruc"
-        [form]="form"
-      ></app-input-field>
+      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-4" [form]="form"></app-tipo-iva-field>
 
       <div class="input-form-full col-xs-12 col-sm-6 col-md-4" style="display: flex;flex-direction: column; align-items: flex-start;">
         <mat-label class="custom-label">
@@ -65,28 +53,36 @@
 
     <div class="row">
 
-      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-4" [form]="form"></app-tipo-iva-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Valor IVA"
+        controlName="iva"
+        [form]="form"
+      ></app-number-field>
 
-      <div class="col-xs-12 col-sm-6 col-md-8">
-        <span style="font-size: smaller; color: gray;">Si el usuario buscado no aparece en la lista lo puedes crear cargando la razon social y el ruc en los campos superiores</span>
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <mat-label>Movimiento IVA</mat-label>
+        <mat-form-field>
+          <mat-select formControlName="sentido_mov_iva">
+            <mat-option></mat-option>
+            <mat-option value="PAGAR">PAGAR</mat-option>
+            <mat-option value="COBRAR">COBRAR</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
     </div>
 
     <div class="row">
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
-          <mat-label>Movimiento IVA</mat-label>
-          <mat-form-field>
-            <mat-select formControlName="sentido_mov_iva">
-              <mat-option></mat-option>
-              <mat-option value="PAGAR">PAGAR</mat-option>
-              <mat-option value="COBRAR">COBRAR</mat-option>
-            </mat-select>
-          </mat-form-field>
-      </div>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Valor Retencion"
+        controlName="retencion"
+        [form]="form"
+      ></app-number-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
         <mat-label>Movimiento Retencion</mat-label>
         <mat-form-field>
           <mat-select formControlName="sentido_mov_retencion">
@@ -101,21 +97,27 @@
 
     <div class="row">
 
-      <app-number-field
+      <app-dialog-field-ruc
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Valor IVA"
-        controlName="iva"
-        [form]="form"
-      ></app-number-field>
+        title="Contribuyente"
+        controlName="contribuyente"
+        [form]="form">
+      </app-dialog-field-ruc>
 
-      <app-number-field
+      <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Valor Retencion"
-        controlName="retencion"
+        title="RUC"
+        controlName="ruc"
         [form]="form"
-      ></app-number-field>
+      ></app-input-field>
+
+      <span style="font-size: smaller; color: gray;">
+        Si el usuario buscado no aparece en la lista lo puedes crear cargando la razon social y el ruc en los campos superiores
+      </span>
 
     </div>
+
+    <br>
 
     <div class="row">
 
@@ -126,19 +128,19 @@
         [form]="form"
       ></app-input-field>
 
-      <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Fecha Factura"
-        controlName="fecha_factura"
-        [form]="form"
-      ></app-fecha-field>
-
       <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="N° Timbrado"
         controlName="timbrado"
         [form]="form"
       ></app-input-field>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Fecha Factura"
+        controlName="fecha_factura"
+        [form]="form"
+      ></app-fecha-field>
 
       <app-fecha-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"

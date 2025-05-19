@@ -116,13 +116,24 @@
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Moneda"
         [controlName]="'moneda'"
-        [form]="form">
+        [form]="form"
+        (valueChange)="$event && onMonedaSelect($event)">
       </app-moneda-field>
 
-      <app-estado-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        [estado]="estado">
-      </app-estado-field>
+      <div *ngIf="!showCotizacion"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4">
+
+        <app-number-field
+          title="Cotizacion"
+          controlName="tipo_cambio_moneda"
+          [form]="form"
+        ></app-number-field>
+
+      </div>
+
+    </div>
+
+    <div class="row">
 
       <div class="input-form-full col-xs-12 col-sm-6 col-md-8">
         <mat-label>Detalle</mat-label>
@@ -136,6 +147,11 @@
           ></textarea>
         </mat-form-field>
       </div>
+
+      <app-estado-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        [estado]="estado">
+      </app-estado-field>
 
     </div>
 
