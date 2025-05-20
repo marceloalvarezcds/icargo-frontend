@@ -678,14 +678,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             if (comentarioUpper) {
                 this.createComentarioYConciliar(comentarioUpper);
             }
-
-            this.snackBar.open('Generando PDF...', 'Cerrar', {
-                duration: 3000,
-                verticalPosition: 'top',
-                horizontalPosition: 'center'
-            });
-
-            this.downloadConciliarResumenPDF();
         },
     );
   }
@@ -755,7 +747,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
       this.flete = flete;
@@ -775,7 +766,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       this.chRef.detectChanges();
     }
   }
-
 
 
   submit(confirmed: boolean): void {
@@ -919,14 +909,5 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
     }
   }
-
-
-  // submit(confirmed: boolean): void {
-  //   this.isFormSaved = true;
-  //   this.isFormSubmitting = false
-  //   this.isShow = false
-  //   this.dataFromParent = this.form.get('combinacion.estado')?.value;
-  //   this.getData();
-  // }
 
 }

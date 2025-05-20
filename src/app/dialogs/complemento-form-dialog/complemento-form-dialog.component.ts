@@ -83,8 +83,6 @@ export class ComplementoFormDialogComponent implements OnInit {
             .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
             .subscribe((responseDestino) => {
               this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
-
-              console.log('Cotización destino cargada:', this.cotizacionDestino);
             });
         });
       });

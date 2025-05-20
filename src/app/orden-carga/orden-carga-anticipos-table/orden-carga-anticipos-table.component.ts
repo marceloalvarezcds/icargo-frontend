@@ -445,7 +445,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.buttonAnticipoClicked.emit();
   }
 
-  edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
+  anular({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
     if (row.tipo_insumo_id === null) {
       edit(this.getDialogEfectivoAnulacionRef(row), this.emitOcChange.bind(this));
     } else {
@@ -473,6 +473,30 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
           oc: this.oc,
           item: this.ocAnticipoRetirado,
           isShow: true,
+        }
+      });
+    }
+  }
+
+  redirectToEdit(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    this.ocAnticipoRetirado = this.list.find(i => i.id === event.row.id);
+    if (this.ocAnticipoRetirado) {
+      let dialogComponent: ComponentType<any>;
+      // Verifica si tipo_insumo_id es null
+      if (this.ocAnticipoRetirado.tipo_insumo_id === null) {
+        dialogComponent = OcAnticipoRetiradoEfectivoAnulacionDialogComponent;
+      } else {
+        dialogComponent = OcAnticipoRetiradoInsumoAnulacionDialogComponent;
+      }
+      const dialogRef = this.dialog.open(dialogComponent, {
+        width: '700px',
+        data: {
+          orden_carga_id: this.oc!.id,
+          flete_id: this.oc!.flete_id,
+          oc: this.oc,
+          item: this.ocAnticipoRetirado,
+          isEdit: true,
+          isShow: false,
         }
       });
     }
@@ -534,8 +558,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     };
 
     return this.dialog.open(OcAnticipoRetiradoEfectivoDialogComponent, {
-      width: '700px',
-      height: 'auto',
+      panelClass: 'half-dialog',
       data });
   }
 
@@ -553,7 +576,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       item,
     };
     return this.dialog.open(OcAnticipoRetiradoInsumoDialogComponent, {
-      width: '700px',
+      panelClass: 'half-dialog',
       height: 'auto',
       data });
   }

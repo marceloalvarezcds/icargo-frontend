@@ -30,7 +30,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   this.insumoService.getList();
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   horaPattern: RegExp = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
-  autoSelectFiltro = "lt";
+  autoSelectFiltro = "L";
 
   form = this.fb.group({
     punto_venta_id: [this.data?.punto_venta_nombre || null],

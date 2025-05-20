@@ -42,7 +42,6 @@
           title="Monto"
           controlName="monto_retirado"
           [form]="form"
-          [readonly]="true"
 
         ></app-number-field>
 
@@ -74,7 +73,7 @@
         <mat-icon>close</mat-icon>
         Cerrar</button>
       <button
-        *ngIf="data?.estados_movimientos !== 'Anulado' && !isShowBtn"
+        *ngIf="data?.estados_movimientos !== 'Anulado' && !isShowBtn && !isShowBtnSave"
         mat-flat-button
         class="botones"
         color="warn"
@@ -83,6 +82,15 @@
         cdkFocusInitial
         id="submit-button">
         <mat-icon>remove_circle</mat-icon> ANULAR
+      </button>
+      <button
+        *ngIf="isShowBtnSave"
+        mat-flat-button
+        class="botones" color="primary" type="button"
+        (click)="submit()"
+        cdkFocusInitial>
+        <mat-icon>save</mat-icon>
+        GUARDAR
       </button>
     <span *ngIf="data?.estados_movimientos === 'Anulado'" class="anulado-text">
       Anticipo ya anulado.

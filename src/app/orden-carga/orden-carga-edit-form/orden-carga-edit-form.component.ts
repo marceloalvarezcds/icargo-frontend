@@ -656,36 +656,21 @@ private createComentarioAndCancel(comentario: string): void {
 
   private conciliarOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea conciliar la Orden de Carga?',
-        this.ordenCargaService.conciliar(this.idOC),
-        () => {
-            this.getData();
-            this.form.get('info.comentarios')?.disable();
-            const dialogRef = this.openEvaluacionesDialog();
+      '¿Está seguro que desea conciliar la Orden de Carga?',
+      this.ordenCargaService.conciliar(this.idOC),
+      () => {
+        this.getData();
+        this.form.get('info.comentarios')?.disable();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    const comentario = this.form.get('info.comentarios')?.value;
-                    const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+        const comentario = this.form.get('info.comentarios')?.value;
+        const comentarioUpper = comentario ? comentario.toUpperCase() : '';
 
-                    if (comentarioUpper) {
-                        this.createComentarioYConciliar(comentarioUpper);
-                    }
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
-                }
-                // this.snackBar.open('Generando PDF...', 'Cerrar', {
-                //     duration: 3000,
-                //     verticalPosition: 'top',
-                //     horizontalPosition: 'center'
-                // });
-                // this.downloadConciliarResumenPDF();
-            });
-        },
-
+        if (comentarioUpper) {
+          this.createComentarioYConciliar(comentarioUpper);
+        }
+      }
     );
   }
-
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
@@ -761,7 +746,6 @@ private createComentarioAndCancel(comentario: string): void {
           this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
 
           const ordenCargaId = this.form.get('combinacion.id_orden_carga')?.value;
-          console.log('ordenCargaId:', ordenCargaId);
           this.ordenCargaService.recalcularCondiciones(flete.id, ordenCargaId).subscribe({
             next: (recalculoResponse) => {
               if (this.item) {

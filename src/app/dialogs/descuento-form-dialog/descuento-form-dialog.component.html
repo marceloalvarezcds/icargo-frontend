@@ -19,13 +19,6 @@
           [value]="valueConcepto"
         ></app-tipo-concepto-descuento-field>
 
-        <app-input-field
-          title="Detalle"
-          class="input-form-full col-xs-12 col-sm-8"
-          controlName="detalle"
-          [form]="form"
-        ></app-input-field>
-
         <app-number-field
           class="input-form-full col-xs-12 col-sm-4"
           title="Monto a Cobrar al Titular"
@@ -41,7 +34,14 @@
           [form]="form"
         ></app-moneda-field>
 
-        <div class="toggle">
+          <app-input-field
+            title="Detalle"
+            class="input-form-full col-xs-12 col-sm-7"
+            controlName="detalle"
+            [form]="form"
+          ></app-input-field>
+
+        <div class="toggle col-xs-12 col-sm-5 ms-sm-12">
           <mat-slide-toggle formControlName="habilitar_pago_proveedor">
             {{ pagoAProveedor ? "Pagar al Proveedor" : "No pagar al Proveedor" }}
           </mat-slide-toggle>
