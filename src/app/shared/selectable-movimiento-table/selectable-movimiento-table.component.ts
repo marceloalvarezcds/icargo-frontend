@@ -155,10 +155,10 @@ export class SelectableMovimientoTableComponent {
 
   constructor(private router: Router) {}
 
-  movimientoSelect($event:any):void {
+  /*movimientoSelect($event:any):void {
     // TODO: iterar y ver para filtrar los movimientos
     this.selectedMovimientosChange.emit($event)
-  }
+  }*/
 
   clearSelectValues():void {
     this.component!.clearCheckedValues();

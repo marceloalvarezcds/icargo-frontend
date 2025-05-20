@@ -133,7 +133,7 @@ export class TableExpandibleComponent<T> implements OnInit, OnDestroy {
   @Output() editClick = new EventEmitter<TableEvent<T>>();
   @Output() deleteClick = new EventEmitter<TableEvent<T>>();
   @Output() showClick = new EventEmitter<TableEvent<T>>();
-  @Output() allCheckedChange = new EventEmitter<boolean>();
+  @Output() allCheckedChange = new EventEmitter<any>();
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<T>>();
   // TODO: los botones nuevos debe pasarse por parametro
   @Output() showClickDos = new EventEmitter<TableEvent<T>>();
@@ -205,9 +205,11 @@ export class TableExpandibleComponent<T> implements OnInit, OnDestroy {
   }
 
   setAll(checked: boolean) {
+    // TODO: solo debe hacer check de los que estan visibles
+    // se debe tener en cuenta filtro y paginacion
     this.allChecked = checked;
-    this.allCheckedChange.emit(checked);
-    this.checkedList = this.checkedList.map((_) => checked);
+    this.allCheckedChange.emit({checked, data: this.tableDataSource.filteredData});
+    this.checkedList = this.tableDataSource.filteredData.map((_) => checked);
   }
 
   someChecked(): boolean {
