@@ -19,9 +19,11 @@ export class SelectableItemTableComponent<T extends { id: number }> {
 
   @Output() selectedItemsChange = new EventEmitter<T[]>();
 
-  onAllCheckedChange(checked: boolean): void {
-    if (checked) {
-      this.selectedItems = this.list.slice();
+  onAllCheckedChange(allcheck:any): void {
+
+    if (allcheck.checked) {
+      //this.selectedItems = this.list.slice();
+      this.selectedItems = allcheck.data;
     } else {
       this.selectedItems = [];
     }

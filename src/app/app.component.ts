@@ -73,7 +73,7 @@ export class AppComponent implements OnInit, OnDestroy {
       )
       .subscribe((title) => {
         if (title) {
-          this.titleService.setTitle(`iCargo | ${title}`);
+          this.titleService.setTitle(`${title} | iC `);
         }
       });
   }

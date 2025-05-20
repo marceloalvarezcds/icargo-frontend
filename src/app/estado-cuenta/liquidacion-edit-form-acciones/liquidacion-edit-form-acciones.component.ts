@@ -349,7 +349,7 @@ export class LiquidacionEditFormAccionesComponent {
       item,
     };
 
-    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', }, );
+    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'factura-dialog', }, );
   }
 
 }
