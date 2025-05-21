@@ -46,7 +46,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
     iva_movimiento_id: [this.data?.iva_movimiento_id],
     retencion_movimiento_id: [this.data?.retencion_movimiento_id],
-    tipo_cambio_moneda: [this.data?.tipo_cambio_moneda ?? 1, [Validators.required]],
+    tipo_cambio_moneda: [this.data ? (this.data.tipo_cambio_moneda ?? 1) : 1, [Validators.required]],
   });
 
   get actionText(): string {
@@ -119,6 +119,8 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       this.form.controls['sentido_mov_retencion']?.disable();
     }
 
+    console.log("this.data: ", this.data);
+
   }
 
   ngAfterViewInit(): void {
@@ -126,6 +128,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
       this.monedaLocal = resp;
     });
+    console.log("this.data: ", this.data);
   }
 
   submit() {
