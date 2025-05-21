@@ -51,6 +51,7 @@ export class FleteByGestorDialogFieldComponent {
       def: 'precio',
       title: 'Precio',
       value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
+      type: 'numberDecimal'
     },
     {
       def: 'moneda',
@@ -76,6 +77,7 @@ export class FleteByGestorDialogFieldComponent {
       def: 'tarifa_precio',
       title: 'Tarifa Precio',
       value: (element: FleteList) => element.condicion_propietario_tarifa,
+      type: 'numberDecimal'
     },
     {
       def: 'tarifa_moneda',
