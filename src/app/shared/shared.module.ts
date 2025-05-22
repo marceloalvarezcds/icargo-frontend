@@ -29,6 +29,7 @@ import { TableComponent } from './table/table.component';
 import { PageFormMapComponent } from './page-form-map/page-form-map.component';
 import { TableOcComponent } from './table-oc/table-oc.component';
 import { FormFieldModule } from '../form-field/form-field.module';
+import { TableExpandibleComponent } from './table-expandable/table-expandable.component';
 
 const modules = [
   HeaderComponent,
@@ -46,6 +47,7 @@ const modules = [
   SelectableItemTableComponent,
   SelectableMovimientoTableComponent,
   TableComponent,
+  TableExpandibleComponent,
   TablePaginatorComponent,
   TableSelectorComponent,
   TableSelectorWithFetchPaginatorComponent,

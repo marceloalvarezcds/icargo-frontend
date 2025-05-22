@@ -42,7 +42,7 @@ export class InsumoListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: InsumoPuntoVentaPrecioList) => element.estado,
+      value: (element: InsumoPuntoVentaPrecioList) => element.estado.toUpperCase(),
     },
     {
       def: 'fecha_inicio',

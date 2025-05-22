@@ -63,6 +63,10 @@ export interface Chofer {
   ciudad: Ciudad | null;
   alias?: string;
   gestor_carga_chofer?: GestorCargaChofer;
+  promedio_chofer_gestor: number,
+  promedio_chofer_general: number,
+  cantidad_chofer_evaluaciones: number,
+  cantidad_chofer_evaluaciones_gestor: number;
   created_by: string;
   created_at: string;
   modified_by: string;
@@ -158,6 +162,10 @@ export const mockChoferList: ChoferList[] = [
     ciudad_nombre: 'Los Cedrales',
     info: 'CARGILL CEDRALES - 800100100',
     localidad_nombre: 'Alto Parana',
+    promedio_chofer_general:1,
+    promedio_chofer_gestor:2,
+    cantidad_chofer_evaluaciones:2,
+    cantidad_chofer_evaluaciones_gestor:2,
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento0.descripcion,
@@ -215,6 +223,10 @@ export const mockChoferList: ChoferList[] = [
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
     tipo_documento_descripcion: tipoDocumento1.descripcion,
+    promedio_chofer_general:1,
+    promedio_chofer_gestor:2,
+    cantidad_chofer_evaluaciones:2,
+    cantidad_chofer_evaluaciones_gestor:2,
   },
   {
     id: 3,
@@ -270,5 +282,9 @@ export const mockChoferList: ChoferList[] = [
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
     tipo_documento_descripcion: tipoDocumento2.descripcion,
+    promedio_chofer_general:1,
+    promedio_chofer_gestor:2,
+    cantidad_chofer_evaluaciones:2,
+    cantidad_chofer_evaluaciones_gestor:2,
   },
 ];

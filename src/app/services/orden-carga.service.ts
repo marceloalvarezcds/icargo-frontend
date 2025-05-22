@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList, RecalculoCondiciones } from 'src/app/interfaces/orden-carga';
 import { catchError, map } from 'rxjs/operators';
 import { OrdenCargaComentariosHistorial } from '../interfaces/orden_carga_comentarios_historial';
 
@@ -127,6 +127,12 @@ export class OrdenCargaService {
   getListOCByCombinacionIdAnOCNuevos(combinacionId: number): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/crear/nuevo/aceptar/${combinacionId}`).pipe(
       catchError(this.handleError)
+    );
+  }
+
+  recalcularCondiciones(fleteId: number, ordenCargaId: number): Observable<RecalculoCondiciones> {
+    return this.http.get<RecalculoCondiciones>(
+      `${this.url}/orden-carga/recalcular-condiciones/${fleteId}/${ordenCargaId}`
     );
   }
 

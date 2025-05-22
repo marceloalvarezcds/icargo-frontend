@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OcComplementoFormDialogComponent } from 'src/app/dialogs/oc-complemento-form-dialog/oc-complemento-form-dialog.component';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum,
   PermisoModeloEnum as m,
@@ -20,6 +21,7 @@ import { create, edit, remove } from 'src/app/utils/table-event-crud';
 })
 export class OrdenCargaEditFormComplementosComponent {
   a = PermisoAccionEnum;
+
   columns: Column[] = [
     {
       def: 'id',
@@ -82,19 +84,24 @@ export class OrdenCargaEditFormComplementosComponent {
       title: 'Fecha modificación',
       value: (element: OrdenCargaComplemento) => element.modified_at,
       type: 'date-time',
-
     },
-    { def: 'actions', title: 'Acciones', stickyEnd: true },
+    { def: 'actions', title: 'Acciones', stickyEnd: true }
   ];
 
   modelo = m.ORDEN_CARGA_COMPLEMENTO;
 
+  lista: OrdenCargaComplemento[] = [];
+
   @Input() oc?: OrdenCarga;
+  ocComplemento?: OrdenCargaComplemento
   @Input() gestorCargaId?: number;
   @Input() isShow = false;
   @Input() isEditPedido = false;
   @Input() puedeConciliar = false;
-  @Input() list: OrdenCargaComplemento[] = [];
+  @Input() set list( l:  OrdenCargaComplemento[] ){
+    this.setList(l);
+  }
+
   @Input() fleteId?: number;
 
   @Output() ocChange = new EventEmitter<void>();
@@ -103,7 +110,8 @@ export class OrdenCargaEditFormComplementosComponent {
   constructor(
     private dialog: MatDialog,
     private ordenCargaComplementoService: OrdenCargaComplementoService
-  ) {}
+  ) {
+  }
 
   formatFecha(fecha: string | Date): string {
     const date = new Date(fecha);
@@ -119,6 +127,29 @@ export class OrdenCargaEditFormComplementosComponent {
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();
+  }
+
+  show({ row }: TableEvent<OrdenCargaComplemento>): void {
+    const dialogRef = this.getDialogRef(row);
+    const dialogConfig = {
+      ...dialogRef.componentInstance.dialogConfig,
+      disabled: true,
+    };
+    dialogRef.componentInstance.dialogConfig = dialogConfig;
+    this.buttonAnticipoClicked.emit();
+  }
+
+  private setList(list: OrdenCargaComplemento[]):void {
+    this.lista = list ? list.slice() : [];
+    //this.configColumns();
+  }
+
+  private configColumns():void {
+
+    /*#inputTemplate*if ( this.oc?.estado !== EstadoEnum.FINALIZADO && this.oc?.estado! !== EstadoEnum.CONCILIADO ){
+      this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
+    }*/
+
   }
 
   edit({ row }: TableEvent<OrdenCargaComplemento>): void {
@@ -147,8 +178,7 @@ export class OrdenCargaEditFormComplementosComponent {
       item,
     };
     return this.dialog.open(OcComplementoFormDialogComponent, {
-      width: '500px',
-      height: 'auto',
+      panelClass: 'half-dialog',
       data });
   }
 

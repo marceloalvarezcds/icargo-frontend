@@ -98,6 +98,7 @@
       Cerrar
     </button>
     <button
+      *ngIf="!dialogConfig.disabled"
       mat-flat-button
       class="botones" color="primary" type="button"
       (click)="submit()"

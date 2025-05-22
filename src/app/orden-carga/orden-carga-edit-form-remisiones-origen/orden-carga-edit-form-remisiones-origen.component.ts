@@ -167,7 +167,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
           }
         }
       },
-
+      { def: 'actions', title: 'Acciones', stickyEnd: true }
       // {
       //   def: 'cantidad_equiv',
       //   title: 'Cantidad Equiv. (kg)',
@@ -175,9 +175,12 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       //   value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
       //   type: 'number',
       // },
-
-      { def: 'actions', title: 'Acciones', stickyEnd: true },
     ];
+
+    /*if ( this.oc!.estado! !== EstadoEnum.FINALIZADO && this.oc!.estado! !== EstadoEnum.CONCILIADO ){
+      this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
+    }*/
+
   }
 
   formatDate(dateString: string): string {
@@ -187,7 +190,5 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
   }
-
-
 
 }

@@ -1,0 +1,131 @@
+<app-page-form
+  class="insumo-page"
+  submodule="EVALUACIÓN"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  module="VER"
+  (backClick)="back($event)"
+  [modelo]="modelo"
+  [hideSaveButton]="true"
+>
+
+  <div class="page-form-container">
+
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="OC"
+        controlName="orden_carga_id"
+        [form]="form"
+      ></app-input-field>
+    </div>
+
+    <!-- Tracto -->
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Tracto"
+        controlName="oc_camion_placa"
+        [form]="form"
+      ></app-input-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Tracto Gestor"
+        controlName="promedio_tracto_gestor"
+        [form]="form"
+      ></app-number-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Tracto General"
+        controlName="promedio_tracto_general"
+        [form]="form"
+      ></app-number-field>
+    </div>
+
+    <!-- Semi -->
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Semi"
+        controlName="oc_semi_placa"
+        [form]="form"
+      ></app-input-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Semi Gestor"
+        controlName="promedio_semi_gestor"
+        [form]="form"
+      ></app-number-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Semi General"
+        controlName="promedio_semi_general"
+        [form]="form"
+      ></app-number-field>
+    </div>
+
+    <!-- Chofer -->
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Chofer"
+        controlName="oc_chofer_nombre"
+        [form]="form"
+      ></app-input-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Chofer Gestor"
+        controlName="promedio_chofer_gestor"
+        [form]="form"
+      ></app-number-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Chofer General"
+        controlName="promedio_chofer_general"
+        [form]="form"
+      ></app-number-field>
+    </div>
+
+    <!-- Propietario -->
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Propietario"
+        controlName="oc_propietario_nombre"
+        [form]="form"
+      ></app-input-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Propietario Gestor"
+        controlName="promedio_propietario_gestor"
+        [form]="form"
+      ></app-number-field>
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-4 col-md-4"
+        title="Prom. Propietario General"
+        controlName="promedio_propietario_general"
+        [form]="form"
+      ></app-number-field>
+    </div>
+
+    <div class="row">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-8"
+        title="Comentario"
+        controlName="comentarios"
+        [form]="form"
+      ></app-input-field>
+
+      <app-file-field-input
+        class="input-form-full col-xs-12 col-sm-6 col-md-8"
+        controlName="nota"
+        [form]="form"
+        [field]="nota"
+        readonly
+        [isShow]="isShow"
+    ></app-file-field-input>
+    </div>
+
+  </div>
+</app-page-form>
+

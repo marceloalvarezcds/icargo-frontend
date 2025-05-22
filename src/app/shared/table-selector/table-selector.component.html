@@ -34,6 +34,9 @@
               <ng-container *ngSwitchCase="'number'">
                 <span>{{ column.value(row) | numberFormat }}</span>
               </ng-container>
+              <ng-container *ngSwitchCase="'numberDecimal'">
+                <span>{{ column.value(row) | numberDecimalFormat }}</span>
+              </ng-container>
               <ng-container *ngSwitchCase="'date'">
                 <span>{{ column.value(row) | momentFormat: "DD-MM-YYYY HH:mm:ss" }}</span>
               </ng-container>

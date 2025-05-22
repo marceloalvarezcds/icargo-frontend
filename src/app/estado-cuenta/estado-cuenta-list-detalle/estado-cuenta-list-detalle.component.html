@@ -158,6 +158,9 @@
 
   <app-table-paginator
     [columns]="columns"
+    [subRowColumnsToDisplay]="subColumns"
+    [expandible]="true"
+    [expandibleRow]="true"
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="m.MOVIMIENTO"

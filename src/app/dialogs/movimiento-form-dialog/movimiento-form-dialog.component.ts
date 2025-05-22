@@ -5,9 +5,12 @@ import { MovimientoEstadoEnum } from 'src/app/enums/movimiento-estado-enum';
 import { TipoContraparteEnum } from 'src/app/enums/tipo-contraparte-enum';
 import { movimientoData } from 'src/app/form-data/movimiento';
 import { ContraparteWithId } from 'src/app/interfaces/contraparte-info';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { MovimientoForm } from 'src/app/interfaces/movimiento';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { TipoContraparte } from 'src/app/interfaces/tipo-contraparte';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 
 @Component({
@@ -44,6 +47,9 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
     punto_venta_id: this.punto_venta_id,
     linea_movimiento: this.linea_movimiento
   });
+
+  monedaLocal?: Moneda;
+  moneda?: Moneda;
 
   get monto(): number | undefined {
     return this.data && this.data.monto < 0
@@ -139,14 +145,24 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
       this.dialogData.linea_movimiento )
   }
 
+  get showCotizacion():boolean {
+    return this.monedaLocal?.id === this.moneda?.id;
+  }
+
   constructor(
     private movimientoService: MovimientoService,
+    private monedaService: MonedaService,
+    private cotizacionService: MonedaCotizacionService,
     public dialogRef: MatDialogRef<MovimientoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: MovimientoFormDialogData
   ) {  }
 
   ngAfterViewInit(): void {
+    // TODO: obtener info gestor carga
+    this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
+      this.monedaLocal = resp;
+    });
 
     if (!this.dialogData.es_contraparte_editable) {
       // seteamos los id contraparte segun tipo
@@ -182,7 +198,7 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
         descripcionControl.setValue(descripcionControl.value.toUpperCase());
       }
       const moneda = this.form.get('moneda')?.value;
-      this.form.get('moneda_id')?.setValue( moneda.id );
+      this.form.get('moneda_id')?.setValue( moneda );
       const formData = movimientoData(
         this.form,
         this.liquidacionId,
@@ -225,6 +241,28 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
     } else if (!this.openField && this.isContraparteEditable) {
       this.contraparteControl.setValue(null);
       this.contraparteNumeroDocumentoControl.setValue(null);
+    }
+  }
+
+  onMonedaSelect(mon:Moneda){
+    this.moneda = mon;
+
+    if (mon.id !== this.monedaLocal!.id){
+      if (!this.data)
+        this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
+          .subscribe(res=>{
+            if (res){
+              this.form.controls['tipo_cambio_moneda'].enable();
+              this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
+              this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
+              this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+            }
+        });
+    } else {
+      this.form.controls['tipo_cambio_moneda'].disable();
+      this.form.controls['tipo_cambio_moneda'].setValidators([]);
+      this.form.controls['tipo_cambio_moneda'].setValue(1);
+      this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
     }
   }
 

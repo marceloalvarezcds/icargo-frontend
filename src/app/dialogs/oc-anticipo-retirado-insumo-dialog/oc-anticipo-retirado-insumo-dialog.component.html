@@ -2,7 +2,7 @@
 
     <span mat-dialog-title>
       <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
-      <span class="complement-text"> ANTICIPO</span>
+      <span class="complement-text"> ANTICIPO INSUMO</span>
     </span>
 
     <div class="section" >
@@ -90,7 +90,7 @@
         <!-- Campo Monto, visible solo cuando se selecciona "Monto" -->
         <app-number-field
           *ngIf="!form.get('es_con_litro')?.value"
-          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
           title="Monto"
           controlName="monto_retirado"
           [form]="form"
@@ -100,7 +100,7 @@
         <!-- Campo Cantidad retirada, visible solo cuando se selecciona "Litros" -->
         <app-number-field
           *ngIf="form.get('es_con_litro')?.value"
-          class="input-form-full col-xs-12 col-sm-6 col-md-5"
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
           title="Cantidad retirada"
           controlName="cantidad_retirada"
           [form]="form"

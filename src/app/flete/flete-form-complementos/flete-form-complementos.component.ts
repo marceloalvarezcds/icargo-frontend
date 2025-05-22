@@ -8,6 +8,7 @@ import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { TableEvent } from 'src/app/interfaces/table';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-flete-form-complementos',
@@ -23,6 +24,23 @@ export class FleteFormComplementosComponent {
       sticky: true,
     },
     {
+      def: 'propietario_monto',
+      title: 'A Pagar',
+      value: (element: FleteComplemento) => element.propietario_monto,
+      type: 'number',
+    },
+    {
+      def: 'propietario_monto_ml',
+      title: 'A Pagar ML',
+      value: (element: FleteComplemento) => element.propietario_monto_ml,
+      type: 'number',
+    },
+    {
+      def: 'propietario_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
+    },
+    {
       def: 'remitente_monto',
       title: 'A Cobrar',
       value: (element: FleteComplemento) => element.remitente_monto,
@@ -34,16 +52,12 @@ export class FleteFormComplementosComponent {
       value: (element: FleteComplemento) => element.remitente_moneda_nombre,
     },
     {
-      def: 'propietario_monto',
-      title: 'A Pagar',
-      value: (element: FleteComplemento) => element.propietario_monto,
+      def: 'remitente_monto_ml',
+      title: 'A Cobrar ML',
+      value: (element: FleteComplemento) => element.remitente_monto_ml,
       type: 'number',
     },
-    {
-      def: 'propietario_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
-    },
+
     {
       def: 'anticipado',
       title: 'Anticipado',
@@ -57,8 +71,10 @@ export class FleteFormComplementosComponent {
 
   @Input() form?: FormGroup;
   @Input() gestorCuentaId?: number;
+  @Input() user?: User
   @Input() isShow = false;
   @Input() isEdit = false;
+  @Input() isEditCopyForm = false;
   @Input() set complementoList(list: FleteComplemento[]) {
     list.forEach((item) => {
       this.formArray.push(this.createForm(item));
@@ -86,12 +102,20 @@ export class FleteFormComplementosComponent {
       });
   }
 
+  show(event: TableEvent<FleteComplemento>): void {
+    const data = event.row;
+    this.dialog.open(ComplementoFormDialogComponent, {
+      data: { ...data, isShow: true },
+      panelClass: 'half-dialog',
+    });
+  }
+
 
   edit(event: TableEvent<FleteComplemento>): void {
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(ComplementoFormDialogComponent, { data })
+      .open(ComplementoFormDialogComponent, { data,  panelClass: 'half-dialog' })
       .afterClosed()
       .pipe(filter((complemento) => !!complemento))
       .subscribe((complemento: FleteComplemento) => {
@@ -126,10 +150,12 @@ export class FleteFormComplementosComponent {
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
+      propietario_monto_ml: data.propietario_monto_ml,
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
       propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_cobro_remitente: data.habilitar_cobro_remitente,
       remitente_monto: data.remitente_monto,
+      remitente_monto_ml: data.remitente_monto_ml,
       remitente_moneda_id: data.remitente_moneda_id,
       remitente_moneda_simbolo: data.remitente_moneda?.simbolo,
     });

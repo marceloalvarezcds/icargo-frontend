@@ -17,6 +17,7 @@ import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.serv
 import { MonedaService } from 'src/app/services/moneda.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { UserService } from 'src/app/services/user.service';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
@@ -43,8 +44,9 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   monedaOrigenId: number | null = null;
   monedaDestinoId: number | null = null;
   monto_mon_local = 0
+  monto_retirado_cotizacion = 0
   insumoMonedaId: number | null = null;
-
+  gestorCargaId: number | null = null;
 
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
@@ -77,10 +79,15 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       if (esConLitro) {
         const cantidad = this.cantidadControl.value;
         const precio = this.precioUnitarioControl.value;
+
         if (cantidad && precio) {
-          this.montoRetiradoControl.setValue(
-            roundString(cantidad) * roundString(precio)
-          );
+          if (this.cotizacionDestino !== null) {
+
+            const montoCalculado = roundString(cantidad) * roundString((precio * this.cotizacionDestino).toString());
+            this.montoRetiradoControl.setValue(montoCalculado);
+          } else {
+            this.montoRetiradoControl.setValue(0);
+          }
         } else {
           this.montoRetiradoControl.setValue(0);
         }
@@ -90,30 +97,39 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     }
   );
 
+
   montoSubscription = combineLatest([
     this.form.controls['monto_retirado'].valueChanges,
     this.precioUnitarioControl.valueChanges,
   ])
     .pipe(map(([m, p]) => [roundString(m), roundString(p)]))
     .subscribe(([monto, precio]) => {
-      if (this.esConLitroControl.value === false && precio > 0) {
-        const litrosCalculados = monto / precio;
+      if (
+        this.esConLitroControl.value === false &&
+        precio > 0 &&
+        this.cotizacionOrigen != null &&
+        this.cotizacionDestino != null &&
+        this.cotizacionDestino !== 0
+      ) {
+
+        const litrosCalculados = monto / precio * (this.cotizacionOrigen! / this.cotizacionDestino!);
         this.cantidadControl.setValue(round(litrosCalculados));
       }
     });
 
-
-    litroSubscription = combineLatest([
-      this.form.controls['cantidad_retirada'].valueChanges,
-      this.precioUnitarioControl.valueChanges,
-    ])
-      .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
-      .subscribe(([cantidad, precio]) => {
-        if (this.esConLitroControl.value === true && precio > 0) {
-          const montoCalculado = cantidad * precio;
+  litroSubscription = combineLatest([
+    this.form.controls['cantidad_retirada'].valueChanges,
+    this.precioUnitarioControl.valueChanges,
+  ])
+    .pipe(map(([c, p]) => [roundString(c), roundString(p)]))
+    .subscribe(([cantidad, precio]) => {
+      if (this.esConLitroControl.value === true && precio > 0) {
+        if (this.cotizacionDestino !== null) {
+          const montoCalculado = cantidad * precio * (this.cotizacionDestino!);
           this.montoRetiradoControl.setValue(round(montoCalculado));
         }
-      });
+      }
+    });
 
   fleteAnticipoEfectivoSubscription?: Subscription;
   fleteAnticipoInsumoSubscription?: Subscription;
@@ -197,47 +213,60 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   get anticipoRetiradoCamion(): number {
     return this.oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0;
   }
-  saldoAnticipoConvertido: number = 0;
 
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {
-        return new Intl.NumberFormat('de-DE', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        }).format(value);
+      return new Intl.NumberFormat('de-DE', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(value);
     };
 
     if (this.saldoDisponible < 0) {
-        const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
-        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
+      const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
+      return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
         El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
-    // Si limiteAnticipoCamion > 0, mostrar mensaje con anticipoDisponibleCamion
+
     if (this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.anticipoDisponibleCamion)
-        )}</strong> al anticipo del tracto disponible</span>`;
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.anticipoDisponibleCamion)
+      )}</strong> al anticipo del tracto disponible</span>`;
     }
-    // Si limiteAnticipoCamion === 0, mostrar mensaje con saldoDisponible
+
     if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.saldoDisponible)
-        )}</strong> al saldo disponible</span>`;
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.saldoDisponible)
+      )}</strong> al saldo disponible</span>`;
     }
+
     const saldoMostrar = this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
+      ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+      : this.saldoDisponible;
 
     if (this.monto && saldoMostrar === 0) {
-        return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+      return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    return `<span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Monto:</span>
-    <strong style="font-size: 16px;">${formatNumber(this.monto)}</strong>
-    | <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Saldo:</span>
-    <strong style="font-size: 16px;">${formatNumber(saldoMostrar)}</strong>`;
+    const anticipoCamion = this.limiteAnticipoCamion === null
+      ? 'Sin límites'
+      : formatNumber(this.anticipoDisponibleCamion);
 
+    return `
+      <div>
+        <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Monto:</span>
+        <strong style="font-size: 16px;">${formatNumber(this.monto)}</strong> |
+
+        <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Saldo OC:</span>
+        <strong style="font-size: 16px;">${formatNumber(saldoMostrar)}</strong>
+      </div>
+      <div style="padding-bottom: 14px;">
+        <span class="hint-alert-label" style="font-weight: bold; font-size: 16px;">Saldo Tracto:</span>
+        <strong style="font-size: 16px;">${anticipoCamion}</strong>
+      </div>
+    `;
   }
+
 
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [
@@ -247,7 +276,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   get saldoDisponible(): number {
      if (this.cotizacionOrigen && this.cotizacionDestino) {
-       return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino + this.montoRetirado;
+       return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionOrigen + this.montoRetirado;
      }
     return this.saldoAnticipo + this.montoRetirado;
   }
@@ -255,6 +284,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
   }
+
 
   get ordenCargaId(): number {
     return this.dialogData.orden_carga_id;
@@ -327,48 +357,29 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     private fb: FormBuilder,
     private monedaService: MonedaService,
     private monedaCotizacionService: MonedaCotizacionService,
-    private cdr: ChangeDetectorRef,
+    private userService: UserService,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
-    // this.obtenerCotizaciones()
-    // this.getMonedaByGestor()
+      // Llamar a getLoggedUser() para obtener los datos del usuario logueado
+      this.userService.getLoggedUser().subscribe((user) => {
+        this.gestorCargaId = user.gestor_carga_id;
+
+        this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
+          this.monedaOrigenId = moneda?.id ?? null;
+
+          this.monedaCotizacionService
+            .getCotizacionByGestor(this.monedaOrigenId!, this.gestorCargaId!)
+            .subscribe((responseDestino) => {
+              this.cotizacionOrigen = responseDestino?.cotizacion_moneda ?? null;
+
+            });
+        });
+      });
+
   }
-
-
-  // getMonedaByGestor(): void {
-  //   if (this.oc?.gestor_carga_id) {
-  //     this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(
-  //       (response) => {
-  //         this.monedaDestinoId = response?.id ?? null;
-  //       }
-  //     );
-  //   }
-  // }
-
-  // obtenerCotizaciones(): void {
-  //   this.monedaCotizacionService
-  //     .getCotizacionByGestor(this.oc!.flete_moneda_id, this.oc!.gestor_carga_id)
-  //     .subscribe({
-  //       next: (responseOrigen) => {
-  //         this.cotizacionOrigen = responseOrigen?.cotizacion_moneda ?? null;
-  //         console.log('Cotización Origen:', this.cotizacionOrigen);
-
-  //         if (this.monedaDestinoId) {
-  //           this.monedaCotizacionService
-  //             .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
-  //             .subscribe({
-  //               next: (responseDestino) => {
-  //                 this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
-  //                 console.log('Cotización Destino:', this.cotizacionDestino);
-  //               }
-  //             });
-  //         }
-  //       }
-  //     });
-  // }
 
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
@@ -401,9 +412,9 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     if (this.form.valid) {
       const formValue = this.form.value;
       const monto_retirado = formValue.monto_retirado;
-      const monedaDestinoSubmitId = this.oc!.gestor_carga_moneda_id;
+      const monedaDestino = this.monedaDestinoId;
 
-      this.monedaCotizacionService.getCotizacionByGestor(this.insumoMonedaId!, this.oc!.gestor_carga_id).subscribe({
+      this.monedaCotizacionService.getCotizacionByGestor(this.monedaOrigenId!, this.oc!.gestor_carga_id).subscribe({
         next: (responseOrigen) => {
           const cotizacionOrigen = responseOrigen?.cotizacion_moneda;
           if (!cotizacionOrigen) {
@@ -411,7 +422,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
             return;
           }
 
-          this.monedaCotizacionService.getCotizacionByGestor(monedaDestinoSubmitId, this.oc!.gestor_carga_id).subscribe({
+          this.monedaCotizacionService.getCotizacionByGestor(monedaDestino!, this.oc!.gestor_carga_id).subscribe({
             next: (responseDestino) => {
               const cotizacionDestino = responseDestino?.cotizacion_moneda;
               if (!cotizacionDestino) {
@@ -426,8 +437,8 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
                 id: this.data?.id,
                 orden_carga_id: this.ordenCargaId,
                 monto_mon_local: this.monto_mon_local,
-              };
 
+              };
               const formData = new FormData();
               formData.append('data', JSON.stringify(data));
 
@@ -436,7 +447,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
               } else {
                 this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
               }
-
               this.montoRetiradoChange.emit(data.cantidad_retirada);
               this.montoRetiradoChange.emit(data.montoRetirado);
             }
@@ -445,6 +455,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       });
     }
   }
+
 
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.saldoAnticipo = 0;
@@ -470,6 +481,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.insumo = event?.insumo_descripcion;
     this.insumoControl.setValue(event?.insumo_id);
     this.moneda = event?.insumo_moneda_nombre;
+    this.monedaDestinoId = event?.insumo_moneda_id ?? null;
     this.monedaControl.setValue(event?.insumo_moneda_id);
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
@@ -478,7 +490,23 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.tipoInsumoControl.setValue(event?.insumo_tipo_id);
     this.precioUnitarioControl.setValue(event?.precio);
     this.getSaldoDisponibledForInsumo(event);
+
+    if (this.monedaDestinoId !== null) {
+      this.monedaCotizacionService.getCotizacionByGestor(this.monedaDestinoId, this.oc?.gestor_carga_id ?? 0).subscribe({
+        next: (responseDestino) => {
+          this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+        },
+        error: (err) => {
+          console.error("Error al obtener cotización de destino:", err);
+          alert("No se pudo obtener la cotización de destino.");
+        }
+      });
+    } else {
+      console.error('La moneda de destino no está definida.');
+      alert('Por favor, seleccione una moneda de destino válida.');
+    }
   }
+
 
   puntoVentaChange(event?: PuntoVentaList): void {
     this.proveedor = event?.proveedor_nombre;
@@ -490,18 +518,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     this.dialogRef.close(data);
   }
 
-  private getSaldoDisponibleForEfectivo(): void {
-    if (!this.isTipoInsumo && this.tipoAnticipoId) {
-      // Consulta saldo disponible para Efectivo
-      this.fleteAnticipoEfectivoSubscription?.unsubscribe();
-      this.fleteAnticipoEfectivoSubscription = this.fleteAnticipoService
-        .getByTipoIdAndFleteId(this.tipoAnticipoId, this.fleteId)
-        .subscribe((response) => {
-          this.setFleteAnticipo(response);
-
-        });
-    }
-  }
 
   private getSaldoDisponibledForInsumo(
     event?: InsumoPuntoVentaPrecioList | PuntoVentaList
@@ -519,33 +535,10 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
           this.fleteId,
           this.tipoInsumoId
         )
-        .subscribe((response) => {
-          this.setFleteAnticipo(response);
-          const fleteAnticipoId = response.flete_id;
-          if (fleteAnticipoId != null && !isNaN(fleteAnticipoId)) {
-            this.getInsumoVentaPrecio(fleteAnticipoId, response.id ?? 0);
-          } else {
-            console.error('fleteAnticipoId no es un número válido o es null/undefined');
-          }
-        });
+        .subscribe(this.setFleteAnticipo.bind(this));
     }
   }
 
-  private getInsumoVentaPrecio(fleteAnticipoId: number, id: number): void {
-    if (fleteAnticipoId) {
-      this.insumoVentaPrecio
-        .getListByFleteId(fleteAnticipoId)
-        .subscribe((response) => {
-          const item = response.find((item) => item.id === id);
-          if (item) {
-
-            this.insumoMonedaId = item.insumo_moneda_id;
-          } else {
-            console.log('No se encontró el item con el id proporcionado.');
-          }
-        });
-    }
-  }
 
   private loadOrdenCargaAnticipoSaldo(
     fleteAnticipoId: number | null | undefined
@@ -571,6 +564,13 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       NumberValidator.max(this.saldoDisponible),
     ]);
     this.montoRetiradoControl.updateValueAndValidity();
+  }
+
+
+  @Output() fleteAnticipoIdSelected: EventEmitter<number | null> = new EventEmitter<number | null>();
+
+  onFleteAnticipoSelect(fleteAnticipoId: number | null): void {
+    this.fleteAnticipoIdSelected.emit(fleteAnticipoId);
   }
 }
 

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, Inject, Renderer2 } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { pairwise } from 'rxjs/operators';
 import { facturaData } from 'src/app/form-data/factura';
 import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
@@ -28,7 +29,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       Validators.required,
     ],
     monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
-    iva_id: [this.data?.iva_id, Validators.required],
+    iva_id: [this.data ? this.data.iva_id : 1, Validators.required],
     foto: [this.data?.foto, Validators.required],
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, [Validators.required, Validators.maxLength(50)]],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
@@ -45,16 +46,8 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     fecha_factura: [this.data?.fecha_factura ?? new Date().toJSON(), Validators.required],
     iva_movimiento_id: [this.data?.iva_movimiento_id],
     retencion_movimiento_id: [this.data?.retencion_movimiento_id],
-    tipo_cambio_moneda: [this.data?.tipo_cambio_moneda ?? 1, [Validators.required]],
+    tipo_cambio_moneda: [this.data ? (this.data.tipo_cambio_moneda ?? 1) : 1, [Validators.required]],
   });
-
-  get check_sentido_mov_iva_pagar():boolean {
-    return true;
-  }
-
-  get check_sentido_mov_iva_cobrar():boolean {
-    return true;
-  }
 
   get actionText(): string {
     return this.data ? this.dialogData.isShow ? 'Ver' : 'Editar' : 'Crear';
@@ -120,12 +113,22 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     if (this.dialogData.isShow) {
       this.form.disable();
     }
+
+    if (this.editFormCheck) {
+      this.form.controls['sentido_mov_iva']?.disable();
+      this.form.controls['sentido_mov_retencion']?.disable();
+    }
+
+    console.log("this.data: ", this.data);
+
   }
 
   ngAfterViewInit(): void {
+    // TODO: obtener info gestor carga
     this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
       this.monedaLocal = resp;
     });
+    console.log("this.data: ", this.data);
   }
 
   submit() {
@@ -156,21 +159,21 @@ export class FacturaFormDialogComponent implements AfterViewInit {
 
   onMonedaSelect(mon:Moneda){
     this.moneda = mon;
-    
+
     if (mon.id !== this.monedaLocal!.id){
       this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
         .subscribe(res=>{
           if (res){
             this.form.controls['tipo_cambio_moneda'].enable();
             this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
-            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda); 
+            this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
             this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
           }
       });
     } else {
       this.form.controls['tipo_cambio_moneda'].disable();
       this.form.controls['tipo_cambio_moneda'].setValidators([]);
-      this.form.controls['tipo_cambio_moneda'].setValue(1); 
+      this.form.controls['tipo_cambio_moneda'].setValue(1);
       this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
     }
   }
@@ -191,4 +194,5 @@ export class FacturaFormDialogComponent implements AfterViewInit {
   private close(data: FacturaForm): void {
     this.dialogRef.close(data);
   }
+
 }

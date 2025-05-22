@@ -45,7 +45,7 @@
       <div class="column">
         <p>
           Tarifa Flete a Pagar:
-          <span class="span-like">{{ oc?.flete_tarifa | number: '1.0-0' }}</span>Gs/Kg
+          <span class="span-like">{{ oc?.condicion_propietario_tarifa_ml | number: '1.0-0' }}</span>Gs/Kg
         </p>
         <p>
           Cant. Nominada:
@@ -53,23 +53,31 @@
         </p>
         <p>
           Flete Proyectado:
-          <span class="span-like">{{ oc?.flete_proyectado | number: '1.0-0' }}</span>Gs
+          <span class="span-like">{{ oc?.flete_proyectado_ml | number: '1.0-0' }}</span>Gs
         </p>
-        <p>
+        <!-- <p>
           Porcentaje Maximo Liberado:
           <span class="span-like">{{ oc?.flete_anticipo_maximo | number: '1.0-0' }}</span>%
-        </p>
-        <p style="color: red;">
+        </p> -->
+        <!-- <p style="color: red;">
           Limite Crédito Cam.:
           <span class="span-like">
               {{ (oc?.camion_limite_monto_anticipos ?? 0) > 0 ? (oc?.camion_limite_monto_anticipos | number: '1.0-0') : 'sin límites' }}
           </span>
           <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0">Gs</span>
-        </p>
+        </p> -->
 
       </div>
       <div class="column">
         <p>
+          Limite Crédito Cam.:
+          <span class="span-like">
+              {{ (oc?.camion_limite_monto_anticipos ?? 0) > 0 ? (oc?.camion_limite_monto_anticipos | number: '1.0-0') : 'sin límites' }}
+          </span>
+          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0"></span>Gs
+        </p>
+
+        <!-- <p>
           Limite Crédito OC (% Max Liberado x Flete Proyectado):
           <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>Gs
         </p>
@@ -80,31 +88,30 @@
          <p>
           Línea Disponible (Límite Crédito OC + Compl.):
            <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
-         </p>
+         </p> -->
          <p>
           Saldo Crédito Tracto.:
           <span class="span-like">
               {{ (oc?.camion_limite_monto_anticipos ?? 0) !== 0 ? (oc?.camion_monto_anticipo_disponible | number: '1.0-0') : 'sin límites' }}
           </span>
-          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0">Gs</span>
+          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0"></span>Gs
         </p>
 
-        <p style="color: red;">
+        <p>
           Anticipos Retirados Cam.:
           <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>Gs
         </p>
 
-
       </div>
       <div class="column">
-        <p style="color: red;">
+        <!-- <p style="color: red;">
           Monto Anticipo Disponible OC:
           <span class="span-like">{{ oc?.total_anticipo_disponible | number: '1.0-0' }}</span>Gs
-        </p>
+        </p> -->
         <p>
           Chofer Habilitado para recibir Anticipos:
           <span class="span-like">
-            {{ oc?.camion_chofer_puede_recibir_anticipos ? 'Si' : 'No' }}
+            {{ oc?.combinacion_chofer_puede_recibir_anticipos ? 'Si' : 'No' }}
           </span>
         </p>
         <p>
@@ -113,36 +120,35 @@
             {{ oc?.camion_propietario_puede_recibir_anticipos ? 'Si' : 'No' }}
           </span>
         </p>
-        <p>
-          Tracto:
-          <span class="span-like">
-            {{ oc?.camion_estado}}
-          </span>
-        </p>
-        <p>
-          Semi:
-          <span class="span-like">
-            {{ oc?.semi_estado}}
-          </span>
-        </p>
-        <p style="color: red;">
+        <div style="display: flex; gap: 16px;">
+          <p>
+            Tracto:
+            <span class="span-like">{{ oc?.camion_estado }}</span>
+          </p>
+          <p>
+            Semi:
+            <span class="span-like">{{ oc?.semi_estado }}</span>
+          </p>
+        </div>
+
+        <!-- <p style="color: red;">
           Monto Anticipo Retirados OC:
           <span class="span-like">{{ oc?.total_anticipo_retirado | number: '1.0-0' }}</span>Gs
-        </p>
+        </p> -->
       </div>
     </div>
     <hr class="full-width-line-bottom" />
     <div class="row page-form-row">
       <div class="column">
         <div class="flex-container">
-          <p>
+          <!-- <p>
             Monto Efectivo OC:
             <span class="span-like">{{ oc?.flete_monto_efectivo | number: '1.0-0' }}</span>Gs
           </p>
           <p>
             Monto Efectivo OC + Complem.:
             <span class="span-like">{{ oc?.flete_monto_efectivo_complemento | number: '1.0-0' }}</span>Gs
-          </p>
+          </p> -->
         </div>
       </div>
     </div>

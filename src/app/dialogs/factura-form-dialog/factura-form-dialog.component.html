@@ -40,6 +40,63 @@
 
     <div class="row">
 
+      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-4" [form]="form"></app-tipo-iva-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4" style="display: flex;flex-direction: column; align-items: flex-start;">
+        <mat-label class="custom-label">
+          IVA INCL
+        </mat-label>
+        <mat-checkbox color="primary" formControlName="iva_incluido"></mat-checkbox>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Valor IVA"
+        controlName="iva"
+        [form]="form"
+      ></app-number-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <mat-label>Movimiento IVA</mat-label>
+        <mat-form-field>
+          <mat-select formControlName="sentido_mov_iva">
+            <mat-option></mat-option>
+            <mat-option value="PAGAR">PAGAR</mat-option>
+            <mat-option value="COBRAR">COBRAR</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Valor Retencion"
+        controlName="retencion"
+        [form]="form"
+      ></app-number-field>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <mat-label>Movimiento Retencion</mat-label>
+        <mat-form-field>
+          <mat-select formControlName="sentido_mov_retencion">
+            <mat-option></mat-option>
+            <mat-option value="PAGAR">PAGAR</mat-option>
+            <mat-option value="COBRAR">COBRAR</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+    </div>
+
+    <div class="row">
+
       <app-dialog-field-ruc
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Contribuyente"
@@ -54,66 +111,13 @@
         [form]="form"
       ></app-input-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4" style="display: flex;flex-direction: column; align-items: flex-start;">
-        <mat-label class="custom-label">
-          IVA INCL
-        </mat-label>
-        <mat-checkbox color="primary" formControlName="iva_incluido"></mat-checkbox>
-      </div>
+      <span style="font-size: smaller; color: gray;">
+        Si el usuario buscado no aparece en la lista lo puedes crear cargando la razon social y el ruc en los campos superiores
+      </span>
 
     </div>
 
-    <div class="row">
-
-      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-4" [form]="form"></app-tipo-iva-field>
-
-      <div class="col-xs-12 col-sm-6 col-md-8">
-        <span style="font-size: smaller; color: gray;">Si el usuario buscado no aparece en la lista lo puedes crear cargando la razon social y el ruc en los campos superiores</span>
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
-        <fieldset [disabled]="editFormCheck" style="border:0">
-          <mat-label>Movimiento IVA</mat-label>
-          <mat-radio-group formControlName="sentido_mov_iva" style="display: flex;justify-content: space-around;">
-            <mat-radio-button value="PAGAR" >A Pagar</mat-radio-button>
-            <mat-radio-button value="COBRAR" >A Cobrar</mat-radio-button>
-          </mat-radio-group>
-        </fieldset>
-      </div>
-
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
-        <fieldset [disabled]="editFormCheck" style="border:0">
-          <mat-label>Movimiento Retencion</mat-label>
-          <mat-radio-group formControlName="sentido_mov_retencion" style="display: flex;justify-content: space-around;" >
-            <mat-radio-button value="PAGAR">A Pagar</mat-radio-button>
-            <mat-radio-button value="COBRAR">A Cobrar</mat-radio-button>
-          </mat-radio-group>
-        </fieldset>
-      </div>
-
-    </div>
-
-    <div class="row">
-
-      <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Valor IVA"
-        controlName="iva"
-        [form]="form"
-      ></app-number-field>
-
-      <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Valor Retencion"
-        controlName="retencion"
-        [form]="form"
-      ></app-number-field>
-
-    </div>
+    <br>
 
     <div class="row">
 
@@ -124,19 +128,19 @@
         [form]="form"
       ></app-input-field>
 
-      <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Fecha Factura"
-        controlName="fecha_factura"
-        [form]="form"
-      ></app-fecha-field>
-
       <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="N° Timbrado"
         controlName="timbrado"
         [form]="form"
       ></app-input-field>
+
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Fecha Factura"
+        controlName="fecha_factura"
+        [form]="form"
+      ></app-fecha-field>
 
       <app-fecha-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"

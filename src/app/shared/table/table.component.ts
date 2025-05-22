@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum,
@@ -34,6 +35,7 @@ import { delay } from 'src/app/utils/observable';
 })
 export class TableComponent<T> implements OnInit, OnDestroy {
   e = EstadoEnum;
+  f = LiquidacionEstadoEnum;
   a = PermisoAccionEnum;
   le = LiquidacionEtapaEnum;
   allChecked: boolean = false;
@@ -54,6 +56,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     .pipe(delay(500))
     .subscribe((search) => this.filterData(search));
 
+  @Input() grouped = false;
   @Input() set dataSource(source: MatTableDataSource<T>) {
     this.tableDataSource = source;
     this.tableDataSource.sort = this.sort;
@@ -83,6 +86,8 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     this.tableDataSource
   );
 
+  @Input() fnHideEditRowButton?: (r:any) => boolean;
+  @Input() fnHideDeleteRowButton?: (r:any) => boolean;
   @Input() oc?: OrdenCarga;
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
@@ -180,6 +185,16 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     return firstThreeColumns.includes(columnDef);
   }
 
+  hideButtonEdit(row:T):boolean{
+    if (this.fnHideEditRowButton) return this.fnHideEditRowButton(row);
+    return true;
+  }
+
+  hideButtonDelete(row:T):boolean{
+    if (this.fnHideDeleteRowButton) return this.fnHideDeleteRowButton(row);
+    return true;
+  }
+
 
   isStickyColumn(column: any): boolean {
     return column.sticky;
@@ -271,4 +286,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     }
     return '';
   }
+
+  isGroup(index:number, item:any): boolean{
+    return item.isGroup;
+  }
+
 }

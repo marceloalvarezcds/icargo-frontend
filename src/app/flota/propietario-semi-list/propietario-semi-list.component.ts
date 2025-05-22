@@ -94,7 +94,9 @@ export class PropietarioSemiListComponent {
         item: this.item,
         propietarioId: this.id,
       }
+
     });
+
     dialogRef.componentInstance.dataSemiSaved.subscribe(() => {
       this.getSemiPropietarioList(this.id!);
     });
@@ -104,12 +106,13 @@ export class PropietarioSemiListComponent {
   redirectToEdit(event: TableEvent<SemiList>): void {
     this.item = this.list.find(i => i.id === event.row.id);
     if (this.item) {
+      console.log('semiID:', event.row.id);
       const dialogRef = this.dialog.open(SemiFormDialogComponent, {
         width: '1200px',
         data: {
           item: this.item,
           propietarioId: this.id,
-          camionId: event.row.id,
+          semiId: event.row.id,
           isEdit: true,
         }
       });
@@ -127,7 +130,7 @@ export class PropietarioSemiListComponent {
         data: {
           item: this.item,
           propietarioId: this.id,
-          camionId: event.row.id,
+          semiId: event.row.id,
           isShow: true,
         }
       });
@@ -136,6 +139,29 @@ export class PropietarioSemiListComponent {
       });
     }
   }
+
+  active({ row }: TableEvent<SemiList>): void {
+    const message = `¿Está seguro que desea activar el Semi con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.semiService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<SemiList>): void {
+    const message = `¿Está seguro que desea inactivar el Semi con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.semiService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
 
   deleteRow({ row }: TableEvent<SemiList>): void {
     const message = `¿Está seguro que desea eliminar el Semi-remolque con placa ${row.placa}?`;

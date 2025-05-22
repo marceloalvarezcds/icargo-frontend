@@ -303,11 +303,17 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         if (formGroup?.get('valor')?.value !== flete.merma_gestor_carga_valor) {
           formGroup?.get('valor')?.setValue(flete.merma_gestor_carga_valor);
         }
-        if (flete && flete.condicion_gestor_carga_unidad_id !== undefined) {
-          formGroup?.get('unidad_id')?.setValue(flete.condicion_gestor_carga_unidad_id ?? '');
+        if (flete && flete.condicion_propietario_unidad_id !== undefined) {
+          formGroup?.get('condicion_propietario_unidad_id')?.setValue(flete.condicion_propietario_unidad_id ?? '');
         }
-        if (flete && flete.condicion_gestor_carga_moneda_id !== undefined) {
-          formGroup?.get('moneda_id')?.setValue(flete.condicion_gestor_carga_moneda_id);
+        if (flete && flete.merma_gestor_carga_unidad_id !== undefined) {
+          formGroup?.get('unidad_id')?.setValue(flete.merma_gestor_carga_unidad_id ?? '');
+        }
+        if (flete && flete.merma_gestor_carga_moneda_id !== undefined) {
+          formGroup?.get('moneda_id')?.setValue(flete.merma_gestor_carga_moneda_id);
+        }
+        if (flete && flete.condicion_propietario_moneda_id !== undefined) {
+          formGroup?.get('condicion_propietario_moneda_id')?.setValue(flete.condicion_propietario_moneda_id);
         }
 
         formGroup?.get('cant_origen')?.setValue(0);

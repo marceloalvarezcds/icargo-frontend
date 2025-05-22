@@ -85,6 +85,20 @@ const routes: Routes = [
           ),
       },
       {
+        path: PermisoModuloRouterEnum.ORDEN_CARGA_EVALUACION,
+        loadChildren: () =>
+          import('./evaluacion/evaluacion.module').then(
+            (m) => m.EvaluacionModule
+          ),
+      },
+      {
+        path: PermisoModuloRouterEnum.MONEDA_COTIZACION,
+        loadChildren: () =>
+          import('./moneda-cotizacion/moneda-cotizacion.module').then(
+            (m) => m.MonedaCotizacionModule
+          ),
+      },
+      {
         path: PermisoModuloRouterEnum.PARAMETROS,
         loadChildren: () =>
           import('./parametros/parametros.module').then(

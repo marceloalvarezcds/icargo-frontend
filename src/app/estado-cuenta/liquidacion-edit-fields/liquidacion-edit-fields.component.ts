@@ -20,7 +20,6 @@ import { Moneda } from 'src/app/interfaces/moneda';
   selector: 'app-liquidacion-edit-fields',
   templateUrl: './liquidacion-edit-fields.component.html',
   styleUrls: ['./liquidacion-edit-fields.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit {
 
@@ -270,8 +269,8 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     if (this.item?.es_orden_pago) {
       this.totalMonedas = [{
           moneda:this.monedaLocal,
-          total:this.item.pago_cobro,
-          residuo:this.item.pago_cobro,
+          total:Math.abs(this.item.pago_cobro!),
+          residuo: Math.abs(this.item.pago_cobro!),
           instrumento:0
         }];
       return;
@@ -296,6 +295,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }, {});
 
     console.log("resultado: ", resultado);
+
+    Object.keys(resultado).forEach(key => {
+      resultado[key].total = Math.abs(resultado[key].total);
+      resultado[key].residuo = Math.abs(resultado[key].residuo);
+    });
 
     this.totalMonedas = Object.values(resultado);;
   }

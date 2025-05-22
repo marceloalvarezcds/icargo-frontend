@@ -11,7 +11,7 @@ import {
   PermisoModeloEnum as m,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
-import { filter } from 'rxjs/operators';
+import { filter, first } from 'rxjs/operators';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Movimiento, MovimientoEstadoCuenta } from 'src/app/interfaces/movimiento';
@@ -39,6 +39,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { createLiquidacionDataFields } from 'src/app/form-data/liquidacion-movimiento';
 import { mockMoneda1 } from 'src/app/interfaces/moneda';
+import { UserService } from 'src/app/services/user.service';
 
 type Filter = {
   camion_placa?: string;
@@ -149,31 +150,6 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
       def: 'nro_documento_relacionado',
       title: 'N° OC',
       value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
-      dinamicStyles: (element: MovimientoEstadoCuenta) =>
-        (
-          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
-        ),
-    },
-    {
-      def: 'documento_fisico_oc',
-      title: 'Documento Físico',
-      value: (element: Movimiento) => element.documento_fisico_oc ? 'Sí' : 'No',
-      dinamicStyles: (element: MovimientoEstadoCuenta) =>
-        (
-          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
-        ),
-    },
-    {
-      def: 'info',
-      title: 'Info',
-      value: (element: MovimientoEstadoCuenta) => (element.tipo_movimiento_concepto === 'Pago/Cobro') ? ('Factura: ' + (element.info ?? ''))  : element.info,
-      //value: (element: MovimientoEstadoCuenta) => 'info',
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
@@ -343,44 +319,50 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
       buttonIconName: (mov: MovimientoEstadoCuenta) => 'delete',
       stickyEnd: true,
     },
-  ]
+  ];
 
-  buttons : ButtonList[] = [
+  subColumns: Column[] = [
     {
-      color: 'warn',
-      tooltip: 'Crear Movimiento',
-      styles: '',
-      icon: 'add_circle',
-      label: 'MOVIMIENTO',
-      iconClass: 'icon-add-style',
-      buttonCallback: ($event:any) => {
-        this.create();
-      }
+      def: 'nro_documento_relacionado',
+      title: 'N° OC',
+      value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
-      color: 'primary',
-      tooltip: 'Crear Liquidacion',
-      styles: '',
-      icon: 'add_circle',
-      label: 'LIQUIDACION',
-      iconClass: 'icon-add-style',
-      buttonCallback: ($event:any) => {
-        this.createLiquidacion();
-      }
+      def: 'documento_fisico',
+      title: 'Doc. Físico',
+      value: (element: MovimientoEstadoCuenta) =>
+        ( element.tipo_movimiento_concepto === 'Flete' ) ? (element.documento_fisico) ? 'Sí' : 'No'  : '',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
     },
     {
-      color: 'primary',
-      tooltip: 'Crear Orden Pago/Cobro',
-      styles: '',
-      icon: 'add_circle',
-      label: 'ORDEN PAGO/COBRO',
-      iconClass: 'icon-add-style',
-      buttonCallback: ($event:any) => {
-        //this.createOrdenPago();
-        this.createOrdenPagoDialog();
-      }
-    }
-  ]
+      def: 'info',
+      title: 'Info',
+      value: (element: MovimientoEstadoCuenta) => (element.tipo_movimiento_concepto === 'Pago/Cobro') ? ('Factura: ' + (element.info ?? ''))  : element.info,
+      //value: (element: MovimientoEstadoCuenta) => 'info',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
+    },
+  ];
+
+  buttons : ButtonList[] = [];
 
   etapa?: LiquidacionEtapaEnum;
   estadoCuenta?: EstadoCuenta;
@@ -404,6 +386,8 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
   pendiente: number = 0;
   confirmado: number = 0;
   finalizado: number = 0;
+
+  gestorCargaId: number | null = null;
 
   get isFilteredByCuenta(): boolean {
     return (this.cuentaFiltered.length !== this.cuentaFilterList.length);
@@ -483,10 +467,64 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
     private searchService: SearchService,
     private dialogService: DialogService,
     private liquidacionService: LiquidacionService,
+    private userService: UserService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
-    ) { }
+    ) {
+
+      this.userService.getLoggedUser().pipe(first()).subscribe((user) => {
+        this.gestorCargaId = user.gestor_carga_id;
+
+        this.buttons = [];
+        // control permiso para botones de cabecera
+        if ( this.userService.checkPermisoAndGestorCargaId( a.CREAR, m.MOVIMIENTO, this.gestorCargaId)) {
+          this.buttons.push(
+            {
+              color: 'warn',
+              tooltip: 'Crear Movimiento',
+              styles: '',
+              icon: 'add_circle',
+              label: 'MOVIMIENTO',
+              iconClass: 'icon-add-style',
+              buttonCallback: ($event:any) => {
+                this.create();
+              }
+            },
+          )
+        }
+
+        if ( this.userService.checkPermisoAndGestorCargaId( a.CREAR, m.LIQUIDACION, this.gestorCargaId)) {
+          this.buttons.push(
+            {
+              color: 'primary',
+              tooltip: 'Crear Liquidacion',
+              styles: '',
+              icon: 'add_circle',
+              label: 'LIQUIDACION',
+              iconClass: 'icon-add-style',
+              buttonCallback: ($event:any) => {
+                this.createLiquidacion();
+              }
+            },
+            {
+              color: 'primary',
+              tooltip: 'Crear Orden Pago/Cobro',
+              styles: '',
+              icon: 'add_circle',
+              label: 'ORDEN PAGO/COBRO',
+              iconClass: 'icon-add-style',
+              buttonCallback: ($event:any) => {
+                //this.createOrdenPago();
+                this.createOrdenPagoDialog();
+              }
+            }
+          )
+        }
+
+      });
+
+    }
 
     ngOnInit(): void {
       const {

@@ -15,6 +15,7 @@ import {
   PermisoModeloEnum as m,
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Chofer } from 'src/app/interfaces/chofer';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -31,6 +32,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 export class ChoferFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   anticiposBloqueados = false;
+  item?: Chofer;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;

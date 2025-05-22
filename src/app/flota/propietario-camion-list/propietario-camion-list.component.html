@@ -21,6 +21,11 @@
       (editClick)="redirectToEdit($event)"
       [hideDelete]="true"
       (deleteClick)="deleteRow($event)"
+      [shouldShowActiveButton]="true"
+      [shouldShowInactiveButton]="true"
+      (activeClick)="active($event)"
+      (inactiveClick)="inactive($event)"
+      [hideEdit]="false"
     ></app-table>
   </div>
 

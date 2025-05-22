@@ -1,10 +1,12 @@
-<div class="table-container">
-  <app-table
+<div class="table-container" *ngIf="expandible">
+  <app-table-expandable
     [dataSource]="dataSource"
     [columns]="columns"
+    [subRowColumnsToDisplay]="subRowColumnsToDisplay"
+    [expandibleRow]="expandibleRow"
+    [expandibleButton]="expandibleButton"
     [data]="data"
     [gestorCuentaId]="gestorCargaId"
-    [filterPredicate]="filterPredicate"
     [filterPredicate]="filterPredicate"
     [disableSort]="disableSort"
     [hideDelete]="hideDelete"
@@ -29,6 +31,41 @@
     [configurarColumnasVisibles]="configurarColumnasVisibles"
     [mostrarBotonEliminar]="false"
     [shouldBeShowFooter]="shouldBeShowFooter"
+  ></app-table-expandable>
+</div>
+<div class="table-container" *ngIf="!expandible">
+  <app-table
+    [dataSource]="dataSource"
+    [columns]="columns"
+    [data]="data"
+    [grouped]="grouped"
+    [gestorCuentaId]="gestorCargaId"
+    [filterPredicate]="filterPredicate"
+    [disableSort]="disableSort"
+    [hideDelete]="hideDelete"
+    [hideEdit]="hideEdit"
+    [hideShow]="hideShow"
+    [isShow]="isShow"
+    [showBtnMovimientos]="showBtnMovimientos"
+    [addShowButton]="addShowButton"
+    [noCheckGestorCuentaId]="noCheckGestorCuentaId"
+    [modelo]="modelo"
+    [shouldShowActiveButton]="shouldShowActiveButton"
+    [shouldShowInactiveButton]="shouldShowInactiveButton"
+    (filterResult)="filterResult.emit($event)"
+    (allCheckedChange)="allCheckedChange.emit($event)"
+    (checkboxChange)="checkboxChange.emit($event)"
+    (activeClick)="activeClick.emit($event)"
+    (inactiveClick)="inactiveClick.emit($event)"
+    (editClick)="editClick.emit($event)"
+    (showClick)="showClick.emit($event)"
+    (showClickDos)="showClickDos.emit($event)"
+    (deleteClick)="deleteClick.emit($event)"
+    [configurarColumnasVisibles]="configurarColumnasVisibles"
+    [mostrarBotonEliminar]="false"
+    [shouldBeShowFooter]="shouldBeShowFooter"
+    [fnHideEditRowButton]="fnHideEditRowButton"
+    [fnHideDeleteRowButton]="fnHideDeleteRowButton"
   ></app-table>
 </div>
 <mat-paginator
