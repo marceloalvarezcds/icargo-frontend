@@ -2,7 +2,7 @@
 
   <span mat-dialog-title>
     <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
-    <span class="complement-text"> ANTICIPO</span>
+    <span class="complement-text"> ANTICIPO EFECTIVO</span>
   </span>
 
   <div class="section" >
@@ -36,7 +36,6 @@
       </div>
     </div>
 
-
     <div class="row" style="padding-top: 12px;">
 
       <app-number-field
@@ -51,14 +50,13 @@
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
         [form]="form"
-       
         (valueChange)="onMonedaDestinoChange($event)"
     >
       </app-moneda-field>
     </div>
 
     <div class="row">
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-8" style="margin-top: 10px;">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-8" style="margin-top: 26px;">
         <label for="observacion">Observación:</label>
         <mat-form-field appearance="outline" class="observacion-field">
           <textarea

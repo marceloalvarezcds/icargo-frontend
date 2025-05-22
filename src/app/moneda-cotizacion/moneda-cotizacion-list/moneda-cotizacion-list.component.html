@@ -1,0 +1,42 @@
+<app-page
+  class="cotizacion-page"
+  submodule="COTIZACIÓN"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Descripcion</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #gestorCheckboxFilter
+            [value]="gestorFiltered"
+            [list]="gestorFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByGestor">
+      <mat-chip *ngFor="let item of gestorFiltered">{{item}}</mat-chip>
+    </ng-container>
+
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    [shouldShowActiveButton]="true"
+    [shouldShowInactiveButton]="true"
+    (showClick)="redirectToShow($event)"
+  ></app-table-paginator>
+</app-page>
+

@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
+import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
@@ -86,14 +87,14 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       def: 'movimientos_saldo',
       title: 'Total Liquidacion',
       type: 'number',
-      value: (element: Liquidacion) => element.movimientos_saldo,
+      value: (element: Liquidacion) => element.es_orden_pago ? element.pago_cobro : element.movimientos_saldo,
     },
-    {
+    /*{
       def: 'pago_cobro',
       title: 'Monto Pago/Cobro',
       type: 'number',
       value: (element: Liquidacion) => element.pago_cobro,
-    },
+    },*/
     {
       def: 'instrumentos_saldo',
       title: 'Tot. Instrumento',
@@ -204,6 +205,7 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
+    //private titleService: Title,
   ) { }
 
   ngOnInit(): void {
@@ -211,6 +213,7 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    //this.titleService.setTitle('prueba');
     this.columnasVisibles= this.columns.filter( item=> item.def !=='saldo_cc').slice();
   }
 
@@ -373,6 +376,14 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
     this.tipoContraparteFiltered = this.tipoContraparteFilterList.slice();
     this.contraparteFiltered = this.contraparteFilterList.slice();
     this.estadoFiltered = this.estadoFilterList.slice();
+  }
+
+  fnHideEdit(obj: Liquidacion): boolean {
+    return !(obj.estado === LiquidacionEstadoEnum.FINALIZADO || obj.estado === LiquidacionEstadoEnum.SALDO_CERRADO)
+  }
+
+  fnHideDelete(obj: Liquidacion): boolean {
+    return !(obj.estado === LiquidacionEstadoEnum.FINALIZADO || obj.estado === LiquidacionEstadoEnum.SALDO_CERRADO)
   }
 
 }

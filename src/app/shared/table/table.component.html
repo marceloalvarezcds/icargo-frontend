@@ -348,7 +348,8 @@
               mat-menu-item
               (click)="editClick.emit({ row, index })"
               *ngIf="
-                row.estado !== e.CONCILIADO &&  row.estado !== e.CANCELADO &&
+                row.estado !== e.CONCILIADO && row.estado !== e.CANCELADO && row.estado !== e.INACTIVO  &&
+                hideButtonEdit(row) &&
                 !hideEdit &&
                 (modelo
                   | puede
@@ -364,11 +365,13 @@
               <span>Editar</span>
             </button>
 
+            <!--TODO: pasar una funcion para mostrar o no el boton, que reciba el registro actual y retorne true/false -->
             <button
               type="button"
               mat-menu-item
               (click)="deleteClick.emit({ row, index })"
               *ngIf="
+                hideButtonDelete(row) &&
                 !hideDelete &&
                 (modelo
                   | puede
@@ -456,9 +459,33 @@
         </ng-container>
       </ng-container>
     </ng-container>
+
     <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+
+    <!--  TODO: prever hacer esto dinamico reutilizable para otros componentes   -->
+    <!--  ahora solo funciona con preview de liquidacion   -->
+    <ng-container matColumnDef="groupHeader" *ngIf="grouped">
+      <td [attr.colspan]="displayedColumns.length-4" mat-cell *matCellDef="let group">
+        <strong>{{group.groupName}}</strong>
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="groupTotales" *ngIf="grouped">
+      <td colspan="4" mat-cell *matCellDef="let group">
+        <strong>Totales:</strong> {{group.totales | numberFormat }}
+      </td>
+    </ng-container>
+
     <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+    <ng-container *ngIf="grouped">
+      <tr mat-row style="background-color: #f7f7f7 !important"
+        *matRowDef="let row; columns: ['groupHeader', 'groupTotales'];  when: isGroup">
+      </tr>
+    </ng-container>
+
     <ng-container *ngIf="shouldBeShowFooter">
       <tr mat-footer-row *matFooterRowDef="displayedColumns; sticky: true"></tr>
     </ng-container>
+
   </table>

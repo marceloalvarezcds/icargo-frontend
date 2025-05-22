@@ -63,7 +63,7 @@ export class LiquidacionFormDialogComponent {
   }
 
   get ordenPagoValue(){
-    return this.data?.isOrdenPago;
+    return this.data?.isOrdenPago || this.liquidacion?.es_orden_pago;
   }
 
   constructor(

@@ -1,9 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarRef, SimpleSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual, unset } from 'lodash';
 import { filter } from 'rxjs/operators';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { FleteConfirmationDialogComponent } from 'src/app/dialogs/flete-confirmation-dialog/flete-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -13,6 +15,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { getFleteData } from 'src/app/form-data/flete-confirmation-data';
+import { ConfirmationDialogData } from 'src/app/interfaces/confirmation-dialog-data';
 import { Flete } from 'src/app/interfaces/flete';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
@@ -35,6 +38,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   propietarioId?: number;
   estado = EstadoEnum.ACTIVO;
   isCancel = false;
+  isEditPressed= false
+  isEditCopyForm = false;
+  isCopyFlete = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -156,7 +162,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   });
 
   get puedeModificar(): boolean {
-    if (this.isShow || !this.isEdit) {
+    if (this.isShow || !this.isEdit || this.isEditCopyForm) {
       return false;
     }
     return this.userService.checkPermisoAndGestorCargaId(
@@ -205,6 +211,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private fleteService: FleteService,
     private userService: UserService,
     private snackbar: SnackbarService,
+    private matSnackbar: MatSnackBar,
     private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
@@ -212,6 +219,17 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+
+  delete(){
+    this.dialog.cancelStatusConfirm(
+      '¿Está seguro que desea cancelar el Pedido?',
+      this.fleteService.delete(this.id!),
+      () => {
+        this.router.navigate([this.backUrl]);
+      }
+    );
   }
 
   ngOnDestroy(): void {
@@ -247,12 +265,148 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  copiar() {
+    this.isEditPressed = false;
+    this.isEditCopyForm = false;
+    this.isCopyFlete = true;
+    this.form.enable();
+
+    const originalId = this.id;
+
+    const copiedData = {
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    };
+
+    delete copiedData.id;
+    delete copiedData.createdAt;
+    delete copiedData.updatedAt;
+
+    this.info.patchValue(copiedData);
+    this.tramo.patchValue(copiedData);
+    this.condicion.patchValue(copiedData);
+    this.merma.patchValue(copiedData);
+    this.emisionOrden.patchValue(copiedData);
+
+
+    this.isEdit = true;
+    const dialogData: ConfirmationDialogData = {
+        title: '¿Quieres cancelar el pedido original?',
+        message: 'Si confirma, el pedido original será cancelado.',
+        closeButtonText: 'No',
+        confirmedButtonText: 'Sí',
+      };
+
+      const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+        data: dialogData
+      });
+
+      dialogRef.afterClosed().subscribe((confirmed) => {
+        if (confirmed) {
+          this.fleteService.cancel(originalId!).subscribe(() => {
+            this.getData();
+            this.matSnackbar.open(
+              'Pedido original cancelado correctamente.',
+              'Cerrar',
+              { duration: 3000 }
+            );
+          });
+        }
+      });
+    // if (originalId !== undefined) {
+    // this.copiarFlete(originalId);
+    // }
+  }
+
+private copiarFlete(originalId: number): void {
+  const formData = new FormData();
+  const data = {
+    ...this.info.value,
+    ...this.tramo.value,
+    ...this.condicion.value,
+    ...this.merma.value,
+    ...this.emisionOrden.value,
+    anticipos: this.anticipos.value,
+    complementos: this.complementos.value,
+    descuentos: this.descuentos.value,
+  };
+
+  Object.keys(data).forEach(key => {
+    if (typeof data[key] === 'string' && key !== 'email') {
+      data[key] = data[key].toUpperCase();
+    }
+  });
+
+  formData.append('data', JSON.stringify(data));
+
+  this.fleteService.create(formData).subscribe((flete) => {
+    this.matSnackbar.open('Pedido copiado y guardado como nuevo.', 'Cerrar', {
+      duration: 3000,
+    });
+
+    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
+
+    const dialogData: ConfirmationDialogData = {
+      title: '¿Quieres cancelar el pedido original?',
+      message: 'Si confirma, el pedido original será cancelado.',
+      closeButtonText: 'No',
+      confirmedButtonText: 'Sí',
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: dialogData
+    });
+
+    dialogRef.afterClosed().subscribe((confirmed) => {
+      if (confirmed) {
+        this.fleteService.cancel(originalId!).subscribe(() => {
+          this.getData();
+          this.matSnackbar.open(
+            'Pedido original cancelado correctamente.',
+            'Cerrar',
+            { duration: 3000 }
+          );
+        });
+      }
+    });
+
+    this.id = flete.id;
+  });
+}
+
+  ampliar() {
+    this.isEditPressed = false;
+
+    const condicionGroup = this.form.get('condicion') as FormGroup;
+    const cantidadCtrl = condicionGroup?.get('condicion_cantidad');
+    const saldoCtrl = condicionGroup?.get('saldo');
+
+    if (cantidadCtrl && saldoCtrl) {
+      cantidadCtrl.enable();
+
+      const saldo = saldoCtrl.value;
+
+      cantidadCtrl.clearValidators();
+
+      cantidadCtrl.setValidators([
+        Validators.required,
+        Validators.min(saldo)
+      ]);
+
+      cantidadCtrl.updateValueAndValidity();
+    }
+  }
+
   save(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
-    console.log(this.form);
 
     if (this.form.valid) {
       const data: FleteConfirmationDialogData = {
@@ -285,7 +439,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   submit(confirmed: boolean): void {
     const formData = new FormData();
-
     const data = JSON.parse(
       JSON.stringify({
         ...this.info.value,
@@ -298,8 +451,21 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         descuentos: this.descuentos.value,
       })
     );
-
-    // Convertir propiedades a mayúsculas, excepto los correos electrónicos
+    if (this.isCopyFlete) {
+      ['anticipos', 'complementos', 'descuentos'].forEach((lista) => {
+        if (Array.isArray(data[lista])) {
+          data[lista] = data[lista].map((item: any) => {
+            if (item && typeof item === 'object') {
+              const newItem = { ...item };
+              delete newItem.id;
+              return newItem;
+            }
+            return item;
+          });
+        }
+      });
+    }
+    // Convertir strings a mayúsculas salvo email
     Object.keys(data).forEach(key => {
       if (typeof data[key] === 'string' && key !== 'email') {
         data[key] = data[key].toUpperCase();
@@ -309,14 +475,16 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     formData.append('data', JSON.stringify(data));
     this.hasChange = false;
     this.initialFormValue = this.form.value;
-    if (this.isEdit && this.id) {
+
+    if (this.isEdit && this.id && !this.isCopyFlete) {
+
       this.fleteService.edit(this.id, formData).subscribe(() => {
         this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
         this.getData();
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {
-        let url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`
+        const url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`;
         this.snackbar.openSaveAndRedirect(
           true,
           url,
@@ -324,9 +492,11 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           m.FLETE,
           flete.id
         );
+        this.isCopyFlete = false;
       });
     }
   }
+
 
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
@@ -338,98 +508,97 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.info.get('remitente_nombre')?.setValue(remitente?.nombre)
   }
 
-  getData(): void {
-    const backUrl = this.route.snapshot.queryParams.backUrl;
-    if (backUrl) {
-      this.backUrl = backUrl;
-    }
-    this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
-    this.id = +this.route.snapshot.params.id;
-
-    if (this.id) {
-      this.isEdit = /edit/.test(this.router.url);
-      this.isShow = /ver/.test(this.router.url);
-      this.fleteService.getById(this.id).subscribe((data) => {
-        this.item = data;
-        console.log('form data:', data);
-        this.estado = data.estado;
-        this.isCancel = data.estado === EstadoEnum.CANCELADO;
-        this.gestorCargaId = data.gestor_carga_id;
-        this.created_by = data.created_by;
-        this.created_at = data.created_at;
-        this.modified_by = data.modified_by;
-        this.modified_at = data.modified_at;
-        if (!this.puedeModificar) {
-          this.form.disable();
-        }
-
-        this.form.patchValue({
-          info: {
-            remitente_id: data.remitente_id,
-            producto_id: data.producto_id,
-            tipo_carga_id: data.tipo_carga_id,
-            numero_pedido: data.id,
-            // publicado: data.publicado,
-            // es_subasta: data.es_subasta,
-          },
-          tramo: {
-            origen_id: data.origen_id,
-            origen_indicacion: data.origen_indicacion,
-            destino_id: data.destino_id,
-            destino_indicacion: data.destino_indicacion,
-            // distancia: data.distancia,
-          },
-          condicion: {
-            condicion_cantidad: data.condicion_cantidad,
-            saldo: data.saldo,
-            // inicio - Condiciones para el Gestor de Carga
-            condicion_gestor_carga_moneda_id: data.condicion_gestor_carga_moneda_id,
-            condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
-            condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
-            condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
-            // fin - Condiciones para el Gestor de Carga
-            // inicio - Condiciones para el Propietario
-            condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
-            condicion_propietario_tarifa: data.condicion_propietario_tarifa,
-            condicion_propietario_unidad: data.condicion_propietario_unidad,
-            condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,
-            // fin - Condiciones para el Propietario
-          },
-          merma: {
-            // inicio - Mermas para el Gestor de Carga
-            merma_gestor_carga_valor: data.merma_gestor_carga_valor,
-            merma_gestor_carga_moneda_id: data.merma_gestor_carga_moneda_id,
-            merma_gestor_carga_unidad_id: data.merma_gestor_carga_unidad_id,
-            merma_gestor_carga_es_porcentual: data.merma_gestor_carga_es_porcentual,
-            merma_gestor_carga_tolerancia: data.merma_gestor_carga_tolerancia,
-            // fin - Mermas para el Gestor de Carga
-            // inicio - Mermas para el Propietario
-            merma_propietario_valor: data.merma_propietario_valor,
-            merma_propietario_moneda_id: data.merma_propietario_moneda_id,
-            merma_propietario_unidad_id: data.merma_propietario_unidad_id,
-            merma_propietario_es_porcentual: data.merma_propietario_es_porcentual,
-            merma_propietario_tolerancia: data.merma_propietario_tolerancia,
-            // fin - Mermas para el Propietario
-          },
-          emision_orden: {
-            emision_orden_texto_legal: data.emision_orden_texto_legal,
-            emision_orden_detalle: data.emision_orden_detalle,
-            destinatarios: data.destinatarios,
-          },
-          // vigencia_anticipos: data.vigencia_anticipos,
-          complementos: [],
-          descuentos: [],
-        });
-
-        this.anticipoList = data.anticipos.slice();
-        this.complementoList = data.complementos.slice();
-        this.descuentoList = data.descuentos.slice();
-
-        setTimeout(() => {
-          this.hasChange = false;
-          this.initialFormValue = this.form.value;
-        }, 500);
-      });
-    }
+getData(): void {
+  const backUrl = this.route.snapshot.queryParams.backUrl;
+  if (backUrl) {
+    this.backUrl = backUrl;
   }
+  this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
+  this.id = +this.route.snapshot.params.id;
+
+  if (this.id) {
+    this.isEdit = /edit/.test(this.router.url);
+    this.isShow = /ver/.test(this.router.url);
+
+    this.fleteService.getById(this.id).subscribe((data) => {
+      this.item = data;
+      this.estado = data.estado;
+      this.isCancel = data.estado === EstadoEnum.CANCELADO;
+      this.gestorCargaId = data.gestor_carga_id;
+      this.created_by = data.created_by;
+      this.created_at = data.created_at;
+      this.modified_by = data.modified_by;
+      this.modified_at = data.modified_at;
+
+      if (this.isEdit && data.is_in_orden_carga) {
+        this.matSnackbar.open(
+          'Este pedido no se puede editar porque ya está relacionado con una orden de carga.',
+          'Cerrar',
+          { duration: 5000 }
+        );
+        this.isEditCopyForm = true;
+        this.isEditPressed = true;
+        this.form.disable();
+      } else if (!this.puedeModificar) {
+        this.form.disable();
+      }
+
+      this.form.patchValue({
+        info: {
+          remitente_id: data.remitente_id,
+          producto_id: data.producto_id,
+          tipo_carga_id: data.tipo_carga_id,
+          numero_pedido: data.id,
+        },
+        tramo: {
+          origen_id: data.origen_id,
+          origen_indicacion: data.origen_indicacion,
+          destino_id: data.destino_id,
+          destino_indicacion: data.destino_indicacion,
+        },
+        condicion: {
+          condicion_cantidad: data.condicion_cantidad,
+          saldo: data.saldo,
+          condicion_gestor_carga_moneda_id: data.condicion_gestor_carga_moneda_id,
+          condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
+          condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
+          condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
+          condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
+          condicion_propietario_tarifa: data.condicion_propietario_tarifa,
+          condicion_propietario_unidad: data.condicion_propietario_unidad,
+          condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,
+        },
+        merma: {
+          merma_gestor_carga_valor: data.merma_gestor_carga_valor,
+          merma_gestor_carga_moneda_id: data.merma_gestor_carga_moneda_id,
+          merma_gestor_carga_unidad_id: data.merma_gestor_carga_unidad_id,
+          merma_gestor_carga_es_porcentual: data.merma_gestor_carga_es_porcentual,
+          merma_gestor_carga_tolerancia: data.merma_gestor_carga_tolerancia,
+          merma_propietario_valor: data.merma_propietario_valor,
+          merma_propietario_moneda_id: data.merma_propietario_moneda_id,
+          merma_propietario_unidad_id: data.merma_propietario_unidad_id,
+          merma_propietario_es_porcentual: data.merma_propietario_es_porcentual,
+          merma_propietario_tolerancia: data.merma_propietario_tolerancia,
+        },
+        emision_orden: {
+          emision_orden_texto_legal: data.emision_orden_texto_legal,
+          emision_orden_detalle: data.emision_orden_detalle,
+          destinatarios: data.destinatarios,
+        },
+        complementos: [],
+        descuentos: [],
+      });
+
+      this.anticipoList = data.anticipos.slice();
+      this.complementoList = data.complementos.slice();
+      this.descuentoList = data.descuentos.slice();
+
+      setTimeout(() => {
+        this.hasChange = false;
+        this.initialFormValue = this.form.value;
+      }, 500);
+    });
+  }
+}
+
 }

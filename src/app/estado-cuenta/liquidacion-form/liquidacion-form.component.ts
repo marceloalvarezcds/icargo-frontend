@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
@@ -33,7 +33,6 @@ import { Moneda, mockMoneda1 } from 'src/app/interfaces/moneda';
   selector: 'app-liquidacion-form',
   templateUrl: './liquidacion-form.component.html',
   styleUrls: ['./liquidacion-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionFormComponent implements OnInit {
 
@@ -45,7 +44,7 @@ export class LiquidacionFormComponent implements OnInit {
   estadoCuenta?: EstadoCuenta;
   list: Movimiento[] = [];
   movimientosSelected: Movimiento[] = [];
-  moneda?:Moneda;
+  moneda?:Moneda = mockMoneda1;
 
   @Input() data? : ContraparteInfoMovimientoLiq;
 
@@ -118,11 +117,49 @@ export class LiquidacionFormComponent implements OnInit {
     }
   }
 
+  groupBy( column:string, data: any[] ){
+
+    if(!column) return data;
+
+    const customReducer = (accumulator:any, currentValue:any) => {
+      let currentGroup = currentValue[column];
+      if(!accumulator[currentGroup])
+      accumulator[currentGroup] = [{
+        groupName: `Moneda: ${currentValue[column]}`,
+        totales: 0,
+        isGroup: true,
+      }];
+
+      accumulator[currentGroup][0] =
+        {
+          ...accumulator[currentGroup][0],
+          totales:accumulator[currentGroup][0].totales + currentValue.monto
+        };
+
+      accumulator[currentGroup].push(currentValue);
+
+      return accumulator;
+    }
+
+    let groups = data.reduce(customReducer,{});
+    let groupArray = Object.keys(groups).map(key => groups[key]);
+    let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
+
+    return flatList;
+  }
+
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
+
+    const listMovimientos = this.child.movimientosSelected.slice();
+    // agrupamos por moneda
+    const listMovimientosGrouped = this.groupBy('moneda_nombre', listMovimientos);
+
+    console.log("movs agrupados: ",listMovimientosGrouped);
+
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
-        list: this.child.movimientosSelected.slice(),
+        list: listMovimientosGrouped,
         credito: this.child.credito,
         debito: this.child.debito,
         monto: this.child.monto,
@@ -180,6 +217,7 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   private getData(): void {
+
     let {
       backUrl,
       etapa,
@@ -198,13 +236,13 @@ export class LiquidacionFormComponent implements OnInit {
 
     this.etapa = etapa;
 
-    if (!!this.data){
+    /*if (!!this.data){
       this.etapa = this.data.etapa as LiquidacionEtapaEnum;
       contraparte_id = this.data.contraparte_id;
       contraparte = this.data.contraparte;
       contraparte_numero_documento = this.data.contraparte_numero_documento;
       tipo_contraparte_id = this.data.tipo_contraparte_id;
-    }
+    }*/
 
     if (es_pdv) {
 
@@ -218,8 +256,8 @@ export class LiquidacionFormComponent implements OnInit {
         )
         //.pipe(filter((e) => !!e))
         .subscribe((estadoCuenta) => {
-          this.estadoCuenta = estadoCuenta!;
-          this.getList();
+          this.estadoCuenta = estadoCuenta ?? undefined;
+          this.getListPDV(contraparte_id, punto_venta_id, flujo);
         });
 
     } else {
@@ -231,25 +269,17 @@ export class LiquidacionFormComponent implements OnInit {
         contraparte,
         contraparte_numero_documento
       )
-      .pipe(filter((e) => !!e))
+      //.pipe(filter((e) => !!e))
       .subscribe((estadoCuenta) => {
-        this.estadoCuenta = estadoCuenta!;
-        this.getList();
+        this.estadoCuenta = estadoCuenta ?? undefined;
+        this.getList(flujo);
       });
 
     }
 
-    // TODO: obtenemos la moneda local
-    this.moneda = mockMoneda1;
   }
 
-  getList(): void {
-    let {
-      contraparte_id,
-      punto_venta_id,
-      es_pdv,
-      flujo
-    } = this.route.snapshot.queryParams;
+  getList(flujo:string): void {
 
     if (this.estadoCuenta!.es_pdv && !flujo) {
       this.list = [];
@@ -259,35 +289,53 @@ export class LiquidacionFormComponent implements OnInit {
 
     const etapa = this.etapa! as LiquidacionEtapaEnum;
 
-    if (es_pdv) {
+    this.movimientoService
+    .getListByEstadoCuenta(
+      this.estadoCuenta!,
+      this.estadoCuenta!.contraparte_id,
+      etapa
+    )
+    .pipe(
+      map((response:Movimiento[]) => {
+        response.forEach(r=> r.isExpanded= false);
+        return response;
+      })
+    )
+    .subscribe((data) => {
+      this.list = data;
+      console.log("movimientos: ", data);
+      this.movimientosSelected = [];
+    });
+  }
 
-      this.movimientoService
-      .getListByEstadoCuenta(
-        this.estadoCuenta!,
-        contraparte_id,
-        etapa,
-        punto_venta_id,
-        flujo
-      )
-      .subscribe((data) => {
-        this.list = data;
-        this.movimientosSelected = [];
-      });
+  getListPDV(contraparte_id:number, punto_venta_id:number, flujo:string): void {
 
-    } else {
-
-      this.movimientoService
-      .getListByEstadoCuenta(
-        this.estadoCuenta!,
-        this.estadoCuenta!.contraparte_id,
-        etapa
-      )
-      .subscribe((data) => {
-        this.list = data;
-        this.movimientosSelected = [];
-      });
-
+    if (this.estadoCuenta!.es_pdv && !flujo) {
+      this.list = [];
+      this.movimientosSelected = [];
+      return;
     }
+
+    const etapa = this.etapa! as LiquidacionEtapaEnum;
+
+      this.movimientoService
+        .getListByEstadoCuenta(
+          this.estadoCuenta!,
+          contraparte_id,
+          etapa,
+          punto_venta_id,
+          flujo
+        )
+        .pipe(
+          map((response:Movimiento[]) => {
+            response.forEach(r=> r.isExpanded= false);
+            return response;
+          })
+        )
+        .subscribe((data) => {
+          this.list = data;
+          this.movimientosSelected = [];
+       });
 
   }
 

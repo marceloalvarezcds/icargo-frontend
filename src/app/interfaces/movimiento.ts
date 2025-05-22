@@ -141,6 +141,7 @@ export interface Movimiento extends ContraparteInfo, MovimientoBaseModel {
   complemento_concepto?: string;
   tipo_movimiento_info?: string;
   documento_fisico_oc?: boolean;
+  isExpanded?: boolean;
 }
 
 export interface MovimientoEstadoCuenta {

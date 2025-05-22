@@ -11,14 +11,19 @@ import { CheckboxEvent } from 'src/app/interfaces/table';
 export class SelectableItemTableComponent<T extends { id: number }> {
   private selectedItems: T[] = [];
 
+  @Input() expandible= false;
+  @Input() expandibleButton= false;
   @Input() list: T[] = [];
   @Input() columns: Column[] = [];
+  @Input() subRowColumnsToDisplay: Column[] = [];
 
   @Output() selectedItemsChange = new EventEmitter<T[]>();
 
-  onAllCheckedChange(checked: boolean): void {
-    if (checked) {
-      this.selectedItems = this.list.slice();
+  onAllCheckedChange(allcheck:any): void {
+
+    if (allcheck.checked) {
+      //this.selectedItems = this.list.slice();
+      this.selectedItems = allcheck.data;
     } else {
       this.selectedItems = [];
     }

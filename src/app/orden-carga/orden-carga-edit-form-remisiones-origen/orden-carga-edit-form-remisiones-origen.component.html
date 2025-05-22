@@ -9,12 +9,12 @@
       (click)="create()"
       (buttonAnticipoClicked)="onEditPressed()"
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'
+      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'
       || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
       >
       <mat-icon
       class="small-icon"
-      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Conciliado'  || oc?.estado === 'Finalizado'
+      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || oc?.estado === 'Conciliado'  || oc?.estado === 'Finalizado'
       || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) } || isEditPedido">
       add</mat-icon>
       CARGA
@@ -31,7 +31,7 @@
     [data]="lista"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
-    [hideShow]="oc?.estado === 'Conciliado'"
-    [isShow]="oc?.estado === 'Conciliado'"
+    [hideShow]="oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'"
+    [isShow]="oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado'"
   ></app-table>
 </div>

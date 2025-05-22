@@ -50,6 +50,8 @@ import { mockSemiList } from './semi';
 export interface OrdenCargaForm {
   camion_id: number;
   semi_id: number;
+  chofer_id:number;
+  propietario_id:number;
   combinacion_id: number;
   flete_id: number;
   cantidad_nominada: number;
@@ -74,7 +76,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_placa: string;
   camion_propietario_nombre: string;
   camion_propietario_puede_recibir_anticipos: boolean;
-
+  combinacion_chofer_puede_recibir_anticipos: boolean;
   combinacion_propietario_id: number;
   combinacion_chofer_id: number;
   chofer_nombre: string;
@@ -102,15 +104,16 @@ export interface OrdenCarga extends OrdenCargaForm {
   total_anticipo_efectivo: number | null;
   total_anticipo_combustible:  number | null;
   total_anticipo_lubricantes: number | null;
-  saldo_efectivo: number | null;
-  saldo_combustible: number | null;
-  saldo_lubricantes: number | null;
+  flete_saldo_efectivo: number | null;
+  flete_saldo_combustible: number | null;
+  flete_saldo_lubricante: number | null;
   // Datos de fletes
   flete_producto_id: number;
   flete_anticipo_maximo: number;
   flete_destino_id: number;
   flete_destino_nombre: string;
   flete_tarifa_unidad_gestor_carga: string;
+  flete_merma_unidad_gestor_carga: string;
   flete_moneda_id:number;
   flete_gestor_carga_id: number;
   flete_gestor_carga_nombre: string;
@@ -118,14 +121,20 @@ export interface OrdenCarga extends OrdenCargaForm {
   flete_numero_lote?: string | null;
   flete_monto_efectivo: number;
   flete_monto_efectivo_complemento: number;
+  flete_monto_combustible: number;
+  flete_monto_lubricante: number;
   flete_origen_id: number;
   flete_origen_nombre: string;
   flete_producto_descripcion: string;
   flete_proyectado: number;
+  flete_proyectado_ml: number;
   flete_remitente_nombre: string;
   flete_remitente_numero_documento: string;
   flete_tarifa_unidad_abreviatura: string;
+  flete_tarifa_unidad: string;
+  flete_merma_unidad: string;
   flete_tarifa: number;
+
   flete_tipo: TipoFleteEnum;
   gestor_carga_id: number;
   flete_saldo: number;
@@ -134,6 +143,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   //Condiciones para GC y Propietario
   gestor_carga_moneda_simbolo: string;
   condicion_gestor_cuenta_tarifa: number;
+  condicion_gestor_carga_tarifa_ml: number;
   condicion_propietario_tarifa: number;
   condicion_propietario_tarifa_ml: number;
   condicion_gestor_moneda_simbolo: string
@@ -145,10 +155,12 @@ export interface OrdenCarga extends OrdenCargaForm {
   merma_gestor_carga_es_porcentual_descripcion: string;
   merma_gestor_carga_tolerancia: number;
   merma_gestor_carga_valor: number;
+  merma_gestor_carga_valor_ml: number;
   //Merma para el Propietario
   merma_propietario_es_porcentual_descripcion: string;
   merma_propietario_tolerancia: number;
   merma_propietario_valor: number;
+  merma_propietario_valor_ml: number;
   // Historial de Estados
   is_aceptado: boolean;
   is_cancelado: boolean;
@@ -266,6 +278,14 @@ export interface OrdenCargaRemitir {
   created_at: string;
 }
 
+export interface RecalculoCondiciones {
+  condicion_gestor_carga_tarifa_ml: number;
+  condicion_propietario_tarifa_ml: number;
+  merma_gestor_carga_valor_ml: number;
+  merma_propietario_valor_ml: number;
+}
+
+
 const camion0 = mockCamionList[0];
 const camion1 = mockCamionList[1];
 
@@ -292,6 +312,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   id: 1,
   // Datos de camion
   camion_id: camion0.id,
+  chofer_id: 1,
+  propietario_id:2,
   combinacion_id: camion0.id,
   camion_marca: '',
   camion_color: '',
@@ -306,6 +328,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso: null,
   camion_placa: camion0.placa,
   camion_propietario_nombre: camion0.propietario_nombre,
+  combinacion_chofer_puede_recibir_anticipos: false,
   camion_propietario_puede_recibir_anticipos: true,
   camion_propietario_documento: 'string',
   camion_estado: 'activo',
@@ -337,22 +360,28 @@ export const mockOrdenCarga1: OrdenCarga = {
   flete_gestor_carga_id: flete0.gestor_carga_id,
   flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
   flete_tarifa_unidad_gestor_carga:'USD/TON',
+  flete_merma_unidad_gestor_carga: 'PYG/kg',
   flete_moneda_id: 1,
   gestor_carga_moneda_id: 10,
   flete_limite_credito: flete0_limite_credito,
   flete_numero_lote: flete0.numero_lote,
   flete_monto_efectivo: flete0_monto_efectivo,
   flete_monto_efectivo_complemento: flete0_monto_efectivo,
+  flete_monto_combustible: 9000,
+  flete_monto_lubricante: 1000,
   flete_origen_id: flete0.origen_id,
   flete_origen_nombre: flete0.origen_nombre,
   flete_producto_descripcion: flete0.producto_descripcion,
   flete_proyectado: flete0_proyectado,
+  flete_proyectado_ml: flete0_proyectado,
   flete_remitente_nombre: flete0.remitente_nombre,
   flete_remitente_numero_documento: flete0.remitente_numero_documento,
   flete_tarifa: flete0_tarifa,
   flete_tipo: flete0.tipo_flete,
   flete_saldo: 0,
   flete_tarifa_unidad_abreviatura: 'kg',
+  flete_tarifa_unidad: 'PYG/kg',
+  flete_merma_unidad: 'PYG/KG',
   flete_producto_id: 1,
   linea_disponible: 9000,
   gestor_carga_id: flete0.gestor_carga_id,
@@ -365,6 +394,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   //Condiciones para GC y Propietario
   gestor_carga_moneda_simbolo: 'PYG',
   condicion_gestor_cuenta_tarifa: flete0.gestor_carga_id,
+  condicion_gestor_carga_tarifa_ml:1,
   condicion_propietario_tarifa: 90,
   condicion_gestor_moneda_simbolo:'USD',
   condicion_propietario_moneda_simbolo:'PYG',
@@ -375,13 +405,15 @@ export const mockOrdenCarga1: OrdenCarga = {
   merma_gestor_carga_es_porcentual_descripcion: 'v',
   merma_gestor_carga_tolerancia: 30,
   merma_gestor_carga_valor: 5000,
+  merma_gestor_carga_valor_ml: 5000,
   //Merma para el Propietario
   merma_propietario_es_porcentual_descripcion: 'v',
   merma_propietario_tolerancia: 20,
   merma_propietario_valor: 5500,
-  saldo_efectivo: 1000,
-  saldo_combustible: 800,
-  saldo_lubricantes: 800,
+  merma_propietario_valor_ml: 5500,
+  flete_saldo_efectivo: 1000,
+  flete_saldo_combustible: 800,
+  flete_saldo_lubricante: 800,
   // Historial de Estados
   is_aceptado: false,
   is_cancelado: false,
@@ -441,6 +473,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 1,
     // Datos de camion
     camion_id: camion0.id,
+    chofer_id: 1,
+    propietario_id:2,
     combinacion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
     camion_chofer_numero_documento: camion0.chofer_numero_documento,
@@ -505,6 +539,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 2,
     // Datos de camion
     camion_id: camion1.id,
+    chofer_id: 1,
+    propietario_id:2,
     combinacion_id: camion0.id,
     camion_chofer_nombre: camion1.chofer_nombre,
     camion_chofer_numero_documento: camion1.chofer_numero_documento,
@@ -569,6 +605,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     id: 3,
     // Datos de camion
     camion_id: camion0.id,
+    chofer_id: 1,
+    propietario_id:2,
     combinacion_id: camion0.id,
     camion_chofer_nombre: camion0.chofer_nombre,
     camion_chofer_numero_documento: camion0.chofer_numero_documento,

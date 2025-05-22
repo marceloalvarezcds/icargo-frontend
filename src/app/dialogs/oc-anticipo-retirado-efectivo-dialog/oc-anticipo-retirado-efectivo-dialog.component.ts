@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { combineLatest, Subject, Subscription } from 'rxjs';
@@ -190,40 +190,59 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {
-        return new Intl.NumberFormat('de-DE', {
-            minimumFractionDigits: 0,
-            maximumFractionDigits: 2
-        }).format(value);
+      return new Intl.NumberFormat('de-DE', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 2
+      }).format(value);
     };
 
     if (this.saldoDisponible < 0) {
-        const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
-        return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
-        El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+      const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
+      return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
+      El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
 
-    // Si limiteAnticipoCamion > 0, mostrar mensaje con anticipoDisponibleCamion
-    if (this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
-      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-        subtract(this.monto, this.anticipoDisponibleCamion)
-      )}</strong> al anticipo del tracto disponible</span>`;
+    // Si limiteAnticipoCamion > 0, verificar ambas condiciones
+    if (this.limiteAnticipoCamion > 0) {
+      if (this.monto > this.saldoDisponible) {
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+          subtract(this.monto, this.saldoDisponible)
+        )}</strong> al saldo disponible</span>`;
+      }
+
+      if (this.monto > this.anticipoDisponibleCamion) {
+        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+          subtract(this.monto, this.anticipoDisponibleCamion)
+        )}</strong> al anticipo del tracto disponible</span>`;
+      }
     }
+
     // Si limiteAnticipoCamion === 0, mostrar mensaje con saldoDisponible
     if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-            subtract(this.monto, this.saldoDisponible)
-        )}</strong> al saldo disponible</span>`;
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.saldoDisponible)
+      )}</strong> al saldo disponible</span>`;
     }
 
     const saldoMostrar = this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
+      ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+      : this.saldoDisponible;
 
     if (this.monto && saldoMostrar === 0) {
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    return `<span class="hint-alert-label">Saldo</span> <strong>${formatNumber(saldoMostrar)}</strong>`;
+    const saldoLine = `<div class="hint-alert-label">Saldo OC: <strong>${formatNumber(saldoMostrar)}</strong></div>`;
+
+    let anticipoLine = '';
+
+    if (this.limiteAnticipoCamion === null) {
+      anticipoLine = `<div style="margin-top: 8px;" class="hint-alert-label">Saldo Tracto <strong>Sin límites</strong></div>`;
+    } else {
+      anticipoLine = `<div style="margin-top: 18px;" class="hint-alert-label">Saldo Tracto <strong>${formatNumber(this.anticipoDisponibleCamion)}</strong></div>`;
+    }
+
+    return saldoLine + anticipoLine;
   }
 
 
@@ -235,10 +254,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get saldoDisponible(): number {
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino + this.montoRetirado;
+      const valor = (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino;
+      return Math.floor(valor * 100) / 100 + this.montoRetirado;
     }
     return this.saldoAnticipo + this.montoRetirado;
   }
+
+
 
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
@@ -313,20 +335,21 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     private monedaCotizacionService: MonedaCotizacionService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoEfectivoDialogComponent>,
     private fb: FormBuilder,
+    private cdr: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
 
   ngOnInit(): void {
     this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
+    this.getCotizacionMonedaOrigen()
     const monedaControl = this.form?.get('moneda_id');
+
     if (monedaControl) {
       monedaControl.valueChanges.subscribe((moneda) => {
         if (moneda && typeof moneda === 'object' && moneda.id) {
           this.monedaDestinoId = moneda.id;
-          this.obtenerCotizaciones();
         }
       });
-
     }
   }
 
@@ -334,36 +357,21 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     if (this.oc?.gestor_carga_id) {
       this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(
         (response) => {
-          this.simboloMoneda = response.simbolo || 'PYG';
-          this.monedaDestinoId = response?.id || null;
+          this.monedaOrigenId = response?.id || null;
         }
       );
     }
   }
 
-  obtenerCotizaciones(): void {
-    // this.monedaOrigenId = this.form.get('moneda_id')!.value!.id;
-    this.monedaOrigenId = this.oc!.flete_moneda_id;
+  getCotizacionMonedaOrigen(): void {
+    this.monedaOrigenId = this.oc!.condicion_propietario_moneda_id;
     this.monedaCotizacionService
-      .getCotizacionByGestor(this.monedaOrigenId!, this.oc!.gestor_carga_id)
-      .subscribe({
-        next: (responseOrigen) => {
-          this.cotizacionOrigen = responseOrigen ? responseOrigen.cotizacion_moneda : null;
-
-          // this.monedaDestinoId = this.form.get('moneda_id')?.value?.id;
-
-          if (this.monedaDestinoId) {
-            this.monedaCotizacionService
-              .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
-              .subscribe({
-                next: (responseDestino) => {
-                  this.cotizacionDestino = responseDestino ? responseDestino.cotizacion_moneda : null;
-
-                }
-              });
-          }
-        }
-      });
+    .getCotizacionByGestor(this.oc!.condicion_propietario_moneda_id, this.oc!.gestor_carga_id)
+    .subscribe({
+      next: (responseOrigen) => {
+        this.cotizacionOrigen = responseOrigen ? responseOrigen.cotizacion_moneda : null;
+      }
+    });
   }
 
   getCotizacionMonedaDestino(monedaDestinoId: number): void {
@@ -371,29 +379,11 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
       .getCotizacionByGestor(monedaDestinoId, this.oc!.gestor_carga_id)
       .subscribe({
         next: (responseDestino) => {
-          this.cotizacionDestino = responseDestino?.cotizacion_moneda || null; // <- esta línea es clave
-          this.cotizacionDestinoMonedaId = this.cotizacionDestino;
-          console.log('cotizacionDestinoMonedaId', this.cotizacionDestinoMonedaId);
-          this.calcularValores();
+          this.cotizacionDestino = responseDestino ? responseDestino.cotizacion_moneda : null;
+          this.cdr.detectChanges();
         }
       });
   }
-
-  calcularValores(): void {
-    if (this.cotizacionOrigen && this.cotizacionDestinoMonedaId) {
-      const resultado = (this.saldoAnticipo * this.cotizacionDestinoMonedaId) / this.cotizacionDestinoMonedaId;
-    }
-  }
-
-  onMonedaDestinoChange(monedaDestino: any): void {
-    console.log('Cambio detectado:', monedaDestino); // Asegura que esto se dispare
-
-    if (monedaDestino) {
-      const monedaDestinoId = monedaDestino.id;
-      this.getCotizacionMonedaDestino(monedaDestinoId);
-    }
-  }
-
 
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
@@ -428,7 +418,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     if (this.form.valid) {
       const formValue = this.form.value;
       const monto_retirado = formValue.monto_retirado;
-      const monedaOrigenSubmitId = this.form.get('moneda_id')!.value!.id;
+      const monedaOrigenSubmitId = formValue.moneda_id;
       const monedaDestinoSubmitId = this.oc!.gestor_carga_moneda_id;
 
       // Primero obtenemos cotización origen y luego la destino para hacer el cálculo y guardar
@@ -448,14 +438,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
                 return;
               }
 
-              this.monto_mon_local = (monto_retirado * cotizacionOrigen) / cotizacionDestino;
+              this.monto_mon_local = ((monto_retirado * cotizacionOrigen) / cotizacionDestino * 100) / 100;
 
               const data = {
                 ...formValue,
                 id: this.data?.id,
                 orden_carga_id: this.ordenCargaId,
                 monto_mon_local: this.monto_mon_local,
-                moneda_id: formValue.moneda_id?.id ?? null,
               };
 
               const formData = new FormData();
@@ -561,7 +550,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     }
   }
 
-
   private setFleteAnticipo(fleteAnticipo: FleteAnticipo): void {
     this.fleteAnticipo = fleteAnticipo;
     this.fleteAnticipoControl.setValue(fleteAnticipo.id);
@@ -569,9 +557,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   }
 
   private setOrdenCargaAnticipoSaldo(saldo: number): void {
-    console.log('🧾 saldo_ml recibido:', saldo);
     this.saldoAnticipo = saldo;
-
     this.montoRetiradoControl.setValidators([
       Validators.required,
       Validators.min(0),
@@ -584,5 +570,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     this.form.get('moneda_id')?.setValue(moneda?.id);
     this.valueChange.emit(moneda?.id);
   }
+
+  onMonedaDestinoChange(monedaDestino: any): void {
+    if (monedaDestino) {
+      const monedaDestinoId = monedaDestino.id;
+      this.getCotizacionMonedaDestino(monedaDestinoId);
+    }
+  }
+
 }
 

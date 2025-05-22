@@ -12,12 +12,14 @@ export interface FleteDescuento {
   anticipado: boolean;
   // INICIO Monto a cobrar al Propietario
   propietario_monto?: number | null;
+  propietario_monto_ml?: number | null,
   propietario_moneda_id?: number | null;
   propietario_moneda: Moneda | null;
   propietario_moneda_nombre: string;
   // FIN Monto a cobrar al Propietario
   // INICIO Monto a pagar al Proveedor
   proveedor_monto?: number | null;
+  proveedor_monto_ml?: number | null;
   proveedor_moneda_id?: number | null;
   proveedor_moneda?: Moneda | null;
   proveedor_moneda_nombre?: string | null;

@@ -1,5 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Column } from 'src/app/interfaces/column';
 import { ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientosSelectedDialogData } from 'src/app/interfaces/movimientos-selected-dialog';
@@ -11,7 +12,36 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./movimientos-selected-dialog.component.scss'],
 })
 export class MovimientosSelectedDialogComponent {
+
   movimientosSelected: Movimiento[] = [];
+
+  subRowColumnsToDisplay: Column[] = [
+    {
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => element.camion_placa,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'orden_carga_id',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.orden_carga_id,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'documento_fisico_oc',
+      title: 'Doc. Físico',
+      value: (element: Movimiento) =>
+        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'detalle',
+      title: 'Info',
+      value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+  ];
 
   get contraparteInfo(): ContraparteInfo {
     return this.data.contraparteInfo;

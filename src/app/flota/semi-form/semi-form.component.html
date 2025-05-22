@@ -67,7 +67,7 @@
           "
         ></app-habilitacion-form-transporte>
       </div>
-      
+
       <app-habilitacion-form-municipal
         [form]="form"
         [isEdit]="isEdit"
@@ -102,7 +102,52 @@
 
     </div>
 
+    <div class="section">
+      <h2> CALIFICACIÓN </h2>
+      <div class="row">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">Calificación Local (GC)</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="item?.promedio_semi_gestor !== null ? (item?.promedio_semi_gestor | number:'1.0-2') : 'Aún sin calificar'"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div *ngIf="item?.promedio_semi_gestor" class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">Cant. Calificaciones Local (GC)</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="item?.cantidad_semi_evaluaciones_gestor || 0 | number:'1.0-2'"
+              disabled
+            />
+          </mat-form-field>
+        </div>
 
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">Calificación General</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="item?.promedio_semi_general !== null ? (item?.promedio_semi_general | number:'1.0-2') : 'Aún sin calificar'"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+        <div *ngIf="item?.promedio_semi_general" class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">Cant. Calificaciones General</label>
+          <mat-form-field class="saldo-form-field">
+            <input
+              matInput
+              [value]="item?.cantidad_semi_evaluaciones || 0 | number:'1.0-2'"
+              disabled
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
 
     <div class="section"*ngIf="isEdit || isShow">
       <h2> Auditoría </h2>

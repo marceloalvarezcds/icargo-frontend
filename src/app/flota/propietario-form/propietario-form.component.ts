@@ -17,6 +17,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Ciudad } from 'src/app/interfaces/ciudad';
+import { Propietario } from 'src/app/interfaces/propietario';
 import { PropietarioContactoGestorCargaList } from 'src/app/interfaces/propietario-contacto-gestor-carga';
 import { DialogService } from 'src/app/services/dialog.service';
 import { PropietarioService } from 'src/app/services/propietario.service';
@@ -34,6 +35,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   anticiposBloqueados = false;
   id?: number;
+  item?: Propietario
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
   isEdit = false;

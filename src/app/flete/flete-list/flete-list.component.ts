@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -7,7 +7,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { FleteList } from 'src/app/interfaces/flete';
+import { Flete, FleteList } from 'src/app/interfaces/flete';
 import { SeleccionableBaseModel } from 'src/app/interfaces/seleccionable';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
@@ -36,19 +36,19 @@ export class FleteListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: FleteList) => element.id,
-     
+
     },
     {
       def: 'numero_lote',
       title: 'Nº Lote',
       value: (element: FleteList) => element.numero_lote,
-     
+
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: FleteList) => element.estado.toUpperCase(),
-    
+
     },
     {
       def: 'remitente_nombre',
@@ -132,7 +132,7 @@ export class FleteListComponent implements OnInit {
       title: 'Tramo',
       value: (element: FleteList) => element.origen_indicacion,
     },
- 
+
     // {
     //   def: 'destino_indicacion',
     //   title: 'Destino Indicaciones',
@@ -271,6 +271,7 @@ export class FleteListComponent implements OnInit {
   productoFiltered: string[] = [];
   publicadoFilterList: string[] = [];
   publicadoFiltered: string[] = [];
+  flete?: Flete;
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -307,7 +308,7 @@ export class FleteListComponent implements OnInit {
     private searchService: SearchService,
     private dialog: DialogService,
     private router: Router,
- 
+
   ) {}
 
   ngOnInit(): void {
@@ -393,6 +394,7 @@ export class FleteListComponent implements OnInit {
     return filterByPublicado && filterByEstado && filterByProducto;
   }
 
+
   applyFilter(): void {
     let filter: Filter = {};
     this.isFiltered = false;
@@ -422,7 +424,7 @@ export class FleteListComponent implements OnInit {
     this.filter('');
   }
 
- 
+
   private getList(): void {
     this.fleteService.getListByGestorCarga().subscribe((list) => {
       this.list = list;

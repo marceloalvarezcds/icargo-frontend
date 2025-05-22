@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcDescuentoDialogData } from 'src/app/interfaces/oc-descuento-dialog-data';
@@ -68,7 +68,12 @@ export class OcDescuentoFormDialogComponent implements OnInit {
       this.form.controls['proveedor_id'].updateValueAndValidity();
     });
 
+    @Input() dialogConfig: { disabled: boolean } = { disabled: false };
+
     ngOnInit(): void {
+      if (this.dialogConfig.disabled) {
+        this.form.disable();
+      }
       this.getCotizacionMonedaDestinoPropietario()
     }
 
@@ -143,7 +148,7 @@ export class OcDescuentoFormDialogComponent implements OnInit {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get anticipadoControl(): FormControl {
@@ -178,19 +183,12 @@ export class OcDescuentoFormDialogComponent implements OnInit {
       if (this.form.valid) {
           const formValue = this.form.value;
 
-          // Obtener los montos de propietario y proveedor desde el formulario
           const propietarioMonto = formValue.propietario_monto;
           const proveedorMonto = formValue.proveedor_monto;
-
-          console.log('propietarioMonto', propietarioMonto);
-          console.log('proveedorMonto', proveedorMonto);
 
           // Calcular el monto en moneda local para el propietario y proveedor
           this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
           this.proveedor_monto_ml = (proveedorMonto * this.cotizacionOrigenProveedor!) / this.cotizacionDestino!;
-
-          console.log('this.propietario_monto_ml', this.propietario_monto_ml);
-          console.log('this.proveedor_monto_ml', this.proveedor_monto_ml);
 
           const data = JSON.parse(
               JSON.stringify({
@@ -200,8 +198,8 @@ export class OcDescuentoFormDialogComponent implements OnInit {
                   id: this.data?.id,
                   flete_id: this.data?.flete_id,
                   orden_carga_id: this.dialogData.orden_carga_id,
-                  propietario_moneda_id: formValue.propietario_moneda_id?.id,
-                  proveedor_moneda_id: formValue.proveedor_moneda_id?.id,
+                  propietario_moneda_id: formValue.propietario_moneda_id,
+                  proveedor_moneda_id: formValue.proveedor_moneda_id,
               })
           );
           const formData = new FormData();
@@ -212,7 +210,6 @@ export class OcDescuentoFormDialogComponent implements OnInit {
           action.subscribe(this.close.bind(this));
       }
   }
-
 
   private close(data: OrdenCargaDescuento): void {
     this.dialogRef.close(data);

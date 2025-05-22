@@ -168,11 +168,11 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   }
 
   get remisionOrigenList(): OrdenCargaRemisionOrigen[] {
-    return this.item!?.remisiones_origen.slice();
+    return this.item?.remisiones_origen?.slice() || [];
   }
 
   get remisionDestinoList(): OrdenCargaRemisionDestino[] {
-    return this.item!?.remisiones_destino.slice();
+    return this.item?.remisiones_destino?.slice() || [];
   }
 
   get remisionResultadoList(): OrdenCargaRemisionResultado[] {
@@ -180,7 +180,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
   }
 
   get movimientoList(): Movimiento[] {
-    return this.item!?.movimientos.slice();
+    return this.item?.movimientos?.slice() || [];
   }
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
@@ -554,8 +554,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -573,8 +573,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -668,7 +668,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
         '¿Está seguro que desea conciliar la Orden de Carga?',
         this.ordenCargaService.conciliar(this.idOC),
         () => {
-  
+
             this.getData();
             this.form.get('info.comentarios')?.disable();
 
@@ -678,14 +678,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             if (comentarioUpper) {
                 this.createComentarioYConciliar(comentarioUpper);
             }
-
-            this.snackBar.open('Generando PDF...', 'Cerrar', {
-                duration: 3000,
-                verticalPosition: 'top',
-                horizontalPosition: 'center'
-            });
-
-            this.downloadConciliarResumenPDF();
         },
     );
   }
@@ -755,7 +747,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
       this.flete = flete;
@@ -775,7 +766,6 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       this.chRef.detectChanges();
     }
   }
-
 
 
   submit(confirmed: boolean): void {
@@ -878,7 +868,7 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             color_semi: data.semi_color,
             propietario_camion: data.camion_propietario_nombre,
             propietario_camion_doc: data.camion_propietario_documento,
-            chofer_camion: data.camion_chofer_nombre,
+            chofer_camion: data.chofer_nombre,
             chofer_camion_doc: data.combinacion_chofer_doc,
             beneficiario_camion: data.camion_beneficiario_nombre,
             beneficiario_camion_doc: data.camion_beneficiario_documento,
@@ -919,14 +909,5 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
 
     }
   }
-
-
-  // submit(confirmed: boolean): void {
-  //   this.isFormSaved = true;
-  //   this.isFormSubmitting = false
-  //   this.isShow = false
-  //   this.dataFromParent = this.form.get('combinacion.estado')?.value;
-  //   this.getData();
-  // }
 
 }

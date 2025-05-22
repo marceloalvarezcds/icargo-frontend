@@ -6,15 +6,17 @@
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
-  [hideEditButton]="true"
   [isShow]="isShow"
   [isEdit]="isEdit"
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
-  [shouldShowInactiveButton]="!isCancel"
+  [isCopyFlete]="isCopyFlete"
+  [isEditPressed]="isEditPressed"
   (backClick)="back($event)"
+  (copiarFleteClick)="copiar()"
+  (ampliarFleteClick)="ampliar()"
+  (cancelarClick)="delete()"
   (editClick)="redirectToEdit()"
-
   (submitEvent)="save(false)"
   [flete]="item"
 >
@@ -34,6 +36,7 @@
         [estado]="estado"
         [flete]="item"
         [isShow]="isShow"
+        [isEdit]="isEdit"
         (remitenteChange)="info.get('remitente_nombre')?.setValue($event?.nombre)"
         (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>
@@ -46,6 +49,7 @@
         [form]="form"
         [flete]="item"
         [isShow]="isShow"
+        [isEdit]="isEdit"
         (origenChange)="tramo.get('origen_nombre')?.setValue($event?.nombre)"
         (destinoChange)="tramo.get('destino_nombre')?.setValue($event?.nombre)"
       ></app-flete-form-tramo>
@@ -96,7 +100,7 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
-          [isEdit]="isEdit"
+          [isEditCopyForm] = "isEditCopyForm"
           [complementoList]="complementoList"
         ></app-flete-form-complementos>
         <app-flete-form-descuentos
@@ -104,7 +108,7 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
-          [isEdit]="isEdit"
+          [isEditCopyForm] = "isEditCopyForm"
           [descuentoList]="descuentoList"
         ></app-flete-form-descuentos>
       </div>

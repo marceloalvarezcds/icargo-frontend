@@ -118,21 +118,28 @@ export class LiquidacionEditFormAccionesComponent {
           <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
         </div>
       </div>
+    `;
 
+    if (this.liquidacion.es_orden_pago) {
+      const montoPC = this.form?.get('monto_pc')?.value;
+      htmlFooter = htmlFooter + `
+      <div class="col-xs-12" >
+        <div class="row" style="font-size: larger;">
+          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
+          <strong class="col-xs-5">${numberWithCommas(Math.abs(montoPC))}</strong>
+        </div>
+      </div>`;
+    } else {
+      htmlFooter = htmlFooter + `
       <div class="col-xs-12">
         <div class="row">
           <span class="col-xs-7">Tot. Movimientos</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
         </div>
-      </div>
+      </div>`;
+    }
 
-      <div class="col-xs-12">
-        <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
-        </div>
-      </div>
-
+    htmlFooter = htmlFooter + `
     </div>
     <br>
     <div class="fondo-gris"><h4 class="alerta"><span>Atencion!!</span>Al aceptar la liquidacion se podra proceder al desembolso.</h4><div></div></div>`;
@@ -333,7 +340,7 @@ export class LiquidacionEditFormAccionesComponent {
       liquidacion_id: this.liquidacion.id,
       contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
-      valor_operacion: this.liquidacion.es_orden_pago 
+      valor_operacion: this.liquidacion.es_orden_pago
         ? Math.abs(this.liquidacion.pago_cobro!)
         : Math.abs(this.totalMovimiento),
       contribuyente: this.liquidacion.contraparte,
@@ -342,7 +349,7 @@ export class LiquidacionEditFormAccionesComponent {
       item,
     };
 
-    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', }, );
+    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'factura-dialog', }, );
   }
 
 }

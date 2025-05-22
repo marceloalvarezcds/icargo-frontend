@@ -6,6 +6,7 @@ import { NumberFormatPipe } from './number-format.pipe';
 import { PermisoPipe } from './permiso.pipe';
 import { UserGestorCuentaPipe } from './user-gestor-cuenta.pipe';
 import { HourFormatPipe } from './hour-format.pipe';
+import { NumberDecimalFormatPipe } from './number-decimal-format.pipe';
 
 const modules = [
   ImageFileBase64Pipe,
@@ -14,6 +15,7 @@ const modules = [
   PermisoPipe,
   UserGestorCuentaPipe,
   HourFormatPipe,
+  NumberDecimalFormatPipe,
 ];
 
 @NgModule({

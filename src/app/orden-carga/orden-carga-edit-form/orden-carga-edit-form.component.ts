@@ -407,7 +407,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
 
-
   onCombinacionChange(combinacionList: CombinacionList | undefined): void {
     if (combinacionList) {
       this.combinacionList = combinacionList;
@@ -478,7 +477,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     } else {
         console.error('No se puede cancelar la Orden de Carga sin un ID válido');
     }
-}
+  }
 
 private createComentarioAndCancel(comentario: string): void {
     const formData = new FormData();
@@ -490,7 +489,7 @@ private createComentarioAndCancel(comentario: string): void {
 
     this.ordenCargaService.createComentarios(formData).subscribe(
         () => {
-            this.cancelOrdenCarga(); // Llama a cancelar después de crear el comentario
+            this.cancelOrdenCarga();
         },
         (error) => {
             console.error('Error al crear el comentario', error);
@@ -498,29 +497,27 @@ private createComentarioAndCancel(comentario: string): void {
     );
 }
 
-private cancelOrdenCarga(): void {
-    this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
-        this.ordenCargaService.cancelar(this.idOC),
-        () => {
-            this.getData();
-            const dialogRef = this.openEvaluacionesCancelarDialog();
+  private cancelOrdenCarga(): void {
+      this.dialog.changeStatusConfirm(
+          '¿Está seguro que desea cancelar la Orden de Carga?',
+          this.ordenCargaService.cancelar(this.idOC),
+          () => {
+              this.getData();
+              const dialogRef = this.openEvaluacionesCancelarDialog();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    this.snackBar.open('Generando PDF...', 'Cerrar', {
-                        duration: 3000,
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center'
-                    });
-                    this.downloadResumenPDF();
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
-                }
-            });
-        },
-    );
-}
+              dialogRef.afterClosed().subscribe(result => {
+                  if (result) { // Si se acepta el diálogo
+                      this.snackBar.open('Generando PDF...', 'Cerrar', {
+                          duration: 3000,
+                          verticalPosition: 'top',
+                          horizontalPosition: 'center'
+                      });
+                      this.downloadResumenPDF();
+                  }
+              });
+          },
+      );
+  }
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -610,8 +607,8 @@ private cancelOrdenCarga(): void {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -629,8 +626,8 @@ private cancelOrdenCarga(): void {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -659,36 +656,21 @@ private cancelOrdenCarga(): void {
 
   private conciliarOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea conciliar la Orden de Carga?',
-        this.ordenCargaService.conciliar(this.idOC),
-        () => {
-            this.getData();
-            this.form.get('info.comentarios')?.disable();
-            const dialogRef = this.openEvaluacionesDialog();
+      '¿Está seguro que desea conciliar la Orden de Carga?',
+      this.ordenCargaService.conciliar(this.idOC),
+      () => {
+        this.getData();
+        this.form.get('info.comentarios')?.disable();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    const comentario = this.form.get('info.comentarios')?.value;
-                    const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+        const comentario = this.form.get('info.comentarios')?.value;
+        const comentarioUpper = comentario ? comentario.toUpperCase() : '';
 
-                    if (comentarioUpper) {
-                        this.createComentarioYConciliar(comentarioUpper);
-                    }
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
-                }
-                this.snackBar.open('Generando PDF...', 'Cerrar', {
-                    duration: 3000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                });
-                this.downloadConciliarResumenPDF();
-            });
-        },
-
+        if (comentarioUpper) {
+          this.createComentarioYConciliar(comentarioUpper);
+        }
+      }
     );
   }
-
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
@@ -746,41 +728,80 @@ private cancelOrdenCarga(): void {
     });
   }
 
-
   onFleteChange(flete: FleteList | undefined): void {
-    if (flete) {
-      this.flete = flete;
-      if (this.item) {
-        this.item.flete_id = flete.id
-        this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
-        this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
-        //Mermas para GC
-        this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
-        this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
-        this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
-        //Mermas para Propietario
-        this.item.merma_propietario_valor = flete.merma_propietario_valor;
-        this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
-        this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
-      }
-      this.chRef.detectChanges();
-    }
+      if (flete) {
+        this.flete = flete;
+        if (this.item) {
+          this.item.flete_id = flete.id;
+          this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
+          this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
+          this.item.condicion_propietario_tarifa_ml = flete.condicion_propietario_tarifa;
+          // Mermas para GC
+          this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
+          this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
+          this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
+          // Mermas para Propietario
+          this.item.merma_propietario_valor = flete.merma_propietario_valor;
+          this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
+          this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
 
+          const ordenCargaId = this.form.get('combinacion.id_orden_carga')?.value;
+          this.ordenCargaService.recalcularCondiciones(flete.id, ordenCargaId).subscribe({
+            next: (recalculoResponse) => {
+              if (this.item) {
+                this.item.condicion_gestor_carga_tarifa_ml = recalculoResponse.condicion_gestor_carga_tarifa_ml;
+                this.item.condicion_propietario_tarifa_ml = recalculoResponse.condicion_propietario_tarifa_ml;
+                this.item.merma_gestor_carga_valor_ml = recalculoResponse.merma_gestor_carga_valor_ml;
+                this.item.merma_propietario_valor = recalculoResponse.merma_propietario_valor_ml;
+              }
+            },
+            error: (error) => {
+              console.error('Error en el recalculo:', error);
+            }
+          });
+        }
+        this.chRef.detectChanges();
+      }
   }
 
+
   enableFleteId(): void {
+    if (this.item?.estado === 'Finalizado') {
+      this.snackBar.open(
+        'No se puede cambiar el pedido, la orden ya está Finalizada',
+        'Cerrar',
+        { duration: 3000 }
+      );
+      return;
+    }
+
+    if (this.item?.estado === 'Conciliado') {
+      this.snackBar.open(
+        'No se puede cambiar el pedido, la orden ya está Conciliada',
+        'Cerrar',
+        { duration: 3000 }
+      );
+      return;
+    }
+
     if (this.item?.cantidad_origen && this.item?.cantidad_destino) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de origen y destino', 'Cerrar', {
-        duration: 3000,
-      });
+      this.snackBar.open(
+        'No se puede habilitar el campo, tiene remisiones de origen y destino',
+        'Cerrar',
+        { duration: 3000 }
+      );
     } else if (this.item?.cantidad_origen) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de origen', 'Cerrar', {
-        duration: 3000,
-      });
+      this.snackBar.open(
+        'No se puede habilitar el campo, tiene remisiones de origen',
+        'Cerrar',
+        { duration: 3000 }
+      );
     } else if (this.item?.cantidad_destino) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de destino', 'Cerrar', {
-        duration: 3000,
-      });
+      this.snackBar.open(
+        'No se puede habilitar el campo, tiene remisiones de destino',
+        'Cerrar',
+        { duration: 3000 }
+      );
     } else {
       this.form.get('combinacion.flete_id')?.enable();
       this.isButtonPressed = true;
@@ -932,7 +953,7 @@ private cancelOrdenCarga(): void {
                 propietario_camion: data.camion_propietario_nombre,
                 propietario_camion_doc: data.camion_propietario_documento,
                 chofer_camion:  this.item.chofer_nombre,
-                chofer_camion_doc: data.chofer_documento,
+                chofer_camion_doc: data.combinacion_chofer_doc,
                 beneficiario_camion: data.propietario_nombre,
                 beneficiario_camion_doc: data.camion_beneficiario_documento,
                 numero: data.flete_numero_lote,

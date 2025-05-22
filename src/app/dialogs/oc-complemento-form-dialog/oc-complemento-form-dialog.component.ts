@@ -6,7 +6,6 @@ import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialo
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
-import { MonedaService } from 'src/app/services/moneda.service';
 import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
 
 @Component({
@@ -41,6 +40,7 @@ export class OcComplementoFormDialogComponent implements OnInit {
     // FIN Monto a cobrar al Remitente
   });
 
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
   cobroARemitenteSubscription =
     this.cobroARemitenteControl.valueChanges.subscribe((val) => {
@@ -64,6 +64,9 @@ export class OcComplementoFormDialogComponent implements OnInit {
     });
 
   ngOnInit(): void {
+   if (this.dialogConfig.disabled) {
+      this.form.disable();
+    }
     this.getCotizacionMonedaDestinoPropietario()
   }
 
@@ -73,7 +76,6 @@ export class OcComplementoFormDialogComponent implements OnInit {
     .subscribe({
       next: (responseOrigen) => {
         this.cotizacionOrigenPropietario = responseOrigen ? responseOrigen.cotizacion_moneda : null;
-
       },
       error: (err) => {
         console.error('Error al obtener cotización para moneda origen:', err);
@@ -94,7 +96,6 @@ export class OcComplementoFormDialogComponent implements OnInit {
       });
   }
 
-
   getCotizacionMonedaDestinoPropietario(): void {
     this.monedaCotizacionService
       .getCotizacionByGestor(this.dialogData.oc!.gestor_carga_moneda_id, this.dialogData.oc!.gestor_carga_id)
@@ -108,20 +109,19 @@ export class OcComplementoFormDialogComponent implements OnInit {
       });
   }
 
-    onMonedaOrigenPropietarioChange(monedaDestino: any): void {
-      if (monedaDestino) {
-        const monedaOrigen = monedaDestino.id;
-        this.getCotizacionMonedaOrigenPropietario(monedaOrigen);
-      }
+  onMonedaOrigenPropietarioChange(monedaOrigen: any): void {
+    if (monedaOrigen) {
+      const monedaId = monedaOrigen.id;
+      this.getCotizacionMonedaOrigenPropietario(monedaId);
     }
+  }
 
-    onMonedaOrigenRemitenteChange(monedaDestino: any): void {
-      if (monedaDestino) {
-        const monedaOrigenRemitente = monedaDestino.id;
-        this.getCotizacionMonedaOrigenRemitente(monedaOrigenRemitente);
-      }
+  onMonedaOrigenRemitenteChange(monedaOrigen: any): void {
+    if (monedaOrigen) {
+      const monedaId = monedaOrigen.id;
+      this.getCotizacionMonedaOrigenRemitente(monedaId);
     }
-
+  }
 
   get data(): OrdenCargaComplemento | undefined {
     return this.dialogData?.item;
@@ -136,7 +136,7 @@ export class OcComplementoFormDialogComponent implements OnInit {
   }
 
   get actionText(): string {
-    return this.data ? 'Editar' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get anticipadoControl(): FormControl {

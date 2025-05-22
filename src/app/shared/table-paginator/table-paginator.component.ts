@@ -32,7 +32,12 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
       this.pageOptions = pageOptions;
     });
 
+  @Input() expandible: boolean = false;
+  @Input() expandibleRow: boolean = false;
+  @Input() expandibleButton: boolean = false;
+  @Input() grouped: boolean = false;
   @Input() columns: Column[] = [];
+  @Input() subRowColumnsToDisplay: Column[] = [];
   @Input() data: any[] = [];
   @Input() filterPredicate = this.dataSource.filterPredicate.bind(
     this.dataSource
@@ -52,6 +57,8 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() shouldShowInactiveButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() configurarColumnasVisibles?: Column[];
+  @Input() fnHideEditRowButton?: (r:any) => boolean;
+  @Input() fnHideDeleteRowButton?: (r:any) => boolean;
 
   @Output() filterResult = new EventEmitter<any[]>();
   @Output() activeClick = new EventEmitter<TableEvent<any>>();

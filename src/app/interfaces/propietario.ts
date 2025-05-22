@@ -73,6 +73,11 @@ export interface Propietario {
   alias?: string;
   contactos: PropietarioContactoGestorCargaList[];
   gestor_carga_propietario?: GestorCargaPropietario;
+
+  promedio_propietario_gestor: number,
+  promedio_propietario_general: number,
+  cantidad_propietario_evaluaciones: number,
+  cantidad_propietario_evaluaciones_gestor: number;
   created_by: string;
   created_at: string;
   modified_by: string;
@@ -166,6 +171,10 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    promedio_propietario_general:1,
+    promedio_propietario_gestor:2,
+    cantidad_propietario_evaluaciones:1,
+    cantidad_propietario_evaluaciones_gestor:2,
     // tipo_persona_descripcion: tipoPersona0.descripcion,
   },
   {
@@ -207,6 +216,10 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    promedio_propietario_general:1,
+    promedio_propietario_gestor:2,
+    cantidad_propietario_evaluaciones:1,
+    cantidad_propietario_evaluaciones_gestor:2,
     // tipo_persona_descripcion: tipoPersona1.descripcion,
   },
   {
@@ -249,6 +262,10 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
+    promedio_propietario_general:1,
+    promedio_propietario_gestor:2,
+    cantidad_propietario_evaluaciones:1,
+    cantidad_propietario_evaluaciones_gestor:2,
     // tipo_persona_descripcion: tipoPersona0.descripcion,
   },
 ];

@@ -1,11 +1,19 @@
 <h1 mat-dialog-title style="margin: 0;">
 
-  <ng-container *ngIf="isNew">
+  <ng-container *ngIf="isNew && !ordenPagoValue">
     <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
   </ng-container>
 
-  <ng-container *ngIf="!isNew">
+  <ng-container *ngIf="isNew && ordenPagoValue">
+    <span class="titulo-azul">Orden de Pago</span>
+  </ng-container>
+
+  <ng-container *ngIf="!isNew && !ordenPagoValue">
     <span class="titulo-azul">{{liquidacion?.estado}}</span><span class="titulo"> Movimientos  Liquidados</span>
+  </ng-container>
+
+  <ng-container *ngIf="!isNew && ordenPagoValue">
+    <span class="titulo-azul">Orden de Pago</span>
   </ng-container>
 
   <button mat-button type="button" mat-dialog-close class="close">

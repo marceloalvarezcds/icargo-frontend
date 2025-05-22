@@ -1,5 +1,8 @@
 <app-selectable-item-table
   [list]="list"
+  [expandible]="true"
+  [expandibleButton]="true"
   [columns]="columns"
+  [subRowColumnsToDisplay]="subRowColumnsToDisplay"
   (selectedItemsChange)="selectedMovimientosChange.emit($event)"
 ></app-selectable-item-table>
