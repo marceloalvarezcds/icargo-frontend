@@ -19,7 +19,6 @@ import { Moneda } from 'src/app/interfaces/moneda';
   selector: 'app-liquidacion-form-fields',
   templateUrl: './liquidacion-form-fields.component.html',
   styleUrls: ['./liquidacion-form-fields.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LiquidacionFormFieldsComponent implements AfterViewInit{
 

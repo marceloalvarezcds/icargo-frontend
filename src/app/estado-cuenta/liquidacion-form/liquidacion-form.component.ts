@@ -163,7 +163,7 @@ export class LiquidacionFormComponent implements OnInit {
         credito: this.child.credito,
         debito: this.child.debito,
         monto: this.child.monto,
-        saldo: this.child.monto,
+        saldo: (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado),
         totalMonedas: this.child.totalMonedas
       };
       this.dialog

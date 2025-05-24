@@ -742,6 +742,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
+            footerDef: () => 'TOTALES',
         },
         {
           def: 'detalle_desc',
@@ -834,6 +835,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
+          footerDef: () => this.provision,
         },
         {
           def: 'pendiente',
@@ -847,6 +849,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
+          footerDef: () => this.pendientes,
         },
         {
           def: 'confirmado',
@@ -860,6 +863,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
+          footerDef: () => this.deberes,
         },
         {
           def: 'finalizado',
@@ -873,6 +877,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
+          footerDef: () => this.pagos,
         },
         {
           def: 'movimiento_saldo',

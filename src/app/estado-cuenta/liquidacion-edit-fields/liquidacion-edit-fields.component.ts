@@ -91,7 +91,8 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get saldoCC():number {
-    return (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
+    
+    return (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado) ;
   }
 
   get saldoFinalizado(): number | undefined {

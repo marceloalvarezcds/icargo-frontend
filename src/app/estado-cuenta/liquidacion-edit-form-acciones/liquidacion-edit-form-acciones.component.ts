@@ -62,7 +62,7 @@ export class LiquidacionEditFormAccionesComponent {
   //@Input() monto : number | undefined = 0;
   //@Input() saldoMovimiento : number | undefined = 0;
   @Input() totalMovimiento : number = 0;
-  @Input() saldoCC : number | undefined  = 0;
+  @Input() saldoCC!: number;
   //@Input() sentidoOp: boolean = false;
   //@Input() movimientos : Movimiento[] = [];
   @Input() form : FormGroup|undefined=undefined;
@@ -135,6 +135,8 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row">
           <span class="col-xs-7">Tot. Movimientos</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+          <span class="col-xs-7">Sentido Operación</span>
+          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>`;
     }
@@ -272,13 +274,8 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row">
           <span class="col-xs-7">Tot. Movimientos</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
-        </div>
-      </div>
-
-      <div class="col-xs-12">
-        <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(this.liquidacion.monto!))}</strong>
+          <span class="col-xs-7">Sentido Operación</span>
+          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 

@@ -3,13 +3,14 @@
   <form [formGroup]="form">
 
     <app-liquidacion-edit-form-acciones
+      *ngIf="estadoCuenta"
       style="display: flex;flex-direction: row;justify-content: flex-end; padding-right: 20px;"
       [isShow]="isShow"
       [liquidacion]="item"
       (liquidacionChange)="actualizarLiquidacion.emit()"
       (liquidacionFlujoChange)="actualizarEstado.emit($event)"
       (liquidacionFacturaChange)="actualizarFactura($event)"
-      [saldoCC]="childSaldoView?.saldo"
+      [saldoCC]="saldoCC"
       [totalMovimiento]="(credito-debito)"
       [form]="form"
     ></app-liquidacion-edit-form-acciones>
