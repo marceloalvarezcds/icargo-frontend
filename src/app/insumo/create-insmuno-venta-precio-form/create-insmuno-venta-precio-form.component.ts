@@ -39,6 +39,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   hora: string | null = null;
   insumoId: number | null = null;
   horaPattern: RegExp =  /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
+  autoSelectFiltro = "L";
   form = this.fb.group({
       punto_venta_id: [null, Validators.required],
       insumo_id: [null, Validators.required],

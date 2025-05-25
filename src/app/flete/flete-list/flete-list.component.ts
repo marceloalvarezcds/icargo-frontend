@@ -355,7 +355,7 @@ export class FleteListComponent implements OnInit {
 
   inactive({ row }: TableEvent<FleteList>): void {
     const message = `¿Está seguro que desea inactivar el Pedido con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+    this.dialog.changeStatusConfirm(
       message,
       this.fleteService.cancel(row.id),
       () => {

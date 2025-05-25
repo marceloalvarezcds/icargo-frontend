@@ -27,7 +27,7 @@
       </div>
 
     </div>
-    <div class="table-title">TABLA DE SALDOS SOBRE ANTICIPOS LIBERADO POR LA OC.</div>
+    <div class="table-title">TABLA DE SALDOS</div>
     <div class="table-container">
 
       <app-orden-carga-gestion-anticipos [list]="oc?.saldos_flete_id || [] ">
@@ -45,7 +45,7 @@
       <div class="column">
         <p>
           Tarifa Flete a Pagar:
-          <span class="span-like">{{ oc?.condicion_propietario_tarifa_ml | number: '1.0-0' }}</span>Gs/Kg
+          <span class="span-like">{{ oc?.condicion_propietario_tarifa_ml | number: '1.0-0' }}</span>{{oc?.gestor_carga_moneda_simbolo}}/Kg
         </p>
         <p>
           Cant. Nominada:
@@ -53,7 +53,7 @@
         </p>
         <p>
           Flete Proyectado:
-          <span class="span-like">{{ oc?.flete_proyectado_ml | number: '1.0-0' }}</span>Gs
+          <span class="span-like">{{ oc?.flete_proyectado_ml | number: '1.0-0' }}</span>{{oc?.gestor_carga_moneda_simbolo}}
         </p>
         <!-- <p>
           Porcentaje Maximo Liberado:
@@ -70,13 +70,13 @@
       </div>
       <div class="column">
         <p>
-          Limite Crédito Cam.:
+          Límite Crédito Cam.:
           <span class="span-like">
-              {{ (oc?.camion_limite_monto_anticipos ?? 0) > 0 ? (oc?.camion_limite_monto_anticipos | number: '1.0-0') : 'sin límites' }}
+            {{ oc?.camion_limite_monto_anticipos === null
+                ? 'sin límites'
+                : (oc?.camion_limite_monto_anticipos | number: '1.0-0') + ' ' + (oc?.gestor_carga_moneda_simbolo || '') }}
           </span>
-          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0"></span>Gs
         </p>
-
         <!-- <p>
           Limite Crédito OC (% Max Liberado x Flete Proyectado):
           <span class="span-like">{{ oc?.flete_limite_credito | number: '1.0-0' }}</span>Gs
@@ -89,20 +89,22 @@
           Línea Disponible (Límite Crédito OC + Compl.):
            <span class="span-like">{{ oc?.total_anticipo | number: '1.0-0' }}</span>Gs
          </p> -->
-         <p>
+        <p>
           Saldo Crédito Tracto.:
           <span class="span-like">
-              {{ (oc?.camion_limite_monto_anticipos ?? 0) !== 0 ? (oc?.camion_monto_anticipo_disponible | number: '1.0-0') : 'sin límites' }}
+            {{ (oc?.camion_limite_monto_anticipos ?? null) === null
+                ? 'sin límites'
+                : (oc?.camion_monto_anticipo_disponible | number: '1.0-0') + ' ' + (oc?.gestor_carga_moneda_simbolo || '') }}
           </span>
-          <span *ngIf="(oc?.camion_limite_monto_anticipos ?? 0) !== 0"></span>Gs
         </p>
-
         <p>
           Anticipos Retirados Cam.:
-          <span class="span-like">{{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}</span>Gs
+          <span class="span-like">
+            {{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}
+          </span>{{oc?.gestor_carga_moneda_simbolo}}
         </p>
-
       </div>
+
       <div class="column">
         <!-- <p style="color: red;">
           Monto Anticipo Disponible OC:
@@ -164,3 +166,5 @@
     </div>
   </div>
 </div>
+
+
