@@ -1,4 +1,4 @@
-import { OrdenCarga } from './orden-carga';
+import { AnticiposPorOrdenCarga, OrdenCarga } from './orden-carga';
 import { mockOrdenCargaAnticipoRetiradoList, OrdenCargaAnticipoRetirado } from './orden-carga-anticipo-retirado';
 
 export interface OcAnticipoRetiradoDialogData {
@@ -6,6 +6,7 @@ export interface OcAnticipoRetiradoDialogData {
   orden_carga_id: number,
   flete_id: number,
   oc?: OrdenCarga | null;
+  anticipos?: AnticiposPorOrdenCarga[];
 }
 
 export interface OcAnticipoRetiradoTestDialogData {

@@ -136,6 +136,16 @@ export class OrdenCargaService {
     );
   }
 
+  validarAnticipos(choferId: number, propietarioId: number, combinacionId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/chofer-propietario/pueden-recibir-anticipos`, {
+      params: {
+        chofer_id: choferId,
+        propietario_id: propietarioId,
+        combinacion_id: combinacionId
+      }
+    });
+  }
+  
   private handleError(error: HttpErrorResponse) {
     // Maneja el error de acuerdo a tu necesidad
     console.error('Error en la petición:', error);
