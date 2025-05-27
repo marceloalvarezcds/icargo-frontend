@@ -54,7 +54,27 @@
         [form]="form"
       ></app-number-field>
 
-      <app-moneda-field class="input-form-full col-xs-3" title="Moneda" [form]="form"></app-moneda-field>
+      <app-moneda-field
+        class="input-form-full col-xs-3"
+        title="Moneda"
+        [form]="form"
+        (valueChange)="$event && monedaChange($event)">
+      </app-moneda-field>
+
+      <div *ngIf="!showCotizacion"
+          class="input-form-full col-xs-3">
+
+          <app-number-field
+            title="Cotizacion"
+            controlName="tipo_cambio_moneda"
+            [form]="form">
+          </app-number-field>
+
+      </div>
+
+    </div>
+
+    <div class="row">
 
       <app-key-value
         class="col-xs-12"
@@ -64,6 +84,7 @@
       ></app-key-value>
 
     </div>
+
   </div>
   <div mat-dialog-actions>
     <button mat-raised-button type="button" mat-dialog-close>Cancelar</button>

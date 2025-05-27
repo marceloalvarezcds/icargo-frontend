@@ -144,14 +144,6 @@ export class OrdenCargaEditFormComplementosComponent {
     //this.configColumns();
   }
 
-  private configColumns():void {
-
-    /*#inputTemplate*if ( this.oc?.estado !== EstadoEnum.FINALIZADO && this.oc?.estado! !== EstadoEnum.CONCILIADO ){
-      this.columns.push( { def: 'actions', title: 'Acciones', stickyEnd: true } );
-    }*/
-
-  }
-
   edit({ row }: TableEvent<OrdenCargaComplemento>): void {
     edit(this.getDialogRef(row), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();

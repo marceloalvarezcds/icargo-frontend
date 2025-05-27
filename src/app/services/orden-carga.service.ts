@@ -70,6 +70,10 @@ export class OrdenCargaService {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/conciliar`);
   }
 
+  provisiones(id: number): Observable<OrdenCarga> {
+    return this.http.get<OrdenCarga>(`${this.url}/${id}/recalcular-provisiones`);
+  }
+
   finalizar(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/finalizar`);
   }
@@ -145,7 +149,7 @@ export class OrdenCargaService {
       }
     });
   }
-  
+
   private handleError(error: HttpErrorResponse) {
     // Maneja el error de acuerdo a tu necesidad
     console.error('Error en la petición:', error);

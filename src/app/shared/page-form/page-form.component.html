@@ -203,7 +203,6 @@
           FINALIZAR
         </button>
 
-
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
                   && oc?.estado !== E.CONCILIADO && !isShow
@@ -215,6 +214,20 @@
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="conciliarClick.emit($event)">
           CONCILIAR
+        </button>
+
+        <button
+          *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
+                  && oc?.estado !== E.CONCILIADO && !isShow
+                  && submodule !== 'RECEPCION directa'"
+          mat-stroked-button
+          class="botones"
+          type="button"
+          [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino || cambiarPedido"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+          (click)="provisionesClick.emit($event)"
+          matTooltip="Recalcular Provisiones">
+          PROVISION
         </button>
 <!--
         <button

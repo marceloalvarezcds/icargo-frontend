@@ -1016,4 +1016,32 @@ private createComentarioAndCancel(comentario: string): void {
 
     });
   }
+
+  recalcularProvisiones(): void {
+    console.log("recalcularProvisiones");
+    if (this.idOC !== null && this.idOC !== undefined) {
+      if (this.item?.estado === 'Conciliado') {
+        alert('La Orden de Carga ya está conciliada.');
+        return;
+      }
+
+      if (this.item?.estado !== 'Finalizado') {
+        alert('No se puede generar provisiones de orden, debe estar en estado FINALIZADO.');
+        return;
+      }
+
+      this.ordenCargaService.provisiones(this.idOC).subscribe( res => {
+        //this.getData();
+        this.snackBar.open('Provisiones Generado con exito', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+      });
+      });
+
+    } else {
+      console.error('No se puede conciliar la Orden de Carga sin un ID válido');
+    }
+  }
+
 }

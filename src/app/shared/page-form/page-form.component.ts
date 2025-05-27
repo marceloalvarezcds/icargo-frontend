@@ -14,6 +14,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
+import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Flete } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { PdfPreviewDialogComponent } from 'src/app/orden-carga/pdf-preview-dialog/pdf-preview-dialog.component';
@@ -100,6 +101,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() ocChange = new EventEmitter<void>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
 
+  @Output() provisionesClick = new EventEmitter();
   puedeRecibirAnticiposControl: FormControl = new FormControl(false);
 
   constructor(
