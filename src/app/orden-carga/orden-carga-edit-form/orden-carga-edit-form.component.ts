@@ -778,15 +778,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
 
   enableFleteId(): void {
-    if (this.item?.estado === 'Finalizado') {
-      this.snackBar.open(
-        'No se puede cambiar el pedido, la orden ya está Finalizada',
-        'Cerrar',
-        { duration: 3000 }
-      );
-      return;
-    }
-
     if (this.item?.estado === 'Conciliado') {
       this.snackBar.open(
         'No se puede cambiar el pedido, la orden ya está Conciliada',
