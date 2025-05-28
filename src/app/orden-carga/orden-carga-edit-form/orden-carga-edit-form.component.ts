@@ -370,42 +370,49 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
 
-  back(confirmed: boolean): void {
-    if (confirmed) {
-      this.submit(confirmed);
-    } else {
-      let comentario = this.form.get('combinacion.comentarios')?.value;
+  // back(confirmed: boolean): void {
+  //   if (confirmed) {
+  //     this.submit(confirmed);
+  //   } else {
+  //     let comentario = this.form.get('combinacion.comentarios')?.value;
 
-      // Convertir el comentario a mayúsculas si no está vacío
-      if (comentario) {
-        comentario = comentario.toUpperCase();
-      }
+  //     // Convertir el comentario a mayúsculas si no está vacío
+  //     if (comentario) {
+  //       comentario = comentario.toUpperCase();
+  //     }
 
-      if (comentario !== this.originalComentario && comentario.trim() !== '') {
-        const formData = new FormData();
-        const data = {
-          orden_carga_id: this.idOC,
-          comentario: comentario,
-        };
-        formData.append('data', JSON.stringify(data));
+  //     if (comentario !== this.originalComentario && comentario.trim() !== '') {
+  //       const formData = new FormData();
+  //       const data = {
+  //         orden_carga_id: this.idOC,
+  //         comentario: comentario,
+  //       };
+  //       formData.append('data', JSON.stringify(data));
 
-        // Llamar al servicio para guardar el comentario
-        this.ordenCargaService.createComentarios(formData).subscribe(
-          (item) => {
-            this.getData();
-            this.router.navigate([this.backUrl]);
-          },
-          (error) => {
-            console.error('Error al crear el comentario', error);
-          }
-        );
+  //       // Llamar al servicio para guardar el comentario
+  //       this.ordenCargaService.createComentarios(formData).subscribe(
+  //         (item) => {
+  //           this.getData();
+  //           this.router.navigate([this.backUrl]);
+  //         },
+  //         (error) => {
+  //           console.error('Error al crear el comentario', error);
+  //         }
+  //       );
+  //     } else {
+  //       // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
+  //       this.router.navigate([this.backUrl]);
+  //     }
+  //   }
+  // }
+
+   back(confirmed: boolean): void {
+      if (confirmed) {
+        this.submit(confirmed);
       } else {
-        // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
         this.router.navigate([this.backUrl]);
       }
     }
-  }
-
 
   onCombinacionChange(combinacionList: CombinacionList | undefined): void {
     if (combinacionList) {
@@ -479,44 +486,44 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
   }
 
-private createComentarioAndCancel(comentario: string): void {
-    const formData = new FormData();
-    const data = {
-        orden_carga_id: this.idOC,
-        comentario: comentario,
-    };
-    formData.append('data', JSON.stringify(data));
+  private createComentarioAndCancel(comentario: string): void {
+      const formData = new FormData();
+      const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+      };
+      formData.append('data', JSON.stringify(data));
 
-    this.ordenCargaService.createComentarios(formData).subscribe(
-        () => {
-            this.cancelOrdenCarga();
-        },
-        (error) => {
-            console.error('Error al crear el comentario', error);
-        }
-    );
-}
+      this.ordenCargaService.createComentarios(formData).subscribe(
+          () => {
+              this.cancelOrdenCarga();
+          },
+          (error) => {
+              console.error('Error al crear el comentario', error);
+          }
+      );
+  }
 
   private cancelOrdenCarga(): void {
-      this.dialog.changeStatusConfirm(
-          '¿Está seguro que desea cancelar la Orden de Carga?',
-          this.ordenCargaService.cancelar(this.idOC),
-          () => {
-              this.getData();
-              const dialogRef = this.openEvaluacionesCancelarDialog();
+    this.dialog.changeStatusConfirm(
+        '¿Está seguro que desea cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+            this.getData();
+            const dialogRef = this.openEvaluacionesCancelarDialog();
 
-              dialogRef.afterClosed().subscribe(result => {
-                  if (result) { // Si se acepta el diálogo
-                      this.snackBar.open('Generando PDF...', 'Cerrar', {
-                          duration: 3000,
-                          verticalPosition: 'top',
-                          horizontalPosition: 'center'
-                      });
-                      this.downloadResumenPDF();
-                  }
-              });
-          },
-      );
+            dialogRef.afterClosed().subscribe(result => {
+                if (result) { // Si se acepta el diálogo
+                    this.snackBar.open('Generando PDF...', 'Cerrar', {
+                        duration: 3000,
+                        verticalPosition: 'top',
+                        horizontalPosition: 'center'
+                    });
+                    this.downloadResumenPDF();
+                }
+            });
+        },
+    );
   }
 
   finalizar(): void {
