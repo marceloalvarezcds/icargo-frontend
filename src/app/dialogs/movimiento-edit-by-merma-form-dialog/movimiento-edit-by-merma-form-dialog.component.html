@@ -41,19 +41,6 @@
         [form]="form"
       ></app-number-field>
 
-      <div class="col-xs-12 toggle">
-        <mat-slide-toggle formControlName="es_porcentual">
-          {{ esPorcentual ? "Porcentual" : "No Porcentual" }}
-        </mat-slide-toggle>
-      </div>
-
-      <app-number-field
-        class="input-form-full col-xs-3"
-        title="Tolerancia"
-        controlName="tolerancia"
-        [form]="form"
-      ></app-number-field>
-
       <app-moneda-field
         class="input-form-full col-xs-3"
         title="Moneda"
@@ -70,6 +57,23 @@
             [form]="form">
           </app-number-field>
 
+      </div>
+
+    </div>
+
+    <div class="row">
+
+      <app-number-field
+        class="input-form-full col-xs-3"
+        title="Tolerancia"
+        controlName="tolerancia"
+        [form]="form"
+      ></app-number-field>
+
+      <div class="col-xs-3 toggle">
+        <mat-slide-toggle formControlName="es_porcentual">
+          {{ esPorcentual ? "Porcentual" : "No Porcentual" }}
+        </mat-slide-toggle>
       </div>
 
     </div>
