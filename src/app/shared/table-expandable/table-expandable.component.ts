@@ -64,6 +64,7 @@ export class TableExpandibleComponent<T> implements OnInit, OnDestroy {
   @Input() subRowColumnsToDisplay: Column[] | null = [];
   @Input() expandibleButton: boolean = false;
   @Input() expandibleRow: boolean = false;
+  @Input() grouped = false;
 
   get subRowColumnsToDisplayString():string[] {
     return (this.subRowColumnsToDisplay) ? this.subRowColumnsToDisplay.map((c) => c.def) : [""];
@@ -288,4 +289,13 @@ export class TableExpandibleComponent<T> implements OnInit, OnDestroy {
     }
     return '';
   }
+
+  isGroup(index:number, item:any): boolean{
+    return item.isGroup;
+  }
+
+  isRow(index:number, item:any): boolean{
+    return !item.isGroup;
+  }
+
 }

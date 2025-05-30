@@ -51,7 +51,7 @@
       <div class="section">
         <h2 class="title-colapside" (click)="colapseDivMovimientos=!colapseDivMovimientos">MOVIMIENTOS</h2>
         <app-liquidacion-movimientos
-          [list]="movimientos"
+          [list]="listMovimientosGrouped"
           (selectedMovimientosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-movimientos>
       </div>
@@ -88,7 +88,7 @@
       <div class="section">
         <h2 class="title-colapside" (click)="colapseDivMovimientos=!colapseDivMovimientos">MOVIMIENTOS</h2>
         <app-liquidacion-edit-form-movimientos
-          [list]="movimientos"
+          [list]="listMovimientosGrouped"
           [liquidacion]="item"
           [esOrdenPago]="esOrdenPago"
           [saldo]="saldo"

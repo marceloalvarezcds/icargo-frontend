@@ -342,7 +342,7 @@
           type="button"
           matTooltip="Cambiar Pedido"
           [ngClass]="{
-            'disabled-button': oc?.estado === 'Finalizado' || oc?.estado === 'Conciliado'
+            'disabled-button': oc?.estado === 'Conciliado'
           }"
 
           [disabled]="isButtonPressed"
