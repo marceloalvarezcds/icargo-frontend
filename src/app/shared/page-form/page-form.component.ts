@@ -72,6 +72,7 @@ export class PageFormComponent implements OnDestroy {
   @Input() isButtonPressed: boolean = false;
   @Input() isEditPressed: boolean = false;
   @Input() isCopyFlete: boolean = false;
+  @Input() isShowCopiedFlete: boolean = false;
   @Input() estilosPersonalesModule:any={}
   @Input() estilosPersonalesSubModule:any={}
   @Input() labelBtnGuardar:string="GUARDAR"
@@ -91,6 +92,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() inactiveClick = new EventEmitter();
   @Output() cancelarFleteClick = new EventEmitter();
   @Output() copiarFleteClick = new EventEmitter();
+  @Output() copiarShowFleteClick = new EventEmitter();
   @Output() ampliarFleteClick = new EventEmitter();
   @Output() cambiarFleteClick = new EventEmitter();
   @Output() nuevoClick = new EventEmitter();

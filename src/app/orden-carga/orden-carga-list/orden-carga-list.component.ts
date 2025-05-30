@@ -36,13 +36,11 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'id',
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
-
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado.toUpperCase(),
-
     },
     {
       def: 'created_at',
@@ -70,7 +68,6 @@ export class OrdenCargaListComponent implements OnInit {
       title: 'Semi',
       value: (element: OrdenCargaList) => element.semi_placa,
     },
-
     {
       def: 'camion_chofer_nombre',
       title: 'Chofer',
@@ -110,6 +107,7 @@ export class OrdenCargaListComponent implements OnInit {
       def: 'a_cobrar_flete',
       title: 'A Cobrar',
       value: (element: OrdenCargaList) => element.condicion_propietario_tarifa,
+      type: 'number',
     },
     {
       def: 'cantidad_nominada_oc',

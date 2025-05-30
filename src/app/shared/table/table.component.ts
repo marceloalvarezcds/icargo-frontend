@@ -21,6 +21,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
+import { Flete } from 'src/app/interfaces/flete';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
@@ -89,6 +90,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() fnHideEditRowButton?: (r:any) => boolean;
   @Input() fnHideDeleteRowButton?: (r:any) => boolean;
   @Input() oc?: OrdenCarga;
+  @Input() flete?: Flete;
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
   @Input() columnWidths: { [key: string]: string; } | undefined;
@@ -101,10 +103,12 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() showBtnAnular = false;
+  @Input() showBtnAmpliar = false;
   @Input() shouldShowAnularButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
+  @Input() shouldShowCancelarButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() showBtnMovimientos = false;
   @Input() hideAnular: boolean = false;
@@ -119,7 +123,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Output() filterResult = new EventEmitter<T[]>();
   @Output() activeClick = new EventEmitter<TableEvent<T>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
+  @Output() cancelarClick = new EventEmitter<TableEvent<T>>();
   @Output() anularAnticipoClick = new EventEmitter<TableEvent<T>>();
+  @Output() ampliarClick = new EventEmitter<TableEvent<T>>();
   @Output() editClick = new EventEmitter<TableEvent<T>>();
   @Output() deleteClick = new EventEmitter<TableEvent<T>>();
   @Output() showClick = new EventEmitter<TableEvent<T>>();
@@ -141,6 +147,12 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
   }
+
+shouldShowEditButton(row: Flete): boolean {
+  console.log('is_in_orden_carga:', row.is_in_orden_carga);
+  return !row.is_in_orden_carga;
+}
+
 
   filterColumns() {
     this.filteredColumns = this.columnStickyList.concat(

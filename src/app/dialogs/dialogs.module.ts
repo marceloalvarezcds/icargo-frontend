@@ -52,6 +52,7 @@ import { OcAnticipoRetiradoEfectivoAnulacionDialogComponent } from './oc-anticip
 import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from './oc-anticipo-retirado-insumo-anulacion-dialog/oc-anticipo-retirado-insumo-anulacion-dialog.component';
 import { TextoLegalFormDialogComponent } from './texto-legal-form-dialog/texto-legal-form-dialog.component';
 import { InsumoVentaPrecioDialogComponent } from './insumo-venta-precio-dialog/insumo-venta-precio-dialog.component';
+import { FleteCantidadCondicionesDialogComponent } from './flete-cantidad-condiciones-dialog/flete-cantidad-condiciones-dialog.component';
 
 
 
@@ -100,7 +101,8 @@ const modules = [
   OcAnticipoRetiradoEfectivoAnulacionDialogComponent,
   OcAnticipoRetiradoInsumoAnulacionDialogComponent,
   TextoLegalFormDialogComponent,
-  InsumoVentaPrecioDialogComponent
+  InsumoVentaPrecioDialogComponent,
+  FleteCantidadCondicionesDialogComponent
 ];
 
 @NgModule({

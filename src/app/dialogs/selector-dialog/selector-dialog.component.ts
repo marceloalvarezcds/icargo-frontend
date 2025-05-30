@@ -69,11 +69,11 @@ export class SelectorDialogComponent<T> {
     if (!selectValue || typeof selectValue !== 'object') {
       return true;
     }
-    
+
     if (!('estado' in selectValue)) {
       return false;
     }
-    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado', 'Cancelado'];
     return estadosNoSeleccionables.includes((selectValue as any).estado);
   }
 

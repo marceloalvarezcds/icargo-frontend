@@ -309,7 +309,7 @@ export class DialogFormFieldControlComponent<
 
 
   private deshabilitarOpcion(estado: string): boolean {
-    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado', 'Cancelado'];
     return estadosNoSeleccionables.includes(estado);
   }
 

@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { FleteCantidadCondicionesDialogComponent } from 'src/app/dialogs/flete-cantidad-condiciones-dialog/flete-cantidad-condiciones-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -281,7 +282,6 @@ export class FleteListComponent implements OnInit {
     return `${day}-${month}-${year}`;
   }
 
-
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;
   }
@@ -313,19 +313,50 @@ export class FleteListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
+    this.fetchList();
   }
 
-   redirectToCreate(): void {
-     this.router.navigate([`/flete/${m.FLETE}/${a.CREAR}`]);
+  fetchList(): void {
+    this.fleteService.getList().subscribe({
+      next: (data) => {
+        this.list = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener la lista de fletes', err);
+      },
+    });
+  }
+
+  redirectToCreate(): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.CREAR}`]);
+  }
+
+  redirectToEdit(event: TableEvent<FleteList>): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, event.row.id]);
    }
 
-   redirectToEdit(event: TableEvent<FleteList>): void {
-     this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, event.row.id]);
+  redirectToShow(event: TableEvent<FleteList>): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
    }
 
-   redirectToShow(event: TableEvent<FleteList>): void {
-     this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
-   }
+  redirectToAmpliar(event: TableEvent<FleteList>): void {
+    const dialogRef = this.dialog.open(FleteCantidadCondicionesDialogComponent, {
+      width: '600px',
+      data: { flete: event.row }
+    });
+
+    dialogRef.afterClosed().subscribe((updatedCantidad) => {
+      if (typeof updatedCantidad === 'number') {
+        this.fleteService.updateCantidad(event.row.id, updatedCantidad).subscribe(() => {
+          this.fetchList();
+        });
+      }
+    });
+  }
+
+  fnHideEdit = (row: Flete): boolean => {
+    return row?.is_in_orden_carga === false;
+  };
 
   //  redirectToCreate(): void {
   //    const url = `/flete/${m.FLETE}/${a.CREAR}`;
@@ -354,8 +385,8 @@ export class FleteListComponent implements OnInit {
   }
 
   inactive({ row }: TableEvent<FleteList>): void {
-    const message = `¿Está seguro que desea inactivar el Pedido con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+    const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
       message,
       this.fleteService.cancel(row.id),
       () => {

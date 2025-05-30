@@ -31,6 +31,7 @@
 
         <button
           mat-stroked-button
+          type="button"
           color="primary"
           matTooltip="Volver al listado"
           [disabled]="loading"
@@ -284,6 +285,40 @@
           {{ (shouldShowInactiveButton || shouldShowActiveButton) ? shouldShowActiveButton ? 'No Activo' : 'Activo' : '' }}
         </div>
 
+        <!-- En algun momento mejorar, si hizo asi por falta de tiempo. Dos copiar uno para ver y otro para editar -->
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          *ngIf="flete && isShow"
+          (click)="copiarShowFleteClick.emit($event)"
+          class="botones">
+          COPIAR
+        </button>
+
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          *ngIf="flete && !isShow && !isCopyFlete && !isShowCopiedFlete"
+          (click)="copiarFleteClick.emit($event)"
+          class="botones">
+          COPIAR
+        </button>
+    <!------------------------------------------------------------------------------------------------------------->
+        <ng-container>
+          <button
+            type="button"
+            mat-flat-button
+            color="warn"
+            *ngIf="flete && flete.estado !== 'Cancelado' && isShow"
+            (click)="cancelarFleteClick.emit($event)"
+            class="botones"
+          >
+            CANCELAR
+          </button>
+        </ng-container>
+
         <button
           mat-flat-button
           type="button"
@@ -293,7 +328,7 @@
           [disabled]="loading"
           (click)="editClick.emit($event)"
           *ngIf="
-            isShow &&
+            isShow && flete?.estado !== E.CANCELADO && !flete?.is_in_orden_carga &&
             !hideEditButton &&
             (modelo | puede: a.EDITAR:gestorCargaId)
           ">
@@ -319,35 +354,6 @@
         </button>
 
         <button
-          type="button"
-          mat-flat-button
-          color="warn"
-          *ngIf="isCopyFlete"
-          (click)="cancelarClick.emit($event)"
-          class="botones">
-          CANCELAR
-        </button>
-
-        <button
-          type="button"
-          mat-flat-button
-          color="accent"
-          *ngIf="flete && !isShow"
-          (click)="copiarFleteClick.emit($event)"
-          class="botones">
-          COPIAR
-        </button>
-
-        <button
-          type="button"
-          mat-stroked-button
-          class="botones"
-          *ngIf="flete && !isShow && flete.is_in_orden_carga"
-          (click)="ampliarFleteClick.emit($event)">
-          AMPLIAR
-        </button>
-
-        <button
           mat-flat-button
           color="primary"
           type="button"
@@ -366,6 +372,7 @@
           }}
         </button>
 
+      <!-- <div *ngIf="flete && isShow  " style="margin-left: 8px; margin-right: 14px;"> -->
         <button
           mat-flat-button
           type="submit"
@@ -378,24 +385,6 @@
           <mat-icon>save</mat-icon>
           {{labelBtnGuardar}}
         </button>
-
-
-        <!-- <div *ngIf="flete && isShow " style="margin-left: 8px; margin-right: 14px;">
-
-          <ng-container>
-            <button
-              type="button"
-              mat-flat-button
-              color="warn"
-              *ngIf="flete.estado !== E.CANCELADO"
-              (click)="cancelarFleteClick.emit($event)"
-              class="botones"
-            >
-              Cancelar
-            </button>
-          </ng-container>
-
-        </div> -->
 
       </div>
 

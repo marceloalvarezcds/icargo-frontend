@@ -49,6 +49,11 @@ export class FleteService {
     return this.http.get<Flete>(`${this.url}/${id}/cancel`);
   }
 
+  updateCantidad(id: number, condicion_cantidad: string): Observable<Flete> {
+    return this.http.put<Flete>(`${this.url}/${id}/cantidad`, { condicion_cantidad });
+  }
+
+
   getDestinatarioList(
     remitenteId: number,
     origenId: number,

@@ -233,7 +233,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     if (this.monto && saldoMostrar === 0) {
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
-    console.log('anticipos camion', this.limiteAnticipoCamion)
+
     const saldoRestante = saldoMostrar - monto;
     const saldoLine = `Línea Disponible: <strong>${formatNumber(saldoMostrar)}</strong>&nbsp;|&nbsp;Saldo:
     <strong>${formatNumber(saldoRestante)}</strong>`;
@@ -258,11 +258,17 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   ];
 
   get saldoDisponible(): number {
-    if (this.cotizacionOrigen && this.cotizacionDestino) {
-      const valor = (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionDestino;
-      return Math.floor(valor * 100) / 100 + this.montoRetirado;
+    let saldo: number;
+
+    if (this.monedaOrigenId === this.monedaDestinoId) {
+      saldo = this.saldoAnticipo + this.montoRetirado;
+    } else if (this.cotizacionDestino) {
+      const valor = this.saldoAnticipo / this.cotizacionDestino;
+      saldo = Math.floor(valor * 100) / 100 + this.montoRetirado;
+    } else {
+      saldo = this.saldoAnticipo + this.montoRetirado;
     }
-    return this.saldoAnticipo + this.montoRetirado;
+    return saldo;
   }
 
   get montoRetirado(): number {

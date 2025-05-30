@@ -65,10 +65,13 @@
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
-    (inactiveClick)="inactive($event)"
-    [shouldShowInactiveButton]="true"
+    (cancelarClick)="inactive($event)"
+    [shouldShowCancelarButton]="true"
+    [showBtnAmpliar]="true"
     [hideDelete]="true"
+    [fnHideEditRowButton]="fnHideEdit"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
+    (ampliarClick)="redirectToAmpliar($event)"
   ></app-table-paginator>
 </app-page>
