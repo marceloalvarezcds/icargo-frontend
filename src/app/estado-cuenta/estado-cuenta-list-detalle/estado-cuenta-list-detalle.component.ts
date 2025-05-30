@@ -892,19 +892,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
         },
-        /*{
-          def: 'oc',
-          title: '',
-          type: 'button',
-          value: (mov: MovimientoEstadoCuenta) => (mov.es_editable ? '' : 'Ver OC'),
-          buttonCallback: (mov: MovimientoEstadoCuenta) =>
-            mov.es_editable
-              ? () => {}
-              : redirectToShowOCByMovimiento(this.router, mov),
-          buttonIconName: (mov: MovimientoEstadoCuenta) =>
-            mov.es_editable ? '' : 'visibility',
-          stickyEnd: true,
-        },*/
         {
           def: 'editar',
           title: '',

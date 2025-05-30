@@ -71,6 +71,12 @@ export class LiquidacionFormMovimientosComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
+      def: 'orden_carga_id',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.orden_carga_id,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
@@ -166,7 +172,7 @@ export class LiquidacionFormMovimientosComponent {
             title: '',
             type: 'button',
             value: (mov: Movimiento) =>
-              mov.es_editable || mov.can_edit_oc ? 'Editar' : '',
+              mov.es_editable ? 'Editar' : '',
             buttonCallback: (mov: Movimiento) =>
               mov.es_editable
                 ? this.edit(mov)
@@ -174,7 +180,7 @@ export class LiquidacionFormMovimientosComponent {
                 ? this.editOC(mov)
                 : () => {},
             buttonIconName: (mov: Movimiento) =>
-              mov.es_editable || mov.can_edit_oc ? 'edit' : '',
+              mov.es_editable ? 'edit' : '',
             stickyEnd: true,
           },
           {

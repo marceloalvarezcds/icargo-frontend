@@ -128,6 +128,7 @@ export class OrdenCargaEditFormMovimientosComponent {
       def: 'editar',
       title: '',
       type: 'button',
+      isDisable: (mov: Movimiento) => (mov.estado !== 'Pendiente'),
       value: (mov: Movimiento) => (mov.can_edit_oc ? 'Editar' : ''),
       buttonCallback: (mov: Movimiento) =>
         mov.can_edit_oc ? this.openDialog(mov) : () => {},
