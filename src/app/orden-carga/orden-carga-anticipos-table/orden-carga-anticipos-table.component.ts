@@ -67,11 +67,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
         this.downloadPDF(element),
     },
     {
-      def: 'estados_movimientos',
+      def: 'estado_movimiento_propietarioetarioopietario',
       title: 'Estado',
-      value: (element: OrdenCargaAnticipoRetirado) => element.estados_movimientos?.toUpperCase(),
+      value: (element: OrdenCargaAnticipoRetirado) => element.estado_movimiento_propietario?.toUpperCase(),
       dinamicStyles: (element: OrdenCargaAnticipoRetirado) => {
-        switch (element.estados_movimientos) {
+        switch (element.estado_movimiento_propietario) {
           case 'Activo':
           case 'Aceptado':
           case 'En Revisión':

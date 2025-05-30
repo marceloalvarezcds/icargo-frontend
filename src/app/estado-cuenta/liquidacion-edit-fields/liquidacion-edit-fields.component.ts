@@ -32,9 +32,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
   @Input() item?: Liquidacion;
-  @Input() movimientos: Movimiento[] = [];
   @Input() isEdit = false;
-
+  @Input() set movimientosList(movs: Movimiento[]) {
+    this.movimientos = movs;
+    this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);    
+  }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
     if (liq.es_orden_pago){
@@ -57,6 +59,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
+  movimientos:Movimiento[] = [];
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
   saldo = 0;
@@ -67,6 +70,8 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   colapseDivFacturas = false;
   colapseDivInstrumentos = false;
   colapseDivHistorico = false;
+
+  listMovimientosGrouped: any = null;
 
   form = new FormGroup({
     monto_pc: new FormControl({value:null, disabled:true}, [Validators.required, Validators.min(0)] ),
@@ -91,7 +96,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get saldoCC():number {
-    
+
     return (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado) ;
   }
 
@@ -303,6 +308,37 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     });
 
     this.totalMonedas = Object.values(resultado);;
+  }
+
+  groupBy( column:string, data: any[] ){
+
+    if(!column) return data;
+
+    const customReducer = (accumulator:any, currentValue:any) => {
+      let currentGroup = currentValue[column];
+      if(!accumulator[currentGroup])
+      accumulator[currentGroup] = [{
+        groupName: `Moneda: ${currentValue[column]}`,
+        totales: 0,
+        isGroup: true,
+      }];
+
+      accumulator[currentGroup][0] =
+        {
+          ...accumulator[currentGroup][0],
+          totales:accumulator[currentGroup][0].totales + currentValue.monto
+        };
+
+      accumulator[currentGroup].push(currentValue);
+
+      return accumulator;
+    }
+
+    let groups = data.reduce(customReducer,{});
+    let groupArray = Object.keys(groups).map(key => groups[key]);
+    let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
+
+    return flatList;
   }
 
 }

@@ -43,6 +43,7 @@ import { edit } from 'src/app/utils/table-event-crud';
   styleUrls: ['./liquidacion-edit-form-movimientos.component.scss'],
 })
 export class LiquidacionEditFormMovimientosComponent {
+
   a = a;
   m = m;
   isShowOnly = false;
