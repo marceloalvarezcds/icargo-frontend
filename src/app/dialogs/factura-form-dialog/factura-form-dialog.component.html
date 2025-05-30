@@ -12,21 +12,21 @@
     <div class="row">
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Monto"
         controlName="monto"
         [form]="form"
       ></app-number-field>
 
       <app-moneda-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Moneda"
         [form]="form"
         (valueChange)="$event && onMonedaSelect($event)">
       </app-moneda-field>
 
       <div *ngIf="!showCotizacion"
-        class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        class="input-form-full col-xs-12 col-sm-6 col-md-3">
 
         <app-number-field
           title="Cotizacion"
@@ -36,13 +36,9 @@
 
       </div>
 
-    </div>
+      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-3" [form]="form"></app-tipo-iva-field>
 
-    <div class="row">
-
-      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-4" [form]="form"></app-tipo-iva-field>
-
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4" style="display: flex;flex-direction: column; align-items: flex-start;">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3" style="display: flex;flex-direction: column; align-items: flex-start;">
         <mat-label class="custom-label">
           IVA INCL
         </mat-label>
@@ -54,13 +50,13 @@
     <div class="row">
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Valor IVA"
         controlName="iva"
         [form]="form"
       ></app-number-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
         <mat-label>Movimiento IVA</mat-label>
         <mat-form-field>
           <mat-select formControlName="sentido_mov_iva">
@@ -71,18 +67,14 @@
         </mat-form-field>
       </div>
 
-    </div>
-
-    <div class="row">
-
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Valor Retencion"
         controlName="retencion"
         [form]="form"
       ></app-number-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
         <mat-label>Movimiento Retencion</mat-label>
         <mat-form-field>
           <mat-select formControlName="sentido_mov_retencion">
@@ -98,14 +90,14 @@
     <div class="row">
 
       <app-dialog-field-ruc
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-6"
         title="Contribuyente"
         controlName="contribuyente"
         [form]="form">
       </app-dialog-field-ruc>
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="RUC"
         controlName="ruc"
         [form]="form"
@@ -122,44 +114,44 @@
     <div class="row">
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Nº de Factura"
         controlName="numero_factura"
         [form]="form"
       ></app-input-field>
 
       <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="N° Timbrado"
         controlName="timbrado"
         [form]="form"
       ></app-input-field>
 
       <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Fecha Factura"
         controlName="fecha_factura"
         [form]="form"
       ></app-fecha-field>
 
       <app-fecha-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Fecha de Vencimiento"
         controlName="fecha_vencimiento"
         [form]="form"
       ></app-fecha-field>
 
-    </div>
+      <app-file-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Foto de la Factura"
+        controlName="foto"
+        [field]="foto"
+        [form]="form"
+        [isEdit]="isEdit"
+        (fileChange)="setFoto($event)"
+      ></app-file-field>
 
-    <app-file-field
-      class="input-form-full col-xs-12 col-sm-6 col-md-4"
-      title="Foto de la Factura"
-      controlName="foto"
-      [field]="foto"
-      [form]="form"
-      [isEdit]="isEdit"
-      (fileChange)="setFoto($event)"
-    ></app-file-field>
+    </div>
 
   </div>
 
