@@ -755,7 +755,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
         const ordenCargaId = this.form.get('combinacion.id_orden_carga')?.value;
 
-        if (this.item.estado === EstadoEnum.ACEPTADO) {
+        if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
           this.ordenCargaService.recalcularCondiciones(flete.id, ordenCargaId).subscribe({
             next: (recalculoResponse) => {
               if (this.item) {

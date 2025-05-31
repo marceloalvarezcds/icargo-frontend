@@ -384,11 +384,22 @@ export class FleteListComponent implements OnInit {
     );
   }
 
+  active({ row }: TableEvent<FleteList>): void {
+    const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.fleteService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
   inactive({ row }: TableEvent<FleteList>): void {
     const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
     this.dialog.changeStatusConfirm(
       message,
-      this.fleteService.cancel(row.id),
+      this.fleteService.inactive(row.id),
       () => {
         this.getList();
       }

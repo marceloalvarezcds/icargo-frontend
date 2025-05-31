@@ -214,80 +214,83 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     return this.oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0;
   }
 
-  get montoRetiradoHint(): string {
-    const formatNumber = (value: number): string => {
-      return new Intl.NumberFormat('de-DE', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }).format(value);
-    };
+get montoRetiradoHint(): string {
+  const formatNumber = (value: number): string => {
+    return new Intl.NumberFormat('de-DE', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    }).format(value);
+  };
 
-    if (this.saldoDisponible < 0) {
-      const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
-      return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
-      El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
-    }
+  if (this.saldoDisponible < 0) {
+    const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
+    return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
+    El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+  }
 
-    // Si limiteAnticipoCamion > 0, verificar ambas condiciones
-    if (this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0) {
-      if (this.monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-          subtract(this.monto, this.saldoDisponible)
-        )}</strong> al saldo disponible</span>`;
-      }
-
-      if (this.monto > this.anticipoDisponibleCamion) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-          subtract(this.monto, this.anticipoDisponibleCamion)
-        )}</strong> al anticipo del tracto disponible</span>`;
-      }
-    }
-
-    // Si limiteAnticipoCamion === 0, mostrar mensaje con saldoDisponible
-    if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
+  if (this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0) {
+    if (this.monto > this.saldoDisponible) {
       return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
         subtract(this.monto, this.saldoDisponible)
       )}</strong> al saldo disponible</span>`;
     }
 
-    const saldoMostrar =
-      this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
-
-    if (this.monto && saldoMostrar === 0) {
-      return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+    if (this.monto > this.anticipoDisponibleCamion) {
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(this.monto, this.anticipoDisponibleCamion)
+      )}</strong> al anticipo del tracto disponible</span>`;
     }
-
-    // Línea del tracto con o sin límites
-    const anticipoLine =
-      this.limiteAnticipoCamion === null
-        ? `<div style="padding-bottom: 14px; font-size: 16px;">
-            <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
-            <strong>Sin límites</strong>
-          </div>`
-        : `<div style="padding-bottom: 14px; font-size: 16px;">
-            <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
-            <strong>${formatNumber(this.anticipoDisponibleCamion)}</strong>
-          </div>`;
-
-    return `
-      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap; font-size: 16px;">
-        <span class="hint-alert-label" style="font-weight: bold;">Monto:</span>
-        <strong>${formatNumber(this.monto)}</strong>
-        <span>|</span>
-
-        <span class="hint-alert-label" style="font-weight: bold;">Línea Disponible:</span>
-        <strong>${formatNumber(saldoMostrar)}</strong>
-        <span>|</span>
-
-        <span class="hint-alert-label" style="font-weight: bold;">Saldo:</span>
-        <strong>${formatNumber(saldoMostrar - this.monto)}</strong>
-      </div>
-
-      ${anticipoLine}
-    `;
   }
+
+  if (this.limiteAnticipoCamion === 0 && this.monto > this.saldoDisponible) {
+    return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+      subtract(this.monto, this.saldoDisponible)
+    )}</strong> al saldo disponible</span>`;
+  }
+
+  const saldoMostrar =
+    this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0
+      ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+      : this.saldoDisponible;
+
+  if (this.monto && saldoMostrar === 0) {
+    return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+  }
+
+  const saldoOC = (this.oc?.porcentaje_anticipos ?? [])
+    .filter((a: any) => {
+      const concepto = a.concepto?.toLowerCase();
+      return concepto === 'lubricante' || concepto === 'combustible';
+    })
+    .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0);
+
+  const saldoTractoTexto =
+    this.limiteAnticipoCamion === null
+      ? 'Sin límites'
+      : formatNumber(this.anticipoDisponibleCamion);
+
+  return `
+    <div style="font-size: 16px; margin-bottom: 4px;">
+      <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
+      <strong>${formatNumber(saldoOC)}</strong>
+      <span>|</span>
+      <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
+      <strong>${saldoTractoTexto}</strong>
+    </div>
+    <div style="font-size: 16px; margin-bottom: 4px;">
+      <span class="hint-alert-label" style="font-weight: bold;">Saldo:</span>
+      <strong>${formatNumber(saldoMostrar - this.monto)}</strong>
+    </div>
+    <div style="font-size: 16px;">
+      <span class="hint-alert-label" style="font-weight: bold;">Monto:</span>
+      <strong>${formatNumber(this.monto)}</strong>
+      <span>|</span>
+      <span class="hint-alert-label" style="font-weight: bold;">Línea Disponible:</span>
+      <strong>${formatNumber(saldoMostrar)}</strong>
+
+    </div>
+  `;
+}
 
 
   @Output() valueChange = new EventEmitter<string>();
@@ -301,6 +304,56 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
        return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionOrigen + this.montoRetirado;
      }
     return this.saldoAnticipo + this.montoRetirado;
+  }
+
+  get filteredAnticipos(): any[] {
+  const anticipos = this.oc?.porcentaje_anticipos ?? [];
+
+    return anticipos
+      .filter((anticipo: any) => {
+        const concepto = anticipo.concepto?.toLowerCase();
+        return concepto === 'lubricantes' || concepto === 'combustible';
+      })
+      .map((anticipo: any) => ({
+        ...anticipo,
+        saldo_oc: this.getSaldoAnticipo(anticipo),
+      }));
+  }
+
+  getSaldoAnticipo(anticipo: any): number {
+    const saldo_efectivo = this.oc?.flete_saldo_efectivo ?? 0;
+    const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
+    const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
+    const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+    const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
+    const flete_monto_efectivo_complemento = this.oc?.flete_monto_efectivo_complemento ?? 0;
+    const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
+    const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
+
+    if (limiteAnticipoCamion === 0) {
+      // Cuando el camión no tiene límite, mostrar montos directos. Limite de la oc
+      if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
+        return flete_monto_efectivo_complemento - montoRetiradoEfectivo;
+      } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+        return flete_monto_combustible - montoRetiradoCombustible;
+      } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
+        return flete_monto_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
+      } else {
+        return 0;
+      }
+    }
+
+    if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
+      return saldo_efectivo- montoRetiradoEfectivo; // Restar anticipos de efectivo
+    } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+      return saldo_combustible - montoRetiradoCombustible; // Restar anticipos de combustible
+    } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
+      return saldo_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
+    } else {
+      return 0;
+    }
   }
 
   get montoRetirado(): number {
