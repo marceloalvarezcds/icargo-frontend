@@ -136,9 +136,10 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       type: 'number',
     },
     {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: OrdenCargaAnticipoRetirado) => element.gestor_carga_moneda_nombre,
+      def: 'gestor_carga_moneda_nombre',
+      title: 'Moneda Equiv.',
+      value: (element: OrdenCargaAnticipoRetirado) =>
+        element.moneda_nombre,
     },
     {
       def: 'monto_equiv',
@@ -146,11 +147,10 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       value: (element: OrdenCargaAnticipoRetirado) => element.monto_mon_local,
       type: 'number',
     },
-    {
-      def: 'gestor_carga_moneda_nombre',
-      title: 'Moneda Equiv.',
-      value: (element: OrdenCargaAnticipoRetirado) =>
-        element.moneda_nombre,
+     {
+      def: 'moneda_nombre',
+      title: 'Moneda',
+      value: (element: OrdenCargaAnticipoRetirado) => element.gestor_carga_moneda_nombre,
     },
     {
       def: 'created_by',
