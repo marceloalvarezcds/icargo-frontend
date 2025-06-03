@@ -286,7 +286,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
     const flete_monto_efectivo_complemento = this.oc?.flete_monto_efectivo_complemento ?? 0;
 
-
     if (limiteAnticipoCamion === 0) {
       // Cuando el camión no tiene límite, mostrar montos directos. Limite de la oc
       if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
@@ -487,7 +486,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     this.litroSubscription.unsubscribe();
   }
 
-
   submit() {
     if (this.montoRetiradoControl.value === 0) {
       alert("No se puede realizar el retiro con monto retirado igual a 0.");
@@ -517,32 +515,31 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
             return;
           }
 
-          this.monedaCotizacionService.getCotizacionByGestor(monedaDestinoSubmitId, this.oc!.gestor_carga_id).subscribe({
-            next: (responseDestino) => {
-              const cotizacionDestino = responseDestino?.cotizacion_moneda;
-              if (!cotizacionDestino) {
-                alert("No se pudo obtener la cotización de destino.");
-                return;
-              }
+      this.monedaCotizacionService.getCotizacionByGestor(monedaDestinoSubmitId, this.oc!.gestor_carga_id).subscribe({
+        next: (responseDestino) => {
+          const cotizacionDestino = responseDestino?.cotizacion_moneda;
+          if (!cotizacionDestino) {
+            alert("No se pudo obtener la cotización de destino.");
+            return;
+          }
 
-              this.monto_mon_local = ((monto_retirado * cotizacionOrigen) / cotizacionDestino * 100) / 100;
+          this.monto_mon_local = ((monto_retirado * cotizacionOrigen) / cotizacionDestino * 100) / 100;
 
-              const data = {
-                ...formValue,
-                id: this.data?.id,
-                orden_carga_id: this.ordenCargaId,
-                monto_mon_local: this.monto_mon_local,
-              };
+          const data = {
+            ...formValue,
+            id: this.data?.id,
+            orden_carga_id: this.ordenCargaId,
+            monto_mon_local: this.monto_mon_local,
+          };
 
-              const formData = new FormData();
-              formData.append('data', JSON.stringify(data));
+          const formData = new FormData();
+          formData.append('data', JSON.stringify(data));
 
-              if (this.data?.id) {
-                this.ordenCargaAnticipoRetiradoService.edit(this.data.id, formData).subscribe(this.close.bind(this));
-              } else {
-                this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
-              }
-
+            if (this.data?.id) {
+              this.ordenCargaAnticipoRetiradoService.edit(this.data.id, formData).subscribe(this.close.bind(this));
+            } else {
+              this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
+            }
               this.montoRetiradoChange.emit(data.cantidad_retirada);
               this.montoRetiradoChange.emit(data.montoRetirado);
             }
@@ -551,7 +548,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
       });
     }
   }
-
 
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.saldoAnticipo = 0;
@@ -567,7 +563,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     this.puntoVentaChange();
     this.getSaldoDisponibleForEfectivo();
   }
-
 
   insumoPuntoVentaPrecioChange(event?: InsumoPuntoVentaPrecioList): void {
     this.insumo = event?.insumo_descripcion;
@@ -586,7 +581,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     this.proveedor = event?.proveedor_nombre;
     this.proveedorControl.setValue(event?.proveedor_id);
     this.getSaldoDisponibledForInsumo(event);
-
   }
 
   private close(data: OrdenCargaAnticipoRetirado): void {

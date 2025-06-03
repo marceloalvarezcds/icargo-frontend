@@ -276,10 +276,14 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
     const saldoOC = (this.oc?.porcentaje_anticipos ?? [])
       .filter((a: any) => {
-        const concepto = a.concepto?.toLowerCase();
-        return concepto === 'lubricante' || concepto === 'combustible';
+        return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
       })
+      .map((a: any) => ({
+        ...a,
+        saldo_oc: this.getSaldoAnticipo(a),
+      }))
       .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0);
+
     const saldoTractoTexto =
       this.limiteAnticipoCamion === null
         ? 'Sin límites'
@@ -307,7 +311,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     `;
   }
 
-
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [
     { value: 'efectivo', descripcion: 'EFECTIVO' },
@@ -318,29 +321,13 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     if (this.cotizacionOrigen && this.cotizacionDestino) {
       return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionOrigen + this.montoRetirado;
     }
-  return this.saldoAnticipo + this.montoRetirado;
+    return this.saldoAnticipo + this.montoRetirado;
   }
-
-  get filteredAnticipos(): any[] {
-    const anticipos = this.oc?.porcentaje_anticipos ?? [];
-
-    return anticipos
-      .filter((anticipo: any) => {
-        const concepto = anticipo.concepto?.toLowerCase();
-        return concepto === 'lubricantes' || concepto === 'combustible';
-      })
-      .map((anticipo: any) => {
-        console.log('Ejecutando getSaldoAnticipo para:', anticipo); // 👈 Este log sí se imprimirá
-        return {
-          ...anticipo,
-          saldo_oc: this.getSaldoAnticipo(anticipo),
-        };
-      });
-  }
-
 
   getSaldoAnticipo(anticipo: any): number {
-     console.log('Recibiendo anticipo:', anticipo);
+    if (!this.fleteAnticipo?.id) {
+      return 0;
+    }
     const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
     const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
     const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
@@ -369,7 +356,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       return 0;
     }
   }
-
 
   get montoRetirado(): number {
     return this.data?.monto_retirado ?? 0;
@@ -424,7 +410,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     if (this.monto > this.saldoDisponible) {
         return true;
     }
-
+    // Si la cantidadRetirada es mayor que el saldoDisponible
     if (this.cantidadRetirada > this.saldoDisponible) {
         return true;
     }
@@ -440,10 +426,8 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     return false;
   }
 
-
   constructor(
     private fleteAnticipoService: FleteAnticipoService,
-    private insumoVentaPrecio: InsumoPuntoVentaPrecioService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoInsumoDialogComponent>,
@@ -471,13 +455,12 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
             });
         });
       });
-
   }
 
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
-
   }
+
   get oc(): OrdenCarga | null {
     return this.dialogData?.oc || null;
   }
@@ -572,7 +555,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       this.tipoInsumoControl.setValidators(Validators.required);
       this.tipoInsumoControl.updateValueAndValidity();
     }
-
   }
 
   insumoPuntoVentaPrecioChange(event?: InsumoPuntoVentaPrecioList): void {
@@ -605,7 +587,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       alert('Por favor, seleccione una moneda de destino válida.');
     }
   }
-
 
   puntoVentaChange(event?: PuntoVentaList): void {
     this.proveedor = event?.proveedor_nombre;
