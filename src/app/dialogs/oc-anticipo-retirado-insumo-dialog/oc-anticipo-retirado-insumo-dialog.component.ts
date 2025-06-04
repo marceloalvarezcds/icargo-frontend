@@ -274,15 +274,17 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    const saldoOC = (this.oc?.porcentaje_anticipos ?? [])
-      .filter((a: any) => {
-        return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
-      })
-      .map((a: any) => ({
-        ...a,
-        saldo_oc: this.getSaldoAnticipo(a),
-      }))
-      .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0);
+    const saldoOC = this.convertToMoneda(
+      (this.oc?.porcentaje_anticipos ?? [])
+        .filter((a: any) => {
+          return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
+        })
+        .map((a: any) => ({
+          ...a,
+          saldo_oc: this.getSaldoAnticipo(a),
+        }))
+        .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0)
+    );
 
     const saldoTractoTexto =
       this.limiteAnticipoCamion === null
@@ -319,7 +321,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   get saldoDisponible(): number {
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionOrigen + this.montoRetirado;
+      return (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen + this.montoRetirado;
     }
     return this.saldoAnticipo + this.montoRetirado;
   }
@@ -355,6 +357,19 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     } else {
       return 0;
     }
+  }
+
+  convertToMoneda(monto: number): number {
+    if (this.monedaOrigenId === this.monedaDestinoId) {
+      return monto;
+    }
+
+    if (this.cotizacionOrigen) {
+      const convertido = monto / this.cotizacionOrigen;
+      return Math.floor(convertido * 100) / 100;
+    }
+
+    return monto;
   }
 
   get montoRetirado(): number {
