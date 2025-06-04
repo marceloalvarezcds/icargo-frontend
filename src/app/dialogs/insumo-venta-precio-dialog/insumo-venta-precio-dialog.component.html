@@ -97,6 +97,22 @@
       </app-number-field>
 
       <app-input-field
+       *ngIf="isEdit || isShow"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Moneda"
+        controlName="moneda_id"
+        [form]="form">
+      </app-input-field>
+
+      <app-moneda-field
+        *ngIf="!(isEdit || isShow)"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        title="Moneda"
+        controlName="moneda_id"
+        [form]="form"
+      ></app-moneda-field>
+
+      <app-input-field
         *ngIf="isEdit || isShow"
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Unidad"
@@ -112,22 +128,6 @@
         [form]="form"
         [auto_select_filtro]="autoSelectFiltro"
       ></app-unidad-field>
-
-      <app-input-field
-       *ngIf="isEdit || isShow"
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Moneda"
-        controlName="moneda_id"
-        [form]="form">
-      </app-input-field>
-
-      <app-moneda-field
-        *ngIf="!(isEdit || isShow)"
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
-        title="Moneda"
-        controlName="moneda_id"
-        [form]="form"
-      ></app-moneda-field>
 
     </div>
 
