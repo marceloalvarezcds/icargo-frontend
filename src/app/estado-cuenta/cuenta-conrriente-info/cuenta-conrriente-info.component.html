@@ -99,14 +99,14 @@
           </mat-form-field>
         </div>
 
-        <div class="input-form-full col-xs-6 col-md-3">
+        <div *ngIf="liquidacion" class="input-form-full col-xs-6 col-md-3">
           <mat-label>N° Liquidacion</mat-label>
           <mat-form-field floatLabel="always" appearance="outline">
-            <input matInput [value]="liquidacion?.id" disabled />
+            <input matInput [value]="liquidacion.id" disabled />
           </mat-form-field>
         </div>
 
-        <div class="input-form-full col-xs-6 col-md-2">
+        <div *ngIf="liquidacion" class="input-form-full col-xs-6 col-md-2">
           <mat-label>Estado</mat-label>
           <mat-form-field floatLabel="always" appearance="outline">
             <input matInput [value]="liquidacion?.estado" disabled />

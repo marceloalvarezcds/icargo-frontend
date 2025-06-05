@@ -329,7 +329,9 @@ export class LiquidacionEditFormAccionesComponent {
             this.liquidacionFlujoChange.emit(rest);
           });
       },
-      (val?: string | boolean) => val !== false
+      (val?: string | boolean | null ) => {
+        return (val !== null && val !== false );
+      }
     );
   }
 
