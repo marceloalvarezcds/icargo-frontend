@@ -1,28 +1,7 @@
 
-<div class="col-xs-12 row" [formGroup]="form">
+<div class="row" [formGroup]="form">
 
-  <div *ngIf="showLiquidacion" class="input-form-full col-xs-6 col-md-2">
-    <mat-label>N° Liquidacion</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [value]="liquidacionId" disabled />
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="showEstadoLiqui" class="input-form-full col-xs-6 col-md-2">
-    <mat-label>Estado</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [value]="estadoLiqui" disabled />
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="showEstado" class="input-form-full col-xs-6 col-sm-2">
-    <mat-label>Estado</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [value]="etapa" disabled />
-    </mat-form-field>
-  </div>
-
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>Contraparte</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput disabled
@@ -31,7 +10,7 @@
     </mat-form-field>
   </div>
 
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
     <mat-label>{{es_pdv ? 'Establecimiento' : 'Nombre'}}</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
@@ -47,7 +26,7 @@
     </mat-form-field>
   </div>
 
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-2" *ngIf="es_pdv">
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-4" *ngIf="es_pdv">
     <mat-label>Proveedor</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput disabled
@@ -56,12 +35,12 @@
   </div>
 
   <app-punto-venta-by-proveedor-field
-      *ngIf="estadoCuenta?.es_pdv"
-      class="input-form-full col-xs-12 col-sm-6 col-md-2"
-      [title]="'Punto de Venta'"
-      [proveedorId]="estadoCuenta?.contraparte_id"
-      (valueChange)="filtrarMovimientosPDV()"
-      [form]="form">
+    *ngIf="estadoCuenta?.es_pdv"
+    class="input-form-full col-xs-12 col-sm-6 col-md-3"
+    [title]="'Punto de Venta'"
+    [proveedorId]="estadoCuenta?.contraparte_id"
+    (valueChange)="filtrarMovimientosPDV()"
+    [form]="form">
   </app-punto-venta-by-proveedor-field>
 
   <ng-container *ngIf="estadoCuenta?.es_pdv">
