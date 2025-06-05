@@ -403,6 +403,15 @@ h1.mat-dialog-title {
 
 /* page form components */
 
+.color-white {
+  background-color: white;
+  color: white;
+  span {
+    background-color: white;
+    color: white;
+  }
+}
+
 .page {
   background-color: white;
   margin: 0.5em;

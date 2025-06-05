@@ -77,11 +77,11 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   });
 
   get credito(): number {
-    return this.movimientosSelected.reduce((acc, cur) => acc + ((this.monedaLocal?.id === cur.moneda_id) ? cur.credito: cur.credito_ml), 0);
+    return this.movimientosSelected.reduce((acc, cur) => acc + (cur.credito_ml), 0);
   }
 
   get debito(): number {
-    return this.movimientosSelected.reduce((acc, cur) => acc + ((this.monedaLocal?.id === cur.moneda_id) ? cur.debito: cur.debito_ml), 0);
+    return this.movimientosSelected.reduce((acc, cur) => acc + (cur.debito_ml), 0);
   }
 
   get monto(): number {

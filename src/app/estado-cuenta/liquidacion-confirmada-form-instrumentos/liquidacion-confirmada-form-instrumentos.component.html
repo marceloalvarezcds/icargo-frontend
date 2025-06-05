@@ -9,7 +9,7 @@
         color="primary"
         type="button"
         (click)="create()"
-        [disabled]="residuo === 0"
+        [disabled]="residuo < 1000"
       >
         Nuevo Instrumento
       </button>
@@ -18,7 +18,7 @@
         class="botones"
         color="accent"
         type="button"
-        [disabled]="residuo !== 0"
+        [disabled]="residuo >= 1000"
         (click)="saveInstrumentos()" >
         Guardar Instrumentos
       </button>

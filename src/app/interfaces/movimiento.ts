@@ -163,6 +163,7 @@ export interface MovimientoEstadoCuenta {
     documento_fisico: boolean,
     moneda: string,
     tipo_cambio_moneda: number,
+    monto: number,
     provision: number,
     pendiente: number,
     en_proceso: number,

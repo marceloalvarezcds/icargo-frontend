@@ -1,7 +1,24 @@
 <form [formGroup]="form">
 
-    <app-estado-cuenta-detalle
-      class="row"
+    <app-cuenta-conrriente-info
+      [estadoCuenta]="estadoCuenta"
+      [esEditableLinea]="esEditableLinea"
+      [form]="form"
+      [esInsumoControl]="esInsumoControl"
+      [tipo_insumo]="tipo_insumo"
+      [credito]="credito"
+      [debito]="debito"
+      [saldoCC]="saldoCC"
+      [esOrdenPago]="esOrdenPago"
+      [esEdicion]="false"
+      [es_pdv]="false"
+      [esFinalizado]="false"
+      (filterEvent)="filtrarMovimientosPDV2($event)"
+      (monedaSelect)="selectMoneda($event)">
+    </app-cuenta-conrriente-info>
+
+    <!--app-estado-cuenta-detalle
+      class="col-xs-5"
       [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
       [showVistaConsolidada]="false"
@@ -15,7 +32,7 @@
 
     <app-saldo
       #saldoView
-      class="row"
+      class="col-xs-5"
       title="Saldo en Cuenta"
       [showResumen]="true"
       [showIngresoEgreso]="false"
@@ -25,7 +42,7 @@
       [esOrdenPago]="esOrdenPago"
       [form]="form"
       (monedaSelect)="selectMoneda($event)">
-    </app-saldo>
+    </app-saldo-->
 
     <div class="row" *ngIf="!esOrdenPago">
 

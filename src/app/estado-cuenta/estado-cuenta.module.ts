@@ -31,6 +31,7 @@ import { LiquidacionFormFieldsComponent } from './liquidacion-form-fields/liquid
 import { LiquidacionEditFieldsComponent } from './liquidacion-edit-fields/liquidacion-edit-fields.component';
 import { EstadoCuentaPdvComponent } from './estado-cuenta-pdv/estado-cuenta-pdv.component';
 import { EstadoCuentaPdvDetalleComponent } from './estado-cuenta-pdv-detalle/estado-cuenta-pdv-detalle.component';
+import { CuentaConrrienteInfoComponent } from './cuenta-conrriente-info/cuenta-conrriente-info.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import { EstadoCuentaPdvDetalleComponent } from './estado-cuenta-pdv-detalle/est
     LiquidacionFormFieldsComponent,
     LiquidacionEditFieldsComponent,
     EstadoCuentaPdvComponent,
-    EstadoCuentaPdvDetalleComponent
+    EstadoCuentaPdvDetalleComponent,
+    CuentaConrrienteInfoComponent
   ],
   imports: [
     CommonModule,

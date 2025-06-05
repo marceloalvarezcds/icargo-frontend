@@ -19,14 +19,14 @@
       ></app-number-field>
 
       <app-moneda-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Moneda"
         [form]="form"
         (valueChange)="$event && onMonedaSelect($event)">
       </app-moneda-field>
 
       <div *ngIf="!showCotizacion"
-        class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        class="input-form-full col-xs-12 col-sm-6 col-md-2">
 
         <app-number-field
           title="Cotizacion"
@@ -36,9 +36,9 @@
 
       </div>
 
-      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-3" [form]="form"></app-tipo-iva-field>
+      <app-tipo-iva-field class="input-form-full col-xs-12 col-sm-6 col-md-2" [form]="form"></app-tipo-iva-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-3" style="display: flex;flex-direction: column; align-items: flex-start;">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex;flex-direction: column; align-items: flex-start;">
         <mat-label class="custom-label">
           IVA INCL
         </mat-label>

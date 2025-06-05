@@ -190,6 +190,19 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
         ),
     },
     {
+      def: 'monto',
+      title: 'Monto',
+      value: (element: MovimientoEstadoCuenta) => element.monto,
+      type: 'number',
+      dinamicStyles: (element: MovimientoEstadoCuenta) =>
+        (
+          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
+          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
+          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
+        ),
+    },
+    {
       def: 'moneda',
       title: 'Moneda',
       value: (element: MovimientoEstadoCuenta) => element.moneda,

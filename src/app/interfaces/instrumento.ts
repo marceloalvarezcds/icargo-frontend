@@ -5,6 +5,7 @@ import { mockCaja1, mockCaja2 } from './caja';
 import { mockInstrumentoVia1, mockInstrumentoVia2 } from './instrumento-via';
 import { mockLiquidacion1, mockLiquidacion2 } from './liquidacion';
 import { mockTipoInstrumento1, mockTipoInstrumento2 } from './tipo-instrumento';
+import { mockMonedaList, Moneda } from './moneda';
 
 interface InstrumentoBaseModel {
   via_id: number;
@@ -24,6 +25,7 @@ interface InstrumentoBaseModel {
 
 export interface InstrumentoForm extends InstrumentoBaseModel {
   monto: number;
+  monto_ml: number;
 }
 
 export interface InstrumentoLiquidacionItem extends InstrumentoForm {
@@ -33,6 +35,7 @@ export interface InstrumentoLiquidacionItem extends InstrumentoForm {
   numero_documento: string | null;
   moneda_id: number;
   saldo_cc: number;
+  tipo_cambio_moneda: number;
 }
 
 export interface Instrumento extends InstrumentoForm {
@@ -53,6 +56,8 @@ export interface Instrumento extends InstrumentoForm {
   moneda_id: number;
   moneda_nombre: string;
   moneda_simbolo: string;
+  moneda: Moneda;
+  tipo_cambio_moneda: number;
   saldo_total: number;
   tipo_contraparte_descripcion: string;
   tipo_instrumento_descripcion: string;
@@ -81,6 +86,7 @@ export const mockInstrumentoForm: InstrumentoForm = {
   // Solo para cheque
   cheque_es_diferido: false,
   cheque_fecha_vencimiento: null,
+  monto_ml:0,
 };
 
 export const mockInstrumentoLiquidacionItem: InstrumentoLiquidacionItem = {
@@ -103,7 +109,9 @@ export const mockInstrumentoLiquidacionItem: InstrumentoLiquidacionItem = {
   cheque_fecha_vencimiento: null,
   moneda_id:1,
   numero_documento:null,
-  saldo_cc:0
+  saldo_cc:0,
+  tipo_cambio_moneda:0,
+  monto_ml:0,
 };
 
 export const mockInstrumentoList: Instrumento[] = [
@@ -116,6 +124,7 @@ export const mockInstrumentoList: Instrumento[] = [
     liquidacion_id: mockLiquidacion1.id,
     fecha_cobro: '2022-03-16T12:32:14.859823',
     monto: 0,
+    monto_ml:0,
     credito: 0,
     debito: 0,
     saldo_confirmado: 0,
@@ -143,6 +152,8 @@ export const mockInstrumentoList: Instrumento[] = [
     tipo_instrumento_descripcion: mockTipoInstrumento1.descripcion,
     tipo_operacion_descripcion: mockLiquidacion1.tipo_operacion_descripcion,
     url: '',
+    moneda: mockMonedaList[0],
+    tipo_cambio_moneda:0,
     via_descripcion: mockInstrumentoVia1.descripcion,
     // Auditoría
     created_by: 'admin-transred',
@@ -161,6 +172,7 @@ export const mockInstrumentoList: Instrumento[] = [
     monto: 0,
     credito: 0,
     debito: 0,
+    monto_ml:0,
     saldo_confirmado: 0,
     fecha_instrumento: '2022-03-16T12:32:14.859823',
     numero_referencia: '111111-1',
@@ -174,6 +186,8 @@ export const mockInstrumentoList: Instrumento[] = [
     // Solo para cheque
     cheque_es_diferido: false,
     cheque_fecha_vencimiento: null,
+    moneda: mockMonedaList[0],
+    tipo_cambio_moneda:0,
     // Datos calculados
     contraparte: mockLiquidacion2.contraparte,
     contraparte_numero_documento: mockLiquidacion2.contraparte_numero_documento,

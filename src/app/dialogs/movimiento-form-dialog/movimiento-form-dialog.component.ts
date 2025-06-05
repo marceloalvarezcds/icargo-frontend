@@ -38,7 +38,7 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
     moneda: [this.data?.moneda_id, Validators.required],
     moneda_id: [],
     detalle: this.data?.detalle,
-    tipo_cambio_moneda: this.data?.tipo_cambio_moneda,
+    tipo_cambio_moneda: this.data?.tipo_cambio_moneda ?? 1,
     fecha_cambio_moneda: this.data?.fecha_cambio_moneda,
     chofer_id: this.data?.chofer_id,
     propietario_id: this.data?.propietario_id,
