@@ -237,31 +237,32 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       }).format(value);
     };
 
-    const montoConvertido = this.montoRetiradoEnMonedaLocal;
+    const montoConvertido = this.montoRetiradoEnMonedaLocal; //solo se usa en caso de moneda local, no aplica por ahora
+    const monto = this.monto || 0;
 
     if (this.saldoDisponible < 0) {
-      const excedente = formatNumber(subtract(montoConvertido, this.saldoDisponible));
+      const excedente = formatNumber(subtract(monto, this.saldoDisponible));
       return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
       El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
     }
 
     if (this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0) {
-      if (montoConvertido > this.saldoDisponible) {
+      if (monto > this.saldoDisponible) {
         return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-          subtract(montoConvertido, this.saldoDisponible)
+          subtract(monto, this.saldoDisponible)
         )}</strong> al saldo disponible</span>`;
       }
 
-      if (montoConvertido > this.anticipoDisponibleCamion) {
+      if (monto > this.anticipoDisponibleCamion) {
         return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-          subtract(montoConvertido, this.anticipoDisponibleCamion)
+          subtract(monto, this.anticipoDisponibleCamion)
         )}</strong> al anticipo del tracto disponible</span>`;
       }
     }
 
-    if (this.limiteAnticipoCamion === 0 && montoConvertido > this.saldoDisponible) {
+    if (this.limiteAnticipoCamion === 0 && monto > this.saldoDisponible) {
       return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-        subtract(montoConvertido, this.saldoDisponible)
+        subtract(monto, this.saldoDisponible)
       )}</strong> al saldo disponible</span>`;
     }
 
@@ -274,20 +275,22 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    const saldoOC = (this.oc?.porcentaje_anticipos ?? [])
-      .filter((a: any) => {
-        return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
-      })
-      .map((a: any) => ({
-        ...a,
-        saldo_oc: this.getSaldoAnticipo(a),
-      }))
-      .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0);
+    const saldoOC = this.convertToMoneda(
+      (this.oc?.porcentaje_anticipos ?? [])
+        .filter((a: any) => {
+          return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
+        })
+        .map((a: any) => ({
+          ...a,
+          saldo_oc: this.getSaldoAnticipo(a),
+        }))
+        .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0)
+    );
 
     const saldoTractoTexto =
       this.limiteAnticipoCamion === null
         ? 'Sin límites'
-        : formatNumber(this.anticipoDisponibleCamion);
+        : formatNumber(this.anticipoDisponibleCamionConvertido);
 
     return `
       <div style="font-size: 16px; margin-bottom: 4px;">
@@ -299,11 +302,11 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       </div>
       <div style="font-size: 16px; margin-bottom: 4px;">
         <span class="hint-alert-label" style="font-weight: bold;">Saldo:</span>
-        <strong>${formatNumber(saldoMostrar - montoConvertido)}</strong>
+        <strong>${formatNumber(saldoMostrar - monto)}</strong>
       </div>
       <div style="font-size: 16px;">
         <span class="hint-alert-label" style="font-weight: bold;">Monto:</span>
-        <strong>${formatNumber(montoConvertido)}</strong>
+        <strong>${formatNumber(monto)}</strong>
         <span>|</span>
         <span class="hint-alert-label" style="font-weight: bold;">Línea Disponible:</span>
         <strong>${formatNumber(saldoMostrar)}</strong>
@@ -319,7 +322,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   get saldoDisponible(): number {
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return (this.saldoAnticipo * this.cotizacionOrigen) / this.cotizacionOrigen + this.montoRetirado;
+      return (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen + this.montoRetirado;
     }
     return this.saldoAnticipo + this.montoRetirado;
   }
@@ -355,6 +358,31 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     } else {
       return 0;
     }
+  }
+
+  get anticipoDisponibleCamionConvertido(): number {
+    if (this.monedaOrigenId === this.monedaDestinoId) {
+      return this.anticipoDisponibleCamion;
+    }
+
+    if (this.cotizacionOrigen) {
+      const convertido = this.anticipoDisponibleCamion / this.cotizacionOrigen;
+      return Math.floor(convertido * 100) / 100;
+    }
+    return this.anticipoDisponibleCamion;
+  }
+
+  convertToMoneda(monto: number): number {
+    if (this.monedaOrigenId === this.monedaDestinoId) {
+      return monto;
+    }
+
+    if (this.cotizacionOrigen) {
+      const convertido = monto / this.cotizacionOrigen;
+      return Math.floor(convertido * 100) / 100;
+    }
+
+    return monto;
   }
 
   get montoRetirado(): number {

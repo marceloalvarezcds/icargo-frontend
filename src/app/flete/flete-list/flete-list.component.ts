@@ -71,18 +71,33 @@ export class FleteListComponent implements OnInit {
       title: 'Destino',
       value: (element: FleteList) => element.destino_nombre,
     },
-    {
-      def: 'a_cobrar_flete',
-      title: 'A Cobrar',
-      value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
-      type: 'number',
-    },
+    // {
+    //   def: 'a_cobrar_flete',
+    //   title: 'A Cobrar',
+    //   value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
+    //   type: 'number',
+    // },
     {
       def: 'a_pagar_flete',
       title: 'A Pagar',
-      value: (element: FleteList) => element.condicion_propietario_tarifa,
-      type: 'number',
+      value: (element: FleteList) =>
+        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_propietario_moneda_simbolo}`,
+      type: 'text',
     },
+    {
+      def: 'a_cobrar_flete',
+      title: 'A Cobrar',
+      value: (element: FleteList) =>
+        `${element.condicion_gestor_carga_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_gestor_carga_moneda_simbolo}`,
+      type: 'text',
+    },
+
     {
       def: 'cantidad_flete',
       title: 'Cantidad',
@@ -98,7 +113,7 @@ export class FleteListComponent implements OnInit {
     {
       def: 'cargado_flete',
       title: 'Cargado',
-      // value: (element: FleteList) => element.condicion_cantidad,
+      value: (element: FleteList) => element.cargado,
       type: 'number',
     },
     {
@@ -317,7 +332,7 @@ export class FleteListComponent implements OnInit {
   }
 
   fetchList(): void {
-    this.fleteService.getList().subscribe({
+    this.fleteService.getListByGestorCarga().subscribe({
       next: (data) => {
         this.list = data;
       },

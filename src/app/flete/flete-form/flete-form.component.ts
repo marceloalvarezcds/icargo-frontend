@@ -285,16 +285,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((confirmExit) => {
-      console.log('¿Confirmó salir?:', confirmExit);
-      console.log('¿Es copia de flete?:', this.isShowCopiedFlete);
-      console.log('ID del flete copiado:', this.id);
-
       if (confirmExit) {
         if (this.isShowCopiedFlete && this.id) {
-          console.log('Eliminando flete copiado con ID:', this.id);
           this.fleteService.delete(this.id).subscribe({
             next: () => {
-              console.log('Flete eliminado exitosamente');
               this.router.navigate([this.backUrl]);
             },
             error: (err) => {
@@ -303,7 +297,6 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             }
           });
         } else {
-          console.log('No hay flete que eliminar, navegando directamente');
           this.router.navigate([this.backUrl]);
         }
       }

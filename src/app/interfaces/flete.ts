@@ -136,10 +136,12 @@ export interface FleteList extends FleteFormBaseModel {
   // INICIO Cantidad y Flete
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_nombre: string;
+  condicion_gestor_carga_moneda_simbolo: string;
   condicion_gestor_carga_unidad_descripcion: string;
   // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_nombre: string;
+  condicion_propietario_moneda_simbolo: string;
   condicion_propietario_unidad_descripcion: string;
   condicion_propietario_tarifa_unidad: string;
   // fin - Condiciones para el Propietario
@@ -385,6 +387,7 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: pyg.id,
     condicion_gestor_carga_moneda_nombre: pyg.nombre,
+    condicion_gestor_carga_moneda_simbolo: pyg.nombre,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: toneladas.id,
     condicion_gestor_carga_unidad_descripcion: toneladas.descripcion,
@@ -392,6 +395,7 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: pyg.id,
     condicion_propietario_moneda_nombre: pyg.nombre,
+    condicion_propietario_moneda_simbolo: pyg.nombre,
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: toneladas.id,
     condicion_propietario_unidad_descripcion: toneladas.descripcion,
@@ -464,6 +468,7 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: usd.id,
     condicion_gestor_carga_moneda_nombre: usd.nombre,
+    condicion_gestor_carga_moneda_simbolo: pyg.nombre,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: kilogramos.id,
     condicion_gestor_carga_unidad_descripcion: kilogramos.descripcion,
@@ -471,6 +476,7 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: usd.id,
     condicion_propietario_moneda_nombre: usd.nombre,
+    condicion_propietario_moneda_simbolo: pyg.nombre,
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: kilogramos.id,
     condicion_propietario_unidad_descripcion: kilogramos.descripcion,
@@ -543,6 +549,8 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: brl.id,
     condicion_gestor_carga_moneda_nombre: brl.nombre,
+    condicion_propietario_moneda_simbolo: pyg.nombre,
+    condicion_gestor_carga_moneda_simbolo: pyg.nombre,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: litros.id,
     condicion_gestor_carga_unidad_descripcion: litros.descripcion,
