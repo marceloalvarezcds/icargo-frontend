@@ -37,8 +37,10 @@ type InstrumentoReturn = {
   styleUrls: ['./liquidacion-confirmada-form-instrumentos.component.scss'],
 })
 export class LiquidacionConfirmadaFormInstrumentosComponent {
+
   a = a;
   m = m;
+
   columns: Column[] = [
     {
       def: 'via_descripcion',
@@ -92,8 +94,6 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   ];
   list: InstrumentoLiquidacionItem[] = [];
 
-
-
   get esSaldoAbierto(): boolean {
     return this.liquidacion?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO;
   }
@@ -105,20 +105,17 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   get residuo(): number {
     //return subtract(Math.abs(this.saldo), this.valorInstrumentos);
     //let saldo = this.totalMonedas.reduce((acc:number, cur:any) => acc + cur.total_ml, 0);
-    return subtract(Math.abs(this.saldo ?? 0), this.valorInstrumentos);
-  }
-
-  getResiduo(moneda_id:number): number {
-    //if (moneda_id===0) return 0;
-    //let saldo = this.totalMonedas.find(e=> e.moneda.id === moneda_id);
-    //let saldo = this.totalMonedas.reduce((acc:number, cur:any) => acc + cur.total_ml, 0);
-    return subtract(Math.abs(this.saldo ?? 0), this.valorInstrumentos);
+    return subtract(Math.abs(this.saldo ?? 0), this.totalInstrumentos);
   }
 
   get saldoCC():number {
     let saldoCC = (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
     //let instrumento = this.list.reduce((acc, cur) => acc + cur.monto, 0);
     return saldoCC;
+  }
+
+  get totalInstrumentos(){
+    return this.list.reduce((acc, cur) => acc + cur.monto_ml, 0);
   }
 
   @Input() estadoCuenta?: EstadoCuenta;
@@ -149,7 +146,6 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   create(): void {
     create(this.getDialogRef(), (item:  InstrumentoLiquidacionItem) => {
       console.log("on create instrumento")
-      this.valorInstrumentos += item.monto_ml;
       //this.totalMonedas = item.totales;
       //this.setResiduo(item.monto, item.moneda_id);
       this.list = this.list.concat([item]);
@@ -159,11 +155,10 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
   edit({ row, index }: TableEvent<InstrumentoLiquidacionItem>): void {
     console.log("row: ", row);
-    this.valorInstrumentos -= row.monto_ml;
+    //this.valorInstrumentos -= row.monto_ml;
     console.log("index: ", index);
     edit(this.getDialogRef(row), (item: InstrumentoLiquidacionItem) => {
       //this.setResiduo(subtract(item.monto, row.monto), item.moneda_id);
-      this.valorInstrumentos += item.monto;
       //this.totalMonedas = item.totales;
       const list = this.list.slice();
       list[index] = item;
@@ -177,7 +172,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       this.dialog,
       `¿Está seguro que desea eliminar al instrumeno Nº ${index + 1}?`,
       () => {
-        this.setResiduo((row.monto * -1), row.moneda_id);
+        //this.setResiduo((row.monto * -1), row.moneda_id);
         this.list = this.list.filter((_, i) => i !== index);
         this.listChange.emit(this.list);
       }
@@ -241,8 +236,8 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
     const data: InstrumentoFormDialogData = {
       es_cobro: this.liquidacion?.es_cobro ?? false,
-      //residuo: Math.abs((item?.monto ?? 0) + this.getResiduo(item?.moneda_id ?? 0)),
-      residuo: this.residuo,
+      residuo: Math.abs((item?.monto_ml ?? 0) + this.residuo),
+      //residuo: this.residuo,
       totalLiquidacion: Math.abs(this.saldo ?? 0),
       item,
       totalMonedas: this.totalMonedas
