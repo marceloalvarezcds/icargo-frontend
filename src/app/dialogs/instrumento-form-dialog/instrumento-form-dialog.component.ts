@@ -32,8 +32,8 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   tipoInstrumento?: TipoInstrumento;
   moneda?:Moneda;
   monedaLocal?:Moneda;
-  totalMonedas:any;
   cotizacion_ml=0;
+  totalEnMonedaLocal=0;
 
   bancoEventsSubject: Subject<Banco> = new Subject<Banco>();
   cajaEventsSubject: Subject<Caja> = new Subject<Caja>();
@@ -47,7 +47,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
       [Validators.required, Validators.max(this.dialogData.residuo ?? 0)],
     ],
     monto_ml: [null],
-    tipo_cambio_moneda: [{value:1, disabled:true}],
+    tipo_cambio_moneda: [{value:this.data?.tipo_cambio_moneda, disabled:true}],
     fecha_instrumento: [
       this.data?.fecha_instrumento ?? new Date().toJSON(),
       Validators.required,
@@ -89,7 +89,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
         this.form.controls['caja_id'].setValue(null);
         this.form.controls['tipo_instrumento_id'].enable();
         this.form.controls['tipo_instrumento_id'].setValidators(Validators.required);
-        this.form.controls['banco_id'].setValue(this.data?.banco_id);
+        //this.form.controls['banco_id'].setValue(this.data?.banco_id);
       } else {
         this.form.controls['tipo_instrumento_id'].disable();
         this.form.controls['tipo_instrumento_id'].removeValidators(Validators.required);
@@ -100,7 +100,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
         this.form.controls['banco_id'].removeValidators(Validators.required);
         this.form.controls['banco_id'].setValue(null);
         this.form.controls['caja_id'].setValidators(Validators.required);
-        this.form.controls['caja_id'].setValue(this.data?.caja_id);
+        //this.form.controls['caja_id'].setValue(this.data?.caja_id);
       }
       this.form.controls['numero_referencia'].updateValueAndValidity();
       this.form.controls['banco_id'].updateValueAndValidity();
@@ -200,7 +200,26 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
       this.form.disable();
     }
 
-    this.totalMonedas = this.dialogData.totalMonedas;
+    this.totalEnMonedaLocal = this.dialogData.residuo!;
+
+    if (this.dialogData.item) {
+      //this.totalEnMonedaLocal = this.dialogData.residuo! / this.dialogData.item.tipo_cambio_moneda;
+      this.dialogData.totalLiquidacion = this.dialogData.totalLiquidacion / this.dialogData.item.tipo_cambio_moneda;
+      this.dialogData.residuo = this.dialogData.residuo! / this.dialogData.item.tipo_cambio_moneda;
+
+      this.refreshTotal(this.dialogData.residuo);
+
+      if (this.data){
+        if (this.data.caja_id)
+          this.cajaService.getById(this.data.caja_id).subscribe( c=> {
+            this.cajaEventsSubject.next(c);
+          });
+        if (this.data.banco_id)
+          this.bancoService.getById(this.data.banco_id).subscribe( c=> {
+            this.bancoEventsSubject.next(c);
+          });
+        }
+    }
 
     console.log(this.dialogData);
     console.log(this.data);
@@ -208,16 +227,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   ngOnInit(){
-    if (this.data){
-      if (this.data.caja_id)
-        this.cajaService.getById(this.data.caja_id).subscribe( c=> {
-          this.cajaEventsSubject.next(c);
-        });
-      if (this.data.banco_id)
-        this.bancoService.getById(this.data.banco_id).subscribe( c=> {
-          this.bancoEventsSubject.next(c);
-        });
-    }
+    null;
   }
 
   ngAfterViewInit(): void {
@@ -229,7 +239,6 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   onbancoSelect(banco:Banco):void {
     console.log("onbancoSelect: ", banco)
     this.banco = banco;
-    const totalMonena = this.totalMonedas.find( (total:any) => total.moneda.id === banco.moneda_id);
     this.form.controls['moneda_id'].setValue(banco.moneda_id);
 
     /*if (totalMonena) {
@@ -248,9 +257,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   onCajaSelect(caja:Caja):void {
     console.log("onCajaSelect: ", caja)
     this.caja = caja;
-    const totalMonena = this.totalMonedas.find( (total:any) => total.moneda.id === caja.moneda_id);
     this.form.controls['moneda_id'].setValue(caja.moneda_id);
-
     /*if (totalMonena) {
       this.montoControl.setValidators([]);
       this.montoControl.updateValueAndValidity();
@@ -293,10 +300,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
           this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
           this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
 
-          this.dialogData.residuo = Number((this.residuo / res.cotizacion_moneda).toFixed(2));;
-          const totalDeudaPendiente = this.residuo;
+          this.dialogData.residuo = this.totalEnMonedaLocal;
+          this.dialogData.residuo = Number((this.dialogData.residuo / res.cotizacion_moneda).toFixed(2));
 
-          this.refreshTotal(Math.abs(totalDeudaPendiente));
+          this.refreshTotal(Math.abs(this.dialogData.residuo));
 
         }
     });
