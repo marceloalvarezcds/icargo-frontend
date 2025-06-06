@@ -30,10 +30,11 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   caja?: Caja;
   via?: InstrumentoVia;
   tipoInstrumento?: TipoInstrumento;
-  moneda?:Moneda;
-  monedaLocal?:Moneda;
-  cotizacion_ml=0;
-  totalEnMonedaLocal=0;
+  moneda?: Moneda;
+  monedaLocal?: Moneda;
+  cotizacion_ml= 0;
+  totalResidioLiquidacionML = 0;
+  totalLiquidacionML = 0;
 
   bancoEventsSubject: Subject<Banco> = new Subject<Banco>();
   cajaEventsSubject: Subject<Caja> = new Subject<Caja>();
@@ -149,6 +150,14 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
     return this.form.get('monto') as FormControl;
   }
 
+  get saldoHint(): string {
+    if (this.dialogData.isShow) return "";
+    if (this.monto) {
+      return `Saldo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
+    }
+    return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
+  }
+
   get montoHint(): string {
     if (this.dialogData.isShow) return "";
     if (this.monto) {
@@ -200,11 +209,13 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
       this.form.disable();
     }
 
-    this.totalEnMonedaLocal = this.dialogData.residuo!;
+    this.totalResidioLiquidacionML = this.dialogData.residuo!;
+    this.totalLiquidacionML = this.dialogData.totalLiquidacion!;
+
 
     if (this.dialogData.item) {
-      //this.totalEnMonedaLocal = this.dialogData.residuo! / this.dialogData.item.tipo_cambio_moneda;
-      this.dialogData.totalLiquidacion = this.dialogData.totalLiquidacion / this.dialogData.item.tipo_cambio_moneda;
+
+      this.dialogData.totalLiquidacion = this.totalLiquidacionML / this.dialogData.item.tipo_cambio_moneda;
       this.dialogData.residuo = this.dialogData.residuo! / this.dialogData.item.tipo_cambio_moneda;
 
       this.refreshTotal(this.dialogData.residuo);
@@ -300,8 +311,8 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
           this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
           this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
 
-          this.dialogData.residuo = this.totalEnMonedaLocal;
-          this.dialogData.residuo = Number((this.dialogData.residuo / res.cotizacion_moneda).toFixed(2));
+          this.dialogData.totalLiquidacion = this.totalLiquidacionML / res.cotizacion_moneda
+          this.dialogData.residuo = Number((this.totalResidioLiquidacionML / res.cotizacion_moneda).toFixed(2));
 
           this.refreshTotal(Math.abs(this.dialogData.residuo));
 
