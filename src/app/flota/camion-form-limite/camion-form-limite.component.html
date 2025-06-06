@@ -22,7 +22,8 @@
         [form]="form"
       ></app-number-field>
 
-      <div class="col-xs-12 col-sm-6 col-md-2">
+      <div class="col-xs-12 col-sm-6 col-md-2"
+       *ngIf="camion?.limite_monto_anticipos">
         <span class="proveedor-label">Moneda</span>
         <span class="input-like">{{ monedaSimbolo }}</span>
       </div>
@@ -36,15 +37,15 @@
           key="Monto de anticipos retirados"
           [value]="
             camion.total_anticipos_retirados_en_estado_pendiente_o_en_proceso
-              | numberFormat 
+              | numberFormat
           "
         ></app-key-value>
 
-      <app-key-value
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        key="Monto de anticipos disponibles"
-        [value]="(camion.monto_anticipo_disponible | numberFormat) + ' ' + monedaSimbolo"
-      ></app-key-value>
+        <app-key-value
+          class="input-form-full col-xs-12 col-sm-6 col-md-4"
+          key="Monto de anticipos disponibles"
+          [value]="camion.monto_anticipo_disponible | numberFormat"
+        ></app-key-value>
 
       </div>
 

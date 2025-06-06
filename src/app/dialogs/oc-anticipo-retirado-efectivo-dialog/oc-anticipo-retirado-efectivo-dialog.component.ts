@@ -202,7 +202,11 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
       (anticipo: any) => anticipo.concepto?.toLowerCase() === 'efectivo'
     );
     const saldoOC = this.convertToMoneda(anticipoEfectivo?.saldo_oc ?? 0);
-    const saldoTracto = this.anticipoDisponibleCamionConvertido ?? 0;
+    const saldoTracto =
+      this.limiteAnticipoCamion === null
+        ? 'Sin límites'
+        : this.anticipoDisponibleCamionConvertido ?? 0;
+
 
     if (this.saldoDisponible < 0) {
       const excedente = formatNumber(subtract(this.monto, this.saldoDisponible));
@@ -241,10 +245,12 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
     const saldoRestante = disponible - monto;
 
-    return `
+   return `
       <div class="hint-alert-label">
         Saldo OC: <strong>${formatNumber(saldoOC)}</strong> &nbsp;|&nbsp;
-        Saldo Tracto: <strong>${formatNumber(saldoTracto)}</strong>
+        Saldo Tracto: <strong>${
+          typeof saldoTracto === 'number' ? formatNumber(saldoTracto) : saldoTracto
+        }</strong>
       </div>
       <div class="hint-alert-label">
         Disponible: <strong>${formatNumber(disponible)}</strong>
