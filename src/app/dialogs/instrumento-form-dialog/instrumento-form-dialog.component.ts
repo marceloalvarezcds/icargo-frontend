@@ -155,7 +155,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
     if (this.monto) {
       return `Saldo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
     }
-    return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
+    return `Saldo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }
 
   get montoHint(): string {
@@ -377,6 +377,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
       };
       // falta cambio inverso, de monto moneda instrumento a ML
       data.monto_ml = data.monto * data.tipo_cambio_moneda;
+      data.moneda_abr = this.moneda!.simbolo;
       this.dialogRef.close(data);
     }
   }

@@ -34,6 +34,7 @@ export interface InstrumentoLiquidacionItem extends InstrumentoForm {
   tipo_instrumento_descripcion: string;
   numero_documento: string | null;
   moneda_id: number;
+  moneda_abr: string | null;
   saldo_cc: number;
   tipo_cambio_moneda: number;
 }
@@ -101,6 +102,7 @@ export const mockInstrumentoLiquidacionItem: InstrumentoLiquidacionItem = {
   fecha_cobro: '2022-03-16T12:32:14.859823',
   numero_referencia: '111111-1',
   comentario: '',
+  moneda_abr: '',
   // Datos mostrados solo para Banco
   tipo_instrumento_id: mockTipoInstrumento1.id,
   tipo_instrumento_descripcion: mockTipoInstrumento1.descripcion,
