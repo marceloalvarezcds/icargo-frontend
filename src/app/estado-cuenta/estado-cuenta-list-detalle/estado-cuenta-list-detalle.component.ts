@@ -439,7 +439,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         contraparte,
         contraparte_numero_documento,
         tipo_contraparte_id,
-        punto_venta_id
+        punto_venta_id,
+        flujo
       } = this.route.snapshot.queryParams;
 
       const data: ContraparteInfoMovimientoLiq = {
@@ -450,7 +451,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         tipo_contraparte_descripcion: '',
         isNew: true,
         etapa: LiquidacionEtapaEnum.PENDIENTE,
-        punto_venta_id: punto_venta_id
+        punto_venta_id: punto_venta_id,
+        flujo: flujo
       };
 
       const url = [
