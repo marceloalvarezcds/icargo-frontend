@@ -53,6 +53,7 @@ export interface MovimientoForm extends MovimientoBaseModel {
 export interface MovimientoFleteEditForm {
   moneda_id: number | null;
   tarifa: number | null;
+  tipo_cambio_moneda?: number;
 }
 
 export interface MovimientoMermaEditForm {
@@ -162,6 +163,7 @@ export interface MovimientoEstadoCuenta {
     documento_fisico: boolean,
     moneda: string,
     tipo_cambio_moneda: number,
+    monto: number,
     provision: number,
     pendiente: number,
     en_proceso: number,

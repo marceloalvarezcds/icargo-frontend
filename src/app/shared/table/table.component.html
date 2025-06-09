@@ -408,6 +408,18 @@
             <span>Anular</span>
           </button>
 
+           <button
+              type="button"
+                mat-menu-item
+                (click)="ampliarClick.emit({ row, index })"
+                *ngIf="showBtnAmpliar && row.estado !== e.CANCELADO &&
+                  (modelo | puede: a.VER)
+                  "
+                [hidden]="hideShow"
+              >
+              <mat-icon color="primary">add_circle</mat-icon>
+              <span>Modificar</span>
+            </button>
 
             <button
               type="button"
@@ -448,6 +460,27 @@
             >
               <mat-icon color="primary">toggle_on</mat-icon>
               <span>Desactivar</span>
+            </button>
+
+            <button
+              type="button"
+              mat-menu-item
+              (click)="cancelarClick.emit({ row, index })"
+              *ngIf="
+                row.estado === e.ACTIVO &&
+                shouldShowCancelarButton &&
+                (modelo
+                  | puede
+                    : a.CAMBIAR_ESTADO
+                    : (noCheckGestorCuentaId
+                        ? undefined
+                        : row.gestor_cuenta_id ||
+                          row.gestor_carga_id ||
+                          gestorCuentaId))
+              "
+            >
+              <mat-icon color="primary">toggle_on</mat-icon>
+              <span>Cancelar</span>
             </button>
           </mat-menu>
         </td>

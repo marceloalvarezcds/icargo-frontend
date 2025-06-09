@@ -4,7 +4,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { AnticiposPorOrdenCarga, OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -31,6 +31,7 @@ import { MonedaService } from 'src/app/services/moneda.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
+import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -66,11 +67,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
         this.downloadPDF(element),
     },
     {
-      def: 'estados_movimientos',
+      def: 'estado_movimiento_propietarioetarioopietario',
       title: 'Estado',
-      value: (element: OrdenCargaAnticipoRetirado) => element.estados_movimientos?.toUpperCase(),
+      value: (element: OrdenCargaAnticipoRetirado) => element.estado_movimiento_propietario?.toUpperCase(),
       dinamicStyles: (element: OrdenCargaAnticipoRetirado) => {
-        switch (element.estados_movimientos) {
+        switch (element.estado_movimiento_propietario) {
           case 'Activo':
           case 'Aceptado':
           case 'En Revisión':
@@ -135,9 +136,10 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       type: 'number',
     },
     {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: OrdenCargaAnticipoRetirado) => element.gestor_carga_moneda_nombre,
+      def: 'gestor_carga_moneda_nombre',
+      title: 'Moneda Equiv.',
+      value: (element: OrdenCargaAnticipoRetirado) =>
+        element.moneda_nombre,
     },
     {
       def: 'monto_equiv',
@@ -145,11 +147,10 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       value: (element: OrdenCargaAnticipoRetirado) => element.monto_mon_local,
       type: 'number',
     },
-    {
-      def: 'gestor_carga_moneda_nombre',
-      title: 'Moneda Equiv.',
-      value: (element: OrdenCargaAnticipoRetirado) =>
-        element.moneda_nombre,
+     {
+      def: 'moneda_nombre',
+      title: 'Moneda',
+      value: (element: OrdenCargaAnticipoRetirado) => element.gestor_carga_moneda_nombre,
     },
     {
       def: 'created_by',
@@ -238,6 +239,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
+    private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
     private cdr: ChangeDetectorRef,
     private monedaService: MonedaService,
@@ -405,44 +407,64 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createEfectivo(): void {
-    if (!this.oc?.camion_propietario_puede_recibir_anticipos) {
-      this.snackBar.open('El Propietario no está habilitado para recibir anticipos.', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-      return;
-    }
+    this.ordenCargaService.getById(this.oc!.id).subscribe({
+      next: (ocActualizada) => {
+        this.oc = ocActualizada;
 
-    if (!this.oc?.combinacion_chofer_puede_recibir_anticipos) {
-      this.snackBar.open('El Chofer no esta habilitado para recibir anticipos.', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-      return;
-    }
-
-    create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
-    this.buttonAnticipoClicked.emit();
+        this.ordenCargaService
+          .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
+          .subscribe({
+            next: () => {
+              create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
+              this.buttonAnticipoClicked.emit();
+            },
+            error: (error) => {
+              this.snackBar.open(error.error.detail || 'No se pudo validar anticipos.', 'Cerrar', {
+                duration: 3000,
+                panelClass: ['error-snackbar']
+              });
+            }
+          });
+      },
+      error: () => {
+        this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
   }
 
   createInsumo(): void {
-    if (!this.oc?.camion_propietario_puede_recibir_anticipos) {
-      this.snackBar.open('El Propietario no está habilitado para recibir anticipos.', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-      return;
-    }
-    if (!this.oc?.combinacion_chofer_puede_recibir_anticipos) {
-      this.snackBar.open('El Chofer no esta habilitado para recibir anticipos.', 'Cerrar', {
-        duration: 3000,
-        panelClass: ['error-snackbar']
-      });
-      return;
-    }
+    this.ordenCargaService.getById(this.oc!.id).subscribe({
+      next: (ocActualizada) => {
+        this.oc = ocActualizada;
 
-    create(this.getDialogInsumoRef(), this.emitOcChange.bind(this));
-    this.buttonAnticipoClicked.emit();
+        this.ordenCargaService
+          .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
+          .subscribe({
+            next: () => {
+              const dialogRef = this.getDialogInsumoRef();
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) this.emitOcChange();
+              });
+              this.buttonAnticipoClicked.emit();
+            },
+            error: () => {
+              this.snackBar.open('El chofer, el propietario o la combinación no están habilitados para anticipos.', 'Cerrar', {
+                duration: 3000,
+                panelClass: ['error-snackbar']
+              });
+            }
+          });
+      },
+      error: () => {
+        this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
   }
 
   anular({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
@@ -564,21 +586,22 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
 
   private getDialogInsumoRef(
-    item?: OrdenCargaAnticipoRetirado
-  ): MatDialogRef<
-    OcAnticipoRetiradoInsumoDialogComponent,
-    OrdenCargaAnticipoRetirado
-  > {
+    item?: OrdenCargaAnticipoRetirado,
+    anticipos?: AnticiposPorOrdenCarga[]
+  ): MatDialogRef<OcAnticipoRetiradoInsumoDialogComponent, OrdenCargaAnticipoRetirado> {
     const data: OcAnticipoRetiradoDialogData = {
       orden_carga_id: this.oc!.id,
       flete_id: this.oc!.flete_id,
-      oc: this.oc,
+      oc: this.oc!,
       item,
+      anticipos, // 👈 lo pasamos aquí
     };
+
     return this.dialog.open(OcAnticipoRetiradoInsumoDialogComponent, {
       panelClass: 'half-dialog',
       height: 'auto',
-      data });
+      data,
+    });
   }
 
   private getDialogEfectivoAnulacionRef(

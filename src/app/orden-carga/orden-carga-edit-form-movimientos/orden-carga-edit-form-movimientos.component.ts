@@ -128,6 +128,7 @@ export class OrdenCargaEditFormMovimientosComponent {
       def: 'editar',
       title: '',
       type: 'button',
+      isDisable: (mov: Movimiento) => (mov.estado !== 'Pendiente'),
       value: (mov: Movimiento) => (mov.can_edit_oc ? 'Editar' : ''),
       buttonCallback: (mov: Movimiento) =>
         mov.can_edit_oc ? this.openDialog(mov) : () => {},
@@ -174,7 +175,7 @@ export class OrdenCargaEditFormMovimientosComponent {
       afectado,
       item,
     };
-    return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data });
+    return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data, panelClass: 'half-dialog' });
   }
 
   getMermaDialogRef(
@@ -185,7 +186,7 @@ export class OrdenCargaEditFormMovimientosComponent {
       afectado,
       item,
     };
-    return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data });
+    return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data, panelClass: 'half-dialog' });
   }
 
   private emitOcChange(): void {

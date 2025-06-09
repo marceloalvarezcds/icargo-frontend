@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
@@ -6,17 +6,16 @@ import { subtract } from 'lodash';
 import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
 
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { Chofer } from 'src/app/interfaces/chofer';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
-import { Flete, FleteList } from 'src/app/interfaces/flete';
+import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
-import { CamionService } from 'src/app/services/camion.service';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 
@@ -25,7 +24,6 @@ import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SemiService } from 'src/app/services/semi.service';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
-import { INFERRED_TYPE } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-orden-carga-create-form-combinacion',
@@ -254,9 +252,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   constructor(
       private service: SemiService,
       private choferService: ChoferService,
-      private camionService: CamionService,
       private fleteService: FleteService,
-      private cdr: ChangeDetectorRef,
       private ordenCargaService: OrdenCargaService,
       private combinacionService: CombinacionService,
       private reportsService: ReportsService,
@@ -434,7 +430,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       });
     });
   }
-
 
 
   @Input() title = 'Chapa Tracto';

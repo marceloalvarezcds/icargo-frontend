@@ -25,6 +25,8 @@ export class EstadoCuentaDetalleComponent {
   @Input() form!:FormGroup;
   @Input() esInsumoControl:FormControl|undefined=undefined;
   @Input() tipo_insumo:FormControl|undefined=undefined;
+  @Input() esFinalizado = false;
+  @Input() esOrdenPago = false;
 
   @Output() filterEvent: EventEmitter<string> = new EventEmitter<string>();
 

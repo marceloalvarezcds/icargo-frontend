@@ -12,11 +12,11 @@ const getFormData = (value: object): FormData => {
 };
 
 export const movimientoFleteEditData = (form: FormGroup): FormData => {
-  const value: MovimientoFleteEditForm = form.value;
+  const value: MovimientoFleteEditForm = form.getRawValue();
   return getFormData(value);
 };
 
 export const movimientoMermaEditData = (form: FormGroup): FormData => {
-  const value: MovimientoMermaEditForm = form.value;
+  const value: MovimientoMermaEditForm = form.getRawValue();
   return getFormData(value);
 };

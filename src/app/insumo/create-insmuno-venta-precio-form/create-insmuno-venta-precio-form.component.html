@@ -3,7 +3,7 @@
   submodule="Mercaderias"
   [formGroup]="form"
   [hasChange]="hasChange"
-  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVA' }}"
   (backClick)="back($event)"
   [modelo]="modelo"
   (submitEvent)="submit(false)"
@@ -81,6 +81,13 @@
         autocomplete="on">
       </app-number-field>
 
+      <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Moneda"
+        controlName="moneda_id"
+        [form]="form"
+      ></app-moneda-field>
+
       <app-unidad-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Unidad"
@@ -88,13 +95,6 @@
         [form]="form"
       ></app-unidad-field>
 
-      <app-moneda-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Moneda"
-        controlName="moneda_id"
-        [form]="form"
-
-      ></app-moneda-field>
     </div>
 
     <div class="row">

@@ -10,3 +10,8 @@ export function round(val: number): number {
 export function subtract(a: number, b: number): number {
   return Math.round((a - b) * 100) / 100;
 }
+
+export function subtractDecimal(a: number, b: number): number {
+  let n = (a - b).toFixed(2) ;
+  return Number(n);
+}

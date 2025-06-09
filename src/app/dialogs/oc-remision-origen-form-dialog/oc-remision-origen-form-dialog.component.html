@@ -13,24 +13,6 @@
 
     <div class="row" style="padding-bottom: 10px;">
 
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Nº Remito"
-        controlName="numero_documento"
-        [form]="form"
-      ></app-input-field>
-
-      <app-unidad-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Unidad"
-        [form]="form"
-        (valueChange)="onUnidadChange($event)"
-      ></app-unidad-field>
-      
-    </div>
-
-    <div class="row">
-
       <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Cantidad"
@@ -38,6 +20,24 @@
         [hint]="cantidadHint"
         [form]="form"
       ></app-number-field>
+
+      <app-unidad-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Unidad"
+        [form]="form"
+        (valueChange)="onUnidadChange($event)"
+      ></app-unidad-field>
+
+    </div>
+
+    <div class="row">
+
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
+        title="Nº Remito"
+        controlName="numero_documento"
+        [form]="form"
+      ></app-input-field>
 
       <app-fecha-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"

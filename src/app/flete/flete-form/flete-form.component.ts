@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual, unset } from 'lodash';
 import { filter } from 'rxjs/operators';
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
+import { FleteCantidadCondicionesDialogComponent } from 'src/app/dialogs/flete-cantidad-condiciones-dialog/flete-cantidad-condiciones-dialog.component';
 import { FleteConfirmationDialogComponent } from 'src/app/dialogs/flete-confirmation-dialog/flete-confirmation-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -41,6 +42,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   isEditPressed= false
   isEditCopyForm = false;
   isCopyFlete = false;
+  isShowCopiedFlete = false;
+  hasSavedSuccessfully = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -97,6 +100,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     condicion: this.fb.group({
       condicion_cantidad: [null, Validators.required],
       saldo: [{ value: null, disabled: true }],
+      cargado: [{ value: null, disabled: true }],
       // inicio - Condiciones para el Gestor de Carga
       condicion_gestor_carga_moneda: [null],
       condicion_gestor_carga_moneda_id: [null, Validators.required],
@@ -219,29 +223,24 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
-  }
-
-
-  delete(){
-    this.dialog.cancelStatusConfirm(
-      '¿Está seguro que desea cancelar el Pedido?',
-      this.fleteService.delete(this.id!),
-      () => {
-        this.router.navigate([this.backUrl]);
+    this.route.queryParams.subscribe(params => {
+      if (params['isCopied'] === 'true') {
+        this.isShowCopiedFlete = true;
+        this.id = this.route.snapshot.params['id'];
       }
-    );
+      });
   }
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
   }
 
-  back(confirmed: boolean): void {
-    if (confirmed) {
-      this.save(confirmed);
-    } else {
-      this.router.navigate([this.backUrl]);
-    }
+  fnHideCancelado(): boolean {
+     return this.item?.estado === EstadoEnum.CANCELADO;
+  }
+
+  fnHideIsInOc(): boolean {
+    return !(this.item?.is_in_orden_carga);
   }
 
   redirectToEdit(): void {
@@ -250,7 +249,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
   cancelar(): void {
     this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea cancelar el Flete?',
+      '¿Está seguro que desea cancelar el Pedido?',
       this.fleteService.cancel(this.id!),
       () => {
         this.getData();
@@ -265,13 +264,51 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  back(): void {
+    if (this.isShow) {
+      this.router.navigate([this.backUrl]);
+      return;
+    }
+    if (this.hasSavedSuccessfully) {
+      this.router.navigate([this.backUrl]);
+      return;
+    }
+    const dialogData: ConfirmationDialogData = {
+      title: '¿Salir sin guardar?',
+      message: 'Está copiando un Pedido. ¿Desea salir sin guardar?',
+      closeButtonText: 'No',
+      confirmedButtonText: 'Sí',
+    };
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      data: dialogData,
+    });
+
+    dialogRef.afterClosed().subscribe((confirmExit) => {
+      if (confirmExit) {
+        if (this.isShowCopiedFlete && this.id) {
+          this.fleteService.delete(this.id).subscribe({
+            next: () => {
+              this.router.navigate([this.backUrl]);
+            },
+            error: (err) => {
+              console.error('Error al eliminar el flete:', err);
+              this.router.navigate([this.backUrl]);
+            }
+          });
+        } else {
+          this.router.navigate([this.backUrl]);
+        }
+      }
+    });
+  }
+
   copiar() {
     this.isEditPressed = false;
     this.isEditCopyForm = false;
     this.isCopyFlete = true;
-    this.form.enable();
 
-    const originalId = this.id;
+    this.form.enable();
 
     const copiedData = {
       ...this.info.value,
@@ -293,10 +330,76 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.condicion.patchValue(copiedData);
     this.merma.patchValue(copiedData);
     this.emisionOrden.patchValue(copiedData);
-
-
     this.isEdit = true;
-    const dialogData: ConfirmationDialogData = {
+  }
+
+  isShowCopiar() {
+    this.isEditPressed = false;
+    this.isEditCopyForm = false;
+    this.isCopyFlete = this.isShow;
+
+    this.form.enable();
+
+    const data = {
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    };
+
+    // Convertir a mayúsculas (excepto email)
+    Object.keys(data).forEach(key => {
+      if (typeof data[key] === 'string' && key !== 'email') {
+        data[key] = data[key].toUpperCase();
+      }
+    });
+
+    const formData = new FormData();
+    formData.append('data', JSON.stringify(data));
+
+    this.fleteService.create(formData).subscribe((flete) => {
+    this.id = flete.id;
+      this.router.navigate(
+        [`/flete/${m.FLETE}/${a.EDITAR}`, flete.id],
+        { queryParams: { isCopied: 'true' } }
+      );
+    });
+  }
+
+
+  private copiarFlete(originalId: number): void {
+    const formData = new FormData();
+    const data = {
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    };
+
+    Object.keys(data).forEach(key => {
+      if (typeof data[key] === 'string' && key !== 'email') {
+        data[key] = data[key].toUpperCase();
+      }
+    });
+
+    formData.append('data', JSON.stringify(data));
+
+    this.fleteService.create(formData).subscribe((flete) => {
+      this.matSnackbar.open('Pedido copiado y guardado como nuevo.', 'Cerrar', {
+        duration: 3000,
+      });
+
+      this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
+
+      const dialogData: ConfirmationDialogData = {
         title: '¿Quieres cancelar el pedido original?',
         message: 'Si confirma, el pedido original será cancelado.',
         closeButtonText: 'No',
@@ -319,88 +422,40 @@ export class FleteFormComponent implements OnInit, OnDestroy {
           });
         }
       });
-    // if (originalId !== undefined) {
-    // this.copiarFlete(originalId);
-    // }
+
+      this.id = flete.id;
+    });
   }
 
-private copiarFlete(originalId: number): void {
-  const formData = new FormData();
-  const data = {
-    ...this.info.value,
-    ...this.tramo.value,
-    ...this.condicion.value,
-    ...this.merma.value,
-    ...this.emisionOrden.value,
-    anticipos: this.anticipos.value,
-    complementos: this.complementos.value,
-    descuentos: this.descuentos.value,
-  };
-
-  Object.keys(data).forEach(key => {
-    if (typeof data[key] === 'string' && key !== 'email') {
-      data[key] = data[key].toUpperCase();
-    }
-  });
-
-  formData.append('data', JSON.stringify(data));
-
-  this.fleteService.create(formData).subscribe((flete) => {
-    this.matSnackbar.open('Pedido copiado y guardado como nuevo.', 'Cerrar', {
-      duration: 3000,
-    });
-
-    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, flete.id]);
-
-    const dialogData: ConfirmationDialogData = {
-      title: '¿Quieres cancelar el pedido original?',
-      message: 'Si confirma, el pedido original será cancelado.',
-      closeButtonText: 'No',
-      confirmedButtonText: 'Sí',
-    };
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      data: dialogData
-    });
-
-    dialogRef.afterClosed().subscribe((confirmed) => {
-      if (confirmed) {
-        this.fleteService.cancel(originalId!).subscribe(() => {
-          this.getData();
-          this.matSnackbar.open(
-            'Pedido original cancelado correctamente.',
-            'Cerrar',
-            { duration: 3000 }
-          );
-        });
+  ampliar() {
+    this.isShow = false;
+    this.form.enable()
+    const dialogRef = this.dialog.open(FleteCantidadCondicionesDialogComponent, {
+      panelClass: 'half-dialog',
+      data: {
+        form: this.form
       }
     });
 
-    this.id = flete.id;
-  });
-}
+    dialogRef.afterClosed().subscribe((result: { form: FormGroup } | undefined) => {
+      if (result?.form?.valid) {
+        const id = result.form.get('id')?.value;
+        const cantidad = result.form.get('condicion_cantidad')?.value;
 
-  ampliar() {
-    this.isEditPressed = false;
-
-    const condicionGroup = this.form.get('condicion') as FormGroup;
-    const cantidadCtrl = condicionGroup?.get('condicion_cantidad');
-    const saldoCtrl = condicionGroup?.get('saldo');
-
-    if (cantidadCtrl && saldoCtrl) {
-      cantidadCtrl.enable();
-
-      const saldo = saldoCtrl.value;
-
-      cantidadCtrl.clearValidators();
-
-      cantidadCtrl.setValidators([
-        Validators.required,
-        Validators.min(saldo)
-      ]);
-
-      cantidadCtrl.updateValueAndValidity();
-    }
+        if (id && cantidad !== undefined) {
+          this.fleteService.updateCantidad(id, cantidad).subscribe({
+            next: (fleteActualizado) => {
+              this.form.patchValue({
+                condicion_cantidad: fleteActualizado.condicion_cantidad
+              });
+            },
+            error: (err) => {
+              console.error('Error actualizando cantidad:', err);
+            }
+          });
+        }
+      }
+    });
   }
 
   save(confirmed: boolean): void {
@@ -480,6 +535,7 @@ private copiarFlete(originalId: number): void {
 
       this.fleteService.edit(this.id, formData).subscribe(() => {
         this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+        this.hasSavedSuccessfully = true;
         this.getData();
       });
     } else {
@@ -493,10 +549,10 @@ private copiarFlete(originalId: number): void {
           flete.id
         );
         this.isCopyFlete = false;
+        this.hasSavedSuccessfully = true;
       });
     }
   }
-
 
   productoChangeEvent(producto:any):void {
     this.info.get('producto_descripcion')?.setValue(producto?.descripcion);
@@ -508,97 +564,98 @@ private copiarFlete(originalId: number): void {
     this.info.get('remitente_nombre')?.setValue(remitente?.nombre)
   }
 
-getData(): void {
-  const backUrl = this.route.snapshot.queryParams.backUrl;
-  if (backUrl) {
-    this.backUrl = backUrl;
-  }
-  this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
-  this.id = +this.route.snapshot.params.id;
+  getData(): void {
+    const backUrl = this.route.snapshot.queryParams.backUrl;
+    if (backUrl) {
+      this.backUrl = backUrl;
+    }
+    this.propietarioId = +this.route.snapshot.queryParams.propietarioId;
+    this.id = +this.route.snapshot.params.id;
 
-  if (this.id) {
-    this.isEdit = /edit/.test(this.router.url);
-    this.isShow = /ver/.test(this.router.url);
+    if (this.id) {
+      this.isEdit = /edit/.test(this.router.url);
+      this.isShow = /ver/.test(this.router.url);
 
-    this.fleteService.getById(this.id).subscribe((data) => {
-      this.item = data;
-      this.estado = data.estado;
-      this.isCancel = data.estado === EstadoEnum.CANCELADO;
-      this.gestorCargaId = data.gestor_carga_id;
-      this.created_by = data.created_by;
-      this.created_at = data.created_at;
-      this.modified_by = data.modified_by;
-      this.modified_at = data.modified_at;
+      this.fleteService.getById(this.id).subscribe((data) => {
+        this.item = data;
+        this.estado = data.estado;
+        this.isCancel = data.estado === EstadoEnum.CANCELADO;
+        this.gestorCargaId = data.gestor_carga_id;
+        this.created_by = data.created_by;
+        this.created_at = data.created_at;
+        this.modified_by = data.modified_by;
+        this.modified_at = data.modified_at;
 
-      if (this.isEdit && data.is_in_orden_carga) {
-        this.matSnackbar.open(
-          'Este pedido no se puede editar porque ya está relacionado con una orden de carga.',
-          'Cerrar',
-          { duration: 5000 }
-        );
-        this.isEditCopyForm = true;
-        this.isEditPressed = true;
-        this.form.disable();
-      } else if (!this.puedeModificar) {
-        this.form.disable();
-      }
+        if (this.isEdit && data.is_in_orden_carga) {
+          this.matSnackbar.open(
+            'Este pedido no se puede editar porque ya está relacionado con una orden de carga.',
+            'Cerrar',
+            { duration: 5000 }
+          );
+          this.isEditCopyForm = true;
+          this.isEditPressed = true;
+          this.form.disable();
+        } else if (!this.puedeModificar) {
+          this.form.disable();
+        }
 
-      this.form.patchValue({
-        info: {
-          remitente_id: data.remitente_id,
-          producto_id: data.producto_id,
-          tipo_carga_id: data.tipo_carga_id,
-          numero_pedido: data.id,
-        },
-        tramo: {
-          origen_id: data.origen_id,
-          origen_indicacion: data.origen_indicacion,
-          destino_id: data.destino_id,
-          destino_indicacion: data.destino_indicacion,
-        },
-        condicion: {
-          condicion_cantidad: data.condicion_cantidad,
-          saldo: data.saldo,
-          condicion_gestor_carga_moneda_id: data.condicion_gestor_carga_moneda_id,
-          condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
-          condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
-          condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
-          condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
-          condicion_propietario_tarifa: data.condicion_propietario_tarifa,
-          condicion_propietario_unidad: data.condicion_propietario_unidad,
-          condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,
-        },
-        merma: {
-          merma_gestor_carga_valor: data.merma_gestor_carga_valor,
-          merma_gestor_carga_moneda_id: data.merma_gestor_carga_moneda_id,
-          merma_gestor_carga_unidad_id: data.merma_gestor_carga_unidad_id,
-          merma_gestor_carga_es_porcentual: data.merma_gestor_carga_es_porcentual,
-          merma_gestor_carga_tolerancia: data.merma_gestor_carga_tolerancia,
-          merma_propietario_valor: data.merma_propietario_valor,
-          merma_propietario_moneda_id: data.merma_propietario_moneda_id,
-          merma_propietario_unidad_id: data.merma_propietario_unidad_id,
-          merma_propietario_es_porcentual: data.merma_propietario_es_porcentual,
-          merma_propietario_tolerancia: data.merma_propietario_tolerancia,
-        },
-        emision_orden: {
-          emision_orden_texto_legal: data.emision_orden_texto_legal,
-          emision_orden_detalle: data.emision_orden_detalle,
-          destinatarios: data.destinatarios,
-        },
-        complementos: [],
-        descuentos: [],
+        this.form.patchValue({
+          info: {
+            remitente_id: data.remitente_id,
+            producto_id: data.producto_id,
+            tipo_carga_id: data.tipo_carga_id,
+            numero_pedido: data.id,
+          },
+          tramo: {
+            origen_id: data.origen_id,
+            origen_indicacion: data.origen_indicacion,
+            destino_id: data.destino_id,
+            destino_indicacion: data.destino_indicacion,
+          },
+          condicion: {
+            condicion_cantidad: data.condicion_cantidad,
+            saldo: data.saldo,
+            cargado: data.cargado,
+            condicion_gestor_carga_moneda_id: data.condicion_gestor_carga_moneda_id,
+            condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
+            condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
+            condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
+            condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
+            condicion_propietario_tarifa: data.condicion_propietario_tarifa,
+            condicion_propietario_unidad: data.condicion_propietario_unidad,
+            condicion_propietario_unidad_id: data.condicion_propietario_unidad_id,
+          },
+          merma: {
+            merma_gestor_carga_valor: data.merma_gestor_carga_valor,
+            merma_gestor_carga_moneda_id: data.merma_gestor_carga_moneda_id,
+            merma_gestor_carga_unidad_id: data.merma_gestor_carga_unidad_id,
+            merma_gestor_carga_es_porcentual: data.merma_gestor_carga_es_porcentual,
+            merma_gestor_carga_tolerancia: data.merma_gestor_carga_tolerancia,
+            merma_propietario_valor: data.merma_propietario_valor,
+            merma_propietario_moneda_id: data.merma_propietario_moneda_id,
+            merma_propietario_unidad_id: data.merma_propietario_unidad_id,
+            merma_propietario_es_porcentual: data.merma_propietario_es_porcentual,
+            merma_propietario_tolerancia: data.merma_propietario_tolerancia,
+          },
+          emision_orden: {
+            emision_orden_texto_legal: data.emision_orden_texto_legal,
+            emision_orden_detalle: data.emision_orden_detalle,
+            destinatarios: data.destinatarios,
+          },
+          complementos: [],
+          descuentos: [],
+        });
+
+        this.anticipoList = data.anticipos.slice();
+        this.complementoList = data.complementos.slice();
+        this.descuentoList = data.descuentos.slice();
+
+        setTimeout(() => {
+          this.hasChange = false;
+          this.initialFormValue = this.form.value;
+        }, 500);
       });
-
-      this.anticipoList = data.anticipos.slice();
-      this.complementoList = data.complementos.slice();
-      this.descuentoList = data.descuentos.slice();
-
-      setTimeout(() => {
-        this.hasChange = false;
-        this.initialFormValue = this.form.value;
-      }, 500);
-    });
+    }
   }
-}
 
 }

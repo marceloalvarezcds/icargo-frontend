@@ -211,6 +211,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       this.estadoCuenta.contraparte_numero_documento = this.item.contraparte_numero_documento;
       this.estadoCuenta.tipo_contraparte_descripcion = this.item.tipo_contraparte.descripcion
       this.getList(item);
+      this.getEstadoCuenta(item)
     });
   }
 

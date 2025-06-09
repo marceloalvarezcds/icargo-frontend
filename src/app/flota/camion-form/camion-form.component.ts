@@ -14,6 +14,7 @@ import { Camion } from 'src/app/interfaces/camion';
 import { Combinacion } from 'src/app/interfaces/combinacion';
 import { CamionService } from 'src/app/services/camion.service';
 import { DialogService } from 'src/app/services/dialog.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { DateValidator } from 'src/app/validators/date-validator';
@@ -42,6 +43,9 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   backUrl = `/flota/${m.CAMION}/${a.LISTAR}`;
   modelo = m.CAMION;
   gestorCuentaId?: number;
+  gestorCargaId: number | null = null;
+  monedaOrigenId: number | null = null;
+  monedaSimbolo: string | null = null;
   foto: string | null = null;
   fotoFile: File | null = null;
   fotoMunicipalFrente: string | null = null;
@@ -165,6 +169,7 @@ export class CamionFormComponent implements OnInit, OnDestroy {
   constructor(
     private fb: FormBuilder,
     private camionService: CamionService,
+    private monedaService: MonedaService,
     private userService: UserService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
@@ -183,6 +188,17 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
+    this.userService.getLoggedUser().subscribe((user) => {
+      this.gestorCargaId = user.gestor_carga_id;
+
+      this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
+        this.monedaOrigenId = moneda?.id ?? null;
+        this.monedaSimbolo = moneda?.simbolo ?? null;  // Aquí guardas el símbolo
+        console.log('simbolo', this.monedaSimbolo)
+      });
+    });
+
+
   }
 
   onEnter(event: Event): void {

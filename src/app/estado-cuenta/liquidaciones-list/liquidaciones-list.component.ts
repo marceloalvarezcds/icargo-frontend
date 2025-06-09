@@ -315,22 +315,24 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
   }
 
   redirectToShow(event: TableEvent<Liquidacion>): void {
+    const liquidacion = event.row;
     const contraparteId = event.row.chofer_id ??
         event.row.propietario_id ??
         event.row.proveedor_id ??
         event.row.remitente_id;
 
-    const liquidacion = event.row;
-
     const data = {
-      contraparte: event.row.contraparte,
+      contraparte: liquidacion.contraparte,
       contraparte_id: contraparteId,
-      contraparte_numero_documento: event.row.contraparte_numero_documento,
-      tipo_contraparte_id: event.row.tipo_contraparte_id,
-      tipo_contraparte_descripcion: event.row.tipo_contraparte.descripcion,
+      contraparte_numero_documento: liquidacion.contraparte_numero_documento,
+      tipo_contraparte_id: liquidacion.tipo_contraparte_id,
+      tipo_contraparte_descripcion: liquidacion.tipo_contraparte.descripcion,
       isEdit: false,
-      liquidacionId: event.row.id,
-      etapa: event.row.etapa,
+      isNew: false,
+      liquidacionId: liquidacion.id,
+      etapa: liquidacion.etapa,
+      punto_venta_id: liquidacion.punto_venta_id,
+      flujo: liquidacion.tipo_mov_liquidacion,
     };
 
     this.dialog

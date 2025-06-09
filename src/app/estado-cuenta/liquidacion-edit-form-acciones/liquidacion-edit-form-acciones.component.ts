@@ -62,7 +62,7 @@ export class LiquidacionEditFormAccionesComponent {
   //@Input() monto : number | undefined = 0;
   //@Input() saldoMovimiento : number | undefined = 0;
   @Input() totalMovimiento : number = 0;
-  @Input() saldoCC : number | undefined  = 0;
+  @Input() saldoCC!: number;
   //@Input() sentidoOp: boolean = false;
   //@Input() movimientos : Movimiento[] = [];
   @Input() form : FormGroup|undefined=undefined;
@@ -103,46 +103,55 @@ export class LiquidacionEditFormAccionesComponent {
       }
     }
 
-    let pago_cobro = this.totalMovimiento;
-    if (this.liquidacion.es_orden_pago){
-      pago_cobro = this.liquidacion.monto!;
-    }
     const message = `Está seguro que desea Aceptar la Liquidación Nº ${this.id}`;
 
-    let htmlFooter = `
-    <div class="row mb-1">
-
-      <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Saldo Cuenta</span>
-          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
-        </div>
-      </div>
-    `;
+    let htmlFooter = `<div class="row mb-1">`;
 
     if (this.liquidacion.es_orden_pago) {
       const montoPC = this.form?.get('monto_pc')?.value;
+
       htmlFooter = htmlFooter + `
-      <div class="col-xs-12" >
-        <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(montoPC))}</strong>
-        </div>
-      </div>`;
+        <div class="col-xs-12">
+            <div class="row alerta">
+              <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
+              <strong class="col-xs-5">${numberWithCommas(Math.abs(montoPC))}</strong>
+            </div>
+          </div>
+      `;
     } else {
       htmlFooter = htmlFooter + `
-      <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Tot. Movimientos</span>
-          <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+        <div class="col-xs-12">
+          <div class="row alerta">
+            <span class="col-xs-7">Total en esta Liquidación</span>
+            <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+            <span class="col-xs-7">Sentido Operación</span>
+            <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
+          </div>
         </div>
-      </div>`;
+      `;
     }
 
     htmlFooter = htmlFooter + `
+        <div class="col-xs-12 color-white"> <span>abc</span> </div>
+
+        <div class="col-xs-12">
+          <div class="row alerta">
+            <span class="col-xs-7">Total en Cuenta Corriente</span>
+            <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+          </div>
+        </div>
+      </div>
+
+      <br>
+      <br>
+      <div class="fondo-gris">
+        <h4 class="alerta">
+          <span>Atencion!!</span>
+          Al aceptar la liquidacion se podra proceder al desembolso.
+        </h4>
+      <div>
     </div>
-    <br>
-    <div class="fondo-gris"><h4 class="alerta"><span>Atencion!!</span>Al aceptar la liquidacion se podra proceder al desembolso.</h4><div></div></div>`;
+    `;
 
     this.dialogService.changeStatusConfirmHtml(
       message,
@@ -151,7 +160,8 @@ export class LiquidacionEditFormAccionesComponent {
       (resp) => {
         //this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
         this.liquidacionFlujoChange.emit(resp);
-      }
+      },
+      'large-dialog'
     );
   }
 
@@ -262,30 +272,33 @@ export class LiquidacionEditFormAccionesComponent {
     let htmlFooter = `<div class="row mb-1">
 
       <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Saldo Cuenta</span>
-          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
-        </div>
-      </div>
-
-      <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Tot. Movimientos</span>
+        <div class="row alerta">
+          <span class="col-xs-7">Total en esta Liquidación</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+          <span class="col-xs-7">Sentido Operación</span>
+          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
+      <div class="col-xs-12 color-white"> <span>abc</span> </div>
+
       <div class="col-xs-12">
-        <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(this.liquidacion.monto!))}</strong>
+        <div class="row alerta">
+          <span class="col-xs-7">Total en Cuenta Corriente</span>
+          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
         </div>
       </div>
 
     </div>`;
 
     if (!this.isFacturaReady) {
-      htmlContent += `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
+      htmlContent += `
+        <div class="formulario-center">
+          <h2 class="alerta">
+            <span class="material-icons">warning</span>
+            Atencion!! La liquidacion no tiene datos fiscales.
+          </h2>
+        <div>`;
     }
 
     /*if ( this.totalMovimiento != this.monto ) {
@@ -304,7 +317,7 @@ export class LiquidacionEditFormAccionesComponent {
           htmlContent: htmlContent,
           htmlFooter: htmlFooter
         },
-        panelClass: 'half-dialog'
+        panelClass: 'large-dialog'
       }),
       (comentario: string) => {
         const form = { 'monto': this.liquidacion.pago_cobro!, comentario }
@@ -316,7 +329,9 @@ export class LiquidacionEditFormAccionesComponent {
             this.liquidacionFlujoChange.emit(rest);
           });
       },
-      (val?: string | boolean) => val !== false
+      (val?: string | boolean | null ) => {
+        return (val !== null && val !== false );
+      }
     );
   }
 

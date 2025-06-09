@@ -285,6 +285,14 @@ export interface RecalculoCondiciones {
   merma_propietario_valor_ml: number;
 }
 
+export interface AnticiposPorOrdenCarga {
+  id: number;
+  chofer_id?: number;
+  propietario_id?: number;
+  anticipo_chofer?: number;
+  anticipo_propietario?: number;
+}
+
 
 const camion0 = mockCamionList[0];
 const camion1 = mockCamionList[1];

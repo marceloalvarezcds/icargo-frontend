@@ -32,9 +32,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
   @Input() item?: Liquidacion;
-  @Input() movimientos: Movimiento[] = [];
   @Input() isEdit = false;
-
+  @Input() set movimientosList(movs: Movimiento[]) {
+    console.log("refresh movs");
+    this.movimientos = movs;
+    this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
+  }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
     if (liq.es_orden_pago){
@@ -57,6 +60,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
+  movimientos:Movimiento[] = [];
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
   saldo = 0;
@@ -68,10 +72,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   colapseDivInstrumentos = false;
   colapseDivHistorico = false;
 
+  listMovimientosGrouped: any = null;
+
   form = new FormGroup({
     monto_pc: new FormControl({value:null, disabled:true}, [Validators.required, Validators.min(0)] ),
     es_cobro: new FormControl({value:true, disabled:true }, [Validators.required]),
     moneda_id: new FormControl({value:null, disabled:true}, [Validators.required]),
+
+    es_insumo_efectivo: new FormControl(true, ),
+    tipo_insumo: new FormControl(null, ),
+    punto_venta_id: new FormControl(null, ),
   });
 
   get monto(): number {
@@ -79,11 +89,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get credito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + ((this.monedaLocal?.id === cur.moneda_id) ? cur.credito: cur.credito_ml), 0);
+    return this.movimientos.reduce((acc, cur) => acc + (cur.credito_ml), 0);
   }
 
   get debito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + ((this.monedaLocal?.id === cur.moneda_id) ? cur.debito: cur.debito_ml), 0);
+    return this.movimientos.reduce((acc, cur) => acc + (cur.debito_ml), 0);
   }
 
   get isShow(): boolean {
@@ -91,7 +101,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get saldoCC():number {
-    return (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
+    return ((this.estadoCuenta?.pendiente ?? 0) + (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0) ) ;
   }
 
   get saldoFinalizado(): number | undefined {
@@ -218,7 +228,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     //this.item!.pago_cobro = null;
     if (this.esOrdenPago) return;
 
-    this.calcularTotalMoneda(movimientos);
+    //this.calcularTotalMoneda(movimientos);
 
     this.actualizarMovimientos.emit(movimientos);
   }
@@ -269,7 +279,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     if (this.item?.es_orden_pago) {
       this.totalMonedas = [{
           moneda:this.monedaLocal,
-          total:Math.abs(this.item.pago_cobro!),
+          total: Math.abs(this.item.pago_cobro!),
           residuo: Math.abs(this.item.pago_cobro!),
           instrumento:0
         }];
@@ -277,18 +287,20 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }
 
     const resultado = movimientos.reduce((acumulador:any, item) => {
-      const { moneda, monto } = item;
-      const clave = moneda.id; // Usamos el id como clave única
+      const { moneda, monto, monto_mon_local } = item;
+      const clave = moneda?.id; // Usamos el id como clave única
 
       if (!acumulador[clave]) {
         acumulador[clave] = {
           moneda: { ...moneda }, // Copiamos el objeto moneda
           total: 0,
+          total_ml: 0,
           instrumento:0,
           residuo:0
         };
       }
       acumulador[clave].total += monto;
+      acumulador[clave].total_ml += monto_mon_local;
       acumulador[clave].residuo += monto;
 
       return acumulador;
@@ -297,11 +309,43 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     console.log("resultado: ", resultado);
 
     Object.keys(resultado).forEach(key => {
-      resultado[key].total = Math.abs(resultado[key].total);
-      resultado[key].residuo = Math.abs(resultado[key].residuo);
+      resultado[key].total = resultado[key].total;
+      resultado[key].total_ml = resultado[key].total_ml;
+      resultado[key].residuo = resultado[key].residuo;
     });
 
     this.totalMonedas = Object.values(resultado);;
+  }
+
+  groupBy( column:string, data: any[] ){
+
+    if(!column) return data;
+
+    const customReducer = (accumulator:any, currentValue:any) => {
+      let currentGroup = currentValue[column];
+      if(!accumulator[currentGroup])
+      accumulator[currentGroup] = [{
+        groupName: `Moneda: ${currentValue[column]}`,
+        totales: 0,
+        isGroup: true,
+      }];
+
+      accumulator[currentGroup][0] =
+        {
+          ...accumulator[currentGroup][0],
+          totales:accumulator[currentGroup][0].totales + currentValue.monto
+        };
+
+      accumulator[currentGroup].push(currentValue);
+
+      return accumulator;
+    }
+
+    let groups = data.reduce(customReducer,{});
+    let groupArray = Object.keys(groups).map(key => groups[key]);
+    let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
+
+    return flatList;
   }
 
 }

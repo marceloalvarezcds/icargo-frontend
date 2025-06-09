@@ -36,6 +36,7 @@ export interface FleteFormBaseModel {
   // INICIO Cantidad y Flete
   condicion_cantidad: number;
   saldo: number;
+  cargado: number;
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_id: number;
   condicion_gestor_carga_tarifa: number;
@@ -121,6 +122,7 @@ export interface Flete extends FleteFormBaseModel {
 export interface FleteList extends FleteFormBaseModel {
   id: number;
   remitente_nombre: string;
+  is_in_orden_carga: boolean,
   remitente_numero_documento: string;
   producto_descripcion: string;
   tipo_carga_descripcion: string | null;
@@ -134,10 +136,12 @@ export interface FleteList extends FleteFormBaseModel {
   // INICIO Cantidad y Flete
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_nombre: string;
+  condicion_gestor_carga_moneda_simbolo: string;
   condicion_gestor_carga_unidad_descripcion: string;
   // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_nombre: string;
+  condicion_propietario_moneda_simbolo: string;
   condicion_propietario_unidad_descripcion: string;
   condicion_propietario_tarifa_unidad: string;
   // fin - Condiciones para el Propietario
@@ -154,6 +158,7 @@ export interface FleteList extends FleteFormBaseModel {
   merma_propietario_es_porcentual_descripcion: string;
   condicion_cantidad: number;
   saldo: number;
+  cargado: number;
   // fin - Mermas para el Propietario
   // FIN Mermas de Fletes
 }
@@ -213,6 +218,7 @@ export const mockFlete1: Flete = {
   // INICIO Cantidad y Flete
   condicion_cantidad: 100,
   saldo: 100,
+  cargado: 50,
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_id: pyg.id,
   condicion_gestor_carga_moneda: pyg,
@@ -293,6 +299,7 @@ export const mockFlete2: Flete = {
   // INICIO Cantidad y Flete
   condicion_cantidad: 100,
   saldo: 100,
+  cargado: 50,
   // inicio - Condiciones para el Gestor de Carga
   condicion_gestor_carga_moneda_id: usd.id,
   condicion_gestor_carga_moneda: usd,
@@ -355,6 +362,7 @@ export const mockFleteList: FleteList[] = [
     producto_id: trigo.id,
     producto_descripcion: trigo.descripcion,
     tipo_carga_id: seca.id,
+    is_in_orden_carga: false,
     tipo_carga_descripcion: seca.descripcion,
     numero_lote: '1000000',
     publicado: true,
@@ -375,9 +383,11 @@ export const mockFleteList: FleteList[] = [
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
     saldo: 100,
+    cargado: 50,
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: pyg.id,
     condicion_gestor_carga_moneda_nombre: pyg.nombre,
+    condicion_gestor_carga_moneda_simbolo: pyg.nombre,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: toneladas.id,
     condicion_gestor_carga_unidad_descripcion: toneladas.descripcion,
@@ -385,6 +395,7 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: pyg.id,
     condicion_propietario_moneda_nombre: pyg.nombre,
+    condicion_propietario_moneda_simbolo: pyg.nombre,
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: toneladas.id,
     condicion_propietario_unidad_descripcion: toneladas.descripcion,
@@ -431,6 +442,7 @@ export const mockFleteList: FleteList[] = [
     remitente_numero_documento: remitente2.numero_documento,
     producto_id: soja.id,
     producto_descripcion: soja.descripcion,
+    is_in_orden_carga: false,
     tipo_carga_id: liquida.id,
     tipo_carga_descripcion: liquida.descripcion,
     numero_lote: '2000000',
@@ -452,9 +464,11 @@ export const mockFleteList: FleteList[] = [
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
     saldo: 100,
+    cargado: 50,
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: usd.id,
     condicion_gestor_carga_moneda_nombre: usd.nombre,
+    condicion_gestor_carga_moneda_simbolo: pyg.nombre,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: kilogramos.id,
     condicion_gestor_carga_unidad_descripcion: kilogramos.descripcion,
@@ -462,6 +476,7 @@ export const mockFleteList: FleteList[] = [
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: usd.id,
     condicion_propietario_moneda_nombre: usd.nombre,
+    condicion_propietario_moneda_simbolo: pyg.nombre,
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: kilogramos.id,
     condicion_propietario_unidad_descripcion: kilogramos.descripcion,
@@ -512,6 +527,7 @@ export const mockFleteList: FleteList[] = [
     tipo_carga_descripcion: seca.descripcion,
     numero_lote: '3000000',
     publicado: true,
+    is_in_orden_carga: false,
     publicado_descripcion: 'Si',
     es_subasta: true,
     estado: EstadoEnum.ACTIVO,
@@ -529,9 +545,12 @@ export const mockFleteList: FleteList[] = [
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,
     saldo: 100,
+    cargado: 50,
     // inicio - Condiciones para el Gestor de Carga
     condicion_gestor_carga_moneda_id: brl.id,
     condicion_gestor_carga_moneda_nombre: brl.nombre,
+    condicion_propietario_moneda_simbolo: pyg.nombre,
+    condicion_gestor_carga_moneda_simbolo: pyg.nombre,
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: litros.id,
     condicion_gestor_carga_unidad_descripcion: litros.descripcion,

@@ -210,9 +210,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -378,8 +378,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           this.hasChange = false;
           if (this.isEdit) {
             this.form.get('info')?.get('camion_id')?.disable();
-            this.form.get('info')?.get('oc_activa')?.disable();
-            this.form.get('info')?.get('limite_anticipos')?.disable();
+
             this.form.get('info')?.get('anticipo_propietario')?.disable();
             this.form.get('info')?.get('neto')?.disable();
             this.form.get('info')?.get('comentario')?.disable();

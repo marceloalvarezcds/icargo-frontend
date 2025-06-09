@@ -21,6 +21,12 @@
         controlName="limite_monto_anticipos"
         [form]="form"
       ></app-number-field>
+
+      <div class="col-xs-12 col-sm-6 col-md-2"
+       *ngIf="camion?.limite_monto_anticipos">
+        <span class="proveedor-label">Moneda</span>
+        <span class="input-like">{{ monedaSimbolo }}</span>
+      </div>
     </div>
 
     <ng-container *ngIf="camion">

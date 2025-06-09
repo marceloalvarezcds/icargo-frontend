@@ -11,14 +11,23 @@
 
     <div class="row">
 
-      <div *ngFor="let totalMoneda of totalMonedas" class="col-xs-12 col-sm-6">
-        <strong class="col-xs-12 col-sm-5">Total en {{totalMoneda.moneda.simbolo}}</strong>
-        <span class="col-xs-12 col-sm-7 alinear-derecha">
-          {{ totalMoneda.total | numberFormat }}
+      <div class="col-xs-6">
+        <strong>Total en esta liquidacion:</strong>
+        <span class="alinear-derecha">
+          {{ totalLiquidacion | numberFormat }} - {{ moneda?.simbolo }}
         </span>
       </div>
-      
+
+      <div class="col-xs-5">
+        <strong>Sentido: </strong>
+        <span class="col-xs-6 col-sm-7 alinear-derecha">
+          {{ sentido }}
+        </span>
+      </div>
+
     </div>
+
+    <br>
 
     <div class="row">
 
@@ -74,6 +83,7 @@
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Moneda"
+        [auto_select]="false"
         [form]="form"
         (valueChange)="$event && onMonedaSelect($event)">
       </app-moneda-field>
@@ -86,6 +96,8 @@
       ></app-number-field>
 
       <div *ngIf="!isShow" class="input-form-full col-xs-12 col-sm-6 col-md-5">
+        <mat-label [innerHTML]="saldoHint"></mat-label>
+        <br/>
         <mat-label [innerHTML]="montoHint"></mat-label>
       </div>
 

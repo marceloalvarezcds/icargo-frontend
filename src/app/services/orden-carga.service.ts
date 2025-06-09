@@ -70,6 +70,10 @@ export class OrdenCargaService {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/conciliar`);
   }
 
+  provisiones(id: number): Observable<OrdenCarga> {
+    return this.http.get<OrdenCarga>(`${this.url}/${id}/recalcular-provisiones`);
+  }
+
   finalizar(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/finalizar`);
   }
@@ -134,6 +138,16 @@ export class OrdenCargaService {
     return this.http.get<RecalculoCondiciones>(
       `${this.url}/orden-carga/recalcular-condiciones/${fleteId}/${ordenCargaId}`
     );
+  }
+
+  validarAnticipos(choferId: number, propietarioId: number, combinacionId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/chofer-propietario/pueden-recibir-anticipos`, {
+      params: {
+        chofer_id: choferId,
+        propietario_id: propietarioId,
+        combinacion_id: combinacionId
+      }
+    });
   }
 
   private handleError(error: HttpErrorResponse) {

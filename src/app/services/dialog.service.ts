@@ -63,11 +63,13 @@ export class DialogService {
     message: string,
     innerHtml: string,
     observable: Observable<T>,
-    observer: (value: T) => void
+    observer: (value: T) => void,
+    panelClass?: string,
   ) {
     this.configDialogRef(
       this.open(ConfirmationDialogComponent, {
         data: { message, innerHtml },
+        panelClass: panelClass ?? ''
       }),
       () => {
         this.snackbar.changeStatus();

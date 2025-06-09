@@ -31,7 +31,13 @@
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
         <h3 class="titulo">Cantidad y Condiciones</h3>
-        <app-key-value key="Cantidad" [shouldFormat]="false" [value]="flete.cantidad"></app-key-value>
+        <app-key-value
+          key="Cantidad"
+          [shouldFormat]="false"
+          [value]="flete.cantidad"
+          suffix=" kg">
+        </app-key-value>
+
         <app-key-value
           key="Gestora"
           [value]="flete.gestor_carga_tarifa"

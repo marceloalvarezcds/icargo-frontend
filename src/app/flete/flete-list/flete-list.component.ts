@@ -2,6 +2,7 @@ import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { FleteCantidadCondicionesDialogComponent } from 'src/app/dialogs/flete-cantidad-condiciones-dialog/flete-cantidad-condiciones-dialog.component';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -70,18 +71,33 @@ export class FleteListComponent implements OnInit {
       title: 'Destino',
       value: (element: FleteList) => element.destino_nombre,
     },
-    {
-      def: 'a_cobrar_flete',
-      title: 'A Cobrar',
-      value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
-      type: 'number',
-    },
+    // {
+    //   def: 'a_cobrar_flete',
+    //   title: 'A Cobrar',
+    //   value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
+    //   type: 'number',
+    // },
     {
       def: 'a_pagar_flete',
       title: 'A Pagar',
-      value: (element: FleteList) => element.condicion_propietario_tarifa,
-      type: 'number',
+      value: (element: FleteList) =>
+        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_propietario_moneda_simbolo}`,
+      type: 'text',
     },
+    {
+      def: 'a_cobrar_flete',
+      title: 'A Cobrar',
+      value: (element: FleteList) =>
+        `${element.condicion_gestor_carga_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_gestor_carga_moneda_simbolo}`,
+      type: 'text',
+    },
+
     {
       def: 'cantidad_flete',
       title: 'Cantidad',
@@ -97,7 +113,7 @@ export class FleteListComponent implements OnInit {
     {
       def: 'cargado_flete',
       title: 'Cargado',
-      // value: (element: FleteList) => element.condicion_cantidad,
+      value: (element: FleteList) => element.cargado,
       type: 'number',
     },
     {
@@ -281,7 +297,6 @@ export class FleteListComponent implements OnInit {
     return `${day}-${month}-${year}`;
   }
 
-
   get isFilteredByEstado(): boolean {
     return this.estadoFiltered.length !== this.estadoFilterList.length;
   }
@@ -313,19 +328,50 @@ export class FleteListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
+    this.fetchList();
   }
 
-   redirectToCreate(): void {
-     this.router.navigate([`/flete/${m.FLETE}/${a.CREAR}`]);
+  fetchList(): void {
+    this.fleteService.getListByGestorCarga().subscribe({
+      next: (data) => {
+        this.list = data;
+      },
+      error: (err) => {
+        console.error('Error al obtener la lista de fletes', err);
+      },
+    });
+  }
+
+  redirectToCreate(): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.CREAR}`]);
+  }
+
+  redirectToEdit(event: TableEvent<FleteList>): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, event.row.id]);
    }
 
-   redirectToEdit(event: TableEvent<FleteList>): void {
-     this.router.navigate([`/flete/${m.FLETE}/${a.EDITAR}`, event.row.id]);
+  redirectToShow(event: TableEvent<FleteList>): void {
+    this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
    }
 
-   redirectToShow(event: TableEvent<FleteList>): void {
-     this.router.navigate([`/flete/${m.FLETE}/${a.VER}`, event.row.id]);
-   }
+  redirectToAmpliar(event: TableEvent<FleteList>): void {
+    const dialogRef = this.dialog.open(FleteCantidadCondicionesDialogComponent, {
+      width: '600px',
+      data: { flete: event.row }
+    });
+
+    dialogRef.afterClosed().subscribe((updatedCantidad) => {
+      if (typeof updatedCantidad === 'number') {
+        this.fleteService.updateCantidad(event.row.id, updatedCantidad).subscribe(() => {
+          this.fetchList();
+        });
+      }
+    });
+  }
+
+  fnHideEdit = (row: Flete): boolean => {
+    return row?.is_in_orden_carga === false;
+  };
 
   //  redirectToCreate(): void {
   //    const url = `/flete/${m.FLETE}/${a.CREAR}`;
@@ -353,11 +399,22 @@ export class FleteListComponent implements OnInit {
     );
   }
 
-  inactive({ row }: TableEvent<FleteList>): void {
-    const message = `¿Está seguro que desea inactivar el Pedido con Nº ${row.id}?`;
-    this.dialog.confirmationToDelete(
+  active({ row }: TableEvent<FleteList>): void {
+    const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
       message,
-      this.fleteService.cancel(row.id),
+      this.fleteService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<FleteList>): void {
+    const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.fleteService.inactive(row.id),
       () => {
         this.getList();
       }

@@ -53,8 +53,10 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() addShowButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
+  @Input() showBtnAmpliar = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
+  @Input() shouldShowCancelarButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() configurarColumnasVisibles?: Column[];
   @Input() fnHideEditRowButton?: (r:any) => boolean;
@@ -69,6 +71,8 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() allCheckedChange = new EventEmitter<boolean>();
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
   @Output() showClickDos = new EventEmitter<TableEvent<any>>();
+  @Output() ampliarClick = new EventEmitter<TableEvent<any>>();
+  @Output() cancelarClick = new EventEmitter<TableEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
 

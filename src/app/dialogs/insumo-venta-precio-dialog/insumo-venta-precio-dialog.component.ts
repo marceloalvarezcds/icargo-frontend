@@ -80,7 +80,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
     if (this.isShow) {
       return 'VER';
     }
-    return this.isEdit ? 'ACTUALIZAR' : 'NUEVO';
+    return this.isEdit ? 'ACTUALIZAR' : 'NUEVA';
   }
 
 
