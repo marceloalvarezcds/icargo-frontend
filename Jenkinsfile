@@ -6,7 +6,7 @@ node('linux-docker') {
 
     def MAIN_WEBHOOKS_URL="http://51.159.176.45:19989";
     def TESTING_WEBHOOKS_URL="http://163.172.182.37:19989";
-    def TESTING_WEBHOOKS_URL="http://163.172.182.37:19986";
+    def DESARROLLO_WEBHOOKS_URL="http://163.172.182.37:19986";
 
     stage('Preparation') {
         checkout scm;
@@ -60,7 +60,7 @@ node('linux-docker') {
                 sh "curl ${TESTING_WEBHOOKS_URL}/hooks/redeploy-icargo-frontend-testing"
                 break;
             case 'desarrollo':
-                sh "curl ${TESTING_WEBHOOKS_URL}/hooks/redeploy-icargo-frontend-desarrollo"
+                sh "curl ${DESARROLLO_WEBHOOKS_URL}/hooks/redeploy-icargo-frontend-desarrollo"
                 break;
          }
     }
