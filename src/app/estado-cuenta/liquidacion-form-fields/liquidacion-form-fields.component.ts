@@ -222,15 +222,17 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
       return;
     }
 
+    console.log("sendLiquidacion");
+
     let liquidacionValues = this.form.getRawValue();
     let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
-    let tipoMovLiquidacion = this.estadoCuenta!.es_pdv ? '' : TipoLiquidacionEnum.EFECTIVO.toUpperCase();
+    let tipoMovLiquidacion = this.estadoCuenta!.es_pdv ? '' : liquidacionValues.tipo_insumo ?? TipoLiquidacionEnum.EFECTIVO.toUpperCase();
     let pago_cobro = this.esOrdenPago
       ?  liquidacionValues.es_cobro ? liquidacionValues.monto_pc : (liquidacionValues.monto_pc*-1)
       : 0;
     let moneda = this.monedaLocal;
 
-    if (this.estadoCuenta!.es_pdv){
+    if ( this.estadoCuenta!.es_pdv ){
 
       if (this.estadoCuenta!.punto_venta_id === 0) {
         this.estadoCuenta!.punto_venta_id = liquidacionValues.punto_venta_id;
@@ -240,6 +242,9 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
           ? TipoLiquidacionEnum.EFECTIVO.toUpperCase()
           : tipoMovLiquidacion = liquidacionValues.tipo_insumo ;
     }
+
+    console.log("this.estadoCuenta!.es_pdv: ", this.estadoCuenta!.es_pdv);
+    console.log("tipoMovLiquidacion: ", tipoMovLiquidacion);
 
     //if (this.movimientosSelected.length) {
       this.liquidacionService

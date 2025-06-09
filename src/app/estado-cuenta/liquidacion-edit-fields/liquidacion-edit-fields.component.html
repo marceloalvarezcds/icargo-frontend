@@ -83,7 +83,6 @@
 
       <div class="section section-button">
         <h2 class="title-colapside" (click)="colapseDivInstrumentos=!colapseDivInstrumentos">INSTRUMENTOS</h2>
-        
         <app-liquidacion-instrumentos
           [list]="instrumentos"
           [isShow]="isShow"
@@ -92,7 +91,7 @@
         <app-liquidacion-confirmada-form-instrumentos
           [estadoCuenta]="estadoCuenta"
           [liquidacion]="item"
-          [saldo]="(credito - debito)"
+          [saldo]="montoLiquidacion"
           [totalMonedas]=totalMonedas
           [isShow]="isShow"
           (selectedInstrumentosChange)="actualizarLiquidacion.emit()"

@@ -73,6 +73,23 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       type: 'number',
     },
     {
+      def: 'moneda',
+      title: 'Moneda',
+      value: (element: InstrumentoLiquidacionItem) => element.moneda_abr,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Tipo Cambio',
+      value: (element: InstrumentoLiquidacionItem) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_ml',
+      title: 'Monto ML',
+      value: (element: InstrumentoLiquidacionItem) => element.monto_ml,
+      type: 'number',
+    },
+    {
       def: 'numero_referencia',
       title: 'Referencia',
       value: (element: InstrumentoLiquidacionItem) => element.numero_referencia,
