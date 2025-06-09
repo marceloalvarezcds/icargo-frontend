@@ -438,10 +438,10 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     if (this.monto > this.saldoDisponible) {
         return true;
     }
-    // Si la cantidadRetirada es mayor que el saldoDisponible
-    if (this.cantidadRetirada > this.saldoDisponible) {
-        return true;
-    }
+    // // Si la cantidadRetirada es mayor que el saldoDisponible
+    // if (this.cantidadRetirada > this.saldoDisponible) {
+    //     return true;
+    // }
     // Si limiteAnticipoCamion > 0, deshabilitar si monto es mayor que anticipoDisponibleCamion
     if (this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0 && this.monto > this.anticipoDisponibleCamion) {
       return true;
