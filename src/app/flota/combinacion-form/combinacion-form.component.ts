@@ -82,7 +82,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       chofer_id: [null, Validators.required],
       chofer_nombre: null,
       chofer_celular: null,
-      limite_anticipos: [null, Validators.required],
+      limite_anticipos: null,
       chofer_documento: null,
       puede_recibir_anticipos: null,
       estado: null,
@@ -114,8 +114,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   });
 
   @Output() personaChange = new EventEmitter<PropietarioList>();
-
-
 
   get puedeModificar(): boolean {
     if (this.isShow || !this.isEdit) {
@@ -276,10 +274,12 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
       const data = JSON.parse(
         JSON.stringify({
-          ...this.info.value
+          ...this.info.value,
+          camion_oc_activa: this.info.value.oc_activa,  // mapear oc_activa a camion_oc_activa
+          limite_monto_anticipos: this.info.value.limite_anticipos
         })
       );
-
+      console.log('Antes de enviar, data:', data);
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
@@ -290,13 +290,14 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       this.hasChange = false;
       this.initialFormValue = this.form.value
       if (this.isEdit && this.id) {
+        console.log('Después de enviar (editar)');
         this.combinacionService.edit(this.id, formData).subscribe(() => {
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
         this.combinacionService.create(formData).subscribe((combinacion) => {
-
+        console.log('Después de enviar (crear)', combinacion);
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
