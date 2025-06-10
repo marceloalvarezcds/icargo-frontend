@@ -8,7 +8,7 @@ import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { InstrumentoVia } from 'src/app/interfaces/instrumento-via';
 import { TipoInstrumento } from 'src/app/interfaces/tipo-instrumento';
-import { subtract } from 'src/app/utils/math';
+import { subtract, subtractDecimal } from 'src/app/utils/math';
 import { Subject } from 'rxjs';
 
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
@@ -143,7 +143,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   get monto(): number {
-    return parseInt(this.montoControl.value, 10);
+    return this.montoControl.value;
   }
 
   get montoControl(): FormControl {
@@ -161,10 +161,10 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   get montoHint(): string {
     if (this.dialogData.isShow) return "";
     if (this.monto) {
-      return `Residuo: <strong>${ numberWithCommas(subtract(
-        this.residuo,
-        this.monto
-      ))}</strong>`;
+
+      return `Residuo: <strong>${ numberWithCommas(subtractDecimal(
+        this.residuo, this.monto)
+      )}</strong>`;
     }
     return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }
@@ -216,8 +216,8 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
     if (this.dialogData.item) {
 
       this.dialogData.totalLiquidacion = this.totalLiquidacionML / this.dialogData.item.tipo_cambio_moneda;
-      this.dialogData.residuo = this.dialogData.residuo! / this.dialogData.item.tipo_cambio_moneda;
-
+      this.dialogData.totalLiquidacion = Number(subtractDecimal(this.dialogData.totalLiquidacion,0));
+      this.dialogData.residuo = Number((this.dialogData.residuo! / this.dialogData.item.tipo_cambio_moneda).toFixed(2));
       this.refreshTotal(this.dialogData.residuo);
 
       if (this.data){
@@ -286,7 +286,14 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   refreshTotal(total: number):void{
     this.montoControl.setValidators([]);
     this.montoControl.updateValueAndValidity();
-    this.montoControl.setValidators([Validators.required, Validators.min(1), Validators.max(total)]);
+    this.montoControl.setValidators(
+      [
+        Validators.required,
+        Validators.min(1),
+        Validators.max(total),
+        Validators.pattern('^([0-9]{1,12}(\.[0-9]{1,2})?)$'),
+      ]
+    );
     //this.montoControl.setValue(total);
     this.montoControl.updateValueAndValidity();
   }
@@ -312,6 +319,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
           this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
 
           this.dialogData.totalLiquidacion = this.totalLiquidacionML / res.cotizacion_moneda
+          this.dialogData.totalLiquidacion = Number(subtractDecimal(this.dialogData.totalLiquidacion,0));
           this.dialogData.residuo = Number((this.totalResidioLiquidacionML / res.cotizacion_moneda).toFixed(2));
 
           this.refreshTotal(Math.abs(this.dialogData.residuo));
