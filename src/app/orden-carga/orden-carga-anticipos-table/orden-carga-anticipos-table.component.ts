@@ -228,7 +228,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
   }
 
-
   ngOnChanges() {
     if (this.list?.length > 0) {
       this.list = [...this.list].sort((a, b) => b.id - a.id);
@@ -244,7 +243,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef,
     private monedaService: MonedaService,
     private monedaCotizacionService: MonedaCotizacionService,
-    private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -657,5 +655,9 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     const efectivoAnticipo = this.filteredAnticipos.find(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
     return efectivoAnticipo ? this.getSaldoAnticipo(efectivoAnticipo) : 0;
   }
+
+  fnHideAnular = (row: OrdenCargaAnticipoRetirado): boolean => {
+    return row?.estado_movimiento !== 'Anulado';
+  };
 
 }

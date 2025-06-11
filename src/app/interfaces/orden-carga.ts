@@ -243,7 +243,8 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_saldo: number;
   resultado_flete_gestor_carga_merma_valor:number;
   gestor_carga_nombre: string;
-
+  condicion_propietario_moneda_simbolo: string
+  condicion_gestor_moneda_simbolo: string
   resultado_gestor_carga_saldo_total: number;
   //Condiciones
   condicion_gestor_cuenta_tarifa: number;
@@ -491,6 +492,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     chofer_nombre: 'juan',
     propietario_nombre: 'david',
     chofer_documento: '504367',
+    condicion_propietario_moneda_simbolo: 'brl',
+    condicion_gestor_moneda_simbolo: 'pgy',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,
@@ -557,6 +560,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     chofer_nombre: 'juan',
     propietario_nombre: 'david',
     chofer_documento: '504367',
+    condicion_propietario_moneda_simbolo: 'pyg',
+    condicion_gestor_moneda_simbolo: 'pgy',
     // Datos de semi
     semi_id: semi1.id,
     semi_placa: semi1.placa,
@@ -624,6 +629,8 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     chofer_nombre: 'juan',
     propietario_nombre: 'david',
     chofer_documento: '504367',
+    condicion_propietario_moneda_simbolo: 'brl',
+    condicion_gestor_moneda_simbolo: 'usd',
     // Datos de semi
     semi_id: semi0.id,
     semi_placa: semi0.placa,

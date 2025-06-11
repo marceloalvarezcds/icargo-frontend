@@ -89,6 +89,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
 
   @Input() fnHideEditRowButton?: (r:any) => boolean;
   @Input() fnHideDeleteRowButton?: (r:any) => boolean;
+  @Input() fnHideAnularRowButton?: (r:any) => boolean;
   @Input() oc?: OrdenCarga;
   @Input() flete?: Flete;
   @Input() tableStyles: any = {};
@@ -207,6 +208,10 @@ shouldShowEditButton(row: Flete): boolean {
     return true;
   }
 
+  hideButtonAnular(row:T):boolean{
+    if (this.fnHideAnularRowButton) return this.fnHideAnularRowButton(row);
+    return true;
+  }
 
   isStickyColumn(column: any): boolean {
     return column.sticky;

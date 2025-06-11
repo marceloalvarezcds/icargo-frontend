@@ -391,7 +391,7 @@
               type="button"
               mat-menu-item
               (click)="anularAnticipoClick.emit({ row, index })"
-              *ngIf="
+              *ngIf="  hideButtonAnular(row) &&
               row.estado !== e.ANULADO &&
               shouldShowAnularButton &&
               (modelo
@@ -413,6 +413,7 @@
                 mat-menu-item
                 (click)="ampliarClick.emit({ row, index })"
                 *ngIf="showBtnAmpliar && row.estado !== e.CANCELADO &&
+                  row.estado !== e.INACTIVO &&
                   (modelo | puede: a.VER)
                   "
                 [hidden]="hideShow"

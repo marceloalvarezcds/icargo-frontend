@@ -59,6 +59,7 @@ export interface OrdenCargaAnticipoRetirado
   unidad_descripcion?: string | null;
   estados_movimientos?: string | null;
   estado_movimiento_propietario?: string | null;
+  estado_movimiento?: string | null;
   // Auditoría
   created_by: string;
   created_at: string;

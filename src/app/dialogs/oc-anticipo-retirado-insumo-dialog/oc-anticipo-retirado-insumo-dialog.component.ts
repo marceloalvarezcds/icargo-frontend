@@ -290,7 +290,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     const saldoTractoTexto =
       this.limiteAnticipoCamion === null
         ? 'Sin límites'
-        : formatNumber(this.anticipoDisponibleCamionConvertido);
+        : formatNumber(this.anticipoDisponibleCamionConvertido - monto);
 
     return `
       <div style="font-size: 16px; margin-bottom: 4px;">
