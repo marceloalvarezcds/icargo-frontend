@@ -94,7 +94,11 @@
       type="button"
       (click)="select()"
       cdkFocusInitial
-      [disabled]="!selectValue || deshabilitarOpcion(selectValue)"
+      [disabled]="
+        !selectValue ||
+        deshabilitarOpcion(selectValue) ||
+        (validateAnticipo && deshabilitarPuntoVenta(selectValue))
+      "
       color="primary"
       id="select-button"
     >

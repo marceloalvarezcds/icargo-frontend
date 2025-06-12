@@ -27,7 +27,7 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
       value: (element: OrdenCargaList) => element.estado,
     },
     {
-      def: 'tracto',
+      def: 'camion_placa',
       title: 'Tracto',
       value: (element: OrdenCargaList) => element.camion_placa,
     },
