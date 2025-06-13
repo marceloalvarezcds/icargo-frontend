@@ -56,6 +56,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
+  @Output() actualizarLiquidacionOnly: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
@@ -112,6 +113,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
       this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
+  }
+
+  get esSaldoAbierto(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO);
+  }
+
+  get esFinalizadoInstrumentos(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
 
   get comentario(): string {

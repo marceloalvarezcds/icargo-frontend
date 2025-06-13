@@ -43,7 +43,6 @@
         [liquidacionId]="item.id"
         [form]="form"
       ></app-estado-cuenta-detalle>
-
       <app-saldo #saldoView
         class="col-xs-5"
         [showIngresoEgreso]="false"
@@ -59,7 +58,6 @@
         (saldoChange)="saldo = $event"
         (monedaSelect)="selectMoneda($event)">
       ></app-saldo>
-
     </div-->
 
     <ng-container *ngIf="esFinalizado; else pendienteTemp">
@@ -89,12 +87,13 @@
           [liquidacion]="item"
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
+          *ngIf="esSaldoAbierto"
           [estadoCuenta]="estadoCuenta"
           [liquidacion]="item"
           [saldo]="montoLiquidacion"
           [totalMonedas]=totalMonedas
           [isShow]="isShow"
-          (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
+          (instrumentosChange)="actualizarLiquidacionOnly.emit()"
         ></app-liquidacion-confirmada-form-instrumentos>
       </div>
 

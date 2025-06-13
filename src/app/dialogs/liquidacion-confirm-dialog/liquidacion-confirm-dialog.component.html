@@ -10,37 +10,37 @@
     <div class="row page-form-row">
 
       <div class="col-xs-12 col-sm-6 col-md-2">
-        <div class="row" style="display: block;">
-          <strong class="col-xs-5">Tipo Contraparte:</strong>
-          <span class="col-xs-7" style="padding-left: 0.5px;">
+        <div style="display: block;">
+          <strong >Tipo Contraparte:</strong>
+          <span style="padding-left: 0.5px;">
             {{ contraparteInfo.tipo_contraparte_descripcion }}
           </span>
         </div>
       </div>
 
-      <div class="col-xs-12 col-sm-6 col-md-2">
-        <div class="row" style="display: block;">
-          <strong class="col-xs-3">Contraparte:</strong>
-          <span class="col-xs-9" style="padding-left: 0.5px;">
+      <div class="col-xs-12 col-sm-6 col-md-3">
+        <div style="display: block;">
+          <strong >Contraparte:</strong>
+          <span style="padding-left: 0.5px;">
             {{ contraparteInfo.contraparte_pdv ?? contraparteInfo.contraparte }}
           </span>
         </div>
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-2">
-        <div class="row" style="display: block;">
-          <strong class="col-xs-6">Doc. Fiscal Nº:</strong>
-          <span class="col-xs-6" style="padding-left: 0.5px;">
+        <div style="display: block;">
+          <strong >Doc. Fiscal Nº:</strong>
+          <span style="padding-left: 0.5px;">
             {{ contraparteInfo.contraparte_numero_documento_pdv ?? contraparteInfo.contraparte_numero_documento }}
           </span>
         </div>
       </div>
 
       <div class="col-xs-12 col-sm-6 col-md-2">
-        <div class="row" style="display: block;">
-          <strong class="col-xs-6">Total a Liquidar:</strong>
-          <span class="col-xs-6" style="padding-left: 0.5px;">
-            {{ ( credito - debito ) | numberFormat }}
+        <div style="display: block;">
+          <strong>Total a Liquidar:</strong>
+          <span style="padding-left: 0.5px;">
+            {{ totalLiquidacion | numberFormat }}
           </span>
         </div>
       </div>
