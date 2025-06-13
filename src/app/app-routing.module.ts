@@ -77,6 +77,13 @@ const routes: Routes = [
             (m) => m.OrdenCargaModule
           ),
       },
+         {
+        path: PermisoModuloRouterEnum.ORDEN_CARGA_ANTICIPO_RETIRADO,
+        loadChildren: () =>
+          import('./orden-carga-anticipos/orden-carga-anticipos.module').then(
+            (m) => m.OrdenCargaAnticiposModule
+          ),
+      },
       {
         path: PermisoModuloRouterEnum.INSUMO_PUNTO_VENTA_PRECIO,
         loadChildren: () =>

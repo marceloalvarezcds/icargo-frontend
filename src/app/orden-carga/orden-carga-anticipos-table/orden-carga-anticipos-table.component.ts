@@ -592,7 +592,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       flete_id: this.oc!.flete_id,
       oc: this.oc!,
       item,
-      anticipos, // 👈 lo pasamos aquí
+      anticipos, 
     };
 
     return this.dialog.open(OcAnticipoRetiradoInsumoDialogComponent, {

@@ -12,6 +12,14 @@ export class OrdenCargaAnticipoRetiradoService {
 
   constructor(private http: HttpClient) {}
 
+  getList(): Observable<OrdenCargaAnticipoRetirado[]> {
+    return this.http.get<OrdenCargaAnticipoRetirado[]>(`${this.url}/`);
+  }
+
+  getById(id: number): Observable<OrdenCargaAnticipoRetirado> {
+    return this.http.get<OrdenCargaAnticipoRetirado>(`${this.url}/${id}`);
+  }
+
   create(formData: FormData): Observable<OrdenCargaAnticipoRetirado> {
     return this.http.post<OrdenCargaAnticipoRetirado>(`${this.url}/`, formData);
   }
@@ -34,6 +42,6 @@ export class OrdenCargaAnticipoRetiradoService {
   anularAnticipoRetirado(id: number): Observable<OrdenCargaAnticipoRetirado> {
     return this.http.get<OrdenCargaAnticipoRetirado>(`${this.url}/${id}/anular`);
   }
-  
+
 }
 

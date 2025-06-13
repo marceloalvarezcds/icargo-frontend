@@ -49,6 +49,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() hideEdit = false;
   @Input() hideShow = false;
   @Input() showBtnMovimientos = false;
+  @Input() shouldShowAnularButton = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() noCheckGestorCuentaId = false;
@@ -61,6 +62,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() configurarColumnasVisibles?: Column[];
   @Input() fnHideEditRowButton?: (r:any) => boolean;
   @Input() fnHideDeleteRowButton?: (r:any) => boolean;
+  @Input() fnHideAnularRowButton?: (r:any) => boolean;
 
   @Output() filterResult = new EventEmitter<any[]>();
   @Output() activeClick = new EventEmitter<TableEvent<any>>();

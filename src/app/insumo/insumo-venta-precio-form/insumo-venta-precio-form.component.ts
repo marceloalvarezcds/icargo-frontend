@@ -26,7 +26,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   id!: number;
   isEdit = false;
   isShow = false;
-  backUrl = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.LISTAR}`;
+  backUrl = `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.LISTAR}`;
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO;
   horaInicio: string | null = null;
   hora: string | null = null;
@@ -141,7 +141,7 @@ export class InsumoVentaPrecioFormComponent implements OnInit, OnDestroy  {
   }
 
   redirectToEdit(): void {
-    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`, this.id]);
+    this.router.navigate([`/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`, this.id]);
   }
 
   back(confirmed: boolean): void {

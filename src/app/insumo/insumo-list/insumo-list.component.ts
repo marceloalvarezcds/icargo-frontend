@@ -161,23 +161,23 @@ export class InsumoListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`]);
+    this.router.navigate([`/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`]);
   }
 
   redirectToCreateMercaderias(): void {
-    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}/mercaderias`]);
+    this.router.navigate([`/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}/mercaderias`]);
   }
 
   redirectToEdit(event: TableEvent<InsumoPuntoVentaPrecio>): void {
     this.router.navigate([
-      `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`,
+      `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`,
       event.row.id,
     ]);
   }
 
   redirectToShow(event: TableEvent<InsumoPuntoVentaPrecio>): void {
     this.router.navigate([
-      `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.VER}`,
+      `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.VER}`,
       event.row.id,
     ]);
   }

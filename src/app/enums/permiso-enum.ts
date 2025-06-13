@@ -116,9 +116,10 @@ export enum PermisoModuloRouterEnum {
   FLETE = 'flete',
   LISTADO = 'listado',
   ORDEN_CARGA = 'orden-carga',
+  ORDEN_CARGA_ANTICIPO_RETIRADO = 'orden-carga-anticipos',
   ORDEN_CARGA_EVALUACION = 'orden_carga_evaluacion',
-  MONEDA_COTIZACION = 'moneda_cotizacion',
-  INSUMO_PUNTO_VENTA_PRECIO = 'insumo_punto_venta_precio',
+  MONEDA_COTIZACION = 'cotizacion',
+  INSUMO_PUNTO_VENTA_PRECIO = 'insumo',
   PARAMETROS = 'parametros',
   USERS = 'users',
 }
