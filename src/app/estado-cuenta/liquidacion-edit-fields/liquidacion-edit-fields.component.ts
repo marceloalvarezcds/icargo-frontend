@@ -177,7 +177,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.form.controls['es_cobro'].setValue(false);
     }
 
-    if (this.esFinalizado) {
+    if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
       this.form.controls['monto_pc'].disable();
       this.form.controls['moneda_id'].disable();
       this.form.controls['es_cobro'].disable();
@@ -193,7 +193,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         this.actualizarSaldos(chng.currentValue);
       }*/
       if (propName === 'liquidacion') {
-        if (this.esFinalizado) {
+        if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
           this.form.controls['monto_pc'].disable();
           this.form.controls['moneda_id'].disable();
           this.form.controls['es_cobro'].disable();
