@@ -534,9 +534,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     if (this.isEdit && this.id && !this.isCopyFlete) {
 
       this.fleteService.edit(this.id, formData).subscribe(() => {
-        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-        this.hasSavedSuccessfully = true;
-        this.getData();
+  const url = `/flete/${m.FLETE}/${a.VER}/${this.id}`; // 👈 redirección manual
+    this.snackbar.openUpdateAndRedirect(confirmed, url);
+    this.router.navigate([url]); // 👈 redirige a modo VER
+    this.hasSavedSuccessfully = true;
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {
