@@ -1,7 +1,7 @@
 <app-page-form
   class="flete-page"
   submodule="PEDIDOS"
-  module="{{ isShowCopiedFlete ? 'COPIAR' : isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  module="{{ isCopyFlete || isShowCopiedFlete ? 'COPIAR' : isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   inactiveTooltipText="Cancelar"
   [class.page-form-show]="isShow"
   [formGroup]="form"

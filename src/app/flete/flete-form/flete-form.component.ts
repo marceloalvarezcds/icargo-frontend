@@ -42,6 +42,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   isEditPressed= false
   isEditCopyForm = false;
   isCopyFlete = false;
+  module: string = '';
   isShowCopiedFlete = false;
   hasSavedSuccessfully = false;
   isEdit = false;
@@ -229,6 +230,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         this.id = this.route.snapshot.params['id'];
       }
       });
+    this.setModule();
   }
 
   ngOnDestroy(): void {
@@ -264,12 +266,28 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  setModule() {
+    if (this.isCopyFlete || this.isShowCopiedFlete) {
+      this.module = 'COPIAR';
+    } else if (this.isEdit) {
+      this.module = 'EDITAR';
+    } else if (this.isShow) {
+      this.module = 'VER';
+    } else {
+      this.module = 'NUEVO';
+    }
+  }
+
   back(): void {
     if (this.isShow) {
       this.router.navigate([this.backUrl]);
       return;
     }
     if (this.hasSavedSuccessfully) {
+      this.router.navigate([this.backUrl]);
+      return;
+    }
+    if ( this.module === 'NUEVO') {
       this.router.navigate([this.backUrl]);
       return;
     }
@@ -534,9 +552,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     if (this.isEdit && this.id && !this.isCopyFlete) {
 
       this.fleteService.edit(this.id, formData).subscribe(() => {
-  const url = `/flete/${m.FLETE}/${a.VER}/${this.id}`; // 👈 redirección manual
+  const url = `/flete/${m.FLETE}/${a.VER}/${this.id}`;
     this.snackbar.openUpdateAndRedirect(confirmed, url);
-    this.router.navigate([url]); // 👈 redirige a modo VER
+    this.router.navigate([url]); // redirige a modo VER
     this.hasSavedSuccessfully = true;
       });
     } else {
