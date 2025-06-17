@@ -10,6 +10,8 @@ export interface InstrumentoFormDialogData {
   isShow?:boolean;
   totalMonedas:any;
   totalLiquidacion:number;
+  moneda_liquidacion: number;
+  liquidacion_id: number;
 }
 
 export const mockInstrumentoFormDialogData: InstrumentoFormDialogData = {
@@ -17,7 +19,9 @@ export const mockInstrumentoFormDialogData: InstrumentoFormDialogData = {
   es_cobro: true,
   residuo: 0,
   totalMonedas:[],
-  totalLiquidacion:0
+  totalLiquidacion:0,
+  moneda_liquidacion:1,
+  liquidacion_id: 0,
 };
 
 export const mockInstrumentoFormDialogDataWithoutItem: InstrumentoFormDialogData =
@@ -25,5 +29,7 @@ export const mockInstrumentoFormDialogDataWithoutItem: InstrumentoFormDialogData
     es_cobro: false,
     residuo: 0,
     totalMonedas:[],
-    totalLiquidacion:0
+    totalLiquidacion:0,
+    moneda_liquidacion:1,
+    liquidacion_id: 0,
   };

@@ -6,6 +6,7 @@ import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { getParams } from 'src/app/utils/contraparte-info';
 import { environment } from 'src/environments/environment';
+import { Instrumento } from '../interfaces/instrumento';
 
 @Injectable({
   providedIn: 'root',
@@ -83,6 +84,13 @@ export class LiquidacionService {
   pasarARevision(id: number, formData: FormData): Observable<Liquidacion> {
     return this.http.patch<Liquidacion>(
       `${this.url}/${id}/en_revision`,
+      formData
+    );
+  }
+
+  addInstrumento(id: number, formData: FormData): Observable<Instrumento> {
+    return this.http.patch<Instrumento>(
+      `${this.url}/${id}/add_instrumento`,
       formData
     );
   }

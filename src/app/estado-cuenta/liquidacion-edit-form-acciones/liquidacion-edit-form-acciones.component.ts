@@ -256,7 +256,8 @@ export class LiquidacionEditFormAccionesComponent {
     }*/
     if (this.liquidacion.es_orden_pago) {
 
-      const form = { 'monto': this.liquidacion.pago_cobro, comentario:"" };
+      const liq = this.form?.getRawValue();
+      const form = { 'monto': (liq.monto_pc ?? this.liquidacion.pago_cobro), comentario:"" };
 
       this.liquidacionService
         .someter(this.id, changeLiquidacionDataMonto(form))

@@ -5,7 +5,7 @@
   </ng-container>
 
   <ng-container *ngIf="isNew && ordenPagoValue">
-    <span class="titulo-azul">Orden de Pago</span>
+    <span class="titulo-azul">Orden de Pago/Cobro</span>
   </ng-container>
 
   <ng-container *ngIf="!isNew && !ordenPagoValue">
@@ -13,7 +13,7 @@
   </ng-container>
 
   <ng-container *ngIf="!isNew && ordenPagoValue">
-    <span class="titulo-azul">Orden de Pago</span>
+    <span class="titulo-azul">Orden de Pago/Cobro</span>
   </ng-container>
 
   <button mat-button type="button" mat-dialog-close class="close">
@@ -54,6 +54,7 @@
             [movimientosList]="list"
             (actualizarLiquidacion)="loadLiquidacion()"
             (actualizarEstado)="cerrarLiquidacion()"
+            (actualizarLiquidacionOnly)="loadLiquidacionOnly()"
             (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)">
         </app-liquidacion-edit-fields>
       </div>

@@ -56,6 +56,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
+  @Output() actualizarLiquidacionOnly: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
@@ -114,6 +115,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
 
+  get esSaldoAbierto(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO);
+  }
+
+  get esFinalizadoInstrumentos(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
+  }
+
   get comentario(): string {
     return this.item?.comentarios ?? '';
   }
@@ -168,7 +177,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.form.controls['es_cobro'].setValue(false);
     }
 
-    if (this.esFinalizado) {
+    if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
       this.form.controls['monto_pc'].disable();
       this.form.controls['moneda_id'].disable();
       this.form.controls['es_cobro'].disable();
@@ -184,7 +193,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         this.actualizarSaldos(chng.currentValue);
       }*/
       if (propName === 'liquidacion') {
-        if (this.esFinalizado) {
+        if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
           this.form.controls['monto_pc'].disable();
           this.form.controls['moneda_id'].disable();
           this.form.controls['es_cobro'].disable();

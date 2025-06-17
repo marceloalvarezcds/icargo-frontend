@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { InstrumentoFormDialogComponent } from 'src/app/dialogs/instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
+import { OperacionEstadoEnum } from 'src/app/enums/operacion-estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -9,7 +10,7 @@ import {
 import { addInstrumentosData } from 'src/app/form-data/liquidacion-instrumento';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
-import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
+import { Instrumento, InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { Moneda } from 'src/app/interfaces/moneda';
@@ -24,11 +25,6 @@ type MonetaTotalType = {
   total:number,
   instrumento:number,
   residuo:number,
-}
-
-type InstrumentoReturn = {
-  totales:MonetaTotalType[],
-  instrumento:InstrumentoLiquidacionItem,
 }
 
 @Component({
@@ -109,7 +105,8 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
-  list: InstrumentoLiquidacionItem[] = [];
+  //list: InstrumentoLiquidacionItem[] = [];
+  list: Instrumento[] = [];
 
   get esSaldoAbierto(): boolean {
     return this.liquidacion?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO;
@@ -123,6 +120,11 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     //return subtract(Math.abs(this.saldo), this.valorInstrumentos);
     //let saldo = this.totalMonedas.reduce((acc:number, cur:any) => acc + cur.total_ml, 0);
     return subtract(Math.abs(this.saldo ?? 0), this.totalInstrumentos);
+  }
+
+  get residuoInstrumento(): number {
+    let totalInstrumentos = this.liquidacion?.instrumentos.reduce((acc, cur) => acc + ( (cur.operacion_estado !== OperacionEstadoEnum.RECHAZADO && cur.operacion_estado !== OperacionEstadoEnum.ANULADO) ? cur.monto_ml : 0 ), 0);
+    return subtract(Math.abs(this.saldo ?? 0), Math.abs(totalInstrumentos ?? 0));
   }
 
   get saldoCC():number {
@@ -153,6 +155,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   @Output() selectedInstrumentosChange = new EventEmitter<
     InstrumentoLiquidacionItem[]
   >();
+  @Output() instrumentosChange = new EventEmitter<Instrumento>();
 
   constructor(
     private dialog: MatDialog,
@@ -161,16 +164,20 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   ) {}
 
   create(): void {
-    create(this.getDialogRef(), (item:  InstrumentoLiquidacionItem) => {
+    create(this.getDialogRef(), (item:  Instrumento) => {
       console.log("on create instrumento")
       //this.totalMonedas = item.totales;
       //this.setResiduo(item.monto, item.moneda_id);
       this.list = this.list.concat([item]);
-      this.listChange.emit(this.list);
+      //this.listChange.emit(this.list);
+      this.instrumentosChange.emit(item);
     });
   }
 
-  edit({ row, index }: TableEvent<InstrumentoLiquidacionItem>): void {
+  edit(): void {
+
+  }
+  /*edit({ row, index }: TableEvent<InstrumentoLiquidacionItem>): void {
     console.log("row: ", row);
     //this.valorInstrumentos -= row.monto_ml;
     console.log("index: ", index);
@@ -178,20 +185,20 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       //this.setResiduo(subtract(item.monto, row.monto), item.moneda_id);
       //this.totalMonedas = item.totales;
       const list = this.list.slice();
-      list[index] = item;
+      //list[index] = item;
       this.list = list;
-      this.listChange.emit(this.list);
+      //this.instrumentosChange.emit(item);
     });
-  }
+  }*/
 
-  remove({ row, index }: TableEvent<InstrumentoLiquidacionItem>): void {
+  remove({ row, index }: TableEvent<Instrumento>): void {
     remove(
       this.dialog,
-      `¿Está seguro que desea eliminar al instrumeno Nº ${index + 1}?`,
+      `¿Está seguro que desea ANULAR el instrumeno Nº ${index + 1}?`,
       () => {
         //this.setResiduo((row.monto * -1), row.moneda_id);
         this.list = this.list.filter((_, i) => i !== index);
-        this.listChange.emit(this.list);
+        //this.listChange.emit(this.list);
       }
     );
   }
@@ -205,31 +212,30 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   }
 
   saveInstrumentos(): void {
-
-    const list = this.list.slice().map( (ele:InstrumentoLiquidacionItem) => {
-
+    /*const list = this.list.slice().map( (ele:InstrumentoLiquidacionItem) => {
       ele.saldo_cc = ( this.saldoCC>0
           ? this.suma(this.saldoCC, this.liquidacion!.pago_cobro!*-1)
           : this.resta(this.saldoCC, this.liquidacion!.pago_cobro!)
       );
-
       console.log(`ele.saldo_cc = (${this.saldoCC} + ${this.liquidacion!.pago_cobro!});`);
       console.log(`ele.saldo_cc: `, ele.saldo_cc);
       return  ele
-    });
+    });*/
     const message = `Por favor verifique que los datos de instrumentos y facturas estén correctos, luego de realizar esta acción no podrá modificar los datos de los mismos ¿ Desea guardar ?`;
 
     this.dialogService.confirmationWithSnackbar(
       message,
       this.liquidacionService.addInstrumentos(
         this.liquidacion!.id,
-        addInstrumentosData(list)
+        //addInstrumentosData([list])
+        addInstrumentosData([])
       ),
       'Instrumentos agregados',
       () => {
         this.list = [];
-        this.listChange.emit(this.list);
-        this.selectedInstrumentosChange.emit(list);
+        //this.listChange.emit(this.list);
+        //this.selectedInstrumentosChange.emit(list);
+        this.selectedInstrumentosChange.emit([]);
       }
     );
   }
@@ -253,11 +259,12 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
     const data: InstrumentoFormDialogData = {
       es_cobro: this.liquidacion?.es_cobro ?? false,
-      residuo: Math.abs((item?.monto_ml ?? 0) + this.residuo),
-      //residuo: this.residuo,
+      residuo: Math.abs((item?.monto_ml ?? 0) + this.residuoInstrumento),
       totalLiquidacion: Math.abs(this.saldo ?? 0),
       item,
-      totalMonedas: this.totalMonedas
+      totalMonedas: this.totalMonedas,
+      moneda_liquidacion: this.liquidacion!.moneda_id,
+      liquidacion_id: this.liquidacion!.id
     };
     return this.dialog.open(InstrumentoFormDialogComponent, {
       data,
@@ -265,3 +272,4 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
     });
   }
 }
+

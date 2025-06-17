@@ -134,12 +134,14 @@ export class LiquidacionInstrumentosComponent {
     item?: InstrumentoLiquidacionItem
   ): MatDialogRef<InstrumentoFormDialogComponent, InstrumentoLiquidacionItem> {
     const data: InstrumentoFormDialogData = {
-      es_cobro: this.liquidacion?.es_cobro ?? false,
+      es_cobro: this.liquidacion!.es_cobro ?? false,
       residuo: item?.monto!,
       totalLiquidacion: item?.monto!,
       item,
       isShow:true,
-      totalMonedas: []
+      totalMonedas: [],
+      moneda_liquidacion: this.liquidacion!.moneda_id,
+      liquidacion_id: this.liquidacion.id,
     };
     return this.dialog.open(InstrumentoFormDialogComponent, {
       data,

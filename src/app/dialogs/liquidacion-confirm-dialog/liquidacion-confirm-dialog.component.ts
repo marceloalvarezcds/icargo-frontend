@@ -4,7 +4,8 @@ import { Column } from 'src/app/interfaces/column';
 import { ContraparteGralInfo, ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { Movimiento } from 'src/app/interfaces/movimiento';
-import { subtract } from 'src/app/utils/math';
+import { subtract, subtractDecimal } from 'src/app/utils/math';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Component({
   selector: 'app-liquidacion-confirm-dialog',
@@ -86,6 +87,11 @@ export class LiquidacionConfirmDialogComponent {
       value: (element: Movimiento) => element.created_by,
     },*/
   ];
+
+  get totalLiquidacion():number {
+    if (this.data.esOrdenPago) return this.data.monto;
+    return subtractDecimal( this.credito, this.debito );
+  }
 
   get contraparteInfo(): ContraparteGralInfo {
     return this.data.contraparteInfo;
