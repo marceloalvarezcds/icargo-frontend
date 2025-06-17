@@ -327,7 +327,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.isCopyFlete = true;
 
     this.form.enable();
-
+    this.form.get('condicion.saldo')?.disable()
     const copiedData = {
       ...this.info.value,
       ...this.tramo.value,
@@ -551,8 +551,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
     if (this.isEdit && this.id && !this.isCopyFlete) {
 
-      this.fleteService.edit(this.id, formData).subscribe(() => {
-  const url = `/flete/${m.FLETE}/${a.VER}/${this.id}`;
+    this.fleteService.edit(this.id, formData).subscribe(() => {
+    const url = `/flete/${m.FLETE}/${a.VER}/${this.id}`;
     this.snackbar.openUpdateAndRedirect(confirmed, url);
     this.router.navigate([url]); // redirige a modo VER
     this.hasSavedSuccessfully = true;
