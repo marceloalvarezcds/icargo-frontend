@@ -8,7 +8,7 @@
 
       <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Valor"
+        [title]="'Valor ' + (afectado === 'gestor_carga' ? '(a pagar)' : '(a cobrar)')"
         controlName="merma_{{ afectado }}_valor"
         [groupName]="groupName"
         [form]="formGroup"
