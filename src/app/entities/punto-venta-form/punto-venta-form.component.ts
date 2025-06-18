@@ -92,8 +92,14 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       latitud: null,
       longitud: null,
       direccion: null,
-      localidad_nombre: null,
-      pais_nombre: null,
+      localidad_nombre: [{
+        value: null,
+        disabled: true
+      }],
+      pais_nombre: [{
+        value: null,
+        disabled: true
+      }],
     }),
   });
 

@@ -47,26 +47,32 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
       title: 'Nombre o Razón Social',
       value: (element: PropietarioList) => element.nombre,
     },
-    {
-      def: 'direccion',
-      title: 'Dirección',
-      value: (element: PropietarioList) => element.direccion,
-    },
-    {
-      def: 'telefono',
-      title: 'Teléfono',
-      value: (element: PropietarioList) => element.telefono,
-    },
+    // {
+    //   def: 'direccion',
+    //   title: 'Dirección',
+    //   value: (element: PropietarioList) => element.direccion,
+    // },
+    // {
+    //   def: 'telefono',
+    //   title: 'Teléfono',
+    //   value: (element: PropietarioList) => element.telefono,
+    // },
     // {
     //   def: 'tipo_persona',
     //   title: 'Tipo de Persona',
     //   value: (element: PropietarioList) => element.tipo_persona_descripcion,
     // },
     {
+      def: 'tipo_documento',
+      title: 'Tipo de Documento',
+      value: (element: PropietarioList) => element.tipo_documento?.descripcion,
+    },
+    {
       def: 'ruc',
       title: 'Número de Documento',
       value: (element: PropietarioList) => element.ruc,
     },
+
     {
       def: 'gestor_cuenta_nombre',
       title: 'Gestor de Cuenta',
@@ -78,13 +84,18 @@ export class PropietarioReadonlyByIdDialogFieldComponent {
       value: (element: PropietarioList) => element.oficial_cuenta_nombre,
     },
     {
-      def: 'ubicacion',
-      title: 'Ubicación',
-      value: (element: PropietarioList) =>
-        element.ciudad_nombre
-          ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
-          : '',
+      def: 'pais',
+      title: 'Pais',
+      value: (element: PropietarioList) => element.pais_origen_nombre,
     },
+    // {
+    //   def: 'ubicacion',
+    //   title: 'Ubicación',
+    //   value: (element: PropietarioList) =>
+    //     element.ciudad_nombre
+    //       ? `${element.ciudad_nombre}/${element.localidad_nombre}/${element.pais_nombre_corto}`
+    //       : '',
+    // },
   ];
 
   @Input() propietarioEvents?: Observable<PropietarioList>;

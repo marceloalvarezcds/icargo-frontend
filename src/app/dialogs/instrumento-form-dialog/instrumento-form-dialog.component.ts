@@ -162,12 +162,12 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   get montoHint(): string {
     if (this.dialogData.isShow) return "";
     if (this.monto) {
-
-      return `Residuo: <strong>${ numberWithCommas(subtractDecimal(
+      // Pedido de Ruben
+      return `Saldo: <strong>${ numberWithCommas(subtractDecimal(
         this.residuo, this.monto)
       )}</strong>`;
     }
-    return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
+    return `Saldo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }
 
   get residuo(): number {

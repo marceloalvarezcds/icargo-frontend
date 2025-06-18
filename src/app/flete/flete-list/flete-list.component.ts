@@ -84,7 +84,7 @@ export class FleteListComponent implements OnInit {
         `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
-        })} ${element.condicion_propietario_moneda_simbolo}`,
+        })} ${element.condicion_propietario_moneda_simbolo}/${element.condicion_propietario_unidad_abreviatura}`,
       type: 'text',
     },
     {
@@ -94,7 +94,7 @@ export class FleteListComponent implements OnInit {
         `${element.condicion_gestor_carga_tarifa?.toLocaleString('es-ES', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
-        })} ${element.condicion_gestor_carga_moneda_simbolo}`,
+        })} ${element.condicion_gestor_carga_moneda_simbolo}/${element.condicion_gestor_carga_unidad_abreviatura}`,
       type: 'text',
     },
 
@@ -400,7 +400,7 @@ export class FleteListComponent implements OnInit {
   }
 
   active({ row }: TableEvent<FleteList>): void {
-    const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
+    const message = `¿Está seguro que desea activar el Pedido con Nº ${row.id}?`;
     this.dialog.changeStatusConfirm(
       message,
       this.fleteService.active(row.id),
@@ -411,7 +411,7 @@ export class FleteListComponent implements OnInit {
   }
 
   inactive({ row }: TableEvent<FleteList>): void {
-    const message = `¿Está seguro que desea cancelar el Pedido con Nº ${row.id}?`;
+    const message = `¿Está seguro que desea inactivar el Pedido con Nº ${row.id}?`;
     this.dialog.changeStatusConfirm(
       message,
       this.fleteService.inactive(row.id),

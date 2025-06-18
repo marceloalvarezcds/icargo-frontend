@@ -26,14 +26,14 @@ export class SeleccionableListService<DialogComponent, DialogData> {
       value: (element: SeleccionableBaseModel) => element.id,
     },
     {
-      def: 'descripcion',
-      title: 'Descripción',
-      value: (element: SeleccionableBaseModel) => element.descripcion,
-    },
-    {
       def: 'estado',
       title: 'Estado',
       value: (element: SeleccionableBaseModel) => element.estado.toUpperCase(),
+    },
+    {
+      def: 'descripcion',
+      title: 'Descripción',
+      value: (element: SeleccionableBaseModel) => element.descripcion,
     },
     {
       def: 'created_by',

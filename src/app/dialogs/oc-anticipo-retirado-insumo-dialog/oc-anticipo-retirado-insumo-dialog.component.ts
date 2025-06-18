@@ -295,21 +295,24 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     return `
       <div style="font-size: 16px; margin-bottom: 4px;">
         <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
-        <strong>${formatNumber(saldoOC)}</strong>
+        <strong>${formatNumber(saldoOC - monto)}</strong>
         <span>|</span>
         <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
         <strong>${saldoTractoTexto}</strong>
       </div>
+      <!--
       <div style="font-size: 16px; margin-bottom: 4px;">
         <span class="hint-alert-label" style="font-weight: bold;">Saldo:</span>
         <strong>${formatNumber(saldoMostrar - monto)}</strong>
       </div>
+      -->
       <div style="font-size: 16px;">
         <span class="hint-alert-label" style="font-weight: bold;">Monto:</span>
         <strong>${formatNumber(monto)}</strong>
-        <span>|</span>
+        <!--
         <span class="hint-alert-label" style="font-weight: bold;">Línea Disponible:</span>
         <strong>${formatNumber(saldoMostrar)}</strong>
+        -->
       </div>
     `;
   }

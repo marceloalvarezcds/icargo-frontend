@@ -47,17 +47,27 @@ export class FleteByGestorDialogFieldComponent {
       title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
     },
+    // {
+    //   def: 'precio',
+    //   title: 'Precio',
+    //   value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
+    //   type: 'numberDecimal'
+    // },
     {
       def: 'precio',
       title: 'Precio',
-      value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
-      type: 'numberDecimal'
+      value: (element: FleteList) =>
+        `${element.condicion_gestor_carga_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_gestor_carga_moneda_simbolo}`,
+      type: 'text',
     },
-    {
-      def: 'moneda',
-      title: 'Moneda',
-      value: (element: FleteList) => element.condicion_gestor_carga_moneda_nombre,
-    },
+    // {
+    //   def: 'moneda',
+    //   title: 'Moneda',
+    //   value: (element: FleteList) => element.condicion_gestor_carga_moneda_nombre,
+    // },
     {
       def: 'origen_nombre',
       title: 'Origen',
@@ -73,17 +83,27 @@ export class FleteByGestorDialogFieldComponent {
       title: 'Producto',
       value: (element: FleteList) => element.producto_descripcion,
     },
+    // {
+    //   def: 'tarifa_precio',
+    //   title: 'Tarifa Precio',
+    //   value: (element: FleteList) => element.condicion_propietario_tarifa,
+    //   type: 'numberDecimal'
+    // },
     {
       def: 'tarifa_precio',
       title: 'Tarifa Precio',
-      value: (element: FleteList) => element.condicion_propietario_tarifa,
-      type: 'numberDecimal'
+      value: (element: FleteList) =>
+        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_propietario_moneda_simbolo}`,
+      type: 'text',
     },
-    {
-      def: 'tarifa_moneda',
-      title: 'Tarifa Moneda',
-      value: (element: FleteList) => element.condicion_propietario_moneda_nombre,
-    },
+    // {
+    //   def: 'tarifa_moneda',
+    //   title: 'Tarifa Moneda',
+    //   value: (element: FleteList) => element.condicion_propietario_moneda_nombre,
+    // },
   ];
 
   @Input() fleteEvents?: Observable<FleteList>;

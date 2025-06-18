@@ -73,6 +73,14 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       latitud: null,
       longitud: null,
       direccion: null,
+      localidad_nombre: [{
+        value: null,
+        disabled: true
+      }],
+      pais_nombre: [{
+        value: null,
+        disabled: true
+      }],
     }),
   });
 
@@ -158,9 +166,9 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
