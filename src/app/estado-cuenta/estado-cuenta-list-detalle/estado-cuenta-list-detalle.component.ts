@@ -964,6 +964,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
                 dinamicStyles: (element: MovimientoEstadoCuenta) =>
                   (
                     (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+                    (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
                     (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
                     (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
                     (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
