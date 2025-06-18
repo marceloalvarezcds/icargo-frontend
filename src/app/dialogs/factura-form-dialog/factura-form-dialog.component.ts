@@ -29,7 +29,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       Validators.required,
     ],
     monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
-    iva_id: [this.data ? this.data.iva_id : 1, Validators.required],
+    iva_id: [this.data ? this.data.iva_id : 3, Validators.required],
     foto: [this.data?.foto, Validators.required],
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, [Validators.required, Validators.maxLength(50)]],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
