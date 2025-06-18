@@ -1,7 +1,10 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
+import { OcAnticipoRetiradoEfectivoAnulacionDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-efectivo-anulacion-dialog/oc-anticipo-retirado-efectivo-anulacion-dialog.component';
+import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from 'src/app/dialogs/oc-anticipo-retirado-insumo-anulacion-dialog/oc-anticipo-retirado-insumo-anulacion-dialog.component';
 import { RemisionFormDialogComponent } from 'src/app/dialogs/remision-form-dialog/remision-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
@@ -10,6 +13,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
+import { OcAnticipoRetiradoDialogData, OcAnticipoRetiradoListDialogData, OcAnticipoRetiradoTestDialogData } from 'src/app/interfaces/oc-anticipo-retirado-dialog-data';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { TableEvent } from 'src/app/interfaces/table';
@@ -20,6 +24,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
+import { edit } from 'src/app/utils/table-event-crud';
 
 type Filter = {
   proveedor?: string;
@@ -203,6 +208,7 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
    mercaderiaFilterList: string[] = [];
    mercaderiaFiltered: string[] = [];
 
+  @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
    formatDate(dateString: string): string {
      const date = new Date(dateString);
@@ -229,7 +235,7 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
     proveedorCheckboxFilter!: CheckboxFilterComponent;
    @ViewChild('establecimientoCheckboxFilter')
     establecimientoCheckboxFilter!: CheckboxFilterComponent;
-  @ViewChild('mercaderiaCheckboxFilter')
+    @ViewChild('mercaderiaCheckboxFilter')
     mercaderiaCheckboxFilter!: CheckboxFilterComponent;
 
    constructor(
@@ -237,6 +243,7 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
      private reportsService: ReportsService,
      private searchService: SearchService,
      private dialog: DialogService,
+     private matDialog: MatDialog,
      private router: Router
    ) {}
 
@@ -244,23 +251,23 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
      this.getList();
    }
 
-    redirectToCreate(): void {
-      this.router.navigate([`/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}/${a.CREAR}`]);
-    }
+  redirectToCreate(): void {
+    this.router.navigate([`/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}/${a.CREAR}`]);
+  }
 
-    redirectToEdit(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
-     this.router.navigate([
-       `/orden-carga-anticipos/${m.ORDEN_CARGA}/${a.EDITAR}`,
-       event.row.id,
-     ]);
+  redirectToEdit(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    this.router.navigate([
+      `/orden-carga-anticipos/${m.ORDEN_CARGA}/${a.EDITAR}`,
+      event.row.id,
+    ]);
    }
 
-   redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
-      this.router.navigate([
-       `/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}/${a.VER}`,
-       event.row.id,
-     ]);
-   }
+  redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    this.router.navigate([
+      `/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}/${a.VER}`,
+      event.row.id,
+    ]);
+  }
 
   private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
     this.ordenCargaAnticipoRetiradoService
@@ -272,39 +279,97 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
       });
      }
 
-   deleteRow({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
-     const message = `¿Está seguro que desea eliminar el OrdenCarga con Nº ${row.id}?`;
-     this.dialog.confirmationToDelete(
-       message,
-       this.ordenCargaAnticipoRetiradoService.delete(row.id),
-       (_) => {
-         this.getList();
-       }
-     );
+  deleteRow({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    const message = `¿Está seguro que desea eliminar el OrdenCarga con Nº ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.ordenCargaAnticipoRetiradoService.delete(row.id),
+      (_) => {
+        this.getList();
+      }
+    );
    }
+
+  anular({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    let dialogRef: MatDialogRef<any>;
+
+    if (row.tipo_insumo_id === null) {
+      dialogRef = this.getDialogEfectivoAnulacionRef(row);
+    } else {
+      dialogRef = this.getDialogInsumoAnulacionRef(row);
+    }
+
+    dialogRef.afterClosed().subscribe((result) => {
+      // Actualizá la tabla
+      this.getList();
+    });
+
+    this.buttonAnticipoClicked.emit();
+  }
+
+  private getDialogEfectivoAnulacionRef(
+    item?: OrdenCargaAnticipoRetirado
+  ): MatDialogRef<
+    OcAnticipoRetiradoEfectivoAnulacionDialogComponent,
+    OrdenCargaAnticipoRetirado
+  > {
+    const data: OcAnticipoRetiradoListDialogData = {
+      item,
+    };
+
+    const dialogRef = this.matDialog.open(OcAnticipoRetiradoEfectivoAnulacionDialogComponent, {
+      width: '700px',
+      height: 'auto',
+      data,
+    });
+
+    return dialogRef;
+  }
+
+  private getDialogInsumoAnulacionRef(
+    item?: OrdenCargaAnticipoRetirado
+  ): MatDialogRef<
+    OcAnticipoRetiradoInsumoAnulacionDialogComponent,
+    OrdenCargaAnticipoRetirado
+  > {
+    const data: OcAnticipoRetiradoListDialogData = {
+      item,
+    };
+
+    const dialogRef = this.matDialog.open(
+      OcAnticipoRetiradoInsumoAnulacionDialogComponent,
+      {
+        width: '720px',
+        height: 'auto',
+        data,
+      }
+    );
+
+    return dialogRef;
+  }
 
   fnHideAnular = (row: OrdenCargaAnticipoRetirado): boolean => {
     return row?.estado_movimiento !== 'Anulado';
   };
 
-   filterPredicate(obj: OrdenCargaAnticipoRetirado, filterJson: string): boolean {
-     const filter: Filter = JSON.parse(filterJson);
-     const filterByProveedor =
-       filter.proveedor
-         ?.split('|')
-         .some((x) => obj.proveedor_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
-      const filterByEstablecimiento =
-       filter.establecimiento
-         ?.split('|')
-         .some((x) => obj.punto_venta_alias.toLowerCase().indexOf(x) >= 0) ?? true;
-      const filterByMercaderia =
-       filter.mercaderia
-         ?.split('|')
-         .some((x) => obj.concepto_detalle.toLowerCase().indexOf(x) >= 0) ?? true;
-     return filterByProveedor && filterByEstablecimiento && filterByMercaderia
+  filterPredicate(obj: OrdenCargaAnticipoRetirado, filterJson: string): boolean {
+    const filter: Filter = JSON.parse(filterJson);
+    const filterByProveedor =
+      filter.proveedor
+        ?.split('|')
+        .some((x) => obj.proveedor_nombre.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByEstablecimiento =
+      filter.establecimiento
+        ?.split('|')
+        .some((x) => obj.punto_venta_alias.toLowerCase().indexOf(x) >= 0) ?? true;
+    const filterByMercaderia =
+      filter.mercaderia
+        ?.split('|')
+        .some((x) => obj.concepto_detalle.toLowerCase().indexOf(x) >= 0) ?? true;
+    return filterByProveedor && filterByEstablecimiento && filterByMercaderia
    }
 
-   applyFilter(): void {
+  applyFilter(): void {
      let filter: Filter = {};
      this.isFiltered = false;
      this.proveedorFiltered = this.proveedorCheckboxFilter.getFilteredList();
@@ -326,50 +391,36 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
        this.isFiltered ? JSON.stringify(filter) : '',
        !this.isFiltered
      );
-   }
+  }
 
-   resetFilter(): void {
-     this.resetFilterList();
-     this.filter('');
-   }
+  resetFilter(): void {
+    this.resetFilterList();
+    this.filter('');
+  }
 
-   private getList(): void {
-     this.ordenCargaAnticipoRetiradoService.getList().subscribe((list) => {
-       this.list = list;
-       this.proveedorFilterList = getFilterList(list, (x) => x.proveedor_nombre);
-       this.establecimientoFilterList = getFilterList(list, (x) => x.punto_venta_alias);
-       this.mercaderiaFilterList = getFilterList(list, (x) => x.concepto_detalle);
-       this.resetFilterList();
-     });
-   }
+  private getList(): void {
+    this.ordenCargaAnticipoRetiradoService.getList().subscribe((list) => {
+      this.list = list;
+      this.proveedorFilterList = getFilterList(list, (x) => x.proveedor_nombre);
+      this.establecimientoFilterList = getFilterList(list, (x) => x.punto_venta_alias);
+      this.mercaderiaFilterList = getFilterList(list, (x) => x.concepto_detalle);
+      this.resetFilterList();
+    });
+  }
 
-   private filter(
+  private filter(
      filter: string,
      isFilteredByGlobalSearch: boolean = true
    ): void {
      this.searchService.search(filter, isFilteredByGlobalSearch);
      this.accordion.closeAll();
-   }
+  }
 
-   private resetFilterList(): void {
-     this.isFiltered = false;
-     this.proveedorFiltered = this.proveedorFilterList.slice();
-     this.establecimientoFiltered = this.establecimientoFilterList.slice();
-     this.mercaderiaFiltered = this.mercaderiaFilterList.slice();
-   }
-
-   createRemision(): void {
-
-     this.dialog
-       .open(RemisionFormDialogComponent,
-         {
-           panelClass: 'half-dialog',
-         })
-       .afterClosed()
-       //.pipe(filter((confirmed) => !!confirmed))
-       .subscribe(() => {
-       });
-
-   }
+  private resetFilterList(): void {
+    this.isFiltered = false;
+    this.proveedorFiltered = this.proveedorFilterList.slice();
+    this.establecimientoFiltered = this.establecimientoFilterList.slice();
+    this.mercaderiaFiltered = this.mercaderiaFilterList.slice();
+  }
 
 }

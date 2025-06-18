@@ -75,6 +75,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() showClickDos = new EventEmitter<TableEvent<any>>();
   @Output() ampliarClick = new EventEmitter<TableEvent<any>>();
   @Output() cancelarClick = new EventEmitter<TableEvent<any>>();
+  @Output() anularAnticipoClick = new EventEmitter<TableEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
 

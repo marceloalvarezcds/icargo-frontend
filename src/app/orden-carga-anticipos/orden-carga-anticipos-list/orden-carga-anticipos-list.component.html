@@ -63,6 +63,7 @@
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="modelo"
+    (anularAnticipoClick)="anular($event)"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     [shouldShowAnularButton]="true"
