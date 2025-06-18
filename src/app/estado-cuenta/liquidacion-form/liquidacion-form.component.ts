@@ -199,12 +199,27 @@ export class LiquidacionFormComponent implements OnInit {
 
     const gestorCargaId = liquidacion.gestor_carga_id;
 
+    let {
+      punto_venta_id,
+      es_pdv,
+      flujo
+    } = this.route.snapshot.queryParams;
+
     if ( this.userService.checkPermisoAndGestorCargaId(
-      a.PASAR_A_REVISION,
-      this.modelo,
-      gestorCargaId)
+        a.PASAR_A_REVISION,
+        this.modelo,
+        gestorCargaId)
     ) {
-      const nav = '/estado-cuenta/estado_cuenta/liquidacion/editar/'+liquidacion.id;
+
+      let nav = '/estado-cuenta/estado_cuenta/liquidacion/editar/'+liquidacion.id;
+
+      if (coerceBooleanProperty(es_pdv)) {
+        this.router.navigate([nav], {
+          queryParams: {punto_venta:punto_venta_id, flujo:flujo},
+        });
+        return;
+      }
+
       this.router.navigate([nav]);
       return;
     }

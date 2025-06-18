@@ -6,6 +6,7 @@ import { facturaData } from 'src/app/form-data/factura';
 import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { Moneda } from 'src/app/interfaces/moneda';
+import { TipoIva } from 'src/app/interfaces/tipo-iva';
 import { FacturaService } from 'src/app/services/factura.service';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
@@ -175,6 +176,23 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       this.form.controls['tipo_cambio_moneda'].setValidators([]);
       this.form.controls['tipo_cambio_moneda'].setValue(1);
       this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+    }
+  }
+
+  onTipoIvaSelect(tipoIva:TipoIva){
+    if (tipoIva.iva === 0) {
+      this.form.controls['iva'].setValue(0);
+      this.form.controls['iva'].disable();
+      this.form.controls['iva'].updateValueAndValidity()
+      this.form.controls['retencion'].setValue(0);
+      this.form.controls['retencion'].disable();
+      this.form.controls['retencion'].updateValueAndValidity()
+    } else {
+      this.form.controls['iva'].enable();
+      this.form.controls['iva'].setValidators([Validators.required, Validators.min(0)]);
+      this.form.controls['iva'].updateValueAndValidity()
+      this.form.controls['retencion'].enable();
+      this.form.controls['retencion'].updateValueAndValidity()
     }
   }
 
