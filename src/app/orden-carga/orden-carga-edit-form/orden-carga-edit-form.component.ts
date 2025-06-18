@@ -786,26 +786,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       );
       return;
     }
-
-    if (this.item?.cantidad_origen && this.item?.cantidad_destino) {
-      this.snackBar.open(
-        'No se puede habilitar el campo, tiene remisiones de origen y destino',
-        'Cerrar',
-        { duration: 3000 }
-      );
-    } else if (this.item?.cantidad_origen) {
-      this.snackBar.open(
-        'No se puede habilitar el campo, tiene remisiones de origen',
-        'Cerrar',
-        { duration: 3000 }
-      );
-    } else if (this.item?.cantidad_destino) {
-      this.snackBar.open(
-        'No se puede habilitar el campo, tiene remisiones de destino',
-        'Cerrar',
-        { duration: 3000 }
-      );
-    } else {
+    else {
       this.form.get('combinacion.flete_id')?.enable();
       this.isButtonPressed = true;
       this.isEditPedido = true;

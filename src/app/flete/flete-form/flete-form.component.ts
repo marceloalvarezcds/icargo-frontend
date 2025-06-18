@@ -293,7 +293,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
     const dialogData: ConfirmationDialogData = {
       title: '¿Salir sin guardar?',
-      message: 'Está copiando un Pedido. ¿Desea salir sin guardar?',
+      message: '¿Desea salir sin guardar?',
       closeButtonText: 'No',
       confirmedButtonText: 'Sí',
     };
