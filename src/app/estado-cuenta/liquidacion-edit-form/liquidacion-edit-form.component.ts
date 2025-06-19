@@ -269,10 +269,11 @@ export class LiquidacionEditFormComponent implements OnInit {
         });
 
     } else {
+
       this.estadoCuentaService
         .getByContraparte(
           liq.tipo_contraparte_id,
-          contraparteId!,
+          (contraparteId ?? liq.tipo_contraparte_id),
           liq.contraparte,
           liq.contraparte_numero_documento,
           liq.punto_venta_id

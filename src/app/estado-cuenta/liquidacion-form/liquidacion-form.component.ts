@@ -127,13 +127,15 @@ export class LiquidacionFormComponent implements OnInit {
       accumulator[currentGroup] = [{
         groupName: `Moneda: ${currentValue[column]}`,
         totales: 0,
+        totalesML: 0,
         isGroup: true,
       }];
 
       accumulator[currentGroup][0] =
         {
           ...accumulator[currentGroup][0],
-          totales:accumulator[currentGroup][0].totales + currentValue.monto
+          totales:accumulator[currentGroup][0].totales + currentValue.monto,
+          totalesML:accumulator[currentGroup][0].totalesML + currentValue.monto_ml
         };
 
       accumulator[currentGroup].push(currentValue);
