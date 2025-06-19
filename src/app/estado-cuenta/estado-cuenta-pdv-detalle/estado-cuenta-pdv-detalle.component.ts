@@ -46,7 +46,7 @@ type Filter = {
   cuenta?: string;
   concepto?: string;
   tipo?: string;
-  estado?: string;
+  estado_liquidacion?: string;
 };
 
 @Component({
@@ -595,8 +595,8 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
       const filterByDetalle = filter.tipo?.split('|')
           .some((x) => obj.detalle.toLowerCase().indexOf(x) >= 0) ?? true;
 
-      const filterByEstado = filter.estado?.split('|')
-          .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
+      const filterByEstado = filter.estado_liquidacion?.split('|')
+          .some((x) => obj.estado_liquidacion?.toLowerCase().indexOf(x) >= 0) ?? true;
 
       return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado;
     }
@@ -627,7 +627,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
         this.isFiltered = true;
       }
       if (this.isFilteredByEstado) {
-        filter.estado = this.estadoFiltered.join('|');
+        filter.estado_liquidacion = this.estadoFiltered.join('|');
         this.isFiltered = true;
       }
       this.filter(
@@ -1011,7 +1011,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
 
       this.cuentaFilterList = getFilterList(this.list, (x) => x.tipo_cuenta_descripcion);
 
-      this.estadoFilterList = getFilterList(this.list, (x) => x.estado);
+      this.estadoFilterList = getFilterList(this.list, (x) => x.estado_liquidacion);
 
       this.conceptoFilterList = getFilterList(this.list, (x) => x.tipo_movimiento_concepto);
 

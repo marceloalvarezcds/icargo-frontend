@@ -150,6 +150,9 @@ export class LiquidacionFormDialogComponent {
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
 
+    let liquidacionValues = this.child.form.getRawValue();
+    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
@@ -158,7 +161,8 @@ export class LiquidacionFormDialogComponent {
         monto: this.child.pagoCobroValue ? this.child.montoPagoCobro : (this.child.montoPagoCobro*-1),
         saldo: this.child.montoPagoCobro,
         esOrdenPago: this.ordenPagoValue,
-        totalMonedas: []
+        moneda: this.child.monedaLocal,
+        sentido: es_pago_cobro
       };
 
       this.dialog

@@ -157,6 +157,9 @@ export class LiquidacionFormComponent implements OnInit {
     // agrupamos por moneda
     const listMovimientosGrouped = this.groupBy('moneda_nombre', listMovimientos);
 
+    let liquidacionValues = this.child.form.getRawValue();
+    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+
     console.log("movs agrupados: ",listMovimientosGrouped);
 
       const data: LiquidacionConfirmDialogData = {
@@ -166,7 +169,8 @@ export class LiquidacionFormComponent implements OnInit {
         debito: this.child.debito,
         monto: this.child.monto,
         saldo: (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado),
-        totalMonedas: this.child.totalMonedas
+        moneda: this.child.monedaLocal,
+        sentido: es_pago_cobro
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {

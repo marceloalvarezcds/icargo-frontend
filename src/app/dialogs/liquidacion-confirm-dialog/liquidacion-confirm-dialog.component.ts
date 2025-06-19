@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
 import { ContraparteGralInfo, ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { subtract, subtractDecimal } from 'src/app/utils/math';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
@@ -123,6 +124,14 @@ export class LiquidacionConfirmDialogComponent {
 
   get totalMonedas() {
     return this.data.totalMonedas;
+  }
+
+  get moneda(): Moneda {
+    return this.data.moneda!
+  }
+
+  get sentido(): string {
+    return this.data.sentido!
   }
 
   constructor(
