@@ -1,3 +1,4 @@
+import { ComponentType } from '@angular/cdk/portal';
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
@@ -207,6 +208,7 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
    establecimientoFiltered: string[] = [];
    mercaderiaFilterList: string[] = [];
    mercaderiaFiltered: string[] = [];
+   ocAnticipoRetirado?: OrdenCargaAnticipoRetirado
 
   @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
@@ -262,13 +264,33 @@ export class OrdenCargaAnticiposListComponent implements OnInit {
     ]);
    }
 
-  redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
-    this.router.navigate([
-      `/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}/${a.VER}`,
-      event.row.id,
-    ]);
-  }
+  // redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
+  //   this.router.navigate([
+  //     `/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}/${a.VER}`,
+  //     event.row.id,
+  //   ]);
+  // }
 
+  redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    this.ocAnticipoRetirado = this.list.find(i => i.id === event.row.id);
+    if (this.ocAnticipoRetirado) {
+      let dialogComponent: ComponentType<any>;
+      // Verifica si tipo_insumo_id es null
+      if (this.ocAnticipoRetirado.tipo_insumo_id === null) {
+        dialogComponent = OcAnticipoRetiradoEfectivoAnulacionDialogComponent;
+      } else {
+        dialogComponent = OcAnticipoRetiradoInsumoAnulacionDialogComponent;
+      }
+      const dialogRef = this.dialog.open(dialogComponent, {
+        width: '700px',
+        data: {
+          item: this.ocAnticipoRetirado,
+          isShow: true,
+        }
+      });
+    }
+  }
+  
   private downloadPDF(item: OrdenCargaAnticipoRetirado): void {
     this.ordenCargaAnticipoRetiradoService
       .pdf(item.id)
