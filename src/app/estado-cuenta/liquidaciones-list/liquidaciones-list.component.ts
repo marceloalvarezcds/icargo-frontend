@@ -79,6 +79,17 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       value: (element: Liquidacion) => `${element.estado.toUpperCase()}`,
     },
     {
+      def: 'modified_at',
+      title: 'Fecha Cancelacion',
+      type: 'only-date',
+      value: (element: Liquidacion) => (element.estado === LiquidacionEstadoEnum.CANCELADO ? element.modified_at : ''),
+    },
+    {
+      def: 'modified_by',
+      title: 'Cancelado',
+      value: (element: Liquidacion) => (element.estado === LiquidacionEstadoEnum.CANCELADO ? element.modified_by : ''),
+    },
+    {
       def: 'es_cobro',
       title: 'Cobro/Pago',
       value: (element: Liquidacion) => element.es_pago_cobro,

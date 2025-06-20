@@ -54,21 +54,25 @@ export class BancoByGestorDialogFieldComponent {
       def: 'credito',
       title: 'Crédito',
       value: (element: Banco) => element.credito,
+      type: 'number'
     },
     {
       def: 'debito',
       title: 'Débito',
       value: (element: Banco) => element.debito,
+      type: 'number'
     },
     {
       def: 'saldo_confirmado',
       title: 'Saldo',
       value: (element: Banco) => element.saldo_confirmado,
+      type: 'number'
     },
     {
       def: 'saldo_provisional',
       title: 'Saldo Provisional',
       value: (element: Banco) => element.saldo_provisional,
+      type: 'number'
     },
     {
       def: 'estado',
