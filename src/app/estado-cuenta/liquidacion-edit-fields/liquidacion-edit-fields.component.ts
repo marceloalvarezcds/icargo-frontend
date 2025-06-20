@@ -318,6 +318,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
           residuo:0
         };
       }
+
       acumulador[clave].total += monto;
       acumulador[clave].total_ml += monto_mon_local;
       acumulador[clave].residuo += monto;
@@ -328,9 +329,9 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     console.log("resultado: ", resultado);
 
     Object.keys(resultado).forEach(key => {
-      resultado[key].total = resultado[key].total;
-      resultado[key].total_ml = resultado[key].total_ml;
-      resultado[key].residuo = resultado[key].residuo;
+      resultado[key].total = Number(resultado[key].total.toFixed(2));
+      resultado[key].total_ml = Number(resultado[key].total_ml.toFixed(2));
+      resultado[key].residuo = Number(resultado[key].residuo.toFixed(2));
     });
 
     this.totalMonedas = Object.values(resultado);;
