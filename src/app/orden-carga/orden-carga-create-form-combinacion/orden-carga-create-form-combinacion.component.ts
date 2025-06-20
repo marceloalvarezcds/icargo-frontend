@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
@@ -46,6 +46,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   pdfSrc: string | undefined;
   manualChange: boolean = false;
   private originalNeto: number | null = null;
+  cantidadNominadaHint: string = '';
+  originalCantidadNominada: number = 0;
 
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
@@ -155,7 +157,51 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
         });
       }
+    const infoGroup = this.form?.get(this.groupNameInfo);
+    const mainGroup = this.form?.get(this.groupName);
 
+    if (infoGroup && mainGroup) {
+      const cantidadControl = infoGroup.get('cantidad_nominada');
+      const actualizarMaxValidator = () => {
+      const neto = Number(mainGroup.get('neto')?.value ?? Infinity);
+      const currentValidators = cantidadControl?.validator ? [cantidadControl.validator] : [];
+
+        cantidadControl?.setValidators([
+          Validators.required,
+          Validators.max(neto)
+        ]);
+
+        cantidadControl?.updateValueAndValidity({ emitEvent: false });
+      };
+
+      actualizarMaxValidator();
+      mainGroup.get('neto')?.valueChanges.subscribe(() => {
+        actualizarMaxValidator();
+      });
+
+      cantidadControl?.valueChanges.subscribe(value => {
+        const cantidad = Number(value ?? 0);
+        const neto = Number(mainGroup.get('neto')?.value ?? 0);
+
+        if (cantidad > neto) {
+          this.cantidadNominadaHint = `<span class="hint-alert">La cantidad nominada no puede ser mayor a (<strong>${neto}</strong>) kg.</span>`;
+        } else {
+          this.cantidadNominadaHint = '';
+        }
+      });
+    }
+  }
+
+  getCantidadNominadaHint(cantidad: number, neto: number): string {
+  const formatNumber = (val: number) =>
+    new Intl.NumberFormat('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(val);
+
+    if (cantidad > neto) {
+      return `<span class="hint-alert">La cantidad nominada no puede ser mayor a
+        (<strong>${formatNumber(neto)}</strong> kg).</span>`;
+    }
+
+    return '';
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -384,7 +430,9 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
-      this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
+      if (!this.manualChange) {
+        this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
+      }
 
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
