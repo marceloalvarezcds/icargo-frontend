@@ -1,0 +1,16 @@
+<app-dialog-field
+  *ngIf="isRemote"
+  [title]="title"
+  [columns]="[]"
+  [calllbackremote]="true"
+  [list]="[]"
+  [itemEvents]="pdvEvents"
+  [fetchDataFunction]="fetchDataFunction"
+  [groupName]="groupName"
+  [controlName]="controlName"
+  [inputValuePropName]="inputValuePropName"
+  [form]="form"
+  [dialogRefFunction]="dialogRefFunction.bind(this)"
+  (valueChange)="valueChange.emit($event)"
+></app-dialog-field>
+

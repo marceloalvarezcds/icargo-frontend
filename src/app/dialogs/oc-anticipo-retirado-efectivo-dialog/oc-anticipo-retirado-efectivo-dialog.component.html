@@ -22,14 +22,14 @@
 
     <div class="row">
 
-      <app-punto-venta-map-dialog-field
+      <app-punto-venta-map-by-efectivo-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [form]="form"
         [isRemote]="true"
         [validateAnticipo]="true"
         [pdvEvents]="pdvEventsSubject.asObservable()"
         (valueChange)="$event && puntoVentaChange($event)"
-      ></app-punto-venta-map-dialog-field>
+      ></app-punto-venta-map-by-efectivo-dialog-field>
 
       <div class="col-xs-12 col-sm-6 col-md-6">
         <strong class="proveedor-label">Proveedor: </strong>
