@@ -56,6 +56,7 @@
     [shouldShowActiveButton]="shouldShowActiveButton"
     [shouldShowInactiveButton]="shouldShowInactiveButton"
     [shouldShowCancelarButton]="shouldShowCancelarButton"
+    [shouldShowForzarCierrerButton]="shouldShowForzarCierrerButton"
     (filterResult)="filterResult.emit($event)"
     (allCheckedChange)="allCheckedChange.emit($event)"
     (checkboxChange)="checkboxChange.emit($event)"
@@ -67,6 +68,7 @@
     (showClickDos)="showClickDos.emit($event)"
     (ampliarClick)="ampliarClick.emit($event)"
     (deleteClick)="deleteClick.emit($event)"
+    (forzarCierreClick)="forzarCierreClick.emit($event)"
     (anularAnticipoClick)="anularAnticipoClick.emit($event)"
     [configurarColumnasVisibles]="configurarColumnasVisibles"
     [mostrarBotonEliminar]="false"
@@ -74,6 +76,7 @@
     [fnHideEditRowButton]="fnHideEditRowButton"
     [fnHideDeleteRowButton]="fnHideDeleteRowButton"
     [fnHideAnularRowButton]="fnHideAnularRowButton"
+    [fnHideCierreRowButton]="fnHideCierreRowButton"
   ></app-table>
 </div>
 <mat-paginator

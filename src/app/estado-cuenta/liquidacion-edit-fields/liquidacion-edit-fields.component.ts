@@ -35,6 +35,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() isEdit = false;
   @Input() set movimientosList(movs: Movimiento[]) {
     this.movimientos = movs;
+    this.actualizarSentido();
     this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
   }
   @Input() set liquidacion(liq:Liquidacion) {
@@ -193,6 +194,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         this.actualizarSaldos(chng.currentValue);
       }*/
       if (propName === 'liquidacion') {
+        console.log("liquidacion");
         if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
           this.form.controls['monto_pc'].disable();
           this.form.controls['moneda_id'].disable();
@@ -219,6 +221,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         this.form.controls['es_cobro'].setValue(false);
       }
   }*/
+
+  actualizarSentido(){
+    if (this.monto>0) {
+      this.form.controls['es_cobro'].setValue(true);
+    } else {
+      this.form.controls['es_cobro'].setValue(false);
+    }
+  }
 
   actualizarFactura(factura:Factura|null):void {
     //this.item!.pago_cobro = null;

@@ -90,6 +90,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() fnHideEditRowButton?: (r:any) => boolean;
   @Input() fnHideDeleteRowButton?: (r:any) => boolean;
   @Input() fnHideAnularRowButton?: (r:any) => boolean;
+  @Input() fnHideCierreRowButton?: (r:any) => boolean;
   @Input() oc?: OrdenCarga;
   @Input() flete?: Flete;
   @Input() tableStyles: any = {};
@@ -113,6 +114,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() noCheckGestorCuentaId = false;
   @Input() showBtnMovimientos = false;
   @Input() hideAnular: boolean = false;
+  @Input() shouldShowForzarCierrerButton: boolean = false;
   @Input() modelo?: PermisoModeloEnum;
   @Input() set configurarColumnasVisibles(list: Column[] | undefined) {
     if (list) {
@@ -134,6 +136,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<T>>();
   // TODO: los botones nuevos debe pasarse por parametro
   @Output() showClickDos = new EventEmitter<TableEvent<T>>();
+  @Output() forzarCierreClick = new EventEmitter<TableEvent<T>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;
@@ -210,6 +213,11 @@ shouldShowEditButton(row: Flete): boolean {
 
   hideButtonAnular(row:T):boolean{
     if (this.fnHideAnularRowButton) return this.fnHideAnularRowButton(row);
+    return true;
+  }
+
+  hideButtonCierre(row:T):boolean{
+    if (this.fnHideCierreRowButton) return this.fnHideCierreRowButton(row);
     return true;
   }
 

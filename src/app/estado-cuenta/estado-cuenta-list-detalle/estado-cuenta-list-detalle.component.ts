@@ -68,22 +68,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
   subColumns: Column[] = [
     {
-      def: 'nro_documento_relacionado',
-      title: 'N° OC',
-      value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
-      dinamicStyles: (element: MovimientoEstadoCuenta) =>
-        (
-          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
-        ),
-    },
-    {
       def: 'documento_fisico',
       title: 'Doc. Físico',
       value: (element: MovimientoEstadoCuenta) =>
-        ( element.tipo_movimiento_concepto === 'Flete' ) ? (element.documento_fisico) ? 'Sí' : 'No'  : '',
+        ( (element.tipo_movimiento_concepto === 'Flete') ? ((element.documento_fisico) ? 'Sí' : 'No')  : ''),
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :

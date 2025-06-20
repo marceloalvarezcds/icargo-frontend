@@ -50,6 +50,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() hideShow = false;
   @Input() showBtnMovimientos = false;
   @Input() shouldShowAnularButton = false;
+  @Input() shouldShowForzarCierrerButton: boolean = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() noCheckGestorCuentaId = false;
@@ -63,6 +64,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() fnHideEditRowButton?: (r:any) => boolean;
   @Input() fnHideDeleteRowButton?: (r:any) => boolean;
   @Input() fnHideAnularRowButton?: (r:any) => boolean;
+  @Input() fnHideCierreRowButton?: (r:any) => boolean;
 
   @Output() filterResult = new EventEmitter<any[]>();
   @Output() activeClick = new EventEmitter<TableEvent<any>>();
@@ -76,6 +78,7 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() ampliarClick = new EventEmitter<TableEvent<any>>();
   @Output() cancelarClick = new EventEmitter<TableEvent<any>>();
   @Output() anularAnticipoClick = new EventEmitter<TableEvent<any>>();
+  @Output() forzarCierreClick = new EventEmitter<TableEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
 

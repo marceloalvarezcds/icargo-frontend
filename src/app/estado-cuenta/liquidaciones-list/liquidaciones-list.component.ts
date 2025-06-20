@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 import { Title } from '@angular/platform-browser';
 import { Router } from '@angular/router';
+import { ComentarioConfirmDialogComponent } from 'src/app/dialogs/comentario-confirm-dialog/comentario-confirm-dialog.component';
 import { LiquidacionFormDialogComponent } from 'src/app/dialogs/liquidacion-form-dialog/liquidacion-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
@@ -12,10 +13,12 @@ import {
   PermisoModeloEnum as m,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
+import { changeLiquidacionDataMonto, changeLiquidacionStatusData } from 'src/app/form-data/liquidacion';
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { CheckboxEvent, TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -216,6 +219,7 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
     private dialog: MatDialog,
     private snackbar: SnackbarService,
     private router: Router,
+    private dialogService: DialogService,
     //private titleService: Title,
   ) { }
 
@@ -358,6 +362,29 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       });
   }
 
+  cierreForzado(event: TableEvent<Liquidacion>): void {
+    const liquidacion = event.row;
+    const message = `Está seguro que desea Forzar el CIERRE la Liquidación Nº ${liquidacion.id}`;
+    this.dialogService.configDialogRef(
+      this.dialog.open(ComentarioConfirmDialogComponent, {
+        data: {
+          message,
+          comentarioRequirido: true,
+        },
+      }),
+      (comentario: string) => {
+        const form = {comentario:comentario};
+        this.liquidacionService
+          .cierreForzado(liquidacion.id, changeLiquidacionDataMonto(form))
+          .subscribe(() => {
+            this.snackbar.changeStatus();
+            this.getList();
+          });
+      }
+    );
+
+  }
+
   resetFilter(): void {
     this.resetFilterList();
     this.filter('');
@@ -398,5 +425,11 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
   fnHideDelete(obj: Liquidacion): boolean {
     return !(obj.estado === LiquidacionEstadoEnum.FINALIZADO || obj.estado === LiquidacionEstadoEnum.SALDO_CERRADO)
   }
+
+  fnHideAnular = (row: Liquidacion): boolean => {
+    return (row!.estado === LiquidacionEstadoEnum.ACEPTADO
+            || row!.estado === LiquidacionEstadoEnum.SALDO_ABIERTO
+            || row!.estado === LiquidacionEstadoEnum.SALDO_CERRADO);
+  };
 
 }
