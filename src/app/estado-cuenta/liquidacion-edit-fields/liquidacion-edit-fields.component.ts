@@ -334,7 +334,9 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       resultado[key].residuo = Number(resultado[key].residuo.toFixed(2));
     });
 
-    this.totalMonedas = Object.values(resultado);;
+    console.log("resultado2: ", resultado);
+
+    this.totalMonedas = Object.values(resultado);
   }
 
   groupBy( column:string, data: any[] ){
@@ -364,6 +366,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }
 
     let groups = data.reduce(customReducer,{});
+
+    Object.keys(groups).forEach(key => {
+      groups[key][0].totales = Number(groups[key][0].totales.toFixed(2));
+      groups[key][0].totalesML = Number(groups[key][0].totalesML.toFixed(2));
+    });
+
     let groupArray = Object.keys(groups).map(key => groups[key]);
     let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
 
