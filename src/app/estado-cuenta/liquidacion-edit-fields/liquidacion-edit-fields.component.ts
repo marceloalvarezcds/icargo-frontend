@@ -34,13 +34,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() item?: Liquidacion;
   @Input() isEdit = false;
   @Input() set movimientosList(movs: Movimiento[]) {
-    console.log("refresh movs");
     this.movimientos = movs;
     this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
   }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
-    if (liq.es_orden_pago){
+    if (liq.es_orden_pago && liq.estado != LiquidacionEstadoEnum.CANCELADO){
       this.monto_pc.setValue(Math.abs(liq.pago_cobro!));
       this.form.controls['monto_pc'].addValidators([Validators.required, Validators.min(0)]);
       this.form.controls['monto_pc'].enable();
@@ -112,7 +111,8 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   get esFinalizado(): boolean {
     return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
-      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
+      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO ||
+      this.item?.estado === LiquidacionEstadoEnum.CANCELADO)  ;
   }
 
   get esSaldoAbierto(): boolean {

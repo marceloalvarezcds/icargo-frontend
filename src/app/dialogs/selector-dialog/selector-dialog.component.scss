@@ -17,13 +17,13 @@
   .selector-dialog {
     width: 100vw !important;
     @media screen and (min-width: 48em) {
-      width: calc(80vw - 5rem) !important;
+      width: calc(85vw - 2rem) !important;
     }
     @media screen and (min-width: 64em) {
-      width: calc(80vw - 10rem) !important;
+      width: calc(85vw - 5rem) !important;
     }
     @media screen and (min-width: 75em) {
-      width: calc(80vw - 20rem) !important;
+      width: calc(85vw - 10rem) !important;
     }
   }
 }

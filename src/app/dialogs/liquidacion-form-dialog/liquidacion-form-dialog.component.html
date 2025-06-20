@@ -13,7 +13,7 @@
   </ng-container>
 
   <ng-container *ngIf="!isNew && ordenPagoValue">
-    <span class="titulo-azul">Orden de Pago/Cobro</span>
+    <span class="titulo-azul">{{liquidacion?.estado}}</span><span class="titulo">Orden de Pago/Cobro</span>
   </ng-container>
 
   <button mat-button type="button" mat-dialog-close class="close">
