@@ -514,6 +514,7 @@
           [form]="form"
           [viewMode]="disableForm || oc?.estado !== 'Nuevo'"
           appAutofocus="true"
+          [hint]="cantidadNominadaHint"
         ></app-number-field>
         <app-input-field-oc
           *ngIf="!onlyViewCreate"
