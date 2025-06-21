@@ -29,7 +29,7 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
     liquidacion_id: this.liquidacionId,
     tipo_documento_relacionado_id: this.data?.tipo_documento_relacionado_id,
     numero_documento_relacionado: this.data?.numero_documento_relacionado,
-    cuenta_id: this.data?.cuenta_id,
+    cuenta_id: [this.data?.cuenta_id,Validators.required],
     tipo_movimiento_id: this.data?.tipo_movimiento_id,
     es_cobro: this.data?.es_cobro ?? true,
     estado: this.estado,

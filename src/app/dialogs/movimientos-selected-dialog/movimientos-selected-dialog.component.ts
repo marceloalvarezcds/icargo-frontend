@@ -43,6 +43,14 @@ export class MovimientosSelectedDialogComponent {
     },
   ];
 
+  get moneda(): string {
+    return this.data.moneda ?? '';
+  }
+
+  get sentido(): string {
+    return this.data.moneda ?? '';
+  }
+
   get contraparteInfo(): ContraparteInfo {
     return this.data.contraparteInfo;
   }

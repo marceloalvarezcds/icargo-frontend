@@ -38,34 +38,56 @@
         </mat-form-field>
       </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <!--div class="input-form-full col-xs-12 col-sm-6 col-md-2">
         <mat-label>Debe</mat-label>
         <mat-form-field>
           <input matInput [value]="credito" appInputThousandsSeparator disabled />
         </mat-form-field>
-      </div>
+      </div-->
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+      <!--div class="input-form-full col-xs-12 col-sm-6 col-md-2">
         <mat-label>Haber</mat-label>
         <mat-form-field>
           <input matInput [value]="debito" appInputThousandsSeparator disabled />
         </mat-form-field>
-      </div>
+      </div-->
 
       <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label>Saldo</mat-label>
+        <mat-label>Total Seleccion</mat-label>
         <mat-form-field>
           <input matInput [value]="saldo" appInputThousandsSeparator disabled />
         </mat-form-field>
       </div>
 
       <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label>Saldo Final</mat-label>
+        <mat-label>Total Liquidacion</mat-label>
         <mat-form-field>
           <input
             matInput
             [value]="saldoFinal"
             appInputThousandsSeparator
+            disabled
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <mat-label>Moneda</mat-label>
+        <mat-form-field >
+          <input
+            matInput
+            [value]="moneda"
+            disabled
+          />
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <mat-label>Sentido</mat-label>
+        <mat-form-field >
+          <input
+            matInput
+            [value]="sentido"
             disabled
           />
         </mat-form-field>

@@ -287,8 +287,17 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row alerta">
           <span class="col-xs-7">Total en Cuenta Corriente</span>
           <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+          es_pago_cobro
         </div>
       </div>
+
+      <div class="col-xs-12">
+      <div class="row alerta">
+        <span class="col-xs-7">Sentido</span>
+        <span class="col-xs-5">${this.esPagoCobro}</span>
+        es_pago_cobro
+      </div>
+    </div>
 
     </div>`;
 

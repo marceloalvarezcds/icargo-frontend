@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ComentarioConfirmDialogComponent } from 'src/app/dialogs/comentario-confirm-dialog/comentario-confirm-dialog.component';
 import { InstrumentoFormDialogComponent } from 'src/app/dialogs/instrumento-form-dialog/instrumento-form-dialog.component';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { OperacionEstadoEnum } from 'src/app/enums/operacion-estado-enum';
@@ -7,6 +8,7 @@ import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
+import { changeLiquidacionDataMonto } from 'src/app/form-data/liquidacion';
 import { addInstrumentosData } from 'src/app/form-data/liquidacion-instrumento';
 import { Column } from 'src/app/interfaces/column';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
@@ -17,6 +19,7 @@ import { Moneda } from 'src/app/interfaces/moneda';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { subtract } from 'src/app/utils/math';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
@@ -160,7 +163,8 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
   constructor(
     private dialog: MatDialog,
     private dialogService: DialogService,
-    private liquidacionService: LiquidacionService
+    private liquidacionService: LiquidacionService,
+    private snackbar: SnackbarService,
   ) {}
 
   create(): void {
@@ -172,6 +176,28 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
       //this.listChange.emit(this.list);
       this.instrumentosChange.emit(item);
     });
+  }
+
+  cierreForzado(): void {
+    const message = `Está seguro que desea Forzar el CIERRE la Liquidación Nº ${this.liquidacion!.id}`;
+    this.dialogService.configDialogRef(
+      this.dialog.open(ComentarioConfirmDialogComponent, {
+        data: {
+          message,
+          comentarioRequirido: true,
+        },
+      }),
+      (comentario: string) => {
+        const form = {comentario:comentario};
+        this.liquidacionService
+          .cierreForzado(this.liquidacion!.id, changeLiquidacionDataMonto(form))
+          .subscribe(() => {
+            this.snackbar.changeStatus();
+            this.instrumentosChange.emit(undefined);
+          });
+      }
+    );
+
   }
 
   edit(): void {

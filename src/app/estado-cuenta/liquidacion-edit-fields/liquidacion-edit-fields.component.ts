@@ -64,7 +64,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   movimientos:Movimiento[] = [];
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
-  saldo = 0;
   monedaLocal?:Moneda;
   totalMonedas:any;
 

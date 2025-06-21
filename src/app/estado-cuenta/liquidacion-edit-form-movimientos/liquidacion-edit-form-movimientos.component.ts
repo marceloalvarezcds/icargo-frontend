@@ -261,7 +261,9 @@ export class LiquidacionEditFormMovimientosComponent {
         const data: MovimientosSelectedDialogData = {
           contraparteInfo: this.liquidacion!,
           list,
-          saldo: this.saldo
+          saldo: this.saldo,
+          moneda: this.liquidacion!.moneda.nombre,
+          sentido: this.liquidacion!.es_pago_cobro,
         };
         this.dialog
           .open(MovimientosSelectedDialogComponent, {
