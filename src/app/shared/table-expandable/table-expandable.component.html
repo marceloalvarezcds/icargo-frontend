@@ -406,8 +406,8 @@
 
              <ng-container *ngFor="let column2 of subRowColumnsToDisplay">
 
-              <div class="example-element-position">
-                {{column2.title}}: {{element[column2.def]}}
+              <div class="example-element-position" *ngIf="column2.value">
+                {{column2.title}}: {{column2.value(element)}}
               </div>
 
              </ng-container>
