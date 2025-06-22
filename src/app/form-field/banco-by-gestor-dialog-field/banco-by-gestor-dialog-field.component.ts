@@ -31,6 +31,11 @@ export class BancoByGestorDialogFieldComponent {
       value: (element: Banco) => element.id,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Banco) => element.estado,
+    },
+    {
       def: 'numero_cuenta',
       title: 'Nº de Cuenta',
       value: (element: Banco) => element.numero_cuenta,
@@ -74,11 +79,7 @@ export class BancoByGestorDialogFieldComponent {
       value: (element: Banco) => element.saldo_provisional,
       type: 'number'
     },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: Banco) => element.estado,
-    },
+    /*
     {
       def: 'created_by',
       title: 'Usuario creación',
@@ -101,6 +102,7 @@ export class BancoByGestorDialogFieldComponent {
       value: (element: Banco) => element.modified_at,
       type: 'date',
     },
+    */
   ];
 
 

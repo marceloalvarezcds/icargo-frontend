@@ -19,20 +19,14 @@ export class MovimientosSelectedDialogComponent {
     {
       def: 'camion_placa',
       title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'orden_carga_id',
-      title: 'N° OC',
-      value: (element: Movimiento) => element.orden_carga_id,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'documento_fisico_oc',
-      title: 'Doc. Físico',
-      value: (element: Movimiento) =>
-        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
+      value: (element: Movimiento) => {
+        let label = "";
+        console.log("subRowColumnsToDisplay: ", element);
+        label = element.camion_placa ?? '';
+        label = label + ' | Doc. Fiscal: '
+          + (( element.tipo_movimiento_descripcion === 'Flete' ) ? ((element.documento_fisico_oc) ? 'Sí' : 'No')  : '');
+        return label;
+      },
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -42,6 +36,14 @@ export class MovimientosSelectedDialogComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
   ];
+
+  get moneda(): string {
+    return this.data.moneda ?? '';
+  }
+
+  get sentido(): string {
+    return this.data.sentido ?? '';
+  }
 
   get contraparteInfo(): ContraparteInfo {
     return this.data.contraparteInfo;

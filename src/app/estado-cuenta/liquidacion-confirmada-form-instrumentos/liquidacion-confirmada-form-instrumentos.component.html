@@ -13,6 +13,16 @@
       >
         Nuevo Instrumento
       </button>
+      <button *ngIf="esSaldoAbierto"
+        mat-flat-button
+        class="botones"
+        color="primary"
+        type="button"
+        (click)="cierreForzado()"
+        [disabled]="(residuoInstrumento < 1)"
+      >
+        Forzar Cierre
+      </button>
       <!--button *ngIf="esSaldoAbierto"
         mat-flat-button
         class="botones"

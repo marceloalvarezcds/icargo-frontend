@@ -11,7 +11,7 @@
       (liquidacionFlujoChange)="actualizarEstado.emit($event)"
       (liquidacionFacturaChange)="actualizarFactura($event)"
       [saldoCC]="saldoCC"
-      [totalMovimiento]="(credito-debito)"
+      [totalMovimiento]="monto"
       [form]="form"
     ></app-liquidacion-edit-form-acciones>
 
@@ -107,7 +107,7 @@
           [list]="listMovimientosGrouped"
           [liquidacion]="item"
           [esOrdenPago]="esOrdenPago"
-          [saldo]="saldo"
+          [saldo]="monto"
           [isShow]="
             isShow ||
             item.estado === E.ACEPTADO ||

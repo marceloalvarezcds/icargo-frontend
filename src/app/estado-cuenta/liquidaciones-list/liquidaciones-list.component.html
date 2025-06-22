@@ -72,11 +72,11 @@
     [filterPredicate]="filterPredicate"
     [modelo]="m.LIQUIDACION"
     [hideDelete]="true"
-    (checkboxChange)="onCheckboxChange($event)"
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
+    (checkboxChange)="onCheckboxChange($event)"
     [fnHideEditRowButton]="fnHideEdit"
-    [fnHideDeleteRowButton]="fnHideDelete"
+    [fnHideDeleteRowButton]="fnHideDelete"    
   ></app-table-paginator>
 
 </app-page>

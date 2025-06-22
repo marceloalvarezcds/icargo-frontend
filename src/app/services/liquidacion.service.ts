@@ -81,6 +81,10 @@ export class LiquidacionService {
     return this.http.patch<Liquidacion>(`${this.url}/${id}/rechazar`, formData);
   }
 
+  cierreForzado(id: number, formData: FormData): Observable<Liquidacion> {
+    return this.http.patch<Liquidacion>(`${this.url}/${id}/forzar_cierre`, formData);
+  }
+
   pasarARevision(id: number, formData: FormData): Observable<Liquidacion> {
     return this.http.patch<Liquidacion>(
       `${this.url}/${id}/en_revision`,

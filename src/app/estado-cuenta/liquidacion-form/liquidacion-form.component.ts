@@ -144,6 +144,16 @@ export class LiquidacionFormComponent implements OnInit {
     }
 
     let groups = data.reduce(customReducer,{});
+
+    console.log("resultado: ", groups);
+
+    Object.keys(groups).forEach(key => {
+      groups[key][0].totales = Number(groups[key][0].totales.toFixed(2));
+      groups[key][0].totalesML = Number(groups[key][0].totalesML.toFixed(2));
+    });
+
+    console.log("resultado: ", groups);
+
     let groupArray = Object.keys(groups).map(key => groups[key]);
     let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
 

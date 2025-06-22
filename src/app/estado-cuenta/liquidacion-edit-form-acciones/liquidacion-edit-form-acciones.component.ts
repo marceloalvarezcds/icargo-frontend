@@ -124,7 +124,11 @@ export class LiquidacionEditFormAccionesComponent {
           <div class="row alerta">
             <span class="col-xs-7">Total en esta Liquidación</span>
             <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
-            <span class="col-xs-7">Sentido Operación</span>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <div class="row alerta">
+            <span class="col-xs-7">Sentido</span>
             <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
           </div>
         </div>
@@ -276,8 +280,6 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row alerta">
           <span class="col-xs-7">Total en esta Liquidación</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
-          <span class="col-xs-7">Sentido Operación</span>
-          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
@@ -287,6 +289,13 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row alerta">
           <span class="col-xs-7">Total en Cuenta Corriente</span>
           <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+        </div>
+      </div>
+
+      <div class="col-xs-12">
+        <div class="row alerta">
+          <span class="col-xs-7">Sentido</span>
+          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
