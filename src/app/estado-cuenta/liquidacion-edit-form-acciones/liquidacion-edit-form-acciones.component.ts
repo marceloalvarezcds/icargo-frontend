@@ -124,10 +124,6 @@ export class LiquidacionEditFormAccionesComponent {
           <div class="row alerta">
             <span class="col-xs-7">Total en esta Liquidación</span>
             <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
-          </div>
-        </div>
-        <div class="col-xs-12">
-          <div class="row alerta">
             <span class="col-xs-7">Sentido</span>
             <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
           </div>
@@ -142,6 +138,8 @@ export class LiquidacionEditFormAccionesComponent {
           <div class="row alerta">
             <span class="col-xs-7">Total en Cuenta Corriente</span>
             <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+            <span class="col-xs-7 color-white">Total en Cuenta Corriente</span>
+            <span class="col-xs-5">${ (this.saldoCC>=0) ? "A Pagar" : "A Cobrar"}</span>
           </div>
         </div>
       </div>
@@ -280,6 +278,8 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row alerta">
           <span class="col-xs-7">Total en esta Liquidación</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+          <span class="col-xs-7">Sentido Operación</span>
+          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
@@ -289,13 +289,8 @@ export class LiquidacionEditFormAccionesComponent {
         <div class="row alerta">
           <span class="col-xs-7">Total en Cuenta Corriente</span>
           <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
-        </div>
-      </div>
-
-      <div class="col-xs-12">
-        <div class="row alerta">
-          <span class="col-xs-7">Sentido</span>
-          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
+          <span class="col-xs-7 color-white">Sentido Operación</span>
+          <strong class="col-xs-5">${ (this.saldoCC>=0) ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
