@@ -284,6 +284,7 @@ export interface RecalculoCondiciones {
   condicion_propietario_tarifa_ml: number;
   merma_gestor_carga_valor_ml: number;
   merma_propietario_valor_ml: number;
+  flete_cargado: number;
 }
 
 export interface AnticiposPorOrdenCarga {

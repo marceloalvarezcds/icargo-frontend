@@ -140,6 +140,12 @@ export class OrdenCargaService {
     );
   }
 
+  updateSaldoFletes(fleteId: number, ordenCargaId: number): Observable<RecalculoCondiciones> {
+    return this.http.get<RecalculoCondiciones>(
+      `${this.url}/actualizar-saldos/flete/${fleteId}/${ordenCargaId}`
+    );
+  }
+
   validarAnticipos(choferId: number, propietarioId: number, combinacionId: number): Observable<boolean> {
     return this.http.get<boolean>(`${this.url}/chofer-propietario/pueden-recibir-anticipos`, {
       params: {

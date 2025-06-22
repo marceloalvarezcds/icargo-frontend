@@ -63,6 +63,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   itemList?: OrdenCargaList
   flete?: FleteList;
   fleteAnticipo?: OrdenCargaAnticipoSaldo;
+  fleteAnticipoForm?: OrdenCargaAnticipoSaldoForm;
   isEditPressed: boolean = true;
   combinacionList?: CombinacionList;
   formDisabledTime = new Date();
@@ -734,11 +735,13 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       data: { oc: this.item },
     });
   }
+private totalRetiradoActual: number = 0;
 
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
       this.flete = flete;
-
+      const fleteNuevoId = flete.id;
+      const fleteAnteriorId = this.item!.flete_id;
       if (this.item) {
         this.item.flete_id = flete.id;
         this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
@@ -770,8 +773,42 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             }
           });
         }
-      }
+        if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
+              this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
+                next: (updateSaldos) => {
+                  if (this.flete) {
+                    this.flete.cargado  = updateSaldos.flete_cargado;
 
+                  }
+                },
+                error: (error) => {
+                  console.error('Error en el recalculo:', error);
+                }
+              });
+            }
+
+          if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
+            this.ordenCargaSaldoService.updateTotalRetirado(fleteAnteriorId, fleteNuevoId, ordenCargaId).subscribe({
+                next: (updateRetirado) => {
+                  console.log('updateRetirado:', updateRetirado); // debe imprimirse sí o sí si hay respuesta
+                  this.totalRetiradoActual = updateRetirado.total_retirado ?? 0;
+                  if (this.fleteAnticipoForm) {
+                    console.log('Antes de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
+                    this.fleteAnticipoForm.total_retirado = updateRetirado.total_retirado;
+                    console.log('Después de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
+                  }
+                },
+                error: (error) => {
+                  console.error('Error en updateTotalRetirado:', error); // loguear error
+                },
+                complete: () => {
+                  console.log('updateTotalRetirado completed');
+                }
+              });
+
+            }
+
+          }
       this.chRef.detectChanges();
     }
   }
@@ -817,7 +854,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
               this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
                 next: (saldoAnticipo) => {
-
+                  console.log('saldo anticipo', saldoAnticipo)
                   const data = JSON.parse(
                       JSON.stringify({
                           ...this.form.value.info,
@@ -832,10 +869,12 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
                           merma_propietario_valor: this.item?.merma_propietario_valor,
                           merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
                           anticipos: this.item?.porcentaje_anticipos,
-                          saldoAnticipo: saldoAnticipo
+                          saldoAnticipo: saldoAnticipo,
+                          flete_cargado: this.flete?.cargado,
+                          total_retirado: this.totalRetiradoActual,
                       })
                   );
-
+                  console.log('total retirado', this.fleteAnticipoForm?.total_retirado)
                   formData.append('data', JSON.stringify(data));
 
                   if (this.isEdit) {
