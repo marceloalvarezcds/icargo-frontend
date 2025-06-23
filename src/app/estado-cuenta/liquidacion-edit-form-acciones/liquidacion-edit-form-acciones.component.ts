@@ -140,7 +140,7 @@ export class LiquidacionEditFormAccionesComponent {
 
         <div class="col-xs-12">
           <div class="row alerta">
-            <span class="col-xs-7">Total en Cuenta Corriente</span>
+            <span class="col-xs-7">Saldo Abierto o Remanente en Cuenta Corriente</span>
             <span class="col-xs-5">${numberWithCommas(this.saldoActualCC)}</span>
             <span class="col-xs-7 color-white">Total en Cuenta Corriente</span>
             <span class="col-xs-5">${ (this.saldoActualCC>=0) ? "A Pagar" : "A Cobrar"}</span>
@@ -291,7 +291,7 @@ export class LiquidacionEditFormAccionesComponent {
 
       <div class="col-xs-12">
         <div class="row alerta">
-          <span class="col-xs-7">Total en Cuenta Corriente</span>
+          <span class="col-xs-7">Saldo Abierto o Remanente en Cuenta Corriente</span>
           <span class="col-xs-5">${numberWithCommas(this.saldoActualCC)}</span>
           <span class="col-xs-7 color-white">Sentido Operación</span>
           <strong class="col-xs-5">${ (this.saldoActualCC>=0) ? "A Pagar" :"A Cobrar"}</strong>
