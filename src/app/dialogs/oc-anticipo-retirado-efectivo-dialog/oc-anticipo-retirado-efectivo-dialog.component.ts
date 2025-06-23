@@ -247,7 +247,8 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
     return `
       <div class="hint-alert-label">
-        Saldo OC: <strong>${formatNumber(saldoOC - monto)}</strong> &nbsp;|&nbsp;
+        <!-- Saldo OC: <strong>${formatNumber(saldoOC - monto)}</strong> &nbsp;|&nbsp; -->
+        Saldo OC: <strong>${formatNumber(disponible)}</strong> &nbsp;|&nbsp;
         Saldo Tracto: <strong>${
           typeof saldoTracto === 'number' && this.limiteAnticipoCamion !== null
             ? formatNumber(saldoTracto - monto)

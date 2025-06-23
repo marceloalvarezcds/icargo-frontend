@@ -59,12 +59,12 @@ export class OrdenCargaGestionAnticiposComponent {
       value: (element: OrdenCargaAnticipoSaldo) => element.total_disponible,
       type: 'number',
     },
-    {
-      def: 'total_retirado',
-      title: 'Total retirado (ML)',
-      value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
-      type: 'number',
-    },
+    // {
+    //   def: 'total_retirado',
+    //   title: 'Total retirado (ML)',
+    //   value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
+    //   type: 'number',
+    // },
     {
       def: 'saldo',
       title: 'Saldo en Línea (ML)',
@@ -90,7 +90,7 @@ export class OrdenCargaGestionAnticiposComponent {
       def: 'modified_at_anticipo',
       title: 'Fecha modificación',
       value: (element: OrdenCargaAnticipoSaldo) => this.formatDate(element.modified_at),
-   
+
     },
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
@@ -103,7 +103,7 @@ export class OrdenCargaGestionAnticiposComponent {
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
   }
-  
+
 
   @Input() list: OrdenCargaAnticipoSaldo[] = [];
 }
