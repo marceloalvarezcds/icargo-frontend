@@ -70,7 +70,7 @@
       </div>
       <div class="column">
         <p>
-          Límite Crédito Cam.:
+          Límite Crédito Tracto:
           <span class="span-like">
             {{ oc?.camion_limite_monto_anticipos === null
                 ? 'sin límites'
@@ -92,13 +92,16 @@
         <p>
           Saldo Crédito Tracto.:
           <span class="span-like">
-            {{ (oc?.camion_limite_monto_anticipos ?? null) === null
+            {{
+              oc?.camion_limite_monto_anticipos === null
                 ? 'sin límites'
-                : (oc?.camion_monto_anticipo_disponible | number: '1.0-0') + ' ' + (oc?.gestor_carga_moneda_simbolo || '') }}
+                : ((oc?.camion_monto_anticipo_disponible ?? 0) | number: '1.0-0') + ' ' + (oc?.gestor_carga_moneda_simbolo || '')
+            }}
           </span>
         </p>
+
         <p>
-          Anticipos Retirados Cam.:
+          Anticipos Retirados Tracto:
           <span class="span-like">
             {{ oc?.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso ?? 0 | number: '1.0-0' }}
           </span>{{oc?.gestor_carga_moneda_simbolo}}

@@ -80,7 +80,6 @@ import { OrdenCargaListCerradasComponent } from './orden-carga-list-cerradas/ord
     PdfPreviewConciliarDialogComponent,
     OrdenCargaListEnProcesoComponent,
     OrdenCargaListCerradasComponent,
- 
   ],
   imports: [
     CommonModule,
@@ -93,6 +92,10 @@ import { OrdenCargaListCerradasComponent } from './orden-carga-list-cerradas/ord
     PipesModule,
     SharedModule,
   ],
-  entryComponents: [PdfPreviewDialogComponent] 
+  exports: [
+    OrdenCargaAnticiposTableComponent, // 👈 ahora se puede usar en otros módulos
+    OrdenCargaCreateFormCombinacionComponent
+  ],
+  entryComponents: [PdfPreviewDialogComponent]
 })
 export class OrdenCargaModule {}

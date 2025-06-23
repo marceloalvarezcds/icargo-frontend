@@ -117,13 +117,13 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     return this.form.controls['punto_venta_id'] as FormControl;
   }
 
-  /*get pagoCobro(): FormControl {
+  get pagoCobro(): FormControl {
     return this.form.controls['es_cobro'] as FormControl;
   }
 
   get pagoCobroValue() {
-    return this.form.controls['es_cobro'].value;
-  }*/
+    return this.pagoCobro.value;
+  }
 
   constructor(
     private movimientoService: MovimientoService,

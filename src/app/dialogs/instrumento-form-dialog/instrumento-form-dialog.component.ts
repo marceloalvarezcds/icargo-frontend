@@ -4,7 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { InstrumentoViaEnum } from 'src/app/enums/instrumento-via';
 import { Banco } from 'src/app/interfaces/banco';
 import { Caja } from 'src/app/interfaces/caja';
-import { InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
+import { Instrumento, InstrumentoLiquidacionItem } from 'src/app/interfaces/instrumento';
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { InstrumentoVia } from 'src/app/interfaces/instrumento-via';
 import { TipoInstrumento } from 'src/app/interfaces/tipo-instrumento';
@@ -18,6 +18,7 @@ import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.serv
 import { distinctUntilChanged } from 'rxjs/operators';
 import { CajaService } from 'src/app/services/caja.service';
 import { BancoService } from 'src/app/services/banco.service';
+import { LiquidacionService } from 'src/app/services/liquidacion.service';
 
 @Component({
   selector: 'app-instrumento-form-dialog',
@@ -161,12 +162,12 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   get montoHint(): string {
     if (this.dialogData.isShow) return "";
     if (this.monto) {
-
-      return `Residuo: <strong>${ numberWithCommas(subtractDecimal(
+      // Pedido de Ruben
+      return `Saldo: <strong>${ numberWithCommas(subtractDecimal(
         this.residuo, this.monto)
       )}</strong>`;
     }
-    return `Residuo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
+    return `Saldo: <strong>${ numberWithCommas(this.residuo)}</strong>`;
   }
 
   get residuo(): number {
@@ -198,6 +199,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   constructor(
     private monedaService: MonedaService,
     private cotizacionService: MonedaCotizacionService,
+    private liquidacionService: LiquidacionService,
     private cajaService: CajaService,
     private bancoService: BancoService,
     public dialogRef: MatDialogRef<InstrumentoFormDialogComponent>,
@@ -238,13 +240,27 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   ngOnInit(){
-    null;
+    this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
+      this.monedaLocal = resp;
+      this.moneda = resp;
+    });
   }
 
   ngAfterViewInit(): void {
-    this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
-      this.monedaLocal = resp;
+
+    this.form.get('tipo_cambio_moneda')?.valueChanges.subscribe( (value:number) => {
+
+      if (value){
+
+        this.dialogData.totalLiquidacion = this.totalLiquidacionML / value;
+        this.dialogData.totalLiquidacion = Number(subtractDecimal(this.dialogData.totalLiquidacion,0));
+        this.dialogData.residuo = Number((this.totalResidioLiquidacionML / value).toFixed(2));
+
+        this.refreshTotal(Math.abs(this.dialogData.residuo));
+      }
+
     });
+
   }
 
   onbancoSelect(banco:Banco):void {
@@ -284,12 +300,20 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   refreshTotal(total: number):void{
+    let min = 1;
+
+    // TODO: se necesita un atributo mas o configuracion para saber cuales monedas permiten GS o
+    // o para saber cuanto decimales se permiten por moneda
+    if (this.moneda?.simbolo !== 'PYG') {
+      min = 0.01;
+    }
+
     this.montoControl.setValidators([]);
     this.montoControl.updateValueAndValidity();
     this.montoControl.setValidators(
       [
         Validators.required,
-        Validators.min(1),
+        Validators.min(min),
         Validators.max(total),
         Validators.pattern('^([0-9]{1,12}(\.[0-9]{1,2})?)$'),
       ]
@@ -309,21 +333,24 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
     console.log("mon: ", mon);
     console.log("monedaLocal: ", this.monedaLocal);
 
+    const moneda = this.dialogData.moneda_liquidacion === this.monedaLocal.id ? this.monedaLocal.id : this.dialogData.moneda_liquidacion;
+
     // aca trae inveso, para obtener el valor se debe dividir
-    this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
+    this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal.id)
       .subscribe(res=>{
         if (res){
-          this.form.controls['tipo_cambio_moneda'].enable();
-          this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
+
+          if (this.monedaLocal?.id !== mon.id) {
+            this.form.controls['tipo_cambio_moneda'].enable();
+            this.form.controls['tipo_cambio_moneda'].setValidators([Validators.required]);
+          }
+
           this.form.controls['tipo_cambio_moneda'].setValue(res.cotizacion_moneda);
           this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
-
-          this.dialogData.totalLiquidacion = this.totalLiquidacionML / res.cotizacion_moneda
-          this.dialogData.totalLiquidacion = Number(subtractDecimal(this.dialogData.totalLiquidacion,0));
-          this.dialogData.residuo = Number((this.totalResidioLiquidacionML / res.cotizacion_moneda).toFixed(2));
-
-          this.refreshTotal(Math.abs(this.dialogData.residuo));
-
+          //this.dialogData.totalLiquidacion = this.totalLiquidacionML / res.cotizacion_moneda
+          //this.dialogData.totalLiquidacion = Number(subtractDecimal(this.dialogData.totalLiquidacion,0));
+          //this.dialogData.residuo = Number((this.totalResidioLiquidacionML / res.cotizacion_moneda).toFixed(2));
+          //this.refreshTotal(Math.abs(this.dialogData.residuo));
         }
     });
 
@@ -386,7 +413,17 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
       // falta cambio inverso, de monto moneda instrumento a ML
       data.monto_ml = data.monto * data.tipo_cambio_moneda;
       data.moneda_abr = this.moneda!.simbolo;
-      this.dialogRef.close(data);
+
+      const formData = new FormData();
+      formData.append('data', JSON.stringify(data));
+
+      this.liquidacionService.addInstrumento(
+        this.dialogData.liquidacion_id,
+        formData
+      ).subscribe( (i:Instrumento)=> {
+        this.dialogRef.close(i);
+      })
+
     }
   }
 

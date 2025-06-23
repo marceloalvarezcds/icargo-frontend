@@ -6,6 +6,7 @@ import { facturaData } from 'src/app/form-data/factura';
 import { FacturaForm } from 'src/app/interfaces/factura';
 import { FacturaFormDialogData } from 'src/app/interfaces/factura-form-dialog-data';
 import { Moneda } from 'src/app/interfaces/moneda';
+import { TipoIva } from 'src/app/interfaces/tipo-iva';
 import { FacturaService } from 'src/app/services/factura.service';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
@@ -29,15 +30,15 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       Validators.required,
     ],
     monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
-    iva_id: [this.data ? this.data.iva_id : 1, Validators.required],
+    iva_id: [this.data ? this.data.iva_id : 3, Validators.required],
     foto: [this.data?.foto, Validators.required],
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, [Validators.required, Validators.maxLength(50)]],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
     iva_incluido: [ this.data ? this.data.iva_incluido : false ],
-    sentido_mov_iva: [ this.data?.sentido_mov_iva ],
+    sentido_mov_iva: [ this.data?.sentido_mov_iva ?? 'PAGAR' ],
     sentido_mov_iva_pagar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_iva_cobrar: [ this.data?.sentido_mov_iva ? this.data?.sentido_mov_iva === 'COBRAR' ? true : undefined : undefined],
-    sentido_mov_retencion: [ this.data?.sentido_mov_retencion ],
+    sentido_mov_retencion: [ this.data?.sentido_mov_retencion  ?? 'COBRAR' ],
     sentido_mov_retencion_pagar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'PAGAR' ? true : undefined : undefined ],
     sentido_mov_retencion_cobrar: [ this.data?.sentido_mov_retencion ? this.data?.sentido_mov_retencion === 'COBRAR' ? true : undefined : undefined ],
     retencion: [this.data?.retencion, /*[Validators.required, Validators.min(0)]*/],
@@ -175,6 +176,23 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       this.form.controls['tipo_cambio_moneda'].setValidators([]);
       this.form.controls['tipo_cambio_moneda'].setValue(1);
       this.form.controls['tipo_cambio_moneda'].updateValueAndValidity();
+    }
+  }
+
+  onTipoIvaSelect(tipoIva:TipoIva){
+    if (tipoIva.iva === 0) {
+      this.form.controls['iva'].setValue(0);
+      this.form.controls['iva'].disable();
+      this.form.controls['iva'].updateValueAndValidity()
+      this.form.controls['retencion'].setValue(0);
+      this.form.controls['retencion'].disable();
+      this.form.controls['retencion'].updateValueAndValidity()
+    } else {
+      this.form.controls['iva'].enable();
+      this.form.controls['iva'].setValidators([Validators.required, Validators.min(0)]);
+      this.form.controls['iva'].updateValueAndValidity()
+      this.form.controls['retencion'].enable();
+      this.form.controls['retencion'].updateValueAndValidity()
     }
   }
 

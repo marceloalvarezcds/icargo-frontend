@@ -89,7 +89,7 @@ export class MonedaCotizacionListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/moneda_cotizacion/${m.MONEDA_COTIZACION}/${a.CREAR}`]);
+    this.router.navigate([`/cotizacion/${m.MONEDA_COTIZACION}/${a.CREAR}`]);
   }
 
   redirectToShow(event: TableEvent<MonedaCotizacion>): void {

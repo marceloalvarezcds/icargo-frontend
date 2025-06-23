@@ -138,11 +138,13 @@ export interface FleteList extends FleteFormBaseModel {
   condicion_gestor_carga_moneda_nombre: string;
   condicion_gestor_carga_moneda_simbolo: string;
   condicion_gestor_carga_unidad_descripcion: string;
+  condicion_gestor_carga_unidad_abreviatura: string;
   // fin - Condiciones para el Gestor de Carga
   // inicio - Condiciones para el Propietario
   condicion_propietario_moneda_nombre: string;
   condicion_propietario_moneda_simbolo: string;
   condicion_propietario_unidad_descripcion: string;
+  condicion_propietario_unidad_abreviatura: string;
   condicion_propietario_tarifa_unidad: string;
   // fin - Condiciones para el Propietario
   // FIN Cantidad y Flete
@@ -391,6 +393,7 @@ export const mockFleteList: FleteList[] = [
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: toneladas.id,
     condicion_gestor_carga_unidad_descripcion: toneladas.descripcion,
+    condicion_gestor_carga_unidad_abreviatura: toneladas.descripcion,
     // fin - Condiciones para el Gestor de Carga
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: pyg.id,
@@ -399,6 +402,7 @@ export const mockFleteList: FleteList[] = [
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: toneladas.id,
     condicion_propietario_unidad_descripcion: toneladas.descripcion,
+    condicion_propietario_unidad_abreviatura: toneladas.descripcion,
     condicion_propietario_tarifa_unidad: `${pyg.simbolo}/${toneladas.descripcion}`,
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
@@ -472,6 +476,7 @@ export const mockFleteList: FleteList[] = [
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: kilogramos.id,
     condicion_gestor_carga_unidad_descripcion: kilogramos.descripcion,
+    condicion_gestor_carga_unidad_abreviatura: toneladas.descripcion,
     // fin - Condiciones para el Gestor de Carga
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: usd.id,
@@ -480,6 +485,7 @@ export const mockFleteList: FleteList[] = [
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: kilogramos.id,
     condicion_propietario_unidad_descripcion: kilogramos.descripcion,
+    condicion_propietario_unidad_abreviatura: toneladas.descripcion,
     condicion_propietario_tarifa_unidad: `${usd.simbolo}/${kilogramos.descripcion}`,
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete
@@ -554,6 +560,7 @@ export const mockFleteList: FleteList[] = [
     condicion_gestor_carga_tarifa: 100,
     condicion_gestor_carga_unidad_id: litros.id,
     condicion_gestor_carga_unidad_descripcion: litros.descripcion,
+    condicion_gestor_carga_unidad_abreviatura: toneladas.descripcion,
     // fin - Condiciones para el Gestor de Carga
     // inicio - Condiciones para el Propietario
     condicion_propietario_moneda_id: brl.id,
@@ -561,6 +568,7 @@ export const mockFleteList: FleteList[] = [
     condicion_propietario_tarifa: 100,
     condicion_propietario_unidad_id: litros.id,
     condicion_propietario_unidad_descripcion: litros.descripcion,
+    condicion_propietario_unidad_abreviatura: toneladas.descripcion,
     condicion_propietario_tarifa_unidad: `${brl.simbolo}/${litros.descripcion}`,
     // fin - Condiciones para el Propietario
     // FIN Cantidad y Flete

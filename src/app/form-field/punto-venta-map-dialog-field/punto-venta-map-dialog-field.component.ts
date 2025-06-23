@@ -37,6 +37,7 @@ export class PuntoVentaMapDialogFieldComponent {
   @Input() controlName = 'punto_venta_id';
   @Input() groupName = '';
   @Input() title = 'Establecimiento';
+  @Input() validateAnticipo: boolean = false;
 
   @Output() valueChange = new EventEmitter<PuntoVentaList | undefined>();
 
@@ -114,6 +115,7 @@ export class PuntoVentaMapDialogFieldComponent {
       selectedValue,
       drawMarkerFunction: this.createMarker.bind(this),
       filterFunction: this.filterMarker.bind(this),
+      validateAnticipo: this.validateAnticipo
     };
     const config: MatDialogConfig = {
       data,

@@ -43,4 +43,12 @@ export class ProveedorService {
   delete(id: number): Observable<Proveedor> {
     return this.http.delete<Proveedor>(`${this.url}/${id}`);
   }
+
+  inactive(id: number): Observable<Proveedor> {
+      return this.http.get<Proveedor>(`${this.url}/${id}/inactive`);
+  }
+
+  active(id: number): Observable<Proveedor> {
+    return this.http.get<Proveedor>(`${this.url}/${id}/active`);
+  }
 }

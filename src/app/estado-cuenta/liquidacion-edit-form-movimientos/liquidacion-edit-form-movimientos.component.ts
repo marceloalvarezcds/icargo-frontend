@@ -157,14 +157,14 @@ export class LiquidacionEditFormMovimientosComponent {
     {
       def: 'camion_placa',
       title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'documento_fisico_oc',
-      title: 'Doc. Físico',
-      value: (element: Movimiento) =>
-        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
+      value: (element: Movimiento) => {
+          let label = "";
+          console.log("subRowColumnsToDisplay: ", element);
+          label = element.camion_placa ?? '';
+          label = label + ' | Doc. Fiscal: '
+            + (( element.tipo_movimiento_descripcion === 'Flete' ) ? ((element.documento_fisico_oc) ? 'Sí' : 'No')  : '');
+          return label;
+        },
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
@@ -261,7 +261,9 @@ export class LiquidacionEditFormMovimientosComponent {
         const data: MovimientosSelectedDialogData = {
           contraparteInfo: this.liquidacion!,
           list,
-          saldo: this.saldo
+          saldo: this.saldo,
+          moneda: this.liquidacion!.moneda.nombre,
+          sentido: this.liquidacion!.es_pago_cobro,
         };
         this.dialog
           .open(MovimientosSelectedDialogComponent, {

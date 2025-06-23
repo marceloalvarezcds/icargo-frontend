@@ -47,7 +47,7 @@ type Filter = {
   cuenta?: string;
   concepto?: string;
   tipo?: string;
-  estado?: string;
+  estado_liquidacion?: string;
   contraparte_alias?: string
   es_pdv?: boolean
 };
@@ -68,22 +68,16 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
   subColumns: Column[] = [
     {
-      def: 'nro_documento_relacionado',
-      title: 'N° OC',
-      value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
-      dinamicStyles: (element: MovimientoEstadoCuenta) =>
-        (
-          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
-        ),
-    },
-    {
-      def: 'documento_fisico',
-      title: 'Doc. Físico',
-      value: (element: MovimientoEstadoCuenta) =>
-        ( element.tipo_movimiento_concepto === 'Flete' ) ? (element.documento_fisico) ? 'Sí' : 'No'  : '',
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => {
+        let label = "";
+        console.log("subRowColumnsToDisplay: ", element);
+        label = element.camion_placa ?? '';
+        label = label + ' | Doc. Fiscal: '
+          + (( element.tipo_movimiento_descripcion === 'Flete' ) ? ((element.documento_fisico_oc) ? 'Sí' : 'No')  : '');
+        return label;
+      },
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
@@ -340,8 +334,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       const filterByDetalle = filter.tipo?.split('|')
           .some((x) => obj.detalle.toLowerCase().indexOf(x) >= 0) ?? true;
 
-      const filterByEstado = filter.estado?.split('|')
-          .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
+      const filterByEstado = filter.estado_liquidacion?.split('|')
+          .some((x) => obj.estado_liquidacion?.toLowerCase().indexOf(x) >= 0) ?? true;
 
       if (filter.es_pdv){
 
@@ -395,7 +389,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         this.isFiltered = true;
       }
       if (this.isFilteredByEstado) {
-        filter.estado = this.estadoFiltered.join('|');
+        filter.estado_liquidacion = this.estadoFiltered.join('|');
         this.isFiltered = true;
       }
 
@@ -559,6 +553,8 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         isOrdenPago:true,
       };
 
+      console.log("createOrdenPagoDialog: ", data);
+
       this.dialog
         .open(LiquidacionFormDialogComponent, {
           data,
@@ -691,7 +687,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.columns = [
         {
-          def: 'estado_liq',
+          def: 'estado',
           title: 'Estado',
           value: (element: MovimientoEstadoCuenta) => element.estado,
           dinamicStyles: (element: MovimientoEstadoCuenta) =>
@@ -909,7 +905,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             ),
           footerDef: () => this.pagos,
         },
-        {
+        /*{
           def: 'movimiento_saldo',
           title: 'Saldo Acumulado',
           value: (element: MovimientoEstadoCuenta) => element.movimiento_saldo,
@@ -922,7 +918,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
-        },
+        },*/
         {
           def: 'editar',
           title: '',
@@ -964,6 +960,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
                 dinamicStyles: (element: MovimientoEstadoCuenta) =>
                   (
                     (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
+                    (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
                     (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
                     (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
                     (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -1074,7 +1071,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
 
       this.cuentaFilterList = getFilterList(this.list, (x) => x.tipo_cuenta_descripcion);
 
-      this.estadoFilterList = getFilterList(this.list, (x) => x.estado);
+      this.estadoFilterList = getFilterList(this.list, (x) => x.estado_liquidacion);
 
       this.conceptoFilterList = getFilterList(this.list, (x) => x.tipo_movimiento_concepto);
 

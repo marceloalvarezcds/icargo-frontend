@@ -27,7 +27,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO;
   proveedor?: string;
   tipoInsumo?: string;
-  backUrl = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.LISTAR}`;
+  backUrl = `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.LISTAR}`;
   saldoAnticipo = 0;
   item?: InsumoPuntoVentaPrecioList;
   insumoPdvId: number | null = null;
@@ -37,6 +37,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
   hora: string | null = null;
+  autoSelectFiltro = "L";
   insumoId: number | null = null;
   horaPattern: RegExp =  /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
   form = this.fb.group({

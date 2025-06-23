@@ -57,6 +57,10 @@ export class LiquidacionEditFormAccionesComponent {
     return (this.liquidacion.es_pago_cobro === 'PAGO');
   }
 
+  get saldoActualCC(): number {
+    return subtract(this.saldoCC, this.totalMovimiento);
+  }
+
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
   //@Input() monto : number | undefined = 0;
@@ -124,7 +128,7 @@ export class LiquidacionEditFormAccionesComponent {
           <div class="row alerta">
             <span class="col-xs-7">Total en esta Liquidación</span>
             <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
-            <span class="col-xs-7">Sentido Operación</span>
+            <span class="col-xs-7">Sentido</span>
             <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
           </div>
         </div>
@@ -136,8 +140,10 @@ export class LiquidacionEditFormAccionesComponent {
 
         <div class="col-xs-12">
           <div class="row alerta">
-            <span class="col-xs-7">Total en Cuenta Corriente</span>
-            <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+            <span class="col-xs-7">Saldo Abierto o Remanente en Cuenta Corriente</span>
+            <span class="col-xs-5">${numberWithCommas(this.saldoActualCC)}</span>
+            <span class="col-xs-7 color-white">Total en Cuenta Corriente</span>
+            <span class="col-xs-5">${ (this.saldoActualCC>=0) ? "A Pagar" : "A Cobrar"}</span>
           </div>
         </div>
       </div>
@@ -256,7 +262,8 @@ export class LiquidacionEditFormAccionesComponent {
     }*/
     if (this.liquidacion.es_orden_pago) {
 
-      const form = { 'monto': this.liquidacion.pago_cobro, comentario:"" };
+      const liq = this.form?.getRawValue();
+      const form = { 'monto': (liq.monto_pc ?? this.liquidacion.pago_cobro), comentario:"" };
 
       this.liquidacionService
         .someter(this.id, changeLiquidacionDataMonto(form))
@@ -284,8 +291,10 @@ export class LiquidacionEditFormAccionesComponent {
 
       <div class="col-xs-12">
         <div class="row alerta">
-          <span class="col-xs-7">Total en Cuenta Corriente</span>
-          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+          <span class="col-xs-7">Saldo Abierto o Remanente en Cuenta Corriente</span>
+          <span class="col-xs-5">${numberWithCommas(this.saldoActualCC)}</span>
+          <span class="col-xs-7 color-white">Sentido Operación</span>
+          <strong class="col-xs-5">${ (this.saldoActualCC>=0) ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 

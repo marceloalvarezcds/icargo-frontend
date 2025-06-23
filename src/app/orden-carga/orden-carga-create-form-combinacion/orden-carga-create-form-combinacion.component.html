@@ -127,6 +127,7 @@
         <mat-slide-toggle
           *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          [disabled]="true"
           trueTitle="Active"
           falseTitle="Inactive"
           formControlName="anticipo_propietario"
@@ -216,6 +217,7 @@
           *ngIf="!showField"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           formControlName="puede_recibir_anticipos"
+          [disabled]="true"
           labelPosition="before">
           Anticipos
         </mat-slide-toggle>
@@ -415,7 +417,7 @@
           title="Flete a <strong>PAGAR</strong>"
           [groupName]="groupName"
           [camionId]="camionId"
-          [productoId]="productoId"
+          [productoId]="productoId"r
           [readonly]="true"
           [form]="form"
           controlName="a_pagar"
@@ -512,6 +514,7 @@
           [form]="form"
           [viewMode]="disableForm || oc?.estado !== 'Nuevo'"
           appAutofocus="true"
+          [hint]="cantidadNominadaHint"
         ></app-number-field>
         <app-input-field-oc
           *ngIf="!onlyViewCreate"

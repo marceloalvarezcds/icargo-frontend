@@ -641,7 +641,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
 
     formData.append('data', JSON.stringify(data));
 
-    this.ordenCargaService.create(formData).subscribe((item) => {
+   this.ordenCargaService.create(formData).subscribe({
+    next: (item) => {
       this.snackbar.openSave();
       this.ordenCargaId = item.id;
       this.fleteId = item.flete_id;
@@ -649,15 +650,16 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.info.get('comentarios')?.setValue('');
       this.isShowId = true;
       this.dataFromParent = item.estado;
-      //  this.snackbar.openSaveAndRedirect(
-      //    confirmed,
-      //    this.backUrl,
-      //    r.ORDEN_CARGA,
-      //    m.ORDEN_CARGA,
-      //    item.id
-      //  );
+      this.form.disable();
+      this.isDataLoaded = true;
+      this.isFormSubmitting = false;
+    },
+    error: (error) => {
+      console.error('Error al crear orden de carga', error);
+      this.isDataLoaded = false;
+      this.isFormSubmitting = true;
+    }
     });
-    this.form.disable();
   }
 
   getData(): void {

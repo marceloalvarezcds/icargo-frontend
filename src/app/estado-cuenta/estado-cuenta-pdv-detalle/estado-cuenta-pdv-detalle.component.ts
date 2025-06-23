@@ -46,7 +46,7 @@ type Filter = {
   cuenta?: string;
   concepto?: string;
   tipo?: string;
-  estado?: string;
+  estado_liquidacion?: string;
 };
 
 @Component({
@@ -278,7 +278,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
     },
-    {
+    /*{
       def: 'movimiento_saldo',
       title: 'Saldo Acumulado',
       value: (element: MovimientoEstadoCuenta) => element.movimiento_saldo,
@@ -290,7 +290,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
           (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
           (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
         ),
-    },
+    },*/
     /*{
       def: 'oc',
       title: '',
@@ -336,22 +336,16 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
 
   subColumns: Column[] = [
     {
-      def: 'nro_documento_relacionado',
-      title: 'N° OC',
-      value: (element: MovimientoEstadoCuenta) => element.nro_documento_relacionado,
-      dinamicStyles: (element: MovimientoEstadoCuenta) =>
-        (
-          (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
-          (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
-          (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
-          (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
-        ),
-    },
-    {
       def: 'documento_fisico',
       title: 'Doc. Físico',
-      value: (element: MovimientoEstadoCuenta) =>
-        ( element.tipo_movimiento_concepto === 'Flete' ) ? (element.documento_fisico) ? 'Sí' : 'No'  : '',
+      value: (element: Movimiento) => {
+        let label = "";
+        console.log("subRowColumnsToDisplay: ", element);
+        label = element.camion_placa;
+        label = label + ' | Doc. Fiscal: '
+          + (( element.tipo_movimiento_descripcion === 'Flete' ) ? ((element.documento_fisico_oc) ? 'Sí' : 'No')  : '');
+        return label;
+      },
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
         (
           (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
@@ -595,8 +589,8 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
       const filterByDetalle = filter.tipo?.split('|')
           .some((x) => obj.detalle.toLowerCase().indexOf(x) >= 0) ?? true;
 
-      const filterByEstado = filter.estado?.split('|')
-          .some((x) => obj.estado.toLowerCase().indexOf(x) >= 0) ?? true;
+      const filterByEstado = filter.estado_liquidacion?.split('|')
+          .some((x) => obj.estado_liquidacion?.toLowerCase().indexOf(x) >= 0) ?? true;
 
       return filterByCuenta && filterByConcepto && filterByDetalle && filterByEstado;
     }
@@ -627,7 +621,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
         this.isFiltered = true;
       }
       if (this.isFilteredByEstado) {
-        filter.estado = this.estadoFiltered.join('|');
+        filter.estado_liquidacion = this.estadoFiltered.join('|');
         this.isFiltered = true;
       }
       this.filter(
@@ -1011,7 +1005,7 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
 
       this.cuentaFilterList = getFilterList(this.list, (x) => x.tipo_cuenta_descripcion);
 
-      this.estadoFilterList = getFilterList(this.list, (x) => x.estado);
+      this.estadoFilterList = getFilterList(this.list, (x) => x.estado_liquidacion);
 
       this.conceptoFilterList = getFilterList(this.list, (x) => x.tipo_movimiento_concepto);
 

@@ -1,0 +1,52 @@
+<app-page-form
+  class="orden-carga-page"
+  module="NUEVO"
+  submodule="ANTICIPO (directo)"
+  (backClick)="back($event)"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
+  (cancelarClick)="cancelar()"
+  (nuevoClick)="resetFormData()"
+  [formGroup]="form"
+  [modelo]="modelo"
+  [oc]="item"
+  [isFormSaved]="isFormSaved"
+  [class.page-form-show]="isShow"
+  [isFormSubmitting]="isFormSubmitting"
+  [estado]="estadoOc"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
+  [isAnticipoActive]="isToggleAnticiposLiberados"
+  [isDataLoaded]="isToggleAnticiposLiberados"
+  [hideSaveButton]="true"
+  [formNuevaOc]="true"
+  [nuevoActive]="nuevoActive"
+>
+
+  <div class="orden-carga-page-content">
+    <app-orden-carga-create-form-combinacion
+      [form]="form"
+      (fleteChange)="flete = $event"
+      (camionChange)="camion = $event"
+      (semiChange)="semi = $event"
+      (combinacionChange)="combinacionList = $event"
+      (ordenCargaChange)="ordenCargaList = $event"
+      [showSearchOCAceptadas]="true"
+      [showSearchOCPedidos]="true"
+      (ocChange)="getData()"
+      [oc]="item"
+      [list]="comentariosList"
+      [showField]="true"
+    ></app-orden-carga-create-form-combinacion>
+
+    <div class="anticipo-table">
+      <app-orden-carga-anticipos-table
+        [oc]="item"
+        [fleteId]="fleteId"
+        [list]="anticipoList"
+        (ocChange)="getData()">
+      </app-orden-carga-anticipos-table>
+    </div>
+  </div>
+</app-page-form>
+

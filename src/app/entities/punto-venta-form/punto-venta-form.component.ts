@@ -73,6 +73,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       nombre_corto: [{value:null, disabled:false}, Validators.required],
       proveedor_id: [null, Validators.required],
       estado:[true, Validators.required],
+      puede_recibir_anticipos_efectivo: null,
       tipo_documento_id: [null, Validators.required],
       numero_documento: [null, Validators.required],
       digito_verificador: [null, Validators.min(0)],
@@ -91,8 +92,14 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       latitud: null,
       longitud: null,
       direccion: null,
-      localidad_nombre: null,
-      pais_nombre: null,
+      localidad_nombre: [{
+        value: null,
+        disabled: true
+      }],
+      pais_nombre: [{
+        value: null,
+        disabled: true
+      }],
     }),
   });
 
@@ -130,6 +137,10 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     return this.info?.controls['estado'].value;
   }
 
+  get aniticpoControlValue(): Boolean {
+    return this.info?.controls['puede_recibir_anticipos_efectivo'].value;
+  }
+
   get puntoVentaPrecioBackUrl(): string {
     return this.router.url;
   }
@@ -154,6 +165,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getData();
+
   }
 
   ngOnDestroy(): void {
@@ -280,6 +292,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
             nombre_corto: data.nombre_corto,
             numero_sucursal: data.numero_sucursal,
             estado: ( data.estado === "Activo" ) ? true : false,
+            puede_recibir_anticipos_efectivo: data.puede_recibir_anticipos_efectivo,
             proveedor_id: data.proveedor_id,
             tipo_documento_id: data.tipo_documento_id,
             numero_documento: data.numero_documento,
@@ -298,6 +311,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
             direccion: data.direccion,
           },
         });
+        console.log('puede', data)
         this.contactoList = data.contactos.slice();
         this.logo = data.logo!;
         this.isShowInsumo = true;

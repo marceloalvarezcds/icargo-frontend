@@ -6,7 +6,7 @@
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="false"
-  [hideSaveButton]="false"
+  [hideSaveButton]="true"
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
@@ -27,6 +27,7 @@
     (actualizarEstado)="loadLiquidacion()"
     (actualizarLiquidacion)="loadLiquidacion()"
     (actualizarMovimientos)="loadLiquidacion()"
+    (actualizarLiquidacionOnly)="loadLiquidacionOnly()"
   >
 </app-liquidacion-edit-fields>
 

@@ -1,0 +1,58 @@
+<ng-container *ngIf="item">
+  <app-page-form
+    class="orden-carga-page"
+    module="NUEVA"
+    submodule="ANTICIPOS"
+    [class.page-form-show]="isShow"
+    [formGroup]="form"
+    [hasChange]="hasChange"
+    [oc]="item"
+    [hideEditButton]="item.is_conciliado"
+    [isEdit]="isEdit"
+    [isShow]="isShow"
+    [modelo]="modelo"
+    [gestorCargaId]="gestorCargaId"
+    (backClick)="back($event)"
+    (editClick)="redirectToEdit()"
+    [hideEditButton]="true"
+    (submitEvent)="submit(false)"
+    (activeClick)="active()"
+    (inactiveClick)="inactive()"
+    module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+    [estado]="estado"
+    [isAnticipoActive]="isToggleAnticiposLiberados"
+    [isNuevo]="isNuevo"
+    [isAceptado]="isAceptado"
+    [isOc]="isOc"
+    [isButtonPressed]="isButtonPressed"
+    [isEditPressed]="isEditPressed"
+  >
+    <div class="orden-carga-page-content">
+
+      <!-- <app-orden-carga-create-form-combinacion
+          [oc]="item"
+          [form]="form"
+          (ocChange)="getData()"
+          (fleteChange)="onFleteChange($event)"
+          [isEditField]="true"
+          [isEdit]="isEdit"
+          [isShow]="isShow"
+          [showSearchOCPedidos]="isShow"
+          [isNeto]="false"
+      ></app-orden-carga-create-form-combinacion> -->
+
+      <div class="anticipo-table">
+        <app-orden-carga-anticipos-table
+            [oc]="item"
+            [gestorCargaId]="gestorCargaId"
+            [isShow]="isShow"
+            [isEditPedido]="isEditPedido"
+            [puedeConciliar]="puedeConciliar"
+            [list]="anticipoList"
+            (ocChange)="getData()"
+            (buttonAnticipoClicked)="onEditPressed()"
+        ></app-orden-carga-anticipos-table>
+      </div>
+    </div>
+  </app-page-form>
+</ng-container>

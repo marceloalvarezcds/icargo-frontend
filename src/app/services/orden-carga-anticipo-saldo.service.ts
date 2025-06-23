@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { OrdenCargaAnticipoSaldo } from '../interfaces/orden-carga-anticipo-saldo';
 
 @Injectable({
   providedIn: 'root',
@@ -19,4 +20,11 @@ export class OrdenCargaAnticipoSaldoService {
       `${this.url}/flete_anticipo/${fleteAnticipoId}/orden_carga/${ordenCargaId}`
     );
   }
+
+  updateTotalRetirado(fleteIdAnterior: number, fleteIdNuevo: number, ordenCargaId: number): Observable<OrdenCargaAnticipoSaldo> {
+    return this.http.get<OrdenCargaAnticipoSaldo>(
+      `${this.url}/actualizar-retiro/${fleteIdAnterior}/${fleteIdNuevo}/${ordenCargaId}`
+    );
+  }
+
 }

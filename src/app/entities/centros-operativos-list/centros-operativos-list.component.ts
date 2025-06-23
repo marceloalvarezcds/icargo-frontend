@@ -152,6 +152,28 @@ export class CentrosOperativosListComponent implements OnInit {
   //   window.open(url, '_blank');
   // }
 
+  active({ row }: TableEvent<CentroOperativoList>): void {
+    const message = `¿Está seguro que desea activar el Centro Operativo con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.centroOperativoService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<CentroOperativoList>): void {
+    const message = `¿Está seguro que desea inactivar el Centro Operativo con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.centroOperativoService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
   deleteRow({ row }: TableEvent<CentroOperativoList>): void {
     const message = `¿Está seguro que desea eliminar el Centro Operativo
     ${row.nombre}?`;

@@ -55,7 +55,7 @@ export class AppComponent implements OnInit, OnDestroy {
 
               const arr = event.url.split('/')
 
-              console.log("postInit ", arr);
+              // console.log("postInit ", arr);
 
               if (arr.length>=2 && arr[2]){
                 let title = arr[2];

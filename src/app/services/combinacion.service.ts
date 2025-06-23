@@ -12,6 +12,10 @@ export class CombinacionService {
 
   constructor(private http: HttpClient) {}
 
+  getAllList(): Observable<CombinacionList[]> {
+    return this.http.get<CombinacionList[]>(`${this.url}/all`);
+  }
+
   getList(): Observable<CombinacionList[]> {
     return this.http.get<CombinacionList[]>(`${this.url}/`);
   }
@@ -53,7 +57,6 @@ export class CombinacionService {
       `${this.url}/combinacion_por_camion/${camionId}`
     );
   }
-
 
   getListByGestorCuenta(): Observable<Combinacion[]> {
     return this.http.get<Combinacion[]>(`${this.url}/gestor_cuenta`);

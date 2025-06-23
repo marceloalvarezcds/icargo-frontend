@@ -259,7 +259,10 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["color"].setValue(camion.color_descripcion ?? null);
       this.info?.controls["propietario"].setValue(camion.propietario_nombre);
       this.info?.controls["oc_activa"].setValue(camion.oc_activa);
-      this.info?.controls["limite_anticipos"].setValue(camion.limite_monto_anticipo);
+      const limite = camion.limite_monto_anticipo;
+      this.info?.controls["limite_anticipos"].setValue(
+        limite === 0 ? null : limite
+      );
       this.info?.controls["estado_camion"].setValue(camion.estado);
       this.info?.controls["foto_camion"].setValue(camion.foto);
       this.fotoPerfil = camion.foto ?? null;

@@ -84,7 +84,7 @@ export class CajaFormInstrumentosComponent implements OnInit {
       value: (element: Instrumento) => element.liquidacion_id,
     },
     {
-      def: 'tipo_operacion_descripcion_caja',
+      def: 'tipo_operacion_descripcion',
       title: 'Operación',
       value: (element: Instrumento) => element.tipo_operacion_descripcion,
     },

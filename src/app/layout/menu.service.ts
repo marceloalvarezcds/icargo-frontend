@@ -174,7 +174,7 @@ export class MenuService {
         name: 'Mercaderias',
         iconName: 'inventory_2',
         iconOutline: true,
-        path: `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
+        path: `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}`,
         active: this.userService.checkPermiso(a.LISTAR, m.INSUMO_PUNTO_VENTA_PRECIO),
       },
       {
@@ -213,6 +213,13 @@ export class MenuService {
             active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA),
           },
         ],
+      },
+      {
+        name: 'Anticipos',
+        iconName: 'monetization_on',
+        iconOutline: true,
+        path: `/orden-carga-anticipos/${m.ORDEN_CARGA_ANTICIPO_RETIRADO}`,
+        active: this.userService.checkPermiso(a.LISTAR, m.ORDEN_CARGA_ANTICIPO_RETIRADO),
       },
       {
         name: u.CUENTA_CORRIENTE,
@@ -271,7 +278,7 @@ export class MenuService {
         name: 'Cotización',
         iconName: 'currency_exchange',
         iconOutline: true,
-        path: `/moneda_cotizacion/${m.MONEDA_COTIZACION}`,
+        path: `/cotizacion/${m.MONEDA_COTIZACION}`,
         active: this.userService.checkPermiso(a.LISTAR, m.MONEDA_COTIZACION),
       },
       {

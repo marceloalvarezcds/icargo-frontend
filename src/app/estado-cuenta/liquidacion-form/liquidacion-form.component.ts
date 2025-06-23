@@ -127,13 +127,15 @@ export class LiquidacionFormComponent implements OnInit {
       accumulator[currentGroup] = [{
         groupName: `Moneda: ${currentValue[column]}`,
         totales: 0,
+        totalesML: 0,
         isGroup: true,
       }];
 
       accumulator[currentGroup][0] =
         {
           ...accumulator[currentGroup][0],
-          totales:accumulator[currentGroup][0].totales + currentValue.monto
+          totales:accumulator[currentGroup][0].totales + currentValue.monto,
+          totalesML:accumulator[currentGroup][0].totalesML + currentValue.monto_ml
         };
 
       accumulator[currentGroup].push(currentValue);
@@ -142,6 +144,16 @@ export class LiquidacionFormComponent implements OnInit {
     }
 
     let groups = data.reduce(customReducer,{});
+
+    console.log("resultado: ", groups);
+
+    Object.keys(groups).forEach(key => {
+      groups[key][0].totales = Number(groups[key][0].totales.toFixed(2));
+      groups[key][0].totalesML = Number(groups[key][0].totalesML.toFixed(2));
+    });
+
+    console.log("resultado: ", groups);
+
     let groupArray = Object.keys(groups).map(key => groups[key]);
     let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
 
@@ -155,6 +167,9 @@ export class LiquidacionFormComponent implements OnInit {
     // agrupamos por moneda
     const listMovimientosGrouped = this.groupBy('moneda_nombre', listMovimientos);
 
+    let liquidacionValues = this.child.form.getRawValue();
+    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+
     console.log("movs agrupados: ",listMovimientosGrouped);
 
       const data: LiquidacionConfirmDialogData = {
@@ -164,7 +179,8 @@ export class LiquidacionFormComponent implements OnInit {
         debito: this.child.debito,
         monto: this.child.monto,
         saldo: (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado),
-        totalMonedas: this.child.totalMonedas
+        moneda: this.child.monedaLocal,
+        sentido: es_pago_cobro
       };
       this.dialog
         .open(LiquidacionConfirmDialogComponent, {
@@ -199,12 +215,27 @@ export class LiquidacionFormComponent implements OnInit {
 
     const gestorCargaId = liquidacion.gestor_carga_id;
 
+    let {
+      punto_venta_id,
+      es_pdv,
+      flujo
+    } = this.route.snapshot.queryParams;
+
     if ( this.userService.checkPermisoAndGestorCargaId(
-      a.PASAR_A_REVISION,
-      this.modelo,
-      gestorCargaId)
+        a.PASAR_A_REVISION,
+        this.modelo,
+        gestorCargaId)
     ) {
-      const nav = '/estado-cuenta/estado_cuenta/liquidacion/editar/'+liquidacion.id;
+
+      let nav = '/estado-cuenta/estado_cuenta/liquidacion/editar/'+liquidacion.id;
+
+      if (coerceBooleanProperty(es_pdv)) {
+        this.router.navigate([nav], {
+          queryParams: {punto_venta:punto_venta_id, flujo:flujo},
+        });
+        return;
+      }
+
       this.router.navigate([nav]);
       return;
     }

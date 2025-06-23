@@ -29,8 +29,8 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
     liquidacion_id: this.liquidacionId,
     tipo_documento_relacionado_id: this.data?.tipo_documento_relacionado_id,
     numero_documento_relacionado: this.data?.numero_documento_relacionado,
-    cuenta_id: this.data?.cuenta_id,
-    tipo_movimiento_id: this.data?.tipo_movimiento_id,
+    cuenta_id: [this.data?.cuenta_id],
+    tipo_movimiento_id: [this.data?.tipo_movimiento_id, [Validators.required]],
     es_cobro: this.data?.es_cobro ?? true,
     estado: this.estado,
     fecha: this.fecha,
@@ -191,6 +191,8 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
+    console.log(this.form);
 
     if (this.form.valid) {
       const descripcionControl = this.form.get('detalle');

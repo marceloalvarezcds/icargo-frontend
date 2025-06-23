@@ -34,13 +34,13 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() item?: Liquidacion;
   @Input() isEdit = false;
   @Input() set movimientosList(movs: Movimiento[]) {
-    console.log("refresh movs");
     this.movimientos = movs;
+    this.actualizarSentido();
     this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
   }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
-    if (liq.es_orden_pago){
+    if (liq.es_orden_pago && liq.estado != LiquidacionEstadoEnum.CANCELADO){
       this.monto_pc.setValue(Math.abs(liq.pago_cobro!));
       this.form.controls['monto_pc'].addValidators([Validators.required, Validators.min(0)]);
       this.form.controls['monto_pc'].enable();
@@ -56,6 +56,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
+  @Output() actualizarLiquidacionOnly: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
@@ -63,7 +64,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   movimientos:Movimiento[] = [];
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
-  saldo = 0;
   monedaLocal?:Moneda;
   totalMonedas:any;
 
@@ -111,7 +111,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   get esFinalizado(): boolean {
     return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
-      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
+      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO ||
+      this.item?.estado === LiquidacionEstadoEnum.CANCELADO)  ;
+  }
+
+  get esSaldoAbierto(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO);
+  }
+
+  get esFinalizadoInstrumentos(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
 
   get comentario(): string {
@@ -168,7 +177,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.form.controls['es_cobro'].setValue(false);
     }
 
-    if (this.esFinalizado) {
+    if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
       this.form.controls['monto_pc'].disable();
       this.form.controls['moneda_id'].disable();
       this.form.controls['es_cobro'].disable();
@@ -184,7 +193,8 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         this.actualizarSaldos(chng.currentValue);
       }*/
       if (propName === 'liquidacion') {
-        if (this.esFinalizado) {
+        console.log("liquidacion");
+        if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
           this.form.controls['monto_pc'].disable();
           this.form.controls['moneda_id'].disable();
           this.form.controls['es_cobro'].disable();
@@ -210,6 +220,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
         this.form.controls['es_cobro'].setValue(false);
       }
   }*/
+
+  actualizarSentido(){
+    if (this.monto>0) {
+      this.form.controls['es_cobro'].setValue(true);
+    } else {
+      this.form.controls['es_cobro'].setValue(false);
+    }
+  }
 
   actualizarFactura(factura:Factura|null):void {
     //this.item!.pago_cobro = null;
@@ -299,6 +317,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
           residuo:0
         };
       }
+
       acumulador[clave].total += monto;
       acumulador[clave].total_ml += monto_mon_local;
       acumulador[clave].residuo += monto;
@@ -309,12 +328,14 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     console.log("resultado: ", resultado);
 
     Object.keys(resultado).forEach(key => {
-      resultado[key].total = resultado[key].total;
-      resultado[key].total_ml = resultado[key].total_ml;
-      resultado[key].residuo = resultado[key].residuo;
+      resultado[key].total = Number(resultado[key].total.toFixed(2));
+      resultado[key].total_ml = Number(resultado[key].total_ml.toFixed(2));
+      resultado[key].residuo = Number(resultado[key].residuo.toFixed(2));
     });
 
-    this.totalMonedas = Object.values(resultado);;
+    console.log("resultado2: ", resultado);
+
+    this.totalMonedas = Object.values(resultado);
   }
 
   groupBy( column:string, data: any[] ){
@@ -327,13 +348,15 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       accumulator[currentGroup] = [{
         groupName: `Moneda: ${currentValue[column]}`,
         totales: 0,
+        totalesML: 0,
         isGroup: true,
       }];
 
       accumulator[currentGroup][0] =
         {
           ...accumulator[currentGroup][0],
-          totales:accumulator[currentGroup][0].totales + currentValue.monto
+          totales:accumulator[currentGroup][0].totales + currentValue.monto,
+          totalesML:accumulator[currentGroup][0].totalesML + currentValue.monto_ml
         };
 
       accumulator[currentGroup].push(currentValue);
@@ -342,6 +365,12 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }
 
     let groups = data.reduce(customReducer,{});
+
+    Object.keys(groups).forEach(key => {
+      groups[key][0].totales = Number(groups[key][0].totales.toFixed(2));
+      groups[key][0].totalesML = Number(groups[key][0].totalesML.toFixed(2));
+    });
+
     let groupArray = Object.keys(groups).map(key => groups[key]);
     let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
 

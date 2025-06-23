@@ -35,6 +35,7 @@ export interface PuntoVenta {
   composicion_juridica: ComposicionJuridica | null;
   logo?: string | null;
   estado: EstadoEnum;
+  puede_recibir_anticipos_efectivo: boolean,
   telefono: string;
   email?: string | null;
   pagina_web?: string | null;
@@ -66,6 +67,7 @@ export interface PuntoVentaList extends PuntoVenta {
   pais_nombre_corto: string | null;
   tipo_documento_descripcion: string;
   created_by: string;
+  puede_recibir_anticipos_efectivo: boolean;
 }
 
 

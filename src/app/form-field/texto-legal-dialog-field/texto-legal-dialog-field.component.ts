@@ -39,6 +39,11 @@ export class TextoLegalDialogFieldComponent {
       sticky: true,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: TextoLegal) => element.estado,
+    },
+    {
       def: 'titulo',
       title: 'Titulo',
       value: (element: TextoLegal) => element.titulo,
@@ -51,9 +56,17 @@ export class TextoLegalDialogFieldComponent {
     {
       def: 'created_at',
       title: 'Fecha creación',
-      value: (element: TextoLegal) => element.created_at,
+      value: (element: TextoLegal) => this.formatDate(element.created_at),
     },
   ];
+
+   formatDate(dateString: string): string {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${day}-${month}-${year}`;
+  }
 
   @Input() textoLegalEvents?: Observable<TextoLegal>;
   @Input() isRemote?:boolean = false;

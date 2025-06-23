@@ -317,8 +317,6 @@
           </button>
           <mat-menu #menu="matMenu">
             <!-- TODO: la lista de opciones adicionales deberia pasarse por parametros entre componentes-->
-
-
             <button
               type="button"
               mat-menu-item
@@ -391,7 +389,7 @@
               type="button"
               mat-menu-item
               (click)="anularAnticipoClick.emit({ row, index })"
-              *ngIf="
+              *ngIf="  hideButtonAnular(row) &&
               row.estado !== e.ANULADO &&
               shouldShowAnularButton &&
               (modelo
@@ -413,6 +411,7 @@
                 mat-menu-item
                 (click)="ampliarClick.emit({ row, index })"
                 *ngIf="showBtnAmpliar && row.estado !== e.CANCELADO &&
+                  row.estado !== e.INACTIVO &&
                   (modelo | puede: a.VER)
                   "
                 [hidden]="hideShow"
@@ -441,6 +440,7 @@
               <mat-icon color="primary">toggle_off</mat-icon>
               <span>Activar</span>
             </button>
+
             <button
               type="button"
               mat-menu-item
@@ -482,6 +482,26 @@
               <mat-icon color="primary">toggle_on</mat-icon>
               <span>Cancelar</span>
             </button>
+
+            <button
+              type="button"
+              mat-menu-item
+              (click)="forzarCierreClick.emit({ row, index })"
+              *ngIf="hideButtonCierre(row) &&
+                shouldShowForzarCierrerButton &&
+                (modelo
+                  | puede
+                    : a.EDITAR
+                    : (noCheckGestorCuentaId
+                        ? undefined
+                        : row.gestor_cuenta_id ||
+                          row.gestor_carga_id ||
+                          gestorCuentaId))
+              "
+            >
+              <mat-icon color="primary">toggle_on</mat-icon>
+              <span>Forzar Cierre</span>
+            </button>
           </mat-menu>
         </td>
         <ng-container *ngIf="shouldBeShowFooter">
@@ -504,8 +524,14 @@
     </ng-container>
 
     <ng-container matColumnDef="groupTotales" *ngIf="grouped">
-      <td colspan="4" mat-cell *matCellDef="let group">
+      <td colspan="3" mat-cell *matCellDef="let group">
         <strong>Totales:</strong> {{group.totales | numberFormat }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="groupTotalesML" *ngIf="grouped">
+      <td colspan="1" mat-cell *matCellDef="let group">
+        {{group.totalesML | numberFormat }}
       </td>
     </ng-container>
 
@@ -513,7 +539,7 @@
 
     <ng-container *ngIf="grouped">
       <tr mat-row style="background-color: #f7f7f7 !important"
-        *matRowDef="let row; columns: ['groupHeader', 'groupTotales'];  when: isGroup">
+        *matRowDef="let row; columns: ['groupHeader', 'groupTotales', 'groupTotalesML'];  when: isGroup">
       </tr>
     </ng-container>
 

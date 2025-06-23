@@ -6,6 +6,8 @@ export interface MovimientosSelectedDialogData {
   list: Movimiento[];
   saldo: number;
   punto_venta_id?: number;
+  moneda?: string;
+  sentido?: string;
 }
 
 /*

@@ -278,7 +278,7 @@ export class CombinacionListComponent implements OnInit{
   }
 
   private getList(): void {
-    this.combinacionService.getList().subscribe((list) => {
+    this.combinacionService.getAllList().subscribe((list) => {
       this.list = list;
       this.camionFilterList = getFilterList(list,(x) => x.camion_placa);
       this.marcaFilterList = getFilterList(list,(x) => x.marca_descripcion);

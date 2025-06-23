@@ -42,4 +42,12 @@ export class CentroOperativoService {
   delete(id: number): Observable<CentroOperativo> {
     return this.http.delete<CentroOperativo>(`${this.url}/${id}`);
   }
+
+  inactive(id: number): Observable<CentroOperativo> {
+      return this.http.get<CentroOperativo>(`${this.url}/${id}/inactive`);
+  }
+
+  active(id: number): Observable<CentroOperativo> {
+    return this.http.get<CentroOperativo>(`${this.url}/${id}/active`);
+  }
 }

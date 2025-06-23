@@ -10,6 +10,7 @@
   [gestorCargaId]="gestorCargaId"
   [shouldShowActiveButton]="!isActive"
   [shouldShowInactiveButton]="isActive"
+  [hideEditButton]="!estadoCombinacion"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (activeClick)="active()"

@@ -23,7 +23,7 @@ export class MonedaCotizacionFormComponent implements OnInit {
   isEdit = false;
   isShow = false;
   gestor_carga?: string;
-  backUrl = `/moneda_cotizacion/${m.MONEDA_COTIZACION}/${a.LISTAR}`;
+  backUrl = `/cotizacion/${m.MONEDA_COTIZACION}/${a.LISTAR}`;
   modelo = m.MONEDA_COTIZACION;
   item?: MonedaCotizacion;
   gestorCargaId: number | null = null;
@@ -90,7 +90,7 @@ export class MonedaCotizacionFormComponent implements OnInit {
     }
   }
 
-  
+
   submit(confirmed: boolean): void {
     this.form.markAsDirty();
     this.form.markAllAsTouched();

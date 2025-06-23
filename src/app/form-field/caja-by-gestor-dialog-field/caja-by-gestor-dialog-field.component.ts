@@ -31,6 +31,11 @@ export class CajaByGestorDialogFieldComponent {
       value: (element: Caja) => element.id,
     },
     {
+      def: 'estado',
+      title: 'Estado',
+      value: (element: Caja) => element.estado,
+    },
+    {
       def: 'nombre',
       title: 'Nombre',
       value: (element: Caja) => element.nombre,
@@ -44,22 +49,21 @@ export class CajaByGestorDialogFieldComponent {
       def: 'credito',
       title: 'Crédito',
       value: (element: Caja) => element.credito,
+      type: 'number'
     },
     {
       def: 'debito',
       title: 'Débito',
       value: (element: Caja) => element.debito,
+      type: 'number'
     },
     {
       def: 'saldo_confirmado',
       title: 'Saldo',
       value: (element: Caja) => element.saldo_confirmado,
+      type: 'number'
     },
-    {
-      def: 'estado',
-      title: 'Estado',
-      value: (element: Caja) => element.estado,
-    },
+    /*
     {
       def: 'created_by',
       title: 'Usuario creación',
@@ -82,6 +86,7 @@ export class CajaByGestorDialogFieldComponent {
       value: (element: Caja) => element.modified_at,
       type: 'date',
     },
+    */
   ];
 
   @Input() cajaEvents?: Observable<Caja>

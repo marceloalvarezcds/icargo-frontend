@@ -150,15 +150,19 @@ export class LiquidacionFormDialogComponent {
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
 
+    let liquidacionValues = this.child.form.getRawValue();
+    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
-        monto: this.child.montoPagoCobro,
+        monto: this.child.pagoCobroValue ? this.child.montoPagoCobro : (this.child.montoPagoCobro*-1),
         saldo: this.child.montoPagoCobro,
         esOrdenPago: this.ordenPagoValue,
-        totalMonedas: []
+        moneda: this.child.monedaLocal,
+        sentido: es_pago_cobro
       };
 
       this.dialog
@@ -318,6 +322,13 @@ export class LiquidacionFormDialogComponent {
       this.liquidacion = item;
       this.etapa = this.liquidacion.etapa;
       this.getMovimientos(item);
+    });
+  }
+
+  loadLiquidacionOnly(): void {
+    this.liquidacionService.getById(this.liquidacionId!).subscribe((item) => {
+      this.liquidacion = item;
+      this.etapa = this.liquidacion.etapa;
     });
   }
 

@@ -42,6 +42,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   isEditPressed= false
   isEditCopyForm = false;
   isCopyFlete = false;
+  module: string = '';
   isShowCopiedFlete = false;
   hasSavedSuccessfully = false;
   isEdit = false;
@@ -229,6 +230,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         this.id = this.route.snapshot.params['id'];
       }
       });
+    this.setModule();
   }
 
   ngOnDestroy(): void {
@@ -264,6 +266,18 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  setModule() {
+    if (this.isCopyFlete || this.isShowCopiedFlete) {
+      this.module = 'COPIAR';
+    } else if (this.isEdit) {
+      this.module = 'EDITAR';
+    } else if (this.isShow) {
+      this.module = 'VER';
+    } else {
+      this.module = 'NUEVO';
+    }
+  }
+
   back(): void {
     if (this.isShow) {
       this.router.navigate([this.backUrl]);
@@ -273,9 +287,13 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       this.router.navigate([this.backUrl]);
       return;
     }
+    if ( this.module === 'NUEVO') {
+      this.router.navigate([this.backUrl]);
+      return;
+    }
     const dialogData: ConfirmationDialogData = {
       title: '¿Salir sin guardar?',
-      message: 'Está copiando un Pedido. ¿Desea salir sin guardar?',
+      message: '¿Desea salir sin guardar?',
       closeButtonText: 'No',
       confirmedButtonText: 'Sí',
     };
@@ -309,7 +327,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     this.isCopyFlete = true;
 
     this.form.enable();
-
+    this.form.get('condicion.saldo')?.disable()
     const copiedData = {
       ...this.info.value,
       ...this.tramo.value,
@@ -533,10 +551,11 @@ export class FleteFormComponent implements OnInit, OnDestroy {
 
     if (this.isEdit && this.id && !this.isCopyFlete) {
 
-      this.fleteService.edit(this.id, formData).subscribe(() => {
-        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-        this.hasSavedSuccessfully = true;
-        this.getData();
+    this.fleteService.edit(this.id, formData).subscribe(() => {
+    const url = `/flete/${m.FLETE}/${a.VER}/${this.id}`;
+    this.snackbar.openUpdateAndRedirect(confirmed, url);
+    this.router.navigate([url]); // redirige a modo VER
+    this.hasSavedSuccessfully = true;
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {

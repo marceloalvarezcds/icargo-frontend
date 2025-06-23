@@ -40,12 +40,6 @@ export class SelectableMovimientoTableComponent {
       type: 'only-date',
     },
     {
-      def: 'camion_placa',
-      title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
       def: 'cuenta_codigo_descripcion',
       title: 'Cuenta',
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
@@ -65,6 +59,12 @@ export class SelectableMovimientoTableComponent {
             : (element.tipo_movimiento_descripcion === 'Descuento' ) ? element.descuento_concepto
             : (element.tipo_movimiento_descripcion === 'Complemento' ) ? element.complemento_concepto : element.tipo_movimiento_descripcion
         ),
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'orden_carga_id',
+      title: 'N° OC',
+      value: (element: Movimiento) => element.orden_carga_id,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
