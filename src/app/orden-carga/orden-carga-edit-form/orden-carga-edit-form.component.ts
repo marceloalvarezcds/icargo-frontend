@@ -507,23 +507,21 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   private cancelOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
-        this.ordenCargaService.cancelar(this.idOC),
-        () => {
-            this.getData();
-            const dialogRef = this.openEvaluacionesCancelarDialog();
+      '¿Está seguro que desea cancelar la Orden de Carga?',
+      this.ordenCargaService.cancelar(this.idOC),
+      () => {
+        this.getData();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    this.snackBar.open('Generando PDF...', 'Cerrar', {
-                        duration: 3000,
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center'
-                    });
-                    this.downloadResumenPDF();
-                }
-            });
-        },
+        // Eliminado el openEvaluacionesCancelarDialog()
+
+        // Acción directa tras cancelar sin diálogo adicional
+        this.snackBar.open('Generando PDF...', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
+        this.downloadResumenPDF();
+      },
     );
   }
 
