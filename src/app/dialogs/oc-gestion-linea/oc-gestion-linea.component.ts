@@ -34,7 +34,7 @@ export class OcGestionLineaComponent  {
 
   getTotalAnticipo(): number {
     if (!this.oc?.flete_anticipos?.length) {
-      return 0; 
+      return 0;
     }
     return this.oc.flete_anticipos.reduce((total, anticipo) => total + (anticipo.porcentaje || 0), 0);
   }
@@ -84,12 +84,12 @@ export class OcGestionLineaComponent  {
       value: (element: OrdenCargaAnticipoSaldo) => element.total_disponible,
       type: 'number',
     },
-    {
-      def: 'retirado_gestion',
-      title: 'Total Retirado (ML)',
-      value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
-      type: 'number',
-    },
+    // {
+    //   def: 'retirado_gestion',
+    //   title: 'Total Retirado (ML)',
+    //   value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
+    //   type: 'number',
+    // },
     {
       def: 'saldo_gestion',
       title: 'Saldo en Linea (ML)',

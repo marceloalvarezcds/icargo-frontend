@@ -59,12 +59,12 @@ export class OrdenCargaGestionAnticiposComponent {
       value: (element: OrdenCargaAnticipoSaldo) => element.total_disponible,
       type: 'number',
     },
-    {
-      def: 'total_retirado',
-      title: 'Total retirado (ML)',
-      value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
-      type: 'number',
-    },
+    // {
+    //   def: 'total_retirado',
+    //   title: 'Total retirado (ML)',
+    //   value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
+    //   type: 'number',
+    // },
     {
       def: 'saldo',
       title: 'Saldo en Línea (ML)',

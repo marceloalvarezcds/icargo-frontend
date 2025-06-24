@@ -507,25 +507,24 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   private cancelOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
-        this.ordenCargaService.cancelar(this.idOC),
-        () => {
-            this.getData();
-            const dialogRef = this.openEvaluacionesCancelarDialog();
+      '¿Está seguro que desea cancelar la Orden de Carga?',
+      this.ordenCargaService.cancelar(this.idOC),
+      () => {
+        this.getData();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    this.snackBar.open('Generando PDF...', 'Cerrar', {
-                        duration: 3000,
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center'
-                    });
-                    this.downloadResumenPDF();
-                }
-            });
-        },
+        // Eliminado el openEvaluacionesCancelarDialog()
+
+        // Acción directa tras cancelar sin diálogo adicional
+        this.snackBar.open('Generando PDF...', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+        });
+        this.downloadResumenPDF();
+      },
     );
   }
+
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -787,26 +786,34 @@ private totalRetiradoActual: number = 0;
               });
             }
 
-          if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
-            this.ordenCargaSaldoService.updateTotalRetirado(fleteAnteriorId, fleteNuevoId, ordenCargaId).subscribe({
-                next: (updateRetirado) => {
-                  console.log('updateRetirado:', updateRetirado); // debe imprimirse sí o sí si hay respuesta
-                  this.totalRetiradoActual = updateRetirado.total_retirado ?? 0;
-                  if (this.fleteAnticipoForm) {
-                    console.log('Antes de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
-                    this.fleteAnticipoForm.total_retirado = updateRetirado.total_retirado;
-                    console.log('Después de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
-                  }
-                },
-                error: (error) => {
-                  console.error('Error en updateTotalRetirado:', error); // loguear error
-                },
-                complete: () => {
-                  console.log('updateTotalRetirado completed');
-                }
-              });
+            //   if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
+            //   console.log('Llamando updateTotalRetirado con:');
+            //   console.log('fleteAnteriorId:', fleteAnteriorId);
+            //   console.log('fleteNuevoId:', fleteNuevoId);
+            //   console.log('ordenCargaId:', ordenCargaId);
 
-            }
+            //   if (fleteAnteriorId !== fleteNuevoId) {
+            //     this.ordenCargaSaldoService.updateTotalRetirado(fleteAnteriorId, fleteNuevoId, ordenCargaId).subscribe({
+            //       next: (updateRetirado) => {
+            //         console.log('updateRetirado:', updateRetirado);
+            //         this.totalRetiradoActual = updateRetirado.total_retirado ?? 0;
+            //         if (this.fleteAnticipoForm) {
+            //           console.log('Antes de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
+            //           this.fleteAnticipoForm.total_retirado = updateRetirado.total_retirado;
+            //           console.log('Después de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
+            //         }
+            //       },
+            //       error: (error) => {
+            //         console.error('Error en updateTotalRetirado:', error);
+            //       },
+            //       complete: () => {
+            //         console.log('updateTotalRetirado completed');
+            //       }
+            //     });
+            //   } else {
+            //     console.log('Flete anterior y nuevo son iguales. No se llama a updateTotalRetirado.');
+            //   }
+            // }
 
           }
       this.chRef.detectChanges();
@@ -852,9 +859,8 @@ private totalRetiradoActual: number = 0;
 
             const anticipoFleteId = anticipoFlete.id;
             if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
-              this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+              this.ordenCargaSaldoService.getByFleteAnticipoAnteriorAndFleteAnticipoNuevo(anticipoFleteId, id_oc).subscribe({
                 next: (saldoAnticipo) => {
-                  console.log('saldo anticipo', saldoAnticipo)
                   const data = JSON.parse(
                       JSON.stringify({
                           ...this.form.value.info,

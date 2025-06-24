@@ -32,6 +32,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { OrdenCargaAnticipoSaldo } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -186,6 +187,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   @Input() isEditPedido: boolean = false;
   @Input() gestorCarga?: GestorCarga
   @Input() oc?: OrdenCarga;
+  @Input() ocSaldo?: OrdenCargaAnticipoSaldo;
   @Input() mov?: Movimiento;
   @Input() flete?: Flete;
   @Input() ocRetirado?: OrdenCargaAnticipoRetirado;
@@ -213,6 +215,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   monedaId: number | null = null;
 
   ngOnInit(): void {
+    console.log("oc", this.oc)
     this.getMonedaByGestor()
     this.obtenerCotizaciones()
     if (this.list?.length > 0) {
@@ -592,7 +595,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       flete_id: this.oc!.flete_id,
       oc: this.oc!,
       item,
-      anticipos, 
+      anticipos,
     };
 
     return this.dialog.open(OcAnticipoRetiradoInsumoDialogComponent, {
