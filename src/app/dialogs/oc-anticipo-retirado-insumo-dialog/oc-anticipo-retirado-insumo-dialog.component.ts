@@ -342,10 +342,14 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   ];
 
   get saldoDisponible(): number {
+    const montoRetirado = this.montoRetirado || 0;
+
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return  this.montoRetirado - (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
+      const saldoConvertido = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
+      return montoRetirado ? montoRetirado - saldoConvertido : saldoConvertido;
     }
-    return this.montoRetirado - this.saldoAnticipo
+
+    return montoRetirado ? montoRetirado - this.saldoAnticipo : this.saldoAnticipo;
   }
 
   getSaldoAnticipo(anticipo: any): number {
