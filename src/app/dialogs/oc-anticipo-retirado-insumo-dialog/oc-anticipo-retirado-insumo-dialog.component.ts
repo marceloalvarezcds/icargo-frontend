@@ -236,16 +236,14 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
         maximumFractionDigits: 2
       }).format(value);
     };
-
     if (!this.tipoInsumoId) {
-      // Cuando insumo_id es null o indefinido, mostramos saldo 0 y saldo tracto según límite
       const saldoTractoTexto =
         this.limiteAnticipoCamion === null
           ? 'Sin límites'
-          : '0';
+          : formatNumber(this.anticipoDisponibleCamionConvertido ?? 0);
 
       return `
-        <div style="font-size: 16px; margin-bottom: 4px; color: black;">
+        <div style="font-size: 16px; margin-bottom: 4px;">
           <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
           <strong>0</strong>
           <span>|</span>
@@ -254,14 +252,9 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
         </div>
       `;
     }
-
     const montoConvertido = this.montoRetiradoEnMonedaLocal; //solo se usa en caso de moneda local, no aplica por ahora
     const monto = this.monto || 0;
 
-      if (this.saldoDisponible === undefined || this.saldoDisponible === null) {
-        // Aún no hay saldo cargado, mostrar vacío o cargando
-        return `<span>Cargando saldo...</span>`;
-      }
     if (this.saldoDisponible < 0) {
       const excedente = formatNumber(subtract(monto, this.saldoDisponible));
       return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
@@ -350,9 +343,9 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   get saldoDisponible(): number {
     if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen - this.montoRetirado;
+      return  this.montoRetirado - (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
     }
-    return this.saldoAnticipo - this.montoRetirado;
+    return this.montoRetirado - this.saldoAnticipo
   }
 
   getSaldoAnticipo(anticipo: any): number {
@@ -651,7 +644,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   }
 
   private close(data: OrdenCargaAnticipoRetirado): void {
-    this.dialogRef.close(data);
+    this.dialogRef.close(data);this.saldoAnticipo
   }
 
 
@@ -695,6 +688,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
 
   private setOrdenCargaAnticipoSaldo(saldo: number): void {
     this.saldoAnticipo = saldo;
+    console.log('this.saldoAnticipo', this.saldoAnticipo)
     this.montoRetiradoControl.setValidators([
       Validators.required,
       Validators.min(0),

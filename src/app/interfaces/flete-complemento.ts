@@ -27,6 +27,12 @@ export interface FleteComplemento {
 
 }
 
+export interface UpdateFleteComplemento {
+  propietario_monto?: number | null;
+  propietario_monto_ml?: number | null;
+}
+
+
 const tipoConceptoComplemento0 = mockTipoConceptoComplementoList[0];
 const tipoConceptoComplemento1 = mockTipoConceptoComplementoList[1];
 

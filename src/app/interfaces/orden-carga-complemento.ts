@@ -42,6 +42,11 @@ export interface OrdenCargaComplemento extends OrdenCargaComplementoForm {
   modified_at: string;
 }
 
+export interface UpdateOrdenCargaComplementoForm {
+  propietario_monto?: number | null;
+}
+
+
 const tipoConceptoComplemento0 = mockTipoConceptoComplementoList[0];
 const tipoConceptoComplemento1 = mockTipoConceptoComplementoList[1];
 

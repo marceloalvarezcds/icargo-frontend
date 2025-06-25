@@ -5,6 +5,7 @@ import { FleteAnticipo, mockFleteAnticipoList } from './flete-anticipo';
 import {
   FleteComplemento,
   mockFleteComplementoList,
+  UpdateFleteComplemento,
 } from './flete-complemento';
 import { FleteDescuento, mockFleteDescuentoList } from './flete-descuento';
 import {
@@ -159,6 +160,7 @@ export interface FleteList extends FleteFormBaseModel {
   merma_propietario_unidad_descripcion: string;
   merma_propietario_es_porcentual_descripcion: string;
   condicion_cantidad: number;
+  complementos: FleteComplemento[];
   saldo: number;
   cargado: number;
   // fin - Mermas para el Propietario
@@ -432,6 +434,7 @@ export const mockFleteList: FleteList[] = [
     // INICIO Emisión de Órdenes
     emision_orden_texto_legal: 'Emisión de Órdenes - Texto Legal 1',
     emision_orden_detalle: 'Emisión de Órdenes - Detalle 1',
+complementos: mockFleteComplementoList,
     // FIN Emisión de Órdenes
     tipo_flete: TipoFleteEnum.DOMESTICO,
     created_by: 'system',
@@ -462,7 +465,7 @@ export const mockFleteList: FleteList[] = [
     origen_indicacion: 'Origen Indicaciones',
     destino_id: destino1.id,
     destino_nombre: destino1.nombre,
-    destino_indicacion: 'Destino Indicaciones',
+complementos: mockFleteComplementoList,
     distancia: 100,
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
@@ -547,6 +550,7 @@ export const mockFleteList: FleteList[] = [
     destino_nombre: destino2.nombre,
     destino_indicacion: 'Destino Indicaciones',
     distancia: 100,
+ complementos: mockFleteComplementoList,
     // FIN Tramo de Fletes
     // INICIO Cantidad y Flete
     condicion_cantidad: 100,

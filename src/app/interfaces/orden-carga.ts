@@ -22,6 +22,7 @@ import {
 import {
   mockOrdenCargaComplementoList,
   OrdenCargaComplemento,
+  UpdateOrdenCargaComplementoForm,
 } from './orden-carga-complemento';
 import {
   mockOrdenCargaDescuentoList,
@@ -195,6 +196,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   porcentaje_anticipos: OrdenCargaAnticipoPorcentaje[];
   flete_anticipos: FleteAnticipo[];
   complementos: OrdenCargaComplemento[];
+  complementosUpdate: UpdateOrdenCargaComplementoForm[];
   descuentos: OrdenCargaDescuento[];
   remisiones_destino: OrdenCargaRemisionDestino[];
   remisiones_origen: OrdenCargaRemisionOrigen[];
@@ -458,6 +460,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   porcentaje_anticipos: mockOrdenCargaAnticipoPorcentajeList,
   flete_anticipos: mockFleteAnticipoList,
   complementos: mockOrdenCargaComplementoList,
+  complementosUpdate: mockOrdenCargaComplementoList,
   descuentos: mockOrdenCargaDescuentoList,
   remisiones_destino: mockOrdenCargaRemisionDestinoList,
   remisiones_origen: mockOrdenCargaRemisionOrigenList,
