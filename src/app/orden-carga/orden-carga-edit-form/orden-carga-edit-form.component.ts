@@ -861,6 +861,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       }
     }
 
+
   enableFleteId(): void {
     if (this.item?.estado === 'Conciliado') {
       this.snackBar.open(
@@ -877,7 +878,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.isEditPressed = false;
     }
   }
-
 
   onEditPressed() {
     this.isEditPressed = false;
@@ -919,6 +919,28 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         }, 500);
     });
   }
+
+    loadSaldoCombustible(ordenCargaId: number, fleteId: number): void {
+      this.ordenCargaSaldoService.getSaldoCombustible(ordenCargaId, fleteId).subscribe({
+        next: (saldo) => {
+          if (!this.item || !this.item.saldos_flete_id) return;
+
+          const concepto = 'COMBUSTIBLE';
+
+          const saldoCombustible = this.item.saldos_flete_id.find(s => s.concepto?.toUpperCase() === concepto);
+
+          if (saldoCombustible) {
+            saldoCombustible.total_disponible = saldo;
+          }
+
+          // Forzar actualización vista
+          this.chRef.detectChanges();
+        },
+        error: (err) => {
+          console.error('Error cargando saldo combustible:', err);
+        }
+      });
+    }
 
 
   getData(): void {
@@ -984,6 +1006,22 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
                 origen_id: data.flete_origen_nombre,
                 destino_id: data.flete_destino_nombre,
             },
+        });
+
+    this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
+        .subscribe({
+          next: saldo => {
+            console.log('Saldo combustible generado:', saldo);
+
+            // 💡 Después de generar el saldo, recargamos la OC para ver los cambios
+            this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+              this.item = ocActualizada;
+              console.log('OC actualizada después del saldo combustible:', this.item);
+            });
+          },
+          error: err => {
+            console.error('Error creando saldo combustible:', err);
+          }
         });
 
         if (this.isShow) {
