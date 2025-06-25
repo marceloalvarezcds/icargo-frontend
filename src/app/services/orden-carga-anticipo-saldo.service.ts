@@ -27,12 +27,22 @@ export class OrdenCargaAnticipoSaldoService {
     );
   }
 
- getByFleteAnticipoAnteriorAndFleteAnticipoNuevo(
-    fleteAnticipoId: number,
-    ordenCargaId: number
+getByFleteAnticipoAnteriorAndFleteAnticipoNuevo(
+  fleteAnticipoId: number,
+  ordenCargaId: number
+): Observable<number> {
+  return this.http.get<number>(
+    `${this.url}/crear-saldo-desde-flete-anterior/${fleteAnticipoId}/${ordenCargaId}`
+  );
+}
+
+actualizarSaldoAnticipo(
+  fleteAnticipoId: number,
+  ordenCargaId: number,
+  montoRetirado: number
 ): Observable<OrdenCargaAnticipoSaldo> {
   return this.http.get<OrdenCargaAnticipoSaldo>(
-    `${this.url}/crear-saldo-desde-flete-anterior/${fleteAnticipoId}/${ordenCargaId}`
+    `${this.url}/actualizar-saldo-anticipo/${fleteAnticipoId}/${ordenCargaId}/${montoRetirado}`
   );
 }
 

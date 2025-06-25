@@ -248,7 +248,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     return `
       <div class="hint-alert-label">
         <!-- Saldo OC: <strong>${formatNumber(saldoOC - monto)}</strong> &nbsp;|&nbsp; -->
-        Saldo OC: <strong>${formatNumber(disponible)}</strong> &nbsp;|&nbsp;
+        Saldo OC: <strong>${formatNumber(saldoRestante)}</strong> &nbsp;|&nbsp;
         Saldo Tracto: <strong>${
           typeof saldoTracto === 'number' && this.limiteAnticipoCamion !== null
             ? formatNumber(saldoTracto - monto)
@@ -347,21 +347,23 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get saldoDisponible(): number {
     let saldo: number;
-
+    console.log(this.montoRetiradoEfectivo )
     if (this.monedaOrigenId === this.monedaDestinoId) {
       saldo = this.saldoAnticipo + this.montoRetirado;
     } else if (this.cotizacionDestino) {
       const valor = this.saldoAnticipo / this.cotizacionDestino;
-      saldo = Math.floor(valor * 100) / 100 + this.montoRetirado;
+      saldo = Math.floor(valor * 100) / 100 - this.montoRetirado;
     } else {
-      saldo = this.saldoAnticipo + this.montoRetirado;
+      saldo = this.saldoAnticipo - this.montoRetirado;
     }
     return saldo;
   }
 
   get montoRetirado(): number {
-    return this.data?.monto_retirado ?? 0;
+    return this.montoRetiradoEfectivo ?? 0;
   }
+
+  montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
 
   get ordenCargaId(): number {
     return this.dialogData.orden_carga_id;
@@ -638,6 +640,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
         .getByFleteAnticipoIdAndOrdenCargaId(fleteAnticipoId, this.ordenCargaId)
         .subscribe((saldo) => {
           this.setOrdenCargaAnticipoSaldo(saldo);
+          console.log('Saldo recibido:', saldo);
         });
     }
   }

@@ -61,7 +61,7 @@
             />
           </mat-form-field>
         </div>
-<!-- 
+<!--
         <ng-container *ngFor="let anticipo of filteredAnticipos">
           <div *ngIf="oc?.flete_id === anticipo.flete_id &&
                       (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)"
@@ -86,7 +86,7 @@
           <mat-form-field class="saldo-form-field">
             <input
               matInput
-              [value]="saldo.saldo | number:'1.0-2'"
+              [value]="getSaldo(saldo)| number:'1.2-2'"
               disabled
             />
           </mat-form-field>

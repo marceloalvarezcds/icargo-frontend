@@ -59,18 +59,36 @@ export class OrdenCargaGestionAnticiposComponent {
       value: (element: OrdenCargaAnticipoSaldo) => element.total_disponible,
       type: 'number',
     },
-    // {
-    //   def: 'total_retirado',
-    //   title: 'Total retirado (ML)',
-    //   value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
-    //   type: 'number',
-    // },
+    {
+      def: 'total_retirado',
+      title: 'Total retirado (ML)',
+      value: (element: OrdenCargaAnticipoSaldo) => {
+        if (element.concepto?.toUpperCase() === 'EFECTIVO') {
+          return this.montoRetiradoEfectivo;
+        }
+        if (element.concepto?.toUpperCase() === 'COMBUSTIBLE') {
+          return this.montoRetiradoCombustible;
+        }
+        return 0;
+      },
+      type: 'number',
+    },
+
     {
       def: 'saldo',
       title: 'Saldo en Línea (ML)',
-      value: (element: OrdenCargaAnticipoSaldo) => element.saldo,
+      value: (element: OrdenCargaAnticipoSaldo) => {
+        if (element.concepto?.toUpperCase() === 'EFECTIVO') {
+          return element.total_disponible - this.montoRetiradoEfectivo;
+        }
+        if (element.concepto?.toUpperCase() === 'COMBUSTIBLE') {
+          return element.total_disponible - this.montoRetiradoCombustible;
+        }
+        return 0;
+      },
       type: 'number',
     },
+
     {
       def: 'created_by_anticipo',
       title: 'Usuario creación',
@@ -95,6 +113,8 @@ export class OrdenCargaGestionAnticiposComponent {
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
+  montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+  montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
