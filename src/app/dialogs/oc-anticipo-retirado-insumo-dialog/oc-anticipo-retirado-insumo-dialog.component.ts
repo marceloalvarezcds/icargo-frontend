@@ -342,18 +342,22 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   ];
 
 get saldoDisponible(): number {
+  const monto = this.montoRetirado ?? 0;
+
   console.log('➡️ saldoAnticipo:', this.saldoAnticipo);
+  console.log('➡️ montoRetirado:', monto);
   console.log('➡️ cotizacionOrigen:', this.cotizacionOrigen);
   console.log('➡️ cotizacionDestino:', this.cotizacionDestino);
 
-  if (this.cotizacionOrigen && this.cotizacionDestino) {
-    const calculado = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
-    console.log('🧮 saldoDisponible calculado con cotizaciones:', calculado);
-    return calculado;
-  }
+  const saldoConvertido = this.cotizacionOrigen && this.cotizacionDestino
+    ? (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen
+    : this.saldoAnticipo;
 
-  console.log('🧮 saldoDisponible sin cotización:', this.saldoAnticipo);
-  return this.saldoAnticipo;
+  const disponible = saldoConvertido - monto;
+
+  console.log('🧮 saldoDisponible calculado (saldo convertido - monto):', disponible);
+
+  return disponible;
 }
 
 
