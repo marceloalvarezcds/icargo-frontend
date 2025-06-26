@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Cargo } from 'src/app/interfaces/cargo';
 import { SeleccionableService } from 'src/app/services/seleccionable.service';
@@ -11,7 +12,7 @@ import { SeleccionableService } from 'src/app/services/seleccionable.service';
   styleUrls: ['./cargo-field.component.scss'],
   providers: [SeleccionableService],
 })
-export class CargoFieldComponent implements OnChanges{
+export class CargoFieldComponent implements OnChanges {
   list$?: Observable<Cargo[]>;
 
   @Input() control?: FormControl;
@@ -25,17 +26,21 @@ export class CargoFieldComponent implements OnChanges{
     this.list$ = this.service.getActiveList();
   }
 
-  ngOnChanges(): void {
+  ngOnChanges(changes: SimpleChanges): void {
     if (this.control && this.list$) {
       this.list$.subscribe(list => {
         if (list && list.length > 0 && !this.control?.value) {
-          this.control?.setValue(list[2]); // Establecer el primer cargo como seleccionado
+          this.control?.setValue(this.getContactoPrimario(list))
+          //this.control?.setValue(list[2]); // Establecer el primer cargo como seleccionado
         }
       });
     }
   }
-  
-  
+
+  getContactoPrimario(lista: Cargo[]):Cargo | undefined{
+    const contacto = lista.find( ele => ele.id === 1);
+    return contacto;
+  }
 
   compareWith(o1?: Cargo, o2?: Cargo): boolean {
     return o1?.id === o2?.id;
