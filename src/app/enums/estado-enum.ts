@@ -2,6 +2,7 @@ export enum EstadoEnum {
   ACTIVO = 'Activo',
   ACEPTADO = 'Aceptado',
   ANULADO = 'Anulado',
+  RECHAZADO = 'Rechazado',
   CANCELADO = 'Cancelado',
   CONCILIADO = 'Conciliado',
   CONFIRMADO = 'Confirmado',

@@ -123,6 +123,14 @@ export class LiquidacionEditFormAccionesComponent {
           </div>
       `;
     } else {
+
+      if (this.liquidacion.movimientos.length === 0) {
+        this.httpErrorService.setErrorList([
+          `No se puede aprobar una liquidacion sin movimientos!`,
+        ]);
+        return;
+      }
+
       htmlFooter = htmlFooter + `
         <div class="col-xs-12">
           <div class="row alerta">
@@ -271,6 +279,13 @@ export class LiquidacionEditFormAccionesComponent {
           this.snackbar.changeStatus();
           this.liquidacionFlujoChange.emit(rest);
         });
+      return;
+    }
+
+    if (this.liquidacion.movimientos.length === 0) {
+      this.httpErrorService.setErrorList([
+        `No se puede someter una liquidacion sin movimientos!`,
+      ]);
       return;
     }
 
