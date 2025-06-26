@@ -342,34 +342,20 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   ];
 
 get saldoDisponible(): number {
-  const monto = this.montoRetirado ?? 0;
-  console.log('➡️ montoRetirado:', this.montoRetirado);
-  console.log('➡️ monto usado para cálculo:', monto);
   console.log('➡️ saldoAnticipo:', this.saldoAnticipo);
   console.log('➡️ cotizacionOrigen:', this.cotizacionOrigen);
   console.log('➡️ cotizacionDestino:', this.cotizacionDestino);
 
-  if (monto === 0) {
-    if (this.cotizacionOrigen && this.cotizacionDestino) {
-      const valor = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
-      console.log('🧮 saldoDisponible calculado con cotizaciones (sin retiro):', valor);
-      return valor;
-    } else {
-      console.log('🧮 saldoDisponible directo (sin retiro, sin cotizaciones):', this.saldoAnticipo);
-      return this.saldoAnticipo;
-    }
+  if (this.cotizacionOrigen && this.cotizacionDestino) {
+    const calculado = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
+    console.log('🧮 saldoDisponible calculado con cotizaciones:', calculado);
+    return calculado;
   }
 
-  if (this.cotizacionOrigen && this.cotizacionDestino) {
-    const valor = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen - monto;
-    console.log('🧮 saldoDisponible calculado con cotizaciones (con retiro):', valor);
-    return valor;
-  } else {
-    const valor = this.saldoAnticipo - monto;
-    console.log('🧮 saldoDisponible directo (con retiro, sin cotizaciones):', valor);
-    return valor;
-  }
+  console.log('🧮 saldoDisponible sin cotización:', this.saldoAnticipo);
+  return this.saldoAnticipo;
 }
+
 
   // getSaldoAnticipo(anticipo: any): number {
   //   if (!this.fleteAnticipo?.id) {
