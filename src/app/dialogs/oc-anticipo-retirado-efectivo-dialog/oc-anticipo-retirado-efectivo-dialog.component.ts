@@ -347,17 +347,20 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
 
   get saldoDisponible(): number {
     let saldo: number;
-    console.log(this.montoRetiradoEfectivo )
+
     if (this.monedaOrigenId === this.monedaDestinoId) {
       saldo = this.saldoAnticipo + this.montoRetirado;
     } else if (this.cotizacionDestino) {
-      const valor = this.saldoAnticipo / this.cotizacionDestino;
-      saldo = Math.floor(valor * 100) / 100 - this.montoRetirado;
+      const saldoConvertido = this.saldoAnticipo / this.cotizacionDestino;
+      const montoRetiradoConvertido = this.montoRetirado / this.cotizacionDestino;
+      saldo = Math.floor((saldoConvertido - montoRetiradoConvertido) * 100) / 100;
     } else {
       saldo = this.saldoAnticipo - this.montoRetirado;
     }
+
     return saldo;
   }
+
 
   get montoRetirado(): number {
     return this.montoRetiradoEfectivo ?? 0;
