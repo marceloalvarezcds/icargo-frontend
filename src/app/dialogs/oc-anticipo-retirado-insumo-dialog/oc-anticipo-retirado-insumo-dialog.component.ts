@@ -281,10 +281,13 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       )}</strong> al saldo disponible</span>`;
     }
 
-    const saldoMostrar =
-      this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
+      const saldoTractoRestante = (this.anticipoDisponibleCamion ?? 0) - monto;
+
+      const saldoMostrar =
+        this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0
+          ? Math.min(this.saldoDisponible, saldoTractoRestante)
+          : this.saldoDisponible;
+
 
     if (this.monto && saldoMostrar === 0) {
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
