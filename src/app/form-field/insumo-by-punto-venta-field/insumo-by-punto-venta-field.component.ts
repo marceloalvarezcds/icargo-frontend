@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { GenericListFieldComponent } from '../generic-list-field/generic-list-field.component';
 import { InsumoPuntoVentaPrecioList } from 'src/app/interfaces/insumo-punto-venta-precio';
 import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-venta-precio.service';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Component({
   selector: 'app-insumo-by-punto-venta-field',
@@ -12,7 +13,7 @@ import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-ven
 })
 export class InsumoByPuntoVentaFieldComponent {
 
- 
+
   fId?: number;
   list$?: Observable<InsumoPuntoVentaPrecioList[]>;
 
@@ -33,7 +34,10 @@ export class InsumoByPuntoVentaFieldComponent {
   constructor(private service: InsumoPuntoVentaPrecioService) {}
 
   textValueFormat(value: InsumoPuntoVentaPrecioList): string {
-    return value.insumo_descripcion;
+    return value.insumo_descripcion || ' '
+      || numberWithCommas(value.precio) || ' '
+      || value.insumo_moneda_simbolo || '/'
+      || (value.insumo_unidad_abreviatura ?? '');
   }
 
   private getList(): void {
