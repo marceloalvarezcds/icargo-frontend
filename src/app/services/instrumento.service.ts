@@ -19,4 +19,9 @@ export class InstrumentoService {
   rechazar(id: number): Observable<Instrumento> {
     return this.http.get<Instrumento>(`${this.url}/${id}/rechazar`);
   }
+
+  anular(id: number): Observable<Instrumento> {
+    return this.http.get<Instrumento>(`${this.url}/${id}/anular`);
+  }
+
 }

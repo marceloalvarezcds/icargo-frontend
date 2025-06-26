@@ -11,6 +11,11 @@ import { CajaService } from 'src/app/services/caja.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { OperacionEstadoEnum } from 'src/app/enums/operacion-estado-enum';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { TableEvent } from 'src/app/interfaces/table';
+import { DialogService } from 'src/app/services/dialog.service';
+import { InstrumentoService } from 'src/app/services/instrumento.service';
 
 @Component({
   selector: 'app-caja-form-instrumentos',
@@ -51,6 +56,11 @@ export class CajaFormInstrumentosComponent implements OnInit {
       def: 'id_caja',
       title: 'ID',
       value: (element: Instrumento) => element.id,
+    },
+    {
+      def: 'operacion_estado',
+      title: 'Estado',
+      value: (element: Instrumento) => element.operacion_estado,
     },
     {
       def: 'numero_referencia_caja',
@@ -106,7 +116,7 @@ export class CajaFormInstrumentosComponent implements OnInit {
       value: (element: Instrumento) => element.saldo_confirmado,
       type: 'number',
     },
-
+    { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   constructor(
@@ -115,7 +125,9 @@ export class CajaFormInstrumentosComponent implements OnInit {
     private router: Router,
     private snackbar: SnackbarService,
     private cajaService: CajaService,
-    private userService: UserService
+    private instrumentoService: InstrumentoService,
+    private userService: UserService,
+    private dialog: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -142,8 +154,9 @@ export class CajaFormInstrumentosComponent implements OnInit {
           moneda_id: data.moneda_id,
           debito: data.debito,
           credito: data.credito,
-          saldo_confirmado: data.saldo_confirmado
+          saldo_confirmado: 0
         });
+        this.calcularTotales();
         this.form.disable();
         setTimeout(() => {
           this.hasChange = false;
@@ -151,6 +164,53 @@ export class CajaFormInstrumentosComponent implements OnInit {
         }, 500);
       });
     }
+  }
+
+  calcularTotales(): void {
+    let acumulado = 0;
+    let firsPendiente = false;
+
+    // sumatoria acumulada por grupo
+    this.item?.instrumentos.reverse().forEach(element =>{
+
+      if (element.operacion_estado === OperacionEstadoEnum.ANULADO) {
+        return;
+      }
+
+      if (!firsPendiente && element.operacion_estado === OperacionEstadoEnum.CONFIRMADO ){
+        acumulado = 0;
+        firsPendiente=true;
+      }
+
+      acumulado = acumulado + (element.credito - element.debito);
+      element.saldo_confirmado = acumulado ;
+
+    });
+
+    this.form.patchValue({
+      saldo_confirmado: acumulado
+    });
+
+    this.item?.instrumentos.reverse();
+
+  }
+
+  anularInstrumento({row}: TableEvent<Instrumento>){
+    const isntrumento = row;
+
+    const message = `¿Está seguro que desea Instrumento ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.instrumentoService.anular(row.id),
+      (_) => {
+        this.getData();
+      }
+    );
+
+  }
+
+  fnHideAnularRowButton(obj: Instrumento): boolean {
+    return !(obj.estado === EstadoEnum.ANULADO || obj.operacion_estado === OperacionEstadoEnum.RECHAZADO);
   }
 
   formatDate(dateString: string): string {

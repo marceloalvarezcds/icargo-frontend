@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { OperacionEstadoEnum } from 'src/app/enums/operacion-estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -9,6 +10,7 @@ import {
 import { Banco } from 'src/app/interfaces/banco';
 import { Column } from 'src/app/interfaces/column';
 import { Instrumento } from 'src/app/interfaces/instrumento';
+import { TableEvent } from 'src/app/interfaces/table';
 import { BancoService } from 'src/app/services/banco.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { InstrumentoService } from 'src/app/services/instrumento.service';
@@ -48,7 +50,10 @@ export class BancoFormInstrumentosComponent implements OnInit {
   }
 
   get list(): Instrumento[]{
-    return this.item!.instrumentos;
+    
+    if (this.item)
+      return this.item?.instrumentos;
+    else return []
   }
 
   columns: Column[] = [
@@ -114,7 +119,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
     {
       def: 'saldo_provisional',
       title: 'Saldo',
-      value: (element: Instrumento) => element.saldo_provisional,
+      value: (element: Instrumento) => element.saldo_confirmado,
       type: 'number',
     },
     {
@@ -179,6 +184,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
       buttonCallback: (element: Instrumento) => this.rechazar(element),
       stickyEnd: true,
     },
+    { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
   constructor(
@@ -236,6 +242,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
   }
 
   calcularTotales(): void {
+    
     const totalPendiente = this.item?.instrumentos.reduce((acc, cur) => acc + cur.provision, 0);
     this.form.patchValue({
       saldo_provisional: totalPendiente
@@ -248,13 +255,20 @@ export class BancoFormInstrumentosComponent implements OnInit {
     // sumatoria acumulada por grupo
     this.item?.instrumentos.reverse().forEach(element =>{
 
+      if (element.operacion_estado === OperacionEstadoEnum.ANULADO
+          || element.operacion_estado === OperacionEstadoEnum.RECHAZADO) {
+        element.saldo_confirmado = 0 ;
+        return;
+      }
+
       if (!firsPendiente && element.operacion_estado === OperacionEstadoEnum.CONFIRMADO ){
         acumulado = 0;
         firsPendiente=true;
       }
 
       acumulado = acumulado + (element.credito - element.debito + element.provision);
-      element.saldo_provisional = acumulado ;
+      element.saldo_confirmado = acumulado ;
+      return element;
 
     });
 
@@ -292,6 +306,24 @@ export class BancoFormInstrumentosComponent implements OnInit {
         this.getData();
       }
     );
+  }
+
+  anularInstrumento({row}: TableEvent<Instrumento>){
+    const message = `¿Está seguro que desea Instrumento ${row.id}?`;
+    this.dialog.confirmationToDelete(
+      message,
+      this.instrumentoService.anular(row.id),
+      (_) => {
+        this.getData();
+      }
+    );
+
+  }
+
+  fnHideAnularRowButton(obj: Instrumento): boolean {
+    return !(obj.estado === EstadoEnum.ANULADO
+        || obj.operacion_estado === OperacionEstadoEnum.RECHAZADO
+        || obj.operacion_estado === OperacionEstadoEnum.EMITIDO);
   }
 
 }
