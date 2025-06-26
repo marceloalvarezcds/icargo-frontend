@@ -290,17 +290,17 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       return `<span class="hint-alert">El saldo disponible es 0.</span>`;
     }
 
-    const saldoOC = this.convertToMoneda(
-      (this.oc?.porcentaje_anticipos ?? [])
-        .filter((a: any) => {
-          return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
-        })
-        .map((a: any) => ({
-          ...a,
-          saldo_oc: this.getSaldoAnticipo(a),
-        }))
-        .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0)
-    );
+    // const saldoOC = this.convertToMoneda(
+    //   (this.oc?.porcentaje_anticipos ?? [])
+    //     .filter((a: any) => {
+    //       return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
+    //     })
+    //     .map((a: any) => ({
+    //       ...a,
+    //       saldo_oc: this.getSaldoAnticipo(a),
+    //     }))
+    //     .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0)
+    // );
 
     const saldoTractoTexto =
       this.limiteAnticipoCamion === null
@@ -310,7 +310,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     return `
       <div style="font-size: 16px; margin-bottom: 4px;">
       <!--  <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
-        <strong>${formatNumber(saldoOC - monto)}</strong>
+        <strong>${formatNumber(monto)}</strong>
         <span>|</span> -->
          <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
         <strong>${formatNumber(saldoMostrar)}</strong>
@@ -341,52 +341,68 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     { value: 'insumo', descripcion: 'INSUMO' }
   ];
 
-  get saldoDisponible(): number {
-    const monto = this.montoRetirado ?? 0;
+get saldoDisponible(): number {
+  const monto = this.montoRetirado ?? 0;
+  console.log('➡️ montoRetirado:', this.montoRetirado);
+  console.log('➡️ monto usado para cálculo:', monto);
+  console.log('➡️ saldoAnticipo:', this.saldoAnticipo);
+  console.log('➡️ cotizacionOrigen:', this.cotizacionOrigen);
+  console.log('➡️ cotizacionDestino:', this.cotizacionDestino);
 
-    if (monto === 0) {
-      return this.cotizacionOrigen && this.cotizacionDestino
-        ? (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen
-        : this.saldoAnticipo;
-    }
-
-    return this.cotizacionOrigen && this.cotizacionDestino
-      ? (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen - monto
-      : this.saldoAnticipo - monto;
-  }
-
-  getSaldoAnticipo(anticipo: any): number {
-    if (!this.fleteAnticipo?.id) {
-      return 0;
-    }
-    const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
-    const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
-    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
-    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
-    const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
-    const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
-    const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
-
-    const concepto = anticipo.concepto.toUpperCase();
-
-    if (limiteAnticipoCamion === 0) {
-      if (concepto === 'COMBUSTIBLE') {
-        return flete_monto_combustible - montoRetiradoCombustible;
-      } else if (concepto === 'LUBRICANTES') {
-        return flete_monto_lubricante - montoRetiradoLubricantes;
-      } else {
-        return 0;
-      }
-    }
-
-    if (concepto === 'COMBUSTIBLE') {
-      return saldo_combustible - montoRetiradoCombustible;
-    } else if (concepto === 'LUBRICANTES') {
-      return saldo_lubricante - montoRetiradoLubricantes;
+  if (monto === 0) {
+    if (this.cotizacionOrigen && this.cotizacionDestino) {
+      const valor = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
+      console.log('🧮 saldoDisponible calculado con cotizaciones (sin retiro):', valor);
+      return valor;
     } else {
-      return 0;
+      console.log('🧮 saldoDisponible directo (sin retiro, sin cotizaciones):', this.saldoAnticipo);
+      return this.saldoAnticipo;
     }
   }
+
+  if (this.cotizacionOrigen && this.cotizacionDestino) {
+    const valor = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen - monto;
+    console.log('🧮 saldoDisponible calculado con cotizaciones (con retiro):', valor);
+    return valor;
+  } else {
+    const valor = this.saldoAnticipo - monto;
+    console.log('🧮 saldoDisponible directo (con retiro, sin cotizaciones):', valor);
+    return valor;
+  }
+}
+
+  // getSaldoAnticipo(anticipo: any): number {
+  //   if (!this.fleteAnticipo?.id) {
+  //     return 0;
+  //   }
+  //   const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
+  //   const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
+  //   const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+  //   const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+  //   const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
+  //   const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
+  //   const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
+
+  //   const concepto = anticipo.concepto.toUpperCase();
+
+  //   if (limiteAnticipoCamion === 0) {
+  //     if (concepto === 'COMBUSTIBLE') {
+  //       return flete_monto_combustible - montoRetiradoCombustible;
+  //     } else if (concepto === 'LUBRICANTES') {
+  //       return flete_monto_lubricante - montoRetiradoLubricantes;
+  //     } else {
+  //       return 0;
+  //     }
+  //   }
+
+  //   if (concepto === 'COMBUSTIBLE') {
+  //     return saldo_combustible - montoRetiradoCombustible;
+  //   } else if (concepto === 'LUBRICANTES') {
+  //     return saldo_lubricante - montoRetiradoLubricantes;
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   get anticipoDisponibleCamionConvertido(): number {
     if (this.monedaOrigenId === this.monedaDestinoId) {
