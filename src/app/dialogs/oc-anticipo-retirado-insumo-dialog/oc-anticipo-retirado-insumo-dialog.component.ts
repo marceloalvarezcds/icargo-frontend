@@ -341,25 +341,19 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     { value: 'insumo', descripcion: 'INSUMO' }
   ];
 
-get saldoDisponible(): number {
-  const monto = this.montoRetirado ?? 0;
+  get saldoDisponible(): number {
+    const monto = this.montoRetirado ?? 0;
 
-  console.log('➡️ saldoAnticipo:', this.saldoAnticipo);
-  console.log('➡️ montoRetirado:', monto);
-  console.log('➡️ cotizacionOrigen:', this.cotizacionOrigen);
-  console.log('➡️ cotizacionDestino:', this.cotizacionDestino);
+    if (monto === 0) {
+      return this.cotizacionOrigen && this.cotizacionDestino
+        ? (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen
+        : this.saldoAnticipo;
+    }
 
-  const saldoConvertido = this.cotizacionOrigen && this.cotizacionDestino
-    ? (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen
-    : this.saldoAnticipo;
-
-  const disponible = saldoConvertido - monto;
-
-  console.log('🧮 saldoDisponible calculado (saldo convertido - monto):', disponible);
-
-  return disponible;
-}
-
+    return this.cotizacionOrigen && this.cotizacionDestino
+      ? (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen - monto
+      : this.saldoAnticipo - monto;
+  }
 
   // getSaldoAnticipo(anticipo: any): number {
   //   if (!this.fleteAnticipo?.id) {
@@ -689,7 +683,10 @@ get saldoDisponible(): number {
     if (fleteAnticipoId) {
       this.ordenCargaAnticipoSaldoService
         .getByFleteAnticipoIdAndOrdenCargaId(fleteAnticipoId, this.ordenCargaId)
-        .subscribe(this.setOrdenCargaAnticipoSaldo.bind(this));
+        .subscribe((saldo) => {
+          this.setOrdenCargaAnticipoSaldo(saldo);
+          console.log('Saldo recibido:', saldo);
+        });
     }
   }
 
@@ -701,7 +698,6 @@ get saldoDisponible(): number {
 
   private setOrdenCargaAnticipoSaldo(saldo: number): void {
     this.saldoAnticipo = saldo;
-    console.log('this.saldoAnticipo', this.saldoAnticipo)
     this.montoRetiradoControl.setValidators([
       Validators.required,
       Validators.min(0),
@@ -709,7 +705,6 @@ get saldoDisponible(): number {
     ]);
     this.montoRetiradoControl.updateValueAndValidity();
   }
-
   @Output() fleteAnticipoIdSelected: EventEmitter<number | null> = new EventEmitter<number | null>();
 
   onFleteAnticipoSelect(fleteAnticipoId: number | null): void {
