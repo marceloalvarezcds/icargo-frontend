@@ -378,6 +378,23 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
 
+  get saldosOrdenados(): any[] {
+    if (!this.oc?.saldos_flete_id) {
+      return [];
+    }
+
+    const prioridad = { EFECTIVO: 1, COMBUSTIBLE: 2 };
+
+    return [...this.oc.saldos_flete_id].sort((a, b) => {
+      const aConcepto = (a.concepto ?? '').toUpperCase();
+      const bConcepto = (b.concepto ?? '').toUpperCase();
+
+      return (prioridad[aConcepto as keyof typeof prioridad] ?? 99)
+          - (prioridad[bConcepto as keyof typeof prioridad] ?? 99);
+      });
+  }
+
+
   getSaldo(anticipo: any): number {
     const concepto = (anticipo.concepto ?? '').toUpperCase();
 
@@ -396,7 +413,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     } else if (concepto === 'LUBRICANTES') {
       return totalAnticipo - montoRetiradoLubricantes;
     } else {
-      return totalAnticipo; // o 0 si querés ocultar otros conceptos
+      return totalAnticipo;
     }
   }
 
@@ -407,6 +424,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       .replace('.', ',')
       .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+
 
   openEvaluacionesDialog(): void {
     this.dialog.open(EvaluacionesDialogComponent, {

@@ -507,21 +507,26 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   private cancelOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea cancelar la Orden de Carga?',
-      this.ordenCargaService.cancelar(this.idOC),
-      () => {
-        this.getData();
+        '¿Está seguro que desea Cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+            this.getData();
+            const dialogRef = this.openEvaluacionesDialog();
 
-        // Eliminado el openEvaluacionesCancelarDialog()
+            dialogRef.afterClosed().subscribe(result => {
+                this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
 
-        // Acción directa tras cancelar sin diálogo adicional
-        this.snackBar.open('Generando PDF...', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center'
-        });
-        this.downloadResumenPDF();
-      },
+                this.downloadConciliarResumenPDF();
+
+                if (!result) {
+                    this.form.get('combinacion.id_orden_carga')?.disable();
+                }
+            });
+        },
     );
   }
 
@@ -771,23 +776,21 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
           });
         }
         if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
-              this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
-                next: (updateSaldos) => {
-                  if (this.flete) {
-                    this.flete.cargado  = updateSaldos.flete_cargado;
+            this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
+              next: (updateSaldos) => {
+                if (this.flete) {
+                  this.flete.cargado  = updateSaldos.flete_cargado;
 
-                  }
-                },
-                error: (error) => {
-                  console.error('Error en el recalculo:', error);
                 }
-              });
-            }
-
+              },
+              error: (error) => {
+                console.error('Error en el recalculo:', error);
+              }
+            });
           }
-
+        }
+      }
     }
-  }
 
 
   submit(confirmed: boolean): void {
@@ -830,7 +833,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
                           flete_cargado: this.flete?.cargado,
                       })
                   );
-                  console.log('total retirado', this.fleteAnticipoForm?.total_retirado)
+
                   formData.append('data', JSON.stringify(data));
 
                   if (this.isEdit) {
@@ -844,6 +847,17 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
                           }, 1000);
                       });
                   }
+                this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id)
+                  .subscribe({
+                    next: saldo => {
+                      this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                        this.item = ocActualizada;
+                      });
+                    },
+                    error: err => {
+                      console.error('Error creando saldo combustible:', err);
+                    }
+                  });
 
                 },
                 error: (error) => {
@@ -858,6 +872,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             console.error('Error al obtener el anticipo de flete:', error);
           }
         });
+
       }
     }
 
@@ -920,28 +935,26 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     });
   }
 
-    loadSaldoCombustible(ordenCargaId: number, fleteId: number): void {
-      this.ordenCargaSaldoService.getSaldoCombustible(ordenCargaId, fleteId).subscribe({
-        next: (saldo) => {
-          if (!this.item || !this.item.saldos_flete_id) return;
+  loadSaldoCombustible(ordenCargaId: number, fleteId: number): void {
+    this.ordenCargaSaldoService.getSaldoCombustible(ordenCargaId, fleteId).subscribe({
+      next: (saldo) => {
+        if (!this.item || !this.item.saldos_flete_id) return;
 
-          const concepto = 'COMBUSTIBLE';
+        const concepto = 'COMBUSTIBLE';
 
-          const saldoCombustible = this.item.saldos_flete_id.find(s => s.concepto?.toUpperCase() === concepto);
+        const saldoCombustible = this.item.saldos_flete_id.find(s => s.concepto?.toUpperCase() === concepto);
 
-          if (saldoCombustible) {
-            saldoCombustible.total_disponible = saldo;
-          }
-
-          // Forzar actualización vista
-          this.chRef.detectChanges();
-        },
-        error: (err) => {
-          console.error('Error cargando saldo combustible:', err);
+        if (saldoCombustible) {
+          saldoCombustible.total_disponible = saldo;
         }
-      });
-    }
 
+        this.chRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error cargando saldo combustible:', err);
+      }
+    });
+  }
 
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
@@ -1011,12 +1024,10 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
         .subscribe({
           next: saldo => {
-            console.log('Saldo combustible generado:', saldo);
-
-            // 💡 Después de generar el saldo, recargamos la OC para ver los cambios
+            // console.log('Saldo combustible generado:', saldo);
             this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
               this.item = ocActualizada;
-              console.log('OC actualizada después del saldo combustible:', this.item);
+              // console.log('OC actualizada después del saldo combustible:', this.item);
             });
           },
           error: err => {
