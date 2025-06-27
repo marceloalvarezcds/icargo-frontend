@@ -34,10 +34,10 @@ export class InsumoByPuntoVentaFieldComponent {
   constructor(private service: InsumoPuntoVentaPrecioService) {}
 
   textValueFormat(value: InsumoPuntoVentaPrecioList): string {
-    return value.insumo_descripcion || ' '
-      || numberWithCommas(value.precio) || ' '
-      || value.insumo_moneda_simbolo || '/'
-      || (value.insumo_unidad_abreviatura ?? '');
+    return value.insumo_descripcion + ' '
+      + numberWithCommas(value.precio) + ' '
+      + value.insumo_moneda_simbolo + '/'
+      + (value.insumo_unidad_abreviatura ?? '');
   }
 
   private getList(): void {

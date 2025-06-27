@@ -70,6 +70,10 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     return this.form.get('foto') as FormControl;
   }
 
+  get montoControl(): FormControl {
+    return this.form.get('monto') as FormControl;
+  }
+
   get liquidacionId(): number {
     return this.dialogData.liquidacion_id;
   }
@@ -159,9 +163,34 @@ export class FacturaFormDialogComponent implements AfterViewInit {
   }
 
   onMonedaSelect(mon:Moneda){
+
+    console.log("onMonedaSelect");
     this.moneda = mon;
 
-    if (mon.id !== this.monedaLocal!.id){
+    this.montoControl.setValidators([]);
+    this.montoControl.updateValueAndValidity();
+
+    if (this.moneda?.simbolo !== 'PYG') {
+      // habilitar decimales
+      this.montoControl.setValidators(
+        [
+          Validators.required,
+          Validators.pattern('^([0-9]{1,12}(\.[0-9]{1,2})?)$'),
+        ]
+      );
+    } else {
+      // inhabilitar decimales
+      this.montoControl.setValidators(
+        [
+          Validators.required,
+          Validators.pattern('^([0-9]{1,12}?)$'),
+        ]
+      );
+    }
+
+    this.montoControl.updateValueAndValidity();
+
+    if (mon.id !== this.monedaLocal?.id){
       this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal!.id)
         .subscribe(res=>{
           if (res){

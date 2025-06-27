@@ -301,11 +301,16 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
 
   refreshTotal(total: number):void{
     let min = 1;
+    let pattern = '^([0-9]{1,12}(\.[0-9]{1,2})?)$';
 
     // TODO: se necesita un atributo mas o configuracion para saber cuales monedas permiten GS o
     // o para saber cuanto decimales se permiten por moneda
     if (this.moneda?.simbolo !== 'PYG') {
       min = 0.01;
+      pattern = '^([0-9]{1,12}(\.[0-9]{1,2})?)$';
+    } else {
+      min = 1;
+      pattern = '^([0-9]{1,12})$';
     }
 
     this.montoControl.setValidators([]);
@@ -315,7 +320,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
         Validators.required,
         Validators.min(min),
         Validators.max(total),
-        Validators.pattern('^([0-9]{1,12}(\.[0-9]{1,2})?)$'),
+        Validators.pattern(pattern),
       ]
     );
     //this.montoControl.setValue(total);
