@@ -847,17 +847,17 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
                           }, 1000);
                       });
                   }
-                this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id)
-                  .subscribe({
-                    next: saldo => {
-                      this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
-                        this.item = ocActualizada;
-                      });
-                    },
-                    error: err => {
-                      console.error('Error creando saldo combustible:', err);
-                    }
-                  });
+                // this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id)
+                //   .subscribe({
+                //     next: saldo => {
+                //       this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                //         this.item = ocActualizada;
+                //       });
+                //     },
+                //     error: err => {
+                //       console.error('Error creando saldo combustible:', err);
+                //     }
+                //   });
 
                 },
                 error: (error) => {
