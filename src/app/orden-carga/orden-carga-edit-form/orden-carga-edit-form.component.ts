@@ -1021,19 +1021,19 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             },
         });
 
-    this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
-        .subscribe({
-          next: saldo => {
-            // console.log('Saldo combustible generado:', saldo);
-            this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
-              this.item = ocActualizada;
-              // console.log('OC actualizada después del saldo combustible:', this.item);
-            });
-          },
-          error: err => {
-            console.error('Error creando saldo combustible:', err);
-          }
-        });
+    // this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
+    //     .subscribe({
+    //       next: saldo => {
+    //         // console.log('Saldo combustible generado:', saldo);
+    //         this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+    //           this.item = ocActualizada;
+    //           // console.log('OC actualizada después del saldo combustible:', this.item);
+    //         });
+    //       },
+    //       error: err => {
+    //         console.error('Error creando saldo combustible:', err);
+    //       }
+    //     });
 
         if (this.isShow) {
           this.form.disable();
