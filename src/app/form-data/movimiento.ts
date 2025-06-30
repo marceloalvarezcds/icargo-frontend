@@ -5,7 +5,7 @@ export const movimientoData = (
   liquidacion_id: number | null,
   esCreacionContraparte: boolean = false
 ): FormData => {
-  const value = form.value;
+  const value = form.getRawValue();
   const data = JSON.parse(
     JSON.stringify({
       ...value,
