@@ -107,7 +107,7 @@ export class FleteListComponent implements OnInit {
     {
       def: 'tipo_carga_descripcion',
       title: 'UM',
-      value: (element: FleteList) => element.merma_gestor_carga_unidad_descripcion,
+      value: () => 'Kilogramos',
     },
 
     {

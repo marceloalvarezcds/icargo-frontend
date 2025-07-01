@@ -160,12 +160,12 @@ export class RentabilidadListComponent implements OnInit {
       value: (element: Rentabilidad) =>
         element.condicion_propietario_unidad_descripcion,
     },
-    {
+    /*{
       def: 'propietario_flete_total',
       title: 'Tot. Pedido a Pagar',
       value: (element: Rentabilidad) => element.propietario_flete_total,
       type: 'number',
-    },
+    },*/
     {
       def: 'propietario_flete_total_ml',
       title: 'Tot. Pedido a Pagar (Moneda Local)',
@@ -225,12 +225,12 @@ export class RentabilidadListComponent implements OnInit {
       value: (element: Rentabilidad) =>
         element.condicion_gestor_carga_unidad_descripcion,
     },
-    {
+    /*{
       def: 'gestor_carga_flete_total',
       title: 'Tot. Pedido a Cobrar',
       value: (element: Rentabilidad) => element.gestor_carga_flete_total,
       type: 'number',
-    },
+    },*/
     {
       def: 'gestor_carga_flete_total_ml',
       title: 'Tot. Pedido a Cobrar (Moneda Local)',

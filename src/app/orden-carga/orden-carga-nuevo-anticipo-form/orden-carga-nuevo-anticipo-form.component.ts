@@ -31,6 +31,7 @@ import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-canc
 import { MatDialogRef } from '@angular/material/dialog';
 import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
 import { ReportsService } from 'src/app/services/reports.service';
+import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
 @Component({
   selector: 'app-orden-carga-nuevo-anticipo-form',
   templateUrl: './orden-carga-nuevo-anticipo-form.component.html',
@@ -221,6 +222,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: DialogService,
     private ordenCargaService: OrdenCargaService,
+    private ordenCargaSaldoService: OrdenCargaAnticipoSaldoService,
     private userService: UserService,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
@@ -452,64 +454,88 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     this.getData();
   }
 
-  getData(): void {
-    const ocValue = this.idOC;
-    if (ocValue) {
-      this.isLoadingData = true;
-      this.combinacion.get('comentarios')?.setValue('');
-      this.ordenCargaService.getById(ocValue).subscribe((data) => {
-        this.item = data;
-        this.item.gestor_carga_id
-        this.isActive = data.estado === EstadoEnum.NUEVO;
-        this.form.patchValue({
-          combinacion: {
-            flete_id: data.flete_id,
-            camion_id: data.camion_id,
-            camion_placa: data.camion_placa,
-            combinacion_id: data.combinacion_id,
-            marca_camion: data.camion_marca,
-            color_camion: data.camion_color,
-            semi_id: data.semi_id,
-            semi_placa: data.semi_placa,
-            marca_semi: data.semi_marca,
-            color_semi: data.semi_color,
-            propietario_camion: data.camion_propietario_nombre,
-            propietario_camion_doc: data.camion_propietario_documento,
-            chofer_camion: data.chofer_nombre,
-            chofer_camion_doc: data.combinacion_chofer_doc,
-            beneficiario_camion: data.camion_beneficiario_nombre,
-            beneficiario_camion_doc: data.camion_beneficiario_documento,
-            numero: data.flete_numero_lote,
-            saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
-            cliente: data.flete_remitente_nombre,
-            tipo_flete: data.flete_tipo,
-            producto_descripcion: data.flete_producto_descripcion,
-            origen_nombre: data.flete_origen_nombre,
-            destino_nombre: data.flete_destino_nombre,
-            a_pagar: data.condicion_gestor_cuenta_tarifa,
-            neto: data.neto,
-            valor: data.merma_gestor_carga_valor,
-            cant_origen: data.cantidad_origen,
-            cant_destino: data.cantidad_destino,
-            diferencia: data.diferencia_origen_destino,
-            anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
-            estado: data.estado,
-            comentarios: '',
-          },
-          info: {
-            cantidad_nominada: data.cantidad_nominada,
-          },
-        });
-        this.form.get('info.cantidad_nominada')?.disable();
-        this.isLoadingData = false;
-        this.originalComentario = data.comentarios ?? null;
-        this.isFormSaved = true;
-        this.isFormSubmitting = false;
-        this.isShow = false;
-        this.nuevoActive = true;
+getData(): void {
+  const ocValue = this.idOC;
+  if (ocValue) {
+    this.isLoadingData = true;
+    this.combinacion.get('comentarios')?.setValue('');
+    this.ordenCargaService.getById(ocValue).subscribe((data) => {
+      this.item = data;
+      this.isActive = data.estado === EstadoEnum.NUEVO;
+
+      this.form.patchValue({
+        combinacion: {
+          flete_id: data.flete_id,
+          camion_id: data.camion_id,
+          camion_placa: data.camion_placa,
+          combinacion_id: data.combinacion_id,
+          marca_camion: data.camion_marca,
+          color_camion: data.camion_color,
+          semi_id: data.semi_id,
+          semi_placa: data.semi_placa,
+          marca_semi: data.semi_marca,
+          color_semi: data.semi_color,
+          propietario_camion: data.camion_propietario_nombre,
+          propietario_camion_doc: data.camion_propietario_documento,
+          chofer_camion: data.chofer_nombre,
+          chofer_camion_doc: data.combinacion_chofer_doc,
+          beneficiario_camion: data.camion_beneficiario_nombre,
+          beneficiario_camion_doc: data.camion_beneficiario_documento,
+          numero: data.flete_numero_lote,
+          saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
+          cliente: data.flete_remitente_nombre,
+          tipo_flete: data.flete_tipo,
+          producto_descripcion: data.flete_producto_descripcion,
+          origen_nombre: data.flete_origen_nombre,
+          destino_nombre: data.flete_destino_nombre,
+          a_pagar: data.condicion_gestor_cuenta_tarifa,
+          neto: data.neto,
+          valor: data.merma_gestor_carga_valor,
+          cant_origen: data.cantidad_origen,
+          cant_destino: data.cantidad_destino,
+          diferencia: data.diferencia_origen_destino,
+          anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+          estado: data.estado,
+          comentarios: '',
+        },
+        info: {
+          cantidad_nominada: data.cantidad_nominada,
+        },
       });
-    }
+
+      // 💡 Llamada a saldo combustible después de patchValue
+      console.log('Llamando a getSaldoCombustible con:');
+      console.log('flete_id:', data.flete_id);
+      console.log('orden_carga_id:', ocValue);
+
+    this.ordenCargaSaldoService.getSaldoCombustible(this.idOC, this.item.flete_id)
+        .subscribe({
+          next: saldo => {
+            console.log('Saldo combustible generado:', saldo);
+
+            // 💡 Después de generar el saldo, recargamos la OC para ver los cambios
+            this.ordenCargaService.getById(this.idOC).subscribe((ocActualizada) => {
+              this.item = ocActualizada;
+              console.log('OC actualizada después del saldo combustible:', this.item);
+            });
+          },
+          error: err => {
+            console.error('Error creando saldo combustible:', err);
+          }
+        });
+
+
+      this.form.get('info.cantidad_nominada')?.disable();
+      this.isLoadingData = false;
+      this.originalComentario = data.comentarios ?? null;
+      this.isFormSaved = true;
+      this.isFormSubmitting = false;
+      this.isShow = false;
+      this.nuevoActive = true;
+    });
   }
+}
+
 
   submit(confirmed: boolean): void {
     this.isFormSaved = true;

@@ -48,7 +48,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   monto_retirado_cotizacion = 0
   insumoMonedaId: number | null = null;
   gestorCargaId: number | null = null;
-
+  montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
 
@@ -229,96 +229,103 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     return this.monto;
   }
 
-  get montoRetiradoHint(): string {
-    const formatNumber = (value: number): string => {
-      return new Intl.NumberFormat('de-DE', {
-        minimumFractionDigits: 0,
-        maximumFractionDigits: 2
-      }).format(value);
-    };
+  
+get montoRetiradoHint(): string {
+  const formatNumber = (value: number): string => {
+    return new Intl.NumberFormat('de-DE', {
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2
+    }).format(value);
+  };
 
-    const montoConvertido = this.montoRetiradoEnMonedaLocal; //solo se usa en caso de moneda local, no aplica por ahora
-    const monto = this.monto || 0;
+  // Mostrar siempre Saldo OC = 0 y Saldo Tracto (o "Sin límites")
+  const saldoTractoTexto =
+    this.limiteAnticipoCamion === null
+      ? 'Sin límites'
+      : formatNumber(this.anticipoDisponibleCamionConvertido ?? 0);
 
-    if (this.saldoDisponible < 0) {
-      const excedente = formatNumber(subtract(monto, this.saldoDisponible));
-      return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
-      El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+  if (!this.tipoInsumoId) {
+    return `
+      <div style="font-size: 16px; margin-bottom: 4px;">
+        <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
+        <strong>0</strong>
+        <span>|</span>
+        <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
+        <strong>${saldoTractoTexto}</strong>
+      </div>
+    `;
+  }
+
+  // Evitamos cálculos
+    if (
+      !this.saldoAnticipo || // chequea null, undefined, y 0
+      this.cotizacionOrigen == null ||
+      this.cotizacionDestino == null
+    ) {
+      return `
+        <div style="font-size: 16px; margin-bottom: 4px;">
+          <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
+          <strong>0</strong>
+          <span>|</span>
+          <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
+          <strong>${saldoTractoTexto}</strong>
+        </div>
+      `;
     }
 
-    if (this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0) {
-      if (monto > this.saldoDisponible) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-          subtract(monto, this.saldoDisponible)
-        )}</strong> al saldo disponible</span>`;
-      }
+  const montoConvertido = this.montoRetiradoEnMonedaLocal; //solo se usa en caso de moneda local, no aplica por ahora
+  const monto = this.monto || 0;
 
-      if (monto > this.anticipoDisponibleCamion) {
-        return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
-          subtract(monto, this.anticipoDisponibleCamion)
-        )}</strong> al anticipo del tracto disponible</span>`;
-      }
-    }
+  if (this.saldoDisponible < 0) {
+    const excedente = formatNumber(subtract(monto, this.saldoDisponible));
+    return `<span>El saldo es negativo: <strong>${formatNumber(this.saldoDisponible)}</strong>.
+    El monto supera en <strong>${excedente}</strong> al saldo.</span>`;
+  }
 
-    if (this.limiteAnticipoCamion === 0 && monto > this.saldoDisponible) {
+  if (this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0) {
+    if (monto > this.saldoDisponible) {
       return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
         subtract(monto, this.saldoDisponible)
       )}</strong> al saldo disponible</span>`;
     }
 
-    const saldoMostrar =
-      this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0
-        ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
-        : this.saldoDisponible;
-
-    if (this.monto && saldoMostrar === 0) {
-      return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+    if (monto > this.anticipoDisponibleCamion) {
+      return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+        subtract(monto, this.anticipoDisponibleCamion)
+      )}</strong> al anticipo del tracto disponible</span>`;
     }
-
-    const saldoOC = this.convertToMoneda(
-      (this.oc?.porcentaje_anticipos ?? [])
-        .filter((a: any) => {
-          return a.concepto?.toLowerCase() === this.tipoInsumo?.toLowerCase();
-        })
-        .map((a: any) => ({
-          ...a,
-          saldo_oc: this.getSaldoAnticipo(a),
-        }))
-        .reduce((total: number, a: any) => total + (a.saldo_oc ?? 0), 0)
-    );
-
-    const saldoTractoTexto =
-      this.limiteAnticipoCamion === null
-        ? 'Sin límites'
-        : formatNumber(this.anticipoDisponibleCamionConvertido - monto);
-
-    return `
-      <div style="font-size: 16px; margin-bottom: 4px;">
-      <!--  <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
-        <strong>${formatNumber(saldoOC - monto)}</strong>
-        <span>|</span> -->
-         <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
-        <strong>${formatNumber(saldoMostrar)}</strong>
-        <span>|</span>
-        <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
-        <strong>${saldoTractoTexto}</strong>
-      </div>
-      <!--
-      <div style="font-size: 16px; margin-bottom: 4px;">
-        <span class="hint-alert-label" style="font-weight: bold;">Saldo:</span>
-        <strong>${formatNumber(saldoMostrar - monto)}</strong>
-      </div>
-      -->
-      <div style="font-size: 16px;">
-        <span class="hint-alert-label" style="font-weight: bold;">Monto:</span>
-        <strong>${formatNumber(monto)}</strong>
-        <!--
-        <span class="hint-alert-label" style="font-weight: bold;">Línea Disponible:</span>
-        <strong>${formatNumber(saldoMostrar)}</strong>
-        -->
-      </div>
-    `;
   }
+
+  if (this.limiteAnticipoCamion === 0 && monto > this.saldoDisponible) {
+    return `<span class="hint-alert">El monto supera en <strong>${formatNumber(
+      subtract(monto, this.saldoDisponible)
+    )}</strong> al saldo disponible</span>`;
+  }
+
+  const saldoMostrar =
+    this.limiteAnticipoCamion !== null && this.limiteAnticipoCamion > 0
+      ? Math.min(this.saldoDisponible, this.anticipoDisponibleCamion)
+      : this.saldoDisponible;
+
+  if (this.monto && saldoMostrar === 0) {
+    return `<span class="hint-alert">El saldo disponible es 0.</span>`;
+  }
+
+  return `
+    <div style="font-size: 16px; margin-bottom: 4px;">
+      <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
+      <strong>${formatNumber(saldoMostrar)}</strong>
+      <span>|</span>
+      <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
+      <strong>${saldoTractoTexto}</strong>
+    </div>
+    <div style="font-size: 16px;">
+      <span class="hint-alert-label" style="font-weight: bold;">Monto:</span>
+      <strong>${formatNumber(monto)}</strong>
+    </div>
+  `;
+}
+
 
   @Output() valueChange = new EventEmitter<string>();
   tiposAnticipo = [
@@ -327,44 +334,57 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   ];
 
   get saldoDisponible(): number {
-    if (this.cotizacionOrigen && this.cotizacionDestino) {
-      return (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen + this.montoRetirado;
+    const monto = this.montoRetirado ?? 0;
+
+    // ✅ Aseguramos que los datos estén listos
+    if (
+      this.saldoAnticipo == null ||
+      this.cotizacionOrigen == null ||
+      this.cotizacionDestino == null
+    ) {
+      return 0; // o null, según si querés ocultar el hint o mostrar "Cargando"
     }
-    return this.saldoAnticipo + this.montoRetirado;
+
+    // Convertimos ambos valores con las cotizaciones
+    const saldoConvertido = (this.saldoAnticipo * this.cotizacionDestino) / this.cotizacionOrigen;
+    const montoConvertido = (monto * this.cotizacionDestino) / this.cotizacionOrigen;
+
+    return saldoConvertido - montoConvertido;
   }
 
-  getSaldoAnticipo(anticipo: any): number {
-    if (!this.fleteAnticipo?.id) {
-      return 0;
-    }
-    const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
-    const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
-    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
-    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
-    const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
-    const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
-    const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
 
-    const concepto = anticipo.concepto.toUpperCase();
+  // getSaldoAnticipo(anticipo: any): number {
+  //   if (!this.fleteAnticipo?.id) {
+  //     return 0;
+  //   }
+  //   const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
+  //   const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
+  //   const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+  //   const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+  //   const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
+  //   const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
+  //   const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
 
-    if (limiteAnticipoCamion === 0) {
-      if (concepto === 'COMBUSTIBLE') {
-        return flete_monto_combustible - montoRetiradoCombustible;
-      } else if (concepto === 'LUBRICANTES') {
-        return flete_monto_lubricante - montoRetiradoLubricantes;
-      } else {
-        return 0;
-      }
-    }
+  //   const concepto = anticipo.concepto.toUpperCase();
 
-    if (concepto === 'COMBUSTIBLE') {
-      return saldo_combustible - montoRetiradoCombustible;
-    } else if (concepto === 'LUBRICANTES') {
-      return saldo_lubricante - montoRetiradoLubricantes;
-    } else {
-      return 0;
-    }
-  }
+  //   if (limiteAnticipoCamion === 0) {
+  //     if (concepto === 'COMBUSTIBLE') {
+  //       return flete_monto_combustible - montoRetiradoCombustible;
+  //     } else if (concepto === 'LUBRICANTES') {
+  //       return flete_monto_lubricante - montoRetiradoLubricantes;
+  //     } else {
+  //       return 0;
+  //     }
+  //   }
+
+  //   if (concepto === 'COMBUSTIBLE') {
+  //     return saldo_combustible - montoRetiradoCombustible;
+  //   } else if (concepto === 'LUBRICANTES') {
+  //     return saldo_lubricante - montoRetiradoLubricantes;
+  //   } else {
+  //     return 0;
+  //   }
+  // }
 
   get anticipoDisponibleCamionConvertido(): number {
     if (this.monedaOrigenId === this.monedaDestinoId) {
@@ -392,7 +412,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   }
 
   get montoRetirado(): number {
-    return this.data?.monto_retirado ?? 0;
+    return this.montoRetiradoCombustible ?? 0;
   }
 
   get ordenCargaId(): number {
@@ -629,7 +649,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   }
 
   private close(data: OrdenCargaAnticipoRetirado): void {
-    this.dialogRef.close(data);
+    this.dialogRef.close(data);this.saldoAnticipo
   }
 
 
@@ -661,7 +681,10 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     if (fleteAnticipoId) {
       this.ordenCargaAnticipoSaldoService
         .getByFleteAnticipoIdAndOrdenCargaId(fleteAnticipoId, this.ordenCargaId)
-        .subscribe(this.setOrdenCargaAnticipoSaldo.bind(this));
+        .subscribe((saldo) => {
+          this.setOrdenCargaAnticipoSaldo(saldo);
+          console.log('Saldo recibido:', saldo);
+        });
     }
   }
 
@@ -680,7 +703,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     ]);
     this.montoRetiradoControl.updateValueAndValidity();
   }
-
   @Output() fleteAnticipoIdSelected: EventEmitter<number | null> = new EventEmitter<number | null>();
 
   onFleteAnticipoSelect(fleteAnticipoId: number | null): void {

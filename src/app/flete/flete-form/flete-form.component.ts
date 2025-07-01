@@ -321,35 +321,38 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     });
   }
 
-  copiar() {
-    this.isEditPressed = false;
-    this.isEditCopyForm = false;
-    this.isCopyFlete = true;
+copiar() {
+  this.isShow = false; // salir de modo ver
+  this.isEditPressed = false;
+  this.isEditCopyForm = false;
+  this.isCopyFlete = true;
 
-    this.form.enable();
-    this.form.get('condicion.saldo')?.disable()
-    const copiedData = {
-      ...this.info.value,
-      ...this.tramo.value,
-      ...this.condicion.value,
-      ...this.merma.value,
-      ...this.emisionOrden.value,
-      anticipos: this.anticipos.value,
-      complementos: this.complementos.value,
-      descuentos: this.descuentos.value,
-    };
+  this.form.enable();
+  this.form.get('condicion.saldo')?.disable();
 
-    delete copiedData.id;
-    delete copiedData.createdAt;
-    delete copiedData.updatedAt;
+  const copiedData = {
+    ...this.info.value,
+    ...this.tramo.value,
+    ...this.condicion.value,
+    ...this.merma.value,
+    ...this.emisionOrden.value,
+    anticipos: this.anticipos.value,
+    complementos: this.complementos.value,
+    descuentos: this.descuentos.value,
+  };
 
-    this.info.patchValue(copiedData);
-    this.tramo.patchValue(copiedData);
-    this.condicion.patchValue(copiedData);
-    this.merma.patchValue(copiedData);
-    this.emisionOrden.patchValue(copiedData);
-    this.isEdit = true;
-  }
+  delete copiedData.id;
+  delete copiedData.createdAt;
+  delete copiedData.updatedAt;
+
+  this.info.patchValue(copiedData);
+  this.tramo.patchValue(copiedData);
+  this.condicion.patchValue(copiedData);
+  this.merma.patchValue(copiedData);
+  this.emisionOrden.patchValue(copiedData);
+
+  this.isEdit = true; // habilitar edición
+}
 
   isShowCopiar() {
     this.isEditPressed = false;

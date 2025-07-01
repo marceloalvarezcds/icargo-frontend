@@ -104,12 +104,19 @@
 
     <div class="table-container">
       <app-table
-        [disableSort]="true"
-        [hideShow]="true"
-        [isShow]="true"
+        [modelo]="m.INSTRUMENTO"
         [columns]="columns"
         [data]="list"
+        [isShow]="false"
+        [disableSort]="true"
+        [addShowButton]="false"
+        [hideEdit]="true"
+        [hideDelete]="true"
+        [shouldShowAnularButton]="true"
+        (anularAnticipoClick)="$event && anularInstrumento($event)"
+        [fnHideAnularRowButton]="fnHideAnularRowButton"
       ></app-table>
+
     </div>
 
 

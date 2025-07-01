@@ -213,9 +213,10 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   monedaDestinoId: number | null = null;
   simboloMoneda?:string;
   monedaId: number | null = null;
+  montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+  montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
 
   ngOnInit(): void {
-    console.log("oc", this.oc)
     this.getMonedaByGestor()
     this.obtenerCotizaciones()
     if (this.list?.length > 0) {
@@ -375,6 +376,55 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       return 0;
     }
   }
+
+
+  get saldosOrdenados(): any[] {
+    if (!this.oc?.saldos_flete_id) {
+      return [];
+    }
+
+    const prioridad = { EFECTIVO: 1, COMBUSTIBLE: 2 };
+
+    return [...this.oc.saldos_flete_id].sort((a, b) => {
+      const aConcepto = (a.concepto ?? '').toUpperCase();
+      const bConcepto = (b.concepto ?? '').toUpperCase();
+
+      return (prioridad[aConcepto as keyof typeof prioridad] ?? 99)
+          - (prioridad[bConcepto as keyof typeof prioridad] ?? 99);
+      });
+  }
+
+
+  getSaldo(anticipo: any): number {
+    const concepto = (anticipo.concepto ?? '').toUpperCase();
+
+    // Obtenemos los montos retirados según concepto
+    const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+
+    const totalAnticipo = anticipo.total_disponible ?? 0;
+
+    // Restamos estamos según el concepto
+    if (concepto === 'EFECTIVO') {
+      return totalAnticipo - montoRetiradoEfectivo;
+    } else if (concepto === 'COMBUSTIBLE') {
+      return totalAnticipo - montoRetiradoCombustible;
+    } else if (concepto === 'LUBRICANTES') {
+      return totalAnticipo - montoRetiradoLubricantes;
+    } else {
+      return totalAnticipo;
+    }
+  }
+
+
+  formatNumeroEsp(value: number): string {
+    return value
+      .toFixed(2)
+      .replace('.', ',')
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
 
   openEvaluacionesDialog(): void {
     this.dialog.open(EvaluacionesDialogComponent, {

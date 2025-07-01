@@ -507,21 +507,26 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
 
   private cancelOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea cancelar la Orden de Carga?',
-      this.ordenCargaService.cancelar(this.idOC),
-      () => {
-        this.getData();
+        '¿Está seguro que desea Cancelar la Orden de Carga?',
+        this.ordenCargaService.cancelar(this.idOC),
+        () => {
+            this.getData();
+            const dialogRef = this.openEvaluacionesDialog();
 
-        // Eliminado el openEvaluacionesCancelarDialog()
+            dialogRef.afterClosed().subscribe(result => {
+                this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
 
-        // Acción directa tras cancelar sin diálogo adicional
-        this.snackBar.open('Generando PDF...', 'Cerrar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center'
-        });
-        this.downloadResumenPDF();
-      },
+                this.downloadConciliarResumenPDF();
+
+                if (!result) {
+                    this.form.get('combinacion.id_orden_carga')?.disable();
+                }
+            });
+        },
     );
   }
 
@@ -734,13 +739,11 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       data: { oc: this.item },
     });
   }
-private totalRetiradoActual: number = 0;
+
 
   onFleteChange(flete: FleteList | undefined): void {
     if (flete) {
       this.flete = flete;
-      const fleteNuevoId = flete.id;
-      const fleteAnteriorId = this.item!.flete_id;
       if (this.item) {
         this.item.flete_id = flete.id;
         this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
@@ -773,70 +776,21 @@ private totalRetiradoActual: number = 0;
           });
         }
         if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
-              this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
-                next: (updateSaldos) => {
-                  if (this.flete) {
-                    this.flete.cargado  = updateSaldos.flete_cargado;
+            this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
+              next: (updateSaldos) => {
+                if (this.flete) {
+                  this.flete.cargado  = updateSaldos.flete_cargado;
 
-                  }
-                },
-                error: (error) => {
-                  console.error('Error en el recalculo:', error);
                 }
-              });
-            }
-
-            //   if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
-            //   console.log('Llamando updateTotalRetirado con:');
-            //   console.log('fleteAnteriorId:', fleteAnteriorId);
-            //   console.log('fleteNuevoId:', fleteNuevoId);
-            //   console.log('ordenCargaId:', ordenCargaId);
-
-            //   if (fleteAnteriorId !== fleteNuevoId) {
-            //     this.ordenCargaSaldoService.updateTotalRetirado(fleteAnteriorId, fleteNuevoId, ordenCargaId).subscribe({
-            //       next: (updateRetirado) => {
-            //         console.log('updateRetirado:', updateRetirado);
-            //         this.totalRetiradoActual = updateRetirado.total_retirado ?? 0;
-            //         if (this.fleteAnticipoForm) {
-            //           console.log('Antes de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
-            //           this.fleteAnticipoForm.total_retirado = updateRetirado.total_retirado;
-            //           console.log('Después de asignar total_retirado:', this.fleteAnticipoForm?.total_retirado);
-            //         }
-            //       },
-            //       error: (error) => {
-            //         console.error('Error en updateTotalRetirado:', error);
-            //       },
-            //       complete: () => {
-            //         console.log('updateTotalRetirado completed');
-            //       }
-            //     });
-            //   } else {
-            //     console.log('Flete anterior y nuevo son iguales. No se llama a updateTotalRetirado.');
-            //   }
-            // }
-
+              },
+              error: (error) => {
+                console.error('Error en el recalculo:', error);
+              }
+            });
           }
-      this.chRef.detectChanges();
+        }
+      }
     }
-  }
-
-
-  enableFleteId(): void {
-    if (this.item?.estado === 'Conciliado') {
-      this.snackBar.open(
-        'No se puede cambiar el pedido, la orden ya está Conciliada',
-        'Cerrar',
-        { duration: 3000 }
-      );
-      return;
-    }
-    else {
-      this.form.get('combinacion.flete_id')?.enable();
-      this.isButtonPressed = true;
-      this.isEditPedido = true;
-      this.isEditPressed = false;
-    }
-  }
 
 
   submit(confirmed: boolean): void {
@@ -859,7 +813,7 @@ private totalRetiradoActual: number = 0;
 
             const anticipoFleteId = anticipoFlete.id;
             if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
-              this.ordenCargaSaldoService.getByFleteAnticipoAnteriorAndFleteAnticipoNuevo(anticipoFleteId, id_oc).subscribe({
+              this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
                 next: (saldoAnticipo) => {
                   const data = JSON.parse(
                       JSON.stringify({
@@ -877,10 +831,9 @@ private totalRetiradoActual: number = 0;
                           anticipos: this.item?.porcentaje_anticipos,
                           saldoAnticipo: saldoAnticipo,
                           flete_cargado: this.flete?.cargado,
-                          total_retirado: this.totalRetiradoActual,
                       })
                   );
-                  console.log('total retirado', this.fleteAnticipoForm?.total_retirado)
+
                   formData.append('data', JSON.stringify(data));
 
                   if (this.isEdit) {
@@ -894,6 +847,17 @@ private totalRetiradoActual: number = 0;
                           }, 1000);
                       });
                   }
+                // this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id)
+                //   .subscribe({
+                //     next: saldo => {
+                //       this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                //         this.item = ocActualizada;
+                //       });
+                //     },
+                //     error: err => {
+                //       console.error('Error creando saldo combustible:', err);
+                //     }
+                //   });
 
                 },
                 error: (error) => {
@@ -908,8 +872,27 @@ private totalRetiradoActual: number = 0;
             console.error('Error al obtener el anticipo de flete:', error);
           }
         });
+
       }
     }
+
+
+  enableFleteId(): void {
+    if (this.item?.estado === 'Conciliado') {
+      this.snackBar.open(
+        'No se puede cambiar el pedido, la orden ya está Conciliada',
+        'Cerrar',
+        { duration: 3000 }
+      );
+      return;
+    }
+    else {
+      this.form.get('combinacion.flete_id')?.enable();
+      this.isButtonPressed = true;
+      this.isEditPedido = true;
+      this.isEditPressed = false;
+    }
+  }
 
   onEditPressed() {
     this.isEditPressed = false;
@@ -952,6 +935,26 @@ private totalRetiradoActual: number = 0;
     });
   }
 
+  loadSaldoCombustible(ordenCargaId: number, fleteId: number): void {
+    this.ordenCargaSaldoService.getSaldoCombustible(ordenCargaId, fleteId).subscribe({
+      next: (saldo) => {
+        if (!this.item || !this.item.saldos_flete_id) return;
+
+        const concepto = 'COMBUSTIBLE';
+
+        const saldoCombustible = this.item.saldos_flete_id.find(s => s.concepto?.toUpperCase() === concepto);
+
+        if (saldoCombustible) {
+          saldoCombustible.total_disponible = saldo;
+        }
+
+        this.chRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error cargando saldo combustible:', err);
+      }
+    });
+  }
 
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
@@ -1017,6 +1020,20 @@ private totalRetiradoActual: number = 0;
                 destino_id: data.flete_destino_nombre,
             },
         });
+
+    // this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
+    //     .subscribe({
+    //       next: saldo => {
+    //         // console.log('Saldo combustible generado:', saldo);
+    //         this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+    //           this.item = ocActualizada;
+    //           // console.log('OC actualizada después del saldo combustible:', this.item);
+    //         });
+    //       },
+    //       error: err => {
+    //         console.error('Error creando saldo combustible:', err);
+    //       }
+    //     });
 
         if (this.isShow) {
           this.form.disable();

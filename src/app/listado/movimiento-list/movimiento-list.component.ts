@@ -85,6 +85,28 @@ export class MovimientoListComponent implements OnInit {
       type: 'number',
     },
     {
+      def: 'moneda_nombre',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_nombre,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Tipo de Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'fecha_cambio_moneda',
+      title: 'Fecha de cambio',
+      value: (element: Movimiento) => this.formatDate(element.fecha_cambio_moneda),
+    },
+    {
+      def: 'monto_ml',
+      title: 'Monto (ML)',
+      value: (element: Movimiento) => element.monto_ml,
+      type: 'number',
+    },
+    {
       def: 'concepto',
       title: 'Concepto',
       value: (element: Movimiento) => element.concepto,
@@ -114,29 +136,6 @@ export class MovimientoListComponent implements OnInit {
       title: 'Tipo de Doc Relacionado',
       value: (element: Movimiento) =>
         element.tipo_documento_relacionado_descripcion,
-    },
- 
-    {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Movimiento) => element.moneda_nombre,
-    },
-    {
-      def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
-      value: (element: Movimiento) => element.tipo_cambio_moneda,
-      type: 'number',
-    },
-    {
-      def: 'fecha_cambio_moneda',
-      title: 'Fecha de cambio',
-      value: (element: Movimiento) => this.formatDate(element.fecha_cambio_moneda),
-    },
-    {
-      def: 'monto_ml',
-      title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
-      type: 'number',
     },
     {
       def: 'created_at',

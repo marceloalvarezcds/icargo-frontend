@@ -84,12 +84,12 @@ export class OcGestionLineaComponent  {
       value: (element: OrdenCargaAnticipoSaldo) => element.total_disponible,
       type: 'number',
     },
-    // {
-    //   def: 'retirado_gestion',
-    //   title: 'Total Retirado (ML)',
-    //   value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
-    //   type: 'number',
-    // },
+    {
+      def: 'retirado_gestion',
+      title: 'Total Retirado (ML)',
+      value: (element: OrdenCargaAnticipoSaldo) => element.total_retirado,
+      type: 'number',
+    },
     {
       def: 'saldo_gestion',
       title: 'Saldo en Linea (ML)',

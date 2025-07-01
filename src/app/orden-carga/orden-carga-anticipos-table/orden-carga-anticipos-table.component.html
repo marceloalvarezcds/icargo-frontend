@@ -61,7 +61,7 @@
             />
           </mat-form-field>
         </div>
-<!-- 
+<!--
         <ng-container *ngFor="let anticipo of filteredAnticipos">
           <div *ngIf="oc?.flete_id === anticipo.flete_id &&
                       (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)"
@@ -78,7 +78,7 @@
             </mat-form-field>
           </div>
         </ng-container> -->
-      <ng-container *ngFor="let saldo of oc?.saldos_flete_id">
+      <ng-container *ngFor="let saldo of saldosOrdenados">
         <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
           <label class="anticipos-saldo">
             Saldo {{ saldo.concepto | titlecase }}
@@ -86,7 +86,7 @@
           <mat-form-field class="saldo-form-field">
             <input
               matInput
-              [value]="saldo.saldo | number:'1.0-2'"
+              [value]="getSaldo(saldo)| number:'1.2-2'"
               disabled
             />
           </mat-form-field>
