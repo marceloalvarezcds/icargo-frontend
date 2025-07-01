@@ -503,27 +503,18 @@ getData(): void {
         },
       });
 
-      // 💡 Llamada a saldo combustible después de patchValue
-      console.log('Llamando a getSaldoCombustible con:');
-      console.log('flete_id:', data.flete_id);
-      console.log('orden_carga_id:', ocValue);
-
-    this.ordenCargaSaldoService.getSaldoCombustible(this.idOC, this.item.flete_id)
+    this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
         .subscribe({
           next: saldo => {
-            console.log('Saldo combustible generado:', saldo);
-
-            // 💡 Después de generar el saldo, recargamos la OC para ver los cambios
-            this.ordenCargaService.getById(this.idOC).subscribe((ocActualizada) => {
+            this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
               this.item = ocActualizada;
-              console.log('OC actualizada después del saldo combustible:', this.item);
+              // console.log('OC actualizada después del saldo combustible:', this.item);
             });
           },
           error: err => {
             console.error('Error creando saldo combustible:', err);
           }
         });
-
 
       this.form.get('info.cantidad_nominada')?.disable();
       this.isLoadingData = false;

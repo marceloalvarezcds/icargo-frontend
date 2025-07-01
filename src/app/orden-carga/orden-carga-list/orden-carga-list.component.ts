@@ -104,9 +104,19 @@ export class OrdenCargaListComponent implements OnInit {
       value: (element: OrdenCargaList) => element.flete_destino_nombre,
     },
     {
-      def: 'a_cobrar_flete',
-      title: 'A Cobrar',
-      value: (element: OrdenCargaList) => element.condicion_propietario_tarifa,
+        def: 'a_pagar_flete',
+        title: 'A Pagar',
+        value: (element: OrdenCargaList) =>
+          `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          })} ${element.condicion_propietario_moneda_simbolo}`,
+        type: 'text',
+    },
+    {
+      def: 'resultado_propietario_total_anticipos_retirados_ml',
+      title: 'Anticipos Ret. ML',
+      value: (element: OrdenCargaList) => element.resultado_propietario_total_anticipos_retirados_ml,
       type: 'number',
     },
     {

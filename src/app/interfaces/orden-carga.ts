@@ -244,6 +244,7 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_tipo: TipoFleteEnum;
   flete_saldo: number;
   resultado_flete_gestor_carga_merma_valor:number;
+  resultado_propietario_total_anticipos_retirados_ml: number;
   gestor_carga_nombre: string;
   condicion_propietario_moneda_simbolo: string
   condicion_gestor_moneda_simbolo: string
@@ -520,6 +521,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     resultado_gestor_carga_saldo_total:100,
     combinacion_chofer_nombre: 'dario',
     combinacion_chofer_doc: '900',
+    resultado_propietario_total_anticipos_retirados_ml:9000,
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -584,6 +586,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     combinacion_chofer_nombre: 'dario',
     condicion_propietario_tarifa: 90,
     resultado_gestor_carga_saldo_total:100,
+    resultado_propietario_total_anticipos_retirados_ml:9000,
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,
@@ -652,6 +655,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 100,
     resultado_gestor_carga_saldo_total:100,
+    resultado_propietario_total_anticipos_retirados_ml:9000,
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,
