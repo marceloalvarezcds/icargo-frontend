@@ -61,6 +61,7 @@ export interface OrdenCargaAnticipoRetirado
   unidad_descripcion?: string | null;
   estados_movimientos?: string | null;
   estado_movimiento_propietario?: string | null;
+  estado_movimiento_remitente?: string | null;
   estado_movimiento?: string | null;
   camion_placa?: string | null;
   chofer_nombre?: string | null;

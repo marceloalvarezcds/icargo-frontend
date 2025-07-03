@@ -54,13 +54,13 @@ export class FleteByGestorDialogFieldComponent {
     //   type: 'numberDecimal'
     // },
     {
-      def: 'precio',
-      title: 'Precio',
+      def: 'a_pagar_flete',
+      title: 'A Pagar',
       value: (element: FleteList) =>
-        `${element.condicion_gestor_carga_tarifa?.toLocaleString('es-ES', {
+        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
-        })} ${element.condicion_gestor_carga_moneda_simbolo}`,
+        })} ${element.condicion_propietario_moneda_simbolo}/${element.condicion_propietario_unidad_abreviatura}`,
       type: 'text',
     },
     // {
@@ -89,16 +89,16 @@ export class FleteByGestorDialogFieldComponent {
     //   value: (element: FleteList) => element.condicion_propietario_tarifa,
     //   type: 'numberDecimal'
     // },
-    {
-      def: 'tarifa_precio',
-      title: 'Tarifa Precio',
-      value: (element: FleteList) =>
-        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2
-        })} ${element.condicion_propietario_moneda_simbolo}`,
-      type: 'text',
-    },
+    // {
+    //   def: 'tarifa_precio',
+    //   title: 'Tarifa Precio',
+    //   value: (element: FleteList) =>
+    //     `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+    //       minimumFractionDigits: 0,
+    //       maximumFractionDigits: 2
+    //     })} ${element.condicion_propietario_moneda_simbolo}`,
+    //   type: 'text',
+    // },
     // {
     //   def: 'tarifa_moneda',
     //   title: 'Tarifa Moneda',

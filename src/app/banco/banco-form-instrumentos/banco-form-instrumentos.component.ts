@@ -50,7 +50,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
   }
 
   get list(): Instrumento[]{
-    
+
     if (this.item)
       return this.item?.instrumentos;
     else return []
@@ -242,7 +242,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
   }
 
   calcularTotales(): void {
-    
+
     const totalPendiente = this.item?.instrumentos.reduce((acc, cur) => acc + cur.provision, 0);
     this.form.patchValue({
       saldo_provisional: totalPendiente

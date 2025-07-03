@@ -110,7 +110,7 @@ export class OrdenCargaListComponent implements OnInit {
           `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
             minimumFractionDigits: 0,
             maximumFractionDigits: 2
-          })} ${element.condicion_propietario_moneda_simbolo}`,
+          })} ${element.flete_tarifa_unidad_propietario?.toUpperCase()}`,
         type: 'text',
     },
     {
