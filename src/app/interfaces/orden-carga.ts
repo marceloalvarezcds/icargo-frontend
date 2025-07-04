@@ -147,6 +147,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   condicion_gestor_carga_tarifa_ml: number;
   condicion_propietario_tarifa: number;
   condicion_propietario_tarifa_ml: number;
+  resultado_propietario_tarifa_flete_ml: number;
   condicion_gestor_moneda_simbolo: string
   gestor_carga_moneda_id: number;
   condicion_gestor_carga_moneda_id: number
@@ -351,6 +352,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   propietario_nombre: 'string',
   chofer_documento: 'string',
   documento_fisico:false,
+  resultado_propietario_tarifa_flete_ml: 2,
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,
