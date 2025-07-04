@@ -5,3 +5,10 @@
 .colapse-div {
   display: none;
 }
+//Evitar scroll horizontal
+.flete-page-content {
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}

@@ -448,7 +448,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.dialog.open(OcGestionLineaComponent, {
       width: '1600px',
       data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos}
-
     });
   }
 
