@@ -79,8 +79,32 @@
             <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
               <mat-label >Comentario</mat-label>
               <mat-form-field floatLabel="always" appearance="outline">
-                <input matInput formControlName="comentario" /> 
+                <input matInput formControlName="comentario" />
               </mat-form-field>
+            </div>
+
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+              <mat-label class="custom-label">
+                <span class="required">(*) </span>
+                Origen/Destino
+              </mat-label>
+
+              <mat-radio-group
+                formControlName="origen_destino"
+                style="display: flex; gap: 12px; margin-top: 4px;"
+              >
+                <mat-radio-button value="ORIGEN">Origen</mat-radio-button>
+                <mat-radio-button value="DESTINO">Destino</mat-radio-button>
+                <mat-radio-button value="ORIGEN|DESTINO">Ambos</mat-radio-button>
+              </mat-radio-group>
+
+                <mat-error *ngIf="
+                info.controls['origen_destino'].hasError('required') &&
+                (info.controls['origen_destino'].touched || formSubmitted)
+              ">
+                Este campo es <strong>requerido</strong>
+              </mat-error>
+
             </div>
 
           </div>

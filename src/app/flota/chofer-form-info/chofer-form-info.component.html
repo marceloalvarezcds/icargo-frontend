@@ -23,18 +23,28 @@
           ></app-slide>
         </div> -->
 
-          <app-slide
+        <app-slide
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControl"
+          title="Puede recibir anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
+          ></app-slide>
+
+          <app-slide
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
             [isShow]="isShow"
-            [control]="puedeRecibirAnticiposControl"
-            title="Puede recibir anticipos"
+            [control]="isChoferCondicionadoControl"
+            title="Condicionado"
             trueTitle="Sí"
             falseTitle="No"
-            (valueChange)="
-              !$event &&
-                cantidadOCConAnticiposLiberados > 0 &&
-                anticiposBloqueadosChange.emit()
-            "
+            (valueChange)="isChoferCondicionadoChange.emit($event)"
           ></app-slide>
 
 
@@ -78,8 +88,6 @@
           controlName="numero_documento"
           [form]="form"
         ></app-input-field>
-
-
 
         <app-pais-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"

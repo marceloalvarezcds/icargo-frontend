@@ -24,6 +24,7 @@ export interface Chofer {
   pais_emisor_documento: Pais;
   numero_documento: string;
   puede_recibir_anticipos: boolean;
+  is_chofer_condicionado: boolean;
   ruc: string;
   digito_verificador: string | null;
   fecha_nacimiento: string | null;
@@ -116,6 +117,7 @@ export const mockChoferList: ChoferList[] = [
     numero_documento: '800100100',
     telefono_chofer: '0992546511',
     puede_recibir_anticipos: false,
+    is_chofer_condicionado: false,
     ruc: '800100100',
     digito_verificador: '1',
     gestor_cuenta_id: 2,
@@ -179,6 +181,7 @@ export const mockChoferList: ChoferList[] = [
     pais_emisor_documento: pais1,
     numero_documento: '800100100',
     puede_recibir_anticipos: false,
+    is_chofer_condicionado: false,
     ruc: '800100100',
     telefono_chofer: '0992546511',
     digito_verificador: '1',
@@ -238,6 +241,7 @@ export const mockChoferList: ChoferList[] = [
     numero_documento: '800100100',
     telefono_chofer: '0992546511',
     puede_recibir_anticipos: false,
+    is_chofer_condicionado: false,
     ruc: '800100100',
     digito_verificador: '1',
     gestor_cuenta_id: 1,

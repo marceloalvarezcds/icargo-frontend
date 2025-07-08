@@ -144,6 +144,7 @@ export class PropietarioFormInfoComponent implements OnInit{
   @Output() fotoDocumentoReversoChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
+  @Output() isPropietarioCondicionadoChange = new EventEmitter();
 
   get info(): FormGroup {
     return this.form.get('info') as FormGroup;
@@ -155,6 +156,10 @@ export class PropietarioFormInfoComponent implements OnInit{
 
   get puedeRecibirAnticiposControl(): FormControl {
     return this.info.controls['puede_recibir_anticipos'] as FormControl;
+  }
+
+  get isPropietarioCondicionadoControl(): FormControl {
+    return this.info.controls['is_propietario_condicionado'] as FormControl;
   }
 
   get contactos(): FormArray | null {

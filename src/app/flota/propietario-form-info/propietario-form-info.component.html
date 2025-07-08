@@ -137,6 +137,15 @@
               anticiposBloqueadosChange.emit()
           "
         ></app-slide>
+        <app-slide
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [isShow]="isShow"
+          [control]="isPropietarioCondicionadoControl"
+          title="Condicionado"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="isPropietarioCondicionadoChange.emit($event)"
+        ></app-slide>
       </div>
     </div>
 

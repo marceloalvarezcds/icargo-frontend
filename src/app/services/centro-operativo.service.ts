@@ -23,6 +23,14 @@ export class CentroOperativoService {
     return this.http.get<CentroOperativoList[]>(`${this.url}/gestor_cuenta_id`);
   }
 
+  getListByGestorCuentaIdAndOrigen(): Observable<CentroOperativoList[]> {
+    return this.http.get<CentroOperativoList[]>(`${this.url}/origen-ambos`);
+  }
+
+  getListByGestorCuentaIdAndDestino(): Observable<CentroOperativoList[]> {
+    return this.http.get<CentroOperativoList[]>(`${this.url}/gestor_cuenta_id/destino-ambos`);
+  }
+
   getById(id: number): Observable<CentroOperativo> {
     return this.http.get<CentroOperativo>(`${this.url}/${id}`);
   }

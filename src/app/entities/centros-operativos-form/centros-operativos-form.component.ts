@@ -45,6 +45,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
 
   file: File | null = null;
   logo: string | null = null;
+  formSubmitted = false;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -58,6 +59,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       email: [null, emailValidator],
       pagina_web: null,
       comentario: null,
+      origen_destino: [null, Validators.required],
     }),
     contactos: this.fb.array([]),
     geo: this.fb.group({
@@ -147,6 +149,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   }
 
   submit(confirmed: boolean): void {
+    this.formSubmitted = true;
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
@@ -213,6 +216,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       }
       this.centroOperativoService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
+        console.log('destino', data.origen_destino)
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,
@@ -222,6 +226,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
             telefono: data.telefono,
             email: data.email,
             pagina_web: data.pagina_web,
+            origen_destino: data.origen_destino,
             logo: null,
             estado: ( data.estado === "Activo" ) ? true : false,
           },
@@ -239,6 +244,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
           this.initialFormValue = this.form.value;
         }, 500);
       });
+
     }
   }
 }

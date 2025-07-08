@@ -10,3 +10,8 @@
     visibility: hidden;
   }
 }
+.radio-column mat-radio-button {
+  display: block;
+  margin-bottom: 12px; /* separa más las opciones */
+  font-size: 14px;      /* opcional, si querés que se vea un poco más grande */
+}

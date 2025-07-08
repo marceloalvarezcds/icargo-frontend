@@ -27,7 +27,7 @@
     <!-- Fila para Destino -->
     <div class="row">
 
-      <app-centro-operativo-by-gestor-map-dialog-field
+      <app-centro-operativo-by-gestor-and-destino-map-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
         title="Destino"
         controlName="destino_id"
@@ -35,7 +35,7 @@
         [form]="form"
         [origenDestinoEvents]="destinoEventsSubject.asObservable()"
         (valueChange)="destinoChange.emit($event)"
-      ></app-centro-operativo-by-gestor-map-dialog-field>
+      ></app-centro-operativo-by-gestor-and-destino-map-dialog-field>
 
       <app-input-field
         class="input-form-full col-xs-12 col-sm-6 col-md-5"

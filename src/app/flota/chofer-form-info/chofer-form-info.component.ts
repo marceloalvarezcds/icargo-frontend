@@ -33,6 +33,7 @@ export class ChoferFormInfoComponent {
   @Output() fotoDocumentoReversoChange = new EventEmitter<File | null>();
   @Output() fotoPerfilChange = new EventEmitter<File | null>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
+  @Output() isChoferCondicionadoChange = new EventEmitter<boolean>();
 
   get info(): FormGroup {
     return this.form!.get(this.groupName) as FormGroup;
@@ -44,5 +45,9 @@ export class ChoferFormInfoComponent {
 
   get puedeRecibirAnticiposControl(): FormControl {
     return this.info.controls['puede_recibir_anticipos'] as FormControl;
+  }
+
+  get isChoferCondicionadoControl(): FormControl {
+    return this.info.controls['is_chofer_condicionado'] as FormControl;
   }
 }
