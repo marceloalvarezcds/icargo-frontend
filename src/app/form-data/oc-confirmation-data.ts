@@ -31,5 +31,7 @@ export const getOCData = (
     propietario_telefono: '',
     semi: combinacion?.semi_placa ? combinacion.semi_placa : '',
     camion_beneficiario_nombre: combinacion?.propietario_nombre ? combinacion.propietario_nombre : '',
+    puede_recibir_anticipos_chofer: combinacion?.puede_recibir_anticipos ?? false,
+    anticipo_propietario: combinacion?.anticipo_propietario ?? false,
   };
 };

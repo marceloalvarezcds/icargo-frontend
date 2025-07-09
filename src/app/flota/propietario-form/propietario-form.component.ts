@@ -34,6 +34,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 export class PropietarioFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   anticiposBloqueados = false;
+  isCondicionado = false;
   id?: number;
   item?: Propietario
   estado = EstadoEnum.PENDIENTE;
@@ -91,6 +92,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
       foto_perfil: null,
       es_chofer: null,
       puede_recibir_anticipos: true,
+      is_propietario_condicionado: false,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
       nombre_corto: null,
@@ -373,6 +375,15 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     this.numeroDocumentoControl.updateValueAndValidity();
   }
 
+   condicionarPropietario(): void {
+    this.dialog.confirmation(
+      'Desea Condicionar el Propietario?',
+      () => {
+        this.isCondicionado = true;
+      }
+    );
+  }
+
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
     if (this.isDialog) {
@@ -426,6 +437,7 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
             telefono: data.telefono,
             email: data.email,
             es_chofer: data.es_chofer,
+            is_propietario_condicionado: data.is_propietario_condicionado,
             puede_recibir_anticipos: data.puede_recibir_anticipos,
             foto_documento_frente: data.foto_documento_frente,
             foto_documento_reverso: data.foto_documento_reverso,

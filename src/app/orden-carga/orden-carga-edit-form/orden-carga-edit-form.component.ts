@@ -799,83 +799,75 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     this.form.markAllAsTouched();
 
     if (this.form.valid) {
-        const formData = new FormData();
-        this.isButtonPressed = false;
-        this.isEditPedido = false;
-        this.isEditPressed = true;
-        this.form.get('combinacion.flete_id')?.disable();
+      this.isButtonPressed = false;
+      this.isEditPedido = false;
+      this.isEditPressed = true;
+      this.form.get('combinacion.flete_id')?.disable();
 
-        const tipoId = 1;
-        const fleteId = this.form.get('combinacion.flete_id')?.value;
-        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
-        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
-          next: (anticipoFlete) => {
+      const tipoId = 1;
+      const fleteId = this.form.get('combinacion.flete_id')?.value;
+      const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
 
-            const anticipoFleteId = anticipoFlete.id;
-            if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
-              this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
-                next: (saldoAnticipo) => {
-                  const data = JSON.parse(
-                      JSON.stringify({
-                          ...this.form.value.info,
-                          flete_id: this.item?.flete_id,
-                          // Condiciones GC, Propietario
-                          condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
-                          condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
-                          // Mermas para GC
-                          merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
-                          merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
-                          // Mermas para Propietario
-                          merma_propietario_valor: this.item?.merma_propietario_valor,
-                          merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
-                          anticipos: this.item?.porcentaje_anticipos,
-                          saldoAnticipo: saldoAnticipo,
-                          flete_cargado: this.flete?.cargado,
-                      })
-                  );
+      this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+        next: (anticipoFlete) => {
+          const anticipoFleteId = anticipoFlete.id;
 
-                  formData.append('data', JSON.stringify(data));
+          if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+            this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+              next: (saldoAnticipo) => {
+                this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id).subscribe({
+                  next: (saldoCombustible) => {
+                    const data = {
+                      ...this.form.value.info,
+                      flete_id: this.item?.flete_id,
+                      // Condiciones GC, Propietario
+                      condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
+                      condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
+                      // Mermas para GC
+                      merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
+                      merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
+                      // Mermas para Propietario
+                      merma_propietario_valor: this.item?.merma_propietario_valor,
+                      merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
+                      anticipos: this.item?.porcentaje_anticipos,
+                      saldoAnticipo: saldoAnticipo,
+                      saldoCombustible: saldoCombustible,
+                      flete_cargado: this.flete?.cargado,
+                    };
 
-                  if (this.isEdit) {
+                    const formData = new FormData();
+                    formData.append('data', JSON.stringify(data));
+
+                    if (this.isEdit) {
                       this.hasChange = false;
                       this.initialFormValue = this.form.value;
                       this.ordenCargaService.edit(this.id, formData).subscribe(() => {
-                          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-
-                          setTimeout(() => {
-                              this.getDataWithoutOverwritingFlete();
-                          }, 1000);
+                        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+                        setTimeout(() => {
+                          this.getDataWithoutOverwritingFlete();
+                        }, 1000);
                       });
+                    }
+                  },
+                  error: err => {
+                    console.error('Error al obtener saldo combustible:', err);
                   }
-                // this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id)
-                //   .subscribe({
-                //     next: saldo => {
-                //       this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
-                //         this.item = ocActualizada;
-                //       });
-                //     },
-                //     error: err => {
-                //       console.error('Error creando saldo combustible:', err);
-                //     }
-                //   });
-
-                },
-                error: (error) => {
-                  console.error('Error al obtener el saldo de anticipo:', error);
-                }
-              });
-            } else {
-              console.error('El ID de anticipo de flete no es válido:', anticipoFleteId);
-            }
-          },
-          error: (error) => {
-            console.error('Error al obtener el anticipo de flete:', error);
+                });
+              },
+              error: (error) => {
+                console.error('Error al obtener el saldo de anticipo:', error);
+              }
+            });
+          } else {
+            console.error('El ID de anticipo de flete no es válido:', anticipoFleteId);
           }
-        });
-
-      }
+        },
+        error: (error) => {
+          console.error('Error al obtener el anticipo de flete:', error);
+        }
+      });
     }
-
+  }
 
   enableFleteId(): void {
     if (this.item?.estado === 'Conciliado') {
@@ -1021,19 +1013,19 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             },
         });
 
-    // this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
-    //     .subscribe({
-    //       next: saldo => {
-    //         // console.log('Saldo combustible generado:', saldo);
-    //         this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
-    //           this.item = ocActualizada;
-    //           // console.log('OC actualizada después del saldo combustible:', this.item);
-    //         });
-    //       },
-    //       error: err => {
-    //         console.error('Error creando saldo combustible:', err);
-    //       }
-    //     });
+    this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
+        .subscribe({
+          next: saldo => {
+            // console.log('Saldo combustible generado:', saldo);
+            this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+              this.item = ocActualizada;
+              // console.log('OC actualizada después del saldo combustible:', this.item);
+            });
+          },
+          error: err => {
+            console.error('Error creando saldo combustible:', err);
+          }
+        });
 
         if (this.isShow) {
           this.form.disable();

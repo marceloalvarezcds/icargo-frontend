@@ -32,6 +32,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 export class ChoferFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   anticiposBloqueados = false;
+  isCondicionado = false;
   item?: Chofer;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
@@ -85,6 +86,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       foto_perfil: null,
       es_propietario: null,
       puede_recibir_anticipos: true,
+      is_chofer_condicionado: false,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
     }),
@@ -339,6 +341,15 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     this.rucControl.updateValueAndValidity();
   }
 
+  condicionarChofer(): void {
+    this.dialog.confirmation(
+      'Desea Condicionar el Chofer?',
+      () => {
+        this.isCondicionado = true;
+      }
+    );
+  }
+
   private getData(): void {
 
     this.id = +this.route.snapshot.params.id;
@@ -394,6 +405,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             email: data.email,
             es_propietario: data.es_propietario,
             puede_recibir_anticipos: data.puede_recibir_anticipos,
+            is_chofer_condicionado: data.is_chofer_condicionado,
             foto_documento_frente: data.foto_documento_frente,
             foto_documento_reverso: data.foto_documento_reverso,
             foto_perfil: data.foto_perfil,

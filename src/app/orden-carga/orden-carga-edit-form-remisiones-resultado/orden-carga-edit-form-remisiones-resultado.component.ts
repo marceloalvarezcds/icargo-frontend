@@ -26,7 +26,7 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
       def: 'tarifa_flete',
       title: 'Tarifa Flete',
       value: (element: OrdenCargaRemisionResultado) =>
-        `${element.tarifa_flete} ${this.getFleteTarifaUnidad(element)}`,
+        `${element.tarifa_flete?.toLocaleString('es-ES')} ${this.getFleteTarifaUnidad(element)}`,
       type: 'text',
     },
     {

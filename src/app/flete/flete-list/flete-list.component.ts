@@ -84,7 +84,7 @@ export class FleteListComponent implements OnInit {
         `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
-        })} ${element.condicion_propietario_moneda_simbolo}/${element.condicion_propietario_unidad_abreviatura}`,
+        })} ${element.condicion_propietario_moneda_simbolo}/${element.condicion_propietario_unidad_abreviatura?.toUpperCase()}`,
       type: 'text',
     },
     {
@@ -94,7 +94,7 @@ export class FleteListComponent implements OnInit {
         `${element.condicion_gestor_carga_tarifa?.toLocaleString('es-ES', {
           minimumFractionDigits: 0,
           maximumFractionDigits: 2
-        })} ${element.condicion_gestor_carga_moneda_simbolo}/${element.condicion_gestor_carga_unidad_abreviatura}`,
+        })} ${element.condicion_gestor_carga_moneda_simbolo}/${element.condicion_gestor_carga_unidad_abreviatura?.toUpperCase()}`,
       type: 'text',
     },
 

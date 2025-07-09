@@ -16,6 +16,8 @@ export interface OCConfirmationInfo {
   propietario_telefono: string | null;
   semi: string;
   camion_beneficiario_nombre: string;
+  puede_recibir_anticipos_chofer: boolean;
+  anticipo_propietario: boolean;
 }
 
 export interface OCConfirmationDialogData {
@@ -24,7 +26,7 @@ export interface OCConfirmationDialogData {
 
 export interface OCConfirmationDialogData {
   oc: OCConfirmationInfo | null;
-  comentarios?: OrdenCargaComentariosHistorial[];  // Añadir comentarios como opcional
+  comentarios?: OrdenCargaComentariosHistorial[];
 }
 
 
@@ -51,6 +53,8 @@ export const mockOCConfirmationInfo: OCConfirmationInfo = {
   propietario_telefono: '0983-500500',
   semi: 'XYZ555',
   camion_beneficiario_nombre: 'XYZ555',
+  puede_recibir_anticipos_chofer: true,
+  anticipo_propietario: false,
 };
 
 export const mockOCConfirmationDialogData: OCConfirmationDialogData = {

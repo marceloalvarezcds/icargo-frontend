@@ -448,7 +448,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.dialog.open(OcGestionLineaComponent, {
       width: '1600px',
       data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos}
-
     });
   }
 
@@ -609,6 +608,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       oc: this.oc,
       item,
     };
+
     return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
       width: '700px',
       height: 'auto',
@@ -710,7 +710,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   fnHideAnular = (row: OrdenCargaAnticipoRetirado): boolean => {
-    return row?.estado_movimiento !== 'Anulado';
+   return row?.estado_movimiento !== 'Anulado' &&
+         row?.estado_movimiento_propietario !== 'En Proceso' &&
+         row?.estado_movimiento_remitente !== 'En Proceso'&&
+         row?.estado_movimiento_propietario !== 'Confirmado' &&
+         row?.estado_movimiento_remitente !== 'Confirmado'&&
+         row?.estado_movimiento_propietario !== 'Finalizado' &&
+         row?.estado_movimiento_remitente !== 'Finalizado';
   };
 
 }

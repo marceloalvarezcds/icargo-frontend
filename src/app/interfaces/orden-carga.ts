@@ -147,6 +147,7 @@ export interface OrdenCarga extends OrdenCargaForm {
   condicion_gestor_carga_tarifa_ml: number;
   condicion_propietario_tarifa: number;
   condicion_propietario_tarifa_ml: number;
+  resultado_propietario_tarifa_flete_ml: number;
   condicion_gestor_moneda_simbolo: string
   gestor_carga_moneda_id: number;
   condicion_gestor_carga_moneda_id: number
@@ -243,7 +244,9 @@ export interface OrdenCargaList extends OrdenCargaForm {
   flete_remitente_numero_documento: string;
   flete_tipo: TipoFleteEnum;
   flete_saldo: number;
+  flete_tarifa_unidad_propietario: string;
   resultado_flete_gestor_carga_merma_valor:number;
+  resultado_propietario_total_anticipos_retirados_ml: number;
   gestor_carga_nombre: string;
   condicion_propietario_moneda_simbolo: string
   condicion_gestor_moneda_simbolo: string
@@ -349,6 +352,7 @@ export const mockOrdenCarga1: OrdenCarga = {
   propietario_nombre: 'string',
   chofer_documento: 'string',
   documento_fisico:false,
+  resultado_propietario_tarifa_flete_ml: 2,
   // Datos de semi
   semi_id: semi0.id,
   semi_placa: semi0.placa,
@@ -508,6 +512,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_gestor_carga_nombre: flete0.gestor_carga_nombre,
     flete_numero_lote: flete0.numero_lote,
     flete_origen_nombre: flete0.origen_nombre,
+    flete_tarifa_unidad_propietario: '10',
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,
@@ -520,6 +525,7 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     resultado_gestor_carga_saldo_total:100,
     combinacion_chofer_nombre: 'dario',
     combinacion_chofer_doc: '900',
+    resultado_propietario_total_anticipos_retirados_ml:9000,
     // cantidad y comentario
     cantidad_nominada: 10000,
     comentarios: '',
@@ -580,10 +586,12 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_remitente_nombre: flete1.remitente_nombre,
     flete_remitente_numero_documento: flete1.remitente_numero_documento,
     flete_tipo: flete1.tipo_flete,
+    flete_tarifa_unidad_propietario: '10',
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     combinacion_chofer_nombre: 'dario',
     condicion_propietario_tarifa: 90,
     resultado_gestor_carga_saldo_total:100,
+    resultado_propietario_total_anticipos_retirados_ml:9000,
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,
@@ -649,9 +657,11 @@ export const mockOrdenCargaList: OrdenCargaList[] = [
     flete_remitente_nombre: flete2.remitente_nombre,
     flete_remitente_numero_documento: flete2.remitente_numero_documento,
     flete_tipo: flete2.tipo_flete,
+    flete_tarifa_unidad_propietario: '10',
     gestor_carga_nombre: flete0.gestor_carga_nombre,
     condicion_propietario_tarifa: 100,
     resultado_gestor_carga_saldo_total:100,
+    resultado_propietario_total_anticipos_retirados_ml:9000,
     flete_saldo: 2000,
     resultado_flete_gestor_carga_merma_valor: 20,
     condicion_gestor_cuenta_tarifa: 100,

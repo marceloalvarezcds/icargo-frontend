@@ -44,6 +44,7 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   monedaOrigenId: number | null = null;
   monedaDestinoId: number | null = null;
   monto_mon_local = 0
+  montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
 
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
@@ -361,12 +362,9 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     return saldo;
   }
 
-
   get montoRetirado(): number {
     return this.montoRetiradoEfectivo ?? 0;
   }
-
-  montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
 
   get ordenCargaId(): number {
     return this.dialogData.orden_carga_id;

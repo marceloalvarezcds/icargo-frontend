@@ -326,6 +326,12 @@ td.mat-column-cantidad_nominada_oc:not(:first-child) {
   padding-right: 25px; /* Opcional: añade padding derecho para separación */
 }
 
+td.mat-column-resultado_propietario_total_anticipos_retirados_ml:not(:first-child) {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+}
+
 //Caja
 td.mat-column-credito_caja:not(:first-child),
 td.mat-column-debito_caja:not(:first-child),

@@ -20,12 +20,13 @@ import { Observable } from 'rxjs';
 import { getClassColorForState } from 'src/app/utils/movimiento-utils';
 
 @Component({
-  selector: 'app-centro-operativo-by-gestor-map-dialog-field',
-  templateUrl: './centro-operativo-by-gestor-map-dialog-field.component.html',
-  styleUrls: ['./centro-operativo-by-gestor-map-dialog-field.component.scss'],
+  selector: 'app-centro-operativo-by-gestor-and-destino-map-dialog-field',
+  templateUrl: './centro-operativo-by-gestor-and-destino-map-dialog-field.component.html',
+  styleUrls: ['./centro-operativo-by-gestor-and-destino-map-dialog-field.component.scss']
 })
-export class CentroOperativoByGestorMapDialogFieldComponent {
-  readonly inputValuePropName = 'nombre';
+export class CentroOperativoByGestorAndDestinoMapDialogFieldComponent {
+
+ readonly inputValuePropName = 'nombre';
   list: CentroOperativoList[] = [];
 
   //subs = this.service.getListByGestorCuentaId().subscribe((list) => {
@@ -43,7 +44,7 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<CentroOperativoList, SelectorInMapDialogComponent<CentroOperativoList>>;
 
-  fetchDataFunction = () => this.service.getListByGestorCuentaIdAndOrigen();
+  fetchDataFunction = () => this.service.getListByGestorCuentaIdAndDestino();
 
   constructor(
     private service: CentroOperativoService,
@@ -140,5 +141,4 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
       );
     });
   }
-
 }
