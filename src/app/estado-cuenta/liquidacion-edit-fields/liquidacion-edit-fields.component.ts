@@ -35,8 +35,10 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() isEdit = false;
   @Input() set movimientosList(movs: Movimiento[]) {
     this.movimientos = movs;
-    this.actualizarSentido();
-    this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
+    if (!this.esOrdenPago){
+      this.actualizarSentido();
+      this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
+    }
   }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;

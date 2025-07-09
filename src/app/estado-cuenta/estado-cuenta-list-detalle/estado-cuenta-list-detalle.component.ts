@@ -905,7 +905,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             ),
           footerDef: () => this.pagos,
         },
-        /*{
+        {
           def: 'movimiento_saldo',
           title: 'Saldo Acumulado',
           value: (element: MovimientoEstadoCuenta) => element.movimiento_saldo,
@@ -918,7 +918,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
             ),
-        },*/
+        },
         {
           def: 'editar',
           title: '',
