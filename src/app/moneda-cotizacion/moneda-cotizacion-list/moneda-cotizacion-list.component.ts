@@ -58,9 +58,10 @@ export class MonedaCotizacionListComponent implements OnInit {
       value: (element: MonedaCotizacion) => element.moneda_destino_nombre,
     },
     {
-      def: 'cotizacion_moneda',
-      title: 'Cotizacion',
+      def: 'cantidad_nominada_oc',
+      title: 'Cotización',
       value: (element: MonedaCotizacion) => element.cotizacion_moneda,
+      type: 'number',
     },
 
     { def: 'actions', title: 'Acciones', stickyEnd: true },
@@ -94,7 +95,7 @@ export class MonedaCotizacionListComponent implements OnInit {
 
   redirectToShow(event: TableEvent<MonedaCotizacion>): void {
       this.router.navigate([
-        `/moneda_cotizacion/${m.MONEDA_COTIZACION}/${a.VER}`,
+        `/cotizacion/${m.MONEDA_COTIZACION}/${a.VER}`,
         event.row.id,
       ]);
     }

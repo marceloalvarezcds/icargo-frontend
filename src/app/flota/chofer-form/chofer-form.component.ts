@@ -342,13 +342,9 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
   }
 
   condicionarChofer(): void {
-    this.dialog.confirmation(
-      'Desea Condicionar el Chofer?',
-      () => {
-        this.isCondicionado = true;
-      }
-    );
+    this.isCondicionado = true;
   }
+
 
   private getData(): void {
 

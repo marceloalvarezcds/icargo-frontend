@@ -85,6 +85,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
   @Output() resetFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() isPropietarioAnticipoChange = new EventEmitter();
   // eventos dialogs
   combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
   fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
@@ -190,6 +191,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         }
       });
     }
+
   }
 
   getCantidadNominadaHint(cantidad: number, neto: number): string {
@@ -236,6 +238,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   get estadoChofer(): FormControl {
     return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl
   }
+
 
   isFormValid(): boolean {
     return  this.form?.get(this.groupName)?.get('semi_placa')?.value

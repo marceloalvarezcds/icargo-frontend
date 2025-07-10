@@ -101,6 +101,7 @@ export class PuntoVentaListComponent {
   @Input() isShow = false;
   @Input() backUrl = '/entities/proveedor/create';
 
+
   isFiltered = false;
 
   constructor(
@@ -109,6 +110,12 @@ export class PuntoVentaListComponent {
     private dialog: DialogService,
     private router: Router
   ) {}
+
+   reload(): void {
+    if (this.provId) {
+      this.getList(this.provId);
+    }
+  }
 
   redirectToEdit(event: TableEvent<PuntoVentaList>): void {
     this.router.navigate(
@@ -124,6 +131,7 @@ export class PuntoVentaListComponent {
     );
   }
 
+
   deleteRow({ row }: TableEvent<PuntoVentaList>): void {
     const message = `¿Está seguro que desea eliminar el Punto de Venta ${row.nombre}?`;
     this.dialog.confirmationToDelete(
@@ -134,6 +142,28 @@ export class PuntoVentaListComponent {
       }
     );
   }
+
+  active({ row }: TableEvent<PuntoVentaList>): void {
+    const message = `¿Está seguro que desea activar el Cliente con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.puntoVentaService.active(row.id),
+      () => {
+        this.getList(this.provId!);
+      }
+    );
+    }
+
+    inactive({ row }: TableEvent<PuntoVentaList>): void {
+      const message = `¿Está seguro que desea inactivar el Cliente con Nº ${row.id}?`;
+      this.dialog.changeStatusConfirm(
+        message,
+        this.puntoVentaService.inactive(row.id),
+        () => {
+          this.getList(this.provId!);
+        }
+      );
+    }
 
   downloadFile(): void {
     this.puntoVentaService

@@ -23,7 +23,8 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
-
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { PuntoVentaListComponent } from '../punto-venta-list/punto-venta-list.component';
 @Component({
   selector: 'app-proveedor-form',
   templateUrl: './proveedor-form.component.html',
@@ -34,6 +35,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   id?: number;
   isEdit = false;
   isShow = false;
+  isActive = false;
   isPanelOpen = false;
   isInfoTouched = true;
   isContactoTouched = false;
@@ -172,6 +174,28 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Proveedor?',
+      this.proveedorService.active(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Proveedor?',
+      this.proveedorService.inactive(this.id!),
+      () => {
+        this.getData();
+        this.puntoVentaListComponent?.reload();
+      }
+    );
+  }
+@ViewChild(PuntoVentaListComponent) puntoVentaListComponent!: PuntoVentaListComponent;
+
   submit(confirmed: boolean, redirectToCreatePuntoVenta: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
@@ -255,6 +279,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       }
       this.proveedorService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_proveedor?.alias ?? null,

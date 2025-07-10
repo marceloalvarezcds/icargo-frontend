@@ -375,13 +375,8 @@ export class PropietarioFormComponent implements OnInit, OnDestroy {
     this.numeroDocumentoControl.updateValueAndValidity();
   }
 
-   condicionarPropietario(): void {
-    this.dialog.confirmation(
-      'Desea Condicionar el Propietario?',
-      () => {
-        this.isCondicionado = true;
-      }
-    );
+  condicionarPropietario(): void {
+    this.isCondicionado = true;
   }
 
   private getData(): void {

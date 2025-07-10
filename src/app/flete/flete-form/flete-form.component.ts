@@ -234,6 +234,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.id && this.isEdit) {
+      this.fleteService.updateEditMode(this.id, false).subscribe();
+    }
     this.hasChangeSubscription.unsubscribe();
   }
 
@@ -597,7 +600,7 @@ copiar() {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-
+      this.fleteService.updateEditMode(this.id, this.isEdit).subscribe();
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;

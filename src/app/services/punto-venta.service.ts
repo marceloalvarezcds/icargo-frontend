@@ -58,4 +58,12 @@ export class PuntoVentaService {
   delete(id: number): Observable<PuntoVenta> {
     return this.http.delete<PuntoVenta>(`${this.url}/${id}`);
   }
+
+  active(id: number): Observable<PuntoVenta> {
+    return this.http.get<PuntoVenta>(`${this.url}/${id}/active`);
+  }
+
+  inactive(id: number): Observable<PuntoVenta> {
+    return this.http.get<PuntoVenta>(`${this.url}/${id}/inactive`);
+  }
 }
