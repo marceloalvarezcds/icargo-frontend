@@ -101,14 +101,19 @@ export class FleteListComponent implements OnInit {
     {
       def: 'cantidad_flete',
       title: 'Cantidad',
-      value: (element: FleteList) => element.condicion_cantidad,
-      type: 'number',
+      value: (element: FleteList) =>
+        `${element.condicion_cantidad?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} KG`,
+      type: 'text',
     },
-    {
-      def: 'tipo_carga_descripcion',
-      title: 'UM',
-      value: () => 'Kilogramos',
-    },
+
+    // {
+    //   def: 'tipo_carga_descripcion',
+    //   title: 'UM',
+    //   value: () => 'Kilogramos',
+    // },
 
     {
       def: 'cargado_flete',
