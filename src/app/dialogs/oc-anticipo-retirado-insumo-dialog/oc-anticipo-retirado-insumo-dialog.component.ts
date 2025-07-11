@@ -229,6 +229,38 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     return this.monto;
   }
 
+  get filteredCombustibles(): any[] {
+    const anticipos = this.oc?.porcentaje_anticipos ?? [];
+
+    return anticipos
+      .filter((anticipo: any) => anticipo.concepto?.toLowerCase() === 'combustible')
+      .map((anticipo: any) => ({
+        ...anticipo,
+        saldo_oc: this.getSaldoCombustible(anticipo),
+      }));
+  }
+
+  getSaldoCombustible(anticipo: any): number {
+    const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
+    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+    const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
+
+
+    if (limiteAnticipoCamion === 0) {
+      if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+        return saldo_combustible - montoRetiradoCombustible;
+      } else {
+        return 0;
+      }
+    }
+
+    if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+      return saldo_combustible - montoRetiradoCombustible;
+    } else {
+      return 0;
+    }
+  }
+
   get montoRetiradoHint(): string {
     const formatNumber = (value: number): string => {
       return new Intl.NumberFormat('de-DE', {
@@ -243,11 +275,18 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
         ? 'Sin límites'
         : formatNumber(this.anticipoDisponibleCamionConvertido ?? 0);
 
+    const anticipoCombustible = this.filteredCombustibles?.find(
+          (anticipo: any) => anticipo.concepto?.toLowerCase() === 'combustible'
+        );
+
+    //Calculo auxiliar para que muestre el Saldo antes de buscar el combustible
+    const saldoOCCombustible = anticipoCombustible?.saldo_oc ?? 0;
+
     if (!this.tipoInsumoId) {
       return `
         <div style="font-size: 16px; margin-bottom: 4px;">
           <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
-          <strong>0</strong>
+        <strong>${formatNumber(saldoOCCombustible)}</strong>
           <span>|</span>
           <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
           <strong>${saldoTractoTexto}</strong>
@@ -255,21 +294,21 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
       `;
     }
 
-      if (
-        !this.saldoAnticipo ||
-        this.cotizacionOrigen == null ||
-        this.cotizacionDestino == null
-      ) {
-        return `
-          <div style="font-size: 16px; margin-bottom: 4px;">
-            <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
-            <strong>0</strong>
-            <span>|</span>
-            <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
-            <strong>${saldoTractoTexto}</strong>
-          </div>
-        `;
-      }
+    if (
+      !this.saldoAnticipo ||
+      this.cotizacionOrigen == null ||
+      this.cotizacionDestino == null
+    ) {
+      return `
+        <div style="font-size: 16px; margin-bottom: 4px;">
+          <span class="hint-alert-label" style="font-weight: bold;">Saldo OC:</span>
+          <strong>${formatNumber(saldoOCCombustible)}</strong>
+          <span>|</span>
+          <span class="hint-alert-label" style="font-weight: bold;">Saldo Tracto:</span>
+          <strong>${saldoTractoTexto}</strong>
+        </div>
+      `;
+    }
 
     const montoConvertido = this.montoRetiradoEnMonedaLocal; //solo se usa en caso de moneda local, no aplica por ahora
     const monto = this.monto || 0;

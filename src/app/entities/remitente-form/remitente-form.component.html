@@ -9,7 +9,12 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [isEdit]="isEdit"
   [modelo]="modelo"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)" >

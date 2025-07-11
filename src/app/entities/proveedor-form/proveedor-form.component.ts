@@ -1,3 +1,4 @@
+
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
@@ -33,6 +34,7 @@ import { PuntoVentaListComponent } from '../punto-venta-list/punto-venta-list.co
 export class ProveedorFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   id?: number;
+  mostrarEstado: boolean = false;
   isEdit = false;
   isShow = false;
   isActive = false;
@@ -52,6 +54,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   contactoList: ProveedorContactoGestorCargaList[] = [];
 
   logo: string | null = null;
+  @ViewChild(PuntoVentaListComponent) puntoVentaListComponent!: PuntoVentaListComponent;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -167,13 +170,6 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     }
   }
 
-  onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent;
-    if (keyboardEvent.key === 'Enter') {
-      event.preventDefault();
-    }
-  }
-
   active(): void {
     this.dialog.changeStatusConfirm(
       '¿Está seguro que desea activar el Proveedor?',
@@ -194,7 +190,13 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       }
     );
   }
-@ViewChild(PuntoVentaListComponent) puntoVentaListComponent!: PuntoVentaListComponent;
+
+  onEnter(event: Event): void {
+    const keyboardEvent = event as KeyboardEvent;
+    if (keyboardEvent.key === 'Enter') {
+      event.preventDefault();
+    }
+  }
 
   submit(confirmed: boolean, redirectToCreatePuntoVenta: boolean): void {
     this.isInfoTouched = false;

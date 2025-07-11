@@ -80,12 +80,12 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
     if (this.isShow) {
       return 'VER';
     }
-    return this.isEdit ? 'ACTUALIZAR' : 'NUEVA';
+    return this.isEdit ? 'VER' : 'NUEVA';
   }
 
 
   get modeText(): string {
-    return this.isEdit ? 'PRECIO' : 'MERCADERIA';
+    return this.isEdit ? 'MERCADERIA' : 'MERCADERIA';
   }
 
 

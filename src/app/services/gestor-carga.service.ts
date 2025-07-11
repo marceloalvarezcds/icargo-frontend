@@ -35,4 +35,12 @@ export class GestorCargaService {
   delete(id: number): Observable<GestorCarga> {
     return this.http.delete<GestorCarga>(`${this.url}/${id}`);
   }
+
+  inactive(id: number): Observable<GestorCarga> {
+      return this.http.get<GestorCarga>(`${this.url}/${id}/inactive`);
+  }
+
+  active(id: number): Observable<GestorCarga> {
+    return this.http.get<GestorCarga>(`${this.url}/${id}/active`);
+  }
 }

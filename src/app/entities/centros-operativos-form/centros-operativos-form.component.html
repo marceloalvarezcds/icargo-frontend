@@ -6,6 +6,11 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [isEdit]="isEdit"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
   [modelo]="modelo"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
@@ -62,7 +67,7 @@
               </mat-form-field>
             </div>
 
-            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex; align-items: center;">
+            <div *ngIf="mostrarEstado" class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex; align-items: center;">
               <mat-slide-toggle formControlName="estado" >
                 {{ estadoControlValue ? "Activo" : "No activo" }}
               </mat-slide-toggle>
