@@ -40,7 +40,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
     moneda_id: [null],
     credito: null,
     debito: null,
-    saldo_provisional: null
+    pendiente: null
   })
 
   initialFormValue = this.form.value;
@@ -117,7 +117,7 @@ export class BancoFormInstrumentosComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'saldo_provisional',
+      def: 'saldo_confirmado',
       title: 'Saldo',
       value: (element: Instrumento) => element.saldo_confirmado,
       type: 'number',
@@ -243,9 +243,11 @@ export class BancoFormInstrumentosComponent implements OnInit {
 
   calcularTotales(): void {
 
-    const totalPendiente = this.item?.instrumentos.reduce((acc, cur) => acc + cur.provision, 0);
+    if (!this.item) return;
+
+    let totalPendiente = this.item.instrumentos.reduce((acc, cur) => acc + (cur.provision), 0);
     this.form.patchValue({
-      saldo_provisional: totalPendiente
+      pendiente: totalPendiente
     });
 
 
