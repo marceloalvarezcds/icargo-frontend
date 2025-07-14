@@ -362,11 +362,13 @@ td.mat-column-saldo_provisional:not(:first-child)
   padding-right: 22px; /* Opcional: añade padding derecho para separación */
 }
 
+
 //Estado de Cuenta
 td.mat-column-pendiente:not(:first-child),
 td.mat-column-en_proceso:not(:first-child),
 td.mat-column-confirmado:not(:first-child),
 td.mat-column-provision:not(:first-child),
+td.mat-column-tipo_cambio_moneda:not(:first-child),
 td.mat-column-liquidacion_saldo:not(:first-child),
 td.mat-column-total_cc:not(:first-child),
 td.mat-column-finalizado:not(:first-child)  {

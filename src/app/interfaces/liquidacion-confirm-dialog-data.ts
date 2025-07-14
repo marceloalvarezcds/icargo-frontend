@@ -13,6 +13,7 @@ export interface LiquidacionConfirmDialogData {
   esOrdenPago?:boolean;
   moneda?: Moneda;
   sentido?: string;
+  observacion?: string
 }
 
 export const mockLiquidacionConfirmDialogData: LiquidacionConfirmDialogData = {

@@ -42,10 +42,13 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
       this.form.controls['monto_pc'].addValidators([Validators.required, Validators.min(0)]);
       this.form.controls['monto_pc'].enable();
       this.form.controls['monto_pc'].updateValueAndValidity();
+
       this.form.controls['es_cobro'].enable();
       this.form.controls['moneda_id'].enable();
       this.form.controls['es_insumo_efectivo'].disable();
       this.tipo_insumo.disable();
+
+      this.form.controls['observacion'].enable();
     }
   }
 
@@ -74,6 +77,7 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     monto_pc: new FormControl({value:null, disabled:true} ),
     es_cobro: new FormControl({value:true, disabled:true}, [Validators.required]),
     moneda_id: new FormControl({value:null}, [Validators.required]),
+    observacion: new FormControl({value:"", disabled:true}),
   });
 
   get credito(): number {
@@ -103,6 +107,10 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
   get esInsumoControl(): FormControl {
     return this.form.controls['es_insumo_efectivo'] as FormControl;
+  }
+
+  get observacionValue(): string {
+    return this.form.controls['observacion'].value;
   }
 
   /*get esInsumoControlvalue(): FormControl {
@@ -250,7 +258,14 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
       this.liquidacionService
         .create(
             createLiquidacionDataFields(
-              this.movimientosSelected, this.estadoCuenta, pago_cobro, es_pago_cobro, tipoMovLiquidacion, moneda as Moneda, this.esOrdenPago
+              this.movimientosSelected,
+              this.estadoCuenta,
+              pago_cobro,
+              es_pago_cobro,
+              tipoMovLiquidacion,
+              moneda as Moneda,
+              this.esOrdenPago,
+              liquidacionValues.observacion
             ))
         .subscribe((resp) => {
           this.snackbar.open('Datos guardados satisfactoriamente');

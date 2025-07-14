@@ -15,6 +15,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
+import { subtractDecimal } from 'src/app/utils/math';
 
 type Filter = {
   estado?: string;
@@ -76,7 +77,7 @@ export class BancoListComponent implements OnInit {
     {
       def: 'pendiente',
       title: 'Pendiente',
-      value: (element: Banco) => (element.saldo_provisional - element.saldo_confirmado),
+      value: (element: Banco) => subtractDecimal(element.saldo_provisional, element.saldo_confirmado),
       type: 'number',
     },
     {

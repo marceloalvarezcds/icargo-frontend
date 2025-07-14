@@ -18,7 +18,7 @@ export const removeMovimientoData = (movimiento: Movimiento): FormData => {
 export const createLiquidacionDataFields = (
     movimientos: Movimiento[], cabecera:ContraparteGralInfo,
     monto:number, es_pago_cobro:string, tipo_mov_liquidacion:string,
-    moneda: Moneda, esOrdenPago:boolean = false
+    moneda: Moneda, esOrdenPago:boolean = false, observacion:string =""
   ): FormData => {
   const formData = new FormData();
   formData.append('data', JSON.stringify({
@@ -29,7 +29,8 @@ export const createLiquidacionDataFields = (
     es_pago_cobro,
     tipo_mov_liquidacion,
     moneda,
-    es_orden_pago: esOrdenPago
+    es_orden_pago: esOrdenPago,
+    observacion,
   }));
   return formData;
 };
