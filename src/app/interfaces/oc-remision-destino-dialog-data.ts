@@ -9,6 +9,12 @@ export interface OcRemisionDestinoDialogData {
   orden_carga_id: number;
 }
 
+export interface OrdenCargaRemisionDestinoResponse {
+  warning?: string;
+  data: any;
+}
+
+
 export const mockOcRemisionDestinoDialogData: OcRemisionDestinoDialogData = {
   item: mockOrdenCargaRemisionDestinoList[0],
   cantidad_disponible: 10000,
