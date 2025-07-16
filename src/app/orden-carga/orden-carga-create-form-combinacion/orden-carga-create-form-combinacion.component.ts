@@ -322,7 +322,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     this.flete = flete;
     this.fleteChange.emit(flete);
 
-    this.fleteService.getList().subscribe(
+    this.fleteService.getListByGestorCargaAndOc().subscribe(
       (fletes: FleteList[]) => {
 
         const formGroup = this.form?.get(this.groupName);
