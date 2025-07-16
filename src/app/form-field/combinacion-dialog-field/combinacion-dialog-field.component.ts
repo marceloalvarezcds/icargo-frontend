@@ -80,7 +80,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CombinacionList>;
 
-  fetchFunction = () => this.service.getList();
+  fetchFunction = () => this.service.getListByOc();
 
   constructor(private service: CombinacionService) { }
 

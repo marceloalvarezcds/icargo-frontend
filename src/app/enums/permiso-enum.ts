@@ -4,6 +4,8 @@ export enum PermisoAccionEnum {
   CANCELAR = 'cancelar',
   CONCILIAR = 'conciliar',
   CREAR = 'crear',
+  CREAR_EFECTIVO = 'crear_efectivo',
+  CREAR_INSUMO = 'crear_insumo',
   EDITAR = 'editar',
   ELIMINAR = 'eliminar',
   ANULAR = 'anular',
@@ -14,6 +16,9 @@ export enum PermisoAccionEnum {
   RECHAZAR = 'rechazar',
   REPORTE = 'reporte',
   VER = 'ver',
+  ANTICIPO = 'anticipo',
+  FINALIZAR = 'finalizar',
+  RECEPCIONAR = 'Recepcionar'
 }
 
 export enum PermisoModeloEnum {
@@ -60,6 +65,7 @@ export enum PermisoModeloEnum {
   ORDEN_CARGA_REMISION_RESULTADO = 'orden_carga_remision_resultado',
   ORDEN_CARGA_REMISION_RESULTADO_GESTOR = 'orden_carga_remision_resultado_gestor',
   ORDEN_CARGA_EVALUACION = 'orden_carga_evaluacion',
+  GESTION_DE_LINEA = 'gestion_de_linea',
   PAIS = 'pais',
   PERMISO = 'permiso',
   PRODUCTO = 'producto',
@@ -118,6 +124,7 @@ export enum PermisoModuloRouterEnum {
   ORDEN_CARGA = 'orden-carga',
   ORDEN_CARGA_ANTICIPO_RETIRADO = 'orden-carga-anticipos',
   ORDEN_CARGA_EVALUACION = 'orden_carga_evaluacion',
+  GESTION_DE_LINEA = 'gestion_de_linea',
   MONEDA_COTIZACION = 'cotizacion',
   INSUMO_PUNTO_VENTA_PRECIO = 'insumo',
   PARAMETROS = 'parametros',

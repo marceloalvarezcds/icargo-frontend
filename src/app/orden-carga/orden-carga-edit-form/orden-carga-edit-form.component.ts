@@ -301,9 +301,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   get anticipoFlete(): number | undefined | null {
-    return this.fleteAnticipo?.flete_anticipo_id_property ?? null;  // Retorna null si fleteAnticipo es null o undefined
+    return this.fleteAnticipo?.flete_anticipo_id_property ?? null;
   }
-
 
   constructor(
     private fb: FormBuilder,
@@ -327,6 +326,43 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     this.form.get('combinacion.id_orden_carga')?.disable();
     this.form.get('info.cantidad_nominada')?.disable()
     this.getData();
+
+    //Control de pestanas
+    window.addEventListener('storage', (event) => {
+    if (event.key === 'orden_carga_actualizada') {
+      const data = JSON.parse(event.newValue!);
+      if (data?.ordenId === this.id) {
+        this.getData(); // recarga la OC si coincide
+      }
+    }
+    });
+
+  // window.addEventListener('storage', (event) => {
+  //   if (event.key === 'anticipo_actualizado') {
+  //     const data = JSON.parse(event.newValue!);
+  //     if (data?.ordenCargaId === this.item?.id) {
+  //       this.getData();
+  //     }
+  //   }
+  // });
+
+  // window.addEventListener('storage', (event) => {
+  // if (event.key === 'anticipo_insumo_actualizado') {
+  //     const data = JSON.parse(event.newValue!);
+  //     if (data?.ordenCargaId === this.item?.id) {
+  //       this.getData();
+  //     }
+  //   }
+  // });
+  window.addEventListener('storage', (event) => {
+  if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
+    const data = JSON.parse(event.newValue!);
+    if (data?.ordenCargaId === this.item?.id) {
+      this.getData(); // o this.anticipoTable.reload()
+    }
+  }
+});
+
   }
 
   ngOnDestroy(): void {
@@ -344,8 +380,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     let sms = "¿Está seguro que desea liberar anticipos?";
 
     if (this.item?.anticipos_liberados) {
-     sms = '<p>¿Está seguro de bloquear Anticipos?. <br>'
-      +'Esta acción bloqueará los anticipos en esta OC</p>';
+      sms = '<p>¿Está seguro de bloquear Anticipos?. <br>'
+          + 'Esta acción bloqueará los anticipos en esta OC</p>';
     }
 
     this.dialog.changeStatusConfirmHtml(
@@ -354,21 +390,31 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
+        localStorage.setItem(
+          'orden_carga_actualizada',
+          JSON.stringify({ ordenId: this.id, timestamp: Date.now() })
+        );
       }
     );
   }
+
 
   inactive(): void {
     this.dialog.changeStatusConfirmHtml(
       '',
       '<p>¿Está seguro de bloquear Anticipos?.<br>'
-      +'Esta acción bloqueará los anticipos en esta OC.</p>',
+      + 'Esta acción bloqueará los anticipos en esta OC.</p>',
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
+        localStorage.setItem(
+          'orden_carga_actualizada',
+          JSON.stringify({ ordenId: this.id, timestamp: Date.now() })
+        );
       }
     );
   }
+
 
 
   // back(confirmed: boolean): void {

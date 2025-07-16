@@ -95,7 +95,9 @@
                 <!-- Botón específico para Orden de Carga -->
           <button mat-flat-button
             class="botones" color="accent"
-            *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'"
+            *ngIf="(submodule === 'Orden de Carga'
+            || submodule === 'Orden de Carga - En Proceso')
+            && (modelo | puede: a.ANTICIPO)"
             (click)="createAnticipoClick.emit($event)">
             <mat-icon>add_circle</mat-icon> ANTICIPO
           </button>
@@ -104,7 +106,9 @@
           <button mat-flat-button
             class="botones" color="accent"
             (click)="createRecepcionClick.emit($event)"
-            *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'">
+            *ngIf="(submodule === 'Orden de Carga'
+            || submodule === 'Orden de Carga - En Proceso')
+            && (modelo | puede: a.RECEPCIONAR)">
             <mat-icon>add_circle</mat-icon> RECEPCION
           </button>
 
@@ -146,7 +150,9 @@
               matTooltip="Crear"
               [class.disabled]="!(modelo | puede: a.CREAR)"
               (click)="finalizarClick.emit($event)"
-              *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'">
+              *ngIf="(submodule === 'Orden de Carga'
+              || submodule === 'Orden de Carga - En Proceso')
+              && (modelo | puede: a.FINALIZAR)">
                 FINALIZAR
           </button>
             <!-- Botón específico para Orden de Carga -->
@@ -154,7 +160,9 @@
               class="botones" style="color: white; background-color: var(--color-grey);"
               [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
               (click)="conciliarClick.emit($event)"
-              *ngIf="submodule === 'Orden de Carga' || submodule === 'Ordenes de Carga - Finalizadas y Canceladas'">
+              *ngIf="(submodule === 'Orden de Carga'
+              || submodule === 'Ordenes de Carga - Finalizadas y Canceladas')
+              && (modelo | puede: a.CONCILIAR)">
                 CONCILIAR
           </button>
 

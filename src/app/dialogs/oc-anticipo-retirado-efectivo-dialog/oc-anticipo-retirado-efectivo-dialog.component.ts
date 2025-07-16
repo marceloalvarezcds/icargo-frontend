@@ -554,6 +554,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
             } else {
               this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
             }
+            localStorage.setItem(
+                'anticipo_actualizado',
+                JSON.stringify({
+                  ordenCargaId: this.ordenCargaId,
+                  timestamp: Date.now()
+                })
+              );
               this.montoRetiradoChange.emit(data.cantidad_retirada);
               this.montoRetiradoChange.emit(data.montoRetirado);
             }

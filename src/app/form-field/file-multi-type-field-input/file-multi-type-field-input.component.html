@@ -1,0 +1,116 @@
+<ng-container *ngIf="form">
+  <ng-container *ngIf="groupName">
+    <div [formGroup]="form">
+      <div
+        [formGroupName]="groupName"
+        style="display: flex;flex-direction: column; align-items: flex-start;"
+      >
+        <mat-label class="custom-label">{{ title }}</mat-label>
+
+        <div class="file-field-container">
+          <ng-container *ngIf="fieldFiles?.length && !field">
+            <div *ngFor="let file of fieldFiles" class="file-multiple-preview">
+              <mat-icon class="file-icon">insert_drive_file</mat-icon>
+              <span class="file-name">{{ file.name }}</span>
+            </div>
+          </ng-container>
+
+          <div *ngIf="field" class="file-field">
+            <img (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
+          </div>
+        </div>
+
+        <input
+          id="file-input"
+          #fileInput
+          type="file"
+          multiple
+          accept="images/*,.pdf,.doc,.docx"
+          (change)="fieldChange($event)"
+          style="display: none"
+        />
+
+        <mat-form-field floatLabel="always" appearance="outline" class="file-form-field" *ngIf="isShow">
+          <input matInput readonly [formControlName]="controlName" />
+        </mat-form-field>
+
+        <mat-form-field floatLabel="always" appearance="outline" *ngIf="!isShow">
+          <input
+            matInput
+            readonly
+            [formControlName]="controlName"
+            (click)="fileInput.click()"
+          />
+          <button
+            mat-icon-button
+            matSuffix
+            color="primary"
+            type="button"
+            (click)="fileInput.click()"
+            [disabled]="disabled"
+          >
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <mat-error *ngIf="fieldControl.hasError('required')">
+            El archivo es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="!groupName">
+    <div [formGroup]="form" style="display: flex;flex-direction: column; align-items: flex-start;">
+      <mat-label class="custom-label">{{ title }}</mat-label>
+
+      <div class="file-field-container">
+        <ng-container *ngIf="fieldFiles?.length && !field">
+          <div *ngFor="let file of fieldFiles" class="file-multiple-preview">
+            <mat-icon class="file-icon">insert_drive_file</mat-icon>
+            <span class="file-name">{{ file.name }}</span>
+          </div>
+        </ng-container>
+
+        <div *ngIf="field" class="file-field">
+          <img (click)="openImageDialogEdit()" [src]="field" alt="" class="file-field" />
+        </div>
+      </div>
+
+      <input
+        id="file-input"
+        #fileInput
+        type="file"
+        multiple
+        accept="images/*,.pdf,.doc,.docx"
+        (change)="fieldChange($event)"
+        style="display: none"
+      />
+
+      <mat-form-field floatLabel="always" appearance="outline" class="file-form-field" *ngIf="isShow">
+        <input matInput readonly [formControlName]="controlName" />
+      </mat-form-field>
+
+      <mat-form-field class="file-form-field" *ngIf="!isShow">
+        <input
+          matInput
+          readonly
+          [formControlName]="controlName"
+          (click)="fileInput.click()"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          color="primary"
+          type="button"
+          (click)="fileInput.click()"
+          [disabled]="disabled"
+        >
+          <mat-icon>attach_file</mat-icon>
+        </button>
+        <mat-error *ngIf="fieldControl.hasError('required')">
+          El archivo es <strong>requerido</strong>
+        </mat-error>
+      </mat-form-field>
+    </div>
+  </ng-container>
+</ng-container>

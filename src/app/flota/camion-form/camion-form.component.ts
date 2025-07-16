@@ -1,8 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { ComentariosFlotaFormDialogComponent } from 'src/app/dialogs/comentarios-flota-form-dialog/comentarios-flota-form-dialog.component';
+import { ComentariosFlotaListFormDialogComponent } from 'src/app/dialogs/comentarios-flota-list-form-dialog/comentarios-flota-list-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -12,7 +14,9 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { Combinacion } from 'src/app/interfaces/combinacion';
+import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { CamionService } from 'src/app/services/camion.service';
+import { ComentarioFlotaService } from 'src/app/services/comentario-flota.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -171,8 +175,10 @@ export class CamionFormComponent implements OnInit, OnDestroy {
     private camionService: CamionService,
     private monedaService: MonedaService,
     private userService: UserService,
+    private comentarioFlotaService: ComentarioFlotaService,
     private snackbar: SnackbarService,
     private dialog: DialogService,
+    private matDialog: MatDialog,
     private route: ActivatedRoute,
     private router: Router,
     @Optional() public dialogRef: MatDialogRef<CamionFormComponent>,
@@ -193,12 +199,9 @@ export class CamionFormComponent implements OnInit, OnDestroy {
 
       this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
         this.monedaOrigenId = moneda?.id ?? null;
-        this.monedaSimbolo = moneda?.simbolo ?? null;  // Aquí guardas el símbolo
-        console.log('simbolo', this.monedaSimbolo)
+        this.monedaSimbolo = moneda?.simbolo ?? null;
       });
     });
-
-
   }
 
   onEnter(event: Event): void {
@@ -243,6 +246,30 @@ export class CamionFormComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  openCreateComentarioCamionDialog(): void {
+    this.matDialog.open(ComentariosFlotaFormDialogComponent, {
+      data: {
+        comentable_type: 'camion',
+        comentable_id: this.id,
+      },
+      width: '500px',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  openComentariosCamionListDialog(): void {
+    this.comentarioFlotaService
+      .getByEntidad('camion', this.id!)
+      .subscribe((listaComentarios) => {
+        this.matDialog.open(ComentariosFlotaListFormDialogComponent, {
+          width: '800px',
+          panelClass: 'custom-dialog-container',
+          data: { list: listaComentarios },
+        });
+      });
+   }
 
   submit(confirmed: boolean): void {
     this.isInfoTouched = false;
@@ -435,7 +462,6 @@ export class CamionFormComponent implements OnInit, OnDestroy {
             limite_cantidad_oc_activas: data.limite_cantidad_oc_activas,
             limite_monto_anticipos: data.limite_monto_anticipos,
           },
-
 
         });
 

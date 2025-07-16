@@ -1,0 +1,22 @@
+
+  <div class="section">
+    <h2 class="title-colapside">COMENTARIOS TRACTO</h2>
+  </div>
+  <div class="table-container small-table">
+    <app-table
+      [columns]="columns"
+      [data]="list"
+      [shouldShowAnularButton]="true"
+      [hideDelete]="true"
+      [hideEdit]="true"
+    ></app-table>
+  </div>
+
+  <div mat-dialog-actions class="buttons-actions">
+    <button
+      mat-stroked-button mat-dialog-close
+      class="botones" type="button">
+      <mat-icon>close</mat-icon>
+      Cerrar
+    </button>
+  </div>

@@ -117,6 +117,7 @@ import { OcFinalizadasDialogFieldComponent } from './oc-finalizadas-dialog-field
 import { TextoLegalDialogFieldComponent } from './texto-legal-dialog-field/texto-legal-dialog-field.component';
 import { PuntoVentaMapByEfectivoDialogFieldComponent } from './punto-venta-map-by-efectivo-dialog-field/punto-venta-map-by-efectivo-dialog-field.component';
 import { CentroOperativoByGestorAndDestinoMapDialogFieldComponent } from './centro-operativo-by-gestor-and-destino-map-dialog-field/centro-operativo-by-gestor-and-destino-map-dialog-field.component';
+import { FileMultiTypeFieldInputComponent } from './file-multi-type-field-input/file-multi-type-field-input.component';
 
 
 
@@ -230,11 +231,12 @@ const modules = [
   TextoLegalDialogFieldComponent,
   PuntoVentaMapByEfectivoDialogFieldComponent,
   CentroOperativoByGestorAndDestinoMapDialogFieldComponent,
+  FileMultiTypeFieldInputComponent
 ];
 
 @NgModule({
 
-  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent, ComposicionJuridicaFieldComponent, OcAceptadasDialogFieldComponent, OcFinalizadasDialogFieldComponent, TextoLegalDialogFieldComponent, PuntoVentaMapByEfectivoDialogFieldComponent, CentroOperativoByGestorAndDestinoMapDialogFieldComponent],
+  declarations: [...modules.slice(), AccionPipe, CombinacionReadonlyByIdDialogFieldComponent, CamionByPropietarioDialogFieldComponent, SemiByPropietarioDialogFieldComponent, ChoferByPropietarioDialogFieldComponent, TipoPersonaByBeneficiarioDialogFieldComponent, TipoPersonaByPropietarioFieldComponent, InputFieldByPlacaComponent, DialogFieldPlacaComponent, InputFieldNetoComponent, PropietarioByTipoPersonaMapDialogFieldComponent, CiudadMapDialogFieldComponent, DialogMapFieldComponent, InputFieldOcComponent, DialogFieldOcComponent, OcByCombinacionDialogFieldComponent, FileFieldImageComponent, OcByCombinacionAceptadosDialogFieldComponent, OcByCombinacionFinalizadosDialogFieldComponent, OcByCombinacionNuevosDialogFieldComponent, TipoEvaluacionFieldComponent, FileFieldInputComponent, PuntoVentaPrecioMapFieldComponent, InsumoByPuntoVentaFieldComponent, ComposicionJuridicaFieldComponent, OcAceptadasDialogFieldComponent, OcFinalizadasDialogFieldComponent, TextoLegalDialogFieldComponent, PuntoVentaMapByEfectivoDialogFieldComponent, CentroOperativoByGestorAndDestinoMapDialogFieldComponent, FileMultiTypeFieldInputComponent],
 
   exports: modules.slice(),
   imports: [

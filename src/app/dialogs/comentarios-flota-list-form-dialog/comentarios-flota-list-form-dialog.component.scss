@@ -1,0 +1,24 @@
+.button-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 2.5px;
+}
+
+.title-colapside {
+  cursor: pointer;
+}
+
+.colapse-div {
+  display: none;
+}
+.estado-anulado {
+  color: red;
+  font-weight: bold;
+}
+
+.disabled {
+    background-color: #e0e0e0 !important;
+  color: #9e9e9e !important;
+}

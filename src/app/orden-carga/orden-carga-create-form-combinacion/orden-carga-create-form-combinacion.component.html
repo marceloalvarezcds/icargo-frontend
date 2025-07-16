@@ -174,28 +174,18 @@
           controlName="beneficiario_camion_doc"
           [shouldFormat]="false"
         ></app-input-field-oc>
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label class="custom-label">
-          Puede Recibir Anticipos
-        </mat-label>
 
-        <mat-slide-toggle
-          *ngIf="!showField"
-          formControlName="anticipo_propietario"
-          [disabled]="true"
-        >
-        {{ form.get('anticipo_propietario')?.value ? 'Sí' : 'No' }}
-        </mat-slide-toggle>
-      </div>
-        <!-- <app-slide
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+         <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [readonly]="true"
           [isShow]="isShow"
-          [control]="isActive"
-          title="Condicionado"
+          [control]="anticipoPropietarioControl"
+          title="Puede Recibir Anticipos"
           trueTitle="Sí"
           falseTitle="No"
-          (valueChange)="isPropietarioAnticipoChange.emit($event)"
-        ></app-slide> -->
+          (valueChange)="anticipoPropietarioChange.emit($event)"
+        ></app-slide>
 
       </div>
 
@@ -223,31 +213,18 @@
           controlName="chofer_camion_doc"
           [shouldFormat]="false">
         </app-input-field-oc>
-<!--
-        <mat-slide-toggle
-          *ngIf="!showField"
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          formControlName="puede_recibir_anticipos"
-          [disabled]="true"
-          labelPosition="before">
-          Anticipos
-        </mat-slide-toggle> -->
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label class="custom-label">
-          Puede Recibir Anticipos
-        </mat-label>
 
-        <mat-slide-toggle
-          *ngIf="!showField"
-          formControlName="puede_recibir_anticipos"
-          [disabled]="true"
-        >
-          {{
-            form.get('puede_recibir_anticipos')?.value ? 'No' : 'Sí'
-          }}
-        </mat-slide-toggle>
-      </div>
-
+        <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="anticipoChoferControl"
+          title="Puede Recibir Anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="anticipoChoferChange.emit($event)"
+        ></app-slide>
       </div>
 
       <div class="row" [class.colapse-div]="colapseDivPrincipal">
