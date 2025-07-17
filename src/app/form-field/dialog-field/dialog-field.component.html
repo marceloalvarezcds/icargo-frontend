@@ -20,7 +20,11 @@
           [dialogRefFunctionCrear]="dialogRefFunctionCrear"
           (emptyListChange)="emptyListChange.emit()"
           (valueChange)="$event && valueChange.emit($event)"
+          [filterSearchCallbackFn]="filterSearchCallbackFn"
+          [filterOptionLabelfn]="filterOptionLabelfn"
+          [autocomplete]="autocomplete"
         ></app-dialog-form-field-control>
+
         <button
           type="button"
           matSuffix

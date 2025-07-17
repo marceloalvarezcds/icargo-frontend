@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input,  Output, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
@@ -116,6 +116,14 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       this.valueChange.emit(combinacion);
     }
   }
+
+  filterSearchCallbackFn = (chapa:string) => {
+      if (chapa && chapa.length>=2) return this.service.getListByOcChapa(chapa)
+      else return of([]);
+    }
+
+  filterOptionLabelfn = (item:CombinacionList) => (
+    `Chapa:${item.camion_placa} | Chofer:${item.chofer_nombre}`);
 
   //private getList(): void {
   //  this.list$ = this.service.getList();

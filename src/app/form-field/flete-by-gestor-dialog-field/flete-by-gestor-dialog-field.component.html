@@ -9,7 +9,6 @@
     [form]="form"
     (valueChange)="valueChange.emit($event)"
   ></app-dialog-field-oc-->
-
   <app-dialog-field
     [title]="title"
     [columns]="columns"
@@ -21,4 +20,7 @@
     [inputValuePropName]="inputValuePropName"
     [form]="form"
     (valueChange)="valueChange.emit($event)"
+    [autocomplete]="true"
+    [filterSearchCallbackFn]="filterSearchCallbackFn"
+    [filterOptionLabelfn]="filterOptionLabelfn"
   ></app-dialog-field>

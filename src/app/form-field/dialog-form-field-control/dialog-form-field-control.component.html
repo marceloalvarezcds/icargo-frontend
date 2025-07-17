@@ -6,10 +6,29 @@
 
   <input formControlName="id" aria-label="Id" readonly hidden #id />
 
-  <input class="app-dialog-form-field-control-element"
+  <input *ngIf="!autocomplete"
+    class="app-dialog-form-field-control-element"
     formControlName="descripcion"
     aria-label="Descripción"
-    #descripcion
-    (keydown)="keyPress($event)"/>
+    #descripcion/>
+
+  <div *ngIf="autocomplete">
+
+    <input class="app-dialog-form-field-control-element"
+      formControlName="descripcion"
+      aria-label="Descripción"
+      #descripcion
+      [matAutocomplete]="auto"/>
+
+    <mat-autocomplete #auto="matAutocomplete" panelWidth="auto"
+      (optionSelected)="cargarSelected($event.option)">
+
+      <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+        {{ filterOptionLabel(option) }}
+      </mat-option>
+
+    </mat-autocomplete>
+
+  </div>
 
 </div>

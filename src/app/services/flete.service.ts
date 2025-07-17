@@ -78,4 +78,9 @@ export class FleteService {
   getListByGestorCargaAndOc(): Observable<FleteList[]> {
     return this.http.get<FleteList[]>(`${this.url}/orden_carga/list`);
   }
+
+  getListFleteListById(id: number): Observable<FleteList[]> {
+    return this.http.get<FleteList[]>(`${this.url}/orden_carga/list/${id}`);
+  }
+
 }
