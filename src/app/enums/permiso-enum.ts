@@ -18,7 +18,8 @@ export enum PermisoAccionEnum {
   VER = 'ver',
   ANTICIPO = 'anticipo',
   FINALIZAR = 'finalizar',
-  RECEPCIONAR = 'Recepcionar'
+  RECEPCIONAR = 'recepcionar',
+  REMISIONAR = 'remisionar'
 }
 
 export enum PermisoModeloEnum {

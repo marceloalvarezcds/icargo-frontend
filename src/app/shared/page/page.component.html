@@ -148,7 +148,6 @@
           <button mat-stroked-button
               class="botones"color="primary"
               matTooltip="Crear"
-              [class.disabled]="!(modelo | puede: a.CREAR)"
               (click)="finalizarClick.emit($event)"
               *ngIf="(submodule === 'Orden de Carga'
               || submodule === 'Orden de Carga - En Proceso')
@@ -158,7 +157,6 @@
             <!-- Botón específico para Orden de Carga -->
           <button mat-flat-button
               class="botones" style="color: white; background-color: var(--color-grey);"
-              [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
               (click)="conciliarClick.emit($event)"
               *ngIf="(submodule === 'Orden de Carga'
               || submodule === 'Ordenes de Carga - Finalizadas y Canceladas')

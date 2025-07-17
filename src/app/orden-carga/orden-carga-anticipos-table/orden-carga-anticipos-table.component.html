@@ -118,7 +118,7 @@
           (click)="createInsumo()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
+          !(modelo | puede: a.CREAR_INSUMO:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon">add</mat-icon> INSUMO
         </button>
 
