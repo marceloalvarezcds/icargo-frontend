@@ -123,7 +123,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
     }
 
   filterOptionLabelfn = (item:CombinacionList) => (
-    `Chapa:${item.camion_placa} | Chofer:${item.chofer_nombre}`);
+    `${item.camion_placa} | ${item.chofer_nombre}`);
 
   //private getList(): void {
   //  this.list$ = this.service.getList();

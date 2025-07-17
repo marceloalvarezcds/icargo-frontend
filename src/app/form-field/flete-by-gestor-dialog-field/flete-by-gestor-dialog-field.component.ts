@@ -122,7 +122,7 @@ export class FleteByGestorDialogFieldComponent {
   filterSearchCallbackFn = (filter:number) => this.fleteService.getListFleteListById(filter);
 
   filterOptionLabelfn = (item:FleteList) => (
-    `ID:${item.id} | Cliente:${item.remitente_nombre} | Org:${item.origen_nombre} | Dest:${item.destino_nombre}`);
+    `${item.id} | ${item.remitente_nombre} | ${item.origen_nombre} | ${item.destino_nombre}`);
 
   constructor(private fleteService: FleteService) {}
 
