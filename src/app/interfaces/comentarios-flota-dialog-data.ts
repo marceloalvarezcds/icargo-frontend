@@ -8,6 +8,8 @@ export interface ComentariosFlota {
 
 
 export interface ComentariosFlotaList extends ComentariosFlota {
+  id: number
+  gestor_carga_nombre: string
   created_by: string;
   created_at: string;
   modified_by: string;

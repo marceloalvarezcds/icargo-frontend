@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, Input, OnInit, Output } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ComentariosFlota } from 'src/app/interfaces/comentarios-flota-dialog-data';
 import { ComentarioFlotaService } from 'src/app/services/comentario-flota.service';
@@ -12,8 +12,8 @@ import { ComentarioFlotaService } from 'src/app/services/comentario-flota.servic
 export class ComentariosFlotaFormDialogComponent {
 
   form = this.fb.group({
-    tipo_evento: this.data?.tipo_evento,
-    comentario: this.data?.comentario,
+    tipo_evento: [this.data?.tipo_evento, Validators.required],
+    comentario: [this.data?.tipo_evento, Validators.required],
     archivo: null,
   });
 

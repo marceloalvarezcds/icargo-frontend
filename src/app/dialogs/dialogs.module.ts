@@ -55,6 +55,7 @@ import { InsumoVentaPrecioDialogComponent } from './insumo-venta-precio-dialog/i
 import { FleteCantidadCondicionesDialogComponent } from './flete-cantidad-condiciones-dialog/flete-cantidad-condiciones-dialog.component';
 import { ComentariosFlotaFormDialogComponent } from './comentarios-flota-form-dialog/comentarios-flota-form-dialog.component';
 import { ComentariosFlotaListFormDialogComponent } from './comentarios-flota-list-form-dialog/comentarios-flota-list-form-dialog.component';
+import { FilePreviewDialogComponent } from './file-preview-dialog/file-preview-dialog.component';
 
 
 
@@ -106,7 +107,8 @@ const modules = [
   InsumoVentaPrecioDialogComponent,
   FleteCantidadCondicionesDialogComponent,
   ComentariosFlotaFormDialogComponent,
-  ComentariosFlotaListFormDialogComponent
+  ComentariosFlotaListFormDialogComponent,
+  FilePreviewDialogComponent
 ];
 
 @NgModule({

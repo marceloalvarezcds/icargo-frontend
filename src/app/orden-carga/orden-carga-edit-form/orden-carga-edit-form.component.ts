@@ -354,14 +354,14 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   //     }
   //   }
   // });
-  window.addEventListener('storage', (event) => {
-  if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
-    const data = JSON.parse(event.newValue!);
-    if (data?.ordenCargaId === this.item?.id) {
-      this.getData(); // o this.anticipoTable.reload()
+    window.addEventListener('storage', (event) => {
+    if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
+      const data = JSON.parse(event.newValue!);
+      if (data?.ordenCargaId === this.item?.id) {
+        this.getData(); // o this.anticipoTable.reload()
+      }
     }
-  }
-});
+  });
 
   }
 

@@ -20,4 +20,10 @@ export class ComentarioFlotaService {
      return this.http.get<ComentariosFlota[]>(`${this.url}/${comentable_type}/${comentable_id}`);
   }
 
+  downloadFileByFilename(filename: string): Observable<Blob> {
+  return this.http.get(`${this.url}archivo/${filename}`, {
+    responseType: 'blob'
+  });
+}
+
 }
