@@ -19,7 +19,7 @@ export class FileMultiTypeFieldInputComponent {
   @Input() field: string | null = null; // URL si ya existe en BD
   @Input() isShow = false;
   @Input() isEdit = false;
-  @Input() accept = '.pdf,.doc,.docx,image/*'; // Podés personalizarlo
+  @Input() accept = '.pdf,.doc,.docx,.png, .jpg, .jpeg, .gif*';
   @Input() disabled = false;
 
   @Output() fileChange = new EventEmitter<File | null>();
