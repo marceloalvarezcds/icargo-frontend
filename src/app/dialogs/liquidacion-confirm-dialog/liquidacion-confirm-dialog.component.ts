@@ -134,6 +134,10 @@ export class LiquidacionConfirmDialogComponent {
     return this.data.sentido!
   }
 
+  get observacion(): string {
+    return this.data.observacion ?? "";
+  }
+
   constructor(
     public dialogRef: MatDialogRef<LiquidacionConfirmDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private data: LiquidacionConfirmDialogData

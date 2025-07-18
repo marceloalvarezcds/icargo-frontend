@@ -1,8 +1,10 @@
 import { Component, Inject, OnDestroy, OnInit, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { ComentariosFlotaFormDialogComponent } from 'src/app/dialogs/comentarios-flota-form-dialog/comentarios-flota-form-dialog.component';
+import { ComentariosFlotaListFormDialogComponent } from 'src/app/dialogs/comentarios-flota-list-form-dialog/comentarios-flota-list-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -11,6 +13,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Semi } from 'src/app/interfaces/semi';
+import { ComentarioFlotaService } from 'src/app/services/comentario-flota.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SemiService } from 'src/app/services/semi.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -158,6 +161,8 @@ export class SemiFormComponent implements OnInit, OnDestroy {
     private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router,
+    private matDialog: MatDialog,
+    private comentarioFlotaService: ComentarioFlotaService,
     @Optional() public dialogRef: MatDialogRef<SemiFormComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
   ) {
@@ -208,6 +213,30 @@ export class SemiFormComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  openCreateComentarioSemiDialog(): void {
+      this.matDialog.open(ComentariosFlotaFormDialogComponent, {
+        data: {
+          comentable_type: 'semi',
+          comentable_id: this.id,
+        },
+        width: '500px',
+        height: 'auto',
+        panelClass: 'custom-dialog-container'
+      });
+    }
+
+    openComentariosSemiListDialog(): void {
+      this.comentarioFlotaService
+        .getByEntidad('semi', this.id!)
+        .subscribe((listaComentarios) => {
+          this.matDialog.open(ComentariosFlotaListFormDialogComponent, {
+            width: '800px',
+            panelClass: 'custom-dialog-container',
+            data: { list: listaComentarios },
+          });
+        });
+      }
 
   onEnter(event: Event): void {
     const keyboardEvent = event as KeyboardEvent;

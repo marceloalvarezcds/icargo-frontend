@@ -129,14 +129,15 @@
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           [isShow]="isShow"
           [control]="puedeRecibirAnticiposControl"
-          trueTitle="Puede recibir anticipos"
-          falseTitle="No puede recibir anticipos"
+          title="Puede recibir anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
           (valueChange)="
             !$event &&
               cantidadOCConAnticiposLiberados > 0 &&
               anticiposBloqueadosChange.emit()
           "
-        ></app-slide>
+       ></app-slide>
         <app-slide
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           [isShow]="isShow"

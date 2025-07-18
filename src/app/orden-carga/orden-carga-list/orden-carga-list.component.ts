@@ -16,6 +16,7 @@ import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
+import { UserService } from 'src/app/services/user.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
 
@@ -148,6 +149,7 @@ export class OrdenCargaListComponent implements OnInit {
     },
   ]
 
+
   isFiltered = false;
   list: OrdenCargaList[] = [];
   estadoFilterList: string[] = [];
@@ -187,7 +189,8 @@ export class OrdenCargaListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   ngOnInit(): void {

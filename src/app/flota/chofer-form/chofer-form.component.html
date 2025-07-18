@@ -153,6 +153,33 @@
     </div>
 
     <div class="section" *ngIf="isEdit || isShow">
+       <h2> COMENTARIOS </h2>
+       <div class="row">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [disabled]="isShow"
+            (click)="openCreateComentarioChoferDialog()">
+            <mat-icon>add_comment</mat-icon>
+            Nuevo Comentario
+          </button>
+        </div>
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <button
+            mat-flat-button
+            type="button"
+            color="primary"
+            (click)="openComentariosChoferListDialog()">
+            <mat-icon>visibility</mat-icon>
+            Comentarios
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="section audit" *ngIf="isEdit || isShow">
       <h2> Auditoria </h2>
       <app-page-form-audit
         [created_by]="created_by"

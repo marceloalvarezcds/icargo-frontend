@@ -234,6 +234,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    if (this.id && this.isEdit) {
+      this.fleteService.updateEditMode(this.id, false).subscribe();
+    }
     this.hasChangeSubscription.unsubscribe();
   }
 
@@ -321,38 +324,38 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     });
   }
 
-copiar() {
-  this.isShow = false; // salir de modo ver
-  this.isEditPressed = false;
-  this.isEditCopyForm = false;
-  this.isCopyFlete = true;
+  copiar() {
+    this.isShow = false;
+    this.isEditPressed = false;
+    this.isEditCopyForm = false;
+    this.isCopyFlete = true;
 
-  this.form.enable();
-  this.form.get('condicion.saldo')?.disable();
+    this.form.enable();
+    this.form.get('condicion.saldo')?.disable();
 
-  const copiedData = {
-    ...this.info.value,
-    ...this.tramo.value,
-    ...this.condicion.value,
-    ...this.merma.value,
-    ...this.emisionOrden.value,
-    anticipos: this.anticipos.value,
-    complementos: this.complementos.value,
-    descuentos: this.descuentos.value,
-  };
+    const copiedData = {
+      ...this.info.value,
+      ...this.tramo.value,
+      ...this.condicion.value,
+      ...this.merma.value,
+      ...this.emisionOrden.value,
+      anticipos: this.anticipos.value,
+      complementos: this.complementos.value,
+      descuentos: this.descuentos.value,
+    };
 
-  delete copiedData.id;
-  delete copiedData.createdAt;
-  delete copiedData.updatedAt;
+    delete copiedData.id;
+    delete copiedData.createdAt;
+    delete copiedData.updatedAt;
 
-  this.info.patchValue(copiedData);
-  this.tramo.patchValue(copiedData);
-  this.condicion.patchValue(copiedData);
-  this.merma.patchValue(copiedData);
-  this.emisionOrden.patchValue(copiedData);
+    this.info.patchValue(copiedData);
+    this.tramo.patchValue(copiedData);
+    this.condicion.patchValue(copiedData);
+    this.merma.patchValue(copiedData);
+    this.emisionOrden.patchValue(copiedData);
 
-  this.isEdit = true; // habilitar edición
-}
+    this.isEdit = true;
+  }
 
   isShowCopiar() {
     this.isEditPressed = false;
@@ -562,7 +565,7 @@ copiar() {
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {
-        const url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`;
+        const url = `/flete/${m.FLETE}/${a.EDITAR}/${flete.id}`;
         this.snackbar.openSaveAndRedirect(
           true,
           url,
@@ -597,7 +600,7 @@ copiar() {
     if (this.id) {
       this.isEdit = /edit/.test(this.router.url);
       this.isShow = /ver/.test(this.router.url);
-
+      this.fleteService.updateEditMode(this.id, this.isEdit).subscribe();
       this.fleteService.getById(this.id).subscribe((data) => {
         this.item = data;
         this.estado = data.estado;

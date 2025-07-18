@@ -7,6 +7,7 @@ import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remisio
 import { OrdenCargaRemisionOrigenService } from 'src/app/services/orden-carga-remision-origen.service';
 import { subtract } from 'src/app/utils/math';
 import { UnidadService } from 'src/app/services/unidad.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-oc-remision-origen-form-dialog',
@@ -72,6 +73,7 @@ export class OcRemisionOrigenFormDialogComponent {
   constructor(
     private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
     private unidadService: UnidadService,
+    private snackBarService: SnackbarService,
     public dialogRef: MatDialogRef<OcRemisionOrigenFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcRemisionOrigenDialogData
@@ -110,15 +112,19 @@ export class OcRemisionOrigenFormDialogComponent {
       if (this.fotoDocumentoFile) {
         formData.append('foto_documento_file', this.fotoDocumentoFile);
       }
-      if (this.data?.id) {
-        this.ordenCargaRemisionOrigenService
-          .edit(this.data?.id, formData)
-          .subscribe(this.close.bind(this));
-      } else {
-        this.ordenCargaRemisionOrigenService
-          .create(formData)
-          .subscribe(this.close.bind(this));
-      }
+
+      const serviceCall = this.data?.id
+        ? this.ordenCargaRemisionOrigenService.edit(this.data?.id, formData)
+        : this.ordenCargaRemisionOrigenService.create(formData);
+
+      serviceCall.subscribe((response: any) => {
+        if (response.warning) {
+          this.snackBarService.open(response.warning);
+          this.close(response.data);
+        } else {
+          this.close(response);
+        }
+      });
     }
   }
 

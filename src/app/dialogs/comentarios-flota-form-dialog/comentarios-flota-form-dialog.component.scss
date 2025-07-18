@@ -1,0 +1,20 @@
+.toggle {
+  height: 52px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.module {
+  color: #F25A38;
+}
+
+.module::after{
+  content: " >> ";
+  color: #3B9EFF;
+}
+
+.submodule {
+  color: #3B9EFF;
+}

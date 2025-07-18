@@ -20,6 +20,14 @@ export class CombinacionService {
     return this.http.get<CombinacionList[]>(`${this.url}/`);
   }
 
+  getListByOc(): Observable<CombinacionList[]> {
+    return this.http.get<CombinacionList[]>(`${this.url}/combinacion/orden-carga`);
+  }
+
+  getListByOcChapa(chapa:string): Observable<CombinacionList[]> {
+    return this.http.get<CombinacionList[]>(`${this.url}/combinacion/orden-carga/${chapa}`);
+  }
+
   getListActiva(): Observable<CombinacionList[]> {
     return this.http.get<CombinacionList[]>(`${this.url}/combinacion/activa`);
   }

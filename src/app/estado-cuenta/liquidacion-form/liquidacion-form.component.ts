@@ -83,11 +83,14 @@ export class LiquidacionFormComponent implements OnInit {
   }
 
   back(save: boolean): void {
-    let { es_pdv } = this.route.snapshot.queryParams;
+    let { backUrl, es_pdv } = this.route.snapshot.queryParams;
 
     if (save) {
       this.submit(save);
     } else {
+      if (backUrl) {
+        this.router.navigate([backUrl]);
+      }
       if (coerceBooleanProperty(es_pdv)) {
         this.backUrl = '/estado-cuenta/punto_venta/detallado/listar';
 

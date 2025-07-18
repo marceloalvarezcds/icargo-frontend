@@ -15,6 +15,7 @@ import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
+import { subtractDecimal } from 'src/app/utils/math';
 
 type Filter = {
   estado?: string;
@@ -74,9 +75,9 @@ export class BancoListComponent implements OnInit {
       type: 'number',
     },
     {
-      def: 'saldo_provisional',
+      def: 'pendiente',
       title: 'Pendiente',
-      value: (element: Banco) => element.saldo_provisional,
+      value: (element: Banco) => subtractDecimal(element.saldo_provisional, element.saldo_confirmado),
       type: 'number',
     },
     {
@@ -86,6 +87,12 @@ export class BancoListComponent implements OnInit {
       type: 'number',
     },
     {
+      def: 'saldo_provisional',
+      title: 'Saldo Provisional',
+      value: (element: Banco) => element.saldo_provisional,
+      type: 'number',
+    },
+    /*{
       def: 'created_by',
       title: 'Usuario',
       value: (element: Banco) => element.created_by,
@@ -94,7 +101,7 @@ export class BancoListComponent implements OnInit {
       def: 'created_at',
       title: 'Fecha',
       value: (element: Banco) => this.formatDate(element.created_at),
-    },
+    },*/
     // {
     //   def: 'modified_by',
     //   title: 'Usuario modificación',

@@ -52,9 +52,23 @@ export class RolFormComponent implements OnInit, OnDestroy {
     this.service.setId(route.snapshot.params.id);
   }
 
-  ngOnInit(): void {
-    this.service.getData();
+ngOnInit(): void {
+   if (!this.service.isEdit && !this.service.isShow) {
+    const permisosPorDefecto = [
+      { modelo: 'propietario', accion: 'ver' },
+      { modelo: 'chofer', accion: 'ver' },
+      { modelo: 'camion', accion: 'ver' },
+      { modelo: 'semirremolque', accion: 'ver' },
+      { modelo: 'combinacion', accion: 'ver' },
+      { modelo: 'flete', accion: 'ver' },
+    ];
+    this.form.controls['permisos'].setValue(permisosPorDefecto);
   }
+  this.service.getData();
+
+
+}
+
 
   ngOnDestroy(): void {
     this.service.unsubscribe();
@@ -62,6 +76,7 @@ export class RolFormComponent implements OnInit, OnDestroy {
 
   redirectToEdit(): void {
     this.service.redirectToEdit();
+
   }
 
   back(confirmed: boolean): void {
@@ -71,11 +86,11 @@ export class RolFormComponent implements OnInit, OnDestroy {
   submit(confirmed: boolean): void {
     this.service.submit(confirmed);
   }
-  
+
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 }

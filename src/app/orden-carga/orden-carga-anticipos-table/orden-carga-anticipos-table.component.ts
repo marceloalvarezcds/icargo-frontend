@@ -181,6 +181,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
   lista: OrdenCargaAnticipoRetirado[] = [];
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
+  modeloGestion = m.GESTION_DE_LINEA;
 
   @Input() anticipoList: any[] = [];
   @Input() isFormSaved: boolean = false;

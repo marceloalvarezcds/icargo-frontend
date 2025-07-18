@@ -35,13 +35,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   @Input() isEdit = false;
   @Input() set movimientosList(movs: Movimiento[]) {
     this.movimientos = movs;
-    this.actualizarSentido();
-    this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
+    if (!this.esOrdenPago){
+      this.actualizarSentido();
+      this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
+    }
   }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
     if (liq.es_orden_pago && liq.estado != LiquidacionEstadoEnum.CANCELADO){
       this.monto_pc.setValue(Math.abs(liq.pago_cobro!));
+      this.form.controls['observacion'].setValue(liq.observacion);
       this.form.controls['monto_pc'].addValidators([Validators.required, Validators.min(0)]);
       this.form.controls['monto_pc'].enable();
       this.form.controls['monto_pc'].updateValueAndValidity();
@@ -82,6 +85,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     es_insumo_efectivo: new FormControl(true, ),
     tipo_insumo: new FormControl(null, ),
     punto_venta_id: new FormControl(null, ),
+    observacion: new FormControl({value:"", disabled:true}),
   });
 
   get monto(): number {

@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoAccionEnum,
@@ -13,6 +14,7 @@ import { Ciudad } from 'src/app/interfaces/ciudad';
 import { User } from 'src/app/interfaces/user';
 import { CentroOperativoClasificacionService } from 'src/app/services/centro-operativo-clasificacion.service';
 import { CentroOperativoService } from 'src/app/services/centro-operativo.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { emailValidator } from 'src/app/validators/email-validator';
@@ -24,6 +26,8 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  isActive = false;
+  mostrarEstado = false;
   id?: number;
   isEdit = false;
   isShow = false;
@@ -109,7 +113,8 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -134,6 +139,26 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       `/entities/${m.CENTRO_OPERATIVO}/${a.EDITAR}`,
       this.id,
     ]);
+  }
+
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Centro Operativo?',
+      this.centroOperativoService.active(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Centro Operativo?',
+      this.centroOperativoService.inactive(this.id!),
+      () => {
+        this.getData();
+      }
+    );
   }
 
   fileChange(file: File | null): void {
@@ -216,7 +241,7 @@ export class CentrosOperativosFormComponent implements OnInit, OnDestroy {
       }
       this.centroOperativoService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
-        console.log('destino', data.origen_destino)
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_centro_operativo?.alias ?? data.nombre_corto,

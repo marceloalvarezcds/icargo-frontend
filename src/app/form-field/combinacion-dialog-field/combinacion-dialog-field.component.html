@@ -28,6 +28,9 @@
         [inputValuePropName]="inputValuePropName"
         [form]="form"
         (valueChange)="onCamionChange($event)"
+        [autocomplete]="true"
+        [filterSearchCallbackFn]="filterSearchCallbackFn"
+        [filterOptionLabelfn]="filterOptionLabelfn"
       ></app-dialog-field>
   </ng-container>
   <ng-template #inputTemplate>

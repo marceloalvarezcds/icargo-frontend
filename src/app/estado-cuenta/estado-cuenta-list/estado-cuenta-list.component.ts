@@ -12,6 +12,7 @@ import {
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { Column, ColumnLink } from 'src/app/interfaces/column';
+import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -45,6 +46,15 @@ export class EstadoCuentaListComponent implements OnInit {
       type: 'button',
       buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
       buttonIconName: (element: EstadoCuenta) => element.es_pdv ? 'supervisor_account' : 'account_circle',
+      sticky: true
+    },
+    {
+      def: 'ctacte2',
+      title: ' ',
+      value: () => 'Liquidar',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.createLiquidacion(element),
+      buttonIconName: (element: EstadoCuenta) => 'payments',
       sticky: true
     },
     {
@@ -354,6 +364,29 @@ export class EstadoCuentaListComponent implements OnInit {
       { queryParams:getQueryParams(mov) }
     );
 
+  }
+
+  createLiquidacion(contraparte: EstadoCuenta):void {
+
+    const data: ContraparteInfoMovimientoLiq = {
+      contraparte: contraparte.contraparte,
+      contraparte_id: contraparte.contraparte_id,
+      contraparte_numero_documento: contraparte.contraparte_numero_documento,
+      tipo_contraparte_id: contraparte.tipo_contraparte_id,
+      tipo_contraparte_descripcion: '',
+      isNew: true,
+      etapa: LiquidacionEtapaEnum.PENDIENTE,
+    };
+
+    const url = [
+      `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+    ];
+
+    const queryParams = getQueryParams( data, LiquidacionEtapaEnum.PENDIENTE);
+
+    this.router.navigate(url, {
+      queryParams: {...queryParams, backUrl:`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}` },
+    });
   }
 
 }

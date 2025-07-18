@@ -1,3 +1,4 @@
+
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormArray,
@@ -23,7 +24,8 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
-
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { PuntoVentaListComponent } from '../punto-venta-list/punto-venta-list.component';
 @Component({
   selector: 'app-proveedor-form',
   templateUrl: './proveedor-form.component.html',
@@ -32,8 +34,10 @@ import { emailValidator } from 'src/app/validators/email-validator';
 export class ProveedorFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   id?: number;
+  mostrarEstado: boolean = false;
   isEdit = false;
   isShow = false;
+  isActive = false;
   isPanelOpen = false;
   isInfoTouched = true;
   isContactoTouched = false;
@@ -50,6 +54,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
   contactoList: ProveedorContactoGestorCargaList[] = [];
 
   logo: string | null = null;
+  @ViewChild(PuntoVentaListComponent) puntoVentaListComponent!: PuntoVentaListComponent;
 
   form = this.fb.group({
     info: this.fb.group({
@@ -165,6 +170,27 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Proveedor?',
+      this.proveedorService.active(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Proveedor?',
+      this.proveedorService.inactive(this.id!),
+      () => {
+        this.getData();
+        this.puntoVentaListComponent?.reload();
+      }
+    );
+  }
+
   onEnter(event: Event): void {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
@@ -255,6 +281,7 @@ export class ProveedorFormComponent implements OnInit, OnDestroy {
       }
       this.proveedorService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_proveedor?.alias ?? null,

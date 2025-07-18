@@ -23,12 +23,14 @@ export class AppComponent implements OnInit, OnDestroy {
       }, 0);
     });
 
+	// TOOD: el tiempo deberia ser parametrizable segun quien lo invoca 
   httpErrorSubscription = this.httpErrorService
     .getHttpErrorListObservable()
     .subscribe((errors: string[]) => {
       this.snackBar.openFromComponent(HttpErrorSnackBarComponent, {
         panelClass: ['http-error-snackbar'],
         data: errors,
+        duration: 8000
       });
     });
 

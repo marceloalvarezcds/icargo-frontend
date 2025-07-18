@@ -17,6 +17,26 @@
       (monedaSelect)="selectMoneda($event)">
     </app-cuenta-conrriente-info>
 
+    <div *ngIf="esOrdenPago" class="row">
+      <div class="input-form-full col-xs-12 col-sm-12">
+        <mat-label class="custom-label">
+          Observación
+        </mat-label>
+        <mat-form-field appearance="outline">
+          <textarea
+            matInput
+            formControlName="observacion"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="3"
+          ></textarea>
+          <mat-error *ngIf="form.controls['observacion'].hasError('required')">
+            El campo observacion es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
     <!--app-estado-cuenta-detalle
       class="col-xs-5"
       [etapa]="etapa"

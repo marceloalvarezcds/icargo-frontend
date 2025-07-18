@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
   PermisoModeloEnum as m,
@@ -10,6 +11,7 @@ import {
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { TipoDocumento } from 'src/app/interfaces/tipo-documento';
 import { ComposicionJuridicaService } from 'src/app/services/composicion-juridica.service';
+import { DialogService } from 'src/app/services/dialog.service';
 import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -24,6 +26,8 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class GestorCargaFormComponent implements OnInit, OnDestroy {
   id?: number;
+  isActive = false;
+  mostrarEstado: boolean = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -123,7 +127,8 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
     private gestorCargaService: GestorCargaService,
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private dialog: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -145,6 +150,27 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
   redirectToEdit(): void {
     this.router.navigate([`/entities/${m.GESTOR_CARGA}/${a.EDITAR}`, this.id]);
   }
+
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Gestor de Carga?',
+      this.gestorCargaService.active(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Gestor de Carga?',
+      this.gestorCargaService.inactive(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
 
   fileChange(file: File | null): void {
     this.logo = null;
@@ -226,6 +252,7 @@ export class GestorCargaFormComponent implements OnInit, OnDestroy {
       }
       this.gestorCargaService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.form.setValue({
           info: {
             nombre: data.nombre,

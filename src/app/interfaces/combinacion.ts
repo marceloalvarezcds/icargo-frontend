@@ -28,7 +28,7 @@ export interface Combinacion {
     modified_by: string;
     created_by: string;
   }
-  
+
   export interface CombinacionList extends Combinacion {
     marca_descripcion: string;
     color_camion: string;
@@ -43,7 +43,7 @@ export interface Combinacion {
     propietario_nombre: string;
     propietario_ruc: string;
     chofer_nombre: string;
-    producto_descripcion: string; 
+    producto_descripcion: string;
     semi_placa: string;
     color_semi: string;
     marca_descripcion_semi: string;
@@ -51,5 +51,6 @@ export interface Combinacion {
     chofer_numero_documento: number;
     anticipo_propietario: boolean;
     puede_recibir_anticipos: boolean;
+    is_chofer_condicionado: boolean;
+    is_propietario_condicionado: boolean
   }
-  

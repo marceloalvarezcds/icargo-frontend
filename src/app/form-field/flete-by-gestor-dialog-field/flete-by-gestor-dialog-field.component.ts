@@ -117,7 +117,12 @@ export class FleteByGestorDialogFieldComponent {
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;
 
-  fetchFunction = () => this.fleteService.getListByGestorCarga();
+  fetchFunction = () => this.fleteService.getListByGestorCargaAndOc();
+
+  filterSearchCallbackFn = (filter:number) => this.fleteService.getListFleteListById(filter);
+
+  filterOptionLabelfn = (item:FleteList) => (
+    `${item.id} | ${item.remitente_nombre} | ${item.origen_nombre} | ${item.destino_nombre}`);
 
   constructor(private fleteService: FleteService) {}
 

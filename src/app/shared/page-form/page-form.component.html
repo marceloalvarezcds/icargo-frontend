@@ -185,25 +185,26 @@
         </button>
 
         <button
-          *ngIf="(oc?.estado === 'Aceptado' ||
-                  module === 'FINALIZAR' ||
-                  submodule === 'RECEPCION directa') &&
-                  (oc?.estado !== 'Finalizado') &&
-                  (oc?.estado !== 'Conciliado') &&
-                  (oc?.estado !== 'Cancelado') &&
-                  (oc?.estado !== 'Nuevo') &&
-                  submodule !== 'ORDEN DE CARGA (directa)' &&
-                  submodule !== 'ANTICIPO (directo)' && !isShow"
-          mat-stroked-button
-          class="botones"
-          type="button"
-          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
-                            (oc?.estado === E.NUEVO) ||
-                            !oc?.cantidad_destino"
-          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
-          (click)="finalizarClick.emit($event)">
-          FINALIZAR
-        </button>
+        *ngIf="(modelo | puede: a.FINALIZAR) &&
+              (oc?.estado === 'Aceptado' ||
+                module === 'FINALIZAR' ||
+                submodule === 'RECEPCION directa') &&
+              (oc?.estado !== 'Finalizado') &&
+              (oc?.estado !== 'Conciliado') &&
+              (oc?.estado !== 'Cancelado') &&
+              (oc?.estado !== 'Nuevo') &&
+              submodule !== 'ORDEN DE CARGA (directa)' &&
+              submodule !== 'ANTICIPO (directo)' &&
+              !isShow"
+        mat-stroked-button
+        class="botones"
+        type="button"
+        [class.disabled]="(oc?.estado === E.NUEVO) || !oc?.cantidad_destino"
+        [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+        (click)="finalizarClick.emit($event)">
+        FINALIZAR
+      </button>
+
 
         <button
           *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')

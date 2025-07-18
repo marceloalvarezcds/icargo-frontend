@@ -106,7 +106,7 @@
           (click)="createEfectivo()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
+          !(modelo | puede: a.CREAR_EFECTIVO:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon">add</mat-icon> EFECTIVO
         </button>
 
@@ -118,7 +118,7 @@
           (click)="createInsumo()"
           [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
           !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
+          !(modelo | puede: a.CREAR_INSUMO:gestorCargaId) || isEditPedido">
           <mat-icon class="small-icon">add</mat-icon> INSUMO
         </button>
 
@@ -127,7 +127,7 @@
           class="botones" color="accent"
           id="add-button"
           (click)="openDialog()"
-          [disabled]="!oc?.flete_id">
+          [disabled]="!oc?.flete_id || !(modeloGestion | puede: a.VER : gestorCargaId)">
           GESTION DE LINEA
         </button>
         <!-- <button

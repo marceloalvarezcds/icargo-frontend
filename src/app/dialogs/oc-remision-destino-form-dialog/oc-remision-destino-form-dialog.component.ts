@@ -1,10 +1,11 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-destino-dialog-data';
+import { OcRemisionDestinoDialogData, OrdenCargaRemisionDestinoResponse } from 'src/app/interfaces/oc-remision-destino-dialog-data';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
 import { Unidad } from 'src/app/interfaces/unidad';
 import { OrdenCargaRemisionDestinoService } from 'src/app/services/orden-carga-remision-destino.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UnidadService } from 'src/app/services/unidad.service';
 import { subtract } from 'src/app/utils/math';
 
@@ -74,6 +75,7 @@ export class OcRemisionDestinoFormDialogComponent {
   constructor(
     private ordenCargaRemisionDestinoService: OrdenCargaRemisionDestinoService,
     private unidadService: UnidadService,
+    private snackBarService: SnackbarService,
     public dialogRef: MatDialogRef<OcRemisionDestinoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dialogData: OcRemisionDestinoDialogData
@@ -112,17 +114,22 @@ export class OcRemisionDestinoFormDialogComponent {
       if (this.fotoDocumentoFile) {
         formData.append('foto_documento_file', this.fotoDocumentoFile);
       }
-      if (this.data?.id) {
-        this.ordenCargaRemisionDestinoService
-          .edit(this.data?.id, formData)
-          .subscribe(this.close.bind(this));
-      } else {
-        this.ordenCargaRemisionDestinoService
-          .create(formData)
-          .subscribe(this.close.bind(this));
-      }
+
+      const serviceCall = this.data?.id
+        ? this.ordenCargaRemisionDestinoService.edit(this.data?.id, formData)
+        : this.ordenCargaRemisionDestinoService.create(formData);
+
+      serviceCall.subscribe((response: any) => {
+        if (response.warning) {
+          this.snackBarService.open(response.warning);
+          this.close(response.data);
+        } else {
+          this.close(response);
+        }
+      });
     }
   }
+
 
   private close(data: OrdenCargaRemisionDestino): void {
     this.dialogRef.close(data);

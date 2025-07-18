@@ -159,20 +159,34 @@
       </div>
     </div>
 
+    <div class="section" *ngIf="isEdit || isShow">
+       <h2> COMENTARIOS </h2>
+       <div class="row">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <button
+            mat-flat-button
+            color="primary"
+            type="button"
+            [disabled]="isShow"
+            (click)="openCreateComentarioCamionDialog()">
+            <mat-icon>add_comment</mat-icon>
+            Nuevo Comentario
+          </button>
+        </div>
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <button
+            mat-flat-button
+            type="button"
+            color="primary"
+            (click)="openComentariosCamionListDialog()">
+            <mat-icon>visibility</mat-icon>
+            Comentarios
+          </button>
+        </div>
+      </div>
+    </div>
 
-
-    <!-- <mat-expansion-panel *ngIf="isEdit || isShow">
-      <mat-expansion-panel-header>
-        <mat-panel-title> Combinación </mat-panel-title>
-      </mat-expansion-panel-header>
-      <app-camion-form-combinacion
-        [gestorCargaId]="item?.gestor_cuenta_id"
-        [isShow]="isShow"
-        [camion]="item"
-      ></app-camion-form-combinacion>
-    </mat-expansion-panel> -->
-
-    <div class="section"*ngIf="isEdit || isShow">
+    <div class="section audit"  *ngIf="isEdit || isShow">
       <h2> Auditoría </h2>
       <app-page-form-audit
         [created_by]="created_by"

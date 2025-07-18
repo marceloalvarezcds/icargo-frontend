@@ -6,10 +6,15 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [isEdit]="isEdit"
   [modelo]="modelo"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
   (backClick)="back($event)"
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false, false)"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
 >
   <div class="page-form-container" (keydown.enter)="onEnter($event)"><!-- Colocar siempre el onEnter -->
 

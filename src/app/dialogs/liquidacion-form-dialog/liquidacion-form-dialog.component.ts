@@ -162,7 +162,8 @@ export class LiquidacionFormDialogComponent {
         saldo: this.child.montoPagoCobro,
         esOrdenPago: this.ordenPagoValue,
         moneda: this.child.monedaLocal,
-        sentido: es_pago_cobro
+        sentido: es_pago_cobro,
+        observacion: this.child.observacionValue
       };
 
       this.dialog

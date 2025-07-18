@@ -85,6 +85,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
   @Output() resetFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() anticipoPropietarioChange = new EventEmitter();
+  @Output() anticipoChoferChange = new EventEmitter();
   // eventos dialogs
   combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
   fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
@@ -190,6 +192,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         }
       });
     }
+
   }
 
   getCantidadNominadaHint(cantidad: number, neto: number): string {
@@ -202,6 +205,14 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     }
 
     return '';
+  }
+
+  get anticipoPropietarioControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('anticipo_propietario') as FormControl;
+  }
+
+  get anticipoChoferControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -236,6 +247,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   get estadoChofer(): FormControl {
     return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl
   }
+
 
   isFormValid(): boolean {
     return  this.form?.get(this.groupName)?.get('semi_placa')?.value
@@ -310,7 +322,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     this.flete = flete;
     this.fleteChange.emit(flete);
 
-    this.fleteService.getList().subscribe(
+    this.fleteService.getListByGestorCargaAndOc().subscribe(
       (fletes: FleteList[]) => {
 
         const formGroup = this.form?.get(this.groupName);

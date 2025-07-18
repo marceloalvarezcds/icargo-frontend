@@ -28,6 +28,8 @@ import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
 import { PuntoVentaByInsumoProveedorListComponent } from '../punto-venta-by-insumo-proveedor-list/punto-venta-by-insumo-proveedor-list.component';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { DialogService } from 'src/app/services/dialog.service';
 
 @Component({
   selector: 'app-punto-venta-form',
@@ -36,9 +38,11 @@ import { PuntoVentaByInsumoProveedorListComponent } from '../punto-venta-by-insu
 })
 export class PuntoVentaFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  mostrarEstado = false;
   id?: number;
   proveedorId?: number;
   proveedor?: Proveedor;
+  isActive = false;
   isEdit = false;
   isShow = false;
   isPanelOpen = false;
@@ -159,6 +163,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
     private tipoDocumentoService: TipoDocumentoService,
     private userService: UserService,
     private snackbar: SnackbarService,
+    private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router
   ) {}
@@ -190,6 +195,26 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       this.id,
       { queryParams: { backUrl: this.backUrl } },
     ]);
+  }
+
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Punto Venta?',
+      this.puntoVentaService.active(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Punto Venta?',
+      this.puntoVentaService.inactive(this.id!),
+      () => {
+        this.getData();
+      }
+    );
   }
 
   onEnter(event: Event): void {
@@ -284,6 +309,7 @@ export class PuntoVentaFormComponent implements OnInit, OnDestroy {
       }
       this.puntoVentaService.getById(this.id).subscribe((data) => {
         this.item = data;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.ciudadSelected = data.ciudad;
         this.form.patchValue({
           info: {

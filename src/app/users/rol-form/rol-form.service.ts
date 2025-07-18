@@ -9,6 +9,7 @@ import {
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
 import { Rol } from 'src/app/interfaces/rol';
+import { PermisoService } from 'src/app/services/permiso.service';
 import { RolService } from 'src/app/services/rol.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -52,7 +53,8 @@ export class RolFormService {
     private router: Router,
     private snackbar: SnackbarService,
     private service: RolService,
-    private userService: UserService
+    private userService: UserService,
+    private permisoService: PermisoService
   ) {}
 
   setBackUrl(backUrl: string | undefined): void {
@@ -91,8 +93,8 @@ export class RolFormService {
         if (typeof data[key] === 'string' && key !== 'email') {
           data[key] = data[key].toUpperCase();
         }
-      });  
-  
+      });
+
       formData.append('data', JSON.stringify(data));
       this.hasChange = false;
       this.initialFormValue = this.form.value;
@@ -133,6 +135,82 @@ export class RolFormService {
           this.hasChange = false;
           this.initialFormValue = this.form.value;
         }, 500);
+      });
+    } else {
+      // Nuevo rol → cargar lista completa de permisos y marcar los permisos por defecto
+      this.permisoService.getList().subscribe((permisosList) => {
+        const permisosPorDefectoModelosAccion = [
+          { modelo_titulo: '1 - Propietario', accion: 'ver' },
+          { modelo_titulo: '2 - Chofer', accion: 'ver' },
+          { modelo_titulo: '3 - Tracto', accion: 'ver' },
+          { modelo_titulo: '4 - Semi', accion: 'ver' },
+          { modelo_titulo: '6 - Combinaciones', accion: 'ver' },
+          { modelo_titulo: 'Pedido', accion: 'ver' },
+          { modelo_titulo: 'Pedido Anticipo', accion: 'ver' },
+          { modelo_titulo: 'Pedido Complemento', accion: 'ver' },
+          { modelo_titulo: 'Pedido Descuento', accion: 'ver' },
+          { modelo_titulo: '4 - Saldo de Anticipo', accion: 'crear' },
+          { modelo_titulo: '4 - Saldo de Anticipo', accion: 'listar' },
+          { modelo_titulo: '4 - Saldo de Anticipo', accion: 'editar' },
+          { modelo_titulo: '4 - Saldo de Anticipo', accion: 'ver' },
+              // Parámetros del Sistema
+          { modelo_titulo: 'Ciudad', accion: 'listar' },
+          { modelo_titulo: 'Clasificación Centro Operativo', accion: 'listar' },
+          { modelo_titulo: 'Clasificación de Semi', accion: 'listar' },
+          { modelo_titulo: 'Color', accion: 'listar' },
+          { modelo_titulo: 'Composición Jurídica', accion: 'listar' },
+          { modelo_titulo: 'Concepto de Complemento', accion: 'listar' },
+          { modelo_titulo: 'Concepto de Descuento', accion: 'listar' },
+          { modelo_titulo: 'Ente emisor de Registro Automotor', accion: 'listar' },
+          { modelo_titulo: 'Ente emisor de Registro de Transporte', accion: 'listar' },
+          { modelo_titulo: 'Insumo', accion: 'listar' },
+          { modelo_titulo: 'Insumo', accion: 'ver' },
+          { modelo_titulo: 'Localidad', accion: 'listar' },
+          { modelo_titulo: 'Marca de Semi', accion: 'listar' },
+          { modelo_titulo: 'Marca de Tracto', accion: 'listar' },
+          { modelo_titulo: 'Moneda', accion: 'listar' },
+          { modelo_titulo: 'País', accion: 'listar' },
+          { modelo_titulo: 'Producto', accion: 'listar' },
+          { modelo_titulo: 'Texto Legal', accion: 'cambiar_estado' },
+          { modelo_titulo: 'Texto Legal', accion: 'crear' },
+          { modelo_titulo: 'Texto Legal', accion: 'editar' },
+          { modelo_titulo: 'Texto Legal', accion: 'listar' },
+          { modelo_titulo: 'Texto Legal', accion: 'ver' },
+          { modelo_titulo: 'Tipo Persona', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Carga', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Comprobante', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Contraparte', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Cuenta', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Documento', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Documento Relacionado', accion: 'listar' },
+          { modelo_titulo: 'Tipo de IVA', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Instrumento', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Insumo', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Movimiento', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Registro', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Semi', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Tracto', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Evaluacion', accion: 'listar' },
+          { modelo_titulo: 'Tipo de Anticipo', accion: 'listar' },
+          { modelo_titulo: 'Unidad', accion: 'listar' },
+          { modelo_titulo: 'Vía de Instrumento', accion: 'listar' },
+        ];
+
+        const permisosPorDefecto = permisosPorDefectoModelosAccion
+          .map(def =>
+            permisosList.find(
+              p => p.modelo_titulo === def.modelo_titulo && p.accion === def.accion
+            )
+          )
+          .filter(p => p != null);
+
+        this.form.setValue({
+          descripcion: '',
+          permisos: permisosPorDefecto,
+          gestor_carga_id: null,
+        });
+        this.hasChange = false;
+        this.initialFormValue = this.form.value;
       });
     }
   }

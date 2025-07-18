@@ -20,7 +20,11 @@
           [dialogRefFunctionCrear]="dialogRefFunctionCrear"
           (emptyListChange)="emptyListChange.emit()"
           (valueChange)="$event && valueChange.emit($event)"
+          [filterSearchCallbackFn]="filterSearchCallbackFn"
+          [filterOptionLabelfn]="filterOptionLabelfn"
+          [autocomplete]="autocomplete"
         ></app-dialog-form-field-control>
+
         <button
           type="button"
           matSuffix
@@ -66,7 +70,7 @@
         type="button"
         [disabled]="!enableButtonVer"
         (click)="$event.stopPropagation(); openDialogVer()">
-        <mat-icon class="small-icon">add_circle</mat-icon>
+        <mat-icon class="small-icon">visibility</mat-icon>
         Ver
       </button>
 
