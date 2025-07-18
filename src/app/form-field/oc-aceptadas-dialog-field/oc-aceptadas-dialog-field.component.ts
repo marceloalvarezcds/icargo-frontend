@@ -77,6 +77,11 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
 
   fetchFunction = () => this.ocService.getAceptadosList();
 
+  filterSearchCallbackFn = (filter:string) => this.ocService.getAceptadasListById(filter);
+
+  filterOptionLabelfn = (item:OrdenCargaList) => (
+    `${item.camion_placa} | ${item.flete_remitente_nombre} | ${item.origen_nombre} | ${item.destino_nombre}`);
+
   constructor(private ocService: OrdenCargaService) {}
 
   private getList(): void {
