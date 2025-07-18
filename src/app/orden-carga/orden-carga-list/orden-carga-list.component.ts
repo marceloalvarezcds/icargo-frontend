@@ -135,7 +135,20 @@ export class OrdenCargaListComponent implements OnInit {
     { def: 'actions', title: 'Acciones', stickyEnd: true },
   ];
 
-  buttons: ButtonList[] = [];
+  buttons : ButtonList[] = [
+    {
+      color: 'warn',
+      tooltip: 'REMISIÓN',
+      styles: '',
+      icon: 'check_box',
+      label: 'REMISION',
+      iconClass: 'check_box',
+      buttonCallback: ($event:any) => {
+        this.createRemision();
+      }
+    },
+  ]
+
 
   isFiltered = false;
   list: OrdenCargaList[] = [];
@@ -182,21 +195,6 @@ export class OrdenCargaListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getList();
-    const tienePermiso = this.userService.checkPermiso(a.REMISIONAR, this.modelo);
-
-  if (tienePermiso) {
-    this.buttons.push({
-      color: 'warn',
-      tooltip: 'REMISIÓN',
-      styles: '',
-      icon: 'check_box',
-      label: 'REMISION',
-      iconClass: 'check_box',
-      buttonCallback: ($event: any) => {
-        this.createRemision();
-      }
-    });
-  }
   }
 
    redirectToCreate(): void {
