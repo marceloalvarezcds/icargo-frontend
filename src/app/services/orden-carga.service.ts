@@ -38,6 +38,10 @@ export class OrdenCargaService {
     return this.http.get<OrdenCargaList[]>(`${this.url}/finalizadas`);
   }
 
+  getFinalizadosListById(id: string): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/finalizadas/${id}`);
+  }
+
   getById(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}`);
   }
