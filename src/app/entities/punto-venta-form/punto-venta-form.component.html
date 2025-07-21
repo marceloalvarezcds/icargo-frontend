@@ -57,7 +57,7 @@
                   Nombre del Establecimiento
                 </mat-label>
                 <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-                  <input matInput formControlName="nombre_corto" />
+                  <input matInput formControlName="nombre_corto" appAutofocus />
                   <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
                     El Nombre del Establecimiento es <strong>requerido</strong>
                   </mat-error>
@@ -70,7 +70,7 @@
                   Establecimiento (Razon Social)
                 </mat-label>
                 <mat-form-field floatLabel="always" appearance="outline">
-                  <input matInput formControlName="nombre" appAutofocus />
+                  <input matInput formControlName="nombre" />
                   <mat-error *ngIf="info.controls['nombre'].hasError('required')">
                     El nombre es <strong>requerido</strong>
                   </mat-error>
