@@ -98,7 +98,12 @@ export class MenuService {
       {
         name: u.ENTIDADES,
         iconName: 'business',
-        active: true,
+        active: (
+          this.userService.checkPermiso(a.LISTAR, m.REMITENTE) ||
+          this.userService.checkPermiso(a.LISTAR, m.CENTRO_OPERATIVO) ||
+          this.userService.checkPermiso(a.LISTAR, m.PROVEEDOR) ||
+          this.userService.checkPermiso(a.LISTAR, m.GESTOR_CARGA)
+        ),
         children: [
           {
             name: 'Clientes',
@@ -133,7 +138,13 @@ export class MenuService {
         name: u.FLOTA,
         iconName: 'local_shipping',
         iconOutline: true,
-        active: true,
+        active: (
+            this.userService.checkPermiso(a.LISTAR, m.COMBINACION) ||
+            this.userService.checkPermiso(a.LISTAR, m.PROPIETARIO) ||
+            this.userService.checkPermiso(a.LISTAR, m.CHOFER) ||
+            this.userService.checkPermiso(a.LISTAR, m.CAMION) ||
+            this.userService.checkPermiso(a.LISTAR, m.SEMIRREMOLQUE)
+        ),
         children: [
           {
             name: 'Combinación',
@@ -226,7 +237,7 @@ export class MenuService {
         iconName: 'summarize',
         // iconName: 'local_atm',
         iconOutline: true,
-        active: true,
+        active: this.userService.checkPermiso(a.LISTAR, m.ESTADO_CUENTA),
         children: [
           {
             name: t[m.ESTADO_CUENTA],
@@ -256,7 +267,10 @@ export class MenuService {
         iconName: 'account_balance_wallet',
         // iconName: 'local_atm',
         iconOutline: true,
-        active: true,
+        active: (
+          this.userService.checkPermiso(a.LISTAR, m.CAJA) ||
+          this.userService.checkPermiso(a.LISTAR, m.BANCO)
+        ),
         children: [
           {
             name: t[m.CAJA],
@@ -293,7 +307,10 @@ export class MenuService {
         iconName: 'format_list_numbered',
         // iconName: 'local_atm',
         iconOutline: true,
-        active: true,
+        active: (
+          this.userService.checkPermiso(a.LISTAR, m.MOVIMIENTO) ||
+          this.userService.checkPermiso(a.LISTAR, m.RENTABILIDAD)
+        ),
         children: [
           {
             name: t[m.RENTABILIDAD],
@@ -315,7 +332,7 @@ export class MenuService {
         name: u.BIBLIOTECA,
         iconName: 'settings',
         iconOutline: true,
-        active: true,
+        active: this.userService.checkIfIsAdminIcargo(),
         children: [
           {
             name: t[m.CARGO],
@@ -374,7 +391,10 @@ export class MenuService {
         name: u.USUARIOS,
         iconName: 'supervisor_account',
         iconOutline: true,
-        active: true,
+        active: (
+          this.userService.checkPermiso(a.LISTAR, m.USER) ||
+          this.userService.checkPermiso(a.LISTAR, m.ROL)
+        ),
         children: [
           {
             name: t[m.USER],
@@ -388,7 +408,8 @@ export class MenuService {
             iconName: 'admin_panel_settings',
             iconOutline: true,
             path: `/users/${m.ROL}`,
-            active: this.userService.checkPermiso(a.LISTAR, m.ROL),
+            //active: this.userService.checkPermiso(a.LISTAR, m.ROL),
+            active: this.userService.checkIfIsAdminIcargo(),
           },
         ],
       },
