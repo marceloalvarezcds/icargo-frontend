@@ -13,6 +13,9 @@
           [itemEvents]="ocFinalizadaEvents"
           [form]="form"
           (valueChange)="valueChange.emit($event)"
+          [autocomplete]="true"
+          [filterSearchCallbackFn]="filterSearchCallbackFn"
+          [filterOptionLabelfn]="filterOptionLabelfn"
         ></app-dialog-field>
       </ng-container>
     </ng-container>
@@ -27,4 +30,3 @@
       ></app-input-field-oc>
     </ng-template>
   </ng-container>
-  
