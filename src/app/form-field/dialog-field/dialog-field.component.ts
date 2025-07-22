@@ -43,6 +43,7 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
     return this.control.disabled;
   }
 
+  @Input() requerido = false;
   @Input() autocomplete=false;
   @Input() showButtonVer=false;
   @Input() calllbackremote=false;

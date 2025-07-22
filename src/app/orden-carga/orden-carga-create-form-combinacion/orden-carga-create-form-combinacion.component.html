@@ -24,6 +24,7 @@
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Chapa Tracto"
           [isRemote]="true"
+          [requerido]="true"
           [combinacionEvents]="combinacionEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
@@ -291,6 +292,7 @@
           [fleteEvents]="fleteEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
+          [requerido]="true"
           (valueChange)="onFleteChange($event)"
         ></app-flete-by-gestor-dialog-field>
 
@@ -323,6 +325,7 @@
           [camionId]="camionId"
           [productoId]="productoId"
           [readonly]="true"
+          [requerido]="true"
           [form]="form"
           controlName="flete_id"
           [disabled]="readonly"
@@ -513,6 +516,7 @@
           title="Nominada"
           id="cantidad_nominada"
           controlName="cantidad_nominada"
+          [requerido]="true"
           [groupName]="groupNameInfo"
           [form]="form"
           [viewMode]="disableForm || oc?.estado !== 'Nuevo'"

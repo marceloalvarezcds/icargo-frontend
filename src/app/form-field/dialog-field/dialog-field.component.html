@@ -1,7 +1,10 @@
 <div *ngIf="form" class="search-container">
   <ng-container *ngIf="calllbackremote || fetchFunction || list.length; else inputTemplate">
-    <label  class="form-label mr-2"       [ngClass]="{
-      'label-punto-venta mr-2': controlName === 'punto_venta_id' || controlName === 'insumo_punto_venta_precio_id'}">{{ title }}</label>
+    <label  class="form-label mr-2"
+     [ngClass]="{'label-punto-venta mr-2': controlName === 'punto_venta_id' || controlName === 'insumo_punto_venta_precio_id'}">
+     <span *ngIf="requerido" class="required">(*) </span>
+     {{ title }}
+    </label>
 
     <div class="row">
 

@@ -78,6 +78,8 @@ export class InputFieldOcComponent {
   private formatNumberWithDots(value: number): string {
     return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
   }
+
+  @Input() readonly = false;
   @Input() autocomplete: 'on' | 'off' | 'nope' = 'nope';
   @Input() formatToPasteNumber = false;
   @Input() formatToPastePhone = false;
@@ -86,7 +88,7 @@ export class InputFieldOcComponent {
   @Input() hint = '';
   @Input() form?: FormGroup;
   @Input() groupName?: string;
-  @Input() readonly = false;
+  @Input() requerido = false;
   @Input() title = '';
   @Input() disabled: boolean = false;
   @Input() set camionId(id: number | undefined) {
@@ -95,9 +97,9 @@ export class InputFieldOcComponent {
   }
   @Input() set productoId(id: number | undefined) {
     this.pId = id;
-   
- this.getList();
+    this.getList();
   }
+
   constructor(private service: SemiService) {}
 
   private getList(): void {
