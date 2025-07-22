@@ -38,11 +38,11 @@ export class PuntoVentaListComponent {
       title: 'Nombre del Establecimiento',
       value: (element: PuntoVentaList) => element.nombre_corto,
     },
-    {
-      def: 'nombre',
-      title: 'Establecimiento (Razon Social)',
-      value: (element: PuntoVentaList) => element.nombre,
-    },
+    // {
+    //   def: 'nombre',
+    //   title: 'Establecimiento (Razon Social)',
+    //   value: (element: PuntoVentaList) => element.nombre,
+    // },
     /*{
       def: 'proveedor',
       title: 'Proveedor',

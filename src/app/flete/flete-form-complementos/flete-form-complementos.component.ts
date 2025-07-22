@@ -30,15 +30,15 @@ export class FleteFormComplementosComponent {
       type: 'number',
     },
     {
+      def: 'propietario_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
+    },
+    {
       def: 'propietario_monto_ml',
       title: 'A Pagar ML',
       value: (element: FleteComplemento) => element.propietario_monto_ml,
       type: 'number',
-    },
-    {
-      def: 'propietario_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
     },
     {
       def: 'remitente_monto',

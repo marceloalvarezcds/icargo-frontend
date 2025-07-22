@@ -29,15 +29,15 @@ export class FleteFormDescuentosComponent {
       type: 'number',
     },
     {
+      def: 'proveedor_moneda_nombre',
+      title: 'Moneda',
+      value: (element: FleteDescuento) => element.proveedor_moneda_nombre,
+    },
+    {
       def: 'proveedor_monto_ml',
       title: 'A Pagar ML',
       value: (element: FleteDescuento) => element.proveedor_monto_ml,
       type: 'number',
-    },
-    {
-      def: 'proveedor_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteDescuento) => element.proveedor_moneda_nombre,
     },
     {
       def: 'propietario_monto',

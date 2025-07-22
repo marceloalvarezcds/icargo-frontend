@@ -23,6 +23,7 @@ export interface Camion {
   propietario: Propietario;
   propietario_estado: EstadoEnum;
   propietario_puede_recibir_anticipos: boolean,
+  is_propietario_condicionado: boolean,
   propietario_foto: string,
   propietario_camion_id: number,
   chofer_id: number | null;
@@ -159,6 +160,7 @@ export const mockCamion: Camion = {
   foto: null,
   estado: EstadoEnum.ACTIVO,
   propietario_puede_recibir_anticipos: true,
+  is_propietario_condicionado: false,
   gestor_cuenta_id: 1,
   propietario_foto: "",
   propietario_camion_id: 1,

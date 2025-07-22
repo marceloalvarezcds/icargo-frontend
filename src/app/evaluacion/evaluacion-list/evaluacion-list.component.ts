@@ -35,7 +35,7 @@ export class EvaluacionListComponent implements OnInit {
     columns: Column[] = [
       {
         def: 'orden_carga_id',
-        title: 'Orden Carga ID',
+        title: 'OC Nº',
         value: (element: OrdenCargaEvaluacionesHistorial) => element.orden_carga_id,
         sticky: true,
       },
@@ -44,49 +44,26 @@ export class EvaluacionListComponent implements OnInit {
         title: 'Tracto',
         value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_camion_placa,
       },
-      // {
-      //   def: 'promedio_tracto_gestor',
-      //   title: 'Prom. Gestor',
-      //   value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_tracto_gestor,
 
-      // },
       {
         def: 'promedio_tracto_general',
         title: 'Prom. General Tracto',
         value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_tracto_general,
       },
-      {
-        def: 'oc_semi_placa',
-        title: 'Semi',
-        value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_semi_placa,
-      },
-      // {
-      //   def: 'promedio_semi_gestor',
-      //   title: 'Prom. Gestor',
-      //   value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_semi_gestor,
 
-      // },
-      {
-        def: 'promedio_semi_general',
-        title: 'Prom. General Semi',
-        value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_semi_general,
-      },
-      {
-        def: 'oc_chofer_nombre',
+          {
+        def: 'chofer',
         title: 'Chofer',
         value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_chofer_nombre,
       },
-      // {
-      //   def: 'promedio_chofer_gestor',
-      //   title: 'Prom. Gestor',
-      //   value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_chofer_gestor,
 
-      // },
-      {
+
+          {
         def: 'promedio_chofer_general',
-        title: 'Prom. General Chofer',
+        title: 'Chofer',
         value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_chofer_general,
       },
+
       {
         def: 'oc_beneficiario_nombre',
         title: 'Propietario',
@@ -103,16 +80,16 @@ export class EvaluacionListComponent implements OnInit {
         title: 'Prom. General Propietario',
         value: (element: OrdenCargaEvaluacionesHistorial) => element.promedio_propietario_general,
       },
-      {
-        def: 'oc_origen_nombre',
-        title: 'Origen',
-        value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_origen_nombre,
-      },
-      {
-        def: 'oc_destino_nombre',
-        title: 'Destino',
-        value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_destino_nombre,
-      },
+      // {
+      //   def: 'oc_origen_nombre',
+      //   title: 'Origen',
+      //   value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_origen_nombre,
+      // },
+      // {
+      //   def: 'oc_destino_nombre',
+      //   title: 'Destino',
+      //   value: (element: OrdenCargaEvaluacionesHistorial) => element.oc_destino_nombre,
+      // },
 
 
       { def: 'actions', title: 'Acciones', stickyEnd: true },

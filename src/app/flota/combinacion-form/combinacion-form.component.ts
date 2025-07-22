@@ -30,6 +30,7 @@ import { UserService } from 'src/app/services/user.service';
 export class CombinacionFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   tPersona?: TipoPersona;
+  isPropietarioCondicionado = false;
   anticiposBloqueados = false;
   id?: number;
   item?: Combinacion;
@@ -85,6 +86,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       limite_anticipos: null,
       chofer_documento: null,
       puede_recibir_anticipos: null,
+      is_chofer_condicionado: null,
       estado: null,
       foto_chofer: new FormControl({value: null, disabled: true}),
       //Facturacion
@@ -98,6 +100,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       // telefono: new FormControl({value: null, disabled: true}),
       estado_propietario: new FormControl({value: null, disabled: true}),
       foto_documento_frente: new FormControl({value: null, disabled: true}),
+      is_propietario_condicionado: null,
       //Combinacion
       comentario: null,
       neto: [null, Validators.required],
@@ -194,6 +197,13 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     return this.item?.estado === EstadoEnum.ACTIVO
   }
 
+ condicionarPropietario(valor: boolean) {
+  // Actualizás el formulario (si querés)
+  this.form.get('info.is_condicionado_propietario')?.setValue(valor);
+  // O hacer otras acciones con el valor recibido
+}
+
+
   constructor(
     private fb: FormBuilder,
     private combinacionService: CombinacionService,
@@ -281,6 +291,8 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
           ...this.info.value,
           camion_oc_activa: this.info.value.oc_activa,  // mapear oc_activa a camion_oc_activa
           limite_monto_anticipos: this.info.value.limite_anticipos,
+          is_propietario_condicionado: this.form.get('info.is_propietario_condicionado')?.value,
+          is_chofer_condicionado: this.form.get('info.is_chofer_condicionado')?.value
         })
       );
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
@@ -374,8 +386,10 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             //Datos combinacion
             neto: data?.neto,
             comentario: data?.comentario,
+            is_condicionado_propietario: data?.propietario?.is_propietario_condicionado,
           },
         })
+        console.log('condicionado', data.propietario.is_propietario_condicionado)
         setTimeout(() => {
           this.hasChange = false;
           if (this.isEdit) {

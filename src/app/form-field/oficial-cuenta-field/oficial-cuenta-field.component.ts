@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from 'src/app/services/user.service';
 
@@ -7,7 +7,7 @@ import { UserService } from 'src/app/services/user.service';
   templateUrl: './oficial-cuenta-field.component.html',
   styleUrls: ['./oficial-cuenta-field.component.scss']
 })
-export class OficialCuentaFieldComponent {
+export class OficialCuentaFieldComponent implements OnInit {
 
   userList$ = this.userService.getListByGestorCargaId();
 
@@ -24,6 +24,14 @@ export class OficialCuentaFieldComponent {
   @Input() groupName = '';
   @Input() title = 'Oficial de cuenta';
   @Input() requerido = false;
+
+  ngOnInit(): void {
+    this.userService.getLoggedUser().subscribe((user) => {
+      if (user?.id && this.control && !this.control.value) {
+        this.control.setValue(user.id);
+      }
+    });
+  }
 
   constructor(private userService: UserService) { }
 }

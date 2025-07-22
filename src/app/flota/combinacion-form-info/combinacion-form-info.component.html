@@ -179,7 +179,7 @@
             ></app-chofer-by-propietario-dialog-field>
 
             <app-input-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
               title="Nombre"
               [groupName]="groupName"
               [readonly]="true"
@@ -197,7 +197,7 @@
               [disabled]="true"
             ></app-input-field>
 
-            <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-1">
               <app-slide
                 class="input-form-full"
                 [isShow]="isShow"
@@ -212,7 +212,7 @@
 
             </div>
 
-            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-1" >
 
               <app-slide
                 class="input-form-full"
@@ -226,6 +226,19 @@
                 (valueChange)="
                   !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
               ></app-slide>
+          </div>
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-1" style="margin-left: auto;">
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="isChoferCondicionadoControl"
+                controlName="is_chofer_condicionado"
+                title="Condicionado"
+                trueTitle="Sí"
+                falseTitle="No"
+                (valueChange)="isCondicionadoChoferChange.emit($event)"
+              ></app-slide>
+
             </div>
 
 
@@ -306,7 +319,18 @@
                 "
               ></app-slide>
             </div>
-
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="isPropietarioCondicionadoControl"
+                controlName="is_propietario_condicionado"
+                title="Condicionado"
+                trueTitle="Sí"
+                falseTitle="No"
+                (valueChange)="isCondicionadoPropietarioChange.emit($event)"
+              ></app-slide>
+            </div>
           </div>
 
         </div>
