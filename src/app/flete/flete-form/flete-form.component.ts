@@ -565,7 +565,15 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       });
     } else {
       this.fleteService.create(formData).subscribe((flete) => {
-        const url = `/flete/${m.FLETE}/${a.EDITAR}/${flete.id}`;
+
+        let url = `/flete/${m.FLETE}/${a.VER}/${flete.id}`;
+        if ( this.userService.checkPermisoAndGestorCargaId(
+            a.EDITAR,
+            this.modelo,
+            this.gestorCargaId)
+          ) {
+            url = `/flete/${m.FLETE}/${a.EDITAR}/${flete.id}`;
+        }
         this.snackbar.openSaveAndRedirect(
           true,
           url,
@@ -575,6 +583,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         );
         this.isCopyFlete = false;
         this.hasSavedSuccessfully = true;
+
       });
     }
   }
