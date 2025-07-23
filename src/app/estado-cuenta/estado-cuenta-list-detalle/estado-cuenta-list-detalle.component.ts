@@ -1047,12 +1047,12 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               acumulado = 0;
               firsPendiente=true;
             }
-            if (!firsProvision && element.estado === 'Provision'){
+            /*if (!firsProvision && element.estado === 'Provision'){
               acumulado = 0;
               firsProvision=true;
-            }
-
+            }*/
             if (element.estado === "Anulado" || element.estado === "Rechazado"){
+              element.movimiento_saldo = acumulado ;
               return;
             }
 

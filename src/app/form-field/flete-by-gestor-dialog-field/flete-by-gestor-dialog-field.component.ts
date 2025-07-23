@@ -112,7 +112,9 @@ export class FleteByGestorDialogFieldComponent {
   @Input() controlName = 'flete_id';
   @Input() groupName = '';
   @Input() title = 'PEDIDOS';
-  @Input() isRequired = false;
+
+  @Input() requerido = false;
+
 
   @Output() valueChange = new EventEmitter<FleteList>();
 

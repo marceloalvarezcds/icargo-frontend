@@ -985,6 +985,12 @@ export class EstadoCuentaPdvDetalleComponent implements OnInit {
               acumulado = 0;
               firsPendiente=true;
             }
+
+            if (element.estado === "Anulado" || element.estado === "Rechazado"){
+              element.movimiento_saldo = acumulado ;
+              return;
+            }
+
             acumulado = acumulado + (element.pendiente + element.confirmado + element.finalizado);
             element.movimiento_saldo = acumulado ;
 
