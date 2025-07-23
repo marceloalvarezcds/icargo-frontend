@@ -114,6 +114,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       comentarios: null,
       unidad_id: null,
       moneda_id: null,
+      is_chofer_condicionado: null,
+      is_propietario_condicionado: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -337,23 +339,6 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
     });
 
-  // window.addEventListener('storage', (event) => {
-  //   if (event.key === 'anticipo_actualizado') {
-  //     const data = JSON.parse(event.newValue!);
-  //     if (data?.ordenCargaId === this.item?.id) {
-  //       this.getData();
-  //     }
-  //   }
-  // });
-
-  // window.addEventListener('storage', (event) => {
-  // if (event.key === 'anticipo_insumo_actualizado') {
-  //     const data = JSON.parse(event.newValue!);
-  //     if (data?.ordenCargaId === this.item?.id) {
-  //       this.getData();
-  //     }
-  //   }
-  // });
     window.addEventListener('storage', (event) => {
     if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
       const data = JSON.parse(event.newValue!);
@@ -361,8 +346,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
         this.getData(); // o this.anticipoTable.reload()
       }
     }
-  });
-
+   });
   }
 
   ngOnDestroy(): void {
@@ -1046,6 +1030,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
                 condicion: data.condicion_gestor_cuenta_tarifa,
                 tieneDocumentoFisico:false,
                 anticipo_propietario: data.camion_propietario_puede_recibir_anticipos,
+                is_chofer_condicionado: data.is_chofer_condicionado,
+                is_propietario_condicionado: data.is_propietario_condicionado,
             },
             info: {
                 cantidad_nominada: data.cantidad_nominada,

@@ -179,7 +179,6 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
       this.insumoPuntoVentaPrecioService.createMercaderia(formData).subscribe((item) => {
         this.snackbar.openSave();
         this.insumoId = item.id;
-        this.form.get('observacion')?.setValue('');
         this.isShow = true;
         this.form.disable();
       });

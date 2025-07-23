@@ -197,12 +197,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     return this.item?.estado === EstadoEnum.ACTIVO
   }
 
- condicionarPropietario(valor: boolean) {
-  // Actualizás el formulario (si querés)
-  this.form.get('info.is_condicionado_propietario')?.setValue(valor);
-  // O hacer otras acciones con el valor recibido
-}
-
 
   constructor(
     private fb: FormBuilder,
@@ -389,7 +383,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             is_condicionado_propietario: data?.propietario?.is_propietario_condicionado,
           },
         })
-        console.log('condicionado', data.propietario.is_propietario_condicionado)
         setTimeout(() => {
           this.hasChange = false;
           if (this.isEdit) {

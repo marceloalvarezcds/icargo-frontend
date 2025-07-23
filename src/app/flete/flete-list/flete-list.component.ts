@@ -100,13 +100,9 @@ export class FleteListComponent implements OnInit {
 
     {
       def: 'cantidad_flete',
-      title: 'Cantidad',
-      value: (element: FleteList) =>
-        `${element.condicion_cantidad?.toLocaleString('es-ES', {
-          minimumFractionDigits: 0,
-          maximumFractionDigits: 2
-        })} KG`,
-      type: 'text',
+      title: 'Cantidad (Kg)',
+      value: (element: FleteList) => element.condicion_cantidad ?? 0,
+      type: 'number',
     },
 
     // {
@@ -117,13 +113,13 @@ export class FleteListComponent implements OnInit {
 
     {
       def: 'cargado_flete',
-      title: 'Cargado',
-      value: (element: FleteList) => element.cargado,
+      title: 'Cargado (Kg)',
+      value: (element: FleteList) => element.cargado ?? 0,
       type: 'number',
     },
     {
       def: 'saldo_flete',
-      title: 'Saldo',
+      title: 'Saldo (Kg).',
       value: (element: FleteList) => element.saldo,
       type: 'number',
     },
@@ -148,11 +144,7 @@ export class FleteListComponent implements OnInit {
     //   title: 'Gestor de Carga',
     //   value: (element: FleteList) => element.gestor_carga_nombre,
     // },
-    {
-      def: 'origen_indicacion',
-      title: 'Tramo',
-      value: (element: FleteList) => element.origen_indicacion,
-    },
+
 
     // {
     //   def: 'destino_indicacion',

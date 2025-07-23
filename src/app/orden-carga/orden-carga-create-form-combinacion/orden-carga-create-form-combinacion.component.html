@@ -27,6 +27,7 @@
           [combinacionEvents]="combinacionEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
+          [isRequired]="true"
           (valueChange)="onCamionChange($event)"
         ></app-combinacion-dialog-field>
 
@@ -153,7 +154,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3 "
           title="<strong>Beneficiario</strong> (Nombre/Razon Social)"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -177,7 +178,7 @@
 
          <app-slide
          *ngIf="!showField"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
           [readonly]="true"
           [isShow]="isShow"
           [control]="anticipoPropietarioControl"
@@ -187,6 +188,17 @@
           (valueChange)="anticipoPropietarioChange.emit($event)"
         ></app-slide>
 
+        <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="isPropietarioCondicionadoControl"
+          title="Condicionado"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="isPropietarioCondicionadoChange.emit($event)"
+        ></app-slide>
       </div>
 
       <div class="row" [class.colapse-div]="colapseDivPrincipal">
@@ -225,6 +237,20 @@
           falseTitle="No"
           (valueChange)="anticipoChoferChange.emit($event)"
         ></app-slide>
+
+        <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          style="margin-left: -2em;"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="isChoferCondicionadoControl"
+          title="Condicionado"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="isChoferCondicionadoChange.emit($event)"
+        ></app-slide>
+
       </div>
 
       <div class="row" [class.colapse-div]="colapseDivPrincipal">
@@ -290,6 +316,7 @@
           title="Pedido"
           [fleteEvents]="fleteEventsSubject.asObservable()"
           [groupName]="groupName"
+          [isRequired]="true"
           [form]="form"
           (valueChange)="onFleteChange($event)"
         ></app-flete-by-gestor-dialog-field>
@@ -339,7 +366,6 @@
           controlName="cliente"
         ></app-input-field-oc>
 
-
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Producto"
@@ -350,6 +376,7 @@
           [form]="form"
           controlName="producto_descripcion"
         ></app-input-field-oc>
+
         <app-input-field-oc
           *ngIf="showSearchOCAceptadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -517,6 +544,7 @@
           [form]="form"
           [viewMode]="disableForm || oc?.estado !== 'Nuevo'"
           appAutofocus="true"
+          [requerido]="true"
           [hint]="cantidadNominadaHint"
         ></app-number-field>
         <app-input-field-oc

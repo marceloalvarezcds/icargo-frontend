@@ -79,6 +79,8 @@ export interface OrdenCarga extends OrdenCargaForm {
   camion_propietario_puede_recibir_anticipos: boolean;
   combinacion_chofer_puede_recibir_anticipos: boolean;
   combinacion_propietario_id: number;
+  is_chofer_condicionado: boolean;
+  is_propietario_condicionado: boolean;
   combinacion_chofer_id: number;
   chofer_nombre: string;
   propietario_nombre: string;
@@ -345,6 +347,8 @@ export const mockOrdenCarga1: OrdenCarga = {
   camion_propietario_nombre: camion0.propietario_nombre,
   combinacion_chofer_puede_recibir_anticipos: false,
   camion_propietario_puede_recibir_anticipos: true,
+  is_chofer_condicionado: false,
+  is_propietario_condicionado: false,
   camion_propietario_documento: 'string',
   camion_estado: 'activo',
   combinacion_chofer_doc: 'string',

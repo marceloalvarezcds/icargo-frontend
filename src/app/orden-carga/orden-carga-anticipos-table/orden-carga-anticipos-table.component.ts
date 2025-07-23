@@ -251,6 +251,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     private snackBar: MatSnackBar
   ) {}
 
+
   getMonedaByGestor(): void {
     if (this.oc?.gestor_carga_id) {
       this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(

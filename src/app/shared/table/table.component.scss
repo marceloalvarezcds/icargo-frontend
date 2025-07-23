@@ -302,6 +302,8 @@ td.mat-column-modified_at_anticipo:not(:first-child) {
 /* Alinea el contenido de las celdas hacia la derecha, excluyendo el primer hijo (el encabezado) */
 td.mat-column-a_cobrar_flete:not(:first-child), /* A cobrar pedido y OC */
 td.mat-column-a_pagar_flete:not(:first-child),
+td.mat-column-cargado_flete:not(:first-child),
+td.mat-column-saldo_flete:not(:first-child),
 td.mat-column-cantidad_flete:not(:first-child) {
     width: 50px;
     text-align: right; /* Alinea el contenido a la derecha */

@@ -75,6 +75,7 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   @Input() title = 'TRACTOS';
   @Input() isEdit: boolean = false;
   @Input() isShow: boolean = true;
+  @Input() isRequired = false;
 
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 

@@ -87,6 +87,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() resetFormEvent: EventEmitter<void> = new EventEmitter<void>();
   @Output() anticipoPropietarioChange = new EventEmitter();
   @Output() anticipoChoferChange = new EventEmitter();
+  @Output() isChoferCondicionadoChange = new EventEmitter();
+  @Output() isPropietarioCondicionadoChange = new EventEmitter();
   // eventos dialogs
   combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
   fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
@@ -215,6 +217,14 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     return this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl;
   }
 
+  get isChoferCondicionadoControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('is_chofer_condicionado') as FormControl;
+  }
+
+   get isPropietarioCondicionadoControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('is_propietario_condicionado') as FormControl;
+  }
+
   ngOnChanges(changes: SimpleChanges) {
     if (changes.oc && changes.oc.currentValue) {
       this.onOrdenCargaChange(changes.oc.currentValue);
@@ -248,11 +258,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl
   }
 
-
-  isFormValid(): boolean {
-    return  this.form?.get(this.groupName)?.get('semi_placa')?.value
-  }
-
   get historialComentariosList(): OrdenCargaComentariosHistorial[] {
     return this.oc!?.comentario.slice();
   }
@@ -275,6 +280,10 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
   get tieneComentarios(): boolean {
     return this.historialComentariosList && this.historialComentariosList.length > 0;
+  }
+
+  isFormValid(): boolean {
+    return  this.form?.get(this.groupName)?.get('semi_placa')?.value
   }
 
   previewPDF(): void {
@@ -442,6 +451,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
+      this.form?.get(this.groupName)?.get('is_chofer_condicionado')?.setValue(combinacion.is_chofer_condicionado);
+      this.form?.get(this.groupName)?.get('is_propietario_condicionado')?.setValue(combinacion.is_propietario_condicionado);
       if (!this.manualChange) {
         this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
       }

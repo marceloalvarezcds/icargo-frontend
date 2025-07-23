@@ -197,6 +197,14 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
           this.getData();
         }
       });
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
+      const data = JSON.parse(event.newValue!);
+      if (data?.ordenCargaId === this.item?.id) {
+        this.getData(); // o this.anticipoTable.reload()
+      }
+    }
+   });
   }
 
   previousId: number | null = null;

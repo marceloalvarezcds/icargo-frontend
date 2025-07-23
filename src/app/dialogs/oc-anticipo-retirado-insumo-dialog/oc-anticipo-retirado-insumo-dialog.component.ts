@@ -17,6 +17,7 @@ import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.serv
 import { MonedaService } from 'src/app/services/moneda.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { UserService } from 'src/app/services/user.service';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
@@ -488,6 +489,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   constructor(
     private fleteAnticipoService: FleteAnticipoService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
+
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoInsumoDialogComponent>,
     private fb: FormBuilder,
@@ -514,7 +516,10 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
             });
         });
       });
+
   }
+
+
 
   get simboloMonedaGestora(): string {
     return this.simboloMoneda ?? 'PYG';
@@ -694,7 +699,6 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
         .getByFleteAnticipoIdAndOrdenCargaId(fleteAnticipoId, this.ordenCargaId)
         .subscribe((saldo) => {
           this.setOrdenCargaAnticipoSaldo(saldo);
-          console.log('Saldo recibido:', saldo);
         });
     }
   }
@@ -714,6 +718,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
     ]);
     this.montoRetiradoControl.updateValueAndValidity();
   }
+
   @Output() fleteAnticipoIdSelected: EventEmitter<number | null> = new EventEmitter<number | null>();
 
   onFleteAnticipoSelect(fleteAnticipoId: number | null): void {

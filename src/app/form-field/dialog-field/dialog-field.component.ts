@@ -57,6 +57,7 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
   @Input() list: T[] = [];
   @Input() title = '';
   @Input() subtitle = '';
+  @Input() isRequired = false;
   //@Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
   @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
   @Input() dialogRefFunctionCrear?: () => MatDialogRef<E>;
