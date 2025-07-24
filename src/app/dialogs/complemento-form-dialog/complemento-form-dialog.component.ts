@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
+import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { UserService } from 'src/app/services/user.service';
@@ -23,6 +24,7 @@ export class ComplementoFormDialogComponent implements OnInit {
   propietario_monto_ml = 0
   remitente_monto_ml: number | null = null;
   isShow = false;
+  gestorCargaMoneda?: string;
 
   form = this.fb.group({
     concepto: [this.data?.concepto, Validators.required],
@@ -75,6 +77,10 @@ export class ComplementoFormDialogComponent implements OnInit {
       // Llamar a getLoggedUser() para obtener los datos del usuario logueado
       this.userService.getLoggedUser().subscribe((user) => {
         this.gestorCargaId = user.gestor_carga_id;
+
+      this.gestorCargaService.getById(this.gestorCargaId).subscribe(gestorCarga => {
+            this.gestorCargaMoneda = gestorCarga.moneda.simbolo;  // suponiendo que 'moneda' es la propiedad
+          });
 
         this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
           this.monedaDestinoId = moneda?.id ?? null;
@@ -184,6 +190,7 @@ export class ComplementoFormDialogComponent implements OnInit {
     private monedaService: MonedaService,
     private monedaCotizacionService: MonedaCotizacionService,
     private userService: UserService,
+    private gestorCargaService: GestorCargaService,
     @Inject(MAT_DIALOG_DATA) private data?: FleteComplemento
   ) {}
 
@@ -231,6 +238,7 @@ export class ComplementoFormDialogComponent implements OnInit {
         remitente_moneda_id: value.remitente_moneda_id,
         remitente_moneda: this.remitenteMoneda,
         remitente_moneda_nombre: this.remitenteMoneda?.nombre,
+        gestor_carga_moneda_simbolo: this.gestorCargaMoneda,
 
         flete_id: this.data?.flete_id,
       };

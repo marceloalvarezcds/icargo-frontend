@@ -26,36 +26,42 @@ export class FleteFormComplementosComponent {
     {
       def: 'propietario_monto',
       title: 'A Pagar',
-      value: (element: FleteComplemento) => element.propietario_monto,
-      type: 'number',
-    },
-    {
-      def: 'propietario_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
+      value: (element: FleteComplemento) =>
+        `${(element.propietario_monto ?? 0).toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.propietario_moneda_simbolo ?? ''}`,
+      type: 'text',
     },
     {
       def: 'propietario_monto_ml',
       title: 'A Pagar ML',
-      value: (element: FleteComplemento) => element.propietario_monto_ml,
-      type: 'number',
+      value: (element: FleteComplemento) =>
+        `${(element.propietario_monto_ml ?? 0).toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.gestor_carga_moneda_simbolo ?? ''}`,
+      type: 'text',
     },
     {
       def: 'remitente_monto',
       title: 'A Cobrar',
-      value: (element: FleteComplemento) => element.remitente_monto,
-      type: 'number',
-    },
-    {
-      def: 'remitente_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.remitente_moneda_nombre,
+      value: (element: FleteComplemento) => {
+        const monto = element.remitente_monto;
+        if (monto == null || monto === 0) return '';
+        return `${monto.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ${element.remitente_moneda_simbolo ?? ''}`;
+      },
+      type: 'text',
     },
     {
       def: 'remitente_monto_ml',
       title: 'A Cobrar ML',
-      value: (element: FleteComplemento) => element.remitente_monto_ml,
-      type: 'number',
+      value: (element: FleteComplemento) => {
+        const montoMl = element.remitente_monto_ml;
+        if (montoMl == null || montoMl === 0) return '';
+        return `${montoMl.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ${element.gestor_carga_moneda_simbolo ?? ''}`;
+      },
+      type: 'text',
     },
 
     {
@@ -89,18 +95,34 @@ export class FleteFormComplementosComponent {
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   create(): void {
-    this.dialog
-      .open(ComplementoFormDialogComponent, {
-        //width: '500px',
-        panelClass: 'half-dialog'
-      })
-      .afterClosed()
-      .pipe(filter((complemento) => !!complemento))
-      .subscribe((complemento: FleteComplemento) => {
-        this.list = this.list.concat([complemento]);
-        this.formArray.push(this.createForm(complemento));
-      });
-  }
+  this.dialog
+    .open(ComplementoFormDialogComponent, {
+      panelClass: 'half-dialog'
+    })
+    .afterClosed()
+    .pipe(filter((complemento) => !!complemento))
+    .subscribe((complemento: FleteComplemento) => {
+      complemento.propietario_moneda_simbolo = complemento.propietario_moneda?.simbolo ?? '';
+      complemento.gestor_carga_moneda_simbolo = complemento.gestor_carga_moneda_simbolo ?? '';
+
+      if (complemento.habilitar_cobro_remitente) {
+        complemento.remitente_moneda_simbolo = complemento.remitente_moneda?.simbolo ?? '';
+
+        // Formatear los montos remitente para mostrar con separador de miles
+        complemento.remitente_monto = complemento.remitente_monto
+          ? Number(complemento.remitente_monto.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }))
+          : complemento.remitente_monto;
+        complemento.remitente_monto_ml = complemento.remitente_monto_ml
+          ? Number(complemento.remitente_monto_ml.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }))
+          : complemento.remitente_monto_ml;
+      } else {
+        complemento.remitente_moneda_simbolo = '';
+      }
+
+      this.list = this.list.concat([complemento]);
+      this.formArray.push(this.createForm(complemento));
+    });
+}
 
   show(event: TableEvent<FleteComplemento>): void {
     const data = event.row;
@@ -119,6 +141,13 @@ export class FleteFormComplementosComponent {
       .afterClosed()
       .pipe(filter((complemento) => !!complemento))
       .subscribe((complemento: FleteComplemento) => {
+      complemento.propietario_moneda_simbolo = complemento.propietario_moneda?.simbolo ?? '';
+      complemento.gestor_carga_moneda_simbolo = complemento.gestor_carga_moneda_simbolo ?? '';
+      if (complemento.habilitar_cobro_remitente) {
+            complemento.remitente_moneda_simbolo = complemento.remitente_moneda?.simbolo ?? '';
+          } else {
+            complemento.remitente_moneda_simbolo = '';
+        }
         this.list[index] = complemento;
         this.list = this.list.slice();
         this.formArray.setControl(index, this.createForm(complemento));

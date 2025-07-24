@@ -33,6 +33,7 @@ import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-ant
 import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { OrdenCargaAnticipoSaldo } from 'src/app/interfaces/orden-carga-anticipo-saldo';
+import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -453,6 +454,27 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     });
   }
 
+  downloadAnticipoResumenPDF(id: number): void {
+    this.ordenCargaAnticipoRetiradoService.pdf(id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewConciliarDialogComponent, {
+          width: '90%',
+          height: '90%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob,
+            filename: filename,
+            title: 'Anticipo Combustible',
+            buttonText: 'GUARDAR | ANTICIPO'
+          }
+        });
+      });
+    });
+  }
+
+
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
     this.buttonAnticipoClicked.emit();
@@ -467,7 +489,16 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
           .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
           .subscribe({
             next: () => {
-              create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
+              const dialogRef = this.getDialogEfectivoRef();
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) {
+                  this.buttonAnticipoClicked.emit();
+                  this.emitOcChange();
+                  this.downloadAnticipoResumenPDF(result.id);
+                }
+              });
+
               this.buttonAnticipoClicked.emit();
             },
             error: (error) => {
@@ -491,7 +522,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.ordenCargaService.getById(this.oc!.id).subscribe({
       next: (ocActualizada) => {
         this.oc = ocActualizada;
-
+        
         this.ordenCargaService
           .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
           .subscribe({
@@ -499,6 +530,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
               const dialogRef = this.getDialogInsumoRef();
               dialogRef.afterClosed().subscribe(result => {
                 if (result) this.emitOcChange();
+                 this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                  });
+
+                 this.downloadAnticipoResumenPDF(result!.id);;
               });
               this.buttonAnticipoClicked.emit();
             },

@@ -5,8 +5,8 @@
 <mat-dialog-actions>
     <button mat-button mat-dialog-close class="cancelar-button">Cancelar</button>
   <button mat-button (click)="downloadPdf()" class="finalizar-save-button">
-    <mat-icon>save</mat-icon> <!-- Aquí el icono puede ser "save" o cualquier otro -->
-    GUARDAR RESÚMEN | CANCELADO
+    <mat-icon>save</mat-icon>
+     {{ buttonText }}
   </button>
 </mat-dialog-actions>
 

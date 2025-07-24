@@ -489,7 +489,7 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
   constructor(
     private fleteAnticipoService: FleteAnticipoService,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
-
+private cdr: ChangeDetectorRef,
     private ordenCargaAnticipoSaldoService: OrdenCargaAnticipoSaldoService,
     public dialogRef: MatDialogRef<OcAnticipoRetiradoInsumoDialogComponent>,
     private fb: FormBuilder,
@@ -516,9 +516,22 @@ export class OcAnticipoRetiradoInsumoDialogComponent implements OnDestroy, OnIni
             });
         });
       });
-
+       window.addEventListener('storage', this.onStorageEvent.bind(this));
   }
 
+onStorageEvent(event: StorageEvent): void {
+  if (event.key === 'anticipo_insumo_actualizado') {
+    const data = JSON.parse(event.newValue || '{}');
+    if (data.ordenCargaId === this.ordenCargaId) {
+      this.reloadSaldoYHint(); // <-- actualiza desde ordenCargaAnticipoSaldoService
+    }
+  }
+}
+
+reloadSaldoYHint(): void {
+  this.loadOrdenCargaAnticipoSaldo(this.fleteAnticipoId);
+  this.cdr.detectChanges(); // fuerza la actualización del getter del hint
+}
 
 
   get simboloMonedaGestora(): string {

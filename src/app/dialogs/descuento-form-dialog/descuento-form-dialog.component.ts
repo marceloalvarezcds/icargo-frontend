@@ -5,6 +5,7 @@ import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { Proveedor } from 'src/app/interfaces/proveedor';
 import { TipoConceptoDescuento } from 'src/app/interfaces/tipo-concepto-descuento';
+import { GestorCargaService } from 'src/app/services/gestor-carga.service';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { UserService } from 'src/app/services/user.service';
@@ -24,6 +25,7 @@ export class DescuentoFormDialogComponent implements OnInit{
   propietario_monto_ml = 0
   proveedor_monto_ml: number | null = null;
   isShow = false;
+  gestorCargaMoneda?: string;
 
   form = this.fb.group({
     concepto: [this.data?.concepto, Validators.required],
@@ -80,6 +82,10 @@ export class DescuentoFormDialogComponent implements OnInit{
       // Llamar a getLoggedUser() para obtener los datos del usuario logueado
       this.userService.getLoggedUser().subscribe((user) => {
         this.gestorCargaId = user.gestor_carga_id;
+
+      this.gestorCargaService.getById(this.gestorCargaId).subscribe(gestorCarga => {
+            this.gestorCargaMoneda = gestorCarga.moneda.simbolo;  // suponiendo que 'moneda' es la propiedad
+          });
 
         this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
           this.monedaDestinoId = moneda?.id ?? null;
@@ -175,6 +181,7 @@ export class DescuentoFormDialogComponent implements OnInit{
     private fb: FormBuilder,
     private userService: UserService,
     private monedaService: MonedaService,
+    private gestorCargaService: GestorCargaService,
     private monedaCotizacionService: MonedaCotizacionService,
     @Inject(MAT_DIALOG_DATA) private data?: FleteDescuento
   ) {}
@@ -225,6 +232,7 @@ export class DescuentoFormDialogComponent implements OnInit{
         proveedor_id: proveedor?.id,
         proveedor: proveedor,
         proveedor_nombre: proveedor?.nombre,
+        gestor_carga_moneda_simbolo: this.gestorCargaMoneda,
         // FIN Monto a pagar al Proveedor
         flete_id: this.data?.flete_id,
       };
