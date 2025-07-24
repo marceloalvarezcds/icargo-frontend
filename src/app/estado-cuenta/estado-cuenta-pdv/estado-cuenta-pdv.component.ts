@@ -361,10 +361,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
   }
 
   filterResult(list:EstadoCuenta[]){
-    console.log("filterResult: ", list);
-
     this.calcularTotales(list);
-
   }
 
   private filter(

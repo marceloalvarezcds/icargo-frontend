@@ -142,7 +142,6 @@ export class MovimientoEditByMermaFormDialogComponent implements OnInit, AfterVi
   }
 
   monedaChange(moneda: Moneda){
-    console.log("monedaChange");
     if (moneda.id !== this.monedaLocal!.id){
       this.cotizacionService.get_cotizacion_by_moneda(moneda.id, this.monedaLocal!.id)
         .subscribe(res=>{

@@ -254,7 +254,6 @@ export class LiquidacionEditFormAccionesComponent {
     this.form!.markAsDirty();
     this.form!.markAllAsTouched();
 
-    console.log("this.form: ", this.form);
     if ( this.liquidacion.es_orden_pago && !this.form!.valid) {
       return;
     }
@@ -360,7 +359,6 @@ export class LiquidacionEditFormAccionesComponent {
   }
 
   private emitChange(factura:Factura): void {
-    console.log("factura: ", factura);
     this.snackbar.open('Factura agregada');
     this.liquidacionFacturaChange.emit(factura);
     //this.liquidacionChange.emit();

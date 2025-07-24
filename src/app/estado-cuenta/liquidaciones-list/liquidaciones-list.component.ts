@@ -139,7 +139,6 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       icon: 'add_circle',
       label: 'AUTORIZAR',
       buttonCallback: ($event:any) => {
-        console.log('alerta desde button: ', $event);
       }
     },
     {
@@ -150,7 +149,6 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       icon: 'add_circle',
       label: 'RECHAZAR',
       buttonCallback: ($event:any) => {
-        console.log('alerta desde button: ', $event);
       }
     },
     {
@@ -162,7 +160,6 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       label: 'CANCELAR',
       iconClass: 'add_circle',
       buttonCallback: ($event:any) => {
-        console.log('alerta desde button: ', $event);
       }
     }
   ]

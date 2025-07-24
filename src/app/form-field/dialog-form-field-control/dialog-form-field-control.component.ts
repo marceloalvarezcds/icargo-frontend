@@ -460,7 +460,6 @@ export class DialogFormFieldControlComponent<
 
   readonly searchBy = 'id';
   keyPress(event: Event) {
-    console.log("keyPress event", event);
     /*const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === 'Tab') {
       event.preventDefault();

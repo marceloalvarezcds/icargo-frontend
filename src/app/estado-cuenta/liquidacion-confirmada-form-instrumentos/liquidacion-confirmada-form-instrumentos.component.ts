@@ -169,7 +169,6 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
   create(): void {
     create(this.getDialogRef(), (item:  Instrumento) => {
-      console.log("on create instrumento")
       //this.totalMonedas = item.totales;
       //this.setResiduo(item.monto, item.moneda_id);
       this.list = this.list.concat([item]);
@@ -204,9 +203,7 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
 
   }
   /*edit({ row, index }: TableEvent<InstrumentoLiquidacionItem>): void {
-    console.log("row: ", row);
     //this.valorInstrumentos -= row.monto_ml;
-    console.log("index: ", index);
     edit(this.getDialogRef(row), (item: InstrumentoLiquidacionItem) => {
       //this.setResiduo(subtract(item.monto, row.monto), item.moneda_id);
       //this.totalMonedas = item.totales;
@@ -243,8 +240,6 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
           ? this.suma(this.saldoCC, this.liquidacion!.pago_cobro!*-1)
           : this.resta(this.saldoCC, this.liquidacion!.pago_cobro!)
       );
-      console.log(`ele.saldo_cc = (${this.saldoCC} + ${this.liquidacion!.pago_cobro!});`);
-      console.log(`ele.saldo_cc: `, ele.saldo_cc);
       return  ele
     });*/
     const message = `Por favor verifique que los datos de instrumentos y facturas estén correctos, luego de realizar esta acción no podrá modificar los datos de los mismos ¿ Desea guardar ?`;
@@ -274,7 +269,6 @@ export class LiquidacionConfirmadaFormInstrumentosComponent {
         t.residuo = t.total - t.instrumento;
       }
     });
-    console.log("this.totalMonedas: ", this.totalMonedas);
     //this.residuoChange.emit(this.residuo);
     //this.valorInstrumentosChange.emit(this.valorInstrumentos);
   }

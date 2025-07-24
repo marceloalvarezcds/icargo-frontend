@@ -130,7 +130,6 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
     const textoLegal = "POR DEFECTO";
     this.textoLegalService.geItemByTitletList(textoLegal)
       .subscribe( resp=> {
-        console.log("resp: ", resp);
         this.textoLegalEventsSubject.next(resp);
       })
   }

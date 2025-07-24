@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -42,7 +42,7 @@ import { edit } from 'src/app/utils/table-event-crud';
   templateUrl: './liquidacion-edit-form-movimientos.component.html',
   styleUrls: ['./liquidacion-edit-form-movimientos.component.scss'],
 })
-export class LiquidacionEditFormMovimientosComponent {
+export class LiquidacionEditFormMovimientosComponent implements OnChanges {
 
   a = a;
   m = m;
@@ -234,6 +234,15 @@ export class LiquidacionEditFormMovimientosComponent {
     private liquidacionService: LiquidacionService,
     private movimientoService: MovimientoService
   ) {}
+
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (propName === 'list') {
+        this.selectedItems = [];
+      }
+    }
+  }
 
   addMovimientos(): void {
     let contraparteId = getContraparteId(this.liquidacion!);

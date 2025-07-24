@@ -123,9 +123,6 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       this.form.controls['sentido_mov_iva']?.disable();
       this.form.controls['sentido_mov_retencion']?.disable();
     }
-
-    console.log("this.data: ", this.data);
-
   }
 
   ngAfterViewInit(): void {
@@ -133,7 +130,6 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     this.monedaService.getMonedaByGestorId(1).subscribe( (resp:Moneda) => {
       this.monedaLocal = resp;
     });
-    console.log("this.data: ", this.data);
   }
 
   submit() {
@@ -163,8 +159,6 @@ export class FacturaFormDialogComponent implements AfterViewInit {
   }
 
   onMonedaSelect(mon:Moneda){
-
-    console.log("onMonedaSelect");
     this.moneda = mon;
 
     this.montoControl.setValidators([]);

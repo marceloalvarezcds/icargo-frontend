@@ -279,9 +279,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             }
           )
         }
-
-        console.log("buttons: ", this.buttons);
-
       });
 
     }
@@ -552,8 +549,6 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
         punto_venta_id: punto_venta_id,
         isOrdenPago:true,
       };
-
-      console.log("createOrdenPagoDialog: ", data);
 
       this.dialog
         .open(LiquidacionFormDialogComponent, {
