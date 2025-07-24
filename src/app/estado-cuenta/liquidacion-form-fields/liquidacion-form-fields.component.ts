@@ -141,7 +141,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
   ) { }
 
   ngAfterViewInit(): void {
-    console.log("ngAfterViewInit")
 
     if (this.estadoCuenta!.es_pdv && !this.estadoCuenta?.tipo_flujo) {
 
@@ -211,8 +210,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    console.log(this.form);
-
     if (!this.form.valid) {
       return false;
     } else {
@@ -229,8 +226,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
     if (!this.form.valid) {
       return;
     }
-
-    console.log("sendLiquidacion");
 
     let liquidacionValues = this.form.getRawValue();
     let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
@@ -250,9 +245,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
           ? TipoLiquidacionEnum.EFECTIVO.toUpperCase()
           : tipoMovLiquidacion = liquidacionValues.tipo_insumo ;
     }
-
-    console.log("this.estadoCuenta!.es_pdv: ", this.estadoCuenta!.es_pdv);
-    console.log("tipoMovLiquidacion: ", tipoMovLiquidacion);
 
     //if (this.movimientosSelected.length) {
       this.liquidacionService
@@ -377,8 +369,6 @@ export class LiquidacionFormFieldsComponent implements AfterViewInit{
 
       return acumulador;
     }, {});
-
-    console.log("resultado: ", resultado);
 
     this.totalMonedas = Object.values(resultado);;
   }

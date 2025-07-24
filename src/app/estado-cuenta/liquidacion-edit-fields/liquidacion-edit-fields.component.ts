@@ -190,14 +190,9 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("changes: ", changes);
     for (const propName in changes) {
       const chng = changes[propName];
-      /*if (propName === 'movimientos') {
-        this.actualizarSaldos(chng.currentValue);
-      }*/
       if (propName === 'liquidacion') {
-        console.log("liquidacion");
         if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
           this.form.controls['monto_pc'].disable();
           this.form.controls['moneda_id'].disable();
@@ -208,7 +203,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   /*actualizarSaldos(movs:Movimiento[]):void{
-    console.log("this.item!.pago_cobro: ", this.item!.pago_cobro);
     if (this.item!.pago_cobro === null) {
       const deb = movs.reduce((acc, cur) => acc + cur.debito, 0);
       const cred = movs.reduce((acc, cur) => acc + cur.credito, 0);
@@ -235,7 +229,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
   actualizarFactura(factura:Factura|null):void {
     //this.item!.pago_cobro = null;
-    console.log("actualizarFactura: ", factura);
     if (factura)
       this.item!.facturas = this.item!.facturas ? [...this.item!.facturas, factura] : [factura];
     else this.item!.facturas = [];
@@ -245,7 +238,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
-    //console.log("movimientos: ", movimientos);
     // recalcula saldo y monto pago cobro
     //this.item!.pago_cobro = null;
     if (this.esOrdenPago) return;
@@ -329,15 +321,11 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       return acumulador;
     }, {});
 
-    console.log("resultado: ", resultado);
-
     Object.keys(resultado).forEach(key => {
       resultado[key].total = Number(resultado[key].total.toFixed(2));
       resultado[key].total_ml = Number(resultado[key].total_ml.toFixed(2));
       resultado[key].residuo = Number(resultado[key].residuo.toFixed(2));
     });
-
-    console.log("resultado2: ", resultado);
 
     this.totalMonedas = Object.values(resultado);
   }

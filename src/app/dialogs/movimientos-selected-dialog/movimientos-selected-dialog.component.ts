@@ -21,10 +21,10 @@ export class MovimientosSelectedDialogComponent {
       title: 'Chapa',
       value: (element: Movimiento) => {
         let label = "";
-        console.log("subRowColumnsToDisplay: ", element);
         label = element.camion_placa ?? '';
-        label = label + ' | Doc. Fiscal: '
-          + (( element.tipo_movimiento_descripcion === 'Flete' ) ? ((element.documento_fisico_oc) ? 'Sí' : 'No')  : '');
+        if ( element.tipo_movimiento_descripcion === 'Flete' ) {
+          label = label + ' | Doc. Fiscal: '+ ( (element.documento_fisico_oc) ? 'Sí' : 'No') ;
+        }
         return label;
       },
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),

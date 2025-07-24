@@ -648,7 +648,6 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
         .getByFleteAnticipoIdAndOrdenCargaId(fleteAnticipoId, this.ordenCargaId)
         .subscribe((saldo) => {
           this.setOrdenCargaAnticipoSaldo(saldo);
-          console.log('Saldo recibido:', saldo);
         });
     }
   }

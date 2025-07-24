@@ -1,6 +1,6 @@
 <app-page-form
   class="liquidacion-page"
-  module="Estado de Cuenta"
+  [module]="(estadoCuenta?.tipo_flujo ? estadoCuenta?.tipo_flujo + '|' : '') + ' Estado de Cuenta'"
   submodule="Liquidación"
   viewTitle="Nuevo"
   tooltipBtnGuardar="CREAR LIQUIDACION"

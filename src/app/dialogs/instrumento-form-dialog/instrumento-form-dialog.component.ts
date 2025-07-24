@@ -8,14 +8,12 @@ import { Instrumento, InstrumentoLiquidacionItem } from 'src/app/interfaces/inst
 import { InstrumentoFormDialogData } from 'src/app/interfaces/instrumento-form-dialog-data';
 import { InstrumentoVia } from 'src/app/interfaces/instrumento-via';
 import { TipoInstrumento } from 'src/app/interfaces/tipo-instrumento';
-import { subtract, subtractDecimal } from 'src/app/utils/math';
+import { subtractDecimal } from 'src/app/utils/math';
 import { Subject } from 'rxjs';
-
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
-import { distinctUntilChanged } from 'rxjs/operators';
 import { CajaService } from 'src/app/services/caja.service';
 import { BancoService } from 'src/app/services/banco.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
@@ -80,7 +78,6 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
     });
 
   viaSubscription = this.viaControl.valueChanges.subscribe(() => {
-    console.log("viaControl.valueChanges");
     setTimeout(() => {
       if (this.esBanco) {
         this.form.controls['numero_referencia'].setValidators(
@@ -171,7 +168,6 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   get residuo(): number {
-    //console.log("residuo");
     //let saldo = this.totalMonedas.reduce((acc:number, cur:any) => acc + cur.total_ml, 0);
     return this.dialogData.residuo ?? 0;;
   }
@@ -234,9 +230,6 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
         }
     }
 
-    console.log(this.dialogData);
-    console.log(this.data);
-
   }
 
   ngOnInit(){
@@ -247,9 +240,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   ngAfterViewInit(): void {
-
     this.form.get('tipo_cambio_moneda')?.valueChanges.subscribe( (value:number) => {
-
       if (value){
 
         this.dialogData.totalLiquidacion = this.totalLiquidacionML / value;
@@ -258,16 +249,12 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
 
         this.refreshTotal(Math.abs(this.dialogData.residuo));
       }
-
     });
-
   }
 
   onbancoSelect(banco:Banco):void {
-    console.log("onbancoSelect: ", banco)
     this.banco = banco;
     this.form.controls['moneda_id'].setValue(banco.moneda_id);
-
     /*if (totalMonena) {
       this.montoControl.setValidators([]);
       this.montoControl.updateValueAndValidity();
@@ -282,7 +269,6 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
   }
 
   onCajaSelect(caja:Caja):void {
-    console.log("onCajaSelect: ", caja)
     this.caja = caja;
     this.form.controls['moneda_id'].setValue(caja.moneda_id);
     /*if (totalMonena) {
@@ -296,7 +282,6 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
       this.montoControl.setValue(0);
       this.montoControl.updateValueAndValidity();
     }*/
-
   }
 
   refreshTotal(total: number):void{
@@ -323,7 +308,7 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
         Validators.pattern(pattern),
       ]
     );
-    //this.montoControl.setValue(total);
+    this.montoControl.setValue(total);
     this.montoControl.updateValueAndValidity();
   }
 
@@ -334,11 +319,22 @@ export class InstrumentoFormDialogComponent implements OnDestroy, OnInit, AfterV
     if (!this.monedaLocal) return;
 
     this.moneda = mon;
+    //const moneda = this.dialogData.moneda_liquidacion === this.monedaLocal.id ? this.monedaLocal.id : this.dialogData.moneda_liquidacion;
 
-    console.log("mon: ", mon);
-    console.log("monedaLocal: ", this.monedaLocal);
-
-    const moneda = this.dialogData.moneda_liquidacion === this.monedaLocal.id ? this.monedaLocal.id : this.dialogData.moneda_liquidacion;
+    if (mon.id === this.monedaLocal.id) {
+      this.montoControl.setValidators([]);
+      this.montoControl.updateValueAndValidity();
+      this.montoControl.setValidators(
+        [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(Math.abs(this.dialogData.residuo!)),
+          Validators.pattern('^([0-9]{1,12})$'),
+        ]
+      );
+      this.montoControl.setValue(Math.abs(this.dialogData.residuo!));
+      this.montoControl.updateValueAndValidity();
+    }
 
     // aca trae inveso, para obtener el valor se debe dividir
     this.cotizacionService.get_cotizacion_by_moneda(mon.id, this.monedaLocal.id)

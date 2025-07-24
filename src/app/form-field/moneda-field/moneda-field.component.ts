@@ -26,11 +26,8 @@ export class MonedaFieldComponent {
           if (resp){
             resp.forEach((ele:any)=>{
               if (ele[this.auto_select_property] === this.auto_select_filtro){
-
                 const mon = this.value(ele);
-                console.log("moneda: ", mon);
                 this.control.setValue(mon);
-
               }
             });
           }

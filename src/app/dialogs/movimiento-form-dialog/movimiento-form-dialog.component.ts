@@ -192,8 +192,6 @@ export class MovimientoFormDialogComponent implements AfterViewInit {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    console.log(this.form);
-
     if (this.form.valid) {
       const descripcionControl = this.form.get('detalle');
       if (descripcionControl && descripcionControl.value) {

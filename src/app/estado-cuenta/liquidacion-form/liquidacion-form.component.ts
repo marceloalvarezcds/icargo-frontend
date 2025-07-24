@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Output, EventEmitter, ViewChild, ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -85,11 +85,13 @@ export class LiquidacionFormComponent implements OnInit {
   back(save: boolean): void {
     let { backUrl, es_pdv } = this.route.snapshot.queryParams;
 
+
     if (save) {
       this.submit(save);
     } else {
       if (backUrl) {
         this.router.navigate([backUrl]);
+        return;
       }
       if (coerceBooleanProperty(es_pdv)) {
         this.backUrl = '/estado-cuenta/punto_venta/detallado/listar';
@@ -148,14 +150,10 @@ export class LiquidacionFormComponent implements OnInit {
 
     let groups = data.reduce(customReducer,{});
 
-    console.log("resultado: ", groups);
-
     Object.keys(groups).forEach(key => {
       groups[key][0].totales = Number(groups[key][0].totales.toFixed(2));
       groups[key][0].totalesML = Number(groups[key][0].totalesML.toFixed(2));
     });
-
-    console.log("resultado: ", groups);
 
     let groupArray = Object.keys(groups).map(key => groups[key]);
     let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
@@ -172,8 +170,6 @@ export class LiquidacionFormComponent implements OnInit {
 
     let liquidacionValues = this.child.form.getRawValue();
     let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
-
-    console.log("movs agrupados: ",listMovimientosGrouped);
 
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
@@ -337,7 +333,6 @@ export class LiquidacionFormComponent implements OnInit {
     )
     .subscribe((data) => {
       this.list = data;
-      console.log("movimientos: ", data);
       this.movimientosSelected = [];
     });
   }

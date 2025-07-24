@@ -1,7 +1,7 @@
 
 <div class="row" [formGroup]="form">
 
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+  <div class="input-form-full" [ngClass]=" es_pdv ? 'col-xs-12 col-sm-6 col-md-2' : 'col-xs-12 col-sm-6 col-md-2'">
     <mat-label>Contraparte</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput disabled
@@ -10,7 +10,15 @@
     </mat-form-field>
   </div>
 
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3" *ngIf="es_pdv">
+    <mat-label>Proveedor</mat-label>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput disabled
+        [value]="estadoCuenta?.contraparte"/>
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
     <mat-label>{{es_pdv ? 'Establecimiento' : 'Nombre'}}</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
@@ -23,14 +31,6 @@
       <input matInput disabled
         [value]="estadoCuenta?.contraparte_numero_documento_pdv ?? estadoCuenta?.contraparte_numero_documento"
       />
-    </mat-form-field>
-  </div>
-
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-4" *ngIf="es_pdv">
-    <mat-label>Proveedor</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput disabled
-        [value]="estadoCuenta?.contraparte"/>
     </mat-form-field>
   </div>
 
