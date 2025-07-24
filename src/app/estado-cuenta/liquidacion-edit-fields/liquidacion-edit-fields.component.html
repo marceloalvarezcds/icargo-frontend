@@ -132,7 +132,8 @@
             isShow ||
             item.estado === E.ACEPTADO ||
             item.estado === E.CANCELADO ||
-            item.estado === E.CONFIRMADO
+            item.estado === E.CONFIRMADO ||
+            item.estado === E.PENDIENTE
           "
           (selectedMovimientosChange)="actualizarMovimientosEvento($event)">
         </app-liquidacion-edit-form-movimientos>

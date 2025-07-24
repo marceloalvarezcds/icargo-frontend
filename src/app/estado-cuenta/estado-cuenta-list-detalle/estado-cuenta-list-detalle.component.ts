@@ -72,10 +72,10 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
       title: 'Chapa',
       value: (element: Movimiento) => {
         let label = "";
-        console.log("subRowColumnsToDisplay: ", element);
         label = element.camion_placa ?? '';
-        label = label + ' | Doc. Fiscal: '
-          + (( element.tipo_movimiento_descripcion === 'Flete' ) ? ((element.documento_fisico_oc) ? 'Sí' : 'No')  : '');
+        if (element.tipo_movimiento_descripcion === 'Flete' ) {
+          label = label + ' | Doc. Fiscal: '+ ( (element.documento_fisico_oc) ? 'Sí' : 'No') ;
+        }
         return label;
       },
       dinamicStyles: (element: MovimientoEstadoCuenta) =>
@@ -694,6 +694,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? { color: 'blue' } :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff' } :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0' } : ""
@@ -708,6 +709,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -727,6 +729,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -740,6 +743,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -754,6 +758,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -767,6 +772,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -787,6 +793,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -800,6 +807,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -814,6 +822,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -827,6 +836,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -840,6 +850,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -854,6 +865,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -869,6 +881,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -884,6 +897,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -899,6 +913,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -914,6 +929,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
             (
               (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
               (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+              (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
               (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
               (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
               (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -961,6 +977,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
                   (
                     (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
                     (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+                    (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
                     (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
                     (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
                     (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""
@@ -982,6 +999,7 @@ export class EstadoCuentaListDetalleComponent implements OnInit {
               (
                 (element.estado === 'Pendiente') ? { 'background-color' :'#ccff90' } :
                 (element.estado === 'Rechazado' || element.estado === 'Anulado' || element.estado === 'Cancelado') ? { 'background-color' :'#FFC067' } :
+                (element.estado === 'En Proceso') ? { 'background-color' :'#e9e9e9' } :
                 (element.tipo_movimiento_concepto === 'Flete') ? {color: 'blue'} :
                 (element.tipo_movimiento_concepto === 'Provision') ? { 'background-color' :'#cdffff'} :
                 (element.tipo_movimiento_concepto === 'Pago/Cobro') ? { 'background-color': '#e0e0e0'} : ""

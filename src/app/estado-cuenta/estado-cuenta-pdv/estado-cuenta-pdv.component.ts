@@ -12,7 +12,7 @@ import {
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
+import { ContraparteGralInfo, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -391,21 +391,25 @@ export class EstadoCuentaPdvComponent implements OnInit {
 
     createLiquidacion(contraparte: EstadoCuenta):void {
 
-      const data: ContraparteInfoMovimientoLiq = {
-        contraparte: contraparte.contraparte,
+      const data: ContraparteGralInfo = {
+        contraparte: contraparte.contraparte_pdv!,
         contraparte_id: contraparte.contraparte_id,
-        contraparte_numero_documento: contraparte.contraparte_numero_documento,
+        contraparte_numero_documento: contraparte.contraparte_numero_documento_pdv!,
         tipo_contraparte_id: contraparte.tipo_contraparte_id,
         tipo_contraparte_descripcion: '',
-        isNew: true,
+        //isNew: true,
         etapa: LiquidacionEtapaEnum.PENDIENTE,
+        punto_venta_id: contraparte.punto_venta_id,
+        flujo: contraparte.tipo_flujo,
+        tipo_flujo: contraparte.tipo_flujo,
+        es_pdv: true,
       };
 
       const url = [
         `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
       ];
 
-      const queryParams = getQueryParams( data, LiquidacionEtapaEnum.PENDIENTE);
+      const queryParams = getQueryParamsPDV( data, LiquidacionEtapaEnum.PENDIENTE);
 
       this.router.navigate(url, {
         queryParams: {...queryParams, backUrl:`/estado-cuenta/${m.PUNTO_VENTA}/${a.LISTAR}` },
