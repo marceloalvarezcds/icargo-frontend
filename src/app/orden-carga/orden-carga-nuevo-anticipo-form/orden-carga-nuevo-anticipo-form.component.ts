@@ -32,6 +32,7 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
 import { ReportsService } from 'src/app/services/reports.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 @Component({
   selector: 'app-orden-carga-nuevo-anticipo-form',
   templateUrl: './orden-carga-nuevo-anticipo-form.component.html',
@@ -234,8 +235,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private userService: UserService,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
-    private cdRef: ChangeDetectorRef
-
+    private insumoService: FleteAnticipoService,
   ) {}
 
   setInitialToggleState(): void {
@@ -511,17 +511,36 @@ getData(): void {
         },
       });
 
-    this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
-        .subscribe({
-          next: saldo => {
-            this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
-              this.item = ocActualizada;
-              // console.log('OC actualizada después del saldo combustible:', this.item);
-            });
-          },
-          error: err => {
-            console.error('Error creando saldo combustible:', err);
-          }
+       const tipoId = 1;
+        const fleteId = this.form.get('combinacion.flete_id')?.value;
+        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
+        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+          next: (anticipoFlete) => {
+            const anticipoFleteId = anticipoFlete.id;
+
+              if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+                this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+                  next: (saldoAnticipo) => {
+                    this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id).subscribe({
+                      next: (saldoCombustible) => {
+                        this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                          this.item = ocActualizada;
+                        });
+                      },
+                      error: err => {
+                        console.error('Error creando saldo combustible:', err);
+                      }
+                    });
+                  },
+                  error: err => {
+                    console.error('Error obteniendo saldo anticipo:', err);
+                  }
+                });
+              }
+            },
+            error: err => {
+              console.error('Error obteniendo anticipo flete:', err);
+            }
         });
 
       this.form.get('info.cantidad_nominada')?.disable();

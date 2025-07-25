@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { combineLatest, Subject, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { TipoAnticipoEnum } from 'src/app/enums/tipo-anticipo-enum';
@@ -12,11 +12,13 @@ import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { PuntoVentaList } from 'src/app/interfaces/punto-venta';
 import { TipoAnticipo } from 'src/app/interfaces/tipo-anticipo';
+import { PdfPreviewConciliarDialogComponent } from 'src/app/orden-carga/pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { MonedaService } from 'src/app/services/moneda.service';
 import { OrdenCargaAnticipoRetiradoService } from 'src/app/services/orden-carga-anticipo-retirado.service';
 import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { ReportsService } from 'src/app/services/reports.service';
 import { round, roundString, subtract } from 'src/app/utils/math';
 import { NumberValidator } from 'src/app/validators/number-validator';
 
@@ -436,6 +438,8 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     public dialogRef: MatDialogRef<OcAnticipoRetiradoEfectivoDialogComponent>,
     private fb: FormBuilder,
     private cdr: ChangeDetectorRef,
+    private reportsService: ReportsService,
+    private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcAnticipoRetiradoDialogData
   ) {}
 
@@ -553,6 +557,13 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
               this.ordenCargaAnticipoRetiradoService.edit(this.data.id, formData).subscribe(this.close.bind(this));
             } else {
               this.ordenCargaAnticipoRetiradoService.create(formData).subscribe(this.close.bind(this));
+
+                this.dialogRef.afterClosed().subscribe(result => {
+                if (result) {
+                  this.downloadAnticipoResumenPDF(result.id);
+                }
+              });
+
             }
             localStorage.setItem(
                 'anticipo_actualizado',
@@ -570,6 +581,27 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
     }
   }
 
+  downloadAnticipoResumenPDF(id: number): void {
+    this.ordenCargaAnticipoRetiradoService.pdf(id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewConciliarDialogComponent, {
+          width: '90%',
+          height: '90%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob,
+            filename: filename,
+            title: 'Anticipo Combustible',
+            buttonText: 'GUARDAR | ANTICIPO'
+          }
+        });
+      });
+    });
+  }
+
+  
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.saldoAnticipo = 0;
     this.tipoAnticipo = event;

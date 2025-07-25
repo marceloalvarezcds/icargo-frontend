@@ -79,7 +79,7 @@ export class ComplementoFormDialogComponent implements OnInit {
         this.gestorCargaId = user.gestor_carga_id;
 
       this.gestorCargaService.getById(this.gestorCargaId).subscribe(gestorCarga => {
-            this.gestorCargaMoneda = gestorCarga.moneda.simbolo;  // suponiendo que 'moneda' es la propiedad
+            this.gestorCargaMoneda = gestorCarga.moneda.simbolo;  
           });
 
         this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {

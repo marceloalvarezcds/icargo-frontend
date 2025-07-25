@@ -1045,18 +1045,36 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             },
         });
 
-    this.ordenCargaSaldoService.getSaldoCombustible(this.item.id, this.item.flete_id)
-        .subscribe({
-          next: saldo => {
-            // console.log('Saldo combustible generado:', saldo);
-            this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
-              this.item = ocActualizada;
-              // console.log('OC actualizada después del saldo combustible:', this.item);
-            });
-          },
-          error: err => {
-            console.error('Error creando saldo combustible:', err);
-          }
+        const tipoId = 1;
+        const fleteId = this.form.get('combinacion.flete_id')?.value;
+        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
+        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+          next: (anticipoFlete) => {
+            const anticipoFleteId = anticipoFlete.id;
+
+              if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+                this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+                  next: (saldoAnticipo) => {
+                    this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id).subscribe({
+                      next: (saldoCombustible) => {
+                        this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                          this.item = ocActualizada;
+                        });
+                      },
+                      error: err => {
+                        console.error('Error creando saldo combustible:', err);
+                      }
+                    });
+                  },
+                  error: err => {
+                    console.error('Error obteniendo saldo anticipo:', err);
+                  }
+                });
+              }
+            },
+            error: err => {
+              console.error('Error obteniendo anticipo flete:', err);
+            }
         });
 
         if (this.isShow) {
