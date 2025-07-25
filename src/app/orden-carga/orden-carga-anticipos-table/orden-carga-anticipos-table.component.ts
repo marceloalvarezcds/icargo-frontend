@@ -481,48 +481,39 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createEfectivo(): void {
-    this.ordenCargaService.getById(this.oc!.id).subscribe({
-      next: (ocActualizada) => {
-        this.oc = ocActualizada;
+      this.ordenCargaService.getById(this.oc!.id).subscribe({
+        next: (ocActualizada) => {
+          this.oc = ocActualizada;
 
-        this.ordenCargaService
-          .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
-          .subscribe({
-            next: () => {
-              const dialogRef = this.getDialogEfectivoRef();
-
-              dialogRef.afterClosed().subscribe(result => {
-                if (result) {
-                  this.buttonAnticipoClicked.emit();
-                  this.emitOcChange();
-                  this.downloadAnticipoResumenPDF(result.id);
-                }
-              });
-
-              this.buttonAnticipoClicked.emit();
-            },
-            error: (error) => {
-              this.snackBar.open(error.error.detail || 'No se pudo validar anticipos.', 'Cerrar', {
-                duration: 3000,
-                panelClass: ['error-snackbar']
-              });
-            }
+          this.ordenCargaService
+            .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
+            .subscribe({
+              next: () => {
+                create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
+                this.buttonAnticipoClicked.emit();
+              },
+              error: (error) => {
+                this.snackBar.open(error.error.detail || 'No se pudo validar anticipos.', 'Cerrar', {
+                  duration: 3000,
+                  panelClass: ['error-snackbar']
+                });
+              }
+            });
+        },
+        error: () => {
+          this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
+            duration: 3000,
+            panelClass: ['error-snackbar']
           });
-      },
-      error: () => {
-        this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
-          duration: 3000,
-          panelClass: ['error-snackbar']
-        });
-      }
-    });
-  }
+        }
+      });
+    }
 
   createInsumo(): void {
     this.ordenCargaService.getById(this.oc!.id).subscribe({
       next: (ocActualizada) => {
         this.oc = ocActualizada;
-        
+
         this.ordenCargaService
           .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
           .subscribe({
@@ -530,13 +521,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
               const dialogRef = this.getDialogInsumoRef();
               dialogRef.afterClosed().subscribe(result => {
                 if (result) this.emitOcChange();
-                 this.snackBar.open('Generando PDF...', 'Cerrar', {
-                    duration: 3000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                  });
-
-                 this.downloadAnticipoResumenPDF(result!.id);;
               });
               this.buttonAnticipoClicked.emit();
             },
