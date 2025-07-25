@@ -117,6 +117,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
       anticipo_propietario: null,
       anticipos: null,
       id_orden_carga: [null, Validators.required],
+      is_propietario_condicionado: null,
+      is_chofer_condicionado: null,
     }),
     info: this.fb.group({
       cantidad_nominada: null,
@@ -889,6 +891,8 @@ export class OrdenCargaFinalizarFormComponent implements OnInit, OnDestroy {
             estado: data.estado,
             anticipos: data.anticipos_liberados,
             comentarios: '',
+            is_propietario_condicionado: data.is_propietario_condicionado,
+            is_chofer_condicionado: data.is_chofer_condicionado
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,

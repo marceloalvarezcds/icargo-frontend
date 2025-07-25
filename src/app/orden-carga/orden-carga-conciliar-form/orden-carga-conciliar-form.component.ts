@@ -128,6 +128,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       anticipo_propietario: null,
       anticipos: null,
       id_orden_carga: [null, Validators.required],
+      is_propietario_condicionado: null,
+      is_chofer_condicionado: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [{ value: '', disabled: true }],
@@ -908,7 +910,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-            anticipos: data.anticipos_liberados
+            anticipos: data.anticipos_liberados,
+            is_propietario_condicionado: data.is_propietario_condicionado,
+            is_chofer_condicionado: data.is_chofer_condicionado,
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
