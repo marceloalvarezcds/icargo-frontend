@@ -120,7 +120,7 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'saldosentido',
       title: "D/H",
-      value: (element: EstadoCuenta) => element.liquidacion_saldo >= 0 ? 'D' : 'H' ,
+      value: (element: EstadoCuenta) => element.liquidacion_saldo > 0 ? 'D' : element.liquidacion_saldo < 0 ? 'H' : '-',
     },
     {
       def: 'pendiente',
@@ -153,7 +153,7 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'total_sentido',
       title: "D/H",
-      value: (element: EstadoCuenta) => element.total_cc >= 0 ? 'D' : 'H' ,
+      value: (element: EstadoCuenta) => element.total_cc > 0 ? 'D' : element.total_cc < 0 ? 'H' : '-',
     },
     {
       def: 'provision',
@@ -161,6 +161,11 @@ export class EstadoCuentaListComponent implements OnInit {
       value: (element: EstadoCuenta) => element.provision,
       type: 'number',
       footerDef: () => this.totalProvision,
+    },
+    {
+      def: 'provision_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.provision > 0 ? 'D' : element.provision < 0 ? 'H' : '-',
     },
   ];
 
