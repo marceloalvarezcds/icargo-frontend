@@ -7,10 +7,14 @@ export interface FleteConfirmationInfo {
   destino: string;
   cantidad: string;
   gestor_carga_tarifa: string;
+  gestor_carga_tarifa_ml: string;
   gestor_carga_merma: string;
+  gestor_carga_merma_ml: string;
   gestor_carga_tolerancia: string;
   propietario_tarifa: string;
+  propietario_tarifa_ml: string;
   propietario_merma: string;
+  propietario_merma_ml: string;
   propietario_tolerancia: string;
   anticipos: Record<string, string>;
   complementos: Record<string, string>;
@@ -31,10 +35,14 @@ export const mockFleteConfirmationInfo: FleteConfirmationInfo = {
   numero_lote: '4564654',
   origen: 'ITAKYRY',
   gestor_carga_tarifa: '150 PYG/kg',
+  gestor_carga_tarifa_ml: '9 usd',
   gestor_carga_merma: '800 PYG/kg',
+  gestor_carga_merma_ml: '800 PYG/kg',
   gestor_carga_tolerancia: '1.000 PYG/kg',
   propietario_tarifa: '100 PYG/kg',
+  propietario_tarifa_ml: '200 pyg',
   propietario_merma: '1.000 PYG/kg',
+  propietario_merma_ml: '1.000 PYG/kg',
   propietario_tolerancia: '10 %',
   destino: 'LA PAZ',
   cantidad: '10.000',

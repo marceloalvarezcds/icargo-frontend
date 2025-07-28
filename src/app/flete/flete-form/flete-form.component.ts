@@ -24,7 +24,10 @@ import { FleteConfirmationDialogData } from 'src/app/interfaces/flete-confirmati
 import { FleteDescuento } from 'src/app/interfaces/flete-descuento';
 import { DialogService } from 'src/app/services/dialog.service';
 import { FleteService } from 'src/app/services/flete.service';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { UnidadService } from 'src/app/services/unidad.service';
 import { UserService } from 'src/app/services/user.service';
 import { ProportionValidator } from 'src/app/validators/proportion-validator';
 
@@ -38,6 +41,16 @@ export class FleteFormComponent implements OnInit, OnDestroy {
   id?: number;
   propietarioId?: number;
   estado = EstadoEnum.ACTIVO;
+  monedaOrigenId: number | null = null;
+  monedaDestinoSimbolo?: string;
+  condicion_gestor_carga_tarifa_ml = 0;
+  condicion_propietario_tarifa_ml = 0;
+  merma_gestor_carga_valor_ml = 0;
+  merma_propietario_valor_ml = 0;
+  cotizacionOrigen: number | null = null;
+  cotizacionOrigenGestorTarifa: number | null = null;
+  cotizacionDestino: number | null = null;
+  monedaDestinoId: number | null = null;
   isCancel = false;
   isEditPressed= false
   isEditCopyForm = false;
@@ -107,6 +120,8 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       condicion_gestor_carga_moneda_id: [null, Validators.required],
       condicion_gestor_carga_moneda_simbolo: null,
       condicion_gestor_carga_tarifa: [null, Validators.required],
+      condicion_gestor_carga_tarifa_ml: null,
+      moneda_gestora_nombre: null,
       //condicion_gestor_carga_unidad: [null, Validators.required],
       condicion_gestor_carga_unidad_id: [null],
       condicion_gestor_carga_unidad_abreviatura: null,
@@ -115,7 +130,9 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       condicion_propietario_moneda: [null],
       condicion_propietario_moneda_id: [null, Validators.required],
       condicion_propietario_moneda_simbolo: null,
+      condicion_gestor_carga_unidad_conversion: null,
       condicion_propietario_tarifa: [null, Validators.required],
+      condicion_propietario_tarifa_ml: null,
       //condicion_propietario_unidad: [null],
       condicion_propietario_unidad_id: [null, Validators.required],
       condicion_propietario_unidad_abreviatura: null,
@@ -124,6 +141,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     merma: this.fb.group({
       // inicio - Mermas para el Gestor de Carga
       merma_gestor_carga_valor: [null, Validators.required],
+      merma_gestor_carga_valor_ml: null,
       merma_gestor_carga_moneda: [null],
       merma_gestor_carga_moneda_id: [null, Validators.required],
       merma_gestor_carga_moneda_simbolo: null,
@@ -135,6 +153,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       // fin - Mermas para el Gestor de Carga
       // inicio - Mermas para el Propietario
       merma_propietario_valor: [null, Validators.required],
+      merma_propietario_valor_ml: null,
       merma_propietario_moneda: [null],
       merma_propietario_moneda_id: [null, Validators.required],
       merma_propietario_moneda_simbolo: null,
@@ -219,7 +238,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     private matSnackbar: MatSnackBar,
     private dialog: DialogService,
     private route: ActivatedRoute,
-    private router: Router
+    private router: Router,
+    private monedaCotizacionService: MonedaCotizacionService,
+    private monedaService: MonedaService,
+    private unidadService: UnidadService,
   ) {}
 
   ngOnInit(): void {
@@ -231,7 +253,27 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       }
       });
     this.setModule();
+          // Llamar a getLoggedUser() para obtener los datos del usuario logueado
+      this.userService.getLoggedUser().subscribe((user) => {
+        this.gestorCargaId = user.gestor_carga_id;
+
+        this.monedaService.getMonedaByGestorId(this.gestorCargaId!).subscribe((moneda) => {
+          this.monedaDestinoId = moneda?.id ?? null;
+          this.monedaDestinoSimbolo = moneda?.simbolo ?? '';
+
+          this.form.get('condicion')?.patchValue({
+            moneda_gestora_nombre: this.monedaDestinoSimbolo,
+          });
+
+          this.monedaCotizacionService
+            .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
+            .subscribe((responseDestino) => {
+              this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+            });
+        });
+      });
   }
+
 
   ngOnDestroy(): void {
     if (this.id && this.isEdit) {
@@ -280,6 +322,19 @@ export class FleteFormComponent implements OnInit, OnDestroy {
       this.module = 'NUEVO';
     }
   }
+
+  getCotizacionMonedaDestino(): void {
+    this.monedaCotizacionService
+      .getCotizacionByGestor(this.monedaDestinoId!, this.gestorCargaId!)
+      .subscribe({
+        next: (responseDestino) => {
+          this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+        },
+        error: (err) => {
+          console.error('Error al obtener cotización de moneda destino:', err);
+        }
+      });
+    }
 
   back(): void {
     if (this.isShow) {
@@ -482,26 +537,82 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     });
   }
 
+  private calcularTarifasMl(
+    condicion_gestor_carga_tarifa: number,
+    condicion_propietario_tarifa: number,
+    cotizacionGestor: number,
+    cotizacionPropietario: number,
+    cotizacionDestino: number,
+    conversionGestor: number,
+    conversionPropietario: number
+  ) {
+    if (!cotizacionDestino) {
+      alert("No se pudo obtener la cotización de destino.");
+      return;
+    }
+
+    const tarifaGestorMl = Math.round(
+      (condicion_gestor_carga_tarifa * cotizacionGestor) / cotizacionDestino / conversionGestor
+    );
+
+    const tarifaPropietarioMl = Math.round(
+      (condicion_propietario_tarifa * cotizacionPropietario) / cotizacionDestino / conversionPropietario
+    );
+
+    this.condicion_gestor_carga_tarifa_ml = tarifaGestorMl;
+    this.condicion_propietario_tarifa_ml = tarifaPropietarioMl;
+
+    this.form.patchValue({
+      condicion: {
+        condicion_gestor_carga_tarifa_ml: tarifaGestorMl,
+        condicion_propietario_tarifa_ml: tarifaPropietarioMl,
+        moneda_gestora_nombre: this.monedaDestinoSimbolo,
+      }
+    });
+  }
+
+
+  private calcularMermasMl(
+    merma_gestor_carga_valor: number,
+    merma_propietario_valor: number,
+    cotizacionMermaGestor: number,
+    cotizacionMermaPropietario: number,
+    cotizacionDestino: number,
+    conversionMermaGestor: number,
+    conversionMermaPropietario: number
+  ) {
+    if (!cotizacionDestino) {
+      alert("No se pudo obtener la cotización de destino.");
+      return;
+    }
+
+    const mermaGestorMl = Math.round(
+      (merma_gestor_carga_valor * cotizacionMermaGestor) / cotizacionDestino / conversionMermaGestor
+    );
+
+    const mermaPropietarioMl = Math.round(
+      (merma_propietario_valor * cotizacionMermaPropietario) / cotizacionDestino / conversionMermaPropietario
+    );
+
+    this.merma_gestor_carga_valor_ml = mermaGestorMl;
+    this.merma_propietario_valor_ml = mermaPropietarioMl;
+
+    this.form.patchValue({
+      merma: {
+        merma_gestor_carga_valor_ml: mermaGestorMl,
+        merma_propietario_valor_ml: mermaPropietarioMl,
+      }
+    });
+  }
+
+
   save(confirmed: boolean): void {
     this.isInfoTouched = false;
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
     if (this.form.valid) {
-      const data: FleteConfirmationDialogData = {
-        flete: getFleteData(this.form),
-      };
-
-      this.dialog
-        .open(FleteConfirmationDialogComponent, {
-          data,
-          panelClass: 'preview-width-dialog',
-        })
-        .afterClosed()
-        .pipe(filter((confirmed: any) => !!confirmed))
-        .subscribe(() => {
-          this.submit(confirmed);
-        });
+      this.processSave(confirmed);
     } else {
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
@@ -516,6 +627,115 @@ export class FleteFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  private processSave(confirmed: boolean): void {
+    const condicion_gestor_carga_tarifa = this.form.value.condicion.condicion_gestor_carga_tarifa;
+    const condicion_propietario_tarifa = this.form.value.condicion.condicion_propietario_tarifa;
+
+    const unidadIdGestor = this.form.value.condicion.condicion_gestor_carga_unidad_id;
+    const unidadIdPropietario = this.form.value.condicion.condicion_propietario_unidad_id;
+
+    const monedaOrigenCondicionGestor = this.form.value.condicion.condicion_gestor_carga_moneda_id;
+    const monedaOrigenCondicionPropietario = this.form.value.condicion.condicion_propietario_moneda_id;
+
+    const merma_gestor_carga_valor = this.form.value.merma.merma_gestor_carga_valor;
+    const merma_propietario_valor = this.form.value.merma.merma_propietario_valor;
+
+    const unidadIdMermaGestor = this.form.value.merma.merma_gestor_carga_unidad_id;
+    const unidadIdMermaPropietario = this.form.value.merma.merma_propietario_unidad_id;
+
+    const monedaOrigenMermaGestor = this.form.value.merma.merma_gestor_carga_moneda_id;
+    const monedaOrigenMermaPropietario = this.form.value.merma.merma_propietario_moneda_id;
+
+    this.unidadService.getConversionById(unidadIdGestor).subscribe({
+      next: (unidadGestor) => {
+        const conversionGestor = unidadGestor?.conversion_kg || 1;
+
+        this.unidadService.getConversionById(unidadIdPropietario).subscribe({
+          next: (unidadPropietario) => {
+            const conversionPropietario = unidadPropietario?.conversion_kg || 1;
+
+            this.monedaCotizacionService.getCotizacionByGestor(monedaOrigenCondicionGestor, this.gestorCargaId!).subscribe({
+              next: (responseGestor) => {
+                const cotizacionGestor = responseGestor?.cotizacion_moneda || 1;
+
+                this.monedaCotizacionService.getCotizacionByGestor(monedaOrigenCondicionPropietario, this.gestorCargaId!).subscribe({
+                  next: (responsePropietario) => {
+                    const cotizacionPropietario = responsePropietario?.cotizacion_moneda || 1;
+
+                    if (!this.cotizacionDestino) {
+                      return;
+                    }
+
+                    this.calcularTarifasMl(
+                      condicion_gestor_carga_tarifa,
+                      condicion_propietario_tarifa,
+                      cotizacionGestor,
+                      cotizacionPropietario,
+                      this.cotizacionDestino,
+                      conversionGestor,
+                      conversionPropietario
+                    );
+
+                    this.unidadService.getConversionById(unidadIdMermaGestor).subscribe({
+                      next: (unidadMermaGestor) => {
+                        const conversionMermaGestor = unidadMermaGestor?.conversion_kg || 1;
+
+                        this.unidadService.getConversionById(unidadIdMermaPropietario).subscribe({
+                          next: (unidadMermaPropietario) => {
+                            const conversionMermaPropietario = unidadMermaPropietario?.conversion_kg || 1;
+
+                            this.monedaCotizacionService.getCotizacionByGestor(monedaOrigenMermaGestor, this.gestorCargaId!).subscribe({
+                              next: (cotizacionMermaGestorResp) => {
+                                const cotizacionMermaGestor = cotizacionMermaGestorResp?.cotizacion_moneda || 1;
+
+                                this.monedaCotizacionService.getCotizacionByGestor(monedaOrigenMermaPropietario, this.gestorCargaId!).subscribe({
+                                  next: (cotizacionMermaPropietarioResp) => {
+                                    const cotizacionMermaPropietario = cotizacionMermaPropietarioResp?.cotizacion_moneda || 1;
+
+                                    this.calcularMermasMl(
+                                      merma_gestor_carga_valor,
+                                      merma_propietario_valor,
+                                      cotizacionMermaGestor,
+                                      cotizacionMermaPropietario,
+                                      this.cotizacionDestino!,
+                                      conversionMermaGestor,
+                                      conversionMermaPropietario
+                                    );
+
+                                    const data: FleteConfirmationDialogData = {
+                                      flete: getFleteData(this.form),
+                                    };
+                                    console.log('Datos para el diálogo de confirmación:', data);
+                                    this.dialog
+                                      .open(FleteConfirmationDialogComponent, {
+                                        data,
+                                        panelClass: 'preview-width-dialog',
+                                      })
+                                      .afterClosed()
+                                      .pipe(filter((confirmed: any) => !!confirmed))
+                                      .subscribe(() => {
+                                        this.submit(confirmed);
+                                      });
+                                  }
+                                });
+                              }
+                            });
+                          }
+                        });
+                      }
+                    });
+                  }
+                });
+              }
+            });
+          }
+        });
+      }
+    });
+  }
+
+
+
   submit(confirmed: boolean): void {
     const formData = new FormData();
     const data = JSON.parse(
@@ -528,8 +748,10 @@ export class FleteFormComponent implements OnInit, OnDestroy {
         anticipos: this.anticipos.value,
         complementos: this.complementos.value,
         descuentos: this.descuentos.value,
+        condicion_gestor_carga_tarifa_ml: this.condicion_gestor_carga_tarifa_ml,
       })
     );
+    console.log('data', data)
     if (this.isCopyFlete) {
       ['anticipos', 'complementos', 'descuentos'].forEach((lista) => {
         if (Array.isArray(data[lista])) {
@@ -654,6 +876,7 @@ export class FleteFormComponent implements OnInit, OnDestroy {
             condicion_gestor_carga_tarifa: data.condicion_gestor_carga_tarifa,
             condicion_gestor_carga_unidad: data.condicion_gestor_carga_unidad,
             condicion_gestor_carga_unidad_id: data.condicion_gestor_carga_unidad_id,
+            condicion_gestor_carga_unidad_conversion: data.condicion_gestor_carga_unidad_conversion,
             condicion_propietario_moneda_id: data.condicion_propietario_moneda_id,
             condicion_propietario_tarifa: data.condicion_propietario_tarifa,
             condicion_propietario_unidad: data.condicion_propietario_unidad,

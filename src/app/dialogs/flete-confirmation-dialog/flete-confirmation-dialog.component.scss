@@ -44,6 +44,9 @@ h4 {
 .preview-width-dialog {
   width: 80vw;
 }
+.app-key-value .value {
+  white-space: pre-line; /* respeta saltos de línea en el texto */
+}
 
 /*
 ::ng-deep {

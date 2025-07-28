@@ -14,13 +14,24 @@ export class KeyValueComponent {
 
 
   getFormattedValue(): string {
-    if (this.shouldFormat && (typeof this.value === 'number' || (typeof this.value === 'string' && !isNaN(Number(this.value))))) {
+    // Si el valor es string y contiene etiquetas HTML, devolver sin formatear ni agregar sufijo
+    if (typeof this.value === 'string' && this.value.includes('<br>')) {
+      return this.value;
+    }
+
+    if (
+      this.shouldFormat &&
+      (typeof this.value === 'number' || (typeof this.value === 'string' && !isNaN(Number(this.value))))
+    ) {
       const formattedValue = this.formatNumberWithDots(Number(this.value));
       const currency = this.extractCurrency(this.value);
-       return `${formattedValue} ${currency}${this.suffix}`;
+      return `${formattedValue} ${currency}${this.suffix}`;
     }
+
+    // Por defecto, devolver valor como string con sufijo
     return `${String(this.value || '')}${this.suffix}`;
   }
+
 
   private extractCurrency(value: string | number): string {
     if (typeof value === 'string') {
