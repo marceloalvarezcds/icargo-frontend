@@ -805,19 +805,19 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
             }
           });
         }
-        if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
-            this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
-              next: (updateSaldos) => {
-                if (this.flete) {
-                  this.flete.cargado  = updateSaldos.flete_cargado;
+        // if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
+        //     this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
+        //       next: (updateSaldos) => {
+        //         if (this.flete) {
+        //           this.flete.cargado  = updateSaldos.flete_cargado;
 
-                }
-              },
-              error: (error) => {
-                console.error('Error en el recalculo:', error);
-              }
-            });
-          }
+        //         }
+        //       },
+        //       error: (error) => {
+        //         console.error('Error en el recalculo:', error);
+        //       }
+        //     });
+        //   }
         }
       }
     }
