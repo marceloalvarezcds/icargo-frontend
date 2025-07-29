@@ -203,13 +203,9 @@ export class OrdenCargaListCerradasComponent implements OnInit, OnChanges{
 
   ngOnInit(): void {
     this.ordenCargaService.getList().subscribe((ocs) => {
-      this.list = ocs; // <-- usá la propiedad declarada 'list' para guardar la lista completa
-      this.oc = ocs.length > 0 ? ocs[0] : null; // agarrás el primero o null si no hay
-
-      console.log('🧪 Lista de órdenes de carga:', this.list);
-      console.log('🧪 Orden de carga seleccionada:', this.oc);
-
-      this.evaluateHideEdit(); // función que usa this.oc
+      this.list = ocs;
+      this.oc = ocs.length > 0 ? ocs[0] : null;
+      this.evaluateHideEdit(); 
     });
 
     this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
