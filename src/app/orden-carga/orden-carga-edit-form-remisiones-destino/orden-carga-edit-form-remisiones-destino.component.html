@@ -29,7 +29,9 @@
     [data]="lista"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
+    (showClick)="show($event)"
     [hideShow]="oc?.estado === 'Conciliado' "
     [isShow]="oc?.estado === 'Conciliado' "
+    [hideEdit]="hideEdit"
   ></app-table>
 </div>

@@ -1,5 +1,5 @@
 import { Unidad } from 'src/app/interfaces/unidad';
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcRemisionOrigenDialogData } from 'src/app/interfaces/oc-remision-origen-dialog-data';
@@ -14,7 +14,7 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
   templateUrl: './oc-remision-origen-form-dialog.component.html',
   styleUrls: ['./oc-remision-origen-form-dialog.component.scss'],
 })
-export class OcRemisionOrigenFormDialogComponent {
+export class OcRemisionOrigenFormDialogComponent implements OnInit {
   conversion: number = 0
   fotoDocumento: string | null = null;
   fotoDocumentoFile: File | null = null;
@@ -26,9 +26,12 @@ export class OcRemisionOrigenFormDialogComponent {
     foto_documento: this.data?.foto_documento,
     nuevo_campo: null
   });
+  OcRemisionOrigenFormDialogComponent: any;
+
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
   get actionText(): string {
-    return this.data ? 'EDITAR' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get cantidad(): number {
@@ -79,6 +82,13 @@ export class OcRemisionOrigenFormDialogComponent {
     @Inject(MAT_DIALOG_DATA) private dialogData: OcRemisionOrigenDialogData
   ) {
     this.fotoDocumento = this.data?.foto_documento ?? null;
+  }
+
+  ngOnInit(): void {
+   if (this.dialogConfig.disabled) {
+      this.form.disable();
+      this.form.get('foto_documento')?.disable();
+    }
   }
 
   getConversionRate(unidadId: number): void {

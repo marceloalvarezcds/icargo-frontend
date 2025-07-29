@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { OcComplementoFormDialogComponent } from 'src/app/dialogs/oc-complemento-form-dialog/oc-complemento-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -10,8 +10,10 @@ import { Column } from 'src/app/interfaces/column';
 import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialog-data';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
+import { Rol } from 'src/app/interfaces/rol';
 import { TableEvent } from 'src/app/interfaces/table';
 import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
+import { RolService } from 'src/app/services/rol.service';
 import { create, edit, remove } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -19,8 +21,10 @@ import { create, edit, remove } from 'src/app/utils/table-event-crud';
   templateUrl: './orden-carga-edit-form-complementos.component.html',
   styleUrls: ['./orden-carga-edit-form-complementos.component.scss'],
 })
-export class OrdenCargaEditFormComplementosComponent {
+export class OrdenCargaEditFormComplementosComponent  implements  OnInit, OnChanges {
   a = PermisoAccionEnum;
+  hideEdit: boolean = false;
+  tieneRolOperador: boolean = false;
 
   columns: Column[] = [
     {
@@ -109,8 +113,27 @@ export class OrdenCargaEditFormComplementosComponent {
 
   constructor(
     private dialog: MatDialog,
-    private ordenCargaComplementoService: OrdenCargaComplementoService
+    private ordenCargaComplementoService: OrdenCargaComplementoService,
+    private rolService: RolService,
   ) {
+  }
+
+  ngOnInit(): void {
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      );
+      this.evaluateHideEdit();
+    });
+  }
+
+  ngOnChanges(): void {
+    this.evaluateHideEdit();
+  }
+
+  private evaluateHideEdit(): void {
+    const estadoFinalizado = this.oc?.estado === 'Finalizado';
+    this.hideEdit = this.tieneRolOperador && estadoFinalizado;
   }
 
   formatFecha(fecha: string | Date): string {

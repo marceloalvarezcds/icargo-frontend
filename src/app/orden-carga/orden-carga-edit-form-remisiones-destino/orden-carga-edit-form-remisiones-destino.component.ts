@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
@@ -15,15 +15,19 @@ import { OcRemisionDestinoFormDialogComponent } from 'src/app/dialogs/oc-remisio
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import { subtract } from 'src/app/utils/math';
 import { ImageDialogComponent } from 'src/app/dialogs/image-dialog/image-dialog.component';
+import { RolService } from 'src/app/services/rol.service';
+import { Rol } from 'src/app/interfaces/rol';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-destino',
   templateUrl: './orden-carga-edit-form-remisiones-destino.component.html',
   styleUrls: ['./orden-carga-edit-form-remisiones-destino.component.scss'],
 })
-export class OrdenCargaEditFormRemisionesDestinoComponent {
+export class OrdenCargaEditFormRemisionesDestinoComponent implements OnInit, OnChanges {
   a = PermisoAccionEnum;
   columns: Column[] = [];
+  hideEdit: boolean = false;
+  tieneRolOperador: boolean = false;
 
   lista: OrdenCargaRemisionDestino[] = [];
   modelo = m.ORDEN_CARGA_REMISION_DESTINO;
@@ -57,11 +61,40 @@ export class OrdenCargaEditFormRemisionesDestinoComponent {
 
   constructor(
     private dialog: MatDialog,
-    private ordenCargaRemisionDestinoService: OrdenCargaRemisionDestinoService
+    private ordenCargaRemisionDestinoService: OrdenCargaRemisionDestinoService,
+    private rolService: RolService,
   ) {}
+
+  ngOnInit(): void {
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      );
+      this.evaluateHideEdit();
+    });
+  }
+
+  ngOnChanges(): void {
+    this.evaluateHideEdit();
+  }
+
+  private evaluateHideEdit(): void {
+    const estadoFinalizado = this.oc?.estado === 'Finalizado';
+    this.hideEdit = this.tieneRolOperador && estadoFinalizado;
+  }
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
+  }
+
+  show({ row }: TableEvent<OrdenCargaRemisionDestino>): void {
+    const dialogRef = this.getDialogRef(row);
+    const dialogConfig = {
+      ...dialogRef.componentInstance.dialogConfig,
+      disabled: true,
+    };
+    dialogRef.componentInstance.dialogConfig = dialogConfig;
     this.buttonAnticipoClicked.emit();
   }
 

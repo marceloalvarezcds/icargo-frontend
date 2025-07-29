@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcRemisionDestinoDialogData, OrdenCargaRemisionDestinoResponse } from 'src/app/interfaces/oc-remision-destino-dialog-data';
@@ -14,7 +14,7 @@ import { subtract } from 'src/app/utils/math';
   templateUrl: './oc-remision-destino-form-dialog.component.html',
   styleUrls: ['./oc-remision-destino-form-dialog.component.scss'],
 })
-export class OcRemisionDestinoFormDialogComponent {
+export class OcRemisionDestinoFormDialogComponent implements OnInit {
   conversion: number = 0
   fotoDocumento: string | null = null;
   fotoDocumentoFile: File | null = null;
@@ -29,10 +29,12 @@ export class OcRemisionDestinoFormDialogComponent {
     nuevo_campo:[null]
   });
 
-  get actionText(): string {
-    return this.data ? 'EDITAR' : 'NUEVO';
-  }
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
+  get actionText(): string {
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
+  }
+  
   get data(): OrdenCargaRemisionDestino | undefined {
     return this.dialogData.item;
   }
@@ -83,20 +85,27 @@ export class OcRemisionDestinoFormDialogComponent {
     this.fotoDocumento = this.data?.foto_documento ?? null;
   }
 
-    getConversionRate(unidadId: number): void {
-      this.unidadService.getConversionById(unidadId).subscribe({
-        next: (conversionData) => {
-          this.conversion = conversionData.conversion_kg || 1;
-        },
-      });
-    }
-
-    onUnidadChange(unidad: Unidad | undefined): void {
-      if (unidad) {
-        const unidadId = unidad.id;
-        this.getConversionRate(unidadId);
+  ngOnInit(): void {
+    if (this.dialogConfig.disabled) {
+        this.form.disable();
+        this.form.get('foto_documento')?.disable();
       }
     }
+
+  getConversionRate(unidadId: number): void {
+    this.unidadService.getConversionById(unidadId).subscribe({
+      next: (conversionData) => {
+        this.conversion = conversionData.conversion_kg || 1;
+      },
+    });
+    }
+
+  onUnidadChange(unidad: Unidad | undefined): void {
+    if (unidad) {
+      const unidadId = unidad.id;
+      this.getConversionRate(unidadId);
+    }
+  }
 
   submit() {
     this.form.markAsDirty();

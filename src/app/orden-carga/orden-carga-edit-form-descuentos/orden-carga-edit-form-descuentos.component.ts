@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
 import {
   PermisoAccionEnum,
@@ -13,17 +13,21 @@ import { OcDescuentoFormDialogComponent } from 'src/app/dialogs/oc-descuento-for
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuento.service';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { RolService } from 'src/app/services/rol.service';
+import { Rol } from 'src/app/interfaces/rol';
 
 @Component({
   selector: 'app-orden-carga-edit-form-descuentos',
   templateUrl: './orden-carga-edit-form-descuentos.component.html',
   styleUrls: ['./orden-carga-edit-form-descuentos.component.scss'],
 })
-export class OrdenCargaEditFormDescuentosComponent {
+export class OrdenCargaEditFormDescuentosComponent  implements OnInit, OnChanges {
 
   a = PermisoAccionEnum;
 
   columns: Column[] = [];
+  hideEdit: boolean = false;
+  tieneRolOperador: boolean = false;
 
   modelo = m.ORDEN_CARGA_DESCUENTO;
 
@@ -54,8 +58,27 @@ export class OrdenCargaEditFormDescuentosComponent {
 
   constructor(
     private dialog: MatDialog,
-    private ordenCargaDescuentoService: OrdenCargaDescuentoService
+    private ordenCargaDescuentoService: OrdenCargaDescuentoService,
+    private rolService: RolService,
   ) {}
+
+  ngOnInit(): void {
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      );
+      this.evaluateHideEdit();
+    });
+  }
+
+  ngOnChanges(): void {
+    this.evaluateHideEdit();
+  }
+
+  private evaluateHideEdit(): void {
+    const estadoFinalizado = this.oc?.estado === 'Finalizado';
+    this.hideEdit = this.tieneRolOperador && estadoFinalizado;
+  }
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));

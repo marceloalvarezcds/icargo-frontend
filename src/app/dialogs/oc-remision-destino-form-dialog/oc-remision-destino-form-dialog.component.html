@@ -53,6 +53,7 @@
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         controlName="foto_documento"
         [field]="fotoDocumento"
+        [isShow]="dialogConfig.disabled"
         [form]="form"
         (fileChange)="fotoDocumentoFile = $event; fotoDocumento = null"
       ></app-file-field-input>
@@ -83,6 +84,7 @@
       Cerrar
     </button>
     <button
+      *ngIf="!dialogConfig.disabled"
       mat-flat-button
       class="botones" color="primary" type="button"
       type="button"

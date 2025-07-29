@@ -39,4 +39,9 @@ export class RolService {
   inactive(id: number): Observable<Rol> {
     return this.http.get<Rol>(`${this.url}/${id}/inactive`);
   }
+
+  getLoggedRol(): Observable<Rol[]> {
+    return this.http.get<Rol[]>(`${this.url}/me/roles`);
+  }
+
 }

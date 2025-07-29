@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
 import { Router } from '@angular/router';
 import { saveAs } from 'file-saver';
@@ -11,10 +11,12 @@ import {
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { Rol } from 'src/app/interfaces/rol';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { RolService } from 'src/app/services/rol.service';
 import { SearchService } from 'src/app/services/search.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
@@ -29,8 +31,10 @@ type Filter = {
   templateUrl: './orden-carga-list-en-proceso.component.html',
   styleUrls: ['./orden-carga-list-en-proceso.component.scss']
 })
-export class OrdenCargaListEnProcesoComponent implements OnInit {
+export class OrdenCargaListEnProcesoComponent implements OnInit, OnChanges  {
   modelo = m.ORDEN_CARGA;
+  hideEditOperador: boolean = false;
+  tieneRolOperador: boolean = false;
   columns: Column[] = [
     {
       def: 'id',
@@ -157,6 +161,7 @@ export class OrdenCargaListEnProcesoComponent implements OnInit {
   estadoFiltered: string[] = [];
   productoFilterList: string[] = [];
   productoFiltered: string[] = [];
+  oc!: OrdenCargaList | null;
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -190,13 +195,48 @@ export class OrdenCargaListEnProcesoComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private rolService: RolService,
   ) {}
 
   ngOnInit(): void {
+    this.ordenCargaService.getList().subscribe((ocs) => {
+      this.list = ocs; // <-- usá la propiedad declarada 'list' para guardar la lista completa
+      this.oc = ocs.length > 0 ? ocs[0] : null; // agarrás el primero o null si no hay
+
+      console.log('🧪 Lista de órdenes de carga:', this.list);
+      console.log('🧪 Orden de carga seleccionada:', this.oc);
+
+      this.evaluateHideEdit(); // función que usa this.oc
+    });
+
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      );
+      this.evaluateHideEdit();
+    });
+
     this.getList();
   }
 
+  ngOnChanges(): void {
+    this.evaluateHideEdit();
+  }
+
+  private evaluateHideEdit(): void {
+    const estadoFinalizado = this.oc?.estado === 'Finalizado';
+
+    this.hideEditOperador = this.tieneRolOperador && estadoFinalizado;
+  }
+
+  fnHideEdit = (row: OrdenCargaList): boolean => {
+    if (this.tieneRolOperador && row.estado.toUpperCase() === 'FINALIZADO') {
+      return false;
+    }
+
+    return true;
+  }
    redirectToCreate(): void {
      this.router.navigate([`/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`]);
    }
