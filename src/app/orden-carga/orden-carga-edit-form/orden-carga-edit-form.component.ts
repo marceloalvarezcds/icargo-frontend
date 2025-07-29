@@ -352,15 +352,20 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     }
    });
     this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
-         this.tieneRolOperador = roles.some((r) =>
-           r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
 
-         );
-       });
+      );
+    });
   }
+
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
+  }
+
+  tieneRolOperadorYFinalizado(item: any): boolean {
+    return this.tieneRolOperador && item.estado?.toUpperCase() === 'FINALIZADO';
   }
 
   redirectToEdit(): void {
