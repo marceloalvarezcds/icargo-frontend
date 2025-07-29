@@ -9,16 +9,36 @@
       (click)="create()"
       (buttonAnticipoClicked)="onEditPressed()"
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || oc?.estado === 'Conciliado'
-      || !oc?.flete_id || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
-      >
+      [disabled]="
+        isShow ||
+        oc?.estado === 'Nuevo' ||
+        oc?.estado === 'Cancelado' ||
+        oc?.estado === 'Conciliado' ||
+        !oc?.flete_id ||
+        !(modelo | puede: a.CREAR:gestorCargaId) ||
+        isEditPedido ||
+        (tieneRolOperador && oc?.estado === 'Finalizado')
+      "
+    >
       <mat-icon
-      class="small-icon"
-      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || oc?.estado === 'Conciliado'
-      || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) } || isEditPedido">
-      add</mat-icon>
+        class="small-icon"
+        [ngClass]="{
+          'disabled':
+            isShow ||
+            oc?.estado === 'Nuevo' ||
+            oc?.estado === 'Cancelado' ||
+            oc?.estado === 'Conciliado' ||
+            !oc?.flete_id ||
+            !(modelo | puede: a.CREAR:gestorCargaId) ||
+            isEditPedido ||
+            (tieneRolOperador && oc?.estado === 'Finalizado')
+        }"
+      >
+        add
+      </mat-icon>
       CARGA
     </button>
+
   </div>
 </div>
 

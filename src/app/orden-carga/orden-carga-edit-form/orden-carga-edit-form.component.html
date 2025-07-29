@@ -7,7 +7,7 @@
     [formGroup]="form"
     [hasChange]="hasChange"
     [oc]="item"
-    [hideEditButton]="item.is_conciliado"
+    [hideEditButton]="item.is_conciliado || (tieneRolOperador && item.estado === 'Finalizado')"
     [isEdit]="isEdit"
     [isShow]="isShow"
     [modelo]="modelo"

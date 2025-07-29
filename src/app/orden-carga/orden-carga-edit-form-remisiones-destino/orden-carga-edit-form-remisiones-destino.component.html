@@ -8,15 +8,35 @@
       type="button"
       (click)="create()"
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id  || oc?.estado === 'Conciliado'
-        || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
-    ><mat-icon
-      class="small-icon"
-      [ngClass]="{ 'disabled': isShow ||  oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id
-       ||  oc?.estado === 'Conciliado' || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">
-      add</mat-icon>
+      [disabled]="isShow
+        || oc?.estado === 'Nuevo'
+        || oc?.estado === 'Cancelado'
+        || oc?.estado === 'Conciliado'
+        || oc?.estado === 'Finalizado'
+        || !oc?.flete_id
+        || !tieneRolOperador
+        || !(modelo | puede: a.CREAR:gestorCargaId)
+        || isEditPedido"
+    >
+      <mat-icon
+        class="small-icon"
+        [ngClass]="{
+          'disabled': isShow
+            || oc?.estado === 'Nuevo'
+            || oc?.estado === 'Cancelado'
+            || oc?.estado === 'Conciliado'
+            || oc?.estado === 'Finalizado'
+            || !oc?.flete_id
+            || !tieneRolOperador
+            || !(modelo | puede: a.CREAR:gestorCargaId)
+            || isEditPedido
+        }"
+      >
+        add
+      </mat-icon>
       DESCARGA
     </button>
+
   </div>
 </div>
 

@@ -37,6 +37,8 @@ import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-ven
 import { OrdenCargaAnticipoSaldo, OrdenCargaAnticipoSaldoForm } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 import { OcRemitirDialogComponent } from 'src/app/dialogs/oc-remitir-dialog/oc-remitir-dialog.component';
+import { RolService } from 'src/app/services/rol.service';
+import { Rol } from 'src/app/interfaces/rol';
 
 
 @Component({
@@ -48,6 +50,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   isButtonActive: boolean = true;
   id!: number;
+  tieneRolOperador: boolean = false;
   isCreate = false;
   isEdit = false;
   isEditPedido = false;
@@ -319,6 +322,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private dialog: DialogService,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
+    private rolService: RolService,
   ) {}
 
 
@@ -336,7 +340,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       if (data?.ordenId === this.id) {
         this.getData(); // recarga la OC si coincide
       }
-    }
+     }
     });
 
     window.addEventListener('storage', (event) => {
@@ -347,6 +351,12 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       }
     }
    });
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+         this.tieneRolOperador = roles.some((r) =>
+           r.descripcion?.toUpperCase().startsWith('OPERADOR')
+
+         );
+       });
   }
 
   ngOnDestroy(): void {

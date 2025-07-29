@@ -1,23 +1,37 @@
 <div class="row page-form-row">
   <div class="col-xs-12 header-row">
     <h4>COMPLEMENTOS</h4>
-    <button
-      mat-raised-button
-      class="add-button"
-      color="primary"
-      type="button"
-      (click)="create()"
-      id="create-button"
-      [disabled]="isShow || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId) || oc?.estado === 'Conciliado'
-      || oc?.estado === 'Cancelado' || isEditPedido"
+      <button
+        mat-raised-button
+        class="add-button"
+        color="primary"
+        type="button"
+        (click)="create()"
+        id="create-button"
+        [disabled]="isShow ||
+        !oc?.flete_id ||
+        !(modelo | puede: a.CREAR:gestorCargaId)
+        || oc?.estado === 'Conciliado'
+        || oc?.estado === 'Cancelado'
+        || isEditPedido
+        || (tieneRolOperador && oc?.estado === 'Finalizado')"
+      >
+        <mat-icon
+          class="small-icon"
+          [ngClass]="{
+            'disabled':
+            isShow
+            || !oc?.flete_id
+            || !(modelo | puede: a.CREAR:gestorCargaId)
+            || oc?.estado === 'Cancelado' || oc?.estado === 'Conciliado'
+            || (tieneRolOperador && oc?.estado === 'Finalizado') || isEditPedido
+          }"
+        >
+          add
+        </mat-icon>
+        COMPLEMENTO
+      </button>
 
-    ><mat-icon
-      class="small-icon"
-      [ngClass]="{ 'disabled': isShow || !oc?.flete_id  || !(modelo | puede: a.CREAR:gestorCargaId)
-      || oc?.estado === 'Cancelado' || oc?.estado === 'Conciliado'} || isEditPedido">
-      add</mat-icon>
-      COMPLEMENTO
-    </button>
   </div>
 </div>
 
