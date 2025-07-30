@@ -199,7 +199,7 @@
         mat-stroked-button
         class="botones"
         type="button"
-        [class.disabled]="(oc?.estado === E.NUEVO) || !oc?.cantidad_destino"
+        [class.disabled]="oc?.estado === E.NUEVO && (!oc?.cantidad_origen || !oc?.cantidad_destino)"
         [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
         (click)="finalizarClick.emit($event)">
         FINALIZAR
