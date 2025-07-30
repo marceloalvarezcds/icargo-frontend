@@ -139,6 +139,9 @@ export class InsumoListComponent implements OnInit {
     return this.list.some(item => item.estado === EstadoEnum.INACTIVO);
   }
 
+  get hasMercaderias(): boolean {
+    return this.list.length > 0;
+  }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('estadoCheckboxFilter')

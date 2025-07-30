@@ -59,6 +59,16 @@
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
 
+          <!-- Botón específico para Crear Mercaderias -->
+          <button mat-flat-button
+            class="botones"
+            color="primary"
+            [disabled]="hasMercaderias"
+            *ngIf="submodule === 'MERCADERIA' && !hideCreate && (modelo | puede: a.CREAR)"
+            (click)="createMercaderiasClick.emit($event)">
+            <mat-icon>add_circle</mat-icon> NUEVO PRECIO
+          </button>
+
           <button
             mat-flat-button
             color="primary"
@@ -81,7 +91,7 @@
               submodule === 'Orden de Carga' ? 'NUEVA OC' :
               submodule === 'Orden de Carga - En Proceso' ? 'NUEVA OC' :
               submodule === 'ANTICIPOS' ? 'NUEVO ANTICIPO' :
-              submodule === 'MERCADERIA' ? 'NUEVO PRECIO' :
+              submodule === 'MERCADERIA' ? 'NUEVA MERCADERIA' :
               submodule === 'CAJAS' ? 'CAJA' :
               submodule === 'BANCOS' ? 'BANCO' :
               submodule === 'Cargo' ? 'Cargo' :
@@ -162,15 +172,6 @@
               || submodule === 'Ordenes de Carga - Finalizadas y Canceladas')
               && (modelo | puede: a.CONCILIAR)">
                 CONCILIAR
-          </button>
-
-          <!-- Botón específico para Crear Mercaderias -->
-          <button mat-flat-button
-            class="botones"
-            color="primary"
-            *ngIf="submodule === 'MERCADERIA' && !hideCreate && (modelo | puede: a.CREAR)"
-            (click)="createMercaderiasClick.emit($event)">
-            <mat-icon>add_circle</mat-icon> NUEVA MERCADERIA
           </button>
 
           <button

@@ -3,11 +3,12 @@
   submodule="MERCADERIA"
   [modelo]="modelo"
   (applyClick)="applyFilter()"
-  (createClick)="redirectToCreate()"
-  (createMercaderiasClick)="redirectToCreateMercaderias()"
+  (createClick)="redirectToCreateMercaderias()"
+  (createMercaderiasClick)="redirectToCreate()"
   (resetClick)="resetFilter()"
   (downloadClick)="downloadFile()"
   (verInsumosInactivosChange)="filterInactive($event)"
+  [hasMercaderias]="!hasMercaderias"
 >
   <div filterMenu>
     <mat-accordion [multi]="true">
