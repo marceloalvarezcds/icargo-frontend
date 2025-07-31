@@ -184,7 +184,7 @@ export class BancoListComponent implements OnInit {
   // }
 
   redirectToShowMovimientos(event: TableEvent<Banco>): void {
-    const url = `/banco/${m.BANCO}/${m.MOVIMIENTO}/${a.LISTAR}/${event.row.id}`;
+    const url = `/banco/${m.BANCO}/${m.MOVIMIENTO}/${a.VER}/${event.row.id}`;
     window.open(url, '_blank');
   }
 

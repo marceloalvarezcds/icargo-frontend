@@ -42,7 +42,7 @@ const routes: Routes = [
         path: m.MOVIMIENTO,
         children: [
           {
-            path: `${a.LISTAR}/:id`,
+            path: `${a.VER}/:id`,
             component: BancoFormInstrumentosComponent,
             canActivate: [PermisoGuard],
           },

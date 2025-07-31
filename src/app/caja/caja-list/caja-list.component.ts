@@ -162,7 +162,7 @@ export class CajaListComponent implements OnInit {
   // }
 
   redirectToShowMovimientos(event: TableEvent<Caja>): void {
-    const url = `/caja/${m.CAJA}/${m.MOVIMIENTO}/${a.LISTAR}/${event.row.id}`;
+    const url = `/caja/${m.CAJA}/${m.MOVIMIENTO}/${a.VER}/${event.row.id}`;
     window.open(url, '_blank');
   }
 
