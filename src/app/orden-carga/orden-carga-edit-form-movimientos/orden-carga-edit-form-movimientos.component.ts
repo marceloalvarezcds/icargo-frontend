@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
@@ -12,6 +12,8 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { Rol } from 'src/app/interfaces/rol';
+import { RolService } from 'src/app/services/rol.service';
 import { edit } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -19,8 +21,9 @@ import { edit } from 'src/app/utils/table-event-crud';
   templateUrl: './orden-carga-edit-form-movimientos.component.html',
   styleUrls: ['./orden-carga-edit-form-movimientos.component.scss'],
 })
-export class OrdenCargaEditFormMovimientosComponent {
+export class OrdenCargaEditFormMovimientosComponent implements OnInit {
   a = PermisoAccionEnum;
+  tieneRolOperador: boolean = false;
 
   columns: Column[] = [
     {
@@ -128,7 +131,8 @@ export class OrdenCargaEditFormMovimientosComponent {
       def: 'editar',
       title: '',
       type: 'button',
-      isDisable: (mov: Movimiento) => (mov.estado !== 'Pendiente'),
+      isDisable: (mov: Movimiento) => this.tieneRolOperador || mov.estado !== 'Pendiente',
+
       value: (mov: Movimiento) => (mov.can_edit_oc ? 'Editar' : ''),
       buttonCallback: (mov: Movimiento) =>
         mov.can_edit_oc ? this.openDialog(mov) : () => {},
@@ -144,7 +148,19 @@ export class OrdenCargaEditFormMovimientosComponent {
   @Input() oc?: OrdenCarga
   @Output() ocChange = new EventEmitter<void>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private rolService: RolService,
+  ) {}
+
+  ngOnInit(): void {
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('APROBADOR')
+      );;
+    });
+  }
+
 
   openDialog(item: Movimiento): void {
     let afectado = item.es_propietario
