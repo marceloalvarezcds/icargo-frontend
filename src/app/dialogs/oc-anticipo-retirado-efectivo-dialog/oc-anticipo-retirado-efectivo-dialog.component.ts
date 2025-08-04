@@ -30,6 +30,7 @@ import { NumberValidator } from 'src/app/validators/number-validator';
 export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnInit
 {
   @Output() montoRetiradoChange = new EventEmitter<number>();
+  @Output() loadingPdfChange = new EventEmitter<boolean>();
 
   fleteAnticipo?: FleteAnticipo;
   insumo?: string;
@@ -582,10 +583,12 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
   }
 
   downloadAnticipoResumenPDF(id: number): void {
+    this.loadingPdfChange.emit(true);
     this.ordenCargaAnticipoRetiradoService.pdf(id).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
         const blob = new Blob([file], { type: 'application/pdf' });
         const url = URL.createObjectURL(blob);
+
         this.dialog.open(PdfPreviewConciliarDialogComponent, {
           width: '90%',
           height: '90%',
@@ -593,15 +596,21 @@ export class OcAnticipoRetiradoEfectivoDialogComponent implements OnDestroy, OnI
             pdfUrl: url,
             fileBlob: blob,
             filename: filename,
-            title: 'Anticipo Combustible',
+            title: 'Anticipo Efectivo',
             buttonText: 'GUARDAR | ANTICIPO'
           }
         });
+
+        this.loadingPdfChange.emit(false);
+      }, () => {
+        this.loadingPdfChange.emit(false);
       });
+    }, () => {
+      this.loadingPdfChange.emit(false); 
     });
   }
 
-  
+
   tipoAnticipoChange(event: TipoAnticipo): void {
     this.saldoAnticipo = 0;
     this.tipoAnticipo = event;

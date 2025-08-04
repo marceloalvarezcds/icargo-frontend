@@ -99,26 +99,32 @@
       <div class="col-xs-3 button-container">
 
         <button
-          mat-flat-button type="button"
+          mat-flat-button
+          type="button"
           class="botones"
           color="primary"
-          id="add-button"
           (click)="createEfectivo()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
-          !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR_EFECTIVO:gestorCargaId) || isEditPedido">
+          [disabled]="
+            isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' ||
+            !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+            !isAnticiposLiberados || !(modelo | puede: a.CREAR_EFECTIVO:gestorCargaId) ||
+            isEditPedido || isCreatingAnticipo
+          ">
           <mat-icon class="small-icon">add</mat-icon> EFECTIVO
         </button>
 
         <button
-          mat-flat-button type="button"
+          mat-flat-button
+          type="button"
           class="botones"
           color="primary"
-          id="add-button"
           (click)="createInsumo()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
-          !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR_INSUMO:gestorCargaId) || isEditPedido">
+          [disabled]="
+            isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' ||
+            !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+            !isAnticiposLiberados || !(modelo | puede: a.CREAR_INSUMO:gestorCargaId) ||
+            isEditPedido || isCreatingAnticipo
+          ">
           <mat-icon class="small-icon">add</mat-icon> INSUMO
         </button>
 

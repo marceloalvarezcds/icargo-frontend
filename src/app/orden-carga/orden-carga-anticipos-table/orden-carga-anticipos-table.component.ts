@@ -47,6 +47,9 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
   isViewMode: boolean = false;
+  isCreatingAnticipo = false;
+  isCreatingEfectivo = false;
+  isCreatingInsumo = false
   ocAnticipoRetirado?: OrdenCargaAnticipoRetirado
   a = PermisoAccionEnum;
   e = EstadoEnum
@@ -481,35 +484,59 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createEfectivo(): void {
-      this.ordenCargaService.getById(this.oc!.id).subscribe({
-        next: (ocActualizada) => {
-          this.oc = ocActualizada;
+    if (this.isCreatingAnticipo) return; // prevenir múltiples clics
 
-          this.ordenCargaService
-            .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
-            .subscribe({
-              next: () => {
-                create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
-                this.buttonAnticipoClicked.emit();
-              },
-              error: (error) => {
-                this.snackBar.open(error.error.detail || 'No se pudo validar anticipos.', 'Cerrar', {
-                  duration: 3000,
-                  panelClass: ['error-snackbar']
+    this.isCreatingAnticipo = true;
+
+    this.ordenCargaService.getById(this.oc!.id).subscribe({
+      next: (ocActualizada) => {
+        this.oc = ocActualizada;
+
+        this.ordenCargaService
+          .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
+          .subscribe({
+            next: () => {
+              const dialogRef = this.getDialogEfectivoRef();
+
+              const dialogComponentInstance = dialogRef.componentInstance;
+              if (dialogComponentInstance.loadingPdfChange) {
+                dialogComponentInstance.loadingPdfChange.subscribe(isLoading => {
+                  this.isCreatingAnticipo = isLoading;
                 });
               }
-            });
-        },
-        error: () => {
-          this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
-            duration: 3000,
-            panelClass: ['error-snackbar']
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) this.emitOcChange();
+                this.isCreatingAnticipo = false
+              });
+
+              this.buttonAnticipoClicked.emit();
+            },
+            error: (error) => {
+              this.isCreatingAnticipo = false;
+              this.snackBar.open(error.error.detail || 'No se pudo validar anticipos.', 'Cerrar', {
+                duration: 3000,
+                panelClass: ['error-snackbar']
+              });
+            }
           });
-        }
-      });
-    }
+
+      },
+      error: () => {
+        this.isCreatingAnticipo = false;
+        this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
+  }
 
   createInsumo(): void {
+    if (this.isCreatingAnticipo) return; // prevenir múltiples clics
+
+    this.isCreatingAnticipo = true;
+
     this.ordenCargaService.getById(this.oc!.id).subscribe({
       next: (ocActualizada) => {
         this.oc = ocActualizada;
@@ -519,12 +546,23 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
           .subscribe({
             next: () => {
               const dialogRef = this.getDialogInsumoRef();
+
+              const dialogComponentInstance = dialogRef.componentInstance;
+              if (dialogComponentInstance.loadingPdfChange) {
+                dialogComponentInstance.loadingPdfChange.subscribe(isLoading => {
+                  this.isCreatingAnticipo = isLoading;
+                });
+              }
+
               dialogRef.afterClosed().subscribe(result => {
                 if (result) this.emitOcChange();
+                this.isCreatingAnticipo = false;
               });
+
               this.buttonAnticipoClicked.emit();
             },
             error: () => {
+              this.isCreatingAnticipo = false;
               this.snackBar.open('El chofer, el propietario o la combinación no están habilitados para anticipos.', 'Cerrar', {
                 duration: 3000,
                 panelClass: ['error-snackbar']
@@ -533,6 +571,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
           });
       },
       error: () => {
+        this.isCreatingAnticipo = false;
         this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
           duration: 3000,
           panelClass: ['error-snackbar']
