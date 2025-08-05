@@ -78,7 +78,6 @@ export class LiquidacionFormDialogComponent {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
-
     if(this.data.isNew) {
 
       this.isNew = true;

@@ -133,7 +133,7 @@ export class LiquidacionConfirmadaFormFacturasComponent implements OnInit {
   }
 
   edit({ row }: TableEvent<Factura>): void {
-
+  console.log('Factura recibida para editar:', row); 
     if (this.liquidacionFinalizada) {
       this.snackbar.open( 'No se puede editar Factura de liquidacion cerrada');
       return;

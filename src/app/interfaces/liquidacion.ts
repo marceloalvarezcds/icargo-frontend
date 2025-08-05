@@ -38,6 +38,12 @@ export interface Liquidacion extends ContraparteInfo {
   moneda_nombre: string;
   moneda_simbolo: string;
   movimientos_saldo: number;
+  saldo_anticipos_combustible: number;
+  saldo_anticipos_efectivo: number;
+  saldo_anticipos_complemento_descuento: number;
+  saldo_anticipos_flete: number;
+  saldo_anticipos_merma: number;
+  saldo_anticipos_otro: number;
   saldo: number;
   saldo_residual: number;
   tipo_operacion_descripcion: string;
@@ -68,6 +74,12 @@ export const mockLiquidacionList: Liquidacion[] = [
     debito: -2000000,
     saldo: -2000000,
     movimientos_saldo: -2000000,
+    saldo_anticipos_combustible: 10000,
+    saldo_anticipos_efectivo: 1900,
+    saldo_anticipos_complemento_descuento: 7000,
+    saldo_anticipos_flete: 29000,
+    saldo_anticipos_merma: 19000,
+    saldo_anticipos_otro: 19000,
     instrumentos_saldo: -100000,
     moneda_id: 1,
     chofer_id: null,
@@ -119,6 +131,12 @@ export const mockLiquidacionList: Liquidacion[] = [
     debito: -600000,
     saldo: -600000,
     movimientos_saldo: -600000,
+    saldo_anticipos_combustible: 1000,
+    saldo_anticipos_efectivo: 1900,
+    saldo_anticipos_complemento_descuento: 7000,
+    saldo_anticipos_flete: 29000,
+    saldo_anticipos_merma: 19000,
+    saldo_anticipos_otro: 19000,
     instrumentos_saldo: -75000,
     moneda_id: 1,
     chofer_id: null,
@@ -170,6 +188,12 @@ export const mockLiquidacionList: Liquidacion[] = [
     debito: 0,
     saldo: 900,
     movimientos_saldo: 900,
+    saldo_anticipos_combustible: 1000,
+    saldo_anticipos_efectivo: 1900,
+    saldo_anticipos_complemento_descuento: 7000,
+    saldo_anticipos_flete: 29000,
+    saldo_anticipos_merma: 19000,
+    saldo_anticipos_otro: 19000,
     instrumentos_saldo: 100,
     moneda_id: 1,
     chofer_id: null,
@@ -221,6 +245,12 @@ export const mockLiquidacionList: Liquidacion[] = [
     debito: 0,
     saldo: 1000,
     movimientos_saldo: 10000,
+    saldo_anticipos_combustible: 1000,
+    saldo_anticipos_efectivo: 1900,
+    saldo_anticipos_complemento_descuento: 7000,
+    saldo_anticipos_flete: 29000,
+    saldo_anticipos_merma: 19000,
+    saldo_anticipos_otro: 19000,
     instrumentos_saldo: 10000,
     moneda_id: 1,
     chofer_id: null,
@@ -272,6 +302,12 @@ export const mockLiquidacionList: Liquidacion[] = [
     debito: 0,
     saldo: 0,
     movimientos_saldo: 236300,
+    saldo_anticipos_combustible: 1000,
+    saldo_anticipos_efectivo: 1900,
+    saldo_anticipos_complemento_descuento: 7000,
+    saldo_anticipos_flete: 29000,
+    saldo_anticipos_merma: 19000,
+    saldo_anticipos_otro: 19000,
     instrumentos_saldo: 236300,
     moneda_id: 1,
     chofer_id: null,

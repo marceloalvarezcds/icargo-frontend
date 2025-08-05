@@ -161,40 +161,55 @@ export class LiquidacionFormComponent implements OnInit {
     return flatList;
   }
 
-  prepareSend(): void {
-    //if (this.movimientosSelected.length) {
+prepareSend(): void {
+  const listMovimientos = this.child.movimientosSelected.slice();
+  console.log('Lista movimientos seleccionados:', listMovimientos);
 
-    const listMovimientos = this.child.movimientosSelected.slice();
-    // agrupamos por moneda
-    const listMovimientosGrouped = this.groupBy('moneda_nombre', listMovimientos);
+  const listMovimientosGrouped = this.groupBy('moneda_nombre', listMovimientos);
+  console.log('Movimientos agrupados por moneda:', listMovimientosGrouped);
 
-    let liquidacionValues = this.child.form.getRawValue();
-    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+  let liquidacionValues = this.child.form.getRawValue();
+  console.log('Valores del formulario liquidacion:', liquidacionValues);
 
-      const data: LiquidacionConfirmDialogData = {
-        contraparteInfo: this.estadoCuenta!,
-        list: listMovimientosGrouped,
-        credito: this.child.credito,
-        debito: this.child.debito,
-        monto: this.child.monto,
-        saldo: (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado),
-        moneda: this.child.monedaLocal,
-        sentido: es_pago_cobro
-      };
-      this.dialog
-        .open(LiquidacionConfirmDialogComponent, {
-          data,
-          panelClass: 'full-dialog',
-        })
-        .afterClosed()
-        .pipe(filter((confirmed) => !!confirmed))
-        .subscribe(() => {
-          this.submit(false);
-        });
-    //} else {
-    //  this.snackbar.open('Debe elegir al menos 1 movimiento');
-    //}
-  }
+  let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+  console.log('Es pago o cobro:', es_pago_cobro);
+
+  console.log('Crédito:', this.child.credito);
+  console.log('Débito:', this.child.debito);
+  console.log('Monto:', this.child.monto);
+
+  console.log(
+    'Saldo confirmado + finalizado:',
+    this.estadoCuenta!.confirmado,
+    '+',
+    this.estadoCuenta!.finalizado,
+    '=',
+    this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado
+  );
+
+  const data: LiquidacionConfirmDialogData = {
+    contraparteInfo: this.estadoCuenta!,
+    list: listMovimientosGrouped,
+    credito: this.child.credito,
+    debito: this.child.debito,
+    monto: this.child.monto,
+    saldo: (this.estadoCuenta!.confirmado + this.estadoCuenta!.finalizado),
+    moneda: this.child.monedaLocal,
+    sentido: es_pago_cobro
+  };
+
+  this.dialog
+    .open(LiquidacionConfirmDialogComponent, {
+      data,
+      panelClass: 'full-dialog',
+    })
+    .afterClosed()
+    .pipe(filter((confirmed) => !!confirmed))
+    .subscribe(() => {
+      this.submit(false);
+    });
+}
+
 
   downloadFile(): void {
     this.movimientoService

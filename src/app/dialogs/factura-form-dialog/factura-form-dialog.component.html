@@ -12,10 +12,11 @@
     <div class="row">
 
       <app-number-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-3"
+        class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Monto"
         controlName="monto"
         [form]="form"
+        [hint]="montoRetiradoHint"
       ></app-number-field>
 
       <app-moneda-field
@@ -37,21 +38,25 @@
       </div>
 
       <app-tipo-iva-field
-        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        class="input-form-full col-xs-12 col-sm-6 col-md-3"
         [form]="form"
         (valueChange)="$event && onTipoIvaSelect($event)">
       </app-tipo-iva-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="display: flex;flex-direction: column; align-items: flex-start;">
-        <mat-label class="custom-label">
-          IVA INCL
-        </mat-label>
-        <mat-checkbox color="primary" formControlName="iva_incluido"></mat-checkbox>
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+        <mat-label>IVA Incl.</mat-label>
+        <mat-form-field>
+          <mat-select formControlName="iva_incluido"  (selectionChange)="calcularIva()">
+            <mat-option value="SI">SI</mat-option>
+            <mat-option value="NO">NO</mat-option>
+            <mat-option value="EXCENTO">EXCENTO</mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
 
     </div>
 
-    <div class="row">
+    <div class="row" [ngStyle]="{ 'margin-top.px': topMargin }">
 
       <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -60,13 +65,24 @@
         [form]="form"
       ></app-number-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
         <mat-label>Movimiento IVA</mat-label>
         <mat-form-field>
           <mat-select formControlName="sentido_mov_iva">
             <mat-option></mat-option>
             <mat-option value="PAGAR">PAGAR</mat-option>
             <mat-option value="COBRAR">COBRAR</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+        <mat-label>Retencion</mat-label>
+        <mat-form-field>
+          <mat-select formControlName="tipo_retencion" (selectionChange)="calcularRetencion()">
+            <mat-option value="5">RETENCION 5%</mat-option>
+            <mat-option value="30">RETENCION 30%</mat-option>
+            <mat-option value="NO">NO APLICA</mat-option>
           </mat-select>
         </mat-form-field>
       </div>
@@ -78,7 +94,7 @@
         [form]="form"
       ></app-number-field>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
         <mat-label>Movimiento Retencion</mat-label>
         <mat-form-field>
           <mat-select formControlName="sentido_mov_retencion">
@@ -171,5 +187,6 @@
     >
       Guardar
     </button>
+
   </div>
 </form>

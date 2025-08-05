@@ -311,6 +311,7 @@ export class LiquidacionesListComponent implements OnInit, AfterViewInit {
       etapa: liquidacion.etapa,
       punto_venta_id: liquidacion.punto_venta_id,
       flujo: liquidacion.tipo_mov_liquidacion,
+      saldo_anticipos_combustible: liquidacion.saldo_anticipos_combustible, 
     };
 
     this.dialog

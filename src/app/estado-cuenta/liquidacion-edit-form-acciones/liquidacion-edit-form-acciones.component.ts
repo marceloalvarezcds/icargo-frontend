@@ -61,6 +61,31 @@ export class LiquidacionEditFormAccionesComponent {
     return subtract(this.saldoCC, this.totalMovimiento);
   }
 
+  get saldoAnticiposCombustible(): number {
+    return this.liquidacion?.saldo_anticipos_combustible ?? 0;
+  }
+
+  get saldoAnticiposEfectivo(): number {
+    return this.liquidacion?.saldo_anticipos_efectivo ?? 0;
+  }
+
+  get saldoAnticiposComplementoDescuento(): number {
+    return this.liquidacion?.saldo_anticipos_complemento_descuento ?? 0;
+  }
+
+
+  get saldoAnticiposFlete(): number {
+    return this.liquidacion?.saldo_anticipos_flete ?? 0;
+  }
+
+  get saldoAnticiposMerma(): number {
+    return this.liquidacion?.saldo_anticipos_merma ?? 0;
+  }
+
+  get saldoAnticiposOtro(): number {
+    return this.liquidacion?.saldo_anticipos_otro ?? 0;
+  }
+
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
   //@Input() monto : number | undefined = 0;
@@ -383,6 +408,12 @@ export class LiquidacionEditFormAccionesComponent {
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       punto_venta_id: this.liquidacion.punto_venta_id,
+      saldo_anticipos_combustible: this.saldoAnticiposCombustible,
+      saldo_anticipos_efectivo: this.saldoAnticiposEfectivo,
+      saldo_anticipos_complemento_descuento: this.saldoAnticiposComplementoDescuento,
+      saldo_anticipos_flete: this.saldoAnticiposFlete,
+      saldo_anticipos_merma: this.saldoAnticiposMerma,
+      saldo_anticipos_otro: this.saldoAnticiposOtro,
       item,
     };
 
