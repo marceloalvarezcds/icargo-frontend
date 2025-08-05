@@ -8,7 +8,7 @@
 
       <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
-        title="Valor"
+        [title]="'Valor ' + (afectado === 'gestor_carga' ? '(a pagar)' : '(a cobrar)')"
         controlName="merma_{{ afectado }}_valor"
         [groupName]="groupName"
         [form]="formGroup"
@@ -17,10 +17,10 @@
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-2"
         title="Moneda"
-        controlName="merma_{{ afectado }}_moneda"
+        controlName="merma_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="formGroup"
-
+        (valueChange)="onMonedaChange($event)"
       ></app-moneda-field>
 
       <app-unidad-field

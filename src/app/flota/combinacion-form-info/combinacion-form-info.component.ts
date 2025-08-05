@@ -163,6 +163,8 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
   @Output() fotoPerfilChoferChange = new EventEmitter<File | null>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
   @Output() valueChange = new EventEmitter<SemiList | undefined>();
+  @Output() isCondicionadoPropietarioChange = new EventEmitter<boolean>();
+  @Output() isCondicionadoChoferChange = new EventEmitter<boolean>();
 
   semiEventsSubject: Subject<SemiList> = new Subject<SemiList>();
   tractoEventsSubject: Subject<CamionList> = new Subject<CamionList>();
@@ -231,6 +233,14 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     return this.info?.controls['estado_propietario'] as FormControl;
   }
 
+  get isPropietarioCondicionadoControl(): FormControl {
+    return this.info?.controls['is_propietario_condicionado'] as FormControl;
+  }
+
+  get isChoferCondicionadoControl(): FormControl {
+    return this.info?.controls['is_chofer_condicionado'] as FormControl;
+  }
+
   handleEstadoChange(): void {
     const estadoActual = this.estadoControl.value;
     const nuevoEstado = estadoActual === 'Activo' ? 'Inactivo' : 'Activo';
@@ -259,7 +269,10 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["color"].setValue(camion.color_descripcion ?? null);
       this.info?.controls["propietario"].setValue(camion.propietario_nombre);
       this.info?.controls["oc_activa"].setValue(camion.oc_activa);
-      this.info?.controls["limite_anticipos"].setValue(camion.limite_monto_anticipo);
+      const limite = camion.limite_monto_anticipo;
+      this.info?.controls["limite_anticipos"].setValue(
+        limite === 0 ? null : limite
+      );
       this.info?.controls["estado_camion"].setValue(camion.estado);
       this.info?.controls["foto_camion"].setValue(camion.foto);
       this.fotoPerfil = camion.foto ?? null;
@@ -267,6 +280,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["nombre"].setValue(camion.propietario_nombre);
       this.info?.controls["estado_propietario"].setValue(camion.propietario_estado);
       this.info?.controls["anticipo_propietario"].setValue(camion.propietario_puede_recibir_anticipos);
+      this.info?.controls["is_propietario_condicionado"].setValue(camion.is_propietario_condicionado);
       this.info?.controls["foto_documento_frente"].setValue(camion.propietario_foto);
       this.info?.controls["nombre"].setValue(camion.propietario_nombre);
       this.info?.controls["propietario_id"].setValue(camion.propietario_camion_id);
@@ -294,6 +308,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
     this.info?.controls["chofer_celular"].setValue(chofer?.telefono_chofer)
     this.info?.controls["estado"].setValue(chofer?.estado)
     this.info?.controls["puede_recibir_anticipos"].setValue(chofer?.puede_recibir_anticipos)
+    this.info?.controls["is_chofer_condicionado"].setValue(chofer?.is_chofer_condicionado)
     this.info?.controls["foto_chofer"].setValue(chofer?.foto_perfil)
     this.fotoPerfilChofer = chofer?.foto_perfil ?? null
     }
@@ -308,6 +323,7 @@ export class CombinacionFormInfoComponent implements AfterViewInit, OnInit {
       this.info?.controls["telefono"].setValue(propietario.telefono);
       this.info?.controls["anticipo_propietario"].setValue(propietario.puede_recibir_anticipos);
       this.info?.controls["estado_propietario"].setValue(propietario.estado);
+
       this.info?.controls["foto_documento_frente"].setValue(propietario.foto_perfil);
       this.fotoDocumentoFrente = propietario.foto_perfil ?? null;
 

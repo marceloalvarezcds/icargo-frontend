@@ -25,47 +25,53 @@ export const getFleteData = (form: FormGroup): FleteConfirmationInfo => {
   );
   const complementos: Record<string, string> = value.complementos?.reduce(
     (obj: Record<string, string>, complemento: any) => {
-      const propietario = `Propietario: ${numberWithCommas(
-        complemento.propietario_monto
-      )} ${complemento.propietario_moneda_simbolo}`;
+      const propietario = `\nPropietario: ${numberWithCommas(complemento.propietario_monto)} ${complemento.propietario_moneda_simbolo} (${numberWithCommas(complemento.propietario_monto_ml)} ${condicion.moneda_gestora_nombre})`;
+
       const remitente = complemento.habilitar_cobro_remitente
-        ? ` | Remitente: ${numberWithCommas(complemento.remitente_monto)} ${
-            complemento.remitente_moneda_simbolo
-          }`
+        ? `\nRemitente: ${numberWithCommas(complemento.remitente_monto)} ${complemento.remitente_moneda_simbolo} (${numberWithCommas(complemento.remitente_monto_ml)} ${condicion.moneda_gestora_nombre})`
         : '';
-      const anticipado =
-        ' | Anticipado: ' + (complemento.anticipado ? 'Si' : 'No');
-      obj[
-        complemento.concepto_descripcion
-      ] = `${propietario}${remitente}${anticipado}`;
+
+      const anticipado = '\nAnticipado: ' + (complemento.anticipado ? 'Si' : 'No');
+
+      obj[complemento.concepto_descripcion] = `${propietario}${remitente}${anticipado}`;
       return obj;
     },
     {}
   );
+
   const descuentos: Record<string, string> = value.descuentos?.reduce(
     (obj: Record<string, string>, descuento: any) => {
-      const propietario = `Propietario: ${numberWithCommas(
-        descuento.propietario_monto
-      )} ${descuento.propietario_moneda_simbolo}`;
+      const propietario = `\nPropietario: ${numberWithCommas(descuento.propietario_monto)} ${descuento.propietario_moneda_simbolo} (${numberWithCommas(descuento.propietario_monto_ml)} ${condicion.moneda_gestora_nombre})`;
+
       const proveedor = descuento.habilitar_pago_proveedor
-        ? ` | Proveedor: ${numberWithCommas(descuento.proveedor_monto)} ${
-            descuento.proveedor_moneda_simbolo
-          }`
+        ? `\nProveedor: ${numberWithCommas(descuento.proveedor_monto)} ${descuento.proveedor_moneda_simbolo} (${numberWithCommas(descuento.proveedor_monto_ml)} ${condicion.moneda_gestora_nombre})`
         : '';
+
       obj[descuento.concepto_descripcion] = `${propietario}${proveedor}`;
       return obj;
     },
     {}
   );
+
   const gestor_carga_tarifa = `${numberWithCommas(
     condicion.condicion_gestor_carga_tarifa
   )} ${condicion.condicion_gestor_carga_moneda_simbolo}/${
     condicion.condicion_gestor_carga_unidad_abreviatura
   }`;
+    const gestor_carga_tarifa_ml = `${numberWithCommas(
+    condicion.condicion_gestor_carga_tarifa_ml
+  )} ${condicion.moneda_gestora_nombre}/${
+    'KG'
+  }`;
   const gestor_carga_merma = `${numberWithCommas(
     merma.merma_gestor_carga_valor
   )} ${merma.merma_gestor_carga_moneda_simbolo}/${
     merma.merma_gestor_carga_unidad_abreviatura
+  }`;
+  const gestor_carga_merma_ml = `${numberWithCommas(
+    merma.merma_gestor_carga_valor_ml
+  )} ${condicion.moneda_gestora_nombre}/${
+    'KG'
   }`;
   const gestor_carga_tolerancia =
     numberWithCommas(merma.merma_gestor_carga_tolerancia) +
@@ -77,10 +83,20 @@ export const getFleteData = (form: FormGroup): FleteConfirmationInfo => {
   )} ${condicion.condicion_propietario_moneda_simbolo}/${
     condicion.condicion_propietario_unidad_abreviatura
   }`;
+  const propietario_tarifa_ml = `${numberWithCommas(
+    condicion.condicion_propietario_tarifa_ml
+  )} ${condicion.moneda_gestora_nombre}/${
+    'KG'
+  }`;
   const propietario_merma = `${numberWithCommas(
     merma.merma_propietario_valor
   )} ${merma.merma_propietario_moneda_simbolo}/${
     merma.merma_propietario_unidad_abreviatura
+  }`;
+  const propietario_merma_ml = `${numberWithCommas(
+    merma.merma_propietario_valor_ml
+  )} ${condicion.moneda_gestora_nombre}/${
+    'KG'
   }`;
   const propietario_tolerancia =
     numberWithCommas(merma.merma_propietario_tolerancia) +
@@ -106,10 +122,14 @@ export const getFleteData = (form: FormGroup): FleteConfirmationInfo => {
     destino: tramo.destino_nombre,
     cantidad: numberWithCommas(condicion.condicion_cantidad),
     gestor_carga_tarifa,
+    gestor_carga_tarifa_ml,
     gestor_carga_merma,
+    gestor_carga_merma_ml,
     gestor_carga_tolerancia,
     propietario_tarifa,
+    propietario_tarifa_ml,
     propietario_merma,
+    propietario_merma_ml,
     propietario_tolerancia,
     anticipos,
     complementos,

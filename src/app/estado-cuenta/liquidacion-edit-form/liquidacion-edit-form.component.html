@@ -6,7 +6,7 @@
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="false"
-  [hideSaveButton]="false"
+  [hideSaveButton]="true"
   [isEdit]="isEdit"
   [isShow]="isShow"
   [modelo]="modelo"
@@ -23,10 +23,11 @@
     [isEdit]="isEdit"
     [etapa]="item.etapa"
     [estadoCuenta]="estadoCuenta"
-    [movimientos]="movimientos"
+    [movimientosList]="movimientos"
     (actualizarEstado)="loadLiquidacion()"
     (actualizarLiquidacion)="loadLiquidacion()"
     (actualizarMovimientos)="loadLiquidacion()"
+    (actualizarLiquidacionOnly)="loadLiquidacionOnly()"
   >
 </app-liquidacion-edit-fields>
 
@@ -88,7 +89,6 @@
           ></app-liquidacion-instrumentos>
           <app-liquidacion-confirmada-form-instrumentos
             [liquidacion]="item"
-            [saldo]="saldo"
             [isShow]="isShow"
             (selectedInstrumentosChange)="loadLiquidacion()"
           ></app-liquidacion-confirmada-form-instrumentos>

@@ -62,39 +62,39 @@ export class OrdenCargaAccionesFormCombinacionOcComponent {
   }
 
   get estadoChofer(): FormControl {
-    return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl 
+    return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl
   }
 
   isFormValid(): boolean {
-    return  this.form?.get(this.groupName)?.get('semi_placa')?.value 
+    return  this.form?.get(this.groupName)?.get('semi_placa')?.value
   }
 
   previewPDF(): void {
     this.ordenCargaService.pdf(this.oc!.id).subscribe((filename) => {
       this.reportsService.downloadFile(filename).subscribe((file) => {
         const url = URL.createObjectURL(file);
-        window.open(url); 
+        window.open(url);
         this.pdfSrc = url;
       });
     });
   }
-  
+
 
   onFleteChange(flete: FleteList): void {
     this.flete = flete;
     this.fleteChange.emit(flete);
-    this.fleteService.getList().subscribe(
+    this.fleteService.getListByGestorCargaAndOc().subscribe(
       (fletes: FleteList[]) => {
-          this.form?.get(this.groupName)?.get('numero_lote')?.setValue(flete.numero_lote); 
-          this.form?.get(this.groupName)?.get('pedido_id')?.setValue(flete.id); 
-          this.form?.get(this.groupName)?.get('saldo')?.setValue(flete.condicion_cantidad); 
+          this.form?.get(this.groupName)?.get('numero_lote')?.setValue(flete.numero_lote);
+          this.form?.get(this.groupName)?.get('pedido_id')?.setValue(flete.id);
+          this.form?.get(this.groupName)?.get('saldo')?.setValue(flete.condicion_cantidad);
           this.form?.get(this.groupName)?.get('cliente')?.setValue(flete.remitente_nombre);
-          this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(flete.producto_descripcion); 
-          this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(flete.origen_nombre); 
-          this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(flete.destino_nombre); 
-          this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(flete.tipo_flete); 
-          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.condicion_gestor_carga_tarifa); 
-          this.form?.get(this.groupName)?.get('valor')?.setValue(flete.merma_gestor_carga_valor); 
+          this.form?.get(this.groupName)?.get('producto_descripcion')?.setValue(flete.producto_descripcion);
+          this.form?.get(this.groupName)?.get('origen_nombre')?.setValue(flete.origen_nombre);
+          this.form?.get(this.groupName)?.get('destino_nombre')?.setValue(flete.destino_nombre);
+          this.form?.get(this.groupName)?.get('tipo_flete')?.setValue(flete.tipo_flete);
+          this.form?.get(this.groupName)?.get('a_pagar')?.setValue(flete.condicion_gestor_carga_tarifa);
+          this.form?.get(this.groupName)?.get('valor')?.setValue(flete.merma_gestor_carga_valor);
           this.form?.get(this.groupName)?.get('cant_origen')?.setValue(0);
           this.form?.get(this.groupName)?.get('cant_destino')?.setValue(0);
           this.form?.get(this.groupName)?.get('diferencia')?.setValue(0);
@@ -103,22 +103,22 @@ export class OrdenCargaAccionesFormCombinacionOcComponent {
   }
 
   constructor(private service: SemiService, private camionService: CamionService, private fleteService: FleteService, private cdr: ChangeDetectorRef, private ordenCargaService: OrdenCargaService, private reportsService: ReportsService,) {}
-  
+
   onSemiChange(semi: Semi | undefined): void {
     if (semi) {
       this.semiChange.emit(semi);
     }
-    
+
   }
 
   onCamionChange(combinacion?: CombinacionList) {
-      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion?.camion_id); 
-      this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion?.marca_descripcion); 
-      this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion?.color_camion ?? null); 
+      this.form?.get(this.groupName)?.get('camion_id')?.setValue(combinacion?.camion_id);
+      this.form?.get(this.groupName)?.get('marca_camion')?.setValue(combinacion?.marca_descripcion);
+      this.form?.get(this.groupName)?.get('color_camion')?.setValue(combinacion?.color_camion ?? null);
       this.form?.get(this.groupName)?.get('semi_id')?.setValue(combinacion?.semi_id);
       this.form?.get(this.groupName)?.get('semi_placa')?.setValue(combinacion?.semi_placa);
-      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion?.marca_descripcion_semi ?? null); 
-      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion?.color_semi ?? null); 
+      this.form?.get(this.groupName)?.get('marca_semi')?.setValue(combinacion?.marca_descripcion_semi ?? null);
+      this.form?.get(this.groupName)?.get('color_semi')?.setValue(combinacion?.color_semi ?? null);
       this.form?.get(this.groupName)?.get('propietario_camion')?.setValue(combinacion?.camion_propietario_nombre);
       this.form?.get(this.groupName)?.get('propietario_camion_doc')?.setValue(combinacion?.propietario_ruc);
       this.form?.get(this.groupName)?.get('beneficiario_camion')?.setValue(combinacion?.propietario_nombre);
@@ -159,5 +159,5 @@ export class OrdenCargaAccionesFormCombinacionOcComponent {
     return !!this.control.value;
   }
 
-  
+
 }

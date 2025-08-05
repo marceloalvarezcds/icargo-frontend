@@ -21,6 +21,8 @@ interface FacturaBaseModel {
   sentido_mov_retencion: string;
   iva_movimiento_id: number;
   retencion_movimiento_id: number;
+  tipo_cambio_moneda: number;
+  tipo_retencion: string;
 }
 
 export interface FacturaForm extends FacturaBaseModel {
@@ -66,6 +68,8 @@ export const mockFacturaForm1: FacturaForm = {
   sentido_mov_retencion: 'COBRO',
   iva_movimiento_id: 1,
   retencion_movimiento_id: 1,
+  tipo_cambio_moneda:1,
+  tipo_retencion: 'no'
 };
 
 export const mockFacturaForm2: FacturaForm = {
@@ -88,6 +92,8 @@ export const mockFacturaForm2: FacturaForm = {
   sentido_mov_retencion: 'COBRO',
   iva_movimiento_id: 1,
   retencion_movimiento_id: 1,
+  tipo_cambio_moneda:1,
+  tipo_retencion: '5%'
 };
 
 export const mockFacturaList: Factura[] = [

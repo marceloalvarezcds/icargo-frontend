@@ -24,7 +24,7 @@ import { GoogleMapComponent } from 'src/app/shared/google-map/google-map.compone
 export class SelectorInMapDialogComponent<T extends { id: number }>
 implements AfterViewInit, OnDestroy
 {
-
+  private lastAlertMessage = '';
   Obj = Object;
   allMarkers: Marker<T>[] = [];
   lastMarker?: Marker<T>;
@@ -60,13 +60,14 @@ implements AfterViewInit, OnDestroy
 
   @ViewChild(GoogleMapComponent) googleMapComponent!: GoogleMapComponent;
   @ViewChild('mapContainer') mapContainer?: HTMLDivElement;
-
+ validateAnticipo: boolean;
   constructor(
     public dialogRef: MatDialogRef<SelectorInMapDialogComponent<T>>,
     @Inject(MAT_DIALOG_DATA) private data: SelectorInMapDialogData<T>,
     private cdRef: ChangeDetectorRef
   ) {
     this.selectValue = data.selectedValue;
+     this.validateAnticipo = data.validateAnticipo ?? false;
   }
 
   ngAfterViewInit(): void {
@@ -90,10 +91,14 @@ implements AfterViewInit, OnDestroy
   }
 
   setSelectValue(value: T | null, marker: Marker<T>): void {
-
     if (this.deshabilitarOpcion(value)) {
-      alert('El elemento seleccionado está inactivo o en un estado no seleccionable.');
-      return; // Detener la ejecución si no es seleccionable
+      this.showAlertOnce('El elemento seleccionado está inactivo o en un estado no seleccionable.');
+      return;
+    }
+
+    if (this.validateAnticipo && this.deshabilitarPuntoVenta(value)) {
+      this.showAlertOnce('El punto de venta no esta habilitado para retirar anticipos de efectivo.');
+      return;
     }
 
     this.selectValue = value;
@@ -106,6 +111,14 @@ implements AfterViewInit, OnDestroy
     this.lastMarker = marker;
   }
 
+  private showAlertOnce(message: string) {
+    if (this.lastAlertMessage !== message) {
+      alert(message);
+      this.lastAlertMessage = message;
+      setTimeout(() => this.lastAlertMessage = '', 3000);
+    }
+  }
+
   deshabilitarOpcion(selectValue?: T | null): boolean {
     if (!selectValue || typeof selectValue !== 'object' || !('estado' in selectValue)) {
       return true;
@@ -113,6 +126,15 @@ implements AfterViewInit, OnDestroy
 
     const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
     return estadosNoSeleccionables.includes((selectValue as any).estado);
+  }
+
+  deshabilitarPuntoVenta(selectValue?: T | null): boolean {
+  if (selectValue && 'puede_recibir_anticipos_efectivo' in selectValue) {
+    if (!(selectValue as any).puede_recibir_anticipos_efectivo) {
+      return true;
+    }
+  }
+  return false;
   }
 
   drawAllMarkers(): void {

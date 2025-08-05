@@ -37,6 +37,8 @@ import { InsumoPuntoVentaPrecioService } from 'src/app/services/insumo-punto-ven
 import { OrdenCargaAnticipoSaldo, OrdenCargaAnticipoSaldoForm } from 'src/app/interfaces/orden-carga-anticipo-saldo';
 import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 import { OcRemitirDialogComponent } from 'src/app/dialogs/oc-remitir-dialog/oc-remitir-dialog.component';
+import { RolService } from 'src/app/services/rol.service';
+import { Rol } from 'src/app/interfaces/rol';
 
 
 @Component({
@@ -48,6 +50,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   isButtonActive: boolean = true;
   id!: number;
+  tieneRolOperador: boolean = false;
   isCreate = false;
   isEdit = false;
   isEditPedido = false;
@@ -63,6 +66,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   itemList?: OrdenCargaList
   flete?: FleteList;
   fleteAnticipo?: OrdenCargaAnticipoSaldo;
+  fleteAnticipoForm?: OrdenCargaAnticipoSaldoForm;
   isEditPressed: boolean = true;
   combinacionList?: CombinacionList;
   formDisabledTime = new Date();
@@ -113,6 +117,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       comentarios: null,
       unidad_id: null,
       moneda_id: null,
+      is_chofer_condicionado: null,
+      is_propietario_condicionado: null
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -300,9 +306,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
   }
 
   get anticipoFlete(): number | undefined | null {
-    return this.fleteAnticipo?.flete_anticipo_id_property ?? null;  // Retorna null si fleteAnticipo es null o undefined
+    return this.fleteAnticipo?.flete_anticipo_id_property ?? null;
   }
-
 
   constructor(
     private fb: FormBuilder,
@@ -317,6 +322,7 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     private dialog: DialogService,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
+    private rolService: RolService,
   ) {}
 
 
@@ -326,10 +332,40 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     this.form.get('combinacion.id_orden_carga')?.disable();
     this.form.get('info.cantidad_nominada')?.disable()
     this.getData();
+
+    //Control de pestanas
+    window.addEventListener('storage', (event) => {
+    if (event.key === 'orden_carga_actualizada') {
+      const data = JSON.parse(event.newValue!);
+      if (data?.ordenId === this.id) {
+        this.getData(); // recarga la OC si coincide
+      }
+     }
+    });
+
+    window.addEventListener('storage', (event) => {
+    if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
+      const data = JSON.parse(event.newValue!);
+      if (data?.ordenCargaId === this.item?.id) {
+        this.getData(); // o this.anticipoTable.reload()
+      }
+    }
+   });
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+
+      );
+    });
   }
+
 
   ngOnDestroy(): void {
     this.hasChangeSubscription.unsubscribe();
+  }
+
+  tieneRolOperadorYFinalizado(item: any): boolean {
+    return this.tieneRolOperador && item.estado?.toUpperCase() === 'FINALIZADO';
   }
 
   redirectToEdit(): void {
@@ -343,8 +379,8 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     let sms = "¿Está seguro que desea liberar anticipos?";
 
     if (this.item?.anticipos_liberados) {
-     sms = '<p>¿Está seguro de bloquear Anticipos?. <br>'
-      +'Esta acción bloqueará los anticipos en esta OC</p>';
+      sms = '<p>¿Está seguro de bloquear Anticipos?. <br>'
+          + 'Esta acción bloqueará los anticipos en esta OC</p>';
     }
 
     this.dialog.changeStatusConfirmHtml(
@@ -353,60 +389,76 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
+        localStorage.setItem(
+          'orden_carga_actualizada',
+          JSON.stringify({ ordenId: this.id, timestamp: Date.now() })
+        );
       }
     );
   }
+
 
   inactive(): void {
     this.dialog.changeStatusConfirmHtml(
       '',
       '<p>¿Está seguro de bloquear Anticipos?.<br>'
-      +'Esta acción bloqueará los anticipos en esta OC.</p>',
+      + 'Esta acción bloqueará los anticipos en esta OC.</p>',
       this.ordenCargaService.modificarAnticipos(this.id!),
       () => {
         this.getData();
+        localStorage.setItem(
+          'orden_carga_actualizada',
+          JSON.stringify({ ordenId: this.id, timestamp: Date.now() })
+        );
       }
     );
   }
 
 
-  back(confirmed: boolean): void {
-    if (confirmed) {
-      this.submit(confirmed);
-    } else {
-      let comentario = this.form.get('combinacion.comentarios')?.value;
 
-      // Convertir el comentario a mayúsculas si no está vacío
-      if (comentario) {
-        comentario = comentario.toUpperCase();
-      }
+  // back(confirmed: boolean): void {
+  //   if (confirmed) {
+  //     this.submit(confirmed);
+  //   } else {
+  //     let comentario = this.form.get('combinacion.comentarios')?.value;
 
-      if (comentario !== this.originalComentario && comentario.trim() !== '') {
-        const formData = new FormData();
-        const data = {
-          orden_carga_id: this.idOC,
-          comentario: comentario,
-        };
-        formData.append('data', JSON.stringify(data));
+  //     // Convertir el comentario a mayúsculas si no está vacío
+  //     if (comentario) {
+  //       comentario = comentario.toUpperCase();
+  //     }
 
-        // Llamar al servicio para guardar el comentario
-        this.ordenCargaService.createComentarios(formData).subscribe(
-          (item) => {
-            this.getData();
-            this.router.navigate([this.backUrl]);
-          },
-          (error) => {
-            console.error('Error al crear el comentario', error);
-          }
-        );
+  //     if (comentario !== this.originalComentario && comentario.trim() !== '') {
+  //       const formData = new FormData();
+  //       const data = {
+  //         orden_carga_id: this.idOC,
+  //         comentario: comentario,
+  //       };
+  //       formData.append('data', JSON.stringify(data));
+
+  //       // Llamar al servicio para guardar el comentario
+  //       this.ordenCargaService.createComentarios(formData).subscribe(
+  //         (item) => {
+  //           this.getData();
+  //           this.router.navigate([this.backUrl]);
+  //         },
+  //         (error) => {
+  //           console.error('Error al crear el comentario', error);
+  //         }
+  //       );
+  //     } else {
+  //       // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
+  //       this.router.navigate([this.backUrl]);
+  //     }
+  //   }
+  // }
+
+   back(confirmed: boolean): void {
+      if (confirmed) {
+        this.submit(confirmed);
       } else {
-        // Si el comentario está vacío o no ha cambiado, solo navegar sin guardar
         this.router.navigate([this.backUrl]);
       }
     }
-  }
-
-
 
   onCombinacionChange(combinacionList: CombinacionList | undefined): void {
     if (combinacionList) {
@@ -478,49 +530,51 @@ export class OrdenCargaEditFormComponent implements OnInit, OnDestroy {
     } else {
         console.error('No se puede cancelar la Orden de Carga sin un ID válido');
     }
-}
+  }
 
-private createComentarioAndCancel(comentario: string): void {
-    const formData = new FormData();
-    const data = {
-        orden_carga_id: this.idOC,
-        comentario: comentario,
-    };
-    formData.append('data', JSON.stringify(data));
+  private createComentarioAndCancel(comentario: string): void {
+      const formData = new FormData();
+      const data = {
+          orden_carga_id: this.idOC,
+          comentario: comentario,
+      };
+      formData.append('data', JSON.stringify(data));
 
-    this.ordenCargaService.createComentarios(formData).subscribe(
-        () => {
-            this.cancelOrdenCarga(); // Llama a cancelar después de crear el comentario
-        },
-        (error) => {
-            console.error('Error al crear el comentario', error);
-        }
-    );
-}
+      this.ordenCargaService.createComentarios(formData).subscribe(
+          () => {
+              this.cancelOrdenCarga();
+          },
+          (error) => {
+              console.error('Error al crear el comentario', error);
+          }
+      );
+  }
 
-private cancelOrdenCarga(): void {
+  private cancelOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea cancelar la Orden de Carga?',
+        '¿Está seguro que desea Cancelar la Orden de Carga?',
         this.ordenCargaService.cancelar(this.idOC),
         () => {
             this.getData();
-            const dialogRef = this.openEvaluacionesCancelarDialog();
+            const dialogRef = this.openEvaluacionesDialog();
 
             dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    this.snackBar.open('Generando PDF...', 'Cerrar', {
-                        duration: 3000,
-                        verticalPosition: 'top',
-                        horizontalPosition: 'center'
-                    });
-                    this.downloadResumenPDF();
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
+                this.snackBar.open('Generando PDF...', 'Cerrar', {
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center'
+                });
+
+                this.downloadConciliarResumenPDF();
+
+                if (!result) {
+                    this.form.get('combinacion.id_orden_carga')?.disable();
                 }
             });
         },
     );
-}
+  }
+
 
   finalizar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -610,8 +664,8 @@ private cancelOrdenCarga(): void {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -629,8 +683,8 @@ private cancelOrdenCarga(): void {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -659,36 +713,21 @@ private cancelOrdenCarga(): void {
 
   private conciliarOrdenCarga(): void {
     this.dialog.changeStatusConfirm(
-        '¿Está seguro que desea conciliar la Orden de Carga?',
-        this.ordenCargaService.conciliar(this.idOC),
-        () => {
-            this.getData();
-            this.form.get('info.comentarios')?.disable();
-            const dialogRef = this.openEvaluacionesDialog();
+      '¿Está seguro que desea conciliar la Orden de Carga?',
+      this.ordenCargaService.conciliar(this.idOC),
+      () => {
+        this.getData();
+        this.form.get('info.comentarios')?.disable();
 
-            dialogRef.afterClosed().subscribe(result => {
-                if (result) { // Si se acepta el diálogo
-                    const comentario = this.form.get('info.comentarios')?.value;
-                    const comentarioUpper = comentario ? comentario.toUpperCase() : '';
+        const comentario = this.form.get('info.comentarios')?.value;
+        const comentarioUpper = comentario ? comentario.toUpperCase() : '';
 
-                    if (comentarioUpper) {
-                        this.createComentarioYConciliar(comentarioUpper);
-                    }
-                } else {
-                    console.log('Diálogo de evaluación cancelado');
-                }
-                this.snackBar.open('Generando PDF...', 'Cerrar', {
-                    duration: 3000,
-                    verticalPosition: 'top',
-                    horizontalPosition: 'center'
-                });
-                this.downloadConciliarResumenPDF();
-            });
-        },
-
+        if (comentarioUpper) {
+          this.createComentarioYConciliar(comentarioUpper);
+        }
+      }
     );
   }
-
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
@@ -751,43 +790,52 @@ private cancelOrdenCarga(): void {
     if (flete) {
       this.flete = flete;
       if (this.item) {
-        this.item.flete_id = flete.id
+        this.item.flete_id = flete.id;
         this.item.condicion_gestor_cuenta_tarifa = flete.condicion_gestor_carga_tarifa;
         this.item.condicion_propietario_tarifa = flete.condicion_propietario_tarifa;
-        //Mermas para GC
+        this.item.condicion_propietario_tarifa_ml = flete.condicion_propietario_tarifa;
+        // Mermas para GC
         this.item.merma_gestor_carga_valor = flete.merma_gestor_carga_valor;
         this.item.merma_gestor_carga_tolerancia = flete.merma_gestor_carga_tolerancia;
         this.item.merma_gestor_carga_es_porcentual_descripcion = flete.merma_gestor_carga_es_porcentual_descripcion;
-        //Mermas para Propietario
+        // Mermas para Propietario
         this.item.merma_propietario_valor = flete.merma_propietario_valor;
         this.item.merma_propietario_tolerancia = flete.merma_propietario_tolerancia;
         this.item.merma_propietario_es_porcentual_descripcion = flete.merma_propietario_es_porcentual_descripcion;
+
+        const ordenCargaId = this.form.get('combinacion.id_orden_carga')?.value;
+
+        if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
+          this.ordenCargaService.recalcularCondiciones(flete.id, ordenCargaId).subscribe({
+            next: (recalculoResponse) => {
+              if (this.item) {
+                this.item.condicion_gestor_carga_tarifa_ml = recalculoResponse.condicion_gestor_carga_tarifa_ml;
+                this.item.condicion_propietario_tarifa_ml = recalculoResponse.condicion_propietario_tarifa_ml;
+                this.item.merma_gestor_carga_valor_ml = recalculoResponse.merma_gestor_carga_valor_ml;
+                this.item.merma_propietario_valor = recalculoResponse.merma_propietario_valor_ml;
+              }
+            },
+            error: (error) => {
+              console.error('Error en el recalculo:', error);
+            }
+          });
+        }
+        // if (this.item.estado === EstadoEnum.ACEPTADO || this.item.estado === EstadoEnum.FINALIZADO) {
+        //     this.ordenCargaService.updateSaldoFletes(flete.id, ordenCargaId).subscribe({
+        //       next: (updateSaldos) => {
+        //         if (this.flete) {
+        //           this.flete.cargado  = updateSaldos.flete_cargado;
+
+        //         }
+        //       },
+        //       error: (error) => {
+        //         console.error('Error en el recalculo:', error);
+        //       }
+        //     });
+        //   }
+        }
       }
-      this.chRef.detectChanges();
     }
-
-  }
-
-  enableFleteId(): void {
-    if (this.item?.cantidad_origen && this.item?.cantidad_destino) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de origen y destino', 'Cerrar', {
-        duration: 3000,
-      });
-    } else if (this.item?.cantidad_origen) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de origen', 'Cerrar', {
-        duration: 3000,
-      });
-    } else if (this.item?.cantidad_destino) {
-      this.snackBar.open('No se puede habilitar el campo, tiene remisiones de destino', 'Cerrar', {
-        duration: 3000,
-      });
-    } else {
-      this.form.get('combinacion.flete_id')?.enable();
-      this.isButtonPressed = true;
-      this.isEditPedido = true;
-      this.isEditPressed = false;
-    }
-  }
 
 
   submit(confirmed: boolean): void {
@@ -796,70 +844,92 @@ private cancelOrdenCarga(): void {
     this.form.markAllAsTouched();
 
     if (this.form.valid) {
-        const formData = new FormData();
-        this.isButtonPressed = false;
-        this.isEditPedido = false;
-        this.isEditPressed = true;
-        this.form.get('combinacion.flete_id')?.disable();
+      this.isButtonPressed = false;
+      this.isEditPedido = false;
+      this.isEditPressed = true;
+      this.form.get('combinacion.flete_id')?.disable();
 
-        const tipoId = 1;
-        const fleteId = this.form.get('combinacion.flete_id')?.value;
-        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
-        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
-          next: (anticipoFlete) => {
+      const tipoId = 1;
+      const fleteId = this.form.get('combinacion.flete_id')?.value;
+      const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
 
-            const anticipoFleteId = anticipoFlete.id;
-            if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
-              this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
-                next: (saldoAnticipo) => {
+      this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+        next: (anticipoFlete) => {
+          const anticipoFleteId = anticipoFlete.id;
 
-                  const data = JSON.parse(
-                      JSON.stringify({
-                          ...this.form.value.info,
-                          flete_id: this.item?.flete_id,
-                          // Condiciones GC, Propietario
-                          condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
-                          condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
-                          // Mermas para GC
-                          merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
-                          merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
-                          // Mermas para Propietario
-                          merma_propietario_valor: this.item?.merma_propietario_valor,
-                          merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
-                          anticipos: this.item?.porcentaje_anticipos,
-                          saldoAnticipo: saldoAnticipo
-                      })
-                  );
+          if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+            this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+              next: (saldoAnticipo) => {
+                this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id).subscribe({
+                  next: (saldoCombustible) => {
+                    const data = {
+                      ...this.form.value.info,
+                      flete_id: this.item?.flete_id,
+                      // Condiciones GC, Propietario
+                      condicion_gestor_carga_tarifa: this.item?.condicion_gestor_cuenta_tarifa,
+                      condicion_propietario_tarifa: this.item?.condicion_propietario_tarifa,
+                      // Mermas para GC
+                      merma_gestor_carga_valor: this.item?.merma_gestor_carga_valor,
+                      merma_gestor_carga_tolerancia: this.item?.merma_gestor_carga_tolerancia,
+                      // Mermas para Propietario
+                      merma_propietario_valor: this.item?.merma_propietario_valor,
+                      merma_propietario_tolerancia: this.item?.merma_propietario_tolerancia,
+                      anticipos: this.item?.porcentaje_anticipos,
+                      saldoAnticipo: saldoAnticipo,
+                      saldoCombustible: saldoCombustible,
+                      flete_cargado: this.flete?.cargado,
+                    };
 
-                  formData.append('data', JSON.stringify(data));
+                    const formData = new FormData();
+                    formData.append('data', JSON.stringify(data));
 
-                  if (this.isEdit) {
+                    if (this.isEdit) {
                       this.hasChange = false;
                       this.initialFormValue = this.form.value;
                       this.ordenCargaService.edit(this.id, formData).subscribe(() => {
-                          this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
-
-                          setTimeout(() => {
-                              this.getDataWithoutOverwritingFlete();
-                          }, 1000);
+                        this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
+                        setTimeout(() => {
+                          this.getDataWithoutOverwritingFlete();
+                        }, 1000);
                       });
+                    }
+                  },
+                  error: err => {
+                    console.error('Error al obtener saldo combustible:', err);
                   }
-
-                },
-                error: (error) => {
-                  console.error('Error al obtener el saldo de anticipo:', error);
-                }
-              });
-            } else {
-              console.error('El ID de anticipo de flete no es válido:', anticipoFleteId);
-            }
-          },
-          error: (error) => {
-            console.error('Error al obtener el anticipo de flete:', error);
+                });
+              },
+              error: (error) => {
+                console.error('Error al obtener el saldo de anticipo:', error);
+              }
+            });
+          } else {
+            console.error('El ID de anticipo de flete no es válido:', anticipoFleteId);
           }
-        });
-      }
+        },
+        error: (error) => {
+          console.error('Error al obtener el anticipo de flete:', error);
+        }
+      });
     }
+  }
+
+  enableFleteId(): void {
+    if (this.item?.estado === 'Conciliado') {
+      this.snackBar.open(
+        'No se puede cambiar el pedido, la orden ya está Conciliada',
+        'Cerrar',
+        { duration: 3000 }
+      );
+      return;
+    }
+    else {
+      this.form.get('combinacion.flete_id')?.enable();
+      this.isButtonPressed = true;
+      this.isEditPedido = true;
+      this.isEditPressed = false;
+    }
+  }
 
   onEditPressed() {
     this.isEditPressed = false;
@@ -902,6 +972,26 @@ private cancelOrdenCarga(): void {
     });
   }
 
+  loadSaldoCombustible(ordenCargaId: number, fleteId: number): void {
+    this.ordenCargaSaldoService.getSaldoCombustible(ordenCargaId, fleteId).subscribe({
+      next: (saldo) => {
+        if (!this.item || !this.item.saldos_flete_id) return;
+
+        const concepto = 'COMBUSTIBLE';
+
+        const saldoCombustible = this.item.saldos_flete_id.find(s => s.concepto?.toUpperCase() === concepto);
+
+        if (saldoCombustible) {
+          saldoCombustible.total_disponible = saldo;
+        }
+
+        this.chRef.detectChanges();
+      },
+      error: (err) => {
+        console.error('Error cargando saldo combustible:', err);
+      }
+    });
+  }
 
   getData(): void {
     const backUrl = this.route.snapshot.queryParams.backUrl;
@@ -932,7 +1022,7 @@ private cancelOrdenCarga(): void {
                 propietario_camion: data.camion_propietario_nombre,
                 propietario_camion_doc: data.camion_propietario_documento,
                 chofer_camion:  this.item.chofer_nombre,
-                chofer_camion_doc: data.chofer_documento,
+                chofer_camion_doc: data.combinacion_chofer_doc,
                 beneficiario_camion: data.propietario_nombre,
                 beneficiario_camion_doc: data.camion_beneficiario_documento,
                 numero: data.flete_numero_lote,
@@ -948,12 +1038,15 @@ private cancelOrdenCarga(): void {
                 cant_origen: data.cantidad_origen,
                 cant_destino: data.cantidad_destino,
                 diferencia: data.diferencia_origen_destino,
-                anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+                puede_recibir_anticipos: data.combinacion_chofer_puede_recibir_anticipos,
                 estado: data.estado,
                 anticipos: data.anticipos_liberados,
                 id_orden_carga: data.id,
                 condicion: data.condicion_gestor_cuenta_tarifa,
                 tieneDocumentoFisico:false,
+                anticipo_propietario: data.camion_propietario_puede_recibir_anticipos,
+                is_chofer_condicionado: data.is_chofer_condicionado,
+                is_propietario_condicionado: data.is_propietario_condicionado,
             },
             info: {
                 cantidad_nominada: data.cantidad_nominada,
@@ -965,6 +1058,38 @@ private cancelOrdenCarga(): void {
                 origen_id: data.flete_origen_nombre,
                 destino_id: data.flete_destino_nombre,
             },
+        });
+
+        const tipoId = 1;
+        const fleteId = this.form.get('combinacion.flete_id')?.value;
+        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
+        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+          next: (anticipoFlete) => {
+            const anticipoFleteId = anticipoFlete.id;
+
+              if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+                this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+                  next: (saldoAnticipo) => {
+                    this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id).subscribe({
+                      next: (saldoCombustible) => {
+                        this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                          this.item = ocActualizada;
+                        });
+                      },
+                      error: err => {
+                        console.error('Error creando saldo combustible:', err);
+                      }
+                    });
+                  },
+                  error: err => {
+                    console.error('Error obteniendo saldo anticipo:', err);
+                  }
+                });
+              }
+            },
+            error: err => {
+              console.error('Error obteniendo anticipo flete:', err);
+            }
         });
 
         if (this.isShow) {
@@ -990,4 +1115,32 @@ private cancelOrdenCarga(): void {
 
     });
   }
+
+  recalcularProvisiones(): void {
+    console.log("recalcularProvisiones");
+    if (this.idOC !== null && this.idOC !== undefined) {
+      if (this.item?.estado === 'Conciliado') {
+        alert('La Orden de Carga ya está conciliada.');
+        return;
+      }
+
+      if (this.item?.estado !== 'Finalizado') {
+        alert('No se puede generar provisiones de orden, debe estar en estado FINALIZADO.');
+        return;
+      }
+
+      this.ordenCargaService.provisiones(this.idOC).subscribe( res => {
+        //this.getData();
+        this.snackBar.open('Provisiones Generado con exito', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+      });
+      });
+
+    } else {
+      console.error('No se puede conciliar la Orden de Carga sin un ID válido');
+    }
+  }
+
 }

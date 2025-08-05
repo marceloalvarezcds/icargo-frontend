@@ -31,14 +31,21 @@
 
       <div class="info col-xs-12 col-sm-4 col-md-3">
         <h3 class="titulo">Cantidad y Condiciones</h3>
-        <app-key-value key="Cantidad" [shouldFormat]="false" [value]="flete.cantidad"></app-key-value>
+        <app-key-value
+          key="Cantidad"
+          [shouldFormat]="false"
+          [value]="flete.cantidad"
+          suffix=" kg">
+        </app-key-value>
+
         <app-key-value
           key="Gestora"
-          [value]="flete.gestor_carga_tarifa"
-        ></app-key-value>
+          [value]="flete.gestor_carga_tarifa + ' (ML: ' + flete.gestor_carga_tarifa_ml + ')'">
+        </app-key-value>
+
         <app-key-value
           key="Propietario"
-          [value]="flete.propietario_tarifa"
+          [value]="flete.propietario_tarifa + ' (ML: ' + flete.propietario_tarifa_ml + ')'"
         ></app-key-value>
       </div>
 
@@ -52,7 +59,7 @@
       <div class="info col-xs-12 col-sm-4 col-md-3">
         <h3 class="titulo">Complementos</h3>
         <ng-container *ngFor="let entry of Obj.entries(flete.complementos)">
-          <app-key-value [key]="entry[0]" [value]="entry[1]"></app-key-value>
+          <app-key-value [key]="entry[0]" [value]="entry[1]" ></app-key-value>
         </ng-container>
       </div>
       <div class="info col-xs-12 col-sm-4 col-md-3">
@@ -67,7 +74,7 @@
         <h4>Gestora</h4>
         <app-key-value
           key="Valor"
-          [value]="flete.gestor_carga_merma"
+          [value]="flete.gestor_carga_merma  + ' (ML: ' + flete.gestor_carga_merma_ml + ')'"
         ></app-key-value>
         <app-key-value
           key="Tolerancia"
@@ -76,7 +83,7 @@
         <h4>Propietario</h4>
         <app-key-value
           key="Valor"
-          [value]="flete.propietario_merma"
+          [value]="flete.propietario_merma  + ' (ML: ' + flete.propietario_merma_ml + ')'"
         ></app-key-value>
         <app-key-value
           key="Tolerancia"

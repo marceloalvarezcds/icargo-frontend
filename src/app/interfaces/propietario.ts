@@ -39,6 +39,7 @@ export interface Propietario {
   foto_documento_reverso?: string | null;
   foto_perfil?: string | null;
   es_chofer: boolean;
+  is_propietario_condicionado: boolean;
   oc_with_anticipos_liberados: number;
   tipo_documento_propietario_id: number;
   composicion_juridica_id: number;
@@ -73,6 +74,11 @@ export interface Propietario {
   alias?: string;
   contactos: PropietarioContactoGestorCargaList[];
   gestor_carga_propietario?: GestorCargaPropietario;
+
+  promedio_propietario_gestor: number,
+  promedio_propietario_general: number,
+  cantidad_propietario_evaluaciones: number,
+  cantidad_propietario_evaluaciones_gestor: number;
   created_by: string;
   created_at: string;
   modified_by: string;
@@ -123,6 +129,7 @@ export const mockPropietarioList: PropietarioList[] = [
     foto_documento_reverso: 'http://localhost:8103/api/bura26.png',
     foto_perfil: 'http://localhost:8103/api/bura26.png',
     es_chofer: true,
+    is_propietario_condicionado: false,
     oc_with_anticipos_liberados: 2,
     tipo_documento_propietario_id:2,
     composicion_juridica_id:1,
@@ -166,6 +173,10 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    promedio_propietario_general:1,
+    promedio_propietario_gestor:2,
+    cantidad_propietario_evaluaciones:1,
+    cantidad_propietario_evaluaciones_gestor:2,
     // tipo_persona_descripcion: tipoPersona0.descripcion,
   },
   {
@@ -174,6 +185,7 @@ export const mockPropietarioList: PropietarioList[] = [
     tipo_persona_id: tipoPersona1.id,
     tipo_persona: tipoPersona1,
     puede_recibir_anticipos: false,
+    is_propietario_condicionado: false,
     ruc: '800200200',
     digito_verificador: '1',
     pais_origen_id: pais1.id,
@@ -207,6 +219,10 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Alto Parana',
     pais_nombre: 'Paraguay',
     pais_nombre_corto: 'PY',
+    promedio_propietario_general:1,
+    promedio_propietario_gestor:2,
+    cantidad_propietario_evaluaciones:1,
+    cantidad_propietario_evaluaciones_gestor:2,
     // tipo_persona_descripcion: tipoPersona1.descripcion,
   },
   {
@@ -215,6 +231,7 @@ export const mockPropietarioList: PropietarioList[] = [
     tipo_persona_id: tipoPersona0.id,
     tipo_persona: tipoPersona0,
     puede_recibir_anticipos: false,
+    is_propietario_condicionado: false,
     ruc: '800300300',
     digito_verificador: '1',
     tipo_documento_propietario_id:2,
@@ -249,6 +266,10 @@ export const mockPropietarioList: PropietarioList[] = [
     localidad_nombre: 'Chubut',
     pais_nombre: 'Argentina',
     pais_nombre_corto: 'AR',
+    promedio_propietario_general:1,
+    promedio_propietario_gestor:2,
+    cantidad_propietario_evaluaciones:1,
+    cantidad_propietario_evaluaciones_gestor:2,
     // tipo_persona_descripcion: tipoPersona0.descripcion,
   },
 ];

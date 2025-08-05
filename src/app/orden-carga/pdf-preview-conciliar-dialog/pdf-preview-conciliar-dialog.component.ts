@@ -12,14 +12,24 @@ export class PdfPreviewConciliarDialogComponent {
   filename: string;
   fileBlob: Blob;
   isGeneratingPdf: boolean = false;
+  title = 'Vista previa del PDF';
+  buttonText = 'GUARDAR RESÚMEN | CANCELADO';
+
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
     this.pdfUrl = data.pdfUrl;
-    this.filename = data.filename; // Recibe el nombre del archivo
-    this.fileBlob = data.fileBlob;  // Recibe el Blob del archivo
+    this.filename = data.filename;
+    this.fileBlob = data.fileBlob;
+    if (data) {
+        if (data.title) {
+          this.title = data.title;
+        }
+        if (data.buttonText) {
+          this.buttonText = data.buttonText;
+        }
+      }
   }
 
-  // Método para descargar el PDF
   downloadPdf(): void {
     if (this.fileBlob) {
       saveAs(this.fileBlob, this.filename);

@@ -1,6 +1,44 @@
 <form [formGroup]="form">
 
-    <app-estado-cuenta-detalle
+    <app-cuenta-conrriente-info
+      [estadoCuenta]="estadoCuenta"
+      [esEditableLinea]="esEditableLinea"
+      [form]="form"
+      [esInsumoControl]="esInsumoControl"
+      [tipo_insumo]="tipo_insumo"
+      [credito]="credito"
+      [debito]="debito"
+      [saldoCC]="saldoCC"
+      [esOrdenPago]="esOrdenPago"
+      [esEdicion]="false"
+      [es_pdv]="false"
+      [esFinalizado]="false"
+      (filterEvent)="filtrarMovimientosPDV2($event)"
+      (monedaSelect)="selectMoneda($event)">
+    </app-cuenta-conrriente-info>
+
+    <div *ngIf="esOrdenPago" class="row">
+      <div class="input-form-full col-xs-12 col-sm-12">
+        <mat-label class="custom-label">
+          Observación
+        </mat-label>
+        <mat-form-field appearance="outline">
+          <textarea
+            matInput
+            formControlName="observacion"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="3"
+          ></textarea>
+          <mat-error *ngIf="form.controls['observacion'].hasError('required')">
+            El campo observacion es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+    <!--app-estado-cuenta-detalle
+      class="col-xs-5"
       [etapa]="etapa"
       [estadoCuenta]="estadoCuenta"
       [showVistaConsolidada]="false"
@@ -12,30 +50,24 @@
       (filterEvent)="filtrarMovimientosPDV2($event)"
     ></app-estado-cuenta-detalle>
 
-    <div class="row" >
+    <app-saldo
+      #saldoView
+      class="col-xs-5"
+      title="Saldo en Cuenta"
+      [showResumen]="true"
+      [showIngresoEgreso]="false"
+      [credito]="credito"
+      [debito]="debito"
+      [saldoCC]="saldoCC"
+      [esOrdenPago]="esOrdenPago"
+      [form]="form"
+      (monedaSelect)="selectMoneda($event)">
+    </app-saldo-->
 
-      <app-saldo
-        #saldoView
-        class="col-xs-12 col-sm-9"
-        [showResumen]="true"
-        [showIngresoEgreso]="false"
-        [credito]="credito"
-        [debito]="debito"
-        [saldoCC]="saldoCC"
-        title="Saldo en Cuenta"
-        [showMonto]="true"
-        [monto]="monto"
-        [form]="form"
-        [esOrdenPago]="esOrdenPago">
-      </app-saldo>
+    <div class="row" *ngIf="!esOrdenPago">
 
-    </div>
-
-    <div class="row">
-
-      <app-liquidacion-form-movimientos
-        *ngIf="!esOrdenPago"
-        #movimientosList
+      <app-liquidacion-form-movimientos #movimientosList
+        class="col-xs-12"
         [showAccions]="!isDialog"
         [list]="list"
         (movimientosInDBChange)="getList()"

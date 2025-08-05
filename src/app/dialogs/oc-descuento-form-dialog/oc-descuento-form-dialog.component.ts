@@ -1,8 +1,9 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcDescuentoDialogData } from 'src/app/interfaces/oc-descuento-dialog-data';
 import { OrdenCargaDescuento } from 'src/app/interfaces/orden-carga-descuento';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuento.service';
 
 @Component({
@@ -10,7 +11,13 @@ import { OrdenCargaDescuentoService } from 'src/app/services/orden-carga-descuen
   templateUrl: './oc-descuento-form-dialog.component.html',
   styleUrls: ['./oc-descuento-form-dialog.component.scss'],
 })
-export class OcDescuentoFormDialogComponent {
+export class OcDescuentoFormDialogComponent implements OnInit {
+  cotizacionOrigenPropietario: number | null = null;
+  cotizacionDestino: number | null = null;
+  cotizacionOrigenProveedor: number | null = null;
+  cotizacionDestinoRemitente: number | null = null;
+  propietario_monto_ml = 0
+  proveedor_monto_ml = 0
   form = this.fb.group({
     concepto_id: [this.data?.concepto_id, Validators.required],
     detalle: this.data?.detalle,
@@ -20,6 +27,7 @@ export class OcDescuentoFormDialogComponent {
       this.data?.propietario_monto,
       [Validators.required, Validators.min(0)],
     ],
+    propietario_monto_ml: [null],
     propietario_moneda_id: [
       this.data?.propietario_moneda_id,
       Validators.required,
@@ -28,6 +36,7 @@ export class OcDescuentoFormDialogComponent {
     // INICIO Monto a pagar al Proveedor
     habilitar_pago_proveedor: this.data?.habilitar_pago_proveedor,
     proveedor_monto: [this.data?.proveedor_monto, [Validators.min(0)]],
+    proveedor_monto_ml: [null],
     proveedor_moneda_id: this.data?.proveedor_moneda_id,
     proveedor_id: this.data?.proveedor_id,
     // FIN Monto a pagar al Proveedor
@@ -59,12 +68,87 @@ export class OcDescuentoFormDialogComponent {
       this.form.controls['proveedor_id'].updateValueAndValidity();
     });
 
+    @Input() dialogConfig: { disabled: boolean } = { disabled: false };
+
+    ngOnInit(): void {
+      if (this.dialogConfig.disabled) {
+        this.form.disable();
+      }
+      this.getCotizacionMonedaDestinoPropietario()
+    }
+
+    getCotizacionMonedaOrigenPropietario(monedaOrigen: number): void {
+      this.monedaCotizacionService
+        .getCotizacionByGestor(monedaOrigen, this.dialogData?.oc!.gestor_carga_id)
+        .subscribe({
+          next: (responseOrigen) => {
+            this.cotizacionOrigenPropietario = responseOrigen ? responseOrigen.cotizacion_moneda : null;
+            console.log('this.cotizacionOrigenPropietario', this.cotizacionOrigenPropietario)
+          },
+          error: (err) => {
+            console.error('Error al obtener cotización para moneda origen:', err);
+          }
+        });
+    }
+
+    getCotizacionMonedaOrigenProveedor(monedaOrigenRemitente: number): void {
+      this.monedaCotizacionService
+        .getCotizacionByGestor(monedaOrigenRemitente, this.dialogData?.oc!.gestor_carga_id)
+        .subscribe({
+          next: (responseOrigen) => {
+            this.cotizacionOrigenProveedor = responseOrigen ? responseOrigen.cotizacion_moneda : null;
+            console.log('this.cotizacionOrigenProveedor', this.cotizacionOrigenProveedor)
+          },
+          error: (err) => {
+            console.error('Error al obtener cotización para moneda origen:', err);
+          }
+        });
+    }
+
+
+    getCotizacionMonedaDestinoPropietario(): void {
+      this.monedaCotizacionService
+        .getCotizacionByGestor(this.dialogData.oc!.gestor_carga_moneda_id, this.dialogData.oc!.gestor_carga_id)
+        .subscribe({
+          next: (responseDestino) => {
+            this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+            console.log('this.cotizacionDestino', this.cotizacionDestino)
+          },
+          error: (err) => {
+            console.error('Error al obtener cotización de moneda destino:', err);
+          }
+        });
+    }
+
+      onMonedaOrigenPropietarioChange(monedaDestino: any): void {
+        if (monedaDestino) {
+          const monedaOrigen = monedaDestino.id;
+          this.getCotizacionMonedaOrigenPropietario(monedaOrigen);
+        }
+      }
+
+      onMonedaOrigenRemitenteChange(monedaDestino: any): void {
+        if (monedaDestino) {
+          const monedaOrigenRemitente = monedaDestino.id;
+          this.getCotizacionMonedaOrigenProveedor(monedaOrigenRemitente);
+        }
+      }
+
+
   get data(): OrdenCargaDescuento | undefined {
     return this.dialogData?.item;
   }
 
+  get condicionMonedaRemitente(): string {
+    return this.dialogData.oc?.condicion_gestor_moneda_simbolo ?? ''
+  }
+
+  get condicionMonedaPropietario(): string {
+    return this.dialogData.oc?.condicion_propietario_moneda_simbolo ?? ''
+  }
+
   get actionText(): string {
-    return this.data ? 'Editar' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get anticipadoControl(): FormControl {
@@ -87,40 +171,44 @@ export class OcDescuentoFormDialogComponent {
     private ordenCargaDescuentoService: OrdenCargaDescuentoService,
     public dialogRef: MatDialogRef<OcDescuentoFormDialogComponent>,
     private fb: FormBuilder,
+    private monedaCotizacionService: MonedaCotizacionService,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcDescuentoDialogData
   ) {}
 
-  submit() {
-    this.form.markAsDirty();
-    this.form.markAllAsTouched();
-    if (this.form.valid) {
-      const data = JSON.parse(
-        JSON.stringify({
-          ...this.form.value,
-          id: this.data?.id,
-          flete_id: this.data?.flete_id,
-          orden_carga_id: this.dialogData.orden_carga_id,
-        })
-      );
+    submit(): void {
+      // Marca el formulario como sucio y tocado para mostrar los errores de validación
+      this.form.markAsDirty();
+      this.form.markAllAsTouched();
 
-      const monPropie = data.propietario_moneda_id ;
-      data.propietario_moneda_id = monPropie.id;
+      if (this.form.valid) {
+          const formValue = this.form.value;
 
-      const monProov = data.proveedor_moneda_id ;
-      data.proveedor_moneda_id = monProov?.id;
+          const propietarioMonto = formValue.propietario_monto;
+          const proveedorMonto = formValue.proveedor_monto;
 
-      const formData = new FormData();
-      formData.append('data', JSON.stringify(data));
-      if (this.data?.id) {
-        this.ordenCargaDescuentoService
-          .edit(this.data?.id, formData)
-          .subscribe(this.close.bind(this));
-      } else {
-        this.ordenCargaDescuentoService
-          .create(formData)
-          .subscribe(this.close.bind(this));
+          // Calcular el monto en moneda local para el propietario y proveedor
+          this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
+          this.proveedor_monto_ml = (proveedorMonto * this.cotizacionOrigenProveedor!) / this.cotizacionDestino!;
+
+          const data = JSON.parse(
+              JSON.stringify({
+                  ...this.form.value,
+                  propietario_monto_ml: this.propietario_monto_ml,
+                  proveedor_monto_ml: this.proveedor_monto_ml,
+                  id: this.data?.id,
+                  flete_id: this.data?.flete_id,
+                  orden_carga_id: this.dialogData.orden_carga_id,
+                  propietario_moneda_id: formValue.propietario_moneda_id,
+                  proveedor_moneda_id: formValue.proveedor_moneda_id,
+              })
+          );
+          const formData = new FormData();
+          formData.append('data', JSON.stringify(data));
+          const action = this.data?.id
+              ? this.ordenCargaDescuentoService.edit(this.data.id, formData)
+              : this.ordenCargaDescuentoService.create(formData);
+          action.subscribe(this.close.bind(this));
       }
-    }
   }
 
   private close(data: OrdenCargaDescuento): void {

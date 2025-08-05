@@ -1,7 +1,7 @@
 <app-page-form
   class="insumo-page"
   submodule="Mercaderias"
-  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVA' }}"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
@@ -28,7 +28,7 @@
 
         <app-punto-venta-precio-map-field
           *ngIf="!isEdit && !isShow"
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          class="input-form-full col-xs-12 col-sm-6 col-md-5"
           [form]="form"
           (valueChange)="onPDVPrecioChange($event)"
           controlName="punto_venta_id"
@@ -89,17 +89,17 @@
 
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Unidad"
-          controlName="unidad_id"
+          title="Moneda"
+          controlName="moneda_id"
           [form]="form"
-          
         ></app-input-field>
 
         <app-input-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Moneda"
-          controlName="moneda_id"
+          title="Unidad"
+          controlName="unidad_id"
           [form]="form"
+
         ></app-input-field>
 
       </div>

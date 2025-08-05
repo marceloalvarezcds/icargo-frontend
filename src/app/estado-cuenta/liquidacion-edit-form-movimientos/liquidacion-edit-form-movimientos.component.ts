@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
@@ -42,7 +42,8 @@ import { edit } from 'src/app/utils/table-event-crud';
   templateUrl: './liquidacion-edit-form-movimientos.component.html',
   styleUrls: ['./liquidacion-edit-form-movimientos.component.scss'],
 })
-export class LiquidacionEditFormMovimientosComponent {
+export class LiquidacionEditFormMovimientosComponent implements OnChanges {
+
   a = a;
   m = m;
   isShowOnly = false;
@@ -63,12 +64,6 @@ export class LiquidacionEditFormMovimientosComponent {
       value: (element: Movimiento) => element.created_at,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
       type: 'only-date',
-    },
-    {
-      def: 'camion_placa',
-      title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'cuenta_codigo_descripcion',
@@ -99,24 +94,34 @@ export class LiquidacionEditFormMovimientosComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'documento_fisico_oc',
-      title: 'Doc. Físico',
-      value: (element: Movimiento) =>
-        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'detalle',
-      title: 'Info',
-      value: (element: Movimiento) => element.detalle,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
       type: 'number',
     },
+    {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
+      type: 'number',
+    },
+    {
+      def: 'expandir',
+      title: ' ',
+      value: (element: Movimiento) => element.isExpanded,
+      type: 'expandir'
+    }
     /*{
       def: 'oc',
       title: '',
@@ -148,8 +153,31 @@ export class LiquidacionEditFormMovimientosComponent {
     },*/
   ];
 
+  subRowColumnsToDisplay: Column[] = [
+    {
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => {
+        let label = "";
+        label = element.camion_placa ?? '';
+        if (element.tipo_movimiento_descripcion === 'Flete' ) {
+          label = label + ' | Doc. Fiscal: '+ ( (element.documento_fisico_oc) ? 'Sí' : 'No') ;
+        }
+        return label;
+      },
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'detalle',
+      title: 'Info',
+      value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+  ]
+
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
 
+  @Input() esOrdenPago = false;
   @Input() tipoLiquidacion?:string;
   @Input() liquidacion?: Liquidacion;
   @Input() list: Movimiento[] = [];
@@ -207,6 +235,15 @@ export class LiquidacionEditFormMovimientosComponent {
     private movimientoService: MovimientoService
   ) {}
 
+
+  ngOnChanges(changes: SimpleChanges) {
+    for (const propName in changes) {
+      if (propName === 'list') {
+        this.selectedItems = [];
+      }
+    }
+  }
+
   addMovimientos(): void {
     let contraparteId = getContraparteId(this.liquidacion!);
     if (!contraparteId) {
@@ -233,7 +270,9 @@ export class LiquidacionEditFormMovimientosComponent {
         const data: MovimientosSelectedDialogData = {
           contraparteInfo: this.liquidacion!,
           list,
-          saldo: this.saldo
+          saldo: this.saldo,
+          moneda: this.liquidacion!.moneda.nombre,
+          sentido: this.liquidacion!.es_pago_cobro,
         };
         this.dialog
           .open(MovimientosSelectedDialogComponent, {
@@ -273,9 +312,9 @@ export class LiquidacionEditFormMovimientosComponent {
     );
   }
 
-  onAllCheckedChange(checked: boolean): void {
-    if (checked) {
-      this.selectedItems = this.list.slice();
+  onAllCheckedChange(allcheck: any): void {
+    if (allcheck.checked) {
+      this.selectedItems = allcheck.data;
     } else {
       this.selectedItems = [];
     }

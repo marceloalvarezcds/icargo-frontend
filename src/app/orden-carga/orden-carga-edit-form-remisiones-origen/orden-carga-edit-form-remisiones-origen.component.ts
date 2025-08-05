@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
@@ -17,16 +17,20 @@ import { subtract } from 'src/app/utils/math';
 import * as saveAs from 'file-saver';
 import { ReportsService } from 'src/app/services/reports.service';
 import { ImageDialogComponent } from 'src/app/dialogs/image-dialog/image-dialog.component';
+import { Rol } from 'src/app/interfaces/rol';
+import { RolService } from 'src/app/services/rol.service';
 
 @Component({
   selector: 'app-orden-carga-edit-form-remisiones-origen',
   templateUrl: './orden-carga-edit-form-remisiones-origen.component.html',
   styleUrls: ['./orden-carga-edit-form-remisiones-origen.component.scss'],
 })
-export class OrdenCargaEditFormRemisionesOrigenComponent {
+export class OrdenCargaEditFormRemisionesOrigenComponent implements  OnInit, OnChanges {
   isEditPressed: boolean = false;
   a = PermisoAccionEnum;
   columns: Column[] = [];
+  hideEdit: boolean = false;
+  tieneRolOperador: boolean = false;
 
   lista: OrdenCargaRemisionOrigen[] = [];
   modelo = m.ORDEN_CARGA_REMISION_ORIGEN;
@@ -62,16 +66,43 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
   constructor(
     private dialog: MatDialog,
     private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
-    private reportsService: ReportsService,
-
+    private rolService: RolService,
   ) {}
 
+  ngOnInit(): void {
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      );
+      this.evaluateHideEdit();
+    });
+  }
+
+  ngOnChanges(): void {
+    this.evaluateHideEdit();
+  }
+
+  private evaluateHideEdit(): void {
+    const estadoFinalizado = this.oc?.estado === 'Finalizado';
+    this.hideEdit = this.tieneRolOperador && estadoFinalizado;
+  }
+
   onEditPressed() {
-    this.isEditPressed = true; // Habilitamos el botón "Guardar"
+    this.isEditPressed = true;
   }
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
+    this.buttonAnticipoClicked.emit();
+  }
+
+  show({ row }: TableEvent<OrdenCargaRemisionOrigen>): void {
+    const dialogRef = this.getDialogRef(row);
+    const dialogConfig = {
+      ...dialogRef.componentInstance.dialogConfig,
+      disabled: true,
+    };
+    dialogRef.componentInstance.dialogConfig = dialogConfig;
     this.buttonAnticipoClicked.emit();
   }
 
@@ -167,7 +198,7 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
           }
         }
       },
-
+      { def: 'actions', title: 'Acciones', stickyEnd: true }
       // {
       //   def: 'cantidad_equiv',
       //   title: 'Cantidad Equiv. (kg)',
@@ -175,9 +206,8 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
       //   value: (element: OrdenCargaRemisionOrigen) => element.cantidad,
       //   type: 'number',
       // },
-
-      { def: 'actions', title: 'Acciones', stickyEnd: true },
     ];
+
   }
 
   formatDate(dateString: string): string {
@@ -187,7 +217,5 @@ export class OrdenCargaEditFormRemisionesOrigenComponent {
     const day = date.getDate().toString().padStart(2, '0');
     return `${day}-${month}-${year}`;
   }
-
-
 
 }

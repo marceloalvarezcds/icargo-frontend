@@ -34,7 +34,7 @@ export class OcGestionLineaComponent  {
 
   getTotalAnticipo(): number {
     if (!this.oc?.flete_anticipos?.length) {
-      return 0; 
+      return 0;
     }
     return this.oc.flete_anticipos.reduce((total, anticipo) => total + (anticipo.porcentaje || 0), 0);
   }

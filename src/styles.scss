@@ -110,6 +110,15 @@ html body {
   width: 50vw !important;
 }
 
+.factura-dialog {
+  width: 65vw !important;
+
+  .mat-dialog-content {
+    display: block;
+    max-height: 72vh;
+  }
+}
+
 h1.mat-dialog-title {
   margin-right: 30px;
 
@@ -393,6 +402,15 @@ h1.mat-dialog-title {
 /* estilo gral botones */
 
 /* page form components */
+
+.color-white {
+  background-color: white;
+  color: white;
+  span {
+    background-color: white;
+    color: white;
+  }
+}
 
 .page {
   background-color: white;

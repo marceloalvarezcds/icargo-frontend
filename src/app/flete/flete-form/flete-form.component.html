@@ -1,20 +1,23 @@
 <app-page-form
   class="flete-page"
   submodule="PEDIDOS"
-  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  module="{{ isCopyFlete || isShowCopiedFlete ? 'COPIAR' : isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
   inactiveTooltipText="Cancelar"
   [class.page-form-show]="isShow"
   [formGroup]="form"
   [hasChange]="hasChange"
-  [hideEditButton]="true"
   [isShow]="isShow"
   [isEdit]="isEdit"
   [modelo]="modelo"
   [gestorCargaId]="gestorCargaId"
-  [shouldShowInactiveButton]="!isCancel"
-  (backClick)="back($event)"
+  [isCopyFlete]="isCopyFlete"
+  [isShowCopiedFlete]="isShowCopiedFlete"
+  [isEditPressed]="isEditPressed"
+  (backClick)="back()"
+  (copiarShowFleteClick)="copiar()"
+  (copiarFleteClick)="copiar()"
+  (cancelarFleteClick)="cancelar()"
   (editClick)="redirectToEdit()"
-
   (submitEvent)="save(false)"
   [flete]="item"
 >
@@ -34,6 +37,7 @@
         [estado]="estado"
         [flete]="item"
         [isShow]="isShow"
+        [isEdit]="isEdit"
         (remitenteChange)="info.get('remitente_nombre')?.setValue($event?.nombre)"
         (productoChange)="productoChangeEvent($event)"
       ></app-flete-form-info>
@@ -46,6 +50,7 @@
         [form]="form"
         [flete]="item"
         [isShow]="isShow"
+        [isEdit]="isEdit"
         (origenChange)="tramo.get('origen_nombre')?.setValue($event?.nombre)"
         (destinoChange)="tramo.get('destino_nombre')?.setValue($event?.nombre)"
       ></app-flete-form-tramo>
@@ -56,7 +61,8 @@
       <app-flete-form-condicion
         [class.colapse-div]="colapseDivCantidad"
         [form]="form"
-        [isEdit]="isEdit || isShow">
+        [isEdit]="isEdit || isShow"
+        [isCopyFlete]="isCopyFlete">
       </app-flete-form-condicion>
     </div>
 
@@ -96,7 +102,7 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
-          [isEdit]="isEdit"
+          [isEditCopyForm] = "isEditCopyForm"
           [complementoList]="complementoList"
         ></app-flete-form-complementos>
         <app-flete-form-descuentos
@@ -104,7 +110,7 @@
           [gestorCuentaId]="gestorCargaId"
           [form]="form"
           [isShow]="isShow"
-          [isEdit]="isEdit"
+          [isEditCopyForm] = "isEditCopyForm"
           [descuentoList]="descuentoList"
         ></app-flete-form-descuentos>
       </div>

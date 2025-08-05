@@ -24,14 +24,15 @@ import {
   NgControl,
   NG_VALUE_ACCESSOR,
 } from '@angular/forms';
+import { _MatAutocompleteBase } from '@angular/material/autocomplete';
 import {
   MatDialog,
   MatDialogConfig,
   MatDialogRef,
 } from '@angular/material/dialog';
 import { MatFormFieldControl } from '@angular/material/form-field';
-import { Observable, Subject, Subscription } from 'rxjs';
-import { filter, take } from 'rxjs/operators';
+import { Observable, of, Subject, Subscription } from 'rxjs';
+import { debounceTime, distinctUntilChanged, filter, map, startWith, switchMap, take } from 'rxjs/operators';
 import { SelectorDialogComponent } from 'src/app/dialogs/selector-dialog/selector-dialog.component';
 import { Column } from 'src/app/interfaces/column';
 import { SelectorDialogData } from 'src/app/interfaces/dialog-data';
@@ -39,7 +40,6 @@ import {
   PaginatedList,
   PaginatedListRequest,
 } from 'src/app/interfaces/paginate-list';
-import { CombinacionService } from 'src/app/services/combinacion.service';
 
 @Component({
   selector: 'app-dialog-form-field-control',
@@ -111,6 +111,8 @@ export class DialogFormFieldControlComponent<
   @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
   @Input() dialogRefFunctionCrear?: () => MatDialogRef<any>
   @Input() fetchDateFunction?: () => Observable<T[]>;
+  @Input() filterSearchCallbackFn?: (filter:string) => Observable<T[]>;
+  @Input() filterOptionLabelfn?: (o:T) => any;
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
   @Input() columns: Column[] = [];
   @Input() descripcionPropName!: string;
@@ -178,6 +180,9 @@ export class DialogFormFieldControlComponent<
     }
   }
 
+  @Input()
+  autocomplete:boolean = false;
+
   get idControl(): FormControl {
     return this.formGroup.controls['id'] as FormControl;
   }
@@ -189,13 +194,15 @@ export class DialogFormFieldControlComponent<
 
   private eventsSubscription: Subscription | null= null;
 
+  filteredOptions: Observable<any[]> | undefined ;
+  optionsList:any[] = [];
+
   constructor(
     private dialog: MatDialog,
     private formBuilder: FormBuilder,
     private focusMonitor: FocusMonitor,
     private elementRef: ElementRef<HTMLElement>,
     public injector: Injector,
-    private combinacionService: CombinacionService,
   ) {}
 
   ngOnInit(): void {
@@ -203,6 +210,49 @@ export class DialogFormFieldControlComponent<
 
     if (this.ngControl != null) {
       this.ngControl.valueAccessor = this;
+    }
+
+    if (this.autocomplete)
+      this.filteredOptions = this.formGroup.controls['descripcion'].valueChanges
+        .pipe(
+          startWith(''),
+          debounceTime(400),
+          distinctUntilChanged(),
+          //map(value => typeof value === 'string' ? value : value.name),
+          switchMap(val => this.filterSearchCallback(val))
+        );
+  }
+
+  filterSearchCallback(filter:string) : Observable<any[]> {
+
+    if (this.filterSearchCallbackFn && filter) {
+      return this.filterSearchCallbackFn(filter)
+        .pipe(
+          map((response: any[]) => {
+            /*this.optionsList = response.filter(
+              option => { return option["filterProperty"].indexOf(filter) === 0}
+            )
+            return this.optionsList.slice();*/
+            this.optionsList = response;
+            return this.optionsList.slice();
+          }));
+    }
+
+    return of([]);
+  }
+
+  filterOptionLabel(o:T):any {
+    if (this.filterOptionLabelfn){
+      return this.filterOptionLabelfn(o);
+    }
+    return " - ";
+  }
+
+  cargarSelected(item:any):void {
+    this.selectedValue = item.value;
+    if (this.selectedValue){
+      this.lista = [item.value];
+      this.writeValue(this.selectedValue.id);
     }
   }
 
@@ -309,7 +359,7 @@ export class DialogFormFieldControlComponent<
 
 
   private deshabilitarOpcion(estado: string): boolean {
-    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado'];
+    const estadosNoSeleccionables = ['Inactivo', 'Pendiente', 'Eliminado', 'Cancelado'];
     return estadosNoSeleccionables.includes(estado);
   }
 
@@ -410,7 +460,7 @@ export class DialogFormFieldControlComponent<
 
   readonly searchBy = 'id';
   keyPress(event: Event) {
-    const keyboardEvent = event as KeyboardEvent;
+    /*const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter' || keyboardEvent.key === 'Tab') {
       event.preventDefault();
       event.stopPropagation();
@@ -431,7 +481,7 @@ export class DialogFormFieldControlComponent<
           alert('No se encontró ningún elemento en la lista con el valor proporcionado por Descripción');
         }
       }
-    }
+    }*/
   }
 
   findNextEditableField(): HTMLElement | null {

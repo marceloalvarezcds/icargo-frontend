@@ -18,14 +18,16 @@ import { tap } from 'rxjs/operators';
 })
 export class MonedaFieldComponent {
 
+  // TODO: corregir este item con la moneda local, no deberia estar en duro
   list$ = this.service.getList()
     .pipe(
       tap((resp) => {
-        if (this.auto_select){
+        if (this.auto_select && resp && !this.control.value){
           if (resp){
             resp.forEach((ele:any)=>{
               if (ele[this.auto_select_property] === this.auto_select_filtro){
-                this.control.setValue(ele)
+                const mon = this.value(ele);
+                this.control.setValue(mon);
               }
             });
           }
@@ -43,6 +45,7 @@ export class MonedaFieldComponent {
   @Input() title = '';
   @Input() readonly=false;
   @Input() value: (v: Moneda) => number | string | Moneda = (v: Moneda) => v.id;
+  @Input() selectedMoneda: Moneda | undefined;
 
   @Output() valueChange = new EventEmitter<Moneda | undefined>();
 
@@ -62,9 +65,9 @@ export class MonedaFieldComponent {
 
   constructor(private service: MonedaService) {}
 
-
   textValueFormat(value: Moneda): string {
     return value.nombre;
   }
+
 
 }

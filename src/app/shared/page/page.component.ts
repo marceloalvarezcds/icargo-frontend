@@ -28,6 +28,7 @@ export class PageComponent {
   @Input() hideFilter = false;
   @Input() hideModule = false;
   @Input() hideSubModule = false;
+  @Input() hasMercaderias = false;
   @Input() module = '';
   @Input() submodule = '';
   @Input() viewTitle = '';
@@ -53,7 +54,7 @@ export class PageComponent {
   onCheckboxChange(checked: boolean): void {
     this.verInsumosInactivosChange.emit(checked);
   }
-  
+
 
   @ViewChild('sidenav') sidenav?: MatSidenav;
 

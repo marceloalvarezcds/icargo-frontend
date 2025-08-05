@@ -13,6 +13,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import {
   PermisoAccionEnum,
@@ -20,6 +21,7 @@ import {
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { SearchOptions } from 'src/app/interfaces/filter';
+import { Flete } from 'src/app/interfaces/flete';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
@@ -34,6 +36,7 @@ import { delay } from 'src/app/utils/observable';
 })
 export class TableComponent<T> implements OnInit, OnDestroy {
   e = EstadoEnum;
+  f = LiquidacionEstadoEnum;
   a = PermisoAccionEnum;
   le = LiquidacionEtapaEnum;
   allChecked: boolean = false;
@@ -54,6 +57,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     .pipe(delay(500))
     .subscribe((search) => this.filterData(search));
 
+  @Input() grouped = false;
   @Input() set dataSource(source: MatTableDataSource<T>) {
     this.tableDataSource = source;
     this.tableDataSource.sort = this.sort;
@@ -83,7 +87,12 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     this.tableDataSource
   );
 
+  @Input() fnHideEditRowButton?: (r:any) => boolean;
+  @Input() fnHideDeleteRowButton?: (r:any) => boolean;
+  @Input() fnHideAnularRowButton?: (r:any) => boolean;
+  @Input() fnHideCierreRowButton?: (r:any) => boolean;
   @Input() oc?: OrdenCarga;
+  @Input() flete?: Flete;
   @Input() tableStyles: any = {};
   @Input() isGestion: boolean = false;
   @Input() columnWidths: { [key: string]: string; } | undefined;
@@ -96,13 +105,16 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() showBtnAnular = false;
+  @Input() showBtnAmpliar = false;
   @Input() shouldShowAnularButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
+  @Input() shouldShowCancelarButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() showBtnMovimientos = false;
   @Input() hideAnular: boolean = false;
+  @Input() shouldShowForzarCierrerButton: boolean = false;
   @Input() modelo?: PermisoModeloEnum;
   @Input() set configurarColumnasVisibles(list: Column[] | undefined) {
     if (list) {
@@ -114,7 +126,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Output() filterResult = new EventEmitter<T[]>();
   @Output() activeClick = new EventEmitter<TableEvent<T>>();
   @Output() inactiveClick = new EventEmitter<TableEvent<T>>();
+  @Output() cancelarClick = new EventEmitter<TableEvent<T>>();
   @Output() anularAnticipoClick = new EventEmitter<TableEvent<T>>();
+  @Output() ampliarClick = new EventEmitter<TableEvent<T>>();
   @Output() editClick = new EventEmitter<TableEvent<T>>();
   @Output() deleteClick = new EventEmitter<TableEvent<T>>();
   @Output() showClick = new EventEmitter<TableEvent<T>>();
@@ -122,6 +136,7 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<T>>();
   // TODO: los botones nuevos debe pasarse por parametro
   @Output() showClickDos = new EventEmitter<TableEvent<T>>();
+  @Output() forzarCierreClick = new EventEmitter<TableEvent<T>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null =
     null;
@@ -136,6 +151,12 @@ export class TableComponent<T> implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.searchSubscription.unsubscribe();
   }
+
+shouldShowEditButton(row: Flete): boolean {
+  console.log('is_in_orden_carga:', row.is_in_orden_carga);
+  return !row.is_in_orden_carga;
+}
+
 
   filterColumns() {
     this.filteredColumns = this.columnStickyList.concat(
@@ -180,6 +201,25 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     return firstThreeColumns.includes(columnDef);
   }
 
+  hideButtonEdit(row:T):boolean{
+    if (this.fnHideEditRowButton) return this.fnHideEditRowButton(row);
+    return true;
+  }
+
+  hideButtonDelete(row:T):boolean{
+    if (this.fnHideDeleteRowButton) return this.fnHideDeleteRowButton(row);
+    return true;
+  }
+
+  hideButtonAnular(row:T):boolean{
+    if (this.fnHideAnularRowButton) return this.fnHideAnularRowButton(row);
+    return true;
+  }
+
+  hideButtonCierre(row:T):boolean{
+    if (this.fnHideCierreRowButton) return this.fnHideCierreRowButton(row);
+    return true;
+  }
 
   isStickyColumn(column: any): boolean {
     return column.sticky;
@@ -271,4 +311,9 @@ export class TableComponent<T> implements OnInit, OnDestroy {
     }
     return '';
   }
+
+  isGroup(index:number, item:any): boolean{
+    return item.isGroup;
+  }
+
 }

@@ -8,7 +8,6 @@ export const getOCData = (
   form: FormGroup,
   flete?: FleteList,
   combinacion?: CombinacionList,
- 
   neto?: string
 ): OCConfirmationInfo | null => {
   if (!flete || !neto) return null;
@@ -23,14 +22,16 @@ export const getOCData = (
     producto: flete.producto_descripcion,
     origen: flete.origen_nombre,
     destino: flete.destino_nombre,
-    cantidad_nominada: numberWithCommas(info.cantidad_nominada),
+    cantidad_nominada: `${numberWithCommas(info.cantidad_nominada)} kg`,
     camion: combinacion?.camion_placa ? combinacion.camion_placa : '',
-    camion_semi_neto: neto,
+    camion_semi_neto: `${numberWithCommas(neto)} kg`,
     chofer: combinacion?.chofer_nombre ? combinacion.chofer_nombre : '',
     propietario: combinacion?.camion_propietario_nombre ? combinacion.camion_propietario_nombre : '',
     propietario_tarifa,
     propietario_telefono: '',
     semi: combinacion?.semi_placa ? combinacion.semi_placa : '',
     camion_beneficiario_nombre: combinacion?.propietario_nombre ? combinacion.propietario_nombre : '',
+    puede_recibir_anticipos_chofer: combinacion?.puede_recibir_anticipos ?? false,
+    anticipo_propietario: combinacion?.anticipo_propietario ?? false,
   };
 };

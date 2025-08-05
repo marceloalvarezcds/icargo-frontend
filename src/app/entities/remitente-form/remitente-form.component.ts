@@ -24,6 +24,8 @@ import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
 import { PageFormEntitiesInfoComponent } from 'src/app/shared/page-form-entities-info/page-form-entities-info.component';
 import { emailValidator } from 'src/app/validators/email-validator';
+import { DialogService } from 'src/app/services/dialog.service';
+import { EstadoEnum } from 'src/app/enums/estado-enum';
 
 @Component({
   selector: 'app-remitente-form',
@@ -32,6 +34,7 @@ import { emailValidator } from 'src/app/validators/email-validator';
 })
 export class RemitenteFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
+  isActive = false;
   isViewMode: boolean = false;
   id?: number;
   isEdit = false;
@@ -123,7 +126,8 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     private snackbar: SnackbarService,
     private route: ActivatedRoute,
     private router: Router,
-    private reportsService: ReportsService
+    private reportsService: ReportsService,
+    private dialog: DialogService,
   ) {}
 
   ngOnInit(): void {
@@ -148,6 +152,27 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.router.navigate([`/entities/${m.REMITENTE}/${a.EDITAR}`, this.id]);
   }
 
+  active(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea activar el Cliente?',
+      this.remitenteService.active(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+  inactive(): void {
+    this.dialog.changeStatusConfirm(
+      '¿Está seguro que desea desactivar el Cliente?',
+      this.remitenteService.inactive(this.id!),
+      () => {
+        this.getData();
+      }
+    );
+  }
+
+
   onEnter(event: Event): void {
     const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
@@ -161,9 +186,6 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
 
-    console.log('Formulario válido:', this.form.valid); // Verifica si el formulario es válido
-    console.log('Errores del formulario:', this.form.errors); // Verifica los errores del formulario
-
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(
@@ -174,8 +196,6 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         })
       );
 
-      console.log('Datos del formulario antes de convertir a mayúsculas:', data);
-
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
@@ -183,37 +203,27 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         }
       });
 
-      console.log('Datos del formulario después de convertir a mayúsculas:', data);
-
       delete data.logo;
       delete data.pais_id;
       delete data.localidad_id;
       delete data.estado;
       data.estado = this.info.get('estado')!.value ? "Activo" : "Inactivo";
 
-      console.log('Datos del formulario después de eliminar propiedades:', data);
-
       formData.append('data', JSON.stringify(data));
       if (this.file) {
         formData.append('file', this.file);
-        console.log('Archivo agregado a formData:', this.file);
       }
 
       this.hasChange = false;
       this.initialFormValue = this.form.value;
 
-      // Verifica si el formulario está en modo edición o creación
       if (this.isEdit && this.id) {
-        console.log('Editando remitente con ID:', this.id);
         this.remitenteService.edit(this.id, formData).subscribe(() => {
-          console.log('Remitente editado con éxito');
           this.snackbar.openUpdateAndRedirect(confirmed, this.backUrl);
           this.getData();
         });
       } else {
-        console.log('Creando nuevo remitente');
         this.remitenteService.create(formData).subscribe((remitente) => {
-          console.log('Remitente creado con éxito:', remitente);
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -224,20 +234,13 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
         });
       }
     } else {
-      console.log('Formulario no válido');
       setTimeout(() => {
         this.isInfoTouched = this.info.invalid;
         this.isContactoTouched = this.contactos.invalid;
         this.isGeoTouched = this.geo.invalid;
-        console.log('Estado de validación de secciones:');
-        console.log('info inválido:', this.isInfoTouched);
-        console.log('contactos inválido:', this.isContactoTouched);
-        console.log('geo inválido:', this.isGeoTouched);
       });
     }
   }
-
-
 
   private getData(): void {
     this.id = +this.route.snapshot.params.id;
@@ -252,6 +255,7 @@ export class RemitenteFormComponent implements OnInit, OnDestroy {
       }
       this.remitenteService.getById(this.id).subscribe((data) => {
         this.ciudadSelected = data.ciudad;
+        this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.form.patchValue({
           info: {
             alias: data.gestor_carga_remitente?.alias ?? null,

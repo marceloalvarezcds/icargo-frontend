@@ -99,7 +99,7 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
   ngOnInit(){
     if (this.isEdit || this.isShow) {
 
-      /*this.group.get('emision_orden_texto_legal')?.valueChanges
+      this.group.get('emision_orden_texto_legal')?.valueChanges
         .pipe(
           //debounceTime(500),
           distinctUntilChanged()
@@ -119,9 +119,19 @@ export class FleteFormEmisionOrdenComponent implements OnInit, OnDestroy {
 
           }
 
-      });*/
+      });
 
+    } else {
+      this.selectTextoLegal();
     }
+  }
+
+  selectTextoLegal(){
+    const textoLegal = "POR DEFECTO";
+    this.textoLegalService.geItemByTitletList(textoLegal)
+      .subscribe( resp=> {
+        this.textoLegalEventsSubject.next(resp);
+      })
   }
 
   compareWith(o1?: FleteDestinatario, o2?: FleteDestinatario): boolean {

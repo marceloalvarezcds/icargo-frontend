@@ -49,6 +49,22 @@ export class FleteService {
     return this.http.get<Flete>(`${this.url}/${id}/cancel`);
   }
 
+  inactive(id: number): Observable<Flete> {
+    return this.http.get<Flete>(`${this.url}/${id}/inactive/flete`);
+  }
+
+  active(id: number): Observable<Flete> {
+    return this.http.get<Flete>(`${this.url}/${id}/active/flete`);
+  }
+
+  updateCantidad(id: number, condicion_cantidad: string): Observable<Flete> {
+    return this.http.put<Flete>(`${this.url}/${id}/cantidad`, { condicion_cantidad });
+  }
+
+  updateEditMode(id: number, isEdit: boolean): Observable<Flete> {
+    return this.http.put<Flete>(`${this.url}/${id}/edit-mode`, { is_edit: isEdit });
+  }
+
   getDestinatarioList(
     remitenteId: number,
     origenId: number,
@@ -58,4 +74,13 @@ export class FleteService {
       `${this.url}/destinatarios/${remitenteId}/${origenId}/${destinoId}`
     );
   }
+
+  getListByGestorCargaAndOc(): Observable<FleteList[]> {
+    return this.http.get<FleteList[]>(`${this.url}/orden_carga/list`);
+  }
+
+  getListFleteListById(id: number): Observable<FleteList[]> {
+    return this.http.get<FleteList[]>(`${this.url}/orden_carga/list/${id}`);
+  }
+
 }

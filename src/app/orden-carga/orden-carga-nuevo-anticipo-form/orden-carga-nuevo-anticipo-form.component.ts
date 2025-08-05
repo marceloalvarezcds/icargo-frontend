@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
@@ -31,6 +31,8 @@ import { EvaluacionesCancelarComponent } from 'src/app/dialogs/evaluaciones-canc
 import { MatDialogRef } from '@angular/material/dialog';
 import { PdfPreviewDialogComponent } from '../pdf-preview-dialog/pdf-preview-dialog.component';
 import { ReportsService } from 'src/app/services/reports.service';
+import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { FleteAnticipoService } from 'src/app/services/flete-anticipo.service';
 @Component({
   selector: 'app-orden-carga-nuevo-anticipo-form',
   templateUrl: './orden-carga-nuevo-anticipo-form.component.html',
@@ -101,7 +103,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     }),
     info: this.fb.group({
       cantidad_nominada: null,
-      
+
     }),
   });
 
@@ -117,6 +119,8 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     const estadoValue = this.form.get('combinacion.estado')?.value;
     return estadoValue;
   }
+  cotizacionOrigen: number = 0;
+  cotizacionDestino: number = 0;
 
   get estado(): EstadoEnum {
     return this.item!.estado;
@@ -136,7 +140,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   }
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
-    return this.item!?.anticipos.slice();
+    return this.item?.anticipos?.slice() || [];
   }
 
   get porcentajeAnticipos(): FormArray {
@@ -188,14 +192,21 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.setInitialToggleState();
     this.form.get('combinacion.id_orden_carga')?.valueChanges
-      .pipe(distinctUntilChanged()) 
+      .pipe(distinctUntilChanged())
       .subscribe(id => {
         if (id) {
           this.getData();
         }
       });
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'anticipo_actualizado' || event.key === 'anticipo_insumo_actualizado') {
+      const data = JSON.parse(event.newValue!);
+      if (data?.ordenCargaId === this.item?.id) {
+        this.getData(); // o this.anticipoTable.reload()
+      }
+    }
+   });
   }
-  
 
   previousId: number | null = null;
   handleIdChange(id: number | null): void {
@@ -220,11 +231,11 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
     private router: Router,
     private dialog: DialogService,
     private ordenCargaService: OrdenCargaService,
+    private ordenCargaSaldoService: OrdenCargaAnticipoSaldoService,
     private userService: UserService,
     private snackBar: MatSnackBar,
     private reportsService: ReportsService,
-    private cdRef: ChangeDetectorRef
-
+    private insumoService: FleteAnticipoService,
   ) {}
 
   setInitialToggleState(): void {
@@ -276,7 +287,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
         sms = '<p>¿Está seguro de bloquear Anticipos?.<br>'
            + 'Esta acción bloqueará los anticipos en esta OC</p>';
       }
-  
+
       this.dialog.changeStatusConfirmHtml(
         '',
         sms,
@@ -289,7 +300,7 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       console.error('No se puede activar anticipos sin un ID válido');
     }
   }
-  
+
   inactive(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
       this.dialog.changeStatusConfirmHtml(
@@ -305,7 +316,6 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
       console.error('No se puede bloquear anticipos sin un ID válido');
     }
   }
-  
 
   cancelar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -438,80 +448,112 @@ export class OrdenCargaNuevoAnticipoFormComponent implements OnInit, OnDestroy {
   resetFormData(): void {
     this.form.reset();
     this.item!.resultado_propietario_total_anticipos_retirados_efectivo = 0;
-    this.item!.resultado_propietario_total_anticipos_retirados_combustible = 0; 
+    this.item!.resultado_propietario_total_anticipos_retirados_combustible = 0;
     this.item!.porcentaje_anticipos = [];
-    this.item!.saldo_efectivo = 0;
-    this.item!.saldo_combustible = 0;
-    this.item!.saldo_lubricantes = 0;
+    // this.item!.saldo_efectivo = 0;
+    // this.item!.saldo_combustible = 0;
+    this.item!.flete_saldo_lubricante = 0;
     this.item!.anticipos = [];
     this.isFormSaved = false;
     this.isFormSubmitting = true;
     this.isShow = true;
     this.item!.flete_id = 0;
     this.nuevoActive = true;
-    this.getData(); 
+    this.getData();
   }
 
-  getData(): void {
-    const ocValue = this.idOC;
-    if (ocValue) {
-      this.isLoadingData = true;
-      this.combinacion.get('comentarios')?.setValue('');
-      this.ordenCargaService.getById(ocValue).subscribe((data) => {
-        this.item = data;
-        this.item.anticipos,
-        this.isActive = data.estado === EstadoEnum.NUEVO;
-        this.form.patchValue({
-          combinacion: {
-            flete_id: data.flete_id,
-            camion_id: data.camion_id,
-            camion_placa: data.camion_placa,
-            combinacion_id: data.combinacion_id,
-            marca_camion: data.camion_marca,
-            color_camion: data.camion_color,
-            semi_id: data.semi_id,
-            semi_placa: data.semi_placa,
-            marca_semi: data.semi_marca,
-            color_semi: data.semi_color,
-            propietario_camion: data.camion_propietario_nombre,
-            propietario_camion_doc: data.camion_propietario_documento,
-            chofer_camion: data.chofer_nombre,
-            chofer_camion_doc: data.combinacion_chofer_doc,
-            beneficiario_camion: data.camion_beneficiario_nombre,
-            beneficiario_camion_doc: data.camion_beneficiario_documento,
-            numero: data.flete_numero_lote,
-            saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
-            cliente: data.flete_remitente_nombre,
-            tipo_flete: data.flete_tipo,
-            producto_descripcion: data.flete_producto_descripcion,
-            origen_nombre: data.flete_origen_nombre,
-            destino_nombre: data.flete_destino_nombre,
-            a_pagar: data.condicion_gestor_cuenta_tarifa,
-            neto: data.neto,
-            valor: data.merma_gestor_carga_valor,
-            cant_origen: data.cantidad_origen,
-            cant_destino: data.cantidad_destino,
-            diferencia: data.diferencia_origen_destino,
-            anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
-            estado: data.estado,
-            comentarios: '',
-          },
-          info: {
-            cantidad_nominada: data.cantidad_nominada,
-          },
-       
-        });
-       
-        this.form.get('info.cantidad_nominada')?.disable();
-        this.isLoadingData = false;
-        this.originalComentario = data.comentarios ?? null;
-        this.isFormSaved = true;
-        this.isFormSubmitting = false;
-        this.isShow = false;
-        this.nuevoActive = true;
+getData(): void {
+  const ocValue = this.idOC;
+  if (ocValue) {
+    this.isLoadingData = true;
+    this.combinacion.get('comentarios')?.setValue('');
+    this.ordenCargaService.getById(ocValue).subscribe((data) => {
+      this.item = data;
+      this.isActive = data.estado === EstadoEnum.NUEVO;
+
+      this.form.patchValue({
+        combinacion: {
+          flete_id: data.flete_id,
+          camion_id: data.camion_id,
+          camion_placa: data.camion_placa,
+          combinacion_id: data.combinacion_id,
+          marca_camion: data.camion_marca,
+          color_camion: data.camion_color,
+          semi_id: data.semi_id,
+          semi_placa: data.semi_placa,
+          marca_semi: data.semi_marca,
+          color_semi: data.semi_color,
+          propietario_camion: data.camion_propietario_nombre,
+          propietario_camion_doc: data.camion_propietario_documento,
+          chofer_camion: data.chofer_nombre,
+          chofer_camion_doc: data.combinacion_chofer_doc,
+          beneficiario_camion: data.camion_beneficiario_nombre,
+          beneficiario_camion_doc: data.camion_beneficiario_documento,
+          numero: data.flete_numero_lote,
+          saldo: data.camion_total_anticipos_retirados_en_estado_pendiente_o_en_proceso,
+          cliente: data.flete_remitente_nombre,
+          tipo_flete: data.flete_tipo,
+          producto_descripcion: data.flete_producto_descripcion,
+          origen_nombre: data.flete_origen_nombre,
+          destino_nombre: data.flete_destino_nombre,
+          a_pagar: data.condicion_gestor_cuenta_tarifa,
+          neto: data.neto,
+          valor: data.merma_gestor_carga_valor,
+          cant_origen: data.cantidad_origen,
+          cant_destino: data.cantidad_destino,
+          diferencia: data.diferencia_origen_destino,
+          anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
+          estado: data.estado,
+          comentarios: '',
+        },
+        info: {
+          cantidad_nominada: data.cantidad_nominada,
+        },
       });
-    }
+
+       const tipoId = 1;
+        const fleteId = this.form.get('combinacion.flete_id')?.value;
+        const id_oc = this.form.get('combinacion.id_orden_carga')?.value;
+        this.insumoService.getByTipoIdAndFleteId(tipoId, fleteId).subscribe({
+          next: (anticipoFlete) => {
+            const anticipoFleteId = anticipoFlete.id;
+
+              if (typeof anticipoFleteId === 'number' && !isNaN(anticipoFleteId)) {
+                this.ordenCargaSaldoService.getByFleteAnticipoIdAndOrdenCargaId(anticipoFleteId, id_oc).subscribe({
+                  next: (saldoAnticipo) => {
+                    this.ordenCargaSaldoService.getSaldoCombustible(this.item!.id, this.item!.flete_id).subscribe({
+                      next: (saldoCombustible) => {
+                        this.ordenCargaService.getById(this.item!.id).subscribe((ocActualizada) => {
+                          this.item = ocActualizada;
+                        });
+                      },
+                      error: err => {
+                        console.error('Error creando saldo combustible:', err);
+                      }
+                    });
+                  },
+                  error: err => {
+                    console.error('Error obteniendo saldo anticipo:', err);
+                  }
+                });
+              }
+            },
+            error: err => {
+              console.error('Error obteniendo anticipo flete:', err);
+            }
+        });
+
+      this.form.get('info.cantidad_nominada')?.disable();
+      this.isLoadingData = false;
+      this.originalComentario = data.comentarios ?? null;
+      this.isFormSaved = true;
+      this.isFormSubmitting = false;
+      this.isShow = false;
+      this.nuevoActive = true;
+    });
   }
+}
+
 
   submit(confirmed: boolean): void {
     this.isFormSaved = true;

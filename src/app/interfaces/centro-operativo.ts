@@ -24,6 +24,7 @@ export interface CentroOperativo {
   telefono: string;
   email?: string | null;
   pagina_web?: string | null;
+  origen_destino?: string | null;
   direccion?: string | null;
   latitud: number | null;
   longitud: number | null;
@@ -33,7 +34,7 @@ export interface CentroOperativo {
   ciudad: Ciudad | null;
   contactos: CentroOperativoContactoGestorCargaList[];
   gestor_carga_centro_operativo?: GestorCargaCentroOperativo;
-  
+
 }
 
 const gestorCargaCentroOperativo0 = mockGestorCargaCentroOperativoList[0];

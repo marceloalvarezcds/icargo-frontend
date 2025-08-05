@@ -2,7 +2,7 @@
 
   <span mat-dialog-title>
     <span [ngClass]="{ 'action-text': true }">{{ actionText }}</span>
-    <span class="complement-text"> ANTICIPO</span>
+    <span class="complement-text"> ANTICIPO EFECTIVO</span>
   </span>
 
   <div class="section" >
@@ -17,26 +17,25 @@
         [fleteId]="fleteId"
         [form]="form"
         (valueChange)="tipoAnticipoChange($event)"
-
       ></app-tipo-anticipo-by-flete-field>
     </div>
 
     <div class="row">
 
-      <app-punto-venta-map-dialog-field
+      <app-punto-venta-map-by-efectivo-dialog-field
         class="input-form-full col-xs-12 col-sm-6 col-md-6"
         [form]="form"
         [isRemote]="true"
+        [validateAnticipo]="true"
         [pdvEvents]="pdvEventsSubject.asObservable()"
         (valueChange)="$event && puntoVentaChange($event)"
-      ></app-punto-venta-map-dialog-field>
+      ></app-punto-venta-map-by-efectivo-dialog-field>
 
       <div class="col-xs-12 col-sm-6 col-md-6">
         <strong class="proveedor-label">Proveedor: </strong>
         <span class="input-like">{{ proveedor }}</span>
       </div>
     </div>
-
 
     <div class="row" style="padding-top: 12px;">
 
@@ -52,12 +51,23 @@
         class="input-form-full col-xs-12 col-sm-6 col-md-5"
         title="Moneda"
         [form]="form"
-        (valueChange)="onMonedaSeleccionada($event)">
+        (valueChange)="onMonedaDestinoChange($event)"
+    >
       </app-moneda-field>
-    </div>
 
+    </div>
+    <!-- <div class="row" style="margin-top: 56px;">
+           <div class="col-xs-12 col-sm-6 col-md-3">
+        <span>{{ saldoTractoLabel }}</span>
+      </div>
+
+         <div class="col-xs-12 col-sm-6 col-md-2">
+        <span>{{ saldoOcLabel }}</span>
+      </div>
+    </div> -->
     <div class="row">
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-8" style="margin-top: 10px;">
+
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-8" style="margin-top: 16px;">
         <label for="observacion">Observación:</label>
         <mat-form-field appearance="outline" class="observacion-field">
           <textarea

@@ -8,7 +8,9 @@
         <div class="row">
 
           <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-            <label class="anticipos-saldo">Total Efectivo</label>
+            <label class="anticipos-saldo">
+              Total Efectivo <strong>({{ oc?.gestor_carga_moneda_simbolo }})</strong>
+            </label>
             <mat-form-field class="saldo-form-field">
               <input
                 matInput
@@ -19,7 +21,9 @@
           </div>
 
           <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-            <label class="anticipos-saldo">Total Combustible</label>
+            <label class="anticipos-saldo">
+              Total Combustible <strong>({{ oc?.gestor_carga_moneda_simbolo }})</strong>
+            </label>
             <mat-form-field class="saldo-form-field">
               <input
                 matInput
@@ -30,122 +34,117 @@
           </div>
 
             <!-- Mostrar solo si hay saldo en lubricantes -->
-            <div *ngIf="hasLubricantesWithSaldo"
+          <div *ngIf="hasLubricantesWithSaldo"
               class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <label class="anticipos-saldo">Total Lubricantes</label>
-          <mat-form-field class="saldo-form-field">
-            <input
-              matInput
-              [value]="(oc?.saldo_lubricantes ?? 0) | number:'1.0-2'"
-              disabled
-            />
-          </mat-form-field>
-        </div>
-          <!-- Mostrar solo si hay saldo en lubricantes y el valor es mayor a 0 -->
-          <div *ngIf="filteredAnticipos?.length === 0"
-            class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <label class="anticipos-saldo">Total Lubricantes</label>
-        <mat-form-field class="saldo-form-field">
-          <input
-            matInput
-            [value]="(oc?.saldo_lubricantes ?? 0) | number:'1.0-2'"
-            disabled
-          />
-        </mat-form-field>
-        </div>
-
-        <div *ngFor="let anticipo of filteredAnticipos"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <ng-container
-            *ngIf="oc?.flete_id === anticipo.flete_id &&
-                    (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)">
-            <label class="anticipos-saldo">Saldo {{ anticipo.concepto | titlecase }}</label>
+              <label class="anticipos-saldo">
+                Total Lubricantes <strong>({{ oc?.gestor_carga_moneda_simbolo }})</strong>
+              </label>
             <mat-form-field class="saldo-form-field">
               <input
                 matInput
-                [value]="getSaldoAnticipo(anticipo) | number:'1.0-0'"
+                [value]="oc?.resultado_propietario_total_anticipos_retirados_lubricantes || 0 | number:'1.0-2'"
                 disabled
               />
             </mat-form-field>
-          </ng-container>
-        </div>
-
-        <!-- Mostrar solo si NO hay anticipos válidos -->
+          </div>
+          <!-- Mostrar solo si hay saldo en lubricantes y el valor es mayor a 0 -->
         <div *ngIf="filteredAnticipos?.length === 0"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <label class="anticipos-saldo">Saldo Efectivo</label>
+            class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">
+            Total Lubricantes <strong>({{ oc?.gestor_carga_moneda_simbolo }})</strong>
+          </label>
           <mat-form-field class="saldo-form-field">
             <input
               matInput
-              [value]="oc?.saldo_efectivo || 0 | number:'1.0-2'"
+              [value]="oc?.resultado_propietario_total_anticipos_retirados_lubricantes || 0 | number:'1.0-2'"
               disabled
             />
           </mat-form-field>
         </div>
-
-        <div *ngIf="filteredAnticipos?.length === 0"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2">
-          <label class="anticipos-saldo">Saldo Combustible</label>
+<!--
+        <ng-container *ngFor="let anticipo of filteredAnticipos">
+          <div *ngIf="oc?.flete_id === anticipo.flete_id &&
+                      (anticipo.concepto.toLowerCase() !== 'lubricantes' || getSaldoAnticipo(anticipo) > 0)"
+              class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <label class="anticipos-saldo">
+              Saldo {{ anticipo.concepto | titlecase }} <strong>({{ oc?.gestor_carga_moneda_simbolo }})</strong>
+            </label>
+            <mat-form-field class="saldo-form-field">
+              <input
+                matInput
+                [value]="getSaldoAnticipo(anticipo) | number:'1.2-2'"
+                disabled
+              />
+            </mat-form-field>
+          </div>
+        </ng-container> -->
+      <ng-container *ngFor="let saldo of saldosOrdenados">
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+          <label class="anticipos-saldo">
+            Saldo {{ saldo.concepto | titlecase }}
+          </label>
           <mat-form-field class="saldo-form-field">
             <input
               matInput
-              [value]="oc?.saldo_combustible || 0 | number:'1.0-2'"
+              [value]="getSaldo(saldo)| number:'1.2-2'"
               disabled
             />
           </mat-form-field>
         </div>
+      </ng-container>
 
-        <div *ngIf="filteredAnticipos?.length === 0"
-        class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <label class="anticipos-saldo">Saldo Lubricantes</label>
-        <mat-form-field class="saldo-form-field">
-          <input
-            matInput
-            [value]="oc?.saldo_lubricantes || 0 | number:'1.0-2'"
-            disabled
-          />
-        </mat-form-field>
-        </div>
       </div>
     </div>
 
       <div class="col-xs-3 button-container">
 
         <button
-          mat-flat-button type="button"
-          class="botones" color="primary"
-          id="add-button"
+          mat-flat-button
+          type="button"
+          class="botones"
+          color="primary"
           (click)="createEfectivo()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
-          !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
-          <mat-icon class="small-icon"
-          [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||  oc?.estado === 'Finalizado' ||
-          !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> EFECTIVO
+          [disabled]="
+            isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' ||
+            !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+            !isAnticiposLiberados || !(modelo | puede: a.CREAR_EFECTIVO:gestorCargaId) ||
+            isEditPedido || isCreatingAnticipo
+          ">
+          <mat-icon class="small-icon">add</mat-icon> EFECTIVO
         </button>
 
         <button
-          mat-flat-button type="button"
-          class="botones" color="primary"
-          id="add-button"
+          mat-flat-button
+          type="button"
+          class="botones"
+          color="primary"
           (click)="createInsumo()"
-          [disabled]="isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
-          !isAnticiposLiberados ||
-          !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido">
-          <mat-icon class="small-icon"
-          [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id || oc?.estado === 'Conciliado' ||  oc?.estado === 'Finalizado' ||
-          !isAnticiposLiberados || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">add</mat-icon> INSUMO
+          [disabled]="
+            isShow || oc?.estado === 'Nuevo' || oc?.estado === 'Cancelado' ||
+            !oc?.flete_id || oc?.estado === 'Conciliado' || oc?.estado === 'Finalizado' ||
+            !isAnticiposLiberados || !(modelo | puede: a.CREAR_INSUMO:gestorCargaId) ||
+            isEditPedido || isCreatingAnticipo
+          ">
+          <mat-icon class="small-icon">add</mat-icon> INSUMO
         </button>
 
-        <button
+         <button
           mat-flat-button type="button"
           class="botones" color="accent"
           id="add-button"
           (click)="openDialog()"
-          [disabled]="!oc?.flete_id">
-          GESTION EN LINEA
+          [disabled]="!oc?.flete_id || !(modeloGestion | puede: a.VER : gestorCargaId)">
+          GESTION DE LINEA
         </button>
-
+        <!-- <button
+        mat-flat-button type="button"
+        class="botones" color="accent"
+        id="add-button"
+        (click)="openDialog()"
+        [disabled]="true"
+        >
+        GESTION DE LINEA
+      </button> -->
       </div>
 
     </div>
@@ -158,9 +157,11 @@
       [data]="list"
       [isShow]="isShow"
       [modelo]="modelo"
-      (anularAnticipoClick)="edit($event)"
+      (anularAnticipoClick)="anular($event)"
       (showClick)="redirectToShow($event)"
+      (editClick)="redirectToEdit($event)"
       [shouldShowAnularButton]="true"
+      [fnHideAnularRowButton]="fnHideAnular"
       [hideDelete]="true"
       [hideEdit]="true"
     ></app-table>

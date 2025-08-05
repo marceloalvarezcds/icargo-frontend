@@ -32,7 +32,12 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
       this.pageOptions = pageOptions;
     });
 
+  @Input() expandible: boolean = false;
+  @Input() expandibleRow: boolean = false;
+  @Input() expandibleButton: boolean = false;
+  @Input() grouped: boolean = false;
   @Input() columns: Column[] = [];
+  @Input() subRowColumnsToDisplay: Column[] = [];
   @Input() data: any[] = [];
   @Input() filterPredicate = this.dataSource.filterPredicate.bind(
     this.dataSource
@@ -44,14 +49,22 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Input() hideEdit = false;
   @Input() hideShow = false;
   @Input() showBtnMovimientos = false;
+  @Input() shouldShowAnularButton = false;
+  @Input() shouldShowForzarCierrerButton: boolean = false;
   @Input() isShow = false;
   @Input() addShowButton = false;
   @Input() noCheckGestorCuentaId = false;
   @Input() modelo?: PermisoModeloEnum;
+  @Input() showBtnAmpliar = false;
   @Input() shouldShowActiveButton = false;
   @Input() shouldShowInactiveButton = false;
+  @Input() shouldShowCancelarButton = false;
   @Input() shouldBeShowFooter = false;
   @Input() configurarColumnasVisibles?: Column[];
+  @Input() fnHideEditRowButton?: (r:any) => boolean;
+  @Input() fnHideDeleteRowButton?: (r:any) => boolean;
+  @Input() fnHideAnularRowButton?: (r:any) => boolean;
+  @Input() fnHideCierreRowButton?: (r:any) => boolean;
 
   @Output() filterResult = new EventEmitter<any[]>();
   @Output() activeClick = new EventEmitter<TableEvent<any>>();
@@ -62,6 +75,10 @@ export class TablePaginatorComponent implements OnInit, OnDestroy {
   @Output() allCheckedChange = new EventEmitter<boolean>();
   @Output() checkboxChange = new EventEmitter<CheckboxEvent<any>>();
   @Output() showClickDos = new EventEmitter<TableEvent<any>>();
+  @Output() ampliarClick = new EventEmitter<TableEvent<any>>();
+  @Output() cancelarClick = new EventEmitter<TableEvent<any>>();
+  @Output() anularAnticipoClick = new EventEmitter<TableEvent<any>>();
+  @Output() forzarCierreClick = new EventEmitter<TableEvent<any>>();
 
   @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator | null = null;
 

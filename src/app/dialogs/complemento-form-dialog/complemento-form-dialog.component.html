@@ -18,14 +18,6 @@
         [value]="valueConcepto"
       ></app-tipo-concepto-complemento-field>
 
-      <!-- Campo Detalle con Label al lado -->
-      <app-input-field
-        class="input-form-full col-xs-12 col-sm-8"
-        title="Detalle"
-        controlName="detalle"
-        [form]="form"
-      ></app-input-field>
-
       <app-number-field
         class="input-form-full col-xs-12 col-sm-3"
         title="Monto a Pagar al Titular"
@@ -36,12 +28,19 @@
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-3"
         title="Moneda del Titular"
-        controlName="propietario_moneda"
-        [value]="valueMoneda"
+        controlName="propietario_moneda_id"
+        (valueChange)="$event && onSelectMonedaPropietario($event)"
         [form]="form">
       </app-moneda-field>
 
-      <div class="col-xs-6 toggle">
+      <app-input-field
+        class="input-form-full col-xs-12 col-sm-7"
+        title="Detalle"
+        controlName="detalle"
+        [form]="form"
+      ></app-input-field>
+
+      <div class="col-xs-12 col-sm-5 ms-sm-12 toggle">
         <mat-slide-toggle formControlName="anticipado">
           {{ anticipado ? "Anticipado" : "No anticipado" }}
         </mat-slide-toggle>
@@ -64,8 +63,8 @@
         [hidden]="!cobroARemitente"
         class="input-form-full col-xs-12 col-sm-5"
         title="Moneda del Cliente"
-        controlName="remitente_moneda"
-        [value]="valueMoneda"
+        controlName="remitente_moneda_id"
+        (valueChange)="$event && onSelectMonedaRemitente($event)"
         [form]="form"
       ></app-moneda-field>
 
@@ -83,6 +82,7 @@
       Cerrar
     </button>
     <button
+      *ngIf="!isDisabled"
       mat-flat-button cdkFocusInitial
       class="botones" type="button"
       (click)="submit()"

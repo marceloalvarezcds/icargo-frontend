@@ -46,6 +46,11 @@ export class CamionByPropietarioDialogFieldComponent implements AfterViewInit {
       title: 'Color',
       value: (element: CamionList) => element.color_descripcion,
     },
+    {
+      def: 'disponibilidad',
+      title: 'Disponibilidad',
+      value: (element: CamionList) => element.is_in_combinacion ? 'Ocupado' : 'Libre',
+    },
   ];
 
   @Input() tractoEvents?: Observable<CamionList>;

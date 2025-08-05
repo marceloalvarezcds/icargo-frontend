@@ -25,11 +25,10 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'tarifa_flete',
       title: 'Tarifa Flete',
-      value: (element: OrdenCargaRemisionResultado) => element.tarifa_flete,
-      type: 'number',
-      
+      value: (element: OrdenCargaRemisionResultado) =>
+        `${element.tarifa_flete?.toLocaleString('es-ES')} ${this.getFleteTarifaUnidad(element)}`,
+      type: 'text',
     },
-
     {
       def: 'total_flete_mon',
       title: 'Total Flete',
@@ -39,13 +38,13 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'tolerancia',
       title: 'Tarifa Merma',
-      value: (element: OrdenCargaRemisionResultado) => element.merma_valor,
-      type: 'number',
+      value: (element: OrdenCargaRemisionResultado) =>
+        `${element.merma_valor} ${this.getFleteMermaUnidad(element)}`,
+      type: 'text',
     },
     {
       def: 'total_kg',
       title: 'Tolerancia',
-
       value: (element: OrdenCargaRemisionResultado) => element.tolerancia_kg,
       type: 'number',
     },
@@ -65,7 +64,6 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
     {
       def: 'comp_desc',
       title: 'Total Compl./Desc',
-
       value: (element: OrdenCargaRemisionResultado) => element.complemento_descuento,
       type: 'number',
     },
@@ -124,4 +122,25 @@ export class OrdenCargaEditFormRemisionesResultadoComponent {
   private setList(list: OrdenCargaRemisionResultado[]): void {
     this.lista = list.slice();
   }
+
+  getFleteTarifaUnidad(element: OrdenCargaRemisionResultado): string {
+    if (element.responsable === 'Gestor de Carga') {
+      return this.oc?.flete_tarifa_unidad_gestor_carga || '';
+    }
+    if (element.responsable === 'Propietario') {
+      return this.oc?.flete_tarifa_unidad || '';
+    }
+    return '';
+  }
+
+  getFleteMermaUnidad(element: OrdenCargaRemisionResultado): string {
+    if (element.responsable === 'Gestor de Carga') {
+      return this.oc?.flete_merma_unidad_gestor_carga || '';
+    }
+    if (element.responsable === 'Propietario') {
+      return this.oc?.flete_merma_unidad || '';
+    }
+    return '';
+  }
+
 }

@@ -193,6 +193,7 @@ export class CamionFormDialogComponent implements OnInit {
     private propietarioService: PropietarioService,
     private userService: UserService,
     private dialog: DialogService,
+    private cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<CamionFormDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public dialogData: any,
   ) { this.isEdit = dialogData.isEdit;
@@ -200,7 +201,8 @@ export class CamionFormDialogComponent implements OnInit {
     }
 
   ngOnInit(): void {
-    this.isActive = this.item?.estado === 'ACTIVO';
+    this.id = this.data?.id;
+    this.isActive = this.data?.estado === 'Activo';
     if (this.dialogData?.propietarioId) {
       this.form.get('info.propietario_id')?.setValue(this.dialogData.propietarioId);
       this.propietarioService.getById(this.dialogData.propietarioId).subscribe((propietario) => {
@@ -250,7 +252,9 @@ export class CamionFormDialogComponent implements OnInit {
       '¿Está seguro que desea activar el Tracto?',
       this.camionService.active(this.id!),
       () => {
-
+        this.isActive = true;
+        this.cdr.detectChanges();
+        this.submit()
       }
     );
   }
@@ -260,7 +264,9 @@ export class CamionFormDialogComponent implements OnInit {
       '¿Está seguro que desea desactivar el Tracto?',
       this.camionService.inactive(this.id!),
       () => {
-
+        this.isActive = false;
+        this.cdr.detectChanges();
+        this.submit()
       }
     );
   }

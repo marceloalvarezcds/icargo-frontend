@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, EventEmitter, Input,  Output, ViewChild } from '@angular/core';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { Column } from 'src/app/interfaces/column';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
 import { DialogFieldComponent } from '../dialog-field/dialog-field.component';
@@ -75,12 +75,14 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
   @Input() title = 'TRACTOS';
   @Input() isEdit: boolean = false;
   @Input() isShow: boolean = true;
+  @Input() requerido = false;
+
 
   @Output() valueChange = new EventEmitter<CombinacionList | undefined>();
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<CombinacionList>;
 
-  fetchFunction = () => this.service.getList();
+  fetchFunction = () => this.service.getListByOc();
 
   constructor(private service: CombinacionService) { }
 
@@ -116,6 +118,14 @@ export class CombinacionDialogFieldComponent   implements AfterViewInit {
       this.valueChange.emit(combinacion);
     }
   }
+
+  filterSearchCallbackFn = (chapa:string) => {
+      if (chapa && chapa.length>=2) return this.service.getListByOcChapa(chapa)
+      else return of([]);
+    }
+
+  filterOptionLabelfn = (item:CombinacionList) => (
+    `${item.camion_placa} | ${item.chofer_nombre}`);
 
   //private getList(): void {
   //  this.list$ = this.service.getList();

@@ -3,24 +3,56 @@
   <form [formGroup]="form">
 
     <app-liquidacion-edit-form-acciones
+      *ngIf="estadoCuenta"
       style="display: flex;flex-direction: row;justify-content: flex-end; padding-right: 20px;"
       [isShow]="isShow"
       [liquidacion]="item"
       (liquidacionChange)="actualizarLiquidacion.emit()"
       (liquidacionFlujoChange)="actualizarEstado.emit($event)"
-      (liquidacionFacturaChange)="actualizarFactura()"
-      [monto]="monto_pc_value"
-      [sentidoOp]="pagoCobroValue"
-      [saldoMovimiento]="childSaldoView?.saldoMovimiento"
-      [saldoCC]="childSaldoView?.saldo"
-      [totalMovimiento]="(credito-debito)"
-      [movimientos]="movimientos"
+      (liquidacionFacturaChange)="actualizarFactura($event)"
+      [saldoCC]="saldoCC"
+      [totalMovimiento]="monto"
       [form]="form"
     ></app-liquidacion-edit-form-acciones>
 
-    <div style="padding-top: 10px;">
+    <app-cuenta-conrriente-info style="padding-top: 10px;"
+      [estadoCuenta]="estadoCuenta"
+      [liquidacion]="item"
+      [esEditableLinea]="false"
+      [form]="form"
+      [credito]="credito"
+      [debito]="debito"
+      [saldoCC]="saldoCC"
+      [esOrdenPago]="esOrdenPago"
+      [esEdicion]="false"
+      [es_pdv]="false"
+      [esFinalizado]="false"
+      (monedaSelect)="selectMoneda($event)"
+      >
+    </app-cuenta-conrriente-info>
 
-      <app-estado-cuenta-detalle
+    <div *ngIf="esOrdenPago" class="row">
+      <div class="input-form-full col-xs-12 col-sm-12">
+        <mat-label class="custom-label">
+          Observación
+        </mat-label>
+        <mat-form-field appearance="outline">
+          <textarea
+            matInput
+            formControlName="observacion"
+            cdkTextareaAutosize
+            #autosize="cdkTextareaAutosize"
+            cdkAutosizeMinRows="3"
+          ></textarea>
+          <mat-error *ngIf="form.controls['observacion'].hasError('required')">
+            El campo observacion es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+      </div>
+    </div>
+
+      <!--app-estado-cuenta-detalle
+        class="col-xs-7"
         [etapa]="etapa"
         [estadoLiqui]="item.estado"
         [estadoCuenta]="estadoCuenta"
@@ -31,32 +63,29 @@
         [liquidacionId]="item.id"
         [form]="form"
       ></app-estado-cuenta-detalle>
-
-      <app-saldo
-        #saldoView
+      <app-saldo #saldoView
+        class="col-xs-5"
         [showIngresoEgreso]="false"
         [showResumen]="true"
-        [showInstrumentos]="false"
         [esEdicion]="true"
-        [showMonto]="true"
         [credito]="credito"
         [debito]="debito"
         [saldoFinalizado]="saldoFinalizado"
         [saldoCC]="saldoCC"
+        [esOrdenPago]="esOrdenPago"
         [esFinalizado]="esFinalizado"
-        [monto]="monto"
-        (saldoChange)="saldo = $event"
         [form]="form"
+        (saldoChange)="saldo = $event"
+        (monedaSelect)="selectMoneda($event)">
       ></app-saldo>
-    </div>
+    </div-->
 
     <ng-container *ngIf="esFinalizado; else pendienteTemp">
 
       <div class="section">
         <h2 class="title-colapside" (click)="colapseDivMovimientos=!colapseDivMovimientos">MOVIMIENTOS</h2>
         <app-liquidacion-movimientos
-          [class.colapse-div]="colapseDivMovimientos"
-          [list]="movimientos"
+          [list]="listMovimientosGrouped"
           (selectedMovimientosChange)="actualizarLiquidacion.emit()"
         ></app-liquidacion-movimientos>
       </div>
@@ -64,7 +93,6 @@
       <div *ngIf="facturas.length>0" class="section section-button">
         <h2 class="title-colapside" (click)="colapseDivFacturas=!colapseDivFacturas">FACTURAS</h2>
         <app-liquidacion-confirmada-form-facturas
-          [class.colapse-div]="colapseDivFacturas"
           [liquidacion]="item"
           [isShow]="isShow"
           (facturasChange)="actualizarLiquidacion.emit()"
@@ -74,18 +102,18 @@
       <div class="section section-button">
         <h2 class="title-colapside" (click)="colapseDivInstrumentos=!colapseDivInstrumentos">INSTRUMENTOS</h2>
         <app-liquidacion-instrumentos
-          [class.colapse-div]="colapseDivInstrumentos"
           [list]="instrumentos"
           [isShow]="isShow"
           [liquidacion]="item"
         ></app-liquidacion-instrumentos>
         <app-liquidacion-confirmada-form-instrumentos
-          [class.colapse-div]="colapseDivInstrumentos"
+          *ngIf="esSaldoAbierto"
           [estadoCuenta]="estadoCuenta"
           [liquidacion]="item"
-          [saldo]="pago_cobro_abs"
+          [saldo]="montoLiquidacion"
+          [totalMonedas]=totalMonedas
           [isShow]="isShow"
-          (selectedInstrumentosChange)="actualizarLiquidacion.emit()"
+          (instrumentosChange)="actualizarLiquidacionOnly.emit()"
         ></app-liquidacion-confirmada-form-instrumentos>
       </div>
 
@@ -96,15 +124,16 @@
       <div class="section">
         <h2 class="title-colapside" (click)="colapseDivMovimientos=!colapseDivMovimientos">MOVIMIENTOS</h2>
         <app-liquidacion-edit-form-movimientos
-          [class.colapse-div]="colapseDivMovimientos"
-          [list]="movimientos"
+          [list]="listMovimientosGrouped"
           [liquidacion]="item"
-          [saldo]="saldo"
+          [esOrdenPago]="esOrdenPago"
+          [saldo]="monto"
           [isShow]="
             isShow ||
             item.estado === E.ACEPTADO ||
             item.estado === E.CANCELADO ||
-            item.estado === E.CONFIRMADO
+            item.estado === E.CONFIRMADO ||
+            item.estado === E.PENDIENTE
           "
           (selectedMovimientosChange)="actualizarMovimientosEvento($event)">
         </app-liquidacion-edit-form-movimientos>
@@ -114,11 +143,10 @@
       <div *ngIf="facturas.length>0" class="section section-button">
         <h2 class="title-colapside" (click)="colapseDivFacturas=!colapseDivFacturas">FACTURAS</h2>
         <app-liquidacion-confirmada-form-facturas
-          [class.colapse-div]="colapseDivFacturas"
           #facturaList
           [liquidacion]="item"
           [isShow]="isShow"
-          (facturasChange)="actualizarFactura()"
+          (facturasChange)="actualizarFactura($event)"
         ></app-liquidacion-confirmada-form-facturas>
         </div>
 

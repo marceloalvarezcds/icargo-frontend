@@ -10,6 +10,13 @@ export interface FacturaFormDialogData {
   contraparte_id: number;
   punto_venta_id?: number;
   isShow?: boolean;
+  tipo_cambio_moneda?:number;
+  saldo_anticipos_combustible?: number;
+  saldo_anticipos_efectivo?: number;
+  saldo_anticipos_complemento_descuento?: number;
+  saldo_anticipos_flete?: number;
+  saldo_anticipos_merma?: number;
+  saldo_anticipos_otro?: number;
 }
 
 export const mockFacturaFormDialogData: FacturaFormDialogData = {

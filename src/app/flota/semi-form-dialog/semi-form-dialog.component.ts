@@ -84,8 +84,8 @@ export class SemiFormDialogComponent implements OnInit {
       ente_emisor_transporte_id: [null, Validators.required],
       numero_habilitacion_transporte: [null, Validators.required],
       vencimiento_habilitacion_transporte: [null, [Validators.required, DateValidator.date]],
-      foto_habilitacion_transporte_frente: [null, Validators.required],
-      foto_habilitacion_transporte_reverso: [null, Validators.required],
+      foto_habilitacion_transporte_frente: null,
+      foto_habilitacion_transporte_reverso: null,
     }),
     automotor: this.fb.group({
       ente_emisor_automotor_id: null,
@@ -185,6 +185,8 @@ export class SemiFormDialogComponent implements OnInit {
     }
 
   ngOnInit(): void {
+    this.id = this.data?.id;
+    this.isActive = this.data?.estado === 'Activo';
     if (this.dialogData?.propietarioId) {
       this.form.get('info.propietario_id')?.setValue(this.dialogData.propietarioId);
       this.propietarioService.getById(this.dialogData.propietarioId).subscribe((propietario) => {
@@ -200,7 +202,7 @@ export class SemiFormDialogComponent implements OnInit {
     //FIXME en algun momento, por el apuro se hizo asi
     if (this.isEdit || this.isShow) {
 
-      this.semiService.getById(this.dialogData.camionId).subscribe((semi) => {
+      this.semiService.getById(this.dialogData.semiId).subscribe((semi) => {
         if (semi) {
           this.form.get('info.placa')?.setValue(semi.placa || null);
           this.form.get('info.foto')?.setValue(semi.foto || null);
@@ -253,17 +255,22 @@ export class SemiFormDialogComponent implements OnInit {
       '¿Está seguro que desea activar el Semi?',
       this.semiService.active(this.id!),
       () => {
-
+        this.isActive = true;
+        this.cdr.detectChanges();
+        this.submit()
       }
+
     );
   }
 
   inactive(): void {
     this.dialog.changeStatusConfirm(
-      '¿Está seguro que desea desactivar el Semi',
+      '¿Está seguro que desea desactivar el Semi?',
       this.semiService.inactive(this.id!),
       () => {
-
+        this.isActive = false;
+        this.cdr.detectChanges();
+        this.submit()
       }
     );
   }
@@ -358,7 +365,6 @@ export class SemiFormDialogComponent implements OnInit {
       });
     }
   }
-
 
   close(): void {
     this.dialogRef.close();

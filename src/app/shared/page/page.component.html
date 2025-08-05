@@ -59,6 +59,16 @@
             <mat-icon>description</mat-icon> DESCARGAR
           </button>
 
+          <!-- Botón específico para Crear Mercaderias -->
+          <button mat-flat-button
+            class="botones"
+            color="primary"
+            [disabled]="hasMercaderias"
+            *ngIf="submodule === 'MERCADERIA' && !hideCreate && (modelo | puede: a.CREAR)"
+            (click)="createMercaderiasClick.emit($event)">
+            <mat-icon>add_circle</mat-icon> NUEVO PRECIO
+          </button>
+
           <button
             mat-flat-button
             color="primary"
@@ -80,20 +90,24 @@
               submodule === 'PEDIDOS' ? 'PEDIDO' :
               submodule === 'Orden de Carga' ? 'NUEVA OC' :
               submodule === 'Orden de Carga - En Proceso' ? 'NUEVA OC' :
-              submodule === 'MERCADERIA' ? 'NUEVO PRECIO' :
+              submodule === 'ANTICIPOS' ? 'NUEVO ANTICIPO' :
+              submodule === 'MERCADERIA' ? 'NUEVA MERCADERIA' :
               submodule === 'CAJAS' ? 'CAJA' :
               submodule === 'BANCOS' ? 'BANCO' :
               submodule === 'Cargo' ? 'Cargo' :
               submodule === 'USUARIOS' ? 'USUARIO' :
               submodule === 'ROLES' ? 'ROL' :
               submodule === 'PUNTO VENTA' ? 'PUNTO DE VENTA' :
+              submodule === 'COTIZACIÓN' ? 'COTIZACIÓN' :
               submodule === 'Todas las CUENTAS CORRIENTES' ? 'MOVIMIENTO' : 'Elemento'
               }}
           </button>
                 <!-- Botón específico para Orden de Carga -->
           <button mat-flat-button
             class="botones" color="accent"
-            *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'"
+            *ngIf="(submodule === 'Orden de Carga'
+            || submodule === 'Orden de Carga - En Proceso')
+            && (modelo | puede: a.ANTICIPO)"
             (click)="createAnticipoClick.emit($event)">
             <mat-icon>add_circle</mat-icon> ANTICIPO
           </button>
@@ -102,7 +116,9 @@
           <button mat-flat-button
             class="botones" color="accent"
             (click)="createRecepcionClick.emit($event)"
-            *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'">
+            *ngIf="(submodule === 'Orden de Carga'
+            || submodule === 'Orden de Carga - En Proceso')
+            && (modelo | puede: a.RECEPCIONAR)">
             <mat-icon>add_circle</mat-icon> RECEPCION
           </button>
 
@@ -127,7 +143,7 @@
 
             </button>
 
-        </ng-container>
+          </ng-container>
           <!-- Botones dinamicos -->
 
               <!-- Botón específico para Orden de Carga -->
@@ -140,29 +156,22 @@
           </button> -->
           <!-- Botón específico para Orden de Carga -->
           <button mat-stroked-button
-              color="primary"
+              class="botones"color="primary"
               matTooltip="Crear"
-              [class.disabled]="!(modelo | puede: a.CREAR)"
               (click)="finalizarClick.emit($event)"
-              *ngIf="submodule === 'Orden de Carga' || submodule === 'Orden de Carga - En Proceso'">
+              *ngIf="(submodule === 'Orden de Carga'
+              || submodule === 'Orden de Carga - En Proceso')
+              && (modelo | puede: a.FINALIZAR)">
                 FINALIZAR
           </button>
             <!-- Botón específico para Orden de Carga -->
           <button mat-flat-button
               class="botones" style="color: white; background-color: var(--color-grey);"
-              [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || !(modelo | puede: a.CONCILIAR)"
               (click)="conciliarClick.emit($event)"
-              *ngIf="submodule === 'Orden de Carga' || submodule === 'Ordenes de Carga - Finalizadas y Canceladas'">
+              *ngIf="(submodule === 'Orden de Carga'
+              || submodule === 'Ordenes de Carga - Finalizadas y Canceladas')
+              && (modelo | puede: a.CONCILIAR)">
                 CONCILIAR
-          </button>
-
-          <!-- Botón específico para Crear Mercaderias -->
-          <button mat-flat-button
-            class="botones"
-            color="primary"
-            *ngIf="submodule === 'MERCADERIA' && !hideCreate && (modelo | puede: a.CREAR)"
-            (click)="createMercaderiasClick.emit($event)">
-            <mat-icon>add_circle</mat-icon> NUEVA MERCADERIA
           </button>
 
           <button

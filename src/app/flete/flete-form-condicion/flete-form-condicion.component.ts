@@ -7,9 +7,10 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./flete-form-condicion.component.scss']
 })
 export class FleteFormCondicionComponent {
-
+  @Input() ignoreChanges = false;
   groupName = 'condicion';
   @Input() afectado = 'gestor_carga';
   @Input() isEdit = false;
+  @Input() isCopyFlete = false;
   @Input() form?: FormGroup;
 }

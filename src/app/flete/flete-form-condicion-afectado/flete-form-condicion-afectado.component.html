@@ -5,7 +5,7 @@
 
       <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
-        title="Tarifa"
+        [title]="'Tarifa ' + (afectado === 'gestor_carga' ? '(a cobrar)' : '(a pagar)')"
         controlName="condicion_{{ afectado }}_tarifa"
         [groupName]="groupName"
         [form]="formGroup"
@@ -14,9 +14,10 @@
       <app-moneda-field
         class="input-form-full col-xs-12 col-sm-6 col-md-4"
         title="Moneda"
-        controlName="condicion_{{ afectado }}_moneda"
+        controlName="condicion_{{ afectado }}_moneda_id"
         [groupName]="groupName"
         [form]="formGroup"
+        (valueChange)="cargarSelec($event)"
       ></app-moneda-field>
 
       <app-unidad-field

@@ -47,6 +47,27 @@ export class FleteByGestorDialogFieldComponent {
       title: 'Cliente',
       value: (element: FleteList) => element.remitente_nombre,
     },
+    // {
+    //   def: 'precio',
+    //   title: 'Precio',
+    //   value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
+    //   type: 'numberDecimal'
+    // },
+    {
+      def: 'a_pagar_flete',
+      title: 'A Pagar',
+      value: (element: FleteList) =>
+        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.condicion_propietario_moneda_simbolo}/${element.condicion_propietario_unidad_abreviatura}`,
+      type: 'text',
+    },
+    // {
+    //   def: 'moneda',
+    //   title: 'Moneda',
+    //   value: (element: FleteList) => element.condicion_gestor_carga_moneda_nombre,
+    // },
     {
       def: 'origen_nombre',
       title: 'Origen',
@@ -62,11 +83,27 @@ export class FleteByGestorDialogFieldComponent {
       title: 'Producto',
       value: (element: FleteList) => element.producto_descripcion,
     },
-    {
-      def: 'precio',
-      title: 'Precio',
-      value: (element: FleteList) => element.condicion_gestor_carga_tarifa,
-    },
+    // {
+    //   def: 'tarifa_precio',
+    //   title: 'Tarifa Precio',
+    //   value: (element: FleteList) => element.condicion_propietario_tarifa,
+    //   type: 'numberDecimal'
+    // },
+    // {
+    //   def: 'tarifa_precio',
+    //   title: 'Tarifa Precio',
+    //   value: (element: FleteList) =>
+    //     `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+    //       minimumFractionDigits: 0,
+    //       maximumFractionDigits: 2
+    //     })} ${element.condicion_propietario_moneda_simbolo}`,
+    //   type: 'text',
+    // },
+    // {
+    //   def: 'tarifa_moneda',
+    //   title: 'Tarifa Moneda',
+    //   value: (element: FleteList) => element.condicion_propietario_moneda_nombre,
+    // },
   ];
 
   @Input() fleteEvents?: Observable<FleteList>;
@@ -76,11 +113,19 @@ export class FleteByGestorDialogFieldComponent {
   @Input() groupName = '';
   @Input() title = 'PEDIDOS';
 
+  @Input() requerido = false;
+
+
   @Output() valueChange = new EventEmitter<FleteList>();
 
   @ViewChild('app-dialog-field') dialogField?: DialogFieldComponent<FleteList>;
 
-  fetchFunction = () => this.fleteService.getListByGestorCarga();
+  fetchFunction = () => this.fleteService.getListByGestorCargaAndOc();
+
+  filterSearchCallbackFn = (filter:number) => this.fleteService.getListFleteListById(filter);
+
+  filterOptionLabelfn = (item:FleteList) => (
+    `${item.id} | ${item.remitente_nombre} | ${item.origen_nombre} | ${item.destino_nombre}`);
 
   constructor(private fleteService: FleteService) {}
 

@@ -6,8 +6,13 @@
   [formGroup]="form"
   [hasChange]="hasChange"
   [isShow]="isShow"
+  [isEdit]="isEdit"
   [modelo]="modelo"
   (backClick)="back($event)"
+  [shouldShowActiveButton]="!isActive"
+  [shouldShowInactiveButton]="isActive"
+  (activeClick)="active()"
+  (inactiveClick)="inactive()"
   (editClick)="redirectToEdit()"
   (submitEvent)="submit(false)"
 >
@@ -52,7 +57,7 @@
                   Nombre del Establecimiento
                 </mat-label>
                 <mat-form-field floatLabel="always" appearance="outline" subscriptSizing="dynamic">
-                  <input matInput formControlName="nombre_corto" />
+                  <input matInput formControlName="nombre_corto" appAutofocus />
                   <mat-error *ngIf="info.controls['nombre_corto'].hasError('required')">
                     El Nombre del Establecimiento es <strong>requerido</strong>
                   </mat-error>
@@ -65,7 +70,7 @@
                   Establecimiento (Razon Social)
                 </mat-label>
                 <mat-form-field floatLabel="always" appearance="outline">
-                  <input matInput formControlName="nombre" appAutofocus />
+                  <input matInput formControlName="nombre" />
                   <mat-error *ngIf="info.controls['nombre'].hasError('required')">
                     El nombre es <strong>requerido</strong>
                   </mat-error>
@@ -75,7 +80,7 @@
                <!-- numero sucursal -->
               <app-number-field
                 class="input-form-full col-xs-12 col-sm-6 col-md-3"
-                title="Numero Sucural"
+                title="Número Sucursal"
                 groupName="info"
                 controlName="numero_sucursal"
                 [requerido]="true"
@@ -83,7 +88,7 @@
               ></app-number-field>
 
               <!-- Estado -->
-              <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+              <div *ngIf="mostrarEstado" class="input-form-full col-xs-12 col-sm-6 col-md-2">
                 <mat-label class="custom-label">
                   Estado
                 </mat-label>
@@ -93,7 +98,7 @@
               </div>
 
               <!-- Tipo de Documento -->
-              <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+              <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
                 <mat-label class="custom-label">
                   <span class="required">(*) </span>
                   Tipo de Documento
@@ -122,6 +127,15 @@
                     El número de documento es <strong>requerido</strong>
                   </mat-error>
                 </mat-form-field>
+              </div>
+
+              <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+                <mat-label class="custom-label">
+                  Puede Retirar Efectivo
+                </mat-label>
+                <mat-slide-toggle formControlName="puede_recibir_anticipos_efectivo" >
+                  {{ aniticpoControlValue ? "Si" : "No" }}
+                </mat-slide-toggle>
               </div>
 
               <!-- Página Web -->
@@ -166,7 +180,7 @@
 
     </div>
   </div>
-  
+
   <div class="section" *ngIf="isShowInsumo">
     <h2>MERCADERÍAS</h2>
     <app-punto-venta-by-insumo-proveedor-list

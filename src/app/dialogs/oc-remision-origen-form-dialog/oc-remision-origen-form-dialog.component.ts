@@ -1,17 +1,21 @@
-import { Component, Inject } from '@angular/core';
+import { Unidad } from 'src/app/interfaces/unidad';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { OcRemisionOrigenDialogData } from 'src/app/interfaces/oc-remision-origen-dialog-data';
 import { OrdenCargaRemisionOrigen } from 'src/app/interfaces/orden-carga-remision-origen';
 import { OrdenCargaRemisionOrigenService } from 'src/app/services/orden-carga-remision-origen.service';
 import { subtract } from 'src/app/utils/math';
+import { UnidadService } from 'src/app/services/unidad.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
 
 @Component({
   selector: 'app-oc-remision-origen-form-dialog',
   templateUrl: './oc-remision-origen-form-dialog.component.html',
   styleUrls: ['./oc-remision-origen-form-dialog.component.scss'],
 })
-export class OcRemisionOrigenFormDialogComponent {
+export class OcRemisionOrigenFormDialogComponent implements OnInit {
+  conversion: number = 0
   fotoDocumento: string | null = null;
   fotoDocumentoFile: File | null = null;
   form = this.fb.group({
@@ -22,9 +26,12 @@ export class OcRemisionOrigenFormDialogComponent {
     foto_documento: this.data?.foto_documento,
     nuevo_campo: null
   });
+  OcRemisionOrigenFormDialogComponent: any;
+
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
   get actionText(): string {
-    return this.data ? 'EDITAR' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get cantidad(): number {
@@ -62,11 +69,14 @@ export class OcRemisionOrigenFormDialogComponent {
   }
 
   get saldo(): number {
-    return subtract(this.max, this.cantidad);
+    const cantidadConvertida = this.cantidad * this.conversion;
+    return subtract(this.max, cantidadConvertida);
   }
 
   constructor(
     private ordenCargaRemisionOrigenService: OrdenCargaRemisionOrigenService,
+    private unidadService: UnidadService,
+    private snackBarService: SnackbarService,
     public dialogRef: MatDialogRef<OcRemisionOrigenFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcRemisionOrigenDialogData
@@ -74,12 +84,31 @@ export class OcRemisionOrigenFormDialogComponent {
     this.fotoDocumento = this.data?.foto_documento ?? null;
   }
 
+  ngOnInit(): void {
+   if (this.dialogConfig.disabled) {
+      this.form.disable();
+      this.form.get('foto_documento')?.disable();
+    }
+  }
+
+  getConversionRate(unidadId: number): void {
+    this.unidadService.getConversionById(unidadId).subscribe({
+      next: (conversionData) => {
+        this.conversion = conversionData.conversion_kg || 1;
+      },
+    });
+  }
+
+  onUnidadChange(unidad: Unidad | undefined): void {
+    if (unidad) {
+      const unidadId = unidad.id;
+      this.getConversionRate(unidadId);
+    }
+  }
+
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-
-    console.log("this.form: ", this.form);
-
     if (this.form.valid) {
       const data = JSON.parse(
         JSON.stringify({
@@ -93,15 +122,19 @@ export class OcRemisionOrigenFormDialogComponent {
       if (this.fotoDocumentoFile) {
         formData.append('foto_documento_file', this.fotoDocumentoFile);
       }
-      if (this.data?.id) {
-        this.ordenCargaRemisionOrigenService
-          .edit(this.data?.id, formData)
-          .subscribe(this.close.bind(this));
-      } else {
-        this.ordenCargaRemisionOrigenService
-          .create(formData)
-          .subscribe(this.close.bind(this));
-      }
+
+      const serviceCall = this.data?.id
+        ? this.ordenCargaRemisionOrigenService.edit(this.data?.id, formData)
+        : this.ordenCargaRemisionOrigenService.create(formData);
+
+      serviceCall.subscribe((response: any) => {
+        if (response.warning) {
+          this.snackBarService.open(response.warning);
+          this.close(response.data);
+        } else {
+          this.close(response);
+        }
+      });
     }
   }
 

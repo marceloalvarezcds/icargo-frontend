@@ -182,6 +182,28 @@ export class ProveedorListComponent implements OnInit {
   //   window.open(url, '_blank');
   // }
 
+  active({ row }: TableEvent<ProveedorList>): void {
+    const message = `¿Está seguro que desea activar el Cliente con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.proveedorService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<ProveedorList>): void {
+    const message = `¿Está seguro que desea inactivar el Cliente con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.proveedorService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+  
   deleteRow({ row }: TableEvent<ProveedorList>): void {
     const message = `¿Está seguro que desea eliminar el Proveedor ${row.nombre}?`;
     this.dialog.confirmationToDelete(

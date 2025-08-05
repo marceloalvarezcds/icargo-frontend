@@ -50,7 +50,7 @@
       </mat-expansion-panel>
       <mat-expansion-panel>
         <mat-expansion-panel-header>
-          <mat-panel-title>Estado</mat-panel-title>
+          <mat-panel-title>Estado Liquidacion</mat-panel-title>
         </mat-expansion-panel-header>
         <div>
           <app-checkbox-filter
@@ -120,9 +120,7 @@
       </div>
 
       <div class="input-form-full col-xs-6 col-sm-2">
-        <mat-label>
-
-        </mat-label>
+        <mat-label></mat-label>
       </div>
 
       <div class="input-form-full col-xs-6 col-sm-2">
@@ -145,6 +143,10 @@
 
   <app-table-paginator
     [columns]="columns"
+    [subRowColumnsToDisplay]="subColumns"
+    [expandible]="true"
+    [expandibleRow]="true"
+    [disableSort]="true"
     [data]="list"
     [filterPredicate]="filterPredicate"
     [modelo]="m.MOVIMIENTO"

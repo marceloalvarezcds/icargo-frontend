@@ -20,6 +20,7 @@ type Filter = {
   clasificacion?: string;
   ciudad?: string;
   pais?: string;
+  origen?: string;
 };
 
 @Component({
@@ -46,11 +47,11 @@ export class CentrosOperativosListComponent implements OnInit {
       title: 'Centros Operativos',
       value: (element: CentroOperativoList) => element.nombre,
     },
-    // {
-    //   def: 'nombre_corto',
-    //   title: 'Nombre de Fantasía',
-    //   value: (element: CentroOperativoList) => element.nombre_corto,
-    // },
+    {
+      def: 'nombre_corto',
+      title: 'Origen|Destino',
+      value: (element: CentroOperativoList) => element.origen_destino,
+    },
     {
       def: 'categoria',
       title: 'Clasificación',
@@ -85,6 +86,8 @@ export class CentrosOperativosListComponent implements OnInit {
   ciudadFiltered: string[] = [];
   paisFilterList: string[] = [];
   paisFiltered: string[] = [];
+  origenFilterList: string[] = [];
+  origenFiltered: string[] = [];
 
   get isFilteredByClasificacion(): boolean {
     return (
@@ -100,12 +103,17 @@ export class CentrosOperativosListComponent implements OnInit {
     return this.paisFiltered.length !== this.paisFilterList.length;
   }
 
+  get isFilteredByOrigen(): boolean {
+    return this.origenFiltered.length !== this.origenFilterList.length;
+  }
+
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('clasificacionCheckboxFilter')
   clasificacionCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('ciudadCheckboxFilter')
   ciudadCheckboxFilter!: CheckboxFilterComponent;
   @ViewChild('paisCheckboxFilter') paisCheckboxFilter!: CheckboxFilterComponent;
+  @ViewChild('origenCheckboxFilter') origenCheckboxFilter!: CheckboxFilterComponent;
 
   constructor(
     private centroOperativoService: CentroOperativoService,
@@ -152,6 +160,28 @@ export class CentrosOperativosListComponent implements OnInit {
   //   window.open(url, '_blank');
   // }
 
+  active({ row }: TableEvent<CentroOperativoList>): void {
+    const message = `¿Está seguro que desea activar el Centro Operativo con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.centroOperativoService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<CentroOperativoList>): void {
+    const message = `¿Está seguro que desea inactivar el Centro Operativo con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.centroOperativoService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
   deleteRow({ row }: TableEvent<CentroOperativoList>): void {
     const message = `¿Está seguro que desea eliminar el Centro Operativo
     ${row.nombre}?`;
@@ -195,7 +225,15 @@ export class CentrosOperativosListComponent implements OnInit {
             ? obj.pais_nombre.toLowerCase().indexOf(x) >= 0
             : false
         ) ?? true;
-    return filterByClasificacion && filterByCiudad && filterByPais;
+    const filterByOrigen =
+      filter.origen
+        ?.split('|')
+        .some((x) =>
+          obj.origen_destino
+            ? obj.origen_destino.toLowerCase().indexOf(x) >= 0
+            : false
+        ) ?? true;
+    return filterByClasificacion && filterByCiudad && filterByPais && filterByOrigen;
   }
 
   applyFilter(): void {
@@ -205,6 +243,7 @@ export class CentrosOperativosListComponent implements OnInit {
       this.clasificacionCheckboxFilter.getFilteredList();
     this.ciudadFiltered = this.ciudadCheckboxFilter.getFilteredList();
     this.paisFiltered = this.paisCheckboxFilter.getFilteredList();
+    this.origenFiltered = this.origenCheckboxFilter.getFilteredList();
     if (this.isFilteredByClasificacion) {
       filter.clasificacion = this.clasificacionFiltered.join('|');
       this.isFiltered = true;
@@ -215,6 +254,10 @@ export class CentrosOperativosListComponent implements OnInit {
     }
     if (this.isFilteredByPais) {
       filter.pais = this.paisFiltered.join('|');
+      this.isFiltered = true;
+    }
+    if (this.isFilteredByOrigen) {
+      filter.origen = this.origenFiltered.join('|');
       this.isFiltered = true;
     }
     this.filter(
@@ -237,6 +280,12 @@ export class CentrosOperativosListComponent implements OnInit {
       );
       this.ciudadFilterList = getFilterList(list, (x) => x.ciudad_nombre);
       this.paisFilterList = getFilterList(list, (x) => x.pais_nombre);
+      this.origenFilterList = getFilterList(
+  list.filter(x => x.origen_destino !== 'ORIGEN|DESTINO'),
+  (x) => x.origen_destino
+);
+
+
       this.resetFilterList();
     });
   }
@@ -254,5 +303,6 @@ export class CentrosOperativosListComponent implements OnInit {
     this.clasificacionFiltered = this.clasificacionFilterList.slice();
     this.ciudadFiltered = this.ciudadFilterList.slice();
     this.paisFiltered = this.paisFilterList.slice();
+    this.origenFiltered = this.origenFilterList.slice();
   }
 }

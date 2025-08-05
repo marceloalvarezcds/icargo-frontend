@@ -96,8 +96,6 @@ export class CajaFormComponent implements OnInit, OnDestroy {
     if (this.form.valid) {
       const formData = new FormData();
       const data = JSON.parse(JSON.stringify(this.form.value));
-      const mon = data.moneda_id;
-      data.moneda_id = mon.id;
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {

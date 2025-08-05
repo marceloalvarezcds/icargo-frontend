@@ -30,7 +30,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   this.insumoService.getList();
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   horaPattern: RegExp = /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
-  autoSelectFiltro = "lt";
+  autoSelectFiltro = "L";
 
   form = this.fb.group({
     punto_venta_id: [this.data?.punto_venta_nombre || null],
@@ -61,7 +61,7 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   @Input() item?: InsumoPuntoVentaPrecioList;
 
   @Output() dataSaved = new EventEmitter<void>();
-  @Output() valueChange = new EventEmitter<number>();
+  //@Output() valueChange = new EventEmitter<number>();
 
   constructor(
     private fb: FormBuilder,
@@ -80,12 +80,12 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
     if (this.isShow) {
       return 'VER';
     }
-    return this.isEdit ? 'ACTUALIZAR' : 'NUEVO';
+    return this.isEdit ? 'VER' : 'NUEVA';
   }
 
 
   get modeText(): string {
-    return this.isEdit ? 'PRECIO' : 'MERCADERIA';
+    return this.isEdit ? 'MERCADERIA' : 'MERCADERIA';
   }
 
 
@@ -182,8 +182,8 @@ export class InsumoVentaPrecioDialogComponent implements OnInit {
   }
 
   onMonedaSeleccionada(moneda: any) {
-    this.form.get('moneda_id')?.setValue(moneda?.id);
-    this.valueChange.emit(moneda?.id);
+    //this.form.get('moneda_id')?.setValue(moneda?.id);
+    //this.valueChange.emit(moneda?.id);
   }
 
 

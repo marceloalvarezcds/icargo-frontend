@@ -42,7 +42,7 @@ export class InsumoListComponent implements OnInit {
     {
       def: 'estado',
       title: 'Estado',
-      value: (element: InsumoPuntoVentaPrecioList) => element.estado,
+      value: (element: InsumoPuntoVentaPrecioList) => element.estado.toUpperCase(),
     },
     {
       def: 'fecha_inicio',
@@ -139,6 +139,9 @@ export class InsumoListComponent implements OnInit {
     return this.list.some(item => item.estado === EstadoEnum.INACTIVO);
   }
 
+  get hasMercaderias(): boolean {
+    return this.list.length > 0;
+  }
 
   @ViewChild(MatAccordion) accordion!: MatAccordion;
   @ViewChild('estadoCheckboxFilter')
@@ -161,23 +164,23 @@ export class InsumoListComponent implements OnInit {
   }
 
   redirectToCreate(): void {
-    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`]);
+    this.router.navigate([`/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}`]);
   }
 
   redirectToCreateMercaderias(): void {
-    this.router.navigate([`/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}/mercaderias`]);
+    this.router.navigate([`/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.CREAR}/mercaderias`]);
   }
 
   redirectToEdit(event: TableEvent<InsumoPuntoVentaPrecio>): void {
     this.router.navigate([
-      `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`,
+      `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.EDITAR}`,
       event.row.id,
     ]);
   }
 
   redirectToShow(event: TableEvent<InsumoPuntoVentaPrecio>): void {
     this.router.navigate([
-      `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.VER}`,
+      `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.VER}`,
       event.row.id,
     ]);
   }

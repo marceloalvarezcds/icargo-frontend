@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, OnChanges, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { LiquidacionEstadoEnum } from 'src/app/enums/liquidacion-estado-enum';
 import { LiquidacionEtapaEnum } from 'src/app/enums/liquidacion-etapa-enum';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
@@ -13,69 +13,91 @@ import { editLiquidacionData } from 'src/app/form-data/liquidacion-movimiento';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { LiquidacionConfirmadaFormFacturasComponent } from '../liquidacion-confirmada-form-facturas/liquidacion-confirmada-form-facturas.component';
 import { Factura } from 'src/app/interfaces/factura';
-import { LiquidacionEditFormMovimientosComponent } from '../liquidacion-edit-form-movimientos/liquidacion-edit-form-movimientos.component';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Moneda } from 'src/app/interfaces/moneda';
 
 @Component({
   selector: 'app-liquidacion-edit-fields',
   templateUrl: './liquidacion-edit-fields.component.html',
-  styleUrls: ['./liquidacion-edit-fields.component.scss']
+  styleUrls: ['./liquidacion-edit-fields.component.scss'],
 })
 export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit {
 
   E = LiquidacionEstadoEnum;
 
-  @ViewChild('saldoView')
-  childSaldoView!:SaldoComponent;
+  @ViewChild('saldoView') childSaldoView!:SaldoComponent;
 
-  @ViewChild('facturaList')
-  liquidacionFacturasComponent?: LiquidacionConfirmadaFormFacturasComponent;
+  @ViewChild('facturaList') liquidacionFacturasComponent?: LiquidacionConfirmadaFormFacturasComponent;
 
   @Input() etapa?: LiquidacionEtapaEnum;
   @Input() estadoCuenta?: EstadoCuenta;
   @Input() item?: Liquidacion;
-  @Input() movimientos: Movimiento[] = [];
   @Input() isEdit = false;
-
+  @Input() set movimientosList(movs: Movimiento[]) {
+    this.movimientos = movs;
+    if (!this.esOrdenPago){
+      this.actualizarSentido();
+      this.listMovimientosGrouped = this.groupBy('moneda_nombre', this.movimientos);
+    }
+  }
   @Input() set liquidacion(liq:Liquidacion) {
     this.item = liq;
-    this.monto_pc.setValue(Math.abs(this.monto));
+    if (liq.es_orden_pago && liq.estado != LiquidacionEstadoEnum.CANCELADO){
+      this.monto_pc.setValue(Math.abs(liq.pago_cobro!));
+      this.form.controls['observacion'].setValue(liq.observacion);
+      this.form.controls['monto_pc'].addValidators([Validators.required, Validators.min(0)]);
+      this.form.controls['monto_pc'].enable();
+      this.form.controls['monto_pc'].updateValueAndValidity();
+      this.form.controls['es_cobro'].enable();
+      this.form.controls['moneda_id'].enable();
+    };
+    this.form.patchValue({
+      moneda_id: liq.moneda_id
+    });
+    this.selectMoneda(liq.moneda);
+    this.calcularTotalMoneda(liq.movimientos);
   }
 
   @Output() actualizarLiquidacion: EventEmitter<any> = new EventEmitter<any>();
+  @Output() actualizarLiquidacionOnly: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarMovimientos: EventEmitter<any> = new EventEmitter<any>();
   @Output() actualizarEstado: EventEmitter<any> = new EventEmitter<any>();
 
   instrumentoInMemoryList: InstrumentoLiquidacionItem[] = [];
-  saldo = 0;
+  movimientos:Movimiento[] = [];
   liquidacionTipoEfectivo = false;
   liquidacionTipoInsumo = false;
+  monedaLocal?:Moneda;
+  totalMonedas:any;
 
   colapseDivMovimientos = false;
   colapseDivFacturas = false;
   colapseDivInstrumentos = false;
   colapseDivHistorico = false;
 
+  listMovimientosGrouped: any = null;
+
   form = new FormGroup({
-    monto_pc: new FormControl(null, [Validators.required, Validators.min(0)] ),
-    es_cobro: new FormControl(true, Validators.required),
-    moneda_id: new FormControl(null, Validators.required),
+    monto_pc: new FormControl({value:null, disabled:true}, [Validators.required, Validators.min(0)] ),
+    es_cobro: new FormControl({value:true, disabled:true }, [Validators.required]),
+    moneda_id: new FormControl({value:null, disabled:true}, [Validators.required]),
+
+    es_insumo_efectivo: new FormControl(true, ),
+    tipo_insumo: new FormControl(null, ),
+    punto_venta_id: new FormControl(null, ),
+    observacion: new FormControl({value:"", disabled:true}),
   });
 
   get monto(): number {
-    return this.item?.pago_cobro ?? subtract(this.credito, this.debito);
-  }
-
-  get montoSaldo(): number {
-    return (this.childSaldoView?.monto ?? 0);
+    return subtract(this.credito, this.debito);
   }
 
   get credito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.credito, 0);
+    return this.movimientos.reduce((acc, cur) => acc + (cur.credito_ml), 0);
   }
 
   get debito(): number {
-    return this.movimientos.reduce((acc, cur) => acc + cur.debito, 0);
+    return this.movimientos.reduce((acc, cur) => acc + (cur.debito_ml), 0);
   }
 
   get isShow(): boolean {
@@ -83,7 +105,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get saldoCC():number {
-    return (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0);
+    return ((this.estadoCuenta?.pendiente ?? 0) + (this.estadoCuenta?.confirmado ?? 0) + (this.estadoCuenta?.finalizado ?? 0) ) ;
   }
 
   get saldoFinalizado(): number | undefined {
@@ -91,10 +113,18 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
   }
 
   get esFinalizado(): boolean {
-    return (this.item?.estado === LiquidacionEstadoEnum.PENDIENTE ||
-      this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO ||
       this.item?.estado === LiquidacionEstadoEnum.SALDO_CERRADO  ||
-      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
+      this.item?.estado === LiquidacionEstadoEnum.FINALIZADO ||
+      this.item?.estado === LiquidacionEstadoEnum.CANCELADO)  ;
+  }
+
+  get esSaldoAbierto(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.SALDO_ABIERTO);
+  }
+
+  get esFinalizadoInstrumentos(): boolean {
+    return (this.item?.estado === LiquidacionEstadoEnum.FINALIZADO);
   }
 
   get comentario(): string {
@@ -117,10 +147,6 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.item?.instrumentos_saldo ?? 0;
   }
 
-  get pago_cobro_abs():number {
-    return Math.abs(this.item!.pago_cobro!);
-  }
-
   get gestorCargaId(): number | undefined {
     return this.item?.gestor_carga_id;
   }
@@ -129,20 +155,16 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     return this.form.controls['monto_pc'] as FormControl;
   }
 
-  get monto_pc_value(): number {
-    return this.monto_pc.value;
-  }
-
   get saldoMovimientoLiquidacion(){
     return this.childSaldoView.saldoMovimiento;
   }
 
-  get pagoCobro(): FormControl {
-    return this.form.controls['es_cobro'] as FormControl;
+  get esOrdenPago():boolean {
+    return this.item?.es_orden_pago ?? false;
   }
 
-  get pagoCobroValue() {
-    return this.form.controls['es_cobro'].value;
+  get montoLiquidacion():number {
+    return this.item!.es_orden_pago ? this.item!.pago_cobro! : this.monto;
   }
 
   constructor(
@@ -159,27 +181,19 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.form.controls['es_cobro'].setValue(false);
     }
 
-    if (this.esFinalizado) {
+    if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
       this.form.controls['monto_pc'].disable();
       this.form.controls['moneda_id'].disable();
       this.form.controls['es_cobro'].disable();
     }
 
-    setTimeout(() => {
-      this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
-    }, 500);
-
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("changes: ", changes);
     for (const propName in changes) {
       const chng = changes[propName];
-      if (propName === 'movimientos') {
-        this.actualizarSaldos(chng.currentValue);
-      }
       if (propName === 'liquidacion') {
-        if (this.esFinalizado) {
+        if (this.esFinalizado || this.item?.estado === LiquidacionEstadoEnum.PENDIENTE) {
           this.form.controls['monto_pc'].disable();
           this.form.controls['moneda_id'].disable();
           this.form.controls['es_cobro'].disable();
@@ -188,8 +202,7 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
     }
   }
 
-  actualizarSaldos(movs:Movimiento[]):void{
-    console.log("this.item!.pago_cobro: ", this.item!.pago_cobro);
+  /*actualizarSaldos(movs:Movimiento[]):void{
     if (this.item!.pago_cobro === null) {
       const deb = movs.reduce((acc, cur) => acc + cur.debito, 0);
       const cred = movs.reduce((acc, cur) => acc + cur.credito, 0);
@@ -198,25 +211,39 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
       this.item!.pago_cobro = subtract(cred, deb);
       this.monto_pc.setValue(Math.abs(this.item!.pago_cobro!));
     }
-
     if (this.item!.pago_cobro!=0)
       if (this.item!.pago_cobro>0) {
         this.form.controls['es_cobro'].setValue(true);
       } else {
         this.form.controls['es_cobro'].setValue(false);
       }
+  }*/
+
+  actualizarSentido(){
+    if (this.monto>0) {
+      this.form.controls['es_cobro'].setValue(true);
+    } else {
+      this.form.controls['es_cobro'].setValue(false);
+    }
   }
 
-  actualizarFactura():void {
+  actualizarFactura(factura:Factura|null):void {
     //this.item!.pago_cobro = null;
+    if (factura)
+      this.item!.facturas = this.item!.facturas ? [...this.item!.facturas, factura] : [factura];
+    else this.item!.facturas = [];
+
     //this.liquidacionFacturasComponent?.loadList();
-    //this.actualizarMovimientos.emit(this.item);
+    this.actualizarMovimientos.emit(this.item);
   }
 
   actualizarMovimientosEvento(movimientos: Movimiento[]){
-    console.log("movimientos: ", movimientos);
     // recalcula saldo y monto pago cobro
-    this.item!.pago_cobro = null;
+    //this.item!.pago_cobro = null;
+    if (this.esOrdenPago) return;
+
+    //this.calcularTotalMoneda(movimientos);
+
     this.actualizarMovimientos.emit(movimientos);
   }
 
@@ -224,40 +251,26 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
 
     this.form.markAsDirty();
     this.form.markAllAsTouched();
-    if (!this.form.valid) {
+
+    if (!this.form.valid && this.liquidacion.es_orden_pago) {
       return;
     }
 
-    let es_pago_cobro = (this.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? this.monto_pc.value : (this.monto_pc.value*-1);
+    let liquidacionValues = this.form.getRawValue();
+    let pago_cobro = this.esOrdenPago
+      ?  liquidacionValues.es_cobro ? liquidacionValues.monto_pc : (liquidacionValues.monto_pc*-1)
+      : 0;
 
+    this.item!.pago_cobro = pago_cobro;
     this.item!.monto = pago_cobro;
-
-    const pagoCobro = this.pagoCobroValue;
-    const moneda = this.form.controls['moneda_id'].value;
-
-    console.log("pagoCobro value: ", pagoCobro);
-    if ( !pagoCobro ) {
-      this.item!.monto = Math.abs(pago_cobro)*-1;
-      this.item!.es_pago_cobro='COBRO';
-    } else {
-      this.item!.monto = Math.abs(pago_cobro);
-      this.item!.es_pago_cobro='PAGO';
-    }
-
-    this.item!.moneda_id = moneda.id;
-
-    console.log("moneda: ", moneda);
-    console.log("this.monto_pc.value: ", this.monto_pc.value);
-    console.log("pagoCobro: ", pagoCobro);
+    this.item!.es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
+    this.item!.moneda_id = liquidacionValues.moneda_id;
 
     this.liquidacionService
       .edit(this.item!.id, editLiquidacionData(this.item!))
       .subscribe((resp) => {
         this.snackbar.open('Datos guardados satisfactoriamente');
-
         //this.actualizarLiquidacion.emit(resp);
-
         /*if (confirmed) {
           this.router.navigate([backUrl]);
         } else {
@@ -267,9 +280,93 @@ export class LiquidacionEditFieldsComponent implements OnChanges, AfterViewInit 
             this.getData();
           }
         }*/
-
         //this.movimientos.splice(0, this.movimientos.length);
       });
+  }
+
+  selectMoneda(moneda: Moneda) {
+    this.monedaLocal = moneda;
+  }
+
+  private calcularTotalMoneda(movimientos: Movimiento[]):void {
+
+    if (this.item?.es_orden_pago) {
+      this.totalMonedas = [{
+          moneda:this.monedaLocal,
+          total: Math.abs(this.item.pago_cobro!),
+          residuo: Math.abs(this.item.pago_cobro!),
+          instrumento:0
+        }];
+      return;
+    }
+
+    const resultado = movimientos.reduce((acumulador:any, item) => {
+      const { moneda, monto, monto_mon_local } = item;
+      const clave = moneda?.id; // Usamos el id como clave única
+
+      if (!acumulador[clave]) {
+        acumulador[clave] = {
+          moneda: { ...moneda }, // Copiamos el objeto moneda
+          total: 0,
+          total_ml: 0,
+          instrumento:0,
+          residuo:0
+        };
+      }
+
+      acumulador[clave].total += monto;
+      acumulador[clave].total_ml += monto_mon_local;
+      acumulador[clave].residuo += monto;
+
+      return acumulador;
+    }, {});
+
+    Object.keys(resultado).forEach(key => {
+      resultado[key].total = Number(resultado[key].total.toFixed(2));
+      resultado[key].total_ml = Number(resultado[key].total_ml.toFixed(2));
+      resultado[key].residuo = Number(resultado[key].residuo.toFixed(2));
+    });
+
+    this.totalMonedas = Object.values(resultado);
+  }
+
+  groupBy( column:string, data: any[] ){
+
+    if(!column) return data;
+
+    const customReducer = (accumulator:any, currentValue:any) => {
+      let currentGroup = currentValue[column];
+      if(!accumulator[currentGroup])
+      accumulator[currentGroup] = [{
+        groupName: `Moneda: ${currentValue[column]}`,
+        totales: 0,
+        totalesML: 0,
+        isGroup: true,
+      }];
+
+      accumulator[currentGroup][0] =
+        {
+          ...accumulator[currentGroup][0],
+          totales:accumulator[currentGroup][0].totales + currentValue.monto,
+          totalesML:accumulator[currentGroup][0].totalesML + currentValue.monto_ml
+        };
+
+      accumulator[currentGroup].push(currentValue);
+
+      return accumulator;
+    }
+
+    let groups = data.reduce(customReducer,{});
+
+    Object.keys(groups).forEach(key => {
+      groups[key][0].totales = Number(groups[key][0].totales.toFixed(2));
+      groups[key][0].totalesML = Number(groups[key][0].totalesML.toFixed(2));
+    });
+
+    let groupArray = Object.keys(groups).map(key => groups[key]);
+    let flatList = groupArray.reduce((a,c)=>{return a.concat(c); },[]);
+
+    return flatList;
   }
 
 }

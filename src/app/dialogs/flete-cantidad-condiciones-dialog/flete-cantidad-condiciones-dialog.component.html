@@ -1,0 +1,63 @@
+  <span mat-dialog-title>
+    <span [ngClass]="{ 'action-text': true }">MODIFICAR</span>
+    <span class="complement-text"> CANTIDAD A TRANSPORTAR</span>
+  </span>
+
+<div mat-dialog-content>
+  <div *ngIf="form" [formGroup]="form">
+    <div [formGroupName]="'condicion'"> <!-- igual que groupName -->
+
+      <div class="row">
+        <app-number-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Cantidad a Transportar (Kg)"
+          controlName="condicion_cantidad"
+          [groupName]="'condicion'"
+          [form]="form"
+          [hint]="condicionCantidadHint"
+          ></app-number-field>
+
+        <app-number-field
+          class="input-form-full col-xs-12 col-sm-6 col-md-6"
+          title="Saldo a Transportar (Kg)"
+          controlName="saldo"
+          [groupName]="'condicion'"
+          [form]="form"
+          [readonly]="true"
+        ></app-number-field>
+
+       <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-6 field-cargado"
+        title="Cargado (Kg)"
+        controlName="cargado"
+        [groupName]="'condicion'"
+        [form]="form"
+        [readonly]="true"
+      ></app-number-field>
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div mat-dialog-actions class="buttons-actions">
+  <button
+   mat-stroked-button
+   mat-dialog-close
+   class="botones"
+   (click)="onCancel()">
+   <mat-icon>close</mat-icon>
+   Cerrar
+  </button>
+  <button
+    mat-flat-button cdkFocusInitial
+    color="primary"
+    class="botones"
+    type="button"
+    [disabled]="!isCantidadValida"
+    (click)="onSave()">
+    <mat-icon>save</mat-icon>
+    GUARDAR
+  </button>
+</div>

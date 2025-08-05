@@ -104,4 +104,11 @@ export class OcFinalizadasDialogFieldComponent implements OnInit {
   ngOnInit(): void {
     this.getList();
   }
+
+  filterSearchCallbackFn = (filter:string) => this.ocService.getFinalizadosListById(filter);
+
+  filterOptionLabelfn = (item:OrdenCargaList) => (
+    `${item.camion_placa} | ${item.flete_remitente_nombre} | ${item.origen_nombre} | ${item.destino_nombre}`);
+
+
 }

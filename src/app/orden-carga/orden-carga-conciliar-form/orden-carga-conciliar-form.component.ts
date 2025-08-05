@@ -128,6 +128,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       anticipo_propietario: null,
       anticipos: null,
       id_orden_carga: [null, Validators.required],
+      is_propietario_condicionado: null,
+      is_chofer_condicionado: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [{ value: '', disabled: true }],
@@ -178,27 +180,27 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   }
 
   get remisionResultadoList(): OrdenCargaRemisionResultado[] {
-    return this.item!?.remisiones_resultado.slice();
+    return this.item?.remisiones_resultado?.slice() || [];
   }
 
   get movimientoList(): Movimiento[] {
-    return this.item!?.movimientos.slice();
+    return this.item?.movimientos?.slice() || [];
   }
 
   get anticipoList(): OrdenCargaAnticipoRetirado[]{
-    return this.item!?.anticipos.slice();
+    return this.item?.anticipos?.slice() || [];
   }
 
   get complementoList(): OrdenCargaComplemento[] {
-    return this.item!?.complementos.slice();
+    return this.item?.complementos?.slice() || [];
   }
 
   get descuentoList(): OrdenCargaDescuento[] {
-    return this.item!?.descuentos.slice();
+    return this.item?.descuentos?.slice() || [];
   }
 
   get historialList(): OrdenCargaEstadoHistorial[] {
-    return this.item!?.historial.slice();
+    return this.item?.historial?.slice() || [];
   }
 
   get porcentajeAnticipos(): FormArray {
@@ -301,9 +303,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
 
     });
     this.setInitialToggleState();
- 
+
     this.form.get('combinacion.id_orden_carga')?.valueChanges
-    .pipe(distinctUntilChanged()) 
+    .pipe(distinctUntilChanged())
     .subscribe(id => {
       if (id) {
         this.getData();
@@ -366,7 +368,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
       this.submit(confirmed);
     } else {
       let comentario = this.form.get('info.comentarios')?.value;
-      
+
       // Convertir el comentario a mayúsculas si no está vacío
       if (comentario) {
         comentario = comentario.toUpperCase();
@@ -379,7 +381,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
           comentario: comentario,
         };
         formData.append('data', JSON.stringify(data));
-  
+
         // Llamar al servicio para guardar el comentario
         this.ordenCargaService.createComentarios(formData).subscribe(
           (item) => {
@@ -591,12 +593,11 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
                           horizontalPosition: 'center'
                       });
                       this.downloadResumenPDF();
-                  } 
+                  }
               });
           },
       );
   }
-
 
   conciliar(): void {
     if (this.idOC !== null && this.idOC !== undefined) {
@@ -621,14 +622,42 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     }
   }
 
+  recalcularProvisiones(): void {
+    console.log("recalcularProvisiones");
+    if (this.idOC !== null && this.idOC !== undefined) {
+      if (this.item?.estado === 'Conciliado') {
+        alert('La Orden de Carga ya está conciliada.');
+        return;
+      }
+
+      if (this.item?.estado !== 'Finalizado') {
+        alert('No se puede generar provisiones de orden, debe estar en estado FINALIZADO.');
+        return;
+      }
+
+      this.ordenCargaService.provisiones(this.idOC).subscribe( res => {
+        //this.getData();
+        this.snackBar.open('Provisiones Generado con exito', 'Cerrar', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center'
+      });
+      });
+
+
+    } else {
+      console.error('No se puede conciliar la Orden de Carga sin un ID válido');
+    }
+  }
+
   openEvaluacionesDialog(): MatDialogRef<EvaluacionesDialogComponent> {
     return this.dialog.open(EvaluacionesDialogComponent, {
       data: {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -646,8 +675,8 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         orden_carga_id: this.item?.id,
         camion_id: this.item?.camion_id,
         semi_id: this.item?.semi_id,
-        propietario_id: this.item?.combinacion_propietario_id,
-        chofer_id: this.item?.combinacion_chofer_id,
+        propietario_id: this.item?.propietario_id,
+        chofer_id: this.item?.chofer_id,
         gestor_carga_id: this.item?.gestor_carga_id,
         origen_id: this.item?.origen_id,
         destino_id: this.item?.destino_id,
@@ -687,18 +716,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             if (comentarioUpper) {
                 this.createComentarioYConciliar(comentarioUpper);
             }
-
-            this.snackBar.open('Generando PDF...', 'Cerrar', {
-                duration: 3000,
-                verticalPosition: 'top',
-                horizontalPosition: 'center'
-            });
-            this.downloadConciliarResumenPDF();
         },
     );
   }
-
-
 
   downloadResumenPDF(): void {
     this.ordenCargaService.resumenPdf(this.idOC).subscribe((filename) => {
@@ -766,7 +786,6 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
   }
 
 
-
   submit(confirmed: boolean): void {
 
     this.form.markAsDirty();
@@ -774,7 +793,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
 
     if (this.form.valid) {
         const formData = new FormData();
-       
+
         this.cambiarPedido = false;
         const data = JSON.parse(
             JSON.stringify({
@@ -845,7 +864,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
     });
   }
 
- 
+
   getData(): void {
     const ocValue = this.idOC;
     if (ocValue) {
@@ -872,7 +891,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             color_semi: data.semi_color,
             propietario_camion: data.camion_propietario_nombre,
             propietario_camion_doc: data.camion_propietario_documento,
-            chofer_camion: data.camion_chofer_nombre,
+            chofer_camion: data.chofer_nombre,
             chofer_camion_doc: data.combinacion_chofer_doc,
             beneficiario_camion: data.camion_beneficiario_nombre,
             beneficiario_camion_doc: data.camion_beneficiario_documento,
@@ -891,7 +910,9 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
             diferencia: data.diferencia_origen_destino,
             anticipo_chofer: data.camion_chofer_puede_recibir_anticipos,
             estado: data.estado,
-            anticipos: data.anticipos_liberados
+            anticipos: data.anticipos_liberados,
+            is_propietario_condicionado: data.is_propietario_condicionado,
+            is_chofer_condicionado: data.is_chofer_condicionado,
           },
           info: {
             cantidad_nominada: data.cantidad_nominada,
@@ -906,7 +927,7 @@ export class OrdenCargaConciliarFormComponent implements OnInit, OnDestroy {
         });
         this.form.get('info.cantidad_nominada')?.disable();
         this.originalComentario = data.comentarios ?? null;
-      
+
       });
     } else {
       console.warn('No se ha encontrado un ID de Orden de Carga válido');

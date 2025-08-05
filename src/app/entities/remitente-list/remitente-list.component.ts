@@ -244,6 +244,28 @@ export class RemitenteListComponent implements OnInit {
   //   }, 2000); // Cambia el retardo según sea necesario
   // }
 
+  active({ row }: TableEvent<RemitenteList>): void {
+    const message = `¿Está seguro que desea activar el Cliente con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.remitenteService.active(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
+  inactive({ row }: TableEvent<RemitenteList>): void {
+    const message = `¿Está seguro que desea inactivar el Cliente con Nº ${row.id}?`;
+    this.dialog.changeStatusConfirm(
+      message,
+      this.remitenteService.inactive(row.id),
+      () => {
+        this.getList();
+      }
+    );
+  }
+
   deleteRow({ row }: TableEvent<RemitenteList>): void {
     const message = `¿Está seguro que desea eliminar el Remitente ${row.nombre}?`;
     this.dialog.confirmationToDelete(

@@ -8,6 +8,7 @@ import { PermisoModeloEnum as m } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
 import { FleteComplemento } from 'src/app/interfaces/flete-complemento';
 import { TableEvent } from 'src/app/interfaces/table';
+import { User } from 'src/app/interfaces/user';
 
 @Component({
   selector: 'app-flete-form-complementos',
@@ -23,27 +24,46 @@ export class FleteFormComplementosComponent {
       sticky: true,
     },
     {
-      def: 'remitente_monto',
-      title: 'A Cobrar',
-      value: (element: FleteComplemento) => element.remitente_monto,
-      type: 'number',
-    },
-    {
-      def: 'remitente_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.remitente_moneda_nombre,
-    },
-    {
       def: 'propietario_monto',
       title: 'A Pagar',
-      value: (element: FleteComplemento) => element.propietario_monto,
-      type: 'number',
+      value: (element: FleteComplemento) =>
+        `${(element.propietario_monto ?? 0).toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.propietario_moneda_simbolo ?? ''}`,
+      type: 'text',
     },
     {
-      def: 'propietario_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteComplemento) => element.propietario_moneda_nombre,
+      def: 'propietario_monto_ml',
+      title: 'A Pagar ML',
+      value: (element: FleteComplemento) =>
+        `${(element.propietario_monto_ml ?? 0).toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.gestor_carga_moneda_simbolo ?? ''}`,
+      type: 'text',
     },
+    {
+      def: 'remitente_monto',
+      title: 'A Cobrar',
+      value: (element: FleteComplemento) => {
+        const monto = element.remitente_monto;
+        if (monto == null || monto === 0) return '';
+        return `${monto.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ${element.remitente_moneda_simbolo ?? ''}`;
+      },
+      type: 'text',
+    },
+    {
+      def: 'remitente_monto_ml',
+      title: 'A Cobrar ML',
+      value: (element: FleteComplemento) => {
+        const montoMl = element.remitente_monto_ml;
+        if (montoMl == null || montoMl === 0) return '';
+        return `${montoMl.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ${element.gestor_carga_moneda_simbolo ?? ''}`;
+      },
+      type: 'text',
+    },
+
     {
       def: 'anticipado',
       title: 'Anticipado',
@@ -57,8 +77,10 @@ export class FleteFormComplementosComponent {
 
   @Input() form?: FormGroup;
   @Input() gestorCuentaId?: number;
+  @Input() user?: User
   @Input() isShow = false;
   @Input() isEdit = false;
+  @Input() isEditCopyForm = false;
   @Input() set complementoList(list: FleteComplemento[]) {
     list.forEach((item) => {
       this.formArray.push(this.createForm(item));
@@ -73,17 +95,41 @@ export class FleteFormComplementosComponent {
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   create(): void {
-    this.dialog
-      .open(ComplementoFormDialogComponent, {
-        //width: '500px',
-        panelClass: 'half-dialog'
-      })
-      .afterClosed()
-      .pipe(filter((complemento) => !!complemento))
-      .subscribe((complemento: FleteComplemento) => {
-        this.list = this.list.concat([complemento]);
-        this.formArray.push(this.createForm(complemento));
-      });
+  this.dialog
+    .open(ComplementoFormDialogComponent, {
+      panelClass: 'half-dialog'
+    })
+    .afterClosed()
+    .pipe(filter((complemento) => !!complemento))
+    .subscribe((complemento: FleteComplemento) => {
+      complemento.propietario_moneda_simbolo = complemento.propietario_moneda?.simbolo ?? '';
+      complemento.gestor_carga_moneda_simbolo = complemento.gestor_carga_moneda_simbolo ?? '';
+
+      if (complemento.habilitar_cobro_remitente) {
+        complemento.remitente_moneda_simbolo = complemento.remitente_moneda?.simbolo ?? '';
+
+        // Formatear los montos remitente para mostrar con separador de miles
+        complemento.remitente_monto = complemento.remitente_monto
+          ? Number(complemento.remitente_monto.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }))
+          : complemento.remitente_monto;
+        complemento.remitente_monto_ml = complemento.remitente_monto_ml
+          ? Number(complemento.remitente_monto_ml.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 }))
+          : complemento.remitente_monto_ml;
+      } else {
+        complemento.remitente_moneda_simbolo = '';
+      }
+
+      this.list = this.list.concat([complemento]);
+      this.formArray.push(this.createForm(complemento));
+    });
+}
+
+  show(event: TableEvent<FleteComplemento>): void {
+    const data = event.row;
+    this.dialog.open(ComplementoFormDialogComponent, {
+      data: { ...data, isShow: true },
+      panelClass: 'half-dialog',
+    });
   }
 
 
@@ -91,10 +137,17 @@ export class FleteFormComplementosComponent {
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(ComplementoFormDialogComponent, { data })
+      .open(ComplementoFormDialogComponent, { data,  panelClass: 'half-dialog' })
       .afterClosed()
       .pipe(filter((complemento) => !!complemento))
       .subscribe((complemento: FleteComplemento) => {
+      complemento.propietario_moneda_simbolo = complemento.propietario_moneda?.simbolo ?? '';
+      complemento.gestor_carga_moneda_simbolo = complemento.gestor_carga_moneda_simbolo ?? '';
+      if (complemento.habilitar_cobro_remitente) {
+            complemento.remitente_moneda_simbolo = complemento.remitente_moneda?.simbolo ?? '';
+          } else {
+            complemento.remitente_moneda_simbolo = '';
+        }
         this.list[index] = complemento;
         this.list = this.list.slice();
         this.formArray.setControl(index, this.createForm(complemento));
@@ -126,10 +179,12 @@ export class FleteFormComplementosComponent {
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
+      propietario_monto_ml: data.propietario_monto_ml,
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
       propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_cobro_remitente: data.habilitar_cobro_remitente,
       remitente_monto: data.remitente_monto,
+      remitente_monto_ml: data.remitente_monto_ml,
       remitente_moneda_id: data.remitente_moneda_id,
       remitente_moneda_simbolo: data.remitente_moneda?.simbolo,
     });

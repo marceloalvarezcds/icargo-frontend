@@ -16,4 +16,8 @@ export class UnidadService {
   getList(): Observable<Unidad[]> {
     return this.http.get<Unidad[]>(`${this.url}/`);
   }
+
+  getConversionById(unidadId: number): Observable<Unidad> {
+    return this.http.get<Unidad>(`${this.url}/${unidadId}/conversion`);
+  }
 }

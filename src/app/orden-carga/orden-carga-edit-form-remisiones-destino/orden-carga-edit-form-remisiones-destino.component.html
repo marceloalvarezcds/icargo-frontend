@@ -8,15 +8,36 @@
       type="button"
       (click)="create()"
       id="create-button"
-      [disabled]=" isShow || oc?.estado === 'Nuevo' || !oc?.flete_id  || oc?.estado === 'Conciliado'
-        || oc?.estado === 'Finalizado' || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido"
-    ><mat-icon
-      class="small-icon"
-      [ngClass]="{ 'disabled': isShow || oc?.estado === 'Nuevo' || !oc?.flete_id   || oc?.estado === 'Finalizado'
-       ||  oc?.estado === 'Conciliado' || !(modelo | puede: a.CREAR:gestorCargaId) || isEditPedido}">
-      add</mat-icon>
+      [disabled]="
+        isShow ||
+        oc?.estado === 'Nuevo' ||
+        oc?.estado === 'Cancelado' ||
+        oc?.estado === 'Conciliado' ||
+        !oc?.flete_id ||
+        !(modelo | puede: a.CREAR:gestorCargaId) ||
+        isEditPedido ||
+        (tieneRolOperador && oc?.estado === 'Finalizado')
+      "
+    >
+      <mat-icon
+        class="small-icon"
+        [ngClass]="{
+          'disabled':
+            isShow ||
+            oc?.estado === 'Nuevo' ||
+            oc?.estado === 'Cancelado' ||
+            oc?.estado === 'Conciliado' ||
+            !oc?.flete_id ||
+            !(modelo | puede: a.CREAR:gestorCargaId) ||
+            isEditPedido ||
+            (tieneRolOperador && oc?.estado === 'Finalizado')
+        }"
+      >
+        add
+      </mat-icon>
       DESCARGA
     </button>
+
   </div>
 </div>
 
@@ -29,7 +50,9 @@
     [data]="lista"
     (editClick)="edit($event)"
     (deleteClick)="remove($event)"
-    [hideShow]="oc?.estado === 'Conciliado'"
-    [isShow]="oc?.estado === 'Conciliado'"
+    (showClick)="show($event)"
+    [hideShow]="oc?.estado === 'Conciliado' "
+    [isShow]="oc?.estado === 'Conciliado' "
+    [hideEdit]="hideEdit"
   ></app-table>
 </div>

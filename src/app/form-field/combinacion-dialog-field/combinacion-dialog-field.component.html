@@ -28,6 +28,10 @@
         [inputValuePropName]="inputValuePropName"
         [form]="form"
         (valueChange)="onCamionChange($event)"
+        [requerido]="requerido"
+        [autocomplete]="true"
+        [filterSearchCallbackFn]="filterSearchCallbackFn"
+        [filterOptionLabelfn]="filterOptionLabelfn"
       ></app-dialog-field>
   </ng-container>
   <ng-template #inputTemplate>

@@ -27,7 +27,7 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
       value: (element: OrdenCargaList) => element.estado,
     },
     {
-      def: 'tracto',
+      def: 'camion_placa',
       title: 'Tracto',
       value: (element: OrdenCargaList) => element.camion_placa,
     },
@@ -76,6 +76,11 @@ export class OcAceptadasDialogFieldComponent implements OnInit {
   ocEstadoAceptado = false;
 
   fetchFunction = () => this.ocService.getAceptadosList();
+
+  filterSearchCallbackFn = (filter:string) => this.ocService.getAceptadasListById(filter);
+
+  filterOptionLabelfn = (item:OrdenCargaList) => (
+    `${item.camion_placa} | ${item.flete_remitente_nombre} | ${item.origen_nombre} | ${item.destino_nombre}`);
 
   constructor(private ocService: OrdenCargaService) {}
 

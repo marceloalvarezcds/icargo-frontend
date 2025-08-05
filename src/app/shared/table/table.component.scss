@@ -192,6 +192,12 @@ td.mat-column-monto_retirado {
   padding-right: 30px;
 }
 
+td.mat-column-monto_mon_local {
+  width: 50px;
+  text-align: right;
+  padding-right: 30px;
+}
+
 th.mat-column-monto_litro {
   width: auto;
   text-align: right;
@@ -296,6 +302,8 @@ td.mat-column-modified_at_anticipo:not(:first-child) {
 /* Alinea el contenido de las celdas hacia la derecha, excluyendo el primer hijo (el encabezado) */
 td.mat-column-a_cobrar_flete:not(:first-child), /* A cobrar pedido y OC */
 td.mat-column-a_pagar_flete:not(:first-child),
+td.mat-column-cargado_flete:not(:first-child),
+td.mat-column-saldo_flete:not(:first-child),
 td.mat-column-cantidad_flete:not(:first-child) {
     width: 50px;
     text-align: right; /* Alinea el contenido a la derecha */
@@ -315,6 +323,12 @@ td.mat-column-id_anticipo_saldo:not(:first-child) {
 
 //Orden de carga
 td.mat-column-cantidad_nominada_oc:not(:first-child) {
+  width: 50px;
+  text-align: right; /* Alinea el contenido a la derecha */
+  padding-right: 25px; /* Opcional: añade padding derecho para separación */
+}
+
+td.mat-column-resultado_propietario_total_anticipos_retirados_ml:not(:first-child) {
   width: 50px;
   text-align: right; /* Alinea el contenido a la derecha */
   padding-right: 25px; /* Opcional: añade padding derecho para separación */
@@ -350,11 +364,13 @@ td.mat-column-saldo_provisional:not(:first-child)
   padding-right: 22px; /* Opcional: añade padding derecho para separación */
 }
 
+
 //Estado de Cuenta
 td.mat-column-pendiente:not(:first-child),
 td.mat-column-en_proceso:not(:first-child),
 td.mat-column-confirmado:not(:first-child),
 td.mat-column-provision:not(:first-child),
+td.mat-column-tipo_cambio_moneda:not(:first-child),
 td.mat-column-liquidacion_saldo:not(:first-child),
 td.mat-column-total_cc:not(:first-child),
 td.mat-column-finalizado:not(:first-child)  {

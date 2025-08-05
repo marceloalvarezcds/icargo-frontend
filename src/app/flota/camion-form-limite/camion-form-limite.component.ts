@@ -14,7 +14,9 @@ export class CamionFormLimiteComponent {
   @Input() camion?: Camion;
   @Input() form?: FormGroup;
   @Input() isShow = false;
-  @Input() esDialog: boolean = false; 
+  @Input() esDialog: boolean = false;
+  @Input() monedaSimbolo: string | null = null;
+
 
   patternMessageError(_: any): string {
     return 'Debe ser un número entero y positivo';

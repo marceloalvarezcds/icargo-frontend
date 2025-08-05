@@ -24,6 +24,10 @@ export class SnackbarService {
     private userService: UserService
   ) {}
 
+  cancelFlete(): void {
+    this.open('Pedido cancelado satisfactoriamente');
+  }
+
   changeStatus(): void {
     this.open('Estado cambiado satisfactoriamente');
   }

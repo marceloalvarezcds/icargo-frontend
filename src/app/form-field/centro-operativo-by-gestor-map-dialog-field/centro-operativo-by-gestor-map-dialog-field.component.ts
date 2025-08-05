@@ -43,7 +43,7 @@ export class CentroOperativoByGestorMapDialogFieldComponent {
   @ViewChild('app-dialog-field')
   dialogField?: DialogFieldComponent<CentroOperativoList, SelectorInMapDialogComponent<CentroOperativoList>>;
 
-  fetchDataFunction = () => this.service.getListByGestorCuentaId();
+  fetchDataFunction = () => this.service.getListByGestorCuentaIdAndOrigen();
 
   constructor(
     private service: CentroOperativoService,

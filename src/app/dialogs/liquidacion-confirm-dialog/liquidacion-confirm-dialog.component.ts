@@ -3,8 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Column } from 'src/app/interfaces/column';
 import { ContraparteGralInfo, ContraparteInfo } from 'src/app/interfaces/contraparte-info';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { Movimiento } from 'src/app/interfaces/movimiento';
-import { subtract } from 'src/app/utils/math';
+import { subtract, subtractDecimal } from 'src/app/utils/math';
+import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
 @Component({
   selector: 'app-liquidacion-confirm-dialog',
@@ -12,6 +14,7 @@ import { subtract } from 'src/app/utils/math';
   styleUrls: ['./liquidacion-confirm-dialog.component.scss'],
 })
 export class LiquidacionConfirmDialogComponent {
+
   columns: Column[] = [
     {
       def: 'id',
@@ -35,14 +38,20 @@ export class LiquidacionConfirmDialogComponent {
     },
     {
       def: 'tipo_documento_relacionado_descripcion',
-      title: 'Tipo de Doc Relacionado',
+      title: 'Tipo de Doc.',
       value: (element: Movimiento) =>
         element.tipo_documento_relacionado_descripcion,
     },
     {
       def: 'numero_documento_relacionado',
-      title: 'Nº Doc Relacionado',
+      title: 'Nº Doc',
       value: (element: Movimiento) => element.numero_documento_relacionado,
+    },
+    {
+      def: 'monto',
+      title: 'Monto',
+      value: (element: Movimiento) => element.monto,
+      type: 'number',
     },
     {
       def: 'moneda_nombre',
@@ -55,12 +64,6 @@ export class LiquidacionConfirmDialogComponent {
       value: (element: Movimiento) => element.tipo_cambio_moneda,
       type: 'number',
     },
-    {
-      def: 'monto',
-      title: 'Monto',
-      value: (element: Movimiento) => element.monto,
-      type: 'number',
-    },
     /*{
       def: 'fecha_cambio_moneda',
       title: 'Fecha de cambio',
@@ -70,7 +73,7 @@ export class LiquidacionConfirmDialogComponent {
     {
       def: 'monto_ml',
       title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
+      value: (element: Movimiento) => element.monto_mon_local,
       type: 'number',
     },
     /*{
@@ -85,6 +88,11 @@ export class LiquidacionConfirmDialogComponent {
       value: (element: Movimiento) => element.created_by,
     },*/
   ];
+
+  get totalLiquidacion():number {
+    if (this.data.esOrdenPago) return this.data.monto;
+    return subtractDecimal( this.credito, this.debito );
+  }
 
   get contraparteInfo(): ContraparteGralInfo {
     return this.data.contraparteInfo;
@@ -112,6 +120,22 @@ export class LiquidacionConfirmDialogComponent {
 
   get esOrdenPago():boolean {
     return this.data.esOrdenPago ?? false;
+  }
+
+  get totalMonedas() {
+    return this.data.totalMonedas;
+  }
+
+  get moneda(): Moneda {
+    return this.data.moneda!
+  }
+
+  get sentido(): string {
+    return this.data.sentido!
+  }
+
+  get observacion(): string {
+    return this.data.observacion ?? "";
   }
 
   constructor(

@@ -77,11 +77,32 @@ const routes: Routes = [
             (m) => m.OrdenCargaModule
           ),
       },
+         {
+        path: PermisoModuloRouterEnum.ORDEN_CARGA_ANTICIPO_RETIRADO,
+        loadChildren: () =>
+          import('./orden-carga-anticipos/orden-carga-anticipos.module').then(
+            (m) => m.OrdenCargaAnticiposModule
+          ),
+      },
       {
         path: PermisoModuloRouterEnum.INSUMO_PUNTO_VENTA_PRECIO,
         loadChildren: () =>
           import('./insumo/insumo.module').then(
             (m) => m.InsumoModule
+          ),
+      },
+      {
+        path: PermisoModuloRouterEnum.ORDEN_CARGA_EVALUACION,
+        loadChildren: () =>
+          import('./evaluacion/evaluacion.module').then(
+            (m) => m.EvaluacionModule
+          ),
+      },
+      {
+        path: PermisoModuloRouterEnum.MONEDA_COTIZACION,
+        loadChildren: () =>
+          import('./moneda-cotizacion/moneda-cotizacion.module').then(
+            (m) => m.MonedaCotizacionModule
           ),
       },
       {

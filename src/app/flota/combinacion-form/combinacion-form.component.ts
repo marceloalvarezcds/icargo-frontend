@@ -30,6 +30,7 @@ import { UserService } from 'src/app/services/user.service';
 export class CombinacionFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   tPersona?: TipoPersona;
+  isPropietarioCondicionado = false;
   anticiposBloqueados = false;
   id?: number;
   item?: Combinacion;
@@ -82,9 +83,10 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       chofer_id: [null, Validators.required],
       chofer_nombre: null,
       chofer_celular: null,
-      limite_anticipos: [null, Validators.required],
+      limite_anticipos: null,
       chofer_documento: null,
       puede_recibir_anticipos: null,
+      is_chofer_condicionado: null,
       estado: null,
       foto_chofer: new FormControl({value: null, disabled: true}),
       //Facturacion
@@ -98,6 +100,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
       // telefono: new FormControl({value: null, disabled: true}),
       estado_propietario: new FormControl({value: null, disabled: true}),
       foto_documento_frente: new FormControl({value: null, disabled: true}),
+      is_propietario_condicionado: null,
       //Combinacion
       comentario: null,
       neto: [null, Validators.required],
@@ -114,8 +117,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   });
 
   @Output() personaChange = new EventEmitter<PropietarioList>();
-
-
 
   get puedeModificar(): boolean {
     if (this.isShow || !this.isEdit) {
@@ -192,6 +193,11 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
     return this.chofer.get('numero_documento') as FormGroup;
   }
 
+  get estadoCombinacion(): boolean{
+    return this.item?.estado === EstadoEnum.ACTIVO
+  }
+
+
   constructor(
     private fb: FormBuilder,
     private combinacionService: CombinacionService,
@@ -210,9 +216,9 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
   }
 
   onEnter(event: Event): void {
-    const keyboardEvent = event as KeyboardEvent; 
+    const keyboardEvent = event as KeyboardEvent;
     if (keyboardEvent.key === 'Enter') {
-      event.preventDefault(); 
+      event.preventDefault();
     }
   }
 
@@ -276,10 +282,13 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
       const data = JSON.parse(
         JSON.stringify({
-          ...this.info.value
+          ...this.info.value,
+          camion_oc_activa: this.info.value.oc_activa,  // mapear oc_activa a camion_oc_activa
+          limite_monto_anticipos: this.info.value.limite_anticipos,
+          is_propietario_condicionado: this.form.get('info.is_propietario_condicionado')?.value,
+          is_chofer_condicionado: this.form.get('info.is_chofer_condicionado')?.value
         })
       );
-
       // Convertir propiedades a mayúsculas, excepto los correos electrónicos
       Object.keys(data).forEach(key => {
         if (typeof data[key] === 'string' && key !== 'email') {
@@ -296,7 +305,6 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
         });
       } else {
         this.combinacionService.create(formData).subscribe((combinacion) => {
-
           this.snackbar.openSaveAndRedirect(
             confirmed,
             this.backUrl,
@@ -322,7 +330,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
 
       this.combinacionService.getById(this.id).subscribe((data) => {
         this.item = data;
-        this.estado = data?.estado;
+
         this.gestorCargaId = data.gestor_carga_id;
         this.isActive = data.estado === EstadoEnum.ACTIVO;
         this.fotoPerfil = data?.foto_camion;
@@ -341,7 +349,7 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             color: data?.camion?.color?.descripcion,
             oc_activa: data?.camion?.limite_cantidad_oc_activas,
             limite_anticipos: data?.camion?.limite_monto_anticipos,
-            estado_camion: data?.estado,
+            estado_camion: data?.camion.estado,
             foto_camion: data?.camion?.foto,
             //Datos Semi
             semi_id: data?.semi_id,
@@ -372,14 +380,13 @@ export class CombinacionFormComponent implements OnInit, OnDestroy {
             //Datos combinacion
             neto: data?.neto,
             comentario: data?.comentario,
+            is_condicionado_propietario: data?.propietario?.is_propietario_condicionado,
           },
         })
         setTimeout(() => {
           this.hasChange = false;
           if (this.isEdit) {
             this.form.get('info')?.get('camion_id')?.disable();
-            this.form.get('info')?.get('oc_activa')?.disable();
-            this.form.get('info')?.get('limite_anticipos')?.disable();
             this.form.get('info')?.get('anticipo_propietario')?.disable();
             this.form.get('info')?.get('neto')?.disable();
             this.form.get('info')?.get('comentario')?.disable();

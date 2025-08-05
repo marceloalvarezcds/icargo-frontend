@@ -60,6 +60,23 @@ export class LiquidacionInstrumentosComponent {
       type: 'number',
     },
     {
+      def: 'moneda',
+      title: 'Moneda',
+      value: (element: Instrumento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Tipo Cambio',
+      value: (element: Instrumento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_ml',
+      title: 'Monto ML',
+      value: (element: Instrumento) => element.monto_ml,
+      type: 'number',
+    },
+    {
       def: 'provision_rechazada',
       title: 'Monto rechazado',
       value: (element: Instrumento) => element.provision_rechazada,
@@ -117,10 +134,14 @@ export class LiquidacionInstrumentosComponent {
     item?: InstrumentoLiquidacionItem
   ): MatDialogRef<InstrumentoFormDialogComponent, InstrumentoLiquidacionItem> {
     const data: InstrumentoFormDialogData = {
-      es_cobro: this.liquidacion?.es_cobro ?? false,
+      es_cobro: this.liquidacion!.es_cobro ?? false,
       residuo: item?.monto!,
+      totalLiquidacion: item?.monto!,
       item,
-      isShow:true
+      isShow:true,
+      totalMonedas: [],
+      moneda_liquidacion: this.liquidacion!.moneda_id,
+      liquidacion_id: this.liquidacion.id,
     };
     return this.dialog.open(InstrumentoFormDialogComponent, {
       data,

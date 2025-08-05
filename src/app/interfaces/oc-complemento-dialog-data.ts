@@ -1,8 +1,10 @@
+import { OrdenCarga } from './orden-carga';
 import { mockOrdenCargaComplementoList, OrdenCargaComplemento } from './orden-carga-complemento';
 
 export interface OcComplementoDialogData {
   item?: OrdenCargaComplemento,
   orden_carga_id: number,
+  oc?: OrdenCarga | null;
 }
 
 export const mockOcComplementoDialogData: OcComplementoDialogData = {

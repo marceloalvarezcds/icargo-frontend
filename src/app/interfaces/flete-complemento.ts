@@ -11,18 +11,29 @@ export interface FleteComplemento {
   anticipado: boolean;
   // INICIO Monto a pagar al Propietario
   propietario_monto?: number | null;
+  propietario_monto_ml?: number | null;
   propietario_moneda_id?: number | null;
   propietario_moneda: Moneda | null;
   propietario_moneda_nombre: string | null;
+  propietario_moneda_simbolo?: string | null;
   // FIN Monto a pagar al Propietario
   // INICIO Monto a cobrar al Remitente
   remitente_monto?: number | null;
+  remitente_monto_ml?: number | null,
   remitente_moneda_id?: number | null;
   remitente_moneda?: Moneda | null;
   remitente_moneda_nombre?: string | null;
+  remitente_moneda_simbolo?: string | null;
   // FIN Monto a cobrar al Remitente
   flete_id?: number;
+  gestor_carga_moneda_simbolo?: string | null;
 }
+
+export interface UpdateFleteComplemento {
+  propietario_monto?: number | null;
+  propietario_monto_ml?: number | null;
+}
+
 
 const tipoConceptoComplemento0 = mockTipoConceptoComplementoList[0];
 const tipoConceptoComplemento1 = mockTipoConceptoComplementoList[1];
@@ -44,12 +55,14 @@ export const mockFleteComplementoList: FleteComplemento[] = [
     propietario_moneda_id: moneda0.id,
     propietario_moneda: moneda0,
     propietario_moneda_nombre: moneda0.nombre,
+    propietario_moneda_simbolo: 'usd',
     // FIN Monto a pagar al Propietario
     // INICIO Monto a cobrar al Remitente
     remitente_monto: 100,
     remitente_moneda_id: moneda0.id,
     remitente_moneda: moneda0,
     remitente_moneda_nombre: moneda0.nombre,
+    remitente_moneda_simbolo: 'usd',
     // FIN Monto a cobrar al Remitente
     flete_id: 1,
   },
@@ -66,12 +79,14 @@ export const mockFleteComplementoList: FleteComplemento[] = [
     propietario_moneda_id: moneda1.id,
     propietario_moneda: moneda1,
     propietario_moneda_nombre: moneda1.nombre,
+    propietario_moneda_simbolo: 'usd',
     // FIN Monto a pagar al Propietario
     // INICIO Monto a cobrar al Remitente
     remitente_monto: 100,
     remitente_moneda_id: moneda1.id,
     remitente_moneda: moneda1,
     remitente_moneda_nombre: moneda1.nombre,
+    remitente_moneda_simbolo: 'usd',
     // FIN Monto a cobrar al Remitente
     flete_id: 1,
   },

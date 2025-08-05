@@ -110,9 +110,9 @@ export class PuntoVentaPrecioMapFieldComponent{
     };
     const config: MatDialogConfig = {
       data,
-      panelClass: 'selector-dialog',
+      panelClass: 'selector-map-dialog',
       position: {
-        top: '1rem',
+        // top: '1rem',
       },
     };
     return this.dialog.open<

@@ -12,20 +12,25 @@ export interface FleteDescuento {
   anticipado: boolean;
   // INICIO Monto a cobrar al Propietario
   propietario_monto?: number | null;
+  propietario_monto_ml?: number | null,
   propietario_moneda_id?: number | null;
   propietario_moneda: Moneda | null;
   propietario_moneda_nombre: string;
+  propietario_moneda_simbolo?: string;
   // FIN Monto a cobrar al Propietario
   // INICIO Monto a pagar al Proveedor
   proveedor_monto?: number | null;
+  proveedor_monto_ml?: number | null;
   proveedor_moneda_id?: number | null;
   proveedor_moneda?: Moneda | null;
   proveedor_moneda_nombre?: string | null;
+  proveedor_moneda_simbolo?: string | null;
   proveedor_id?: number | null;
   proveedor?: Proveedor | null;
   proveedor_nombre?: string | null;
   // FIN Monto a pagar al Proveedor
   flete_id?: number;
+  gestor_carga_moneda_simbolo?: string | null;
 }
 
 const moneda0 =  mockMonedaList[0];

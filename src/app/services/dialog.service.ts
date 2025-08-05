@@ -27,6 +27,22 @@ export class DialogService {
       .subscribe((data) => observer(data!));
   }
 
+  cancelStatusConfirm<T>(
+    message: string,
+    observable: Observable<T>,
+    observer: (value: T) => void
+  ) {
+    this.configDialogRef(
+      this.open(ConfirmationDialogComponent, {
+        data: { message },
+      }),
+      () => {
+        this.snackbar.cancelFlete();
+        observable.subscribe(observer);
+      }
+    );
+  }
+
   changeStatusConfirm<T>(
     message: string,
     observable: Observable<T>,
@@ -47,11 +63,13 @@ export class DialogService {
     message: string,
     innerHtml: string,
     observable: Observable<T>,
-    observer: (value: T) => void
+    observer: (value: T) => void,
+    panelClass?: string,
   ) {
     this.configDialogRef(
       this.open(ConfirmationDialogComponent, {
         data: { message, innerHtml },
+        panelClass: panelClass ?? ''
       }),
       () => {
         this.snackbar.changeStatus();

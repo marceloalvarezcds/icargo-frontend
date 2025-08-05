@@ -21,6 +21,7 @@ import { HttpErrorService } from 'src/app/services/http-error.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
+import { subtract } from 'src/app/utils/math';
 import { create } from 'src/app/utils/table-event-crud';
 import { numberWithCommas } from 'src/app/utils/thousands-separator';
 
@@ -52,19 +53,52 @@ export class LiquidacionEditFormAccionesComponent {
     return this.liquidacion.facturas ? (this.liquidacion.facturas.length>0) : false;
   }
 
+  get esPagoCobro():boolean {
+    return (this.liquidacion.es_pago_cobro === 'PAGO');
+  }
+
+  get saldoActualCC(): number {
+    return subtract(this.saldoCC, this.totalMovimiento);
+  }
+
+  get saldoAnticiposCombustible(): number {
+    return this.liquidacion?.saldo_anticipos_combustible ?? 0;
+  }
+
+  get saldoAnticiposEfectivo(): number {
+    return this.liquidacion?.saldo_anticipos_efectivo ?? 0;
+  }
+
+  get saldoAnticiposComplementoDescuento(): number {
+    return this.liquidacion?.saldo_anticipos_complemento_descuento ?? 0;
+  }
+
+
+  get saldoAnticiposFlete(): number {
+    return this.liquidacion?.saldo_anticipos_flete ?? 0;
+  }
+
+  get saldoAnticiposMerma(): number {
+    return this.liquidacion?.saldo_anticipos_merma ?? 0;
+  }
+
+  get saldoAnticiposOtro(): number {
+    return this.liquidacion?.saldo_anticipos_otro ?? 0;
+  }
+
   @Input() isShow = false;
   @Input() liquidacion!: Liquidacion;
-  @Input() monto : number | undefined = 0;
-  @Input() saldoMovimiento : number | undefined = 0;
+  //@Input() monto : number | undefined = 0;
+  //@Input() saldoMovimiento : number | undefined = 0;
   @Input() totalMovimiento : number = 0;
-  @Input() saldoCC : number | undefined  = 0;
-  @Input() sentidoOp: boolean = false;
-  @Input() movimientos : Movimiento[] = [];
+  @Input() saldoCC!: number;
+  //@Input() sentidoOp: boolean = false;
+  //@Input() movimientos : Movimiento[] = [];
   @Input() form : FormGroup|undefined=undefined;
 
   @Output() liquidacionChange = new EventEmitter();
   @Output() liquidacionFlujoChange = new EventEmitter();
-  @Output() liquidacionFacturaChange = new EventEmitter();
+  @Output() liquidacionFacturaChange = new EventEmitter<Factura>();
 
   constructor(
     private router: Router,
@@ -97,37 +131,66 @@ export class LiquidacionEditFormAccionesComponent {
         return;
       }
     }
-    let es_pago_cobro = (this.saldoMovimiento! > 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
+
     const message = `Está seguro que desea Aceptar la Liquidación Nº ${this.id}`;
 
-    let htmlFooter = `
-    <div class="row mb-1">
+    let htmlFooter = `<div class="row mb-1">`;
 
-      <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Saldo Cuenta</span>
-          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
+    if (this.liquidacion.es_orden_pago) {
+      const montoPC = this.form?.get('monto_pc')?.value;
+
+      htmlFooter = htmlFooter + `
+        <div class="col-xs-12">
+            <div class="row alerta">
+              <strong class="col-xs-7">${ this.esPagoCobro ? "Monto Pagar" :"Monto Cobrar"}</strong>
+              <strong class="col-xs-5">${numberWithCommas(Math.abs(montoPC))}</strong>
+            </div>
+          </div>
+      `;
+    } else {
+
+      if (this.liquidacion.movimientos.length === 0) {
+        this.httpErrorService.setErrorList([
+          `No se puede aprobar una liquidacion sin movimientos!`,
+        ]);
+        return;
+      }
+
+      htmlFooter = htmlFooter + `
+        <div class="col-xs-12">
+          <div class="row alerta">
+            <span class="col-xs-7">Total en esta Liquidación</span>
+            <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+            <span class="col-xs-7">Sentido</span>
+            <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
+          </div>
+        </div>
+      `;
+    }
+
+    htmlFooter = htmlFooter + `
+        <div class="col-xs-12 color-white"> <span>abc</span> </div>
+
+        <div class="col-xs-12">
+          <div class="row alerta">
+            <span class="col-xs-7">Saldo Abierto o Remanente en Cuenta Corriente</span>
+            <span class="col-xs-5">${numberWithCommas(this.saldoActualCC)}</span>
+            <span class="col-xs-7 color-white">Total en Cuenta Corriente</span>
+            <span class="col-xs-5">${ (this.saldoActualCC>=0) ? "A Pagar" : "A Cobrar"}</span>
+          </div>
         </div>
       </div>
 
-      <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Tot. Movimientos</span>
-          <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
-        </div>
-      </div>
-
-      <div class="col-xs-12">
-        <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.sentidoOp ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
-        </div>
-      </div>
-
+      <br>
+      <br>
+      <div class="fondo-gris">
+        <h4 class="alerta">
+          <span>Atencion!!</span>
+          Al aceptar la liquidacion se podra proceder al desembolso.
+        </h4>
+      <div>
     </div>
-    <br>
-    <div class="fondo-gris"><h4 class="alerta"><span>Atencion!!</span>Al aceptar la liquidacion se podra proceder al desembolso.</h4><div></div></div>`;
+    `;
 
     this.dialogService.changeStatusConfirmHtml(
       message,
@@ -136,7 +199,8 @@ export class LiquidacionEditFormAccionesComponent {
       (resp) => {
         //this.router.navigate([`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}`]);
         this.liquidacionFlujoChange.emit(resp);
-      }
+      },
+      'large-dialog'
     );
   }
 
@@ -215,27 +279,23 @@ export class LiquidacionEditFormAccionesComponent {
     this.form!.markAsDirty();
     this.form!.markAllAsTouched();
 
-    console.log("this.form: ", this.form);
-
-    if (!this.form!.valid) {
+    if ( this.liquidacion.es_orden_pago && !this.form!.valid) {
       return;
     }
 
-    let es_pago_cobro = (this.saldoMovimiento! >= 0) ? 'PAGO' : 'COBRO';
-    let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
-
-    if ( !this.sentidoOp ) {
+    //let es_pago_cobro = (this.saldoMovimiento! >= 0) ? 'PAGO' : 'COBRO';
+    //let pago_cobro = es_pago_cobro === 'PAGO' ? Math.abs(this.monto!) : Math.abs(this.monto!)*-1 ;
+    /*if ( !this.sentidoOp ) {
       pago_cobro = Math.abs(pago_cobro)*-1;
       es_pago_cobro='COBRO';
     } else {
       pago_cobro = Math.abs(pago_cobro);
       es_pago_cobro='PAGO';
-    }
+    }*/
+    if (this.liquidacion.es_orden_pago) {
 
-    // si liquidacion no tiene movimientos, es una orde de pago
-    if (this.movimientos.length === 0) {
-
-      const form = { 'monto': pago_cobro, comentario:"" };
+      const liq = this.form?.getRawValue();
+      const form = { 'monto': (liq.monto_pc ?? this.liquidacion.pago_cobro), comentario:"" };
 
       this.liquidacionService
         .someter(this.id, changeLiquidacionDataMonto(form))
@@ -246,44 +306,56 @@ export class LiquidacionEditFormAccionesComponent {
       return;
     }
 
+    if (this.liquidacion.movimientos.length === 0) {
+      this.httpErrorService.setErrorList([
+        `No se puede someter una liquidacion sin movimientos!`,
+      ]);
+      return;
+    }
+
     const message = `Está seguro que desea Pasar a Revisión la Liquidación Nº ${this.id}`;
     let htmlContent = '';
     let htmlFooter = `<div class="row mb-1">
 
       <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Saldo Cuenta</span>
-          <span class="col-xs-5">${numberWithCommas(this.saldoCC)}</span>
-        </div>
-      </div>
-
-      <div class="col-xs-12">
-        <div class="row">
-          <span class="col-xs-7">Tot. Movimientos</span>
+        <div class="row alerta">
+          <span class="col-xs-7">Total en esta Liquidación</span>
           <span class="col-xs-5">${numberWithCommas(this.totalMovimiento)}</span>
+          <span class="col-xs-7">Sentido Operación</span>
+          <strong class="col-xs-5">${ this.esPagoCobro ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
+      <div class="col-xs-12 color-white"> <span>abc</span> </div>
+
       <div class="col-xs-12">
-        <div class="row" style="font-size: larger;">
-          <strong class="col-xs-7">${ this.sentidoOp ? "Monto Pagar" :"Monto Cobrar"}</strong>
-          <strong class="col-xs-5">${numberWithCommas(Math.abs(pago_cobro))}</strong>
+        <div class="row alerta">
+          <span class="col-xs-7">Saldo Abierto o Remanente en Cuenta Corriente</span>
+          <span class="col-xs-5">${numberWithCommas(this.saldoActualCC)}</span>
+          <span class="col-xs-7 color-white">Sentido Operación</span>
+          <strong class="col-xs-5">${ (this.saldoActualCC>=0) ? "A Pagar" :"A Cobrar"}</strong>
         </div>
       </div>
 
     </div>`;
 
     if (!this.isFacturaReady) {
-      htmlContent += `<div class="formulario-center"><span class="material-icons">warning</span><h2 class="alerta">Atencion!! La liquidacion no tiene datos fiscales </h2><div>`;
+      htmlContent += `
+        <div class="formulario-center">
+          <h2 class="alerta">
+            <span class="material-icons">warning</span>
+            Atencion!! La liquidacion no tiene datos fiscales.
+          </h2>
+        <div>`;
     }
 
-    if ( this.totalMovimiento != this.monto ) {
+    /*if ( this.totalMovimiento != this.monto ) {
       htmlContent += `
         <div class="formulario-center">
           <span class="material-icons">warning</span>
           <h2 class="alerta">Atencion!! Monto Pago/Cobro es diferente a la sumatoria de los movimientos!</h2>
         <div>`;
-    }
+    }*/
 
     this.dialogService.configDialogRef(
       this.dialog.open(ComentarioConfirmDialogComponent, {
@@ -293,10 +365,10 @@ export class LiquidacionEditFormAccionesComponent {
           htmlContent: htmlContent,
           htmlFooter: htmlFooter
         },
-        panelClass: 'half-dialog'
+        panelClass: 'large-dialog'
       }),
       (comentario: string) => {
-        const form = { 'monto': pago_cobro, comentario }
+        const form = { 'monto': this.liquidacion.pago_cobro!, comentario }
 
         this.liquidacionService
           .someter(this.id, changeLiquidacionDataMonto(form))
@@ -305,13 +377,15 @@ export class LiquidacionEditFormAccionesComponent {
             this.liquidacionFlujoChange.emit(rest);
           });
       },
-      (val?: string | boolean) => val !== false
+      (val?: string | boolean | null ) => {
+        return (val !== null && val !== false );
+      }
     );
   }
 
-  private emitChange(): void {
+  private emitChange(factura:Factura): void {
     this.snackbar.open('Factura agregada');
-    this.liquidacionFacturaChange.emit();
+    this.liquidacionFacturaChange.emit(factura);
     //this.liquidacionChange.emit();
   }
 
@@ -328,14 +402,22 @@ export class LiquidacionEditFormAccionesComponent {
       liquidacion_id: this.liquidacion.id,
       contraparte_id: contraparteId!,
       tipo_contraparte_id: this.liquidacion.tipo_contraparte_id,
-      valor_operacion: Math.abs(this.liquidacion.pago_cobro!),
+      valor_operacion: this.liquidacion.es_orden_pago
+        ? Math.abs(this.liquidacion.pago_cobro!)
+        : Math.abs(this.totalMovimiento),
       contribuyente: this.liquidacion.contraparte,
       ruc: this.liquidacion.contraparte_numero_documento,
       punto_venta_id: this.liquidacion.punto_venta_id,
+      saldo_anticipos_combustible: this.saldoAnticiposCombustible,
+      saldo_anticipos_efectivo: this.saldoAnticiposEfectivo,
+      saldo_anticipos_complemento_descuento: this.saldoAnticiposComplementoDescuento,
+      saldo_anticipos_flete: this.saldoAnticiposFlete,
+      saldo_anticipos_merma: this.saldoAnticiposMerma,
+      saldo_anticipos_otro: this.saldoAnticiposOtro,
       item,
     };
 
-    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'half-dialog', }, );
+    return this.dialog.open(FacturaFormDialogComponent, { data, panelClass: 'factura-dialog', }, );
   }
 
 }

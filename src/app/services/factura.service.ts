@@ -31,4 +31,8 @@ export class FacturaService {
   delete(id: number): Observable<Factura> {
     return this.http.delete<Factura>(`${this.url}/${id}`);
   }
+
+  pdf(id: number): Observable<string> {
+    return this.http.get<string>(`${this.url}/factura/${id}/pdf`);
+  }
 }

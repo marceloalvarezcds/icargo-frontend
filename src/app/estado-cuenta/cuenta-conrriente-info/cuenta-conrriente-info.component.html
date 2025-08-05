@@ -1,0 +1,193 @@
+
+<div [formGroup]="form">
+
+  <div class="row">
+
+    <div [class]="es_pdv ? 'col-xs-6' : 'col-xs-5'">
+
+      <div class="row">
+
+        <div class="input-form-full"
+          [class]="es_pdv ? 'col-xs-12 col-sm-6 col-md-2' : 'col-xs-12 col-sm-6 col-md-3'">
+          <mat-label>Contraparte</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput disabled
+              [value]="estadoCuenta?.tipo_contraparte_descripcion"
+              />
+          </mat-form-field>
+        </div>
+
+        <div class="input-form-full"
+          [class]="es_pdv ? 'col-xs-12 col-sm-6 col-md-4' : 'col-xs-12 col-sm-6 col-md-6'">
+          <mat-label>{{es_pdv ? 'Establecimiento' : 'Nombre'}}</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput [value]="estadoCuenta?.contraparte_pdv ?? estadoCuenta?.contraparte" disabled />
+          </mat-form-field>
+        </div>
+
+        <div class="input-form-full "
+          [class]="es_pdv ? 'col-xs-12 col-sm-6 col-md-2' : 'col-xs-12 col-sm-6 col-md-3'">
+          <mat-label>Documento</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput disabled
+              [value]="estadoCuenta?.contraparte_numero_documento_pdv ?? estadoCuenta?.contraparte_numero_documento"
+            />
+          </mat-form-field>
+        </div>
+
+        <div class="input-form-full col-xs-12 col-sm-6 col-md-4" *ngIf="es_pdv">
+          <mat-label>Proveedor</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput disabled
+              [value]="estadoCuenta?.contraparte"/>
+          </mat-form-field>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div [class]="es_pdv ? 'col-xs-6' : 'col-xs-7'">
+
+      <div class="row">
+
+        <div *ngIf="!esOrdenPago" class="input-form-full col-xs-12 col-sm-3">
+          <mat-label>Total Selección</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput [value]="(credito-debito)" appInputThousandsSeparator disabled />
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="esOrdenPago" class="input-form-full col-xs-12 col-sm-3"
+          style="display: flex; flex-direction: column;">
+          <mat-label>
+            <span style="color: red;">(*) </span>
+            Monto Pagar/Cobrar
+          </mat-label>
+          <mat-form-field>
+            <input
+              matInput
+              formControlName="monto_pc"
+              [disabled]="esFinalizado"
+              [readonly]="esFinalizado"
+              appInputThousandsSeparator
+            />
+            <mat-error *ngIf="form.controls['monto_pc'].hasError('required')">
+              Este campo es <strong>requerido</strong>
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <app-moneda-field
+          class="input-form-full col-xs-6 col-sm-4 col-md-2"
+          [title]="'Moneda'"
+          [requerido]="true"
+          [auto_select]="false"
+          [readonly]="!esOrdenPago || esFinalizado"
+          controlName="moneda_id"
+          [form]="form"
+          (valueChange)="$event && monedaSelect.emit($event)">
+        </app-moneda-field>
+
+        <div class="input-form-full col-xs-6 col-sm-4 col-md-2">
+          <mat-label>Sentido </mat-label>
+          <mat-form-field >
+            <mat-select formControlName="es_cobro" [disabled]="esFinalizado">
+              <mat-option [value]="true">Pagar</mat-option>
+              <mat-option [value]="false">Cobrar</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="liquidacion" class="input-form-full col-xs-6 col-md-3">
+          <mat-label>N° Liquidacion</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput [value]="liquidacion.id" disabled />
+          </mat-form-field>
+        </div>
+
+        <div *ngIf="liquidacion" class="input-form-full col-xs-6 col-md-2">
+          <mat-label>Estado</mat-label>
+          <mat-form-field floatLabel="always" appearance="outline">
+            <input matInput [value]="liquidacion?.estado" disabled />
+          </mat-form-field>
+        </div>
+
+      </div>
+
+
+    </div>
+
+    <app-punto-venta-by-proveedor-field
+      *ngIf="estadoCuenta?.es_pdv"
+      class="input-form-full col-xs-12 col-sm-6 col-md-3"
+      [title]="'Punto de Venta'"
+      [proveedorId]="estadoCuenta?.contraparte_id"
+      (valueChange)="filtrarMovimientosPDV()"
+      [form]="form">
+    </app-punto-venta-by-proveedor-field>
+
+    <div *ngIf="estadoCuenta?.es_pdv"
+      [class]="esEditableLinea ? 'col-xs-12 col-sm-2' : 'col-xs-12 col-sm-3'">
+
+      <ng-container *ngIf="esEditableLinea; then flujoActivo; else flujoEdit"></ng-container>
+
+      <ng-template #flujoActivo>
+
+        <div class="row">
+
+          <div class="input-form-full col-xs-12">
+            <mat-label>Linea</mat-label>
+            <mat-form-field>
+              <input matInput [value]="this.estadoCuenta!.tipo_flujo" disabled />
+            </mat-form-field>
+          </div>
+
+        </div>
+
+      </ng-template>
+
+      <ng-template #flujoEdit>
+
+        <div class="row">
+
+          <div class="input-form-full col-xs-12 col-sm-6" *ngIf="esInsumoControl" >
+            <mat-label>
+              Listar movimientos
+            </mat-label>
+            <app-slide
+              [isShow]="false"
+              [control]="esInsumoControl"
+              trueTitle="Efectivo"
+              falseTitle="Insumos"
+              (valueChange)="filtrarMovimientosPDV()"
+            ></app-slide>
+          </div>
+
+          <div class="input-form-full col-xs-12 col-sm-6" *ngIf="tipo_insumo">
+            <mat-label>
+              Tipo Insumo
+            </mat-label>
+            <mat-form-field floatLabel="always" appearance="outline" >
+              <mat-select [formControl]="tipo_insumo" [disabled]="esInsumoControlvalue ? true : false"
+                (selectionChange)="filtrarMovimientosPDV()">
+                <mat-option value=""></mat-option>
+                  <mat-option value="COMBUSTIBLE">COMBUSTIBLE</mat-option>
+                  <mat-option value="LUBRICANTE">LUBRICANTE</mat-option>
+              </mat-select>
+              <mat-error *ngIf="tipo_insumo?.hasError('required')">
+                Este campo es <strong>requerido</strong>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+      </ng-template>
+
+    </div>
+
+  </div>
+
+
+</div>

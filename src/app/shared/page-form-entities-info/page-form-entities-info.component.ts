@@ -18,6 +18,7 @@ import { isRuc } from 'src/app/utils/tipo-documento';
 export class PageFormEntitiesInfoComponent implements OnDestroy, AfterViewInit  {
   a = PermisoAccionEnum;
   file: File | null = null;
+  mostrarEstado: boolean = false;
 
   composicionJuridicaList$ = this.composicionJuridicaService.getList();
   tipoDocumentoList: TipoDocumento[] = [];

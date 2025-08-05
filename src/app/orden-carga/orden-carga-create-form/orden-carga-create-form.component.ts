@@ -85,6 +85,7 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       chofer_camion_doc: null,
       beneficiario_camion: null,
       beneficiario_camion_doc: null,
+      is_chofer_condicionado: null,
       semi_id: [null, Validators.required],
       semi_placa: null,
       marca_semi: null,
@@ -107,11 +108,14 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       puede_recibir_anticipos: [false],
       anticipo_propietario: null,
       anticipos: null,
+      is_propietario_condicionado: null,
       id_orden_carga: null,
       origen_id: null,
       comentarios: null,
+      condicion_propietario_unidad_id:null,
       unidad_id: null,
       moneda_id: null,
+      condicion_propietario_moneda_id: null,
     }),
     info: this.fb.group({
       cantidad_nominada: [null, Validators.required],
@@ -639,7 +643,8 @@ export class OrdenCargaCreateFormComponent implements OnInit {
 
     formData.append('data', JSON.stringify(data));
 
-    this.ordenCargaService.create(formData).subscribe((item) => {
+   this.ordenCargaService.create(formData).subscribe({
+    next: (item) => {
       this.snackbar.openSave();
       this.ordenCargaId = item.id;
       this.fleteId = item.flete_id;
@@ -647,15 +652,16 @@ export class OrdenCargaCreateFormComponent implements OnInit {
       this.info.get('comentarios')?.setValue('');
       this.isShowId = true;
       this.dataFromParent = item.estado;
-      //  this.snackbar.openSaveAndRedirect(
-      //    confirmed,
-      //    this.backUrl,
-      //    r.ORDEN_CARGA,
-      //    m.ORDEN_CARGA,
-      //    item.id
-      //  );
+      this.form.disable();
+      this.isDataLoaded = true;
+      this.isFormSubmitting = false;
+    },
+    error: (error) => {
+      console.error('Error al crear orden de carga', error);
+      this.isDataLoaded = false;
+      this.isFormSubmitting = true;
+    }
     });
-    this.form.disable();
   }
 
   getData(): void {

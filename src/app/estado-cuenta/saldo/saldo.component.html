@@ -1,4 +1,4 @@
-<div class="row" [formGroup]="form" >
+<div class="col-xs-12 row" [formGroup]="form" >
 
   <div *ngIf="showResumen" class="input-form-full col-xs-12 col-sm-2">
     <mat-label>Tot. Movimientos</mat-label>
@@ -65,9 +65,8 @@
     [form]="form"
   ></app-number-field-->
 
-  <div class="col-xs-1 col-sm-3">  </div>
-
-  <div class="input-form-full" style="display: flex; flex-direction: column;">
+  <div *ngIf="esOrdenPago"
+     class="input-form-full" style="display: flex; flex-direction: column;">
     <mat-label>
       <span style="color: red;">(*) </span>
       Monto Pagar/Cobrar
@@ -91,9 +90,11 @@
     class="input-form-full col-xs-6 col-sm-4 col-md-2"
     [title]="'Moneda'"
     [requerido]="true"
-    [readonly]="esFinalizado"
+    [auto_select]="false"
+    [readonly]="!esOrdenPago || esFinalizado"
     controlName="moneda_id"
-    [form]="form">
+    [form]="form"
+    (valueChange)="$event && monedaSelect.emit($event)">
   </app-moneda-field>
 
   <div class="input-form-full col-xs-6 col-sm-4 col-md-2">

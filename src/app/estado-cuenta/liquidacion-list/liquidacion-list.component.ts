@@ -167,7 +167,7 @@ export class LiquidacionListComponent implements OnInit {
   //               + `&actual_contraparte_numero_documento=${this.estadoCuenta!.contraparte_numero_documento}`;
   //   window.open(url, '_blank');
   // }
-  
+
 
   // redirectToShow(event: TableEvent<Liquidacion>): void {
   //   const url = `/estado-cuenta/${m.ESTADO_CUENTA}${this.confirmadoPath}/${m.LIQUIDACION}/${a.VER}/${event.row.id}`
@@ -176,8 +176,8 @@ export class LiquidacionListComponent implements OnInit {
   //               + `&actual_contraparte_numero_documento=${this.estadoCuenta!.contraparte_numero_documento}`;
   //   window.open(url, '_blank');
   // }
-  
-  
+
+
   redirectToMovView(): void {
     this.router.navigate(
       [`/estado-cuenta/${m.ESTADO_CUENTA}/${m.MOVIMIENTO}/${a.LISTAR}`],

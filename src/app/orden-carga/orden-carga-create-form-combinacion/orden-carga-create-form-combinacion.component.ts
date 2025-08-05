@@ -1,22 +1,21 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import * as saveAs from 'file-saver';
 import { subtract } from 'lodash';
 import { CommentDialogComponent } from 'src/app/dialogs/comment-dialog/comment-dialog.component';
 
 import { Observable, Subject } from 'rxjs';
-import { debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 import { PermisoModeloEnum } from 'src/app/enums/permiso-enum';
 import { Camion } from 'src/app/interfaces/camion';
 import { Chofer } from 'src/app/interfaces/chofer';
 import { CombinacionList } from 'src/app/interfaces/combinacion';
-import { Flete, FleteList } from 'src/app/interfaces/flete';
+import { FleteList } from 'src/app/interfaces/flete';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaComentariosHistorial } from 'src/app/interfaces/orden_carga_comentarios_historial';
 import { Semi, SemiList } from 'src/app/interfaces/semi';
-import { CamionService } from 'src/app/services/camion.service';
 import { ChoferService } from 'src/app/services/chofer.service';
 import { CombinacionService } from 'src/app/services/combinacion.service';
 
@@ -25,7 +24,6 @@ import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SemiService } from 'src/app/services/semi.service';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
-import { INFERRED_TYPE } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-orden-carga-create-form-combinacion',
@@ -48,6 +46,8 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   pdfSrc: string | undefined;
   manualChange: boolean = false;
   private originalNeto: number | null = null;
+  cantidadNominadaHint: string = '';
+  originalCantidadNominada: number = 0;
 
   @Input() submodule: string | undefined;
   @Input() activeSection: boolean = true ;
@@ -85,6 +85,10 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   @Output() combinacionChange = new EventEmitter<CombinacionList>();
   @Output() ordenCargaChange = new EventEmitter<OrdenCargaList | undefined>();
   @Output() resetFormEvent: EventEmitter<void> = new EventEmitter<void>();
+  @Output() anticipoPropietarioChange = new EventEmitter();
+  @Output() anticipoChoferChange = new EventEmitter();
+  @Output() isChoferCondicionadoChange = new EventEmitter();
+  @Output() isPropietarioCondicionadoChange = new EventEmitter();
   // eventos dialogs
   combinacionEventsSubject: Subject<CombinacionList> = new Subject<CombinacionList>();
   fleteEventsSubject: Subject<FleteList> = new Subject<FleteList>();
@@ -157,7 +161,68 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
         });
       }
+    const infoGroup = this.form?.get(this.groupNameInfo);
+    const mainGroup = this.form?.get(this.groupName);
 
+    if (infoGroup && mainGroup) {
+      const cantidadControl = infoGroup.get('cantidad_nominada');
+      const actualizarMaxValidator = () => {
+      const neto = Number(mainGroup.get('neto')?.value ?? Infinity);
+      const currentValidators = cantidadControl?.validator ? [cantidadControl.validator] : [];
+
+        cantidadControl?.setValidators([
+          Validators.required,
+          Validators.max(neto)
+        ]);
+
+        cantidadControl?.updateValueAndValidity({ emitEvent: false });
+      };
+
+      actualizarMaxValidator();
+      mainGroup.get('neto')?.valueChanges.subscribe(() => {
+        actualizarMaxValidator();
+      });
+
+      cantidadControl?.valueChanges.subscribe(value => {
+        const cantidad = Number(value ?? 0);
+        const neto = Number(mainGroup.get('neto')?.value ?? 0);
+
+        if (cantidad > neto) {
+          this.cantidadNominadaHint = `<span class="hint-alert">La cantidad nominada no puede ser mayor a (<strong>${neto}</strong>) kg.</span>`;
+        } else {
+          this.cantidadNominadaHint = '';
+        }
+      });
+    }
+
+  }
+
+  getCantidadNominadaHint(cantidad: number, neto: number): string {
+  const formatNumber = (val: number) =>
+    new Intl.NumberFormat('de-DE', { minimumFractionDigits: 0, maximumFractionDigits: 2 }).format(val);
+
+    if (cantidad > neto) {
+      return `<span class="hint-alert">La cantidad nominada no puede ser mayor a
+        (<strong>${formatNumber(neto)}</strong> kg).</span>`;
+    }
+
+    return '';
+  }
+
+  get anticipoPropietarioControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('anticipo_propietario') as FormControl;
+  }
+
+  get anticipoChoferControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl;
+  }
+
+  get isChoferCondicionadoControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('is_chofer_condicionado') as FormControl;
+  }
+
+   get isPropietarioCondicionadoControl(): FormControl {
+    return this.form?.get(this.groupName)?.get('is_propietario_condicionado') as FormControl;
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -193,10 +258,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     return  this.form?.get(this.groupName)?.get('puede_recibir_anticipos') as FormControl
   }
 
-  isFormValid(): boolean {
-    return  this.form?.get(this.groupName)?.get('semi_placa')?.value
-  }
-
   get historialComentariosList(): OrdenCargaComentariosHistorial[] {
     return this.oc!?.comentario.slice();
   }
@@ -219,6 +280,10 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
   get tieneComentarios(): boolean {
     return this.historialComentariosList && this.historialComentariosList.length > 0;
+  }
+
+  isFormValid(): boolean {
+    return  this.form?.get(this.groupName)?.get('semi_placa')?.value
   }
 
   previewPDF(): void {
@@ -254,9 +319,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
   constructor(
       private service: SemiService,
       private choferService: ChoferService,
-      private camionService: CamionService,
       private fleteService: FleteService,
-      private cdr: ChangeDetectorRef,
       private ordenCargaService: OrdenCargaService,
       private combinacionService: CombinacionService,
       private reportsService: ReportsService,
@@ -268,7 +331,7 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
     this.flete = flete;
     this.fleteChange.emit(flete);
 
-    this.fleteService.getList().subscribe(
+    this.fleteService.getListByGestorCargaAndOc().subscribe(
       (fletes: FleteList[]) => {
 
         const formGroup = this.form?.get(this.groupName);
@@ -303,11 +366,17 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
         if (formGroup?.get('valor')?.value !== flete.merma_gestor_carga_valor) {
           formGroup?.get('valor')?.setValue(flete.merma_gestor_carga_valor);
         }
-        if (flete && flete.condicion_gestor_carga_unidad_id !== undefined) {
-          formGroup?.get('unidad_id')?.setValue(flete.condicion_gestor_carga_unidad_id ?? '');
+        if (flete && flete.condicion_propietario_unidad_id !== undefined) {
+          formGroup?.get('condicion_propietario_unidad_id')?.setValue(flete.condicion_propietario_unidad_id ?? '');
         }
-        if (flete && flete.condicion_gestor_carga_moneda_id !== undefined) {
-          formGroup?.get('moneda_id')?.setValue(flete.condicion_gestor_carga_moneda_id);
+        if (flete && flete.merma_gestor_carga_unidad_id !== undefined) {
+          formGroup?.get('unidad_id')?.setValue(flete.merma_gestor_carga_unidad_id ?? '');
+        }
+        if (flete && flete.merma_gestor_carga_moneda_id !== undefined) {
+          formGroup?.get('moneda_id')?.setValue(flete.merma_gestor_carga_moneda_id);
+        }
+        if (flete && flete.condicion_propietario_moneda_id !== undefined) {
+          formGroup?.get('condicion_propietario_moneda_id')?.setValue(flete.condicion_propietario_moneda_id);
         }
 
         formGroup?.get('cant_origen')?.setValue(0);
@@ -382,7 +451,11 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
 
       this.form?.get(this.groupName)?.get('anticipo_propietario')?.setValue(combinacion.anticipo_propietario);
       this.form?.get(this.groupName)?.get('puede_recibir_anticipos')?.setValue(combinacion.puede_recibir_anticipos);
-      this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
+      this.form?.get(this.groupName)?.get('is_chofer_condicionado')?.setValue(combinacion.is_chofer_condicionado);
+      this.form?.get(this.groupName)?.get('is_propietario_condicionado')?.setValue(combinacion.is_propietario_condicionado);
+      if (!this.manualChange) {
+        this.form?.get(this.groupNameInfo)?.get('cantidad_nominada')?.setValue(combinacion.neto);
+      }
 
       this.combinacionId = combinacion.id;
       this.combinacionChange.emit(combinacion);
@@ -428,7 +501,6 @@ export class OrdenCargaCreateFormCombinacionComponent implements OnInit, OnChang
       });
     });
   }
-
 
 
   @Input() title = 'Chapa Tracto';

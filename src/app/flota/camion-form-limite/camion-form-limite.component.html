@@ -15,14 +15,21 @@
       ></app-number-field>
 
       <app-number-field
-        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-2'"
+        [ngClass]="esDialog ? 'input-form-full col-xs-12 col-sm-6 col-md-3' : 'input-form-full col-xs-12 col-sm-6 col-md-3'"
         title="Monto Límite de anticipos a retirar"
         [groupName]="groupName"
         controlName="limite_monto_anticipos"
         [form]="form"
       ></app-number-field>
+
+      <div class="col-xs-12 col-sm-6 col-md-2"
+       *ngIf="camion?.limite_monto_anticipos">
+        <span class="proveedor-label">Moneda</span>
+        <span class="input-like">{{ monedaSimbolo }}</span>
+      </div>
     </div>
 
+    
     <ng-container *ngIf="camion">
 
       <div class="row" >
@@ -31,7 +38,6 @@
           key="Monto de anticipos retirados"
           [value]="
             camion.total_anticipos_retirados_en_estado_pendiente_o_en_proceso
-              | numberFormat
           "
         ></app-key-value>
 

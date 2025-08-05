@@ -32,11 +32,11 @@ export class EvaluacionesDialogComponent {
   fotoDocumentoFile: File | null = null;
 
   form = this.fb.group({
-    tipo_incidente: this.data?.tipo_incidente,  
-    comentarios: this.data?.comentarios,  
-    nota: this.data?.nota,  
+    tipo_incidente: this.data?.tipo_incidente,
+    comentarios: this.data?.comentarios,
+    nota: this.data?.nota,
   });
- 
+
   get tipoIncidenteControl(): FormControl {
     return this.form.get('tipo_incidente') as FormControl;
   }
@@ -49,17 +49,17 @@ export class EvaluacionesDialogComponent {
     private ordenCargaEvaluacionService: OrdenCargaEvaluacionesService,
     public dialogRef: MatDialogRef<EvaluacionesDialogComponent>,
     private fb: FormBuilder,
-    @Inject(MAT_DIALOG_DATA) private data: EvaluacionDialogData 
+    @Inject(MAT_DIALOG_DATA) private data: EvaluacionDialogData
   ) {
     this.form = this.fb.group({
-      tipo_incidente: this.data?.tipo_incidente,  
-      comentarios: this.data?.comentarios,  
-      nota: this.data?.nota,  
+      tipo_incidente: this.data?.tipo_incidente,
+      comentarios: this.data?.comentarios,
+      nota: this.data?.nota,
       concepto: this.data?.concepto
     });
 
     this.form.get('tipo_incidente')?.valueChanges.subscribe(value => {
-      this.tipoEvaluacion = value; 
+      this.tipoEvaluacion = value;
       this.showComentarios = value?.descripcion === 'CANCELADO';
     });
   }
@@ -76,25 +76,25 @@ export class EvaluacionesDialogComponent {
       const camionId = this.data?.camion_id;
       const semiId = this.data?.semi_id;
       const propietarioID = this.data?.propietario_id;
-      const choferID = this.data?.propietario_id;
+      const choferID = this.data?.chofer_id;
       const gestorCargaId = this.data?.gestor_carga_id;
       const origenId = this.data?.origen_id;
       const destinoId = this.data?.destino_id;
       const productoId = this.data?.producto_id;
-  
+
       const value = JSON.parse(JSON.stringify(this.form.value));
 
       const data = {
         ...value,
-        tipo_incidente_id: tipoIncidenteId,  
-        orden_carga_id: ordenCargaId,  
-        camion_id: camionId, 
+        tipo_incidente_id: tipoIncidenteId,
+        orden_carga_id: ordenCargaId,
+        camion_id: camionId,
         semi_id: semiId,
         propietario_id: propietarioID,
         chofer_id: choferID,
         gestor_carga_id: gestorCargaId,
         origen_id: origenId,
-        destino_id: destinoId, 
+        destino_id: destinoId,
         producto_id: productoId,
         // Incluye los valores de rating
         tracto_rating: this.tractoRating,
@@ -104,18 +104,18 @@ export class EvaluacionesDialogComponent {
         carga_rating: this.cargaRating,
         descarga_rating: this.descargaRating
       };
-  
+
       const formData = new FormData();
       formData.append('data', JSON.stringify(data));
-  
+
       this.ordenCargaEvaluacionService
         .create(formData)
         .subscribe(this.close.bind(this));
-      
-    } 
+
+    }
   }
-  
-  
+
+
   valueConcepto(item: TipoIncidente): TipoIncidente {
     return item;
   }

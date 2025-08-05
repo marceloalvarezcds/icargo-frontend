@@ -12,9 +12,11 @@ import {
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { Column, ColumnLink } from 'src/app/interfaces/column';
+import { ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
+import { MonedaService } from 'src/app/services/moneda.service';
 import { ReportsService } from 'src/app/services/reports.service';
 import { SearchService } from 'src/app/services/search.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
@@ -44,6 +46,15 @@ export class EstadoCuentaListComponent implements OnInit {
       type: 'button',
       buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContraparte(element),
       buttonIconName: (element: EstadoCuenta) => element.es_pdv ? 'supervisor_account' : 'account_circle',
+      sticky: true
+    },
+    {
+      def: 'ctacte2',
+      title: ' ',
+      value: () => 'Liquidar',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.createLiquidacion(element),
+      buttonIconName: (element: EstadoCuenta) => 'payments',
       sticky: true
     },
     {
@@ -109,14 +120,7 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'saldosentido',
       title: "D/H",
-      value: (element: EstadoCuenta) => element.liquidacion_saldo >= 0 ? 'D' : 'H' ,
-    },
-    {
-      def: 'provision',
-      title: LiquidacionEtapaEnum.PROVISION,
-      value: (element: EstadoCuenta) => element.provision,
-      type: 'number',
-      footerDef: () => this.totalProvision,
+      value: (element: EstadoCuenta) => element.liquidacion_saldo > 0 ? 'D' : element.liquidacion_saldo < 0 ? 'H' : '-',
     },
     {
       def: 'pendiente',
@@ -149,7 +153,19 @@ export class EstadoCuentaListComponent implements OnInit {
     {
       def: 'total_sentido',
       title: "D/H",
-      value: (element: EstadoCuenta) => element.total_cc >= 0 ? 'D' : 'H' ,
+      value: (element: EstadoCuenta) => element.total_cc > 0 ? 'D' : element.total_cc < 0 ? 'H' : '-',
+    },
+    {
+      def: 'provision',
+      title: LiquidacionEtapaEnum.PROVISION,
+      value: (element: EstadoCuenta) => element.provision,
+      type: 'number',
+      footerDef: () => this.totalProvision,
+    },
+    {
+      def: 'provision_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.provision > 0 ? 'D' : element.provision < 0 ? 'H' : '-',
     },
   ];
 
@@ -204,6 +220,7 @@ export class EstadoCuentaListComponent implements OnInit {
   constructor(
     private estadoCuentaService: EstadoCuentaService,
     private reportsService: ReportsService,
+    private monedaService : MonedaService,
     private searchService: SearchService,
     private dialog: MatDialog,
     private snackbar: SnackbarService,
@@ -220,6 +237,10 @@ export class EstadoCuentaListComponent implements OnInit {
         saveAs(file, filename);
       });
     });
+  }
+
+  test():void {
+    console.log("test: test");
   }
 
   // aca comparar IGUAL y no LIKE
@@ -348,6 +369,29 @@ export class EstadoCuentaListComponent implements OnInit {
       { queryParams:getQueryParams(mov) }
     );
 
+  }
+
+  createLiquidacion(contraparte: EstadoCuenta):void {
+
+    const data: ContraparteInfoMovimientoLiq = {
+      contraparte: contraparte.contraparte,
+      contraparte_id: contraparte.contraparte_id,
+      contraparte_numero_documento: contraparte.contraparte_numero_documento,
+      tipo_contraparte_id: contraparte.tipo_contraparte_id,
+      tipo_contraparte_descripcion: '',
+      isNew: true,
+      etapa: LiquidacionEtapaEnum.PENDIENTE,
+    };
+
+    const url = [
+      `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+    ];
+
+    const queryParams = getQueryParams( data, LiquidacionEtapaEnum.PENDIENTE);
+
+    this.router.navigate(url, {
+      queryParams: {...queryParams, backUrl:`/estado-cuenta/${m.ESTADO_CUENTA}/${a.LISTAR}` },
+    });
   }
 
 }

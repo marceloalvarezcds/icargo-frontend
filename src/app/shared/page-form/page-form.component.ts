@@ -14,6 +14,7 @@ import {
   PermisoAccionEnum,
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
+import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Flete } from 'src/app/interfaces/flete';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
 import { PdfPreviewDialogComponent } from 'src/app/orden-carga/pdf-preview-dialog/pdf-preview-dialog.component';
@@ -70,6 +71,8 @@ export class PageFormComponent implements OnDestroy {
   @Input() nuevoActive: boolean = false;
   @Input() isButtonPressed: boolean = false;
   @Input() isEditPressed: boolean = false;
+  @Input() isCopyFlete: boolean = false;
+  @Input() isShowCopiedFlete: boolean = false;
   @Input() estilosPersonalesModule:any={}
   @Input() estilosPersonalesSubModule:any={}
   @Input() labelBtnGuardar:string="GUARDAR"
@@ -88,6 +91,9 @@ export class PageFormComponent implements OnDestroy {
   @Output() conciliarClick = new EventEmitter();
   @Output() inactiveClick = new EventEmitter();
   @Output() cancelarFleteClick = new EventEmitter();
+  @Output() copiarFleteClick = new EventEmitter();
+  @Output() copiarShowFleteClick = new EventEmitter();
+  @Output() ampliarFleteClick = new EventEmitter();
   @Output() cambiarFleteClick = new EventEmitter();
   @Output() nuevoClick = new EventEmitter();
   @Output() pdfClick = new EventEmitter();
@@ -97,6 +103,7 @@ export class PageFormComponent implements OnDestroy {
   @Output() ocChange = new EventEmitter<void>();
   @Output() anticiposBloqueadosChange = new EventEmitter();
 
+  @Output() provisionesClick = new EventEmitter();
   puedeRecibirAnticiposControl: FormControl = new FormControl(false);
 
   constructor(

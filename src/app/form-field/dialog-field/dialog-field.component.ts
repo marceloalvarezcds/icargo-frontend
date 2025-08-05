@@ -16,7 +16,7 @@ import {
   PaginatedListRequest,
 } from 'src/app/interfaces/paginate-list';
 import { DialogFormFieldControlComponent } from '../dialog-form-field-control/dialog-form-field-control.component';
-import { filter } from 'rxjs/operators';
+import { filter  } from 'rxjs/operators';
 
 @Component({
   selector: 'app-dialog-field',
@@ -43,6 +43,8 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
     return this.control.disabled;
   }
 
+  @Input() requerido = false;
+  @Input() autocomplete=false;
   @Input() showButtonVer=false;
   @Input() calllbackremote=false;
   @Input() form?: FormGroup;
@@ -56,12 +58,15 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
   @Input() list: T[] = [];
   @Input() title = '';
   @Input() subtitle = '';
+  @Input() isRequired = false;
   //@Input() dialogRefFunction?: (selectedValue: T | undefined) => MatDialogRef<DialogComponent>;
   @Input() dialogRefFunction?: (selectedValue: T | undefined, dataList: T[] | undefined) => MatDialogRef<DialogComponent>;
   @Input() dialogRefFunctionCrear?: () => MatDialogRef<E>;
   @Input() dialogRefFunctionVer?: (id:number) => MatDialogRef<E>;
   @Input() fetchDataFunction?: () => Observable<T[]>;
   @Input() fetchFunction?: (request: PaginatedListRequest) => Observable<PaginatedList<T>>;
+  @Input() filterSearchCallbackFn?: (filter:any) => Observable<T[]>;
+  @Input() filterOptionLabelfn?: (o:T) => any;
   @Input()
   //get readonly(): boolean {
   //  return this.isreadonly;
@@ -88,11 +93,6 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
   }
 
   constructor() {}
-
-  /*ngAfterViewInit(): void {
-    if (this.readonly) this.control.disable()
-    else this.control.enable();
-  }*/
 
   clearSelectedValue(): void {
     this.dialogFieldControl?.clearSelectedValue();
@@ -154,3 +154,4 @@ export class DialogFieldComponent<T extends { id: number }, E = T,
 
 
 }
+

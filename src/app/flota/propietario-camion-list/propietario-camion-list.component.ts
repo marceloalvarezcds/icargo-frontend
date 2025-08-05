@@ -162,6 +162,29 @@ export class PropietarioCamionListComponent {
     );
   }
 
+    active({ row }: TableEvent<CamionList>): void {
+      const message = `¿Está seguro que desea activar el Tracto con Nº ${row.id}?`;
+      this.dialog.changeStatusConfirm(
+        message,
+        this.camionService.active(row.id),
+        () => {
+          this.getList();
+        }
+      );
+    }
+
+    inactive({ row }: TableEvent<CamionList>): void {
+      const message = `¿Está seguro que desea inactivar el Tracto con Nº ${row.id}?`;
+      this.dialog.changeStatusConfirm(
+        message,
+        this.camionService.inactive(row.id),
+        () => {
+          this.getList();
+        }
+      );
+    }
+
+
   private getList(): void {
     if (this.id) {
       this.camionService.getListByPropietarioId(this.id).subscribe((list) => {

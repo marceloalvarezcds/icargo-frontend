@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { OrdenCarga, OrdenCargaList, RecalculoCondiciones } from 'src/app/interfaces/orden-carga';
 import { catchError, map } from 'rxjs/operators';
 import { OrdenCargaComentariosHistorial } from '../interfaces/orden_carga_comentarios_historial';
 
@@ -16,6 +16,10 @@ export class OrdenCargaService {
 
   getList(): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/`);
+  }
+
+  getAceptadasListById(id: string): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/aceptadas/${id}`);
   }
 
   getEnProcesoList(): Observable<OrdenCargaList[]> {
@@ -32,6 +36,10 @@ export class OrdenCargaService {
 
   getFinalizadosList(): Observable<OrdenCargaList[]> {
     return this.http.get<OrdenCargaList[]>(`${this.url}/finalizadas`);
+  }
+
+  getFinalizadosListById(id: string): Observable<OrdenCargaList[]> {
+    return this.http.get<OrdenCargaList[]>(`${this.url}/finalizadas/${id}`);
   }
 
   getById(id: number): Observable<OrdenCarga> {
@@ -54,7 +62,6 @@ export class OrdenCargaService {
     return this.http.put<OrdenCarga>(`${this.url}/${id}/remitir`, formData);
   }
 
-
   delete(id: number): Observable<OrdenCarga> {
     return this.http.delete<OrdenCarga>(`${this.url}/${id}`);
   }
@@ -69,6 +76,10 @@ export class OrdenCargaService {
 
   conciliar(id: number): Observable<OrdenCarga> {
     return this.http.get<OrdenCarga>(`${this.url}/${id}/conciliar`);
+  }
+
+  provisiones(id: number): Observable<OrdenCarga> {
+    return this.http.get<OrdenCarga>(`${this.url}/${id}/recalcular-provisiones`);
   }
 
   finalizar(id: number): Observable<OrdenCarga> {
@@ -129,6 +140,28 @@ export class OrdenCargaService {
     return this.http.get<OrdenCargaList[]>(`${this.url}/combinacion/crear/nuevo/aceptar/${combinacionId}`).pipe(
       catchError(this.handleError)
     );
+  }
+
+  recalcularCondiciones(fleteId: number, ordenCargaId: number): Observable<RecalculoCondiciones> {
+    return this.http.get<RecalculoCondiciones>(
+      `${this.url}/orden-carga/recalcular-condiciones/${fleteId}/${ordenCargaId}`
+    );
+  }
+
+  updateSaldoFletes(fleteId: number, ordenCargaId: number): Observable<RecalculoCondiciones> {
+    return this.http.get<RecalculoCondiciones>(
+      `${this.url}/actualizar-saldos/flete/${fleteId}/${ordenCargaId}`
+    );
+  }
+
+  validarAnticipos(choferId: number, propietarioId: number, combinacionId: number): Observable<boolean> {
+    return this.http.get<boolean>(`${this.url}/chofer-propietario/pueden-recibir-anticipos`, {
+      params: {
+        chofer_id: choferId,
+        propietario_id: propietarioId,
+        combinacion_id: combinacionId
+      }
+    });
   }
 
   private handleError(error: HttpErrorResponse) {

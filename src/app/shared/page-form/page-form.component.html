@@ -31,6 +31,7 @@
 
         <button
           mat-stroked-button
+          type="button"
           color="primary"
           matTooltip="Volver al listado"
           [disabled]="loading"
@@ -138,8 +139,6 @@
           <mat-icon>visibility</mat-icon> VER OC
         </button>
 
-
-
         <button
             mat-flat-button
             class="botones" color="primary"
@@ -156,7 +155,8 @@
         <button
           *ngIf="oc?.estado === E.ACEPTADO && submodule === 'ORDEN DE CARGA' && isEdit"
           mat-flat-button
-          class="botones" color="accent"
+          class="botones"
+          color="accent"
           type="button"
           (click)="remitirClick.emit($event)"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
@@ -172,9 +172,11 @@
                   && oc?.estado !== 'Cancelado'
                   && submodule !== 'RECEPCION directa'
                   && submodule !== 'ANTICIPO (directo)'
+                  && submodule !== 'ANTICIPOS'
                   && submodule !== 'ORDEN DE CARGA (directa)'"
           mat-flat-button
-          class="botones" color="warn"
+          class="botones"
+          color="warn"
           type="button"
           [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) || oc?.estado === E.CANCELADO || isFormSubmitting"
           [ngClass]="{'disabled': isFormSubmitting || isShow}"
@@ -183,24 +185,25 @@
         </button>
 
         <button
-          *ngIf="(oc?.estado === 'Aceptado' ||
-                  module === 'FINALIZAR' ||
-                  submodule === 'RECEPCION directa') &&
-                  (oc?.estado !== 'Finalizado') &&
-                  (oc?.estado !== 'Conciliado') &&
-                  (oc?.estado !== 'Cancelado') &&
-                  (oc?.estado !== 'Nuevo') &&
-                  submodule !== 'ORDEN DE CARGA (directa)' &&
-                  submodule !== 'ANTICIPO (directo)' && !isShow"
-          mat-stroked-button
-          class="botones" type="button"
-          [class.disabled]="!(modelo | puede: a.CAMBIAR_ESTADO) ||
-                            (oc?.estado === E.NUEVO) ||
-                            !oc?.cantidad_destino"
-          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
-          (click)="finalizarClick.emit($event)">
-          FINALIZAR
-        </button>
+        *ngIf="(modelo | puede: a.FINALIZAR) &&
+              (oc?.estado === 'Aceptado' ||
+                module === 'FINALIZAR' ||
+                submodule === 'RECEPCION directa') &&
+              (oc?.estado !== 'Finalizado') &&
+              (oc?.estado !== 'Conciliado') &&
+              (oc?.estado !== 'Cancelado') &&
+              (oc?.estado !== 'Nuevo') &&
+              submodule !== 'ORDEN DE CARGA (directa)' &&
+              submodule !== 'ANTICIPO (directo)' &&
+              !isShow"
+        mat-stroked-button
+        class="botones"
+        type="button"
+        [class.disabled]="!oc?.cantidad_origen || !oc?.cantidad_destino"
+        [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+        (click)="finalizarClick.emit($event)">
+        FINALIZAR
+      </button>
 
 
         <button
@@ -214,6 +217,20 @@
           [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
           (click)="conciliarClick.emit($event)">
           CONCILIAR
+        </button>
+
+        <button
+          *ngIf="(oc?.estado === E.FINALIZADO || module === 'CONCILIAR')
+                  && oc?.estado !== E.CONCILIADO && !isShow
+                  && submodule !== 'RECEPCION directa'"
+          mat-stroked-button
+          class="botones"
+          type="button"
+          [class.disabled]="!(modelo | puede: a.CONCILIAR) || !oc?.cantidad_destino || cambiarPedido"
+          [ngClass]="{'button-disabled': isFormSubmitting || isShow}"
+          (click)="provisionesClick.emit($event)"
+          matTooltip="Recalcular Provisiones">
+          PROVISION
         </button>
 <!--
         <button
@@ -240,7 +257,8 @@
         <div *ngIf="(modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId) && (isEdit || isShow) && (shouldShowInactiveButton || shouldShowActiveButton)">
           <button
             mat-mini-fab
-            class="botones" color="warn"
+            class="botones"
+            color="warn"
             type="button"
             matTooltip="Activar"
             [disabled]="loading || isShow"
@@ -254,7 +272,8 @@
 
           <button
             mat-mini-fab
-            class="botones" color="accent"
+            class="botones"
+            color="accent"
             type="button"
             [matTooltip]="inactiveTooltipText"
             [disabled]="loading || isShow"
@@ -268,15 +287,50 @@
           {{ (shouldShowInactiveButton || shouldShowActiveButton) ? shouldShowActiveButton ? 'No Activo' : 'Activo' : '' }}
         </div>
 
+        <!-- En algun momento mejorar, si hizo asi por falta de tiempo. Dos copiar uno para ver y otro para editar -->
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          *ngIf="flete && isShow"
+          (click)="copiarShowFleteClick.emit($event)"
+          class="botones">
+          COPIAR
+        </button>
+
+        <button
+          type="button"
+          mat-flat-button
+          color="accent"
+          *ngIf="flete && !isShow && !isCopyFlete && !isShowCopiedFlete"
+          (click)="copiarFleteClick.emit($event)"
+          class="botones">
+          COPIAR
+        </button>
+    <!------------------------------------------------------------------------------------------------------------->
+        <ng-container>
+          <button
+            type="button"
+            mat-flat-button
+            color="warn"
+            *ngIf="flete && flete.estado !== 'Cancelado' && isShow"
+            (click)="cancelarFleteClick.emit($event)"
+            class="botones"
+          >
+            CANCELAR
+          </button>
+        </ng-container>
+
         <button
           mat-flat-button
-          type="button" color="warn"
+          type="button"
+          color="warn"
           class="botones"
           matTooltip="Editar"
           [disabled]="loading"
           (click)="editClick.emit($event)"
           *ngIf="
-            isShow &&
+            isShow && flete?.estado !== E.CANCELADO && !flete?.is_in_orden_carga &&
             !hideEditButton &&
             (modelo | puede: a.EDITAR:gestorCargaId)
           ">
@@ -289,10 +343,14 @@
           color="primary"
           type="button"
           matTooltip="Cambiar Pedido"
+          [ngClass]="{
+            'disabled-button': oc?.estado === 'Conciliado'
+          }"
+
           [disabled]="isButtonPressed"
           (click)="cambiarFleteClick.emit($event)"
           *ngIf="isOc && (modelo | puede: a.CAMBIAR_ESTADO:gestorCargaId)
-            && !isShow && estado !== 'Finalizado' && estado !== 'Cancelado'"
+            && !isShow  && estado !== 'Cancelado'"
           >
           CAMBIAR PEDIDO
         </button>
@@ -316,6 +374,7 @@
           }}
         </button>
 
+      <!-- <div *ngIf="flete && isShow  " style="margin-left: 8px; margin-right: 14px;"> -->
         <button
           mat-flat-button
           type="submit"
@@ -328,24 +387,6 @@
           <mat-icon>save</mat-icon>
           {{labelBtnGuardar}}
         </button>
-
-
-        <!-- <div *ngIf="flete && isShow " style="margin-left: 8px; margin-right: 14px;">
-
-          <ng-container>
-            <button
-              type="button"
-              mat-flat-button
-              color="warn"
-              *ngIf="flete.estado !== E.CANCELADO"
-              (click)="cancelarFleteClick.emit($event)"
-              class="botones"
-            >
-              Cancelar
-            </button>
-          </ng-container>
-
-        </div> -->
 
       </div>
 

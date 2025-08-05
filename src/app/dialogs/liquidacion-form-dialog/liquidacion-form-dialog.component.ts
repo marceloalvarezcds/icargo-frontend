@@ -14,6 +14,7 @@ import { LiquidacionFormFieldsComponent } from 'src/app/estado-cuenta/liquidacio
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { Liquidacion } from 'src/app/interfaces/liquidacion';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
+import { mockMoneda1, Moneda } from 'src/app/interfaces/moneda';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { DialogService } from 'src/app/services/dialog.service';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -38,23 +39,14 @@ export class LiquidacionFormDialogComponent {
   liquidacion?:Liquidacion;
   isNew = false;
   isEdit = false;
+  moneda:Moneda;
 
-  @ViewChild('child')
-  child!: LiquidacionFormFieldsComponent;
+  @ViewChild('child') child!: LiquidacionFormFieldsComponent;
 
-  @ViewChild('childEdit')
-  childEdit!: LiquidacionEditFieldsComponent;
-
-  get esEditableLinea():boolean {
-    return this.data.flujo ? true : false;
-  }
+  @ViewChild('childEdit') childEdit!: LiquidacionEditFieldsComponent;
 
   get gestorCargaId(): number | undefined {
     return this.liquidacion?.gestor_carga_id;
-  }
-
-  get contraparteInfo(){
-    return this.data;
   }
 
   get esFinalizado():boolean {
@@ -62,8 +54,16 @@ export class LiquidacionFormDialogComponent {
             this.liquidacion?.estado === LiquidacionEstadoEnum.SALDO_CERRADO);
   }
 
-  get esOrdenPago():boolean {
-    return this.data.isOrdenPago;
+  get esEditableLinea():boolean {
+    return this.data.flujo ? true : false;
+  }
+
+  get contraparteInfo(){
+    return this.data;
+  }
+
+  get ordenPagoValue(){
+    return this.data?.isOrdenPago || this.liquidacion?.es_orden_pago;
   }
 
   constructor(
@@ -78,7 +78,6 @@ export class LiquidacionFormDialogComponent {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) private data: any
   ) {
-
     if(this.data.isNew) {
 
       this.isNew = true;
@@ -90,11 +89,12 @@ export class LiquidacionFormDialogComponent {
       this.getEstadoCuenta();
       this.liquidacionId = this.data.liquidacionId;
       this.isEdit = this.data.isEdit;
-      this.etapa = this.data.etapa;
       this.loadLiquidacion();
 
     }
 
+    // TODO: obtenemos la moneda local
+    this.moneda = mockMoneda1;
   }
 
   confirm(): void {
@@ -104,7 +104,7 @@ export class LiquidacionFormDialogComponent {
       return;
     } else {
 
-      if (!this.esOrdenPago && this.child.movimientosSelected.length <= 0) {
+      if (!this.ordenPagoValue && this.child.movimientosSelected.length <= 0) {
         this.dialogService.confirmation(
           `Está seguro que desea Crear Liquidacións sin Movimientos`,
           () => {
@@ -120,11 +120,8 @@ export class LiquidacionFormDialogComponent {
 
   actualizar(): void {
 
-    if (this.childEdit.movimientos.length===0) {
-      this.submitEdit();
-      return;
-    }
-
+    this.submitEdit();
+    /*
     let es_pago_cobro = (this.childEdit.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? this.childEdit.monto_pc.value : (this.childEdit.monto_pc.value*-1);
 
@@ -146,19 +143,26 @@ export class LiquidacionFormDialogComponent {
       .subscribe(() => {
         this.submitEdit();
       });
+      */
   }
 
   prepareSend(): void {
     //if (this.movimientosSelected.length) {
+
+    let liquidacionValues = this.child.form.getRawValue();
+    let es_pago_cobro = liquidacionValues.es_cobro ? 'PAGO' : 'COBRO';
 
       const data: LiquidacionConfirmDialogData = {
         contraparteInfo: this.estadoCuenta!,
         list: this.child.movimientosSelected.slice(),
         credito: this.child.credito,
         debito: this.child.debito,
-        monto: this.child.monto_pc.value,
-        saldo: this.child.childSaldoView.saldo,
-        esOrdenPago: this.esOrdenPago
+        monto: this.child.pagoCobroValue ? this.child.montoPagoCobro : (this.child.montoPagoCobro*-1),
+        saldo: this.child.montoPagoCobro,
+        esOrdenPago: this.ordenPagoValue,
+        moneda: this.child.monedaLocal,
+        sentido: es_pago_cobro,
+        observacion: this.child.observacionValue
       };
 
       this.dialog
@@ -185,11 +189,10 @@ export class LiquidacionFormDialogComponent {
   }
 
   onCreateLiquidacion(liquidacion:Liquidacion): void {
-
-    const contraparteId = liquidacion.tipo_contraparte_descripcion === 'Otro'
+    /*const contraparteId = liquidacion.tipo_contraparte_descripcion === 'Otro'
       ? liquidacion.tipo_contraparte_id
       : liquidacion.chofer_id ?? liquidacion.propietario_id ?? liquidacion.proveedor_id ?? liquidacion.remitente_id ;
-    /*this.estadoCuentaService
+    this.estadoCuentaService
       .getByContraparte(
         liquidacion.tipo_contraparte_id,
         contraparteId!,
@@ -200,19 +203,16 @@ export class LiquidacionFormDialogComponent {
       .pipe(filter((e) => !!e))
       .subscribe((estadoCuenta) => {*/
       //  this.estadoCuenta = estadoCuenta!;
-
         this.liquidacionId = liquidacion.id;
         this.etapa = liquidacion.etapa;
         this.liquidacion = liquidacion;
         this.getMovimientos(liquidacion);
         this.isNew = false;
         this.isEdit = true;
-
    // });
   }
 
   cerrarLiquidacion(): void {
-
     if ( this.userService.checkPermisoAndGestorCargaId(
         a.ACEPTAR,
         this.modelo,
@@ -221,7 +221,6 @@ export class LiquidacionFormDialogComponent {
         this.loadLiquidacion();
         return;
     }
-
     this.close();
   }
 
@@ -230,7 +229,6 @@ export class LiquidacionFormDialogComponent {
   }
 
   getEstadoCuenta(): void {
-
     /* si es pdv tiene que llamar a otro endpoint */
     if (this.data.punto_venta_id) {
 
@@ -267,7 +265,6 @@ export class LiquidacionFormDialogComponent {
   }
 
   getData(): void {
-
     let flujo = this.data.flujo ?? "EFECTIVO";
     // es pdv
     if (this.data.punto_venta_id) {
@@ -325,6 +322,13 @@ export class LiquidacionFormDialogComponent {
       this.liquidacion = item;
       this.etapa = this.liquidacion.etapa;
       this.getMovimientos(item);
+    });
+  }
+
+  loadLiquidacionOnly(): void {
+    this.liquidacionService.getById(this.liquidacionId!).subscribe((item) => {
+      this.liquidacion = item;
+      this.etapa = this.liquidacion.etapa;
     });
   }
 

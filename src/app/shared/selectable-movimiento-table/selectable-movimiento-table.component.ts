@@ -17,6 +17,7 @@ import { redirectToShowOCByMovimiento } from 'src/app/utils/movimiento-utils';
   styleUrls: ['./selectable-movimiento-table.component.scss'],
 })
 export class SelectableMovimientoTableComponent {
+
   @Input() columns: Column[] = [
     {
       def: 'id',
@@ -37,12 +38,6 @@ export class SelectableMovimientoTableComponent {
       value: (element: Movimiento) => element.created_at,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
       type: 'only-date',
-    },
-    {
-      def: 'camion_placa',
-      title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'cuenta_codigo_descripcion',
@@ -67,31 +62,40 @@ export class SelectableMovimientoTableComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'numero_documento_relacionado',
+      def: 'orden_carga_id',
       title: 'N° OC',
-      value: (element: Movimiento) => element.numero_documento_relacionado,
+      value: (element: Movimiento) => element.orden_carga_id,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
-    {
-      def: 'documento_fisico_oc',
-      title: 'Doc. Físico',
-      value: (element: Movimiento) =>
-        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'detalle',
-      title: 'Info',
-      value: (element: Movimiento) => element.detalle,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-
     {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
       type: 'number',
     },
+    {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
+      type: 'number',
+    },
+    {
+      def: 'expandir',
+      title: ' ',
+      value: (element: Movimiento) => element.isExpanded,
+      type: 'expandir'
+    }
     /*
     {
       def: 'tipo_documento_relacionado_descripcion',
@@ -140,6 +144,8 @@ export class SelectableMovimientoTableComponent {
     },*/
   ];
 
+  @Input() subRowColumnsToDisplay: Column[] = [];
+
   @Input() list: Movimiento[] = [];
 
   @Output() selectedMovimientosChange = new EventEmitter<Movimiento[]>();
@@ -149,10 +155,10 @@ export class SelectableMovimientoTableComponent {
 
   constructor(private router: Router) {}
 
-  movimientoSelect($event:any):void {
+  /*movimientoSelect($event:any):void {
     // TODO: iterar y ver para filtrar los movimientos
     this.selectedMovimientosChange.emit($event)
-  }
+  }*/
 
   clearSelectValues():void {
     this.component!.clearCheckedValues();

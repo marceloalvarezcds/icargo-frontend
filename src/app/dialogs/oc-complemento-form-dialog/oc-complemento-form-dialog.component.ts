@@ -1,10 +1,11 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Moneda } from 'src/app/interfaces/moneda';
 import { OcComplementoDialogData } from 'src/app/interfaces/oc-complemento-dialog-data';
 import { OrdenCargaComplemento } from 'src/app/interfaces/orden-carga-complemento';
 import { TipoConceptoComplemento } from 'src/app/interfaces/tipo-concepto-complemento';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
 import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-complemento.service';
 
 @Component({
@@ -12,7 +13,13 @@ import { OrdenCargaComplementoService } from 'src/app/services/orden-carga-compl
   templateUrl: './oc-complemento-form-dialog.component.html',
   styleUrls: ['./oc-complemento-form-dialog.component.scss'],
 })
-export class OcComplementoFormDialogComponent {
+export class OcComplementoFormDialogComponent implements OnInit {
+  cotizacionOrigenPropietario: number | null = null;
+  cotizacionDestino: number | null = null;
+  cotizacionOrigenRemitente: number | null = null;
+  cotizacionDestinoRemitente: number | null = null;
+  propietario_monto_ml = 0
+  remitente_monto_ml = 0
   form = this.fb.group({
     concepto: [this.data?.concepto, Validators.required],
     detalle: this.data?.detalle,
@@ -24,12 +31,16 @@ export class OcComplementoFormDialogComponent {
     ],
     propietario_moneda: [this.data?.propietario_moneda, Validators.required],
     // FIN Monto a pagar al Propietario
+    remitente_monto_ml: [null],
     // INICIO Monto a cobrar al Remitente
     habilitar_cobro_remitente: this.data?.habilitar_cobro_remitente,
     remitente_monto: [this.data?.remitente_monto, [Validators.min(0)]],
-    remitente_moneda: this.data?.remitente_moneda,
+    remitente_moneda: [this.data?.remitente_moneda],
+    propietario_monto_ml: [null],
     // FIN Monto a cobrar al Remitente
   });
+
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
   cobroARemitenteSubscription =
     this.cobroARemitenteControl.valueChanges.subscribe((val) => {
@@ -52,12 +63,80 @@ export class OcComplementoFormDialogComponent {
       this.form.controls['remitente_monto'].updateValueAndValidity();
     });
 
+  ngOnInit(): void {
+   if (this.dialogConfig.disabled) {
+      this.form.disable();
+    }
+    this.getCotizacionMonedaDestinoPropietario()
+  }
+
+  getCotizacionMonedaOrigenPropietario(monedaOrigen: number): void {
+  this.monedaCotizacionService
+    .getCotizacionByGestor(monedaOrigen, this.dialogData?.oc!.gestor_carga_id)
+    .subscribe({
+      next: (responseOrigen) => {
+        this.cotizacionOrigenPropietario = responseOrigen ? responseOrigen.cotizacion_moneda : null;
+      },
+      error: (err) => {
+        console.error('Error al obtener cotización para moneda origen:', err);
+      }
+    });
+  }
+
+  getCotizacionMonedaOrigenRemitente(monedaOrigenRemitente: number): void {
+    this.monedaCotizacionService
+      .getCotizacionByGestor(monedaOrigenRemitente, this.dialogData?.oc!.gestor_carga_id)
+      .subscribe({
+        next: (responseOrigen) => {
+          this.cotizacionOrigenRemitente = responseOrigen ? responseOrigen.cotizacion_moneda : null;
+        },
+        error: (err) => {
+          console.error('Error al obtener cotización para moneda origen:', err);
+        }
+      });
+  }
+
+  getCotizacionMonedaDestinoPropietario(): void {
+    this.monedaCotizacionService
+      .getCotizacionByGestor(this.dialogData.oc!.gestor_carga_moneda_id, this.dialogData.oc!.gestor_carga_id)
+      .subscribe({
+        next: (responseDestino) => {
+          this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+        },
+        error: (err) => {
+          console.error('Error al obtener cotización de moneda destino:', err);
+        }
+      });
+  }
+
+  onMonedaOrigenPropietarioChange(monedaOrigen: any): void {
+    if (monedaOrigen) {
+      const monedaId = monedaOrigen.id;
+      this.getCotizacionMonedaOrigenPropietario(monedaId);
+    }
+  }
+
+  onMonedaOrigenRemitenteChange(monedaOrigen: any): void {
+    if (monedaOrigen) {
+      const monedaId = monedaOrigen.id;
+      this.getCotizacionMonedaOrigenRemitente(monedaId);
+    }
+  }
+
   get data(): OrdenCargaComplemento | undefined {
     return this.dialogData?.item;
   }
 
+  get condicionMonedaRemitente(): string {
+    return this.dialogData.oc?.condicion_gestor_moneda_simbolo ?? ''
+  }
+
+  get condicionMonedaPropietario(): string {
+    return this.dialogData.oc?.condicion_propietario_moneda_simbolo ?? ''
+  }
+
   get actionText(): string {
-    return this.data ? 'Editar' : 'NUEVO';
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
   }
 
   get anticipadoControl(): FormControl {
@@ -80,32 +159,47 @@ export class OcComplementoFormDialogComponent {
     private ordenCargaComplementoService: OrdenCargaComplementoService,
     public dialogRef: MatDialogRef<OcComplementoFormDialogComponent>,
     private fb: FormBuilder,
+    private monedaCotizacionService: MonedaCotizacionService,
     @Inject(MAT_DIALOG_DATA) private dialogData: OcComplementoDialogData
   ) {}
+
 
   submit() {
     this.form.markAsDirty();
     this.form.markAllAsTouched();
+
     if (this.form.valid) {
-      const data = JSON.parse(
-        JSON.stringify({
-          ...this.form.value,
-          id: this.data?.id,
-          flete_id: this.data?.flete_id,
+      const formValue = this.form.value;
+
+      const propietarioMonto = formValue.propietario_monto;
+      const remitenteMonto = formValue.remitente_monto;
+
+      this.propietario_monto_ml = (propietarioMonto * this.cotizacionOrigenPropietario!) / this.cotizacionDestino!;
+      this.remitente_monto_ml = (remitenteMonto * this.cotizacionOrigenRemitente!) / this.cotizacionDestino!;
+
+        const data = {
+          concepto: formValue.concepto,
+          detalle: formValue.detalle,
+          habilitar_cobro_remitente: formValue.habilitar_cobro_remitente,
+          anticipado: formValue.anticipado,
+          propietario_monto: propietarioMonto,
+          propietario_monto_ml: this.propietario_monto_ml,
+          propietario_moneda: formValue.propietario_moneda,
+          remitente_monto: remitenteMonto,
+          remitente_monto_ml: this.remitente_monto_ml,
+          remitente_moneda: formValue.remitente_moneda,
           orden_carga_id: this.dialogData.orden_carga_id,
-        })
-      );
-      const formData = new FormData();
-      formData.append('data', JSON.stringify(data));
-      if (this.data?.id) {
-        this.ordenCargaComplementoService
-          .edit(this.data?.id, formData)
-          .subscribe(this.close.bind(this));
-      } else {
-        this.ordenCargaComplementoService
-          .create(formData)
-          .subscribe(this.close.bind(this));
-      }
+          flete_id: this.data?.flete_id,
+          id: this.data?.id,
+        };
+        const formData = new FormData();
+        formData.append('data', JSON.stringify(data));
+
+        const action = this.data?.id
+          ? this.ordenCargaComplementoService.edit(this.data.id, formData)
+          : this.ordenCargaComplementoService.create(formData);
+
+        action.subscribe(this.close.bind(this));
     }
   }
 

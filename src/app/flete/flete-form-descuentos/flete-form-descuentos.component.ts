@@ -23,26 +23,45 @@ export class FleteFormDescuentosComponent {
       sticky: true,
     },
     {
-      def: 'propietario_monto',
-      title: 'A Cobrar',
-      value: (element: FleteDescuento) => element.propietario_monto,
-      type: 'number',
-    },
-    {
-      def: 'propietario_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteDescuento) => element.propietario_moneda_nombre,
-    },
-    {
       def: 'proveedor_monto',
       title: 'A Pagar',
-      value: (element: FleteDescuento) => element.proveedor_monto,
-      type: 'number',
+      value: (element: FleteDescuento) => {
+        const monto = element.proveedor_monto;
+        if (monto == null || monto === 0) return ''; // no muestra nada si es null o 0
+        return `${monto.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ${element.proveedor_moneda_simbolo ?? ''}`;
+      },
+      type: 'text',
     },
     {
-      def: 'proveedor_moneda_nombre',
-      title: 'Moneda',
-      value: (element: FleteDescuento) => element.proveedor_moneda_nombre,
+      def: 'proveedor_monto_ml',
+      title: 'A Pagar ML',
+      value: (element: FleteDescuento) => {
+        const montoMl = element.proveedor_monto_ml;
+        if (montoMl == null || montoMl === 0) return '';
+        return `${montoMl.toLocaleString('es-ES', { minimumFractionDigits: 0, maximumFractionDigits: 2 })} ${element.gestor_carga_moneda_simbolo ?? ''}`;
+      },
+      type: 'text',
+    },
+
+    {
+      def: 'propietario_monto',
+      title: 'A Cobrar',
+        value: (element: FleteDescuento) =>
+          `${(element.propietario_monto ?? 0).toLocaleString('es-ES', {
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 2
+          })} ${element.propietario_moneda_simbolo ?? ''}`,
+        type: 'text',
+    },
+    {
+      def: 'propietario_monto_ml',
+      title: 'A Cobrar ML',
+         value: (element: FleteDescuento) =>
+           `${(element.propietario_monto_ml ?? 0).toLocaleString('es-ES', {
+             minimumFractionDigits: 0,
+             maximumFractionDigits: 2
+           })} ${element.gestor_carga_moneda_simbolo ?? ''}`,
+         type: 'text',
     },
     {
       def: 'anticipado',
@@ -64,6 +83,7 @@ export class FleteFormDescuentosComponent {
   @Input() gestorCuentaId?: number;
   @Input() isShow = false;
   @Input() isEdit = false;
+  @Input() isEditCopyForm = false;
   @Input() set descuentoList(list: FleteDescuento[]) {
     list.forEach((item) => {
       this.formArray.push(this.createForm(item));
@@ -78,28 +98,53 @@ export class FleteFormDescuentosComponent {
   constructor(private fb: FormBuilder, private dialog: MatDialog) {}
 
   create(): void {
-    this.dialog
-      .open(DescuentoFormDialogComponent, {
-        //width: '500px'
-        panelClass: 'half-dialog'
-      })
-      .afterClosed()
-      .pipe(filter((descuento) => !!descuento))
-      .subscribe((descuento: FleteDescuento) => {
-        this.list = this.list.concat([descuento]);
-        this.formArray.push(this.createForm(descuento));
-      });
+  this.dialog
+    .open(DescuentoFormDialogComponent, {
+      panelClass: 'half-dialog'
+    })
+    .afterClosed()
+    .pipe(filter((descuento) => !!descuento))
+    .subscribe((descuento: FleteDescuento) => {
+      descuento.propietario_moneda_simbolo = descuento.propietario_moneda?.simbolo ?? '';
+      descuento.gestor_carga_moneda_simbolo = descuento.gestor_carga_moneda_simbolo ?? '';
+
+      if (descuento.habilitar_pago_proveedor) {
+        descuento.proveedor_moneda_simbolo = descuento.proveedor_moneda?.simbolo ?? '';
+      } else {
+        descuento.proveedor_moneda_simbolo = '';
+      }
+
+      this.list = this.list.concat([descuento]);
+      this.formArray.push(this.createForm(descuento));
+    });
   }
 
+
+  show(event: TableEvent<FleteDescuento>): void {
+    const data = event.row;
+    this.dialog.open(DescuentoFormDialogComponent, {
+      data: { ...data, isShow: true },
+      panelClass: 'half-dialog',
+    });
+  }
 
   edit(event: TableEvent<FleteDescuento>): void {
     const data = event.row;
     const index = event.index;
     this.dialog
-      .open(DescuentoFormDialogComponent, { data })
+      .open(DescuentoFormDialogComponent, { data,  panelClass: 'half-dialog' })
       .afterClosed()
       .pipe(filter((descuento) => !!descuento))
       .subscribe((descuento: FleteDescuento) => {
+      descuento.propietario_moneda_simbolo = descuento.propietario_moneda?.simbolo ?? '';
+      descuento.gestor_carga_moneda_simbolo = descuento.gestor_carga_moneda_simbolo ?? '';
+
+      if (descuento.habilitar_pago_proveedor) {
+        descuento.proveedor_moneda_simbolo = descuento.proveedor_moneda?.simbolo ?? '';
+      } else {
+        descuento.proveedor_moneda_simbolo = '';
+      }
+
         this.list[index] = descuento;
         this.list = this.list.slice();
         this.formArray.setControl(index, this.createForm(descuento));
@@ -131,10 +176,12 @@ export class FleteFormDescuentosComponent {
       detalle: data.detalle,
       anticipado: data.anticipado,
       propietario_monto: [data.propietario_monto, Validators.required],
+      propietario_monto_ml: data.propietario_monto_ml,
       propietario_moneda_id: [data.propietario_moneda_id, Validators.required],
       propietario_moneda_simbolo: data.propietario_moneda?.simbolo,
       habilitar_pago_proveedor: data.habilitar_pago_proveedor,
       proveedor_monto: data.proveedor_monto,
+      proveedor_monto_ml: data.proveedor_monto_ml,
       proveedor_moneda_id: data.proveedor_moneda_id,
       proveedor_moneda_simbolo: data.proveedor_moneda?.simbolo,
       proveedor_id: data.proveedor_id,

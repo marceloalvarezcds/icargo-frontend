@@ -23,6 +23,26 @@ export const numberWithCommas = (x: string | number | undefined): string => {
   return num;
 };
 
+export const numberWith2Commas = (x: string | number | undefined): string => {
+  if (x === undefined || x === null) {
+    return '';
+  }
+  let n;
+  if (typeof x === 'number') {
+    n = x.toString().replace(regex, ',');
+  } else {
+    n = x;
+  }
+  const splited = n.split('.');
+  let num = splited[0].replace(regex, '').replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  if (splited.length > 1) {
+    num += `,${splited[1].padEnd(2, "0").substring(0,2)}`;
+  } else {
+    num += `,00`;
+  }
+  return num;
+};
+
 export const numberWithoutCommas = (
   x: string | number | undefined
 ): number | undefined => {

@@ -45,6 +45,18 @@
           ></app-checkbox-filter>
         </div>
       </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Origen|Destino</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #origenCheckboxFilter
+            [value]="origenFiltered"
+            [list]="origenFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
     </mat-accordion>
   </div>
   <mat-chip-list filterValues>
@@ -58,6 +70,9 @@
     <ng-container *ngIf="isFilteredByPais">
       <mat-chip *ngFor="let item of paisFiltered">{{item}}</mat-chip>
     </ng-container>
+    <ng-container *ngIf="isFilteredByOrigen">
+      <mat-chip *ngFor="let item of origenFiltered">{{item}}</mat-chip>
+    </ng-container>
   </mat-chip-list>
   <app-table-paginator
     [columns]="columns"
@@ -67,6 +82,10 @@
     (editClick)="redirectToEdit($event)"
     (showClick)="redirectToShow($event)"
     (deleteClick)="deleteRow($event)"
+    (activeClick)="active($event)"
+    (inactiveClick)="inactive($event)"
+    [shouldShowActiveButton]="true"
+    [shouldShowInactiveButton]="true"
     [hideDelete]="true"
   ></app-table-paginator>
 </app-page>

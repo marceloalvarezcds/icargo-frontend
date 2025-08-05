@@ -1,11 +1,13 @@
 import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { Moneda } from 'src/app/interfaces/moneda';
 import { Unidad } from 'src/app/interfaces/unidad';
 
 @Component({
   selector: 'app-flete-form-condicion-afectado',
   templateUrl: './flete-form-condicion-afectado.component.html',
   styleUrls: ['./flete-form-condicion-afectado.component.scss'],
+
 })
 export class FleteFormCondicionAfectadoComponent {
 
@@ -15,13 +17,13 @@ export class FleteFormCondicionAfectadoComponent {
   @Input() set form(f: FormGroup) {
     this.formGroup = f;
 
-    this.group.get(`condicion_${this.afectado}_moneda`)?.valueChanges.subscribe((item:any)=> {
-      this.cargarSelec(item);
-    });
+    //this.group.get(`condicion_${this.afectado}_moneda`)?.valueChanges.subscribe((item:any)=> {
+    //  this.cargarSelec(item);
+    //});
 
-    this.group.get(`condicion_${this.afectado}_unidad_id`)?.valueChanges.subscribe((item:any)=> {
+    //this.group.get(`condicion_${this.afectado}_unidad_id`)?.valueChanges.subscribe((item:any)=> {
       //this.cargarSelecUnidad(item);
-    })
+    //})
 
   }
 
@@ -31,9 +33,10 @@ export class FleteFormCondicionAfectadoComponent {
     return this.formGroup!.get(this.groupName) as FormGroup;
   }
 
-  cargarSelec(moneda:any):void {
+  cargarSelec(moneda:Moneda | undefined):void {
 
-    this.group.get(`condicion_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
+    if (!moneda === undefined) return;
+    //this.group.get(`condicion_${this.afectado}_moneda_id`)?.setValue(moneda?.id);
     this.group.get(`condicion_${this.afectado}_moneda_simbolo`)?.setValue(moneda?.simbolo)
   }
 

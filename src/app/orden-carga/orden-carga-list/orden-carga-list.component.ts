@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnChanges, OnInit, ViewChild } from '@angular/core';
 import { MatAccordion } from '@angular/material/expansion';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { saveAs } from 'file-saver';
 import { RemisionFormDialogComponent } from 'src/app/dialogs/remision-form-dialog/remision-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
@@ -11,11 +11,14 @@ import {
 import { ButtonList } from 'src/app/interfaces/buttonList';
 import { Column } from 'src/app/interfaces/column';
 import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { Rol } from 'src/app/interfaces/rol';
 import { TableEvent } from 'src/app/interfaces/table';
 import { DialogService } from 'src/app/services/dialog.service';
 import { OrdenCargaService } from 'src/app/services/orden-carga.service';
 import { ReportsService } from 'src/app/services/reports.service';
+import { RolService } from 'src/app/services/rol.service';
 import { SearchService } from 'src/app/services/search.service';
+import { UserService } from 'src/app/services/user.service';
 import { CheckboxFilterComponent } from 'src/app/shared/checkbox-filter/checkbox-filter.component';
 import { getFilterList } from 'src/app/utils/filter';
 
@@ -29,20 +32,20 @@ type Filter = {
   templateUrl: './orden-carga-list.component.html',
   styleUrls: ['./orden-carga-list.component.scss'],
 })
-export class OrdenCargaListComponent implements OnInit {
+export class OrdenCargaListComponent implements OnInit, OnChanges {
   modelo = m.ORDEN_CARGA;
+  hideEditOperador: boolean = false;
+  tieneRolOperador: boolean = false;
   columns: Column[] = [
     {
       def: 'id',
       title: 'ID',
       value: (element: OrdenCargaList) => element.id,
-
     },
     {
       def: 'estado',
       title: 'Estado',
       value: (element: OrdenCargaList) => element.estado.toUpperCase(),
-
     },
     {
       def: 'created_at',
@@ -70,7 +73,6 @@ export class OrdenCargaListComponent implements OnInit {
       title: 'Semi',
       value: (element: OrdenCargaList) => element.semi_placa,
     },
-
     {
       def: 'camion_chofer_nombre',
       title: 'Chofer',
@@ -107,9 +109,20 @@ export class OrdenCargaListComponent implements OnInit {
       value: (element: OrdenCargaList) => element.flete_destino_nombre,
     },
     {
-      def: 'a_cobrar_flete',
-      title: 'A Cobrar',
-      value: (element: OrdenCargaList) => element.condicion_propietario_tarifa,
+      def: 'a_pagar_flete',
+      title: 'A Pagar',
+      value: (element: OrdenCargaList) =>
+        `${element.condicion_propietario_tarifa?.toLocaleString('es-ES', {
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2
+        })} ${element.flete_tarifa_unidad_propietario?.toUpperCase()}`,
+      type: 'text',
+    },
+    {
+      def: 'resultado_propietario_total_anticipos_retirados_ml',
+      title: 'Anticipos Ret. ML',
+      value: (element: OrdenCargaList) => element.resultado_propietario_total_anticipos_retirados_ml,
+      type: 'number',
     },
     {
       def: 'cantidad_nominada_oc',
@@ -140,12 +153,14 @@ export class OrdenCargaListComponent implements OnInit {
     },
   ]
 
+
   isFiltered = false;
   list: OrdenCargaList[] = [];
   estadoFilterList: string[] = [];
   estadoFiltered: string[] = [];
   productoFilterList: string[] = [];
   productoFiltered: string[] = [];
+  oc!: OrdenCargaList | null;
 
   formatDate(dateString: string): string {
     const date = new Date(dateString);
@@ -179,30 +194,62 @@ export class OrdenCargaListComponent implements OnInit {
     private reportsService: ReportsService,
     private searchService: SearchService,
     private dialog: DialogService,
-    private router: Router
+    private router: Router,
+    private rolService: RolService,
   ) {}
 
   ngOnInit(): void {
+    this.ordenCargaService.getList().subscribe((ocs) => {
+      this.list = ocs;
+      this.oc = ocs.length > 0 ? ocs[0] : null;
+      this.evaluateHideEdit();
+    });
+
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('OPERADOR')
+      );
+      this.evaluateHideEdit();
+    });
+
     this.getList();
   }
 
-   redirectToCreate(): void {
-     this.router.navigate([`/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`]);
-   }
+  ngOnChanges(): void {
+    this.evaluateHideEdit();
+  }
 
-   redirectToEdit(event: TableEvent<OrdenCargaList>): void {
-     this.router.navigate([
-       `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
-       event.row.id,
-     ]);
-   }
+  private evaluateHideEdit(): void {
+    const estadoFinalizado = this.oc?.estado === 'Finalizado';
 
-   redirectToShow(event: TableEvent<OrdenCargaList>): void {
-      this.router.navigate([
-       `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
-       event.row.id,
-     ]);
-   }
+    this.hideEditOperador = this.tieneRolOperador && estadoFinalizado;
+  }
+
+  fnHideEdit = (row: OrdenCargaList): boolean => {
+    if (this.tieneRolOperador && row.estado.toUpperCase() === 'FINALIZADO') {
+      return false;
+    }
+
+    return true;
+  }
+
+  redirectToCreate(): void {
+    this.router.navigate([`/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`]);
+  }
+
+  redirectToEdit(event: TableEvent<OrdenCargaList>): void {
+    this.router.navigate([
+      `/orden-carga/${m.ORDEN_CARGA}/${a.EDITAR}`,
+      event.row.id,
+    ]);
+  }
+
+  redirectToShow(event: TableEvent<OrdenCargaList>): void {
+    this.router.navigate([
+      `/orden-carga/${m.ORDEN_CARGA}/${a.VER}`,
+      event.row.id,
+    ]);
+  }
 
   // redirectToCreate(): void {
   //   const url = `/orden-carga/${m.ORDEN_CARGA}/${a.CREAR}`;

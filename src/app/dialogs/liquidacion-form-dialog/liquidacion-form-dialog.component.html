@@ -1,12 +1,17 @@
 <h1 mat-dialog-title style="margin: 0;">
 
-  <ng-container *ngIf="isNew">
+  <ng-container *ngIf="isNew && !ordenPagoValue">
     <span class="titulo">Movimientos <span class="titulo-azul">Pendientes</span> a Liquidar</span>
   </ng-container>
 
-  <ng-container *ngIf="!isNew">
+  <ng-container *ngIf="isNew && ordenPagoValue">
+    <span class="titulo-azul">Orden de Pago/Cobro</span>
+  </ng-container>
+
+  <ng-container *ngIf="!isNew && !ordenPagoValue">
     <span class="titulo-azul">{{liquidacion?.estado}}</span><span class="titulo"> Movimientos  Liquidados</span>
   </ng-container>
+
 
   <button mat-button type="button" mat-dialog-close class="close">
     <mat-icon>close</mat-icon>
@@ -20,40 +25,36 @@
     </ng-container>
 
     <ng-template #new>
-
       <app-liquidacion-form-fields
           #child
           *ngIf="estadoCuenta"
           [esEditableLinea]="esEditableLinea"
           [etapa]="etapa"
+          [moneda]="moneda"
           [estadoCuenta]="estadoCuenta"
-          [esOrdenPago]="esOrdenPago"
+          [ordenPagoValue]="ordenPagoValue"
           [list]="list"
           [isDialog]="true"
           (createdLiquidacionEvt)="onCreateLiquidacion($event)"
         >
       </app-liquidacion-form-fields>
-
     </ng-template>
 
     <ng-template #edit>
-
-      <div class="page-content-liquidacion">
+      <div *ngIf="liquidacion" class="page-content-liquidacion" >
         <app-liquidacion-edit-fields
-            *ngIf="liquidacion"
             #childEdit
             [isEdit]="isEdit"
             [liquidacion]="liquidacion"
             [etapa]="etapa"
             [estadoCuenta]="estadoCuenta"
-            [movimientos]="list"
+            [movimientosList]="list"
             (actualizarLiquidacion)="loadLiquidacion()"
             (actualizarEstado)="cerrarLiquidacion()"
-            (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)"
-          >
+            (actualizarLiquidacionOnly)="loadLiquidacionOnly()"
+            (actualizarMovimientos)="refreshEstadoCuentaYMovimiento(liquidacion!)">
         </app-liquidacion-edit-fields>
-    </div>
-
+      </div>
     </ng-template>
 
   </div>
@@ -66,7 +67,7 @@
       (click)="confirm()"  >
     Guardar Liquidación
   </button>
-  <button *ngIf="!esFinalizado && !isNew && isEdit"
+  <button *ngIf="!esFinalizado && !isNew && isEdit && liquidacion?.es_orden_pago"
       mat-flat-button color="primary" type="button"
       class="botones" cdkFocusInitial
       (click)="actualizar()"  >

@@ -38,6 +38,7 @@
         title="Moneda del Propietario"
         controlName="propietario_moneda_id"
         [form]="form"
+        (valueChange)="onMonedaOrigenPropietarioChange($event)"
       ></app-moneda-field>
 
     </div>
@@ -68,6 +69,7 @@
         title="Moneda del Proveedor"
         controlName="proveedor_moneda_id"
         [form]="form"
+        (valueChange)="onMonedaOrigenRemitenteChange($event)"
       ></app-moneda-field>
 
       <app-proveedor-field
@@ -92,6 +94,7 @@
       Cerrar
     </button>
     <button
+      *ngIf="!dialogConfig.disabled"
       mat-flat-button
       class="botones" color="primary" type="button"
       (click)="submit()"

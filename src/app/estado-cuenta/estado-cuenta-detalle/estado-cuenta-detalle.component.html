@@ -1,33 +1,20 @@
 
 <div class="row" [formGroup]="form">
 
-  <div *ngIf="showLiquidacion" class="input-form-full col-xs-6 col-md-2">
-    <mat-label>N° Liquidacion</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [value]="liquidacionId" disabled />
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="showEstadoLiqui" class="input-form-full col-xs-6 col-md-2">
-    <mat-label>Estado</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [value]="estadoLiqui" disabled />
-    </mat-form-field>
-  </div>
-
-  <div *ngIf="showEstado" class="input-form-full col-xs-6 col-sm-2">
-    <mat-label>Estado</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput [value]="etapa" disabled />
-    </mat-form-field>
-  </div>
-
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+  <div class="input-form-full" [ngClass]=" es_pdv ? 'col-xs-12 col-sm-6 col-md-2' : 'col-xs-12 col-sm-6 col-md-2'">
     <mat-label>Contraparte</mat-label>
     <mat-form-field floatLabel="always" appearance="outline">
       <input matInput disabled
         [value]="estadoCuenta?.tipo_contraparte_descripcion"
         />
+    </mat-form-field>
+  </div>
+
+  <div class="input-form-full col-xs-12 col-sm-6 col-md-3" *ngIf="es_pdv">
+    <mat-label>Proveedor</mat-label>
+    <mat-form-field floatLabel="always" appearance="outline">
+      <input matInput disabled
+        [value]="estadoCuenta?.contraparte"/>
     </mat-form-field>
   </div>
 
@@ -47,25 +34,16 @@
     </mat-form-field>
   </div>
 
-  <div class="input-form-full col-xs-12 col-sm-6 col-md-2" *ngIf="es_pdv">
-    <mat-label>Proveedor</mat-label>
-    <mat-form-field floatLabel="always" appearance="outline">
-      <input matInput disabled
-        [value]="estadoCuenta?.contraparte"
-      />
-    </mat-form-field>
-  </div>
-
   <app-punto-venta-by-proveedor-field
-      *ngIf="estadoCuenta?.es_pdv"
-      class="input-form-full col-xs-12 col-sm-6 col-md-2"
-      [title]="'Punto de Venta'"
-      [proveedorId]="estadoCuenta?.contraparte_id"
-      (valueChange)="filtrarMovimientosPDV()"
-      [form]="form">
+    *ngIf="estadoCuenta?.es_pdv"
+    class="input-form-full col-xs-12 col-sm-6 col-md-3"
+    [title]="'Punto de Venta'"
+    [proveedorId]="estadoCuenta?.contraparte_id"
+    (valueChange)="filtrarMovimientosPDV()"
+    [form]="form">
   </app-punto-venta-by-proveedor-field>
 
-  <ng-container *ngIf="this.estadoCuenta?.punto_venta_id || estadoCuenta?.es_pdv">
+  <ng-container *ngIf="estadoCuenta?.es_pdv">
 
     <div [class]="esEditableLinea ? 'col-xs-12 col-sm-2' : 'col-xs-12 col-sm-3'">
 
@@ -114,7 +92,7 @@
                   <mat-option value="COMBUSTIBLE">COMBUSTIBLE</mat-option>
                   <mat-option value="LUBRICANTE">LUBRICANTE</mat-option>
               </mat-select>
-              <mat-error *ngIf="form?.get('tipo_insumo')?.hasError('required')">
+              <mat-error *ngIf="tipo_insumo?.hasError('required')">
                 Este campo es <strong>requerido</strong>
               </mat-error>
             </mat-form-field>

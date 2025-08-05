@@ -34,7 +34,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
     nombre: [this.data?.contacto_nombre, Validators.required],
     apellido: [this.data?.contacto_apellido, Validators.required],
     alias: this.data?.alias,
-    cargo: [this.data?.cargo, Validators.required],
+    cargo: [ this.data?.cargo , Validators.required],
   });
 
   get actionText(): string {
@@ -134,7 +134,7 @@ export class ContactoFormDialogComponent implements OnDestroy {
         contacto_nombre: contacto.nombre,
         contacto_apellido: contacto.apellido,
         contacto_telefono: contacto.telefono,
-        contacto_email: contacto.email || '', 
+        contacto_email: contacto.email || '',
       };
 
       this.dialogRef.close(data);

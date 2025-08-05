@@ -9,72 +9,111 @@
 
     <div class="row" style="margin-top: 1.1rem;">
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Tipo Contraparte</mat-label>
-        <mat-form-field>
-          <input
-            matInput
-            [value]="contraparteInfo.tipo_contraparte_descripcion"
-            disabled
-          />
-        </mat-form-field>
+      <div class="col-xs-6">
+
+        <div class="row">
+
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+            <mat-label>Tipo Contraparte</mat-label>
+            <mat-form-field>
+              <input
+                matInput
+                [value]="contraparteInfo.tipo_contraparte_descripcion"
+                disabled
+              />
+            </mat-form-field>
+          </div>
+
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-5">
+            <mat-label>Contraparte</mat-label>
+            <mat-form-field>
+              <input matInput [value]="contraparteInfo.contraparte" disabled />
+            </mat-form-field>
+          </div>
+
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+            <mat-label>Documento</mat-label>
+            <mat-form-field >
+              <input
+                matInput
+                [value]="contraparteInfo.contraparte_numero_documento"
+                disabled
+              />
+            </mat-form-field>
+          </div>
+
+          <!--div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <mat-label>Debe</mat-label>
+            <mat-form-field>
+              <input matInput [value]="credito" appInputThousandsSeparator disabled />
+            </mat-form-field>
+          </div-->
+
+          <!--div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <mat-label>Haber</mat-label>
+            <mat-form-field>
+              <input matInput [value]="debito" appInputThousandsSeparator disabled />
+            </mat-form-field>
+          </div-->
+
+        </div>
+
       </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
-        <mat-label>Contraparte</mat-label>
-        <mat-form-field>
-          <input matInput [value]="contraparteInfo.contraparte" disabled />
-        </mat-form-field>
-      </div>
+      <div class="col-xs-6">
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
-        <mat-label>Doc. Fiscal Nº</mat-label>
-        <mat-form-field >
-          <input
-            matInput
-            [value]="contraparteInfo.contraparte_numero_documento"
-            disabled
-          />
-        </mat-form-field>
-      </div>
+        <div class="row">
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label>Debe</mat-label>
-        <mat-form-field>
-          <input matInput [value]="credito" appInputThousandsSeparator disabled />
-        </mat-form-field>
-      </div>
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+            <mat-label>Total Seleccion</mat-label>
+            <mat-form-field>
+              <input matInput [value]="saldo" appInputThousandsSeparator disabled />
+            </mat-form-field>
+          </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label>Haber</mat-label>
-        <mat-form-field>
-          <input matInput [value]="debito" appInputThousandsSeparator disabled />
-        </mat-form-field>
-      </div>
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+            <mat-label>Total Liquidacion</mat-label>
+            <mat-form-field>
+              <input
+                matInput
+                [value]="saldoFinal"
+                appInputThousandsSeparator
+                disabled
+              />
+            </mat-form-field>
+          </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label>Saldo</mat-label>
-        <mat-form-field>
-          <input matInput [value]="saldo" appInputThousandsSeparator disabled />
-        </mat-form-field>
-      </div>
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-3">
+            <mat-label>Moneda</mat-label>
+            <mat-form-field >
+              <input
+                matInput
+                [value]="moneda"
+                disabled
+              />
+            </mat-form-field>
+          </div>
 
-      <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
-        <mat-label>Saldo Final</mat-label>
-        <mat-form-field>
-          <input
-            matInput
-            [value]="saldoFinal"
-            appInputThousandsSeparator
-            disabled
-          />
-        </mat-form-field>
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <mat-label>Sentido</mat-label>
+            <mat-form-field >
+              <input
+                matInput
+                [value]="sentido"
+                disabled
+              />
+            </mat-form-field>
+          </div>
+
+        </div>
+
       </div>
 
     </div>
 
     <app-selectable-movimiento-table
       [list]="list"
+      [subRowColumnsToDisplay]="subRowColumnsToDisplay"
       (selectedMovimientosChange)="movimientosSelected = $event"
     ></app-selectable-movimiento-table>
 

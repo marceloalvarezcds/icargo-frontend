@@ -13,6 +13,7 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
   styleUrls: ['./liquidacion-movimientos.component.scss'],
 })
 export class LiquidacionMovimientosComponent {
+
   columns: Column[] = [
     {
       def: 'id',
@@ -34,12 +35,6 @@ export class LiquidacionMovimientosComponent {
       value: (element: Movimiento) => element.created_at,
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
       type: 'only-date',
-    },
-    {
-      def: 'camion_placa',
-      title: 'Chapa',
-      value: (element: Movimiento) => element.camion_placa,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
       def: 'cuenta_codigo_descripcion',
@@ -70,22 +65,26 @@ export class LiquidacionMovimientosComponent {
       dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
     },
     {
-      def: 'documento_fisico_oc',
-      title: 'Doc. Físico',
-      value: (element: Movimiento) =>
-        ( element.tipo_movimiento_descripcion === 'Flete' ) ? (element.documento_fisico_oc) ? 'Sí' : 'No'  : '',
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
-      def: 'detalle',
-      title: 'Info',
-      value: (element: Movimiento) => element.detalle,
-      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
-    },
-    {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
+      type: 'number',
+    },
+    {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
       type: 'number',
     },
     /*{
@@ -105,6 +104,28 @@ export class LiquidacionMovimientosComponent {
       stickyEnd: true,
     },*/
   ];
+
+  subRowColumnsToDisplay: Column[] = [
+    {
+      def: 'camion_placa',
+      title: 'Chapa',
+      value: (element: Movimiento) => {
+          let label = "";
+          label = element.camion_placa ?? '';
+          if (element.tipo_movimiento_descripcion === 'Flete' ) {
+            label = label + ' | Doc. Fiscal: '+ ( (element.documento_fisico_oc) ? 'Sí' : 'No') ;
+          }
+          return label;
+        },
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+    {
+      def: 'detalle',
+      title: 'Info',
+      value: (element: Movimiento) => element.detalle,
+      dinamicStyles: (element: Movimiento) => ((element.tipo_movimiento_descripcion === 'Flete') ? {color: 'blue','font-size': '13px'} : ""),
+    },
+  ]
 
   @Input() list: Movimiento[] = [];
   @Input() set addLiquidacionIdColumn(val: boolean) {

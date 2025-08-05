@@ -1,0 +1,56 @@
+<app-page-form
+  class="cotizacion-page"
+  submodule="Cotizacion"
+  module="{{ isEdit ? 'EDITAR' : isShow ? 'VER' : 'NUEVO' }}"
+  [class.page-form-show]="isShow"
+  [formGroup]="form"
+  [hasChange]="hasChange"
+  [isEdit]="isEdit"
+  [isShow]="isShow"
+  [modelo]="modelo"
+  (backClick)="back($event)"
+  (submitEvent)="submit(false)"
+>
+
+  <div class="page-form-container">
+    <div class="row">
+      <div class="input-form-full col-xs-12 col-sm-6 col-md-4">
+        <mat-label>
+          Gestor Carga
+        </mat-label>
+        <mat-form-field floatLabel="always" appearance="outline">
+          <input matInput [value]="gestor_carga || ''" disabled="true"/>
+        </mat-form-field>
+      </div>
+      <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Moneda Origen"
+        controlName="moneda_origen_id"
+        [form]="form"
+      ></app-moneda-field>
+      <app-moneda-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Moneda Destino"
+        controlName="moneda_destino_id"
+        [form]="form"
+      ></app-moneda-field>
+    </div>
+    <div class="row">
+      <app-fecha-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Fecha Vigencia"
+        controlName="fecha"
+        [form]="form"
+     ></app-fecha-field>
+
+     <app-number-field
+        class="input-form-full col-xs-12 col-sm-6 col-md-2"
+        title="Cotizacion"
+        controlName="cotizacion_moneda"
+        [form]="form"
+        autocomplete="on"
+      ></app-number-field>
+
+    </div>
+  </div>
+</app-page-form>

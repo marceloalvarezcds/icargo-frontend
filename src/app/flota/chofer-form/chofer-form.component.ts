@@ -5,9 +5,11 @@ import {
   FormGroup,
   Validators,
 } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ActivatedRoute, Router } from '@angular/router';
 import { isEqual } from 'lodash';
+import { ComentariosFlotaFormDialogComponent } from 'src/app/dialogs/comentarios-flota-form-dialog/comentarios-flota-form-dialog.component';
+import { ComentariosFlotaListFormDialogComponent } from 'src/app/dialogs/comentarios-flota-list-form-dialog/comentarios-flota-list-form-dialog.component';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
 import {
   PermisoAccionEnum as a,
@@ -15,8 +17,10 @@ import {
   PermisoModeloEnum as m,
   PermisoModuloRouterEnum as r,
 } from 'src/app/enums/permiso-enum';
+import { Chofer } from 'src/app/interfaces/chofer';
 import { Ciudad } from 'src/app/interfaces/ciudad';
 import { ChoferService } from 'src/app/services/chofer.service';
+import { ComentarioFlotaService } from 'src/app/services/comentario-flota.service';
 import { DialogService } from 'src/app/services/dialog.service';
 import { SnackbarService } from 'src/app/services/snackbar.service';
 import { UserService } from 'src/app/services/user.service';
@@ -31,6 +35,8 @@ import { emailValidator } from 'src/app/validators/email-validator';
 export class ChoferFormComponent implements OnInit, OnDestroy {
   a = PermisoAccionEnum;
   anticiposBloqueados = false;
+  isCondicionado = false;
+  item?: Chofer;
   id?: number;
   estado = EstadoEnum.PENDIENTE;
   isActive = false;
@@ -83,6 +89,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
       foto_perfil: null,
       es_propietario: null,
       puede_recibir_anticipos: true,
+      is_chofer_condicionado: false,
       telefono: [null, Validators.pattern('^([+]595|0)([0-9]{9})$')],
       email: [null, emailValidator],
     }),
@@ -162,6 +169,8 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     private dialog: DialogService,
     private route: ActivatedRoute,
     private router: Router,
+    private comentarioFlotaService: ComentarioFlotaService,
+    private matDialog: MatDialog,
     @Optional() public dialogRef: MatDialogRef<ChoferFormComponent>,
     @Optional() @Inject(MAT_DIALOG_DATA) private data?: any
   ) {
@@ -218,6 +227,30 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
         this.getData();
       }
     );
+  }
+
+  openCreateComentarioChoferDialog(): void {
+    this.matDialog.open(ComentariosFlotaFormDialogComponent, {
+      data: {
+        comentable_type: 'chofer',
+        comentable_id: this.id,
+      },
+      width: '500px',
+      height: 'auto',
+      panelClass: 'custom-dialog-container'
+    });
+  }
+
+  openComentariosChoferListDialog(): void {
+    this.comentarioFlotaService
+      .getByEntidad('chofer', this.id!)
+      .subscribe((listaComentarios) => {
+        this.matDialog.open(ComentariosFlotaListFormDialogComponent, {
+          width: '800px',
+          panelClass: 'custom-dialog-container',
+          data: { list: listaComentarios },
+        });
+      });
   }
 
   submit(confirmed: boolean): void {
@@ -337,6 +370,11 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
     this.rucControl.updateValueAndValidity();
   }
 
+  condicionarChofer(): void {
+    this.isCondicionado = true;
+  }
+
+
   private getData(): void {
 
     this.id = +this.route.snapshot.params.id;
@@ -392,6 +430,7 @@ export class ChoferFormComponent implements OnInit, OnDestroy {
             email: data.email,
             es_propietario: data.es_propietario,
             puede_recibir_anticipos: data.puede_recibir_anticipos,
+            is_chofer_condicionado: data.is_chofer_condicionado,
             foto_documento_frente: data.foto_documento_frente,
             foto_documento_reverso: data.foto_documento_reverso,
             foto_perfil: data.foto_perfil,

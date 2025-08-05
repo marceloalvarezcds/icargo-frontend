@@ -4,7 +4,7 @@ import {
   PermisoModeloEnum as m,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
-import { OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
+import { AnticiposPorOrdenCarga, OrdenCarga, OrdenCargaList } from 'src/app/interfaces/orden-carga';
 import { OrdenCargaAnticipoRetirado } from 'src/app/interfaces/orden-carga-anticipo-retirado';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ReportsService } from 'src/app/services/reports.service';
@@ -25,6 +25,15 @@ import { OcAnticipoRetiradoInsumoAnulacionDialogComponent } from 'src/app/dialog
 import { ComponentType } from '@angular/cdk/overlay';
 import { Movimiento } from 'src/app/interfaces/movimiento';
 import { EstadoEnum } from 'src/app/enums/estado-enum';
+import { GestorCarga } from 'src/app/interfaces/gestor-carga';
+import { MonedaCotizacionService } from 'src/app/services/moneda-cotizacion.service';
+import { MonedaService } from 'src/app/services/moneda.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { OrdenCargaAnticipoSaldoService } from 'src/app/services/orden-carga-anticipo-saldo.service';
+import { FleteAnticipo } from 'src/app/interfaces/flete-anticipo';
+import { OrdenCargaService } from 'src/app/services/orden-carga.service';
+import { OrdenCargaAnticipoSaldo } from 'src/app/interfaces/orden-carga-anticipo-saldo';
+import { PdfPreviewConciliarDialogComponent } from '../pdf-preview-conciliar-dialog/pdf-preview-conciliar-dialog.component';
 
 @Component({
   selector: 'app-orden-carga-anticipos-table',
@@ -38,9 +47,13 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   anticiposCombustible: any[] = [];
   isButtonPressed: boolean = false;
   isViewMode: boolean = false;
+  isCreatingAnticipo = false;
+  isCreatingEfectivo = false;
+  isCreatingInsumo = false
   ocAnticipoRetirado?: OrdenCargaAnticipoRetirado
   a = PermisoAccionEnum;
   e = EstadoEnum
+  cotizacion: number = 0;
 
   colapseDivAnticipo = false;
 
@@ -59,11 +72,11 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
         this.downloadPDF(element),
     },
     {
-      def: 'estados_movimientos',
+      def: 'estado_movimiento_propietarioetarioopietario',
       title: 'Estado',
-      value: (element: OrdenCargaAnticipoRetirado) => element.estados_movimientos?.toUpperCase(),
+      value: (element: OrdenCargaAnticipoRetirado) => element.estado_movimiento_propietario?.toUpperCase(),
       dinamicStyles: (element: OrdenCargaAnticipoRetirado) => {
-        switch (element.estados_movimientos) {
+        switch (element.estado_movimiento_propietario) {
           case 'Activo':
           case 'Aceptado':
           case 'En Revisión':
@@ -128,21 +141,21 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       type: 'number',
     },
     {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: OrdenCargaAnticipoRetirado) => element.moneda_nombre,
+      def: 'gestor_carga_moneda_nombre',
+      title: 'Moneda Equiv.',
+      value: (element: OrdenCargaAnticipoRetirado) =>
+        element.moneda_nombre,
     },
     {
       def: 'monto_equiv',
       title: 'Monto Equiv.',
-      value: (element: OrdenCargaAnticipoRetirado) => element.monto_retirado,
+      value: (element: OrdenCargaAnticipoRetirado) => element.monto_mon_local,
       type: 'number',
     },
-    {
-      def: 'gestor_carga_moneda_nombre',
-      title: 'Moneda Equiv.',
-      value: (element: OrdenCargaAnticipoRetirado) =>
-        element.gestor_carga_moneda_nombre,
+     {
+      def: 'moneda_nombre',
+      title: 'Moneda',
+      value: (element: OrdenCargaAnticipoRetirado) => element.gestor_carga_moneda_nombre,
     },
     {
       def: 'created_by',
@@ -172,11 +185,14 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
   lista: OrdenCargaAnticipoRetirado[] = [];
   modelo = m.ORDEN_CARGA_ANTICIPO_RETIRADO;
+  modeloGestion = m.GESTION_DE_LINEA;
 
   @Input() anticipoList: any[] = [];
   @Input() isFormSaved: boolean = false;
   @Input() isEditPedido: boolean = false;
+  @Input() gestorCarga?: GestorCarga
   @Input() oc?: OrdenCarga;
+  @Input() ocSaldo?: OrdenCargaAnticipoSaldo;
   @Input() mov?: Movimiento;
   @Input() flete?: Flete;
   @Input() ocRetirado?: OrdenCargaAnticipoRetirado;
@@ -197,12 +213,22 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   @Output() buttonAnticipoClicked: EventEmitter<void> = new EventEmitter<void>();
 
 
-  ngOnInit(): void {
+  cotizacionOrigen: number | null = null;
+  cotizacionDestino: number | null = null;
+  monedaDestinoId: number | null = null;
+  simboloMoneda?:string;
+  monedaId: number | null = null;
+  montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+  montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
 
+  ngOnInit(): void {
+    this.getMonedaByGestor()
+    this.obtenerCotizaciones()
     if (this.list?.length > 0) {
       // Ordenar por ID en orden descendente
       this.list = [...this.list].sort((a, b) => b.id - a.id);
     }
+
     if (this.list?.length > 0) {
       this.monedaEquiv1 = this.list[0].monto_retirado ? +this.list[0].monto_retirado : null;
     }
@@ -210,7 +236,6 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.anticiposEfectivo = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
     this.anticiposCombustible = this.filteredAnticipos.filter(anticipo => anticipo.concepto.toLowerCase() === 'combustible');
   }
-
 
   ngOnChanges() {
     if (this.list?.length > 0) {
@@ -222,9 +247,59 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   constructor(
     private dialog: MatDialog,
     private ordenCargaAnticipoRetiradoService: OrdenCargaAnticipoRetiradoService,
+    private ordenCargaService: OrdenCargaService,
     private reportsService: ReportsService,
     private cdr: ChangeDetectorRef,
+    private monedaService: MonedaService,
+    private monedaCotizacionService: MonedaCotizacionService,
+    private snackBar: MatSnackBar
   ) {}
+
+
+  getMonedaByGestor(): void {
+    if (this.oc?.gestor_carga_id) {
+      this.monedaService.getMonedaByGestorId(this.oc.gestor_carga_id).subscribe(
+        (response) => {
+          this.monedaDestinoId = response?.id ?? null;
+          // console.log('Moneda ID:', this.monedaDestinoId);
+        }
+      );
+    }
+  }
+
+  obtenerCotizaciones(): void {
+    if (this.oc)
+      this.monedaCotizacionService
+        .getCotizacionByGestor(this.oc.flete_moneda_id, this.oc.gestor_carga_id)
+        .subscribe({
+          next: (responseOrigen) => {
+            this.cotizacionOrigen = responseOrigen?.cotizacion_moneda ?? null;
+            // console.log('Cotización Origen:', this.cotizacionOrigen);
+
+            if (this.monedaDestinoId) {
+              this.monedaCotizacionService
+                .getCotizacionByGestor(this.monedaDestinoId, this.oc!.gestor_carga_id)
+                .subscribe({
+                  next: (responseDestino) => {
+                    this.cotizacionDestino = responseDestino?.cotizacion_moneda ?? null;
+                    // console.log('Cotización Destino:', this.cotizacionDestino);
+                  }
+                });
+            }
+          }
+        });
+  }
+
+  getCotizacionMonedaDestino(monedaDestinoId: number): void {
+    this.monedaCotizacionService
+      .getCotizacionByGestor(monedaDestinoId, this.oc!.gestor_carga_id)
+      .subscribe({
+        next: (responseDestino) => {
+          this.cotizacionDestino = responseDestino ? responseDestino.cotizacion_moneda : null;
+
+        }
+      });
+  }
 
   get isAnticiposLiberados(): boolean {
     return !!this.oc?.anticipos_liberados;
@@ -273,25 +348,89 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   getSaldoAnticipo(anticipo: any): number {
-    const tarifaEfectivo = this.oc?.flete_tarifa ?? 0;
-    const cantidadNominada = this.oc?.cantidad_nominada ?? 0;
-    const anticipoPorcentaje = anticipo?.porcentaje ?? 0;
-    const montoAnticipo = tarifaEfectivo * cantidadNominada * (anticipoPorcentaje / 100);
-    const monto = this.oc?.flete_monto_efectivo_complemento ?? 0;
+    const saldo_efectivo = this.oc?.flete_saldo_efectivo ?? 0;
+    const saldo_combustible = this.oc?.flete_saldo_combustible ?? 0;
+    const saldo_lubricante = this.oc?.flete_saldo_lubricante ?? 0;
+    const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+    const limiteAnticipoCamion = this.oc?.camion_limite_monto_anticipos ?? 0;
+    const flete_monto_efectivo_complemento = this.oc?.flete_monto_efectivo_complemento ?? 0;
+    const flete_monto_combustible = this.oc?.flete_monto_combustible ?? 0;
+    const flete_monto_lubricante = this.oc?.flete_monto_lubricante ?? 0;
+
+    if (limiteAnticipoCamion === 0) {
+      // Cuando el camión no tiene límite, mostrar montos directos. Limite de la oc
+      if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
+        return flete_monto_efectivo_complemento - montoRetiradoEfectivo;
+      } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
+        return flete_monto_combustible - montoRetiradoCombustible;
+      } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
+        return flete_monto_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
+      } else {
+        return 0;
+      }
+    }
 
     if (anticipo.concepto.toUpperCase() === 'EFECTIVO') {
-      const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
-      return monto - montoRetiradoEfectivo; // Restar anticipos de efectivo
+      return saldo_efectivo- montoRetiradoEfectivo; // Restar anticipos de efectivo
     } else if (anticipo.concepto.toUpperCase() === 'COMBUSTIBLE') {
-      const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
-      return montoAnticipo - montoRetiradoCombustible; // Restar anticipos de combustible
+      return saldo_combustible - montoRetiradoCombustible; // Restar anticipos de combustible
     } else if (anticipo.concepto.toUpperCase() === 'LUBRICANTES') {
-      const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
-      return montoAnticipo - montoRetiradoLubricantes; // Restar anticipos de lubricantes
+      return saldo_lubricante - montoRetiradoLubricantes; // Restar anticipos de lubricantes
     } else {
       return 0;
     }
   }
+
+
+  get saldosOrdenados(): any[] {
+    if (!this.oc?.saldos_flete_id) {
+      return [];
+    }
+
+    const prioridad = { EFECTIVO: 1, COMBUSTIBLE: 2 };
+
+    return [...this.oc.saldos_flete_id].sort((a, b) => {
+      const aConcepto = (a.concepto ?? '').toUpperCase();
+      const bConcepto = (b.concepto ?? '').toUpperCase();
+
+      return (prioridad[aConcepto as keyof typeof prioridad] ?? 99)
+          - (prioridad[bConcepto as keyof typeof prioridad] ?? 99);
+      });
+  }
+
+
+  getSaldo(anticipo: any): number {
+    const concepto = (anticipo.concepto ?? '').toUpperCase();
+
+    // Obtenemos los montos retirados según concepto
+    const montoRetiradoEfectivo = this.oc?.resultado_propietario_total_anticipos_retirados_efectivo ?? 0;
+    const montoRetiradoCombustible = this.oc?.resultado_propietario_total_anticipos_retirados_combustible ?? 0;
+    const montoRetiradoLubricantes = this.oc?.resultado_propietario_total_anticipos_retirados_lubricantes ?? 0;
+
+    const totalAnticipo = anticipo.total_disponible ?? 0;
+
+    // Restamos estamos según el concepto
+    if (concepto === 'EFECTIVO') {
+      return totalAnticipo - montoRetiradoEfectivo;
+    } else if (concepto === 'COMBUSTIBLE') {
+      return totalAnticipo - montoRetiradoCombustible;
+    } else if (concepto === 'LUBRICANTES') {
+      return totalAnticipo - montoRetiradoLubricantes;
+    } else {
+      return totalAnticipo;
+    }
+  }
+
+
+  formatNumeroEsp(value: number): string {
+    return value
+      .toFixed(2)
+      .replace('.', ',')
+      .replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  }
+
 
   openEvaluacionesDialog(): void {
     this.dialog.open(EvaluacionesDialogComponent, {
@@ -315,9 +454,29 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     this.dialog.open(OcGestionLineaComponent, {
       width: '1600px',
       data: { oc: this.oc, porcentaje: this.oc?.flete_anticipos}
-
     });
   }
+
+  downloadAnticipoResumenPDF(id: number): void {
+    this.ordenCargaAnticipoRetiradoService.pdf(id).subscribe((filename) => {
+      this.reportsService.downloadFile(filename).subscribe((file) => {
+        const blob = new Blob([file], { type: 'application/pdf' });
+        const url = URL.createObjectURL(blob);
+        this.dialog.open(PdfPreviewConciliarDialogComponent, {
+          width: '90%',
+          height: '90%',
+          data: {
+            pdfUrl: url,
+            fileBlob: blob,
+            filename: filename,
+            title: 'Anticipo Combustible',
+            buttonText: 'GUARDAR | ANTICIPO'
+          }
+        });
+      });
+    });
+  }
+
 
   create(): void {
     create(this.getDialogRef(), this.emitOcChange.bind(this));
@@ -325,16 +484,103 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
   }
 
   createEfectivo(): void {
-    create(this.getDialogEfectivoRef(), this.emitOcChange.bind(this));
-    this.buttonAnticipoClicked.emit();
+    if (this.isCreatingAnticipo) return; // prevenir múltiples clics
+
+    this.isCreatingAnticipo = true;
+
+    this.ordenCargaService.getById(this.oc!.id).subscribe({
+      next: (ocActualizada) => {
+        this.oc = ocActualizada;
+
+        this.ordenCargaService
+          .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
+          .subscribe({
+            next: () => {
+              const dialogRef = this.getDialogEfectivoRef();
+
+              const dialogComponentInstance = dialogRef.componentInstance;
+              if (dialogComponentInstance.loadingPdfChange) {
+                dialogComponentInstance.loadingPdfChange.subscribe(isLoading => {
+                  this.isCreatingAnticipo = isLoading;
+                });
+              }
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) this.emitOcChange();
+                this.isCreatingAnticipo = false
+              });
+
+              this.buttonAnticipoClicked.emit();
+            },
+            error: (error) => {
+              this.isCreatingAnticipo = false;
+              this.snackBar.open(error.error.detail || 'No se pudo validar anticipos.', 'Cerrar', {
+                duration: 3000,
+                panelClass: ['error-snackbar']
+              });
+            }
+          });
+
+      },
+      error: () => {
+        this.isCreatingAnticipo = false;
+        this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
   }
 
   createInsumo(): void {
-    create(this.getDialogInsumoRef(), this.emitOcChange.bind(this));
-    this.buttonAnticipoClicked.emit();
+    if (this.isCreatingAnticipo) return; // prevenir múltiples clics
+
+    this.isCreatingAnticipo = true;
+
+    this.ordenCargaService.getById(this.oc!.id).subscribe({
+      next: (ocActualizada) => {
+        this.oc = ocActualizada;
+
+        this.ordenCargaService
+          .validarAnticipos(this.oc.chofer_id, this.oc.propietario_id, this.oc.combinacion_id)
+          .subscribe({
+            next: () => {
+              const dialogRef = this.getDialogInsumoRef();
+
+              const dialogComponentInstance = dialogRef.componentInstance;
+              if (dialogComponentInstance.loadingPdfChange) {
+                dialogComponentInstance.loadingPdfChange.subscribe(isLoading => {
+                  this.isCreatingAnticipo = isLoading;
+                });
+              }
+
+              dialogRef.afterClosed().subscribe(result => {
+                if (result) this.emitOcChange();
+                this.isCreatingAnticipo = false;
+              });
+
+              this.buttonAnticipoClicked.emit();
+            },
+            error: () => {
+              this.isCreatingAnticipo = false;
+              this.snackBar.open('El chofer, el propietario o la combinación no están habilitados para anticipos.', 'Cerrar', {
+                duration: 3000,
+                panelClass: ['error-snackbar']
+              });
+            }
+          });
+      },
+      error: () => {
+        this.isCreatingAnticipo = false;
+        this.snackBar.open('No se pudo obtener la orden de carga actualizada.', 'Cerrar', {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    });
   }
 
-  edit({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
+  anular({ row }: TableEvent<OrdenCargaAnticipoRetirado>): void {
     if (row.tipo_insumo_id === null) {
       edit(this.getDialogEfectivoAnulacionRef(row), this.emitOcChange.bind(this));
     } else {
@@ -346,18 +592,14 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
 
   redirectToShow(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
     this.ocAnticipoRetirado = this.list.find(i => i.id === event.row.id);
-
     if (this.ocAnticipoRetirado) {
       let dialogComponent: ComponentType<any>;
-
       // Verifica si tipo_insumo_id es null
       if (this.ocAnticipoRetirado.tipo_insumo_id === null) {
         dialogComponent = OcAnticipoRetiradoEfectivoAnulacionDialogComponent;
       } else {
         dialogComponent = OcAnticipoRetiradoInsumoAnulacionDialogComponent;
       }
-
-      // Abre el diálogo correspondiente
       const dialogRef = this.dialog.open(dialogComponent, {
         width: '700px',
         data: {
@@ -366,6 +608,30 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
           oc: this.oc,
           item: this.ocAnticipoRetirado,
           isShow: true,
+        }
+      });
+    }
+  }
+
+  redirectToEdit(event: TableEvent<OrdenCargaAnticipoRetirado>): void {
+    this.ocAnticipoRetirado = this.list.find(i => i.id === event.row.id);
+    if (this.ocAnticipoRetirado) {
+      let dialogComponent: ComponentType<any>;
+      // Verifica si tipo_insumo_id es null
+      if (this.ocAnticipoRetirado.tipo_insumo_id === null) {
+        dialogComponent = OcAnticipoRetiradoEfectivoAnulacionDialogComponent;
+      } else {
+        dialogComponent = OcAnticipoRetiradoInsumoAnulacionDialogComponent;
+      }
+      const dialogRef = this.dialog.open(dialogComponent, {
+        width: '700px',
+        data: {
+          orden_carga_id: this.oc!.id,
+          flete_id: this.oc!.flete_id,
+          oc: this.oc,
+          item: this.ocAnticipoRetirado,
+          isEdit: true,
+          isShow: false,
         }
       });
     }
@@ -405,6 +671,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
       oc: this.oc,
       item,
     };
+
     return this.dialog.open(OcAnticipoRetiradoFormDialogComponent, {
       width: '700px',
       height: 'auto',
@@ -417,6 +684,7 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     OcAnticipoRetiradoEfectivoDialogComponent,
     OrdenCargaAnticipoRetirado
   > {
+
     const data: OcAnticipoRetiradoTestDialogData = {
       orden_carga_id: this.oc!.id,
       flete_id: this.oc!.flete_id,
@@ -426,28 +694,28 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     };
 
     return this.dialog.open(OcAnticipoRetiradoEfectivoDialogComponent, {
-      width: '700px',
-      height: 'auto',
+      panelClass: 'half-dialog',
       data });
   }
 
 
   private getDialogInsumoRef(
-    item?: OrdenCargaAnticipoRetirado
-  ): MatDialogRef<
-    OcAnticipoRetiradoInsumoDialogComponent,
-    OrdenCargaAnticipoRetirado
-  > {
+    item?: OrdenCargaAnticipoRetirado,
+    anticipos?: AnticiposPorOrdenCarga[]
+  ): MatDialogRef<OcAnticipoRetiradoInsumoDialogComponent, OrdenCargaAnticipoRetirado> {
     const data: OcAnticipoRetiradoDialogData = {
       orden_carga_id: this.oc!.id,
       flete_id: this.oc!.flete_id,
-      oc: this.oc,
+      oc: this.oc!,
       item,
+      anticipos,
     };
+
     return this.dialog.open(OcAnticipoRetiradoInsumoDialogComponent, {
-      width: '700px',
+      panelClass: 'half-dialog',
       height: 'auto',
-      data });
+      data,
+    });
   }
 
   private getDialogEfectivoAnulacionRef(
@@ -503,5 +771,15 @@ export class OrdenCargaAnticiposTableComponent implements OnInit, OnChanges {
     const efectivoAnticipo = this.filteredAnticipos.find(anticipo => anticipo.concepto.toLowerCase() === 'efectivo');
     return efectivoAnticipo ? this.getSaldoAnticipo(efectivoAnticipo) : 0;
   }
+
+  fnHideAnular = (row: OrdenCargaAnticipoRetirado): boolean => {
+   return row?.estado_movimiento !== 'Anulado' &&
+         row?.estado_movimiento_propietario !== 'En Proceso' &&
+         row?.estado_movimiento_remitente !== 'En Proceso'&&
+         row?.estado_movimiento_propietario !== 'Confirmado' &&
+         row?.estado_movimiento_remitente !== 'Confirmado'&&
+         row?.estado_movimiento_propietario !== 'Finalizado' &&
+         row?.estado_movimiento_remitente !== 'Finalizado';
+  };
 
 }

@@ -13,6 +13,9 @@
         [itemEvents]="ocAceptadaEvents"
         [form]="form"
         (valueChange)="valueChange.emit($event)"
+        [autocomplete]="true"
+        [filterSearchCallbackFn]="filterSearchCallbackFn"
+        [filterOptionLabelfn]="filterOptionLabelfn"
       ></app-dialog-field>
     </ng-container>
   </ng-container>

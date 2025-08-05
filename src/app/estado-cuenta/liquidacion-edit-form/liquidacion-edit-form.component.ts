@@ -17,7 +17,7 @@ import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
 import { LiquidacionService } from 'src/app/services/liquidacion.service';
 import { MovimientoService } from 'src/app/services/movimiento.service';
 import { ReportsService } from 'src/app/services/reports.service';
-import { getQueryParams } from 'src/app/utils/contraparte-info';
+import { getQueryParams, getQueryParamsPDV } from 'src/app/utils/contraparte-info';
 import { LiquidacionEditFieldsComponent } from '../liquidacion-edit-fields/liquidacion-edit-fields.component';
 import { LiquidacionConfirmDialogData } from 'src/app/interfaces/liquidacion-confirm-dialog-data';
 import { LiquidacionConfirmDialogComponent } from 'src/app/dialogs/liquidacion-confirm-dialog/liquidacion-confirm-dialog.component';
@@ -41,6 +41,8 @@ export class LiquidacionEditFormComponent implements OnInit {
   movimientos: Movimiento[] = [];
   actual_contraparte = '';
   actual_contraparte_numero_documento = '';
+  pdv=0;
+  flujo = '';
   saldo = 0;
   @Output() liquidacionChange = new EventEmitter();
 
@@ -100,18 +102,26 @@ export class LiquidacionEditFormComponent implements OnInit {
   back(): void {
     const contraparte = this.actual_contraparte;
     const contraparte_numero_documento = this.actual_contraparte_numero_documento;
-
-    this.router.navigate([this.backUrl], {
-      queryParams: getQueryParams(
-        {
-          ...this.item!,
-          contraparte_id: this.contraparte_id,
-          contraparte: contraparte,
-          contraparte_numero_documento: contraparte_numero_documento,
-        },
-        this.item!.etapa
-      ),
-    });
+    // obtener info pdv
+    // obtener info linea
+    if (this.pdv){
+      this.backUrl = '/estado-cuenta/punto_venta/detallado/listar';
+      this.router.navigate([this.backUrl],
+        { queryParams:getQueryParamsPDV!(this.estadoCuenta!) }
+      );
+    } else {
+      this.router.navigate([this.backUrl], {
+        queryParams: getQueryParams(
+          {
+            ...this.item!,
+            contraparte_id: this.contraparte_id,
+            contraparte: contraparte,
+            contraparte_numero_documento: contraparte_numero_documento,
+          },
+          this.item!.etapa
+        ),
+      });
+    }
   }
 
   changeMovimientoList(): void {
@@ -134,7 +144,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       this.editLiquidacion();
       return;
     }
-
+    /*
     let es_pago_cobro = (this.childEdit.saldoMovimientoLiquidacion >= 0) ? 'PAGO' : 'COBRO';
     let pago_cobro = es_pago_cobro === 'PAGO' ? this.childEdit.monto_pc.value : (this.childEdit.monto_pc.value*-1);
 
@@ -145,6 +155,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       debito: this.childEdit.debito,
       monto: pago_cobro,
       saldo: this.childEdit.childSaldoView.saldo,
+
     };
     this.dialog
       .open(LiquidacionConfirmDialogComponent, {
@@ -156,6 +167,7 @@ export class LiquidacionEditFormComponent implements OnInit {
       .subscribe(() => {
         this.editLiquidacion();
       });
+      */
   }
 
   editLiquidacion():void {
@@ -184,6 +196,8 @@ export class LiquidacionEditFormComponent implements OnInit {
       contraparte_id,
       actual_contraparte,
       actual_contraparte_numero_documento,
+      punto_venta,
+      flujo,
     } = this.route.snapshot.queryParams;
 
     this.id = +this.route.snapshot.params.id;
@@ -191,6 +205,8 @@ export class LiquidacionEditFormComponent implements OnInit {
     this.actual_contraparte = actual_contraparte;
     this.actual_contraparte_numero_documento = actual_contraparte_numero_documento;
     this.isEdit = /edit/.test(this.router.url);
+    this.flujo = flujo;
+    this.pdv = punto_venta;
 
     if (backUrl) {
       this.backUrl = backUrl;
@@ -199,7 +215,7 @@ export class LiquidacionEditFormComponent implements OnInit {
     this.loadLiquidacion();
   }
 
-  loadLiquidacion(): void {
+  loadLiquidacionOnly(): void {
     this.liquidacionService.getById(this.id!).subscribe((item) => {
 
       this.item = item;
@@ -208,7 +224,19 @@ export class LiquidacionEditFormComponent implements OnInit {
       this.estadoCuenta.contraparte = this.item.contraparte;
       this.estadoCuenta.contraparte_numero_documento = this.item.contraparte_numero_documento;
       this.estadoCuenta.tipo_contraparte_descripcion = this.item.tipo_contraparte.descripcion
+    });
+  }
+
+  loadLiquidacion(): void {
+    this.liquidacionService.getById(this.id!).subscribe((item) => {
+      this.item = item;
+      this.actual_contraparte = this.item.contraparte;
+      this.actual_contraparte_numero_documento = this.item.contraparte_numero_documento;
+      this.estadoCuenta.contraparte = this.item.contraparte;
+      this.estadoCuenta.contraparte_numero_documento = this.item.contraparte_numero_documento;
+      this.estadoCuenta.tipo_contraparte_descripcion = this.item.tipo_contraparte.descripcion
       this.getList(item);
+      this.getEstadoCuenta(item)
     });
   }
 
@@ -225,18 +253,36 @@ export class LiquidacionEditFormComponent implements OnInit {
 
     const contraparteId = liq.chofer_id ?? liq.propietario_id ?? liq.proveedor_id ?? liq.remitente_id;
 
-    this.estadoCuentaService
-      .getByContraparte(
-        liq.tipo_contraparte_id,
-        contraparteId!,
-        liq.contraparte,
-        liq.contraparte_numero_documento,
-        liq.punto_venta_id
-      )
-      .pipe(filter((e) => !!e))
-      .subscribe((estadoCuenta) => {
-        this.estadoCuenta = estadoCuenta!;
-    });
+    if (this.pdv) {
+
+      this.estadoCuentaService
+        .getListByPDVContraparte(
+          contraparteId!,
+          liq.contraparte,
+          liq.contraparte_numero_documento,
+          liq.punto_venta_id!,
+          this.flujo,
+        )
+        .pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+        });
+
+    } else {
+
+      this.estadoCuentaService
+        .getByContraparte(
+          liq.tipo_contraparte_id,
+          (contraparteId ?? liq.tipo_contraparte_id),
+          liq.contraparte,
+          liq.contraparte_numero_documento,
+          liq.punto_venta_id
+        )
+        .pipe(filter((e) => !!e))
+        .subscribe((estadoCuenta) => {
+          this.estadoCuenta = estadoCuenta!;
+      });
+    }
 
   }
 

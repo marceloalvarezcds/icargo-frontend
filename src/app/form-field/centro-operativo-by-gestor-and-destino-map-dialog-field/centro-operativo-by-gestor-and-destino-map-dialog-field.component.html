@@ -1,0 +1,15 @@
+<app-dialog-field
+  [title]="title"
+  [columns]="[]"
+  [list]="[]"
+  [calllbackremote]="true"
+  [groupName]="groupName"
+  [itemEvents]="origenDestinoEvents"
+  [fetchDataFunction]="fetchDataFunction"
+  [controlName]="controlName"
+  [inputValuePropName]="inputValuePropName"
+  [form]="form"
+  [dialogRefFunction]="dialogRefFunction.bind(this)"
+  (valueChange)="valueChange.emit($event)"
+></app-dialog-field>
+

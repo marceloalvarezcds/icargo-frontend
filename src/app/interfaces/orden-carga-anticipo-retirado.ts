@@ -18,6 +18,7 @@ export interface OrdenCargaAnticipoRetiradoForm {
   numero_comprobante: string | null;
   moneda_id: number;
   monto_retirado: number;
+  monto_mon_local: number;
   monto_litro: number;
   observacion?: string | null;
   insumo_punto_venta_precio_id?: number | null;
@@ -39,6 +40,7 @@ export interface OrdenCargaAnticipoRetirado
   gestor_carga_id: number;
   gestor_carga_nombre: string;
   gestor_carga_moneda_nombre: string;
+  gestor_carga_moneda_simbolo: string;
   insumo_descripcion?: string | null;
   insumo_fecha_precio?: string | null;
   insumo_moneda_nombre?: string | null;
@@ -47,6 +49,7 @@ export interface OrdenCargaAnticipoRetirado
   insumo_unidad_abreviatura?: string | null;
   insumo_unidad_descripcion?: string | null;
   moneda_nombre: string;
+  moneda_simbolo: string;
   proveedor_nombre: string;
   punto_venta_nombre: string;
   punto_venta_alias: string;
@@ -57,6 +60,11 @@ export interface OrdenCargaAnticipoRetirado
   unidad_abreviatura?: string | null;
   unidad_descripcion?: string | null;
   estados_movimientos?: string | null;
+  estado_movimiento_propietario?: string | null;
+  estado_movimiento_remitente?: string | null;
+  estado_movimiento?: string | null;
+  camion_placa?: string | null;
+  chofer_nombre?: string | null;
   // Auditoría
   created_by: string;
   created_at: string;
@@ -117,8 +125,10 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       numero_comprobante: '001-001-100001',
       moneda_id: moneda0.id,
       moneda_nombre: moneda0.nombre,
+      moneda_simbolo: 'brl',
       monto_retirado: 100,
       monto_litro: 100,
+      monto_mon_local: 100,
       observacion: null,
       unidad_id: unidad0.id,
       unidad_abreviatura: unidad0.abreviatura,
@@ -128,6 +138,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       gestor_carga_id: insumoPuntoVenta0.gestor_carga_id,
       gestor_carga_nombre: insumoPuntoVenta0.gestor_carga_nombre,
       gestor_carga_moneda_nombre: insumoPuntoVenta0.moneda_nombre,
+      gestor_carga_moneda_simbolo: insumoPuntoVenta0.moneda_nombre,
       // campos auxiliares
       concepto: fleteAnticipo0.concepto,
       concepto_detalle: fleteAnticipo0.concepto,
@@ -164,8 +175,10 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       tipo_insumo_descripcion: fleteAnticipo1.tipo_insumo_descripcion,
       numero_comprobante: '001-001-100002',
       moneda_id: moneda1.id,
+      moneda_simbolo: moneda0.nombre,
       moneda_nombre: moneda1.nombre,
       monto_retirado: 200,
+      monto_mon_local: 100,
       monto_litro: 100,
       observacion: null,
       unidad_id: unidad1.id,
@@ -176,6 +189,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       gestor_carga_id: insumoPuntoVenta1.gestor_carga_id,
       gestor_carga_nombre: insumoPuntoVenta1.gestor_carga_nombre,
       gestor_carga_moneda_nombre: insumoPuntoVenta1.moneda_nombre,
+      gestor_carga_moneda_simbolo: insumoPuntoVenta0.moneda_nombre,
       // campos auxiliares
       concepto: fleteAnticipo1.concepto,
       concepto_detalle: fleteAnticipo0.concepto,
@@ -213,7 +227,9 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       numero_comprobante: '001-001-100003',
       moneda_id: moneda2.id,
       moneda_nombre: moneda2.nombre,
+      moneda_simbolo: moneda0.nombre,
       monto_retirado: 300,
+      monto_mon_local: 100,
       monto_litro: 100,
       observacion: null,
       unidad_id: unidad2.id,
@@ -224,6 +240,7 @@ export const mockOrdenCargaAnticipoRetiradoList: OrdenCargaAnticipoRetirado[] =
       gestor_carga_id: insumoPuntoVenta2.gestor_carga_id,
       gestor_carga_nombre: insumoPuntoVenta2.gestor_carga_nombre,
       gestor_carga_moneda_nombre: insumoPuntoVenta1.moneda_nombre,
+      gestor_carga_moneda_simbolo: insumoPuntoVenta0.moneda_nombre,
       // campos auxiliares
       concepto: fleteAnticipo2.concepto,
       concepto_detalle: fleteAnticipo0.concepto,

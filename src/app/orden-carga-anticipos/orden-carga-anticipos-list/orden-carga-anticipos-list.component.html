@@ -1,0 +1,75 @@
+<app-page
+  class="orden-carga-page"
+  submodule="ANTICIPOS"
+  [modelo]="modelo"
+  (applyClick)="applyFilter()"
+  (createClick)="redirectToCreate()"
+  (resetClick)="resetFilter()"
+>
+  <div filterMenu>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Proveedor</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #proveedorCheckboxFilter
+            [value]="proveedorFiltered"
+            [list]="proveedorFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Establecimiento</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #establecimientoCheckboxFilter
+            [value]="establecimientoFiltered"
+            [list]="establecimientoFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Mercaderia</mat-panel-title>
+        </mat-expansion-panel-header>
+        <div>
+          <app-checkbox-filter
+            #mercaderiaCheckboxFilter
+            [value]="mercaderiaFiltered"
+            [list]="mercaderiaFilterList"
+          ></app-checkbox-filter>
+        </div>
+      </mat-expansion-panel>
+    </mat-accordion>
+  </div>
+  <mat-chip-list filterValues>
+    <ng-container *ngIf="isFiltered">Filtros:</ng-container>
+    <ng-container *ngIf="isFilteredByProveedor">
+      <mat-chip *ngFor="let item of proveedorFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByEstablecimiento">
+      <mat-chip *ngFor="let item of establecimientoFiltered">{{item}}</mat-chip>
+    </ng-container>
+    <ng-container *ngIf="isFilteredByMercaderia">
+      <mat-chip *ngFor="let item of mercaderiaFiltered">{{item}}</mat-chip>
+    </ng-container>
+  </mat-chip-list>
+  <app-table-paginator
+    [columns]="columns"
+    [data]="list"
+    [filterPredicate]="filterPredicate"
+    [modelo]="modelo"
+    (anularAnticipoClick)="anular($event)"
+    (editClick)="redirectToEdit($event)"
+    (showClick)="redirectToShow($event)"
+    [shouldShowAnularButton]="true"
+    [fnHideAnularRowButton]="fnHideAnular"
+    [hideDelete]="true"
+    [hideEdit]="true"
+  ></app-table-paginator>
+</app-page>
+

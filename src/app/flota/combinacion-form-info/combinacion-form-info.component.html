@@ -12,7 +12,7 @@
           <div class="row">
 
             <app-camion-by-propietario-dialog-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-5"
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
               [groupName]="groupName"
               [form]="form"
               [tractoEvents]="tractoEventsSubject.asObservable()"
@@ -106,7 +106,7 @@
           <div class="row">
 
             <app-semi-by-propietario-dialog-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-5"
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
               [groupName]="groupName"
               [semiEvents]="semiEventsSubject.asObservable()"
               [form]="form"
@@ -171,7 +171,7 @@
           <div class="row">
 
             <app-chofer-by-propietario-dialog-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-5"
+              class="input-form-full col-xs-12 col-sm-6 col-md-4"
               [choferEvents]="choferEventsSubject.asObservable()"
               [groupName]="groupName"
               [form]="form"
@@ -179,7 +179,7 @@
             ></app-chofer-by-propietario-dialog-field>
 
             <app-input-field
-              class="input-form-full col-xs-12 col-sm-6 col-md-3"
+              class="input-form-full col-xs-12 col-sm-6 col-md-2"
               title="Nombre"
               [groupName]="groupName"
               [readonly]="true"
@@ -197,7 +197,7 @@
               [disabled]="true"
             ></app-input-field>
 
-            <div class="input-form-full col-xs-12 col-sm-6 col-md-2">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-1">
               <app-slide
                 class="input-form-full"
                 [isShow]="isShow"
@@ -212,7 +212,7 @@
 
             </div>
 
-            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" >
 
               <app-slide
                 class="input-form-full"
@@ -220,15 +220,25 @@
                 [control]="puedeRecibirAnticiposControl"
                 controlName="puede_recibir_anticipos"
                 title="Puede recibir anticipos"
-                [readonly]="false"
+                [readonly]="true"
                 trueTitle="Sí"
                 falseTitle="No"
                 (valueChange)="
                   !$event && cantidadOCConAnticiposLiberados > 0 && anticiposBloqueadosChange.emit()"
               ></app-slide>
-            </div>
-
-
+          </div>
+          <div class="input-form-full col-xs-12 col-sm-6 col-md-1" style="margin-left: -2em;" >
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="isChoferCondicionadoControl"
+                controlName="is_chofer_condicionado"
+                title="Condicionado"
+                trueTitle="Sí"
+                falseTitle="No"
+                (valueChange)="isCondicionadoChoferChange.emit($event)"
+              ></app-slide>
+          </div>
           </div>
 
         </div>
@@ -306,7 +316,18 @@
                 "
               ></app-slide>
             </div>
-
+            <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
+              <app-slide
+                class="input-form-full"
+                [isShow]="isShow"
+                [control]="isPropietarioCondicionadoControl"
+                controlName="is_propietario_condicionado"
+                title="Condicionado"
+                trueTitle="Sí"
+                falseTitle="No"
+                (valueChange)="isCondicionadoPropietarioChange.emit($event)"
+              ></app-slide>
+            </div>
           </div>
 
         </div>

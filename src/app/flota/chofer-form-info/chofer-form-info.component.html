@@ -12,7 +12,7 @@
           controlName="nombre"
           [form]="form"
         ></app-input-field>
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
+        <!-- <div class="input-form-full col-xs-12 col-sm-6 col-md-2" style="margin-left: auto;">
           <app-slide
             [isShow]="isShow"
             [control]="esPropietarioControl"
@@ -21,23 +21,33 @@
             falseTitle="No"
             (valueChange)="esPropietarioChange.emit($event)"
           ></app-slide>
-        </div>
-        
-          <app-slide
+        </div> -->
+
+        <app-slide
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
-            [isShow]="isShow"
-            [control]="puedeRecibirAnticiposControl"
-            title="Puede recibir anticipos"
-            trueTitle="Sí"
-            falseTitle="No"
-            (valueChange)="
-              !$event &&
-                cantidadOCConAnticiposLiberados > 0 &&
-                anticiposBloqueadosChange.emit()
-            "
+          [isShow]="isShow"
+          [control]="puedeRecibirAnticiposControl"
+          title="Puede recibir anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="
+            !$event &&
+              cantidadOCConAnticiposLiberados > 0 &&
+              anticiposBloqueadosChange.emit()
+          "
           ></app-slide>
 
-        
+          <app-slide
+            class="input-form-full col-xs-12 col-sm-6 col-md-3"
+            [isShow]="isShow"
+            [control]="isChoferCondicionadoControl"
+            title="Condicionado"
+            trueTitle="Sí"
+            falseTitle="No"
+            (valueChange)="isChoferCondicionadoChange.emit($event)"
+          ></app-slide>
+
+
         <!--app-alias-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="Alias"
@@ -79,8 +89,6 @@
           [form]="form"
         ></app-input-field>
 
-      
-
         <app-pais-field
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           title="País Origen"
@@ -96,7 +104,7 @@
           controlName="ruc"
           [form]="form"
         ></app-input-field> -->
-<!-- 
+<!--
         <app-digito-verificador-field
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Digito Verificador"

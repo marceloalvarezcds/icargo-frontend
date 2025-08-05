@@ -23,26 +23,20 @@ export class EstadoCuentaDetalleComponent {
   @Input() liquidacionId = 0;
   @Input() esEditableLinea=false;
   @Input() form!:FormGroup;
-
   @Input() esInsumoControl:FormControl|undefined=undefined;
   @Input() tipo_insumo:FormControl|undefined=undefined;
+  @Input() esFinalizado = false;
+  @Input() esOrdenPago = false;
 
-  @Output()
-  filterEvent: EventEmitter<string> = new EventEmitter<string>();
+  @Output() filterEvent: EventEmitter<string> = new EventEmitter<string>();
 
-  get esInsumoControlControl(): FormControl {
-    return this.form?.controls['es_insumo_efectivo'] as FormControl;
+  get esInsumoControlvalue(): boolean {
+    return this.esInsumoControl?.value;
   }
 
-  get esInsumoControlvalue(): FormControl {
-    return this.form?.controls['es_insumo_efectivo'].value;
-  }
-
-  filtrarMovimientosPDV():void{
-
-    const listar_efectivo_insumo = this.esInsumoControl?.value ? "EFECTIVO" : "INSUMO";
+  filtrarMovimientosPDV():void {
+    const listar_efectivo_insumo = this.esInsumoControlvalue ? "EFECTIVO" : "INSUMO";
     this.filterEvent.emit(listar_efectivo_insumo);
-
   }
 
 }

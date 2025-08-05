@@ -43,4 +43,12 @@ export class RemitenteService {
   delete(id: number): Observable<Remitente> {
     return this.http.delete<Remitente>(`${this.url}/${id}`);
   }
+
+  inactive(id: number): Observable<Remitente> {
+      return this.http.get<Remitente>(`${this.url}/${id}/inactive`);
+  }
+
+  active(id: number): Observable<Remitente> {
+    return this.http.get<Remitente>(`${this.url}/${id}/active`);
+  }
 }

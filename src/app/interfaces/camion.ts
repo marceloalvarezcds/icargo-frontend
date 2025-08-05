@@ -23,6 +23,7 @@ export interface Camion {
   propietario: Propietario;
   propietario_estado: EstadoEnum;
   propietario_puede_recibir_anticipos: boolean,
+  is_propietario_condicionado: boolean,
   propietario_foto: string,
   propietario_camion_id: number,
   chofer_id: number | null;
@@ -87,6 +88,10 @@ export interface Camion {
   modified_by: string;
   modified_at: string;
   is_in_combinacion: boolean,
+  promedio_tracto_gestor: number,
+  promedio_tracto_general: number,
+  cantidad_tracto_evaluaciones: number,
+  cantidad_tracto_evaluaciones_gestor: number;
 }
 
 export interface CamionList extends Camion {
@@ -155,6 +160,7 @@ export const mockCamion: Camion = {
   foto: null,
   estado: EstadoEnum.ACTIVO,
   propietario_puede_recibir_anticipos: true,
+  is_propietario_condicionado: false,
   gestor_cuenta_id: 1,
   propietario_foto: "",
   propietario_camion_id: 1,
@@ -213,6 +219,10 @@ export const mockCamion: Camion = {
   modified_by: 'system',
   modified_at: '2021-11-30T20:38:09.553757',
   is_in_combinacion: false,
+  promedio_tracto_general: 2,
+  promedio_tracto_gestor: 3,
+  cantidad_tracto_evaluaciones: 8,
+  cantidad_tracto_evaluaciones_gestor: 2,
 };
 
 export const mockCamionList: CamionList[] = [

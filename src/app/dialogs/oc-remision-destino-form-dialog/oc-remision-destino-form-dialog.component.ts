@@ -1,9 +1,12 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { OcRemisionDestinoDialogData } from 'src/app/interfaces/oc-remision-destino-dialog-data';
+import { OcRemisionDestinoDialogData, OrdenCargaRemisionDestinoResponse } from 'src/app/interfaces/oc-remision-destino-dialog-data';
 import { OrdenCargaRemisionDestino } from 'src/app/interfaces/orden-carga-remision-destino';
+import { Unidad } from 'src/app/interfaces/unidad';
 import { OrdenCargaRemisionDestinoService } from 'src/app/services/orden-carga-remision-destino.service';
+import { SnackbarService } from 'src/app/services/snackbar.service';
+import { UnidadService } from 'src/app/services/unidad.service';
 import { subtract } from 'src/app/utils/math';
 
 @Component({
@@ -11,7 +14,8 @@ import { subtract } from 'src/app/utils/math';
   templateUrl: './oc-remision-destino-form-dialog.component.html',
   styleUrls: ['./oc-remision-destino-form-dialog.component.scss'],
 })
-export class OcRemisionDestinoFormDialogComponent {
+export class OcRemisionDestinoFormDialogComponent implements OnInit {
+  conversion: number = 0
   fotoDocumento: string | null = null;
   fotoDocumentoFile: File | null = null;
   form = this.fb.group({
@@ -25,10 +29,12 @@ export class OcRemisionDestinoFormDialogComponent {
     nuevo_campo:[null]
   });
 
-  get actionText(): string {
-    return this.data ? 'EDITAR' : 'NUEVO';
-  }
+  @Input() dialogConfig: { disabled: boolean } = { disabled: false };
 
+  get actionText(): string {
+    return this.dialogConfig.disabled ? 'VER' : (this.data ? 'EDITAR' : 'NUEVO');
+  }
+  
   get data(): OrdenCargaRemisionDestino | undefined {
     return this.dialogData.item;
   }
@@ -64,16 +70,41 @@ export class OcRemisionDestinoFormDialogComponent {
   }
 
   get saldo(): number {
-    return subtract(this.max, this.cantidad);
+    const cantidadConvertida = this.cantidad * this.conversion;
+    return subtract(this.max, cantidadConvertida);
   }
 
   constructor(
     private ordenCargaRemisionDestinoService: OrdenCargaRemisionDestinoService,
+    private unidadService: UnidadService,
+    private snackBarService: SnackbarService,
     public dialogRef: MatDialogRef<OcRemisionDestinoFormDialogComponent>,
     private fb: FormBuilder,
     @Inject(MAT_DIALOG_DATA) public dialogData: OcRemisionDestinoDialogData
   ) {
     this.fotoDocumento = this.data?.foto_documento ?? null;
+  }
+
+  ngOnInit(): void {
+    if (this.dialogConfig.disabled) {
+        this.form.disable();
+        this.form.get('foto_documento')?.disable();
+      }
+    }
+
+  getConversionRate(unidadId: number): void {
+    this.unidadService.getConversionById(unidadId).subscribe({
+      next: (conversionData) => {
+        this.conversion = conversionData.conversion_kg || 1;
+      },
+    });
+    }
+
+  onUnidadChange(unidad: Unidad | undefined): void {
+    if (unidad) {
+      const unidadId = unidad.id;
+      this.getConversionRate(unidadId);
+    }
   }
 
   submit() {
@@ -92,17 +123,22 @@ export class OcRemisionDestinoFormDialogComponent {
       if (this.fotoDocumentoFile) {
         formData.append('foto_documento_file', this.fotoDocumentoFile);
       }
-      if (this.data?.id) {
-        this.ordenCargaRemisionDestinoService
-          .edit(this.data?.id, formData)
-          .subscribe(this.close.bind(this));
-      } else {
-        this.ordenCargaRemisionDestinoService
-          .create(formData)
-          .subscribe(this.close.bind(this));
-      }
+
+      const serviceCall = this.data?.id
+        ? this.ordenCargaRemisionDestinoService.edit(this.data?.id, formData)
+        : this.ordenCargaRemisionDestinoService.create(formData);
+
+      serviceCall.subscribe((response: any) => {
+        if (response.warning) {
+          this.snackBarService.open(response.warning);
+          this.close(response.data);
+        } else {
+          this.close(response);
+        }
+      });
     }
   }
+
 
   private close(data: OrdenCargaRemisionDestino): void {
     this.dialogRef.close(data);

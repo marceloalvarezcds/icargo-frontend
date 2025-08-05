@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MovimientoEditByFleteFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-flete-form-dialog/movimiento-edit-by-flete-form-dialog.component';
 import { MovimientoEditByMermaFormDialogComponent } from 'src/app/dialogs/movimiento-edit-by-merma-form-dialog/movimiento-edit-by-merma-form-dialog.component';
@@ -12,6 +12,8 @@ import { Movimiento } from 'src/app/interfaces/movimiento';
 import { MovimientoFleteEditFormDialogData } from 'src/app/interfaces/movimiento-flete-edit-form-dialog-data';
 import { MovimientoMermaEditFormDialogData } from 'src/app/interfaces/movimiento-merma-edit-form-dialog-data';
 import { OrdenCarga } from 'src/app/interfaces/orden-carga';
+import { Rol } from 'src/app/interfaces/rol';
+import { RolService } from 'src/app/services/rol.service';
 import { edit } from 'src/app/utils/table-event-crud';
 
 @Component({
@@ -19,8 +21,9 @@ import { edit } from 'src/app/utils/table-event-crud';
   templateUrl: './orden-carga-edit-form-movimientos.component.html',
   styleUrls: ['./orden-carga-edit-form-movimientos.component.scss'],
 })
-export class OrdenCargaEditFormMovimientosComponent {
+export class OrdenCargaEditFormMovimientosComponent implements OnInit {
   a = PermisoAccionEnum;
+  tieneRolOperador: boolean = false;
 
   columns: Column[] = [
     {
@@ -32,6 +35,23 @@ export class OrdenCargaEditFormMovimientosComponent {
       def: 'monto',
       title: 'Monto',
       value: (element: Movimiento) => element.monto,
+      type: 'number',
+    },
+    {
+      def: 'moneda_simbolo',
+      title: 'Moneda',
+      value: (element: Movimiento) => element.moneda_simbolo,
+    },
+    {
+      def: 'tipo_cambio_moneda',
+      title: 'Cambio',
+      value: (element: Movimiento) => element.tipo_cambio_moneda,
+      type: 'number',
+    },
+    {
+      def: 'monto_mon_local',
+      title: 'Monto ML',
+      value: (element: Movimiento) => element.monto_mon_local,
       type: 'number',
     },
     {
@@ -65,27 +85,10 @@ export class OrdenCargaEditFormMovimientosComponent {
       value: (element: Movimiento) => element.cuenta_codigo_descripcion,
     },
     {
-      def: 'moneda_nombre',
-      title: 'Moneda',
-      value: (element: Movimiento) => element.moneda_nombre,
-    },
-    {
-      def: 'tipo_cambio_moneda',
-      title: 'Tipo de Cambio',
-      value: (element: Movimiento) => element.tipo_cambio_moneda,
-      type: 'number',
-    },
-    {
       def: 'fecha_cambio_moneda',
       title: 'Fecha de cambio',
       value: (element: Movimiento) => element.fecha_cambio_moneda,
       type: 'date',
-    },
-    {
-      def: 'monto_ml',
-      title: 'Monto (ML)',
-      value: (element: Movimiento) => element.monto_ml,
-      type: 'number',
     },
     {
       def: 'estado',
@@ -128,6 +131,8 @@ export class OrdenCargaEditFormMovimientosComponent {
       def: 'editar',
       title: '',
       type: 'button',
+      isDisable: (mov: Movimiento) => this.tieneRolOperador || mov.estado !== 'Pendiente',
+
       value: (mov: Movimiento) => (mov.can_edit_oc ? 'Editar' : ''),
       buttonCallback: (mov: Movimiento) =>
         mov.can_edit_oc ? this.openDialog(mov) : () => {},
@@ -143,7 +148,19 @@ export class OrdenCargaEditFormMovimientosComponent {
   @Input() oc?: OrdenCarga
   @Output() ocChange = new EventEmitter<void>();
 
-  constructor(private dialog: MatDialog) {}
+  constructor(
+    private dialog: MatDialog,
+    private rolService: RolService,
+  ) {}
+
+  ngOnInit(): void {
+    this.rolService.getLoggedRol().subscribe((roles: Rol[]) => {
+      this.tieneRolOperador = roles.some((r) =>
+        r.descripcion?.toUpperCase().startsWith('APROBADOR')
+      );;
+    });
+  }
+
 
   openDialog(item: Movimiento): void {
     let afectado = item.es_propietario
@@ -174,7 +191,7 @@ export class OrdenCargaEditFormMovimientosComponent {
       afectado,
       item,
     };
-    return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data });
+    return this.dialog.open(MovimientoEditByFleteFormDialogComponent, { data, panelClass: 'half-dialog' });
   }
 
   getMermaDialogRef(
@@ -185,7 +202,7 @@ export class OrdenCargaEditFormMovimientosComponent {
       afectado,
       item,
     };
-    return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data });
+    return this.dialog.open(MovimientoEditByMermaFormDialogComponent, { data, panelClass: 'half-dialog' });
   }
 
   private emitOcChange(): void {

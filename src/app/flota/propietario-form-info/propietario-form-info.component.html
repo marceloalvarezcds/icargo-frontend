@@ -115,7 +115,7 @@
 
       <div class="row" style="padding-top: 5px;">
 
-        <div class="input-form-full col-xs-12 col-sm-6 col-md-3" [hidden]="!isFisicaSelected">
+        <!-- <div class="input-form-full col-xs-12 col-sm-6 col-md-3" [hidden]="!isFisicaSelected">
           <app-slide
             [isShow]="isShow"
             [control]="esChoferControl"
@@ -123,19 +123,29 @@
             falseTitle="No es Chofer"
             (valueChange)="esChoferChange.emit($event)"
           ></app-slide>
-        </div>
+        </div> -->
 
         <app-slide
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
           [isShow]="isShow"
           [control]="puedeRecibirAnticiposControl"
-          trueTitle="Puede recibir anticipos"
-          falseTitle="No puede recibir anticipos"
+          title="Puede recibir anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
           (valueChange)="
             !$event &&
               cantidadOCConAnticiposLiberados > 0 &&
               anticiposBloqueadosChange.emit()
           "
+       ></app-slide>
+        <app-slide
+          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          [isShow]="isShow"
+          [control]="isPropietarioCondicionadoControl"
+          title="Condicionado"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="isPropietarioCondicionadoChange.emit($event)"
         ></app-slide>
       </div>
     </div>

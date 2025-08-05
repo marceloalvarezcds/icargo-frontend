@@ -12,6 +12,7 @@ import {
   PermisoModeloEnum,
 } from 'src/app/enums/permiso-enum';
 import { Column } from 'src/app/interfaces/column';
+import { ContraparteGralInfo, ContraparteInfoMovimientoLiq } from 'src/app/interfaces/contraparte-info';
 import { EstadoCuenta } from 'src/app/interfaces/estado-cuenta';
 import { MovimientoFormDialogData } from 'src/app/interfaces/movimiento-form-dialog-data';
 import { EstadoCuentaService } from 'src/app/services/estado-cuenta.service';
@@ -48,6 +49,15 @@ export class EstadoCuentaPdvComponent implements OnInit {
       type: 'button',
       buttonCallback: (element: EstadoCuenta) => this.redirectToCtaCteContrapartePDV(element),
       buttonIconName: (element: EstadoCuenta) => 'account_circle',
+      sticky: true
+    },
+    {
+      def: 'ctacte2',
+      title: ' ',
+      value: () => 'Liquidar',
+      type: 'button',
+      buttonCallback: (element: EstadoCuenta) => this.createLiquidacion(element),
+      buttonIconName: (element: EstadoCuenta) => 'payments',
       sticky: true
     },
     {
@@ -118,14 +128,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
     {
       def: 'saldosentido',
       title: "D/H",
-      value: (element: EstadoCuenta) => element.liquidacion_saldo >= 0 ? 'D' : 'H' ,
-    },
-    {
-      def: 'provision',
-      title: LiquidacionEtapaEnum.PROVISION,
-      value: (element: EstadoCuenta) => element.provision,
-      type: 'number',
-      footerDef: () => this.totalProvision,
+      value: (element: EstadoCuenta) => element.liquidacion_saldo > 0 ? 'D' : element.liquidacion_saldo < 0 ? 'H' : '-',
     },
     {
       def: 'pendiente',
@@ -158,7 +161,19 @@ export class EstadoCuentaPdvComponent implements OnInit {
     {
       def: 'total_sentido',
       title: "D/H",
-      value: (element: EstadoCuenta) => element.total_cc >= 0 ? 'D' : 'H' ,
+      value: (element: EstadoCuenta) => element.total_cc > 0 ? 'D' : element.total_cc < 0 ? 'H' : '-',
+    },
+    {
+      def: 'provision',
+      title: LiquidacionEtapaEnum.PROVISION,
+      value: (element: EstadoCuenta) => element.provision,
+      type: 'number',
+      footerDef: () => this.totalProvision,
+    },
+    {
+      def: 'provision_sentido',
+      title: "D/H",
+      value: (element: EstadoCuenta) => element.provision > 0 ? 'D' : element.provision < 0 ? 'H' : '-',
     },
   ];
 
@@ -351,10 +366,7 @@ export class EstadoCuentaPdvComponent implements OnInit {
   }
 
   filterResult(list:EstadoCuenta[]){
-    console.log("filterResult: ", list);
-
     this.calcularTotales(list);
-
   }
 
   private filter(
@@ -378,5 +390,33 @@ export class EstadoCuentaPdvComponent implements OnInit {
       { queryParams:getQueryParamsPDV(mov) }
     );
   }
+
+    createLiquidacion(contraparte: EstadoCuenta):void {
+
+      const data: ContraparteGralInfo = {
+        contraparte: contraparte.contraparte_pdv!,
+        contraparte_id: contraparte.contraparte_id,
+        contraparte_numero_documento: contraparte.contraparte_numero_documento_pdv!,
+        tipo_contraparte_id: contraparte.tipo_contraparte_id,
+        tipo_contraparte_descripcion: '',
+        //isNew: true,
+        etapa: LiquidacionEtapaEnum.PENDIENTE,
+        punto_venta_id: contraparte.punto_venta_id,
+        flujo: contraparte.tipo_flujo,
+        tipo_flujo: contraparte.tipo_flujo,
+        es_pdv: true,
+      };
+
+      const url = [
+        `/estado-cuenta/${m.ESTADO_CUENTA}/${m.LIQUIDACION}/${a.CREAR}`,
+      ];
+
+      const queryParams = getQueryParamsPDV( data, LiquidacionEtapaEnum.PENDIENTE);
+
+      this.router.navigate(url, {
+        queryParams: {...queryParams, backUrl:`/estado-cuenta/${m.PUNTO_VENTA}/${a.LISTAR}` },
+      });
+
+    }
 
 }

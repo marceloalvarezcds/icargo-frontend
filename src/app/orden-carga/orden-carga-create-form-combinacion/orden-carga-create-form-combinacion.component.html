@@ -24,9 +24,11 @@
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Chapa Tracto"
           [isRemote]="true"
+          [requerido]="true"
           [combinacionEvents]="combinacionEventsSubject.asObservable()"
           [groupName]="groupName"
           [form]="form"
+          [requerido]="true"
           (valueChange)="onCamionChange($event)"
         ></app-combinacion-dialog-field>
 
@@ -73,6 +75,7 @@
           [readonly]="true"
           [form]="form"
           controlName="marca_camion"
+          [shouldFormat]="false"
         ></app-input-field-oc>
 
         <app-input-field-oc
@@ -84,6 +87,7 @@
           [readonly]="true"
           [form]="form"
           controlName="color_camion"
+          [shouldFormat]="false"
         ></app-input-field-oc>
 
         <app-input-field-oc
@@ -107,6 +111,7 @@
           [readonly]="true"
           [form]="form"
           controlName="marca_semi"
+          [shouldFormat]="false"
         ></app-input-field-oc>
 
         <app-input-field-oc
@@ -118,17 +123,8 @@
           [readonly]="true"
           [form]="form"
           controlName="color_semi"
+          [shouldFormat]="false"
         ></app-input-field-oc>
-
-        <mat-slide-toggle
-          *ngIf="!showField"
-          class="input-form-full col-xs-12 col-sm-6 col-md-1"
-          trueTitle="Active"
-          falseTitle="Inactive"
-          formControlName="anticipo_propietario"
-          labelPosition="before">
-          Anticipos
-      </mat-slide-toggle>
 
       </div>
 
@@ -159,7 +155,7 @@
         ></app-input-field-oc>
 
         <app-input-field-oc
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
+          class="input-form-full col-xs-12 col-sm-6 col-md-3 "
           title="<strong>Beneficiario</strong> (Nombre/Razon Social)"
           [groupName]="groupName"
           [camionId]="camionId"
@@ -181,6 +177,29 @@
           [shouldFormat]="false"
         ></app-input-field-oc>
 
+         <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="anticipoPropietarioControl"
+          title="Puede Recibir Anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="anticipoPropietarioChange.emit($event)"
+        ></app-slide>
+
+        <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="isPropietarioCondicionadoControl"
+          title="Condicionado"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="isPropietarioCondicionadoChange.emit($event)"
+        ></app-slide>
       </div>
 
       <div class="row" [class.colapse-div]="colapseDivPrincipal">
@@ -208,13 +227,30 @@
           [shouldFormat]="false">
         </app-input-field-oc>
 
-        <mat-slide-toggle
-          *ngIf="!showField"
-          class="input-form-full col-xs-12 col-sm-6 col-md-3"
-          formControlName="puede_recibir_anticipos"
-          labelPosition="before">
-          Anticipos
-        </mat-slide-toggle>
+        <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="anticipoChoferControl"
+          title="Puede Recibir Anticipos"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="anticipoChoferChange.emit($event)"
+        ></app-slide>
+
+        <app-slide
+         *ngIf="!showField"
+          class="input-form-full col-xs-12 col-sm-6 col-md-1"
+          style="margin-left: -2em;"
+          [readonly]="true"
+          [isShow]="isShow"
+          [control]="isChoferCondicionadoControl"
+          title="Condicionado"
+          trueTitle="Sí"
+          falseTitle="No"
+          (valueChange)="isChoferCondicionadoChange.emit($event)"
+        ></app-slide>
 
       </div>
 
@@ -234,6 +270,7 @@
         <div class="col-xs-12 col-sm-6 col-md-4" style="margin-top: 16px;">
           <button
             mat-raised-button
+            type="button"
             class="botones"
             (click)="openCommentDialog()"
             [disabled]="!tieneComentarios">
@@ -280,7 +317,9 @@
           title="Pedido"
           [fleteEvents]="fleteEventsSubject.asObservable()"
           [groupName]="groupName"
+          [requerido]="true"
           [form]="form"
+          [requerido]="true"
           (valueChange)="onFleteChange($event)"
         ></app-flete-by-gestor-dialog-field>
 
@@ -313,6 +352,7 @@
           [camionId]="camionId"
           [productoId]="productoId"
           [readonly]="true"
+          [requerido]="true"
           [form]="form"
           controlName="flete_id"
           [disabled]="readonly"
@@ -329,7 +369,6 @@
           controlName="cliente"
         ></app-input-field-oc>
 
-
         <app-input-field-oc
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
           title="Producto"
@@ -340,6 +379,7 @@
           [form]="form"
           controlName="producto_descripcion"
         ></app-input-field-oc>
+
         <app-input-field-oc
           *ngIf="showSearchOCAceptadas"
           class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -410,36 +450,37 @@
           title="Flete a <strong>PAGAR</strong>"
           [groupName]="groupName"
           [camionId]="camionId"
-          [productoId]="productoId"
+          [productoId]="productoId"r
           [readonly]="true"
           [form]="form"
           controlName="a_pagar"
         ></app-input-field-oc>
-
-
-        <app-unidad-field
-          *ngIf="onlyViewCreate"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Unidad"
-          [auto_select]="false"
-          [form]="form"
-          [groupName]="groupName"
-          [readonly]="true"
-        ></app-unidad-field>
 
         <app-moneda-field class="input-form-full col-xs-12 col-sm-6 col-md-2"
           *ngIf="onlyViewCreate"
           title="Moneda"
           [auto_select]="false"
           [form]="form"
+          controlName="condicion_propietario_moneda_id"
           [groupName]="groupName"
           [readonly]="true"
         ></app-moneda-field>
 
+        <app-unidad-field
+          *ngIf="onlyViewCreate"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          title="Unidad"
+          controlName="condicion_propietario_unidad_id"
+          [auto_select]="false"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-unidad-field>
+
         <app-input-field-oc
           *ngIf="!isConciliar && (!showField && !isEditField || isConciliar)"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          title="Valor mercaderia"
+          title="Valor producto"
           [groupName]="groupName"
           [camionId]="camionId"
           [productoId]="productoId"
@@ -448,6 +489,16 @@
           controlName="valor"
         ></app-input-field-oc>
 
+        <app-moneda-field
+          *ngIf="onlyViewCreate"
+          class="input-form-full col-xs-12 col-sm-6 col-md-2"
+          [auto_select]="false"
+          title="Moneda"
+          [form]="form"
+          [groupName]="groupName"
+          [readonly]="true"
+        ></app-moneda-field>
+
         <app-unidad-field
           *ngIf="onlyViewCreate"
           class="input-form-full col-xs-12 col-sm-6 col-md-2"
@@ -457,16 +508,6 @@
           [groupName]="groupName"
           [readonly]="true"
         ></app-unidad-field>
-
-       <app-moneda-field
-          *ngIf="onlyViewCreate"
-          class="input-form-full col-xs-12 col-sm-6 col-md-2"
-          [auto_select]="false"
-          title="Moneda"
-          [form]="form"
-          [groupName]="groupName"
-          [readonly]="true"
-        ></app-moneda-field>
 
       </div>
     </div>
@@ -502,10 +543,13 @@
           title="Nominada"
           id="cantidad_nominada"
           controlName="cantidad_nominada"
+          [requerido]="true"
           [groupName]="groupNameInfo"
           [form]="form"
           [viewMode]="disableForm || oc?.estado !== 'Nuevo'"
           appAutofocus="true"
+          [requerido]="true"
+          [hint]="cantidadNominadaHint"
         ></app-number-field>
         <app-input-field-oc
           *ngIf="!onlyViewCreate"

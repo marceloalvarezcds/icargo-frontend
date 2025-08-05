@@ -27,7 +27,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   modelo = m.INSUMO_PUNTO_VENTA_PRECIO;
   proveedor?: string;
   tipoInsumo?: string;
-  backUrl = `/insumo_punto_venta_precio/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.LISTAR}`;
+  backUrl = `/insumo/${m.INSUMO_PUNTO_VENTA_PRECIO}/${a.LISTAR}`;
   saldoAnticipo = 0;
   item?: InsumoPuntoVentaPrecioList;
   insumoPdvId: number | null = null;
@@ -37,6 +37,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   pdvEventsSubject: Subject<PuntoVentaList> = new Subject<PuntoVentaList>();
   pdvInsumoEventsSubject: Subject<InsumoPuntoVentaPrecioList> = new Subject<InsumoPuntoVentaPrecioList>();
   hora: string | null = null;
+  autoSelectFiltro = "L";
   insumoId: number | null = null;
   horaPattern: RegExp =  /^(0[1-9]|1[0-2]):[0-5][0-9] (AM|PM)$/;
   form = this.fb.group({
@@ -65,7 +66,7 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
   @Output() insumoChange = new EventEmitter<Insumo | undefined>();
   @Output() insumoPdvChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
   @Output() insumoPrecioChange = new EventEmitter<InsumoPuntoVentaPrecioList | undefined>();
-  @Output() valueChange = new EventEmitter<number>();
+  //@Output() valueChange = new EventEmitter<number>();
 
   get proveedorControl(): FormControl {
     return this.form.get('proveedor_id') as FormControl;
@@ -86,10 +87,9 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
 
   }
 
-
   onMonedaSeleccionada(moneda: any) {
-    this.form.get('moneda_id')?.setValue(moneda?.id);
-    this.valueChange.emit(moneda?.id);
+    //this.form.get('moneda_id')?.setValue(moneda?.id);
+    //this.valueChange.emit(moneda?.id);
   }
 
 
@@ -179,7 +179,6 @@ export class CreateInsmunoVentaPrecioFormComponent implements OnInit {
       this.insumoPuntoVentaPrecioService.createMercaderia(formData).subscribe((item) => {
         this.snackbar.openSave();
         this.insumoId = item.id;
-        this.form.get('observacion')?.setValue('');
         this.isShow = true;
         this.form.disable();
       });
