@@ -16,7 +16,6 @@
         title="Monto"
         controlName="monto"
         [form]="form"
-        [hint]="montoRetiradoHint"
       ></app-number-field>
 
       <app-moneda-field
@@ -54,9 +53,11 @@
         </mat-form-field>
       </div>
 
+      <span [innerHTML]="montoRetiradoHint" style="font-size: smaller; color: balck; margin-left: 10px; margin-bottom: 10px;"></span>
+
     </div>
 
-    <div class="row" [ngStyle]="{ 'margin-top.px': topMargin }">
+    <div class="row">
 
       <app-number-field
         class="input-form-full col-xs-12 col-sm-6 col-md-3"
@@ -188,5 +189,13 @@
       Guardar
     </button>
 
+    <!-- <button *ngIf="isEdit"
+      mat-raised-button
+      color="accent"
+      type="button"
+      (click)="downloadAnticipoResumenPDF(form.value.id)"
+    >
+      Generar Proforma
+    </button> -->
   </div>
 </form>

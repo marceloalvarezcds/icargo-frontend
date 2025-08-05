@@ -36,7 +36,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       Validators.required,
     ],
     monto: [this.valorOperacion, [Validators.required, Validators.min(0)]],
-    iva_id: [this.data ? this.data.iva_id : 3, Validators.required],
+    iva_id: [this.data ? this.data.iva_id : 1, Validators.required],
     foto: [this.data?.foto, null],
     contribuyente: [this.data?.contribuyente ?? this.dialogData.contribuyente, [Validators.required, Validators.maxLength(50)]],
     iva: [this.data?.iva, [Validators.required, Validators.min(0)]],
@@ -178,42 +178,36 @@ export class FacturaFormDialogComponent implements AfterViewInit {
   }
 
 
-  get montoRetiradoHint(): string {
-    const {
-      saldo_anticipos_efectivo = 0,
-      saldo_anticipos_combustible = 0,
-      saldo_anticipos_flete = 0,
-      saldo_anticipos_merma = 0,
-      saldo_anticipos_otro = 0,
-      saldo_anticipos_complemento_descuento = 0
-    } = this.dialogData;
+get montoRetiradoHint(): string {
+  const {
+    saldo_anticipos_efectivo = 0,
+    saldo_anticipos_combustible = 0,
+    saldo_anticipos_flete = 0,
+    saldo_anticipos_merma = 0,
+    saldo_anticipos_otro = 0,
+    saldo_anticipos_complemento_descuento = 0
+  } = this.dialogData;
 
-    const parts: string[] = [];
+  const parts: string[] = [];
 
-    if (saldo_anticipos_efectivo)
-      parts.push(`Anticipo efectivo: <strong>${saldo_anticipos_efectivo.toLocaleString('es-PY')}</strong>`);
-    if (saldo_anticipos_combustible)
-      parts.push(`Anticipo combustible: <strong>${saldo_anticipos_combustible.toLocaleString('es-PY')}</strong>`);
+  if (saldo_anticipos_efectivo)
+    parts.push(`Anticipo efectivo: <strong>${saldo_anticipos_efectivo.toLocaleString('es-PY')}</strong>`);
+  if (saldo_anticipos_combustible)
+    parts.push(`Anticipo combustible: <strong>${saldo_anticipos_combustible.toLocaleString('es-PY')}</strong>`);
+  if (saldo_anticipos_complemento_descuento)
+    parts.push(`Complemento / Descuento: <strong>${saldo_anticipos_complemento_descuento.toLocaleString('es-PY')}</strong>`);
+  if (saldo_anticipos_flete)
+    parts.push(`Flete: <strong>${saldo_anticipos_flete.toLocaleString('es-PY')}</strong>`);
+  if (saldo_anticipos_merma)
+    parts.push(`Merma: <strong>${saldo_anticipos_merma.toLocaleString('es-PY')}</strong>`);
+  if (saldo_anticipos_otro)
+    parts.push(`Otro: <strong>${saldo_anticipos_otro.toLocaleString('es-PY')}</strong>`);
 
-    const lines: string[] = [];
+  if (parts.length === 0) return '';
 
-    if (parts.length > 0) {
-      lines.push(`<div>${parts.join(' &nbsp;|&nbsp; ')}</div>`);
-    }
+  return `<span>${parts.join(' &nbsp;|&nbsp; ')}</span>`;
+}
 
-    if (saldo_anticipos_complemento_descuento)
-      lines.push(`<div>Complemento / Descuento: <strong>${saldo_anticipos_complemento_descuento.toLocaleString('es-PY')}</strong></div>`);
-    if (saldo_anticipos_flete)
-      lines.push(`<div>Flete: <strong>${saldo_anticipos_flete.toLocaleString('es-PY')}</strong></div>`);
-    if (saldo_anticipos_merma)
-      lines.push(`<div>Merma: <strong>${saldo_anticipos_merma.toLocaleString('es-PY')}</strong></div>`);
-    if (saldo_anticipos_otro)
-      lines.push(`<div>Otro: <strong>${saldo_anticipos_otro.toLocaleString('es-PY')}</strong></div>`);
-
-    if (lines.length === 0) return '';
-
-    return `<div class="hint-alert-list">${lines.join('')}</div>`;
-  }
 
   calcularIva(): void {
     const monto = this.form.get('monto')?.value ?? 0;
@@ -241,6 +235,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
       this.form.get('iva_id')?.disable({ emitEvent: false });
       this.form.get('iva')?.disable({ emitEvent: false });
       this.form.get('sentido_mov_iva')?.disable({ emitEvent: false });
+      this.form.get('tipo_retencion')?.disable({ emitEvent: false });
       this.form.get('retencion')?.disable({ emitEvent: false });
       this.form.get('sentido_mov_retencion')?.disable({ emitEvent: false });
 
@@ -253,6 +248,7 @@ export class FacturaFormDialogComponent implements AfterViewInit {
     this.form.get('iva_id')?.enable({ emitEvent: false });
     this.form.get('iva')?.enable({ emitEvent: false });
     this.form.get('sentido_mov_iva')?.enable({ emitEvent: false });
+    this.form.get('tipo_retencion')?.enable({ emitEvent: false });
     this.form.get('retencion')?.enable({ emitEvent: false });
     this.form.get('sentido_mov_retencion')?.enable({ emitEvent: false });
 
@@ -379,26 +375,6 @@ export class FacturaFormDialogComponent implements AfterViewInit {
 
   private close(data: FacturaForm): void {
     this.dialogRef.close(data);
-  }
-
-  downloadAnticipoResumenPDF(id: number): void {
-    this.facturaService.pdf(id).subscribe((filename) => {
-      this.reportsService.downloadFile(filename).subscribe((file) => {
-        const blob = new Blob([file], { type: 'application/pdf' });
-        const url = URL.createObjectURL(blob);
-        this.dialog.open(PdfPreviewConciliarDialogComponent, {
-          width: '90%',
-          height: '90%',
-          data: {
-            pdfUrl: url,
-            fileBlob: blob,
-            filename: filename,
-            title: 'Anticipo Combustible',
-            buttonText: 'GUARDAR | ANTICIPO'
-          }
-        });
-      });
-    });
   }
 
 }
